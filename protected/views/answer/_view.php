@@ -15,5 +15,4 @@
     <p>
 	<?php echo CHtml::encode($data->answerText); ?>
     </p>
-    <?php echo CHtml::link('Редактировать ответ', Yii::app()->createUrl('answer/update',array('id'=>$data->id)));?>
 </div>

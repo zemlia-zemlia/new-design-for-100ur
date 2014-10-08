@@ -25,9 +25,8 @@ class QuestionController extends Controller
 	{
             return array(
                 array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                        'actions'=>array('index','view','create','update','admin','delete'),
-                        'users'=>array('@'),
-                        'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
+                        'actions'=>array('index', 'view', 'create', 'thankYou'),
+                        'users'=>array('*'),
                 ),
                 array('deny',  // deny all users
                         'users'=>array('*'),
@@ -75,7 +74,7 @@ class QuestionController extends Controller
 		{
 			$model->attributes=$_POST['Question'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				$this->redirect(array('thankYou'));
 		}
 
                 // $allCategories - массив, ключи которого - id категорий, значения - названия
@@ -87,6 +86,7 @@ class QuestionController extends Controller
                 }
                 
                 $townsArray = Town::getTownsIdsNames();
+                array_unshift($townsArray, 'Выберите Ваш город');
                 
 		$this->render('create',array(
 			'model'         =>  $model,
@@ -96,53 +96,12 @@ class QuestionController extends Controller
 		));
 	}
 
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
+	public function actionThankYou()
+        {
+            $this->render('thankYou');
+        }
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Question']))
-		{
-			$model->attributes=$_POST['Question'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-                // $allCategories - массив, ключи которого - id категорий, значения - названия
-                $allCategories = QuestionCategory::getCategoriesIdsNames();
-                
-                $townsArray = Town::getTownsIdsNames();
-                
-		$this->render('update',array(
-			'model'         =>  $model,
-                        'allCategories' =>  $allCategories,
-                        'townsArray'    =>  $townsArray,
-
-		));
-	}
-
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
-	}
-
-	/**
+        /**
 	 * Lists all models.
 	 */
 	public function actionIndex()
@@ -150,6 +109,7 @@ class QuestionController extends Controller
 		
                 $criteria = new CDbCriteria;
                 $criteria->order = 't.id desc';
+                $criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
                 $criteria->with = array('category', 'town');
                 
                 if(isset($_GET['status'])) {

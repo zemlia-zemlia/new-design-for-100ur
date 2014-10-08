@@ -4,7 +4,13 @@ body {
 }
 
 .container {
-	width:970px !important;
+	/*width:970px !important;*/
+}
+
+#header {
+    background:#222;
+    color:#f5f5f5;
+    padding:20px 0;
 }
 
 h1,h2,h3,h4,h5 {
@@ -19,7 +25,7 @@ h1 {
 h2 {
 	font-size: 32px;
 	margin-bottom:15px;
-	font-weight:600;
+	font-weight:200;
 }
 
 h3 {
@@ -44,14 +50,17 @@ p {
 	text-align: center;
 }
 
+.logo-text {
+    font-size:30px;
+}
+
+.logo-description {
+    
+}
+
 div.form {
     max-width: 480px;
 }
-
-#header {
-	
-}
-
 
 div.vert-margins {
 	padding:40px 0;
@@ -69,23 +78,75 @@ div.vert-margins {
     color:#999;
 }
 
+.header-phone {
+    font-size:29px;
+    font-weight:200;
+}
+
+.questions-counter {
+    font-size:29px;
+    font-weight:200;
+}
+
+#top-menu {
+    background:#444;
+    box-shadow: #666 0 0 3px;
+    position: relative;
+    width:100%;
+    margin-bottom:40px;
+    overflow: hidden;
+}
+
+#top-menu ul {
+    list-style:none;
+    padding:0;
+    margin:0;
+    float: left;
+    left: 50%;
+    position: relative;
+    background:#444;
+}
+
+#top-menu ul li {
+    display: block;
+    float: left;
+    position: relative;
+    right: 50%;
+}
+
+#top-menu ul li a {
+    color:#ddd;
+    display:block;
+    text-decoration: none;
+    padding:7px 20px;
+    font-size:14px;
+}
+
 #left-bar {
-    background:#f8f8f8;
-    border:#e7e7e7 1px solid;
-    border-radius: 7px;
+    border-right:#ddd 2px solid;
     padding:10px;
 }
 
-ul#left-menu {
+ul#left-menu, ul#left-menu li ul {
     list-style: none;
     padding-left:10px;
+    margin-bottom: 0;
+
+}
+ul#left-menu li ul {
+    display:none;
+}
+
+ul#left-menu li:hover ul {
+    display:block;
 }
 
 ul#left-menu li {
-    padding:5px 0;
+    padding:3px 0;
 }
 
 ul#left-menu a {
+    line-height: 1.2em;
     color:#666;
 }
 
@@ -127,4 +188,20 @@ ul#left-menu a.btn:hover {
 
 div.pager {
     margin:10px 0;
+}
+
+#footer {
+    background:#ccc;
+    border-top:#bbb 1px solid;
+    margin-top:40px;
+    color:#666;
+    padding:20px 0;
+}
+
+.question-form-wrapper {
+    margin-bottom:40px;
+    padding:10px 20px;
+    background:#fff661;
+    border-radius: 5px;
+    border:#fff000;
 }

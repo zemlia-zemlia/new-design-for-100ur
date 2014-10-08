@@ -21,53 +21,76 @@
 </head>  
 
 <body>
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <a class="navbar-brand" href="/">Система работы с клиентами</a>
-          </div>
-          <p class="navbar-text navbar-right">
-              <?php if(!Yii::app()->user->isGuest):?>
-              <span class="glyphicon glyphicon-user"></span> <?php echo CHtml::link(CHtml::encode(Yii::app()->user->name),Yii::app()->createUrl('user')); ?> 
-              <?php echo Yii::app()->user->roleName;?> &nbsp;
-              <span class="glyphicon glyphicon-log-out"></span> <?php echo CHtml::link('Выход', Yii::app()->createUrl('site/logout'));?>
-              <?php endif;?>
-          </p>
-
+    <div id="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="logo-text">100 юристов</div>
+                    <div class="logo-description">отвечают на ваши вопросы</div>
+                </div>
+                <div class="col-md-4 col-sm-4 center-align">
+                    <div class="header-phone">(495) 249-90-04</div>
+                    <div>Получите консультацию сейчас</div>
+                </div>
+                <div class="col-md-4 col-sm-4 center-align">
+                    <div class="questions-counter">
+                    <?php
+                        $questionsCount = Question::getCountByStatus(Question::STATUS_PUBLISHED);
+                        echo $questionsCount; 
+                    ?>
+                    </div>
+                    <div><?php echo CustomFuncs::numForms($questionsCount, 'вопрос', "вопроса", "вопросов") ?> на сайте</div>
+                </div>
+            </div>
         </div>
-    </nav>
+        
+    </div>
+    
+    <div id="top-menu">
+        <ul>
+            <li><?php echo CHtml::link('<span class="glyphicon glyphicon-home"></span> Главная', '/');?></li>
+            <li><?php echo CHtml::link('<span class="glyphicon glyphicon-heart-empty"></span> Партнеры', Yii::app()->createUrl('/site/partners'));?></li>
+            <li><?php echo CHtml::link('<span class="glyphicon glyphicon-envelope"></span> Контакты', Yii::app()->createUrl('/site/contacts'));?></li>
+            <li><?php echo CHtml::link('<span class="glyphicon glyphicon-question-sign"></span> Все вопросы', Yii::app()->createUrl('question'));?></li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
     
     <div id="middle">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
-                <?php if(!Yii::app()->user->isGuest):?>
-                <div class="col-md-3 col-sm-3">
+                <div class="col-md-4 col-sm-4">
                     <div id="left-bar">
-                        <ul id="left-menu">
-                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-user'></span>  Контакты", Yii::app()->createUrl('contact'));?>
-                                <?php if(Yii::app()->user->role == User::ROLE_SECRETARY):?>
-                                &nbsp; <?php echo CHtml::link('+', Yii::app()->createUrl('contact/create'), array('class'=>'btn btn-primary btn-xs')); ?>
-                                <?php endif;?>
-                            </li>
-                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-file'></span>  Договоры", Yii::app()->createUrl('agreement'));?></li>
-                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-calendar'></span>  Встречи", Yii::app()->createUrl('meetings'));?></li>
-                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-earphone'></span>  Звонки", Yii::app()->createUrl('calls'));?></li>
-                            <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
-                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-question-sign'></span>  Вопросы и ответы", Yii::app()->createUrl('question'));?></li>
-                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-log-in'></span>  Источники контактов", Yii::app()->createUrl('leadsource'));?></li>
-                            <?php endif;?>
-                        </ul>
+                        <h4>Категории вопросов</h4>
+                        <?php
+                        // выводим виджет с деревом категорий
+                            $this->widget('application.widgets.CategoriesTree.CategoriesTree', array());
+                        ?>
                     </div>
                 </div>
-                <?php endif;?>
-                <div class="col-md-9 col-sm-9">
+
+                <div class="col-md-8 col-sm-8">
                     <?php echo $content; ?>
                 </div>
             </div>
         </div>
     </div>
-    
+  
+    <div id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    &copy; 100 юристов 2014
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
     
 </body>
 </html>

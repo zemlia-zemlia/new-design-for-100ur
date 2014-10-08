@@ -25,9 +25,8 @@ class QuestionCategoryController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','view','create','update','admin','delete'),
-				'users'=>array('@'),
-                                'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
+				'actions'=>array('index','view'),
+				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -45,6 +44,7 @@ class QuestionCategoryController extends Controller
             
             $questionsCriteria = new CdbCriteria;
             $questionsCriteria->addColumnCondition(array('categoryId'=>$model->id));
+            $questionsCriteria->addColumnCondition(array('status' =>  Question::STATUS_PUBLISHED));
             $questionsCriteria->order = 'id DESC';
             
             $questionsDataProvider = new CActiveDataProvider('Question', array(
@@ -59,70 +59,7 @@ class QuestionCategoryController extends Controller
                         'questionsDataProvider' =>  $questionsDataProvider,
 		));
 	}
-
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
-		$model=new QuestionCategory;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['QuestionCategory']))
-		{
-			$model->attributes=$_POST['QuestionCategory'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
-                
-                
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['QuestionCategory']))
-		{
-			$model->attributes=$_POST['QuestionCategory'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-                
-		$this->render('update',array(
-			'model'         =>  $model,
-
-		));
-	}
-
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
-
+        
 	/**
 	 * Lists all models.
 	 */
@@ -143,20 +80,6 @@ class QuestionCategoryController extends Controller
 		));
 	}
 
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new QuestionCategory('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['QuestionCategory']))
-			$model->attributes=$_GET['QuestionCategory'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
-	}
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.

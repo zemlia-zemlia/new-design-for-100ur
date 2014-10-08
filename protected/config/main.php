@@ -57,8 +57,8 @@ return array(
                     'showScriptName'=>false,
                     'urlSuffix'=>'/',
                     'rules'=>array(
-                        '/user/<id:\d+>'=>'/user/view',
-                        '/contact/<id:\d+>'=>'/contact/view',
+                        '/q/<id:\d+>'=>'/question/view',
+                        '/cat/<id:\d+>'=>'/questionCategory/view',
                         ),
                     ),
 

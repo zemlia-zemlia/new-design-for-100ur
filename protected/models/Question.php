@@ -10,9 +10,10 @@
  * @property integer $categoryId
  * @property string $categoryName
  * @property string $title
- * @property string townId
+ * @property string $townId
  * @property string $authorName
  * @property integer $status
+ * @property string $phone
  */
 class Question extends CActiveRecord
 {
@@ -47,8 +48,9 @@ class Question extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('questionText, townId, authorName', 'required'),
-			array('number, categoryId,status', 'numerical', 'integerOnly'=>true),
+			array('questionText, townId, authorName, phone', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
+			array('number, categoryId, status', 'numerical', 'integerOnly'=>true),
+                        array('townId','compare','operator'=>'!=', 'compareValue'=>'0','message'=>'Не выбран город'),
 			array('categoryName', 'length', 'max'=>255),
                         array('authorName, townId, title','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. ])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, точка, дефис и пробел'),
                         array('phone','match','pattern'=>'/^([0-9\+])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
@@ -79,17 +81,18 @@ class Question extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id'            => 'ID',
-			'number'        => 'Уникальный номер вопроса',
-			'questionText'  => 'Вопрос',
-			'categoryId'    => 'ID категории',
-                        'category'      => 'Категория',
-			'categoryName'  => 'Название категории',
+			'id'            =>  'ID',
+			'number'        =>  'Уникальный номер вопроса',
+			'questionText'  =>  'Вопрос',
+			'categoryId'    =>  'ID категории',
+                        'category'      =>  'Категория',
+			'categoryName'  =>  'Название категории',
                         'status'        =>  'Статус',
-                        'authorName'    =>  'Автор',
+                        'authorName'    =>  'Ваше имя',
                         'town'          =>  'Город',
-                        'townId'        =>  'ID города',
+                        'townId'        =>  'Город',
                         'title'         =>  'Заголовок',
+                        'phone'         =>  'Номер телефона',
 		);
 	}
         
@@ -116,6 +119,18 @@ class Question extends CActiveRecord
         {
             $statusesArray = self::getStatusesArray();
             return $statusesArray[$status];
+        }
+        
+        
+        // возвращает количество вопросов с определенным статусом
+        static public function getCountByStatus($status)
+        {
+            $connection  = Yii::app()->db;
+            $sqlPublished = "SELECT COUNT(id) AS counter FROM {{question}} WHERE status=:status";
+            $command = $connection->cache(600)->createCommand($sqlPublished);
+            $command->bindParam(":status",  $status, PDO::PARAM_INT);
+            $row = $command->queryRow();
+            return $row['counter'];
         }
 
         /**
