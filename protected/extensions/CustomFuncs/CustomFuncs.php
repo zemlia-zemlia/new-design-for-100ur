@@ -1,0 +1,219 @@
+<?php
+
+class CustomFuncs
+{
+    public static function numForms($num, $form1, $form2, $form5)
+    {
+        $num10 = $num%10;
+         if($num>=10 && $num<20) return $form5;
+          else if($num10==1) return $form1;
+           else if($num10>1 && $num10<5) return $form2;
+             else return $form5;
+    }
+    
+    public static function detectTown($ip=NULL)
+    {
+            if(!Yii::app()->user->getState('currentTown'))
+            {
+                if(empty($ip)) $ip=$_SERVER['HTTP_X_REAL_IP'];
+                else $ip = "79.111.82.114";
+                $data = "<ipquery><fields><all/></fields><ip-list><ip>".$ip."</ip></ip-list></ipquery>";
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "http://194.85.91.253:8090/geo/geo.html");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HEADER, false);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                $xml = curl_exec($ch);
+                curl_close($ch);
+                $xml=iconv('windows-1251','utf-8',$xml);
+                preg_match("/<city>(.*?)<\/city>/",$xml,$a);
+                $town =$a[1];
+                Yii::app()->user->getState('currentTown',$town);
+                
+            }
+            else
+            {
+                $town = Yii::app()->user->getState('currentTown');
+            }
+            return $town;
+    }
+    
+    // временная функция
+    public static function detectTownTest($ip=NULL)
+    {
+            if(!Yii::app()->user->getState('currentTown'))
+            {
+                //if(empty($ip)) $ip=$_SERVER['REMOTE_ADDR'];
+                if(empty($ip)) $ip=$_SERVER['HTTP_X_REAL_IP'];
+                else $ip = "79.111.82.114";
+                $data = "<ipquery><fields><all/></fields><ip-list><ip>".$ip."</ip></ip-list></ipquery>";
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "http://194.85.91.253:8090/geo/geo.html");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HEADER, false);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+                $xml = curl_exec($ch);
+                echo "<pre>";
+                print_r(curl_getinfo($ch));
+                echo "</pre>";
+                if($curlError = curl_error($ch))
+                {
+                    echo "CURL Error: ".$curlError;
+                }
+                curl_close($ch);
+                
+                echo "<pre>";
+                echo "CH:<br />";
+                print_r($ch);
+                echo "<br />XML:<br />";
+                print_r($xml);
+                echo "</pre>";
+                $xml=iconv('windows-1251','utf-8',$xml);
+                preg_match("/<city>(.*?)<\/city>/",$xml,$a);
+                $town =$a[1];
+                Yii::app()->user->getState('currentTown',$town);
+                
+            }
+            else
+            {
+                $town = Yii::app()->user->getState('currentTown');
+            }
+            return $town;
+    }
+    
+    
+    public static function detectTownLink($ip=NULL, $selector)
+    {
+        $town = self::detectTown($ip);
+        if($town)
+        {
+            $link = CHtml::link($town."?",'',array('onclick'=>"$('".$selector."').val('".$town."')", 'class'=>'suggest-link'));
+            return $link;
+        }
+    }
+    
+    // функция преобразует дату из формата 2012-09-01 12:30:00 в Пн 1 сен. 2012 12:30
+    public static function niceDate($date,$showTime=true,$showWeekday=true)
+    {
+        $monthsArray = array('','янв.', 'фев.','мар.','апр.','мая','июн.','июл.','авг.','сен.','окт.','ноя.','дек.');
+        $weekDaysArray = array('Вс','Пн','Вт','Ср','Чт','Пт','Сб');
+        $timestamp = strtotime($date);
+        $weekdayNumber = date('w',$timestamp);
+        $weekday = $weekDaysArray[$weekdayNumber];
+        $dateTimeArray = self::dateTimeArray($date);
+        
+        $dateString = $dateTimeArray['day'] . " " . $monthsArray[$dateTimeArray['month']] . " " . $dateTimeArray['year'];
+        
+        if($showTime===true)
+        {
+            $dateString.= " ".$dateTimeArray['hours'].":".$dateTimeArray['minutes'];
+        }
+        if($showWeekday===true)
+        {
+           $dateString = $weekday . " " . $dateString;
+        }
+        return $dateString;
+    }
+    
+    // функция возвращает время в формате hh:mm из даты yyyy-mm-dd hh:mm:ss
+    public static function showTime($date)
+    {
+        if(stristr($date," "))
+        {
+            //это дата+время
+            $dateTimeArray=explode(" ",$date);
+            $time = $dateTimeArray[1];
+            $timeArray = explode(":",$time);
+            $hours = $timeArray[0];
+            $minutes = $timeArray[1];
+            $seconds = $timeArray[2];
+            return $hours.":".$minutes;
+        }
+        else return NULL;
+    }
+    
+    // функция принимает дату yyyy-mm-dd hh:mm:ss и возвращает массив из года, месяца, дня, часа, минуты, секунды, даты и времени
+    public static function dateTimeArray($dateTime)
+    {
+        if(stristr($dateTime," "))
+        {
+            //это дата+время
+            $dateTimeArray=explode(" ",$dateTime);
+            $dateArray = explode("-",$dateTimeArray[0]);
+            $time = $dateTimeArray[1];
+            $year = (int)$dateArray[0];
+            $month = (int)$dateArray[1];
+            $day = (int)$dateArray[2];
+            $timeArray = explode(":",$time);
+            $hours = (int)$timeArray[0];
+            $minutes = (int)$timeArray[1];
+            $seconds = (int)$timeArray[2];
+            $outputArray = Array(
+                'year'=>$year,
+                'month'=>$month,
+                'day'=>$day,
+                'hours'=>$hours,
+                'minutes'=>$minutes,
+                'seconds'=>$seconds,
+                'date'=>$dateTimeArray[0],
+                'time'=>$dateTimeArray[1]
+            );
+            return $outputArray;
+        }
+        else return NULL;
+    }
+
+    public static function translit($name)
+    { //$name=strtolower($name);
+      $name = mb_strtolower($name, 'utf-8');
+      $name=trim($name);
+      $name=str_replace("а", "a", $name);
+      $name=str_replace("б", "b", $name);
+      $name=str_replace("в", "v", $name);
+      $name=str_replace("г", "g", $name);
+      $name=str_replace("д", "d", $name);
+      $name=str_replace("е", "e", $name);
+      $name=str_replace("ё", "e", $name);
+      $name=str_replace("ж", "zh", $name);
+      $name=str_replace("з", "z", $name);
+      $name=str_replace("и", "i", $name);
+      $name=str_replace("й", "j", $name);
+      $name=str_replace("к", "k", $name);
+      $name=str_replace("л", "l", $name);
+      $name=str_replace("м", "m", $name);
+      $name=str_replace("н", "n", $name);
+      $name=str_replace("о", "o", $name);
+      $name=str_replace("п", "p", $name);
+      $name=str_replace("р", "r", $name);
+      $name=str_replace("с", "s", $name);
+      $name=str_replace("т", "t", $name);
+      $name=str_replace("у", "u", $name);
+      $name=str_replace("ф", "f", $name);
+      $name=str_replace("х", "h", $name);
+      $name=str_replace("ц", "c", $name);
+      $name=str_replace("ч", "ch", $name);
+      $name=str_replace("ш", "sch", $name);
+      $name=str_replace("щ", "sh", $name);
+      $name=str_replace("ъ", "j", $name);
+      $name=str_replace("ы", "y", $name);
+      $name=str_replace("ь", "", $name);
+      $name=str_replace("э", "e", $name);
+      $name=str_replace("ю", "yu", $name);
+      $name=str_replace("я", "ya", $name);
+      $name=str_replace(" ", "-", $name);
+      $name=str_replace("_", "-", $name);
+      return $name;
+    }
+    
+    public static function printr($value)
+    {
+        echo "<pre>";
+        print_r($value);
+        echo "</pre>";
+    }
+
+}
+?>

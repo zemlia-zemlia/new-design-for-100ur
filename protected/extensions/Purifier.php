@@ -1,0 +1,12 @@
+<?php
+    /* кастомный класс для очистки HTML кода от ненужных тегов
+     * расширяет класс CHtmlPurifier
+     */
+
+class Purifier extends CHtmlPurifier 
+{
+    public $options = array(
+        'HTML.Allowed' => 'div,p,a[href],b,br,i,img[src],span[style],strong,ul,ol,li,sup,sub,h1,h2,h3,h4,h5,h6',
+    );
+}
+?>

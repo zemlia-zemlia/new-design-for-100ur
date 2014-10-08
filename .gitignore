@@ -1,0 +1,9 @@
+*.gif
+*.jpg
+*.png
+/assets/
+/netbeans/
+/protected/extensions/imperavi/assets/
+/protected/runtime/
+/nbproject/private/
+/upload/
