@@ -49,10 +49,10 @@ class Question extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('questionText, townId, authorName, phone', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
-			array('number, categoryId, status', 'numerical', 'integerOnly'=>true),
+			array('number, categoryId, status, townId', 'numerical', 'integerOnly'=>true),
                         array('townId','compare','operator'=>'!=', 'compareValue'=>'0','message'=>'Не выбран город'),
 			array('categoryName', 'length', 'max'=>255),
-                        array('authorName, townId, title','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. ])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, точка, дефис и пробел'),
+                        array('authorName, title','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. ])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, точка, дефис и пробел'),
                         array('phone','match','pattern'=>'/^([0-9\+])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
 			
                         // The following rule is used by search().
@@ -131,6 +131,32 @@ class Question extends CActiveRecord
             $command->bindParam(":status",  $status, PDO::PARAM_INT);
             $row = $command->queryRow();
             return $row['counter'];
+        }
+        
+        public function sendByEmail()
+        {
+            $mailer = new GTMail();
+            $mailer->subject = "Заявка";
+            $mailer->message = "<h3>Заявка на консультацию</h3>";
+            $mailer->message .= "<p>Имя: " . CHtml::encode($this->authorName) . ", город: " . CHtml::encode($this->town->name) . "</p>";
+            $mailer->message .= "<p>Телефон: " . $this->phone . "</p>";
+            $mailer->message .= "<p>Сообщение:<br />" . CHtml::encode($this->questionText) . "</p>";
+            
+            $mailer->message .= "<p><strong>Квалификация брака:</strong><br />
+                Отправьте в теме ответа на письмо с лидом номер для квалификации брака:<br />
+                1 = Другой регион.<br />
+                2 = Повтор заявки.<br />
+                3 = Неверный номер.<br />
+                4 = Спам.</p>";
+           
+
+            $mailer->email = Yii::app()->params['adminEmail'];
+            
+            if($mailer->sendMail()) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         /**

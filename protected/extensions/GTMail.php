@@ -10,9 +10,8 @@ class GTMail
     public function sendMail($appendSuffix=true)
     {
         if($appendSuffix==true)
-        $this->message .="<br /><br /><i>Это письмо написал робот. Пожалуйста, не отвечайте на него.</i><br />";
  	
-        $fromHeader = "=?utf-8?b?" . base64_encode("CRM юридической фирмы") . "?=<info@kc-zakon.ru>";
+        $fromHeader = "=?utf-8?b?" . base64_encode("lidlaw@mail.ru") . "?=<lidlaw@mail.ru>";
 	$this->headers .= $fromHeader . "\n\n";
         
         $this->subject = "=?utf-8?b?" . base64_encode($this->subject) . "?="; //так по-правильному нужно кодировать тему письма

@@ -25,7 +25,7 @@
 	</div>
 
 	<div class="form-group">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Задать вопрос юристу' : 'Сохранить', array('class'=>'btn btn-primary')); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Задать вопрос юристу' : 'Сохранить', array('class'=>'btn btn-primary', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

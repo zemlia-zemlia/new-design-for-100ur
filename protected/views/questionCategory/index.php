@@ -10,19 +10,9 @@ $this->breadcrumbs=array(
 	'Категории вопросов',
 );
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('CRM',"/"),
-    'separator'=>' / ',
-    'links'=>$this->breadcrumbs,
- ));
-
 ?>
 <div class="vert-margin30">
 <h1>Категории вопросов</h1>
-</div>
-
-<div class="right-align vert-margin30">
-<?php echo CHtml::link('Добавить категорию', Yii::app()->createUrl('questionCategory/create'), array('class'=>'btn btn-primary')); ?>
 </div>
 
 <ul>

@@ -2,7 +2,7 @@
 /* @var $this QuestionCategoryController */
 /* @var $model QuestionCategory */
 
-$this->setPageTitle(CHtml::encode($model->name) . ". Категории вопросов. ". Yii::app()->name);
+$this->setPageTitle(CHtml::encode($model->name) . ". Консультация юриста и адвоката. ". Yii::app()->name);
 
 Yii::app()->clientScript->registerMetaTag("Получите бесплатную консультацию юриста. Ответы квалифицированных юристов на вопросы тематики " . CHtml::encode($model->name), 'description');
 
@@ -12,12 +12,16 @@ Yii::app()->clientScript->registerMetaTag("Получите бесплатную
 <h1 class="vert-margin30"><?php echo CHtml::encode($model->name);?></h1>
 
 
-<div class="center-align vert-margin30">
-    <?php echo CHtml::link('Задать вопрос юристу на тему ' . CHtml::encode($model->name), Yii::app()->createUrl('question/create', array('categoryId'=>$model->id)), array('class'=>'btn btn-primary btn-lg'));?>
-    <div>Это бесплатно. Вы получите ответ в течение 15 минут</div>
+<div class="question-form-wrapper">
+<h3>Задайте вопрос юристу бесплатно</h3>
+<?php
+    $this->renderPartial('application.views.question._formSimple', array(
+            'model'=>$questionModel,
+        ));
+?>
 </div>
 
-<h2>Вопросы</h2>
+<h2>Вопросы юристу на тему &laquo;<?php echo CHtml::encode($model->name);?>&raquo;</h2>
 
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'  =>  $questionsDataProvider,

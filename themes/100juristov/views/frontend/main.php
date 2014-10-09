@@ -25,12 +25,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-sm-4">
-                    <div class="logo-text">100 юристов</div>
+                    <div class="logo-text"><a href="/">100 Юристов!</a></div>
                     <div class="logo-description">отвечают на ваши вопросы</div>
                 </div>
                 <div class="col-md-4 col-sm-4 center-align">
-                    <div class="header-phone">(495) 249-90-04</div>
-                    <div>Получите консультацию сейчас</div>
+                    <div class="header-phone">8 (499) 301-00-35</div>
+                    <div>Получите консультацию юриста по телефону сейчас</div>
+					<div>Москва и МО (ежедневно) с 10.00 до 19.00 </div>
                 </div>
                 <div class="col-md-4 col-sm-4 center-align">
                     <div class="questions-counter">
@@ -80,7 +81,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-sm-4">
-                    &copy; 100 юристов 2014
+                    &copy; 100 юристов 2014 <br/>
+					Общество с ограниченной ответственностью «100 Юристов»
+					ОГРН 114774637014 ИНН 7705358485 КПП 770501001 Юридический адрес: г. Москва, ул. Кожевническая, д. 10, стр. 1 
                 </div>
                 <div class="col-md-4 col-sm-4">
                     
@@ -91,6 +94,35 @@
             </div>
         </div>
     </div>
+
     
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter26550786 = new Ya.Metrika({id:26550786,
+                    webvisor:true,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/26550786" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
 </body>
 </html>

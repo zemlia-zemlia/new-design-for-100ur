@@ -53,9 +53,12 @@ class QuestionController extends Controller
                         ),
             ));
             
+            $questionModel = new Question();
+            
             $this->render('view',array(
                     'model'                 =>  $model,
                     'answersDataProvider'   =>  $answersDataProvider,
+                    'questionModel'         =>  $questionModel,
             ));
 	}
 
@@ -73,8 +76,10 @@ class QuestionController extends Controller
 		if(isset($_POST['Question']))
 		{
 			$model->attributes=$_POST['Question'];
-			if($model->save())
+			if($model->save()) {
+                                $model->sendByEmail();
 				$this->redirect(array('thankYou'));
+                        }
 		}
 
                 // $allCategories - массив, ключи которого - id категорий, значения - названия
@@ -86,7 +91,6 @@ class QuestionController extends Controller
                 }
                 
                 $townsArray = Town::getTownsIdsNames();
-                array_unshift($townsArray, 'Выберите Ваш город');
                 
 		$this->render('create',array(
 			'model'         =>  $model,

@@ -54,9 +54,12 @@ class QuestionCategoryController extends Controller
                             ),
                 ));
             
+            $questionModel = new Question();
+            
             $this->render('view',array(
 			'model'                 =>  $model,
                         'questionsDataProvider' =>  $questionsDataProvider,
+                        'questionModel'         =>  $questionModel,
 		));
 	}
         

@@ -1,5 +1,5 @@
 <?php
-    $this->setPageTitle("Вопросы юристам.". Yii::app()->name);
+    $this->setPageTitle("Консультация юриста и адвоката. ". Yii::app()->name);
 ?>
 
 <div class="question-form-wrapper">
