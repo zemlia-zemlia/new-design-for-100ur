@@ -25,7 +25,7 @@ class QuestionController extends Controller
 	{
             return array(
                 array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                        'actions'=>array('index', 'view', 'create', 'thankYou'),
+                        'actions'=>array('index', 'view', 'create', 'thankYou','rss'),
                         'users'=>array('*'),
                 ),
                 array('deny',  // deny all users
@@ -177,4 +177,50 @@ class QuestionController extends Controller
 			Yii::app()->end();
 		}
 	}
+        
+        // generates RSS 2.0 feed with active trips
+        public function actionRss()
+        {
+            $criteria = new CDbCriteria;
+            $criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
+            $criteria->order = "t.id DESC";
+            $criteria->with = array('answersCount');
+            $questions = Question::model()->cache(600)->findAll($criteria);
+                        
+            Yii::import('ext.feed.*');
+            // RSS 2.0 is the default type
+            $feed = new EFeed();
+
+            $feed->title= Yii::app()->name;
+            $feed->description = 'Вопросы квалифицированным юристам';
+
+
+            $feed->addChannelTag('language', 'ru-ru');
+            $feed->addChannelTag('pubDate', date(DATE_RSS, time()));
+            $feed->addChannelTag('link', 'http://www.100yuristov.com/question/rss' );
+
+            // * self reference
+            $feed->addChannelTag('atom:link','http://www.100yuristov.com/question/rss');
+
+            foreach($questions as $question)
+            {
+                $item = $feed->createNewItem();
+
+                
+                if($question->answersCount) {
+                    $item->title = CHtml::encode($question->title) . ' (' . $question->answersCount . ' ' . CustomFuncs::numForms($question->answersCount, 'ответ', "ответа", "ответов") . ")";
+                } else {
+                    $item->title = CHtml::encode($question->title);
+                }
+                
+                $item->link = "http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('question/view',array('id'=>$question->id));
+                $item->date = time();
+
+                $item->description = CHtml::encode($question->questionText);
+
+                $feed->addItem($item);
+            }
+            $feed->generateFeed();
+            Yii::app()->end();
+        }
 }

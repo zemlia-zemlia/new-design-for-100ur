@@ -72,6 +72,7 @@ class Question extends CActiveRecord
                     'category'  =>  array(self::BELONGS_TO, 'QuestionCategory', 'categoryId'),
                     'town'  =>  array(self::BELONGS_TO, 'Town', 'townId'),
                     'answers'   =>  array(self::HAS_MANY, 'Answer', 'questionId'),
+                    'answersCount'  =>  array(self::STAT, 'Answer', 'questionId'),
 		);
 	}
 

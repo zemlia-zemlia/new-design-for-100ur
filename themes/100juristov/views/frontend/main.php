@@ -25,7 +25,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-sm-4">
-                    <div class="logo-text"><a href="/">100 Юристов!</a></div>
+                    <div class="logo-text"><a href="/"><b>100</b> Юристов!</a></div>
                     <div class="logo-description">отвечают на ваши вопросы</div>
                 </div>
                 <div class="col-md-4 col-sm-4 center-align">
@@ -53,6 +53,7 @@
             <li><?php echo CHtml::link('<span class="glyphicon glyphicon-heart-empty"></span> Партнеры', Yii::app()->createUrl('/site/partners'));?></li>
             <li><?php echo CHtml::link('<span class="glyphicon glyphicon-envelope"></span> Контакты', Yii::app()->createUrl('/site/contacts'));?></li>
             <li><?php echo CHtml::link('<span class="glyphicon glyphicon-question-sign"></span> Все вопросы', Yii::app()->createUrl('question'));?></li>
+            <li><?php echo CHtml::link('<span class="glyphicon glyphicon-plus-sign"></span> Задать вопрос', Yii::app()->createUrl('question/create',array('from'=>'top-menu')));?></li>
         </ul>
         <div class="clearfix"></div>
     </div>
@@ -88,8 +89,8 @@
                 <div class="col-md-4 col-sm-4">
                     
                 </div>
-                <div class="col-md-4 col-sm-4">
-                    
+                <div class="col-md-4 col-sm-4 right-align">
+                    <?php echo CHtml::link(CHtml::image('/pics/rss_icon.png'), Yii::app()->createUrl('question/rss'), array('title'=>'Подписаться на RSS'));?>
                 </div>
             </div>
         </div>

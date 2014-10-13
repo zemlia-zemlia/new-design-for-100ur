@@ -16,15 +16,11 @@
             <?php if(strlen(CHtml::encode($data->questionText))>240) echo "..."; ?>
         </p>
         
-        <?php if(!$hideCategory && $data->category):?>
-            <p>   
-                Категория: <?php echo CHtml::link($data->category->name, Yii::app()->createUrl('questionCategory/view',array('id'=>$data->category->id)));?>
-            </p>
-        <?php endif;?>
+        
 
         <p>
         <?php if($data->authorName):?>
-        Автор: <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo CHtml::encode($data->authorName);?>
+        <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo CHtml::encode($data->authorName);?>
         &nbsp;&nbsp;
         <? endif;?>
         
@@ -32,6 +28,11 @@
             <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::encode($data->town->name);?>
             &nbsp;&nbsp;
         <?php endif;?>
+            
+        <?php if(!$hideCategory && $data->category):?>
+            <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link($data->category->name, Yii::app()->createUrl('questionCategory/view',array('id'=>$data->category->id)));?>
+            &nbsp;&nbsp;
+        <?php endif;?>    
         
         <?php if($answersCount = sizeof($data->answers)):?>
             <span class="glyphicon glyphicon-comment"></span>&nbsp;<?php echo $answersCount . "&nbsp;" .  CustomFuncs::numForms($answersCount, 'ответ', 'ответа', 'ответов');?>

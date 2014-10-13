@@ -75,14 +75,30 @@ class QuestionCategory extends CActiveRecord
         // возвращает массив, ключи которого - id категорий, значения - названия
         public function getCategoriesIdsNames()
         {
-            $allCategories = array(0=>'Нет (верхний уровень)');
+            $allCategories = array(0=>'Без категории');
                 
-            $categories = self::model()->findAll(array(
+            /*$categories = self::model()->findAll(array(
                 'order' =>  'name ASC',
             ));
             foreach($categories as $cat){
                 $allCategories[$cat->id] = $cat->name;
+            }*/
+            $topCategories = QuestionCategory::model()->findAll(array(
+                'order'     =>  't.name',
+                'with'      =>  'children',
+                'condition' =>  't.parentId=0',
+                )
+            );
+            
+            foreach($topCategories as $topCat) {
+                $allCategories[$topCat->id] = $topCat->name;
+                if(sizeof($topCat->children)) {
+                    foreach($topCat->children as $childCat) {
+                        $allCategories[$childCat->id] = '- ' . $childCat->name;
+                    }
+                }
             }
+            
             return $allCategories;
         }
 

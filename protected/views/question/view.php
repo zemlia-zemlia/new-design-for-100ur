@@ -28,12 +28,7 @@ $this->breadcrumbs=array(
 <?php endif;?>
 </div>
 
-<?php if($model->category):?>
-<p>
-    <strong><?php echo $model->getAttributeLabel('category');?>:</strong>
-    <?php echo CHtml::link(CHtml::encode($model->category->name),Yii::app()->createUrl('questionCategory/view',array('id'=>$model->category->id)));?>
-</p>
-<?php endif;?>
+
 
 <div class="vert-margin30">
 <p>
@@ -42,8 +37,17 @@ $this->breadcrumbs=array(
 </div>
 
 <div class="vert-margin30">
-    <p><strong>Автор вопроса:</strong> <?php echo CHtml::encode($model->authorName); ?></p>
-    <p><strong>Город:</strong> <?php echo CHtml::encode($model->town->name); ?></p>
+    <p>
+        <?php if($model->authorName):?>
+            <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo CHtml::encode($model->authorName); ?> &nbsp;&nbsp;
+        <?php endif;?>
+        <?php if($model->town):?>
+            <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::encode($model->town->name); ?> &nbsp;&nbsp;
+        <?php endif;?>
+        <?php if($model->category):?>
+            <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($model->category->name),Yii::app()->createUrl('questionCategory/view',array('id'=>$model->category->id)));?> &nbsp;&nbsp;
+        <?php endif;?>
+    </p>
 </div>
 
 <div class="vert-margin30">

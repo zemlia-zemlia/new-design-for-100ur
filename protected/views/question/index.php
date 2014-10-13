@@ -3,6 +3,7 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $this->setPageTitle("Вопросы юристам.". Yii::app()->name);
+Yii::app()->clientScript->registerLinkTag("alternate","application/rss+xml","http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('question/rss'));
 
 
 $this->breadcrumbs=array(
