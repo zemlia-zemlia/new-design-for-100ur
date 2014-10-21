@@ -114,7 +114,7 @@ class QuestionController extends Controller
                 $criteria = new CDbCriteria;
                 $criteria->order = 't.id desc';
                 $criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
-                $criteria->with = array('category', 'town');
+                $criteria->with = array('category', 'town', 'answersCount');
                 
                 if(isset($_GET['status'])) {
                     $status = (int)$_GET['status'];
@@ -200,7 +200,7 @@ class QuestionController extends Controller
             $feed->addChannelTag('link', 'http://www.100yuristov.com/question/rss' );
 
             // * self reference
-            $feed->addChannelTag('atom:link','http://www.100yuristov.com/question/rss');
+            //$feed->addChannelTag('atom:link','http://www.100yuristov.com/question/rss');
 
             foreach($questions as $question)
             {

@@ -25,8 +25,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-sm-4">
-                    <div class="logo-text"><a href="/"><b>100</b> Юристов!</a></div>
+				<a href="/">
+                    <div class="logo-text"><b>100</b> Юристов</div>
                     <div class="logo-description">отвечают на ваши вопросы</div>
+				</a>
                 </div>
                 <div class="col-md-4 col-sm-4 center-align">
                     <div class="header-phone">8 (499) 301-00-35</div>
@@ -61,7 +63,7 @@
     <div id="middle">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 col-sm-4">
+                <div class="col-md-3 col-sm-3">
                     <div id="left-bar">
                         <h4>Категории вопросов</h4>
                         <?php
@@ -71,7 +73,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-8 col-sm-8">
+                <div class="col-md-9 col-sm-9">
                     <?php echo $content; ?>
                 </div>
             </div>
@@ -91,6 +93,8 @@
                 </div>
                 <div class="col-md-4 col-sm-4 right-align">
                     <?php echo CHtml::link(CHtml::image('/pics/rss_icon.png'), Yii::app()->createUrl('question/rss'), array('title'=>'Подписаться на RSS'));?>
+					<a href="http://vk.com/club78448546"> VK </a>
+					<a href="https://twitter.com/100yuristov"> Twitter </a>
                 </div>
             </div>
         </div>

@@ -59,6 +59,7 @@ return array(
                     'rules'=>array(
                         '/q/<id:\d+>'=>'/question/view',
                         '/cat/<id:\d+>'=>'/questionCategory/view',
+                        '/town/<id:\d+>'=>'/town/view',
                         ),
                     ),
 

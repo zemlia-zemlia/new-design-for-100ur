@@ -137,7 +137,7 @@ class Question extends CActiveRecord
         public function sendByEmail()
         {
             $mailer = new GTMail();
-            $mailer->subject = "Заявка";
+            $mailer->subject = "Заявка на консультацию город " . $this->town->name;
             $mailer->message = "<h3>Заявка на консультацию</h3>";
             $mailer->message .= "<p>Имя: " . CHtml::encode($this->authorName) . ", город: " . CHtml::encode($this->town->name) . "</p>";
             $mailer->message .= "<p>Телефон: " . $this->phone . "</p>";

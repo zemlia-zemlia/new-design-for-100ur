@@ -4,7 +4,8 @@
 /* @var $form CActiveForm */
 ?>
 
-<div>
+<div class="row">
+    <div class="col-md-6">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'                    =>  'question-form',
@@ -14,7 +15,7 @@
 
         <div class="form-group">
 		<?php echo $form->labelEx($model,'questionText'); ?>
-		<?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>4)); ?>
+		<?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>6)); ?>
 		<?php echo $form->error($model,'questionText'); ?>
 	</div>
 
@@ -26,8 +27,29 @@
 
 	<div class="form-group">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Задать вопрос юристу' : 'Сохранить', array('class'=>'btn btn-primary', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
-	</div>
+            
+        </div>
+        <p>Вы получите ответ в рабочее время в течение 15 минут</p>
 
 <?php $this->endWidget(); ?>
-
+    </div>
+    
+    <div class="col-md-6">
+        <div class="form-info-item" style="background-image:url(/pics/icon_rocket.png);">
+            <p><strong>Быстро</strong><br />
+            Ответ через 15 минут</p>
+        </div>
+        <div class="form-info-item" style="background-image:url(/pics/icon_safe.png);">
+            <p><strong>Безопасно</strong><br />
+            Только аккредитованные юристы</p>
+        </div>
+        <div class="form-info-item" style="background-image:url(/pics/icon_calculator.png);">
+            <p><strong>Экономия времени и денег</strong><br />
+            Не надо ждать и искать - просто отправьте вопрос</p>
+        </div>
+        <div class="form-info-item" style="background-image:url(/pics/icon_envelope.png);">
+            <p><strong>Без спама</strong><br />
+            Мы не рассылаем рекламу</p>
+        </div>
+    </div>
 </div><!-- form -->

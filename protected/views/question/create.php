@@ -12,7 +12,7 @@ $this->breadcrumbs=array(
 
 ?>
 
-<h1>Задайте вопрос юристу</h1>
+<h1 class="vert-margin30">Задайте вопрос юристу</h1>
 
 <?php echo $this->renderPartial('_form', array(
         'model'         =>  $model,

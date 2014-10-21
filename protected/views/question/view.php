@@ -42,7 +42,7 @@ $this->breadcrumbs=array(
             <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo CHtml::encode($model->authorName); ?> &nbsp;&nbsp;
         <?php endif;?>
         <?php if($model->town):?>
-            <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::encode($model->town->name); ?> &nbsp;&nbsp;
+            <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($model->town->name),Yii::app()->createUrl('town/view',array('id'=>$model->town->id))); ?> &nbsp;&nbsp;
         <?php endif;?>
         <?php if($model->category):?>
             <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($model->category->name),Yii::app()->createUrl('questionCategory/view',array('id'=>$model->category->id)));?> &nbsp;&nbsp;

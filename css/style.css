@@ -205,3 +205,16 @@ div.pager {
     border-radius: 5px;
     border:#fff000;
 }
+
+.form-info-item {
+    margin-bottom:20px;
+    font-size:17px;
+    padding-left:40px;
+    background-repeat: no-repeat;
+    background-position: left center;
+    line-height:1.2em;
+}
+
+.form-info-item p {
+    text-align:left;
+}

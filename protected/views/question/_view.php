@@ -25,7 +25,7 @@
         <? endif;?>
         
         <?php if($data->town):?>
-            <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::encode($data->town->name);?>
+            <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($data->town->name),Yii::app()->createUrl('town/view',array('id'=>$data->town->id)), array('title'=>'Все вопросы юристам в городе ' . CHtml::encode($data->town->name)));?>
             &nbsp;&nbsp;
         <?php endif;?>
             
@@ -34,7 +34,7 @@
             &nbsp;&nbsp;
         <?php endif;?>    
         
-        <?php if($answersCount = sizeof($data->answers)):?>
+        <?php if($answersCount = $data->answersCount):?>
             <span class="glyphicon glyphicon-comment"></span>&nbsp;<?php echo $answersCount . "&nbsp;" .  CustomFuncs::numForms($answersCount, 'ответ', 'ответа', 'ответов');?>
         <?php endif;?>
         </p>
