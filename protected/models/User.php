@@ -6,6 +6,8 @@
  * The followings are the available columns in table '{{user}}':
  * @property string $id
  * @property string $name
+ * @property string $name2
+ * @property string $lastName
  * @property integer $role
  * @property string $position
  * @property string $email
@@ -26,6 +28,9 @@ class User extends CActiveRecord
         const ROLE_JURIST = 10;
         const ROLE_MANAGER = 20;
         const ROLE_ROOT = 100;
+        
+        const USER_PHOTO_PATH = "http://crm.kc-zakon.ru/upload/userphoto";
+        const USER_PHOTO_THUMB_FOLDER = "/thumbs";
         /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -52,7 +57,7 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, position, email, phone', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
+			array('name, name2, lastName, position, email, phone', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
 			array('role, active, managerId', 'numerical', 'integerOnly'=>true),
 			array('name, position, email, phone', 'length', 'max'=>255),
                         array('password','length','min'=>5,'max'=>128, 'tooShort'=>'Минимальная длина пароля 5 символов', 'allowEmpty'=>($this->scenario=='update')),
@@ -145,7 +150,9 @@ class User extends CActiveRecord
 	{
 		return array(
 			'id'        => 'ID',
-			'name'      => 'ФИО',
+			'name'      => 'Имя',
+                        'name2'     => 'Отчество',
+                        'lastName'  => 'Фамилия',
 			'role'      => 'Роль',
 			'position'  => 'Должность',
 			'email'     => 'Email',
@@ -328,6 +335,19 @@ class User extends CActiveRecord
                 $myEmployees[] = $myEmployee['id'];
             }
             return $myEmployees;
+        }
+        
+        // возвращает URL аватара текущего пользователя. Если аватар не задан, возвращает пустую строку
+        public function getAvatarUrl($size = 'thumb')
+        {
+            if(!$this->avatar) {
+                return "";
+            }
+            $avatarFolder = User::USER_PHOTO_PATH;
+            if($size == 'thumb') {
+                $avatarFolder .= User::USER_PHOTO_THUMB_FOLDER; 
+            }
+            return $avatarFolder . "/" . $this->avatar;
         }
 
 }

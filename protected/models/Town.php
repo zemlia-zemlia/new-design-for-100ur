@@ -89,7 +89,7 @@ class Town extends CActiveRecord
                 'order' =>  'size DESC',
             ));
 
-            $townsArray = array();
+            $townsArray = array(0=>'Не определен');
             foreach($towns as $town) {
                 $townsArray[$town->id] = $town->name . " (" . $town->ocrug . ")";
             }
