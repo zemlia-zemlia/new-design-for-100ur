@@ -26,16 +26,16 @@
             <div class="row">
                 <div class="col-md-4 col-sm-4">
 				<a href="/">
-                    <div class="logo-text"><b>100</b> Юристов</div>
-                    <div class="logo-description">отвечают на ваши вопросы</div>
+                    <div class="logo-text" align="center"><b>100 Юристов</b></div>
+                    <div class="logo-description" align="center"><b>Помогают и отвечают на ваши вопросы</b></div>
 				</a>
                 </div>
-                <div class="col-md-4 col-sm-4 center-align">
+                <div class="col-md-5 col-sm-4 center-align">
                     <div class="header-phone">8 (499) 301-00-35</div>
-                    <div>Получите консультацию юриста по телефону сейчас</div>
+                    <div>Помощь и консультация юриста по телефону</div>
 					<div>Москва и МО (ежедневно) с 10.00 до 19.00 </div>
                 </div>
-                <div class="col-md-4 col-sm-4 center-align">
+                <div class="col-md-3 col-sm-4 center-align">
                     <div class="questions-counter">
                     <?php
                         $questionsCount = Question::getCountByStatus(Question::STATUS_PUBLISHED);
@@ -71,6 +71,7 @@
                             $this->widget('application.widgets.CategoriesTree.CategoriesTree', array());
                         ?>
                     </div>
+
                 </div>
 
                 <div class="col-md-9 col-sm-9">
@@ -84,17 +85,18 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-sm-4">
-                    &copy; 100 юристов 2014 <br/>
-					Общество с ограниченной ответственностью «100 Юристов»
-					ОГРН 114774637014 ИНН 7705358485 КПП 770501001 Юридический адрес: г. Москва, ул. Кожевническая, д. 10, стр. 1 
+                   <small> ОГРН 114774637014 ИНН 7705358485 КПП 770501001 Юридический адрес: г. Москва, ул. Кожевническая, д. 10, стр. 1 </small> 
                 </div>
-                <div class="col-md-4 col-sm-4">
-                    
+                <div class="col-md-6 col-sm-4">
+                <b>&copy; Информационно-правовой портал «100 Юристов» 2014.</b>
+				<br>
+				<small>Все права, на любые материалы, размещенные на сайте, защищены в соответствии с российским и международным законодательством об авторском праве и смежных правах. При любом использовании текстовых, аудио-, видео- и фотоматериалов ссылка на www.100yuristov.com обязательна. Адрес электронной почты:
+				<a href="mailto:100yuristov@mail.ru" rel="nofollow">100yuristov@mail.ru</a>.   </small> 
                 </div>
-                <div class="col-md-4 col-sm-4 right-align">
+                <div class="col-md-2 col-sm-4 right-align">
                     <?php echo CHtml::link(CHtml::image('/pics/rss_icon.png'), Yii::app()->createUrl('question/rss'), array('title'=>'Подписаться на RSS'));?>
-					<a href="http://vk.com/club78448546"> VK </a>
-					<a href="https://twitter.com/100yuristov"> Twitter </a>
+					<a href="http://vk.com/club78448546" rel="nofollow"> VK </a>
+					<a href="https://twitter.com/100yuristov" rel="nofollow"> Twitter </a>
                 </div>
             </div>
         </div>
@@ -128,6 +130,24 @@
 </script>
 <noscript><div><img src="//mc.yandex.ru/watch/26550786" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
+
+<!-- Rating@Mail.ru counter -->
+<script type="text/javascript">
+var _tmr = _tmr || [];
+_tmr.push({id: "2577054", type: "pageView", start: (new Date()).getTime()});
+(function (d, w) {
+   var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true;
+   ts.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//top-fwz1.mail.ru/js/code.js";
+   var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+   if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+})(document, window);
+</script><noscript><div style="position:absolute;left:-10000px;">
+<img src="//top-fwz1.mail.ru/counter?id=2577054;js=na" style="border:0;" height="1" width="1" alt="Рейтинг@Mail.ru" />
+</div></noscript>
+<!-- //Rating@Mail.ru counter -->
+
+</body>
+</html>
 
 </body>
 </html>

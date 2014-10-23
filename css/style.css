@@ -8,7 +8,7 @@ body {
 }
 
 #header {
-    background:#222;
+    background: url('/pics/stripes_top.png') repeat scroll 0% 0%;
     color:#f5f5f5;
     padding:20px 0;
 }
@@ -52,10 +52,11 @@ p {
 
 .logo-text {
     font-size:30px;
+	color:#f5f5f5;
 }
 
 .logo-description {
-    
+    color:#f5f5f5;
 }
 
 div.form {
@@ -89,8 +90,7 @@ div.vert-margins {
 }
 
 #top-menu {
-    background:#444;
-    box-shadow: #666 0 0 3px;
+    background: #444 url(/pics/stripes_menu.png) repeat;
     position: relative;
     width:100%;
     margin-bottom:40px;
@@ -104,7 +104,7 @@ div.vert-margins {
     float: left;
     left: 50%;
     position: relative;
-    background:#444;
+    /*background:#444;*/
 }
 
 #top-menu ul li {
@@ -191,7 +191,7 @@ div.pager {
 }
 
 #footer {
-    background:#ccc;
+    background: url('/pics/stripes.png') repeat scroll 0% 0% #CECECE;
     border-top:#bbb 1px solid;
     margin-top:40px;
     color:#666;
@@ -216,5 +216,7 @@ div.pager {
 }
 
 .form-info-item p {
+    text-align:left;
+}rm-info-item p {
     text-align:left;
 }

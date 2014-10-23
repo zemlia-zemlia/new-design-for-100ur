@@ -21,12 +21,6 @@
 		<?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>10)); ?>
 		<?php echo $form->error($model,'questionText'); ?>
 	</div>
-
-	<div class="form-group">
-		<?php echo $form->labelEx($model,'category'); ?>
-		<?php echo $form->dropDownList($model, 'categoryId', $allCategories, array('class'=>'form-control', 'options'=>array((is_null($categoryId)?0:$categoryId)=>array('selected'=>true)))); ?>
-		<?php echo $form->error($model,'categoryId'); ?>
-	</div>
         
         <div class="form-group">
 		<?php echo $form->labelEx($model,'authorName'); ?>
