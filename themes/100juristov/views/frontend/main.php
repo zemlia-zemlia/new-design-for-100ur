@@ -2,17 +2,17 @@
 <html lang="ru">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="content-language" content="ru" />
+<!--<meta http-equiv="content-language" content="ru" />-->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 <?php 
-    Yii::app()->clientScript->registerCssFile("/bootstrap3/css/bootstrap.min.css");
+    Yii::app()->clientScript->registerCssFile("/bootstrap/css/bootstrap.min.css");
     Yii::app()->clientScript->registerCssFile("/css/style.css");
 
     
     Yii::app()->clientScript->registerScriptFile("jquery.js");
-    Yii::app()->clientScript->registerScriptFile("/bootstrap3/js/bootstrap.min.js");
+    Yii::app()->clientScript->registerScriptFile("/bootstrap/js/bootstrap.min.js");
     Yii::app()->clientScript->registerScriptFile("/js/scripts.js");
     Yii::app()->clientScript->registerScriptFile("/js/jquery.placeholder.min.js");
     
@@ -25,17 +25,20 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-sm-4">
+				
 				<a href="/">
-                    <div class="logo-text" align="center"><b>100 Юристов</b></div>
-                    <div class="logo-description" align="center"><b>Помогают и отвечают на ваши вопросы</b></div>
+                    <div class="logo-text center-align"><b>100 Юристов</b></div>
+                    <div class="logo-description center-align" ><b>Помогают и отвечают на ваши вопросы</b></div>
 				</a>
                 </div>
-                <div class="col-md-5 col-sm-4 center-align">
+                <div class="col-md-4 col-sm-4 center-align">
+					
                     <div class="header-phone">8 (499) 301-00-35</div>
                     <div>Помощь и консультация юриста по телефону</div>
 					<div>Москва и МО (ежедневно) с 10.00 до 19.00 </div>
+
                 </div>
-                <div class="col-md-3 col-sm-4 center-align">
+                <div class="col-md-4 col-sm-4 center-align">
                     <div class="questions-counter">
                     <?php
                         $questionsCount = Question::getCountByStatus(Question::STATUS_PUBLISHED);
@@ -43,6 +46,14 @@
                     ?>
                     </div>
                     <div><?php echo CustomFuncs::numForms($questionsCount, 'вопрос', "вопроса", "вопросов") ?> на сайте</div>
+					
+					
+					<script type="text/javascript" src="//yastatic.net/share/share.js" charset="utf-8"></script>
+					<div class="yashare-auto-init" data-yashareL10n="ru" data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir,gplus"  data-yashareTheme="counter" ></div> 
+					
+
+
+ 
                 </div>
             </div>
         </div>
@@ -65,7 +76,7 @@
             <div class="row">
                 <div class="col-md-3 col-sm-3">
                     <div id="left-bar">
-                        <h4>Категории вопросов</h4>
+                        <h4><span class="label label-info">Категории вопросов</span></h4>
                         <?php
                         // выводим виджет с деревом категорий
                             $this->widget('application.widgets.CategoriesTree.CategoriesTree', array());
@@ -95,8 +106,8 @@
                 </div>
                 <div class="col-md-2 col-sm-4 right-align">
                     <?php echo CHtml::link(CHtml::image('/pics/rss_icon.png'), Yii::app()->createUrl('question/rss'), array('title'=>'Подписаться на RSS'));?>
-					<a href="http://vk.com/club78448546" rel="nofollow"> VK </a>
-					<a href="https://twitter.com/100yuristov" rel="nofollow"> Twitter </a>
+					<a href="http://vk.com/club78448546" rel="nofollow"> <img src="/pics/vk.jpg" alt="Вконтакте" /></a>
+					<a href="https://twitter.com/100yuristov" rel="nofollow"> <img src="/pics/twitter.jpg" alt="Твиттер" /> </a>
                 </div>
             </div>
         </div>
@@ -145,9 +156,6 @@ _tmr.push({id: "2577054", type: "pageView", start: (new Date()).getTime()});
 <img src="//top-fwz1.mail.ru/counter?id=2577054;js=na" style="border:0;" height="1" width="1" alt="Рейтинг@Mail.ru" />
 </div></noscript>
 <!-- //Rating@Mail.ru counter -->
-
-</body>
-</html>
 
 </body>
 </html>

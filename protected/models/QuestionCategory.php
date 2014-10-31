@@ -39,6 +39,7 @@ class QuestionCategory extends CActiveRecord
 			array('name', 'required'),
 			array('parentId', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>255),
+                        array('alias','match','pattern'=>'/^([a-z0-9\-])+$/'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, parentId', 'safe', 'on'=>'search'),

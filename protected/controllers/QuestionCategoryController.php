@@ -25,7 +25,7 @@ class QuestionCategoryController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view', 'alias'),
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
@@ -42,10 +42,47 @@ class QuestionCategoryController extends Controller
 	{
             $model = QuestionCategory::model()->with('parent','children')->findByPk($id);
             
+            if(!$model) {
+                throw new CHttpException(404,'Категория не найдена');
+            } 
+            
+            // если обратились по id , делаем редирект на ЧПУ
+            $this->redirect(array('questionCategory/alias','name'=>CHtml::encode($model->alias)), true, 301);
+            
+            // код дальше НЕ будет выполнен!
+            /*
             $questionsCriteria = new CdbCriteria;
             $questionsCriteria->addColumnCondition(array('categoryId'=>$model->id));
             $questionsCriteria->addColumnCondition(array('status' =>  Question::STATUS_PUBLISHED));
             $questionsCriteria->order = 'id DESC';
+            
+            $questionsDataProvider = new CActiveDataProvider('Question', array(
+                    'criteria'      =>  $questionsCriteria,        
+                    'pagination'    =>  array(
+                                'pageSize'=>20,
+                            ),
+                ));
+            
+            $questionModel = new Question();
+            
+            $this->render('view',array(
+			'model'                 =>  $model,
+                        'questionsDataProvider' =>  $questionsDataProvider,
+                        'questionModel'         =>  $questionModel,
+		));
+             
+             */
+	}
+        
+        public function actionAlias($name)
+	{
+            $model = QuestionCategory::model()->with('parent','children')->findByAttributes(array('alias'=>CHtml::encode($name)));
+            
+            $questionsCriteria = new CdbCriteria;
+            $questionsCriteria->addColumnCondition(array('t.categoryId'=>$model->id));
+            $questionsCriteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
+            $questionsCriteria->order = 't.id DESC';
+            $questionsCriteria->with = array('answersCount', 'town');
             
             $questionsDataProvider = new CActiveDataProvider('Question', array(
                     'criteria'      =>  $questionsCriteria,        

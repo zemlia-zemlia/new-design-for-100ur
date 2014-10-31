@@ -27,7 +27,7 @@ class TownController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('view'),
+				'actions'=>array('view', 'alias'),
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
@@ -46,6 +46,8 @@ class TownController extends Controller
             if(!$town) {
                 throw new CHttpException(404,'Город не найден');
             }
+            // если обратились по id города, делаем редирект на ЧПУ
+            $this->redirect(array('town/alias','name'=>$town->alias), true, 301);
             
             $criteria = new CDbCriteria;
             $criteria->order = 't.id desc';
@@ -68,6 +70,37 @@ class TownController extends Controller
                         'questionModel' =>  $questionModel,
 		));
 	}
+        
+        
+        // displays town by alias
+        public function actionAlias($name)
+	{
+            $model = Town::model()->cache(3600)->findByAttributes(array('alias'=>CHtml::encode($name)));
+            if(empty($model)) {
+                throw new CHttpException(404,'Город не найден');
+            }
+            
+            $criteria = new CDbCriteria;
+            $criteria->order = 't.id desc';
+            $criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
+            $criteria->addColumnCondition(array('t.townId' =>  (int)$id));
+            $criteria->with = array('category', 'town', 'answersCount');
+                
+            $dataProvider = new CActiveDataProvider('Question', array(
+                    'criteria'=>$criteria,        
+                    'pagination'=>array(
+                                'pageSize'=>20,
+                            ),
+                ));
+            
+            $questionModel = new Question();
+            
+            $this->render('view',array(
+			'model'         =>  $model,
+                        'dataProvider'  =>  $dataProvider,
+                        'questionModel' =>  $questionModel,
+		));
+        }
 
 
 	/**

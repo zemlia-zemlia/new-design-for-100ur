@@ -5,8 +5,7 @@
 
 
 
-<div class="vert-margin30">
-    <td>    
+<div class="vert-margin30">  
         <?php if($data->title):?>
             <h4 class='left-align'><?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('question/view', array('id'=>$data->id))); ?></h4>
         <?php endif;?>
@@ -25,12 +24,12 @@
         <? endif;?>
         
         <?php if($data->town):?>
-            <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($data->town->name),Yii::app()->createUrl('town/view',array('id'=>$data->town->id)), array('title'=>'Все вопросы юристам в городе ' . CHtml::encode($data->town->name)));?>
+            <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($data->town->name),Yii::app()->createUrl('town/alias',array('name'=>$data->town->alias)), array('title'=>'Все вопросы юристам в городе ' . CHtml::encode($data->town->name)));?>
             &nbsp;&nbsp;
         <?php endif;?>
             
         <?php if(!$hideCategory && $data->category):?>
-            <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link($data->category->name, Yii::app()->createUrl('questionCategory/view',array('id'=>$data->category->id)));?>
+            <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link($data->category->name, Yii::app()->createUrl('questionCategory/alias',array('name'=>CHtml::encode($data->category->alias))));?>
             &nbsp;&nbsp;
         <?php endif;?>    
         

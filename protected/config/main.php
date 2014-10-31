@@ -59,7 +59,9 @@ return array(
                     'rules'=>array(
                         '/q/<id:\d+>'=>'/question/view',
                         '/cat/<id:\d+>'=>'/questionCategory/view',
+                        '/cat/<name:[\w\-]+>'=>'/questionCategory/alias',
                         '/town/<id:\d+>'=>'/town/view',
+                        '/konsultaciya-yurista-<name:[\w\-]+>'=>'/town/alias',
                         ),
                     ),
 

@@ -13,7 +13,7 @@
 ?>
 </div>
 
-<h2>Новые вопросы</h2>
+<h1>Консультация юриста</h1>
 
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,

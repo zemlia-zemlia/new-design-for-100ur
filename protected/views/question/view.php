@@ -7,8 +7,8 @@ $this->setPageTitle(CHtml::encode($model->title) . ". Консультация �
 Yii::app()->clientScript->registerMetaTag(CHtml::encode(mb_substr($model->questionText, 0, 250,'utf-8')), 'description');
 
 $this->breadcrumbs=array(
-	'Вопросы'=>array('index'),
-	$model->id,
+	CHtml::encode($model->category->name)   =>  array('questionCategory/alias','name'=>CHtml::encode($model->category->alias)),
+	CHtml::encode($model->title),
 );
 
 ?>
@@ -22,6 +22,16 @@ $this->breadcrumbs=array(
 ?>
 </div>
 
+<?php if($model->category):?>
+    <?php
+    $this->widget('zii.widgets.CBreadcrumbs', array(
+        'homeLink'=>CHtml::link('Консультация юриста',"/"),
+        'separator'=>' &rarr; ',
+        'links'=>$this->breadcrumbs,
+     ));
+     ?>
+<?php endif;?>
+ 
 <div class="vert-margin30">
 <?php if($model->title):?>
 <h1><?php echo CHtml::encode($model->title); ?></h1>
@@ -42,16 +52,16 @@ $this->breadcrumbs=array(
             <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo CHtml::encode($model->authorName); ?> &nbsp;&nbsp;
         <?php endif;?>
         <?php if($model->town):?>
-            <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($model->town->name),Yii::app()->createUrl('town/view',array('id'=>$model->town->id))); ?> &nbsp;&nbsp;
+            <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($model->town->name),Yii::app()->createUrl('town/alias',array('name'=>CHtml::encode($model->town->alias)))); ?> &nbsp;&nbsp;
         <?php endif;?>
         <?php if($model->category):?>
-            <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($model->category->name),Yii::app()->createUrl('questionCategory/view',array('id'=>$model->category->id)));?> &nbsp;&nbsp;
+            <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($model->category->name),Yii::app()->createUrl('questionCategory/alias',array('name'=>CHtml::encode($model->category->alias))));?> &nbsp;&nbsp;
         <?php endif;?>
     </p>
 </div>
 
 <div class="vert-margin30">
-<h2>Ответы</h2>
+<h2>Ответ юриста</h2>
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'  =>  $answersDataProvider,
 	'itemView'      =>  'application.views.answer._view',

@@ -8,22 +8,44 @@ return array(
 
 	// preloading 'log' component
 	'preload'=>array('log'),
+    
+        // autoloading model and component classes
+	'import'=>array(
+		'application.models.*',
+		'application.components.*',
+                'application.extensions.*',
+		'application.extensions.XWebDebugRouter.*',
+                'application.extensions.CustomFuncs.*',
+                'application.extensions.cleditor.ECLEditor',
+	),
 
 	// application components
 	'components'=>array(
 		'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-		),
-		// uncomment the following to use a MySQL database
-		/*
-		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=testdrive',
+			'connectionString' => 'mysql:host=localhost;dbname=crm',
 			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => '',
+			'username' => 'crm',
+			'password' => 'crm_local',
 			'charset' => 'utf8',
+                        'tablePrefix' => 'crm_',
+			'enableProfiling' => true,
+			'schemaCachingDuration' => 3000,
+                        'queryCacheID' => 'cache',
 		),
-		*/
+            
+                'urlManager'=>array(
+                    'urlFormat'=>'path',
+                    'showScriptName'=>false,
+                    'urlSuffix'=>'/',
+                    'rules'=>array(
+                        '/q/<id:\d+>'=>'/question/view',
+                        '/cat/<id:\d+>'=>'/questionCategory/view',
+                        '/cat/<name:[\w\-]+>'=>'/questionCategory/alias',
+                        '/town/<id:\d+>'=>'/town/view',
+                        '/konsultaciya-yurista-<name:[\w\-]+>'=>'/town/alias',
+                        ),
+                    ),
+		
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
