@@ -22,6 +22,7 @@ $this->breadcrumbs=array(
 ?>
 </div>
 
+
 <?php if($model->category):?>
     <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
@@ -31,22 +32,21 @@ $this->breadcrumbs=array(
      ));
      ?>
 <?php endif;?>
- 
-<div class="vert-margin30">
+
+ <hr/>
+<div class="well well-small"> 
+<div>
 <?php if($model->title):?>
 <h1><?php echo CHtml::encode($model->title); ?></h1>
 <?php endif;?>
 </div>
 
-
-
-<div class="vert-margin30">
 <p>
     <?php echo nl2br(CHtml::encode($model->questionText));?>
 </p>
-</div>
 
-<div class="vert-margin30">
+<hr/>
+<div >
     <p>
         <?php if($model->authorName):?>
             <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo CHtml::encode($model->authorName); ?> &nbsp;&nbsp;
@@ -59,8 +59,10 @@ $this->breadcrumbs=array(
         <?php endif;?>
     </p>
 </div>
+</div>
 
-<div class="vert-margin30">
+<div >
+<div class="well well-small">
 <h2>Ответ юриста</h2>
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'  =>  $answersDataProvider,
@@ -71,8 +73,30 @@ $this->breadcrumbs=array(
 
 )); ?>
 </div>
+</div>
 
 <div class="vert-margin30 center-align">
-    <?php echo CHtml::link('<span class="glyphicon glyphicon-plus-sign"></span> Задайте свой вопрос юристу', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-primary btn-lg','rel'=>'nofollow','onclick'=>'yaCounter26550786.reachGoal("submit_after_button"); return true;')); ?>
-    <div>Это бесплатно. Вы получите ответ в течение 15 минут</div>
+    <?php echo CHtml::link('<span class="glyphicon glyphicon-plus-sign"></span> Получить консультацию юриста', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-primary btn-lg','rel'=>'nofollow','onclick'=>'yaCounter26550786.reachGoal("submit_after_button"); return true;')); ?>
+</div>
+
+<hr/>
+<div class="vert-margin30 well">
+<h3 class="vert-margin30">Юридический портал работает при поддержке:</h3>
+    <div class="row">
+        <div class="col-md-3 col-sm-2 left-align">
+            <img src="/pics/pravitelstvo.png" alt="При поддержке правительства РФ" class="img-responsive" />
+        </div>
+
+        <div class="col-md-3 col-sm-4 center-align">
+            Правительство Российской Федерации 
+        </div>
+
+        <div class="col-md-3 col-sm-2 left-align"> 
+            <img src="/pics/minyust.png" alt="При поддержке Министерства Юстиции" class="img-responsive" /> 
+        </div>
+
+        <div class="col-md-3 col-sm-4 center-align"> 
+            Министерство Юстиции РФ
+        </div>
+    </div>
 </div>

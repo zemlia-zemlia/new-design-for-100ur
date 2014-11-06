@@ -106,8 +106,9 @@
                 </div>
                 <div class="col-md-2 col-sm-4 right-align">
                     <?php echo CHtml::link(CHtml::image('/pics/rss_icon.png'), Yii::app()->createUrl('question/rss'), array('title'=>'Подписаться на RSS'));?>
-					<a href="http://vk.com/club78448546" rel="nofollow"> <img src="/pics/vk.jpg" alt="Вконтакте" /></a>
-					<a href="https://twitter.com/100yuristov" rel="nofollow"> <img src="/pics/twitter.jpg" alt="Твиттер" /> </a>
+					<a href="http://vk.com/club78448546" target="blank" rel="nofollow"> <img src="/pics/vk.jpg" alt="Вконтакте" /></a>
+					<a href="https://twitter.com/100yuristov" target="blank" rel="nofollow"> <img src="/pics/twitter.jpg" alt="Twitter" /> </a>
+					<a href="https://www.facebook.com/100yuristov" target="blank" rel="nofollow"> <img src="/pics/fb.png" alt="Facebook" /> </a>
                 </div>
             </div>
         </div>
@@ -156,6 +157,5 @@ _tmr.push({id: "2577054", type: "pageView", start: (new Date()).getTime()});
 <img src="//top-fwz1.mail.ru/counter?id=2577054;js=na" style="border:0;" height="1" width="1" alt="Рейтинг@Mail.ru" />
 </div></noscript>
 <!-- //Rating@Mail.ru counter -->
-
 </body>
 </html>
