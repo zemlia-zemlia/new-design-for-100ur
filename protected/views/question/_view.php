@@ -6,6 +6,7 @@
 
 
 <div class="vert-margin30">  
+<div class="well well-sm">
         <?php if($data->title):?>
             <h4 class='left-align'><?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('question/view', array('id'=>$data->id))); ?></h4>
         <?php endif;?>
@@ -15,7 +16,7 @@
             <?php if(strlen(CHtml::encode($data->questionText))>240) echo "..."; ?>
         </p>
         
-        
+        <hr/>
 
         <p>
         <?php if($data->authorName):?>
@@ -37,4 +38,5 @@
             <span class="glyphicon glyphicon-comment"></span>&nbsp;<?php echo $answersCount . "&nbsp;" .  CustomFuncs::numForms($answersCount, 'ответ', 'ответа', 'ответов');?>
         <?php endif;?>
         </p>
+</div>
 </div>

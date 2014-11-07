@@ -24,7 +24,7 @@ $this->breadcrumbs=array(
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,
 	'itemView'      =>  '_view',
-        'emptyText'     =>  'Не найдено ни одного вопроса',
+        'emptyText'     =>  'Юристы пока не ответили',
         'summaryText'   =>  '',
         'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
 

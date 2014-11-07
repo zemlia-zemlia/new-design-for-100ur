@@ -34,7 +34,7 @@ $this->breadcrumbs=array(
 <?php endif;?>
 
  <hr/>
-<div class="well well-small"> 
+<div class="well well-sm"> 
 <div>
 <?php if($model->title):?>
 <h1><?php echo CHtml::encode($model->title); ?></h1>
@@ -62,7 +62,7 @@ $this->breadcrumbs=array(
 </div>
 
 <div >
-<div class="well well-small">
+<div class="well well-sm">
 <h2>Ответ юриста</h2>
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'  =>  $answersDataProvider,
@@ -83,20 +83,75 @@ $this->breadcrumbs=array(
 <div class="vert-margin30 well">
 <h3 class="vert-margin30">Юридический портал работает при поддержке:</h3>
     <div class="row">
-        <div class="col-md-3 col-sm-2 left-align">
-            <img src="/pics/pravitelstvo.png" alt="При поддержке правительства РФ" class="img-responsive" />
+        <div class="col-md-6 col-sm-6 center-align">
+            <img src="/pics/pravitelstvo.png" alt="При поддержке правительства РФ" class="img-responsive center-block" />
+            <p class="center-align">Правительство Российской Федерации
+            </p>
         </div>
 
-        <div class="col-md-3 col-sm-4 center-align">
-            Правительство Российской Федерации 
+        <div class="col-md-6 col-sm-6 center-align"> 
+            <img src="/pics/minyust.png" alt="При поддержке Министерства Юстиции" class="img-responsive center-block" /> 
+            <p class="center-align">Министерство Юстиции РФ</p>
+        </div>
+     
+    </div>
+</div>
+<div class="vert-margin30">
+<h3>На ваши вопросы отвечают:</h3>
+    <div class="row">
+        <div class="col-md-3 col-sm-3 center-align well">
+            <img src="/pics/yurist1.png" alt="При поддержке правительства РФ" class="img-responsive center-block" />
+            <p class="center-align"><b>Кудряшов Алексей Генадиевич</b><br />
+			<small> Семейное право<br/>
+			Уголовное право<br/>
+			Наследство<br/>
+			ЗПП<br/>
+			Налоги <br/>
+			Банковское право<br/></small>
+                </p>
+                <a href="/question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=kudryashov" class="btn btn-primary" rel="nofollow">Получить консультацию</a>
         </div>
 
-        <div class="col-md-3 col-sm-2 left-align"> 
-            <img src="/pics/minyust.png" alt="При поддержке Министерства Юстиции" class="img-responsive" /> 
-        </div>
+        <div class="col-md-3 col-sm-3 center-align well"> 
+            <img src="/pics/yurist3.png" alt="При поддержке Министерства Юстиции" class="img-responsive center-block" /> 
+            <p class="center-align"><b>Самойлов Николай Николаевич</b><br />
+			<small> Семейное право<br/>
+			Уголовное право<br/>
+			Трудовое право<br/>
+			Договорные отношения<br/>
+			Налогое право <br/>
+			</small>
+                </p>
+                <a href="/question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=samoilov" class="btn btn-primary" rel="nofollow">Получить консультацию</a>
 
-        <div class="col-md-3 col-sm-4 center-align"> 
-            Министерство Юстиции РФ
         </div>
+		
+		<div class="col-md-3 col-sm-3 center-align well"> 
+            <img src="/pics/yurist2.png" alt="При поддержке Министерства Юстиции" class="img-responsive center-block" /> 
+            <p class="center-align"><b>Штуцер Максим Федорович</b><br />
+			<small> Семейное право<br/>
+			Уголовное право<br/>
+			Корпоративное право<br/>
+			Договорные отношения<br/>
+			Банковская деятельность<br/>
+			Кредиты</small>
+            </p>
+                <a href="/question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=shtutzer" class="btn btn-primary" rel="nofollow">Получить консультацию</a>
+            
+        </div>
+		
+		<div class="col-md-3 col-sm-3 center-align well"> 
+            <img src="/pics/yurist4.png" alt="При поддержке Министерства Юстиции" class="img-responsive center-block" /> 
+            <p class="center-align"><b>Тихонова Анастасия Викторовна</b><br />
+			<small> Семейное право<br/>
+			Уголовное право<br/>
+			Корпоративное право<br/>
+			Договорные отношения<br/>
+			Банковская деятельность<br/></small>
+            </p>
+            <a href="/question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=tikhonova" class="btn btn-primary" rel="nofollow">Получить консультацию</a>
+
+        </div>
+     
     </div>
 </div>
