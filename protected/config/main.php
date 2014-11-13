@@ -87,7 +87,7 @@ return array(
 			'charset' => 'utf8',
                         'tablePrefix' => 'crm_',
 			'enableProfiling' => true,
-			'schemaCachingDuration' => 3000,
+			//'schemaCachingDuration' => 3000,
                         'queryCacheID' => 'cache',
 		),
 		

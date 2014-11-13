@@ -35,6 +35,12 @@
 	</div>
         
         <div class="form-group">
+		<?php echo $form->labelEx($model,'email'); ?>
+		<?php echo $form->textField($model,'email', array('class'=>'form-control')); ?>
+		<?php echo $form->error($model,'email'); ?>
+	</div>
+        
+        <div class="form-group">
 		<?php echo $form->labelEx($model,'town'); ?>
 		<?php echo $form->dropDownList($model,'townId', $townsArray, array('class'=>'form-control')); ?>
 		<?php echo $form->error($model,'townId'); ?>

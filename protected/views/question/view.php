@@ -80,6 +80,18 @@ $this->breadcrumbs=array(
 </div>
 
 <hr/>
+
+<?php if(sizeof($similarQuestions)):?>
+<div class="vert-margin30">
+    <h3>Похожие вопросы</h3>
+    <ul>
+    <?php foreach($similarQuestions as $similar):?>
+        <li><?php echo CHtml::link(CHtml::encode($similar->title),Yii::app()->createUrl('question/view',array('id'=>$similar->id)));?></li>
+    <?php endforeach;?>
+    </ul>    
+</div>
+<?php endif;?>
+
 <div class="vert-margin30 well">
 <h3 class="vert-margin30">Юридический портал работает при поддержке:</h3>
     <div class="row">

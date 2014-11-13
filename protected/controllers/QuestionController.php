@@ -53,12 +53,25 @@ class QuestionController extends Controller
                         ),
             ));
             
+            // похожие вопросы, из той же категории, максимум 3
+            $similarCriteria = new CDbCriteria;
+            $similarCriteria->limit=3;
+            $similarCriteria->addColumnCondition(array(
+                'categoryId'    =>  (int)$model->categoryId,
+                'status'        =>  Question::STATUS_PUBLISHED,
+                'id!'           =>  $model->id,
+            ));
+            
+            $similarQuestions = Question::model()->cache(3600)->findAll($similarCriteria);
+                    
+            // модель для формы вопроса
             $questionModel = new Question();
             
             $this->render('view',array(
                     'model'                 =>  $model,
                     'answersDataProvider'   =>  $answersDataProvider,
                     'questionModel'         =>  $questionModel,
+                    'similarQuestions'      =>  $similarQuestions,
             ));
 	}
 

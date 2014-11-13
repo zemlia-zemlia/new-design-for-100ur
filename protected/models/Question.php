@@ -14,6 +14,7 @@
  * @property string $authorName
  * @property integer $status
  * @property string $phone
+ * @property string $email
  */
 class Question extends CActiveRecord
 {
@@ -52,6 +53,7 @@ class Question extends CActiveRecord
 			array('number, categoryId, status, townId', 'numerical', 'integerOnly'=>true),
                         array('townId','compare','operator'=>'!=', 'compareValue'=>'0','message'=>'Не выбран город'),
 			array('categoryName', 'length', 'max'=>255),
+                        array('email', 'email', 'message'=>'Email не похож на настоящий'),
                         array('authorName, title','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. ])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, точка, дефис и пробел'),
                         array('phone','match','pattern'=>'/^([0-9\+])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
 			

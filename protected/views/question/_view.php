@@ -10,12 +10,14 @@
         <?php if($data->title):?>
             <h4 class='left-align'><?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('question/view', array('id'=>$data->id))); ?></h4>
         <?php endif;?>
-        
+		
+       
         <p>
             <?php echo nl2br(mb_substr(CHtml::encode($data->questionText),0,240,'utf-8'));?>
             <?php if(strlen(CHtml::encode($data->questionText))>240) echo "..."; ?>
         </p>
         
+		
         <hr/>
 
         <p>
