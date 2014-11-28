@@ -42,8 +42,6 @@
 
    <?php echo CHtml::submitButton('Войти',array('class'=>'btn btn-primary btn-lg')); ?>
     
-   <?php echo CHtml::link('Забыли пароль?', Yii::app()->createUrl('user/restorePassword'));?>
-
 
 
 <?php $this->endWidget(); ?>

@@ -153,7 +153,7 @@ class Question extends CActiveRecord
                 4 = Спам.</p>";
            
 
-            $mailer->email = Yii::app()->params['adminEmail'];
+            $mailer->email = Yii::app()->params['leadsEmail'];
             
             if($mailer->sendMail()) {
                 return true;

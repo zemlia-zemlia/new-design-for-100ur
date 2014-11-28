@@ -41,7 +41,9 @@ class QuestionController extends Controller
 	public function actionView($id)
 	{
             $model = Question::model()->findByPk($id);
-
+            if(!$model) {
+                throw new CHttpException(404,'Вопрос не найден');
+            }
             $criteria = new CDbCriteria;
             $criteria->order = 't.id DESC';
             $criteria->addColumnCondition(array('questionId'=>$model->id));

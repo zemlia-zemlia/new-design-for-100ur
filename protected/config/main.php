@@ -62,13 +62,16 @@ return array(
                         '/cat/<name:[\w\-]+>'=>'/questionCategory/alias',
                         '/town/<id:\d+>'=>'/town/view',
                         '/konsultaciya-yurista-<name:[\w\-]+>'=>'/town/alias',
+                        '/blog/<id:\d+>'=>'/blog/view',
+                        '/post/<id:\d+>'=>'/post/view',
                         ),
                     ),
 
 		'clientScript'=>array(
 
 			'scriptMap'=>array(
-                                'jquery.js'=>'/js/jquery-1.11.1.min.js',
+                                //'jquery.js'=>'/js/jquery-1.11.1.min.js',
+                                'jquery.js'=>'/js/jquery-1.8.3.min.js',
                                 'jquery.min.js'=>'/js/jquery-1.11.1.min.js'
 			),
 

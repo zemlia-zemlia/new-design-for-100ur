@@ -78,6 +78,7 @@
             <li><?php echo CHtml::link('<span class="glyphicon glyphicon-home"></span> Главная', '/');?></li>
             <li><?php echo CHtml::link('<span class="glyphicon glyphicon-heart-empty"></span> Партнеры', Yii::app()->createUrl('/site/partners'));?></li>
             <li><?php echo CHtml::link('<span class="glyphicon glyphicon-envelope"></span> Контакты', Yii::app()->createUrl('/site/contacts'));?></li>
+            <li><?php echo CHtml::link('<span class="glyphicon glyphicon-pencil"></span> Блог', Yii::app()->createUrl('/blog'));?></li>
             <li><?php echo CHtml::link('<span class="glyphicon glyphicon-question-sign"></span> Все вопросы', Yii::app()->createUrl('question'));?></li>
             <li><?php echo CHtml::link('<span class="glyphicon glyphicon-plus-sign"></span> Задать вопрос', Yii::app()->createUrl('question/create',array('from'=>'top-menu')));?></li>
         </ul>
@@ -170,5 +171,7 @@ _tmr.push({id: "2577054", type: "pageView", start: (new Date()).getTime()});
 <img src="//top-fwz1.mail.ru/counter?id=2577054;js=na" style="border:0;" height="1" width="1" alt="Рейтинг@Mail.ru" />
 </div></noscript>
 <!-- //Rating@Mail.ru counter -->
+
+
 </body>
 </html>

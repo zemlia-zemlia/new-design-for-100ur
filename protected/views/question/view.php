@@ -82,7 +82,7 @@ $this->breadcrumbs=array(
 <hr/>
 
 <?php if(sizeof($similarQuestions)):?>
-<div class="vert-margin30">
+<div class="well well-sm">
     <h3>Похожие вопросы</h3>
     <ul>
     <?php foreach($similarQuestions as $similar):?>

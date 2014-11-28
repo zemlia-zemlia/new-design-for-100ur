@@ -77,7 +77,9 @@ class QuestionCategoryController extends Controller
         public function actionAlias($name)
 	{
             $model = QuestionCategory::model()->with('parent','children')->findByAttributes(array('alias'=>CHtml::encode($name)));
-            
+            if(!$model) {
+                throw new CHttpException(404,'Категория не найдена');
+            }
             $questionsCriteria = new CdbCriteria;
             $questionsCriteria->addColumnCondition(array('t.categoryId'=>$model->id));
             $questionsCriteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));

@@ -220,3 +220,94 @@ div.pager {
 }rm-info-item p {
     text-align:left;
 }
+
+
+/*----------------- blog -------------------------*/
+
+.category-description {
+    font-size:16px;
+    line-height:1.4em;
+    color:#666;
+}
+
+table.categories-list td{
+    padding:10px 0;
+}
+
+.category-post-categories {
+    margin-bottom: 20px;
+}
+
+.category-post-categories a {
+    color:#888;
+}
+
+.category-post-header {
+    margin: 30px 0;
+}
+
+.category-post-header h1, .category-post-header h2 {
+    margin:12px 0;
+
+}
+
+.category-post-header h2 a {
+    color:#333;    
+}
+
+.post-text p {
+    font-size:15px;
+    line-height:1.4em;
+}
+
+.post-preview {
+    font-size:20px;
+    line-height:1.4em;
+    color:#999;
+    padding:10px 0;
+    margin:30px 0;
+    font-style:italic;
+}
+
+.post-stats {
+    margin: 20px 0 40px;
+}
+
+.post-comments-list {
+    margin-bottom: 40px;
+}
+
+.post-comment {
+    margin-bottom: 20px;
+}
+
+.post-comment-body>p {
+    margin-bottom: 10px;
+}
+
+.post-related-list {
+    margin-bottom: 40px;
+}
+
+.category-post .category-post-header {
+    margin:15px 0;
+}
+
+.category-post-header h3 {
+    text-align: left;
+    margin-top:0;
+}
+
+.category-post-preview {
+    font-size:15px;
+    line-height:1.4em;
+}
+
+.category-post img, .category-post-body img {
+    max-width: 100%;
+    height:auto;
+}
+
+.related-posts-item {
+    margin-bottom: 10px;
+}
