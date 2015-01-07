@@ -5,8 +5,7 @@
 <!--<meta http-equiv="content-language" content="ru" />-->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta content="http://www.100yuristov.com/pics/icon.jpg" property="og:image">
-<link href="http://www.100yuristov.com/pics/icon.jpg" rel="image_src" />
+
 <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 <?php 
     Yii::app()->clientScript->registerCssFile("/bootstrap/css/bootstrap.min.css");
@@ -44,14 +43,14 @@
                     <div class="logo-description center-align" ><b>Помогают и отвечают на ваши вопросы</b></div>
 				</a>
                 </div>
-                <div class=" col-md-4 col-sm-4 center-align">
+                <div class=" col-md-5 col-sm-5 center-align">
 					
                     <div class="header-phone">8 (499) 301-00-35</div>
                     <div>Помощь и консультация юриста по телефону</div>
 					<div>Москва и МО (ежедневно) с 10.00 до 19.00 </div>
 
                 </div>
-                <div class="col-md-4 col-sm-4 center-align">
+                <div class="col-md-3 col-sm-3 center-align">
                     <div class="questions-counter">
                     <?php
                         $questionsCount = Question::getCountByStatus(Question::STATUS_PUBLISHED);
@@ -61,8 +60,7 @@
                     <div><?php echo CustomFuncs::numForms($questionsCount, 'вопрос', "вопроса", "вопросов") ?> на сайте</div>
 					
 					
-					<script type="text/javascript" src="//yastatic.net/share/share.js" charset="utf-8"></script>
-					<div class="yashare-auto-init" data-yashareL10n="ru" data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir,gplus"  data-yashareTheme="counter" ></div> 
+					<script type="text/javascript" src="//yastatic.net/share/share.js" charset="utf-8"></script><div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="small" data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki" data-yashareTheme="counter"></div>
 					
 
 
@@ -109,10 +107,10 @@
     <div id="footer">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 col-sm-4">
-                   <small> ОГРН 114774637014 ИНН 7705358485 КПП 770501001 Юридический адрес: г. Москва, ул. Кожевническая, д. 10, стр. 1 </small> 
+                <div class="col-md-1 col-sm-1">
+                   <small> </small> 
                 </div>
-                <div class="col-md-6 col-sm-4">
+                <div class="col-md-9 col-sm-9">
                 <b>&copy; Информационно-правовой портал «100 Юристов» 2014.</b>
 				<br>
 				<small>Все права, на любые материалы, размещенные на сайте, защищены в соответствии с российским и международным законодательством об авторском праве и смежных правах. При любом использовании текстовых, аудио-, видео- и фотоматериалов ссылка на <a href="/" title="Консультация юриста">www.100yuristov.com</a> обязательна. Адрес электронной почты:

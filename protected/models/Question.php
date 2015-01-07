@@ -161,6 +161,45 @@ class Question extends CActiveRecord
                 return false;
             }
         }
+        
+        public function sendToLeadia($testMode = false)
+        {
+            $leadData = array();
+            $leadiaUrl = "http://cloud1.leadia.ru/lead.php";
+            
+            $leadData['form_page'] = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+            $leadData['referer'] = $_SERVER['HTTP_REFERER'];
+            $leadData['client_ip'] = $_SERVER['REMOTE_ADDR'];
+            $leadData['userid'] = $this->id;
+            $leadData['product'] = 'lawyer';
+            $leadData['template'] = 'default';
+            $leadData['key'] = '';
+            $leadData['first_last_name'] = ($testMode == false)? CHtml::encode($this->authorName):"тест";
+            $leadData['phone'] = $this->phone;
+            $leadData['email'] = $this->email;
+            $leadData['region'] = $this->town->name;
+            $leadData['question'] = CHtml::encode($this->questionText);
+            $leadData['subaccount'] = '';
+            
+            
+            //url-ify the data for the POST
+            foreach($leadData as $key=>$value) { 
+                $fields_string .= $key.'='.$value.'&'; 
+            }
+            rtrim($fields_string, '&');
+            
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $leadiaUrl);
+            curl_setopt($ch,CURLOPT_POST, count($leadData));
+            curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+            curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $response = curl_exec($ch);
+            curl_close($ch);
+            
+            //CustomFuncs::printr($leadData);
+            //CustomFuncs::printr($response); 
+        }
 
         /**
 	 * Retrieves a list of models based on the current search/filter conditions.

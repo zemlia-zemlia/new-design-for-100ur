@@ -58,6 +58,13 @@ class QuestionController extends Controller
             // похожие вопросы, из той же категории, максимум 3
             $similarCriteria = new CDbCriteria;
             $similarCriteria->limit=3;
+            //$similarCriteria->order = "RAND()";
+            $similarCriteria->with = array(
+                'answersCount'  =>  array(
+                    'having' =>  's>0',
+                ),
+                );
+            
             $similarCriteria->addColumnCondition(array(
                 'categoryId'    =>  (int)$model->categoryId,
                 'status'        =>  Question::STATUS_PUBLISHED,
@@ -93,6 +100,9 @@ class QuestionController extends Controller
 			$model->attributes=$_POST['Question'];
 			if($model->save()) {
                                 $model->sendByEmail();
+                                if($model->townId != 598) {
+                                    $model->sendToLeadia();
+                                }
 				$this->redirect(array('thankYou'));
                         }
 		}

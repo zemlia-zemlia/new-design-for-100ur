@@ -46,7 +46,7 @@ $this->breadcrumbs=array(
             <div class="post-text">
                 <?php
                     // очищаем текст поста от ненужных тегов перед выводом в браузер
-
+                    //echo $model->text;
                     echo $purifier->purify($model->text);
                 ?>
             </div>

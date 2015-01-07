@@ -86,7 +86,10 @@ $this->breadcrumbs=array(
     <h3>Похожие вопросы</h3>
     <ul>
     <?php foreach($similarQuestions as $similar):?>
-        <li><?php echo CHtml::link(CHtml::encode($similar->title),Yii::app()->createUrl('question/view',array('id'=>$similar->id)));?></li>
+        <li>
+            <?php echo CHtml::link(CHtml::encode($similar->title),Yii::app()->createUrl('question/view',array('id'=>$similar->id)));?>
+            &nbsp; <span class="glyphicon glyphicon-comment"></span> <?php echo $similar->answersCount . ' ' . CustomFuncs::numForms($similar->answersCount, 'ответ', 'ответа', 'ответов'); ?> юриста
+        </li>
     <?php endforeach;?>
     </ul>    
 </div>

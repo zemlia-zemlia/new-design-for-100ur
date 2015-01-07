@@ -133,6 +133,7 @@ ul#left-menu, ul#left-menu li ul {
     margin-bottom: 0;
 
 }
+/*
 ul#left-menu li ul {
     display:none;
 }
@@ -140,7 +141,7 @@ ul#left-menu li ul {
 ul#left-menu li:hover ul {
     display:block;
 }
-
+*/
 ul#left-menu li {
     padding:3px 0;
 }
@@ -148,6 +149,14 @@ ul#left-menu li {
 ul#left-menu a {
     line-height: 1.2em;
     color:#666;
+}
+
+ul#left-menu li.active>a {
+    color:#ff0000;
+}
+
+ul#left-menu li.active ul li {
+    font-size:0.9em;
 }
 
 ul#left-menu a.btn {
