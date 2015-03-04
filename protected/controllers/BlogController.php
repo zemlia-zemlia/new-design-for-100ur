@@ -138,12 +138,18 @@ class BlogController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Postcategory');
+            $dataProvider = new CActiveDataProvider('Post', array(
+            'criteria'  =>  array(
+                'with'  =>  array('commentsCount', 'author', 'viewsCount'),
+                'order' =>  't.id DESC',
+                'condition' =>  't.datePublication<NOW()'
+            )
+            ));
 
-            
-		$this->render('index',array(
-			'dataProvider'  =>  $dataProvider,
-		));
+
+            $this->render('index',array(
+                    'dataProvider'  =>  $dataProvider,
+            ));
 	}
 
 	/**

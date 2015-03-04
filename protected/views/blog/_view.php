@@ -1,13 +1,29 @@
 <?php
 /* @var $this CategoryController */
-/* @var $data Postcategory */
 ?>
 
-<tr>
-    <td>
-        <?php echo CHtml::link(CHtml::encode($data->title), array('view', 'id'=>$data->id), array('class'=>'category-name')); ?>
-    </td>
-    <td>
-        <?php echo sizeof($data->posts); ?>
-    </td>
-</tr>
+<div class="category-post">
+    <div class="category-post-header">
+        <span class="muted"><?php echo CustomFuncs::invertDate($data->datePublication);?></span>
+        <h3>
+            <?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('post/view',array('id'=>$data->id)));?>
+        </h3>
+    </div>
+    
+    <div class="category-post-body">
+
+        <div class="category-post-preview">
+            <?php
+                // очищаем текст поста от ненужных тегов перед выводом в браузер
+                $purifier = new Purifier();
+                echo $purifier->purify($data->preview) . ' ' . CHtml::link('читать весь пост', Yii::app()->createUrl('post/view',array('id'=>$data->id))); 
+            ?>
+        </div>
+        
+        <div class="post-stats">
+            <i class="glyphicon glyphicon-eye-open"></i>&nbsp;<?php echo $data->viewsCount->views;?>
+        </div>
+        
+    </div>
+    <div class="clearfix"></div>
+</div>

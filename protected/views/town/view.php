@@ -17,13 +17,26 @@ Yii::app()->clientScript->registerMetaTag("Консультация юриста
 ?>
 </div>
 
+<?php if($model->description1):?>
+    <div class="vert-margin30"> 
+        <?php echo $model->description1;?>
+    </div>
+<?php endif;?>
+
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'  =>  $dataProvider,
 	'itemView'      =>  'application.views.question._view',
         'emptyText'     =>  'Не найдено ни одного вопроса',
         'summaryText'   =>  '',
+        'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
 
 )); ?>
+
+<?php if($model->description2):?>
+    <div class="vert-margin30"> 
+        <?php echo $model->description2;?>
+    </div>
+<?php endif;?>
 
 <div class="vert-margin30">
 <h3>На ваши вопросы отвечают:</h3>

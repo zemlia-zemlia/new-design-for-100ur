@@ -90,19 +90,25 @@ class QuestionController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model = new Question;
+		$lead = new Lead();
+                $question = new Question();
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Question']))
 		{
-			$model->attributes=$_POST['Question'];
-			if($model->save()) {
-                                $model->sendByEmail();
-                                if($model->townId != 598) {
-                                    $model->sendToLeadia();
-                                }
+			$question->attributes = $_POST['Question'];
+                        
+                        $lead->name = $question->authorName;
+                        $lead->question = $question->questionText;
+                        $lead->phone = $question->phone;
+                        $lead->townId = $question->townId;
+                        $lead->sourceId = 3; // Lidlaw
+                        $lead->leadStatus = Lead::LEAD_STATUS_DEFAULT; // по умолчанию лид никуда не отправляем
+			
+                        if($lead->save()) {
+                                $lead->sendByEmail();
 				$this->redirect(array('thankYou'));
                         }
 		}
@@ -118,7 +124,7 @@ class QuestionController extends Controller
                 $townsArray = Town::getTownsIdsNames();
                 
 		$this->render('create',array(
-			'model'         =>  $model,
+			'model'         =>  $question,
                         'allCategories' =>  $allCategories,
                         'categoryId'    =>  $categoryId,
                         'townsArray'    =>  $townsArray,

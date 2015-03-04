@@ -7,6 +7,8 @@
  * @property integer $id
  * @property string $name
  * @property string $ocrug
+ * @property string $description1
+ * @property string $description2
  */
 class Town extends CActiveRecord
 {
@@ -40,7 +42,7 @@ class Town extends CActiveRecord
 			array('name, ocrug,country, alias', 'length', 'max'=>64),
                         array('name,ocrug,country','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. \(\)])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, скобки, точка, дефис и пробел'),
 			array('alias','match','pattern'=>'/^([a-z\-])+$/'),
-                        array('description','safe'),
+                        array('description, description1, description2','safe'),
                         // The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, description', 'safe', 'on'=>'search'),
@@ -70,7 +72,9 @@ class Town extends CActiveRecord
 			'ocrug' => 'Регион',
                         'country' => 'Страна',
                         'description' =>'Описание',
-                        'alias' =>'Псевдоним на транслите'
+                        'alias' =>'Псевдоним на транслите',
+                        'description1'  =>  'Описание 1',
+                        'description2'  =>  'Описание 2',
 		);
 	}
 

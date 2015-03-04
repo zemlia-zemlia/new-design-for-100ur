@@ -83,7 +83,7 @@ class TownController extends Controller
             $criteria = new CDbCriteria;
             $criteria->order = 't.id desc';
             $criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
-            $criteria->addColumnCondition(array('t.townId' =>  (int)$id));
+            $criteria->addColumnCondition(array('t.townId' =>  (int)$model->id));
             $criteria->with = array('category', 'town', 'answersCount');
                 
             $dataProvider = new CActiveDataProvider('Question', array(

@@ -23,6 +23,12 @@ Yii::app()->clientScript->registerMetaTag("Получите бесплатную
 
 <h2>Вопросы юристу на тему &laquo;<?php echo CHtml::encode($model->name);?>&raquo;</h2>
 
+<?php if($model->description1):?>
+    <div class="vert-margin30"> 
+        <?php echo $model->description1;?>
+    </div>
+<?php endif;?>
+
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'  =>  $questionsDataProvider,
 	'itemView'      =>  'application.views.question._view',
@@ -33,6 +39,13 @@ Yii::app()->clientScript->registerMetaTag("Получите бесплатную
         'summaryText'   =>  '',
         'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
 )); ?>
+
+<?php if($model->description2):?>
+    <div class="vert-margin30"> 
+        <?php echo $model->description2;?>
+    </div>
+<?php endif;?>
+
 <div class="vert-margin30">
 <h3>На ваши вопросы отвечают:</h3>
     <div class="row">

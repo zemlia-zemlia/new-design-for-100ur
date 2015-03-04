@@ -15,6 +15,7 @@
  * @property integer $status
  * @property string $phone
  * @property string $email
+ * @property integer $leadStatus
  */
 class Question extends CActiveRecord
 {
@@ -23,6 +24,9 @@ class Question extends CActiveRecord
         const STATUS_MODERATED = 1;
         const STATUS_PUBLISHED = 2;
         const STATUS_SPAM = 3;
+        
+        const LEAD_STATUS_SENT_CRM = 1;
+        const LEAD_STATUS_SENT_LEADIA = 2;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -136,70 +140,7 @@ class Question extends CActiveRecord
             return $row['counter'];
         }
         
-        public function sendByEmail()
-        {
-            $mailer = new GTMail();
-            $mailer->subject = "Заявка город " . $this->town->name . " (" . $this->town->ocrug . ")";
-            $mailer->message = "<h3>Заявка на консультацию</h3>";
-            $mailer->message .= "<p>Имя: " . CHtml::encode($this->authorName) . ", город: " . CHtml::encode($this->town->name). " (" . $this->town->ocrug . ")" . "</p>";
-            $mailer->message .= "<p>Телефон: " . $this->phone . "</p>";
-            $mailer->message .= "<p>Сообщение:<br />" . CHtml::encode($this->questionText) . "</p>";
-            
-            $mailer->message .= "<p><strong>Квалификация брака:</strong><br />
-                Отправьте в теме ответа на письмо с лидом номер для квалификации брака:<br />
-                1 = Другой регион.<br />
-                2 = Повтор заявки.<br />
-                3 = Неверный номер.<br />
-                4 = Спам.</p>";
-           
-
-            $mailer->email = Yii::app()->params['leadsEmail'];
-            
-            if($mailer->sendMail()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
         
-        public function sendToLeadia($testMode = false)
-        {
-            $leadData = array();
-            $leadiaUrl = "http://cloud1.leadia.ru/lead.php";
-            
-            $leadData['form_page'] = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-            $leadData['referer'] = $_SERVER['HTTP_REFERER'];
-            $leadData['client_ip'] = $_SERVER['REMOTE_ADDR'];
-            $leadData['userid'] = $this->id;
-            $leadData['product'] = 'lawyer';
-            $leadData['template'] = 'default';
-            $leadData['key'] = '';
-            $leadData['first_last_name'] = ($testMode == false)? CHtml::encode($this->authorName):"тест";
-            $leadData['phone'] = $this->phone;
-            $leadData['email'] = $this->email;
-            $leadData['region'] = $this->town->name;
-            $leadData['question'] = CHtml::encode($this->questionText);
-            $leadData['subaccount'] = '';
-            
-            
-            //url-ify the data for the POST
-            foreach($leadData as $key=>$value) { 
-                $fields_string .= $key.'='.$value.'&'; 
-            }
-            rtrim($fields_string, '&');
-            
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $leadiaUrl);
-            curl_setopt($ch,CURLOPT_POST, count($leadData));
-            curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-            curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
-
-            $response = curl_exec($ch);
-            curl_close($ch);
-            
-            //CustomFuncs::printr($leadData);
-            //CustomFuncs::printr($response); 
-        }
 
         /**
 	 * Retrieves a list of models based on the current search/filter conditions.

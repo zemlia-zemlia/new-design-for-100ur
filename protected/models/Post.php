@@ -11,6 +11,8 @@
  * @property string $preview
  * @property string $datetime
  * @property integer $rating
+ * @property string $datePublication
+ * @property string $description
  */
 class Post extends CActiveRecord
 {
@@ -43,6 +45,7 @@ class Post extends CActiveRecord
                 array('authorId, title, text, preview', 'required'),
                 array('authorId, rating', 'numerical', 'integerOnly'=>true),
                 array('title', 'length', 'max'=>256),
+                array('description', 'safe'),
                 // The following rule is used by search().
                 // Please remove those attributes that should not be searched.
                 array('id, authorId, title, text, datetime, rating, preview', 'safe', 'on'=>'search'),
@@ -79,6 +82,8 @@ class Post extends CActiveRecord
                 'preview' => 'Вступление',
                 'datetime' => 'Время создания',
                 'rating' => 'Рейтинг',
+                'datePublication'   =>  'Дата публикации',
+                'description'   =>  'SEO description',
             );
 	}
 

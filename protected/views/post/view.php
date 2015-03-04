@@ -4,7 +4,7 @@
 $purifier = new Purifier();
 
 $this->setPageTitle(CHtml::encode($model->title) . " | Блог" . " | ". Yii::app()->name);
-Yii::app()->clientScript->registerMetaTag($purifier->purify($model->preview), "Description");
+Yii::app()->clientScript->registerMetaTag($purifier->purify($model->description), "Description");
 
 $this->breadcrumbs=array(
 	'Блог'=>array('/blog'),
@@ -21,18 +21,22 @@ $this->breadcrumbs=array(
      ));
 ?>
 
-<div class="row">
-    <div class="col-md-8">
+<h1><?php echo CHtml::encode($model->title); ?></h1>
+
+
+<span class="muted"><?php echo CustomFuncs::invertDate($model->datePublication);?></span>
+
           
         <div class="category-post-header">
-            <h1><?php echo CHtml::encode($model->title); ?></h1>
-            <div class="category-post-categories">
-                <span class="glyphicon glyphicon-tags"></span> &nbsp;
-                <?php foreach($model->categories as $category) {
-                    echo CHtml::link(CHtml::encode($category->title), Yii::app()->createUrl('blog/view',array('id'=>$category->id))) . "&nbsp;&nbsp; ";
-                }
-                ?>
+
+            
+            <?php if($model->authorId == Yii::app()->user->id || Yii::app()->user->checkAccess('moderator')):?>
+            <div>
+                <i class="glyphicon glyphicon-edit"></i> <?php echo CHtml::link('Редактировать пост', Yii::app()->createUrl('post/update', array('id'=>$model->id)));?>
+                &nbsp;&nbsp; 
+                <i class="glyphicon glyphicon-remove"></i> <?php echo CHtml::link('Удалить пост', Yii::app()->createUrl('post/delete', array('id'=>$model->id)), array('style'=>'color:#ff0000;'));?>
             </div>
+            <?php endif; ?>
         </div>
         
         <div class="category-post-body">
@@ -46,7 +50,7 @@ $this->breadcrumbs=array(
             <div class="post-text">
                 <?php
                     // очищаем текст поста от ненужных тегов перед выводом в браузер
-                    //echo $model->text;
+
                     echo $purifier->purify($model->text);
                 ?>
             </div>
@@ -61,7 +65,7 @@ $this->breadcrumbs=array(
                
             ?>
             <div class="post-stats">
-               <i class="glyphicon glyphicon-eye-open"></i>&nbsp;<?php echo $model->viewsCount->views;?>
+                <i class="glyphicon glyphicon-eye-open"></i>&nbsp;<?php echo $model->viewsCount->views;?>
             </div>
                         
             
@@ -73,19 +77,7 @@ $this->breadcrumbs=array(
                 <?php endforeach;?>
             </div>
             <?php endif;?>
-   
+            
+            
         </div>
         <div class="clearfix"></div>
-    </div> <!-- .col-md-8 -->
-    
-    <div class="col-md-4">
-        <div class="vert-margin40 rounded side-block">
-            <h3>Популярные посты</h3>
-            <?php
-                // выводим виджет с популярными постами
-                $this->widget('application.widgets.posts.Posts', array(
-                ));
-            ?>
-        </div>
-    </div>
-</div>

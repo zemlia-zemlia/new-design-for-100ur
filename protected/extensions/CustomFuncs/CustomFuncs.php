@@ -149,8 +149,8 @@ class CustomFuncs
             $day = (int)$dateArray[2];
             $timeArray = explode(":",$time);
             $hours = (int)$timeArray[0];
-            $minutes = (int)$timeArray[1];
-            $seconds = (int)$timeArray[2];
+            $minutes = $timeArray[1];
+            $seconds = $timeArray[2];
             $outputArray = Array(
                 'year'=>$year,
                 'month'=>$month,
@@ -213,6 +213,34 @@ class CustomFuncs
         echo "<pre>";
         print_r($value);
         echo "</pre>";
+    }
+    
+    // функция пребразует дату в формате yyyy-mm-dd в формат dd-mm-yyyy и наоборот в зависимости от формата аргумента
+    public static function invertDate($date)
+    {
+        if($date=='') return NULL;
+        if(preg_match("/([0-9]{4})\-([0-9]{2})\-([0-9]{2})/",$date))
+        {
+            // аргумент $date - строка формата yyyy-mm-dd
+            $dateArray = explode("-",$date);
+            $year = $dateArray[0];
+            $month = $dateArray[1];
+            $day = $dateArray[2];
+            
+            // возвращаем дату в формате dd-mm-yyyy
+            return $day."-".$month."-".$year;
+        }
+        else if(preg_match("/([0-9]{2})\-([0-9]{2})\-([0-9]{4})/",$date))
+        {
+            // аргумент $date - строка формата dd-mm-yyyy, разбиваем строку на части
+            $dateArray = explode("-",$date);
+            $year = $dateArray[2];
+            $month = $dateArray[1];
+            $day = $dateArray[0];
+            // возвращаем дату в формате yyyy-mm-dd
+            return $year."-".$month."-".$day;
+        }
+        else return false;
     }
 
 }
