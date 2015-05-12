@@ -9,6 +9,9 @@
  * @property string $ocrug
  * @property string $description1
  * @property string $description2
+ * @property string $seoTitle
+ * @property string $seoDescription
+ * @property string $seoKeywords
  */
 class Town extends CActiveRecord
 {
@@ -42,7 +45,7 @@ class Town extends CActiveRecord
 			array('name, ocrug,country, alias', 'length', 'max'=>64),
                         array('name,ocrug,country','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. \(\)])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, скобки, точка, дефис и пробел'),
 			array('alias','match','pattern'=>'/^([a-z\-])+$/'),
-                        array('description, description1, description2','safe'),
+                        array('description, description1, description2, seoKeywords, seoTitle, seoDescription','safe'),
                         // The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, description', 'safe', 'on'=>'search'),
@@ -75,6 +78,9 @@ class Town extends CActiveRecord
                         'alias' =>'Псевдоним на транслите',
                         'description1'  =>  'Описание 1',
                         'description2'  =>  'Описание 2',
+                        'seoTitle'  =>  'SEO Title',
+                        'seoDescription'  =>  'SEO Description',
+                        'seoKeywords'  =>  'SEO Keywords',
 		);
 	}
 
@@ -127,5 +133,36 @@ class Town extends CActiveRecord
                         ),
 		));
 	}
+        
+        
+        public function createPageTitle()
+        {
+            if(!empty($this->seoTitle)) {
+               $pageTitle =  $this->seoTitle;
+            } else {
+                $pageTitle = "Консультация юриста в городе " . CHtml::encode($this->name) . ". ".CHtml::encode($this->ocrug) . ". ". Yii::app()->name;
+            }
+            return $pageTitle;
+        }
+        
+        public function createPageDescription()
+        {
+            if(!empty($this->seoDescription)) {
+               $pageDescription =  $this->seoDescription;
+            } else { 
+                $pageDescription = "Консультация юриста по всем отраслям права в городе " . CHtml::encode($this->name) . ", только профессиональные юристы и адвокаты.";
+            }
+            return $pageDescription;
+        }
+        
+        public function createPageKeywords()
+        {
+            if(!empty($this->seoKeywords)) {
+               $pageKeywords =  $this->seoKeywords;
+            } else {
+                $pageKeywords = 'Консультация юриста, консультация адваоката, '.CHtml::encode($this->name);
+            }
+            return $pageKeywords;
+        }
         
 }

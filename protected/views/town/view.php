@@ -1,8 +1,9 @@
 <?php
 /* @var $this TownController */
 /* @var $model Town */
-$this->setPageTitle("Консультация юриста в городе " . CHtml::encode($model->name) . ". " . Yii::app()->name);
-Yii::app()->clientScript->registerMetaTag("Консультация юриста по всем отраслям права в городе " . CHtml::encode($model->name) . ", только профессиональные юристы и адвокаты.", 'description');
+$this->setPageTitle($model->createPageTitle());
+Yii::app()->clientScript->registerMetaTag($model->createPageDescription(), 'description');
+Yii::app()->clientScript->registerMetaTag($model->createPageKeywords(), 'keywords');
 
 ?>
 

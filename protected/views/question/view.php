@@ -38,33 +38,41 @@ $this->breadcrumbs=array(
 <?php endif;?>
 
  <hr/>
+ 
+<div itemscope itemtype="http://schema.org/Question">
+     
+
 <div class="well well-sm"> 
-<div>
-<?php if($model->title):?>
-<h1><?php echo CHtml::encode($model->title); ?></h1>
-<?php endif;?>
-</div>
+    
+    
+        <div>
+        <?php if($model->title):?>
+        <h1 itemprop="name"><?php echo CHtml::encode($model->title); ?></h1>
+        <?php endif;?>
+        </div>
 
-<p>
-    <?php echo nl2br(CHtml::encode($model->questionText));?>
-</p>
-
-<hr/>
-<div >
-    <p>
-        <?php if($model->authorName):?>
-            <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo CHtml::encode($model->authorName); ?> &nbsp;&nbsp;
-        <?php endif;?>
-        <?php if($model->town):?>
-            <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($model->town->name),Yii::app()->createUrl('town/alias',array('name'=>CHtml::encode($model->town->alias)))); ?> &nbsp;&nbsp;
-        <?php endif;?>
-        <?php if($model->category):?>
-            <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($model->category->name),Yii::app()->createUrl('questionCategory/alias',array('name'=>CHtml::encode($model->category->alias))));?> &nbsp;&nbsp;
-        <?php endif;?>
+    <p itemprop="text">
+        <?php echo nl2br(CHtml::encode($model->questionText));?>
     </p>
-</div>
-</div>
 
+    <hr/>
+
+        <div itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <p>
+                <?php if($model->authorName):?>
+                    <span class="glyphicon glyphicon-user"></span>&nbsp;<span itemprop="name"><?php echo CHtml::encode($model->authorName); ?></span> &nbsp;&nbsp;
+                <?php endif;?>
+                <?php if($model->town):?>
+                    <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($model->town->name),Yii::app()->createUrl('town/alias',array('name'=>CHtml::encode($model->town->alias)))); ?> &nbsp;&nbsp;
+                <?php endif;?>
+                <?php if($model->category):?>
+                    <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($model->category->name),Yii::app()->createUrl('questionCategory/alias',array('name'=>CHtml::encode($model->category->alias))));?> &nbsp;&nbsp;
+                <?php endif;?>
+            </p>
+        </div>
+
+</div>
+    
 <div >
 <div class="well well-sm">
 <h2>Ответ юриста</h2>
@@ -78,6 +86,8 @@ $this->breadcrumbs=array(
 )); ?>
 </div>
 </div>
+     
+</div> <!-- Question --> 
 
 <div class="vert-margin30 center-align">
     <?php echo CHtml::link('<span class="glyphicon glyphicon-plus-sign"></span> Получить консультацию юриста', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-primary btn-lg','rel'=>'nofollow','onclick'=>'yaCounter26550786.reachGoal("submit_after_button"); return true;')); ?>

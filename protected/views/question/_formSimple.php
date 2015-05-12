@@ -35,19 +35,19 @@
     </div>
     
     <div class="col-md-6">
-        <div class="form-info-item" style="background-image:url(/pics/icon_rocket.png);">
+        <div class="form-info-item" style="background-image:url(/pics/icon_rocket.svg);">
             <p><strong>Быстро</strong><br />
             Ответ через 15 минут</p>
         </div>
-        <div class="form-info-item" style="background-image:url(/pics/icon_safe.png);">
+        <div class="form-info-item" style="background-image:url(/pics/icon_lock.svg);">
             <p><strong>Безопасно</strong><br />
             Только аккредитованные юристы</p>
         </div>
-        <div class="form-info-item" style="background-image:url(/pics/icon_calculator.png);">
+        <div class="form-info-item" style="background-image:url(/pics/icon_calculator.svg);">
             <p><strong>Экономия времени и денег</strong><br />
             Не надо ждать и искать - просто отправьте вопрос</p>
         </div>
-        <div class="form-info-item" style="background-image:url(/pics/icon_envelope.png);">
+        <div class="form-info-item" style="background-image:url(/pics/icon_email.svg);">
             <p><strong>Без спама</strong><br />
             Мы не рассылаем рекламу</p>
         </div>

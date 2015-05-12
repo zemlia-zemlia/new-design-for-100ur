@@ -2,7 +2,6 @@
 <html lang="ru">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<!--<meta http-equiv="content-language" content="ru" />-->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -12,10 +11,10 @@
     Yii::app()->clientScript->registerCssFile("/css/style.css");
 
     
-    Yii::app()->clientScript->registerScriptFile("jquery.js");
-    Yii::app()->clientScript->registerScriptFile("/bootstrap/js/bootstrap.min.js");
-    Yii::app()->clientScript->registerScriptFile("/js/scripts.js");
-    Yii::app()->clientScript->registerScriptFile("/js/jquery.placeholder.min.js");
+    Yii::app()->clientScript->registerScriptFile("jquery.js",CClientScript::POS_END);
+    Yii::app()->clientScript->registerScriptFile("/bootstrap/js/bootstrap.min.js",CClientScript::POS_END);
+    //Yii::app()->clientScript->registerScriptFile("/js/scripts.js");
+    Yii::app()->clientScript->registerScriptFile("/js/jquery.placeholder.min.js",CClientScript::POS_END);
     
 ?>
 
@@ -113,15 +112,17 @@
                 <div class="col-md-9 col-sm-9">
                 <b>&copy; Информационно-правовой портал «100 Юристов» 2014.</b>
 				<br>
-				<small>Все права, на любые материалы, размещенные на сайте, защищены в соответствии с российским и международным законодательством об авторском праве и смежных правах. При любом использовании текстовых, аудио-, видео- и фотоматериалов ссылка на <a href="/" title="Консультация юриста">www.100yuristov.com</a> обязательна. Адрес электронной почты:
-				<a href="mailto:100yuristov@mail.ru" rel="nofollow">100yuristov@mail.ru</a>.   </small> 
+				<small>Все права, на любые материалы, размещенные на сайте, защищены в соответствии с российским и международным законодательством об авторском праве и смежных правах. При любом использовании текстовых, аудио-, видео- и фотоматериалов ссылка на <a href="/" title="Консультация юриста">www.100yuristov.com</a> обязательна.</small> 
                 </div>
                 <div class="col-md-2 col-sm-4 right-align">
+				
                     <?php echo CHtml::link(CHtml::image('/pics/rss_icon.png'), Yii::app()->createUrl('question/rss'), array('title'=>'Подписаться на RSS'));?>
+				<noindex>
 					<a href="http://vk.com/club78448546" target="blank" rel="nofollow"> <img src="/pics/vk.jpg" alt="Вконтакте" /></a>
 					<a href="https://twitter.com/100yuristov" target="blank" rel="nofollow"> <img src="/pics/twitter.jpg" alt="Twitter" /> </a>
-					<a href="https://www.facebook.com/100yuristov" target="blank" rel="nofollow"> <img src="/pics/fb.png" alt="Facebook" /> </a>
-                </div>
+					<a href="https://www.facebook.com/100yuristov" target="blank" rel="nofollow"> <img src="/pics/fb.png" alt="Facebook" /> </a> <br/>
+				</noindex>
+					<small><a href="http://www.bigfishstudio.ru" style="position:relative;">Создание сайта</a></small>
             </div>
         </div>
     </div>
@@ -169,7 +170,6 @@ _tmr.push({id: "2577054", type: "pageView", start: (new Date()).getTime()});
 <img src="//top-fwz1.mail.ru/counter?id=2577054;js=na" style="border:0;" height="1" width="1" alt="Рейтинг@Mail.ru" />
 </div></noscript>
 <!-- //Rating@Mail.ru counter -->
-
 
 </body>
 </html>
