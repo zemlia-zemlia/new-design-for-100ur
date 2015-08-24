@@ -12,10 +12,15 @@
  * @property string $seoTitle
  * @property string $seoDescription
  * @property string $seoKeywords
+ * @property string $photo
  */
 class Town extends CActiveRecord
 {
-	/**
+	
+        const TOWN_PHOTO_PATH = "/upload/townphoto";
+        const TOWN_PHOTO_THUMB_FOLDER = "/thumbs";
+        
+        /**
 	 * Returns the static model of the specified AR class.
 	 * @return Town the static model class
 	 */
@@ -81,6 +86,7 @@ class Town extends CActiveRecord
                         'seoTitle'  =>  'SEO Title',
                         'seoDescription'  =>  'SEO Description',
                         'seoKeywords'  =>  'SEO Keywords',
+                        'photo'         =>  'Фотография',
 		);
 	}
 
@@ -99,10 +105,13 @@ class Town extends CActiveRecord
                 'order' =>  'size DESC',
             ));
 
-            $townsArray = array(0=>'Не определен');
+            $townsArray = array();
+            
             foreach($towns as $town) {
                 $townsArray[$town->id] = $town->name . " (" . $town->ocrug . ")";
             }
+            
+            $townsArray = array(0=>'Не указан') + $townsArray;
             return $townsArray;
         }
 
@@ -163,6 +172,19 @@ class Town extends CActiveRecord
                 $pageKeywords = 'Консультация юриста, консультация адваоката, '.CHtml::encode($this->name);
             }
             return $pageKeywords;
+        }
+        
+        // возвращает URL фотографии города относительно корня сайта
+        public function getPhotoUrl($size='full')
+        {
+            $photoUrl = '';
+                        
+            if($size == 'full') {
+                $photoUrl = Yii::app()->params['crmDomain'] . self::TOWN_PHOTO_PATH . '/' . CHtml::encode($this->photo);
+            } elseif($size == 'thumb') {
+                $photoUrl = Yii::app()->params['crmDomain'] . self::TOWN_PHOTO_PATH . self::TOWN_PHOTO_THUMB_FOLDER . '/' . CHtml::encode($this->photo);
+            }
+            return $photoUrl;
         }
         
 }

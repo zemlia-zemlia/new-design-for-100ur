@@ -10,7 +10,7 @@ return array(
 	'name'=>'100 юристов',
         'defaultController'=>'site',
 
-	'theme'=>'100juristov',
+	'theme'=>'2015',
 	// preloading 'log' component
 	'preload'=>array('log'),
 
@@ -119,6 +119,7 @@ return array(
 					'class'=>'CProfileLogRoute',
 
 				),
+                                 
 			),
 		),
             'cache'=>array(

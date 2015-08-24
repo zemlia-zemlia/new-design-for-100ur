@@ -71,16 +71,20 @@ class QuestionController extends Controller
                 'id!'           =>  $model->id,
             ));
             
-            $similarQuestions = Question::model()->cache(3600)->findAll($similarCriteria);
+            //$similarQuestions = Question::model()->cache(3600)->findAll($similarCriteria);
+             
+            $similarDataProvider = new CActiveDataProvider('Question', array(
+                'criteria'=>$similarCriteria,        
+            ));
                     
             // модель для формы вопроса
-            $questionModel = new Question();
+            $newQuestionModel = new Question();
             
             $this->render('view',array(
                     'model'                 =>  $model,
                     'answersDataProvider'   =>  $answersDataProvider,
-                    'questionModel'         =>  $questionModel,
-                    'similarQuestions'      =>  $similarQuestions,
+                    'newQuestionModel'         =>  $newQuestionModel,
+                    'similarDataProvider'   =>  $similarDataProvider,
             ));
 	}
 
@@ -92,13 +96,15 @@ class QuestionController extends Controller
 	{
 		$lead = new Lead();
                 $question = new Question();
-
+                
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Question']))
 		{
 			$question->attributes = $_POST['Question'];
+                        $question->phone = preg_replace('/([^0-9])/i', '', $question->phone);
+                        $question->validate();
                         
                         $lead->name = $question->authorName;
                         $lead->question = $question->questionText;
@@ -110,6 +116,9 @@ class QuestionController extends Controller
                         if($lead->save()) {
                                 $lead->sendByEmail();
 				$this->redirect(array('thankYou'));
+                        } else {
+                            //CustomFuncs::printr($lead->errors);
+                            //throw new CHttpException(400,'Что-то пошло не так. Ваш вопрос не удалось отправить.');
                         }
 		}
 

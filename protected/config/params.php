@@ -3,5 +3,6 @@
 return array(
 	'adminEmail'    =>  '100yuristov@mail.ru',
         'leadsEmail'    =>  'Lidlaw@mail.ru',
+        'crmDomain'     =>  'http://crm',
 );
 ?>

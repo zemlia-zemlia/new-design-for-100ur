@@ -75,7 +75,7 @@ class TownController extends Controller
         // displays town by alias
         public function actionAlias($name)
 	{
-            $model = Town::model()->cache(3600)->findByAttributes(array('alias'=>CHtml::encode($name)));
+            $model = Town::model()->cache(60)->findByAttributes(array('alias'=>CHtml::encode($name)));
             if(empty($model)) {
                 throw new CHttpException(404,'Город не найден');
             }

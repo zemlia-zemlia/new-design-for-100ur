@@ -1,10 +1,5 @@
-<?php
-/* @var $this QuestionController */
-/* @var $model Question */
-/* @var $form CActiveForm */
-?>
-
 <div id="form-wrapper">
+    <div  class="container">
     <div class="row">
         <div class="col-md-4">
             
@@ -12,7 +7,7 @@
         <div class="col-md-8">
             <div class="form-container">
                 <h2 class="center-align">Задайте вопрос юристу прямо сейчас</h2>
-                <div class="center-align vert-margin30">Не надо ждать  и  искать - просто отправьте свой вопрос</div>
+                <div class="center-align">Не надо ждать  и  искать - просто отправьте свой вопрос</div>
                 
                 <?php $form=$this->beginWidget('CActiveForm', array(
                         'id'                    =>  'question-form',
@@ -65,5 +60,5 @@
         </div>
     </div>
 
-
+    </div>
 </div> <!-- #form-wrapper -->

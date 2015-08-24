@@ -15,12 +15,6 @@ $this->breadcrumbs=array(
 <h1>Вопросы юристам</h1>
 </div>
 
-
-<div class="vert-margin30 center-align">
-    <?php echo CHtml::link('<span class="glyphicon glyphicon-plus-sign"></span> Задать вопрос', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-primary btn-lg','rel'=>'nofollow','onclick'=>'yaCounter26550786.reachGoal("submit_after_button"); return true;')); ?>
-    <div>Это бесплатно. Вы получите ответ в течение 15 минут</div>
-</div>
-
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,
 	'itemView'      =>  '_view',
