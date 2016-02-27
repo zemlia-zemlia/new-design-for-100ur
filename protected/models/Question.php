@@ -75,10 +75,10 @@ class Question extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                    'category'  =>  array(self::BELONGS_TO, 'QuestionCategory', 'categoryId'),
                     'town'  =>  array(self::BELONGS_TO, 'Town', 'townId'),
                     'answers'   =>  array(self::HAS_MANY, 'Answer', 'questionId'),
                     'answersCount'  =>  array(self::STAT, 'Answer', 'questionId'),
+                    'categories'    =>  array(self::MANY_MANY, 'QuestionCategory', '{{question2category}}(qId, cId)'),
 		);
 	}
 

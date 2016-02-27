@@ -10,22 +10,7 @@ if($model->description) {
     Yii::app()->clientScript->registerMetaTag(CHtml::encode(mb_substr($model->questionText, 0, 250,'utf-8')), 'description');
 }
 
-$this->breadcrumbs=array(
-	CHtml::encode($model->category->name)   =>  array('questionCategory/alias','name'=>CHtml::encode($model->category->alias)),
-	CHtml::encode($model->title),
-);
-
 ?>
-
-<?php if($model->category):?>
-    <?php
-    $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('Консультация юриста',"/"),
-        'separator'=>' &rarr; ',
-        'links'=>$this->breadcrumbs,
-     ));
-     ?>
-<?php endif;?>
 
  <hr/>
  
@@ -43,8 +28,10 @@ $this->breadcrumbs=array(
                 <?php if($model->town):?>
                     <img src='/pics/2015/icon_marker.png' alt='' />&nbsp;<?php echo CHtml::link(CHtml::encode($model->town->name),Yii::app()->createUrl('town/alias',array('name'=>CHtml::encode($model->town->alias)))); ?> &nbsp;&nbsp;
                 <?php endif;?>
-                <?php if($model->category):?>
-                    <img src='/pics/2015/icon_folder.png' alt='' />&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($model->category->name),Yii::app()->createUrl('questionCategory/alias',array('name'=>CHtml::encode($model->category->alias))));?> &nbsp;&nbsp;
+                <?php if($model->categories):?>
+                    <?php foreach($model->categories as $category):?>
+                    <img src='/pics/2015/icon_folder.png' alt='' />&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($category->name),Yii::app()->createUrl('questionCategory/alias',array('name'=>CHtml::encode($category->alias))));?> &nbsp;&nbsp;
+                    <?php endforeach;?>
                 <?php endif;?>
             </p>
         </div>
@@ -76,30 +63,7 @@ $this->breadcrumbs=array(
     
 </div> <!-- Question --> 
 
-<? /*
-<div class="vert-margin30 center-align">
-    <?php echo CHtml::link('Получить консультацию юриста', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-warning btn-lg','rel'=>'nofollow','onclick'=>'yaCounter26550786.reachGoal("submit_after_button"); return true;')); ?>
-</div>
-*/?>
 
-<h3>При поддержке</h3>
-
-<div class="panel">
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-6 col-sm-6 center-align">
-                <img class="img-responsive center-block" alt="При поддержке правительства РФ" src="/pics/pravitelstvo.png">
-                <p class="center-align">Правительство РФ
-                </p>
-            </div>
-
-            <div class="col-md-6 col-sm-6 center-align"> 
-                <img class="img-responsive center-block" alt="При поддержке Министерства Юстиции" src="/pics/minyust.png"> 
-                <p class="center-align">Министерство Юстиции</p>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- Форма --> 
 <noindex>
             <div class="form-container">

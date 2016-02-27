@@ -1,6 +1,6 @@
 <?php
-    $this->setPageTitle("Консультация юриста и адвоката. ". Yii::app()->name);
-    Yii::app()->clientScript->registerMetaTag("Консультация юриста по всем отраслям права, только профессиональные юристы и адвокаты.", 'description');
+    $this->setPageTitle("Задать вопрос юристу и адвокату онлайн и бесплатно. ". Yii::app()->name);
+    Yii::app()->clientScript->registerMetaTag("Консультация юриста по всем отраслям права, для жителей России и СНГ, только профессиональные юристы и адвокаты отвечают на ваши вопросы.", 'description');
 
 ?>
 <!--
@@ -13,7 +13,7 @@
 </div>
 -->
 
-<h1>Последние вопросы</h1>
+<h1>Последние вопросы к юристам</h1>
 
 <div class="panel">
     <div class="panel-body">
@@ -44,13 +44,14 @@
             </p>
         </div>
         <div class='col-md-4 col-sm-4'>
+			<img src='/pics/2015/clock_orange.png' alt='ЭКОНОМИЯ ВРЕМЕНИ' class='center-block' />
             <h5>ЭКОНОМИЯ ВРЕМЕНИ</h5>
             <p>
                 Вы получаете ответ  на свой
                 вопрос в максимально 
                 сжатые сроки.
             </p>
-            <img src='/pics/2015/clock_orange.png' alt='ЭКОНОМИЯ ВРЕМЕНИ' class='center-block' />
+            
         </div>
         <div class='col-md-4 col-sm-4'>
             <img src='/pics/2015/shield_orange.png' alt='КОНФИДЕНЦИАЛЬНОСТЬ' class='center-block' />
@@ -62,7 +63,7 @@
     </div>
 </div>
 
-<h3>Все вопросы</h3>
+<h3>Все вопросы к юристам</h3>
 
 
             
@@ -74,32 +75,3 @@
 
 )); ?>
 
-
-<h3>При поддержке</h3>
-
-<div class="panel">
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-6 col-sm-6 center-align">
-                <img class="img-responsive center-block" alt="При поддержке правительства РФ" src="/pics/pravitelstvo.png">
-                <p class="center-align">Правительство РФ
-                </p>
-            </div>
-
-            <div class="col-md-6 col-sm-6 center-align"> 
-                <img class="img-responsive center-block" alt="При поддержке Министерства Юстиции" src="/pics/minyust.png"> 
-                <p class="center-align">Министерство Юстиции</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--
-<div class="panel">
-    <div class="panel-body">
-        <p>
-            This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. 
-        </p>
-    </div>
-</div>
--->

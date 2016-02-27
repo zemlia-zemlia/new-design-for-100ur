@@ -47,7 +47,8 @@ class Lead extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, phone, sourceId, question', 'required','message'=>'Поле {attribute} должно быть заполнено'),
-			array('sourceId, townId, questionId', 'numerical', 'integerOnly'=>true),
+			array('sourceId, questionId', 'numerical', 'integerOnly'=>true),
+                        array('townId', 'numerical', 'integerOnly'=>true, 'min'=>1),
 			array('name, phone, email', 'length', 'max'=>255),
                         array('name','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. ])+$/u', 'message'=>'В имени могут присутствовать буквы, цифры, точка, дефис и пробел'),
                         array('phone','match','pattern'=>'/^([0-9\+\s])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),

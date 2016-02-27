@@ -2,10 +2,10 @@
 /* @var $this CategoryController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->setPageTitle("Блог" . " | ". Yii::app()->name);
+$this->setPageTitle("Блог юридического портала " . " | ". Yii::app()->name);
 
 $this->breadcrumbs=array(
-	'Блог',
+	'Блог портала 100 Юристов',
 );
 ?>
 

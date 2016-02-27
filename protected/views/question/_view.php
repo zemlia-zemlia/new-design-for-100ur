@@ -19,7 +19,7 @@
         
 		
         <hr/>
-
+<small>
         <p>
         <?php if($data->authorName):?>
         <img src='/pics/2015/icon_user.png' alt='' />&nbsp;<?php echo CHtml::encode($data->authorName);?>
@@ -31,14 +31,17 @@
             &nbsp;&nbsp;
         <?php endif;?>
             
-        <?php if(!$hideCategory && $data->category):?>
-            <img src='/pics/2015/icon_folder.png' alt='' />&nbsp;&nbsp;<?php echo CHtml::link($data->category->name, Yii::app()->createUrl('questionCategory/alias',array('name'=>CHtml::encode($data->category->alias))));?>
+        <?php if(!$hideCategory && $data->categories):?>
+            <?php foreach($data->categories as $category):?>
+            <img src='/pics/2015/icon_folder.png' alt='' />&nbsp;&nbsp;<?php echo CHtml::link($category->name, Yii::app()->createUrl('questionCategory/alias',array('name'=>CHtml::encode($category->alias))));?>
             &nbsp;&nbsp;
+            <?php endforeach;?>
         <?php endif;?>    
         
         <?php if($answersCount = $data->answersCount):?>
             <img src='/pics/2015/icon_comment.png' alt='' />&nbsp;<?php echo $answersCount . "&nbsp;" .  CustomFuncs::numForms($answersCount, 'ответ', 'ответа', 'ответов');?>
         <?php endif;?>
         </p>
+</small>
     </div>    
 </div>

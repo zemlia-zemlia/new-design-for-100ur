@@ -81,16 +81,21 @@ class QuestionCategoryController extends Controller
                 throw new CHttpException(404,'Категория не найдена');
             }
             $questionsCriteria = new CdbCriteria;
-            $questionsCriteria->addColumnCondition(array('t.categoryId'=>$model->id));
             $questionsCriteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
             $questionsCriteria->order = 't.id DESC';
-            $questionsCriteria->with = array('answersCount', 'town');
+            $questionsCriteria->with = array(
+                        'categories'  =>  array(
+                            'condition' =>  'categories.id = ' . $model->id,
+                ),
+                );
             
-            $questionsDataProvider = new CActiveDataProvider('Question', array(
-                    'criteria'      =>  $questionsCriteria,        
+            $questions = Question::model()->findAll($questionsCriteria);
+            //CustomFuncs::printr($questions);
+            
+            $questionsDataProvider = new CArrayDataProvider($questions, array(
                     'pagination'    =>  array(
-                                'pageSize'=>20,
-                            ),
+                            'pageSize'=>20,
+                        ),
                 ));
             
             $questionModel = new Question();

@@ -28,7 +28,7 @@ class BlogController extends Controller
 	{
 		return array(
 			array('allow',  // разрешаем всем пользователям просматривать категории
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view', 'rss'),
 				'users'=>array('*'),
 			),
                         array('allow',  // разрешаем зарегистрированным пользователям следить за категориями
@@ -141,7 +141,7 @@ class BlogController extends Controller
             $dataProvider = new CActiveDataProvider('Post', array(
             'criteria'  =>  array(
                 'with'  =>  array('commentsCount', 'author', 'viewsCount'),
-                'order' =>  't.id DESC',
+                'order' =>  't.datePublication DESC',
                 'condition' =>  't.datePublication<NOW()'
             )
             ));
@@ -220,5 +220,70 @@ class BlogController extends Controller
                     throw new CHttpException(500,'Не удалось сохранить отслеживание категории');
                 }
             }
+        }
+        
+        
+        // generates RSS 2.0 feed with active posts
+        public function actionRss()
+        {
+            $criteria = new CDbCriteria;
+            $criteria->order = "t.datePublication DESC";
+            $criteria->condition = "t.datePublication<NOW()";
+            $posts = Post::model()->cache(600)->findAll($criteria);
+                        
+            Yii::import('ext.feed.*');
+            // RSS 2.0 is the default type
+            $feed = new EFeed();
+
+            $feed->title= Yii::app()->name;
+            $feed->description = 'Юридические статьи';
+
+
+            $feed->addChannelTag('language', 'ru-ru');
+            $feed->addChannelTag('pubDate', date(DATE_RSS, time()));
+            $feed->addChannelTag('link', 'http://www.100yuristov.com/blog/rss' );
+
+            // * self reference
+            //$feed->addChannelTag('atom:link','http://www.100yuristov.com/question/rss');
+
+            foreach($posts as $post)
+            {
+                $item = $feed->createNewItem();
+
+                
+                $item->title = CHtml::encode($post->title);
+                
+                
+                $item->link = "http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('post/view',array('id'=>$post->id));
+                //$item->date = time();
+                $item->date = strtotime($post->datePublication);
+                $item->description = "http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('post/view',array('id'=>$post->id)) . " " . CHtml::encode($post->preview);
+
+                $feed->addItem($item);
+            }
+            
+            $questionsCriteria = new CDbCriteria();
+            $questionsCriteria->condition = 'status=' . Question::STATUS_PUBLISHED;
+            $questionsCriteria->order = 'id desc';
+            $questionsCriteria->limit = 50;
+            $questions = Question::model()->cache(600)->findAll($questionsCriteria);
+            foreach($questions as $question)
+            {
+                $item = $feed->createNewItem();
+
+                
+                $item->title = CHtml::encode($question->title);
+                
+                
+                $item->link = "http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('question/view',array('id'=>$question->id));
+                //$item->date = time();
+                $item->date = strtotime($question->publishDate);
+                $item->description = mb_substr($question->questionText,0,300,'utf-8');
+
+                $feed->addItem($item);
+            }
+            
+            $feed->generateFeed();
+            Yii::app()->end();
         }
 }

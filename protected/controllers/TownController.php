@@ -53,7 +53,7 @@ class TownController extends Controller
             $criteria->order = 't.id desc';
             $criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
             $criteria->addColumnCondition(array('t.townId' =>  (int)$id));
-            $criteria->with = array('category', 'town', 'answersCount');
+            $criteria->with = array('categories', 'town', 'answersCount');
                 
             $dataProvider = new CActiveDataProvider('Question', array(
                     'criteria'=>$criteria,        
@@ -84,7 +84,7 @@ class TownController extends Controller
             $criteria->order = 't.id desc';
             $criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
             $criteria->addColumnCondition(array('t.townId' =>  (int)$model->id));
-            $criteria->with = array('category', 'town', 'answersCount');
+            $criteria->with = array('categories', 'town', 'answersCount');
                 
             $dataProvider = new CActiveDataProvider('Question', array(
                     'criteria'=>$criteria,        

@@ -15,7 +15,7 @@
             <?php
                 // очищаем текст поста от ненужных тегов перед выводом в браузер
                 $purifier = new Purifier();
-                echo $purifier->purify($data->preview) . ' ' . CHtml::link('читать продолжение', Yii::app()->createUrl('post/view',array('id'=>$data->id))); 
+                echo $purifier->purify($data->preview); 
             ?>
         </div>
         

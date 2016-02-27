@@ -22,7 +22,7 @@ class SitemapCommand extends CConsoleCommand
               <loc>' . $siteUrl . '/cat/' . CHtml::encode($cat->alias) .  '/</loc>
               <lastmod>2014-10-30</lastmod>
               <changefreq>weekly</changefreq>
-              <priority>0.5</priority>
+              <priority>0.6</priority>
            </url>';
         }
         
@@ -32,7 +32,7 @@ class SitemapCommand extends CConsoleCommand
               <loc>' . $siteUrl . '/konsultaciya-yurista-' . CHtml::encode($town->alias) .  '/</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
-              <priority>0.5</priority>
+              <priority>0.4</priority>
            </url>';
         }
         
@@ -44,7 +44,19 @@ class SitemapCommand extends CConsoleCommand
               <loc>' . $siteUrl . '/q/' . $question->id .  '/</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
-              <priority>0.5</priority>
+              <priority>0.3</priority>
+           </url>';
+        }
+        
+        $posts = Post::model()->findAll(array(
+                'condition'=>'t.datePublication<NOW()',
+            ));
+        foreach($posts as $post) {
+            $siteMap .= '<url>
+              <loc>' . $siteUrl . '/post/' . $post->id .  '/</loc>
+              <lastmod>' . date('Y-m-d') . '</lastmod>
+              <changefreq>weekly</changefreq>
+              <priority>0.6</priority>
            </url>';
         }
         

@@ -9,6 +9,9 @@
  * @property integer $parentId
  * @property string $description1
  * @property string $description2
+ * @property string $seoTitle
+ * @property string $seoDescription
+ * @property string $seoKeywords
  */
 class QuestionCategory extends CActiveRecord
 {
@@ -42,7 +45,7 @@ class QuestionCategory extends CActiveRecord
 			array('parentId', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>255),
                         array('alias','match','pattern'=>'/^([a-z0-9\-])+$/'),
-                        array('description1, description2', 'safe'),
+                        array('description1, description2, seoTitle, seoDescription, seoKeywords', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, parentId', 'safe', 'on'=>'search'),
@@ -57,7 +60,7 @@ class QuestionCategory extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                    'questions'     =>  array(self::HAS_MANY, 'Question', 'categoryId'),
+                    'questions'         =>  array(self::MANY_MANY, 'Question', '{{question2category}}(cId, qId)'),
                     'parent'        =>  array(self::BELONGS_TO, 'QuestionCategory', 'parentId'),
                     'children'      =>  array(self::HAS_MANY, 'QuestionCategory', 'parentId'),
 		);
@@ -75,6 +78,9 @@ class QuestionCategory extends CActiveRecord
                         'parent' => 'Родительская категория',
                         'description1'  =>  'Описание 1',
                         'description2'  =>  'Описание 2',
+                        'seoTitle'  =>  'SEO title',
+                        'seoDescription'  =>  'SEO description',
+                        'seoKeywords'  =>  'SEO keywords',
 		);
 	}
         

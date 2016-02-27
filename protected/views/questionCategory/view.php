@@ -2,10 +2,21 @@
 /* @var $this QuestionCategoryController */
 /* @var $model QuestionCategory */
 
-$this->setPageTitle(CHtml::encode($model->name) . ". Консультация юриста и адвоката. ". Yii::app()->name);
+if($model->seoTitle) {
+    $this->setPageTitle(CHtml::encode($model->seoTitle));
+} else {
+    $this->setPageTitle(CHtml::encode($model->name) . ". Консультация юриста и адвоката. ". Yii::app()->name);
+}
 
-Yii::app()->clientScript->registerMetaTag("Получите бесплатную консультацию юриста. Ответы квалифицированных юристов на вопросы тематики " . CHtml::encode($model->name), 'description');
+if($model->seoDescription) {
+    Yii::app()->clientScript->registerMetaTag(CHtml::encode($model->seoDescription), 'description');
+} else {
+    Yii::app()->clientScript->registerMetaTag("Получите бесплатную консультацию юриста. Ответы квалифицированных юристов на вопросы тематики " . CHtml::encode($model->name), 'description');
+}
 
+if($model->seoKeywords) {
+    Yii::app()->clientScript->registerMetaTag(CHtml::encode($model->seoKeywords), 'keywords');
+} 
 
 ?>
 

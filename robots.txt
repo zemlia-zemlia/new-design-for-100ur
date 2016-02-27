@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /protected
+Disallow: /assets
+Disallow: /*create*
+Disallow: /question/thankYou/
+Disallow: /*index*
+Disallow: /*question*
+Sitemap: /sitemap.xml
+Host: www.100yuristov.com

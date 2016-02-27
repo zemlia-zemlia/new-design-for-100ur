@@ -55,26 +55,25 @@ class QuestionController extends Controller
                         ),
             ));
             
-            // похожие вопросы, из той же категории, максимум 3
             $similarCriteria = new CDbCriteria;
             $similarCriteria->limit=3;
-            //$similarCriteria->order = "RAND()";
-            $similarCriteria->with = array(
-                'answersCount'  =>  array(
-                    'having' =>  's>0',
-                ),
-                );
+            $similarCriteria->order = "RAND()";
+            /*$similarCriteria->with = array(
+                    'answersCount'  =>  array(
+                        'having' =>  's>0',
+                    ),
+                );*/
             
             $similarCriteria->addColumnCondition(array(
-                'categoryId'    =>  (int)$model->categoryId,
-                'status'        =>  Question::STATUS_PUBLISHED,
-                'id!'           =>  $model->id,
+                't.status'        =>  Question::STATUS_PUBLISHED,
+                't.id!'           =>  $model->id,
             ));
             
-            //$similarQuestions = Question::model()->cache(3600)->findAll($similarCriteria);
-             
-            $similarDataProvider = new CActiveDataProvider('Question', array(
-                'criteria'=>$similarCriteria,        
+            $similarQuestions = Question::model()->findAll($similarCriteria);
+            //CustomFuncs::printr($similarQuestions); 
+            
+            $similarDataProvider = new CArrayDataProvider($similarQuestions, array(
+                'pagination'    =>  false,
             ));
                     
             // модель для формы вопроса
@@ -154,7 +153,7 @@ class QuestionController extends Controller
                 $criteria = new CDbCriteria;
                 $criteria->order = 't.id desc';
                 $criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
-                $criteria->with = array('category', 'town', 'answersCount');
+                $criteria->with = array('categories', 'town', 'answersCount');
                 
                 if(isset($_GET['status'])) {
                     $status = (int)$_GET['status'];

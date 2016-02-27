@@ -204,6 +204,37 @@ class Post extends CActiveRecord
         }
         
         
+        /*
+         * статический метод, возвращающий массив последних постов (объекты класса Post)
+         * если указана категория $categoryId, поиск ведется в ней
+         */
+        public static function getRecentPosts($categoryId = NULL, $number = 4)
+        {
+            $recentPostsCommand = Yii::app()->db->createCommand()
+                    ->select('id, title, preview')
+                    ->from('{{post}} p')
+                    ->group('p.id')
+                    ->order('p.datePublication DESC')
+                    ->where('p.datePublication<NOW()')
+                    ->limit($number);
+            if($categoryId !== NULL) {
+                $recentPostsCommand->join('{{post2cat}} p2c', 'p.id = p2c.postId');
+                $recentPostsCommand->where('p2c.catId = :catId', array(':catId'=>(int)$categoryId));
+            }
+            $recentPostsRaw = $recentPostsCommand->queryAll();
+            
+            // в массиве $popularPosts будем хранить эту информацию в виде объектов класса Post
+            $recentPosts = array();
+            foreach($recentPostsRaw as $postRaw) {
+                 $recentPost = new Post;
+                 $recentPost->attributes = $postRaw;
+                 $recentPost->id = $postRaw['id']; // id не присваивается массово
+                 $recentPosts[] = $recentPost;
+            }
+            return $recentPosts;
+        }
+        
+        
         /* изменение рейтинга поста на величину $delta с записью в таблицу истории изменений рейтингов постов
          * в случае успеха возвращает новый рейтинг, в противном случае - NULL
          */
