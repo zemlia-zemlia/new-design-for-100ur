@@ -3,10 +3,19 @@
 /* @var $model QuestionCategory */
 
 if($model->seoTitle) {
-    $this->setPageTitle(CHtml::encode($model->seoTitle));
+    $pageTitle = CHtml::encode($model->seoTitle);
 } else {
-    $this->setPageTitle(CHtml::encode($model->name) . ". Консультация юриста и адвоката. ". Yii::app()->name);
+    $pageTitle = CHtml::encode($model->name) . ". Консультация юриста и адвоката. ";
 }
+
+if(isset($_GET) && (int)$_GET['page']) {
+    $pageNumber = (int)$_GET['page'];
+    $pagesTotal = ceil($questionsDataProvider->totalItemCount / $questionsDataProvider->pagination->getPageSize());
+    $pageTitle .= 'Страница ' . $pageNumber . ' из ' . $pagesTotal . '. ';
+}
+$this->setPageTitle($pageTitle . Yii::app()->name);
+
+
 
 if($model->seoDescription) {
     Yii::app()->clientScript->registerMetaTag(CHtml::encode($model->seoDescription), 'description');
@@ -18,9 +27,43 @@ if($model->seoKeywords) {
     Yii::app()->clientScript->registerMetaTag(CHtml::encode($model->seoKeywords), 'keywords');
 } 
 
+Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('/questionCategory/alias', array('name'=>$model->alias)));
+
+$this->breadcrumbs = array();
+if($model->parent instanceof QuestionCategory) {
+    $this->breadcrumbs[$model->parent->name] = Yii::app()->createUrl('/questionCategory/alias',array('name'=>$model->parent->alias));
+}   
+$this->breadcrumbs[] = $model->name;
+
 ?>
 
-<h1>Вопросы юристу на тему &laquo;<?php echo CHtml::encode($model->name);?>&raquo;</h1>
+<?php 
+//CustomFuncs::printr($model);
+?>
+
+<?php
+    $this->widget('zii.widgets.CBreadcrumbs', array(
+        'homeLink'=>CHtml::link('Вопрос юристу',"/"),
+        'separator'=>' / ',
+        'links'=>$this->breadcrumbs,
+     ));
+?>
+
+<h1><?php echo $pageTitle;?></h1>
+
+<?php if($model->children):?>
+    <div class="panel">
+        <div class='panel-body'>
+            <div class="row">
+            <?php foreach($model->children as $child):?>
+                <div class="col-md-4">
+                    <?php echo CHtml::link($child->name, Yii::app()->createUrl('questionCategory/alias', array('name'=>CHtml::encode($child->alias))));?>
+                </div>    
+            <?php endforeach;?>
+            </div>
+        </div>
+    </div>
+<?php endif;?>
 
 <?php if($model->description1):?>
     <div class="panel">
@@ -37,6 +80,7 @@ if($model->seoKeywords) {
             'hideCategory'  =>  false,
         ),
         'emptyText'     =>  'Не найдено ни одного вопроса',
+        'ajaxUpdate'    =>  false,
         'summaryText'   =>  '',
         'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
 )); ?>

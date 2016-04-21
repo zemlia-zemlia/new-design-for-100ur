@@ -2,7 +2,16 @@
 /* @var $this CategoryController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->setPageTitle("Блог юридического портала " . " | ". Yii::app()->name);
+$pageTitle = "Блог юридического портала. ";
+if(isset($_GET) && (int)$_GET['Post_page']) {
+    $pageNumber = (int)$_GET['Post_page'];
+    $pagesTotal = ceil($dataProvider->totalItemCount / $dataProvider->pagination->getPageSize());
+    $pageTitle .= 'Страница ' . $pageNumber . ' из ' . $pagesTotal . '. ';
+}
+$this->setPageTitle($pageTitle . Yii::app()->name);
+
+Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('/blog'));
+
 
 $this->breadcrumbs=array(
 	'Блог портала 100 Юристов',
@@ -17,13 +26,14 @@ $this->breadcrumbs=array(
      ));
 ?>
 
-<h1>Блог</h1>
+<h1><?php echo $pageTitle;?></h1>
 
 
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,
 	'itemView'=>'_view',
         'summaryText'   =>  '',
+        'ajaxUpdate'    =>  false,
         'pager'=>array('class'=>'GTLinkPager') //we use own pager with russian words
 )); ?>
 

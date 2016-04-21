@@ -1,9 +1,18 @@
 <?php
 /* @var $this TownController */
 /* @var $model Town */
-$this->setPageTitle($model->createPageTitle());
+
+$pageTitle = $model->createPageTitle();
+        
+if(isset($_GET) && (int)$_GET['Question_page']) {
+    $pageNumber = (int)$_GET['Question_page'];
+    $pagesTotal = ceil($dataProvider->totalItemCount / $dataProvider->pagination->getPageSize());
+    $pageTitle .= '. Страница ' . $pageNumber . ' из ' . $pagesTotal . '. ';
+}
+$this->setPageTitle($pageTitle);
 Yii::app()->clientScript->registerMetaTag($model->createPageDescription(), 'description');
 Yii::app()->clientScript->registerMetaTag($model->createPageKeywords(), 'keywords');
+Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('/town/alias', array('name'=>$model->alias)));
 
 ?>
 
@@ -31,6 +40,7 @@ Yii::app()->clientScript->registerMetaTag($model->createPageKeywords(), 'keyword
 	'itemView'      =>  'application.views.question._view',
         'emptyText'     =>  'Не найдено ни одного вопроса',
         'summaryText'   =>  '',
+        'ajaxUpdate'    =>  false,
         'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
 
 )); ?>

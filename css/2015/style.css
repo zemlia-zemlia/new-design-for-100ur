@@ -9,7 +9,7 @@ h1 {
 }
 
 h2 {
-	font-size: 28px;
+	font-size: 22px;
 	margin-bottom:15px;
 	font-weight:600;
 }
@@ -88,6 +88,12 @@ a {
     text-decoration: none;
     padding:7px 20px;
     font-size:16px;
+}
+
+#top-menu-wrapper ul li span.active {
+    display: block;
+    font-size: 16px;
+    padding: 7px 20px;
 }
 
 /* ------------- header ---------------*/
@@ -180,7 +186,15 @@ ul#left-menu, ul#left-menu li ul {
 
 }
 ul#left-menu li {
-    padding:3px 0;
+    padding:3px;
+    display:inline-block;
+    zoom:1;
+    *display:inline;
+}
+
+ul#left-menu li.active {
+    background:#67adb0;
+    color:#fff;
 }
 
 ul#left-menu a {
@@ -284,6 +298,10 @@ ul#footer-menu li a {
     color:#e3e1e1;
 }
 
+#footer #vk_groups {
+    margin:10px auto;
+}
+
 
 /* ----------- yii pager ---------------*/
 
@@ -350,8 +368,32 @@ ul.yiiPager {
     padding:10px;
 }
 
+@media (max-width:1400px) {
+    .container {
+        width: 100%;
+    }
+}
+
+@media (min-width:1401px) {
+    .container {
+        width: 1170px;
+    }
+}
+
 @media (max-width:767px) {
     .form-container {
         margin:10px auto;
+    }
+    
+    ul#left-menu li {
+        padding:6px 0;
+    }
+    
+    ul#left-menu {
+        display:none;
+    }
+    
+    #left-menu-switch {
+        cursor:pointer;
     }
 }

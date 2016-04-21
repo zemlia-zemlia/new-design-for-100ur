@@ -1,10 +1,22 @@
 User-agent: *
-Allow: /
 Disallow: /protected
-Disallow: /assets
+Disallow: /assets/
 Disallow: /*create*
 Disallow: /question/thankYou/
 Disallow: /*index*
 Disallow: /*question*
-Sitemap: /sitemap.xml
+Allow: /assets/*.js
+Allow: /assets/*.css
+
+User-agent: Yandex
+Disallow: /protected
+Disallow: /assets/
+Disallow: /*create*
+Disallow: /question/thankYou/
+Disallow: /*index*
+Disallow: /*question*
+Allow: /assets/*.js
+Allow: /assets/*.css
+
+Sitemap: http://www.100yuristov.com/sitemap.xml
 Host: www.100yuristov.com

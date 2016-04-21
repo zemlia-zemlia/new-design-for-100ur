@@ -2,8 +2,16 @@
 /* @var $this QuestionController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->setPageTitle("Вопросы юристам.". Yii::app()->name);
 Yii::app()->clientScript->registerLinkTag("alternate","application/rss+xml","http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('question/rss'));
+Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('question'));
+
+$pageTitle = "Вопросы юристам. ";
+if(isset($_GET) && (int)$_GET['Question_page']) {
+    $pageNumber = (int)$_GET['Question_page'];
+    $pagesTotal = ceil($dataProvider->totalItemCount / $dataProvider->pagination->getPageSize());
+    $pageTitle .= 'Страница ' . $pageNumber . ' из ' . $pagesTotal . '. ';
+}
+$this->setPageTitle($pageTitle . Yii::app()->name);
 
 
 $this->breadcrumbs=array(
@@ -11,8 +19,9 @@ $this->breadcrumbs=array(
 );
 
 ?>
+
 <div class="vert-margin30">
-<h1>Вопросы юристам</h1>
+<h1><?php echo $pageTitle;?></h1>
 </div>
 
 <?php $this->widget('zii.widgets.CListView', array(
@@ -20,6 +29,7 @@ $this->breadcrumbs=array(
 	'itemView'      =>  '_view',
         'emptyText'     =>  'Юристы пока не ответили',
         'summaryText'   =>  '',
+        'ajaxUpdate'    =>  false,
         'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
 
 )); ?>

@@ -21,6 +21,8 @@
         <hr/>
 <small>
         <p>
+        <?php if(!is_null($data->publishDate)) echo CustomFuncs::invertDate($data->publishDate);?>&nbsp;&nbsp;    
+            
         <?php if($data->authorName):?>
         <img src='/pics/2015/icon_user.png' alt='' />&nbsp;<?php echo CHtml::encode($data->authorName);?>
         &nbsp;&nbsp;

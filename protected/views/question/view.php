@@ -50,7 +50,7 @@ if($model->description) {
     <?php $this->widget('zii.widgets.CListView', array(
             'dataProvider'  =>  $answersDataProvider,
             'itemView'      =>  'application.views.answer._view',
-            'emptyText'     =>  'Не найдено ни одного ответа',
+            'emptyText'     =>  '<p class="bg-primary"> Не найдено ни одного ответа</p>',
             'summaryText'   =>  '',
             'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
 

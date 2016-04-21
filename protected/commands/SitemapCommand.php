@@ -15,45 +15,61 @@ class SitemapCommand extends CConsoleCommand
               <changefreq>daily</changefreq>
               <priority>0.9</priority>
            </url>';
-        
-        $categories = QuestionCategory::model()->findAll();
+             
+        $categories = Yii::app()->db->createCommand()
+                ->select('alias')
+                ->from('{{questionCategory}}')
+                ->queryAll();
         foreach($categories as $cat) {
             $siteMap .= '<url>
-              <loc>' . $siteUrl . '/cat/' . CHtml::encode($cat->alias) .  '/</loc>
-              <lastmod>2014-10-30</lastmod>
+              <loc>' . $siteUrl . '/cat/' . CHtml::encode($cat['alias']) .  '/</loc>
+              <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.6</priority>
            </url>';
         }
         
-        $towns = Town::model()->findAll();
+        $towns = Yii::app()->db->createCommand()
+                ->select('alias')
+                ->from('{{town}}')
+                ->queryAll();
         foreach($towns as $town) {
             $siteMap .= '<url>
-              <loc>' . $siteUrl . '/konsultaciya-yurista-' . CHtml::encode($town->alias) .  '/</loc>
+              <loc>' . $siteUrl . '/konsultaciya-yurista-' . CHtml::encode($town['alias']) .  '/</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.4</priority>
            </url>';
         }
         
-        $questions = Question::model()->findAll(array(
+        /*$questions = Question::model()->findAll(array(
                 'condition'=>'status='.Question::STATUS_PUBLISHED,
-            ));
+            ));*/
+        $questions = Yii::app()->db->createCommand()
+                ->select('id')
+                ->from('{{question}}')
+                ->where('status=:status', array(':status'=>Question::STATUS_PUBLISHED))
+                ->queryAll();
         foreach($questions as $question) {
             $siteMap .= '<url>
-              <loc>' . $siteUrl . '/q/' . $question->id .  '/</loc>
+              <loc>' . $siteUrl . '/q/' . $question['id'] .  '/</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.3</priority>
            </url>';
         }
         
-        $posts = Post::model()->findAll(array(
+        /*$posts = Post::model()->findAll(array(
                 'condition'=>'t.datePublication<NOW()',
-            ));
+            ));*/
+        $posts = Yii::app()->db->createCommand()
+                ->select('id')
+                ->from('{{post}}')
+                ->where('datePublication<:now', array(':now'=>date('Y-m-d')))
+                ->queryAll();
         foreach($posts as $post) {
             $siteMap .= '<url>
-              <loc>' . $siteUrl . '/post/' . $post->id .  '/</loc>
+              <loc>' . $siteUrl . '/post/' . $post['id'] .  '/</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.6</priority>

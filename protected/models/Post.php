@@ -226,9 +226,9 @@ class Post extends CActiveRecord
             // в массиве $popularPosts будем хранить эту информацию в виде объектов класса Post
             $recentPosts = array();
             foreach($recentPostsRaw as $postRaw) {
-                 $recentPost = new Post;
-                 $recentPost->attributes = $postRaw;
+                 $recentPost = new Post();
                  $recentPost->id = $postRaw['id']; // id не присваивается массово
+                 $recentPost->attributes = $postRaw;
                  $recentPosts[] = $recentPost;
             }
             return $recentPosts;
