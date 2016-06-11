@@ -47,13 +47,11 @@ class Lead extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, phone, sourceId, question', 'required','message'=>'Поле {attribute} должно быть заполнено'),
-			array('sourceId, questionId', 'numerical', 'integerOnly'=>true),
-                        array('townId', 'numerical', 'integerOnly'=>true, 'min'=>1),
+			array('sourceId, townId, questionId, leadStatus, addedById', 'numerical', 'integerOnly'=>true),
 			array('name, phone, email', 'length', 'max'=>255),
-                        array('name','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. ])+$/u', 'message'=>'В имени могут присутствовать буквы, цифры, точка, дефис и пробел'),
-                        array('phone','match','pattern'=>'/^([0-9\+\s])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
+                        array('name','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-., ])+$/u', 'message'=>'В имени могут присутствовать буквы, цифры, точка, дефис и пробел', 'except'=>'parsing'),
+                        array('phone','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\+\(\)\s \-])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
                         array('email', 'email', 'message'=>'E-mail похож на ненастоящий, проверьте, пожалуйста, правильность набора'),
-
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, phone, sourceId, question, question_date, townId, leadStatus', 'safe', 'on'=>'search'),
@@ -151,7 +149,7 @@ class Lead extends CActiveRecord
             return true;
         }
         
-        // отправляет лид в офис или в лид-сервис
+         // отправляет лид в офис или в лид-сервис
         public function sendLead()
         {
             // регионы, за которые платит Leadia
@@ -159,16 +157,47 @@ class Lead extends CActiveRecord
             
             // проверяем, попадает ли регион лида в список регионов Leadea
             if(in_array($this->town->ocrug, $leadiaRegions)) {
+                //echo "Отправляем лид " . $this->id . " в Leadia..<br />";
                 if($this->sendToLeadia()) {
                     $this->leadStatus = self::LEAD_STATUS_SENT_LEADIA;
-                    $this->save();
-                    return true;
+                    if($this->save()) {
+                        return true;
+                    } else {
+                        //CustomFuncs::printr($this->errors);
+                        //Yii::log('Не удалось сохранить лид id=' . $this->id, 'error', 'application.models.lead');
+                        return false;
+                    }
+                } else {
+                    $this->leadStatus = self::LEAD_STATUS_ERROR;
+                    if($this->save()) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             } elseif($this->town->ocrug == 'Московская область') {
                 $this->leadStatus = self::LEAD_STATUS_SENT_CRM;
-                $this->officeId = 1; // Павелецкая
-                $this->save();
-                return true;
+                $contact = new Contact;
+                $contact->name = trim($this->name);
+                $this->name = trim($this->name);
+                $contact->phone = Contact::getValidPhoneStatic($this->phone);
+                $contact->email = $this->email;
+                $contact->sourceId = $this->sourceId;
+                $contact->question = trim($this->question);
+                $contact->question_date = $this->question_date;
+                $contact->townId = $this->townId;
+                $contact->addedById = $this->addedById;
+                
+                $contact->officeId = 1; // Павелецкая
+                if($contact->save()){
+                    $this->contactId = $contact->id;
+                    $this->save();
+                    return true;
+                } else {
+                    echo "Не удалось сохранить лид " . $this->id . '<br />';
+                    CustomFuncs::printr($contact->errors);
+                    return false;
+                } 
             }
         }
 

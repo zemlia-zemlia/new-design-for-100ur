@@ -1,20 +1,38 @@
 <?php
-/* @var $this TownController */
+/* @var $this QuestionController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
-	'Towns',
-);
+Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('town'));
 
-$this->menu=array(
-	array('label'=>'Create Town', 'url'=>array('create')),
-	array('label'=>'Manage Town', 'url'=>array('admin')),
-);
+$pageTitle = "Консультации юриста в городах России";
+
+$this->setPageTitle($pageTitle . '. ' . Yii::app()->name);
+
+// для вывода облака категорий рассчитаем разницу между количеством вопросов в максимальной и минимальной группе
+$deltaCounter = $counterMax - $counterMin;
+
+$fontMax = 40; // максимальный размер шрифта в облаке
+$fontMin = 11; // минимальный размер шрифта
+
+$deltaFont = $fontMax - $fontMin;
+
+$fontCoeff = $deltaFont/$deltaCounter;
 ?>
 
-<h1>Towns</h1>
+<div class="panel panel-default">
+    <div class="panel-body">
+		<h1><?php echo $pageTitle;?></h1>
+	</div>
+</div>
 
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-)); ?>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <?php 
+            foreach($townsArray as $cat) {
+                $fontSize = round($fontMin + $fontCoeff * $cat['counter']);
+                echo CHtml::link($cat['name'], Yii::app()->createUrl('town/alias', array('name'=>$cat['alias'])), array('class'=>'cloud-category', 'style'=>'font-size:'.$fontSize.'px;'));
+            }
+        ?>
+    </div>
+</div>
+

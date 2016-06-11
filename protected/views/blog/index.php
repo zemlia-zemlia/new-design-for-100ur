@@ -25,8 +25,11 @@ $this->breadcrumbs=array(
         'links'=>$this->breadcrumbs,
      ));
 ?>
-
-<h1><?php echo $pageTitle;?></h1>
+<div class="panel">
+    <div class="panel-body">
+		<h1>Блог юридического портала "100 Юристов"</h1>
+    </div>
+</div>
 
 
 <?php $this->widget('zii.widgets.CListView', array(
@@ -42,7 +45,7 @@ $this->breadcrumbs=array(
 
 <div class="panel">
     <div class="panel-body">
-        <div class="row">
+	    <div class="row">
             <div class="col-md-6 col-sm-6 center-align">
                 <img class="img-responsive center-block" alt="При поддержке правительства РФ" src="/pics/pravitelstvo.png">
                 <p class="center-align">Правительство РФ

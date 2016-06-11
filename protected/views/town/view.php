@@ -23,8 +23,9 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['S
         }
     ?>
     >
-    
-    <h1>Консультация юриста <?php echo CHtml::encode($model->name); ?></h1>
+     
+			<h1>Консультация юриста <?php echo CHtml::encode($model->name); ?></h1>
+ 
 </div>
 
 <?php if($model->description1):?>
@@ -44,6 +45,51 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['S
         'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
 
 )); ?>
+
+<?php if(sizeof($model->companies)):?>
+    <div class="panel">
+        <div class="panel-body">
+        <h3>Юридические компании</h3>
+            <div class="container-fluid">
+                <div class="row">
+                <?php 
+                    $companyCounter = 0;
+                    $companyLimit = 6;
+                ?>
+                <?php foreach($model->companies as $company):?>
+                    <?php 
+                        $companyCounter++;
+                        if($companyCounter>$companyLimit) break;
+                    ?>
+                    <?php if($companyCounter%2 == 1) echo "<div class='row'>";?>
+
+                    <div class="col-md-2"><img src="<?php echo $company->getPhotoUrl('thumb');?>" alt="" class="img-responsive" /></div>
+                    <div class="col-md-4">
+                        <?php echo CHtml::link(CHtml::encode($company->name), Yii::app()->createUrl('yurCompany/view',array('id'=>$company->id)));?>
+                    </div>
+                    <?php if($companyCounter%2 == 0) echo "</div>";?>
+                <?php endforeach;?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif;?>
+
+<?php if(is_array($closeTowns) && sizeof($closeTowns)):?>
+<div class="panel">
+    <div class="panel-body">
+        <h3>Соседние города</h3>
+        <div class="row">
+            <?php foreach($closeTowns as $town):?>
+                <div class="col-md-4">
+                    <?php echo CHtml::link('<span class="glyphicon glyphicon-map-marker"></span>' . $town->name, Yii::app()->createUrl('town/alias', array('name'=>$town->alias)));?>
+                </div>    
+            <?php endforeach;?>
+            </div>
+        
+    </div>
+</div>
+<?php endif;?>
 
 <?php if($model->description2):?>
     <div class="panel">

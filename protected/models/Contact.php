@@ -286,5 +286,18 @@ class Contact extends CActiveRecord
             }
         }
         
+        //статическая версия функции преобразования телефонного номера
+        public static function getValidPhoneStatic($phone) 
+        {
+            if($phone == '') return false;
+            
+            // удалим из номера все нецифровые символы
+            $phone = preg_replace('/([^0-9])/i', '', $phone);
+            $phone = substr($phone, -10, 10);
+            $phone = '7' . $phone;
+            
+            return $phone;
+        }
+        
         
 }

@@ -25,6 +25,7 @@ class User extends CActiveRecord
         // константы для ролей пользователей
         const ROLE_SECRETARY = 0;
         const ROLE_OPERATOR = 2;
+        const ROLE_EDITOR = 5;
         const ROLE_JURIST = 10;
         const ROLE_MANAGER = 20;
         const ROLE_ROOT = 100;
@@ -76,6 +77,7 @@ class User extends CActiveRecord
             return array(
                 self::ROLE_SECRETARY    =>  'секретарь',
                 self::ROLE_OPERATOR     =>  'оператор call-центра',
+                self::ROLE_EDITOR       =>  'контент-менеджер',
                 self::ROLE_JURIST       =>  'юрист',
                 self::ROLE_MANAGER      =>  'руководитель',
                 self::ROLE_ROOT         =>  'администратор',
@@ -139,7 +141,8 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                    'manager'=>array(self::BELONGS_TO, 'User', 'managerId'),
+                    'manager'   =>  array(self::BELONGS_TO, 'User', 'managerId'),
+                    'settings'  =>  array(self::HAS_ONE, 'YuristSettings', 'yuristId'),
 		);
 	}
 
@@ -348,6 +351,12 @@ class User extends CActiveRecord
                 $avatarFolder .= User::USER_PHOTO_THUMB_FOLDER; 
             }
             return $avatarFolder . "/" . $this->avatar;
+        }
+        
+        public function getShortName()
+        {
+            return $this->lastName . '&nbsp;' . mb_substr($this->name, 0,2) . '.' . mb_substr($this->name2,0,2) . '.';
+            //return $this->lastName;
         }
 
 }

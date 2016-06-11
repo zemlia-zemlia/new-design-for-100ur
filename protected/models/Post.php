@@ -45,7 +45,7 @@ class Post extends CActiveRecord
                 array('authorId, title, text, preview', 'required'),
                 array('authorId, rating', 'numerical', 'integerOnly'=>true),
                 array('title', 'length', 'max'=>256),
-                array('description', 'safe'),
+                array('description, datePublication', 'safe'),
                 // The following rule is used by search().
                 // Please remove those attributes that should not be searched.
                 array('id, authorId, title, text, datetime, rating, preview', 'safe', 'on'=>'search'),

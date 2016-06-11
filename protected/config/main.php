@@ -57,13 +57,16 @@ return array(
                     'showScriptName'=>false,
                     'urlSuffix'=>'/',
                     'rules'=>array(
-                        '/q/<id:\d+>'=>'/question/view',
-                        '/cat/<id:\d+>'=>'/questionCategory/view',
-                        '/cat/<name:[\w\-]+>'=>'/questionCategory/alias',
-                        '/town/<id:\d+>'=>'/town/view',
+                        '/q/<id:\d+>'                   =>  '/question/view',
+                        '/cat/<id:\d+>'                 =>  '/questionCategory/view',
+                        '/cat/<name:[\w\-]+>'           =>  '/questionCategory/alias',
+                        '/town/<id:\d+>'                =>  '/town/view',
                         '/konsultaciya-yurista-<name:[\w\-]+>'=>'/town/alias',
-                        '/blog/<id:\d+>'=>'/blog/view',
-                        '/post/<id:\d+>'=>'/post/view',
+                        '/blog/<id:\d+>'                =>  '/blog/view',
+                        '/post/<id:\d+>'                =>  '/post/view',
+                        '/company/<alias:[\w\-]+>'      =>  '/yurCompany/town',
+                        '/company'                      =>  '/yurCompany/index',
+                        '/firm/<id:\d+>'                =>  '/yurCompany/view',
                         ),
                     ),
 
@@ -71,7 +74,7 @@ return array(
 
 			'scriptMap'=>array(
                                 //'jquery.js'=>'/js/jquery-1.11.1.min.js',
-                                'jquery.js'=>'/js/jquery-1.8.3.min.js',
+                                'jquery.js'=>'/js/jquery-1.11.1.min.js',
                                 'jquery.min.js'=>'/js/jquery-1.11.1.min.js'
 			),
 

@@ -16,7 +16,7 @@
  */
 class Town extends CActiveRecord
 {
-	
+	public $photoFile;
         const TOWN_PHOTO_PATH = "/upload/townphoto";
         const TOWN_PHOTO_THUMB_FOLDER = "/thumbs";
         
@@ -46,11 +46,13 @@ class Town extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, ocrug,country', 'required'),
-                        array('name','unique','message'=>'Такой город уже есть в базе'),
-			array('name, ocrug,country, alias', 'length', 'max'=>64),
+                        array('alias','unique','message'=>'Такой город уже есть в базе'),
+			array('size', 'numerical', 'integerOnly'=>true),
+                        array('name, ocrug,country, alias', 'length', 'max'=>64),
                         array('name,ocrug,country','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. \(\)])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, скобки, точка, дефис и пробел'),
-			array('alias','match','pattern'=>'/^([a-z\-])+$/'),
+			array('alias','match','pattern'=>'/^([a-z0-9\-])+$/'),
                         array('description, description1, description2, seoKeywords, seoTitle, seoDescription','safe'),
+                        array('photoFile', 'file', 'types'=>'jpg, gif, png', 'allowEmpty'=>true),
                         // The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, description', 'safe', 'on'=>'search'),
@@ -65,7 +67,9 @@ class Town extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                   
+                    'questions'           =>  array(self::HAS_MANY, 'Question', 'townId'),
+                    'questionsCount'      =>  array(self::STAT, 'Question', 'townId'),
+                    'companies'           =>  array(self::HAS_MANY, 'YurCompany', 'townId'), 
 		);
 	}
 
@@ -87,6 +91,7 @@ class Town extends CActiveRecord
                         'seoDescription'  =>  'SEO Description',
                         'seoKeywords'  =>  'SEO Keywords',
                         'photo'         =>  'Фотография',
+                        'photoFile'     =>  'Файл с фотографией (минимум 1000х300 пикселей)',
 		);
 	}
 
@@ -180,11 +185,25 @@ class Town extends CActiveRecord
             $photoUrl = '';
                         
             if($size == 'full') {
-                $photoUrl = Yii::app()->params['crmDomain'] . self::TOWN_PHOTO_PATH . '/' . CHtml::encode($this->photo);
+                $photoUrl = self::TOWN_PHOTO_PATH . '/' . CHtml::encode($this->photo);
             } elseif($size == 'thumb') {
-                $photoUrl = Yii::app()->params['crmDomain'] . self::TOWN_PHOTO_PATH . self::TOWN_PHOTO_THUMB_FOLDER . '/' . CHtml::encode($this->photo);
+                $photoUrl = self::TOWN_PHOTO_PATH . self::TOWN_PHOTO_THUMB_FOLDER . '/' . CHtml::encode($this->photo);
             }
             return $photoUrl;
+        }
+        
+        // ищем соседние города
+        // возвращает массив объектов Town
+        public function getCloseTowns()
+        {
+            $region = $this->ocrug;
+            
+            $criteria = new CDbCriteria();
+            $criteria->addColumnCondition(array('ocrug'=>$region));
+            $criteria->addColumnCondition(array('name!'=>$this->name));
+            
+            $towns = self::model()->findAll($criteria);
+            return $towns;
         }
         
 }

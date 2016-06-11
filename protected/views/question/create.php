@@ -2,7 +2,7 @@
 /* @var $this QuestionController */
 /* @var $model Question */
 
-$this->setPageTitle("Вопросы юристам - новый вопрос.". Yii::app()->name);
+$this->setPageTitle("Задать вопрос юристам и адвокатам. ". Yii::app()->name);
 
 Yii::app()->ClientScript->registerScriptFile('/js/jquery.maskedinput.min.js', CClientScript::POS_END);
 

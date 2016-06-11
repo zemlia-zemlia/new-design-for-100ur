@@ -3,9 +3,6 @@
 /* @var $model Question */
 /* @var $form CActiveForm */
 ?>
-
-
-
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'question-form',
 	'enableAjaxValidation'=>false,
@@ -41,12 +38,15 @@
         
         <div class="form-group">
 		<?php echo $form->labelEx($model,'town'); ?>
-		<?php echo $form->dropDownList($model,'townId', $townsArray, array('class'=>'form-control')); ?>
+                <?php echo CHtml::textField('town', '', array('id'=>'town-selector', 'class'=>'form-control')); ?>
+                <?php
+                    echo $form->hiddenField($model, 'townId', array('id'=>'selected-town'));
+                ?>
 		<?php echo $form->error($model,'townId'); ?>
 	</div>
 
 	<div class="form-group">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Задать вопрос' : 'Сохранить', array('class'=>'btn btn-warning btn-lg')); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Отправить' : 'Сохранить', array('class'=>'btn btn-warning btn-block btn-lg')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

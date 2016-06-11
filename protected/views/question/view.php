@@ -11,8 +11,6 @@ if($model->description) {
 }
 
 ?>
-
- <hr/>
  
 <div itemscope itemtype="http://schema.org/Question">
      
@@ -22,17 +20,19 @@ if($model->description) {
     
         <div itemprop="author" itemscope itemtype="http://schema.org/Person">
             <p>
+                <small>
                 <?php if($model->authorName):?>
-                    <img src='/pics/2015/icon_user.png' alt='' />&nbsp;<span itemprop="name"><?php echo CHtml::encode($model->authorName); ?></span> &nbsp;&nbsp;
+                    <span class="glyphicon glyphicon-user"></span>&nbsp;<span itemprop="name"><?php echo CHtml::encode($model->authorName); ?></span> &nbsp;&nbsp;
                 <?php endif;?>
                 <?php if($model->town):?>
-                    <img src='/pics/2015/icon_marker.png' alt='' />&nbsp;<?php echo CHtml::link(CHtml::encode($model->town->name),Yii::app()->createUrl('town/alias',array('name'=>CHtml::encode($model->town->alias)))); ?> &nbsp;&nbsp;
+                    <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($model->town->name),Yii::app()->createUrl('town/alias',array('name'=>CHtml::encode($model->town->alias)))); ?> &nbsp;&nbsp;
                 <?php endif;?>
                 <?php if($model->categories):?>
                     <?php foreach($model->categories as $category):?>
-                    <img src='/pics/2015/icon_folder.png' alt='' />&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($category->name),Yii::app()->createUrl('questionCategory/alias',array('name'=>CHtml::encode($category->alias))));?> &nbsp;&nbsp;
+                    <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($category->name),Yii::app()->createUrl('questionCategory/alias',array('name'=>CHtml::encode($category->alias))));?> &nbsp;&nbsp;
                     <?php endforeach;?>
                 <?php endif;?>
+                </small>
             </p>
         </div>
         <hr />
@@ -46,6 +46,8 @@ if($model->description) {
     <p itemprop="text">
         <?php echo nl2br(CHtml::encode($model->questionText));?>
     </p>
+	
+
 
     <?php $this->widget('zii.widgets.CListView', array(
             'dataProvider'  =>  $answersDataProvider,
@@ -55,8 +57,12 @@ if($model->description) {
             'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
 
     )); ?>
-
-
+	<br/>
+	<noindex>
+		<script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
+		<script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
+		<div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,linkedin,lj,surfingbird,tumblr"></div>
+	</noindex>
     </div>
 </div>
     
@@ -66,7 +72,7 @@ if($model->description) {
 
 <!-- Форма --> 
 <noindex>
-            <div class="form-container">
+            <div class="form-container form-container-content">
                 <h2 class="center-align">Задать вопрос</h2>
                                 
                 <?php $form=$this->beginWidget('CActiveForm', array(

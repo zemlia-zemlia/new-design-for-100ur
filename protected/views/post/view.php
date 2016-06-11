@@ -3,7 +3,7 @@
 /* @var $model Post */
 $purifier = new Purifier();
 
-$this->setPageTitle(CHtml::encode($model->title) . " | Блог" . " | ". Yii::app()->name);
+$this->setPageTitle(CHtml::encode($model->title) . " " . "Консультации ". Yii::app()->name);
 Yii::app()->clientScript->registerMetaTag($purifier->purify($model->description), "Description");
 
 $this->breadcrumbs=array(
@@ -57,35 +57,22 @@ $this->breadcrumbs=array(
 
         <div class="post-stats">
             <div class='row'>
-                <div class='col-md-6 col-sm-6'>
+                <div class='col-md-3 col-sm-3'>
                     <span class="muted"><?php echo CustomFuncs::invertDate($model->datePublication);?></span>
                 </div>
-                <div class='col-md-6 col-sm-6 right-align'>
+                <div class='col-md-5 col-sm-5 right-align'>
                     <img src='/pics/2015/icon_eye.png' alt='' />&nbsp;<span class='muted'><?php echo $model->viewsCount->views;?> <?php echo CustomFuncs::numForms($model->viewsCount->views, 'просмотр', "просмотра", "просмотров");?></span>
                 </div>
+				<div class='col-md-4 col-sm-4 right-align'>
+				<script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
+				<script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
+				<div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,twitter,lj"></div>
+                </div>
+				
+				
             </div>
         </div>
      
     </div>
 </div>                       
-            
        
-<h3>При поддержке</h3>
-
-<div class="panel">
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-6 col-sm-6 center-align">
-                <img class="img-responsive center-block" alt="При поддержке правительства РФ" src="/pics/pravitelstvo.png">
-                <p class="center-align">Правительство РФ
-                </p>
-            </div>
-
-            <div class="col-md-6 col-sm-6 center-align"> 
-                <img class="img-responsive center-block" alt="При поддержке Министерства Юстиции" src="/pics/minyust.png"> 
-                <p class="center-align">Министерство Юстиции</p>
-            </div>
-        </div>
-    </div>
-</div>
-        

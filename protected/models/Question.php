@@ -53,14 +53,14 @@ class Question extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('questionText, townId, authorName, phone', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
-			array('number, categoryId, status, townId', 'numerical', 'integerOnly'=>true),
-                        array('townId','compare','operator'=>'!=', 'compareValue'=>'0','message'=>'Не выбран город'),
+			array('questionText, townId, authorName', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
+			array('phone', 'required', 'on'=>'create', 'message'=>'Поле {attribute} должно быть заполнено'),
+                        array('number, categoryId, status, publishedBy', 'numerical', 'integerOnly'=>true),
 			array('categoryName', 'length', 'max'=>255),
-                        array('email', 'email', 'message'=>'Email не похож на настоящий'),
-                        array('authorName, title','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. ])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, точка, дефис и пробел'),
+                        array('authorName, townId, title','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-., ])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, точка, дефис и пробел'),
                         array('phone','match','pattern'=>'/^([0-9\+])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
-			
+			array('townId', 'match','not'=>true, 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
+                        array('description', 'safe'),
                         // The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, number, questionText, categoryId, categoryName', 'safe', 'on'=>'search'),
@@ -75,9 +75,10 @@ class Question extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                    'town'  =>  array(self::BELONGS_TO, 'Town', 'townId'),
-                    'answers'   =>  array(self::HAS_MANY, 'Answer', 'questionId'),
+                    'town'          =>  array(self::BELONGS_TO, 'Town', 'townId'),
+                    'answers'       =>  array(self::HAS_MANY, 'Answer', 'questionId'),
                     'answersCount'  =>  array(self::STAT, 'Answer', 'questionId'),
+                    'bublishUser'   =>  array(self::BELONGS_TO, 'User', 'publishedBy'),
                     'categories'    =>  array(self::MANY_MANY, 'QuestionCategory', '{{question2category}}(qId, cId)'),
 		);
 	}
@@ -140,6 +141,17 @@ class Question extends CActiveRecord
             return $row['counter'];
         }
         
+        // возвращает количество вопросов 
+        static public function getCount()
+        {
+            $connection  = Yii::app()->db;
+            $sqlPublished = "SELECT COUNT(id) AS counter FROM {{question}}";
+            $command = $connection->cache(600)->createCommand($sqlPublished);
+            $command->bindParam(":status",  $status, PDO::PARAM_INT);
+            $row = $command->queryRow();
+            return $row['counter'];
+        }
+        
         
 
         /**
@@ -164,4 +176,36 @@ class Question extends CActiveRecord
 		));
 	}
         
+        protected function beforeSave()
+        {
+            if(!parent::beforeSave()) {
+                return false;
+            }
+            
+            
+            if($this->title == '') {
+                $this->formTitle();
+            }
+            
+            return true;
+        }
+        
+        // присваивает полю title первые 10 слов из текста вопроса
+        public function formTitle($wordsCount = 10)
+        {
+            preg_match("/(?:\w+(?:\W+|$)){0,$wordsCount}/u", $this->questionText, $matches);
+            $this->title = $matches[0];
+            $patterns = array();
+            $patterns[0] = '/Здравствуйте/ui';
+            $patterns[1] = '/Добрый день/ui';
+            $patterns[2] = '/[!,\.\?:]/ui';
+            $replacements = array();
+            $replacements[2] = '';
+            $replacements[1] = '';
+            $replacements[0] = '';
+            
+            $this->title = preg_replace($patterns, $replacements, $this->title);
+            $this->title = trim($this->title);
+            $this->title = ucfirst($this->title);
+        }
 }

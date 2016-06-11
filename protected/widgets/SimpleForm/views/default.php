@@ -19,7 +19,7 @@
                     <div class="col-md-7">
                         <div class="form-group">
                                 <?php echo $form->labelEx($model,'questionText'); ?>
-                                <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>6, 'placeholder'=>'Добрый день!...')); ?>
+                                <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>6, 'placeholder'=>'Меня хотят выписать из квартиры в которой не проживаю больше двух лет, как мне действовать чтобы сохранить прописку?')); ?>
                                 <?php echo $form->error($model,'questionText'); ?>
                         </div>
                     </div>
@@ -43,13 +43,13 @@
                     <div class="col-md-7">
                         <div class="form-group">
                             <label>Ваше имя *</label>
-                            <?php echo $form->textField($model,'authorName', array('class'=>'form-control', 'placeholder'=>'Иванов Иван')); ?>
+                            <?php echo $form->textField($model,'authorName', array('class'=>'form-control', 'placeholder'=>'Владимир')); ?>
                             <?php echo $form->error($model,'authorName'); ?>
                         </div>
                     </div>
                     <div class="col-md-5">
                         <div class="form-group" id="form-submit-wrapper">
-                                <?php echo CHtml::submitButton($model->isNewRecord ? 'Задать вопрос юристу' : 'Сохранить', array('class'=>'btn btn-warning btn-block', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
+                                <?php echo CHtml::submitButton($model->isNewRecord ? 'Задать вопрос юристу' : 'Сохранить', array('class'=>'btn btn-success btn-block', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
                         </div>
                     </div>
                 </div>

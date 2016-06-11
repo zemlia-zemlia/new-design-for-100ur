@@ -12,6 +12,7 @@
  * @property string $seoTitle
  * @property string $seoDescription
  * @property string $seoKeywords
+ * @property string $seoH1
  */
 class QuestionCategory extends CActiveRecord
 {
@@ -45,7 +46,7 @@ class QuestionCategory extends CActiveRecord
 			array('parentId', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>255),
                         array('alias','match','pattern'=>'/^([a-z0-9\-])+$/'),
-                        array('description1, description2, seoTitle, seoDescription, seoKeywords', 'safe'),
+                        array('description1, description2, seoTitle, seoDescription, seoKeywords, seoH1', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, parentId', 'safe', 'on'=>'search'),
@@ -72,15 +73,16 @@ class QuestionCategory extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'name' => 'Название',
-			'parentId' => 'ID родительской категории',
-                        'parent' => 'Родительская категория',
-                        'description1'  =>  'Описание 1',
-                        'description2'  =>  'Описание 2',
-                        'seoTitle'  =>  'SEO title',
-                        'seoDescription'  =>  'SEO description',
-                        'seoKeywords'  =>  'SEO keywords',
+			'id'                => 'ID',
+			'name'              => 'Название',
+			'parentId'          => 'ID родительской категории',
+                        'parent'            => 'Родительская категория',
+                        'description1'      =>  'Описание 1',
+                        'description2'      =>  'Описание 2',
+                        'seoTitle'          =>  'SEO title',
+                        'seoDescription'    =>  'SEO description',
+                        'seoKeywords'       =>  'SEO keywords',
+                        'seoH1'             =>  'Заголовок H1'
 		);
 	}
         
@@ -133,4 +135,26 @@ class QuestionCategory extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        // перед сохранением экземпляра класса проверим, есть ли алиас. Если нет, присвоим.
+        protected function beforeSave()
+        {
+            if(parent::beforeSave()) {
+                if($this->alias == '') {
+                    $this->alias = CustomFuncs::translit($this->name);
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        public function checkIfPropertyFilled($propName)
+        {
+            if($this->$propName) {
+                return "<span class='glyphicon glyphicon-ok'></span>";
+            } else {
+                return "";
+            }
+        }
 }

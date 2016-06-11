@@ -95,6 +95,7 @@ class QuestionController extends Controller
 	{
 		$lead = new Lead();
                 $question = new Question();
+                $question->setScenario('create');
                 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -108,12 +109,16 @@ class QuestionController extends Controller
                         $lead->name = $question->authorName;
                         $lead->question = $question->questionText;
                         $lead->phone = $question->phone;
+                        $lead->email = $question->email;
                         $lead->townId = $question->townId;
                         $lead->sourceId = 3; // Lidlaw
                         $lead->leadStatus = Lead::LEAD_STATUS_DEFAULT; // по умолчанию лид никуда не отправляем
-			
+			//CustomFuncs::printr($lead);exit;
+                        
                         if($lead->save()) {
                                 $lead->sendByEmail();
+                                $question->status = Question::STATUS_PUBLISHED;
+                                $question->save();
 				$this->redirect(array('thankYou'));
                         } else {
                             //CustomFuncs::printr($lead->errors);
@@ -148,29 +153,56 @@ class QuestionController extends Controller
 	 * Lists all models.
 	 */
 	public function actionIndex()
-	{
-		
-                $criteria = new CDbCriteria;
-                $criteria->order = 't.id desc';
-                $criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
-                $criteria->with = array('categories', 'town', 'answersCount');
-                
-                if(isset($_GET['status'])) {
+	{            
+            if(isset($_GET['status'])) {
                     $status = (int)$_GET['status'];
-                    $criteria->addColumnCondition(array('status'=>$status));
                 } else {
-                    $status = null;
+                    $status = Question::STATUS_PUBLISHED;
+                }
+            
+            if(!$categoriesRows = Yii::app()->cache->get('categoriesCloud')) {    
+                $categoriesRows = Yii::app()->db->createCommand()
+                        ->select("c.id, c.name, c.alias, COUNT(*) counter")
+                        ->from("{{question}} q")
+                        ->leftJoin("{{question2category}} q2c", "q2c.qId = q.id")
+                        ->leftJoin("{{questionCategory}} c", "c.id = q2c.cId")
+                        ->where("q.status=:status AND c.id IS NOT NULL", array(":status" => $status))
+                        ->group("c.id")
+                        ->order('c.name')
+                        ->queryAll();
+                Yii::app()->cache->set('categoriesCloud', $categoriesRows, 3600);
+            }
+            
+            $categoriesArray = array();
+            $counterMax = 0; // максимальное количество вопросов в категории
+            $counterMin = 0; // минимальное количество вопросов в категории
+            
+            // найдем минимальное и максимальное количество вопросов
+            foreach($categoriesRows as $row) {
+                if($row['counter']>$counterMax) {
+                    $counterMax = $row['counter'];
                 }
                 
-                $dataProvider = new CActiveDataProvider('Question', array(
-                    'criteria'=>$criteria,        
-                    'pagination'=>array(
-                                'pageSize'=>20,
-                            ),
-                ));
-		$this->render('index',array(
-			'dataProvider'  =>  $dataProvider,
-                        'status'        =>  $status,
+                if($counterMin == 0) {
+                    $counterMin = $row['counter']; // при первом цикле присвоим минимуму значение первого счетчика
+                }
+                
+                if($counterMin != 0 && $row['counter']<$counterMin) {
+                    $counterMin = $row['counter'];
+                }
+            }
+                        
+            foreach($categoriesRows as $row) {
+                $categoriesArray[$row['id']]['name'] = $row['name'];
+                $categoriesArray[$row['id']]['alias'] = $row['alias'];
+                $categoriesArray[$row['id']]['counter'] = $row['counter'];
+            }
+            
+            $this->render('index',array(
+			'categoriesArray'   =>  $categoriesArray,
+                        'status'            =>  $status,
+                        'counterMin'        =>  $counterMin,
+                        'counterMax'        =>  $counterMax,
 		));
 	}
 

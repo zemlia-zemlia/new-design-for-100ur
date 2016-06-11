@@ -1,3 +1,7 @@
+body {
+    background-color:#E8E8E8;
+}
+
 h1,h2,h3,h4,h5 {
 	text-align: center;
         line-height: 1.2em;
@@ -53,6 +57,10 @@ a {
 
 .vert-margin30 {
 	margin-bottom: 30px;
+}
+        
+.panel-body{
+    padding:15px;
 }
 
 
@@ -116,7 +124,17 @@ a {
 .header-phone {
     color:#1e1e1e;
     font-size:24px;
-    font-family: Georgia;
+   /* font-family: Georgia; */
+}
+
+.kpi-counter span {
+  background: #582c29 none repeat scroll 0 0;
+  border-radius: 3px;
+  color: #fff;
+  display: inline-block;
+  margin: 0 1px;
+  padding: 3px;
+  font-size: 1.3em;
 }
 
 .questions-counter {
@@ -129,6 +147,7 @@ a {
     text-transform: uppercase;
     font-weight: 600;
     margin-bottom: 10px;
+    text-align:left;
 }
 
 /*--------------- form ----------------*/
@@ -140,9 +159,13 @@ a {
 }
 
 .form-container {
-    background-color: #FCF33D;
+    background-color:rgba(255, 204, 102,0.6);
     padding:17px;
     margin:25px 25px 25px 0;
+}
+
+.form-container-content {
+    margin:25px 0;
 }
 
 .form-container h2 {
@@ -181,9 +204,9 @@ a {
 
 ul#left-menu, ul#left-menu li ul {
     list-style: none;
-    padding-left:10px;
+    padding-left:0px;
     margin-bottom: 0;
-
+    font-size:12px;
 }
 ul#left-menu li {
     padding:3px;
@@ -203,7 +226,7 @@ ul#left-menu a {
 }
 
 ul#left-menu li.active>a {
-    color:#67adb0;
+    color:#fff;
 }
 
 ul#left-menu li.active ul li {
@@ -226,7 +249,7 @@ ul#left-menu a.btn:hover {
 /*------------ middle ----------*/
 
 #middle {
-    background-color: #f2f2f2;
+    background-color: #E8E8E8;
     padding-top: 15px;
     padding-bottom: 30px;
 }
@@ -269,6 +292,13 @@ ul#left-menu a.btn:hover {
 
 .orange-panel .row>div img {
     margin:10px auto;
+}
+
+.cloud-category {
+    display:inline-block;
+    zoom:1;
+    *display:inline;
+    padding:0 10px;
 }
 
 /*------------ footer --------------*/
@@ -368,6 +398,34 @@ ul.yiiPager {
     padding:10px;
 }
 
+.error-message h1 {
+    font-size:30px;
+}
+
+.description.error {
+    text-align: center;
+    margin:40px 0;
+}
+
+
+/*--------------- companies -------------*/
+
+.company-list-item {
+    border-bottom: #eee 1px solid;
+}
+
+.company-list-description {
+    padding-top:30px;
+}
+
+.company-town-list-item {
+    text-align: center;
+}
+
+.company-town-list-item a {
+    font-size:18px;
+}
+
 @media (max-width:1400px) {
     .container {
         width: 100%;
@@ -377,6 +435,11 @@ ul.yiiPager {
 @media (min-width:1401px) {
     .container {
         width: 1170px;
+    }
+    
+    #form-wrapper {
+        max-width: 1450px;
+        margin: 0 auto;
     }
 }
 

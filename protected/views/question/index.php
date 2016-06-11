@@ -2,35 +2,36 @@
 /* @var $this QuestionController */
 /* @var $dataProvider CActiveDataProvider */
 
-Yii::app()->clientScript->registerLinkTag("alternate","application/rss+xml","http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('question/rss'));
+//Yii::app()->clientScript->registerLinkTag("alternate","application/rss+xml","http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('question/rss'));
 Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('question'));
 
 $pageTitle = "Вопросы юристам. ";
-if(isset($_GET) && (int)$_GET['Question_page']) {
-    $pageNumber = (int)$_GET['Question_page'];
-    $pagesTotal = ceil($dataProvider->totalItemCount / $dataProvider->pagination->getPageSize());
-    $pageTitle .= 'Страница ' . $pageNumber . ' из ' . $pagesTotal . '. ';
-}
+
 $this->setPageTitle($pageTitle . Yii::app()->name);
 
+// для вывода облака категорий рассчитаем разницу между количеством вопросов в максимальной и минимальной категории
+$deltaCounter = $counterMax - $counterMin;
 
-$this->breadcrumbs=array(
-	'Вопросы и ответы',
-);
+$fontMax = 40; // максимальный размер шрифта в облаке
+$fontMin = 11; // минимальный размер шрифта
 
+$deltaFont = $fontMax - $fontMin;
+
+$fontCoeff = $deltaFont/$deltaCounter;
 ?>
 
 <div class="vert-margin30">
 <h1><?php echo $pageTitle;?></h1>
 </div>
 
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'      =>  '_view',
-        'emptyText'     =>  'Юристы пока не ответили',
-        'summaryText'   =>  '',
-        'ajaxUpdate'    =>  false,
-        'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
-
-)); ?>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <?php 
+            foreach($categoriesArray as $cat) {
+                $fontSize = round($fontMin + $fontCoeff * $cat['counter']);
+                echo CHtml::link($cat['name'], Yii::app()->createUrl('questionCategory/alias', array('name'=>$cat['alias'])), array('class'=>'cloud-category', 'style'=>'font-size:'.$fontSize.'px;'));
+            }
+        ?>
+    </div>
+</div>
 

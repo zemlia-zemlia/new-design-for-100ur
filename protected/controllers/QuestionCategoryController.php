@@ -76,13 +76,18 @@ class QuestionCategoryController extends Controller
         
         public function actionAlias($name)
 	{
+            // если в урле заглавные буквы, редиректим на вариант с маленькими
+            if(preg_match("/[A-Z]/", $name)) {
+                $this->redirect(array('questionCategory/alias', 'name'=>strtolower($name)), true, 301);
+            }
+            
             $model = QuestionCategory::model()->with('parent','children')->findByAttributes(array('alias'=>CHtml::encode($name)));
             if(!$model) {
                 throw new CHttpException(404,'Категория не найдена');
             }
             $questionsCriteria = new CdbCriteria;
             $questionsCriteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
-            $questionsCriteria->order = 't.id DESC';
+            $questionsCriteria->order = 't.publishDate DESC';
             $questionsCriteria->with = array(
                         'categories'  =>  array(
                             'condition' =>  'categories.id = ' . $model->id,
@@ -90,6 +95,16 @@ class QuestionCategoryController extends Controller
                 );
             
             $questions = Question::model()->findAll($questionsCriteria);
+            
+            if(sizeof($questions) == 0) {
+                // если в данной категории не найдено ни одного вопроса, найдем последние 
+                // вопросы с ответами, независимо от категории
+                $questionsCriteria = new CDbCriteria;
+                $questionsCriteria->order = 't.publishDate DESC';
+                $questionsCriteria->limit = 5;
+            
+                $questions = Question::model()->findAll($questionsCriteria);    
+            }
             //CustomFuncs::printr($questions);
             
             $questionsDataProvider = new CArrayDataProvider($questions, array(
@@ -98,12 +113,12 @@ class QuestionCategoryController extends Controller
                         ),
                 ));
             
-            $questionModel = new Question();
+            $newQuestionModel = new Question();
             
             $this->render('view',array(
 			'model'                 =>  $model,
                         'questionsDataProvider' =>  $questionsDataProvider,
-                        'questionModel'         =>  $questionModel,
+                        'newQuestionModel'      =>  $newQuestionModel,
 		));
 	}
         

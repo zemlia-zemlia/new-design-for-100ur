@@ -2,21 +2,28 @@
 /* @var $this AnswerController */
 /* @var $data Answer */
 ?>
-
+<?php if($data->status!=Answer::STATUS_SPAM):?>
 <div class='answer-item'>
     
         <div itemprop="suggestedAnswer acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
             <?php if($data->author):?>
             <div itemprop="author" class='answer-item-author' itemscope itemtype="http://schema.org/Person">
-            <img src='/pics/2015/icon_comment.png' alt='' /> Отвечает
+            <span class="glyphicon glyphicon-comment"></span> Отвечает
             &nbsp;&nbsp;
-            <img src='/pics/2015/icon_user.png' alt='' />
+            <span class="glyphicon glyphicon-user"></span>
             <strong>
                 <span itemprop="name">
-                    <?php echo CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->name2); ?>
+                    <?php if($data->author->settings && $data->author->settings->alias):?>
+                        <?php echo CHtml::encode($data->author->settings->alias);?>
+                    <?php else:?>
+                        <?php echo CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->name2); ?>
+                    <?php endif;?>
                 </span>
-                <span class="muted"><?php echo CHtml::encode($data->author->position);?></span>
             </strong>
+            &nbsp;&nbsp;
+            <?php if($data->datetime):?>
+                <span class="glyphicon glyphicon-calendar"></span> <?php echo CustomFuncs::niceDate($data->datetime, false);?>
+            <?php endif;?>
             </div>
             <?php endif;?>
             <div itemprop="text">
@@ -27,3 +34,4 @@
         </div>    
 
 </div>
+<?php endif;?>
