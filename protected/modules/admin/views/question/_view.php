@@ -66,12 +66,13 @@
     
     <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>  
     <td>
+        <small>
         <?php if(!$hideCategory):?>
             <?php foreach($data->categories as $category):?>
             <?php echo CHtml::link($category->name, Yii::app()->createUrl('/admin/questionCategory/view',array('id'=>$category->id)));?><br />
             <?php endforeach;?>
         <?php endif;?>
-        <br />
+        </small>
     </td>
     <td>
         <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>   

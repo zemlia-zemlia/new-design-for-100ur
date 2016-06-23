@@ -135,6 +135,7 @@ class LeadController extends Controller
             $question->townId = $contact->townId;
             $question->authorName = $contact->name;
             $question->questionText = $contact->question;
+            $question->status = Question::STATUS_PUBLISHED;
             
             if($question->save()) {
                 $contact->questionId = $question->id;

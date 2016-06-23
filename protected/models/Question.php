@@ -57,9 +57,10 @@ class Question extends CActiveRecord
 			array('phone', 'required', 'on'=>'create', 'message'=>'Поле {attribute} должно быть заполнено'),
                         array('number, categoryId, status, publishedBy', 'numerical', 'integerOnly'=>true),
 			array('categoryName', 'length', 'max'=>255),
-                        array('authorName, townId, title','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-., ])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, точка, дефис и пробел'),
+                        array('authorName, title','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-., ])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, точка, дефис и пробел'),
                         array('phone','match','pattern'=>'/^([0-9\+])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
-			array('townId', 'match','not'=>true, 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
+			array('email','email', 'message'=>'В Email допускаются латинские символы, цифры, точка и дефис'),
+                        array('townId', 'match','not'=>true, 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
                         array('description', 'safe'),
                         // The following rule is used by search().
 			// Please remove those attributes that should not be searched.

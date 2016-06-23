@@ -49,6 +49,7 @@ class Lead extends CActiveRecord
 			array('name, phone, sourceId, question', 'required','message'=>'Поле {attribute} должно быть заполнено'),
 			array('sourceId, townId, questionId, leadStatus, addedById', 'numerical', 'integerOnly'=>true),
 			array('name, phone, email', 'length', 'max'=>255),
+			array('townId', 'match','not'=>true, 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
                         array('name','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-., ])+$/u', 'message'=>'В имени могут присутствовать буквы, цифры, точка, дефис и пробел', 'except'=>'parsing'),
                         array('phone','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\+\(\)\s \-])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
                         array('email', 'email', 'message'=>'E-mail похож на ненастоящий, проверьте, пожалуйста, правильность набора'),

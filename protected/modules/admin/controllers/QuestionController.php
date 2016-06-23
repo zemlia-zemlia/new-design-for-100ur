@@ -202,7 +202,7 @@ class QuestionController extends Controller
 	{
 		
                 $criteria = new CDbCriteria;
-                $criteria->order = 't.id asc';
+                $criteria->order = 't.id DESC';
                 
                 if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)) {
                     $answersCountRelation = "answersCount";

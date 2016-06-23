@@ -21,8 +21,5 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <?php echo $this->renderPartial('_form', array(
         'model'             =>  $model,
-        'rolesNames'        =>  $rolesNames,
-        'allManagersNames'  =>  $allManagersNames,
-        'yuristSettings'    =>  $yuristSettings,
         'townsArray'        =>  $townsArray,
     )); ?>

@@ -22,8 +22,6 @@ $this->breadcrumbs=array(
     <thead>
     <tr>
         <th>Текст лида</th>
-        <th>Информация</th>
-        <th>Статус</th>
         <th>Вопрос</th>
     </tr>
     </thead>

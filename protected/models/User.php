@@ -25,6 +25,7 @@ class User extends CActiveRecord
         // константы для ролей пользователей
         const ROLE_SECRETARY = 0;
         const ROLE_OPERATOR = 2;
+        const ROLE_CLIENT = 3;
         const ROLE_EDITOR = 5;
         const ROLE_JURIST = 10;
         const ROLE_MANAGER = 20;
@@ -58,11 +59,12 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, name2, lastName, position, email, phone', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
+			array('name, name2, lastName, email, phone', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
 			array('role, active, managerId', 'numerical', 'integerOnly'=>true),
 			array('name, position, email, phone', 'length', 'max'=>255),
                         array('password','length','min'=>5,'max'=>128, 'tooShort'=>'Минимальная длина пароля 5 символов', 'allowEmpty'=>($this->scenario=='update')),
                         array('password2', 'compare', 'compareAttribute'=>'password', 'except'=>'confirm, create', 'message'=>'Пароли должны совпадать','allowEmpty'=>($this->scenario=='create')),
+			array('email','email', 'message'=>'В Email допускаются латинские символы, цифры, точка и дефис'),
 
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -77,6 +79,7 @@ class User extends CActiveRecord
             return array(
                 self::ROLE_SECRETARY    =>  'секретарь',
                 self::ROLE_OPERATOR     =>  'оператор call-центра',
+                self::ROLE_CLIENT       =>  'пользователь',
                 self::ROLE_EDITOR       =>  'контент-менеджер',
                 self::ROLE_JURIST       =>  'юрист',
                 self::ROLE_MANAGER      =>  'руководитель',
@@ -164,6 +167,7 @@ class User extends CActiveRecord
                         'password2' => 'Пароль еще раз',
 			'active'    => 'Активность',
 			'managerId' => 'Руководитель',
+                        'birthday'  => 'Дата рождения',
 		);
 	}
 
@@ -217,11 +221,11 @@ class User extends CActiveRecord
             $mailer = new GTMail;
             
             $confirmLink = CHtml::decode("http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('user/confirm',array('email'=>$this->email,'code'=>$this->confirm_code)));
-            $mailer->subject = "CRM - Регистрация пользователя";
+            $mailer->subject = "100 юристов - Регистрация пользователя";
             $mailer->message = "
-                <h1>Регистрация в системе CRM</h1>
+                <h1>Регистрация на сайте 100 юристов</h1>
                 <p>Здравствуйте!<br />
-                Вы зарегистрировались в системе <a href='http://".$_SERVER['SERVER_NAME']."'>по работе с клиентами</a></p>".
+                Вы зарегистрировались на сайте <a href='http://".$_SERVER['SERVER_NAME']."'>100 юристов</a></p>".
             "<p>Для того, чтобы начать пользоваться всеми возможностями сайта, необходимо подтвердить свой email. Для этого перейдите по ссылке:</p>".
             "<p><strong>" . CHtml::link($confirmLink,$confirmLink) . "</strong></p>";
             

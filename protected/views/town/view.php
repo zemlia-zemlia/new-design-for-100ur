@@ -49,7 +49,7 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['S
 <?php if(sizeof($model->companies)):?>
     <div class="panel">
         <div class="panel-body">
-        <h3>Юридические компании</h3>
+        <h3>Юридические компании города</h3>
             <div class="container-fluid">
                 <div class="row">
                 <?php 
@@ -91,6 +91,12 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['S
 </div>
 <?php endif;?>
 
+<div class="panel">
+	<div class="panel-body">
+		<h2>Юристы и Адвокаты из/в <?php echo CHtml::encode($model->name); ?> отвечают на ваши вопросы</h2>
+	</div>
+</div>
+
 <?php if($model->description2):?>
     <div class="panel">
         <div class="panel-body">
@@ -101,7 +107,6 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['S
 
 <noindex>
 <div class="vert-margin30">
-<h3>На ваши вопросы отвечают:</h3>
 <div class="panel">
     <div class='panel-body'>
         

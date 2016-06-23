@@ -137,7 +137,7 @@
                 <?php endif;?>
             </div>
             <div class="col-md-3 col-sm-3">
-                <div class="panel" style="text-align:center;">
+                <div class="panel-1" style="text-align:center;">
                 <div class="panel-body">	
 						<p><b>Поделиться ссылкой на сайт:</b></p>
                         <script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
@@ -187,9 +187,6 @@
                     <div class="panel-body">
                         <div class="row">
 						<h3>Портал работает при поддержке:</h3>
-						    <div class="col-md-12 col-xs-4">
-                                <img class="img-responsive center-block" alt="Мониторинг правоприменения в сети" title="Мониторинг правоприменения в сети" src="/pics/monitoring.png"> 
-                            </div>
                             <div class="col-md-6 col-xs-4">
                                 <img class="img-responsive center-block" alt="Правительство Москвы" title="Правительство Москвы" src="/pics/pravitelstvo.png"> 
                             </div>
@@ -259,11 +256,7 @@
                         <span class="value-title" title="http://www.100yuristov.com"> </span>
                       </span>
                     </div>
-                   </div>
-                    <noindex>
-                    <script type="text/javascript" src="//yastatic.net/share/share.js" charset="utf-8"></script><div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="small" data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki" data-yashareTheme="counter"></div>
-					</noindex>
-                    
+                  </div>               
                 </div>
                 
                 <div class='col-md-3 col-sm-3 center-align'>
