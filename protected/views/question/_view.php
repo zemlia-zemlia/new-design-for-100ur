@@ -5,7 +5,7 @@
 
 
 
-<div class="panel"> 
+<div class="panel gray-panel"> 
     <div class="panel-body">
         <?php if($data->title):?>
             <h4 class='left-align'><?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('question/view', array('id'=>$data->id))); ?></h4>

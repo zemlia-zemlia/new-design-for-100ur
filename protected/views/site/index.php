@@ -1,5 +1,5 @@
 <?php
-    $this->setPageTitle("Бесплатная помощь юриста онлайн, юридическая помощь адвоката в Москве и СПБ ". Yii::app()->name);
+    $this->setPageTitle("Вопрос юристу и адвокату онлайн, юридическая помощь адвоката в Москве и СПБ ". Yii::app()->name);
     Yii::app()->clientScript->registerMetaTag("Задать вопрос адвокату без телефона и регистрации круглосуточно по всей России. Бесплатная помощь юриста онлайн и по телефону в Москве и Санкт-Петербурге.", 'description');
 
 ?>
@@ -12,7 +12,7 @@
     </div>
 </div>
 -->
-<div class="panel">
+<div class="panel gray-panel">
     <div class="panel-body">
 <h1>Профессиональная помощь юриста по любым вопросам</h1>
 <p style="text-align: justify;">
@@ -66,7 +66,7 @@
     </div>
 </div>
 <h3>Последние заданные вопросы специалистам портала</h3>
-<div class="panel">
+<div class="panel gray-panel">
     <div class="panel-body">
             
         <?php $this->widget('zii.widgets.CListView', array(
@@ -79,37 +79,6 @@
         
         <div class='right-align'>
             <?php echo CHtml::link('Посмотреть все вопросы &raquo;', Yii::app()->createUrl('question/index'), array('style'=>'color:#a2a2a2;'));?>
-        </div>
-    </div>
-</div>
-
-<h3>Портал гарантирует вам:</h3>
-
-<div class='panel orange-panel'>
-    <div class='row'>
-        <div class='col-md-4 col-sm-4'>
-            <img src='/pics/2015/thumb_up_orange.png' alt='ВЫСОКОЕ КАЧЕСТВО' class='center-block' />
-            <h5>ВЫСОКОЕ КАЧЕСТВО</h5>
-            <p>
-                Все сертифицированные юристы проекта  проходят обязательную проверку образования и опыта работы.
-            </p>
-        </div>
-        <div class='col-md-4 col-sm-4'>
-			<img src='/pics/2015/clock_orange.png' alt='ЭКОНОМИЯ ВРЕМЕНИ' class='center-block' />
-            <h5>ЭКОНОМИЯ ВРЕМЕНИ</h5>
-            <p>
-                Вы получаете ответ  на свой
-                вопрос в максимально 
-                сжатые сроки.
-            </p>
-            
-        </div>
-        <div class='col-md-4 col-sm-4'>
-            <img src='/pics/2015/shield_orange.png' alt='КОНФИДЕНЦИАЛЬНОСТЬ' class='center-block' />
-            <h5>КОНФИДЕНЦИАЛЬНОСТЬ</h5>
-            <p>
-                Ваши персональные данные нигде не публикуются.  Передача  любой информации защищена  сертификатом SSL.
-            </p>
         </div>
     </div>
 </div>

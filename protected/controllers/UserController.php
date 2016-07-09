@@ -25,7 +25,7 @@ class UserController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index', 'view','create','confirm','confirmationSent', 'restorePassword'),
+				'actions'=>array('index', 'view','create','confirm','confirmationSent', 'restorePassword', 'captcha'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -38,12 +38,48 @@ class UserController extends Controller
 		);
 	}
         
+        
+        public function actions()
+        {
+        return array(
+            'captcha'=>array(
+                'class'=>'CCaptchaAction',
+                'foreColor'=>0xff0000,
+                'minLength'=>6,
+                'maxLength'=>8,
+            ),
+        );
+        }
+        
+        public function actionProfile()
+        {
+            $questionsCriteria = new CDbCriteria;
+            $questionsCriteria->addColumnCondition(array('t.authorId'=>Yii::app()->user->id));
+            $questionsCriteria->order = 't.id DESC';
+            $questionsCriteria->with = 'answers';
+            
+            $questionsDataProvider = new CActiveDataProvider('Question', array(
+                    'criteria'  => $questionsCriteria,
+                    'pagination'    =>  array(
+                            'pageSize'=>20,
+                        ),
+                ));
+            $this->render('profile', array(
+                'questionsDataProvider'     =>    $questionsDataProvider,
+            ));
+        }
+
+
         // creating a new user by registration form 
         public function actionCreate()
 	{
             $model=new User;
             $yuristSettings = new YuristSettings;
             $model->setScenario('register');
+            
+            if(!$model->role) {
+                $model->role = User::ROLE_CLIENT;
+            }
             
             $rolesNames = array(
                 User::ROLE_CLIENT   =>  'Пользователь',
@@ -105,15 +141,16 @@ class UserController extends Controller
               $user->setScenario('confirm');
               if($user->active==0) {
                 $user->activate();
+                $newPassword = $user->password = $user->password2 = $user->generatePassword();
+                $user->publishNewQuestions();
               }
                             
               if($user->save()) {
-                  if(Yii::app()->user->isGuest)
-                  {
-                    $this->render('activationSuccess');
-                  } else {
-                      $this->redirect('/user');
-                  }
+                  // после активации и сохранения пользователя, отправим ему на почту временный пароль
+                  $user->sendNewPassword($newPassword);
+
+                  $this->render('activationSuccess', array('user'=>$user));
+
               } else {
                   if(!empty($user->errors)) {
                       print "<pre>";
@@ -130,6 +167,46 @@ class UserController extends Controller
            {
                 $this->render('activationFailed', array('message'=>'Пользователь с данным мейлом не найден или уже активирован'));
            }
+        }
+        
+        
+        // восстановление пароля пользователя
+        public function actionRestorePassword()
+        {
+            // $model - модель с формой восстановления пароля
+            $model=new RestorePasswordForm;
+            
+            if(isset($_POST['RestorePasswordForm']))
+            {
+                // получили данные из формы восстановления пароля
+                $model->attributes = $_POST['RestorePasswordForm'];
+                $email = CHtml::encode($model->email);
+                // ищем пользователя по введенному Email, если не найден, получим NULL
+                $user = User::model()->findByAttributes(array('email'=>$email));
+                if($user)
+                {
+                    // если пользователь существует, генерируем ему новый пароль
+                    $newPassword = User::generatePassword(6);
+                    $user->setScenario("restorePassword");
+                    if($user->changePassword($newPassword))
+                    {
+                        // если удалось изменить пароль
+                        $message = "Пароль изменен и отправлен на E-mail";
+                    }
+                    else
+                    {
+                        // если не удалось изменить пароль
+                        $message = "Ошибка! Не удалось изменить пароль";
+                    }
+                    $this->render('restorePassword', array('model'=>$model, 'message'=>$message));
+                }
+            }
+            else
+            {
+                // форма не была отправлена, отображаем форму
+                $this->render('restorePassword', array('model' => $model));
+            }
+            
         }
         
 }

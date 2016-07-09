@@ -2,6 +2,9 @@
 /* @var $this UserController */
 /* @var $model User */
 /* @var $form CActiveForm */
+
+Yii::app()->clientScript->registerScriptFile('/js/user.js');
+
 ?>
 
 <div class="container-fluid">
@@ -16,37 +19,50 @@
             ),
 )); ?>
 
-	<p class="note"><span class="required">*</span> - обязательные поля</p>
 
 	<?php echo $form->errorSummary($model, "Исправьте ошибки"); ?>
         <?php echo $form->errorSummary($yuristSettings, "Исправьте ошибки"); ?>
         
-
-<?php if(Yii::app()->user->checkAccess(User::ROLE_MANAGER) || $model->scenario!='update'):?>       
-<div class="form-group">
-        <?php echo $form->labelEx($model,'name'); ?>
-        <?php echo $form->textField($model,'name', array('class'=>'form-control')); ?>
-        <?php echo $form->error($model,'name'); ?>
-</div> 
-        
-<div class="form-group">
-        <?php echo $form->labelEx($model,'name2'); ?>
-        <?php echo $form->textField($model,'name2', array('class'=>'form-control')); ?>
-        <?php echo $form->error($model,'name2'); ?>
-</div> 
-        
-<div class="form-group">
-        <?php echo $form->labelEx($model,'lastName'); ?>
-        <?php echo $form->textField($model,'lastName', array('class'=>'form-control')); ?>
-        <?php echo $form->error($model,'lastName'); ?>
-</div> 
-
-<div class="form-group">
-        <?php echo $form->labelEx($model,'role'); ?>
-        <?php echo $form->dropDownList($model,'role', $rolesNames, array('class'=>'form-control'));?>
+<div class="form-group radio-labels">
+        <strong>Выберите подходящий Вам тип аккаунта</strong><br />
+        <?php // echo $form->radioButtonList($model,'role', $rolesNames, array('class'=>'form-control'));?>
+        <div class="alert alert-info">
+            <?php echo $form->radioButton($model,'role', array('class'=>'form-control', 'value'=>User::ROLE_CLIENT, 'id'=>'role_client'));?>
+            <label for="role_client"><strong>Клиент.</strong> Вам подойдет этот тип аккаунта, если Вы хотите получить юридическую помощь</label><br />
+        </div>
+        <div class="alert alert-info">
+            <?php echo $form->radioButton($model,'role', array('class'=>'form-control', 'value'=>User::ROLE_JURIST, 'id'=>'role_yurist'));?>
+            <label for="role_yurist"><strong>Юрист.</strong> Для специалистов в области права.</label>
+        </div>
         <?php echo $form->error($model,'role'); ?>
-</div>  
+</div>
         
+<?php if(Yii::app()->user->checkAccess(User::ROLE_MANAGER) || $model->scenario!='update'):?>       
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group">
+            <?php echo $form->labelEx($model,'name'); ?>
+            <?php echo $form->textField($model,'name', array('class'=>'form-control')); ?>
+            <?php echo $form->error($model,'name'); ?>
+        </div> 
+
+        <div class="yurist-fields">
+            <div class="form-group">
+                <?php echo $form->labelEx($model,'name2'); ?>
+                <?php echo $form->textField($model,'name2', array('class'=>'form-control')); ?>
+                <?php echo $form->error($model,'name2'); ?>
+            </div> 
+
+            <div class="form-group">
+                <?php echo $form->labelEx($model,'lastName'); ?>
+                <?php echo $form->textField($model,'lastName', array('class'=>'form-control')); ?>
+                <?php echo $form->error($model,'lastName'); ?>
+            </div> 
+        </div>
+</div>
+</div>      
+
+       
 <div class="row">
     <div class="col-sm-6">
         <div class="form-group">
@@ -63,9 +79,21 @@
         </div>
     </div>
 </div>
+    
+<div class="row">
+    <div class="col-sm-12"> 
+        <div class="form-group">
+            <?php echo $form->labelEx($model,'townId'); ?>
+            <?php echo CHtml::textField('town', '', array('id'=>'town-selector', 'class'=>'form-control')); ?>
+            <?php
+                echo $form->hiddenField($model, 'townId', array('id'=>'selected-town'));
+            ?>
+        </div>
+    </div>
+</div>
 <?php endif;?>
         
-<?php if($model->isNewRecord == true):?>
+<?php if($model->isNewRecord == false):?>
 <div class="row">
     <div class="col-sm-6">
         <div class="form-group">
@@ -82,10 +110,10 @@
         </div> 
     </div>
 </div>
-<?php else:?>        
-        <p>
-            <?php echo CHtml::link('Изменить пароль', Yii::app()->createUrl('user/changePassword', array('id'=>$model->id)), array('class'=>'btn btn-warning'));?>
-        </p>   
+    <p>
+        <?php echo CHtml::link('Изменить пароль', Yii::app()->createUrl('user/changePassword', array('id'=>$model->id)), array('class'=>'btn btn-warning'));?>
+    </p>  
+         
 <?php endif;?>
         
         
@@ -104,33 +132,14 @@
         <?php echo $form->error($model,'avatarFile'); ?>
     </div> 
 <?php endif;?>
-                 
-<div class="form-group">
-    <?php echo $form->labelEx($model,'birthday'); ?>
-    <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
-           array(
-           'name'=>"User[birthday]",
-           'value'=>$model['birthday'],
-           'language'=>'ru',
-           'options' => array(
-               'dateFormat'=>'yy-mm-dd',
-               'changeMonth'    =>  true,
-               'changeYear'     =>  true,
-               'yearRange'      =>  '1960:2000',
-               
-                            ),
-           'htmlOptions' => array(
-               'style'=>'text-align:right;',
-               'class'=>'form-control'
-               )    
-           )
-          );
-    ?>
-    <?php echo $form->error($model,'birthday'); ?>
-</div>
+           
         
-    <?php if($model->role == User::ROLE_JURIST):?>
+        <div class="yurist-fields">
+    <?php if($model->role == User::ROLE_JURIST && !$model->isNewRecord):?>
         <h3>Настройки юриста</h3>
+        
+<div class="row">
+    <div class="col-sm-12"> 
         <div class="form-group">
                 <?php echo $form->labelEx($yuristSettings,'alias'); ?>
                 <?php echo $form->textField($yuristSettings,'alias', array('class'=>'form-control')); ?>
@@ -141,21 +150,27 @@
                 <?php echo $form->textField($yuristSettings,'startYear', array('class'=>'form-control')); ?>
                 <?php echo $form->error($yuristSettings,'startYear'); ?>
         </div>
-        <div class="form-group">
-                <?php echo $form->labelEx($yuristSettings,'town'); ?>
-		<?php echo $form->dropDownList($yuristSettings,'townId', $townsArray, array('class'=>'form-control')); ?>
-                <?php echo $form->error($yuristSettings,'town'); ?>
-        </div>
+        
+        <?php echo $form->hiddenField($yuristSettings,'townId', array('class'=>'form-control', 'value'=>$model->townId)); ?>
+                
         <div class="form-group"> 
             <?php echo $form->labelEx($yuristSettings,'description'); ?>
             <?php echo $form->textArea($yuristSettings, 'description', array('class'=>'form-control', 'rows'=>3));?>
             <?php echo $form->error($yuristSettings,'description'); ?>
         </div>
-    <?php endif;?>
-        
-<div class="form-group">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Зарегистрироваться' : 'Сохранить', array('class'=>'btn btn-primary btn-lg')); ?>
+    </div>
 </div>
+    <?php endif;?>
+        </div>
+     
+        
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group">
+                <?php echo CHtml::submitButton($model->isNewRecord ? 'Зарегистрироваться' : 'Сохранить', array('class'=>'btn btn-primary btn-lg')); ?>
+        </div>
+    </div>
+</div>    
 
 <?php $this->endWidget(); ?>
 

@@ -15,11 +15,11 @@ if($model->description) {
 <div itemscope itemtype="http://schema.org/Question">
      
 
-<div class="panel">
+<div class="panel gray-panel">
     <div class='panel-body'>
     
-        <div itemprop="author" itemscope itemtype="http://schema.org/Person">
-            <p>
+        <div  itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <p >
                 <small>
                 <?php if($model->authorName):?>
                     <span class="glyphicon glyphicon-user"></span>&nbsp;<span itemprop="name"><?php echo CHtml::encode($model->authorName); ?></span> &nbsp;&nbsp;
@@ -52,7 +52,7 @@ if($model->description) {
     <?php $this->widget('zii.widgets.CListView', array(
             'dataProvider'  =>  $answersDataProvider,
             'itemView'      =>  'application.views.answer._view',
-            'emptyText'     =>  '<p class="bg-primary"> Не найдено ни одного ответа</p>',
+            'emptyText'     =>  '<p class="alert alert-info">Юристы пока не дали ответ...</p>',
             'summaryText'   =>  '',
             'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
 
@@ -127,7 +127,7 @@ if($model->description) {
 
 <?php if($similarDataProvider->totalItemCount > 0):?>
 <h3>Похожие вопросы</h3>
-<div class="panel">
+<div class="panel gray-panel">
     <div class='panel-body'>
         
         <?php $this->widget('zii.widgets.CListView', array(
@@ -147,7 +147,7 @@ if($model->description) {
 
 <div class="vert-margin30">
 <h3>На ваши вопросы отвечают:</h3>
-<div class="panel">
+<div class="panel gray-panel">
     <div class='panel-body'>
         
     

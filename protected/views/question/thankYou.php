@@ -9,17 +9,16 @@ $this->setPageTitle("Вопрос отправлен юристу." . Yii::app()
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Вопрос отправлен юристу</h4>
+        <h4 class="modal-title" id="myModalLabel">Спасибо!</h4>
       </div>
       <div class="modal-body">
-        <p>
-            Ваш вопрос отправлен. Вы получите ответ на него в ближайшее время.
-        </p>
-        <p>
-            <strong>Спасибо за Ваш вопрос!</strong>
-        </p>
+        <h4>
+            Для отправки вопроса юристам необходимо подтвердить свой Email. 
+            Ссылка для подтверждения уже у Вас на почте.
+        </h4>
+        
         <p class="center-align">
-            <a href="/" class="btn btn-primary">На главную страницу</a>
+            <a href="/" class="btn btn-primary">Хорошо</a>
         </p>
       </div>
     </div>

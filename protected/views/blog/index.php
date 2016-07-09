@@ -25,7 +25,7 @@ $this->breadcrumbs=array(
         'links'=>$this->breadcrumbs,
      ));
 ?>
-<div class="panel">
+<div class="panel gray-panel">
     <div class="panel-body">
 		<h1>Блог юридического портала "100 Юристов"</h1>
     </div>

@@ -13,10 +13,12 @@ $this->breadcrumbs=array(
 );
 
 ?>
-
-<h1 class="vert-margin30">Задайте вопрос юристу</h1>
-
-<div class='panel'>
+<div class='panel gray-panel'>
+    <div class='panel-body'>
+		<h1>Задайте вопрос юристу</h1>
+    </div>
+</div>
+<div class='panel gray-panel'>
     <div class='panel-body'>
         <?php echo $this->renderPartial('_form', array(
             'model'         =>  $model,

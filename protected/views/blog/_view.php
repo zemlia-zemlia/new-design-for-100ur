@@ -2,7 +2,7 @@
 /* @var $this CategoryController */
 ?>
 
-<div class='panel'>
+<div class='panel gray-panel'>
     <div class='panel-body'>
         
         <div class="category-post-header">

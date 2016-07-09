@@ -116,8 +116,38 @@ class QuestionController extends Controller
 			//CustomFuncs::printr($lead);exit;
                         
                         if($lead->save()) {
-                                $lead->sendByEmail();
-                                $question->status = Question::STATUS_PUBLISHED;
+                                $question->status = Question::STATUS_NEW;
+                                
+                                // проверим, есть ли в базе пользователь с таким мейлом
+                                $findUserResult = Yii::app()->db->createCommand()
+                                        ->select('id')
+                                        ->from("{{user}}")
+                                        ->where("email=:email AND email!=''", array(":email"=>$lead->email))
+                                        ->limit(1)
+                                        ->queryRow();
+                                if($findUserResult) {
+                                    // если есть, то запишем id этого пользователя в авторы вопроса
+                                    $question->authorId = $findUserResult['id'];
+                                } else {
+                                    // если пользователь не найден, при создании вопроса создадим пользователя
+                                    $author = new User;
+                                    $author->role = User::ROLE_CLIENT;
+                                    $author->phone = $question->phone;
+                                    $author->email = $question->email;
+                                    $author->townId = $question->townId;
+                                    $author->name = $question->authorName;
+                                    $author->password = $author->password2 = $author->generatePassword();
+                                    $author->confirm_code = md5($model->email.mt_rand(100000,999999));
+                                        
+                                    if($author->save()) {
+                                        $question->authorId = $author->id;
+                                        $author->sendConfirmation();
+                                    } else {
+                                        CustomFuncs::printr($author->errors);exit;
+                                    }
+                                }
+                                
+                                
                                 $question->save();
 				$this->redirect(array('thankYou'));
                         } else {
@@ -157,7 +187,7 @@ class QuestionController extends Controller
             if(isset($_GET['status'])) {
                     $status = (int)$_GET['status'];
                 } else {
-                    $status = Question::STATUS_PUBLISHED;
+                    $statusCondition = 'status = ' . Question::STATUS_PUBLISHED . ' OR status=' . Question::STATUS_CHECK;
                 }
             
             if(!$categoriesRows = Yii::app()->cache->get('categoriesCloud')) {    
@@ -166,7 +196,7 @@ class QuestionController extends Controller
                         ->from("{{question}} q")
                         ->leftJoin("{{question2category}} q2c", "q2c.qId = q.id")
                         ->leftJoin("{{questionCategory}} c", "c.id = q2c.cId")
-                        ->where("q.status=:status AND c.id IS NOT NULL", array(":status" => $status))
+                        ->where($statusCondition . " AND c.id IS NOT NULL")
                         ->group("c.id")
                         ->order('c.name')
                         ->queryAll();

@@ -85,6 +85,9 @@
                                         <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'На модерации', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_NEW)));?>
                                     </li>
                                     <li>
+                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'На проверке', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_CHECK)));?>
+                                    </li>
+                                    <li>
                                         <?php echo CHtml::link("<span class='glyphicon glyphicon-check'></span> " . 'Одобрено', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_MODERATED)));?>
                                     </li>
                                     <li>

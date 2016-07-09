@@ -15,6 +15,7 @@
  * @property string $password
  * @property integer $active
  * @property string $managerId
+ * @property string $townId
  */
 class User extends CActiveRecord
 {
@@ -59,8 +60,8 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, name2, lastName, email, phone', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
-			array('role, active, managerId', 'numerical', 'integerOnly'=>true),
+			array('name, email, phone', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
+			array('role, active, managerId, townId', 'numerical', 'integerOnly'=>true),
 			array('name, position, email, phone', 'length', 'max'=>255),
                         array('password','length','min'=>5,'max'=>128, 'tooShort'=>'Минимальная длина пароля 5 символов', 'allowEmpty'=>($this->scenario=='update')),
                         array('password2', 'compare', 'compareAttribute'=>'password', 'except'=>'confirm, create', 'message'=>'Пароли должны совпадать','allowEmpty'=>($this->scenario=='create')),
@@ -146,6 +147,7 @@ class User extends CActiveRecord
 		return array(
                     'manager'   =>  array(self::BELONGS_TO, 'User', 'managerId'),
                     'settings'  =>  array(self::HAS_ONE, 'YuristSettings', 'yuristId'),
+                    'town'      =>  array(self::BELONGS_TO, 'Town', 'townId'),
 		);
 	}
 
@@ -168,6 +170,8 @@ class User extends CActiveRecord
 			'active'    => 'Активность',
 			'managerId' => 'Руководитель',
                         'birthday'  => 'Дата рождения',
+                        'townId'    => 'Город',
+                        'town'      => 'Город',
 		);
 	}
 
@@ -270,13 +274,35 @@ class User extends CActiveRecord
             
         }
         
+        // отправляет пользователю его пароль (используем после активации аккаунта)
+        public function sendNewPassword($newPassword)
+        {
+            $mailer = new GTMail;
+            $mailer->subject = CHtml::encode($this->name) . ", Ваш пароль для личного кабинета 100 юристов";
+            $mailer->message = "Здравствуйте!<br />
+                Вы упешно зарегистрировались на портале 100 юристов.<br /><br />
+                Ваш логин: " . CHtml::encode($this->email) . "<br />
+                Ваш временный пароль: ".$newPassword."<br /><br />
+                Вы всегда можете поменять его на любой другой, зайдя в ".CHtml::link("личный кабинет","http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('site/login'))." на нашем сайте.<br /><br />
+                <br /><br />";
+            $mailer->email = $this->email;
+            
+            if($mailer->sendMail()) {
+                return true;
+            } else {
+                // не удалось отправить письмо
+                return false;
+            }
+        }
+
+
         // высылает пароль $newPassword на email пользователю
         public function sendChangedPassword($newPassword)
         {
             $mailer = new GTMail;
             $mailer->subject = "Смена пароля пользователя";
             $mailer->message = "Здравствуйте!<br />
-                Вы или кто-то, указавший ваш E-mail, запросил восстановление пароля в CRM.<br /><br />
+                Вы или кто-то, указавший ваш E-mail, запросил восстановление пароля на портале 100 юристов.<br /><br />
                 Ваш временный пароль: ".$newPassword."<br /><br />
                 Вы всегда можете поменять его на любой другой, зайдя в ".CHtml::link("личный кабинет","http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('site/login'))." на нашем сайте.<br /><br />
                 Если Вы не запрашивали восстановление пароля, обратитесь, пожалуйста, к администратору сайта. <br /><br />";
@@ -361,6 +387,15 @@ class User extends CActiveRecord
         {
             return $this->lastName . '&nbsp;' . mb_substr($this->name, 0,2) . '.' . mb_substr($this->name2,0,2) . '.';
             //return $this->lastName;
+        }
+        
+        public function publishNewQuestions()
+        {
+            Yii::app()->db->createCommand()
+                    ->update('{{question}}', array('status'=>Question::STATUS_CHECK, 'publishDate'=>date('Y-m-d H:i:s')),
+                            'authorId!=0 AND authorId=:authorId AND status=:statusOld',
+                            array(':authorId'=>$this->id, ':statusOld'=>  Question::STATUS_NEW)); 
+                    
         }
 
 }

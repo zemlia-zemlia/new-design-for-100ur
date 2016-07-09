@@ -1,5 +1,5 @@
 
-<div class="panel panel-default">
+<div class="panel gray-panel">
     <div class="panel-body">
         <h3>Свежие статьи</h3>
         <?php

@@ -19,9 +19,9 @@
 
 <div class="panel panel-default">
     <div class="panel-body">
-        
-        <h1><?php echo CHtml::encode($company->name) . ' ' . CHtml::encode($company->town->name);?></h1>
 
+        
+		<br/>
         
         <div class="container-fluid">
             <div class="row">

@@ -16,6 +16,7 @@
  * @property string $phone
  * @property string $email
  * @property integer $leadStatus
+ * @property integer $authorId
  */
 class Question extends CActiveRecord
 {
@@ -24,6 +25,7 @@ class Question extends CActiveRecord
         const STATUS_MODERATED = 1;
         const STATUS_PUBLISHED = 2;
         const STATUS_SPAM = 3;
+        const STATUS_CHECK = 4;
         
         const LEAD_STATUS_SENT_CRM = 1;
         const LEAD_STATUS_SENT_LEADIA = 2;
@@ -53,9 +55,9 @@ class Question extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('questionText, townId, authorName', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
+			array('questionText, townId, authorName, email', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
 			array('phone', 'required', 'on'=>'create', 'message'=>'Поле {attribute} должно быть заполнено'),
-                        array('number, categoryId, status, publishedBy', 'numerical', 'integerOnly'=>true),
+                        array('number, categoryId, status, publishedBy, authorId', 'numerical', 'integerOnly'=>true),
 			array('categoryName', 'length', 'max'=>255),
                         array('authorName, title','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-., ])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, точка, дефис и пробел'),
                         array('phone','match','pattern'=>'/^([0-9\+])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
@@ -80,6 +82,7 @@ class Question extends CActiveRecord
                     'answers'       =>  array(self::HAS_MANY, 'Answer', 'questionId'),
                     'answersCount'  =>  array(self::STAT, 'Answer', 'questionId'),
                     'bublishUser'   =>  array(self::BELONGS_TO, 'User', 'publishedBy'),
+                    'author'   =>  array(self::BELONGS_TO, 'User', 'authorId'),
                     'categories'    =>  array(self::MANY_MANY, 'QuestionCategory', '{{question2category}}(qId, cId)'),
 		);
 	}
@@ -102,6 +105,7 @@ class Question extends CActiveRecord
                         'townId'        =>  'Город',
                         'title'         =>  'Заголовок',
                         'phone'         =>  'Номер телефона',
+                        'authorId'      =>  'ID автора',
 		);
 	}
         
@@ -113,6 +117,7 @@ class Question extends CActiveRecord
                 self::STATUS_MODERATED  =>  'Одобрен, неопубликован',
                 self::STATUS_PUBLISHED  =>  'Опубликован',
                 self::STATUS_SPAM       =>  'Спам',
+                self::STATUS_CHECK      =>  'На проверке, опубликован',
             );
         }
         

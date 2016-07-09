@@ -23,7 +23,7 @@ $this->breadcrumbs=array(
 
 <h1><?php echo CHtml::encode($model->title); ?></h1>
 
-<div class='panel'>
+<div class='panel gray-panel'>
     <div class="panel-body">
         
    

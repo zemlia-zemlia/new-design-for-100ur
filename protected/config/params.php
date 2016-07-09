@@ -2,7 +2,7 @@
 // this contains the application parameters that can be maintained via GUI
 return array(
 	'adminEmail'    =>  '100yuristov@mail.ru',
-        'leadsEmail'    =>  'Lidlaw@mail.ru',
+        'leadsEmail'    =>  'info@100yuristov.com',
         'crmDomain'     =>  'http://crm',
         'leadiaRegions' =>  array(
                 'Ленинградская область',

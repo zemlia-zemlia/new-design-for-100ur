@@ -86,7 +86,7 @@ class QuestionCategoryController extends Controller
                 throw new CHttpException(404,'Категория не найдена');
             }
             $questionsCriteria = new CdbCriteria;
-            $questionsCriteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
+            $questionsCriteria->condition = 't.status = '. Question::STATUS_PUBLISHED . ' OR t.status=' . Question::STATUS_CHECK;
             $questionsCriteria->order = 't.publishDate DESC';
             $questionsCriteria->with = array(
                         'categories'  =>  array(

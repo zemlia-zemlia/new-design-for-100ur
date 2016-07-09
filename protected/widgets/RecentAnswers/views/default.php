@@ -1,5 +1,5 @@
 
-<h3>Последние ответы</h3>
+<h4>Последние ответы</h4>
 <?php
 
 if(empty($answers) || sizeof($answers)==0) {

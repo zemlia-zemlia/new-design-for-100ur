@@ -50,13 +50,15 @@ $this->breadcrumbs[] = $model->name;
 ?>
 
 <?php if($model->children):?>
-    <div class="panel">
+    <div class="panel gray-panel">
         <div class='panel-body'>
             
             <div class="row">
             <?php foreach($model->children as $child):?>
                 <div class="col-md-4">
+					<small>
                     <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span>&nbsp;' . $child->name, Yii::app()->createUrl('questionCategory/alias', array('name'=>CHtml::encode($child->alias))));?>
+					</small>
                 </div>    
             <?php endforeach;?>
             </div>
@@ -64,9 +66,9 @@ $this->breadcrumbs[] = $model->name;
     </div>
 <?php endif;?>
 
-<div class="panel panel-default">
+<div class="panel gray-panel">
     <div class='panel-body'>
-        <h1>
+		<h1>
             <?php 
                 if($model->seoH1) {
                     echo CHtml::encode($model->seoH1);
@@ -79,7 +81,7 @@ $this->breadcrumbs[] = $model->name;
 </div>
 
 <?php if($model->description1):?>
-    <div class="panel">
+    <div class="panel gray-panel">
         <div class='panel-body'>
             <?php echo $model->description1;?>
         </div>
@@ -99,7 +101,7 @@ $this->breadcrumbs[] = $model->name;
 )); ?>
 
 <?php if($model->description2):?>
-    <div class="panel">
+    <div class="panel gray-panel">
         <div class='panel-body'>
             <?php echo $model->description2;?>
         </div>
@@ -108,7 +110,7 @@ $this->breadcrumbs[] = $model->name;
 
 <div class="vert-margin30">
 <h3>На ваши вопросы отвечают:</h3>
-<div class="panel">
+<div class="panel gray-panel">
     <div class='panel-body'>
         
     

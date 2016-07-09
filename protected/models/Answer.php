@@ -121,4 +121,11 @@ class Answer extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        protected function afterSave()
+        {
+            $question = $this->question;
+            
+            parent::afterSave();
+        }
 }

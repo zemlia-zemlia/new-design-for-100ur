@@ -16,9 +16,8 @@
             if(!isset($model)) $model=new LoginForm;
         ?>
 
-        <h3>Вход на сайт</h3>
+        <h4>Вход на сайт</h4>
         <div class="form-group">
-            <?php echo $form->labelEx($model,'email'); ?>
 
             <?php echo $form->textField($model,'email', array('class'=>'form-control input-sm','placeholder'=>$model->getAttributeLabel('email'))); ?>
 
@@ -28,9 +27,8 @@
 
 
         <div class="form-group">
-            <?php echo $form->labelEx($model,'password'); ?>
 
-            <?php echo $form->passwordField($model,'password', array('class'=>'form-control input-sm')); ?>
+            <?php echo $form->passwordField($model,'password', array('class'=>'form-control input-sm','placeholder'=>$model->getAttributeLabel('password'))); ?>
 
             <?php echo $form->error($model,'password'); ?>
         </div>
@@ -44,7 +42,15 @@
 
         </div>
 
-           <?php echo CHtml::submitButton('Войти',array('class'=>'btn btn-primary btn-xs')); ?>
+        <div class="row">
+            <div class="col-md-6">
+                <?php echo CHtml::submitButton('Войти',array('class'=>'btn btn-primary btn-xs btn-block')); ?>
+            </div>
+            <div class="col-md-6">
+                <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('user/create'), array('class'=>'btn btn-success btn-xs btn-block')); ?>
+            </div>
+        </div>
+        
 
 
 
@@ -52,7 +58,8 @@
 
 <?php else:?>
     <p>    
-        <?php echo 'Вы вошли как ' . Yii::app()->user->name . ' ' . Yii::app()->user->lastName; ?>    
+        <?php echo 'Вы вошли как ' . Yii::app()->user->name . ' ' . Yii::app()->user->lastName; ?> <br />
+        <?php echo CHtml::link('Личный кабинет', Yii::app()->createUrl('/user'));?>
     </p>
-    <?php echo CHtml::link('Выйти', Yii::app()->createUrl('site/logout'), array('class'=>'btn btn-primary btn-xs'));?>
+    <?php echo CHtml::link('Выйти', Yii::app()->createUrl('site/logout'), array('class'=>'btn btn-block btn-primary btn-xs'));?>
 <?php endif; ?>

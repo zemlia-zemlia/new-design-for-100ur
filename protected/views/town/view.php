@@ -4,7 +4,7 @@
 
 $pageTitle = $model->createPageTitle();
         
-if(isset($_GET) && (int)$_GET['Question_page']) {
+if(isset($_GET) && (int)$_GET['Question_page'] && $dataProvider->pagination) {
     $pageNumber = (int)$_GET['Question_page'];
     $pagesTotal = ceil($dataProvider->totalItemCount / $dataProvider->pagination->getPageSize());
     $pageTitle .= '. Страница ' . $pageNumber . ' из ' . $pagesTotal . '. ';
@@ -29,7 +29,7 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['S
 </div>
 
 <?php if($model->description1):?>
-    <div class="panel">
+    <div class="panel gray-panel">
         <div class="panel-body">
             <?php echo $model->description1;?>
         </div>
@@ -47,7 +47,7 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['S
 )); ?>
 
 <?php if(sizeof($model->companies)):?>
-    <div class="panel">
+    <div class="panel gray-panel">
         <div class="panel-body">
         <h3>Юридические компании города</h3>
             <div class="container-fluid">
@@ -76,7 +76,7 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['S
 <?php endif;?>
 
 <?php if(is_array($closeTowns) && sizeof($closeTowns)):?>
-<div class="panel">
+<div class="panel gray-panel">
     <div class="panel-body">
         <h3>Соседние города</h3>
         <div class="row">
@@ -91,14 +91,14 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['S
 </div>
 <?php endif;?>
 
-<div class="panel">
+<div class="panel gray-panel">
 	<div class="panel-body">
-		<h2>Юристы и Адвокаты из/в <?php echo CHtml::encode($model->name); ?> отвечают на ваши вопросы</h2>
+		<h2>Юристы и Адвокаты <?php echo CHtml::encode($model->name); ?></h2>
 	</div>
 </div>
 
 <?php if($model->description2):?>
-    <div class="panel">
+    <div class="panel gray-panel">
         <div class="panel-body">
             <?php echo $model->description2;?>
         </div>
@@ -107,7 +107,7 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['S
 
 <noindex>
 <div class="vert-margin30">
-<div class="panel">
+<div class="panel gray-panel">
     <div class='panel-body'>
         
     
@@ -156,9 +156,9 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['S
 
             </div>
 
-        </div>
+        </div>		
     </div>
-</div>        
+</div>        	
 </div>
 </noindex>
 

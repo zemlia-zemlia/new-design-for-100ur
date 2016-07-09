@@ -160,7 +160,7 @@ class TownController extends Controller
                     'pagination'    =>  false,
                 ));
             }
-            
+			
             $questionModel = new Question();
             
             // города того же региона

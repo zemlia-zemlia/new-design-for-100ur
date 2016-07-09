@@ -50,6 +50,9 @@
     
     <div id="header">
         <div class="container">
+		
+
+			
             <div class="row">
                 <div class="col-md-4 col-sm-4">
                     <br/>
@@ -82,17 +85,16 @@
                     <div class="questions-counter-description">
                         <p class="kpi-counter">
                             <?php foreach($numbers as $num):?><span><?php echo $num;?></span><?php endforeach;?>
-                            задано вопросов
+                            вопросов
                         </p>
                         <p class="kpi-counter">
                             <?php foreach($numbersAnswers as $num):?><span><?php echo $num;?></span><?php endforeach;?>
-                            дано ответов
+                            ответов
                         </p>
                     </div>
               				
-                   <!-- <script type="text/javascript" src="//yastatic.net/share/share.js" charset="utf-8"></script><div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="small" data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki" data-yashareTheme="counter"></div> -->
                    <?php if(!stristr($_SERVER['REQUEST_URI'], '/question/create/')):?> 
-                   <?php echo CHtml::link('<b>Получить свой ответ</b>', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-block btn-danger')); ?>
+                   <?php echo CHtml::link('<b>Получить свой ответ</b>', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-block btn-default')); ?>
                    <?php endif;?>
                 </div>
             </div>
@@ -100,7 +102,7 @@
     </div>
     
     
-    <?php if(!(Yii::app()->controller->id=='question' && Yii::app()->controller->action->id=='create')):?>
+    <?php if(Yii::app()->user->isGuest && !(Yii::app()->controller->id=='question' && Yii::app()->controller->action->id=='create')):?>
         <?php
         // выводим виджет с формой
             $this->widget('application.widgets.SimpleForm.SimpleForm', array());
@@ -110,21 +112,93 @@
     
     <div id="middle">
         <div class="container">
-
- 
+		
+ 		    <div class="row">
+                <div class="col-md-4 col-sm-4">
+				<div class="alert alert-success gray-panel panel" style="text-align:center;" >
+				<h4>Вопрос</h4>
+				<p>Задайте любой вопрос, и в течение 15 минут вы получите ответы наших юристов.</p>
+				<?php echo CHtml::link('Задать вопрос', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-success btn-sm btn-block')); ?>
+				</div>
+				</div>
+				<div class="col-md-4 col-sm-4">
+				<div class="alert alert-info gray-panel panel" style="text-align:center;">
+				<h4>Звонок</h4>
+				<p>Оставьте номер телефона, и наш юрист свяжется с вами, чтобы проконсультировать вас.</p>
+				<?php echo CHtml::link('Заказать звонок', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-info btn-sm btn-block')); ?>
+				</div>
+				</div>
+				<div class="col-md-4 col-sm-4">
+				<div class="alert alert-warning gray-panel panel" style="text-align:center;">
+				<h4>Документ</h4>
+				<p>Закажите документ, после чего наш юрист свяжется с вами, уточнит детали и подготовит его.</p>
+				<?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-warning btn-sm btn-block')); ?>
+				</div>				
+				
+				</div>
+			</div>
+			
             <div class="col-md-2 col-sm-2">
-                <div id="left-bar" class="panel" >
-                    <h4 id="left-menu-switch">Категории</h4>
-                        
-                            <?php
-                            // выводим виджет с деревом категорий
-                                $this->widget('application.widgets.CategoriesTree.CategoriesTree', array());
-                            ?>
-                        
-                </div>
-
-                
-                <?php echo CHtml::link('Задать вопрос', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-block btn-danger')); ?>
+			
+			<div id="left-bar" class="panel gray-panel" >
+				<h4 id="left-menu-switch">Категории</h4>
+					
+						<?php
+						// выводим виджет с деревом категорий
+							$this->widget('application.widgets.CategoriesTree.CategoriesTree', array());
+						?>
+					
+			</div>	
+			
+			
+			
+				<div class='panel orange-panel'>
+					<div class='row'>
+						<div class='col-md-12 col-sm-12'>
+							<img src='/pics/2015/thumb_up_orange.png' alt='ВЫСОКОЕ КАЧЕСТВО' class='center-block' />
+							<h5>ВЫСОКОЕ КАЧЕСТВО</h5>
+							<p>
+								Все сертифицированные юристы проекта проходят обязательную проверку квалификации.
+							</p>
+						</div>
+						<div class='col-md-12 col-sm-12'>
+							<img src='/pics/2015/clock_orange.png' alt='ЭКОНОМИЯ ВРЕМЕНИ' class='center-block' />
+							<h5>ЭКОНОМИЯ ВРЕМЕНИ</h5>
+							<p>
+								Вы получаете ответ  на свой
+								вопрос в максимально 
+								сжатые сроки.
+							</p>
+							
+						</div>
+						<div class='col-md-12 col-sm-12'>
+							<img src='/pics/2015/shield_orange.png' alt='КОНФИДЕНЦИАЛЬНОСТЬ' class='center-block' />
+							<h5>КОНФИДЕНЦИАЛЬНОСТЬ</h5>
+							<p>
+								Ваши персональные данные нигде не публикуются.
+							</p>
+						</div>
+					</div>
+				</div>
+				
+			
+				<? /*
+				<div class="alert alert-success gray-panel panel" style="text-align:center;" >
+				<h4>Вопрос</h4>
+				<p>Задайте любой вопрос, и в течение 15 минут вы получите ответы наших юристов.</p>
+				<?php echo CHtml::link('Задать вопрос', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-success btn-sm btn-block')); ?>
+				</div>
+				<div class="alert alert-info gray-panel panel" style="text-align:center;">
+				<h4>Звонок</h4>
+				<p>Оставьте номер телефона, и наш юрист свяжется с вами, чтобы проконсультировать вас по любому вопросу.</p>
+				<?php echo CHtml::link('Заказать звонок', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-info btn-sm btn-block')); ?>
+				</div>
+				<div class="alert alert-warning gray-panel panel" style="text-align:center;">
+				<h4>Документ</h4>
+				<p>Закажите документ, после чего наш юрист свяжется с вами, уточнит детали и подготовит его.</p>
+				<?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-warning btn-sm btn-block')); ?>
+				</div> */ ?>
+				
             </div>
             <div class="col-md-7 col-sm-7">
                 <?php echo $content;?>
@@ -137,32 +211,40 @@
                 <?php endif;?>
             </div>
             <div class="col-md-3 col-sm-3">
-                <div class="panel-1" style="text-align:center;">
-                <div class="panel-body">	
-						<p><b>Поделиться ссылкой на сайт:</b></p>
+                <div class="panel orange-panel" style="text-align:center;">	
                         <script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
                         <script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
                         <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,linkedin,lj"></div>
+                </div>	
+                
+                <div class="panel gray-panel">
+                    <div class="panel-body">                    
+                        <?php
+                            // выводим виджет с формой логина
+                            $this->widget('application.widgets.Login.LoginWidget', array(
+                            ));
+                            // привет мир
+                        ?>
+                    </div>
                 </div>
-                </div>				
 
-                <div class="panel">
+                <div class="panel orange-panel">
                     <div class="panel-body">
                         <div style="text-align:center; " >
-                                <h3>Консультации по телефону</h3>
+                                <h4>Бесплатные консультации по телефону для жителей:</h4>
                                 <hr/>
-                                <p style="font-size:21px;"> Москва и МО<br/> 
+                                <p style="font-size:19px;"> Москвы и МО<br/> 
                                 <b>8 (499) 301-00-44</b></p> 
                                 <p>г. Москва Шлюзовая наб. д.6 стр.4</p>
                                 <hr/>
-                                <p style="font-size:21px;"> Санкт Петербург и ЛО<br/> 
+                                <p style="font-size:19px;"> Санкт Петербурга и ЛО<br/> 
                                 <b>8 (812) 309-68-26</b></p> 
                                 <p>г. Санкт-Петербург ул. Достоевского д.25</p>					
                         </div>
                     </div>
                 </div>
                 				
-                <div class="panel">
+                <div class="panel gray-panel">
                     <div class="panel-body">
 					<div style=" text-align:center; " >
 					<p style="font-size:22px;"><b>Не хотите искать?</b></p>
@@ -172,7 +254,7 @@
                     </div>
                 </div>
 		
-                <div class="panel">
+                <div class="panel gray-panel">
                     <div class="panel-body">                    
                         <?php
                             // выводим виджет с последними ответами
@@ -181,12 +263,13 @@
                         ?>
                     </div>
                 </div>
-                                    
-                                    
-                <div class="panel">
+				
+
+                                              
+                <div class="panel gray-panel">
                     <div class="panel-body">
                         <div class="row">
-						<h3>Портал работает при поддержке:</h3>
+						<h4>Работаем при поддержке:</h4>
                             <div class="col-md-6 col-xs-4">
                                 <img class="img-responsive center-block" alt="Правительство Москвы" title="Правительство Москвы" src="/pics/pravitelstvo.png"> 
                             </div>
@@ -209,16 +292,7 @@
                     </div>
                 </div>
                 
-                <div class="panel">
-                    <div class="panel-body">                    
-                        <?php
-                            // выводим виджет с формой логина
-                            $this->widget('application.widgets.Login.LoginWidget', array(
-                            ));
-                        ?>
-                    </div>
-                </div>
-                
+                                
             </div>					
         </div>
      </div>
@@ -238,12 +312,12 @@
             <div class='row'>
                 <div class='col-md-3 col-sm-3 center-align'>
                     <img src='/pics/2015/logo_inv.png' alt='Консультация юриста' class='center-block' />
-                    
+                    <small>
                     <div class="vcard">
                     <div>
                       <span class="category">Правовой портал</span>
                       <span class="fn org">100 Юристов</span>
-                    </div>
+                    </div> 
                     <div class="adr">
                       <span class="locality">г. Москва</span>,
                       <span class="street-address">Шлюзовая набережная, д.6, стр 4</span>
@@ -256,7 +330,8 @@
                         <span class="value-title" title="http://www.100yuristov.com"> </span>
                       </span>
                     </div>
-                  </div>               
+                  </div>
+					</small>
                 </div>
                 
                 <div class='col-md-3 col-sm-3 center-align'>

@@ -11,7 +11,7 @@ class GTMail
     {
         if($appendSuffix==true)
  	
-        $fromHeader = "=?utf-8?b?" . base64_encode("lidlaw@mail.ru") . "?=<lidlaw@mail.ru>";
+        $fromHeader = "=?utf-8?b?" . base64_encode(Yii::app()->params['leadsEmail']) . "?=<". Yii::app()->params['leadsEmail'] . ">";
 	$this->headers .= $fromHeader . "\n\n";
         
         $this->subject = "=?utf-8?b?" . base64_encode($this->subject) . "?="; //так по-правильному нужно кодировать тему письма
