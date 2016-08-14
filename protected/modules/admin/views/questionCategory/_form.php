@@ -19,8 +19,20 @@
             <?php echo $form->textField($model,'name',array('class'=>'form-control')); ?>
             <?php echo $form->error($model,'name'); ?>
 	</div>
+	
+    <div class="form-group">
+            <?php echo $form->labelEx($model,'seoTitle'); ?>
+            <?php echo $form->textField($model,'seoTitle',array('class'=>'form-control')); ?>
+            <?php echo $form->error($model,'seoTitle'); ?>
+	</div>
         
-        <div class="form-group">
+    <div class="form-group">
+            <?php echo $form->labelEx($model,'seoDescription'); ?>
+            <?php echo $form->textArea($model,'seoDescription',array('class'=>'form-control')); ?>
+            <?php echo $form->error($model,'seoDescription'); ?>
+	</div> 
+	
+    <div class="form-group">
             <?php echo $form->labelEx($model,'seoH1'); ?>
             <?php echo $form->textField($model,'seoH1',array('class'=>'form-control')); ?>
             <?php echo $form->error($model,'seoH1'); ?>
@@ -46,7 +58,7 @@
             ?>
             <?php echo $form->error($model,'description1'); ?>
 	</div>
-        
+    <? /*    
         <div class="form-group">
             <?php echo $form->labelEx($model,'description2'); ?>
             <?php   
@@ -66,19 +78,9 @@
 
             ?>
             <?php echo $form->error($model,'description2'); ?>
-	</div>
+	</div> */ ?>
         
-        <div class="form-group">
-            <?php echo $form->labelEx($model,'seoTitle'); ?>
-            <?php echo $form->textField($model,'seoTitle',array('class'=>'form-control')); ?>
-            <?php echo $form->error($model,'seoTitle'); ?>
-	</div>
-        
-        <div class="form-group">
-            <?php echo $form->labelEx($model,'seoDescription'); ?>
-            <?php echo $form->textArea($model,'seoDescription',array('class'=>'form-control')); ?>
-            <?php echo $form->error($model,'seoDescription'); ?>
-	</div>
+
         
         <div class="form-group">
             <?php echo $form->labelEx($model,'seoKeywords'); ?>

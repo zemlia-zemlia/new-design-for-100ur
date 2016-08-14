@@ -8,6 +8,7 @@
 <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 <?php 
     Yii::app()->clientScript->registerCssFile("/bootstrap/css/bootstrap.min.css");
+    Yii::app()->clientScript->registerCssFile('/css/2015/jquery-ui.css');
     Yii::app()->clientScript->registerCssFile("/css/2015/admin.css");
 
     Yii::app()->clientScript->registerScriptFile("/js/respond.min.js");
@@ -72,6 +73,21 @@
                         </div>
                     </div>
                     <?php endif;?>
+                    
+                    
+                    <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                             <h4>Продажи</h4>
+                        </div>
+                        <div class="panel-body">
+                        <ul id="left-menu">
+                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-briefcase'></span>  Кампании", Yii::app()->createUrl('/admin/campaign'));?></li>
+                        </ul>
+                        </div>
+                    </div>
+                    <?php endif;?>
+                    
                     
                     <?php if(Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>
                     <div class="panel panel-default">

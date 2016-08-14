@@ -39,53 +39,8 @@ class TownController extends Controller
         // список городов
         public function actionIndex()
 	{           
-            
-            //SELECT t.name, t.id, COUNT(*) counter FROM `crm_town` t LEFT JOIN `crm_question` q ON q.townId = t.id GROUP BY t.id HAVING counter>3 ORDER BY counter DESC
-            if(!$townsRows = Yii::app()->cache->get('townsCloud')) {    
-                $townsRows = Yii::app()->db->createCommand()
-                        ->select("t.id, t.name, t.alias, COUNT(*) counter")
-                        ->from("{{town}} t")
-                        ->leftJoin("{{question}} q", "t.id = q.townId")
-                        ->where('q.status=:status', array(':status'=>  Question::STATUS_PUBLISHED))
-                        ->having("counter>1")
-                        ->group("t.id")
-                        ->queryAll();
-                Yii::app()->cache->set('townsCloud', $townsRows, 3600);
-            }
-            
-            $townsArray = array();
-            $counterMax = 0; // максимальное количество вопросов в городе
-            $counterMin = 0; // минимальное количество вопросов в городе
-            
-            // найдем минимальное и максимальное количество вопросов
-            foreach($townsRows as $row) {
-                if($row['counter']>$counterMax) {
-                    $counterMax = $row['counter'];
-                }
-                
-                if($counterMin == 0) {
-                    $counterMin = $row['counter']; // при первом цикле присвоим минимуму значение первого счетчика
-                }
-                
-                if($counterMin != 0 && $row['counter']<$counterMin) {
-                    $counterMin = $row['counter'];
-                }
-            }
-                        
-            foreach($townsRows as $row) {
-                $townsArray[$row['id']]['name'] = $row['name'];
-                $townsArray[$row['id']]['alias'] = $row['alias'];
-                $townsArray[$row['id']]['counter'] = $row['counter'];
-            }
-            
-            //CustomFuncs::printr($townsArray); exit;
-            
-            $this->render('index',array(
-			'townsArray'        =>  $townsArray,
-                        'counterMin'        =>  $counterMin,
-                        'counterMax'        =>  $counterMax,
-		));
-	}
+            throw new CHttpException(404,'Этой страницы больше не существует...');
+        }
 
 	/**
 	 * Displays a particular model.
@@ -218,7 +173,7 @@ class TownController extends Controller
             foreach($allTowns as $town)
             {
                 $arr[] = array(
-                  'value'   =>  CHtml::encode($town->name . ' (' . $town->ocrug . ')'),  
+                  'value'   =>  CHtml::encode($town->name . ' (' . $town->region->name . ')'),  
                   'id'      =>  $town->id,            
                 );
             }

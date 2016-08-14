@@ -25,7 +25,12 @@ if($model->description) {
                     <span class="glyphicon glyphicon-user"></span>&nbsp;<span itemprop="name"><?php echo CHtml::encode($model->authorName); ?></span> &nbsp;&nbsp;
                 <?php endif;?>
                 <?php if($model->town):?>
-                    <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($model->town->name),Yii::app()->createUrl('town/alias',array('name'=>CHtml::encode($model->town->alias)))); ?> &nbsp;&nbsp;
+                    <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($model->town->name),Yii::app()->createUrl('town/alias',
+                        array(
+                            'name'          =>  $model->town->alias,
+                            'countryAlias'  =>  $model->town->country->alias,
+                            'regionAlias'   =>  $model->town->region->alias,    
+                            ))); ?> &nbsp;&nbsp;
                 <?php endif;?>
                 <?php if($model->categories):?>
                     <?php foreach($model->categories as $category):?>
@@ -57,23 +62,44 @@ if($model->description) {
             'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
 
     )); ?>
+
 	<br/>
 	<noindex>
+	<div>
+	<p>
 		<script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
 		<script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
 		<div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,linkedin,lj,surfingbird,tumblr"></div>
+	</p>
+	</div>
 	</noindex>
+	
+		
+        <?php if(Yii::app()->user->isGuest):?>
+    <div class="alert alert-success">
+		<strong>Внимание!</strong> Если вы специалист в области права вы можете дать ответ на этот вопрос пройдя нехитрую процедуру <a href="/user/create/" class="alert-link" >регистрации</a> и подтверждения вашей квалификации.
+	</div>	   
+        <?php endif;?>
     </div>
 </div>
     
     
 </div> <!-- Question --> 
 
+<?php if(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR):?>
+<div class="panel gray-panel">
+    <div class='panel-body'>
+        <h2>Ваш ответ</h2>
+        <?php $this->renderPartial('application.views.answer._form', array('model'=>$answerModel));?>
+    </div>
+</div>
+<?php endif;?>
+
 
 <!-- Форма --> 
 <noindex>
             <div class="form-container form-container-content">
-                <h2 class="center-align">Задать вопрос</h2>
+                <h3 class="center-align">Задать свой вопрос</h3>
                                 
                 <?php $form=$this->beginWidget('CActiveForm', array(
                         'id'                    =>  'question-form',
@@ -91,34 +117,16 @@ if($model->description) {
                     </div>
 
                     <div class="col-md-5">
-                        <div class="form-info-item">
-                            <p><span class="form-icon" style="background-position: 0 0;"></span><strong>Это быстро</strong><br />
-                            Вы получите ответ через 15 минут</p>
-                        </div>
-                        <div class="form-info-item">
-                            <p><span class="form-icon" style="background-position: -32px 0;"></span><strong>Безопасно</strong><br />
-                            Только аккредитованные юристы</p>
-                        </div>
-                        <div class="form-info-item">
-                            <p><span class="form-icon" style="background-position: -67px 0;"></span><strong>Без спама</strong><br />
-                            Мы никогда не рассылаем рекламу</p>
-                        </div>
-                    </div>
-                </div> 
-                <div class="row">
-                    <div class="col-md-7">
                         <div class="form-group">
                             <label>Ваше имя *</label>
                             <?php echo $form->textField($newQuestionModel,'authorName', array('class'=>'form-control', 'placeholder'=>'Иванов Иван')); ?>
                             <?php echo $form->error($newQuestionModel,'authorName'); ?>
                         </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="form-group" id="form-submit-wrapper">
+						<div class="form-group" id="form-submit-wrapper">
                                 <?php echo CHtml::submitButton($newQuestionModel->isNewRecord ? 'Задать вопрос юристу' : 'Сохранить', array('class'=>'btn btn-warning btn-block', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
                         </div>
-                    </div>
-                </div>
+					</div>
+                </div> 
                 <?php $this->endWidget(); ?>
                               
             </div>
@@ -126,10 +134,10 @@ if($model->description) {
 <!-- Конец формы --> 
 
 <?php if($similarDataProvider->totalItemCount > 0):?>
-<h3>Похожие вопросы</h3>
+
 <div class="panel gray-panel">
     <div class='panel-body'>
-        
+        <h4>Вопросы со схожей тематикой:</h4> 
         <?php $this->widget('zii.widgets.CListView', array(
                 'dataProvider'  =>  $similarDataProvider,
                 'itemView'      =>  'application.views.question._viewShort',
@@ -143,13 +151,9 @@ if($model->description) {
 <?php endif;?>
 
 
-
-
-<div class="vert-margin30">
-<h3>На ваши вопросы отвечают:</h3>
 <div class="panel gray-panel">
     <div class='panel-body'>
-        
+       <h4>На ваши вопросы отвечают:</h4> 
     
         <div class="row">
 
@@ -199,4 +203,3 @@ if($model->description) {
         </div>
     </div>
 </div>        
-</div>

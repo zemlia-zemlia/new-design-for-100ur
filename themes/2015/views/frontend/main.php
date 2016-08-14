@@ -33,113 +33,143 @@
 </head>  
 
 <body>
- <!-- 20a5d78ef98720e0 -->   
     <div id="top-menu-wrapper">
         <ul>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/')?CHtml::link('Главная', '/'):'<span class="active">Главная</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/konsultaciya_yurista_advokata/')?CHtml::link('Консультация', Yii::app()->createUrl('/site/konsultaciya_yurista_advokata')):'<span class="active">Консультация</span>';?></li>
-            <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/partners/')?CHtml::link('Партнеры', Yii::app()->createUrl('/site/partners')):'<span class="active">Партнеры</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/company/')?CHtml::link('Компании', Yii::app()->createUrl('/company/')):'<span class="active">Компании</span>';?></li>
-            <li><?php echo ($_SERVER['REQUEST_URI'] != '/town/')?CHtml::link('Регионы', Yii::app()->createUrl('/town/')):'<span class="active">Регионы</span>';?></li>
+            <li><?php echo ($_SERVER['REQUEST_URI'] != '/region/')?CHtml::link('Регионы', Yii::app()->createUrl('/region/')):'<span class="active">Регионы</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/')?CHtml::link('Офисы', Yii::app()->createUrl('/site/contacts')):'<span class="active">Офисы</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/blog/')?CHtml::link('Блог', Yii::app()->createUrl('/blog')):'<span class="active">Блог</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/question/')?CHtml::link('Направления', Yii::app()->createUrl('question')):'<span class="active">Направления</span>';?></li>
             <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/'))?CHtml::link('Задать вопрос', Yii::app()->createUrl('question/create',array('from'=>'top-menu'))):'<span class="active">Задать вопрос</span>';?></li>
+            <?php if(Yii::app()->user->checkAccess(User::ROLE_OPERATOR) || Yii::app()->user->checkAccess(User::ROLE_JURIST)):?>
+            <li>    
+                <?php echo CHtml::ajaxLink("<span class='glyphicon glyphicon-refresh'></span>", Yii::app()->createUrl('site/clearCache'), array(
+                            'success'=>'function(data, textStatus, jqXHR)
+                                {
+                                    if(data==1) message = "Кэш очищен";
+                                    else message = "Не удалось очистить кэш";
+                                    alert(message);
+                                }'    
+                            ), array('title'    =>  'Очистить кеш страницы'));?>
+            </li>
+            <?php endif;?>
         </ul>
     </div>
     
     <div id="header">
         <div class="container">
-		
-
-			
             <div class="row">
                 <div class="col-md-4 col-sm-4">
-                    <br/>
                     <?php if($_SERVER['REQUEST_URI'] != '/'):?>
                     <a href="/">
-                        <img src="/pics/2015/logo.png" alt="100 юристов" />
+                        <img src="/pics/2015/logo.png" alt="100 Юристов и Адвокатов" title="100 Юристов и Адвокатов"/>
                     </a>
                     <?php else:?>
-                        <img src="/pics/2015/logo.png" alt="100 юристов" />
+                        <img src="/pics/2015/logo.png" alt="100 Юристов и Адвокатов" title="100 Юристов и Адвокатов" />
                     <?php endif;?>      
-						<h5>ИНФОРМАЦИОННО ПРАВОВОЙ ПОРТАЛ</h5>
-                    <!--  <div class="logo-description">
-                        
-                    </div> -->   
+						
+                     <div class="logo-description">
+                    <h5>ЮРИДИЧЕСКИЕ КОНСУЛЬТАЦИИ ОНЛАЙН</h5>    
+                    </div>  
                 </div>
-                <div class="col-md-5 col-sm-5">
-					<br/> 
-					<div class="header-phone"><b><span class="glyphicon glyphicon-phone-alt"></span> Консультация по телефону </b><br/> 
-                    <b>8 (499) 301-00-44</b> - Москва <br/> 
-					<b>8 (812) 309-68-26</b> - Санкт Петербург</div>
-				</div>
-                <div class="col-md-3 col-sm-3">
+                
+                    
+                    <?php if(Yii::app()->user->isGuest):?>
+                        <div class="col-md-8 col-sm-8" style="text-align: right;">
+                            <div class="header-phone"><b><span class="glyphicon glyphicon-phone-alt"></span> Консультации по телефону</b><br/> 
+                                    Москва <b>7 (499) 301-00-44</b><br/> 
+                                    Санкт Петербург <b>7 (812) 309-68-26</b><br/> 
+                                    Нижний Новгород <b>7 (831) 280-99-42</b></div>
+                            </div>
+                       
+                    <?php else:?>
+                                            
+                        <div class="alert alert-info col-md-2 col-sm-2 col-sm-offset-6 col-md-offset-6" >             
                         <?php
-                            $questionsCountInt = Question::getCount();
-                            $questionsCount = str_pad((string)$questionsCountInt,6, '0',STR_PAD_LEFT);
-                            $numbers = str_split($questionsCount);
-                            $answersCount = str_pad((string)round($questionsCountInt*1.684),6, '0',STR_PAD_LEFT);;
-                            $numbersAnswers = str_split($answersCount);
+                            // выводим виджет с формой логина
+                            $this->widget('application.widgets.Login.LoginWidget', array(
+                            ));
                         ?>
-                    <div class="questions-counter-description">
-                        <p class="kpi-counter">
-                            <?php foreach($numbers as $num):?><span><?php echo $num;?></span><?php endforeach;?>
-                            вопросов
-                        </p>
-                        <p class="kpi-counter">
-                            <?php foreach($numbersAnswers as $num):?><span><?php echo $num;?></span><?php endforeach;?>
-                            ответов
-                        </p>
-                    </div>
-              				
-                   <?php if(!stristr($_SERVER['REQUEST_URI'], '/question/create/')):?> 
-                   <?php echo CHtml::link('<b>Получить свой ответ</b>', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-block btn-default')); ?>
-                   <?php endif;?>
-                </div>
-            </div>
+                        </div>
+                    <?php endif;?>
+            
         </div>
     </div>
+    </div>
     
-    
-    <?php if(Yii::app()->user->isGuest && !(Yii::app()->controller->id=='question' && Yii::app()->controller->action->id=='create')):?>
+    <?php if(Yii::app()->user->role == User::ROLE_CLIENT || (Yii::app()->user->isGuest && !(Yii::app()->controller->id=='question' && Yii::app()->controller->action->id=='create'))):?>
         <?php
         // выводим виджет с формой
             $this->widget('application.widgets.SimpleForm.SimpleForm', array());
         ?>  
     <?php endif;?>
-  
-    
+ 
     <div id="middle">
         <div class="container">
-		
+		<?php if(Yii::app()->user->role != User::ROLE_JURIST && Yii::app()->user->role != User::ROLE_OPERATOR):?>
  		    <div class="row">
                 <div class="col-md-4 col-sm-4">
 				<div class="alert alert-success gray-panel panel" style="text-align:center;" >
-				<h4>Вопрос</h4>
+				<h4>Вопрос специалистам</h4>
 				<p>Задайте любой вопрос, и в течение 15 минут вы получите ответы наших юристов.</p>
-				<?php echo CHtml::link('Задать вопрос', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-success btn-sm btn-block')); ?>
+				<?php echo CHtml::link('<span class="glyphicon glyphicon-question-sign"></span> Задать вопрос', Yii::app()->createUrl('question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=vopros'), array('class'=>'btn btn-success btn-sm btn-block')); ?>
 				</div>
 				</div>
 				<div class="col-md-4 col-sm-4">
 				<div class="alert alert-info gray-panel panel" style="text-align:center;">
-				<h4>Звонок</h4>
+				<h4>Обратный звонок</h4>
 				<p>Оставьте номер телефона, и наш юрист свяжется с вами, чтобы проконсультировать вас.</p>
-				<?php echo CHtml::link('Заказать звонок', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-info btn-sm btn-block')); ?>
+				<?php echo CHtml::link('<span class="glyphicon glyphicon-earphone"></span> Заказать звонок', Yii::app()->createUrl('question/call'), array('class'=>'btn btn-info btn-sm btn-block')); ?>
 				</div>
 				</div>
 				<div class="col-md-4 col-sm-4">
 				<div class="alert alert-warning gray-panel panel" style="text-align:center;">
-				<h4>Документ</h4>
+				<h4>Составление документа</h4>
 				<p>Закажите документ, после чего наш юрист свяжется с вами, уточнит детали и подготовит его.</p>
-				<?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-warning btn-sm btn-block')); ?>
+				<?php echo CHtml::link('<span class="glyphicon glyphicon-file"></span> Заказать документ', Yii::app()->createUrl('question/docs'), array('class'=>'btn btn-warning btn-sm btn-block')); ?>
 				</div>				
-				
 				</div>
 			</div>
-			
-            <div class="col-md-2 col-sm-2">
-			
+            <?php endif;?>
+            <div class="col-md-2 col-sm-2" id="left-panel">
+                
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <?php
+                            $questionsCountInt = Question::getCount()*2;
+                            $questionsCount = str_pad((string)$questionsCountInt,6, '0',STR_PAD_LEFT);
+                            $numbers = str_split($questionsCount);
+                            $answersCount = str_pad((string)round($questionsCountInt*1.684),6, '0',STR_PAD_LEFT);;
+                            $numbersAnswers = str_split($answersCount);
+                        ?>
+                        <div class="questions-counter-description">
+                            <div class=" center-align">
+                                <div>За время работы портала задано</div>
+                                <p class="kpi-counter">
+                                    <?php foreach($numbers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
+                                    вопросов
+                                </p>
+                                <div>На них дано</div>
+                                <p class="kpi-counter">
+                                    <?php foreach($numbersAnswers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
+                                    ответов
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+					<div style=" text-align:center; " >
+					<p style="font-size:16px;"><b>Вы также можете;</b></p>
+					<?php echo CHtml::link('<b>НАНЯТЬ</b>', Yii::app()->createUrl('/question/call/'), array('class'=>'btn btn-block btn-warning')); ?> 
+					<p style="font-size:14px;"><b>Юриста</b> или <b>Адвоката</b> Для сопровождения сделки, состаления документов, представления интересов в судах, организациях и т.д.</p>
+					</div>
+                    </div>
+                </div>
+					
 			<div id="left-bar" class="panel gray-panel" >
 				<h4 id="left-menu-switch">Категории</h4>
 					
@@ -152,19 +182,19 @@
 			
 			
 			
-				<div class='panel orange-panel'>
+				<div class='panel panel-default style="text-align:center;"'>
 					<div class='row'>
 						<div class='col-md-12 col-sm-12'>
 							<img src='/pics/2015/thumb_up_orange.png' alt='ВЫСОКОЕ КАЧЕСТВО' class='center-block' />
 							<h5>ВЫСОКОЕ КАЧЕСТВО</h5>
-							<p>
+							<p style="text-align:center;">
 								Все сертифицированные юристы проекта проходят обязательную проверку квалификации.
 							</p>
 						</div>
 						<div class='col-md-12 col-sm-12'>
 							<img src='/pics/2015/clock_orange.png' alt='ЭКОНОМИЯ ВРЕМЕНИ' class='center-block' />
 							<h5>ЭКОНОМИЯ ВРЕМЕНИ</h5>
-							<p>
+							<p style="text-align:center;">
 								Вы получаете ответ  на свой
 								вопрос в максимально 
 								сжатые сроки.
@@ -173,8 +203,8 @@
 						</div>
 						<div class='col-md-12 col-sm-12'>
 							<img src='/pics/2015/shield_orange.png' alt='КОНФИДЕНЦИАЛЬНОСТЬ' class='center-block' />
-							<h5>КОНФИДЕНЦИАЛЬНОСТЬ</h5>
-							<p>
+							<h5>КОНФИДЕНЦИАЛЬНО</h5>
+							<p style="text-align:center;">
 								Ваши персональные данные нигде не публикуются.
 							</p>
 						</div>
@@ -200,7 +230,7 @@
 				</div> */ ?>
 				
             </div>
-            <div class="col-md-7 col-sm-7">
+            <div class="col-md-7 col-sm-7" id="center-panel">
                 <?php echo $content;?>
                 
                 <?php if(!(Yii::app()->controller->id=='question' && Yii::app()->controller->action->id=='create')):?>
@@ -210,36 +240,53 @@
                     ?>  
                 <?php endif;?>
             </div>
-            <div class="col-md-3 col-sm-3">
+            <div class="col-md-3 col-sm-3"  id="right-panel">
+			
                 <div class="panel orange-panel" style="text-align:center;">	
+				<p>Рекомендовать сайт друзьям:</p>
                         <script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
                         <script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
                         <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,linkedin,lj"></div>
                 </div>	
                 
+                <?php if(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR):?>
+                <div class="panel gray-panel">
+                    <div class="panel-body">                    
+                        <?php
+                            // выводим виджет с поиском вопросов
+                            $this->widget('application.widgets.SearchQuestions.SearchQuestionsWidget', array(
+                            ));
+                        ?>
+                    </div>
+                </div>
+                <?php endif;?>
+                
+                <?php if(Yii::app()->user->isGuest):?>
                 <div class="panel gray-panel">
                     <div class="panel-body">                    
                         <?php
                             // выводим виджет с формой логина
                             $this->widget('application.widgets.Login.LoginWidget', array(
                             ));
-                            // привет мир
                         ?>
                     </div>
                 </div>
+                <?php endif;?>
+                
 
-                <div class="panel orange-panel">
+                <div class="panel gray-panel">
                     <div class="panel-body">
                         <div style="text-align:center; " >
-                                <h4>Бесплатные консультации по телефону для жителей:</h4>
-                                <hr/>
-                                <p style="font-size:19px;"> Москвы и МО<br/> 
-                                <b>8 (499) 301-00-44</b></p> 
-                                <p>г. Москва Шлюзовая наб. д.6 стр.4</p>
-                                <hr/>
-                                <p style="font-size:19px;"> Санкт Петербурга и ЛО<br/> 
-                                <b>8 (812) 309-68-26</b></p> 
-                                <p>г. Санкт-Петербург ул. Достоевского д.25</p>					
+                                <h4><span class="glyphicon glyphicon-phone-alt"></span> Консультации по телефону для жителей:</h4>
+								<hr/>
+                                <p style="font-size:17px;"> Москвы и МО<br/> 
+                                <b>7 (499) 301-00-44</b></p> 
+                                <hr/>  
+                                <p style="font-size:17px;"> Санкт Петербурга и ЛО<br/> 
+                                <b>7 (812) 309-68-26</b></p> 
+								<hr/>
+                                <p style="font-size:17px;"> Нижний Новгород<br/> 
+                                <b>7 (831) 280-99-42</b></p> 
                         </div>
                     </div>
                 </div>
@@ -247,9 +294,9 @@
                 <div class="panel gray-panel">
                     <div class="panel-body">
 					<div style=" text-align:center; " >
-					<p style="font-size:22px;"><b>Не хотите искать?</b></p>
-					<?php echo CHtml::link('<b>ОСТАВЬТЕ ЗАЯВКУ</b>', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-block btn-info')); ?> <br/>
-					<p style="font-size:24px;">ЮРИСТЫ <b>САМИ</b><br/>ВАМ ПОЗВОНЯТ!</p>
+					<p style="font-size:19px;"><b>Не хотите искать <span class="glyphicon glyphicon-question-sign"></span></b></p>
+					<?php echo CHtml::link('<b>ОСТАВЬТЕ ЗАЯВКУ</b>', Yii::app()->createUrl('/question/call/'), array('class'=>'btn btn-block btn-info')); ?> <br/>
+					<p style="font-size:21px;">ЮРИСТ <b>САМ</b><br/>ВАМ ПОЗВОНИТ <span class="glyphicon glyphicon-exclamation-sign"></p>
 					</div>
                     </div>
                 </div>

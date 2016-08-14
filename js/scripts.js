@@ -1,7 +1,9 @@
 
 $(function(){
 	
-	$("#Question_phone, #User_phone").mask("+7 (999) 999-9999");
+        $('[data-toggle="tooltip"]').tooltip()
+         
+	$("#Question_phone, #User_phone, .phone-mask").mask("+7 (999) 999-9999");
         
         $("#left-menu-switch").on('click', function(){
             $("ul#left-menu").toggle();

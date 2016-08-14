@@ -12,9 +12,14 @@
 <?
     if(!isset($model)) $model=new LoginForm;
 ?>
-
+<div class="container-fluid">
 <div class="row">
+    <?php if(!isset($hideForgetPassword) || !$hideForgetPassword):?>
     <div class="col-sm-8">
+        <?php else:?>
+    <div class="col-sm-12">    
+        <?php endif;?>
+        
         <div class="form-group">
             <?php echo $form->labelEx($model,'email'); ?>
 
@@ -44,6 +49,7 @@
 
            <?php echo CHtml::submitButton('Войти',array('class'=>'btn btn-success btn-lg btn-block')); ?>
     </div>
+    <?php if(!isset($hideForgetPassword) || !$hideForgetPassword):?>
     <div class="col-sm-4 center-align">
         <p>Забыли пароль?<br />
         <?php echo CHtml::link('Восстановить пароль', Yii::app()->createUrl('user/restorePassword'), array('class'=>'btn btn-primary btn-block'));?>
@@ -53,8 +59,9 @@
         <?php echo CHtml::link('Регистрация', Yii::app()->createUrl('user/create'), array('class'=>'btn btn-primary btn-block'));?>
         </p>
     </div>
+    <?php endif;?>
 </div>
-
+</div>
 
     
 

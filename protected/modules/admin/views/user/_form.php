@@ -93,6 +93,18 @@
         <?php echo $form->fileField($model, 'avatarFile');?>
         <?php echo $form->error($model,'avatarFile'); ?>
 </div> 
+        
+<div class="form-group">
+       <?php echo $form->labelEx($model,'town'); ?>
+       <?php echo CHtml::textField('town', '', array(
+           'id'            =>  'town-selector', 
+           'class'         =>  'form-control',
+       )); ?>
+       <?php
+           echo $form->hiddenField($model, 'townId', array('id'=>'selected-town'));
+       ?>
+       <?php echo $form->error($model,'townId'); ?>
+</div>
          
 
 <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>        

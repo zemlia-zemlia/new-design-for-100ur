@@ -13,6 +13,8 @@
  * @property string $seoDescription
  * @property string $seoKeywords
  * @property string $photo
+ * @property integer $regionId
+ * @property integer $countryId
  */
 class Town extends CActiveRecord
 {
@@ -47,7 +49,7 @@ class Town extends CActiveRecord
 		return array(
 			array('name, ocrug,country', 'required'),
                         array('alias','unique','message'=>'Такой город уже есть в базе'),
-			array('size', 'numerical', 'integerOnly'=>true),
+			array('size, regionId, countryId', 'numerical', 'integerOnly'=>true),
                         array('name, ocrug,country, alias', 'length', 'max'=>64),
                         array('name,ocrug,country','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. \(\)])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, скобки, точка, дефис и пробел'),
 			array('alias','match','pattern'=>'/^([a-z0-9\-])+$/'),
@@ -69,7 +71,9 @@ class Town extends CActiveRecord
 		return array(
                     'questions'           =>  array(self::HAS_MANY, 'Question', 'townId'),
                     'questionsCount'      =>  array(self::STAT, 'Question', 'townId'),
-                    'companies'           =>  array(self::HAS_MANY, 'YurCompany', 'townId'), 
+                    'companies'           =>  array(self::HAS_MANY, 'YurCompany', 'townId'),
+                    'region'              =>  array(self::BELONGS_TO, 'Region', 'regionId'),
+                    'country'             =>  array(self::BELONGS_TO, 'Country', 'countryId'),
 		);
 	}
 
@@ -81,7 +85,7 @@ class Town extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'name' => 'Название',
-			'ocrug' => 'Регион',
+			'region' => 'Регион',
                         'country' => 'Страна',
                         'description' =>'Описание',
                         'alias' =>'Псевдоним на транслите',
@@ -92,6 +96,8 @@ class Town extends CActiveRecord
                         'seoKeywords'  =>  'SEO Keywords',
                         'photo'         =>  'Фотография',
                         'photoFile'     =>  'Файл с фотографией (минимум 1000х300 пикселей)',
+                        'regionId'      =>  'ID региона',
+                        'countryId'     =>  'ID страны',
 		);
 	}
 
@@ -196,13 +202,8 @@ class Town extends CActiveRecord
         // возвращает массив объектов Town
         public function getCloseTowns()
         {
-            $region = $this->ocrug;
-            
-            $criteria = new CDbCriteria();
-            $criteria->addColumnCondition(array('ocrug'=>$region));
-            $criteria->addColumnCondition(array('name!'=>$this->name));
-            
-            $towns = self::model()->findAll($criteria);
+            $region = $this->region;
+            $towns = $region->towns;
             return $towns;
         }
         

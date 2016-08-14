@@ -24,9 +24,13 @@ class QuestionController extends Controller
 	public function accessRules()
 	{
             return array(
-                array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                        'actions'=>array('index', 'view', 'create', 'thankYou','rss'),
+                array('allow', // allow all users 
+                        'actions'=>array('index', 'view', 'create', 'thankYou','rss', 'call', 'weCallYou', 'docsRequested', 'docs'),
                         'users'=>array('*'),
+                ),
+                array('allow', // allow authenticated user to perform 'search'
+                        'actions'=>array('search'),
+                        'users'=>array('@'),
                 ),
                 array('deny',  // deny all users
                         'users'=>array('*'),
@@ -44,8 +48,24 @@ class QuestionController extends Controller
             if(!$model) {
                 throw new CHttpException(404,'Вопрос не найден');
             }
+            
+            $answerModel = new Answer();
+
+            if(isset($_POST['Answer'])) {
+                // отправлен ответ, сохраним его
+                $answerModel->attributes = $_POST['Answer'];
+                $answerModel->authorId = Yii::app()->user->id;
+                $answerModel->questionId = $model->id;
+                
+                if($answerModel->save()){
+                    $this->redirect(array('/question/view', 'id'=>$model->id));
+                }
+                
+            }
+            
+            
             $criteria = new CDbCriteria;
-            $criteria->order = 't.id DESC';
+            $criteria->order = 't.id ASC';
             $criteria->addColumnCondition(array('questionId'=>$model->id));
             
             $answersDataProvider = new CActiveDataProvider('Answer', array(
@@ -78,12 +98,13 @@ class QuestionController extends Controller
                     
             // модель для формы вопроса
             $newQuestionModel = new Question();
-            
+                        
             $this->render('view',array(
                     'model'                 =>  $model,
                     'answersDataProvider'   =>  $answersDataProvider,
-                    'newQuestionModel'         =>  $newQuestionModel,
+                    'newQuestionModel'      =>  $newQuestionModel,
                     'similarDataProvider'   =>  $similarDataProvider,
+                    'answerModel'           =>  $answerModel,
             ));
 	}
 
@@ -323,5 +344,117 @@ class QuestionController extends Controller
             }
             $feed->generateFeed();
             Yii::app()->end();
+        }
+        
+        public function actionSearch()
+        {
+            $this->layout = '//frontend/short';
+            
+            // модель для формы поиска по вопросам
+            $searchModel = new QuestionSearch();
+            
+            // лимит на количество найденных вопросов
+            $searchModel->limit = 100;
+//            $searchModel->today = true;
+//            $searchModel->townId = 598;
+//            $searchModel->noAnswers = true;
+            
+            
+            $searchModel->attributes = $_GET['QuestionSearch'];
+
+            if($searchModel->townId) {
+                $searchModel->townName = Town::getName($searchModel->townId);
+            }
+            $questions = $searchModel->search();
+            $questionDataProvider = new CArrayDataProvider($questions, array(
+                'pagination'    =>  array(
+                    'pageSize'  =>  20,
+                ),
+            ));
+
+            
+            
+            
+            $this->render('search',array(
+                    'searchModel'   =>  $searchModel,
+                    'dataProvider'  =>  $questionDataProvider,
+		));
+        }
+        
+        
+        public function actionCall()
+        {
+            $this->layout = "//frontend/short";
+            
+            $lead = new Lead();
+            
+            if(isset($_POST['Lead'])) {
+                $lead->attributes = $_POST['Lead'];
+                $lead->phone = preg_replace('/([^0-9])/i', '', $lead->phone);
+                $lead->sourceId = 3;
+                $lead->type = Lead::TYPE_CALL;
+                
+                if($lead->validate()) {
+                    $lead->question = CHtml::encode('Нужна консультация юриста. Перезвоните мне. ' . $lead->question);
+                
+                    if($lead->save()) {
+                        $this->redirect(array('weCallYou'));
+                    }
+                }      
+                
+            }
+            
+            $townsArray = Town::getTownsIdsNames();
+            
+            $this->render('call', array(
+                'model'         =>  $lead,
+                'townsArray'    =>  $townsArray,
+            ));
+            
+        }
+        
+        public function actionWeCallYou()
+        {
+            $this->layout = "//frontend/short";
+            $this->render('weCallYou');
+        }
+        
+        
+        public function actionDocs()
+        {
+            $this->layout = "//frontend/short";
+            
+            $lead = new Lead();
+            
+            if(isset($_POST['Lead'])) {
+                $lead->attributes = $_POST['Lead'];
+                $lead->phone = preg_replace('/([^0-9])/i', '', $lead->phone);
+                $lead->sourceId = 3;
+                $lead->type = Lead::TYPE_DOCS;
+                
+                if($lead->validate()) {
+                    $docType = $_POST['question_hidden'];
+                    $lead->question = CHtml::encode('Заявка на документ. ' . $docType . '. ' . $lead->question);
+
+                    if($lead->save()) {
+                        $this->redirect(array('docsRequested'));
+                    }
+                }      
+                
+            }
+            
+            $townsArray = Town::getTownsIdsNames();
+            
+            $this->render('docs', array(
+                'model'         =>  $lead,
+                'townsArray'    =>  $townsArray,
+            ));
+            
+        }
+        
+        public function actionDocsRequested()
+        {
+            $this->layout = "//frontend/short";
+            $this->render('docsRequested');
         }
 }

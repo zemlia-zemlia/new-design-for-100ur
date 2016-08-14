@@ -10,7 +10,7 @@
 
 	
 
-	<?php echo $form->errorSummary($model, "Для отправки вопроса укажите данные"); ?>
+	<?php //echo $form->errorSummary($model, "Для отправки вопроса укажите данные"); ?>
        
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'questionText'); ?>
@@ -26,19 +26,35 @@
         
         <div class="form-group">
 		<?php echo $form->labelEx($model,'phone'); ?>
-		<?php echo $form->textField($model,'phone', array('class'=>'form-control')); ?>
+		<?php echo $form->textField($model,'phone', array(
+                    'class'         =>  'form-control', 
+                    'data-toggle'   =>  "tooltip",
+                    'data-placement'=>  "bottom",
+                    'title'         =>  "Номер телефона необходим, чтобы юрист смог с Вами связаться. Нигде не публикуется.",
+                    )); ?>
 		<?php echo $form->error($model,'phone'); ?>
 	</div>
         
         <div class="form-group">
 		<?php echo $form->labelEx($model,'email'); ?>
-		<?php echo $form->textField($model,'email', array('class'=>'form-control', 'placeholder'=>'ivanov@mail.ru')); ?>
+		<?php echo $form->textField($model,'email', array(
+                    'class'         =>  'form-control', 
+                    'data-toggle'   =>  "tooltip",
+                    'data-placement'=>  "bottom",
+                    'title'         =>  "Необходим для отправки Вам уведомлений о новых ответах юристов, а также является логином для входа на сайт. Нигде не публикуется.",
+                    'placeholder'=>'ivanov@mail.ru')); ?>
 		<?php echo $form->error($model,'email'); ?>
 	</div>
         
         <div class="form-group">
 		<?php echo $form->labelEx($model,'town'); ?>
-                <?php echo CHtml::textField('town', '', array('id'=>'town-selector', 'class'=>'form-control')); ?>
+                <?php echo CHtml::textField('town', '', array(
+                    'id'            =>  'town-selector', 
+                    'class'         =>  'form-control',
+                    'data-toggle'   =>  "tooltip",
+                    'data-placement'=>  "bottom",
+                    'title'         =>  "Необходим для уточнения регионального законодательства",
+                )); ?>
                 <?php
                     echo $form->hiddenField($model, 'townId', array('id'=>'selected-town'));
                 ?>

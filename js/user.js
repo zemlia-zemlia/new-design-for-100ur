@@ -1,5 +1,5 @@
 $(function(){
-    toggleUserForm();
+//    toggleUserForm();
     
     $(".radio-labels input[type=radio]").change(function(){
         toggleUserForm();

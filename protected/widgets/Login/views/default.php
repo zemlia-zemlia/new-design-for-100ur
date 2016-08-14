@@ -58,8 +58,8 @@
 
 <?php else:?>
     <p>    
-        <?php echo 'Вы вошли как ' . Yii::app()->user->name . ' ' . Yii::app()->user->lastName; ?> <br />
-        <?php echo CHtml::link('Личный кабинет', Yii::app()->createUrl('/user'));?>
+        <span class="glyphicon glyphicon-user"></span> <?php echo CHtml::link(CHtml::encode(Yii::app()->user->name . ' ' . Yii::app()->user->lastName), Yii::app()->createUrl('/user'));?>
+    
+        <?php echo CHtml::link('<span class="glyphicon glyphicon-log-out"></span>', Yii::app()->createUrl('site/logout'), array());?>
     </p>
-    <?php echo CHtml::link('Выйти', Yii::app()->createUrl('site/logout'), array('class'=>'btn btn-block btn-primary btn-xs'));?>
 <?php endif; ?>

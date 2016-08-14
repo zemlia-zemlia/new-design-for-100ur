@@ -126,6 +126,11 @@ class Answer extends CActiveRecord
         {
             $question = $this->question;
             
+            $questionAuthor = $this->question->author;
+            if($questionAuthor && $questionAuthor->active == 1) {
+                $questionAuthor->sendAnswerNotification($this->question, $this);
+            }
+            
             parent::afterSave();
         }
 }

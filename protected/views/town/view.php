@@ -14,9 +14,26 @@ Yii::app()->clientScript->registerMetaTag($model->createPageDescription(), 'desc
 Yii::app()->clientScript->registerMetaTag($model->createPageKeywords(), 'keywords');
 Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('/town/alias', array('name'=>$model->alias)));
 
+
+$this->breadcrumbs=array(
+	'Регионы'   =>  array('/region'),
+	CHtml::encode($model->region->name) =>  array(
+                        'region/view', 
+                        'regionAlias'   => $model->region->alias,
+                        'countryAlias'  => $model->country->alias,
+                    ),
+);
 ?>
 
+<?php
+    $this->widget('zii.widgets.CBreadcrumbs', array(
+        'homeLink'=>CHtml::link('Консультация юриста',"/"),
+        'separator'=>' / ',
+        'links'=>$this->breadcrumbs,
+     ));
+?>
 
+<? /*
 <div 
     <?php if($model->photo != '') { 
             echo "class='town-cover' style='background-image:url(" . $model->getPhotoUrl() . ")'";
@@ -26,11 +43,17 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['S
      
 			<h1>Консультация юриста <?php echo CHtml::encode($model->name); ?></h1>
  
-</div>
+</div> */ ?>
+
+<div class="panel gray-panel">
+	<div class="panel-body">
+		<h1>Консультация юриста <?php echo CHtml::encode($model->name); ?></h1>
+	</div>
+</div>			
 
 <?php if($model->description1):?>
-    <div class="panel gray-panel">
-        <div class="panel-body">
+	<div class="panel gray-panel">
+		<div class="panel-body">
             <?php echo $model->description1;?>
         </div>
     </div>
@@ -63,12 +86,15 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['S
                     ?>
                     <?php if($companyCounter%2 == 1) echo "<div class='row'>";?>
 
-                    <div class="col-md-2"><img src="<?php echo $company->getPhotoUrl('thumb');?>" alt="" class="img-responsive" /></div>
+                    <div class="col-md-2">
+                        <img src="<?php echo $company->getPhotoUrl('thumb');?>" alt="" class="img-responsive" />
+                    </div>
                     <div class="col-md-4">
                         <?php echo CHtml::link(CHtml::encode($company->name), Yii::app()->createUrl('yurCompany/view',array('id'=>$company->id)));?>
                     </div>
                     <?php if($companyCounter%2 == 0) echo "</div>";?>
                 <?php endforeach;?>
+                    <?php if($companyCounter%2 == 1 && $companyCounter != $companyLimit+1) echo "</div>";?>
                 </div>
             </div>
         </div>
@@ -93,7 +119,7 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['S
 
 <div class="panel gray-panel">
 	<div class="panel-body">
-		<h2>Юристы и Адвокаты <?php echo CHtml::encode($model->name); ?></h2>
+		<h2>Юристы и Адвокаты <?php echo CHtml::encode($model->name); ?> (<?php echo CHtml::encode($model->ocrug); ?>)</h2>
 	</div>
 </div>
 
@@ -105,12 +131,10 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['S
     </div>
 <?php endif;?>
 
-<noindex>
-<div class="vert-margin30">
 <div class="panel gray-panel">
-    <div class='panel-body'>
-        
-    
+	<div class="panel-body">
+		<h2>Задать вопрос юристу или адвокату <?php echo CHtml::encode($model->name); ?></h2>
+		<noindex>
         <div class="row">
 
             <div class="col-md-4 col-sm-4 center-align">  
@@ -155,11 +179,10 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['S
                 <a href="/question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=tikhonova" class="btn btn-warning btn-xs" rel="nofollow">Получить консультацию</a>
 
             </div>
+			</noindex>
+			</div>
+		</div>
+	</div>
 
-        </div>		
-    </div>
-</div>        	
-</div>
-</noindex>
 
 

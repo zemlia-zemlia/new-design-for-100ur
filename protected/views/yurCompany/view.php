@@ -21,7 +21,7 @@
     <div class="panel-body">
 
         
-		<br/>
+        <h1 class="vert-margin30"><?php echo CHtml::encode($company->name); ?></h1>
         
         <div class="container-fluid">
             <div class="row">

@@ -4,42 +4,47 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="wide form">
-
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'action'=>Yii::app()->createUrl($this->route),
-	'method'=>'get',
+        'id'=>'question-search',
+	'action'    =>  '/question/search/',
+	'method'    =>  'get',
+        'htmlOptions'   =>  array(
+            'class'     =>  'form-inline',
+            ),
+        
 )); ?>
 
-	<div class="row">
-		<?php echo $form->label($model,'id'); ?>
-		<?php echo $form->textField($model,'id'); ?>
-	</div>
+    <div class="form-group">
+            <?php echo CHtml::textField('townId', $model->townName, array(
+                'id'            =>  'town-selector', 
+                'class'         =>  'form-control',
+                'placeholder'   =>  $model->getAttributeLabel('townId'),
+            )); ?>
+            <?php
+                echo $form->hiddenField($model, 'townId', array('id'=>'selected-town'));
+            ?>
+            <?php echo $form->error($model,'townId'); ?>
+    </div>
+    
+    <div class="form-group">
+            <?php echo $form->checkBox($model, 'noAnswers', array(
+                'class'         =>  'form-control',
+            )); ?>
+            <?php echo $model->getAttributeLabel('noAnswers');?>
+            <?php echo $form->error($model,'noAnswers'); ?>
+    </div>
+    
+    <div class="form-group">
+            <?php echo $form->checkBox($model, 'today', array(
+                'class'         =>  'form-control',
+            )); ?>
+            <?php echo $model->getAttributeLabel('today');?>
+            <?php echo $form->error($model,'today'); ?>
+    </div>
 
-	<div class="row">
-		<?php echo $form->label($model,'number'); ?>
-		<?php echo $form->textField($model,'number'); ?>
-	</div>
 
-	<div class="row">
-		<?php echo $form->label($model,'questionText'); ?>
-		<?php echo $form->textArea($model,'questionText',array('rows'=>6, 'cols'=>50)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'categoryId'); ?>
-		<?php echo $form->textField($model,'categoryId'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'categoryName'); ?>
-		<?php echo $form->textField($model,'categoryName',array('size'=>60,'maxlength'=>255)); ?>
-	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton('Search'); ?>
-	</div>
+    <div class="form-group">
+            <?php echo CHtml::submitButton('Найти', array('class'=>'btn btn-primary')); ?>
+    </div>
 
 <?php $this->endWidget(); ?>
-
-</div><!-- search-form -->

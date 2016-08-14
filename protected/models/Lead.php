@@ -12,6 +12,12 @@
  * @property string $question_date
  * @property integer $townId
  * @property integer $leadStatus
+ * @property integer $type
+ * @property integer $campaignId
+ * @property float $price
+ * @property string $deliveryTime
+ * @property string $lastLeadTime
+ * 
  */
 class Lead extends CActiveRecord
 {
@@ -19,6 +25,17 @@ class Lead extends CActiveRecord
         const LEAD_STATUS_DEFAULT = 0; // лид никуда не отправлен
         const LEAD_STATUS_SENT_CRM = 1; // лид отправлен в CRM
         const LEAD_STATUS_SENT_LEADIA = 2; // лид отправлен в Leadia
+        const LEAD_STATUS_NABRAK = 3; // на отбраковке
+        const LEAD_STATUS_BRAK = 4; // брак
+        const LEAD_STATUS_RETURN = 5; // возврат с отбраковки
+        const LEAD_STATUS_SENT = 6; // отправлен покупателю
+        
+        
+        // типы лидов
+        const TYPE_QUESTION = 1; // вопрос (по умолч.)
+        const TYPE_CALL = 2; // запрос звонка
+        const TYPE_DOCS = 3; // запрос документов
+        const TYPE_YURIST = 4; // поиск юриста / адвоката
         
         /*
 	 * Returns the static model of the specified AR class.
@@ -46,9 +63,11 @@ class Lead extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, phone, sourceId, question', 'required','message'=>'Поле {attribute} должно быть заполнено'),
-			array('sourceId, townId, questionId, leadStatus, addedById', 'numerical', 'integerOnly'=>true),
-			array('name, phone, email', 'length', 'max'=>255),
+			array('name, phone, sourceId, question, townId', 'required','message'=>'Поле должно быть заполнено'),
+			array('sourceId, townId, questionId, leadStatus, addedById, type, campaignId', 'numerical', 'integerOnly'=>true),
+			array('price', 'numerical'),
+                        array('deliveryTime', 'safe'),
+                        array('name, phone, email', 'length', 'max'=>255),
                         array('email', 'required', 'on'=>'create'),
 			array('townId', 'match','not'=>true, 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
                         array('name','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-., ])+$/u', 'message'=>'В имени могут присутствовать буквы, цифры, точка, дефис и пробел', 'except'=>'parsing'),
@@ -91,6 +110,11 @@ class Lead extends CActiveRecord
                         'townId'        => 'ID города',
                         'town'          => 'Город',
                         'questionId'    => 'ID связанного вопроса',
+                        'type'          => 'Тип',
+                        'deliveryTime'  =>  'Время отправки покупателю',
+                        'price'         =>  'Цена',
+                        'campaignId'    =>  'ID кампании',
+                        'lastLeadTime'  =>  'Время отправки последнего лида',
 		);
 	}
         
@@ -113,6 +137,26 @@ class Lead extends CActiveRecord
         }
         
         
+        // возвращает массив, ключами которого являются коды типов, а значениями - названия
+        static public function getLeadTypesArray()
+        {
+            return array(
+                self::TYPE_QUESTION     =>  'вопрос',
+                self::TYPE_CALL         =>  'запрос звонка',
+                self::TYPE_DOCS         =>  'заказ документов',
+                self::TYPE_YURIST       =>  'поиск юриста',
+            );
+        }
+        
+        public function getLeadTypeName()
+        {
+            $typesArray = self::getLeadTypesArray();
+            $typeName = $typesArray[$this->type];
+            return $statusName;
+        }
+        
+        // УСТАРЕВШАЯ ФУНКЦИЯ
+        // отправляет лид в Lidea
         public function sendToLeadia($testMode = false)
         {
             $leadData = array();
@@ -151,6 +195,7 @@ class Lead extends CActiveRecord
             return true;
         }
         
+         // УСТАРЕВШАЯ ФУНКЦИЯ
          // отправляет лид в офис или в лид-сервис
         public function sendLead()
         {
@@ -202,8 +247,31 @@ class Lead extends CActiveRecord
                 } 
             }
         }
+        
+        
+        // отправляет лид в кампанию
+        public function sendToCampaign($campaignId)
+        {
+            $campaign = Campaign::model()->findByPk($campaignId);
+            
+            if(!$campaign) {
+                return false;
+            }
+            
+            $this->price = $campaign->price;
+            $this->deliveryTime = date('Y-m-d H:i:s');
+            $this->leadStatus = self::LEAD_STATUS_SENT;
+            $this->campaignId = $campaign->id;
+            
+            if($this->save()){
+                return true;
+            } else {
+                return false;
+            }
+            
+        }
 
-	/**
+        /**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */

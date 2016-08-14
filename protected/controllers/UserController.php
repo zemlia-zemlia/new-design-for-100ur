@@ -53,19 +53,42 @@ class UserController extends Controller
         
         public function actionProfile()
         {
-            $questionsCriteria = new CDbCriteria;
-            $questionsCriteria->addColumnCondition(array('t.authorId'=>Yii::app()->user->id));
-            $questionsCriteria->order = 't.id DESC';
-            $questionsCriteria->with = 'answers';
+            $this->layout = '//frontend/short';
             
-            $questionsDataProvider = new CActiveDataProvider('Question', array(
-                    'criteria'  => $questionsCriteria,
+            $user = User::model()->findByPk(Yii::app()->user->id);
+            
+            $questionsCriteria = new CDbCriteria;
+            
+            if(Yii::app()->user->role == User::ROLE_CLIENT) {
+                $questionsCriteria->addColumnCondition(array('t.authorId'=>Yii::app()->user->id));
+                $questionsCriteria->with = 'answers';
+            } else {
+                $questionsCriteria->with = array(
+                    'answers'   =>  array(
+                        'condition'   =>  'answers.authorId = ' . Yii::app()->user->id,
+                ));
+            }
+            
+            $questionsCriteria->order = 't.id DESC';
+            
+            $questions = Question::model()->findAll($questionsCriteria);
+           
+             
+            $questionsDataProvider = new CArrayDataProvider($questions, array(
                     'pagination'    =>  array(
                             'pageSize'=>20,
                         ),
                 ));
+            
+//            $questionsDataProvider = new CActiveDataProvider('Question', array(
+//                    'criteria'  => $questionsCriteria,
+//                    'pagination'    =>  array(
+//                            'pageSize'=>20,
+//                        ),
+//                ));
             $this->render('profile', array(
-                'questionsDataProvider'     =>    $questionsDataProvider,
+                'questionsDataProvider'     =>  $questionsDataProvider,
+                'user'                      =>  $user,
             ));
         }
 
@@ -73,6 +96,7 @@ class UserController extends Controller
         // creating a new user by registration form 
         public function actionCreate()
 	{
+            $this->layout = '//frontend/short';
             $model=new User;
             $yuristSettings = new YuristSettings;
             $model->setScenario('register');
@@ -96,7 +120,8 @@ class UserController extends Controller
                 }
                 
                 $model->confirm_code = md5($model->email.mt_rand(100000,999999));
-
+                $model->password = $model->password2 = User::generatePassword(6);
+                
                 if($model->save()) {	
                     if($model->sendConfirmation($newPassword)) {
                         $this->redirect(array('ConfirmationSent'));
@@ -117,14 +142,142 @@ class UserController extends Controller
             ));
         }
         
+                // creating a new user by registration form 
+        public function actionUpdate($id)
+	{
+            $this->layout = '//frontend/short';
+            $model= User::model()->findByPk($id);
+                        
+            if(!$model) {
+                throw new CHttpException(404,'Пользователь не найден');
+            }
+            
+            if($model->id != Yii::app()->user->id && Yii::app()->user->role != User::ROLE_ROOT) {
+                throw new CHttpException(403,'Ошибка доступа: вы не можете редактировать чужой профиль');
+            }
+            
+            $model->setScenario('update');
+            
+            if($model->role == User::ROLE_JURIST) {
+                if($model->settings) {
+                    $yuristSettings = $model->settings;
+                } else {
+                    $yuristSettings = new YuristSettings();
+                    $yuristSettings->yuristId = $model->id;
+                }
+            } else {
+                $yuristSettings = new YuristSettings();
+            }
+            
+            $rolesNames = array(
+                User::ROLE_CLIENT   =>  'Пользователь',
+                User::ROLE_JURIST   =>  'Юрист',
+            );
+            
+            if(isset($_POST['User'])) {
+                // присваивание атрибутов пользователя
+                $model->attributes=$_POST['User'];
+                $yuristSettings->attributes = $_POST['YuristSettings'];
+
+                // если мы редактировали юриста
+                if(isset($_POST['YuristSettings'])) {
+                    $yuristSettings->attributes = $_POST['YuristSettings'];
+
+                    $yuristSettings->save();
+
+                }
+                
+                // загрузка аватарки
+                if(!empty($_FILES))
+                {
+                    $file = CUploadedFile::getInstance($model,'avatarFile');
+
+                    if($file && $file->getError()==0) // если файл нормально загрузился
+                    {
+                        // определяем имя файла для хранения на сервере
+                        $newFileName = md5($file->getName().$file->getSize().mt_rand(10000,100000)).".".$file->getExtensionName();
+                        Yii::app()->ih
+                        ->load($file->tempName)
+                        ->resize(600, 600, true)
+                        ->save(Yii::getPathOfAlias('webroot') . User::USER_PHOTO_PATH . '/' . $newFileName)
+                        ->reload()
+                        ->adaptiveThumb(120,120, array(255,255,255))
+                        ->save(Yii::getPathOfAlias('webroot') . User::USER_PHOTO_PATH . User::USER_PHOTO_THUMB_FOLDER . '/' . $newFileName);
+
+                        $model->avatar = $newFileName;
+
+                    }
+
+                }
+                
+                if($model->save()) {	
+                    if($model->save() && $yuristSettings->hasErrors() == false){
+                        $this->redirect(array('profile'));
+                    } else {
+                        CustomFuncs::printr($model->errors);exit;
+                        throw new CHttpException(500,'Что-то пошло не так. Не удалось сохранить данные профиля.');
+                    }
+                }
+                
+            } else {
+                $model->password = '';
+            }
+            
+            $townsArray = Town::getTownsIdsNames();
+            
+            $this->render('update',array(
+                'model'             =>  $model,
+                'yuristSettings'    =>  $yuristSettings,
+                'townsArray'        =>  $townsArray,
+                'rolesNames'        =>  $rolesNames,
+            ));
+        }
+        
+        
+        public function actionChangePassword($id)
+        {
+            $this->layout = '//frontend/short';
+            // если пользователь не админ, он может менять пароль только у себя
+            if(Yii::app()->user->id !== $id && !Yii::app()->user->checkAccess(User::ROLE_ROOT)) {
+                throw new CHttpException(403, 'У вас нет прав менять пароль другого пользователя'); 
+            }
+            
+            $model = User::model()->findByPk($id);
+            $model->password = '';
+            $model->setScenario('changePassword');
+            
+            // если была заполнена форма
+            if($_POST['User']) {
+                $model->attributes = $_POST['User'];
+//                CustomFuncs::printr($model);exit;
+                if($model->validate()){
+                    // если данные пользователя прошли проверку (пароль не слишком короткий)
+                    // шифруем пароль перед сохранением в базу
+                    $model->password = User::hashPassword($model->password);
+                    $model->password2 = $model->password;
+                    if($model->save()){
+                        
+                        $this->redirect(array('profile'));
+                    }
+                }
+            }
+            $this->render('changePassword',array(
+			'model'             =>  $model,
+                ));
+        }
+
+        
         
         public function actionConfirmationSent()
         {
+           $this->layout = '//frontend/short';
            $this->render('confirmationSent');  
         }
         
         public function actionConfirm()
         {
+           $this->layout = '//frontend/short';
+           
            $email = CHtml::encode($_GET['email']);
            $code = CHtml::encode($_GET['code']);
            
@@ -132,7 +285,7 @@ class UserController extends Controller
            $criteria->addColumnCondition(array('email'=>$email));
            $criteria->addColumnCondition(array('confirm_code'=>$code));
            $criteria->limit = 1;
-           
+                      
            //находим пользователя с данным мейлом и кодом подтверждения
            $user = User::model()->find($criteria);
            
@@ -141,15 +294,18 @@ class UserController extends Controller
               $user->setScenario('confirm');
               if($user->active==0) {
                 $user->activate();
+                $user->registerDate = date('Y-m-d');
                 $newPassword = $user->password = $user->password2 = $user->generatePassword();
                 $user->publishNewQuestions();
               }
                             
               if($user->save()) {
                   // после активации и сохранения пользователя, отправим ему на почту временный пароль
-                  $user->sendNewPassword($newPassword);
-
-                  $this->render('activationSuccess', array('user'=>$user));
+                  if($newPassword) {
+                    $user->sendNewPassword($newPassword);
+                  }
+                  $loginModel = new LoginForm;
+                  $this->render('activationSuccess', array('user'=>$user, 'loginModel'=>$loginModel));
 
               } else {
                   if(!empty($user->errors)) {

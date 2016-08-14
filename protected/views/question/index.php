@@ -5,7 +5,7 @@
 //Yii::app()->clientScript->registerLinkTag("alternate","application/rss+xml","http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('question/rss'));
 Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('question'));
 
-$pageTitle = "Вопросы юристам. ";
+$pageTitle = "Вопросы юристам ";
 
 $this->setPageTitle($pageTitle . Yii::app()->name);
 
@@ -20,12 +20,10 @@ $deltaFont = $fontMax - $fontMin;
 $fontCoeff = $deltaFont/$deltaCounter;
 ?>
 
-<div class="vert-margin30">
-<h1><?php echo $pageTitle;?></h1>
-</div>
 
 <div class="panel panel-default">
     <div class="panel-body">
+		<h1><?php echo $pageTitle;?></h1>
         <?php 
             foreach($categoriesArray as $cat) {
                 $fontSize = round($fontMin + $fontCoeff * $cat['counter']);

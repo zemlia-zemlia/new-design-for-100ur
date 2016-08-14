@@ -147,6 +147,18 @@ class Question extends CActiveRecord
             return $row['counter'];
         }
         
+        // возвращает количество вопросов без ответов
+        static public function getCountWithoutAnswers()
+        {
+            $connection  = Yii::app()->db;
+            $sql = "SELECT q.*, a.id FROM {{question}} q LEFT OUTER JOIN {{answer}} a ON a.questionId = q.id WHERE a.id IS NULL AND (q.status=:statusPub OR q.status=:statusCheck)";
+            $command = $connection->createCommand($sql);
+            $command->bindValue(":statusCheck",  Question::STATUS_CHECK, PDO::PARAM_INT);
+            $command->bindValue(":statusPub",  Question::STATUS_PUBLISHED, PDO::PARAM_INT);
+            $rows = $command->queryAll();
+            return sizeof($rows);
+        }
+        
         // возвращает количество вопросов 
         static public function getCount()
         {

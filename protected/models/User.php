@@ -16,6 +16,7 @@
  * @property integer $active
  * @property string $managerId
  * @property string $townId
+ * @property string $registerDate
  */
 class User extends CActiveRecord
 {
@@ -28,12 +29,15 @@ class User extends CActiveRecord
         const ROLE_OPERATOR = 2;
         const ROLE_CLIENT = 3;
         const ROLE_EDITOR = 5;
+        const ROLE_BUYER = 6;
+        const ROLE_EXECUTOR = 8;
         const ROLE_JURIST = 10;
         const ROLE_MANAGER = 20;
         const ROLE_ROOT = 100;
         
-        const USER_PHOTO_PATH = "http://crm.kc-zakon.ru/upload/userphoto";
+        const USER_PHOTO_PATH = "/upload/userphoto";
         const USER_PHOTO_THUMB_FOLDER = "/thumbs";
+        const DEFAULT_AVATAR_FILE = "/pics/yurist.png";
         /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -60,11 +64,13 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, email, phone', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
+			array('name, email, phone, townId', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
 			array('role, active, managerId, townId', 'numerical', 'integerOnly'=>true),
 			array('name, position, email, phone', 'length', 'max'=>255),
-                        array('password','length','min'=>5,'max'=>128, 'tooShort'=>'Минимальная длина пароля 5 символов', 'allowEmpty'=>($this->scenario=='update')),
-                        array('password2', 'compare', 'compareAttribute'=>'password', 'except'=>'confirm, create', 'message'=>'Пароли должны совпадать','allowEmpty'=>($this->scenario=='create')),
+                        array('name2, lastName', 'safe'),
+                        array('townId', 'match','not'=>true, 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
+                        array('password','length','min'=>5,'max'=>128, 'tooShort'=>'Минимальная длина пароля 5 символов', 'allowEmpty'=>($this->scenario=='update' || $this->scenario=='register')),
+                        array('password2', 'compare', 'compareAttribute'=>'password', 'except'=>'confirm, create, register, update', 'message'=>'Пароли должны совпадать','allowEmpty'=>($this->scenario=='update' || $this->scenario=='register')),
 			array('email','email', 'message'=>'В Email допускаются латинские символы, цифры, точка и дефис'),
 
 			// The following rule is used by search().
@@ -85,6 +91,7 @@ class User extends CActiveRecord
                 self::ROLE_JURIST       =>  'юрист',
                 self::ROLE_MANAGER      =>  'руководитель',
                 self::ROLE_ROOT         =>  'администратор',
+                self::ROLE_BUYER        =>  'покупатель лидов',
             );
         }
         
@@ -130,6 +137,22 @@ class User extends CActiveRecord
             }
             return $allJurists;
         }
+        
+        
+        // возвращает массив, ключами которого являются id активных покупателей, а значениями - их имена
+        public function getAllBuyersIdsNames()
+        {
+            $allBuyers = array();    
+            $buyers = User::model()->findAllByAttributes(array(
+                'role'      =>  self::ROLE_BUYER,
+                'active'    =>  1,
+            ));
+            foreach($buyers as $buyer) {
+                $allBuyers[$buyer->id] = $buyer->lastName . ' ' . $buyer->name;
+            }
+            return $allBuyers;
+        }
+        
 
                 // активация пользователя
         public function activate()
@@ -172,6 +195,8 @@ class User extends CActiveRecord
                         'birthday'  => 'Дата рождения',
                         'townId'    => 'Город',
                         'town'      => 'Город',
+                        'avatarFile'=> 'Фотография',
+                        'registerDate'  =>  'Дата регистрации',
 		);
 	}
 
@@ -224,7 +249,11 @@ class User extends CActiveRecord
             
             $mailer = new GTMail;
             
-            $confirmLink = CHtml::decode("http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('user/confirm',array('email'=>$this->email,'code'=>$this->confirm_code)));
+            $confirmLink = CHtml::decode("http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('user/confirm', array(
+                'email'=>$this->email,
+                'code'=>$this->confirm_code,
+                ))) . "?utm_source=100yuristov&utm_medium=mail&utm_campaign=user_registration";
+            
             $mailer->subject = "100 юристов - Регистрация пользователя";
             $mailer->message = "
                 <h1>Регистрация на сайте 100 юристов</h1>
@@ -327,7 +356,7 @@ class User extends CActiveRecord
         //Takes a password and returns the salted hash
         //$password - the password to hash
         //returns - the hash of the password (128 hex characters)
-        protected function hashPassword($password)
+        public function hashPassword($password)
         {
             $salt = bin2hex(mcrypt_create_iv(32)); //get 256 random bits in hex
             $hash = hash("sha256", $salt . $password); //prepend the salt, then hash
@@ -374,7 +403,7 @@ class User extends CActiveRecord
         public function getAvatarUrl($size = 'thumb')
         {
             if(!$this->avatar) {
-                return "";
+                return self::DEFAULT_AVATAR_FILE;
             }
             $avatarFolder = User::USER_PHOTO_PATH;
             if($size == 'thumb') {
@@ -396,6 +425,39 @@ class User extends CActiveRecord
                             'authorId!=0 AND authorId=:authorId AND status=:statusOld',
                             array(':authorId'=>$this->id, ':statusOld'=>  Question::STATUS_NEW)); 
                     
+        }
+        
+        
+        public function sendAnswerNotification($question, $answer)
+        {
+            if($this->active == 0) {
+                return;
+            }
+            
+            if(!$question) {
+                return;
+            }
+            
+            $questionLink = "http://www.100yuristov.com/q/" . $question->id . "/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_notification&utm_term=" . $question->id;
+            
+            $mailer = new GTMail;
+            $mailer->subject = CHtml::encode($this->name) . ", новый ответ на Ваш вопрос!";
+            $mailer->message = "<h1>Новый ответ на Ваш вопрос</h1>
+                <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />
+                Спешим сообщить, что на " . CHtml::link("Ваш вопрос",$questionLink) . " получен новый ответ юриста " . CHtml::encode($answer->author->name . ' ' . $answer->author->lastName) . ".
+                <br /><br />
+                Будем держать Вас в курсе поступления других ответов. 
+                <br /><br />
+                " . CHtml::link("Посмотреть ответ",$questionLink, array('class'=>'btn')) . "
+                </p>";
+            $mailer->email = $this->email;
+            
+            if($mailer->sendMail(true, '100yuristov')) {
+                return true;
+            } else {
+                // не удалось отправить письмо
+                return false;
+            }
         }
 
 }

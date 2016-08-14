@@ -3,7 +3,7 @@
     Yii::app()->clientScript->registerMetaTag("Круглосуточная консультация юриста на сайте без телефона и регистрации по территории РФ. Сайт бесплатной помощи адвокатов онлайн и по телефону в Москве и СПБ.", 'description');
 
 ?>
-<div class='panel'>
+<div class='panel gray-panel'>
     <div class='panel-body'>
 <h1 style="text-align: center;">Консультация квалифицированного адвоката</h1>
 <p style="text-align: justify;">

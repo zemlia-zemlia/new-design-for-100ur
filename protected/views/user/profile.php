@@ -18,12 +18,65 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <div class="panel panel-default">
     <div class="panel-body">
-        <h1>Личный кабинет пользователя</h1>
-        <h2>Мои вопросы</h2>
+        <div class="vert-margin30">
+            <h2>
+                <?php
+                        echo CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
+                ?>
+            </h2>
+            
+            <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 center-align">
+                    <p>
+                        <img src="<?php echo $user->getAvatarUrl();?>" />
+                    </p>  
+                    <?php if($user->id === Yii::app()->user->id):?>    
+                    <?php echo CHtml::link('Редактировать профиль', Yii::app()->createUrl('user/update', array('id'=>Yii::app()->user->id)), array('class'=>'btn btn-xs btn-default'));?>
+                    <?php endif;?>
+                        
+                </div>
+                <div class="col-sm-9">
+                    <?php if($user->registerDate):?>
+                    <p><strong>На сайте</strong> с <?php echo CustomFuncs::invertDate($user->registerDate);?></p>
+                    <?php endif;?>
+                    
+                    <?php if(Yii::app()->user->role == User::ROLE_JURIST):?>
+                    <p><strong>Стаж</strong> с <?php echo $user->settings->startYear;?></p>
+                    <?php endif;?>
+                    
+                    <p>
+                        <strong>Город:</strong> 
+                    <?php
+                        echo Town::getName($user->townId);
+                    ?>
+                    </p>
+                    <?php if(Yii::app()->user->role == User::ROLE_JURIST):?>
+                    <p>
+                        <strong>О себе:</strong><br />
+                        <?php echo CHtml::encode($user->settings->description);?>
+                    </p>
+                    <?php endif;?>
+                </div>
+            </div>
+            </div>
+
+        </div>
+        
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <?php if(Yii::app()->user->role == User::ROLE_CLIENT):?>
+            <h2>Мои вопросы</h2>
+        <?php else:?>
+            <h2>Мои ответы</h2>
+        <?php endif;?>
         
         <?php $this->widget('zii.widgets.CListView', array(
             'dataProvider'  =>  $questionsDataProvider,
-            'itemView'      =>  'application.views.question._view',
+            'itemView'      =>  'application.views.question._viewShort2',
             'viewData'      =>  array(
                 'hideCategory'  =>  false,
             ),

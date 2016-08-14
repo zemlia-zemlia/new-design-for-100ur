@@ -27,7 +27,7 @@ class LeadController extends Controller
 	{
 		return array(
                         array('allow', // 
-                                'actions'=>array('index', 'view', 'update', 'delete', 'sendLeads', 'toQuestion'),
+                                'actions'=>array('index', 'view', 'update', 'delete', 'sendLeads', 'toQuestion', 'generate', 'dispatch'),
                                 'users'=>array('@'),
                                 'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_MANAGER . ') || Yii::app()->user->checkAccess(' . User::ROLE_SECRETARY . ')',
                         ),
@@ -167,8 +167,81 @@ class LeadController extends Controller
 
         }
         
+        // генерирует демо лиды
+        public function actionGenerate()
+        {
+            $limit = 10;
+            $towns = array(99,563, 10, 598);
+            $sourceId = 3;
+            $question = 'Текст вопроса';
+            $status = Lead::LEAD_STATUS_DEFAULT;
+            $type = Lead::TYPE_QUESTION;
+            $names = array('Август', 'Августин', 'Аврор', 'Агап', 'Адам', 'Аксён', 'Алевтин', 'Александр', 'Алексей', 'Алексий', 'Альберт', 'Анастасий', 'Анатолий', 'Анвар', 'Андрей', 'Андрон', 'Анисим', 'Антип', 'Антон', 'Антонин', 'Аристарх', 'Аркадий', 'Арсений', 'Артамон', 'Артём', 'Артемий', 'Артур', 'Архип', 'Аскольд', 'Афанасий', 'Афиноген');
+            
+            for($i=0; $i<$limit; $i++) {
+                $lead = new Lead;
+                
+                $properties = array(
+                    'sourceId'  =>  $sourceId,
+                    'question'  =>  $question,
+                    'name'      =>  $names[mt_rand(0,sizeof($names)-1)],
+                    'status'    =>  $status,
+                    'type'      =>  $type,
+                    'townId'    =>  $towns[mt_rand(0,sizeof($towns)-1)],
+                    'active'    =>  1,
+                    'phone'     =>  mt_rand(1000000000, 9999999999),
+                    'email'     =>  'bot_' . mt_rand(100000, 999999) . '@100yuristov.com',
+                    
+                );
+                
+                $lead->attributes = $properties;
+                
+                if($lead->save()) {
+                    echo "Лид " . $lead->id . ' сохранен<br />';
+                } else {
+                    CustomFuncs::printr($lead->errors);
+                }
+            }
+            
+        }
+        
+        
+        public function actionDispatch()
+        {
+            $criteria = new CDbCriteria;
+            
+            $criteria->addColumnCondition(array('leadStatus'=>Lead::LEAD_STATUS_DEFAULT));
+            $criteria->addColumnCondition(array('question_date>'=>date('Y-m-d')));
+            $criteria->with = array('town', 'town.region');
+            
+            // сколько лидов обрабатывать за раз
+            $criteria->limit = 50;
+            
+            $leads = Lead::model()->findAll($criteria);
+            
+            foreach($leads as $lead) {
+                echo $lead->id . " " . $lead->name . ', город: ' . $lead->town->name . ', регион:' . $lead->town->region->name;
+                echo "<p>Подходящие кампании:</p>";
+                echo $campaignId = Campaign::getCampaignsForLead($lead->id);
+                
+                if(!$campaignId) {
+                    // если для лида нет ни одной кампании, идем к следующему лиду
+                    continue;
+                }
+                
+                if($lead->sendToCampaign($campaignId)) {
+                    echo "Лид отправлен в кампанию";
+                } else {
+                    echo "С этим лидом что-то пошло не так";
+                }
+                echo "<hr />";
+            }
+            
+            
+        }
 
-	/**
+        
+        /**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded

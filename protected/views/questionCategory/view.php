@@ -108,11 +108,9 @@ $this->breadcrumbs[] = $model->name;
     </div>
 <?php endif;?>
 
-<div class="vert-margin30">
-<h3>На ваши вопросы отвечают:</h3>
 <div class="panel gray-panel">
     <div class='panel-body'>
-        
+        <h3>На ваши вопросы отвечают:</h3>
     
         <div class="row">
 
@@ -162,13 +160,13 @@ $this->breadcrumbs[] = $model->name;
         </div>
     </div>
 </div>        
-</div>
+
 
 
 <!-- Форма --> 
 <noindex>
             <div class="form-container form-container-content">
-                <h2 class="center-align">Задать вопрос</h2>
+                <h3 class="center-align">Задать свой вопрос</h3>
                                 
                 <?php $form=$this->beginWidget('CActiveForm', array(
                         'id'                    =>  'question-form',
@@ -186,34 +184,16 @@ $this->breadcrumbs[] = $model->name;
                     </div>
 
                     <div class="col-md-5">
-                        <div class="form-info-item">
-                            <p><span class="form-icon" style="background-position: 0 0;"></span><strong>Это быстро</strong><br />
-                            Вы получите ответ через 15 минут</p>
-                        </div>
-                        <div class="form-info-item">
-                            <p><span class="form-icon" style="background-position: -32px 0;"></span><strong>Безопасно</strong><br />
-                            Только аккредитованные юристы</p>
-                        </div>
-                        <div class="form-info-item">
-                            <p><span class="form-icon" style="background-position: -67px 0;"></span><strong>Без спама</strong><br />
-                            Мы никогда не рассылаем рекламу</p>
-                        </div>
-                    </div>
-                </div> 
-                <div class="row">
-                    <div class="col-md-7">
                         <div class="form-group">
                             <label>Ваше имя *</label>
                             <?php echo $form->textField($newQuestionModel,'authorName', array('class'=>'form-control', 'placeholder'=>'Иванов Иван')); ?>
                             <?php echo $form->error($newQuestionModel,'authorName'); ?>
                         </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="form-group" id="form-submit-wrapper">
+						<div class="form-group" id="form-submit-wrapper">
                                 <?php echo CHtml::submitButton($newQuestionModel->isNewRecord ? 'Задать вопрос юристу' : 'Сохранить', array('class'=>'btn btn-warning btn-block', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
                         </div>
-                    </div>
-                </div>
+					</div>
+                </div> 
                 <?php $this->endWidget(); ?>
                               
             </div>

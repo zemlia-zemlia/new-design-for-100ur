@@ -16,6 +16,8 @@ $this->breadcrumbs=array(
         <?php echo CHtml::link('Отфильтровать обращения', Yii::app()->createUrl('/admin/lead/sendLeads'), array('class'=>'btn btn-primary'));?>
 
 </h1>
+    
+    <?php echo CHtml::link('Сгенерировать тестовых лидов', Yii::app()->createUrl('/admin/lead/generate'));?>
 </div>
 
 <table class="table table-bordered table-hover table-striped">

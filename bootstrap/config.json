@@ -409,6 +409,7 @@
     "wells.less",
     "close.less",
     "component-animations.less",
+    "tooltip.less",
     "modals.less",
     "carousel.less"
   ],
@@ -416,10 +417,11 @@
     "alert.js",
     "carousel.js",
     "modal.js",
+    "tooltip.js",
     "tab.js",
     "collapse.js",
     "scrollspy.js",
     "transition.js"
   ],
-  "customizerUrl": "http://getbootstrap.com/customize/?id=75b0e01ef13cffa4b6050947927f530b"
+  "customizerUrl": "http://getbootstrap.com/customize/?id=8c51976c0fca4696cb00cf850081034b"
 }

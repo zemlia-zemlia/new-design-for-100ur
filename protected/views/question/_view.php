@@ -29,7 +29,11 @@
         <? endif;?>
         
         <?php if($data->town):?>
-            <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($data->town->name),Yii::app()->createUrl('town/alias',array('name'=>$data->town->alias)), array('title'=>'Все вопросы юристам в городе ' . CHtml::encode($data->town->name)));?>
+            <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($data->town->name),Yii::app()->createUrl('town/alias',array(
+                'name' =>  $data->town->alias,
+                'countryAlias'  =>  $data->town->country->alias,
+                'regionAlias'   =>  $data->town->region->alias,    
+                    )), array('title'=>'Все вопросы юристам в городе ' . CHtml::encode($data->town->name)));?>
             &nbsp;&nbsp;
         <?php endif;?>
             
