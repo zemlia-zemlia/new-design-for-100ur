@@ -49,22 +49,6 @@ $this->breadcrumbs[] = $model->name;
      ));
 ?>
 
-<?php if($model->children):?>
-    <div class="panel gray-panel">
-        <div class='panel-body'>
-            
-            <div class="row">
-            <?php foreach($model->children as $child):?>
-                <div class="col-md-4">
-					<small>
-                    <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span>&nbsp;' . $child->name, Yii::app()->createUrl('questionCategory/alias', array('name'=>CHtml::encode($child->alias))));?>
-					</small>
-                </div>    
-            <?php endforeach;?>
-            </div>
-        </div>
-    </div>
-<?php endif;?>
 
 <div class="panel gray-panel">
     <div class='panel-body'>
@@ -84,6 +68,24 @@ $this->breadcrumbs[] = $model->name;
     <div class="panel gray-panel">
         <div class='panel-body'>
             <?php echo $model->description1;?>
+        </div>
+    </div>
+<?php endif;?>
+
+
+<?php if($model->children):?>
+    <div class="panel gray-panel">
+        <div class='panel-body'>
+            
+            <div class="row">
+            <?php foreach($model->children as $child):?>
+                <div class="col-md-4">
+					<small>
+                    <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span>&nbsp;' . $child->name, Yii::app()->createUrl('questionCategory/alias', array('name'=>CHtml::encode($child->alias))));?>
+					</small>
+                </div>    
+            <?php endforeach;?>
+            </div>
         </div>
     </div>
 <?php endif;?>

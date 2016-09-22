@@ -5,6 +5,14 @@ class QuestionController extends Controller
 
 	public $layout='//frontend/main';
 
+        /*
+         * адреса для оплаты вопросов через Яндекс кассу
+         * /question/paymentSuccess - страница успешной оплаты
+         * /question/paymentFail - страница неуспешной оплаты
+         * /question/paymentCheck - страница для передачи запроса на проверку заказа
+         * /question/paymentAviso - страница для передачи уведомления о переводе/отказе
+         */
+        
 	/**
 	 * @return array action filters
 	 */
@@ -25,7 +33,7 @@ class QuestionController extends Controller
 	{
             return array(
                 array('allow', // allow all users 
-                        'actions'=>array('index', 'view', 'create', 'thankYou','rss', 'call', 'weCallYou', 'docsRequested', 'docs'),
+                        'actions'=>array('index', 'view', 'create', 'thankYou','rss', 'call', 'weCallYou', 'docsRequested', 'docs', 'paymentSuccess', 'paymentFail', 'paymentCheck', 'paymentAviso'),
                         'users'=>array('*'),
                 ),
                 array('allow', // allow authenticated user to perform 'search'
@@ -44,10 +52,14 @@ class QuestionController extends Controller
 	 */
 	public function actionView($id)
 	{
+            $this->layout = "//frontend/short";
+            
             $model = Question::model()->findByPk($id);
             if(!$model) {
                 throw new CHttpException(404,'Вопрос не найден');
             }
+            
+            $justPublished = ($_GET['justPublished'])?true:false;
             
             $answerModel = new Answer();
 
@@ -105,6 +117,7 @@ class QuestionController extends Controller
                     'newQuestionModel'      =>  $newQuestionModel,
                     'similarDataProvider'   =>  $similarDataProvider,
                     'answerModel'           =>  $answerModel,
+                    'justPublished'         =>  $justPublished,
             ));
 	}
 
@@ -114,7 +127,7 @@ class QuestionController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$lead = new Lead();
+		$lead = new Lead100();
                 $question = new Question();
                 $question->setScenario('create');
                 
@@ -133,8 +146,14 @@ class QuestionController extends Controller
                         $lead->email = $question->email;
                         $lead->townId = $question->townId;
                         $lead->sourceId = 3; // Lidlaw
-                        $lead->leadStatus = Lead::LEAD_STATUS_DEFAULT; // по умолчанию лид никуда не отправляем
+                        $lead->leadStatus = Lead100::LEAD_STATUS_DEFAULT; // по умолчанию лид никуда не отправляем
 			//CustomFuncs::printr($lead);exit;
+                        
+                        $duplicates = $lead->findDublicates(600);
+                        //CustomFuncs::printr($duplicates);exit;
+                        if($duplicates) {
+                            throw new CHttpException(400,'Похоже, Вы пытаетесь отправить заявку несколько раз. Ваша заявка уже сохранена.');
+                        }
                         
                         if($lead->save()) {
                                 $question->status = Question::STATUS_NEW;
@@ -384,15 +403,15 @@ class QuestionController extends Controller
         
         public function actionCall()
         {
-            $this->layout = "//frontend/short";
+            //$this->layout = "//frontend/short";
             
-            $lead = new Lead();
+            $lead = new Lead100();
             
-            if(isset($_POST['Lead'])) {
-                $lead->attributes = $_POST['Lead'];
+            if(isset($_POST['Lead100'])) {
+                $lead->attributes = $_POST['Lead100'];
                 $lead->phone = preg_replace('/([^0-9])/i', '', $lead->phone);
                 $lead->sourceId = 3;
-                $lead->type = Lead::TYPE_CALL;
+                $lead->type = Lead100::TYPE_CALL;
                 
                 if($lead->validate()) {
                     $lead->question = CHtml::encode('Нужна консультация юриста. Перезвоните мне. ' . $lead->question);
@@ -422,15 +441,15 @@ class QuestionController extends Controller
         
         public function actionDocs()
         {
-            $this->layout = "//frontend/short";
+            //$this->layout = "//frontend/short";
             
-            $lead = new Lead();
+            $lead = new Lead100();
             
-            if(isset($_POST['Lead'])) {
-                $lead->attributes = $_POST['Lead'];
+            if(isset($_POST['Lead100'])) {
+                $lead->attributes = $_POST['Lead100'];
                 $lead->phone = preg_replace('/([^0-9])/i', '', $lead->phone);
                 $lead->sourceId = 3;
-                $lead->type = Lead::TYPE_DOCS;
+                $lead->type = Lead100::TYPE_DOCS;
                 
                 if($lead->validate()) {
                     $docType = $_POST['question_hidden'];
@@ -456,5 +475,43 @@ class QuestionController extends Controller
         {
             $this->layout = "//frontend/short";
             $this->render('docsRequested');
+        }
+        
+        // изменения статуса вопроса на платный
+        public function actionUpgrade($id)
+        {
+            $question = Question::model()->findByPk($id);
+            
+            if(!$question) {
+                throw new CHttpException(404,'Вопрос не найден');
+            }
+            
+            $this->render('upgrade', array(
+                'question'  =>  $question,
+            ));
+        }
+
+        // платеж успешно
+        public function actionPaymentSuccess()
+        {
+            
+        }
+        
+        // платеж не успешно
+        public function actionPaymentFail()
+        {
+            
+        }
+        
+        // запрос от яндекса на проверку платежа
+        public function actionPaymentCheck()
+        {
+            
+        }
+        
+        // запроса от яндекса о платеже или отказе
+        public function actionPaymentAviso()
+        {
+            
         }
 }

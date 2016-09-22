@@ -14,6 +14,7 @@
  * @property integer $brakPercent
  * @property integer $buyerId
  * @property integer $active
+ * @property integer $sendEmail
  */
 class Campaign extends CActiveRecord
 {
@@ -34,7 +35,7 @@ class Campaign extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('timeFrom, timeTo, price, balance, leadsDayLimit, brakPercent, buyerId, active', 'required'),
-			array('regionId, townId, timeFrom, timeTo, price, balance, leadsDayLimit, brakPercent, buyerId, active', 'numerical', 'integerOnly'=>true),
+			array('regionId, townId, timeFrom, timeTo, price, sendEmail, balance, leadsDayLimit, brakPercent, buyerId, active', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, regionId, timeFrom, timeTo, price, balance, leadsDayLimit, brakPercent, buyerId, active', 'safe', 'on'=>'search'),
@@ -52,14 +53,15 @@ class Campaign extends CActiveRecord
                     'buyer'     =>  array(self::BELONGS_TO, 'User', 'buyerId'),
                     'region'    =>  array(self::BELONGS_TO, 'Region', 'regionId'),
                     'town'      =>  array(self::BELONGS_TO, 'Town', 'townId'),
-                    'leads'     =>  array(self::HAS_MANY, 'Lead', 'campaignId'),
-                    'leadsToday'    =>  array(self::HAS_MANY, 'Lead', 'campaignId', 
+                    'leads'     =>  array(self::HAS_MANY, 'Lead100', 'campaignId'),
+                    'leadsToday'    =>  array(self::HAS_MANY, 'Lead100', 'campaignId', 
                         'condition' =>  'DATE(leadsToday.deliveryTime)="' . date('Y-m-d'). '"',
                         ),
-                    'leadsCount'     =>  array(self::STAT, 'Lead', 'campaignId'),
-                    'leadsTodayCount'    =>  array(self::STAT, 'Lead', 'campaignId', 
+                    'leadsCount'     =>  array(self::STAT, 'Lead100', 'campaignId'),
+                    'leadsTodayCount'    =>  array(self::STAT, 'Lead100', 'campaignId', 
                         'condition' =>  'DATE(t.deliveryTime)="' . date('Y-m-d'). '"',
                         ),
+                    'transactions'     =>  array(self::HAS_MANY, 'TransactionCampaign', 'campaignId', 'order'=>'transactions.id DESC'),
 		);
 	}
 
@@ -79,9 +81,10 @@ class Campaign extends CActiveRecord
 			'price' => 'Цена лида',
 			'balance' => 'Баланс',
 			'leadsDayLimit' => 'Дневной лимит лидов',
-			'brakPercent' => 'Процент брака',
-			'buyerId' => 'ID покупателя',
-			'active' => 'Активность',
+			'brakPercent'   => 'Процент брака',
+			'buyerId'       => 'ID покупателя',
+			'active'        => 'Активность',
+			'sendEmail'     => 'Отправлять лиды на Email',
 		);
 	}
 
@@ -138,7 +141,7 @@ class Campaign extends CActiveRecord
             
             $limit = 10;
             
-            $lead = Lead::model()->findByPk($leadId);
+            $lead = Lead100::model()->findByPk($leadId);
             
             if(!$lead) {
                 return false;
@@ -160,16 +163,14 @@ class Campaign extends CActiveRecord
                     ->order('price DESC')
                     ->limit($limit)
                     ->queryAll();
-            
-            
-            
+                        
             foreach($campaignsRows as $campaign) {
                 $dayLimit = $campaign['leadsDayLimit'];
                 
                 
                 $campaignTodayLeads = Yii::app()->db->createCommand()
                     ->select('COUNT(*) counter')
-                    ->from("{{lead}} l")
+                    ->from("{{lead100}} l")
                     ->where("DATE(deliveryTime)=:todayDate AND campaignId=:campaignId", array(
                         ':todayDate'    =>  date('Y-m-d'),
                         ':campaignId'   =>  $campaign['id'],
@@ -191,5 +192,26 @@ class Campaign extends CActiveRecord
             }
             
             //CustomFuncs::printr($campaigns);
+        }
+        
+        
+        public function getCampaignsForBuyer($buyerId)
+        {
+            $campaigns = self::model()->cache(600)->findAllByAttributes(array('buyerId'=>(int)$buyerId));
+            //CustomFuncs::printr($campaigns);
+            
+            return $campaigns;
+        }
+        
+        public static function getCampaignNameById($id)
+        {
+            $campaigns = self::model()->cache(600)->with('town', 'region')->findAll();
+            
+            foreach ($campaigns as $campaign) {
+                if($campaign->id == $id) {
+                    return $campaign->town->name . '' . $campaign->region->name;
+                }
+            }
+            
         }
 }

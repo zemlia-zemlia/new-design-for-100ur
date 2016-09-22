@@ -26,11 +26,11 @@
         <ul>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/')?CHtml::link('Главная', '/'):'<span class="active">Главная</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/konsultaciya_yurista_advokata/')?CHtml::link('Консультация', Yii::app()->createUrl('/site/konsultaciya_yurista_advokata')):'<span class="active">Консультация</span>';?></li>
-            <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/partners/')?CHtml::link('Партнеры', Yii::app()->createUrl('/site/partners')):'<span class="active">Партнеры</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/company/')?CHtml::link('Компании', Yii::app()->createUrl('/company/')):'<span class="active">Компании</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/region/')?CHtml::link('Регионы', Yii::app()->createUrl('/region/')):'<span class="active">Регионы</span>';?></li>
-            <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/')?CHtml::link('Офисы', Yii::app()->createUrl('/site/contacts')):'<span class="active">Офисы</span>';?></li>
-            <li><?php echo ($_SERVER['REQUEST_URI'] != '/blog/')?CHtml::link('Блог', Yii::app()->createUrl('/blog')):'<span class="active">Блог</span>';?></li>
+            <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/')?CHtml::link('Филиалы', Yii::app()->createUrl('/site/contacts')):'<span class="active">Филиалы</span>';?></li>
+			<li><?php echo ($_SERVER['REQUEST_URI'] != '/codecs/')?CHtml::link('Кодексы', Yii::app()->createUrl('/codecs')):'<span class="active">Кодексы</span>';?></li>
+			<li><?php echo ($_SERVER['REQUEST_URI'] != '/blog/')?CHtml::link('Блог', Yii::app()->createUrl('/blog')):'<span class="active">Блог</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/question/')?CHtml::link('Направления', Yii::app()->createUrl('question')):'<span class="active">Направления</span>';?></li>
             <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/'))?CHtml::link('Задать вопрос', Yii::app()->createUrl('question/create',array('from'=>'top-menu'))):'<span class="active">Задать вопрос</span>';?></li>
             <?php if(Yii::app()->user->checkAccess(User::ROLE_OPERATOR) || Yii::app()->user->checkAccess(User::ROLE_JURIST)):?>
@@ -66,17 +66,10 @@
                 </div>
                 
                 <?php if(Yii::app()->user->isGuest):?>
-                        <div class="col-md-8 col-sm-8" style="text-align: right;">
-                            <div class="header-phone"><b><span class="glyphicon glyphicon-phone-alt"></span> Консультации по телефону</b><br/> 
-                                    Москва <b>7 (499) 301-00-44</b><br/> 
-                                    Санкт Петербург <b>7 (812) 309-68-26</b><br/> 
-                                    Нижний Новгород <b>7 (831) 280-99-42</b>
-                            </div>
-                            </div>
                         
                     <?php else:?>
                                             
-                        <div class="alert alert-info col-md-2 col-sm-2 col-sm-offset-6 col-md-offset-6" style="text-align: right;">             
+                        <div class="alert alert-info col-md-3 col-sm-3 col-sm-offset-5 col-md-offset-5" style="text-align: right;">             
                         <?php
                             // выводим виджет с формой логина
                             $this->widget('application.widgets.Login.LoginWidget', array(
@@ -95,33 +88,43 @@
                 
 			
             <div class="col-md-2 col-sm-2"   id="left-panel">
-			
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <?php
-                                $questionsCountInt = Question::getCount()*2;
-                                $questionsCount = str_pad((string)$questionsCountInt,6, '0',STR_PAD_LEFT);
-                                $numbers = str_split($questionsCount);
-                                $answersCount = str_pad((string)round($questionsCountInt*1.684),6, '0',STR_PAD_LEFT);;
-                                $numbersAnswers = str_split($answersCount);
-                            ?>
-                            <div class="questions-counter-description">
-                                <div class=" center-align">
-                                    <div>За время работы портала задано</div>
-                                    <p class="kpi-counter">
-                                        <?php foreach($numbers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
-                                        вопросов
-                                    </p>
-                                    <div>На них дано</div>
-                                    <p class="kpi-counter">
-                                        <?php foreach($numbersAnswers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
-                                        ответов
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+			                
+
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<?php
+						$questionsCountInt = Question::getCount()*2;
+						$questionsCount = str_pad((string)$questionsCountInt,6, '0',STR_PAD_LEFT);
+						$numbers = str_split($questionsCount);
+						$answersCount = str_pad((string)round($questionsCountInt*1.684),6, '0',STR_PAD_LEFT);;
+						$numbersAnswers = str_split($answersCount);
+					?>
+					<div class="questions-counter-description">
+						<div class=" center-align">
+							<div>За время работы портала задано</div>
+							<p class="kpi-counter">
+								<?php foreach($numbers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
+								вопросов
+							</p>
+							<div>На них дано</div>
+							<p class="kpi-counter">
+								<?php foreach($numbersAnswers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
+								ответов по темам:
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
 					
+			<div id="left-bar" class="panel gray-panel" >
+				<h4 id="left-menu-switch">Темы вопросов</h4>
+					
+						<?php
+						// выводим виджет с деревом категорий
+							$this->widget('application.widgets.CategoriesTree.CategoriesTree', array());
+						?>
+					
+			</div>
                 <div class="panel panel-default">
                     <div class="panel-body">
 					<div style=" text-align:center; " >
@@ -131,16 +134,7 @@
 					</div>
                     </div>
                 </div>
-                
-			<div id="left-bar" class="panel gray-panel" >
-				<h4 id="left-menu-switch">Категории</h4>
-					
-						<?php
-						// выводим виджет с деревом категорий
-							$this->widget('application.widgets.CategoriesTree.CategoriesTree', array());
-						?>
-					
-			</div>	
+	
 			
 			
 			
@@ -182,13 +176,20 @@
 
             </div>
             <div class="col-md-3 col-sm-3"   id="right-panel">
-                <div class="panel orange-panel" style="text-align:center;">	
-                        <script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
-                        <script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
-                        <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,linkedin,lj"></div>
-                </div>	
+
                 
                 <?php if(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR):?>
+                
+                <div class="panel gray-panel">
+                    <div class="panel-body">                    
+                        <?php
+                            // выводим виджет со статистикой ответов
+                            $this->widget('application.widgets.MyAnswers.MyAnswers', array(
+                            ));
+                        ?>
+                    </div>
+                </div>
+                
                 <div class="panel gray-panel">
                     <div class="panel-body">                    
                         <?php
@@ -212,23 +213,12 @@
                 </div>
                 <?php endif;?>
 
-                <div class="panel orange-panel">
-                    <div class="panel-body">
-                        <div style="text-align:center; " >
-                                <h4><span class="glyphicon glyphicon-phone-alt"></span> Консультации по телефону для жителей:</h4>
-                                <hr/>
-                                <p style="font-size:17px;"> Москвы и МО<br/> 
-                                <b>7 (499) 301-00-44</b></p> 
-                                <hr/>
-                                <p style="font-size:17px;"> Санкт Петербурга и ЛО<br/> 
-                                <b>7 (812) 309-68-26</b></p> 
-								<hr/>
-                                <p style="font-size:17px;"> Нижний Новгород<br/> 
-                                <b>7 (831) 280-99-42</b></p> 			
-                        </div>
-                    </div>
-                </div>
-                				
+                <?php if(Yii::app()->user->role!=User::ROLE_BUYER && Yii::app()->user->role!=User::ROLE_JURIST):?>
+
+                <?php endif;?>
+                
+                <?php if(Yii::app()->user->role!=User::ROLE_BUYER && Yii::app()->user->role!=User::ROLE_JURIST):?>
+			
                 <div class="panel gray-panel">
                     <div class="panel-body">
 					<div style=" text-align:center; " >
@@ -238,7 +228,9 @@
 					</div>
                     </div>
                 </div>
-		
+		<?php endif;?>
+                
+                
                 <div class="panel gray-panel">
                     <div class="panel-body">                    
                         <?php
@@ -297,71 +289,31 @@
             <div class='row'>
                 <div class='col-md-3 col-sm-3 center-align'>
                     <img src='/pics/2015/logo_inv.png' alt='Консультация юриста' class='center-block' />
-                    <small>
-                    <div class="vcard">
-                    <div>
-                      <span class="category">Правовой портал</span>
-                      <span class="fn org">100 Юристов</span>
-                    </div> 
-                    <div class="adr">
-                      <span class="locality">г. Москва</span>,
-                      <span class="street-address">Шлюзовая набережная, д.6, стр 4</span>
+					<div class="logo-description-footer">
+                    <h5>ЮРИДИЧЕСКИЕ КОНСУЛЬТАЦИИ ОНЛАЙН</h5>    
                     </div>
-                    <div>Телефон: <span class="tel">+7 (499) 301-00-44</span> - Москва</div>
-                    <div><span class="tel">+7 (812) 309-68-26</span> - Санкт Петербург</div>
-                    <div>admin@100yuristov.com</div>
-                    <div>Мы работаем <span class="workhours">ежедневно с 00:00 до 24:00</span>
-                      <span class="url">
-                        <span class="value-title" title="http://www.100yuristov.com"> </span>
-                      </span>
-                    </div>
-                  </div>
-					</small>
                 </div>
-                
-                <div class='col-md-3 col-sm-3 center-align'>
-					<noindex>
-                    <script type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script>
-
-                    <!-- VK Widget -->
-                    <div id="vk_groups"></div>
-                    <script type="text/javascript">
-                    VK.Widgets.Group("vk_groups", {mode: 0, width: "260", height: "200", color1: 'FFFFFF', color2: '2B587A', color3: '5B7FA6'}, 78448546);
-                    </script>
-					</noindex>
-                </div>
-				                
-				<div class='col-md-3 col-sm-3 center-align'>
-				<br/><noindex>
-                <div id="ok_group_widget"></div>
-					<script>
-					!function (d, id, did, st) {
-					  var js = d.createElement("script");
-					  js.src = "https://connect.ok.ru/connect.js";
-					  js.onload = js.onreadystatechange = function () {
-					  if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") {
-						if (!this.executed) {
-						  this.executed = true;
-						  setTimeout(function () {
-							OK.CONNECT.insertGroupWidget(id,did,st);
-						  }, 0);
-						}
-					  }}
-					  d.documentElement.appendChild(js);
-					}(document,"ok_group_widget","53087450366125","{width:260,height:200}");
-					</script>
-					</noindex>
-                </div>
-
-                <div class='col-md-3 col-sm-3'>
+				
+				<div class='col-md-3 col-sm-3'>
+				<noindex>
+				<small>
+				<ul>
+					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/offer/')?CHtml::link('Пользовательское соглашение', Yii::app()->createUrl('/site/offer/')):'<span class="active"><p>Пользовательское соглашение</p></span>';?></li>
+					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/crm/')?CHtml::link('CRM Для юридических фирм', Yii::app()->createUrl('/site/crm/')):'<span class="active"><p>CRM Для юридических фирм</p></span>';?></li>
+					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/lp/')?CHtml::link('Юристам', Yii::app()->createUrl('/site/lp/')):'<span class="active"><p>Юристам</p></span>';?></li>
+					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/')?CHtml::link('Заявки', Yii::app()->createUrl('/site/lead/')):'<span class="active"><p>Заявки</p></span>';?></li>
+					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/about/')?CHtml::link('О проекте', Yii::app()->createUrl('/site/about/')):'<span class="active"><p>О проекте</p></span>';?></li>
+				</ul>
+				</small>
+				</noindex>
+				</div>
+				
+                <div class='col-md-6 col-sm-6'>
 				
                     <p style="text-align: justify;"> <noindex>
                         <small>
                         &copy; Правовой портал «100 Юристов» 2014. <br />
-                            Все права, на любые материалы, размещенные на сайте, защищены в соответствии с российским и международным законодательством об авторском праве и смежных правах. При любом использовании текстовых, аудио-, видео- и фотоматериалов ссылка на www.100yuristov.com обязательна. Адрес электронной почты: 100yuristov@mail.ru. 
-                            <?php if($_SERVER['REQUEST_URI'] != '/'):?>
-                            <a href="/">Задать вопрос юристу онлайн</a>
-                            <?php endif;?>
+                            Все права, на любые материалы, размещенные на сайте, защищены в соответствии с российским и международным законодательством об авторском праве и смежных правах. При любом использовании текстовых, аудио-, видео- и фотоматериалов ссылка на www.100yuristov.com обязательна.
                         </small>    
                         </noindex>
                     </p>
@@ -428,7 +380,7 @@ _tmr.push({id: "2577054", type: "pageView", start: (new Date()).getTime()});
 <!-- //Rating@Mail.ru counter -->
 
 
-<script async="async" src="https://w.uptolike.com/widgets/v1/zp.js?pid=1438541" type="text/javascript"></script>
+
 <?php endif;?>
 
 </body>

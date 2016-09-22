@@ -56,6 +56,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         <strong>О себе:</strong><br />
                         <?php echo CHtml::encode($user->settings->description);?>
                     </p>
+                    
+                    <p>
+                        <strong>Статус:</strong> 
+                        <?php echo $user->settings->getStatusName();?>
+                        <span class="label label-<?php echo ($user->settings->isVerified)?'success':'warning';?>">
+                        <?php echo ($user->settings->isVerified)?"Подтвержден":"На проверке";?>
+                        </span>
+                    </p>
                     <?php endif;?>
                 </div>
             </div>

@@ -27,7 +27,7 @@ $this->breadcrumbs=array(
 
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('Консультация юриста',"/"),
+        'homeLink'=>CHtml::link('Юристы и Адвокаты',"/"),
         'separator'=>' / ',
         'links'=>$this->breadcrumbs,
      ));
@@ -47,7 +47,7 @@ $this->breadcrumbs=array(
 
 <div class="panel gray-panel">
 	<div class="panel-body">
-		<h1>Консультация юриста <?php echo CHtml::encode($model->name); ?></h1>
+		<h1>Юристы и Адвокаты <?php echo CHtml::encode($model->name); ?> (<?php echo CHtml::encode($model->ocrug); ?>)</h1>
 	</div>
 </div>			
 
@@ -108,7 +108,12 @@ $this->breadcrumbs=array(
         <div class="row">
             <?php foreach($closeTowns as $town):?>
                 <div class="col-md-4">
-                    <?php echo CHtml::link('<span class="glyphicon glyphicon-map-marker"></span>' . $town->name, Yii::app()->createUrl('town/alias', array('name'=>$town->alias)));?>
+                    <?php echo CHtml::link('<span class="glyphicon glyphicon-map-marker"></span>' . $town->name, 
+                            Yii::app()->createUrl('town/alias', array(
+                                        'name'          =>  $town->alias,
+                                        'countryAlias'  =>  $town->country->alias,
+                                        'regionAlias'   =>  $town->region->alias,
+                                )));?>
                 </div>    
             <?php endforeach;?>
             </div>
@@ -116,12 +121,6 @@ $this->breadcrumbs=array(
     </div>
 </div>
 <?php endif;?>
-
-<div class="panel gray-panel">
-	<div class="panel-body">
-		<h2>Юристы и Адвокаты <?php echo CHtml::encode($model->name); ?> (<?php echo CHtml::encode($model->ocrug); ?>)</h2>
-	</div>
-</div>
 
 <?php if($model->description2):?>
     <div class="panel gray-panel">
@@ -133,7 +132,7 @@ $this->breadcrumbs=array(
 
 <div class="panel gray-panel">
 	<div class="panel-body">
-		<h2>Задать вопрос юристу или адвокату <?php echo CHtml::encode($model->name); ?></h2>
+		<h2>Вы можете задать вопрос Юристу или Адвокату</h2>
 		<noindex>
         <div class="row">
 

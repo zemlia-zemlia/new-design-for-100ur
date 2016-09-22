@@ -1,55 +1,50 @@
 <?php
 /* @var $this CampaignController */
 /* @var $data Campaign */
+$leadsSentPercent = ($data->leadsDayLimit>0)?($data->leadsTodayCount/$data->leadsDayLimit)*100:0;
 ?>
 
-<div class="view">
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('id')); ?>:</b>
-	<?php echo CHtml::link(CHtml::encode($data->id), array('view', 'id'=>$data->id)); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('regionId')); ?>:</b>
-	<?php echo CHtml::encode($data->regionId); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('townId')); ?>:</b>
-	<?php echo CHtml::encode($data->townId); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('timeFrom')); ?>:</b>
-	<?php echo CHtml::encode($data->timeFrom); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('timeTo')); ?>:</b>
-	<?php echo CHtml::encode($data->timeTo); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('price')); ?>:</b>
-	<?php echo CHtml::encode($data->price); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('balance')); ?>:</b>
-	<?php echo CHtml::encode($data->balance); ?>
-	<br />
-
-	<?php /*
-	<b><?php echo CHtml::encode($data->getAttributeLabel('leadsDayLimit')); ?>:</b>
-	<?php echo CHtml::encode($data->leadsDayLimit); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('brakPercent')); ?>:</b>
-	<?php echo CHtml::encode($data->brakPercent); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('buyerId')); ?>:</b>
-	<?php echo CHtml::encode($data->buyerId); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('active')); ?>:</b>
-	<?php echo CHtml::encode($data->active); ?>
-	<br />
-
-	*/ ?>
-
-</div>
+<tr <?php if($data->active==0){echo 'class="active"';}?>>
+    <td>
+        <?php echo CHtml::link($data->id, Yii::app()->createUrl('/cabinet/campaign', array('id'=>$data->id)));?>
+        <?php if($data->active==0):?>
+        <br /><small><span class='label label-default'>неакт</span></small>
+        <?php endif;?>
+    </td>
+    <td>
+        <?php echo $data->region->name;?>
+        <?php echo $data->town->name;?>
+    </td> 
+    <td>
+        <?php echo $data->timeFrom . '&nbsp;-&nbsp;' . $data->timeTo;?>
+    </td>
+    <td>
+        <?php echo $data->brakPercent;?>
+    </td>
+    <td>
+        <?php echo $data->leadsDayLimit;?>
+    </td>
+    
+    <td><?php echo $data->price;?> руб.</td>
+    <td>
+        <p><span class="balance-<?php echo $data->id;?>">
+        <?php echo $data->balance;?></span> руб.<br />
+        </p>
+        
+        <?php echo CHtml::link('Транзакции', Yii::app()->createUrl('/cabinet/campaign', array('id'=>$data->id)));?>
+        
+    </td>
+    
+    <td>
+        <abbr title='Всего'><?php echo $data->leadsCount;?></abbr><br />
+        Сегодня:
+        
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $leadsSentPercent;?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $leadsSentPercent;?>%;">
+              <?php echo $data->leadsTodayCount;?> / <?php echo $data->leadsDayLimit;?>
+            </div>
+          </div>
+        
+        
+    </td>
+</tr>

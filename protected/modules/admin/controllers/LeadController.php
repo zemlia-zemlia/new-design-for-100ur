@@ -27,7 +27,12 @@ class LeadController extends Controller
 	{
 		return array(
                         array('allow', // 
-                                'actions'=>array('index', 'view', 'update', 'delete', 'sendLeads', 'toQuestion', 'generate', 'dispatch'),
+                                'actions'=>array('index', 'view', 'create', 'stats'),
+                                'users'=>array('@'),
+                                'expression'=>'Yii::app()->user->role == ' . User::ROLE_ROOT . ' || Yii::app()->user->role == ' . User::ROLE_SECRETARY,
+                        ),
+                        array('allow', // 
+                                'actions'=>array('update', 'delete', 'sendLeads', 'toQuestion', 'generate', 'dispatch', 'changeStatus'),
                                 'users'=>array('@'),
                                 'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_MANAGER . ') || Yii::app()->user->checkAccess(' . User::ROLE_SECRETARY . ')',
                         ),
@@ -54,16 +59,24 @@ class LeadController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Lead;
+		$model=new Lead100;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Lead']))
+		if(isset($_POST['Lead100']))
 		{
-			$model->attributes=$_POST['Lead'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+			$model->attributes=$_POST['Lead100'];
+			if($model->save()) {
+                            if(Yii::app()->request->isAjaxRequest) {
+                                echo 'ok';exit;
+                            }
+                            $this->redirect(array('view','id'=>$model->id));
+                        } else {
+                            if(Yii::app()->request->isAjaxRequest) {
+                                echo 'error';exit;
+                            }
+                        }
 		}
 
 		$this->render('create',array(
@@ -78,16 +91,18 @@ class LeadController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
+		$model = $this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Lead']))
+		if(isset($_POST['Lead100']))
 		{
-			$model->attributes=$_POST['Lead'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+                    $model->attributes=$_POST['Lead100'];
+                    //CustomFuncs::printr($model);exit;
+                    if($model->save()) {
+                        $this->redirect(array('view','id'=>$model->id));
+                    }
 		}
 
 		$this->render('update',array(
@@ -112,10 +127,21 @@ class LeadController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Lead', array(
-                    'criteria'  =>  array(
-                        'order' =>  'id DESC',
-                    ),
+		
+            $criteria = new CDbCriteria;
+            
+            $criteria->order = 'id DESC';
+            //$criteria->with = array('campaign');
+            $statusId = (isset($_GET['status']))?(int)$_GET['status']:false;
+            
+            if($statusId !== false) {
+                $criteria->addColumnCondition(array('leadStatus'=>$statusId));
+                $criteria->addColumnCondition(array('campaignId!'=>'NULL'));
+                
+            }
+            
+            $dataProvider=new CActiveDataProvider('Lead100', array(
+                    'criteria'  =>  $criteria,
                     'pagination'    =>  array(
                         'pageSize'=>50,
                     ),
@@ -132,10 +158,12 @@ class LeadController extends Controller
             $contact = $this->loadModel($id);
             
             $question = new Question();
+            $question->scenario = 'convert';
             $question->townId = $contact->townId;
             $question->authorName = $contact->name;
             $question->questionText = $contact->question;
             $question->status = Question::STATUS_PUBLISHED;
+            $question->publishDate = date("Y-m-d H:i:s");
             
             if($question->save()) {
                 $contact->questionId = $question->id;
@@ -157,7 +185,7 @@ class LeadController extends Controller
         {
 
             // найдем все лиды, не отправленные ни в офис, ни в лид-сервисы
-            $leads = Lead::model()->findAllByAttributes(array('leadStatus'=>  Lead::LEAD_STATUS_DEFAULT));
+            $leads = Lead100::model()->findAllByAttributes(array('leadStatus'=>  Lead100::LEAD_STATUS_DEFAULT));
 
             foreach($leads as $lead) {
                 $lead->sendLead();
@@ -174,12 +202,12 @@ class LeadController extends Controller
             $towns = array(99,563, 10, 598);
             $sourceId = 3;
             $question = 'Текст вопроса';
-            $status = Lead::LEAD_STATUS_DEFAULT;
-            $type = Lead::TYPE_QUESTION;
+            $status = Lead100::LEAD_STATUS_DEFAULT;
+            $type = Lead100::TYPE_QUESTION;
             $names = array('Август', 'Августин', 'Аврор', 'Агап', 'Адам', 'Аксён', 'Алевтин', 'Александр', 'Алексей', 'Алексий', 'Альберт', 'Анастасий', 'Анатолий', 'Анвар', 'Андрей', 'Андрон', 'Анисим', 'Антип', 'Антон', 'Антонин', 'Аристарх', 'Аркадий', 'Арсений', 'Артамон', 'Артём', 'Артемий', 'Артур', 'Архип', 'Аскольд', 'Афанасий', 'Афиноген');
             
             for($i=0; $i<$limit; $i++) {
-                $lead = new Lead;
+                $lead = new Lead100;
                 
                 $properties = array(
                     'sourceId'  =>  $sourceId,
@@ -205,19 +233,21 @@ class LeadController extends Controller
             
         }
         
-        
+        /*
+         * распределяет лидов по покупателям
+         */
         public function actionDispatch()
         {
             $criteria = new CDbCriteria;
             
-            $criteria->addColumnCondition(array('leadStatus'=>Lead::LEAD_STATUS_DEFAULT));
+            $criteria->addColumnCondition(array('leadStatus'=>Lead100::LEAD_STATUS_DEFAULT));
             $criteria->addColumnCondition(array('question_date>'=>date('Y-m-d')));
             $criteria->with = array('town', 'town.region');
             
             // сколько лидов обрабатывать за раз
             $criteria->limit = 50;
             
-            $leads = Lead::model()->findAll($criteria);
+            $leads = Lead100::model()->findAll($criteria);
             
             foreach($leads as $lead) {
                 echo $lead->id . " " . $lead->name . ', город: ' . $lead->town->name . ', регион:' . $lead->town->region->name;
@@ -239,8 +269,128 @@ class LeadController extends Controller
             
             
         }
-
         
+        public function actionChangeStatus()
+        {
+            $leadId = (isset($_POST['id']))?(int)$_POST['id']:false;
+            $status = (isset($_POST['status']))?(int)$_POST['status']:false;
+            
+            if($leadId === false || $status === false) {
+                echo json_encode(array('code'=>400, 'message'=>'Error, not enough data'));
+                exit;
+            }
+            
+            $lead = Lead100::model()->findByPk($leadId);
+            
+            if(!$lead) {
+                echo json_encode(array('code'=>404, 'message'=>'Lead not found'));
+                exit;
+            }
+            
+            $lead->leadStatus = $status;
+            
+            // найдем кампанию, в которую отправлен лид
+            // если новый статус - Брак, вернем деньги за лида на баланс кампании
+            $campaign = $lead->campaign;
+            if($lead->campaign && $lead->leadStatus == Lead100::LEAD_STATUS_BRAK) {
+                $campaign->balance += $lead->price;
+                // записываем данные о снятии средств со счета кампании
+                $transaction = new TransactionCampaign;
+                $transaction->sum = (int)$lead->price;
+                $transaction->campaignId = $campaign->id;
+                $transaction->description = 'Возврат за лид ID=' . $lead->id;
+                
+                if(!$transaction->save()){
+                    CustomFuncs::printr($transaction->errors);
+                    echo json_encode(array('code'=>500,'id'=>$lead->id, 'message'=>'Не удалось сохранить транзакцию'));
+                    exit;
+                }
+                
+                if(!$campaign->save()){
+                    echo json_encode(array('code'=>500,'id'=>$lead->id, 'message'=>'Не удалось обновить баланс кампании'));
+                    exit;
+                }
+            }
+            
+            if($lead->save()) {
+                echo json_encode(array('code'=>0,'id'=>$lead->id, 'message'=>'Статус изменен'));
+                exit;
+            } else {
+                echo json_encode(array('code'=>500,'id'=>$lead->id, 'message'=>'Статус не изменен'));
+                exit;
+            }
+            
+        }        
+        
+        
+        /*
+         * вывод статистики продаж лидов
+         * GET параметры:
+         * type (dates|campaigns) - разбивка по датам или кампаниям
+         */
+        public function actionStats()
+        {
+            
+            // найдем все годы, в которые есть контакты
+            $yearsRows = Yii::app()->db->cache(600)->createCommand()
+                    ->select('DISTINCT(YEAR(question_date)) y')
+                    ->from('{{lead100}}')
+                    ->where('price != 0 AND leadStatus IN(' . Lead100::LEAD_STATUS_SENT . ', ' . Lead100::LEAD_STATUS_SENT_CRM. ') AND YEAR(question_date)!=0')
+                    ->queryColumn();
+            $yearsArray = array();
+            foreach($yearsRows as $k=>$v) {
+                $yearsArray[$v] = $v;
+            }
+
+            
+
+            // по умолчанию группировка по датам
+            $type = (isset($_GET['type']))?$_GET['type']:'dates';
+            $month = (isset($_GET['month']))?$_GET['month']:date("n");
+            $year = (isset($_GET['year']))?$_GET['year']:date("Y");
+            
+            $leadsRows = Yii::app()->db->createCommand()
+                    ->select('l.price summa, DATE(l.question_date) lead_date, l.campaignId campaignId')
+                    ->from('{{lead100}} l')
+                    ->where('l.price != 0 AND leadStatus =' . Lead100::LEAD_STATUS_SENT.' AND MONTH(l.question_date)="'.$month.'" AND YEAR(l.question_date)="' . $year . '"')
+                    ->order('lead_date DESC')
+                    ->queryAll();
+            
+            //CustomFuncs::printr($leadsRows);
+
+            $sumArray = array();
+            $kolichArray = array();
+            
+            
+            if($type == 'dates') {
+                foreach ($leadsRows as $row) {
+                    $sumArray[$row['lead_date']] += $row['summa'];
+                    $kolichArray[$row['lead_date']]++;
+                }
+            }
+            
+            if($type == 'campaigns') {
+                foreach ($leadsRows as $row) {
+                    $sumArray[$row['campaignId']] += $row['summa'];
+                    $kolichArray[$row['campaignId']]++;
+                }
+            }
+            
+            //CustomFuncs::printr($sumArray);
+            //CustomFuncs::printr($kolichArray);
+            
+            $this->render('stats', array(
+                'type'          =>  $type,
+                'yearsArray'    =>  $yearsArray,
+                'month'         =>  $month,
+                'year'          =>  $year,
+                'sumArray'      =>  $sumArray,
+                'kolichArray'   =>  $kolichArray,
+            ));
+        }
+
+
+
         /**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
@@ -250,7 +400,7 @@ class LeadController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Lead::model()->findByPk($id);
+		$model=Lead100::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;

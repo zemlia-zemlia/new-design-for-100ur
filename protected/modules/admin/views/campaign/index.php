@@ -6,6 +6,10 @@ $this->breadcrumbs=array(
 	'Кампании',
 );
 
+$this->pageTitle = "Кампании. " . Yii::app()->name;
+
+Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
+
 ?>
 
 <h1>Кампании</h1>
@@ -21,6 +25,9 @@ $this->breadcrumbs=array(
             <th>ID</th>
             <th>Покупатель</th>
             <th>Регион</th>
+            <th><span class="glyphicon glyphicon-time"></span></th>
+            <th>%&nbsp;брака</th>
+            <th>Лимит</th>
             <th>Цена</th>
             <th>Баланс</th>
             <th>Отправлено</th>

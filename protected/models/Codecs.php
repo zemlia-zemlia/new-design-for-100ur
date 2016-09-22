@@ -5,24 +5,19 @@
  *
  * The followings are the available columns in table '{{codecs}}':
  * @property integer $id
- * @property string $title
- * @property integer $parent_id
+ * @property string $pagetitle
+ * @property string $longtitle
+ * @property string $description
+ * @property string $alias
+ * @property integer $parent
+ * @property integer $isfolder
+ * @property string $introtext
  * @property string $content
- * @property string $sourceUrl
- * @property integer $isCat
+ * @property string $menutitle
+ * @property string $path
  */
 class Codecs extends CActiveRecord
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return Codecs the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-
 	/**
 	 * @return string the associated database table name
 	 */
@@ -39,12 +34,12 @@ class Codecs extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, parent_id, content, sourceUrl', 'required'),
-			array('parent_id, isCat', 'numerical', 'integerOnly'=>true),
-			array('title, sourceUrl', 'length', 'max'=>255),
+			array('parent, isfolder', 'numerical', 'integerOnly'=>true),
+			array('pagetitle, longtitle, description, alias, menutitle', 'length', 'max'=>255),
+			array('introtext, content, path', 'safe'),
 			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, title, parent_id, content, sourceUrl, isCat', 'safe', 'on'=>'search'),
+			// @todo Please remove those attributes that should not be searched.
+			array('id, pagetitle, longtitle, description, alias, parent, isfolder, introtext, content, menutitle', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,8 +51,8 @@ class Codecs extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                    'parent'    =>  array(self::BELONGS_TO, 'Codecs', 'parent_id'),
-                    'children'  =>  array(self::HAS_MANY, 'Codecs', 'parent_id'),
+                    'children'  =>  array(self::HAS_MANY, 'Codecs', 'parent', 'order'=>'children.id'),
+                    'parentElement'    =>  array(self::BELONGS_TO, 'Codecs', 'parent'),
 		);
 	}
 
@@ -68,34 +63,99 @@ class Codecs extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title' => 'Заголовок',
-			'parent_id' => 'ID родительской категории',
-			'content' => 'Контент',
-			'sourceUrl' => 'Источник',
-			'isCat' => 'Является категорией',
+			'pagetitle' => 'Pagetitle',
+			'longtitle' => 'Longtitle',
+			'description' => 'Description',
+			'alias' => 'Alias',
+			'parent' => 'Parent',
+			'isfolder' => 'Isfolder',
+			'introtext' => 'Introtext',
+			'content' => 'Content',
+			'menutitle' => 'Menutitle',
 		);
 	}
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 *
+	 * Typical usecase:
+	 * - Initialize the model fields with values from filter form.
+	 * - Execute this method to get CActiveDataProvider instance which will filter
+	 * models according to data in model fields.
+	 * - Pass data provider to CGridView, CListView or any similar widget.
+	 *
+	 * @return CActiveDataProvider the data provider that can return the models
+	 * based on the search/filter conditions.
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('parent_id',$this->parent_id);
+		$criteria->compare('pagetitle',$this->pagetitle,true);
+		$criteria->compare('longtitle',$this->longtitle,true);
+		$criteria->compare('description',$this->description,true);
+		$criteria->compare('alias',$this->alias,true);
+		$criteria->compare('parent',$this->parent);
+		$criteria->compare('isfolder',$this->isfolder);
+		$criteria->compare('introtext',$this->introtext,true);
 		$criteria->compare('content',$this->content,true);
-		$criteria->compare('sourceUrl',$this->sourceUrl,true);
-		$criteria->compare('isCat',$this->isCat);
+		$criteria->compare('menutitle',$this->menutitle,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return Codecs the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+        
+        // рекурсивная функция, находящая путь до элемента кодексов и записывающая его в этот элемент
+        public function getPath($prefix = '')
+        {
+            $this->path = $prefix . '|' . $this->alias;
+            echo $this->path . '<br />';
+            $this->save();
+            
+            $children = $this->children;
+            
+            foreach($children as $child) {
+                $child->getPath($this->path);
+            }
+            
+        }
+        
+        public function getParents()
+        {
+            $path = $this->path;
+            $pathArray = explode('|', $path);
+            $parents = array();
+            
+            while($parentAlias = array_pop($pathArray)) {
+                if($parentAlias=='codecs') {
+                    break;
+                }
+                $parentPath = implode('|', $pathArray); // путь из массива, оставшегося после удаления последнего элемента
+                //echo $parentPath . ':' . '<br />';
+                
+                $parent = self::model()->findByAttributes(array('path'=>$parentPath));
+                
+                if($parent) {
+                    $parents += array(str_replace('|', '/', $parentPath)  =>  $parent->pagetitle);
+                }
+                
+            }
+            
+            return array_reverse($parents);
+        }
 }

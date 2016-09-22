@@ -17,6 +17,8 @@
  * @property string $email
  * @property integer $leadStatus
  * @property integer $authorId
+ * @property integer $price
+ * @property integer $payed
  */
 class Question extends CActiveRecord
 {
@@ -29,6 +31,11 @@ class Question extends CActiveRecord
         
         const LEAD_STATUS_SENT_CRM = 1;
         const LEAD_STATUS_SENT_LEADIA = 2;
+        
+        const LEVEL_1 = 1;
+        const LEVEL_2 = 2;
+        const LEVEL_3 = 3;
+        
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -55,9 +62,10 @@ class Question extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('questionText, townId, authorName, email', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
+			array('questionText, townId, authorName', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
+			array('email', 'required', 'message'=>'Поле {attribute} должно быть заполнено', 'except'=>'convert'),
 			array('phone', 'required', 'on'=>'create', 'message'=>'Поле {attribute} должно быть заполнено'),
-                        array('number, categoryId, status, publishedBy, authorId', 'numerical', 'integerOnly'=>true),
+                        array('number, categoryId, status, publishedBy, authorId, price, payed', 'numerical', 'integerOnly'=>true),
 			array('categoryName', 'length', 'max'=>255),
                         array('authorName, title','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-., ])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, точка, дефис и пробел'),
                         array('phone','match','pattern'=>'/^([0-9\+])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
@@ -106,6 +114,8 @@ class Question extends CActiveRecord
                         'title'         =>  'Заголовок',
                         'phone'         =>  'Номер телефона',
                         'authorId'      =>  'ID автора',
+                        'price'         =>  'Цена',
+                        'payed'         =>  'Оплачен',
 		);
 	}
         
@@ -218,12 +228,12 @@ class Question extends CActiveRecord
             $patterns[1] = '/Добрый день/ui';
             $patterns[2] = '/[!,\.\?:]/ui';
             $replacements = array();
-            $replacements[2] = '';
+            $replacements[2] = ' ';
             $replacements[1] = '';
             $replacements[0] = '';
             
             $this->title = preg_replace($patterns, $replacements, $this->title);
             $this->title = trim($this->title);
-            $this->title = ucfirst($this->title);
+            $this->title = mb_strtoupper(mb_substr($this->title, 0, 1, 'UTF-8'), 'UTF-8') . mb_substr($this->title, 1, mb_strlen($this->title), 'UTF-8');
         }
 }

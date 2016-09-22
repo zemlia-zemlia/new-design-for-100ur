@@ -11,6 +11,17 @@ if($model->description) {
 }
 
 ?>
+
+<?php if($justPublished == true):?>
+<div class="alert alert-warning gray-panel" role="alert">
+        <h4>Спасибо, <?php echo CHtml::encode(Yii::app()->user->name);?>!</h4>
+        <p class="text-success">
+            <strong><span class="glyphicon glyphicon-ok"></span> Ваш вопрос опубликован</strong>. Теперь юристы смогут дать Вам ответ. <br />
+            <strong><span class="glyphicon glyphicon-ok"></span> Ваш Email подтвержден</strong>. На него Вы будете получать уведомления о новых ответах. <br />
+            
+        </p>
+</div>
+<?php endif;?>
  
 <div itemscope itemtype="http://schema.org/Question">
      
@@ -51,50 +62,124 @@ if($model->description) {
     <p itemprop="text">
         <?php echo nl2br(CHtml::encode($model->questionText));?>
     </p>
-	
-
-
-    <?php $this->widget('zii.widgets.CListView', array(
-            'dataProvider'  =>  $answersDataProvider,
-            'itemView'      =>  'application.views.answer._view',
-            'emptyText'     =>  '<p class="alert alert-info">Юристы пока не дали ответ...</p>',
-            'summaryText'   =>  '',
-            'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
-
-    )); ?>
-
-	<br/>
-	<noindex>
-	<div>
+        
+    <noindex>
+        <div style="border-top:#ccc 1px solid;">
 	<p>
+            Опубликовать вопрос 
 		<script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
 		<script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
-		<div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,linkedin,lj,surfingbird,tumblr"></div>
+		<span class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,linkedin,lj,surfingbird,tumblr"></span>
 	</p>
 	</div>
 	</noindex>
 	
-		
-        <?php if(Yii::app()->user->isGuest):?>
-    <div class="alert alert-success">
-		<strong>Внимание!</strong> Если вы специалист в области права вы можете дать ответ на этот вопрос пройдя нехитрую процедуру <a href="/user/create/" class="alert-link" >регистрации</a> и подтверждения вашей квалификации.
-	</div>	   
-        <?php endif;?>
     </div>
 </div>
     
+
+<?php if($model->authorId == Yii::app()->user->id && ($model->price==0 || $model->payed == 0)):?>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h3>Сделать VIP вопросом</h3>
+            
+            <table class="table center-align">
+                <tr>
+                    <th></th>
+                    <th>Бесплатный</th>
+                    <th>Бронзовый</th>
+                    <th>Серебрянный</th>
+                    <th>Золотой</th>
+                </tr>
+                <tr>
+                    <td>Гарантия ответа</td>
+                    <td><span class="glyphicon glyphicon-remove"></span></td>
+                    <td><span class="glyphicon glyphicon-ok"></span></td>
+                    <td><span class="glyphicon glyphicon-ok"></span></td>
+                    <td><span class="glyphicon glyphicon-ok"></span></td>
+                </tr>
+                <tr>
+                    <td>Гарантировано ответов</td>
+                    <td><span class="glyphicon glyphicon-remove"></span></td>
+                    <td>1</td>
+                    <td>3</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><small>Нет гарантии ответа юриста.</small></td>
+                    <td><small>Один гарантированный ответ квалифицированного юриста</small></td>
+                    <td><small>Три гарантированных ответа юристов, позволят Вам понять, как решить проблему</small></td>
+                    <td><small>Минимум пять гарантированных ответов юристов. Мнения нескольких юристов. Гарантия полного и подробного разбора ситуации.</small></td>
+                </tr>
+                <tr>
+                    <td>Цена</td>
+                    <td>0 руб.</td>
+                    <td>99 руб.</td>
+                    <td>199 руб.</td>
+                    <td>299 руб.</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><?php echo CHtml::link('Оплатить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_1)), array('class'=>'btn btn-success btn-block'));?></td>
+                    <td><?php echo CHtml::link('Оплатить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_2)), array('class'=>'btn btn-success btn-block'));?></td>
+                    <td><?php echo CHtml::link('Оплатить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_3)), array('class'=>'btn btn-success btn-block'));?></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+<?php endif;?>    
+
+    <?php $this->widget('zii.widgets.CListView', array(
+            'dataProvider'  =>  $answersDataProvider,
+            'itemView'      =>  'application.views.answer._view',
+            'emptyText'     =>  '<p class="alert alert-info gray-panel">Юристы пока не дали ответ...</p>',
+            'summaryText'   =>  '',
+            'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
+
+    )); ?>
+      
+        
+<?php if(Yii::app()->user->isGuest):?>
+    <div class="panel gray-panel">
+        <div class='panel-body'>
+
+
+            <div class="alert alert-success">
+                    <strong>Внимание!</strong> Если вы специалист в области права вы можете дать ответ на этот вопрос пройдя нехитрую процедуру <a href="/user/create/" class="alert-link" >регистрации</a> и подтверждения вашей квалификации.
+            </div>	   
+
+        </div>
+    </div>
+<?php endif;?>    
     
 </div> <!-- Question --> 
 
 <?php if(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR):?>
 <div class="panel gray-panel">
     <div class='panel-body'>
-        <h2>Ваш ответ</h2>
-        <?php $this->renderPartial('application.views.answer._form', array('model'=>$answerModel));?>
+        
+        <?php if(Yii::app()->user->isVerified):?>
+            <h2>Ваш ответ</h2>
+            <?php $this->renderPartial('application.views.answer._form', array('model'=>$answerModel));?>
+        <?php else:?>
+            <div class="alert alert-warning">
+                <p>
+                Вы не можете отвечать на вопросы, пока не подтвердили свою квалификацию. 
+                Вы можете сделать это в настройках своего профиля.
+                </p><br />
+                <?php echo CHtml::link('Перейти в настройки', Yii::app()->createUrl('user/update', array('id'=>Yii::app()->user->id)), array('class'=>'btn btn-primary'));?>
+            </div>
+        <?php endif;?>
     </div>
 </div>
 <?php endif;?>
 
+
+<?php if(!(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR || ($model->authorId == Yii::app()->user->id))):?>
 
 <!-- Форма --> 
 <noindex>
@@ -132,6 +217,9 @@ if($model->description) {
             </div>
 </noindex>
 <!-- Конец формы --> 
+<?php endif;?>
+
+
 
 <?php if($similarDataProvider->totalItemCount > 0):?>
 
@@ -156,50 +244,14 @@ if($model->description) {
        <h4>На ваши вопросы отвечают:</h4> 
     
         <div class="row">
-
-            <div class="col-md-4 col-sm-4 center-align">  
-                <img src="/pics/yurist2.jpg" alt="При поддержке Министерства Юстиции" class="img-responsive center-block" /> 
-                <p class="center-align"><b>Штуцер Максим Федорович</b><br />
-                            <small> Семейное право<br/>
-                            Уголовное право<br/>
-                            Корпоративное право<br/>
-                            Договорные отношения<br/>
-                            Банковская деятельность<br/>
-                            Кредиты</small>
-                </p>
-                    <a href="/question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=shtutzer" class="btn btn-warning btn-xs" rel="nofollow">Получить консультацию</a>
-
-            </div>
             
-            <div class="col-md-4 col-sm-4 center-align"> 
-                <img src="/pics/yurist3.jpg" alt="При поддержке Министерства Юстиции" class="img-responsive center-block" /> 
-                <p class="center-align"><b>Самойлов Николай Николаевич</b><br />
-                            <small> Семейное право<br/>
-                            Уголовное право<br/>
-                            Трудовое право<br/>
-                            Договорные отношения<br/>
-                            Налогое право <br/>
-                            </small>
-                    </p>
-                    <a href="/question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=samoilov" class="btn btn-warning btn-xs" rel="nofollow">Получить консультацию</a>
-
-            </div>
-
+            <?php
+                // выводим виджет с топовыми юристами
+                $this->widget('application.widgets.TopYurists.TopYurists', array(
+                    'cacheTime' =>  600,
+                ));
+            ?>
             
-
-            <div class="col-md-4 col-sm-4 center-align">  
-                <img src="/pics/yurist4.jpg" alt="При поддержке Министерства Юстиции" class="img-responsive center-block" /> 
-                <p class="center-align"><b>Тихонова Анастасия Викторовна</b><br />
-                            <small> Семейное право<br/>
-                            Уголовное право<br/>
-                            Корпоративное право<br/>
-                            Договорные отношения<br/>
-                            Банковская деятельность<br/></small>
-                </p>
-                <a href="/question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=tikhonova" class="btn btn-warning btn-xs" rel="nofollow">Получить консультацию</a>
-
-            </div>
-
         </div>
     </div>
 </div>        

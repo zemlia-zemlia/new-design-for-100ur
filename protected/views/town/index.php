@@ -4,7 +4,7 @@
 
 Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('town'));
 
-$pageTitle = "Консультации юриста в городах России";
+$pageTitle = "Юристы и Адвокаты России и СНГ";
 
 $this->setPageTitle($pageTitle . '. ' . Yii::app()->name);
 

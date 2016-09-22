@@ -17,7 +17,7 @@
  * @property float $price
  * @property string $deliveryTime
  * @property string $lastLeadTime
- * 
+ * @property integer $brakReason
  */
 class Lead extends CActiveRecord
 {
@@ -36,6 +36,19 @@ class Lead extends CActiveRecord
         const TYPE_CALL = 2; // запрос звонка
         const TYPE_DOCS = 3; // запрос документов
         const TYPE_YURIST = 4; // поиск юриста / адвоката
+        const TYPE_INCOMING_CALL = 5; // входящий звонок
+        
+        // причины отбраковки
+        const BRAK_REASON_BAD_QUESTION = 1;
+        const BRAK_REASON_BAD_NUMBER = 2;
+        const BRAK_REASON_BAD_REGION = 3;
+        const BRAK_REASON_SPAM = 4;
+        
+        // не юридический вопрос
+        // неверный номер
+        // не тот регион
+        // спам
+        
         
         /*
 	 * Returns the static model of the specified AR class.
@@ -64,7 +77,7 @@ class Lead extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, phone, sourceId, question, townId', 'required','message'=>'Поле должно быть заполнено'),
-			array('sourceId, townId, questionId, leadStatus, addedById, type, campaignId', 'numerical', 'integerOnly'=>true),
+			array('sourceId, townId, questionId, leadStatus, addedById, type, campaignId, brakReason', 'numerical', 'integerOnly'=>true),
 			array('price', 'numerical'),
                         array('deliveryTime', 'safe'),
                         array('name, phone, email', 'length', 'max'=>255),
@@ -89,6 +102,7 @@ class Lead extends CActiveRecord
 		return array(
                     'source'        =>  array(self::BELONGS_TO, 'Leadsource', 'sourceId'),
                     'town'          =>  array(self::BELONGS_TO, 'Town', 'townId'),
+                    'campaign'      =>  array(self::BELONGS_TO, 'Campaign', 'campaignId'),
 		);
 	}
 
@@ -102,7 +116,7 @@ class Lead extends CActiveRecord
 			'name'          => 'Имя',
 			'phone'         => 'Телефон',
 			'email'         => 'Email',
-			'status'        => 'Статус',
+			'leadStatus'    => 'Статус',
 			'source'        => 'Источник',
                         'sourceId'      => 'Источник',
 			'question'      => 'Вопрос',
@@ -126,6 +140,10 @@ class Lead extends CActiveRecord
                 self::LEAD_STATUS_DEFAULT           =>  'не обработан',
                 self::LEAD_STATUS_SENT_CRM          =>  'в CRM',
                 self::LEAD_STATUS_SENT_LEADIA       =>  'в Leadia',
+                self::LEAD_STATUS_SENT              =>  'отправлен',
+                self::LEAD_STATUS_NABRAK            =>  'на отбраковку',
+                self::LEAD_STATUS_BRAK              =>  'брак',
+                self::LEAD_STATUS_RETURN            =>  'возврат',
             );
         }
         
@@ -145,6 +163,8 @@ class Lead extends CActiveRecord
                 self::TYPE_CALL         =>  'запрос звонка',
                 self::TYPE_DOCS         =>  'заказ документов',
                 self::TYPE_YURIST       =>  'поиск юриста',
+                self::TYPE_INCOMING_CALL   =>  'входящий звонок',
+                
             );
         }
         
@@ -154,6 +174,27 @@ class Lead extends CActiveRecord
             $typeName = $typesArray[$this->type];
             return $statusName;
         }
+        
+        // возвращает массив, ключами которого являются коды типов, а значениями - названия
+        static public function getBrakReasonsArray()
+        {
+            return array(
+                self::BRAK_REASON_BAD_QUESTION  =>  'не юридический вопрос',
+                self::BRAK_REASON_BAD_NUMBER    =>  'неверный номер',
+                self::BRAK_REASON_BAD_REGION    =>  'не тот регион',
+                self::BRAK_REASON_SPAM          =>  'спам',
+                
+            );
+        }
+        
+        public function getReasonName()
+        {
+            $reasonsArray = self::getBrakReasonsArray();
+            $reasonName = $reasonsArray[$this->brakReason];
+            return $reasonName;
+        }
+        
+        
         
         // УСТАРЕВШАЯ ФУНКЦИЯ
         // отправляет лид в Lidea
@@ -258,12 +299,67 @@ class Lead extends CActiveRecord
                 return false;
             }
             
+            // определим, является ли источником лида источник, который мы не продаем
+           
+            $isFreeSource = (in_array($this->sourceId, Yii::app()->params['freeSources']))?true:false;
+            
             $this->price = $campaign->price;
             $this->deliveryTime = date('Y-m-d H:i:s');
-            $this->leadStatus = self::LEAD_STATUS_SENT;
             $this->campaignId = $campaign->id;
             
+            // если лид нужно отправить в CRM KC ZAKON
+            if(in_array($campaign->id, Yii::app()->params['kc_zakon_campaigns'])) {
+                $this->leadStatus = self::LEAD_STATUS_SENT_CRM;
+                $contact = new Contact;
+                $contact->name = $this->name;
+                $contact->phone = Contact::getValidPhoneStatic($this->phone);
+                $contact->email = $this->email;
+                $contact->sourceId = $this->sourceId;
+                $contact->question = $this->question;
+                $contact->question_date = $this->question_date;
+                $contact->townId = $this->townId;
+                $contact->addedById = $this->addedById;
+                
+                $contact->officeId = 1; // Павелецкая
+                if($contact->save()){
+                    $this->contactId = $contact->id;
+                } else {
+                    echo "Не удалось сохранить контакт " . $contact->id . '<br />';
+                    CustomFuncs::printr($contact->errors);
+                    return false;
+                } 
+            } else {
+                // не отправили лид в CRM, отправляем покупателям
+                $this->leadStatus = self::LEAD_STATUS_SENT;
+            }
+            
+            
+            // НЕ списываем средства с баланса, если лид с бесплатных источников и отправляется в кампании КЦ
+            if(!($isFreeSource == true && in_array($campaign->id, Yii::app()->params['kc_zakon_campaigns']))) {
+                if($campaign->balance < $this->price) {
+                    // на балансе кампании недостаточно средств
+                    return false;
+                } else {
+
+                    $campaign->balance -= $this->price;
+
+                }
+
+                // записываем данные о снятии средств со счета кампании
+                $transaction = new TransactionCampaign;
+                $transaction->sum = -$this->price;
+                $transaction->campaignId = $campaign->id;
+                $transaction->description = 'Списание за лид ID=' . $this->id;
+            }
+            
             if($this->save()){
+                $campaign->save();
+                if(!$transaction->save()){
+                    CustomFuncs::printr($transaction->errors);
+                }
+                if($campaign->sendEmail) {
+                    $this->sendByEmail($campaign->id);
+                }
                 return true;
             } else {
                 return false;
@@ -296,29 +392,55 @@ class Lead extends CActiveRecord
 		));
 	}
         
-        public function sendByEmail()
+        public function sendByEmail($campaignId = 0)
         {
-            $mailer = new GTMail();
-            $mailer->subject = "Заявка город " . $this->town->name . " (" . $this->town->ocrug . ")";
-            $mailer->message = "<h3>Заявка на консультацию</h3>";
-            $mailer->message .= "<p>Имя: " . CHtml::encode($this->name) . ", город: " . CHtml::encode($this->town->name). " (" . $this->town->ocrug . ")" . "</p>";
-            $mailer->message .= "<p>Телефон: " . $this->phone . "</p>";
-            $mailer->message .= "<p>Сообщение:<br />" . CHtml::encode($this->question) . "</p>";
+            if($campaignId) {
+                $campaign = Campaign::model()->with('buyer')->findByPk($campaignId);
+            }
             
-            $mailer->message .= "<p><strong>Квалификация брака:</strong><br />
-                Отправьте в теме ответа на письмо с лидом номер для квалификации брака:<br />
-                1 = Другой регион.<br />
-                2 = Повтор заявки.<br />
-                3 = Неверный номер.<br />
-                4 = Спам.</p>";
-           
-
-            $mailer->email = Yii::app()->params['leadsEmail'];
+            $mailer = new GTMail();
+            $mailer->subject = "Заявка город " . $this->town->name . " (" . $this->town->region->name . ")";
+            $mailer->message = "<h3>Заявка на консультацию</h3>";
+            $mailer->message .= "<p>Имя: " . CHtml::encode($this->name) . ", город: " . CHtml::encode($this->town->name). " (" . $this->town->region->name . ")" . "</p>";
+            $mailer->message .= "<p>Телефон: " . $this->phone . "</p>";
+            $mailer->message .= "<p>Сообщение:<br />" . CHtml::encode($this->question) . "</p>";          
+            
+            $mailer->email = $campaign->buyer->email;
             
             if($mailer->sendMail()) {
                 return true;
             } else {
                 return false;
             }
+        }
+        
+        public static function getStatusCounter($status, $noCampaign = true)
+        {
+            if($noCampaign) {
+                $condition = "leadStatus=:status AND campaignId!=0";
+            } else {
+                $condition = "leadStatus=:status";
+            }
+            $counterRow =Yii::app()->db->cache(60)->createCommand()
+                    ->select('COUNT(*) counter')
+                    ->from("{{lead}}")
+                    ->where($condition, array(":status"=>(int)$status))
+                    ->queryRow();
+            $counter = $counterRow['counter'];
+            return $counter;
+        }
+        
+        // возвращает количество лидов с таким же номером телефона, добавленных не более $timeframe секунд назад
+        public function findDublicates($timeframe = 600)
+        {
+            $dublicatesRow = Yii::app()->db->createCommand()
+                    ->select("COUNT(*) counter")
+                    ->from("{{lead}}")
+                    ->where("phone=:phone AND question_date>=NOW()-INTERVAL :timeframe SECOND", array(":phone"=>$this->phone, ":timeframe"=>$timeframe))
+                    ->queryRow();
+            
+            //CustomFuncs::printr($dublicatesRow['counter']);
+            
+            return $dublicatesRow['counter'];
         }
 }

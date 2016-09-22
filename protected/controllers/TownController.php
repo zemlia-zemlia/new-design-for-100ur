@@ -27,7 +27,7 @@ class TownController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index', 'view', 'alias','ajaxGetList'),
+				'actions'=>array('index', 'view', 'alias', 'aliasOld', 'ajaxGetList'),
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
@@ -80,10 +80,20 @@ class TownController extends Controller
         
         // displays town by alias
         public function actionAlias($name)
-	{
+	{           
             $model = Town::model()->cache(60)->findByAttributes(array('alias'=>CHtml::encode($name)));
             if(empty($model)) {
                 throw new CHttpException(404,'Город не найден');
+            }
+            
+            // при попытке обратиться по адресу типа town/alias/xxxx, переадресуем на адрес со страной и регионом
+            if(!isset($_GET['regionAlias'])) {
+                $this->redirect(array(
+                    'town/alias', 
+                    'name'          =>  $model->alias,
+                    'countryAlias'  =>  $model->country->alias,
+                    'regionAlias'   =>  $model->region->alias,
+                    ), 301);
             }
             
             $criteria = new CDbCriteria;
@@ -128,9 +138,32 @@ class TownController extends Controller
                         'closeTowns'    =>  $closeTowns,
 		));
         }
+        
+        /*
+         * метод для обработки старых адресов вида konsultaciya-yurista-voronezh
+         * и редиректа на новые адреса городов
+         */
+        public function actionAliasOld($name)
+        {
+            $town = Town::model()->findByAttributes(array('alias'=>$name));
+            if(!$town) {
+                throw new CHttpException(404,'Страница города не найдена');
+            }
+            
+            if(!($town->region && $town->country)) {
+                throw new CHttpException(404,'Страница города не найдена, страна и регион не определены');
+            }
+            
+            $this->redirect(array(
+                    'town/alias', 
+                    'name'          =>  $town->alias,
+                    'countryAlias'  =>  $town->country->alias,
+                    'regionAlias'   =>  $town->region->alias,
+                    ), 301);
+        }
 
 
-	/**
+        /**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded

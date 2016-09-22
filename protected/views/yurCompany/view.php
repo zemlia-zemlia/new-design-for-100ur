@@ -1,6 +1,9 @@
 <?php
     $this->setPageTitle($company->name . ' ' . CHtml::encode($company->town->name) . '. Отзывы, контакты');
 
+    Yii::app()->clientScript->registerMetaTag(CHtml::encode($company->name . ' ' . $company->town->name . ', адрес, отзывы'), "Description");
+
+        
     $this->breadcrumbs=array(
         'Юридические фирмы' =>  array('/company'),
         CHtml::encode($company->town->name) =>  array('yurCompany/town', 'alias'=>$company->town->alias),

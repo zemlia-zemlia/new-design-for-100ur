@@ -10,9 +10,7 @@ $this->breadcrumbs=array(
     <h2>ошибка № <?php echo $code; ?></h2>
 
     <div class="description error">
-        <?php if(!Yii::app()->user->isGuest):?>
             <?php echo CHtml::encode($message); ?>
-        <?php endif;?>
     </div>    
         <p>
             Все ошибки сохраняются и просматриваются администратором сайта.<br />

@@ -2,35 +2,110 @@
 /* @var $this CampaignController */
 /* @var $model Campaign */
 
+$this->setPageTitle("Кампания #" . $model->id . '. '. Yii::app()->name);
+
 $this->breadcrumbs=array(
-	'Campaigns'=>array('index'),
-	$model->id,
+	'Кабинет покупателя лидов'  =>  array('/cabinet'),
+	'Кампания ' . $model->id,
 );
 
-$this->menu=array(
-	array('label'=>'List Campaign', 'url'=>array('index')),
-	array('label'=>'Create Campaign', 'url'=>array('create')),
-	array('label'=>'Update Campaign', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Delete Campaign', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Campaign', 'url'=>array('admin')),
-);
 ?>
 
-<h1>View Campaign #<?php echo $model->id; ?></h1>
+<?php
+    $this->widget('zii.widgets.CBreadcrumbs', array(
+        'homeLink'=>CHtml::link('100 юристов',"/"),
+        'separator'=>' / ',
+        'links'=>$this->breadcrumbs,
+     ));
+?>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$model,
-	'attributes'=>array(
-		'id',
-		'regionId',
-		'townId',
-		'timeFrom',
-		'timeTo',
-		'price',
-		'balance',
-		'leadsDayLimit',
-		'brakPercent',
-		'buyerId',
-		'active',
-	),
-)); ?>
+<h1>Кампания #<?php echo $model->id; ?></h1>
+<div class='panel'>
+    <div class='panel-body'>
+
+        <table class="table table-bordered">
+            <tr>
+                <td>
+                    Активность
+                </td>
+                <td>
+                    <?php echo $model->active?'Да':'Нет';?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Регион
+                </td>
+                <td>
+                    <?php echo $model->region->name;?> 
+                    <?php echo $model->town->name;?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Время (МСК)
+                </td>
+                <td>
+                    С <?php echo $model->timeFrom;?> до
+                    <?php echo $model->timeTo;?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Цена лида
+                </td>
+                <td>
+                    <?php echo $model->price;?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Баланс
+                </td>
+                <td>
+                    <?php echo number_format($model->balance, 2, '.', ' ');?> руб.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Лимит заявок в день
+                </td>
+                <td>
+                    <?php echo $model->leadsDayLimit;?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Процент брака
+                </td>
+                <td>
+                    <?php echo $model->brakPercent;?>
+                </td>
+            </tr>
+        </table>
+
+
+
+        <?php if($transactionsDataProvider->totalItemCount):?>
+        <h2>Транзакции</h2>
+
+        <table class="table table-bordered">
+            <tr>
+                <th>Время</th>
+                <th>Сумма</th>
+                <th>Описание</th>
+            </tr>
+
+        <?php $this->widget('zii.widgets.CListView', array(
+                'dataProvider'  =>  $transactionsDataProvider,
+                'itemView'      =>  'application.views.transactionCampaign._view',
+                'emptyText'     =>  'Не найдено ни одной транзакции',
+                'summaryText'   =>  'Показаны транзакции с {start} до {end}, всего {count}',
+                'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
+        )); ?>
+        </table>
+
+        <?php endif;?>
+
+    </div>
+</div>

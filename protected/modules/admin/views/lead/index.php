@@ -5,6 +5,7 @@
 $this->pageTitle = "Лиды. " . Yii::app()->name;
 
 Yii::app()->clientScript->registerScriptFile('/js/lead.js');
+Yii::app()->clientScript->registerScriptFile('/js/admin/lead.js');
         
 $this->breadcrumbs=array(
 	'Лиды',
@@ -13,11 +14,14 @@ $this->breadcrumbs=array(
 ?>
 <div  class="vert-margin30">
 <h1>Центр Обработки Обращений
+    <?php if(Yii::app()->user->role == User::ROLE_ROOT):?>
         <?php echo CHtml::link('Отфильтровать обращения', Yii::app()->createUrl('/admin/lead/sendLeads'), array('class'=>'btn btn-primary'));?>
-
+    <?php endif;?>
 </h1>
     
+    <?php if(Yii::app()->user->role == User::ROLE_ROOT):?>
     <?php echo CHtml::link('Сгенерировать тестовых лидов', Yii::app()->createUrl('/admin/lead/generate'));?>
+    <?php endif;?>
 </div>
 
 <table class="table table-bordered table-hover table-striped">

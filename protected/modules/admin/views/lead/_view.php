@@ -1,15 +1,36 @@
 <?php
 /* @var $this ContactController */
 /* @var $data Contact */
+
+switch ($data->leadStatus) {
+    case Lead::LEAD_STATUS_DEFAULT:
+        $statusClass = 'label-default';
+        break;
+    case Lead::LEAD_STATUS_SENT_CRM:
+        $statusClass = 'label-primary';
+        break;
+    case Lead::LEAD_STATUS_NABRAK:
+        $statusClass = 'label-warning';
+        break;
+    case Lead::LEAD_STATUS_BRAK:
+        $statusClass = 'label-warning';
+        break;
+    case Lead::LEAD_STATUS_RETURN:
+        $statusClass = 'label-info';
+        break;
+    case Lead::LEAD_STATUS_SENT:
+        $statusClass = 'label-success';
+        break;
+    
+}
 ?>
 
-<tr>
+<tr id="lead-<?php echo $data->id;?>">
     <td>
         <p>
-            <?php echo nl2br(mb_substr(CHtml::encode($data->question),0,300,'utf-8')); ?>
-            <?php if(strlen($data->question)>300) echo "...";?>
+            <?php echo nl2br(CHtml::encode($data->question)); ?>
         </p>
-
+        
         <small class="muted">
         <span>id:&nbsp;<?php echo $data->id;?></span> &nbsp;
         
@@ -18,8 +39,14 @@
         <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->role == User::ROLE_SECRETARY):?>
             <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo $data->source->name; ?> &nbsp;&nbsp;       
         <?php endif;?>
+          
             
+        <span class="label <?php echo $statusClass;?>">    
         <?php echo $data->getLeadStatusName();?>
+            <?php if($data->campaign):?>
+                <?php echo "в " . $data->campaign->region->name.$data->campaign->town->name;?>
+            <?php endif;?>
+        </span>
             <br />
                       
         
@@ -53,5 +80,11 @@
                 <?php endif;?>
             <?php endif;?>
         </p>  </small>
+    
+        <?php if($data->leadStatus == Lead::LEAD_STATUS_NABRAK):?>
+            <?php echo CHtml::link('В брак', '#', array('class'=>'btn btn-warning btn-xs btn-block lead-change-status', 'data-id'=>$data->id, 'data-status'=>Lead::LEAD_STATUS_BRAK));?>
+            <?php echo CHtml::link('Возврат', '#', array('class'=>'btn btn-success btn-xs btn-block lead-change-status', 'data-id'=>$data->id, 'data-status'=>Lead::LEAD_STATUS_RETURN));?>
+            <div id="lead-status-message-<?php echo $data->id;?>"></div>
+        <?php endif;?>
     </td>
 </tr>

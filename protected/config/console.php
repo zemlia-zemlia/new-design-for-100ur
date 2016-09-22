@@ -38,11 +38,17 @@ return array(
                     'showScriptName'=>false,
                     'urlSuffix'=>'/',
                     'rules'=>array(
-                        '/q/<id:\d+>'=>'/question/view',
-                        '/cat/<id:\d+>'=>'/questionCategory/view',
-                        '/cat/<name:[\w\-]+>'=>'/questionCategory/alias',
-                        '/town/<id:\d+>'=>'/town/view',
-                        '/konsultaciya-yurista-<name:[\w\-]+>'=>'/town/alias',
+                        '/q/<id:\d+>'                   =>  '/question/view',
+                        '/cat/<id:\d+>'                 =>  '/questionCategory/view',
+                        '/cat/<name:[\w\-]+>'           =>  '/questionCategory/alias',
+                        '/town/<id:\d+>'                =>  '/town/view',
+                        '/blog/<id:\d+>'                =>  '/blog/view',
+                        '/post/<id:\d+>'                =>  '/post/view',
+                        '/company/<alias:[\w\-]+>'      =>  '/yurCompany/town',
+                        '/company'                      =>  '/yurCompany/index',
+                        '/firm/<id:\d+>'                =>  '/yurCompany/view',
+                        '/region/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>'                =>  '/region/view',
+                        '/region/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>/<name:[\w\-]+>'  =>  '/town/alias',
                         ),
                     ),
 		
@@ -56,4 +62,5 @@ return array(
 			),
 		),
 	),
+        'params'=>require(dirname(__FILE__).'/params.php'),
 );

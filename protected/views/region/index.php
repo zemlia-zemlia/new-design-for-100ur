@@ -15,7 +15,7 @@ $this->breadcrumbs=array(
 
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('Консультация юриста',"/"),
+        'homeLink'=>CHtml::link('Юристы и Адвокаты',"/"),
         'separator'=>' / ',
         'links'=>$this->breadcrumbs,
      ));

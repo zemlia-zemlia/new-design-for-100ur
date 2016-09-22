@@ -30,21 +30,22 @@ class SitemapCommand extends CConsoleCommand
         }
         
         $towns = Yii::app()->db->createCommand()
-                ->select('alias')
-                ->from('{{town}}')
+                ->select('t.alias town, r.alias region, c.alias country')
+                ->from('{{town}} t')
+                ->leftJoin('{{region}} r', 'r.id=t.regionId')
+                ->leftJoin('{{country}} c', 'c.id=t.countryId')
                 ->queryAll();
         foreach($towns as $town) {
             $siteMap .= '<url>
-              <loc>' . $siteUrl . '/konsultaciya-yurista-' . CHtml::encode($town['alias']) .  '/</loc>
+              <loc>' . $siteUrl . '/region/' .  CHtml::encode($town['country']) . '/'. CHtml::encode($town['region']) . '/' .CHtml::encode($town['town']) .  '/</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.4</priority>
            </url>';
         }
         
-        /*$questions = Question::model()->findAll(array(
-                'condition'=>'status='.Question::STATUS_PUBLISHED,
-            ));*/
+        
+
         $questions = Yii::app()->db->createCommand()
                 ->select('id')
                 ->from('{{question}}')
@@ -58,10 +59,7 @@ class SitemapCommand extends CConsoleCommand
               <priority>0.3</priority>
            </url>';
         }
-        
-        /*$posts = Post::model()->findAll(array(
-                'condition'=>'t.datePublication<NOW()',
-            ));*/
+
         $posts = Yii::app()->db->createCommand()
                 ->select('id')
                 ->from('{{post}}')

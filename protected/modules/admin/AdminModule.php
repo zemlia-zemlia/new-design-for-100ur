@@ -16,11 +16,16 @@ class AdminModule extends CWebModule
 
 	public function beforeControllerAction($controller, $action)
 	{
-		if(parent::beforeControllerAction($controller, $action))
+		//echo "hello admin"; exit;
+                if(parent::beforeControllerAction($controller, $action))
 		{
 			// this method is called before any module controller action is performed
 			// you may place customized code here
-                    if (!isset(Yii::app()->user) || !Yii::app()->user->checkAccess(User::ROLE_EDITOR))
+
+                    if (!(isset(Yii::app()->user) && !Yii::app()->user->isGuest && in_array(Yii::app()->user->role, array(
+                            User::ROLE_ROOT,
+                            User::ROLE_SECRETARY,
+                        ))))
                     {
                         throw new CHttpException(403,'У Вас недостаточно прав для доступа к этой странице');
                         //Yii::app()->user->setReturnUrl(Yii::app()->createUrl($controller->getRoute()));
@@ -28,8 +33,9 @@ class AdminModule extends CWebModule
                     }
                     return true;
 		}
-		else
+		else {
 			return false;
+                }
 	}
 
 }

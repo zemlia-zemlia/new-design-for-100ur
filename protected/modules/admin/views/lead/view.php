@@ -28,7 +28,12 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     
     <tr>
         <td><strong><?php echo $model->getAttributeLabel('leadStatus'); ?></strong></td>
-        <td><?php echo $model->getLeadStatusName(); ?></td>
+        <td>
+            <?php echo $model->getLeadStatusName(); ?>
+            <?php if($model->leadStatus == Lead::LEAD_STATUS_NABRAK):?>
+            <p>Причина: <?php echo $model->getReasonName();?></p>
+            <?php endif;?>
+        </td>
     </tr>
     
     <?php if(Yii::app()->user->role != User::ROLE_JURIST || $model->employeeId):?>

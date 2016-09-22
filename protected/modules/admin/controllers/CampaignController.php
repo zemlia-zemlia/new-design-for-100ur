@@ -32,8 +32,8 @@ class CampaignController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
+				'actions'=>array('create','update', 'topup'),
+                                'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
@@ -51,9 +51,12 @@ class CampaignController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+            $model = Campaign::model()->with('transactions')->findByPk($id);
+            $transactionsDataProvider = new CArrayDataProvider($model->transactions);
+            $this->render('view',   array(
+                'model'                     =>  $model,
+                'transactionsDataProvider'  =>  $transactionsDataProvider,
+            ));
 	}
 
 	/**
@@ -194,4 +197,40 @@ class CampaignController extends Controller
 			Yii::app()->end();
 		}
 	}
+        
+        public function actionTopup()
+        {
+            $campaignId = isset($_POST['campaignId'])?(int)$_POST['campaignId']:0;
+            $sum = isset($_POST['sum'])?(int)$_POST['sum']:0;
+            
+            if($sum<=0 || !$campaignId) {
+                echo json_encode(array('code'=>400, 'message'=>'Error, not enough data'));
+                exit;
+            }
+            
+            $campaign = Campaign::model()->findByPk($campaignId);
+            
+            if(!$campaign) {
+                echo json_encode(array('code'=>400, 'message'=>'Error, campaign not found'));
+                exit;
+            }
+            
+            $transaction = new TransactionCampaign;
+            $transaction->sum = $sum;
+            $transaction->campaignId = $campaignId;
+            $transaction->description = "Пополнение счета кампании";
+            
+            $campaign->balance += $sum;
+            
+            if($transaction->save()) {
+                if($campaign->save()) {
+                    echo json_encode(array('code'=>0,'id'=>$campaignId, 'balance'=>$campaign->balance));
+                } else {
+                    CustomFuncs::printr($campaign->errors);
+                }
+            } else {
+                CustomFuncs::printr($transaction->errors);
+            }
+            
+        }
 }

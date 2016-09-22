@@ -37,7 +37,7 @@ class UserController extends Controller
 				'users'=>array('@'),
 			),
                         array('allow', // действия, разрешенные для всех пользователей типа менеджер
-				'actions'=>array('create','ConfirmationSent','index','delete', 'stats'),
+				'actions'=>array('create','ConfirmationSent','index','delete', 'stats', 'verifyFile', 'requests'),
 				'users'=>array('@'),
                                 'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_MANAGER . ')',
 			),
@@ -311,17 +311,27 @@ class UserController extends Controller
 		$criteria = new CDbCriteria;
                 $criteria->order = 't.active DESC, t.role DESC';
                 
-                // добавим условие выборки контактов по офису
+                // если не задано, каких пользователей выводить, выводим юристов
 
-                $officeId = 0;
-
-                $criteria->addColumnCondition(array('t.officeId'    =>  $officeId));
+                $role = (isset($_GET['role']))?(int)$_GET['role']:User::ROLE_JURIST;
                 
-                $usersArray = User::model()->findAll($criteria);
+                $roles = User::getRoleNamesArray();
+                $roleName = $roles[$role];
                 
-		$this->render('index',array(
-			'usersArray'  =>  $usersArray,
-		));
+                $criteria->addColumnCondition(array('t.role'    =>  $role));
+                
+                $usersDataProvider = new CActiveDataProvider('User', array(
+                    'criteria'      =>  $criteria,
+                    'pagination'    =>  array(
+                        'pageSize'=>20,
+                    ),
+                ));
+                
+		$this->render('index', array(
+			'usersDataProvider'  =>  $usersDataProvider,
+                        'role'               =>  $role,
+                        'roleName'           =>  $roleName,
+    		));
 	}
 
 	/**
@@ -571,6 +581,53 @@ class UserController extends Controller
                 'yearsArray'        =>  $yearsArray,
                 'leadsArray'        =>  $leadsArray,
                 'agreementsArray'   =>  $agreementsArray,
+            ));
+        }
+        
+        // верифицирует или не верифицирует скан
+        public function actionVerifyFile()
+        {
+            $fileId = (isset($_POST['id']))?(int)$_POST['id']:false;
+            $isVerified = (isset($_POST['verified']))?(int)$_POST['verified']:false;
+            $reason = (isset($_POST['reason']))?$_POST['reason']:'';
+            
+            if(!$fileId || $isVerified === false) {
+                throw new CHttpException(400,'Ошибка: недостаточно данных');
+            }
+            
+            $file = UserFile::model()->findByPk($fileId);
+            
+            if(!$file) {
+                throw new CHttpException(404,'Ошибка: файл, который вы пытаетесь верифицировать, не найден');
+            }
+            
+            $file->isVerified = $isVerified;
+            if($reason) {
+                $file->reason = $reason;
+            }
+            
+            if($file->save()) {
+                echo json_encode(array('code'=>0, 'fileId'=>$file->id));
+            } else {
+                CustomFuncs::printr($file->errors);
+                echo json_encode(array('code'=>500, 'fileId'=>$file->id, 'message'=>'При верификации файла произошла ошибка'));
+            }
+        }
+        
+        // вывод списка пользователей, у которых есть загруженные файлы в статусе На проверке
+        public function actionRequests()
+        {
+            // SELECT * FROM `crm_userFile` f LEFT JOIN `crm_user` u ON f.userId=u.id where f.`isVerified`=0 ORDER BY f.datetime DESC
+            $users = Yii::app()->db->createCommand()
+                    ->select('*')
+                    ->from('{{userFile}} f')
+                    ->leftJoin('{{user}} u', 'f.userId = u.id')
+                    ->where('f.`isVerified`='.UserFile::STATUS_REVIEW)
+                    ->order('f.datetime DESC')
+                    ->queryAll();
+            
+            $this->render('requests', array(
+                'users' =>  $users,
             ));
         }
 }

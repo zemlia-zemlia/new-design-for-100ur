@@ -3,20 +3,25 @@
 /* @var $data Answer */
 ?>
 <?php if($data->status!=Answer::STATUS_SPAM):?>
+<div class="panel gray-panel">
+    <div class='panel-body'>
 <div class='answer-item'>
     
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-1">
+            <div class="col-sm-2">
                 <div class="answer-item-avatar">
                 <img src="<?php echo $data->author->getAvatarUrl();?>" class="img-responsive" />
                 </div>
             </div>
-            <div class="col-sm-11">
+            <div class="col-sm-10">
                 <div class="answer-item-author-block">
                     <small>
                     <div itemprop="author" class='answer-item-author' itemscope itemtype="http://schema.org/Person">
-                    <span class="glyphicon glyphicon-comment"></span> Отвечает юрист
+                        <span class="glyphicon glyphicon-comment"></span> Отвечает 
+                        <?php if($data->author->settings->isVerified):?>
+                            <span class="label label-success"><?php echo $data->author->settings->getStatusName();?></span>
+                        <?php endif;?>
                     &nbsp;&nbsp;
                     <span class="glyphicon glyphicon-user"></span>
                     <strong>
@@ -28,12 +33,18 @@
                             <?php endif;?>
                         </span>
                     </strong>
+                    &nbsp;&nbsp;
 
+                    <span class="glyphicon glyphicon-signal"></span>    
+                    <?php echo $data->author->answersCount . ' ' . CustomFuncs::numForms($data->author->answersCount, 'ответ', "ответа", "ответов");?>     
+
+                    
                         &nbsp;&nbsp;
                     <?php if(isset($data->author->town)):?>
                         <span class="glyphicon glyphicon-map-marker"></span> <?php echo $data->author->town->name;?>
                     <?php endif;?>
-
+                        
+                    
                         <br />
                     <?php if($data->datetime):?>
                         <span class="glyphicon glyphicon-calendar"></span> <?php echo CustomFuncs::niceDate($data->datetime, false);?>
@@ -59,5 +70,7 @@
     
 
 
+    </div>
+</div> 
 </div>
 <?php endif;?>

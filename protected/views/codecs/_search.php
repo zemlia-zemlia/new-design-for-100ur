@@ -17,13 +17,38 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'title'); ?>
-		<?php echo $form->textField($model,'title',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->label($model,'pagetitle'); ?>
+		<?php echo $form->textField($model,'pagetitle',array('size'=>60,'maxlength'=>255)); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'parent_id'); ?>
-		<?php echo $form->textField($model,'parent_id'); ?>
+		<?php echo $form->label($model,'longtitle'); ?>
+		<?php echo $form->textField($model,'longtitle',array('size'=>60,'maxlength'=>255)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'description'); ?>
+		<?php echo $form->textField($model,'description',array('size'=>60,'maxlength'=>255)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'alias'); ?>
+		<?php echo $form->textField($model,'alias',array('size'=>60,'maxlength'=>255)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'parent'); ?>
+		<?php echo $form->textField($model,'parent'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'isfolder'); ?>
+		<?php echo $form->textField($model,'isfolder'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'introtext'); ?>
+		<?php echo $form->textArea($model,'introtext',array('rows'=>6, 'cols'=>50)); ?>
 	</div>
 
 	<div class="row">
@@ -32,13 +57,8 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'sourceUrl'); ?>
-		<?php echo $form->textField($model,'sourceUrl',array('size'=>60,'maxlength'=>255)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'isCat'); ?>
-		<?php echo $form->textField($model,'isCat'); ?>
+		<?php echo $form->label($model,'menutitle'); ?>
+		<?php echo $form->textField($model,'menutitle',array('size'=>60,'maxlength'=>255)); ?>
 	</div>
 
 	<div class="row buttons">

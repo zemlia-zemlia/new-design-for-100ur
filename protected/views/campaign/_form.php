@@ -102,6 +102,13 @@
 		<?php echo $model->getAttributeLabel('active'); ?>
             </label>
         </div>
+        
+        <div class="checkbox">
+            <label>
+                <?php echo $form->checkBox($model,'sendEmail'); ?>
+		<?php echo $model->getAttributeLabel('sendEmail'); ?>
+            </label>
+        </div>
 
 	<div class="form-group">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('class'=>'btn btn-primary')); ?>

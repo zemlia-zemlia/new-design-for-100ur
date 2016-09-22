@@ -54,7 +54,6 @@
                     </div>
                 </div>
                 <?php $this->endWidget(); ?>
-                <p class="center-align">Вы получите ответ в рабочее время в течение 15 минут</p>
                 
             </div><!-- .form-container-->
         </div>

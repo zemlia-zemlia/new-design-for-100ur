@@ -142,7 +142,8 @@ class UserController extends Controller
             ));
         }
         
-                // creating a new user by registration form 
+        
+        // страница редактирования пользователя 
         public function actionUpdate($id)
 	{
             $this->layout = '//frontend/short';
@@ -158,13 +159,17 @@ class UserController extends Controller
             
             $model->setScenario('update');
             
-            if($model->role == User::ROLE_JURIST) {
+            // модель для работы со сканом
+            $userFile = new UserFile;
+            
+            if($model->role == User::ROLE_JURIST || $model->role == User::ROLE_OPERATOR) {
                 if($model->settings) {
                     $yuristSettings = $model->settings;
                 } else {
                     $yuristSettings = new YuristSettings();
                     $yuristSettings->yuristId = $model->id;
                 }
+                
             } else {
                 $yuristSettings = new YuristSettings();
             }
@@ -172,6 +177,7 @@ class UserController extends Controller
             $rolesNames = array(
                 User::ROLE_CLIENT   =>  'Пользователь',
                 User::ROLE_JURIST   =>  'Юрист',
+                User::ROLE_OPERATOR =>  'Оператор',
             );
             
             if(isset($_POST['User'])) {
@@ -187,7 +193,7 @@ class UserController extends Controller
 
                 }
                 
-                // загрузка аватарки
+                // загрузка аватарки и скана
                 if(!empty($_FILES))
                 {
                     $file = CUploadedFile::getInstance($model,'avatarFile');
@@ -207,6 +213,28 @@ class UserController extends Controller
                         $model->avatar = $newFileName;
 
                     }
+                    
+                    $scan = CUploadedFile::getInstance($userFile,'userFile');
+                    if($scan && $scan->getError()==0) // если файл нормально загрузился
+                    {
+                        $scanFileName = md5($scan->getName().$scan->getSize().mt_rand(10000,100000)).".".$scan->getExtensionName();
+                        Yii::app()->ih
+                            ->load($scan->tempName)
+                            ->save(Yii::getPathOfAlias('webroot') . UserFile::USER_FILES_FOLDER . '/' . $scanFileName);
+                        // CustomFuncs::printr($scan);
+                        // exit;
+                        
+                        $userFile->userId = Yii::app()->user->id;
+                        $userFile->name = $scanFileName;
+                        $userFile->type = $yuristSettings->status;
+                        
+                        if(!$userFile->save()){
+                            echo "Не удалось сохранить скан";
+                            CustomFuncs::printr($userFile->errors);
+                            exit;
+                        }
+                        
+                    }
 
                 }
                 
@@ -214,7 +242,8 @@ class UserController extends Controller
                     if($model->save() && $yuristSettings->hasErrors() == false){
                         $this->redirect(array('profile'));
                     } else {
-                        CustomFuncs::printr($model->errors);exit;
+                        CustomFuncs::printr($model->errors);
+                        CustomFuncs::printr($yuristSettings->errors);
                         throw new CHttpException(500,'Что-то пошло не так. Не удалось сохранить данные профиля.');
                     }
                 }
@@ -228,6 +257,7 @@ class UserController extends Controller
             $this->render('update',array(
                 'model'             =>  $model,
                 'yuristSettings'    =>  $yuristSettings,
+                'userFile'          =>  $userFile,
                 'townsArray'        =>  $townsArray,
                 'rolesNames'        =>  $rolesNames,
             ));
@@ -304,9 +334,33 @@ class UserController extends Controller
                   if($newPassword) {
                     $user->sendNewPassword($newPassword);
                   }
+                  
+                  // логиним пользователя
                   $loginModel = new LoginForm;
-                  $this->render('activationSuccess', array('user'=>$user, 'loginModel'=>$loginModel));
-
+                  $loginModel->email = $email;
+                  $loginModel->password = $newPassword;
+                  
+                  if($loginModel->login()) {
+                      // если залогинили, находим последний вопрос и перенаправляем на страницу вопроса
+                      $question = Yii::app()->db->createCommand()
+                              ->select('id')
+                              ->from('{{question}}')
+                              ->where('authorId=' . $user->id)
+                              ->limit(1)
+                              ->queryRow();
+                      if($question) {
+                          $link = Yii::app()->createUrl('question/view', array('id'=>$question['id'])) . '?justPublished=1';
+                          $this->redirect($link);
+                      } else {
+                          $this->render('activationSuccess', array(
+                            'user'          =>  $user, 
+                            'loginModel'    =>  $loginModel,
+                          ));
+                      }
+                  }
+                  /*
+                   * 
+                   */
               } else {
                   if(!empty($user->errors)) {
                       print "<pre>";

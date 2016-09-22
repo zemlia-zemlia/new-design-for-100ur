@@ -2,6 +2,8 @@
 /* @var $this UserController */
 /* @var $model User */
 /* @var $form CActiveForm */
+Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
+
 ?>
 
 <div class="form">
@@ -105,16 +107,6 @@
        ?>
        <?php echo $form->error($model,'townId'); ?>
 </div>
-         
-
-<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>        
-       
-<div class="form-group">
-    <?php echo $form->checkBox($model,'viewLeads'); ?>
-    <?php echo $model->getAttributeLabel('viewLeads');?>
-    <?php echo $form->error($model,'viewLeads'); ?>
-</div> 
-<?php endif;?>
         
 <div class="form-group">
     <?php echo $form->labelEx($model,'birthday'); ?>
@@ -127,7 +119,6 @@
                'dateFormat'=>'yy-mm-dd',
                'changeMonth'    =>  true,
                'changeYear'     =>  true,
-               'yearRange'      =>  '1960:2000',
                
                             ),
            'htmlOptions' => array(
@@ -140,28 +131,86 @@
     <?php echo $form->error($model,'birthday'); ?>
 </div>
         
-    <?php if($model->role == User::ROLE_JURIST || $model->isNewRecord):?>
-        <h3>Настройки юриста</h3>
-        <div class="form-group">
-                <?php echo $form->labelEx($yuristSettings,'alias'); ?>
-                <?php echo $form->textField($yuristSettings,'alias', array('class'=>'form-control')); ?>
-                <?php echo $form->error($yuristSettings,'alias'); ?>
-        </div>
+    <?php if($model->role == User::ROLE_JURIST || $model->role == User::ROLE_OPERATOR || $model->isNewRecord):?>
+        
         <div class="form-group">
                 <?php echo $form->labelEx($yuristSettings,'startYear'); ?>
                 <?php echo $form->textField($yuristSettings,'startYear', array('class'=>'form-control')); ?>
                 <?php echo $form->error($yuristSettings,'startYear'); ?>
-        </div>
-        <div class="form-group">
-                <?php echo $form->labelEx($yuristSettings,'town'); ?>
-		<?php echo $form->dropDownList($yuristSettings,'townId', $townsArray, array('class'=>'form-control')); ?>
-                <?php echo $form->error($yuristSettings,'town'); ?>
         </div>
         <div class="form-group"> 
             <?php echo $form->labelEx($yuristSettings,'description'); ?>
             <?php echo $form->textArea($yuristSettings, 'description', array('class'=>'form-control', 'rows'=>3));?>
             <?php echo $form->error($yuristSettings,'description'); ?>
         </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group"> 
+                    <?php echo $form->labelEx($yuristSettings,'status'); ?>
+                    <?php echo $form->dropDownList($yuristSettings, 'status', YuristSettings::getStatusesArray(), array('class'=>'form-control'));?>
+                    <?php echo $form->error($yuristSettings,'status'); ?>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group"> 
+                    <br /><br />
+                    <?php echo $form->checkBox($yuristSettings,'isVerified'); ?>
+                    <?php echo $yuristSettings->getAttributeLabel('isVerified');?>
+                    <?php echo $form->error($yuristSettings,'isVerified'); ?>
+                </div>
+            </div>
+        </div>
+        
+        
+        <?php if($model->files):?>
+        <h4>Заявки на подтверждение статуса</h4>
+        
+        <table class="table table-bordered">
+        <?php foreach($model->files as $file):?>
+        
+            <?php
+                switch($file->isVerified) {
+                    case UserFile::STATUS_REVIEW:
+                        $fileTrClass = 'active';
+                        break;
+                    case UserFile::STATUS_CONFIRMED:
+                        $fileTrClass = 'success';
+                        break;
+                    case UserFile::STATUS_DECLINED:
+                        $fileTrClass = 'danger';
+                        break;
+                }
+            ?>
+            
+            <tr id="file-id-<?php echo $file->id;?>" class="<?php echo $fileTrClass;?>">
+                <td>
+                    <?php echo CustomFuncs::niceDate($file->datetime);?>
+                </td>
+                <td>
+                    <?php echo $file->getTypeName();?>
+                </td>
+                <td>
+                    <?php echo CHtml::link("Файл", UserFile::USER_FILES_FOLDER . '/' . $file->name, array('target'=>'_blank'));?>
+                </td>
+                <td>
+                    <strong><?php echo $file->getStatusName();?></strong>
+                    <?php if($file->reason):?>
+                    <p>
+                        <?php echo CHtml::encode($file->reason);?>
+                    </p>
+                    <?php endif;?>
+                    
+                    <?php if(!$file->isVerified):?>
+                        <?php echo CHtml::link('Обработать', '#', array('class'=>'process-user-file', 'data-id'=>$file->id));?>
+                    <?php endif;?>
+                </td>
+            </tr>
+        
+        <?php endforeach;?>
+        </table>
+    <?php endif;?>
+        
     <?php endif;?>
         
 <div class="form-group">
@@ -171,3 +220,31 @@
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+
+
+<?php if($model->role == User::ROLE_OPERATOR || $model->role == User::ROLE_JURIST || $model->isNewRecord):?>
+
+    <!-- Modal -->
+    <div class="modal fade" id="file-process-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Проверка скана</h4>
+          </div>
+          <div class="modal-body">
+              <form>  
+                  <div class="form-group"> 
+                    <?php echo CHtml::textArea('reason', '', array('id'=>'file-reason', 'class'=>'form-control', 'placeholder'=>'Причина отказа', 'rows'=>3));?>
+                    <input type="hidden" name="file_id" id="file_id" value="" />
+                  </div>
+                  
+                  <button type="button" class="btn btn-success" id="file-process-confirm-btn">Подтвердить</button>
+                  <button type="button" class="btn btn-danger" id="file-process-decline-btn">Отказать</button>
+            
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+<?php endif; ?>

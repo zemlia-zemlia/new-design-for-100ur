@@ -27,13 +27,10 @@ class CampaignController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('index','view', 'create','update'),
 				'users'=>array('@'),
+                                'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_BUYER . ')',
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
@@ -51,9 +48,17 @@ class CampaignController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+            $campaign = Campaign::model()->with('transactions')->findByPk($id);
+            $transactionsDataProvider = new CArrayDataProvider($campaign->transactions);
+            
+            if(!(Yii::app()->user->role == User::ROLE_ROOT || (Yii::app()->user->role == User::ROLE_BUYER && $campaign->buyerId == Yii::app()->user->id))) {
+                throw new CHttpException(403,'Вы не можете просматривать данную кампанию');
+            }
+            
+            $this->render('view',array(
+                    'model' =>  $campaign,
+                    'transactionsDataProvider'  =>  $transactionsDataProvider,
+            ));
 	}
 
 	/**

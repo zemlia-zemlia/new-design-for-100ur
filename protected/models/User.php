@@ -67,7 +67,7 @@ class User extends CActiveRecord
 			array('name, email, phone, townId', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
 			array('role, active, managerId, townId', 'numerical', 'integerOnly'=>true),
 			array('name, position, email, phone', 'length', 'max'=>255),
-                        array('name2, lastName', 'safe'),
+                        array('name2, lastName, birthday', 'safe'),
                         array('townId', 'match','not'=>true, 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
                         array('password','length','min'=>5,'max'=>128, 'tooShort'=>'Минимальная длина пароля 5 символов', 'allowEmpty'=>($this->scenario=='update' || $this->scenario=='register')),
                         array('password2', 'compare', 'compareAttribute'=>'password', 'except'=>'confirm, create, register, update', 'message'=>'Пароли должны совпадать','allowEmpty'=>($this->scenario=='update' || $this->scenario=='register')),
@@ -170,7 +170,9 @@ class User extends CActiveRecord
 		return array(
                     'manager'   =>  array(self::BELONGS_TO, 'User', 'managerId'),
                     'settings'  =>  array(self::HAS_ONE, 'YuristSettings', 'yuristId'),
+                    'files'     =>  array(self::HAS_MANY, 'UserFile', 'userId', 'order'=>'files.id DESC'),
                     'town'      =>  array(self::BELONGS_TO, 'Town', 'townId'),
+                    'answersCount'   =>  array(self::STAT, 'Answer', 'authorId', 'condition'=>'status IN (' . Answer::STATUS_NEW. ', ' . Answer::STATUS_PUBLISHED. ')'),
 		);
 	}
 

@@ -52,7 +52,7 @@ $this->setPageTitle("Заказ документов ". Yii::app()->name);
         },
         6:{ type:'Другое',
             type_description:'Любой другой документ. Вы можете описать его самостоятельно.',
-            subtypes:[]
+            subtypes:['Указывать не требуется']
         },
     };
     
@@ -74,17 +74,20 @@ $this->setPageTitle("Заказ документов ". Yii::app()->name);
             if(current_type == '') {
                 return false;
             }
-            
+            /*
             if(current_type == 6) {
                 var question = $("#docType input:checked").closest('label').find(".doc_type_name").text();
                 $("#Lead_question_hidden").val(question);
+                $("#docSubType option").remove();
                 return false;
-            }
+            }*/
             // удалим все пункты списка прежде чем наполнить его по новой
             $("#docSubType option").remove();
             
             if(docs[current_type]['subtypes']) {
-                $("#docSubType").append('<option value="">Выберите подтип документа</option>').show();
+                if(current_type != 6) {
+                    $("#docSubType").append('<option value="">Выберите подтип документа</option>').show();
+                }
                 for(var subtype in docs[current_type]['subtypes']) {
                     $("#docSubType").append('<option value="'+ docs[current_type]['subtypes'][subtype] +'">'+ docs[current_type]['subtypes'][subtype] +'</option>');
                     //console.log('+' + docs[current_type]['subtypes'][subtype]);

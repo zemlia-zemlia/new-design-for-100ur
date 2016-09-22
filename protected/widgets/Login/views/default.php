@@ -44,10 +44,10 @@
 
         <div class="row">
             <div class="col-md-6">
-                <?php echo CHtml::submitButton('Войти',array('class'=>'btn btn-primary btn-xs btn-block')); ?>
+                <p><?php echo CHtml::submitButton('Войти',array('class'=>'btn btn-primary btn-xs btn-block')); ?></p>
             </div>
             <div class="col-md-6">
-                <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('user/create'), array('class'=>'btn btn-success btn-xs btn-block')); ?>
+                <p><?php echo CHtml::link('Регистрация', Yii::app()->createUrl('user/create'), array('class'=>'btn btn-success btn-xs btn-block')); ?></p>
             </div>
         </div>
         

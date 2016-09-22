@@ -193,9 +193,20 @@ hr {
     font-size:13px;
 }
 
+.logo-description-footer {
+    color:#e3e1e1;
+    font-size:13px;
+}
+
 .header-phone {
     color:#1e1e1e;
-    font-size:21px;
+    font-size:20px;
+   /* font-family: Georgia; */
+}
+
+.header-phone-800 {
+    color:#1e1e1e;
+    font-size:27px;
    /* font-family: Georgia; */
 }
 
@@ -359,9 +370,12 @@ ul#left-menu a.btn:hover {
     padding:10px;
 }
 
-.panel.gray-panel {
+.gray-panel {
     border:#c5c4c4 1px solid;
     border-radius: 3px;
+}
+.panel {
+    border: 1px solid #c5c4c4;
 }
 
 
@@ -427,9 +441,9 @@ ul.yiiPager {
 /*------------ answers --------------*/
 
 .answer-item {
-    margin:30px 0;
+    /*margin:30px 0;
     border-top:#ddd 1px solid;
-    padding:10px 0;
+    padding:10px 0;*/
 }
 
 .answer-item-author-block {
@@ -442,7 +456,7 @@ ul.yiiPager {
 }
 
 .answer-item-avatar {
-    max-width:60px;
+    /*max-width:60px;*/
 }
 
 .answer-item-avatar img {
@@ -609,4 +623,36 @@ ul.yiiPager {
     color:#999;
     font-weight:normal;
     padding-left:17px;
+}
+
+.form-brak-lead {
+    position:absolute;
+    right:30px;
+    background:#fff;
+    border-radius:5px;
+    padding:5px;
+    box-shadow: #999 2px 2px 5px;
+    display:none;
+}
+
+.brak-lead-message {
+    display:none;
+}
+
+.codecs-link {
+    display: block;
+    padding:3px;
+}
+
+.codecs-link:hover {
+    background: #f6f6f6;
+}
+
+/*-------------- yurist profile ----------------------*/
+#user-profile-advocat, #user-profile-yurist, #user-profile-judge {
+    display:none;
+}
+
+.tab-content>.tab-pane {
+    padding-top:20px;
 }

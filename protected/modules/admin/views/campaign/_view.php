@@ -19,9 +19,34 @@ $leadsSentPercent = ($data->leadsDayLimit>0)?($data->leadsTodayCount/$data->lead
     <td>
         <?php echo $data->region->name;?>
         <?php echo $data->town->name;?>
-    </td>    
+    </td> 
+    <td>
+        <?php echo $data->timeFrom . '&nbsp;-&nbsp;' . $data->timeTo;?>
+    </td>
+    <td>
+        <?php echo $data->brakPercent;?>
+    </td>
+    <td>
+        <?php echo $data->leadsDayLimit;?>
+    </td>
+    
     <td><?php echo $data->price;?> руб.</td>
-    <td><?php echo $data->balance;?> руб.</td>
+    <td>
+        <p><span class="balance-<?php echo $data->id;?>">
+        <?php echo $data->balance;?></span> руб.<br />
+        <div class="campaign-topup-message"></div>
+        <a href="#" class="campaign-topup" data-id="<?php echo $data->id;?>">Пополнить</a>
+        </p>
+        <form id="campaign-<?php echo $data->id;?>" data-id="<?php echo $data->id;?>" class="form-inline form-campaign-topup">
+            <div class="form-group">
+                <input type="text" name="sum" style="width:70px" class="form-control input-sm" placeholder="Сумма" />
+            </div>
+            
+            <a href="#" class="btn btn-primary btn-sm submit-topup">+</a>
+            <br />
+            <a href="#" class="campaign-topup-close">Отмена</a>
+        </form>
+    </td>
     
     <td>
         <abbr title='Всего'><?php echo $data->leadsCount;?></abbr><br />

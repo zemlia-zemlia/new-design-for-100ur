@@ -3,16 +3,9 @@
 return array(
 	'adminEmail'    =>  '100yuristov@mail.ru',
         'leadsEmail'    =>  'info@100yuristov.com',
+        '100yuristovSourceId'   =>  3,  // id источника лидов, соответствующего 100 юристам
+        'zakonSourceId'   =>  1,  // id источника лидов, соответствующего КЦ Закон
         'crmDomain'     =>  'http://crm',
-        'leadiaRegions' =>  array(
-                'Ленинградская область',
-                'Самарская область',
-                'Нижегородская область',
-                'Астраханская область',
-                'Волгоградская область',
-                'Свердловская область',
-                'Ростовская область',
-                'Краснодарский край',
-            ),
+        'yandexShopPassword'    =>  'n9WTvvY5J',
 );
 ?>

@@ -1,11 +1,18 @@
 <?php
-$this->setPageTitle(CHtml::encode($model->title) . ". Кодексы РФ. ". Yii::app()->name);
+$this->setPageTitle(CHtml::encode($model->longtitle) . ". Кодексы РФ. ". Yii::app()->name);
 
-$this->breadcrumbs=array(
-	'Кодексы РФ'=>array('index'),
-	$model->title,
+Yii::app()->clientScript->registerMetaTag($model->introtext, 'description');
+
+
+$this->breadcrumbs  =   array(
+	'Кодексы РФ'    =>  array('/codecs'),
 );
 
+$parents = $model->getParents();
+
+foreach($parents as $parentPath=>$parentTitle) {
+    $this->breadcrumbs += array($parentTitle=>array($parentPath));
+}
 
 ?>
 
@@ -17,14 +24,19 @@ $this->breadcrumbs=array(
      ));
 ?>
 
-<h1><?php echo CHtml::encode($model->title); ?></h1>
-
-<div class="panel">
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h1><?php echo CHtml::encode($model->longtitle); ?></h1>
+    </div>
+</div>
+<div class="panel panel-default">
     <div class="panel-body">
         <?php foreach($model->children as $child):?>
             <p>    
             <?php 
-                echo CHtml::link(CHtml::encode($child->title), Yii::app()->createUrl('codecs/view', array('id'=>$child->id)));
+                $realPath = str_replace('|', '/', $child->path);
+                echo CHtml::link(CHtml::encode($child->longtitle), 
+                        Yii::app()->createUrl($realPath), array('class'=>'codecs-link'));
             ?>
             </p>
         <?php endforeach;?>

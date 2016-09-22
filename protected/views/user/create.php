@@ -20,7 +20,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <div class="panel-body">
         <h1>Регистрация нового пользователя</h1>
 
-        <?php echo $this->renderPartial('_form', array(
+        <?php echo $this->renderPartial('_registerForm', array(
             'model'             =>  $model,
             'yuristSettings'    =>  $yuristSettings,
             'townsArray'        =>  $townsArray,

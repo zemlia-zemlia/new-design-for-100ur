@@ -9,10 +9,26 @@
  * @property integer $startYear
  * @property string $description
  * @property integer $townId
+ * @property integer $status
+ * @property integer $isVerified
+ * @property integer $vuz
+ * @property integer $facultet
+ * @property integer $education
+ * @property integer $vuzTownId
+ * @property integer $educationYear
+ * @property integer $advOrganisation
+ * @property integer $advNumber
+ * @property integer $position
+ * 
  */
 class YuristSettings extends CActiveRecord
 {
-	/**
+	
+        const STATUS_NOTHING = 0; // нет статуса
+        const STATUS_YURIST = 1; // юрист
+        const STATUS_ADVOCAT = 2; // адвокат
+        const STATUS_JUDGE = 3; // судья
+        /**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
@@ -29,10 +45,10 @@ class YuristSettings extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('yuristId', 'required'),
-			array('yuristId, startYear, townId', 'numerical', 'integerOnly'=>true),
+			array('yuristId, startYear, townId, isVerified, status, vuzTownId, educationYear', 'numerical', 'integerOnly'=>true),
 			array('alias', 'length', 'max'=>255),
                         array('alias','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. ])+$/u', 'message'=>'В псевдониме могут присутствовать буквы, цифры, точка, дефис и пробел'),
-                        array('description', 'safe'),
+                        array('description, vuz, facultet, education, advOrganisation, advNumber, position', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('yuristId, alias, startYear, description, townId', 'safe', 'on'=>'search'),
@@ -49,6 +65,7 @@ class YuristSettings extends CActiveRecord
 		return array(
                     'user'       =>  array(self::BELONGS_TO, 'User', 'yuristId'),
                     'town'       =>  array(self::BELONGS_TO, 'Town', 'townId'),
+                    'vuzTown'    =>  array(self::BELONGS_TO, 'Town', 'vuzTownId'),
 		);
 	}
 
@@ -58,13 +75,43 @@ class YuristSettings extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'yuristId' => 'Yurist',
-			'alias' => 'Псевдоним',
-			'startYear' => 'Год начала работы',
-			'description' => 'Описание',
-			'townId' => 'ID Города',
+			'yuristId'      => 'Юрист',
+			'alias'         => 'Псевдоним',
+			'startYear'     => 'Год начала работы',
+			'description'   => 'Описание',
+			'townId'        => 'ID Города',
+			'status'        => 'Статус',
+			'isVerified'    => 'Верифицирован',
+                        'vuz'           => 'ВУЗ', 
+                        'facultet'      =>  'факультет', 
+                        'education'     =>  'образование', 
+                        'advOrganisation'   =>  'членство в адвокатском объединении', 
+                        'advNumber'     =>  'номер в реестре адвокатов', 
+                        'position'      =>  'должность', 
+                        'vuzTownId'     =>  'город ВУЗа', 
+                        'educationYear' =>  'год окончания',
 		);
 	}
+        
+        
+        // возвращает массив, ключами которого являются коды статусов, а значениями - названия
+        static public function getStatusesArray()
+        {
+            return array(
+                self::STATUS_NOTHING    =>  'без статуса',
+                self::STATUS_YURIST     =>  'юрист',
+                self::STATUS_ADVOCAT    =>  'адвокат',
+                self::STATUS_JUDGE      =>  'судья',
+                                
+            );
+        }
+        
+        public function getStatusName()
+        {
+            $statusesArray = self::getStatusesArray();
+            $statusName = $statusesArray[$this->status];
+            return $statusName;
+        }
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.

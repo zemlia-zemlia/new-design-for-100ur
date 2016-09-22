@@ -15,4 +15,4 @@ $this->menu=array(
 
 <h1>Create Codecs</h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model)); ?>

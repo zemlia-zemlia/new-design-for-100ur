@@ -46,14 +46,7 @@ if(Yii::app()->user->checkAccess(User::ROLE_MANAGER) || Yii::app()->user->role =
         <td><?php echo CHtml::encode($model->phone); ?></td>
     </tr>
 <?php endif;?>    
-    
-<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>    
-    <tr>
-        <td><strong><?php echo $model->getAttributeLabel('viewLeads');?></strong></td>
-        <td><?php echo ($model->viewLeads == 1)?"Да":"Нет"; ?></td>
-    </tr>
-<?php endif;?>
-    
+       
     <tr>
         <td><strong><?php echo $model->getAttributeLabel('birthday');?></strong></td>
         <td><?php echo CustomFuncs::invertDate($model->birthday); ?></td>
@@ -72,7 +65,7 @@ if(Yii::app()->user->checkAccess(User::ROLE_MANAGER) || Yii::app()->user->role =
     </tr>
     <tr>
         <td><strong>Город</strong></td>
-        <td><?php echo CHtml::encode($model->settings->town->name . ' (' . $model->settings->town->ocrug . ')'); ?></td>
+        <td><?php echo CHtml::encode($model->town->name . ' (' . $model->town->ocrug . ')'); ?></td>
     </tr>
     <tr>
         <td><strong>Год начала работы</strong></td>
@@ -81,6 +74,17 @@ if(Yii::app()->user->checkAccess(User::ROLE_MANAGER) || Yii::app()->user->role =
     <tr>
         <td><strong>Описание</strong></td>
         <td><?php echo CHtml::encode($model->settings->description); ?></td>
+    </tr>
+    <tr>
+        <td><strong>Статус</strong></td>
+        <td>
+            <?php echo $model->settings->getStatusName(); ?>
+            <?php if($model->settings->isVerified):?>
+                <span class="label label-success">подтвержден</span>
+            <?php else:?>
+                <span class="label label-warning">не подтвержден</span>
+            <?php endif;?>
+        </td>
     </tr>
     <?php endif;?>
 </table>

@@ -66,8 +66,13 @@ return array(
                         '/company/<alias:[\w\-]+>'      =>  '/yurCompany/town',
                         '/company'                      =>  '/yurCompany/index',
                         '/firm/<id:\d+>'                =>  '/yurCompany/view',
+                        '/konsultaciya-yurista-<name:[\w\-]+>'  =>  '/town/aliasOld',
                         '/region/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>'                =>  '/region/view',
                         '/region/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>/<name:[\w\-]+>'  =>  '/town/alias',
+                        '/codecs/<codecsAlias:[\w\-\.]+>'  =>  '/codecs/view',
+                        '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>'  =>  '/codecs/view',
+                        '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>/<glavaAlias:[\w\-\.]+>'  =>  '/codecs/view',
+                        '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>/<glavaAlias:[\w\-\.]+>/<articleAlias:[\w\-\.]+>'  =>  '/codecs/view',
                         ),
                     ),
 

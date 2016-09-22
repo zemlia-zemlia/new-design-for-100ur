@@ -28,7 +28,7 @@ class CodecsController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view', 'path'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -49,21 +49,28 @@ class CodecsController extends Controller
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView($id)
+	public function actionView()
 	{
-            $model = Codecs::model()->with('children')->findByPk($id);
+            $realPath = $_SERVER['REQUEST_URI'];
+            $path = str_replace('/', '|', trim($realPath, '/'));        
             
+            $model = Codecs::model()->findByAttributes(array('path'  =>  $path));
             
+            if(!$model) {
+                throw new CHttpException(404,'Страница не найдена');
+            }
             
-            if($model->isCat == 1) {
+            if($model->isfolder) {
                 $this->render('viewCat',array(
-                    'model' =>  $model,
+                        'model' =>  $model,
                 ));
             } else {
                 $this->render('view',array(
                     'model' =>  $model,
                 ));
             }
+            
+            
 	}
 
 	/**
@@ -132,18 +139,9 @@ class CodecsController extends Controller
 	 */
 	public function actionIndex()
 	{
-		
-            $criteria = new CDbCriteria;
-            $criteria->addColumnCondition(array('isCat'=>1, 'parent_id'=>0));
-            $criteria->order = 't.title';
-            
-            
-            $dataProvider=new CActiveDataProvider('Codecs', array(
-                    'criteria'  =>  $criteria,
-                    ));
-                
+            $codecsArray = Codecs::model()->findAllByAttributes(array('isfolder'=>1, 'parent'=>0));
             $this->render('index',array(
-                    'dataProvider'=>$dataProvider,
+                    'codecsArray'   =>  $codecsArray,
             ));
 	}
 
@@ -189,4 +187,14 @@ class CodecsController extends Controller
 			Yii::app()->end();
 		}
 	}
+        
+        public function actionPath()
+        {
+            ini_set("memory_limit","1024M");
+            $parents = Codecs::model()->findAllByAttributes(array('parent'=>0));
+            
+            foreach($parents as $parent) {
+                $parent->getPath('codecs');
+            }
+        }
 }
