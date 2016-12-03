@@ -9,7 +9,6 @@ class GTMail
     
     public function sendMail($appendSuffix=true)
     {
-        if($appendSuffix==true)
  	
         $fromHeader = "=?utf-8?b?" . base64_encode(Yii::app()->params['leadsEmail']) . "?=<". Yii::app()->params['leadsEmail'] . ">";
 	$this->headers .= $fromHeader . "\n\n";
@@ -18,6 +17,25 @@ class GTMail
 
         if(mail($this->email, $this->subject, $this->message, $this->headers)) return true;
             else return false;
+    }
+    
+        // вставляет во все ссылки в сообщении utm метки
+    static public function insertTags($text, $tags = array())
+    {
+         
+        $tagsString = "";     
+        $tagsString .= "&utm_medium=" . urlencode($tags['utm_medium']);
+
+        $tagsString .= "&utm_source=" . urlencode($tags['utm_source']);
+
+        $tagsString .= "&utm_campaign=" . urlencode($tags['utm_campaign']);
+
+        $tagsString .= "&utm_term=" . urlencode($tags['utm_term']);
+
+        $tagsString .= "&utm_content=" . urlencode($tags['utm_content']);
+        
+        $text = preg_replace("#href=(['|\"]{1})([^?'\"]*)[?]{0,1}([^'\"]*)#", 'href=$1$2?$3'.$tagsString, $text);
+        return $text;
     }
 }
 ?>

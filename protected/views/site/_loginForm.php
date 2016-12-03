@@ -54,10 +54,11 @@
         <p>Забыли пароль?<br />
         <?php echo CHtml::link('Восстановить пароль', Yii::app()->createUrl('user/restorePassword'), array('class'=>'btn btn-primary btn-block'));?>
         </p>
-        
+        <!--
         <p>Если Вы у нас впервые<br />
-        <?php echo CHtml::link('Регистрация', Yii::app()->createUrl('user/create'), array('class'=>'btn btn-primary btn-block'));?>
+        <?php //echo CHtml::link('Регистрация', Yii::app()->createUrl('user/create'), array('class'=>'btn btn-primary btn-block'));?>
         </p>
+        -->
     </div>
     <?php endif;?>
 </div>

@@ -5,7 +5,7 @@ class SitemapCommand extends CConsoleCommand
     // рассылка уведомлений
     public function actionIndex()
     {
-        $siteUrl = "http://www.100yuristov.com";
+        $siteUrl = "https://100yuristov.com";
         
         $siteMap = '<?xml version="1.0" encoding="UTF-8"?>
         <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -71,6 +71,19 @@ class SitemapCommand extends CConsoleCommand
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.6</priority>
+           </url>';
+        }
+        
+        $yurCompanies = Yii::app()->db->createCommand()
+                ->select('id')
+                ->from('{{yurCompany}}')
+                ->queryAll();
+        foreach($yurCompanies as $yurCompany) {
+            $siteMap .= '<url>
+              <loc>' . $siteUrl . '/firm/' . $yurCompany['id'] .  '/</loc>
+              <lastmod>' . date('Y-m-d') . '</lastmod>
+              <changefreq>weekly</changefreq>
+              <priority>0.5</priority>
            </url>';
         }
         

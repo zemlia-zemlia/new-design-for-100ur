@@ -14,17 +14,26 @@ $this->pageTitle=Yii::app()->name . ' - Аккаунт успешно актив
                 отправлены на Вашу почту.
             </p>
         <?php else:?>
-            <p>
+            <p class="vert-margin30">
             Заданный Вами вопрос опубликован. Ждите уведомления об ответах юристов.
                 <br /><br />
                 Ответы юристов Вы всегда можете посмотреть в личном кабинете. Параметры для доступа 
                 отправлены на Вашу почту.
             </p>
+            
+            <?php 
+                //CustomFuncs::printr($question);
+            ?>
+            
+            <?php if($question->price):?>
+                <div class="center-align">
+                    <h3>Оплатите вопрос и получите быстрый гарантированный ответ юриста</h3>
+                    <?php $this->renderPartial('application.views.question._paymentForm', array('question'=>$question));?>
+                </div>
+            <?php endif;?>
+            
         <?php endif;?>
         </div>    
-            <?php $this->renderPartial('application.views.site._loginForm', array(
-                'model'=>$loginModel, 
-                'hideForgetPassword'=>true,
-                ));?>
+            
     </div>
 </div>

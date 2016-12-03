@@ -25,12 +25,12 @@ class QuestionController extends Controller
 	{
             return array(
                 array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                        'actions'=>array('index','view', 'getRandom'),
+                        'actions'=>array('index','view', 'getRandom', 'nocat', 'vip'),
                         'users'=>array('@'),
                         'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_JURIST . ') || Yii::app()->user->checkAccess(' . User::ROLE_OPERATOR . ') || Yii::app()->user->checkAccess(' . User::ROLE_SECRETARY . ')',
                 ),
                 array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                        'actions'=>array('update','view','index', 'byPublisher', 'toSpam'),
+                        'actions'=>array('update','view','index', 'byPublisher', 'toSpam', 'setCategory'),
                         'users'=>array('@'),
                         'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
                 ),
@@ -132,6 +132,7 @@ class QuestionController extends Controller
 	{
 		$model=$this->loadModel($id);
                 $oldStatus = $model->status;
+                $model->setScenario('convert'); // чтобы поле Email было необязательным
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -227,14 +228,15 @@ class QuestionController extends Controller
                     // если нужно показать опубликованные вопросы без категории
                     $criteria->with = array(
                         'categories'  =>  array(
-                            'condition' =>  'categories.id IS NULL',
+                            'on' =>  'categories.id IS NULL',
                         ), 
                         'town', 
                         (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR))?"answersCount":'answersCount' => array(
                             'having' =>  's=0',
                         ),
                     );
-                    $criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
+                    //$criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED, 't.status' =>  Question::STATUS_CHECK), "OR", "AND");
+                    $criteria->addCondition('t.status = ' . Question::STATUS_PUBLISHED . ' OR t.status = ' . Question::STATUS_CHECK);
                     $nocat = true;
                 }
                 
@@ -258,33 +260,72 @@ class QuestionController extends Controller
                     $criteria->addInCondition('t.status', array(Question::STATUS_MODERATED, Question::STATUS_PUBLISHED));
                 }
                 
-                /*if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)){*/
                     $dataProvider = new CActiveDataProvider('Question', array(
                         'criteria'=>$criteria,        
                         'pagination'=>array(
                                     'pageSize'=>20,
                                 ),
                     ));
-                /*}*/ /*else {
-                    $questions = Question::model()->findAll($criteria);
-                    $questionsNoAnswers = Array();
-                    foreach($questions as $question) {
-                        if($question->answersCount==0) {
-                            $questionsNoAnswers[] = $question;
-                        }
-                    }
-                    $dataProvider = new CArrayDataProvider($questionsNoAnswers);
-                }*/
+                    
+                $allDirections = QuestionCategory::getDirections();    
+                
                 
 		$this->render('index',array(
 			'dataProvider'  =>  $dataProvider,
                         'status'        =>  $status,
                         'nocat'         =>  $nocat,
                         'notown'        =>  $notown,
+                        'allDirections' =>  $allDirections,
 		));
 	}
         
-        // выводит список вопросов, одобренных заданным пользователем с id=$id
+        
+        // вывод списка вопросов без категорий
+        public function actionNocat()
+        {
+            //SELECT q.id, q2c.cId, COUNT(*) counter FROM `crm_question` q LEFT JOIN `crm_question2category` q2c on q.id=q2c.qId WHERE q2c.cId IS NULL AND q.status IN(2, 4) GROUP BY q.id ORDER BY q2c.cId
+            
+            $questions = Yii::app()->db->createCommand()
+                    ->select('q.id id, questionText, status, title, createDate, publishDate')
+                    ->from('{{question}} q')
+                    ->leftJoin('{{question2category}} q2c', 'q.id=q2c.qId')
+                    ->where('q2c.cId IS NULL AND q.status IN('.Question::STATUS_PUBLISHED . ',' . Question::STATUS_CHECK.')')
+                    ->group('q.id')
+                    ->order('q.id DESC')
+                    ->limit(30)
+                    ->queryAll();
+            
+            $allDirections = QuestionCategory::getDirections();    
+
+                            
+            $this->render('nocat', array(
+                'questions'     =>  $questions,
+                'allDirections' =>  $allDirections,
+            ));
+        }
+
+                // вывод списка вопросов без категорий
+        public function actionVip()
+        {
+            
+            $criteria = new CDbCriteria;
+            $criteria->order = 't.id DESC';
+            
+            $criteria->addColumnCondition(array('t.payed'=>1));
+                         
+            $dataProvider = new CActiveDataProvider('Question', array(
+                        'criteria'=>$criteria,        
+                        'pagination'=>array(
+                                    'pageSize'=>20,
+                                ),
+                    ));
+            
+            $this->render('vip', array(
+                'dataProvider'  =>  $dataProvider,
+            ));
+        }
+        
+                // выводит список вопросов, одобренных заданным пользователем с id=$id
         public function actionByPublisher($id)
         {
             $publisher = User::model()->findByPk($id);
@@ -420,5 +461,29 @@ class QuestionController extends Controller
                 
                 $question->save();
             }
+        }
+        
+        public function actionSetCategory()
+        {
+            $catId = ($_POST['catId'])?(int)$_POST['catId']:false;
+            $questionId = ($_POST['questionId'])?(int)$_POST['questionId']:false;
+            
+            if($questionId == false || $catId == false) {
+                echo CJSON::encode(array('questionId'=>$questionId, 'status'=>400));
+                return;
+            }
+            
+            $q2c = new Question2category;
+            $q2c->qId = $questionId;
+            $q2c->cId = $catId;
+            
+            if($q2c->save()) {
+                echo CJSON::encode(array('questionId'=>$questionId, 'status'=>0));
+                return;
+            } else {
+                echo CJSON::encode(array('questionId'=>$questionId, 'status'=>500));
+                return;
+            }
+            
         }
 }

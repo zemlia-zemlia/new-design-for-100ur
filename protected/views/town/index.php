@@ -19,20 +19,16 @@ $deltaFont = $fontMax - $fontMin;
 $fontCoeff = $deltaFont/$deltaCounter;
 ?>
 
-<div class="panel panel-default">
-    <div class="panel-body">
-		<h1><?php echo $pageTitle;?></h1>
-	</div>
-</div>
 
-<div class="panel panel-default">
-    <div class="panel-body">
+<h1><?php echo $pageTitle;?></h1>
+
+
+
         <?php 
             foreach($townsArray as $cat) {
                 $fontSize = round($fontMin + $fontCoeff * $cat['counter']);
                 echo CHtml::link($cat['name'], Yii::app()->createUrl('town/alias', array('name'=>$cat['alias'])), array('class'=>'cloud-category', 'style'=>'font-size:'.$fontSize.'px;'));
             }
         ?>
-    </div>
-</div>
+
 

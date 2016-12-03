@@ -33,46 +33,69 @@ $this->breadcrumbs=array(
      ));
 ?>
 
-<? /*
-<div 
-    <?php if($model->photo != '') { 
-            echo "class='town-cover' style='background-image:url(" . $model->getPhotoUrl() . ")'";
-        }
-    ?>
-    >
-     
-			<h1>Консультация юриста <?php echo CHtml::encode($model->name); ?></h1>
- 
-</div> */ ?>
 
-<div class="panel gray-panel">
-	<div class="panel-body">
-		<h1>Юристы и Адвокаты <?php echo CHtml::encode($model->name); ?> (<?php echo CHtml::encode($model->ocrug); ?>)</h1>
-	</div>
-</div>			
+<h1>Юристы и Адвокаты г. <?php echo CHtml::encode($model->name); ?> (<?php echo CHtml::encode($model->ocrug); ?>)</h1>
+			
 
 <?php if($model->description1):?>
-	<div class="panel gray-panel">
-		<div class="panel-body">
-            <?php echo $model->description1;?>
-        </div>
+    <div class="vert-margin30">
+        <?php echo $model->description1;?>
     </div>
 <?php endif;?>
 
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'  =>  $dataProvider,
-	'itemView'      =>  'application.views.question._view',
-        'emptyText'     =>  'Не найдено ни одного вопроса',
-        'summaryText'   =>  '',
-        'ajaxUpdate'    =>  false,
-        'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
 
-)); ?>
+<div class='flat-panel'>
+    <div class='inside'>
+        
+<?php foreach($questions as $question):?>
+            <div class="row question-list-item <?php if($question['payed'] == 1):?> vip-question<?endif;?>">
+                <div class="col-sm-9">
+                    <p style="font-size:1.1em;">
+                        <?php if($question['payed'] == 1){
+                            echo "<span class='label label-primary'><abbr title='Вопрос с гарантией получения ответов'>VIP</abbr></span>";
+                        }
+                        ?>
+                        <?php echo CHtml::link($question['title'], Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?>
+                    </p>
+                </div>
+                
+                <div class="col-sm-3">
+                
+                <?php if($question['counter'] == 1) {
+                    echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>Есть ответ</span>";
+                } elseif($question['counter']>1) {
+                    echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>" . $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
+                } elseif($question['counter'] == 0) {
+                    echo "<span class='text-muted'>Нет ответа</span>";
+                }
+                ?>
+                </span>
+            </div>
+            </div>
+        <?php endforeach;?>
+    </div>
+</div>
+
+
+<div>
+<h3 class="header-block header-block-green">Направления права</h3>
+<div class="header-block-green-arrow"></div>
+
+<?php foreach($allDirections as $direction):?>
+    <div class="col-md-4">
+        <h4 class="left-align">
+            <?php echo CHtml::link($direction['name'], Yii::app()->createUrl('questionCategory/alias', array('name'=>$direction['alias'])));?>
+        </h4>
+    </div>
+<?php endforeach;?>
+<div class="clearfix"></div>
+</div>
+
 
 <?php if(sizeof($model->companies)):?>
-    <div class="panel gray-panel">
-        <div class="panel-body">
-        <h3>Юридические компании города</h3>
+
+        <h3 class="header-block header-block-green">Юридические компании города</h3>
+        <div class="header-block-green-arrow"></div>
             <div class="container-fluid">
                 <div class="row">
                 <?php 
@@ -97,91 +120,52 @@ $this->breadcrumbs=array(
                     <?php if($companyCounter%2 == 1 && $companyCounter != $companyLimit+1) echo "</div>";?>
                 </div>
             </div>
-        </div>
-    </div>
+
 <?php endif;?>
 
 <?php if(is_array($closeTowns) && sizeof($closeTowns)):?>
-<div class="panel gray-panel">
-    <div class="panel-body">
-        <h3>Соседние города</h3>
-        <div class="row">
-            <?php foreach($closeTowns as $town):?>
-                <div class="col-md-4">
-                    <?php echo CHtml::link('<span class="glyphicon glyphicon-map-marker"></span>' . $town->name, 
-                            Yii::app()->createUrl('town/alias', array(
-                                        'name'          =>  $town->alias,
-                                        'countryAlias'  =>  $town->country->alias,
-                                        'regionAlias'   =>  $town->region->alias,
-                                )));?>
-                </div>    
-            <?php endforeach;?>
+<div class="flat-panel vert-margin30">
+    
+        <h3 class="header-block header-block-green">Соседние города</h3>
+        <div class="header-block-green-arrow"></div>
+        
+        <div class="inside">
+            <div class="row">
+                <?php foreach($closeTowns as $town):?>
+                    <div class="col-md-4">
+                        <?php echo CHtml::link('<span class="glyphicon glyphicon-map-marker"></span>' . $town->name, 
+                                Yii::app()->createUrl('town/alias', array(
+                                            'name'          =>  $town->alias,
+                                            'countryAlias'  =>  $town->country->alias,
+                                            'regionAlias'   =>  $town->region->alias,
+                                    )));?>
+                    </div>    
+                <?php endforeach;?>
             </div>
         
-    </div>
-</div>
-<?php endif;?>
-
-<?php if($model->description2):?>
-    <div class="panel gray-panel">
-        <div class="panel-body">
-            <?php echo $model->description2;?>
         </div>
     </div>
 <?php endif;?>
 
+<?php if($model->description2):?>
+    <div class="vert-margin30">
+            <?php echo $model->description2;?>
+    </div>
+<?php endif;?>
+
 <div class="panel gray-panel">
-	<div class="panel-body">
-		<h2>Вы можете задать вопрос Юристу или Адвокату</h2>
-		<noindex>
+    <div class='panel-body'>
+       <h4>На ваши вопросы отвечают:</h4> 
+    
         <div class="row">
-
-            <div class="col-md-4 col-sm-4 center-align">  
-                <img src="/pics/yurist2.jpg" alt="При поддержке Министерства Юстиции" class="img-responsive center-block" /> 
-                <p class="center-align"><b>Штуцер Максим Федорович</b><br />
-                            <small> Семейное право<br/>
-                            Уголовное право<br/>
-                            Корпоративное право<br/>
-                            Договорные отношения<br/>
-                            Банковская деятельность<br/>
-                            Кредиты</small>
-                </p>
-                    <a href="/question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=shtutzer" class="btn btn-warning btn-xs" rel="nofollow">Получить консультацию</a>
-
-            </div>
             
-            <div class="col-md-4 col-sm-4 center-align"> 
-                <img src="/pics/yurist3.jpg" alt="При поддержке Министерства Юстиции" class="img-responsive center-block" /> 
-                <p class="center-align"><b>Самойлов Николай Николаевич</b><br />
-                            <small> Семейное право<br/>
-                            Уголовное право<br/>
-                            Трудовое право<br/>
-                            Договорные отношения<br/>
-                            Налогое право <br/>
-                            </small>
-                    </p>
-                    <a href="/question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=samoilov" class="btn btn-warning btn-xs" rel="nofollow">Получить консультацию</a>
-
-            </div>
-
+            <?php
+                // выводим виджет с топовыми юристами
+                $this->widget('application.widgets.TopYurists.TopYurists', array(
+                    'cacheTime' =>  600,
+                ));
+            ?>
             
-
-            <div class="col-md-4 col-sm-4 center-align">  
-                <img src="/pics/yurist4.jpg" alt="При поддержке Министерства Юстиции" class="img-responsive center-block" /> 
-                <p class="center-align"><b>Тихонова Анастасия Викторовна</b><br />
-                            <small> Семейное право<br/>
-                            Уголовное право<br/>
-                            Корпоративное право<br/>
-                            Договорные отношения<br/>
-                            Банковская деятельность<br/></small>
-                </p>
-                <a href="/question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=tikhonova" class="btn btn-warning btn-xs" rel="nofollow">Получить консультацию</a>
-
-            </div>
-			</noindex>
-			</div>
-		</div>
-	</div>
-
-
-
+        </div>
+    </div>
+</div>     

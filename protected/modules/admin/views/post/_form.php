@@ -9,6 +9,9 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'post-form',
 	'enableAjaxValidation'=>false,
+        'htmlOptions'   =>  array(
+            'enctype'   =>  'multipart/form-data',
+            ),
 )); ?>
 
         <p class="note"><span class="required">*</span> обязательные поля</p>
@@ -82,13 +85,19 @@
         <?php echo $form->error($model,'text'); ?>
     </div>
         
-<div class="form-group"> 
-    <?php echo $form->labelEx($model,'description'); ?>
-    <?php   
-        echo $form->textArea($model, 'description', array('class'=>'form-control'));
-    ?>
-    <?php echo $form->error($model,'description'); ?>
-</div>
+    <div class="form-group"> 
+        <?php echo $form->labelEx($model,'description'); ?>
+        <?php   
+            echo $form->textArea($model, 'description', array('class'=>'form-control'));
+        ?>
+        <?php echo $form->error($model,'description'); ?>
+    </div>
+        
+    <div class="form-group">
+        <?php echo $form->labelEx($model,'photoFile'); ?>
+        <?php echo $form->fileField($model, 'photoFile');?>
+        <?php echo $form->error($model,'photoFile'); ?>
+    </div> 
 
         
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Создать пост' : 'Сохранить пост', array('class'=>'btn btn-primary btn-large')); ?>

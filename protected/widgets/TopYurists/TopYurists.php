@@ -14,9 +14,11 @@ class TopYurists extends CWidget
         
         $criteria->addColumnCondition(array('role' => User::ROLE_JURIST));
         $criteria->addColumnCondition(array('role' => User::ROLE_OPERATOR), 'AND', 'OR');
+        $criteria->addColumnCondition(array('role' => User::ROLE_CALL_MANAGER), 'AND', 'OR');
         $criteria->addColumnCondition(array('active'=>1));
         $criteria->order = "RAND()";
         $criteria->limit = $this->limit;
+        $criteria->with = 'categories';
         
         $users = User::model()->cache($this->cacheTime)->findAll($criteria);
         

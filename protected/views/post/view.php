@@ -46,6 +46,13 @@ $this->breadcrumbs=array(
                 echo $purifier->purify($model->preview);
             ?>
         </div>
+        
+        <?php if($model->photo):?>
+        <div class="vert-margin30">
+            <img src="<?php echo $model->getPhotoUrl();?>" alt="<?php echo CHtml::encode($model->title); ?>" class="img-responsive" />
+        </div>
+        <?php endif;?>
+        
         <div class="post-text">
             <?php
                 // очищаем текст поста от ненужных тегов перед выводом в браузер

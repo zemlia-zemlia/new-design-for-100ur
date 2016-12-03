@@ -27,29 +27,36 @@ switch ($data->leadStatus) {
 
 <tr id="lead-<?php echo $data->id;?>">
     <td>
+        
+        <small class="muted"> 
+            
+            <span>id:&nbsp;<?php echo $data->id;?></span> &nbsp;
+            <br />
+            <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo CustomFuncs::niceDate($data->question_date, false, false); ?>&nbsp;&nbsp;
+            <br />
+            <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->role == User::ROLE_SECRETARY):?>
+                <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo $data->source->name; ?> &nbsp;&nbsp;       
+            <?php endif;?>
+               <br />
+
+            <span class="label <?php echo $statusClass;?>">    
+            <?php echo $data->getLeadStatusName();?>
+                <?php if($data->campaign):?>
+                    <?php echo "в " . $data->campaign->region->name.$data->campaign->town->name;?>
+                <?php endif;?>
+            </span>
+              <br /> 
+            <span class="label label-default"><?php echo $data->getLeadTypeName();?></span>
+            
+        </small>
+    </td>
+    <td>
         <p>
             <?php echo nl2br(CHtml::encode($data->question)); ?>
         </p>
         
-        <small class="muted">
-        <span>id:&nbsp;<?php echo $data->id;?></span> &nbsp;
-        
-        <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo CustomFuncs::niceDate($data->question_date, false, false); ?>&nbsp;&nbsp;
+        <small class="muted">      
 
-        <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->role == User::ROLE_SECRETARY):?>
-            <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo $data->source->name; ?> &nbsp;&nbsp;       
-        <?php endif;?>
-          
-            
-        <span class="label <?php echo $statusClass;?>">    
-        <?php echo $data->getLeadStatusName();?>
-            <?php if($data->campaign):?>
-                <?php echo "в " . $data->campaign->region->name.$data->campaign->town->name;?>
-            <?php endif;?>
-        </span>
-            <br />
-                      
-        
             <?php if($data->townId):?>
                 <span class="glyphicon glyphicon-map-marker"></span>
                 <?php echo CHtml::encode($data->town->name); ?> (<?php echo CHtml::encode($data->town->ocrug); ?>)

@@ -41,6 +41,12 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
         <?php echo $form->textField($model,'lastName', array('class'=>'form-control')); ?>
         <?php echo $form->error($model,'lastName'); ?>
 </div> 
+        
+<div class="form-group">
+    <?php echo $form->labelEx($yuristSettings,'alias'); ?>
+    <?php echo $form->textField($yuristSettings,'alias', array('class'=>'form-control')); ?>
+    <?php echo $form->error($yuristSettings,'alias'); ?>
+</div>
 
 <div class="form-group">
         <?php echo $form->labelEx($model,'role'); ?>
@@ -160,6 +166,13 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
                     <?php echo $form->error($yuristSettings,'isVerified'); ?>
                 </div>
             </div>
+        </div>
+        
+        <div class="form-group"> 
+            <div><strong>Специализации:</strong></div>
+            <?php echo $form->dropDownList($model,'categories', $allDirections,
+			array('multiple'=>'multiple', 'style'=>'width:300px; height:300px; text-align:left;'));
+            ?>
         </div>
         
         

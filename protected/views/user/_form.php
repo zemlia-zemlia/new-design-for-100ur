@@ -28,6 +28,15 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
 
 	<?php echo $form->errorSummary($model, "Исправьте ошибки"); ?>
         <?php echo $form->errorSummary($yuristSettings, "Исправьте ошибки"); ?>
+    
+<?php 
+    $userCategories = array();
+
+    foreach($model->categories as $uCat) {
+        $userCategories[] = $uCat->id;
+    }
+?>
+    
 
 <?php if($model->isNewRecord):?>    
     <div class="form-group radio-labels">
@@ -51,8 +60,9 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
     <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Личная информация</a></li>
     <li role="presentation"><a href="#contacts" aria-controls="contacts" role="tab" data-toggle="tab">Контакты</a></li>
     <li role="presentation"><a href="#password" aria-controls="password" role="tab" data-toggle="tab">Пароль</a></li>
-    <?php if(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR):?>
+    <?php if(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR || Yii::app()->user->role == User::ROLE_CALL_MANAGER):?>
     <li role="presentation"><a href="#qualification" aria-controls="qualification" role="tab" data-toggle="tab">Квалификация</a></li>
+    <li role="presentation"><a href="#directions" aria-controls="directions" role="tab" data-toggle="tab">Специализации</a></li>
     <?php endif;?>
   </ul>
     
@@ -83,7 +93,7 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                     <?php echo $form->error($model,'name'); ?>
                 </div> 
 
-                <?php if(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR):?>
+                <?php if(Yii::app()->user->role == User::ROLE_ROOT || Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR || Yii::app()->user->role == User::ROLE_CALL_MANAGER):?>
                 <div class="yurist-fields">
                     <div class="form-group">
                         <?php echo $form->labelEx($model,'name2'); ?>
@@ -96,6 +106,13 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                         <?php echo $form->textField($model,'lastName', array('class'=>'form-control')); ?>
                         <?php echo $form->error($model,'lastName'); ?>
                     </div> 
+                    <?php if($model->officeId>0):?>
+                        <div class="form-group">
+                            <?php echo $form->labelEx($yuristSettings,'alias'); ?>
+                            <?php echo $form->textField($yuristSettings,'alias', array('class'=>'form-control')); ?>
+                            <?php echo $form->error($yuristSettings,'alias'); ?>
+                        </div>
+                    <?php endif;?>
                 </div>
                 <?php endif;?>
             </div>
@@ -145,12 +162,12 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
     </div>   
        
     
-    <?php if(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR):?>
+    <?php if(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR || Yii::app()->user->role == User::ROLE_CALL_MANAGER):?>
 
     <div role="tabpanel" class="tab-pane" id="qualification">
         
         <div class="yurist-fields">
-        <?php if(($model->role == User::ROLE_JURIST || $model->role == User::ROLE_OPERATOR) && !$model->isNewRecord):?>
+        <?php if(($model->role == User::ROLE_JURIST || $model->role == User::ROLE_OPERATOR || $model->role == User::ROLE_CALL_MANAGER) && !$model->isNewRecord):?>
 
         <div class="row">
             <div class="col-sm-12"> 
@@ -167,13 +184,14 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                     <?php echo $form->textArea($yuristSettings, 'description', array('class'=>'form-control', 'rows'=>3));?>
                     <?php echo $form->error($yuristSettings,'description'); ?>
                 </div>
+                
             </div>
         </div>
             <?php endif;?>
         </div>
 
 
-        <?php if(($model->role == User::ROLE_JURIST || $model->role == User::ROLE_OPERATOR)):?>    
+        <?php if(($model->role == User::ROLE_JURIST || $model->role == User::ROLE_OPERATOR || $model->role == User::ROLE_CALL_MANAGER)):?>    
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group"> 
@@ -309,6 +327,39 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
             </div>   
         <?php endif;?>
     </div> 
+    
+    <div role="tabpanel" class="tab-pane" id="directions">
+        <div class="form-group"> 
+            <?php 
+                $directionsCount = sizeof($allDirections);
+                $counter = 0;
+            ?>
+            
+            <div class="row">
+                
+                <?php foreach ($allDirections as $key=>$direction):?>
+
+                    <?php 
+                        if(in_array($key, $userCategories)) {
+                            $checked = true;
+                        } else {
+                            $checked = false;
+                        }
+                    ?>
+                    <div class="col-md-4">
+                        <div class="checkbox">
+                            <label>
+                                <?php echo CHtml::checkBox('User[categories][]', $checked, array('value'=>$key));?>
+                                <?php echo $direction;?>
+                            </label>
+                        </div>
+                    </div> <!-- .col-md-4 -->   
+                <?php endforeach;?>
+                
+            </div>
+        </div>
+    </div>
+    
     <?php endif;?>
 </div> <!-- .tab-content -->        
         

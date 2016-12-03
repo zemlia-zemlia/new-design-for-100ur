@@ -12,11 +12,16 @@
  * @property string $datetime
  * @property integer $rating
  * @property string $datePublication
+ * @property string $photo
  * @property string $description
  */
 class Post extends CActiveRecord
 {
-	/**
+	public $photoFile;
+        const PHOTO_PATH = "/upload/blogphoto";
+        const PHOTO_THUMB_FOLDER = "/thumbs";
+        
+        /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return Post the static model class
@@ -44,8 +49,9 @@ class Post extends CActiveRecord
             return array(
                 array('authorId, title, text, preview', 'required'),
                 array('authorId, rating', 'numerical', 'integerOnly'=>true),
-                array('title', 'length', 'max'=>256),
+                array('title, photo', 'length', 'max'=>256),
                 array('description, datePublication', 'safe'),
+                array('photoFile', 'file', 'types'=>'jpg, gif, png', 'allowEmpty'=>true),
                 // The following rule is used by search().
                 // Please remove those attributes that should not be searched.
                 array('id, authorId, title, text, datetime, rating, preview', 'safe', 'on'=>'search'),
@@ -84,6 +90,8 @@ class Post extends CActiveRecord
                 'rating' => 'Рейтинг',
                 'datePublication'   =>  'Дата публикации',
                 'description'   =>  'SEO description',
+                'photo'         =>  'Фотография',
+                'photoFile'     =>  'Файл с фотографией (минимум 1000х700 пикселей)',
             );
 	}
 
@@ -211,7 +219,7 @@ class Post extends CActiveRecord
         public static function getRecentPosts($categoryId = NULL, $number = 4)
         {
             $recentPostsCommand = Yii::app()->db->createCommand()
-                    ->select('id, title, preview')
+                    ->select('id, title, preview, datePublication, photo')
                     ->from('{{post}} p')
                     ->group('p.id')
                     ->order('p.datePublication DESC')
@@ -258,5 +266,18 @@ class Post extends CActiveRecord
         {
             $this->update_timestamp = date('Y-m-d H:i:s');
             return parent::beforeSave();
+        }
+        
+        // возвращает URL фотографии города относительно корня сайта
+        public function getPhotoUrl($size='full')
+        {
+            $photoUrl = '';
+                        
+            if($size == 'full') {
+                $photoUrl = self::PHOTO_PATH . '/' . CHtml::encode($this->photo);
+            } elseif($size == 'thumb') {
+                $photoUrl = self::PHOTO_PATH . self::PHOTO_THUMB_FOLDER . '/' . CHtml::encode($this->photo);
+            }
+            return $photoUrl;
         }
 }

@@ -49,8 +49,7 @@ class QuestionCategoryController extends Controller
             // если обратились по id , делаем редирект на ЧПУ
             $this->redirect(array('questionCategory/alias','name'=>CHtml::encode($model->alias)), true, 301);
             
-            // код дальше НЕ будет выполнен!
-            /*
+         
             $questionsCriteria = new CdbCriteria;
             $questionsCriteria->addColumnCondition(array('categoryId'=>$model->id));
             $questionsCriteria->addColumnCondition(array('status' =>  Question::STATUS_PUBLISHED));
@@ -71,7 +70,6 @@ class QuestionCategoryController extends Controller
                         'questionModel'         =>  $questionModel,
 		));
              
-             */
 	}
         
         public function actionAlias($name)
@@ -85,39 +83,25 @@ class QuestionCategoryController extends Controller
             if(!$model) {
                 throw new CHttpException(404,'Категория не найдена');
             }
-            $questionsCriteria = new CdbCriteria;
-            $questionsCriteria->condition = 't.status = '. Question::STATUS_PUBLISHED . ' OR t.status=' . Question::STATUS_CHECK;
-            $questionsCriteria->order = 't.publishDate DESC';
-            $questionsCriteria->with = array(
-                        'categories'  =>  array(
-                            'condition' =>  'categories.id = ' . $model->id,
-                ),
-                );
             
-            $questions = Question::model()->findAll($questionsCriteria);
             
-            if(sizeof($questions) == 0) {
-                // если в данной категории не найдено ни одного вопроса, найдем последние 
-                // вопросы с ответами, независимо от категории
-                $questionsCriteria = new CDbCriteria;
-                $questionsCriteria->order = 't.publishDate DESC';
-                $questionsCriteria->limit = 5;
+            $questions = Yii::app()->db->createCommand()
+                    ->select('q.id id, q.publishDate date, q.title title, COUNT(*) counter')
+                    ->from('{{question}} q')
+                    ->leftJoin('{{answer}} a', 'q.id=a.questionId')
+                    ->join("{{question2category}} q2c", "q2c.qId=q.id AND q2c.cId=:catId", array(':catId'=>$model->id))
+                    ->group('q.id')
+                    ->where('q.status=:status AND a.id IS NOT NULL', array(':status'=>  Question::STATUS_PUBLISHED))
+                    ->limit(20)
+                    ->order('q.publishDate DESC')
+                    ->queryAll();
             
-                $questions = Question::model()->findAll($questionsCriteria);    
-            }
-            //CustomFuncs::printr($questions);
-            
-            $questionsDataProvider = new CArrayDataProvider($questions, array(
-                    'pagination'    =>  array(
-                            'pageSize'=>20,
-                        ),
-                ));
             
             $newQuestionModel = new Question();
             
             $this->render('view',array(
 			'model'                 =>  $model,
-                        'questionsDataProvider' =>  $questionsDataProvider,
+                        'questions'             =>  $questions,
                         'newQuestionModel'      =>  $newQuestionModel,
 		));
 	}

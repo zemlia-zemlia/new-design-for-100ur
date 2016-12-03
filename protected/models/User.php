@@ -17,16 +17,22 @@
  * @property string $managerId
  * @property string $townId
  * @property string $registerDate
+ * @property integer $isSubscribed
+ * @property integer $karma
  */
 class User extends CActiveRecord
 {
 	
         public $password2; //password confirmation while creating or changing account
         public $verifyCode; // using in Captcha
+        
+        const UNSUBSCRIBE_SALT = 'Kvadrat Malevi4a'; // используется при генерации и проверке кода для ссылки "отписаться от новостей"
+
         //
         // константы для ролей пользователей
         const ROLE_SECRETARY = 0;
         const ROLE_OPERATOR = 2;
+        const ROLE_CALL_MANAGER = 21;
         const ROLE_CLIENT = 3;
         const ROLE_EDITOR = 5;
         const ROLE_BUYER = 6;
@@ -64,13 +70,14 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, email, phone, townId', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
-			array('role, active, managerId, townId', 'numerical', 'integerOnly'=>true),
+			array('name, email, phone', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
+			array('townId', 'required', 'except'=>'unsubscribe', 'message'=>'Поле {attribute} должно быть заполнено'),
+			array('role, active, managerId, townId, karma', 'numerical', 'integerOnly'=>true),
 			array('name, position, email, phone', 'length', 'max'=>255),
                         array('name2, lastName, birthday', 'safe'),
-                        array('townId', 'match','not'=>true, 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
+                        array('townId', 'match','not'=>true, 'except'=>'unsubscribe', 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
                         array('password','length','min'=>5,'max'=>128, 'tooShort'=>'Минимальная длина пароля 5 символов', 'allowEmpty'=>($this->scenario=='update' || $this->scenario=='register')),
-                        array('password2', 'compare', 'compareAttribute'=>'password', 'except'=>'confirm, create, register, update', 'message'=>'Пароли должны совпадать','allowEmpty'=>($this->scenario=='update' || $this->scenario=='register')),
+                        array('password2', 'compare', 'compareAttribute'=>'password', 'except'=>'confirm, create, register, update, unsubscribe', 'message'=>'Пароли должны совпадать','allowEmpty'=>($this->scenario=='update' || $this->scenario=='register')),
 			array('email','email', 'message'=>'В Email допускаются латинские символы, цифры, точка и дефис'),
 
 			// The following rule is used by search().
@@ -168,12 +175,14 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                    'manager'   =>  array(self::BELONGS_TO, 'User', 'managerId'),
-                    'settings'  =>  array(self::HAS_ONE, 'YuristSettings', 'yuristId'),
-                    'files'     =>  array(self::HAS_MANY, 'UserFile', 'userId', 'order'=>'files.id DESC'),
-                    'town'      =>  array(self::BELONGS_TO, 'Town', 'townId'),
-                    'answersCount'   =>  array(self::STAT, 'Answer', 'authorId', 'condition'=>'status IN (' . Answer::STATUS_NEW. ', ' . Answer::STATUS_PUBLISHED. ')'),
-		);
+                    'manager'           =>  array(self::BELONGS_TO, 'User', 'managerId'),
+                    'settings'          =>  array(self::HAS_ONE, 'YuristSettings', 'yuristId'),
+                    'files'             =>  array(self::HAS_MANY, 'UserFile', 'userId', 'order'=>'files.id DESC'),
+                    'karmaChanges'      =>  array(self::HAS_MANY, 'KarmaChange', 'userId'),
+                    'town'              =>  array(self::BELONGS_TO, 'Town', 'townId'),
+                    'answersCount'      =>  array(self::STAT, 'Answer', 'authorId', 'condition'=>'status IN (' . Answer::STATUS_NEW. ', ' . Answer::STATUS_PUBLISHED. ')'),
+                    'categories'        =>  array(self::MANY_MANY, 'QuestionCategory', '{{user2category}}(uId, cId)'),
+                );
 	}
 
 	/**
@@ -199,6 +208,7 @@ class User extends CActiveRecord
                         'town'      => 'Город',
                         'avatarFile'=> 'Фотография',
                         'registerDate'  =>  'Дата регистрации',
+                        'karma'     =>  'Карма',
 		);
 	}
 
@@ -251,7 +261,7 @@ class User extends CActiveRecord
             
             $mailer = new GTMail;
             
-            $confirmLink = CHtml::decode("http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('user/confirm', array(
+            $confirmLink = CHtml::decode(Yii::app()->createUrl('user/confirm', array(
                 'email'=>$this->email,
                 'code'=>$this->confirm_code,
                 ))) . "?utm_source=100yuristov&utm_medium=mail&utm_campaign=user_registration";
@@ -260,7 +270,7 @@ class User extends CActiveRecord
             $mailer->message = "
                 <h1>Регистрация на сайте 100 юристов</h1>
                 <p>Здравствуйте!<br />
-                Вы зарегистрировались на сайте <a href='http://".$_SERVER['SERVER_NAME']."'>100 юристов</a></p>".
+                Вы зарегистрировались на сайте <a href='https://".$_SERVER['SERVER_NAME']."'>100 юристов</a></p>".
             "<p>Для того, чтобы начать пользоваться всеми возможностями сайта, необходимо подтвердить свой email. Для этого перейдите по ссылке:</p>".
             "<p><strong>" . CHtml::link($confirmLink,$confirmLink) . "</strong></p>";
             
@@ -314,7 +324,7 @@ class User extends CActiveRecord
                 Вы упешно зарегистрировались на портале 100 юристов.<br /><br />
                 Ваш логин: " . CHtml::encode($this->email) . "<br />
                 Ваш временный пароль: ".$newPassword."<br /><br />
-                Вы всегда можете поменять его на любой другой, зайдя в ".CHtml::link("личный кабинет","http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('site/login'))." на нашем сайте.<br /><br />
+                Вы всегда можете поменять его на любой другой, зайдя в ".CHtml::link("личный кабинет",Yii::app()->createUrl('site/login'))." на нашем сайте.<br /><br />
                 <br /><br />";
             $mailer->email = $this->email;
             
@@ -335,7 +345,7 @@ class User extends CActiveRecord
             $mailer->message = "Здравствуйте!<br />
                 Вы или кто-то, указавший ваш E-mail, запросил восстановление пароля на портале 100 юристов.<br /><br />
                 Ваш временный пароль: ".$newPassword."<br /><br />
-                Вы всегда можете поменять его на любой другой, зайдя в ".CHtml::link("личный кабинет","http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('site/login'))." на нашем сайте.<br /><br />
+                Вы всегда можете поменять его на любой другой, зайдя в ".CHtml::link("личный кабинет",Yii::app()->createUrl('site/login'))." на нашем сайте.<br /><br />
                 Если Вы не запрашивали восстановление пароля, обратитесь, пожалуйста, к администратору сайта. <br /><br />";
             $mailer->email = $this->email;
             
@@ -440,7 +450,7 @@ class User extends CActiveRecord
                 return;
             }
             
-            $questionLink = "http://www.100yuristov.com/q/" . $question->id . "/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_notification&utm_term=" . $question->id;
+            $questionLink = "https://100yuristov.com/q/" . $question->id . "/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_notification&utm_term=" . $question->id;
             
             $mailer = new GTMail;
             $mailer->subject = CHtml::encode($this->name) . ", новый ответ на Ваш вопрос!";
@@ -458,6 +468,18 @@ class User extends CActiveRecord
                 return true;
             } else {
                 // не удалось отправить письмо
+                return false;
+            }
+        }
+        
+        /* функция проверки кода в ссылке "отписаться от рассылок"
+         * возвращает true, если код верный, false - если неверный
+         */
+        public static function verifyUnsubscribeCode($code, $email)
+        {
+            if($code === md5(self::UNSUBSCRIBE_SALT.$email)) {
+                return true;
+            } else {
                 return false;
             }
         }

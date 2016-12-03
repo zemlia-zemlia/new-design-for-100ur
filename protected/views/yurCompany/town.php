@@ -29,20 +29,18 @@ $this->breadcrumbs=array(
      ));
 ?>
 
-<div class="panel panel-default">
-    <div class="panel-body">
-        
-        <h1>Юридические компании города <?php echo CHtml::encode($town->name); ?></h1>
 
-        <div class="container-fluid">
-            <?php $this->widget('zii.widgets.CListView', array(
-                    'dataProvider'  =>  $dataProvider,
-                    'itemView'      =>  '_view',
-                    'emptyText'     =>  'Не найдено ни одной фирмы',
-                    'ajaxUpdate'    =>  false,
-                    'summaryText'   =>  '',
-                    'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
-            )); ?>
-        </div>
-    </div>
+        
+<h1>Юридические компании города <?php echo CHtml::encode($town->name); ?></h1>
+
+<div class="container-fluid">
+    <?php $this->widget('zii.widgets.CListView', array(
+            'dataProvider'  =>  $dataProvider,
+            'itemView'      =>  '_view',
+            'emptyText'     =>  'Не найдено ни одной фирмы',
+            'ajaxUpdate'    =>  false,
+            'summaryText'   =>  '',
+            'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
+    )); ?>
 </div>
+

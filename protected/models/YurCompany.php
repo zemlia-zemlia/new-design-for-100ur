@@ -43,7 +43,7 @@ class YurCompany extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, townId, phone1, address, description', 'required'),
+			array('name, townId, phone1, address, description', 'required', 'except'=>'parsing'),
                         array('phone1, phone2, phone3','match','pattern'=>'/^([0-9\+])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
 			array('townId, yearFound, authorId', 'numerical', 'integerOnly'=>true),
 			array('name, logo, metro, yurName, phone1, phone2, phone3, address, yurAddress, website', 'length', 'max'=>255),
@@ -65,6 +65,8 @@ class YurCompany extends CActiveRecord
 		return array(
                     'author'   =>  array(self::BELONGS_TO, 'User', 'authorId'),
                     'town'     =>  array(self::BELONGS_TO, 'Town', 'townId'),
+                    'commentsChecked' =>  array(self::HAS_MANY, 'Comment', 'objectId', 'condition'=>'commentsChecked.type='.Comment::TYPE_COMPANY . ' AND commentsChecked.status='.Comment::STATUS_CHECKED, 'order'=>'commentsChecked.dateTime DESC'),
+                    'comments' =>  array(self::HAS_MANY, 'Comment', 'objectId', 'condition'=>'comments.type='.Comment::TYPE_COMPANY, 'order'=>'comments.dateTime DESC'),
 		);
 	}
 

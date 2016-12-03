@@ -52,8 +52,7 @@ $this->breadcrumbs=array(
 
 ?>
 
-<div class='panel gray-panel'>
-    <div class="panel-body">
+
         
         <h2>Россия</h2>
         <div class="row vert-margin30">
@@ -70,6 +69,4 @@ $this->breadcrumbs=array(
             <?php showCountry($regions['ukraine']);?>
         </div>
 
-    </div>
-</div>
 

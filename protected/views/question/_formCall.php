@@ -44,7 +44,7 @@
 
 
     <div class="form-group" id="form-submit-wrapper">
-        <?php echo CHtml::submitButton('Перезвоните мне', array('class'=>'btn btn-warning btn-block')); ?>
+        <?php echo CHtml::submitButton('Перезвоните мне', array('class'=>'button button-blue-gradient btn-block')); ?>
     </div>
 
 <?php $this->endWidget(); ?>

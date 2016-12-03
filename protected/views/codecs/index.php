@@ -7,14 +7,11 @@ $this->setPageTitle("Законы и кодексы Российской Фед�
 Yii::app()->clientScript->registerMetaTag("Законы и кодексы Российской Федерации", 'description');
 
 ?>
-<div class="panel panel-default">
-    <div class='panel-body'>
-        <h1>Кодексы РФ</h1>
-    </div>
-</div>
 
-<div class="panel panel-default">
-    <div class='panel-body'>
+<h1 class="header-block header-block-light-grey vert-margin30">Кодексы РФ</h1>
+
+
+
         <?php foreach($codecsArray as $codecs):?>
 
         <p>
@@ -22,6 +19,3 @@ Yii::app()->clientScript->registerMetaTag("Законы и кодексы Рос
         </p>
 
         <?php endforeach; ?>
-
-    </div>
-</div>

@@ -28,6 +28,9 @@
         <?php echo $data->checkIfPropertyFilled('seoKeywords');?>
     </td>
     <td>
+        <?php echo $data->checkIfPropertyFilled('isDirection');?>
+    </td>
+    <td>
         <?php echo CHtml::link("Ред.", array('update', 'id'=>$data->id)); ?>
     </td>
 </tr>        
@@ -54,6 +57,9 @@
                     </td>
                     <td>
                         <?php echo $child->checkIfPropertyFilled('seoKeywords');?>
+                    </td>
+                    <td>
+                        <?php echo $child->checkIfPropertyFilled('isDirection');?>
                     </td>
                     <td>
                         <?php echo CHtml::link("Ред.", array('update', 'id'=>$child->id)); ?>

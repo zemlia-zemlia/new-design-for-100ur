@@ -20,4 +20,16 @@ class Controller extends CController
 	 * for more details on how to specify this property.
 	 */
 	public $breadcrumbs=array();
+        
+        public function init()
+        {
+            if ( !Yii::app()->getRequest()->isSecureConnection && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') {
+                # Redirect to the secure version of the page.
+                $url = 'https://' .
+                    Yii::app()->getRequest()->serverName .
+                    Yii::app()->getRequest()->requestUri;
+                    Yii::app()->request->redirect($url, true, 301);
+                return false;
+            }
+        }
 }

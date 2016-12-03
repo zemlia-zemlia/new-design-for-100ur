@@ -51,6 +51,10 @@ return array(
                         '/region/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>/<name:[\w\-]+>'  =>  '/town/alias',
                         ),
                     ),
+            
+                'ih'=>array(
+                        'class'=>'CImageHandler',
+                    ),
 		
 		'log'=>array(
 			'class'=>'CLogRouter',

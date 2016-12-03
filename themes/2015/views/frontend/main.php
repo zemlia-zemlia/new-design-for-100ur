@@ -42,7 +42,7 @@
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/')?CHtml::link('Филиалы', Yii::app()->createUrl('/site/contacts')):'<span class="active">Филиалы</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/blog/')?CHtml::link('Блог', Yii::app()->createUrl('/blog')):'<span class="active">Блог</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/codecs/')?CHtml::link('Кодексы', Yii::app()->createUrl('/codecs')):'<span class="active">Кодексы</span>';?></li>
-            <li><?php echo ($_SERVER['REQUEST_URI'] != '/question/')?CHtml::link('Направления', Yii::app()->createUrl('question')):'<span class="active">Направления</span>';?></li>
+            <li><?php echo ($_SERVER['REQUEST_URI'] != '/question/')?CHtml::link('Вопросы', Yii::app()->createUrl('question')):'<span class="active">Вопросы</span>';?></li>
             <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/'))?CHtml::link('Задать вопрос', Yii::app()->createUrl('question/create',array('from'=>'top-menu'))):'<span class="active">Задать вопрос</span>';?></li>
             <?php if(Yii::app()->user->checkAccess(User::ROLE_OPERATOR) || Yii::app()->user->checkAccess(User::ROLE_JURIST)):?>
             <li>    
@@ -115,25 +115,32 @@
         <div class="container">
 		<?php if(Yii::app()->user->role != User::ROLE_JURIST && Yii::app()->user->role != User::ROLE_OPERATOR):?>
  		    <div class="row">
-                <div class="col-md-4 col-sm-4">
+                <div class="col-md-3 col-sm-3">
 				<div class="alert alert-success gray-panel panel" style="text-align:center;" >
 				<h4>Вопрос специалистам</h4>
-				<p>Задайте любой вопрос, и в течение 15 минут вы получите ответы наших юристов.</p>
+				<p class="small">Задайте любой вопрос, и в течение 15 минут вы получите ответы наших юристов. <strong>БЕСПЛАТНО!</strong></p>
 				<?php echo CHtml::link('<span class="glyphicon glyphicon-question-sign"></span> Задать вопрос', Yii::app()->createUrl('question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=vopros'), array('class'=>'btn btn-success btn-sm btn-block')); ?>
 				</div>
 				</div>
-				<div class="col-md-4 col-sm-4">
+				<div class="col-md-3 col-sm-3">
 				<div class="alert alert-info gray-panel panel" style="text-align:center;">
 				<h4>Обратный звонок</h4>
-				<p>Оставьте номер телефона, и наш юрист свяжется с вами, чтобы проконсультировать вас.</p>
+				<p class="small">Оставьте номер телефона, и наш юрист свяжется с вами, чтобы проконсультировать вас.</p>
 				<?php echo CHtml::link('<span class="glyphicon glyphicon-earphone"></span> Заказать звонок', Yii::app()->createUrl('question/call'), array('class'=>'btn btn-info btn-sm btn-block')); ?>
 				</div>
 				</div>
-				<div class="col-md-4 col-sm-4">
+				<div class="col-md-3 col-sm-3">
 				<div class="alert alert-warning gray-panel panel" style="text-align:center;">
 				<h4>Составление документа</h4>
-				<p>Закажите документ, после чего наш юрист свяжется с вами, уточнит детали и подготовит его.</p>
+				<p class="small">Закажите документ, после чего наш юрист свяжется с вами, уточнит детали и подготовит его.</p>
 				<?php echo CHtml::link('<span class="glyphicon glyphicon-file"></span> Заказать документ', Yii::app()->createUrl('question/docs'), array('class'=>'btn btn-warning btn-sm btn-block')); ?>
+				</div>				
+				</div>
+				<div class="col-md-3 col-sm-3">
+				<div class="alert alert-warning gray-panel panel" style="text-align:center;">
+				<h4>Юридические услуги</h4>
+				<p class="small">Заключить договор для сопровождения сделки, представления интересов в судах, организациях и т.д.</p>
+				<?php echo CHtml::link('<span class="glyphicon glyphicon-file"></span> Получить услуги', Yii::app()->createUrl('question/call'), array('class'=>'btn btn-warning btn-sm btn-block')); ?>
 				</div>				
 				</div>
 			</div>
@@ -166,7 +173,7 @@
                     </div>
                 </div>	
 				
-            <div id="left-bar" class="panel gray-panel" >
+            <div id="left-bar" class="panel gray-panel  yellow-panel" >
 				<h4 id="left-menu-switch">Темы вопросов</h4>
 					
 						<?php
@@ -176,19 +183,8 @@
 					
 			</div>
 			
-			
 
-                <div class="panel panel-default">
-                    <div class="panel-body">
-					<div style=" text-align:center; " >
-					<p style="font-size:16px;"><b>Вы также можете;</b></p>
-					<?php echo CHtml::link('<b>НАНЯТЬ</b>', Yii::app()->createUrl('/question/call/'), array('class'=>'btn btn-block btn-warning')); ?> 
-					<p style="font-size:14px;"><b>Юриста</b> или <b>Адвоката</b> Для сопровождения сделки, состаления документов, представления интересов в судах, организациях и т.д.</p>
-					</div>
-                    </div>
-                </div>
-	
-				<div class='panel panel-default style="text-align:center;"'>
+				<div class='panel panel-default' style="text-align:center;"'>
 					<div class='row'>
 						<div class='col-md-12 col-sm-12'>
 							<img src='/pics/2015/thumb_up_orange.png' alt='ВЫСОКОЕ КАЧЕСТВО' class='center-block' />
@@ -294,7 +290,7 @@
                     </div>
                 </div>
 		
-                <div class="panel gray-panel">
+                <div class="panel gray-panel  yellow-panel">
                     <div class="panel-body">                    
                         <?php
                             // выводим виджет с последними ответами
@@ -363,7 +359,6 @@
 				<ul>
 					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/offer/')?CHtml::link('Пользовательское соглашение', Yii::app()->createUrl('/site/offer/')):'<span class="active"><p>Пользовательское соглашение</p></span>';?></li>
 					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/crm/')?CHtml::link('CRM Для юридических фирм', Yii::app()->createUrl('/site/crm/')):'<span class="active"><p>CRM Для юридических фирм</p></span>';?></li>
-					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/lp/')?CHtml::link('Юристам', Yii::app()->createUrl('/site/lp/')):'<span class="active"><p>Юристам</p></span>';?></li>
 					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/')?CHtml::link('Заявки', Yii::app()->createUrl('/site/lead/')):'<span class="active"><p>Заявки</p></span>';?></li>
 					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/about/')?CHtml::link('О проекте', Yii::app()->createUrl('/site/about/')):'<span class="active"><p>О проекте</p></span>';?></li>
 				</ul>

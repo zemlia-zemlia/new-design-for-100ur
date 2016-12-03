@@ -5,10 +5,13 @@
 
 
 
-<div class="panel gray-panel"> 
-    <div class="panel-body">
+
         <?php if($data->title):?>
-            <h4 class='left-align'><?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('question/view', array('id'=>$data->id))); ?></h4>
+            <h4 class='left-align'><?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('question/view', array('id'=>$data->id))); ?>
+            <?php if($data->price!=0 && $data->payed == 1):?>
+            <span class="label label-primary">VIP</span>
+            <?php endif;?>
+            </h4>
         <?php endif;?>
 		
        
@@ -49,5 +52,3 @@
         <?php endif;?>
         </p>
 </small>
-    </div>    
-</div>

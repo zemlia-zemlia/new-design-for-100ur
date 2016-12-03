@@ -19,6 +19,7 @@
  * @property integer $authorId
  * @property integer $price
  * @property integer $payed
+ * @property string $sessionId
  */
 class Question extends CActiveRecord
 {
@@ -28,6 +29,8 @@ class Question extends CActiveRecord
         const STATUS_PUBLISHED = 2;
         const STATUS_SPAM = 3;
         const STATUS_CHECK = 4;
+        const STATUS_PRESAVE = 5;
+        
         
         const LEAD_STATUS_SENT_CRM = 1;
         const LEAD_STATUS_SENT_LEADIA = 2;
@@ -62,15 +65,15 @@ class Question extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('questionText, townId, authorName', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
-			array('email', 'required', 'message'=>'Поле {attribute} должно быть заполнено', 'except'=>'convert'),
+			array('questionText, authorName', 'required', 'message'=>'{attribute} не заполнен'),
 			array('phone', 'required', 'on'=>'create', 'message'=>'Поле {attribute} должно быть заполнено'),
+			array('townId', 'required', 'except'=>array('preSave'), 'message'=>'Поле {attribute} должно быть заполнено'),
                         array('number, categoryId, status, publishedBy, authorId, price, payed', 'numerical', 'integerOnly'=>true),
-			array('categoryName', 'length', 'max'=>255),
+			array('categoryName, sessionId', 'length', 'max'=>255),
                         array('authorName, title','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-., ])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, точка, дефис и пробел'),
                         array('phone','match','pattern'=>'/^([0-9\+])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
-			array('email','email', 'message'=>'В Email допускаются латинские символы, цифры, точка и дефис'),
-                        array('townId', 'match','not'=>true, 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
+			array('email','email', 'message'=>'В Email допускаются латинские символы, цифры, точка и дефис', 'allowEmpty'=>true),
+                        array('townId', 'match','not'=>true, 'except'=>array('preSave'), 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
                         array('description', 'safe'),
                         // The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -128,6 +131,7 @@ class Question extends CActiveRecord
                 self::STATUS_PUBLISHED  =>  'Опубликован',
                 self::STATUS_SPAM       =>  'Спам',
                 self::STATUS_CHECK      =>  'На проверке, опубликован',
+                self::STATUS_PRESAVE    =>  'Недозаполненные',
             );
         }
         
@@ -221,7 +225,9 @@ class Question extends CActiveRecord
         // присваивает полю title первые 10 слов из текста вопроса
         public function formTitle($wordsCount = 10)
         {
-            preg_match("/(?:\w+(?:\W+|$)){0,$wordsCount}/u", $this->questionText, $matches);
+            $text = preg_replace("/[^a-zA-Zа-яА-ЯёЁ0-9 ]/u", '', $this->questionText);
+            //echo $text; exit;
+            preg_match("/(?:\w+(?:\W+|$)){0,$wordsCount}/u", $text, $matches);
             $this->title = $matches[0];
             $patterns = array();
             $patterns[0] = '/Здравствуйте/ui';
@@ -235,5 +241,64 @@ class Question extends CActiveRecord
             $this->title = preg_replace($patterns, $replacements, $this->title);
             $this->title = trim($this->title);
             $this->title = mb_strtoupper(mb_substr($this->title, 0, 1, 'UTF-8'), 'UTF-8') . mb_substr($this->title, 1, mb_strlen($this->title), 'UTF-8');
+        }
+        
+        
+        /*
+         * возвращает цену вопроса по уровню
+         */
+        public static function getPriceByLevel($level=self::LEVEL_1)
+        {
+            switch($level) {
+                case self::LEVEL_1:
+                    return 99;
+                    break;
+                case self::LEVEL_2:
+                    return 199;
+                    break;
+                case self::LEVEL_3:
+                    return 299;
+                    break;
+            }
+        }
+        
+        // сохраняет в базу вопрос, который не был полностью заполнен (имеет только имя и текст вопроса)
+        public function preSave()
+        {
+            if($this->sessionId == '') {
+                $this->sessionId = '' . time() . '_' . mt_rand(100,999);
+                
+                $this->setScenario('preSave');
+                
+                // особый статус "предварительно сохранен"
+                $this->status = self::STATUS_PRESAVE;
+                if(!$this->save()) {
+                    //echo "Ошибки при предсохранении вопроса";
+                    //CustomFuncs::printr($this->errors);
+                }
+            }
+            
+            
+        }
+        
+        public function createAuthor()
+        {
+            
+            $author = new User;
+            $author->role = User::ROLE_CLIENT;
+            $author->phone = $this->phone;
+            $author->email = $this->email;
+            $author->townId = $this->townId;
+            $author->name = $this->authorName;
+            $author->password = $author->password2 = $author->generatePassword();
+            $author->confirm_code = md5($this->email.mt_rand(100000,999999));
+
+            if($author->save()) {
+                $this->authorId = $author->id;
+                $author->sendConfirmation();
+                return true;
+            } else {
+                return false;
+            }
         }
 }

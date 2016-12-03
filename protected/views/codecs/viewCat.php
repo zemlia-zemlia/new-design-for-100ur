@@ -24,13 +24,10 @@ foreach($parents as $parentPath=>$parentTitle) {
      ));
 ?>
 
-<div class="panel panel-default">
-    <div class="panel-body">
-        <h1><?php echo CHtml::encode($model->longtitle); ?></h1>
-    </div>
-</div>
-<div class="panel panel-default">
-    <div class="panel-body">
+
+        <h1 class="header-block header-block-light-grey vert-margin30"><?php echo CHtml::encode($model->longtitle); ?></h1>
+
+
         <?php foreach($model->children as $child):?>
             <p>    
             <?php 
@@ -40,8 +37,6 @@ foreach($parents as $parentPath=>$parentTitle) {
             ?>
             </p>
         <?php endforeach;?>
-    </div>
-    
-</div>
+
 
 

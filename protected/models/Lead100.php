@@ -38,6 +38,7 @@ class Lead100 extends CActiveRecord
         const TYPE_DOCS = 3; // запрос документов
         const TYPE_YURIST = 4; // поиск юриста / адвоката
         const TYPE_INCOMING_CALL = 5; // входящий звонок
+        const TYPE_SERVICES = 6; // запрос юридических услуг
         
         // причины отбраковки
         const BRAK_REASON_BAD_QUESTION = 1;
@@ -82,7 +83,6 @@ class Lead100 extends CActiveRecord
 			array('price', 'numerical'),
                         array('deliveryTime', 'safe'),
                         array('name, phone, email', 'length', 'max'=>255),
-                        array('email', 'required', 'on'=>'create'),
 			array('townId', 'match','not'=>true, 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
                         array('name','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-., ])+$/u', 'message'=>'В имени могут присутствовать буквы, цифры, точка, дефис и пробел', 'except'=>'parsing'),
                         array('phone','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\+\(\)\s \-])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
@@ -165,6 +165,7 @@ class Lead100 extends CActiveRecord
                 self::TYPE_DOCS         =>  'заказ документов',
                 self::TYPE_YURIST       =>  'поиск юриста',
                 self::TYPE_INCOMING_CALL   =>  'входящий звонок',
+                self::TYPE_SERVICES     =>  'юридические услуги',
                 
             );
         }
@@ -173,7 +174,7 @@ class Lead100 extends CActiveRecord
         {
             $typesArray = self::getLeadTypesArray();
             $typeName = $typesArray[$this->type];
-            return $statusName;
+            return $typeName;
         }
         
         // возвращает массив, ключами которого являются коды типов, а значениями - названия

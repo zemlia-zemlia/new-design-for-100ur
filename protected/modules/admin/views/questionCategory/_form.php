@@ -94,6 +94,14 @@
             <?php echo $form->error($model,'parentId'); ?>
 	</div>
 
+        <div class="form-group checkbox">
+            <label>
+            <?php echo $form->checkBox($model,'isDirection'); ?>
+            <?php echo $model->getAttributeLabel('isDirection');?>
+            </label>
+            <?php echo $form->error($model,'parentId'); ?>
+	</div>
+        
 	<div class="row buttons">
             <?php echo CHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('class'=>'btn btn-primary')); ?>
 	</div>

@@ -30,6 +30,14 @@ $(function(){
                 $( "#vuz-town-selector" ).attr('value',townName);
             }
         });
+        
+        $(".link-karma-plus").on("click", function(e){
+            e.preventDefault();
+            var link = $(this).attr('href');
+            var answerId = $(this).attr("data-id");
+            $.post(link, {answerId:answerId}, onKarmaPlus);
+            return false;
+        })
     
 });
 
@@ -52,3 +60,16 @@ function addLink() {
     }, 0);
 }
 document.oncopy = addLink;
+
+function onKarmaPlus(data, status, xhr)
+{
+    var jsonData = JSON.parse(data);
+    var status = jsonData.status;
+    if(status == 1){
+        var answerId = jsonData.answerId;
+        $("#answer-karma-" + answerId).html("<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> Полезный ответ");
+        yaCounter26550786.reachGoal('plus_answer');
+    } else {
+        alert('Ошибка: не удалось поставить плюс');
+    }
+}

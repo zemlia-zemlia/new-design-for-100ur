@@ -43,6 +43,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <th>Title</th>
         <th>Descr.</th>
         <th>Keyw.</th>
+        <th>Напр</th>
     </tr>
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,

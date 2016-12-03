@@ -117,7 +117,27 @@ class PostController extends Controller
                 $model->attributes=$_POST['Post'];
                 $model->authorId = Yii::app()->user->id;
                 $model->datePublication = CustomFuncs::invertDate($model->datePublication);
+                
 
+                if(!empty($_FILES)) {
+                    $file = CUploadedFile::getInstance($model,'photoFile');
+
+                    if($file && $file->getError()==0) // если файл нормально загрузился
+                    {
+                        // определяем имя файла для хранения на сервере
+                        $newFileName = md5($file->getName().$file->getSize().mt_rand(10000,100000)).".".$file->getExtensionName();
+                        Yii::app()->ih
+                        ->load($file->tempName)
+                        ->resize(1000, 700, true)
+                        ->save(Yii::getPathOfAlias('webroot') . Post::PHOTO_PATH . '/' . $newFileName)
+                        ->reload()
+                        ->adaptiveThumb(200,200, array(255,255,255))
+                        ->save(Yii::getPathOfAlias('webroot') . Post::PHOTO_PATH . Post::PHOTO_THUMB_FOLDER . '/' . $newFileName);
+
+                        $model->photo = $newFileName;
+                    }
+                }
+                    
                 if($model->save()) {
                     $this->redirect(array('view','id'=>$model->id));
                 }
@@ -169,6 +189,29 @@ class PostController extends Controller
 		{
                     $model->attributes=$_POST['Post'];
                     $model->datePublication = CustomFuncs::invertDate($model->datePublication);
+                    
+                    if(!empty($_FILES)) {
+                        $file = CUploadedFile::getInstance($model,'photoFile');
+
+                        if($file && $file->getError()==0) // если файл нормально загрузился
+                        {
+                            // определяем имя файла для хранения на сервере
+                            $newFileName = md5($file->getName().$file->getSize().mt_rand(10000,100000)).".".$file->getExtensionName();
+                            Yii::app()->ih
+                            ->load($file->tempName)
+                            ->resize(1000, 700, true)
+                            ->save(Yii::getPathOfAlias('webroot') . Post::PHOTO_PATH . '/' . $newFileName)
+                            ->reload()
+                            ->adaptiveThumb(200,200, array(255,255,255))
+                            ->save(Yii::getPathOfAlias('webroot') . Post::PHOTO_PATH . Post::PHOTO_THUMB_FOLDER . '/' . $newFileName);
+
+                            $model->photo = $newFileName;
+
+
+                        }
+
+                    }
+                        
                     if($model->save()) {
                         $this->redirect(array('view','id'=>$model->id));
                     }

@@ -3,34 +3,14 @@ $this->setPageTitle("Вопрос отправлен юристу." . Yii::app()
 
 ?>
 
-<!-- Modal -->
-<div class="modal fade" id="thank-you-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Спасибо!</h4>
-      </div>
-      <div class="modal-body">
-        <h4>
-            Для отправки вопроса юристам необходимо подтвердить свой Email. 
-            Ссылка для подтверждения уже у Вас на почте.
-        </h4>
-        
-        <p class="center-align">
-            <a href="/" class="btn btn-primary">Хорошо</a>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+<img src="/pics/2017/click_hand.png" class="center-block vert-margin30" alt="Ваш вопрос принят" />
+<h2 class="text-uppercase">Спасибо!</h2>
 
-<script type="text/javascript">
-    $(function(){
-        $("#thank-you-modal").modal('show');
-        
-        $('#thank-you-modal').on('hidden.bs.modal', function (e) {
-            location.href = '/';
-          })
-    });
-</script>
+<p class="vert-margin30 center-align">
+    Для отправки вопроса юристам необходимо <strong>подтвердить свой Email</strong>.<br />
+    Ссылка для подтверждения уже у Вас на почте.
+</p>
+
+<p class="center-align">
+    <a href="/" class="button btn-lg button-blue-gradient">Хорошо</a>
+</p>

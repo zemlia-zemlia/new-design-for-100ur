@@ -49,7 +49,7 @@
 
 
     <div class="form-group">
-            <?php echo CHtml::submitButton('Найти', array('class'=>'btn btn-warning btn-block')); ?>
+            <?php echo CHtml::submitButton('Найти', array('class'=>'button button-blue-gradient btn-block')); ?>
     </div>
 
 <?php $this->endWidget(); ?>

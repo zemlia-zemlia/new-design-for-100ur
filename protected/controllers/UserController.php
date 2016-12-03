@@ -25,11 +25,11 @@ class UserController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index', 'view','create','confirm','confirmationSent', 'restorePassword', 'captcha'),
+				'actions'=>array('index', 'view','create','confirm','confirmationSent', 'restorePassword', 'captcha', 'unsubscribe'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('update', 'profile', 'changePassword', 'updateAvatar', 'invites','deleteAvatar','clearInfo', 'requestConfirmation'),
+				'actions'=>array('update', 'profile', 'changePassword', 'updateAvatar', 'invites','deleteAvatar','clearInfo', 'requestConfirmation', 'karmaPlus'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -61,7 +61,7 @@ class UserController extends Controller
             
             if(Yii::app()->user->role == User::ROLE_CLIENT) {
                 $questionsCriteria->addColumnCondition(array('t.authorId'=>Yii::app()->user->id));
-                $questionsCriteria->with = 'answers';
+                $questionsCriteria->addCondition('t.status IN(' . Question::STATUS_CHECK. ', ' . Question::STATUS_PUBLISHED . ')');
             } else {
                 $questionsCriteria->with = array(
                     'answers'   =>  array(
@@ -148,6 +148,8 @@ class UserController extends Controller
 	{
             $this->layout = '//frontend/short';
             $model= User::model()->findByPk($id);
+            
+            $allDirections = QuestionCategory::getDirections();
                         
             if(!$model) {
                 throw new CHttpException(404,'Пользователь не найден');
@@ -162,7 +164,7 @@ class UserController extends Controller
             // модель для работы со сканом
             $userFile = new UserFile;
             
-            if($model->role == User::ROLE_JURIST || $model->role == User::ROLE_OPERATOR) {
+            if($model->role == User::ROLE_JURIST || $model->role == User::ROLE_OPERATOR || $model->role == User::ROLE_CALL_MANAGER) {
                 if($model->settings) {
                     $yuristSettings = $model->settings;
                 } else {
@@ -192,6 +194,20 @@ class UserController extends Controller
                     $yuristSettings->save();
 
                 }
+                
+                if(isset($_POST['User']['categories'])) {
+                        // удалим старые привязки пользователя к категориям
+                        User2category::model()->deleteAllByAttributes(array('uId'=>$model->id));
+                        // привяжем пользователя к категориям
+                        foreach($_POST['User']['categories'] as $categoryId)
+                        {
+                            $u2cat = new User2category();
+                            $u2cat->uId = $model->id;
+                            $u2cat->cId = $categoryId;
+                            if(!$u2cat->save()) {
+                            }
+                        }
+                    }
                 
                 // загрузка аватарки и скана
                 if(!empty($_FILES))
@@ -260,6 +276,7 @@ class UserController extends Controller
                 'userFile'          =>  $userFile,
                 'townsArray'        =>  $townsArray,
                 'rolesNames'        =>  $rolesNames,
+                'allDirections'     =>  $allDirections,
             ));
         }
         
@@ -342,21 +359,20 @@ class UserController extends Controller
                   
                   if($loginModel->login()) {
                       // если залогинили, находим последний вопрос и перенаправляем на страницу вопроса
-                      $question = Yii::app()->db->createCommand()
-                              ->select('id')
-                              ->from('{{question}}')
-                              ->where('authorId=' . $user->id)
-                              ->limit(1)
-                              ->queryRow();
-                      if($question) {
-                          $link = Yii::app()->createUrl('question/view', array('id'=>$question['id'])) . '?justPublished=1';
-                          $this->redirect($link);
-                      } else {
+
+                        $questionCriteria = new CDbCriteria;
+                        $questionCriteria->addCondition('authorId=' . $user->id);
+                        $questionCriteria->order = 'id DESC';
+                        $questionCriteria->limit = 1;
+
+                        $question = Question::model()->find($questionCriteria);
+                    
                           $this->render('activationSuccess', array(
                             'user'          =>  $user, 
                             'loginModel'    =>  $loginModel,
+                            'question'      =>  $question,
                           ));
-                      }
+                      
                   }
                   /*
                    * 
@@ -419,4 +435,125 @@ class UserController extends Controller
             
         }
         
+        public function actionView($id)
+        {
+            $this->layout = '//frontend/short';
+            
+            $model = User::model()->with('settings')->findByPk($id);
+            
+            if(!$model || !in_array($model->role, array(User::ROLE_JURIST, User::ROLE_OPERATOR))) {
+                throw new CHttpException(404,'Пользователь не найден');
+            }
+            
+            $questions = Yii::app()->db->cache(600)->createCommand()
+                    ->select('q.id id, q.publishDate date, q.title title')
+                    ->from('{{question}} q')
+                    ->leftJoin('{{answer}} a', 'q.id=a.questionId')
+                    ->where('a.id IS NOT NULL AND q.status=:status AND a.authorId = :authorId', array(':status'=>  Question::STATUS_PUBLISHED, ':authorId'=>$model->id))
+                    ->limit(10)
+                    ->order('q.publishDate DESC')
+                    ->queryAll();
+            
+            
+            $this->render('view', array(
+                'model'     =>  $model,
+                'questions' =>  $questions,
+            ));
+        }
+        
+        // отписаться от получения почтовых рассылок
+        public function actionUnsubscribe()
+        {
+            $email = CHtml::encode($_GET['email']);
+            $code = CHtml::encode($_GET['code']);
+            
+            if(User::verifyUnsubscribeCode($code, $email) === false) {
+                throw new CHttpException(403, 'Неверный код проверки адреса электронной почты'); 
+            }
+            
+            $model = User::model()->findByAttributes(array('email'=>$email));
+            if(!$model) {
+                throw new CHttpException(400, 'Не удалось отписаться от рассылки, т.к. не найден пользователь с таким Email');
+            }
+            $model->setScenario('unsubscribe');
+            $model->isSubscribed = 0;
+            if(!$model->save()) {
+                CustomFuncs::printr($model->errors);
+                //throw new CHttpException(400, 'Не удалось отписаться от рассылки. Возможно, ваш профиль не заполнен. Войдите и проверьте заполненность профиля.');
+            } else {
+                $this->render('unsubscribeSuccess');
+            }
+            
+        }
+        
+        public function actionKarmaPlus()
+        {
+            // разрешаем только POST запросы
+            // параметр - answerId
+            if (!Yii::app()->request->isPostRequest) {
+                throw new CHttpException(400, 'Only POST requests allowed');
+            }
+            
+            
+            $answerId = isset($_POST['answerId'])?(int)$_POST['answerId']:false;
+            
+            // если не передан id ответа
+            if (!$answerId) {
+                throw new CHttpException(400, 'User id not specified');
+            }
+            
+            $answer = Answer::model()->with('author')->findByPk($answerId);
+            
+            if(!$answer) {
+                throw new CHttpException(404, 'Answer not found');
+            }
+            
+            // id пользователя, написавшего ответ
+            $userId = $answer->authorId;
+            
+            // проверим, не ставил ли плюс текущий пользователь заданному пользователю
+            $existingPluses = Yii::app()->db->createCommand()
+                    ->select("COUNT(*) counter")
+                    ->from("{{karmaChange}}")
+                    ->where("answerId=:answerId AND authorId=:authorId", array(':answerId'=>$answerId, ':authorId'=>Yii::app()->user->id))
+                    ->queryRow();
+            
+            //print_r($existingPluses);exit;
+            
+            if($existingPluses['counter']!=0) {
+                throw new CHttpException(400, 'You have already voted for this user');
+            }
+            
+            // делаем запись в таблице karmaChange
+            $karmaInsertResult = Yii::app()->db->createCommand()
+                    ->insert("{{karmaChange}}", array(
+                        'userId'    =>  $userId,
+                        'answerId'  =>  $answerId,
+                        'authorId'  =>  Yii::app()->user->id,
+                    ));
+            
+            // обновляем запись в таблице пользователей
+            $userKarmaUpdateResult = Yii::app()->db->createCommand()
+                    ->update("{{user}}", array(
+                        'karma'    =>  ($answer->author->karma + 1),
+                    ), "id=:id", array(
+                        ':id'   =>  $userId,
+                    ));
+            //print_r($userKarmaUpdateResult);
+            
+            // обновляем запись в таблице ответов
+            $answerKarmaUpdateResult = Yii::app()->db->createCommand()
+                    ->update("{{answer}}", array(
+                        'karma'    =>  ($answer->karma + 1),
+                    ), "id=:id", array(
+                        ':id'   =>  $answerId,
+                    ));
+            //print_r($answerKarmaUpdateResult);
+            //exit;
+            if($karmaInsertResult && $answerKarmaUpdateResult && $userKarmaUpdateResult) {
+                echo CJSON::encode(array('answerId'=>$answerId, 'status'=>1));
+            } else {
+                echo CJSON::encode(array('answerId'=>$answerId, 'status'=>0, 'message'=>'Ошибка!'));
+            }
+        }
 }

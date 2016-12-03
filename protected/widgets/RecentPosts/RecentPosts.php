@@ -12,6 +12,8 @@ class RecentPosts extends CWidget
     {
         $recentPosts = Post::getRecentPosts($this->category, $this->number);
         
+        //CustomFuncs::printr($recentPosts);
+        
         $this->render($this->template, array(
             'recentPosts'  =>  $recentPosts,
         ));

@@ -76,13 +76,30 @@ class YurCompanyController extends Controller
 	public function actionView($id)
 	{
             $company = YurCompany::model()->findByPk($id);
-            
+                        
             if(!$company) {
                 throw new CHttpException(404,'Компания не найдена');
             }
             
+            $comment = new Comment; // модель для нового комментария
+
+            if(isset($_POST['Comment'])) {
+                $comment->attributes = $_POST['Comment'];
+                $comment->authorId = (Yii::app()->user->id)?Yii::app()->user->id:0;
+                $comment->type = Comment::TYPE_COMPANY;
+                $comment->objectId = $company->id;
+                $comment->status = Comment::STATUS_NEW;
+                if($comment->save()) {
+                    $this->redirect(array('yurCompany/view', 'id'=>$company->id, 'commentSaved'=>1));
+                }
+            }
+            
+            $commentSaved = (isset($_GET['commentSaved']))?true:false;
+            
             $this->render('view', array(
-                'company'   =>  $company,
+                'company'       =>  $company,
+                'comment'       =>  $comment,
+                'commentSaved'  =>  $commentSaved,
             ));
 	}
 

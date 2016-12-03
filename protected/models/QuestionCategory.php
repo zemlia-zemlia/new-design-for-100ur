@@ -7,6 +7,7 @@
  * @property integer $id
  * @property string $name
  * @property integer $parentId
+ * @property integer $isDirection
  * @property string $description1
  * @property string $description2
  * @property string $seoTitle
@@ -45,7 +46,7 @@ class QuestionCategory extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name', 'required'),
-			array('parentId', 'numerical', 'integerOnly'=>true),
+			array('parentId, isDirection', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>255),
                         array('alias','match','pattern'=>'/^([a-z0-9\-])+$/'),
                         array('description1, description2, seoTitle, seoDescription, seoKeywords, seoH1', 'safe'),
@@ -84,7 +85,8 @@ class QuestionCategory extends CActiveRecord
                         'seoTitle'          =>  'SEO title',
                         'seoDescription'    =>  'SEO description',
                         'seoKeywords'       =>  'SEO keywords',
-                        'seoH1'             =>  'Заголовок H1'
+                        'seoH1'             =>  'Заголовок H1',
+                        'isDirection'       =>  'Является направлением',
 		);
 	}
         
@@ -158,5 +160,36 @@ class QuestionCategory extends CActiveRecord
             } else {
                 return "";
             }
+        }
+        
+        /*
+         * возвращает массив, ключами которого являются id категорий-направлений, а значениями - их названия
+         */
+        public static function getDirections($withAlias = false)
+        {
+            $categoriesRows = Yii::app()->db->createCommand()
+                    ->select('id, name, alias')
+                    ->from('{{questionCategory}}')
+                    ->where('isDirection = 1')
+                    ->order('name ASC')
+                    ->queryAll();
+            
+            $categories = array();
+            
+            
+            if(!$withAlias) {
+                foreach ($categoriesRows as $row) {
+                    $categories[$row['id']] = $row['name'];
+                }
+            } else {
+                foreach ($categoriesRows as $row) {
+                    $categories[$row['id']] = array(
+                        'name'  =>  $row['name'],
+                        'alias' =>  $row['alias'],
+                        );
+                }
+            }
+            
+            return $categories;
         }
 }

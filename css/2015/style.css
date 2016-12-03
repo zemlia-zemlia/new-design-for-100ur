@@ -656,3 +656,30 @@ ul.yiiPager {
 .tab-content>.tab-pane {
     padding-top:20px;
 }
+
+
+.question-list-item {
+    border-bottom: #ccc 1px dotted;
+    padding:10px 0 0;
+}
+
+.question-list-item.vip-question {
+    background-color:#fff2be;
+}
+
+.yellow-panel {
+    background-color:#fff2be;
+}
+
+.orange-panel {
+    background-color:#f9e389;
+}
+
+#Comment_rating {
+    display:inline-block;
+}
+
+.review-item {
+    border-bottom:#ddd 1px dotted;
+    padding:10px 0;
+}

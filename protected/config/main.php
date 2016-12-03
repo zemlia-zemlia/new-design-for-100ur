@@ -2,7 +2,6 @@
 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
-
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
@@ -10,7 +9,7 @@ return array(
 	'name'=>'100 юристов',
         'defaultController'=>'site',
 
-	'theme'=>'2015',
+	'theme'=>'2017',
 	// preloading 'log' component
 	'preload'=>array('log'),
 
@@ -66,6 +65,7 @@ return array(
                         '/company/<alias:[\w\-]+>'      =>  '/yurCompany/town',
                         '/company'                      =>  '/yurCompany/index',
                         '/firm/<id:\d+>'                =>  '/yurCompany/view',
+                        '/user/<id:\d+>'                =>  '/user/view',
                         '/konsultaciya-yurista-<name:[\w\-]+>'  =>  '/town/aliasOld',
                         '/region/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>'                =>  '/region/view',
                         '/region/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>/<name:[\w\-]+>'  =>  '/town/alias',
@@ -131,6 +131,7 @@ return array(
                                  
 			),
 		),
+            
             'cache'=>array(
 
             'class'=>'system.caching.CFileCache',

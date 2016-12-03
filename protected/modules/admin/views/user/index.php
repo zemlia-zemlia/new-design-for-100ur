@@ -26,6 +26,7 @@ $this->breadcrumbs=array(
     <?php echo CHtml::link('Операторы', Yii::app()->createUrl('admin/user/index',array('role'=>User::ROLE_OPERATOR)));?> &nbsp;&nbsp;
     <?php echo CHtml::link('Секретари', Yii::app()->createUrl('admin/user/index',array('role'=>User::ROLE_SECRETARY)));?> &nbsp;&nbsp;
     <?php echo CHtml::link('Покупатели', Yii::app()->createUrl('admin/user/index',array('role'=>User::ROLE_BUYER)));?> &nbsp;&nbsp;
+    <?php echo CHtml::link('Контент-менеджеры', Yii::app()->createUrl('admin/user/index',array('role'=>User::ROLE_EDITOR)));?> &nbsp;&nbsp;
 </div>
 
    <table class="table table-bordered table-hover table-striped">

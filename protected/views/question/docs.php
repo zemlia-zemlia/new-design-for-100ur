@@ -2,14 +2,12 @@
 $this->setPageTitle("Заказ документов ". Yii::app()->name);
 ?>
 
-<div class='panel panel-default'>
-    <div class='panel-body'>
-        <h1>Заказ документов</h1>
-    </div>
-</div>
 
-<div class='panel gray-panel'>
-    <div class='panel-body'>
+<h1 class="header-block header-block-light-grey">Заказ документов</h1>
+
+
+<div class='flat-panel'>
+    <div class='inside'>
         <?php echo $this->renderPartial('_formDocs', array(
             'model'         =>  $model,
             'townsArray'    =>  $townsArray,

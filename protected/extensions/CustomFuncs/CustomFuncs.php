@@ -162,8 +162,20 @@ class CustomFuncs
                 'time'=>$dateTimeArray[1]
             );
             return $outputArray;
+        } elseif(stristr($dateTime,"-")) {
+            $dateArray = explode("-",$dateTime);
+            $year = (int)$dateArray[0];
+            $month = (int)$dateArray[1];
+            $day = (int)$dateArray[2];
+            $outputArray = Array(
+                'year'=>$year,
+                'month'=>$month,
+                'day'=>$day,
+            );
+            return $outputArray;
+        } else {
+            return NULL;
         }
-        else return NULL;
     }
 
     public static function translit($name)

@@ -6,9 +6,8 @@
 
 
 
-<div class='panel gray-panel'>
-    <div class='panel-body'>
-	<h1>Адреса филиалов</h1>
+
+	<h1 class="header-block header-block-light-grey">Адреса филиалов</h1>
 	<br/>
 	<p>Портал "100 Юристов" предоставляет юридические консультации онлайн для всех жителей РФ, Белоруси и Украины. Нас егодняшний день вы можете получить очную консультацию, консультацию по телефону в следующих филиалах:</p>
 	<br/>
@@ -54,7 +53,7 @@
                     </div>
                     <div class="adr">
                       <span class="locality">г. Нижний Новгород</span>,
-                      <span class="street-address">ул. Достоевского д.25</span>
+                      <span class="street-address">ул. Новая д.28</span>
                     </div>
                     <div>Мы работаем <span class="workhours">ежедневно с 00:00 до 24:00</span>
                       <span class="url">
@@ -62,5 +61,4 @@
                       </span>
                     </div>
                    </div>
-    </div>
-</div>
+

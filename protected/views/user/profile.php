@@ -52,6 +52,15 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     ?>
                     </p>
                     <?php if(Yii::app()->user->role == User::ROLE_JURIST):?>
+                    
+                    <?php if($user->categories):?>
+                            <p><strong>Специализации</strong><br />
+                                <?php foreach ($user->categories as $cat): ?>
+                                <span class="label label-default"><?php echo $cat->name; ?></span>
+                                <?php endforeach;?>
+                            </p>
+                    <?php endif;?>
+                        
                     <p>
                         <strong>О себе:</strong><br />
                         <?php echo CHtml::encode($user->settings->description);?>

@@ -153,11 +153,9 @@
                                         <?php echo CHtml::link("<span class='glyphicon glyphicon-fire'></span> " . 'Спам', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_SPAM)));?>
                                     </li>
                                     <li>
-                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-chevron-right'></span> " . 'Опуб. без кат.', Yii::app()->createUrl('/admin/question/index', array('nocat'=>1))); ?>
+                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-chevron-right'></span> " . 'Без кат.', Yii::app()->createUrl('/admin/question/nocat')); ?>
                                     </li>
-                                    <li>
-                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-chevron-right'></span> " . 'Опуб. без города', Yii::app()->createUrl('/admin/question/index', array('notown'=>1))); ?>
-                                    </li>
+                                    
                                     <li>
                                         <?php echo CHtml::link("<span class='glyphicon glyphicon-list'></span> " . 'Категории', Yii::app()->createUrl('/admin/questionCategory'));?>
                                     </li>
@@ -192,6 +190,25 @@
                     </div>
                     <?php endif;?>
                     
+                    
+                    <?php if(Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h4>Управление отзывами</h4></div>
+                        <div class="panel-body">
+                            <ul id="left-menu">
+                                <li>
+                                    <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Новые', Yii::app()->createUrl('/admin/comment/index',array('status'=> Comment::STATUS_NEW)));?>
+                                </li>
+                                <li>
+                                    <?php echo CHtml::link("<span class='glyphicon glyphicon-ok'></span> " . 'Опубликованные', Yii::app()->createUrl('/admin/comment/index',array('status'=>  Comment::STATUS_CHECKED)));?>
+                                </li>
+                                <li>
+                                    <?php echo CHtml::link("<span class='glyphicon glyphicon-fire'></span> " . 'Спам', Yii::app()->createUrl('/admin/comment/index',array('status'=>  Comment::STATUS_SPAM)));?>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <?php endif;?>
                     
                     <?php if(Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>
                     <div class="panel panel-default">

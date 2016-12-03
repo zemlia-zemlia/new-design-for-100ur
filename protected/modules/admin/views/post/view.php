@@ -32,6 +32,12 @@ $this->breadcrumbs=array(
     <span class="muted"><?php echo CustomFuncs::invertDate($model->datePublication);?></span>
 
           
+    <?php if($model->photo):?>
+    <div>
+    <img src="<?php echo $model->getPhotoUrl();?>" alt="" />
+    </div>
+    <?php endif;?>
+    
         <div class="category-post-header">
 
             

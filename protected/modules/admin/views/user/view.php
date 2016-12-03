@@ -86,6 +86,19 @@ if(Yii::app()->user->checkAccess(User::ROLE_MANAGER) || Yii::app()->user->role =
             <?php endif;?>
         </td>
     </tr>
+    
+        <?php if($model->categories):?>
+            <tr>
+                <td><strong>Специализации</strong></td>
+                <td>
+                    <?php foreach ($model->categories as $cat): ?>
+                    <span class="label label-default"><?php echo $cat->name; ?></span>
+                    <?php endforeach;?>
+                </td>
+            </tr>
+
+        <?php endif;?>
+    
     <?php endif;?>
 </table>
     

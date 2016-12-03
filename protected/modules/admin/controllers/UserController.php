@@ -185,6 +185,8 @@ class UserController extends Controller
 	{
 		$model=$this->loadModel($id);
                 $model->setScenario('update');
+                
+                $allDirections = QuestionCategory::getDirections();
 
                 if($model->settings) {
                     $yuristSettings = $model->settings;
@@ -219,6 +221,20 @@ class UserController extends Controller
                                      
                         $yuristSettings->save();
                         
+                    }
+                    
+                    if(isset($_POST['User']['categories'])) {
+                        // удалим старые привязки пользователя к категориям
+                        User2category::model()->deleteAllByAttributes(array('uId'=>$model->id));
+                        // привяжем пользователя к категориям
+                        foreach($_POST['User']['categories'] as $categoryId)
+                        {
+                            $u2cat = new User2category();
+                            $u2cat->uId = $model->id;
+                            $u2cat->cId = $categoryId;
+                            if(!$u2cat->save()) {
+                            }
+                        }
                     }
                     
                     // загрузка аватарки
@@ -258,6 +274,7 @@ class UserController extends Controller
                         'allManagersNames'  =>  $allManagersNames,
                         'yuristSettings'    =>  $yuristSettings,
                         'townsArray'        =>  $townsArray,
+                        'allDirections'     =>  $allDirections,
 		));
 	}
         

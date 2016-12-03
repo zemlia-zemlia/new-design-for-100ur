@@ -57,8 +57,10 @@ class Answer extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                    'question'  =>  array(self::BELONGS_TO, 'Question', 'questionId'),
-                    'author'    =>  array(self::BELONGS_TO, 'User', 'authorId'),
+                    'question'      =>  array(self::BELONGS_TO, 'Question', 'questionId'),
+                    'author'        =>  array(self::BELONGS_TO, 'User', 'authorId'),
+                    'karmaChanges'  =>  array(self::HAS_MANY, 'KarmaChange', 'answerId'),
+                    'comments'      =>  array(self::HAS_MANY, 'Comment', 'objectId', 'condition'=>'comments.type=' . Comment::TYPE_ANSWER),
 		);
 	}
 

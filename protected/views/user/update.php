@@ -15,26 +15,23 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
  ));
 ?>
 
-<div class="panel panel-default">
-    <div class="panel-body">
-        <h1>Редактирование профиля</h1>
 
-        <?php echo $this->renderPartial('_form', array(
-                'model'             =>  $model,
-                'rolesNames'        =>  $rolesNames,
-                'allManagersNames'  =>  $allManagersNames,
-                'yuristSettings'    =>  $yuristSettings,
-                'userFile'          =>  $userFile,
-                'townsArray'        =>  $townsArray,
-            )); ?>
+<h1>Редактирование профиля</h1>
 
-    </div>
-</div>
+<?php echo $this->renderPartial('_form', array(
+        'model'             =>  $model,
+        'rolesNames'        =>  $rolesNames,
+        'allManagersNames'  =>  $allManagersNames,
+        'yuristSettings'    =>  $yuristSettings,
+        'userFile'          =>  $userFile,
+        'townsArray'        =>  $townsArray,
+        'allDirections'     =>  $allDirections,
+    )); ?>
+
 
 <?php if(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR):?>
 
-<div class="panel panel-default">
-    <div class="panel-body">
+
         <?php if($model->files):?>
                 <h4>Заявки на подтверждение статуса</h4>
 
@@ -78,6 +75,5 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <?php endforeach;?>
                 </table>
             <?php endif;?>
-    </div>
-</div>
+
 <?php endif;?>

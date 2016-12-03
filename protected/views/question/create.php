@@ -13,45 +13,47 @@ $this->breadcrumbs=array(
 );
 
 ?>
-<div class='panel gray-panel'>
-    <div class='panel-body'>
-		<h1>Задайте вопрос юристу</h1>
-	</div>
-</div>	
-<div class='panel gray-panel'>
-    <div class='panel-body'>
-			<h5>Как это работает?</h5>
-		<ul>
-			<li>Вы оставляете свой вопрос</li>
-			<li>Вам перезванивают в течении 15 минут</li>
-			<li>Или отвечают письменно на сайте</li>
-		</ul>
-    </div>
+
+<h1 class="header-block header-block-light-grey">Задайте вопрос юристу</h1>
+
+
+<h2 class="text-uppercase">Как это работает?</h2>
+
+<div class="vert-margin30">
+    <img src="/pics/2017/how_it_works.gif" alt="Задать вопрос юристу" class="center-block" />
 </div>
-<div class='panel gray-panel'>
-    <div class='panel-body'>
+
+
+<div class='flat-panel vert-margin30'>
+    <div class='inside'>
         <?php echo $this->renderPartial('_form', array(
             'model'         =>  $model,
-            'allCategories' =>  $allCategories,
+            'allDirections' =>  $allDirections,
             'categoryId'    =>  $categoryId,
             'townsArray'    =>  $townsArray,
+            'pay'           =>  $pay,
         )); ?>
     </div>
 </div>
-<div class='panel gray-panel'>
-    <div class='panel-body'>
-			<div class="col-md-4 form-info-item">
-				<p><span class="form-icon" style="background-position: 0 0;"></span><strong>Это быстро</strong><br />
-				Вы получите ответ через 15 минут</p>
-			</div>
-			<div class="col-md-4 form-info-item">
-				<p><span class="form-icon" style="background-position: -32px 0;"></span><strong>Безопасно</strong><br />
-				Только аккредитованные юристы</p>
-			</div>
-			<div class="col-md-4 form-info-item">
-				<p><span class="form-icon" style="background-position: -67px 0;"></span><strong>Без спама</strong><br />
-				Мы никогда не рассылаем рекламу</p>
-			</div>
+		
+
+<div class="row center-align">
+    <div class="col-sm-4">
+            <img src="/pics/2017/icon_green_fast.png" alt="Быстро" class="center-block" />
+            <h3>Это быстро</h3>
+            <p>
+            Вы получите ответ через 15 минут</p>
     </div>
-</div>			
-			
+    <div class="col-sm-4">
+            <img src="/pics/2017/icon_green_safe.png" alt="Безопасно" class="center-block" />
+            <h3>Безопасно</h3>
+            <p>
+            Только аккредитованные юристы</p>
+    </div>
+    <div class="col-sm-4">
+            <img src="/pics/2017/icon_green_nospam.png" alt="Без спама" class="center-block" />
+            <h3>Без спама</h3>
+            <p>
+            Мы никогда не рассылаем рекламу</p>
+    </div>
+</div>

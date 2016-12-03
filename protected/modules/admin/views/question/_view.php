@@ -62,10 +62,17 @@
             &nbsp;
             <?php echo $data->getQuestionStatusName(); ?>
         </small>
+        
+        <?php if($data->payed == 1):?>
+            <div>
+                <span class="label label-info">VIP</span> <?php echo $data->price;?> руб.
+            </div>
+        <?php endif;?>
     </td>
     
     <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>  
     <td>
+        <?php if(sizeof($data->categories)):?>
         <small>
         <?php if(!$hideCategory):?>
             <?php foreach($data->categories as $category):?>
@@ -73,7 +80,18 @@
             <?php endforeach;?>
         <?php endif;?>
         </small>
+        <?php else:?>
+            <?php if($nocat === true):?>
+                <small>
+                    <?php foreach($allDirections as $directionId=>$directionName):?>
+                        <?php echo CHtml::link($directionName, '#', array('class'=>'set-category-link', 'data-category'=>$directionId, 'data-question'=>$data->id));?><br />
+
+                    <?php endforeach;?>
+                </small>
+            <?php endif;?>
+        <?php endif;?>
     </td>
+        
     <td>
         <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>   
                       

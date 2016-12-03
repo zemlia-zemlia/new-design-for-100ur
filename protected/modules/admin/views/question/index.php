@@ -4,6 +4,7 @@
 
 $this->setPageTitle("Вопросы и ответы.". Yii::app()->name);
 Yii::app()->clientScript->registerScriptFile('/js/question.js');
+Yii::app()->clientScript->registerScriptFile('/js/admin/question.js');
 
 
 $this->breadcrumbs=array(
@@ -55,7 +56,10 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 	'itemView'      =>  '_view',
         'emptyText'     =>  'Не найдено ни одного вопроса',
         'summaryText'   =>  'Показаны вопросы с {start} до {end}, всего {count}',
-        'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
-
+        'pager'         =>  array('class'=>'GTLinkPager'), //we use own pager with russian words
+        'viewData'      =>  array(
+            'allDirections' =>  $allDirections,
+            'nocat'         =>  $nocat,
+        ),
 )); ?>
 </table>

@@ -78,3 +78,73 @@
         <?php echo $company->description;?>
     </div>
 </div>
+
+
+<?php if($company->commentsChecked):?>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h2>Отзывы</h2>
+        <?php foreach($company->commentsChecked as $com):?>
+        <div itemprop="review" itemscope itemtype="http://schema.org/Review">    
+            <div class="review-item row">
+                <div class="col-sm-3">
+                    <?php if($com->author):?>
+                        <img src="<?php echo $com->author->getAvatarUrl();?>" /><br />
+                        <small><span itemprop="author"><?php echo CHtml::encode($com->author->name);?></span></small>
+                    <?php elseif($com->authorName):?>
+                        <small>
+                            <span itemprop="author"><?php echo CHtml::encode($com->authorName);?></span>
+                        </small>    
+                    <?php endif;?>
+                        <p>
+                            <small>
+                                <?php echo CustomFuncs::niceDate($com->dateTime, false);?>
+                            </small>
+                        </p>    
+                </div>
+                <div class="col-sm-9">
+                    <p><span itemprop="reviewBody"><?php echo CHtml::encode($com->text);?></span></p>
+                    <?php if($com->rating):?>
+                    <p><strong>Оценка:</strong> 
+                        <span itemprop="reviewRating"><?php echo (int)$com->rating;?></span>/5</p>
+                    <?php endif;?>
+                </div>
+            </div>
+        </div>
+        <?php endforeach;?>
+    </div>
+</div>
+
+<?php endif;?>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h2>Оставьте свой отзыв</h2>
+        <?php $this->renderPartial("application.views.comment._form", array('model'=>$comment));?>
+    </div>
+</div>
+
+
+
+<?php if($commentSaved === true):?>
+<script>
+    $(function(){
+        $('#comment-saved-modal').modal('show');
+    })
+</script>
+
+<div class="modal fade" id="comment-saved-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Отзыв сохранен</h4>
+      </div>
+      <div class="modal-body">
+          <p>Ваш отзыв сохранен. Он появится на сайте после проверки модератором.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<?php endif;?>

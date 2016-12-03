@@ -96,46 +96,37 @@ class TownController extends Controller
                     ), 301);
             }
             
-            $criteria = new CDbCriteria;
-            $criteria->order = 't.id desc';
-            $criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
-            $criteria->addColumnCondition(array('t.townId' =>  (int)$model->id));
-            $criteria->with = array('categories', 'town', 'answersCount');
-                
-            $dataProvider = new CActiveDataProvider('Question', array(
-                    'criteria'=>$criteria,        
-                    'pagination'=>array(
-                                'pageSize'=>7,
-                            ),
-                ));
+            $questions = Yii::app()->db->cache(600)->createCommand()
+                    ->select('q.id id, q.publishDate date, q.title title, COUNT(*) counter')
+                    ->from('{{question}} q')
+                    ->leftJoin('{{answer}} a', 'q.id=a.questionId')
+                    ->group('q.id')
+                    ->where('(q.status=:status1 OR q.status=:status2) AND a.id IS NOT NULL AND q.townId=:townId', array(':status1'=>  Question::STATUS_PUBLISHED, ':status2'=>  Question::STATUS_CHECK, ':townId'=>$model->id))
+                    ->limit(30)
+                    ->order('q.publishDate DESC')
+                    ->queryAll();
             
-            // если не нашлось вопросов в городе, найдем последние опубликованные вопросы по всем городам
-            if($dataProvider->totalItemCount == 0) {
-                $criteria = new CDbCriteria;
-                $criteria->order = 't.publishDate desc';
-                $criteria->limit = 5;
-                $criteria->condition = 't.title!=""';
-                $criteria->with = array('categories', 'town', 'answersCount'=>array(
-                    'having'=>'`s`>0',
-                ));
-                $criteria->addColumnCondition(array('status'    => Question::STATUS_PUBLISHED));
-
-                $dataProvider = new CActiveDataProvider('Question', array(
-                    'criteria'      =>  $criteria,        
-                    'pagination'    =>  false,
-                ));
-            }
 			
             $questionModel = new Question();
             
             // города того же региона
-            $closeTowns = $model->getCloseTowns();
+            //$closeTowns = $model->getCloseTowns
+            $regionId = $model->regionId;
+            $regionCriteria = new CDbCriteria;
+            $regionCriteria->with = array("region", "country");
+            $regionCriteria->addColumnCondition(array('regionId'=>$regionId));
+            $regionCriteria->order = "t.name asc";
+            
+            $closeTowns = Town::model()->findAll($regionCriteria);
+            
+            $allDirections = QuestionCategory::getDirections(true);
             
             $this->render('view',array(
 			'model'         =>  $model,
-                        'dataProvider'  =>  $dataProvider,
+                        'questions'     =>  $questions,
                         'questionModel' =>  $questionModel,
                         'closeTowns'    =>  $closeTowns,
+                        'allDirections' =>  $allDirections,
 		));
         }
         
@@ -159,7 +150,7 @@ class TownController extends Controller
                     'name'          =>  $town->alias,
                     'countryAlias'  =>  $town->country->alias,
                     'regionAlias'   =>  $town->region->alias,
-                    ), 301);
+                    ), true, 301);
         }
 
 

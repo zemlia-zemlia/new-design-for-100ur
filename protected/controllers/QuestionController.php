@@ -33,7 +33,7 @@ class QuestionController extends Controller
 	{
             return array(
                 array('allow', // allow all users 
-                        'actions'=>array('index', 'view', 'create', 'thankYou','rss', 'call', 'weCallYou', 'docsRequested', 'docs', 'paymentSuccess', 'paymentFail', 'paymentCheck', 'paymentAviso'),
+                        'actions'=>array('index', 'view', 'create', 'thankYou','rss', 'call', 'weCallYou', 'docsRequested', 'docs', 'getServices', 'services', 'upgrade', 'paymentSuccess', 'paymentFail', 'paymentCheck', 'paymentAviso', 'confirm'),
                         'users'=>array('*'),
                 ),
                 array('allow', // allow authenticated user to perform 'search'
@@ -59,6 +59,8 @@ class QuestionController extends Controller
                 throw new CHttpException(404,'Вопрос не найден');
             }
             
+            $commentModel = new Comment;
+            
             $justPublished = ($_GET['justPublished'])?true:false;
             
             $answerModel = new Answer();
@@ -70,6 +72,17 @@ class QuestionController extends Controller
                 $answerModel->questionId = $model->id;
                 
                 if($answerModel->save()){
+                    $this->redirect(array('/question/view', 'id'=>$model->id));
+                }
+                
+            }
+            
+            if(isset($_POST['Comment'])) {
+                // отправлен ответ, сохраним его
+                $commentModel->attributes = $_POST['Comment'];
+                $commentModel->authorId = Yii::app()->user->id;
+                                
+                if($commentModel->save()){
                     $this->redirect(array('/question/view', 'id'=>$model->id));
                 }
                 
@@ -87,26 +100,28 @@ class QuestionController extends Controller
                         ),
             ));
             
-            $similarCriteria = new CDbCriteria;
-            $similarCriteria->limit=3;
-            $similarCriteria->order = "RAND()";
-            /*$similarCriteria->with = array(
-                    'answersCount'  =>  array(
-                        'having' =>  's>0',
-                    ),
-                );*/
+            $categories = $model->categories;
             
-            $similarCriteria->addColumnCondition(array(
-                't.status'        =>  Question::STATUS_PUBLISHED,
-                't.id!'           =>  $model->id,
-            ));
+            // массив для хранения id категорий данного вопроса
+            $categoriesArray = array();
             
-            $similarQuestions = Question::model()->findAll($similarCriteria);
-            //CustomFuncs::printr($similarQuestions); 
+            foreach($categories as $cat) {
+                $categoriesArray[] = $cat->id;
+            }
             
-            $similarDataProvider = new CArrayDataProvider($similarQuestions, array(
-                'pagination'    =>  false,
-            ));
+            
+            
+            $questionsSimilar = Yii::app()->db->createCommand()
+                    ->select('q.id id, q.publishDate date, q.title title, COUNT(*) counter')
+                    ->from('{{question}} q')
+                    ->leftJoin('{{answer}} a', 'q.id=a.questionId')
+                    ->join("{{question2category}} q2c", "q2c.qId=q.id AND q2c.cId IN (:catId)", array(':catId'=>$categoriesArray))
+                    ->group('q.id')
+                    ->where('q.status=:status AND a.id IS NOT NULL', array(':status'=>  Question::STATUS_PUBLISHED))
+                    ->limit(8)
+                    ->order('q.publishDate DESC')
+                    ->queryAll();
+            
                     
             // модель для формы вопроса
             $newQuestionModel = new Question();
@@ -115,9 +130,10 @@ class QuestionController extends Controller
                     'model'                 =>  $model,
                     'answersDataProvider'   =>  $answersDataProvider,
                     'newQuestionModel'      =>  $newQuestionModel,
-                    'similarDataProvider'   =>  $similarDataProvider,
+                    'questionsSimilar'      =>  $questionsSimilar,
                     'answerModel'           =>  $answerModel,
                     'justPublished'         =>  $justPublished,
+                    'commentModel'          =>  $commentModel,
             ));
 	}
 
@@ -131,6 +147,13 @@ class QuestionController extends Controller
                 $question = new Question();
                 $question->setScenario('create');
                 
+                // параметр, определяющий, будет ли в форме блок выбора цены (форма платного вопроса)
+                $pay = (isset($_GET['pay']))?true:false;
+                
+                                
+                $allDirections = QuestionCategory::getDirections();
+
+                
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -138,6 +161,24 @@ class QuestionController extends Controller
 		{
 			$question->attributes = $_POST['Question'];
                         $question->phone = preg_replace('/([^0-9])/i', '', $question->phone);
+                        
+                       
+                        if($question->sessionId == '') {
+                            $question->preSave();
+                        } else {
+                            /*
+                             * если вопрос был предсохранен, создадим объект Question из записи в базе,
+                             * чтобы при сохранении вопроса произошел update записи
+                             */
+                            $question = Question::model()->find(array(
+                                'condition' =>  'sessionId = "'.$question->sessionId . '"'
+                            ));
+                            $question->attributes = $_POST['Question'];
+                            $question->phone = preg_replace('/([^0-9])/i', '', $question->phone);
+                            $question->status = Question::STATUS_NEW;
+                        }
+                        
+                        $question->setScenario('create');
                         $question->validate();
                         
                         $lead->name = $question->authorName;
@@ -170,52 +211,88 @@ class QuestionController extends Controller
                                     $question->authorId = $findUserResult['id'];
                                 } else {
                                     // если пользователь не найден, при создании вопроса создадим пользователя
-                                    $author = new User;
-                                    $author->role = User::ROLE_CLIENT;
-                                    $author->phone = $question->phone;
-                                    $author->email = $question->email;
-                                    $author->townId = $question->townId;
-                                    $author->name = $question->authorName;
-                                    $author->password = $author->password2 = $author->generatePassword();
-                                    $author->confirm_code = md5($model->email.mt_rand(100000,999999));
-                                        
-                                    if($author->save()) {
-                                        $question->authorId = $author->id;
-                                        $author->sendConfirmation();
-                                    } else {
-                                        CustomFuncs::printr($author->errors);exit;
-                                    }
+                                    // будем делать это на этапе подписки на ответы при создании вопроса
+                                    //$question->createAuthor();
+                                    
                                 }
                                 
                                 
                                 $question->save();
-				$this->redirect(array('thankYou'));
+                                
+                                if(isset($_POST['Question']['categories']) && $_POST['Question']['categories']!=0) {
+                                    $q2cat = new Question2category();
+                                    $q2cat->qId = $question->id;
+                                    $q2cat->cId = $_POST['Question']['categories'];
+                                    if(!$q2cat->save()) {
+                                    }
+                                    
+                                } 
+                            
+				//$this->redirect(array('thankYou'));
+				$this->redirect(array('confirm', 'qId'=>$question->id, 'sId'=>$question->sessionId));
                         } else {
                             //CustomFuncs::printr($lead->errors);
                             //throw new CHttpException(400,'Что-то пошло не так. Ваш вопрос не удалось отправить.');
                         }
 		}
-
-                // $allCategories - массив, ключи которого - id категорий, значения - названия
-                $allCategories = QuestionCategory::getCategoriesIdsNames();
-                if(isset($_GET['categoryId'])){
-                    $categoryId = (int)$_GET['categoryId'];
-                } else {
-                    $categoryId = null;
-                }
                 
                 $townsArray = Town::getTownsIdsNames();
                 
 		$this->render('create',array(
 			'model'         =>  $question,
-                        'allCategories' =>  $allCategories,
+                        'allDirections' =>  $allDirections,
                         'categoryId'    =>  $categoryId,
                         'townsArray'    =>  $townsArray,
+                        'pay'           =>  $pay,
 		));
 	}
-
-	public function actionThankYou()
+        
+        /*
+         * страница, где мы запрашиваем у пользователя его почту, записываем в вопрос и отправляем письмо со
+         * ссылкой активации аккаунта
+         */
+        public function actionConfirm()
         {
+            $this->layout = '//frontend/short';
+            
+            $qId = (isset($_GET['qId']))?(int)$_GET['qId']:false;
+            $sId = (isset($_GET['sId']))?$_GET['sId']:false;
+            
+            if(!$qId || ! $sId) {
+                throw new CHttpException(404,'Не задан ID вопроса');
+            }
+            
+            $criteria = new CDbCriteria;
+            $criteria->addColumnCondition(array('id'=>$qId, 'sessionId'=>$sId));
+            $question = Question::model()->find($criteria);
+            
+            if(!$question) {
+                throw new CHttpException(404,'Не найден вопрос');
+            }
+            
+            if($question->email) {
+                throw new CHttpException(400,'У данного вопроса уже задан Email');
+            }
+            
+            if(isset($_POST['Question']) && isset($_POST['Question']['email'])) {
+                $question->email = $_POST['Question']['email'];
+                
+                if($question->createAuthor()) {
+                    if($question->save()) {
+                        $this->redirect(array('thankYou'));
+                    }
+                } 
+                
+            }
+            
+            $this->render('confirm', array(
+                'question'   =>  $question,
+            ));
+        }
+
+        public function actionThankYou()
+        {
+            $this->layout = '//frontend/short';
             $this->render('thankYou');
         }
 
@@ -224,56 +301,17 @@ class QuestionController extends Controller
 	 */
 	public function actionIndex()
 	{            
-            if(isset($_GET['status'])) {
-                    $status = (int)$_GET['status'];
-                } else {
-                    $statusCondition = 'status = ' . Question::STATUS_PUBLISHED . ' OR status=' . Question::STATUS_CHECK;
-                }
+            $criteria = new CDbCriteria;
+            $criteria->limit = 40;
+            $criteria->with = 'answersCount';
+            $criteria->addCondition('status IN (' . Question::STATUS_PUBLISHED . ', ' . Question::STATUS_CHECK . ')');
+            $criteria->order = 'publishDate DESC';
             
-            if(!$categoriesRows = Yii::app()->cache->get('categoriesCloud')) {    
-                $categoriesRows = Yii::app()->db->createCommand()
-                        ->select("c.id, c.name, c.alias, COUNT(*) counter")
-                        ->from("{{question}} q")
-                        ->leftJoin("{{question2category}} q2c", "q2c.qId = q.id")
-                        ->leftJoin("{{questionCategory}} c", "c.id = q2c.cId")
-                        ->where($statusCondition . " AND c.id IS NOT NULL")
-                        ->group("c.id")
-                        ->order('c.name')
-                        ->queryAll();
-                Yii::app()->cache->set('categoriesCloud', $categoriesRows, 3600);
-            }
-            
-            $categoriesArray = array();
-            $counterMax = 0; // максимальное количество вопросов в категории
-            $counterMin = 0; // минимальное количество вопросов в категории
-            
-            // найдем минимальное и максимальное количество вопросов
-            foreach($categoriesRows as $row) {
-                if($row['counter']>$counterMax) {
-                    $counterMax = $row['counter'];
-                }
-                
-                if($counterMin == 0) {
-                    $counterMin = $row['counter']; // при первом цикле присвоим минимуму значение первого счетчика
-                }
-                
-                if($counterMin != 0 && $row['counter']<$counterMin) {
-                    $counterMin = $row['counter'];
-                }
-            }
+            $questions = Question::model()->cache(600)->findAll($criteria);       
                         
-            foreach($categoriesRows as $row) {
-                $categoriesArray[$row['id']]['name'] = $row['name'];
-                $categoriesArray[$row['id']]['alias'] = $row['alias'];
-                $categoriesArray[$row['id']]['counter'] = $row['counter'];
-            }
-            
             $this->render('index',array(
-			'categoriesArray'   =>  $categoriesArray,
-                        'status'            =>  $status,
-                        'counterMin'        =>  $counterMin,
-                        'counterMax'        =>  $counterMax,
-		));
+                'questions'   =>  $questions,
+            ));
 	}
 
 	/**
@@ -477,6 +515,44 @@ class QuestionController extends Controller
             $this->render('docsRequested');
         }
         
+        public function actionServices()
+        {
+            
+            $lead = new Lead100();
+            
+            if(isset($_POST['Lead100'])) {
+                $lead->attributes = $_POST['Lead100'];
+                $lead->phone = preg_replace('/([^0-9])/i', '', $lead->phone);
+                $lead->sourceId = 3;
+                $lead->type = Lead100::TYPE_SERVICES;
+                
+                if($lead->validate()) {
+                    $lead->question = CHtml::encode('Нужны услуги юриста. ' . $lead->question);
+                
+                    if($lead->save()) {
+                        $this->redirect(array('getServices'));
+                    }
+                }      
+                
+            }
+            
+            $townsArray = Town::getTownsIdsNames();
+            
+            $this->render('services', array(
+                'model'         =>  $lead,
+                'townsArray'    =>  $townsArray,
+            ));
+            
+        }
+        
+        
+        public function actionGetServices()
+        {
+            $this->layout = "//frontend/short";
+            $this->render('getServices');
+        }
+        
+        
         // изменения статуса вопроса на платный
         public function actionUpgrade($id)
         {
@@ -486,6 +562,11 @@ class QuestionController extends Controller
                 throw new CHttpException(404,'Вопрос не найден');
             }
             
+            $level = (isset($_GET['level']) && (int)$_GET['level']>0)?(int)$_GET['level']:  Question::LEVEL_1;
+            
+            $questionPrice = Question::getPriceByLevel($level);
+            $question->price = $questionPrice;
+            
             $this->render('upgrade', array(
                 'question'  =>  $question,
             ));
@@ -494,24 +575,63 @@ class QuestionController extends Controller
         // платеж успешно
         public function actionPaymentSuccess()
         {
+            $params = $_GET;
             
+            
+            $this->render('paymentSuccess', array('params'=>$params));
         }
         
         // платеж не успешно
         public function actionPaymentFail()
         {
-            
+            //https://100yuristov.com/question/paymentFail/test/1/?orderSumAmount=99.00&cdd_exp_date=1221&shopArticleId=367734&paymentPayerCode=4100322062290&cdd_rrn=&external_id=deposit&paymentType=AC&requestDatetime=2016-10-06T17%3A39%3A22.418%2B03%3A00&depositNumber=sO8G8EwrcotOG1AgYAadKefc5cQZ.001f.201610&cps_user_country_code=PL&orderCreatedDatetime=2016-10-06T17%3A39%3A21.921%2B03%3A00&sk=y0ef7319b7a2ed83de96f44ec0cd4c83c&action=PaymentFail&shopId=73868&scid=542085&rebillingOn=false&orderSumBankPaycash=1003&cps_region_id=216&orderSumCurrencyPaycash=10643&merchant_order_id=21516_061016173905_00000_73868&unilabel=1f8875c8-0009-5000-8000-000015ab36bd&cdd_pan_mask=444444%7C4448&customerNumber=21516&yandexPaymentId=2570060865738&invoiceId=2000000925475
+            $params = $_GET;
+            $this->render('paymentFail', array('params'=>$params));
         }
         
         // запрос от яндекса на проверку платежа
         public function actionPaymentCheck()
         {
             
+            $yaKassa = new YandexKassa($_POST);
+            
+            $paymentLog = fopen($_SERVER['DOCUMENT_ROOT'] . YandexKassa::PAYMENT_LOG_FILE, 'w+');
+            
+            foreach($_POST as $k=>$v) {
+                fwrite($paymentLog, $k . '=>' . $v . '; ');
+            }
+            
+            if(YandexKassa::checkMd5($_POST)) {
+                fwrite($paymentLog, "MD5 correct!");
+                $yaKassa->formResponse(0,'OK');
+                //$yaKassa->formResponse(1,'Error'); // just for test
+            } else {
+                fwrite($paymentLog, "MD5 incorrect!");
+                $yaKassa->formResponse(1,'Ошибка авторизации');
+            }
         }
         
         // запроса от яндекса о платеже или отказе
         public function actionPaymentAviso()
         {
+            $yaKassa = new YandexKassa($_POST);
             
+            $paymentLog = fopen($_SERVER['DOCUMENT_ROOT'] . YandexKassa::PAYMENT_LOG_FILE, 'w+');
+            
+            foreach($_POST as $k=>$v) {
+                fwrite($paymentLog, $k . '=>' . $v . '; ');
+            }
+            
+            if(YandexKassa::checkMd5($_POST)) {
+                fwrite($paymentLog, "MD5 correct!");
+                if($yaKassa->payQuestion()) {
+                    $yaKassa->formResponse(0,'OK', 'paymentAviso');
+                } else {
+                    $yaKassa->formResponse(1,'Error', 'paymentAviso');
+                }  
+            } else {
+                fwrite($paymentLog, "MD5 incorrect!");
+                $yaKassa->formResponse(1,'Error', 'paymentAviso');
+            }
         }
 }

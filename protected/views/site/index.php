@@ -3,17 +3,47 @@
     Yii::app()->clientScript->registerMetaTag("Задать вопрос адвокату без телефона и регистрации круглосуточно по всей России. Бесплатная помощь юриста онлайн и по телефону в Москве и Санкт-Петербурге.", 'description');
 
 ?>
-<!--
-<div class="panel">
-    <div class="panel-body">
-        <p>
-            This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. 
-        </p>
-    </div>
-</div>
--->
-<div class="panel gray-panel">
-    <div class="panel-body">
+
+        <div class="flat-panel">
+
+            <h3 class="header-block-light-grey">Последние вопросы юристам и адвокатам портала</h3>   
+        
+            <div class="inside">
+                <?php foreach($questions as $question):?>
+                    <div class="row question-list-item <?php if($question['payed'] == 1):?> vip-question<?endif;?>">
+                        <div class="col-sm-9">
+                            <p style="font-size:1.1em;">
+                                <?php if($question['payed'] == 1){
+                                    echo "<span class='label label-primary'><abbr title='Вопрос с гарантией получения ответов'>VIP</abbr></span>";
+                                }
+                                ?>
+                                <?php echo CHtml::link($question['title'], Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?>
+                            </p>
+                        </div>
+
+                        <div class="col-sm-3">
+
+                        <?php if($question['counter'] == 1) {
+                            echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>Есть ответ</span>";
+                        } elseif($question['counter']>1) {
+                            echo "<span class='label label-success'>" . $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
+                        } elseif($question['counter'] == 0) {
+                            echo "<span class='label label-default'>Нет ответа</span>";
+                        }
+                        ?>
+                        </span>
+                    </div>
+                    </div>
+                <?php endforeach;?>
+        
+                <div class='right-align'>
+                    <?php echo CHtml::link('Посмотреть все вопросы &raquo;', Yii::app()->createUrl('/question'), array('style'=>'color:#a2a2a2;'));?>
+                </div>
+            </div>
+        </div>
+
+
+
 <h1>Профессиональная помощь юриста по любым вопросам на всей территории РФ</h1>
 <p style="text-align: justify;">
 	 «100 Юристов» - уникальный сервисный портал, на котором каждый может получить квалифицированную помощь юриста онлайн режиме. Также наши специалисты всегда готовы проконсультировать по телефону, ответив на вопросы, касающиеся всех отраслей права РФ и других государств.
@@ -39,14 +69,21 @@
 <p style="text-align: justify;">
 	 Задавая вопрос юристу по телефону или на сайте, Вы получаете подробный и грамотный ответ, который поможет разобраться во многих тонкостях и «подводных камнях» определенной отрасли отечественного или зарубежного права, подскажет, как корректно вести себя в той или иной ситуации, какие шаги необходимо делать, а какие действия совершать ни в коем случае нельзя.
 </p>
-<h3 style="text-align: center;">По каким вопросам можно получить юридическую помощь?</h3>
+
+<h3 class="header-block header-block-green">По каким вопросам можно получить юридическую помощь?</h3>
+<div class="header-block-green-arrow"></div>
+
 <p style="text-align: justify;">
 	 Как указано выше, портал «100 Юристов» - это многофункциональный сервис, который охватывает все отрасли и сферы права. Но, судя по статистике, чаще всего услуги адвоката требуются людям, которые столкнулись с проблемами при разделе имущества, разводе, определении прав наследования, обжаловании исков или решений в судах, разрешении конфликтов с банками и прочими финансовыми, кредитными организациями.
 </p>
 <p style="text-align: justify;">
 	 Регистрация предприятия, его законодательно грамотная реорганизация или ликвидация, вопросы, касающиеся ведения, восстановления налогового и бухгалтерского учета – еще одни популярные направления консультирования наших специалистов, по которым также предоставляется оперативная и высококвалифицированная юридическая помощь в СПб и других регионах РФ. И оказывают ее высококлассные специалисты, имеющие солидный опыт работы в профильной сфере.
 </p>
-<h2 style="text-align: center;">Как воспользоваться помощью адвоката и юриста?</h2>
+
+
+<h3 class="header-block header-block-green">Как воспользоваться помощью адвоката и юриста?</h3>
+<div class="header-block-green-arrow"></div>
+
 <p style="text-align: justify;">
 	 Получить грамотную помощь адвоката или индивидуальную консультацию юриста на нашем портале легко, просто и доступно для каждого:
 </p>
@@ -62,23 +99,3 @@
 <p style="text-align: justify;">
  Задавайте актуальные для Вас вопросы, получайте круглосуточную квалифицированную правовую поддержку бесплатно прямо сейчас. 
 </p>
-
-    </div>
-</div>
-
-<div class="panel gray-panel">
-    <div class="panel-body">
-        <h3>Последние вопросы юристам и адвокатам портала</h3>   
-        <?php $this->widget('zii.widgets.CListView', array(
-                'dataProvider'=>$dataProvider,
-                'itemView'      =>  'application.views.question._viewShort',
-                'emptyText'     =>  'Не найдено ни одного вопроса',
-                'summaryText'   =>  '',
-
-        )); ?>
-        
-        <div class='right-align'>
-            <?php echo CHtml::link('Посмотреть все вопросы &raquo;', Yii::app()->createUrl('question/index'), array('style'=>'color:#a2a2a2;'));?>
-        </div>
-    </div>
-</div>
