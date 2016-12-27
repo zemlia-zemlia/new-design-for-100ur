@@ -14,6 +14,7 @@
  * @property string $phone
  * @property string $password
  * @property integer $active
+ * @property integer $active100
  * @property string $managerId
  * @property string $townId
  * @property string $registerDate
@@ -72,7 +73,7 @@ class User extends CActiveRecord
 		return array(
 			array('name, email, phone', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
 			array('townId', 'required', 'except'=>'unsubscribe', 'message'=>'Поле {attribute} должно быть заполнено'),
-			array('role, active, managerId, townId, karma', 'numerical', 'integerOnly'=>true),
+			array('role, active, active100, managerId, townId, karma', 'numerical', 'integerOnly'=>true),
 			array('name, position, email, phone', 'length', 'max'=>255),
                         array('name2, lastName, birthday', 'safe'),
                         array('townId', 'match','not'=>true, 'except'=>'unsubscribe', 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
@@ -152,7 +153,7 @@ class User extends CActiveRecord
             $allBuyers = array();    
             $buyers = User::model()->findAllByAttributes(array(
                 'role'      =>  self::ROLE_BUYER,
-                'active'    =>  1,
+                'active100' =>  1,
             ));
             foreach($buyers as $buyer) {
                 $allBuyers[$buyer->id] = $buyer->lastName . ' ' . $buyer->name;
@@ -164,7 +165,7 @@ class User extends CActiveRecord
                 // активация пользователя
         public function activate()
 	{
-	  $this->active = 1;
+	  $this->active100 = 1;
 	}
 
         /**
@@ -202,6 +203,7 @@ class User extends CActiveRecord
 			'password'  => 'Пароль',
                         'password2' => 'Пароль еще раз',
 			'active'    => 'Активность',
+			'active100' => 'Активность на сайте',
 			'managerId' => 'Руководитель',
                         'birthday'  => 'Дата рождения',
                         'townId'    => 'Город',
@@ -231,6 +233,7 @@ class User extends CActiveRecord
 		$criteria->compare('phone',$this->phone,true);
 		$criteria->compare('password',$this->password,true);
 		$criteria->compare('active',$this->active);
+		$criteria->compare('active100',$this->active100);
 		$criteria->compare('managerId',$this->manager,true);
 
 		return new CActiveDataProvider($this, array(
@@ -442,7 +445,10 @@ class User extends CActiveRecord
         
         public function sendAnswerNotification($question, $answer)
         {
-            if($this->active == 0) {
+            /*
+             * отправка письма пользователю, на вопрос которого дан ответ
+             */
+            if($this->active100 == 0) {
                 return;
             }
             
@@ -450,6 +456,7 @@ class User extends CActiveRecord
                 return;
             }
             
+            // в письмо вставляем ссылку на вопрос + метки для отслеживания переходов
             $questionLink = "https://100yuristov.com/q/" . $question->id . "/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_notification&utm_term=" . $question->id;
             
             $mailer = new GTMail;
@@ -462,12 +469,16 @@ class User extends CActiveRecord
                 <br /><br />
                 " . CHtml::link("Посмотреть ответ",$questionLink, array('class'=>'btn')) . "
                 </p>";
+            
+            // отправляем письмо на почту пользователя
             $mailer->email = $this->email;
             
             if($mailer->sendMail(true, '100yuristov')) {
+                Yii::log("Отправлено письмо пользователю " . $this->email . " с уведомлением об ответе на вопрос " . $question->id, 'info', 'system.web.User');
                 return true;
             } else {
                 // не удалось отправить письмо
+                Yii::log("Не удалось отправить письмо пользователю " . $this->email . " с уведомлением об ответе на вопрос " . $question->id, 'error', 'system.web.User');
                 return false;
             }
         }

@@ -16,7 +16,7 @@ $this->breadcrumbs=array(
     <p class="center-align">
         Кампания: <?php echo $campaign->region->name . ' ' . $campaign->town->name;?>
         <?php if($status!==false) {
-            $statuses = Lead::getLeadStatusesArray();
+            $statuses = Lead100::getLeadStatusesArray();
             echo ', Статус: ' . $statuses[$status];
         }
         ?>

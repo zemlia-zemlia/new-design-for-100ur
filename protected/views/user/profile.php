@@ -32,7 +32,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         <img src="<?php echo $user->getAvatarUrl();?>" />
                     </p>  
                     <?php if($user->id === Yii::app()->user->id):?>    
-                    <?php echo CHtml::link('Редактировать профиль', Yii::app()->createUrl('user/update', array('id'=>Yii::app()->user->id)), array('class'=>'btn btn-xs btn-default'));?>
+                    <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('user/update', array('id'=>Yii::app()->user->id)), array('class'=>'btn btn-xs btn-default'));?>
                     <?php endif;?>
                         
                 </div>

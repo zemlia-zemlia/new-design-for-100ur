@@ -33,7 +33,9 @@ $this->breadcrumbs=array(
       <thead>
       <tr>
           <th>Имя</th>
+		  <th>Город</th>
           <th>Email</th>
+		  <th>Телефон</th>
           <th>Редактировать</th>
       </tr>
       </thead>

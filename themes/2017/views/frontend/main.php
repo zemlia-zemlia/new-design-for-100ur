@@ -84,7 +84,7 @@
 								Нижний Новгород
 								Волгоград
 								Красноярск<br/>
-								<b>Звонки принимаются с 10:00 до 19:00, письменные обращения КРУГЛОСУТОЧНО</b>
+								<b>Звонки принимаются с 10:00 до 19:00 (МСК), письменные обращения КРУГЛОСУТОЧНО</b>
                                 </small>
                             </p>
 
@@ -114,7 +114,7 @@
         <ul class="nav navbar-nav">
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/')?CHtml::link('Главная', '/'):'<span class="active">Главная</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/konsultaciya_yurista_advokata/')?CHtml::link('Консультация', Yii::app()->createUrl('/site/konsultaciya_yurista_advokata')):'<span class="active">Консультация</span>';?></li>
-            <li><?php echo ($_SERVER['REQUEST_URI'] != '/company/')?CHtml::link('Компании', Yii::app()->createUrl('/company/')):'<span class="active">Компании</span>';?></li>
+			<li><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/')?CHtml::link('Юристы', Yii::app()->createUrl('/yurist/')):'<span class="active">Юристы</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/region/')?CHtml::link('Регионы', Yii::app()->createUrl('/region/')):'<span class="active">Регионы</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/')?CHtml::link('Филиалы', Yii::app()->createUrl('/site/contacts')):'<span class="active">Филиалы</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/blog/')?CHtml::link('Блог', Yii::app()->createUrl('/blog')):'<span class="active">Блог</span>';?></li>
@@ -289,11 +289,11 @@
                     <?php endif;?>
                 </div>
                 
-             				
-                <div class="">
-                    <?php echo CHtml::link("<img src='/pics/2017/yurist_call.jpg' alt=''  class='center-block' />", Yii::app()->createUrl('/question/call/')); ?> <br/>
-                </div>
-
+             	<?php if(Yii::app()->user->isGuest):?>			
+                    <div class="">
+                        <?php echo CHtml::link("<img src='/pics/2017/yurist_call.jpg' alt=''  class='center-block' />", Yii::app()->createUrl('/question/call/')); ?> <br/>
+                    </div>
+                <?php endif;?>
 		
                 <div class="vert-margin20 flat-panel">   
                     <?php
@@ -304,7 +304,7 @@
                 </div>
 				
 
-                                              
+                <!--                               
                 <div class="panel gray-panel">
                     <div class="panel-body">
                         <div class="row">
@@ -329,7 +329,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 
                                 
             </div>					
@@ -358,42 +358,51 @@
                 </div>
 				
 				<div class='col-md-3 col-sm-3'>
-				<noindex>
+
 				<ul>
+					<li><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/')?CHtml::link('Юристы', Yii::app()->createUrl('/yurist/')):'<span class="active"><p>Юристы</p></span>';?></li>
 					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/offer/')?CHtml::link('Пользовательское соглашение', Yii::app()->createUrl('/site/offer/')):'<span class="active"><p>Пользовательское соглашение</p></span>';?></li>
 					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/crm/')?CHtml::link('CRM Для юридических фирм', Yii::app()->createUrl('/site/crm/')):'<span class="active"><p>CRM Для юридических фирм</p></span>';?></li>
-					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/')?CHtml::link('Заявки', Yii::app()->createUrl('/site/lead/')):'<span class="active"><p>Заявки</p></span>';?></li>
+					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/')?CHtml::link('Клиенты Юристам и Адвокатам', Yii::app()->createUrl('/site/lead/')):'<span class="active"><p>Клиенты Юристам и Адвокатам</p></span>';?></li>
 					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/about/')?CHtml::link('О проекте', Yii::app()->createUrl('/site/about/')):'<span class="active"><p>О проекте</p></span>';?></li>
+					<li><?php echo ($_SERVER['REQUEST_URI'] != '/company/')?CHtml::link('Каталог компаний', Yii::app()->createUrl('/company/')):'<span class="active"><p>Каталог компаний</p></span>';?></li>
 				</ul>
-				</noindex>
+
 				</div>
 
                 <div class='col-md-3 col-sm-3'>
-				<p><strong>Москва:</strong> Шлюзовая набережная д.6 стр.4 <br/>
-				<strong>Санкт-Петербург:</strong> ул. Достоевского д.25<br/>
-                <strong>Нижний Новгород:</strong> ул. Новая, д. 28<br/>
-				<strong>Екатеринбург:</strong> ул. 8 Марта, д. 142<br/>
-				<strong>Красноярск:</strong> просп. Мира, 30, корп.1</p>
-                </div>
-				
+					<div itemscope itemtype="http://schema.org/Organization"> 
+						<span itemprop="name">100 Юристов</span>
+							<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+							<span itemprop="addressLocality">Москва</span> <span itemprop="streetAddress">Шлюзовая набережная д.6 стр.4</span><br/>
+							<span itemprop="addressLocality">Санкт-Петербург</span> <span itemprop="streetAddress">ул. Достоевского д.25</span><br/>
+							<span itemprop="addressLocality">Нижний Новгород</span> <span itemprop="streetAddress">ул. Новая, д. 28</span><br/>
+							<span itemprop="addressLocality">Екатеринбург</span> <span itemprop="streetAddress">ул. 8 Марта, д. 142</span><br/>
+							<span itemprop="addressLocality">Красноярск</span> <span itemprop="streetAddress">просп. Мира, 30, корп.1</span><br/>
+							<span itemprop="telephone">8-800-500-61-85</span>
+							</div>
+					</div>
+				</div>
+               				
 				<div class='col-md-3 col-sm-3' style="text-align: center">
 					<div class="header-phone">
                                 <strong>Горячая линия</strong> <br/>юридических консультаций
 					</div>
 					<span class="header-phone-800">
 						<strong>
-									8-800-500-61-85
+									 8-800-500-61-85 
 						</strong>
 					</span>
 				</div>
             </div>
+			 
 			<div class='row'>
 				<div class='col-md-12 col-sm-12'>
 						<p style="text-align: justify;"> 
 						<small>
 							<noindex>
-							&copy; Правовой портал «100 Юристов» 2014. <br />
-								Все права, на любые материалы, размещенные на сайте, защищены в соответствии с российским и международным законодательством об авторском праве и смежных правах. При любом использовании текстовых, аудио-, видео- и фотоматериалов ссылка на www.100yuristov.com обязательна.
+							&copy; Правовой портал «100 Юристов» 2014. Сайт предназначен для лиц старше 18 лет.<br />
+								Все права, на любые материалы, размещенные на сайте, защищены в соответствии с российским и международным законодательством об авторском праве и смежных правах. При любом использовании текстовых, аудио-, видео- и фотоматериалов ссылка на www.100yuristov.com обязательна. Редакция сайта не несет ответственности за достоверность информации, опубликованной на сайте.
 							</noindex>
 						</small>
 						</p>

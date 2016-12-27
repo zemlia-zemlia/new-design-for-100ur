@@ -111,11 +111,11 @@
                         <ul id="left-menu">
 							<li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Лиды", Yii::app()->createUrl('/admin/lead/index'));?>
 							<?php echo CHtml::link('Добавить', Yii::app()->createUrl('/admin/lead/create/'), array('class'=>'btn btn-info btn-xs'));?></li>
-                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Проданные", Yii::app()->createUrl('/admin/lead/index', array('status'=>  Lead::LEAD_STATUS_SENT)));?></li>
+                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Проданные", Yii::app()->createUrl('/admin/lead/index', array('status'=>  Lead100::LEAD_STATUS_SENT)));?></li>
                             
                                 <ul>
                                     <li>
-                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  На отбраковке", Yii::app()->createUrl('/admin/lead/index', array('status'=>  Lead::LEAD_STATUS_NABRAK)));?>  
+                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  На отбраковке", Yii::app()->createUrl('/admin/lead/index', array('status'=>  Lead100::LEAD_STATUS_NABRAK)));?>  
                                         <span class="label label-default"><?php echo Lead100::getStatusCounter(Lead100::LEAD_STATUS_NABRAK);?></span>
                                     </li>
                                     <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Брак", Yii::app()->createUrl('/admin/lead/index', array('status'=>  Lead100::LEAD_STATUS_BRAK)));?></li>
@@ -123,7 +123,7 @@
                                 </ul>
 							<li><?php echo CHtml::link("<span class='glyphicon glyphicon-briefcase'></span>  Кампании", Yii::app()->createUrl('/admin/campaign'));?></li>
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-signal'></span>  Статистика", Yii::app()->createUrl('/admin/lead/stats'));?></li>
-                                                    
+                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-share-alt'></span>  Источники", Yii::app()->createUrl('/admin/leadsource'));?></li>                        
                         </ul>
                         </div>
                     </div>
@@ -192,7 +192,7 @@
 							<li>	
                                 <ul id="left-menu">
                                         <li>
-                                                <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Новые комментарии', Yii::app()->createUrl('/admin/comment/index',array('type'=>Comment::TYPE_ANSWER, 'status'=> Comment::STATUS_NEW)));?>
+                                            <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Новые комментарии', Yii::app()->createUrl('/admin/comment/index',array('type'=>Comment::TYPE_ANSWER, 'status'=> Comment::STATUS_NEW)));?> <span class="badge badge-default"><?php echo Comment::newCommentsCount(Comment::TYPE_ANSWER, 300);?></span>
                                         </li>
                                         <li>
                                                 <?php echo CHtml::link("<span class='glyphicon glyphicon-ok'></span> " . 'Одобренные комментарии', Yii::app()->createUrl('/admin/comment/index',array('type'=>Comment::TYPE_ANSWER, 'status'=>  Comment::STATUS_CHECKED)));?>
@@ -209,7 +209,7 @@
                                  
 									<ul id="left-menu">
 										<li>
-											<?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Новые отзывы', Yii::app()->createUrl('/admin/comment/index',array('type'=>Comment::TYPE_COMPANY, 'status'=> Comment::STATUS_NEW)));?>
+											<?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Новые отзывы', Yii::app()->createUrl('/admin/comment/index',array('type'=>Comment::TYPE_COMPANY, 'status'=> Comment::STATUS_NEW)));?> <span class="badge badge-default"><?php echo Comment::newCommentsCount(Comment::TYPE_COMPANY, 300);?></span>
 										</li>
 										<li>
 											<?php echo CHtml::link("<span class='glyphicon glyphicon-ok'></span> " . 'Одобренные', Yii::app()->createUrl('/admin/comment/index',array('type'=>Comment::TYPE_COMPANY, 'status'=>  Comment::STATUS_CHECKED)));?>
@@ -222,7 +222,7 @@
 							
 							<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
 							<li><?php echo CHtml::link("<span class='glyphicon glyphicon-pencil'></span>  Блог", Yii::app()->createUrl('/admin/blog'));?></li> 
-							<li><?php echo CHtml::link("<span class='glyphicon glyphicon-globe'></span>  Города", Yii::app()->createUrl('/admin/town'));?></li> 
+							<li><?php echo CHtml::link("<span class='glyphicon glyphicon-globe'></span>  Регионы", Yii::app()->createUrl('/admin/region'));?></li> 
 							<?php endif;?> 
 							
                             

@@ -140,4 +140,18 @@ class Comment extends CActiveRecord
             $statusesArray = self::getStatusesArray();
             return $statusesArray[$status];
         }
+        
+        /*
+         * возвращает количество новых комментариев заданного типа
+         */
+        public static function newCommentsCount($type, $cacheTime = 0) 
+        {
+            $counterRow = Yii::app()->db->cache($cacheTime)->createCommand()
+                    ->select("COUNT(*) counter")
+                    ->from("{{comment}}")
+                    ->where("type=:type AND status=:status", array(':type'=>(int)$type, ':status'=>self::STATUS_NEW))
+                    ->queryRow();
+            
+            return ($counterRow!== false)?$counterRow['counter']:0;
+        }
 }

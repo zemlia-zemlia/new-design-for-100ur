@@ -1,6 +1,6 @@
 <?php
 /* @var $this LeadController */
-/* @var $model Lead */
+/* @var $model Lead100 */
 
 $this->setPageTitle("Редактирование лида " . $model->id . '. ' .  Yii::app()->name);
 

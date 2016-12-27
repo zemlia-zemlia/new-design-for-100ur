@@ -3,7 +3,7 @@ $this->setPageTitle("Поиск вопросов. Консультация юр�
 ?>
 
         <h1>Вопросы юристам</h1>
-
+             
 <?php if(isset($dataProvider)):?>
 
 <?php $this->widget('zii.widgets.CListView', array(

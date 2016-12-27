@@ -2,29 +2,30 @@
 /* @var $this UserController */
 /* @var $model User */
 
+
+$userDisplayName = (isset($model->settings->alias) && $model->settings->alias!='')?CHtml::encode($model->settings->alias):CHtml::encode($model->name . ' ' . $model->lastName);
+
 $this->breadcrumbs=array(
-	CHtml::encode($model->settings->alias),
+        'Юристы и Адвокаты' =>  array('/yurist'),
+	$userDisplayName,
 );
 
-$this->setPageTitle("Юрист ". CHtml::encode($model->settings->alias) . '. ' . Yii::app()->name);
+$this->setPageTitle("Юрист ". $userDisplayName . '. ' . Yii::app()->name);
         
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('Юристы и Адвокаты',"/"),
+    'homeLink'=>CHtml::link('100 Юристов',"/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
             
 ?>
 
-
-<div class="panel panel-default gray-panel">
-    <div class="panel-body">
            
         <h1 class="vert-margin30">
-            <?php echo CHtml::encode($model->settings->alias);?>
+            <?php echo $userDisplayName;?>
         </h1>
         
-        <div class="container-fluid">
+        <div class="container-fluid vert-margin30">
             <div class="row">
                 <div class="col-sm-3 center-align">
                     <p>
@@ -34,22 +35,61 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
                 </div>
                 <div class="col-sm-9">
+                    
+                    
+                    <?php if($model->categories):?>
+                    <h3 class="left-align">Специализации</h3>
+                    
+                        <?php foreach ($model->categories as $cat): ?>
+                        <span class="yurist-directions-item"><?php echo $cat->name; ?></span>
+                        <?php endforeach;?>
+                    <hr />        
+                    <?php endif;?>
+            
+                    <h3 class="left-align">Контакты</h3>
+                    
                     <p>
                         <strong>Город:</strong> <?php echo $model->settings->town->name;?>
                     </p>
                     
-                    <?php if($model->categories):?>
-                        <tr>
-                            <td><strong>Специализации</strong></td>
-                            <td>
-                                <?php foreach ($model->categories as $cat): ?>
-                                <span class="label label-default"><?php echo $cat->name; ?></span>
-                                <?php endforeach;?>
-                            </td>
-                        </tr>
-
+                    <?php if($model->settings->phoneVisible):?>
+                    <p>
+                        <span class="hidden-block-container">
+                            <strong>Телефон:</strong> 
+                                <span class="hidden-block">
+                                <?php echo $model->settings->phoneVisible;?>
+                                </span>
+                                <span class="hidden-block-trigger">
+                                    <a href="#">Показать</a>
+                                </span>
+                        </span>
+                    </p> 
                     <?php endif;?>
-            
+                    
+                    <?php if($model->settings->emailVisible):?>
+                    <p>
+                        <span class="hidden-block-container">
+                        <strong>Email:</strong> 
+                            <span class="hidden-block">
+                                <?php echo CHtml::encode($model->settings->emailVisible);?>
+                            </span>
+                            <span class="hidden-block-trigger">
+                                <a href="#">Показать</a>
+                            </span>
+                        </span>
+                    </p>
+                    <?php endif;?>
+                    
+                    <?php if($model->settings->site):?>
+                    <p>
+                        <strong>Сайт:</strong> <?php echo CHtml::encode($model->settings->site);?>
+                    </p>
+                    <?php endif;?>
+                   
+                    <hr /> 
+                    
+                    
+                    <h3 class="left-align">Карьера</h3>    
                     <?php if($model->settings->startYear):?>
                     <p>
                         <strong>Год начала работы:</strong> <?php echo $model->settings->startYear;?>
@@ -67,36 +107,38 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         
                     </p>
                     <?php endif;?>
+                    <hr /> 
+                    
+                    <h3 class="left-align">Образование</h3> 
                     <p>
-                        <strong>Образование:</strong> 
-                            
                             <?php if($model->settings->education) echo $model->settings->education . ', ';?>
                             <?php if($model->settings->vuz) echo 'ВУЗ: ' . $model->settings->vuz . ', ';?>
                             <?php if($model->settings->vuzTownId) echo '(' . $model->settings->vuzTown->name . '), ';?>
                             <?php if($model->settings->educationYear) echo 'год окончания: ' . $model->settings->educationYear . '.';?>
                         
                     </p>
+                    <hr /> 
                     
-                    <!--
-                    <?php if($model->phone):?>
-                    <p>
-                        <strong>Телефон:</strong> <?php echo $model->phone;?>
-                    </p>
+                    <?php if($model->settings->priceConsult  > 0 || $model->settings->priceDoc  > 0):?>
+                        <h3 class="left-align">Платные услуги</h3>
+                        <?php if($model->settings->priceConsult  > 0):?>
+                            <p>Консультация от <?php echo $model->settings->priceConsult;?> руб.</p>
+                        <?php endif;?>
+                        <?php if($model->settings->priceDoc  > 0):?>
+                            <p>Составление документа от <?php echo $model->settings->priceDoc;?> руб.</p>
+                        <?php endif;?>
                     <?php endif;?>
-                    -->
+                    
                 </div>
             </div>
         </div>
         
-        
-    </div>
-</div>
 
 
-<div class="panel panel-default gray-panel">
-    <div class="panel-body">
-        
-        <h2>Последние ответы</h2>
+<div class="vert-margin30">
+<?php if(sizeof($questions)):?>        
+<h2>Последние ответы</h2>
+<?php endif;?>
         
 <?php foreach($questions as $question):?>
     <div class="row question-list-item <?php if($question['payed'] == 1):?> vip-question<?endif;?>">
@@ -111,6 +153,11 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         </div>
     </div>
 <?php endforeach;?>
-
-    </div>
 </div>
+
+<?php 
+    if(Yii::app()->user->role == User::ROLE_ROOT) {
+        echo CHtml::link('Смотреть статистику ответов по месяцам', Yii::app()->createUrl('user/stats', array('userId'=>$model->id)));
+    }
+?>
+    

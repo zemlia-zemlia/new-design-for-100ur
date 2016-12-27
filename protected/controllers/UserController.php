@@ -29,7 +29,7 @@ class UserController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('update', 'profile', 'changePassword', 'updateAvatar', 'invites','deleteAvatar','clearInfo', 'requestConfirmation', 'karmaPlus'),
+				'actions'=>array('update', 'profile', 'changePassword', 'updateAvatar', 'invites','deleteAvatar','clearInfo', 'requestConfirmation', 'karmaPlus', 'stats'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -339,7 +339,7 @@ class UserController extends Controller
            if(!empty($user))
            {
               $user->setScenario('confirm');
-              if($user->active==0) {
+              if($user->active100==0) {
                 $user->activate();
                 $user->registerDate = date('Y-m-d');
                 $newPassword = $user->password = $user->password2 = $user->generatePassword();
@@ -555,5 +555,57 @@ class UserController extends Controller
             } else {
                 echo CJSON::encode(array('answerId'=>$answerId, 'status'=>0, 'message'=>'Ошибка!'));
             }
+        }
+        
+        
+        public function actionStats()
+        {
+            if(!Yii::app()->user->id) {
+                // запрет доступа для гостей
+                throw new CHttpException(403, 'Доступ к этой странице для Вас закрыт');
+            }
+            
+            $userId = (isset($_GET['userId']))?(int)$_GET['userId']:0;
+            
+            if(!$userId && (Yii::app()->user->role == User::ROLE_OPERATOR || Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_CALL_MANAGER)) {
+                // без указания id пользователя к странице могут обратиться только роли, отвечающие на вопросы
+                $userId = Yii::app()->user->id;
+            }
+                        
+            if(!$userId) {
+                // если не определен пользователь, для которого выводим статистику
+                throw new CHttpException(400, 'Не задан ID пользователя');
+            }
+            
+            $user = User::model()->findByPk($userId);
+            
+            if(!(Yii::app()->user->checkAccess(User::ROLE_MANAGER) || Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->checkAccess(User::ROLE_OPERATOR))) {
+                // запрет всем кроме менеджер+, операторов, юристов
+                throw new CHttpException(403, 'Доступ к этой странице для Вас закрыт');
+            }
+            
+            if(!Yii::app()->user->checkAccess(User::ROLE_MANAGER) && $userId!==Yii::app()->user->id) {
+                // запретим операторам и юристам просмотр чужой статистики
+                throw new CHttpException(403, 'Доступ к этой странице для Вас закрыт');
+            }
+            
+            // найдем статистику ответов пользователя с разбивкой по месяцам
+            
+            //SELECT COUNT(*), MONTH(`datetime`) month, YEAR(`datetime`) year FROM `crm_answer` 
+            //WHERE authorId=8 AND status IN (0,1) AND datetime IS NOT NULL
+            //GROUP BY year, month
+            $statsRows = Yii::app()->db->createCommand()
+                    ->select("COUNT(*) counter, MONTH(`datetime`) month, YEAR(`datetime`) year")
+                    ->from("{{answer}}")
+                    ->where("authorId=:userId AND status IN (:status1, :status2) AND datetime IS NOT NULL", array(':userId'=>$userId, ":status1"=>  Answer::STATUS_NEW, "status2"=>  Answer::STATUS_PUBLISHED))
+                    ->group("year, month")
+                    ->order("datetime DESC")
+                    ->queryAll();
+            
+            $this->render('stats', array(
+                'statsRows' =>  $statsRows, 
+                'user'      =>  $user,
+                ));
+            
         }
 }

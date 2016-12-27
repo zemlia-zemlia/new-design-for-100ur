@@ -130,6 +130,11 @@ hr {
     color:#fff;
 }
 
+.button-blue-gradient:hover {
+    color:#fff;
+    text-decoration: none;
+}
+
 .button-white-gradient {
     color:#333;
     background-image:url(/pics/2017/btn_gradient_light.png);
@@ -301,7 +306,7 @@ hr {
     color:#fff;
     background-color:#69747a;
     text-transform: uppercase;
-    font-size:20px;
+    font-size:15px;
     padding:10px;
 }
 
@@ -600,6 +605,15 @@ hr {
     padding: 2px;
     border-radius: 3px;
     font-size: 12px;
+}
+
+/*-------------- yurist profile ----------------------*/
+#user-profile-advocat, #user-profile-yurist, #user-profile-judge {
+    display:none;
+}
+
+.hidden-block-container .hidden-block {
+    display:none;
 }
 
 @media(max-width:996px) {

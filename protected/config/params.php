@@ -10,5 +10,10 @@ return array(
         'yandexShopId'  => 73868, // идентификатор магазина
         'yandexScid'    =>  542085, // номер витрины
         'yandexPaymentAction'   =>  'https://demomoney.yandex.ru/eshop.xml', // куда отправлять форму оплаты через Яндекс
+        'mailBoxYurcrmLogin'      =>  "all@yurcrm.ru",
+        'mailBoxYurcrmPassword'   =>  "vpn168dsl168",
+        'mailBoxYurcrmServer'     =>  "imap.mail.ru",
+        'mailBoxYurcrmPort'       =>  993,
+        'mailBoxYurcrmParam'      => '/imap/ssl/novalidate-cert',
 );
 ?>

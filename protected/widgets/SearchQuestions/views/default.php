@@ -19,25 +19,35 @@
     <?php echo CHtml::link(CustomFuncs::numForms($counterNoAnswers, 'вопрос', "вопроса", "вопросов") . ' ждут <br />ответов', Yii::app()->createUrl('/question/search')); ?>
 </h4>
 
-<?php if($model->townId):?>
-    <div class="checkbox">
-        <label>
-            <?php echo CHtml::checkBox('', ''); ?>
-            <?php echo CHtml::link('Из моего города', Yii::app()->createUrl('/question/search/?QuestionSearch[townId]=' . $model->townId));?>
-        </label>
-    </div>
-<?php endif;?>
-
+<h4>Фильтр вопросов</h4>
 
     <div class="checkbox">
-        <label>
-            <?php echo $form->checkBox($model, 'noAnswers', array(
+        <label data-toggle="tooltip" data-placement ="left" title="Укажите свои специальноси в профиле">
+            <?php echo $form->checkBox($model, 'myCats', array(
             )); ?>
-            <?php echo $model->getAttributeLabel('noAnswers');?>
+            <?php echo $model->getAttributeLabel('myCats');?>
         </label>
-            <?php echo $form->error($model,'noAnswers'); ?>
+            <?php echo $form->error($model,'myCats'); ?>
     </div>
-    
+
+    <div class="checkbox">
+        <label>
+            <?php echo $form->checkBox($model, 'myTown', array(
+            )); ?>
+            <?php echo $model->getAttributeLabel('myTown');?>
+        </label>
+            <?php echo $form->error($model,'myTown'); ?>
+    </div>
+
+    <div class="checkbox">
+        <label>
+            <?php echo $form->checkBox($model, 'sameRegion', array(
+            )); ?>
+            <?php echo $model->getAttributeLabel('sameRegion');?>
+        </label>
+            <?php echo $form->error($model,'sameRegion'); ?>
+    </div>
+
     <div class="checkbox">
         <label>
             <?php echo $form->checkBox($model, 'today', array(
@@ -49,7 +59,11 @@
 
 
     <div class="form-group">
-            <?php echo CHtml::submitButton('Найти', array('class'=>'button button-blue-gradient btn-block')); ?>
+            <?php echo CHtml::submitButton('Отфильтровать', array('class'=>'button button-blue-gradient btn-block')); ?>
+            
+            <?php if($randomQuestionId):?>
+                <?php echo CHtml::link('Случайный вопрос', Yii::app()->createUrl('question/view', array('id'=>$randomQuestionId)), array('class'=>'button btn-block button-blue-gradient')); ?>
+            <?php endif;?>
     </div>
 
 <?php $this->endWidget(); ?>

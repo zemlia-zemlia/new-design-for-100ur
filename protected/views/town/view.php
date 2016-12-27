@@ -43,6 +43,25 @@ $this->breadcrumbs=array(
     </div>
 <?php endif;?>
 
+	<div class="form-container">		
+				<h2 class="header-block header-block-green"> <strong class="glyphicon glyphicon-earphone"></strong> Горячая линия юридических консультаций</h2>
+				<br/>
+				<p style="text-align: center;">
+					<span style="font-size: 25pt; color: #39b778;"><strong>8-800-500-61-85</strong></span><br/>
+				</p>
+				<p class="text-muted" style="text-align: center">
+					<small>
+					Москва
+					Санкт-Петербург 
+					Екатеринбург
+					Нижний Новгород
+					Волгоград
+					Красноярск<br/>
+					<b>Звонки принимаются с 10:00 до 19:00 (МСК), <a href="/question/create/">письменные обращения</a> КРУГЛОСУТОЧНО</b>
+					</small>
+				</p>
+	</div>
+
 
 <div class='flat-panel'>
     <div class='inside'>

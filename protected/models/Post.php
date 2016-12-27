@@ -48,7 +48,7 @@ class Post extends CActiveRecord
             // will receive user inputs.
             return array(
                 array('authorId, title, text, preview', 'required'),
-                array('authorId, rating', 'numerical', 'integerOnly'=>true),
+                array('id, authorId, rating', 'numerical', 'integerOnly'=>true),
                 array('title, photo', 'length', 'max'=>256),
                 array('description, datePublication', 'safe'),
                 array('photoFile', 'file', 'types'=>'jpg, gif, png', 'allowEmpty'=>true),

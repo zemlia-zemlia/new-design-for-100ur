@@ -3,22 +3,22 @@
 /* @var $data Contact */
 
 switch ($data->leadStatus) {
-    case Lead::LEAD_STATUS_DEFAULT:
+    case Lead100::LEAD_STATUS_DEFAULT:
         $statusClass = 'label-default';
         break;
-    case Lead::LEAD_STATUS_SENT_CRM:
+    case Lead100::LEAD_STATUS_SENT_CRM:
         $statusClass = 'label-primary';
         break;
-    case Lead::LEAD_STATUS_NABRAK:
+    case Lead100::LEAD_STATUS_NABRAK:
         $statusClass = 'label-warning';
         break;
-    case Lead::LEAD_STATUS_BRAK:
+    case Lead100::LEAD_STATUS_BRAK:
         $statusClass = 'label-warning';
         break;
-    case Lead::LEAD_STATUS_RETURN:
+    case Lead100::LEAD_STATUS_RETURN:
         $statusClass = 'label-info';
         break;
-    case Lead::LEAD_STATUS_SENT:
+    case Lead100::LEAD_STATUS_SENT:
         $statusClass = 'label-success';
         break;
     
@@ -83,14 +83,14 @@ switch ($data->leadStatus) {
                 <?php echo CHtml::link($data->questionId, Yii::app()->createUrl('/admin/question/view', array('id'=>$data->questionId)));?>
             <?php else:?>
                 <?php if($data->sourceId!=3):?>
-                    <?php echo CHtml::ajaxLink('В вопрос', Yii::app()->createUrl('/admin/lead/toQuestion', array('id'=>$data->id)), array('type'=>'POST', 'success'=>'LeadToQuestionAjax'), array('class'=>'btn btn-primary btn-xs'));?>
+                    <?php echo CHtml::ajaxLink('В вопрос', Yii::app()->createUrl('/admin/lead/toQuestion', array('id'=>$data->id)), array('type'=>'POST', 'success'=>'LeadToQuestionAjax'), array('class'=>'btn btn-primary btn-xs btn-block'));?>
                 <?php endif;?>
             <?php endif;?>
-        </p>  </small>
+        </p>
     
-        <?php if($data->leadStatus == Lead::LEAD_STATUS_NABRAK):?>
-            <?php echo CHtml::link('В брак', '#', array('class'=>'btn btn-warning btn-xs btn-block lead-change-status', 'data-id'=>$data->id, 'data-status'=>Lead::LEAD_STATUS_BRAK));?>
-            <?php echo CHtml::link('Возврат', '#', array('class'=>'btn btn-success btn-xs btn-block lead-change-status', 'data-id'=>$data->id, 'data-status'=>Lead::LEAD_STATUS_RETURN));?>
+        <?php if($data->leadStatus == Lead100::LEAD_STATUS_NABRAK):?>
+            <?php echo CHtml::link('В брак', '#', array('class'=>'btn btn-warning btn-xs btn-block lead-change-status', 'data-id'=>$data->id, 'data-status'=>Lead100::LEAD_STATUS_BRAK));?>
+            <?php echo CHtml::link('Возврат', '#', array('class'=>'btn btn-success btn-xs btn-block lead-change-status', 'data-id'=>$data->id, 'data-status'=>Lead100::LEAD_STATUS_RETURN));?>
             <div id="lead-status-message-<?php echo $data->id;?>"></div>
         <?php endif;?>
     </td>

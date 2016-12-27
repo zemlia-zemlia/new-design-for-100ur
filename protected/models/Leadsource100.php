@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This is the model class for table "{{leadsource}}".
+ * Модель для работы с источниками лидов 100 юристов.
  *
  * The followings are the available columns in table '{{leadsource}}':
  * @property integer $id
@@ -11,7 +11,7 @@
  * @property integer $noLead
  * @property integer $active
  */
-class Leadsource extends CActiveRecord
+class Leadsource100 extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -28,7 +28,7 @@ class Leadsource extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{leadsource}}';
+		return '{{leadsource100}}';
 	}
 
 	/**

@@ -20,11 +20,8 @@
      ));
 ?>
 
-<div class="panel panel-default">
-    <div class="panel-body">
-
-        
-        <h1 class="vert-margin30"><?php echo CHtml::encode($company->name); ?></h1>
+    <div itemscope="" itemtype="http://schema.org/Organization">
+    <h1 class="vert-margin30"><span itemprop="name"><?php echo CHtml::encode($company->name); ?></span></h1>
         
         <div class="container-fluid">
             <div class="row">
@@ -39,7 +36,7 @@
                     <?php endif;?>
                     
                     <?php if($company->address):?>
-                    <p><strong>Адрес:</strong> <?php echo CHtml::encode($company->address);?></p>
+                    <p itemprop="address"><strong>Адрес:</strong> <?php echo CHtml::encode($company->address);?></p>
                     <?php endif;?>
                     
                     <?php if($company->metro):?>
@@ -58,7 +55,7 @@
                     <?php for($p=1;$p<=3;$p++){
                         $phoneField = 'phone' . $p;
                         if($company->{$phoneField}) {
-                            echo $company->{$phoneField} . '&nbsp;&nbsp;';
+                            echo '<span itemprop="telephone">' . $company->{$phoneField} . '</span>&nbsp;&nbsp;';
                         }
                     }
                     ?>
@@ -75,17 +72,28 @@
             </div>
         </div>
         
+    <span itemprop="description">
         <?php echo $company->description;?>
-    </div>
-</div>
-
+    </span>
 
 <?php if($company->commentsChecked):?>
-<div class="panel panel-default">
-    <div class="panel-body">
+
         <h2>Отзывы</h2>
         <?php foreach($company->commentsChecked as $com):?>
-        <div itemprop="review" itemscope itemtype="http://schema.org/Review">    
+        <div itemprop="review" itemscope itemtype="http://schema.org/Review">  
+            
+            <div itemprop="itemReviewed" itemscope="" itemtype="http://schema.org/Organization" style="display: none;">
+                <meta itemprop="name" content="<?php echo CHtml::encode($company->name); ?>">
+                <meta itemprop="address" content="<?php echo CHtml::encode($company->address);?>">
+                <?php for($p=1;$p<=3;$p++){
+                        $phoneField = 'phone' . $p;
+                        if($company->{$phoneField}) {
+                            echo '<span itemprop="telephone">' . $company->{$phoneField} . '</span>&nbsp;&nbsp;';
+                        }
+                    }
+                    ?>
+            </div>
+            
             <div class="review-item row">
                 <div class="col-sm-3">
                     <?php if($com->author):?>
@@ -100,6 +108,8 @@
                             <small>
                                 <?php echo CustomFuncs::niceDate($com->dateTime, false);?>
                             </small>
+                            <span itemprop="datePublished" style="display:none;"><?php echo date("c", strtotime($com->dateTime));?></span>
+                            <?php echo CHtml::link("", Yii::app()->createUrl('yurCompany/view', array('id'=>$company->id)), array('itemprop'=>"url", 'style'=>'display:none;' ));?>
                         </p>    
                 </div>
                 <div class="col-sm-9">
@@ -112,10 +122,12 @@
             </div>
         </div>
         <?php endforeach;?>
-    </div>
-</div>
+
 
 <?php endif;?>
+
+</div>  <!-- Product --> 
+
 
 <div class="panel panel-default">
     <div class="panel-body">

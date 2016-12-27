@@ -12,13 +12,15 @@ class TopYurists extends CWidget
     {
         $criteria = new CDbCriteria;
         
-        $criteria->addColumnCondition(array('role' => User::ROLE_JURIST));
-        $criteria->addColumnCondition(array('role' => User::ROLE_OPERATOR), 'AND', 'OR');
-        $criteria->addColumnCondition(array('role' => User::ROLE_CALL_MANAGER), 'AND', 'OR');
-        $criteria->addColumnCondition(array('active'=>1));
+//        $criteria->addColumnCondition(array('role' => User::ROLE_JURIST));
+//        $criteria->addColumnCondition(array('role' => User::ROLE_OPERATOR), 'AND', 'OR');
+//        $criteria->addColumnCondition(array('role' => User::ROLE_CALL_MANAGER), 'AND', 'OR');
+        
+        $criteria->addInCondition('role', array(User::ROLE_JURIST, User::ROLE_OPERATOR, User::ROLE_CALL_MANAGER));
+        $criteria->addColumnCondition(array('active100'=>1));
         $criteria->order = "RAND()";
         $criteria->limit = $this->limit;
-        $criteria->with = 'categories';
+        $criteria->with = array('categories', 'settings', 'settings.town');
         
         $users = User::model()->cache($this->cacheTime)->findAll($criteria);
         

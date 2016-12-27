@@ -38,6 +38,14 @@ $(function(){
             $.post(link, {answerId:answerId}, onKarmaPlus);
             return false;
         })
+        
+        $(".hidden-block-trigger").on("click", function(e){
+            e.preventDefault();
+            var hiddenBlock = $(this).closest(".hidden-block-container").find(".hidden-block");
+            hiddenBlock.show();
+            $(this).hide();
+            return false;
+        })
     
 });
 
@@ -72,4 +80,13 @@ function onKarmaPlus(data, status, xhr)
     } else {
         alert('Ошибка: не удалось поставить плюс');
     }
+}
+
+// делает плавную прокрутку к элементу
+// element - селектор
+function scrollToElement(element)
+{
+    destination = $(element).offset().top;	
+    $("html, body").animate( { scrollTop: destination }, 1100 );
+    return false;
 }

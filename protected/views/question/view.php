@@ -163,16 +163,9 @@ if($model->description) {
       
         
 <?php if(Yii::app()->user->isGuest):?>
-    <div class="panel gray-panel">
-        <div class='panel-body'>
-
-
-            <div class="alert alert-success">
+            <!--<div class="alert alert-success">
                     <strong>Внимание!</strong> Если вы специалист в области права вы можете дать ответ на этот вопрос пройдя нехитрую процедуру <a href="/user/create/" class="alert-link" >регистрации</a> и подтверждения вашей квалификации.
-            </div>	   
-
-        </div>
-    </div>
+            </div>	-->    
 <?php endif;?>    
     
 </div> <!-- Question --> 
@@ -200,10 +193,26 @@ if($model->description) {
 
 <?php if(!(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR || Yii::app()->user->role == User::ROLE_CALL_MANAGER || ($model->authorId == Yii::app()->user->id))):?>
 
-<!-- Форма --> 
-<noindex>
-            <div class="form-container form-container-content">
-                <h3 class="center-align">Задать свой вопрос</h3>
+	<div class="form-container">		
+				<h2 class="header-block header-block-green"> <strong class="glyphicon glyphicon-earphone"></strong> Задайте свой вопрос по телефону</h2>
+				<br/>
+				<p style="text-align: center;">
+					<span style="font-size: 25pt; color: #39b778;"><strong>8-800-500-61-85</strong></span><br/>
+				</p>
+				<p class="text-muted" style="text-align: center">
+					<small>
+					Москва
+					Санкт-Петербург 
+					Екатеринбург
+					Нижний Новгород
+					Волгоград
+					Красноярск<br/>
+					<b>Звонки принимаются с 10:00 до 19:00 (МСК), <a href="/question/create/">письменные обращения</a> КРУГЛОСУТОЧНО</b>
+					</small>
+				</p>
+
+            <div class="form-container-content">
+                <h3 class="center-align header-block header-block-light-grey">или на сайте в режиме on-line<br/>доступно для ВСЕХ регионов РФ</h3>
                                 
                 <?php $form=$this->beginWidget('CActiveForm', array(
                         'id'                    =>  'question-form',
@@ -234,8 +243,8 @@ if($model->description) {
                 <?php $this->endWidget(); ?>
                               
             </div>
-</noindex>
-<!-- Конец формы --> 
+	</div>
+
 <?php endif;?>
 
 

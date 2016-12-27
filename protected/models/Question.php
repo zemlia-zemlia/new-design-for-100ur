@@ -165,12 +165,12 @@ class Question extends CActiveRecord
         static public function getCountWithoutAnswers()
         {
             $connection  = Yii::app()->db;
-            $sql = "SELECT q.*, a.id FROM {{question}} q LEFT OUTER JOIN {{answer}} a ON a.questionId = q.id WHERE a.id IS NULL AND (q.status=:statusPub OR q.status=:statusCheck)";
+            $sql = "SELECT COUNT(*) counter FROM {{question}} q LEFT OUTER JOIN {{answer}} a ON a.questionId = q.id WHERE a.id IS NULL AND q.status IN (:statusPub,:statusCheck)";
             $command = $connection->createCommand($sql);
             $command->bindValue(":statusCheck",  Question::STATUS_CHECK, PDO::PARAM_INT);
             $command->bindValue(":statusPub",  Question::STATUS_PUBLISHED, PDO::PARAM_INT);
-            $rows = $command->queryAll();
-            return sizeof($rows);
+            $row = $command->queryRow();
+            return $row['counter'];
         }
         
         // возвращает количество вопросов 
@@ -225,21 +225,24 @@ class Question extends CActiveRecord
         // присваивает полю title первые 10 слов из текста вопроса
         public function formTitle($wordsCount = 10)
         {
-            $text = preg_replace("/[^a-zA-Zа-яА-ЯёЁ0-9 ]/u", '', $this->questionText);
-            //echo $text; exit;
-            preg_match("/(?:\w+(?:\W+|$)){0,$wordsCount}/u", $text, $matches);
+            $text = trim(preg_replace("/[^a-zA-Zа-яА-ЯёЁ0-9 ]/ui", ' ', $this->questionText));
+            //echo $text . "\n";
+            //echo $wordsCount . "\n";
+            preg_match("/(\w+\s+){0,".$wordsCount."}/u", $text, $matches);
             $this->title = $matches[0];
+            //print_r($matches); exit;
             $patterns = array();
             $patterns[0] = '/Здравствуйте/ui';
             $patterns[1] = '/Добрый день/ui';
             $patterns[2] = '/[!,\.\?:]/ui';
+            $patterns[3] = '/quote/ui';
             $replacements = array();
+            $replacements[3] = '';
             $replacements[2] = ' ';
             $replacements[1] = '';
             $replacements[0] = '';
             
             $this->title = preg_replace($patterns, $replacements, $this->title);
-            $this->title = trim($this->title);
             $this->title = mb_strtoupper(mb_substr($this->title, 0, 1, 'UTF-8'), 'UTF-8') . mb_substr($this->title, 1, mb_strlen($this->title), 'UTF-8');
         }
         
@@ -299,6 +302,41 @@ class Question extends CActiveRecord
                 return true;
             } else {
                 return false;
+            }
+        }
+        
+        public static function getRandomId()
+        {
+            /*
+             *  SELECT * FROM `crm_question` q 
+                LEFT JOIN `crm_question2category` q2c ON q.id = q2c.qId
+                WHERE q2c.cId IN(3,5) AND q.status=2
+                ORDER BY RAND()
+                LIMIT 1
+             */
+            
+            $myCategories = Yii::app()->user->categories;
+            
+            $myCategoriesStr = '';
+            $myCategoriesIds = array();
+            foreach($myCategories as $cat) {
+                $myCategoriesIds[] = $cat->id;
+            }
+            $myCategoriesStr = implode(',', $myCategoriesIds);
+            
+            $questionRow = Yii::app()->db->createCommand()
+                    ->select('q.id id')
+                    ->from("{{question}} q")
+                    ->leftJoin("{{question2category}} q2c", "q.id = q2c.qId")
+                    ->where("q2c.cId IN(" . $myCategoriesStr . ") AND q.status=:status", array(":status"=>self::STATUS_PUBLISHED))
+                    ->order("RAND()")
+                    ->limit(1)
+                    ->queryRow();
+            
+            if($questionRow['id']) {
+                return $questionRow['id'];
+            } else {
+                return 0;
             }
         }
 }

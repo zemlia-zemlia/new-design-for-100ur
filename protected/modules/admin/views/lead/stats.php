@@ -32,7 +32,7 @@
     <div class="form-group">
         <?php echo CHtml::submitButton("Показать", array('class'=>'btn btn-primary'));?>
     </div>
-</form>
+</form> 
 
 <div class="vert-margin30">
     <?php echo CHtml::link('По датам', Yii::app()->createUrl('admin/lead/stats',array('type'=>'dates')));?> &nbsp;&nbsp;
@@ -46,8 +46,8 @@
 ?>
 
 <?php if(sizeof($sumArray)):?>
-<div id="chart_summa" style="width:100%; height:300px;"></div>
 <div id="chart_kolich" style="width:100%; height:300px;"></div>
+<div id="chart_summa" style="width:100%; height:300px;"></div>
 <?php endif;?>
 
 <table class="table table-bordered">
@@ -65,7 +65,9 @@
             ?>
         </th>
         <th>Количество</th>
-        <th>Сумма</th>
+        <th>Выручка</th>
+		<th>Расходы</th>
+		<th>Прибыль</th>
     </tr>
     <?php    foreach ($sumArray as $date=>$summa):?>
     <?php
@@ -88,6 +90,8 @@
         </td>
         <td><?php echo $kolichArray[$date];?></td>
         <td><?php echo $summa;?> руб.</td>
+		<td></td>
+		<td></td>
     </tr>
     <?php  endforeach;?>
     
@@ -96,8 +100,11 @@
         <th>Всего</th>
         <th><?php echo $kolichTotal;?></th>
         <th><?php echo $sumTotal;?> руб.</th>
+		<th></th>
+		<th></th>
     </tr>
     <?php endif;?>
+	
 </table>
 
 <?php if(sizeof($sumArray)):?>

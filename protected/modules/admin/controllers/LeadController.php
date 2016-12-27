@@ -283,7 +283,7 @@ class LeadController extends Controller
             $lead = Lead100::model()->findByPk($leadId);
             
             if(!$lead) {
-                echo json_encode(array('code'=>404, 'message'=>'Lead not found'));
+                echo json_encode(array('code'=>404, 'message'=>'Lead100 not found'));
                 exit;
             }
             
@@ -395,7 +395,7 @@ class LeadController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Lead the loaded model
+	 * @return Lead100 the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
@@ -408,7 +408,7 @@ class LeadController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Lead $model the model to be validated
+	 * @param Lead100 $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{

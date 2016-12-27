@@ -61,12 +61,32 @@ $this->breadcrumbs[] = $model->name;
             ?>
         </h1>
 
-<?php if($model->description1):?>
-    <div class="vert-margin30">
-            <?php echo $model->description1;?>
-    </div>
-<?php endif;?>
+			<?php if($model->description1):?>
+				<div class="vert-margin30">
+						<?php echo $model->description1;?>
+				</div>
+			<?php endif;?>
 
+	<div class="form-container">		
+				<h2 class="header-block header-block-green"> <strong class="glyphicon glyphicon-earphone"></strong> Горячая линия юридических консультаций</h2>
+				<br/>
+				<p style="text-align: center;">
+					<span style="font-size: 25pt; color: #39b778;"><strong>8-800-500-61-85</strong></span><br/>
+				</p>
+				<p class="text-muted" style="text-align: center">
+					<small>
+					Москва
+					Санкт-Петербург 
+					Екатеринбург
+					Нижний Новгород
+					Волгоград
+					Красноярск<br/>
+					<b>Звонки принимаются с 10:00 до 19:00 (МСК), <a href="/question/create/">письменные обращения</a> КРУГЛОСУТОЧНО</b>
+					</small>
+				</p>
+	</div>		
+			
+			
         <div class="flat-panel vert-margin30">
         <h2 class="header-block header-block-green">Последние вопросы юристам</h2>
         <div class="header-block-green-arrow"></div>
@@ -120,7 +140,7 @@ $this->breadcrumbs[] = $model->name;
 
 
 <!-- Форма --> 
-<noindex>
+
             <div class="form-container form-container-content flat-panel">
                 <h3 class="header-block header-block-green">Задать свой вопрос</h3>
                 <div class="header-block-green-arrow"></div>
@@ -155,5 +175,5 @@ $this->breadcrumbs[] = $model->name;
                 <?php $this->endWidget(); ?>
                 </div>         
             </div>
-</noindex>
+
 <!-- Конец формы --> 

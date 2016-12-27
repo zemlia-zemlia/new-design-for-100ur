@@ -326,7 +326,7 @@ class UserController extends Controller
 	public function actionIndex()
 	{
 		$criteria = new CDbCriteria;
-                $criteria->order = 't.active DESC, t.role DESC';
+                $criteria->order = 't.active100 DESC, t.role DESC';
                 
                 // если не задано, каких пользователей выводить, выводим юристов
 
@@ -379,7 +379,7 @@ class UserController extends Controller
            $criteria = new CDbCriteria;
            $criteria->addColumnCondition(array('email'=>$email));
            $criteria->addColumnCondition(array('confirm_code'=>$code));
-           $criteria->addColumnCondition(array('active'=>0));
+           $criteria->addColumnCondition(array('active100'=>0));
            $criteria->limit = 1;
            
            //находим пользователя с данным мейлом и кодом подтверждения
@@ -388,7 +388,7 @@ class UserController extends Controller
            if(!empty($user))
            {
               $user->setScenario('confirm');
-              if($user->active==0) 
+              if($user->active100==0) 
               {
                 $user->activate();
               }

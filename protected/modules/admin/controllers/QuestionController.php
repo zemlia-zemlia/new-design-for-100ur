@@ -35,7 +35,7 @@ class QuestionController extends Controller
                         'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
                 ),
                 array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                        'actions'=>array('create','update','admin','delete', 'publish', 'setPubTime'),
+                        'actions'=>array('create','update','admin','delete', 'publish', 'setPubTime', 'setTitles'),
                         'users'=>array('@'),
                         'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
                 ),
@@ -94,13 +94,13 @@ class QuestionController extends Controller
                                         if(!$q2cat->save()) {
                                         }
                                     }
-                                } else {
+                                } /*else {
                                     // если не указана категория поста
                                     $q2cat = new Question2category();
                                     $q2cat->qId = $model->id;
                                     $q2cat->cId = QuestionCategory::NO_CATEGORY;
                                     if($q2cat->save());
-                                }
+                                }*/
 				$this->redirect(array('view','id'=>$model->id));
                         }
 		}
@@ -139,7 +139,7 @@ class QuestionController extends Controller
 
 		if(isset($_POST['Question']))
 		{
-                   
+                    
 			$model->attributes=$_POST['Question'];
                         if($model->status == Question::STATUS_MODERATED && $oldStatus == Question::STATUS_NEW) {
                             $model->publishDate = date('Y-m-d H:i:s');
@@ -158,12 +158,12 @@ class QuestionController extends Controller
                                     if(!$q2cat->save()) {
                                     }
                                 }
-                            } else {
+                            } /*else {
                                 $q2cat = new Question2category();
                                 $q2cat->qId = $model->id;
                                 $q2cat->cId = QuestionCategory::NO_CATEGORY;
                                 if($q2cat->save());
-                            }
+                            }*/
                         
                             $this->redirect(array('view','id'=>$model->id, 'question_updated'=>'yes'));
                         }
@@ -485,5 +485,30 @@ class QuestionController extends Controller
                 return;
             }
             
+        }
+        
+        public function actionSetTitles()
+        {
+            $criteria = new CDbCriteria();
+            //$criteria->limit = 10;
+            $criteria->order = "id";
+            $criteria->addColumnCondition(array('title'=>''));
+
+            $questions = Question::model()->findAll($criteria);
+            echo sizeof($questions) . " found<br />";
+            foreach($questions as $question) {
+                echo $question->id . "<br />";
+                echo $question->questionText . "<br />";
+                $question->formTitle();
+                echo $question->title . "<br />";
+                if($question->save()) {
+                    echo " saved<br />";
+                } else {
+                    echo " NOT saved<br />";
+                    print_r($question->errors);
+                }
+                /*$question = null;
+                unset($question);*/
+            }
         }
 }

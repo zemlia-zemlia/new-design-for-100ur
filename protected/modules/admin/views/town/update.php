@@ -6,13 +6,13 @@ $this->pageTitle = "Редактирование города " . CHtml::encode(
 
 
 $this->breadcrumbs=array(
-	'Города'=>array('index'),
-        CHtml::encode($model->name) => array('view', 'id'=>$model->id),
+	'Регионы'=>array('/admin/region'),
+	CHtml::encode($model->region->name)=>array('/admin/region/view', 'regionAlias'=>CHtml::encode($model->region->alias)),
 	'Редактирование',
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('CRM',"/"),
+    'homeLink'=>CHtml::link('100 юристов',"/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));

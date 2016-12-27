@@ -33,7 +33,7 @@ $(function(){
     $(".form-brak-lead a.submit-brak-lead").on('click', function(e){
         e.preventDefault();
         var form = $(this).closest('form');
-        var reason = form.find('#Lead_brakReason').val();
+        var reason = form.find('#Lead100_brakReason').val();
         var leadId = form.attr('data-id');
         
         $.ajax('/cabinet/brakLead/', {

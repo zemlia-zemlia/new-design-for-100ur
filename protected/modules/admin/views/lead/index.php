@@ -18,10 +18,10 @@ $this->breadcrumbs=array(
         <?php echo CHtml::link('Отфильтровать обращения', Yii::app()->createUrl('/admin/lead/sendLeads'), array('class'=>'btn btn-primary'));?>
     <?php endif;?>
 </h1>
-    
+    <!--
     <?php if(Yii::app()->user->role == User::ROLE_ROOT):?>
     <?php echo CHtml::link('Сгенерировать тестовых лидов', Yii::app()->createUrl('/admin/lead/generate'));?>
-    <?php endif;?>
+    <?php endif;?> -->
 </div>
 
 <table class="table table-bordered table-hover table-striped">

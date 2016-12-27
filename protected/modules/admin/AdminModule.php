@@ -25,6 +25,7 @@ class AdminModule extends CWebModule
                     if (!(isset(Yii::app()->user) && !Yii::app()->user->isGuest && in_array(Yii::app()->user->role, array(
                             User::ROLE_ROOT,
                             User::ROLE_SECRETARY,
+							User::ROLE_EDITOR,
                         ))))
                     {
                         throw new CHttpException(403,'У Вас недостаточно прав для доступа к этой странице');

@@ -84,18 +84,12 @@ class QuestionCategoryController extends Controller
                 throw new CHttpException(404,'Категория не найдена');
             }
             
+            $questions = $this->findQuestions($model);
             
-            $questions = Yii::app()->db->createCommand()
-                    ->select('q.id id, q.publishDate date, q.title title, COUNT(*) counter')
-                    ->from('{{question}} q')
-                    ->leftJoin('{{answer}} a', 'q.id=a.questionId')
-                    ->join("{{question2category}} q2c", "q2c.qId=q.id AND q2c.cId=:catId", array(':catId'=>$model->id))
-                    ->group('q.id')
-                    ->where('q.status=:status AND a.id IS NOT NULL', array(':status'=>  Question::STATUS_PUBLISHED))
-                    ->limit(20)
-                    ->order('q.publishDate DESC')
-                    ->queryAll();
-            
+            // если в категории не нашлось вопросов
+            if(sizeof($questions) == 0) {
+                $questions = $this->findQuestions($model, false);
+            }
             
             $newQuestionModel = new Question();
             
@@ -154,4 +148,41 @@ class QuestionCategoryController extends Controller
 			Yii::app()->end();
 		}
 	}
+        
+        /* возвращает массив вопросов
+         * $thisCategory = true - вопросы данной категории
+         * $thisCategory = false - новые вопросы без привязки к категории
+         */
+        protected function findQuestions($category, $thisCategory = true)
+        {
+            $questionsCommand = Yii::app()->db->createCommand()
+                    ->select('q.id id, q.publishDate date, q.title title, a.id answerId')
+                    ->from('{{question}} q')
+                    ->leftJoin('{{answer}} a', 'q.id=a.questionId')
+                    ->where('q.status=:status', array(':status'=>  Question::STATUS_PUBLISHED))
+                    ->limit(20)
+                    ->order('q.publishDate DESC');
+            
+            
+            
+            if($thisCategory === true) {
+                $questionsCommand = $questionsCommand->join("{{question2category}} q2c", "q2c.qId=q.id AND q2c.cId=:catId", array(':catId'=>$category->id));
+            }
+
+            
+            $questions = $questionsCommand->queryAll();
+           
+            $questionsArray = array();
+            
+            foreach($questions as $question) {
+                $questionsArray[$question['id']]['id'] = $question['id'];
+                $questionsArray[$question['id']]['date'] = $question['date'];
+                $questionsArray[$question['id']]['title'] = $question['title'];
+                if(!is_null($question['answerId'])) {
+                    $questionsArray[$question['id']]['counter']++;
+                }
+            }
+            
+            return $questionsArray;
+        }
 }

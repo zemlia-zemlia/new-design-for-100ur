@@ -55,7 +55,7 @@ class Lead100 extends CActiveRecord
         /*
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Lead the static model class
+	 * @return Lead100 the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -101,7 +101,7 @@ class Lead100 extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                    'source'        =>  array(self::BELONGS_TO, 'Leadsource', 'sourceId'),
+                    'source'        =>  array(self::BELONGS_TO, 'Leadsource100', 'sourceId'),
                     'town'          =>  array(self::BELONGS_TO, 'Town', 'townId'),
                     'campaign'      =>  array(self::BELONGS_TO, 'Campaign', 'campaignId'),
 		);
@@ -330,18 +330,29 @@ class Lead100 extends CActiveRecord
             $transaction->campaignId = $campaign->id;
             $transaction->description = 'Списание за лид ID=' . $this->id;
             
-            if($this->save()){
-                $campaign->save();
-                if(!$transaction->save()){
-                    CustomFuncs::printr($transaction->errors);
+            // пытаемся отправить лид по почте
+            if($campaign->sendEmail) {
+                if($this->sendByEmail($campaign->id)) {
+                    if($this->save()){
+                        $campaign->save();
+                        if(!$transaction->save()){
+                            Yii::log("Не удалось сохранить транзакцию за продажу лида " . $this->id, 'error', 'system.web.CCommand');
+                            CustomFuncs::printr($transaction->errors);
+                        }
+
+                        return true;
+                    } else {
+                        Yii::log("Не удалось сохранить лид " . $this->id . " при продаже", 'error', 'system.web.CCommand');
+                        return false;
+                    }
+                } else {
+                    // не удалось отправить письмо
+                    Yii::log("Не удалось отправить письмо покупателю лида " . $this->id, 'error', 'system.web.CCommand');
+                    return false;
                 }
-                if($campaign->sendEmail) {
-                    $this->sendByEmail($campaign->id);
-                }
-                return true;
-            } else {
-                return false;
             }
+                
+
             
         }
 

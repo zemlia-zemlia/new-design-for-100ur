@@ -19,6 +19,11 @@
  * @property integer $advOrganisation
  * @property integer $advNumber
  * @property integer $position
+ * @property integer $site
+ * @property integer $priceConsult
+ * @property integer $priceDoc
+ * @property string $phoneVisible
+ * @property string $emailVisible
  * 
  */
 class YuristSettings extends CActiveRecord
@@ -45,11 +50,15 @@ class YuristSettings extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('yuristId', 'required'),
-			array('yuristId, startYear, townId, isVerified, status, vuzTownId, educationYear', 'numerical', 'integerOnly'=>true),
+			array('yuristId, startYear, townId, isVerified, status, vuzTownId, educationYear, priceConsult, priceDoc', 'numerical', 'integerOnly'=>true),
 			array('alias', 'length', 'max'=>255),
                         array('alias','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. ])+$/u', 'message'=>'В псевдониме могут присутствовать буквы, цифры, точка, дефис и пробел'),
+                        array('site','match','pattern'=>'/^(https?:\/\/)?([\dа-яёЁa-z\.-]+)\.([а-яёЁa-z\.]{2,6})([\/\w \.-]*)*\/?$/u', 'message'=>'В адресе сайта присутствуют недопустимые символы'),
                         array('description, vuz, facultet, education, advOrganisation, advNumber, position', 'safe'),
-			// The following rule is used by search().
+			array('emailVisible','email', 'message'=>'В Email допускаются латинские символы, цифры, точка и дефис'),
+			array('phoneVisible','match', 'pattern'=>'/^([0-9\- \(\)\+])+$/u', 'message'=>'В номере телефона разрешены цифры, скобки, пробелы и дефисы'),
+
+                        // The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('yuristId, alias, startYear, description, townId', 'safe', 'on'=>'search'),
 		);
@@ -90,6 +99,11 @@ class YuristSettings extends CActiveRecord
                         'position'      =>  'должность', 
                         'vuzTownId'     =>  'город ВУЗа', 
                         'educationYear' =>  'год окончания',
+                        'site'          =>  'сайт',
+                        'priceConsult'  =>  'стоимость консультации',
+                        'priceDoc'      =>  'стоимость составления документа',
+                        'phoneVisible'  =>  'Отображаемый телефон',
+                        'emailVisible'  =>  'Отображаемый Email',
 		);
 	}
         

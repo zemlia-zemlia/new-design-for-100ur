@@ -16,7 +16,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 ?>
 
 
-<h1>Редактирование профиля</h1>
+<h1 class="vert-margin30">Редактирование профиля</h1>
 
 <?php echo $this->renderPartial('_form', array(
         'model'             =>  $model,

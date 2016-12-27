@@ -1,6 +1,6 @@
 <?php
 /* @var $this LeadController */
-/* @var $model Lead */
+/* @var $model Lead100 */
 
 $this->breadcrumbs=array(
 	'Leads'=>array('index'),
@@ -8,8 +8,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Lead', 'url'=>array('index')),
-	array('label'=>'Create Lead', 'url'=>array('create')),
+	array('label'=>'List Lead100', 'url'=>array('index')),
+	array('label'=>'Create Lead100', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

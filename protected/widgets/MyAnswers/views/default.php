@@ -28,3 +28,5 @@
         </p>
     </div>
 </div>
+
+<?php echo CHtml::link('Смотреть статистику по месяцам', Yii::app()->createUrl('user/stats'));?>

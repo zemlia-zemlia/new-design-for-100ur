@@ -54,28 +54,13 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
     </div>
 <?php endif;?>
    
-    
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Личная информация</a></li>
-    <li role="presentation"><a href="#contacts" aria-controls="contacts" role="tab" data-toggle="tab">Контакты</a></li>
-    <li role="presentation"><a href="#password" aria-controls="password" role="tab" data-toggle="tab">Пароль</a></li>
-    <?php if(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR || Yii::app()->user->role == User::ROLE_CALL_MANAGER):?>
-    <li role="presentation"><a href="#qualification" aria-controls="qualification" role="tab" data-toggle="tab">Квалификация</a></li>
-    <li role="presentation"><a href="#directions" aria-controls="directions" role="tab" data-toggle="tab">Специализации</a></li>
-    <?php endif;?>
-  </ul>
-    
-    
-<div class="tab-content vert-margin30">  
-    
-    <div role="tabpanel" class="tab-pane active" id="profile">
+        
     
         <div class="row">
-            <div class="col-sm-4 center-align">
+            <div class="col-sm-5 center-align">
                 <?php if($model->isNewRecord == false):?>
 
-                    <img src="<?php echo $model->getAvatarUrl();?>" />
+                    <img src="<?php echo $model->getAvatarUrl('big');?>" />
                     <small>
                     <div class="form-group">
                         <?php echo $form->labelEx($model,'avatarFile'); ?>
@@ -86,7 +71,7 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                 <?php endif;?>
             </div>
 
-            <div class="col-sm-8">
+            <div class="col-sm-7">
                 <div class="form-group">
                     <?php echo $form->labelEx($model,'name'); ?>
                     <?php echo $form->textField($model,'name', array('class'=>'form-control')); ?>
@@ -117,10 +102,10 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                 <?php endif;?>
             </div>
         </div>      
-    </div>
      
+        <hr />
+        <h3 class="left-align text-uppercase">Контакты</h3>
     
-    <div role="tabpanel" class="tab-pane" id="contacts">
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
@@ -132,8 +117,22 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
             <div class="col-sm-6">
                 <div class="form-group">
                     <?php echo $form->labelEx($model,'phone'); ?>
-                    <?php echo $form->textField($model,'phone', array('class'=>'form-control')); ?>
+                    <?php echo $form->textField($model,'phone', array('class'=>'form-control phone-mask')); ?>
                     <?php echo $form->error($model,'phone'); ?>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <?php echo $form->labelEx($yuristSettings,'emailVisible'); ?>
+                    <?php echo $form->textField($yuristSettings,'emailVisible', array('class'=>'form-control')); ?>
+                    <?php echo $form->error($yuristSettings,'emailVisible'); ?>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <?php echo $form->labelEx($yuristSettings,'phoneVisible'); ?>
+                    <?php echo $form->textField($yuristSettings,'phoneVisible', array('class'=>'form-control phone-mask')); ?>
+                    <?php echo $form->error($yuristSettings,'phoneVisible'); ?>
                 </div>
             </div>
         </div>
@@ -149,22 +148,39 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                 </div>
             </div>
         </div>    
-    </div>        
-        
-    
-    <div role="tabpanel" class="tab-pane" id="password">
-        <?php if($model->isNewRecord == false):?>
-            <div class="vert-margin30">
-                <br /><br />
-                <?php echo CHtml::link('Изменить пароль', Yii::app()->createUrl('user/changePassword', array('id'=>$model->id)), array('class'=>'btn btn-warning'));?>        
-            </div>
-        <?php endif;?>
-    </div>   
-       
+           
     
     <?php if(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR || Yii::app()->user->role == User::ROLE_CALL_MANAGER):?>
 
-    <div role="tabpanel" class="tab-pane" id="qualification">
+        <hr />
+        <h3 class="left-align text-uppercase">Платные услуги</h3>
+        
+        <div class="row">
+            <div class="col-sm-6"> 
+                <div class="form-group">
+                        <?php echo $form->labelEx($yuristSettings,'priceConsult'); ?>
+                        <div class="input-group">
+                            <?php echo $form->textField($yuristSettings,'priceConsult', array('class'=>'form-control right-align', 'aria-describedby'=>'price-consult-input')); ?>
+                            <span class="input-group-addon" id="price-consult-input">руб.</span>
+                        </div>
+                        <?php echo $form->error($yuristSettings,'priceConsult'); ?>
+                </div>
+            </div>
+            <div class="col-sm-6"> 
+                <div class="form-group">
+                        <?php echo $form->labelEx($yuristSettings,'priceDoc'); ?>
+                        <div class="input-group">
+                            <?php echo $form->textField($yuristSettings,'priceDoc', array('class'=>'form-control right-align', 'aria-describedby'=>'price-doc-input')); ?>
+                            <span class="input-group-addon" id="price-doc-input">руб.</span>
+                        </div>
+                        <?php echo $form->error($yuristSettings,'priceDoc'); ?>
+                </div>
+            </div>
+        </div>    
+        
+        
+        <hr />
+        <h3 class="left-align text-uppercase">Карьера</h3>
         
         <div class="yurist-fields">
         <?php if(($model->role == User::ROLE_JURIST || $model->role == User::ROLE_OPERATOR || $model->role == User::ROLE_CALL_MANAGER) && !$model->isNewRecord):?>
@@ -240,6 +256,10 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                 <p>
                     Для подтверждения статуса юриста необходимо отправить дополнительные данные.
                 </p>
+                
+                <hr />
+                <h3 class="left-align text-uppercase">Образование</h3>
+        
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
@@ -326,9 +346,11 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                 </p>
             </div>   
         <?php endif;?>
-    </div> 
     
-    <div role="tabpanel" class="tab-pane" id="directions">
+                
+        <hr />        
+        <h3 class="left-align text-uppercase">Специализации</h3>
+        
         <div class="form-group"> 
             <?php 
                 $directionsCount = sizeof($allDirections);
@@ -358,11 +380,20 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                 
             </div>
         </div>
-    </div>
     
     <?php endif;?>
-</div> <!-- .tab-content -->        
-        
+      
+                
+    <?php if($model->isNewRecord == false):?>
+        <hr />
+        <h3 class="left-align text-uppercase">Пароль</h3>
+
+        <div class="vert-margin30">
+            <?php echo CHtml::link('Изменить пароль', Yii::app()->createUrl('user/changePassword', array('id'=>$model->id)), array('class'=>'btn btn-warning'));?>        
+        </div>
+    <?php endif;?>
+            
+    <hr />    
 <div class="row">
     <div class="col-sm-12">
         <div class="form-group">

@@ -90,9 +90,9 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
         
         <?php if(Yii::app()->user->checkAccess(User::ROLE_MANAGER) || $model->scenario!='update'):?> 
         <div class="form-group">
-                <?php echo $form->checkBox($model,'active'); ?>
-                <?php echo $model->getAttributeLabel('active');?>
-                <?php echo $form->error($model,'active'); ?>
+                <?php echo $form->checkBox($model,'active100'); ?>
+                <?php echo $model->getAttributeLabel('active100');?>
+                <?php echo $form->error($model,'active100'); ?>
         </div> 
         <?php endif;?>
 

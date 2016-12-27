@@ -6,19 +6,20 @@ $this->pageTitle = CHtml::encode($model->name) . ". Города. " . Yii::app()
 
 
 $this->breadcrumbs=array(
-	'Города'=>array('index'),
+        'Регионы'=>array('/admin/region'),
+	CHtml::encode($model->region->name)=>array('/admin/region/view', 'regionAlias'=>CHtml::encode($model->region->alias)),
 	$model->name,
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('CRM',"/"),
+    'homeLink'=>CHtml::link('100 юристов',"/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
 
 ?>
 
-<h1><?php echo CHtml::encode($model->name); ?>. <?php echo CHtml::encode($model->ocrug); ?></h1>
+<h1><?php echo CHtml::encode($model->name); ?>. <?php echo CHtml::encode($model->region->name); ?></h1>
 
 <table class="table table-bordered">
     <tr>

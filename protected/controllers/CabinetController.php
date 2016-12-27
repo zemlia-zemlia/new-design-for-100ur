@@ -147,7 +147,7 @@ class CabinetController extends Controller
             $lead = Lead100::model()->findByPk($leadId);
             
             if(!$lead) {
-                echo json_encode(array('code'=>404, 'message'=>'Lead not found'));
+                echo json_encode(array('code'=>404, 'message'=>'Lead100 not found'));
                 exit;
             }
             

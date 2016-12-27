@@ -12,11 +12,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
 
 ?>
 
-<h1>Кампании</h1>
-
-<div class="right-align">
-    <?php echo CHtml::link('Создать кампанию', Yii::app()->createUrl('/admin/campaign/create'), array('class'=>'btn btn-primary')); ?>
-</div>
+<h1>Кампании <?php echo CHtml::link('Создать кампанию', Yii::app()->createUrl('/admin/campaign/create'), array('class'=>'btn btn-primary')); ?></h1>
 
 <table class="table table-bordered">
     
@@ -30,6 +26,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
             <th>Лимит</th>
             <th>Цена</th>
             <th>Баланс</th>
+			<th></th>
             <th>Отправлено</th>
         </tr>
     </thead>    

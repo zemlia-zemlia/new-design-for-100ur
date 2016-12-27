@@ -1,6 +1,6 @@
 <?php
 /* @var $this LeadController */
-/* @var $model Lead */
+/* @var $model Lead100 */
 
 $this->breadcrumbs=array(
 	'Leads'=>array('index'),
@@ -8,11 +8,11 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Lead', 'url'=>array('index')),
-	array('label'=>'Manage Lead', 'url'=>array('admin')),
+	array('label'=>'List Lead100', 'url'=>array('index')),
+	array('label'=>'Manage Lead100', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Create Lead</h1>
+<h1>Create Lead100</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

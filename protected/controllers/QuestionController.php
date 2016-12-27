@@ -54,7 +54,7 @@ class QuestionController extends Controller
 	{
             $this->layout = "//frontend/short";
             
-            $model = Question::model()->findByPk($id);
+            $model = Question::model()->with('categories')->findByPk($id);
             if(!$model) {
                 throw new CHttpException(404,'Вопрос не найден');
             }

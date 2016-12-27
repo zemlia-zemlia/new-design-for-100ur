@@ -10,10 +10,19 @@
             </div>
             <div class="col-sm-8">
                 <p>
-                <a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$user->id));?>">
+                <a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$user->id));?>" rel="nofollow">
                     <?php echo ($user->settings->alias)?CHtml::encode($user->settings->alias):CHtml::encode($user->name . ' ' . $user->lastName);?>
                 </a>
                 </p>
+                <p class="text-muted">
+                    <small>
+                    <?php if($user->town):?>
+                        <?php echo $user->town->name;?><br />
+                    <?php endif;?>
+                    Ответов: <?php echo $user->answersCount;?>
+                    </small>
+                </p>
+                
                 
                 <?php if($user->categories):?>
                 <p><small>

@@ -3,22 +3,22 @@
 /* @var $data Contact */
 
 switch ($data->leadStatus) {
-    case Lead::LEAD_STATUS_DEFAULT:
+    case Lead100::LEAD_STATUS_DEFAULT:
         $statusClass = 'label-default';
         break;
-    case Lead::LEAD_STATUS_SENT_CRM:
+    case Lead100::LEAD_STATUS_SENT_CRM:
         $statusClass = 'label-primary';
         break;
-    case Lead::LEAD_STATUS_NABRAK:
+    case Lead100::LEAD_STATUS_NABRAK:
         $statusClass = 'label-warning';
         break;
-    case Lead::LEAD_STATUS_BRAK:
+    case Lead100::LEAD_STATUS_BRAK:
         $statusClass = 'label-warning';
         break;
-    case Lead::LEAD_STATUS_RETURN:
+    case Lead100::LEAD_STATUS_RETURN:
         $statusClass = 'label-info';
         break;
-    case Lead::LEAD_STATUS_SENT:
+    case Lead100::LEAD_STATUS_SENT:
         $statusClass = 'label-success';
         break;
     
@@ -76,12 +76,12 @@ switch ($data->leadStatus) {
             $now = time();
         ?>
         
-        <?php if(($data->leadStatus == Lead::LEAD_STATUS_SENT || $data->leadStatus == Lead::LEAD_STATUS_SENT_CRM) && ($now - $leadTimestamp)<86400*4):?>
+        <?php if(($data->leadStatus == Lead100::LEAD_STATUS_SENT || $data->leadStatus == Lead100::LEAD_STATUS_SENT_CRM) && ($now - $leadTimestamp)<86400*4):?>
             <?php echo CHtml::link('На отбраковку', '#', array('class'=>'btn btn-block btn-default brak-lead btn-sm', 'data-id'=>$data->id));?>
             <div class="brak-lead-message" data-id="<?php echo $data->id;?>"></div>
             <form id="lead-<?php echo $data->id;?>" data-id="<?php echo $data->id;?>" class="form-inline form-brak-lead">
                 <div class="form-group">
-                     <?php echo CHtml::activeDropDownList(Lead::model(),'brakReason', Lead::getBrakReasonsArray(),array('class'=>'form-control'));?>
+                     <?php echo CHtml::activeDropDownList(Lead100::model(),'brakReason', Lead100::getBrakReasonsArray(),array('class'=>'form-control'));?>
                 </div>
 
                 <a href="#" class="btn btn-primary btn-sm submit-brak-lead">Забраковать</a>
