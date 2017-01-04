@@ -1,28 +1,37 @@
-<?php
-// проверяет, является ли один из дочерних разделов активным. возвращает true, если является
-    function hasActiveChild($data, $sectionName)
-    {
-        // если нет детей, сразу возвращаем false
-        if(!sizeof($data->children)) {
-            return false;
-        }
-        
-        foreach ($data->children as $child) {
-            if(isset($sectionName) && $sectionName == $child->alias) {
-                return true;
-            }
-        }
-        
-        return false;
-    }
-?>
-
 <ul id="left-menu">
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-        'emptyText'     =>  'Не найдено ни одной категории',
-        'summaryText'   =>  '',
-)); ?>
+    
+<?php foreach($topCategories as $cat):?>
+    
+    <?php
+    if((isset($_GET['name']) && $_GET['name'] == $cat['alias'])) {
+        $active = true;
+        // определим, показывать ли текущий элемент ссылкой
+        if($_GET['name'] == $cat['alias']) {
+            $showLink = false;
+        } else {
+            $showLink = true;
+        }
+    } else {
+        $active = false;
+        $showLink = true;
+    }
+    
+    
+    ?>
+
+    <li
+        <?php 
+            if($active) {
+                echo " class='active'";
+            }
+        ?>
+
+        >
+
+        <?php echo ($showLink==true)?CHtml::link(CHtml::encode($cat['name']), array('questionCategory/alias', 'name'=>CHtml::encode($cat['alias']))):CHtml::encode($cat['name']); ?>
+        
+    </li>
+
+<?php endforeach;?>
 </ul>
 
