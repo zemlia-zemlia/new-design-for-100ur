@@ -373,7 +373,9 @@ class UserController extends Controller
                             'question'      =>  $question,
                           ));
                       
-                  }
+                  } else {
+					  throw new CHttpException(400, 'Не удалось автоматически залогиниться на сайте');
+				  }
                   /*
                    * 
                    */
