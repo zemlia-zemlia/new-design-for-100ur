@@ -45,11 +45,70 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <th>Keyw.</th>
         <th>Напр</th>
     </tr>
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-        'emptyText'     =>  'Не найдено ни одной категории',
-        'summaryText'   =>  'Показаны категории с {start} до {end}, всего {count}',
-        'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
-)); ?>
+<?php foreach($categoriesArray as $rootId=>$rootCategory):?>
+    <tr>
+        <td>
+            <?php echo CHtml::link(CHtml::encode($rootCategory['name']), array('view', 'id'=>$rootId)); ?></strong>
+        (id <?php echo $rootId;?>) 
+        <?php echo CHtml::link("+подкатегория", array('create', 'parentId'=>$rootId), array('class'=>'btn btn-xs btn-primary')); ?>
+        </td>
+        <td><?php echo QuestionCategory::checkIfArrayPropertyFilled($rootCategory, 'description1');?></td>
+        <td>
+            <?php echo QuestionCategory::checkIfArrayPropertyFilled($rootCategory, 'description2');?>
+        </td>
+        <td>
+            <?php echo QuestionCategory::checkIfArrayPropertyFilled($rootCategory, 'seoH1');?>
+        </td>
+        <td>
+            <?php echo QuestionCategory::checkIfArrayPropertyFilled($rootCategory, 'seoTitle');?>
+        </td>
+        <td>
+            <?php echo QuestionCategory::checkIfArrayPropertyFilled($rootCategory, 'seoDescription');?>
+        </td>
+        <td>
+            <?php echo QuestionCategory::checkIfArrayPropertyFilled($rootCategory, 'seoKeywords');?>
+        </td>
+        <td>
+            <?php echo QuestionCategory::checkIfArrayPropertyFilled($rootCategory, 'isDirection');?>
+        </td>
+        <td>
+            <?php echo CHtml::link("Ред.", array('update', 'id'=>$rootId)); ?>
+        </td>
+    </tr>
+    
+    <?php if(!isset($rootCategory['children'])) continue;?>
+    
+    <?php foreach($rootCategory['children'] as $childId=>$child):?>
+    
+    <tr>
+        <td>
+            <?php echo CHtml::link(CHtml::encode($child['name']), array('view', 'id'=>$childId)); ?></strong>
+        (id <?php echo $childId;?>) 
+        </td>
+        <td><?php echo QuestionCategory::checkIfArrayPropertyFilled($child, 'description1');?></td>
+        <td>
+            <?php echo QuestionCategory::checkIfArrayPropertyFilled($child, 'description2');?>
+        </td>
+        <td>
+            <?php echo QuestionCategory::checkIfArrayPropertyFilled($child, 'seoH1');?>
+        </td>
+        <td>
+            <?php echo QuestionCategory::checkIfArrayPropertyFilled($child, 'seoTitle');?>
+        </td>
+        <td>
+            <?php echo QuestionCategory::checkIfArrayPropertyFilled($child, 'seoDescription');?>
+        </td>
+        <td>
+            <?php echo QuestionCategory::checkIfArrayPropertyFilled($child, 'seoKeywords');?>
+        </td>
+        <td>
+            <?php echo QuestionCategory::checkIfArrayPropertyFilled($child, 'isDirection');?>
+        </td>
+        <td>
+            <?php echo CHtml::link("Ред.", array('update', 'id'=>$childId)); ?>
+        </td>
+    </tr>
+    
+    <?php endforeach;?>
+<?php endforeach;?>
 </table>

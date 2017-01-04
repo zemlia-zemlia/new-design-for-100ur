@@ -153,18 +153,87 @@ class QuestionCategoryController extends Controller
 	public function actionIndex()
 	{
 
-            $dataProvider=new CActiveDataProvider(QuestionCategory::model()->cache(120, NULL, 3), array(
-                'criteria'      =>  array(
-                    'order'     =>  't.name',
-                    'with'      =>  array('children'),
-                    'condition' =>  't.parentId=0',
-                ),
-                'pagination'    =>  array(
-                            'pageSize'=>400,
-                        ),
-            ));
+//            $dataProvider=new CActiveDataProvider(QuestionCategory::model()->cache(120, NULL, 3), array(
+//                'criteria'      =>  array(
+//                    'order'     =>  't.name',
+//                    'with'      =>  array('children'),
+//                    'condition' =>  't.parentId=0',
+//                ),
+//                'pagination'    =>  array(
+//                            'pageSize'=>400,
+//                        ),
+//            ));
+            /*
+             * Извлекаем список категорий с иерархией
+             * SELECT c.id, c.name, LENGTH(c.description1),  LENGTH(c.description2), LENGTH(c.seoTitle), LENGTH(c.seoDescription), LENGTH(c.seoKeywords), LENGTH(c.seoH1), c.isDirection, child.id, child.name, LENGTH(child.description1),  LENGTH(child.description2), LENGTH(child.seoTitle), LENGTH(child.seoDescription), LENGTH(child.seoKeywords), LENGTH(child.seoH1), child.isDirection
+                FROM `100_questionCategory` c
+                LEFT JOIN `100_questionCategory` child ON child.parentId = c.id
+                ORDER BY c.name
+                LIMIT 100
+             */
+            
+            $categoriesArray = array();
+            
+            // проверим, не сохранен ли в кеше массив со структурой категорий
+            if(Yii::app()->cache->get('categories_list')!== false) {
+                $categoriesArray = Yii::app()->cache->get('categories_list');
+            } else {
+                // если не сохранен, вытащим его из базы    
+                $categoriesRows = Yii::app()->db->createCommand()
+                        ->select("c.id c_id, "
+                                . "c.name c_name, "
+                                . "LENGTH(c.description1) c_description1,  "
+                                . "LENGTH(c.description2) c_description2, "
+                                . "LENGTH(c.seoTitle) c_seoTitle, "
+                                . "LENGTH(c.seoDescription) c_seoDescription, "
+                                . "LENGTH(c.seoKeywords) c_seoKeywords, "
+                                . "LENGTH(c.seoH1) c_seoH1, "
+                                . "c.isDirection c_isDirection, "
+                                . "child.id child_id, "
+                                . "child.name child_name, "
+                                . "LENGTH(child.description1) child_description1,  "
+                                . "LENGTH(child.description2) child_description2, "
+                                . "LENGTH(child.seoTitle) child_seoTitle, "
+                                . "LENGTH(child.seoDescription) child_seoDescription, "
+                                . "LENGTH(child.seoKeywords) child_seoKeywords, "
+                                . "LENGTH(child.seoH1) child_seoH1, "
+                                . "child.isDirection child_isDirection")
+                        ->from("{{questionCategory}} c")
+                        ->leftJoin("{{questionCategory}} child", "child.parentId = c.id")
+                        ->where('c.parentId=0')
+                        ->order("c.name")
+                        ->queryAll();
+
+                foreach($categoriesRows as $row) {
+                    $categoriesArray[$row['c_id']]['name'] = $row['c_name'];
+                    $categoriesArray[$row['c_id']]['description1'] = $row['c_description1'];
+                    $categoriesArray[$row['c_id']]['description2'] = $row['c_description2'];
+                    $categoriesArray[$row['c_id']]['seoTitle'] = $row['c_seoTitle'];
+                    $categoriesArray[$row['c_id']]['seoDescription'] = $row['c_seoDescription'];
+                    $categoriesArray[$row['c_id']]['seoKeywords'] = $row['c_seoKeywords'];
+                    $categoriesArray[$row['c_id']]['seoH1'] = $row['c_seoH1'];
+                    $categoriesArray[$row['c_id']]['isDirection'] = $row['c_isDirection'];
+                    if($row['child_id']){
+                        $categoriesArray[$row['c_id']]['children'][$row['child_id']]['name'] = $row['child_name'];
+                        $categoriesArray[$row['c_id']]['children'][$row['child_id']]['description1'] = $row['child_description1'];
+                        $categoriesArray[$row['c_id']]['children'][$row['child_id']]['description2'] = $row['child_description2'];
+                        $categoriesArray[$row['c_id']]['children'][$row['child_id']]['seoTitle'] = $row['child_seoTitle'];
+                        $categoriesArray[$row['c_id']]['children'][$row['child_id']]['seoDescription'] = $row['child_seoDescription'];
+                        $categoriesArray[$row['c_id']]['children'][$row['child_id']]['seoKeywords'] = $row['child_seoKeywords'];
+                        $categoriesArray[$row['c_id']]['children'][$row['child_id']]['seoH1'] = $row['child_seoH1'];
+                        $categoriesArray[$row['c_id']]['children'][$row['child_id']]['isDirection'] = $row['child_isDirection'];
+
+                    }
+                }
+                
+                Yii::app()->cache->set('categories_list', $categoriesArray, 600);
+            }
+            
+//            CustomFuncs::printr($categoriesArray);
+//            exit;
+            
             $this->render('index',array(
-                    'dataProvider'  =>  $dataProvider,
+                    'categoriesArray'  =>  $categoriesArray,
             ));
 	}
 

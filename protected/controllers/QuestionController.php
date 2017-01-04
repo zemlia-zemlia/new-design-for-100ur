@@ -163,7 +163,7 @@ class QuestionController extends Controller
                         $question->phone = preg_replace('/([^0-9])/i', '', $question->phone);
                         
                        
-                        if($question->sessionId == '') {
+                        if($question->sessionId == '' && $question->questionText!='' && $question->authorName!='') {
                             $question->preSave();
                         } else {
                             /*
@@ -174,7 +174,7 @@ class QuestionController extends Controller
                                 'condition' =>  'sessionId = "'.$question->sessionId . '"'
                             ));
                             $question->attributes = $_POST['Question'];
-                            $question->phone = preg_replace('/([^0-9])/i', '', $question->phone);
+                            $question->phone = Question::normalizePhone($question->phone);
                             $question->status = Question::STATUS_NEW;
                         }
                         

@@ -374,8 +374,8 @@ class UserController extends Controller
                           ));
                       
                   } else {
-					  throw new CHttpException(400, 'Не удалось автоматически залогиниться на сайте');
-				  }
+                    throw new CHttpException(400, 'Не удалось автоматически залогиниться на сайте');
+                  }
                   /*
                    * 
                    */

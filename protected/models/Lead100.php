@@ -238,60 +238,6 @@ class Lead100 extends CActiveRecord
             return true;
         }
         
-         // УСТАРЕВШАЯ ФУНКЦИЯ
-         // отправляет лид в офис или в лид-сервис
-        public function sendLead()
-        {
-            // регионы, за которые платит Leadia
-            $leadiaRegions = Yii::app()->params['leadiaRegions'];
-            
-            // проверяем, попадает ли регион лида в список регионов Leadea
-            if(in_array($this->town->ocrug, $leadiaRegions)) {
-                //echo "Отправляем лид " . $this->id . " в Leadia..<br />";
-                if($this->sendToLeadia()) {
-                    $this->leadStatus = self::LEAD_STATUS_SENT_LEADIA;
-                    if($this->save()) {
-                        return true;
-                    } else {
-                        //CustomFuncs::printr($this->errors);
-                        //Yii::log('Не удалось сохранить лид id=' . $this->id, 'error', 'application.models.lead');
-                        return false;
-                    }
-                } else {
-                    $this->leadStatus = self::LEAD_STATUS_ERROR;
-                    if($this->save()) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            } elseif($this->town->ocrug == 'Московская область') {
-                $this->leadStatus = self::LEAD_STATUS_SENT_CRM;
-                $contact = new Contact;
-                $contact->name = trim($this->name);
-                $this->name = trim($this->name);
-                $contact->phone = Contact::getValidPhoneStatic($this->phone);
-                $contact->email = $this->email;
-                $contact->sourceId = $this->sourceId;
-                $contact->question = trim($this->question);
-                $contact->question_date = $this->question_date;
-                $contact->townId = $this->townId;
-                $contact->addedById = $this->addedById;
-                
-                $contact->officeId = 1; // Павелецкая
-                if($contact->save()){
-                    $this->contactId = $contact->id;
-                    $this->save();
-                    return true;
-                } else {
-                    echo "Не удалось сохранить лид " . $this->id . '<br />';
-                    CustomFuncs::printr($contact->errors);
-                    return false;
-                } 
-            }
-        }
-        
-        
         // отправляет лид в кампанию
         public function sendToCampaign($campaignId)
         {

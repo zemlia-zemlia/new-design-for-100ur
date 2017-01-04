@@ -162,6 +162,17 @@ class QuestionCategory extends CActiveRecord
             }
         }
         
+        // проверяет, не 0 ли элемент массива с ключом $propName
+        public static function checkIfArrayPropertyFilled($categoryArray, $propName)
+        {
+            if($categoryArray[$propName]) {
+                return "<span class='glyphicon glyphicon-ok'></span>";
+            } else {
+                return "";
+            }
+        }
+
+
         /*
          * возвращает массив, ключами которого являются id категорий-направлений, а значениями - их названия
          */

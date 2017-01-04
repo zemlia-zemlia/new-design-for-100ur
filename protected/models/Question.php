@@ -307,7 +307,10 @@ class Question extends CActiveRecord
         
         public static function getRandomId()
         {
+            
             /*
+             * возвращает id произвольного вопроса с определенным статусом и из категории, которая привязана 
+             * к пользователю
              *  SELECT * FROM `crm_question` q 
                 LEFT JOIN `crm_question2category` q2c ON q.id = q2c.qId
                 WHERE q2c.cId IN(3,5) AND q.status=2
@@ -324,19 +327,28 @@ class Question extends CActiveRecord
             }
             $myCategoriesStr = implode(',', $myCategoriesIds);
             
-            $questionRow = Yii::app()->db->createCommand()
+            $questionCommand = Yii::app()->db->createCommand()
                     ->select('q.id id')
                     ->from("{{question}} q")
                     ->leftJoin("{{question2category}} q2c", "q.id = q2c.qId")
-                    ->where("q2c.cId IN(" . $myCategoriesStr . ") AND q.status=:status", array(":status"=>self::STATUS_PUBLISHED))
+                    ->where("q.status=:status", array(":status"=>self::STATUS_PUBLISHED))
                     ->order("RAND()")
-                    ->limit(1)
-                    ->queryRow();
+                    ->limit(1);
+            
+            if($myCategoriesStr!='') {
+                $questionCommand->andWhere("q2c.cId IN(" . $myCategoriesStr . ")");
+            }       
+            $questionRow = $questionCommand->queryRow();
             
             if($questionRow['id']) {
                 return $questionRow['id'];
             } else {
                 return 0;
             }
+        }
+        
+        public static function normalizePhone($phone)
+        {
+            return preg_replace('/([^0-9])/i', '', $phone);
         }
 }
