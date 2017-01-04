@@ -6,19 +6,16 @@ class CategoriesTree extends CWidget
     
     public function run()
     {
+                
+        // вытаскиваем из базы список категорий верхнего уровня
+        $topCategories = Yii::app()->db->cache($this->cacheTime)->createCommand()
+                ->select('id, alias, name')
+                ->from('{{questionCategory}}')
+                ->where('parentId=0')
+                ->order('name')
+                ->queryAll();
         
-        $dataProvider=new CActiveDataProvider(QuestionCategory::model()->cache($this->cacheTime, NULL, 3), array(
-            'criteria'      =>  array(
-                'order'     =>  't.name',
-                'with'      =>  'children',
-                'condition' =>  't.parentId=0',
-            ),
-            'pagination'    =>  array(
-                        'pageSize'=>400,
-                    ),
-        ));
-        
-        $this->render($this->template, array('dataProvider'=>$dataProvider));
+        $this->render($this->template, array('topCategories' =>  $topCategories));
     }
 }
 ?>

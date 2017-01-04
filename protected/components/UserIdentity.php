@@ -18,7 +18,7 @@ class UserIdentity extends CUserIdentity
 		$user=User::model()->find('LOWER(email)=?',array(strtolower($this->username)));
 		if($user===null) // если не нашли пользователя
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
-                else if($user->active!=1)
+                else if($user->active100!=1)
                         $this->errorCode=self::ERROR_USER_INACTIVE;
 		else if(!$user->validatePassword($this->password)) // если неправильный пароль
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;

@@ -290,7 +290,7 @@ if($model->description) {
             <?php
                 // выводим виджет с топовыми юристами
                 $this->widget('application.widgets.TopYurists.TopYurists', array(
-                    'cacheTime' =>  600,
+                    'cacheTime' =>  0,
                 ));
             ?>
             

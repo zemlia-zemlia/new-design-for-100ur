@@ -79,10 +79,28 @@ class QuestionCategoryController extends Controller
                 $this->redirect(array('questionCategory/alias', 'name'=>strtolower($name)), true, 301);
             }
             
-            $model = QuestionCategory::model()->with('parent','children')->findByAttributes(array('alias'=>CHtml::encode($name)));
+//            $model = QuestionCategory::model()->with('parent','children')->findByAttributes(array('alias'=>CHtml::encode($name)));
+            $model = QuestionCategory::model()->findByAttributes(array('alias'=>CHtml::encode($name)));
+            
             if(!$model) {
                 throw new CHttpException(404,'Категория не найдена');
             }
+            
+            // надем категории, дочерние текущей
+            $childrenCategories = Yii::app()->db->cache(300)->createCommand()
+                    ->select('id, name, alias')
+                    ->from('{{questionCategory}}')
+                    ->where('parentId=:parentId', array(':parentId'=>$model->id))
+                    ->order('name')
+                    ->queryAll();
+            
+            $parentCategory = Yii::app()->db->cache(300)->createCommand()
+                    ->select('id, name, alias')
+                    ->from('{{questionCategory}}')
+                    ->where('id=:parentId', array(':parentId'=>$model->parentId))
+                    ->limit(1)
+                    ->queryRow();
+                       
             
             $questions = $this->findQuestions($model);
             
@@ -97,6 +115,8 @@ class QuestionCategoryController extends Controller
 			'model'                 =>  $model,
                         'questions'             =>  $questions,
                         'newQuestionModel'      =>  $newQuestionModel,
+                        'childrenCategories'    =>  $childrenCategories,
+                        'parentCategory'        =>  $parentCategory,
 		));
 	}
         

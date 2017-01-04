@@ -30,8 +30,8 @@ if($model->seoKeywords) {
 Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('/questionCategory/alias', array('name'=>$model->alias)));
 
 $this->breadcrumbs = array();
-if($model->parent instanceof QuestionCategory) {
-    $this->breadcrumbs[$model->parent->name] = Yii::app()->createUrl('/questionCategory/alias',array('name'=>$model->parent->alias));
+if($parentCategory) {
+    $this->breadcrumbs[$parentCategory['name']] = Yii::app()->createUrl('/questionCategory/alias',array('name'=>$parentCategory['alias']));
 }   
 $this->breadcrumbs[] = $model->name;
 
@@ -99,14 +99,16 @@ $this->breadcrumbs[] = $model->name;
                 <p><?php echo CHtml::link(CHtml::encode($question['title']), Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?></p>
             </div>
             <div class="col-sm-3">
-                <img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>
+                
                 <?php if($question['counter'] == 1) {
-                    echo "Есть ответ";
+                    echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>Есть ответ</span>";
                 } elseif($question['counter']>1) {
-                    echo $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов');
+                    echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>" . $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
+                } else {
+                    echo "Нет ответа";
                 }
                 ?>
-                </span>
+                
             </div>
         </div>
         
@@ -114,15 +116,15 @@ $this->breadcrumbs[] = $model->name;
         </div>
         </div>
 
-<?php if($model->children):?>
+<?php if(sizeof($childrenCategories)):?>
 
             
             <div class="row">
-            <?php foreach($model->children as $child):?>
+            <?php foreach($childrenCategories as $child):?>
                 <div class="col-md-4">
-					<small>
-                    <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span>&nbsp;' . $child->name, Yii::app()->createUrl('questionCategory/alias', array('name'=>CHtml::encode($child->alias))));?>
-					</small>
+                    <small>
+                    <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span>&nbsp;' . $child['name'], Yii::app()->createUrl('questionCategory/alias', array('name'=>CHtml::encode($child['alias']))));?>
+                    </small>
                 </div>    
             <?php endforeach;?>
             </div>
