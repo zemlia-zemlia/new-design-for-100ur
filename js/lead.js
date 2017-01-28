@@ -33,12 +33,17 @@ $(function(){
     $(".form-brak-lead a.submit-brak-lead").on('click', function(e){
         e.preventDefault();
         var form = $(this).closest('form');
-        var reason = form.find('#Lead100_brakReason').val();
+        var reason = form.find("input[name='Lead100[brakReason]']:checked").val();
+        var reasonComment = form.find('#Lead100_brakComment').val();
         var leadId = form.attr('data-id');
+        
+//        console.log(form); return false;
+//        console.log("reason: " + reason); return false;
+        
         
         $.ajax('/cabinet/brakLead/', {
             method:'POST',
-            data:{reason:reason, leadId:leadId},
+            data:{reason:reason, reasonComment:reasonComment, leadId:leadId},
             success:onLeadBrakSubmit,
         });
         
@@ -53,14 +58,17 @@ $(function(){
 
 function onLeadBrakSubmit(data, textStatus, jqXHR )
 {
-    console.log('data: '+ data);
+//    console.log('data: '+ data);
     
-    var dataDecoded = JSON.parse(data);
+    var dataDecoded = $.parseJSON(data);
+    console.log(dataDecoded);
     if(dataDecoded && dataDecoded.code == 0) {
         $(".brak-lead[data-id="+dataDecoded.id+"]").remove();
         $(".brak-lead-message[data-id="+dataDecoded.id+"]").text('лид отправлен на отбраковку').show();
-    } else {
+    } else if(dataDecoded.id) {
         $(".brak-lead-message[data-id="+dataDecoded.id+"]").hide().text('Не удалось отправить лид на отбраковку').show();
+    } else {
+        alert(dataDecoded.message);
     }
     
 }

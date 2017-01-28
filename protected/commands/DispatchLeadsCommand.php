@@ -17,7 +17,7 @@ class DispatchLeadsCommand extends CConsoleCommand
 
         foreach($leads as $lead) {
             $campaignId = Campaign::getCampaignsForLead($lead->id);
-
+            echo $lead->id . ' - ' . $campaignId . PHP_EOL;
             if(!$campaignId) {
                 continue;
             }

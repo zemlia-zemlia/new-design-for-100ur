@@ -21,6 +21,15 @@ $(function(){
                 break;
         }
     })
+    
+    $(".checkbox-root").on('click', function(){
+        var ischecked = $(this).prop('checked')
+        
+        if(ischecked) {
+            // отметили родительское направление, надо отметить все дочерние
+            $(this).closest(".checkbox-container").find(".checkbox-child").prop('checked', true);
+        }
+    })
         
 })
 

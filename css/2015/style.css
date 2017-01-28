@@ -1,6 +1,14 @@
 body {
-    background-color:#E8E8E8;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    background-color: #fff;
 }
+
+html, body {
+    position: relative;
+    height: 100%;
+}
+
 h1,.h1,h2,.h2,h3,.h3{
 	margin-top:10px;
         margin-bottom:0px;
@@ -38,6 +46,14 @@ hr {
     margin-top:15px;margin-bottom:15px;border:0;border-top:1px solid #b3b2b1
 }
 
+
+.flat-panel {
+    background-color:#f6f8f9;
+}
+
+.inside {
+    padding:10px;
+}
 /* 
     это стили для левой и правой панели
 */
@@ -178,14 +194,11 @@ hr {
 /* ------------- header ---------------*/
 
 #header {
-    background: #fff;
-    font-size: 13px;
-    padding:10px 0;
-	border: #c5c4c4 1px solid;
+    padding:10px 0 5px 0;
 }
 
-#header .row>div {
-    text-align: center;
+.logo-wrapper {
+    margin-top:10px;
 }
 
 .logo-description {
@@ -633,6 +646,7 @@ ul.yiiPager {
     padding:5px;
     box-shadow: #999 2px 2px 5px;
     display:none;
+    border:#ccc 1px solid;
 }
 
 .brak-lead-message {
@@ -682,4 +696,12 @@ ul.yiiPager {
 .review-item {
     border-bottom:#ddd 1px dotted;
     padding:10px 0;
+}
+
+.profile-block {
+    text-align: right;
+}
+
+.profile-block-container {
+    display:inline-block;
 }

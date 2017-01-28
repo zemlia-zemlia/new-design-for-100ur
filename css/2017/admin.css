@@ -369,3 +369,18 @@ table.categories-list td{
 .campaign-topup-message {
     display:none;
 }
+
+.request-control-wrapper {
+    position:relative;
+}
+
+.request-comment-wrapper {
+    position:absolute;
+    right:0;
+    top:30px;
+    width:200px;
+    display: none;
+    z-index:100;
+    padding:10px;
+    background:#fff;
+}

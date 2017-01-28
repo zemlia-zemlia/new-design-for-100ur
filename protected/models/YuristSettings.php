@@ -8,7 +8,7 @@
  * @property string $alias
  * @property integer $startYear
  * @property string $description
- * @property integer $townId
+ * @property string $hello
  * @property integer $status
  * @property integer $isVerified
  * @property integer $vuz
@@ -33,6 +33,8 @@ class YuristSettings extends CActiveRecord
         const STATUS_YURIST = 1; // юрист
         const STATUS_ADVOCAT = 2; // адвокат
         const STATUS_JUDGE = 3; // судья
+        
+        public $statusNew;
         /**
 	 * @return string the associated database table name
 	 */
@@ -50,17 +52,17 @@ class YuristSettings extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('yuristId', 'required'),
-			array('yuristId, startYear, townId, isVerified, status, vuzTownId, educationYear, priceConsult, priceDoc', 'numerical', 'integerOnly'=>true),
+			array('yuristId, startYear, isVerified, status, vuzTownId, educationYear, priceConsult, priceDoc', 'numerical', 'integerOnly'=>true),
 			array('alias', 'length', 'max'=>255),
                         array('alias','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. ])+$/u', 'message'=>'В псевдониме могут присутствовать буквы, цифры, точка, дефис и пробел'),
                         array('site','match','pattern'=>'/^(https?:\/\/)?([\dа-яёЁa-z\.-]+)\.([а-яёЁa-z\.]{2,6})([\/\w \.-]*)*\/?$/u', 'message'=>'В адресе сайта присутствуют недопустимые символы'),
-                        array('description, vuz, facultet, education, advOrganisation, advNumber, position', 'safe'),
+                        array('description, hello, vuz, facultet, education, advOrganisation, advNumber, position', 'safe'),
 			array('emailVisible','email', 'message'=>'В Email допускаются латинские символы, цифры, точка и дефис'),
 			array('phoneVisible','match', 'pattern'=>'/^([0-9\- \(\)\+])+$/u', 'message'=>'В номере телефона разрешены цифры, скобки, пробелы и дефисы'),
 
                         // The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('yuristId, alias, startYear, description, townId', 'safe', 'on'=>'search'),
+			array('yuristId, alias, startYear, description', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,7 +75,6 @@ class YuristSettings extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
                     'user'       =>  array(self::BELONGS_TO, 'User', 'yuristId'),
-                    'town'       =>  array(self::BELONGS_TO, 'Town', 'townId'),
                     'vuzTown'    =>  array(self::BELONGS_TO, 'Town', 'vuzTownId'),
 		);
 	}
@@ -88,7 +89,7 @@ class YuristSettings extends CActiveRecord
 			'alias'         => 'Псевдоним',
 			'startYear'     => 'Год начала работы',
 			'description'   => 'Описание',
-			'townId'        => 'ID Города',
+			'hello'         => 'Приветствие',
 			'status'        => 'Статус',
 			'isVerified'    => 'Верифицирован',
                         'vuz'           => 'ВУЗ', 
@@ -113,9 +114,9 @@ class YuristSettings extends CActiveRecord
         {
             return array(
                 self::STATUS_NOTHING    =>  'без статуса',
-                self::STATUS_YURIST     =>  'юрист',
-                self::STATUS_ADVOCAT    =>  'адвокат',
-                self::STATUS_JUDGE      =>  'судья',
+                self::STATUS_YURIST     =>  'Юрист',
+                self::STATUS_ADVOCAT    =>  'Адвокат',
+                self::STATUS_JUDGE      =>  'Судья',
                                 
             );
         }
@@ -124,6 +125,13 @@ class YuristSettings extends CActiveRecord
         {
             $statusesArray = self::getStatusesArray();
             $statusName = $statusesArray[$this->status];
+            return $statusName;
+        }
+        
+        static public function getStatusNameByCode($code)
+        {
+            $statusesArray = self::getStatusesArray();
+            $statusName = $statusesArray[$code];
             return $statusName;
         }
 

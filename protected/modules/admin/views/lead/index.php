@@ -12,6 +12,10 @@ $this->breadcrumbs=array(
 );
 
 ?>
+<div class="vert-margin30">
+   <?php $this->renderPartial('_searchForm', array('model'=>$searchModel));?> 
+</div>
+
 <div  class="vert-margin30">
 <h1>Центр Обработки Обращений
     <?php if(Yii::app()->user->role == User::ROLE_ROOT):?>

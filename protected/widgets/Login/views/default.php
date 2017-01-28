@@ -73,7 +73,9 @@
                         <?php echo CHtml::link(CHtml::encode(Yii::app()->user->name . ' ' . Yii::app()->user->lastName), Yii::app()->createUrl('/user'));?>
                         <?php echo CHtml::link('<span class="glyphicon glyphicon-log-out"></span>', Yii::app()->createUrl('site/logout'), array());?>
                         <br />
-                        <span class="label label-default">Рейтинг: <?php echo Yii::app()->user->karma;?></span>
+                        <?php if(Yii::app()->user->role == User::ROLE_JURIST):?>
+                            <span class="label label-default">Рейтинг: <?php echo Yii::app()->user->karma;?></span>
+                        <?php endif;?>
                     </div>
                 </div>
             </div>

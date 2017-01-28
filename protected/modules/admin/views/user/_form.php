@@ -53,11 +53,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
         <?php echo $form->dropDownList($model,'role', $rolesNames, array('class'=>'form-control'));?>
         <?php echo $form->error($model,'role'); ?>
 </div>
-<div class="form-group">
-        <?php echo $form->labelEx($model,'position'); ?>
-        <?php echo $form->textField($model,'position', array('class'=>'form-control')); ?>
-        <?php echo $form->error($model,'position'); ?>
-</div>    
+   
 <div class="form-group">
         <?php echo $form->labelEx($model,'email'); ?>
         <?php echo $form->textField($model,'email', array('class'=>'form-control')); ?>

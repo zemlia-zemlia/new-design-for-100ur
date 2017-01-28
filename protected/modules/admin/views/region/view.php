@@ -25,7 +25,7 @@ $this->breadcrumbs=array(
         <h1 class="vert-margin30"><?php echo CHtml::encode($model->name); ?></h1>
 
         
-<table class="table table-bordered">
+<table class="table table-bordered" style="padding: 1px;">
 <tr>
     <th>Город</th>
     <th>Насел.</th>

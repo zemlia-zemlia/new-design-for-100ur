@@ -29,7 +29,7 @@ class QuestionCategoryController extends Controller
                                 'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
 			),
                         array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','view','create','update', 'ajaxGetList'),
+				'actions'=>array('index','view','create','update', 'ajaxGetList', 'directions'),
 				'users'=>array('@'),
                                 'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
 			),
@@ -323,4 +323,25 @@ class QuestionCategoryController extends Controller
 			Yii::app()->end();
 		}
 	}
+        
+        
+        // выводит список категорий-направлений с их иерархией
+        public function actionDirections()
+        {
+            $directions = QuestionCategory::getDirections(true, true);
+            
+//            CustomFuncs::printr($directions);
+            echo "<ul>";
+            foreach($directions as $catId=>$cat) {
+                echo "<li>" . $cat['name'] . '</li>';
+                if($cat['children']) {
+                    echo '<ul>';
+                    foreach($cat['children'] as $childId=>$child) {
+                        echo "<li>" . $child['name'] . '</li>';
+                    }
+                    echo '</ul>';
+                }
+            }
+            echo "</ul>";
+        }
 }

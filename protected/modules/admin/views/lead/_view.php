@@ -25,38 +25,31 @@ switch ($data->leadStatus) {
 }
 ?>
 
-<tr id="lead-<?php echo $data->id;?>">
-    <td>
+<tr id="lead-<?php echo $data->id;?>" >
+    <td class="warning" style="min-width: 120px;">
         
-        <small class="muted"> 
+        <small class="muted" > 
             
             <span>id:&nbsp;<?php echo $data->id;?></span> &nbsp;
             <br />
             <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo CustomFuncs::niceDate($data->question_date, false, false); ?>&nbsp;&nbsp;
             <br />
             <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->role == User::ROLE_SECRETARY):?>
-                <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo $data->source->name; ?> &nbsp;&nbsp;       
+                <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo $data->source->name; ?>       
             <?php endif;?>
-               <br />
-
+			<br />
             <span class="label <?php echo $statusClass;?>">    
             <?php echo $data->getLeadStatusName();?>
-                <?php if($data->campaign):?>
-                    <?php echo "в " . $data->campaign->region->name.$data->campaign->town->name;?>
-                <?php endif;?>
             </span>
-              <br /> 
+            <br /> 
             <span class="label label-default"><?php echo $data->getLeadTypeName();?></span>
-            
+			
         </small>
     </td>
-    <td>
-        <p>
-            <?php echo nl2br(CHtml::encode($data->question)); ?>
-        </p>
-        
-        <small class="muted">      
+    <td class="success" >
 
+            
+		<p style="border-bottom: #ded9d9 1px solid; ">
             <?php if($data->townId):?>
                 <span class="glyphicon glyphicon-map-marker"></span>
                 <?php echo CHtml::encode($data->town->name); ?> (<?php echo CHtml::encode($data->town->ocrug); ?>)
@@ -74,10 +67,23 @@ switch ($data->leadStatus) {
             
             <span class="glyphicon glyphicon-user"></span>    
             <?php echo CHtml::link(CHtml::encode($data->name), array('view', 'id'=>$data->id)); ?> <br />
-        </small>
+        </p>
+		
+		<p >
+            <?php echo nl2br(CHtml::encode($data->question)); ?>
+        </p>
+        
+        <?php if($data->brakComment):?>
+        <p>
+            <strong>Комментарий отбраковки:</strong><br />
+            <?php echo CHtml::encode($data->brakComment);?>
+        </p>
+        <?php endif;?>
+		
+		
     </td>
     
-    <td>
+    <td class="success">
         <p id="lead_<?php echo $data->id;?>" class="small">
             <?php if($data->questionId):?>
                 <?php echo CHtml::link($data->questionId, Yii::app()->createUrl('/admin/question/view', array('id'=>$data->questionId)));?>

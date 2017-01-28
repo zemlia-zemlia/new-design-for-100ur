@@ -176,17 +176,17 @@ class QuestionCategory extends CActiveRecord
         /*
          * возвращает массив, ключами которого являются id категорий-направлений, а значениями - их названия
          */
-        public static function getDirections($withAlias = false)
+        public static function getDirections($withAlias = false, $withHierarchy = false)
         {
             $categoriesRows = Yii::app()->db->createCommand()
-                    ->select('id, name, alias')
+                    ->select('id, name, alias, parentId')
                     ->from('{{questionCategory}}')
                     ->where('isDirection = 1')
                     ->order('name ASC')
                     ->queryAll();
             
             $categories = array();
-            
+            $categoriesHierarchy = array();
             
             if(!$withAlias) {
                 foreach ($categoriesRows as $row) {
@@ -197,10 +197,51 @@ class QuestionCategory extends CActiveRecord
                     $categories[$row['id']] = array(
                         'name'  =>  $row['name'],
                         'alias' =>  $row['alias'],
+                        'parentId'  =>  $row['parentId'],
                         );
                 }
             }
             
+            
+            if($withHierarchy === true && $withAlias === true) {
+                foreach($categories as $catId=>$cat) {
+                    if($cat['parentId'] == 0) {
+                        $categoriesHierarchy[$catId] = $cat;
+                    }
+                    if($cat['parentId'] != 0 && !array_key_exists($cat['parentId'], $categories)) {
+                        $categoriesHierarchy[$catId] = $cat;
+                    }
+                    if($cat['parentId'] != 0 && array_key_exists($cat['parentId'], $categories)) {
+                        $categoriesHierarchy[$cat['parentId']]['children'][$catId] = $cat;
+                    }
+                }
+                
+                return $categoriesHierarchy;
+            }
+            
             return $categories;
         }
+        
+        /*
+         * возвращает одномерный массив направлений. направления-потомки имеют в названии дефис в начале
+         * @param $directionsHirerarchy - массив иерархии направлений
+         */
+        public static function getDirectionsFlatList($directionsHirerarchy)
+        {
+            $directions = array();
+            
+            foreach($directionsHirerarchy as $key=>$direction) {
+                $directions[$key] = $direction['name'];
+                
+                if($direction['children']) {
+                    foreach ($direction['children'] as $childId=>$child) {
+                        $directions[$childId] = '-- ' . $child['name'];
+                    }
+                }
+            }
+            
+            
+            return $directions;
+        }
+        
 }

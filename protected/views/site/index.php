@@ -26,7 +26,7 @@
                         <?php if($question['counter'] == 1) {
                             echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>Есть ответ</span>";
                         } elseif($question['counter']>1) {
-                            echo "<span class='label label-success'>" . $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
+                            echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>" . $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
                         } elseif($question['counter'] == 0) {
                             echo "<span class='label label-default'>Нет ответа</span>";
                         }

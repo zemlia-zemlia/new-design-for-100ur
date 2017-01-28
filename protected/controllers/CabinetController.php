@@ -137,17 +137,18 @@ class CabinetController extends Controller
         public function actionBrakLead()
         {
             $reason = isset($_POST['reason'])?(int)$_POST['reason']:0;
+            $reasonComment = isset($_POST['reasonComment'])?CHtml::encode($_POST['reasonComment']):'';
             $leadId = isset($_POST['leadId'])?(int)$_POST['leadId']:0;
             
-            if(!$leadId || !$reason) {
-                echo json_encode(array('code'=>400, 'message'=>'Error, not enough data'));
+            if(!$leadId || !$reason || !$reasonComment) {
+                echo json_encode(array('code'=>400, 'message'=>'Ошибка, не заполнены все поля формы'));
                 exit;
             }
             
             $lead = Lead100::model()->findByPk($leadId);
             
             if(!$lead) {
-                echo json_encode(array('code'=>404, 'message'=>'Lead100 not found'));
+                echo json_encode(array('code'=>404, 'message'=>'Лид не найден'));
                 exit;
             }
             
@@ -158,12 +159,13 @@ class CabinetController extends Controller
             
             $lead->leadStatus = Lead100::LEAD_STATUS_NABRAK;
             $lead->brakReason = (int)$reason;
+            $lead->brakComment = $reasonComment;
             
             if($lead->save()) {
                 echo json_encode(array('code'=>0, 'id'=>$leadId, 'message'=>'Лид отправлен на отбраковку'));
                 exit;
             } else {
-                echo json_encode(array('code'=>400, 'message'=>'Ошибка: не удалось отправить лид на отбраковку'));
+                echo json_encode(array('code'=>400, 'id'=>$leadId, 'message'=>'Ошибка: не удалось отправить лид на отбраковку'));
                 exit;
             }
             

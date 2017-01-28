@@ -22,12 +22,12 @@ return array(
 	// application components
 	'components'=>array(
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=crm',
+			'connectionString' => 'mysql:host=localhost;dbname=100yuristov',
 			'emulatePrepare' => true,
 			'username' => 'crm',
 			'password' => 'crm_local',
 			'charset' => 'utf8',
-                        'tablePrefix' => 'crm_',
+                        'tablePrefix' => '100_',
 			'enableProfiling' => true,
 			'schemaCachingDuration' => 3000,
                         'queryCacheID' => 'cache',

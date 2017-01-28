@@ -128,6 +128,8 @@ class LeadController extends Controller
 	public function actionIndex()
 	{
 		
+            $searchModel = new Lead100;
+            
             $criteria = new CDbCriteria;
             
             $criteria->order = 'id DESC';
@@ -140,15 +142,26 @@ class LeadController extends Controller
                 
             }
             
-            $dataProvider=new CActiveDataProvider('Lead100', array(
+            if(isset($_GET['Lead100']))
+            {
+                // если используется форма поиска по контактам
+                $searchModel->attributes=$_GET['Lead100'];
+                $dataProvider = $searchModel->search();
+            } else {
+                // если форма не использовалась
+                $dataProvider=new CActiveDataProvider('Lead100', array(
                     'criteria'  =>  $criteria,
                     'pagination'    =>  array(
                         'pageSize'=>50,
                     ),
                 ));
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+            }
+            
+            
+            $this->render('index',array(
+                    'dataProvider'  =>  $dataProvider,
+                    'searchModel'   =>  $searchModel,
+            ));
 	}
 
 	
@@ -184,11 +197,26 @@ class LeadController extends Controller
         public function actionSendLeads()
         {
 
-            // найдем все лиды, не отправленные ни в офис, ни в лид-сервисы
-            $leads = Lead100::model()->findAllByAttributes(array('leadStatus'=>  Lead100::LEAD_STATUS_DEFAULT));
+            $criteria = new CDbCriteria;
+            
+            $criteria->addColumnCondition(array('leadStatus'=>Lead100::LEAD_STATUS_DEFAULT));
+            $criteria->addColumnCondition(array('question_date>'=>date('Y-m-d')));
+            $criteria->with = array('town', 'town.region');
+
+            // сколько лидов обрабатывать за раз
+            $criteria->limit = 100;
+
+            $leads = Lead100::model()->findAll($criteria);
 
             foreach($leads as $lead) {
-                $lead->sendLead();
+                $campaignId = Campaign::getCampaignsForLead($lead->id);
+                //echo $lead->id . ' - ' . $campaignId . PHP_EOL;
+                if(!$campaignId) {
+                    continue;
+                }
+
+                $lead->sendToCampaign($campaignId);
+
             }
             
             $this->redirect(array('/admin/lead/index', 'leadsSent'=>1));
@@ -335,7 +363,7 @@ class LeadController extends Controller
             $yearsRows = Yii::app()->db->cache(600)->createCommand()
                     ->select('DISTINCT(YEAR(question_date)) y')
                     ->from('{{lead100}}')
-                    ->where('price != 0 AND leadStatus IN(' . Lead100::LEAD_STATUS_SENT . ', ' . Lead100::LEAD_STATUS_SENT_CRM. ') AND YEAR(question_date)!=0')
+                    ->where('price != 0 AND YEAR(question_date)!=0')
                     ->queryColumn();
             $yearsArray = array();
             foreach($yearsRows as $k=>$v) {
@@ -350,9 +378,9 @@ class LeadController extends Controller
             $year = (isset($_GET['year']))?$_GET['year']:date("Y");
             
             $leadsRows = Yii::app()->db->createCommand()
-                    ->select('l.price summa, DATE(l.question_date) lead_date, l.campaignId campaignId')
+                    ->select('l.price summa, DATE(l.question_date) lead_date, l.campaignId campaignId, l.buyPrice, l.leadStatus')
                     ->from('{{lead100}} l')
-                    ->where('l.price != 0 AND leadStatus =' . Lead100::LEAD_STATUS_SENT.' AND MONTH(l.question_date)="'.$month.'" AND YEAR(l.question_date)="' . $year . '"')
+                    ->where('l.price != 0 AND MONTH(l.question_date)="'.$month.'" AND YEAR(l.question_date)="' . $year . '"')
                     ->order('lead_date DESC')
                     ->queryAll();
             
@@ -360,19 +388,30 @@ class LeadController extends Controller
 
             $sumArray = array();
             $kolichArray = array();
+            $buySumArray = array();
             
             
             if($type == 'dates') {
                 foreach ($leadsRows as $row) {
-                    $sumArray[$row['lead_date']] += $row['summa'];
-                    $kolichArray[$row['lead_date']]++;
+                    if($row['leadStatus'] == Lead100::LEAD_STATUS_SENT) {
+                        $sumArray[$row['lead_date']] += $row['summa'];
+                        $kolichArray[$row['lead_date']]++;
+                    }
+                    
+                    $buySumArray[$row['lead_date']] += $row['buyPrice'];
+                    
                 }
             }
             
             if($type == 'campaigns') {
                 foreach ($leadsRows as $row) {
-                    $sumArray[$row['campaignId']] += $row['summa'];
-                    $kolichArray[$row['campaignId']]++;
+                    if($row['leadStatus'] == Lead100::LEAD_STATUS_SENT) {
+                        $sumArray[$row['campaignId']] += $row['summa'];
+                        $kolichArray[$row['campaignId']]++;
+                    }
+                    
+                    $buySumArray[$row['campaignId']] += $row['buyPrice'];
+                    
                 }
             }
             
@@ -386,6 +425,7 @@ class LeadController extends Controller
                 'year'          =>  $year,
                 'sumArray'      =>  $sumArray,
                 'kolichArray'   =>  $kolichArray,
+                'buySumArray'   =>  $buySumArray,
             ));
         }
 

@@ -129,7 +129,7 @@ class Answer extends CActiveRecord
             $question = $this->question;
             
             $questionAuthor = $this->question->author;
-            if($questionAuthor && $questionAuthor->active100 == 1) {
+            if($questionAuthor && $questionAuthor->active100 == 1 && $this->isNewRecord === true) {
                 $questionAuthor->sendAnswerNotification($this->question, $this);
             }
             

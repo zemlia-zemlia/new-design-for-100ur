@@ -9,12 +9,31 @@ class GTMail
     
     public function sendMail($appendSuffix=true)
     {
- 	
+ 	// хак на случай, если отправка почты производится из консольного приложения
+        if(isset(Yii::app()->controller)) {
+            $controller = Yii::app()->controller;
+        } else {
+            $controller = new CController('GTMail');
+        }
+        
         $fromHeader = "=?utf-8?b?" . base64_encode(Yii::app()->params['leadsEmail']) . "?=<". Yii::app()->params['leadsEmail'] . ">";
 	$this->headers .= $fromHeader . "\n\n";
         
         $this->subject = "=?utf-8?b?" . base64_encode($this->subject) . "?="; //так по-правильному нужно кодировать тему письма
 
+        $header = $controller->renderInternal(Yii::getPathOfAlias('application.extensions.GTMail.templates.default').'/header.php', NULL, true);
+        
+        $this->message = $header . $this->message;
+        
+        // если задано добавлять подпись к письму, подгружаем ее из внешнего файла
+        if($appendSuffix==true) {
+            $this->message .= $controller->renderInternal(Yii::getPathOfAlias('application.extensions.GTMail.templates.default').'/pre_footer.php', NULL, true);
+        }
+                        
+        $footer = $controller->renderInternal(Yii::getPathOfAlias('application.extensions.GTMail.templates.default').'/footer.php', NULL, true);
+
+        $this->message .= $footer;
+        
         if(mail($this->email, $this->subject, $this->message, $this->headers)) return true;
             else return false;
     }

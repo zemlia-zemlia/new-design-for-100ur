@@ -25,7 +25,6 @@
         <?php endif;?>
     
 	<div class="form-group">
-                <strong>Текст отзыва</strong><br />
 		<?php echo $form->textArea($model,'text',array('rows'=>6,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'text'); ?>
 	</div>

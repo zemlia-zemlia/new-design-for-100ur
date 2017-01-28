@@ -55,21 +55,29 @@ if($model->description) {
             </p>
         </div>
         
+    <div class="flat-panel vert-margin30">
         <div>
         <?php if($model->title):?>
-        <h1 itemprop="name" class="header-block header-block-light-grey vert-margin30"><?php echo CHtml::encode($model->title); ?></h1>
+        <h1 itemprop="name" class="header-block header-block-light-grey"><?php echo CHtml::encode($model->title); ?></h1>
         <?php endif;?>
         </div>
 
-    <p itemprop="text">
-        <?php echo nl2br(CHtml::encode($model->questionText));?>
-    </p>
+    
+        <div itemprop="text" class="inside">
+            <?php echo nl2br(CHtml::encode($model->questionText));?>
+        </div>
 
+        <div class="inside right-align">
+            <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+            <script src="//yastatic.net/share2/share.js"></script>
+            <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,twitter,viber,whatsapp"></div>
+        </div>
+    </div>
 
     <?php $this->widget('zii.widgets.CListView', array(
             'dataProvider'  =>  $answersDataProvider,
             'itemView'      =>  'application.views.answer._view',
-            'emptyText'     =>  '<p class="alert alert-info gray-panel">Юристы пока не дали ответ...</p>',
+            'emptyText'     =>  '<p class="text-muted inside">Юристы пока не дали ответ...</p>',
             'summaryText'   =>  '',
             'pager'         =>  array('class'=>'GTLinkPager'), //we use own pager with russian words
             'viewData'      =>  array(
@@ -84,7 +92,7 @@ if($model->description) {
 <?php if(Yii::app()->user->role == User::ROLE_ROOT || ($model->authorId == Yii::app()->user->id && ($model->price==0 || $model->payed == 0))):?>
 
 
-            <h3 class="vert-margin30"> 100% гарантия получения ответа </h3>
+            <h3 class="vert-margin30 header-block-green"> 100% гарантия получения ответа </h3>
             
             <div class="alert alert-info gray-panel">
                 <h4>Вы экономите</h4>
@@ -214,33 +222,9 @@ if($model->description) {
             <div class="form-container-content">
                 <h3 class="center-align header-block header-block-light-grey">или на сайте в режиме on-line<br/>доступно для ВСЕХ регионов РФ</h3>
                                 
-                <?php $form=$this->beginWidget('CActiveForm', array(
-                        'id'                    =>  'question-form',
-                        'enableAjaxValidation'  =>  false,
-                        'action'                =>  Yii::app()->createUrl('question/create'),
-                )); ?>
-                
-                <div class="row">
-                    <div class="col-md-7">
-                        <div class="form-group">
-                                <?php echo $form->labelEx($newQuestionModel,'questionText'); ?>
-                                <?php echo $form->textArea($newQuestionModel,'questionText', array('class'=>'form-control', 'rows'=>6, 'placeholder'=>'Добрый день!...')); ?>
-                                <?php echo $form->error($newQuestionModel,'questionText'); ?>
-                        </div>
-                    </div>
-
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <label>Ваше имя *</label>
-                            <?php echo $form->textField($newQuestionModel,'authorName', array('class'=>'form-control', 'placeholder'=>'Иванов Иван')); ?>
-                            <?php echo $form->error($newQuestionModel,'authorName'); ?>
-                        </div>
-			<div class="form-group" id="form-submit-wrapper">
-                                <?php echo CHtml::submitButton($newQuestionModel->isNewRecord ? 'Задать вопрос юристу' : 'Сохранить', array('class'=>'button  button-blue-gradient btn-block', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
-                        </div>
-					</div>
-                </div> 
-                <?php $this->endWidget(); ?>
+                <?php echo $this->renderPartial('application.views.question._formBrief', array(
+                    'newQuestionModel'  =>  $newQuestionModel,
+                ));?>
                               
             </div>
 	</div>

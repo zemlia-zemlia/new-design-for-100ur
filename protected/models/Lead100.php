@@ -19,10 +19,15 @@
  * @property string $deliveryTime
  * @property string $lastLeadTime
  * @property integer $brakReason
+ * @property string $brakComment
+ * @property string $secretCode
+ * @property integer $buyPrice
  */
 class Lead100 extends CActiveRecord
 {
-	
+	public $date1, $date2; // диапазон дат, используемый при поиске
+        public $newTownId; // для случая смены города при отбраковке
+        
         const LEAD_STATUS_DEFAULT = 0; // лид никуда не отправлен
         const LEAD_STATUS_SENT_CRM = 1; // лид отправлен в CRM
         const LEAD_STATUS_SENT_LEADIA = 2; // лид отправлен в Leadia
@@ -79,15 +84,17 @@ class Lead100 extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, phone, sourceId, question, townId', 'required','message'=>'Поле должно быть заполнено'),
-			array('sourceId, townId, questionId, leadStatus, addedById, type, campaignId, brakReason', 'numerical', 'integerOnly'=>true),
-			array('price', 'numerical'),
+			array('sourceId, townId, newTownId, questionId, leadStatus, addedById, type, campaignId, brakReason', 'numerical', 'integerOnly'=>true),
+			array('price, buyPrice', 'numerical'),
                         array('deliveryTime', 'safe'),
-                        array('name, phone, email', 'length', 'max'=>255),
+                        array('name, phone, email, secretCode, brakComment', 'length', 'max'=>255),
 			array('townId', 'match','not'=>true, 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
                         array('name','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-., ])+$/u', 'message'=>'В имени могут присутствовать буквы, цифры, точка, дефис и пробел', 'except'=>'parsing'),
                         array('phone','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\+\(\)\s \-])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
                         array('email', 'email', 'message'=>'E-mail похож на ненастоящий, проверьте, пожалуйста, правильность набора'),
-			// The following rule is used by search().
+                        array('date1, date2','match','pattern'=>'/^([0-9\-])+$/u', 'message'=>'В датах могут присутствовать только цифры и знак плюса'),
+			
+                        // The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, phone, sourceId, question, question_date, townId, leadStatus', 'safe', 'on'=>'search'),
 		);
@@ -130,6 +137,12 @@ class Lead100 extends CActiveRecord
                         'price'         =>  'Цена',
                         'campaignId'    =>  'ID кампании',
                         'lastLeadTime'  =>  'Время отправки последнего лида',
+                        'secretCode'    =>  'Секретный код',
+                        'brakComment'   =>  'Комментарий отбраковки',
+                        'brakReason'    =>  'Причина отбраковки',
+                        'buyPrice'      =>  'Цена покупки',
+                        'date1'         =>  'От',
+                        'date2'         =>  'До',
 		);
 	}
         
@@ -246,9 +259,7 @@ class Lead100 extends CActiveRecord
             if(!$campaign) {
                 return false;
             }
-            
-            // определим, является ли источником лида источник, который мы не продаем
-           
+                      
             
             $this->price = $campaign->price;
             $this->deliveryTime = date('Y-m-d H:i:s');
@@ -321,6 +332,8 @@ class Lead100 extends CActiveRecord
 		$criteria->compare('question_date',$this->question_date,true);
 		$criteria->compare('townId',$this->townId);
 		$criteria->compare('leadStatus',$this->leadStatus);
+                $criteria->compare('DATE(t.question_date)>',  CustomFuncs::invertDate($this->date1));
+                $criteria->compare('DATE(t.question_date)<',  CustomFuncs::invertDate($this->date2));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -336,9 +349,14 @@ class Lead100 extends CActiveRecord
             $mailer = new GTMail();
             $mailer->subject = "Заявка город " . $this->town->name . " (" . $this->town->region->name . ")";
             $mailer->message = "<h3>Заявка на консультацию</h3>";
-            $mailer->message .= "<p>Имя: " . CHtml::encode($this->name) . ", город: " . CHtml::encode($this->town->name). " (" . $this->town->region->name . ")" . "</p>";
+            $mailer->message .= "<p>Имя: " . CHtml::encode($this->name) . ",</p>";
+            $mailer->message .= "<p>Город: " . CHtml::encode($this->town->name). " (" . $this->town->region->name . ")" . "</p>";
             $mailer->message .= "<p>Телефон: " . $this->phone . "</p>";
-            $mailer->message .= "<p>Сообщение:<br />" . CHtml::encode($this->question) . "</p>";          
+            $mailer->message .= "<p>Сообщение:<br />" . CHtml::encode($this->question) . "</p>"; 
+            
+            $mailer->message .= "<hr /><p>"
+                    . "<a style='display:inline-block; padding:5px 10px; border:#999 1px solid; color:#666; background-color:#fff; text-decoration:none;' href='https://100yuristov.com/site/brakLead/?code=" . $this->secretCode . "'>Отбраковка</a>"
+                    . "</p>";
             
             $mailer->email = $campaign->buyer->email;
             
@@ -377,5 +395,14 @@ class Lead100 extends CActiveRecord
             //CustomFuncs::printr($dublicatesRow['counter']);
             
             return $dublicatesRow['counter'];
+        }
+        
+        protected function beforeSave()
+        {
+            $this->phone = Question::normalizePhone($this->phone);
+            if($this->secretCode == '') {
+                $this->secretCode = md5(time().$this->phone.strlen($this->question).mt_rand(100000,999999));
+            }
+            return parent::beforeSave();
         }
 }

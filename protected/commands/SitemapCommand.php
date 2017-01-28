@@ -49,7 +49,7 @@ class SitemapCommand extends CConsoleCommand
         $questions = Yii::app()->db->createCommand()
                 ->select('id')
                 ->from('{{question}}')
-                ->where('status=:status', array(':status'=>Question::STATUS_PUBLISHED))
+                ->where('status IN(:status1, :status2)', array(':status1'=>Question::STATUS_PUBLISHED, ':status2'=>Question::STATUS_CHECK))
                 ->queryAll();
         foreach($questions as $question) {
             $siteMap .= '<url>

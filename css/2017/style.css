@@ -73,6 +73,10 @@ hr {
 	margin-bottom: 30px !important;
 }
 
+.container600 {
+    max-width: 600px;
+}
+
 .red {
     color:#ff0000;
 }
@@ -370,7 +374,6 @@ hr {
 .header-block-blue-arrow {
     height:5px;
     background:url(/pics/2017/arrow_down_blue.png) no-repeat center;
-    margin-bottom:20px;
 }
 
 .kpi-counter span {
@@ -594,6 +597,14 @@ hr {
     text-align: right;
 }
 
+.donate-yurist-link {
+    float:left;
+}
+
+.donate-block {
+    display:none;
+}
+
 .yurist-list-item {
     padding-bottom:20px;
 }
@@ -613,6 +624,22 @@ hr {
 }
 
 .hidden-block-container .hidden-block {
+    display:none;
+}
+
+
+.form-brak-lead {
+    position:absolute;
+    right:30px;
+    background:#fff;
+    border-radius:5px;
+    padding:5px;
+    box-shadow: #999 2px 2px 5px;
+    display:none;
+    border:#ccc 1px solid;
+}
+
+.brak-lead-message {
     display:none;
 }
 

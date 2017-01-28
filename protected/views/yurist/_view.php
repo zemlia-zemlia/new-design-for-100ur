@@ -12,9 +12,9 @@
                 <?php echo CHtml::link(CHtml::encode($yuristName), Yii::app()->createUrl('user/view', array('id'=>$data->id)));?>
             </h4>
             <p>
-                <?php if($data->settings->town):?>
-                    <?php echo $data->settings->town->name;?>
-                    (<?php echo $data->settings->town->region->name;?>) 
+                <?php if($data->town):?>
+                    <?php echo $data->town->name;?>
+                    (<?php echo $data->town->region->name;?>) 
                 <?php endif;?>
                 <br />
                 Рейтинг: <?php echo (int)$data->karma;?><br />

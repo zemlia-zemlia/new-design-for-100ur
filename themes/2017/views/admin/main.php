@@ -9,7 +9,7 @@
 <?php 
     Yii::app()->clientScript->registerCssFile("/bootstrap/css/bootstrap.min.css");
     Yii::app()->clientScript->registerCssFile('/css/2015/jquery-ui.css');
-    Yii::app()->clientScript->registerCssFile("/css/2015/admin.css");
+    Yii::app()->clientScript->registerCssFile("/css/2017/admin.css");
 
     Yii::app()->clientScript->registerScriptFile("/js/respond.min.js");
     Yii::app()->clientScript->registerScriptFile("jquery.js");
@@ -66,7 +66,7 @@
                         <div class="panel-body">
                         <ul id="left-menu">
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-briefcase'></span>  Пользователи", Yii::app()->createUrl('/admin/user/index'));?></li>
-                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-eye-close'></span>  Запросы", Yii::app()->createUrl('/admin/user/requests'));?></li>
+                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-eye-close'></span>  Запросы", Yii::app()->createUrl('/admin/userStatusRequest'));?></li>
                             
                         </ul>
                         </div>
@@ -135,6 +135,7 @@
                         <div class="panel-heading"><h4>Контент</h4></div>
                         <div class="panel-body">
                         <ul id="left-menu">
+							
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-question-sign'></span>  Вопросы", Yii::app()->createUrl('/admin/question'));?>
                                 <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR) || Yii::app()->user->role == User::ROLE_SECRETARY):?>
                                 <ul>
@@ -174,6 +175,7 @@
                                 </ul>    
                                 <?php endif;?>    
                             </li>
+							
                             
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-question-sign'></span>  Ответы юристов", Yii::app()->createUrl('/admin/answer'));?>
                                 <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR) || Yii::app()->user->role == User::ROLE_SECRETARY):?>

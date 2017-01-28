@@ -204,7 +204,7 @@
             </div>    
                 
             <div class="col-sm-3 col-sm-pull-6 col-md-3 col-md-pull-6" id="left-panel">
-			
+		<?php if(Yii::app()->user->role != User::ROLE_JURIST):?>	
                 <div class="flat-panel vert-margin20">
                         <?php
                             $questionsCountInt = Question::getCount()*2;
@@ -231,7 +231,8 @@
                                 <img src="/pics/2017/arrow_down.png" alt="" class="center-block" />
                             </div>
                         </div>
-                </div>	
+                </div>
+                <?php endif;?>
                 <!-- 
                 <div class="vert-margin20 center-align">
                     <a href="<?php echo Yii::app()->createUrl('question/create', array('pay'=>1));?>"><img src="/pics/2017/payed_consult_banner.jpg" alt="Платный ответ юриста" /></a>
@@ -258,7 +259,7 @@
             
             <div class="col-md-3 col-sm-3"  id="right-panel">
 			                
-                <?php if(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR || Yii::app()->user->role == User::ROLE_CALL_MANAGER):?>
+                <?php if(Yii::app()->user->role == User::ROLE_JURIST):?>
                 
                 <div class="vert-margin20">           
                         <?php
@@ -277,17 +278,17 @@
                         </div> 
                 <?php endif;?>
                 
-                <div class="vert-margin20">
+                
                     <?php if(Yii::app()->user->isGuest):?>
-
+                        <div class="vert-margin20">
                             <?php
                                 // выводим виджет с формой логина
                                 $this->widget('application.widgets.Login.LoginWidget', array(
                                 ));
                             ?>
-
+                        </div>
                     <?php endif;?>
-                </div>
+                
                 
              	<?php if(Yii::app()->user->isGuest):?>			
                     <div class="">
@@ -358,16 +359,15 @@
                 </div>
 				
 				<div class='col-md-3 col-sm-3'>
-
+		<small>
 				<ul>
-					<li><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/')?CHtml::link('Юристы', Yii::app()->createUrl('/yurist/')):'<span class="active"><p>Юристы</p></span>';?></li>
 					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/offer/')?CHtml::link('Пользовательское соглашение', Yii::app()->createUrl('/site/offer/')):'<span class="active"><p>Пользовательское соглашение</p></span>';?></li>
 					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/crm/')?CHtml::link('CRM Для юридических фирм', Yii::app()->createUrl('/site/crm/')):'<span class="active"><p>CRM Для юридических фирм</p></span>';?></li>
-					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/')?CHtml::link('Клиенты Юристам и Адвокатам', Yii::app()->createUrl('/site/lead/')):'<span class="active"><p>Клиенты Юристам и Адвокатам</p></span>';?></li>
+					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/')?CHtml::link('Лиды и клиенты на услуги', Yii::app()->createUrl('/site/lead/')):'<span class="active"><p>Лиды и клиенты на услуги</p></span>';?></li>
 					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/about/')?CHtml::link('О проекте', Yii::app()->createUrl('/site/about/')):'<span class="active"><p>О проекте</p></span>';?></li>
-					<li><?php echo ($_SERVER['REQUEST_URI'] != '/company/')?CHtml::link('Каталог компаний', Yii::app()->createUrl('/company/')):'<span class="active"><p>Каталог компаний</p></span>';?></li>
+					<li><?php echo ($_SERVER['REQUEST_URI'] != '/company/')?CHtml::link('Каталог компаний России', Yii::app()->createUrl('/company/')):'<span class="active"><p>Каталог компаний</p></span>';?></li>
 				</ul>
-
+		</small>
 				</div>
 
                 <div class='col-md-3 col-sm-3'>
@@ -401,8 +401,7 @@
 						<p style="text-align: justify;"> 
 						<small>
 							<noindex>
-							&copy; Правовой портал «100 Юристов» 2014. Сайт предназначен для лиц старше 18 лет.<br />
-								Все права, на любые материалы, размещенные на сайте, защищены в соответствии с российским и международным законодательством об авторском праве и смежных правах. При любом использовании текстовых, аудио-, видео- и фотоматериалов ссылка на www.100yuristov.com обязательна. Редакция сайта не несет ответственности за достоверность информации, опубликованной на сайте.
+							&copy; Правовой портал «100 Юристов» 2014. Сайт предназначен для лиц старше 18 лет.	Все права, на любые материалы, размещенные на сайте, защищены в соответствии с российским и международным законодательством об авторском праве и смежных правах. При любом использовании текстовых, аудио-, видео- и фотоматериалов ссылка на www.100yuristov.com обязательна. Редакция сайта не несет ответственности за достоверность информации, опубликованной на сайте.  Email для связи с редакцией admin@100yuristov.com
 							</noindex>
 						</small>
 						</p>

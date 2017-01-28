@@ -197,7 +197,11 @@ class Campaign extends CActiveRecord
         
         public function getCampaignsForBuyer($buyerId)
         {
-            $campaigns = self::model()->cache(600)->findAllByAttributes(array('buyerId'=>(int)$buyerId));
+            $criteria = new CDbCriteria;
+            $criteria->order = "active DESC";
+            $criteria->addColumnCondition(array('buyerId'=>(int)$buyerId));
+            
+            $campaigns = self::model()->cache(600)->findAll($criteria);
             //CustomFuncs::printr($campaigns);
             
             return $campaigns;

@@ -21,7 +21,7 @@
 ?>
 
     <div itemscope="" itemtype="http://schema.org/Organization">
-    <h1 class="vert-margin30"><span itemprop="name"><?php echo CHtml::encode($company->name); ?></span></h1>
+    <h1 class="vert-margin30 header-block-green"><span itemprop="name"><?php echo CHtml::encode($company->name); ?></span></h1>
         
         <div class="container-fluid">
             <div class="row">
@@ -71,14 +71,16 @@
                 </div>
             </div>
         </div>
-        
+    <hr/>    
     <span itemprop="description">
         <?php echo $company->description;?>
     </span>
+	<hr/>
+		<?php if($company->commentsChecked):?>
 
-<?php if($company->commentsChecked):?>
 
-        <h2>Отзывы</h2>
+	<h2 class="header-block-light-grey">Отзывы о компании:</h2>
+	<br/>
         <?php foreach($company->commentsChecked as $com):?>
         <div itemprop="review" itemscope itemtype="http://schema.org/Review">  
             
@@ -94,6 +96,10 @@
                     ?>
             </div>
             
+			
+
+			
+			
             <div class="review-item row">
                 <div class="col-sm-3">
                     <?php if($com->author):?>
@@ -122,21 +128,20 @@
             </div>
         </div>
         <?php endforeach;?>
+		
 
 
 <?php endif;?>
 
 </div>  <!-- Product --> 
 
-
-<div class="panel panel-default">
-    <div class="panel-body">
-        <h2>Оставьте свой отзыв</h2>
-        <?php $this->renderPartial("application.views.comment._form", array('model'=>$comment));?>
-    </div>
-</div>
-
-
+		
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<h2>Ваш отзыв</h2>
+			<?php $this->renderPartial("application.views.comment._form", array('model'=>$comment));?>
+		</div>
+	</div>
 
 <?php if($commentSaved === true):?>
 <script>
