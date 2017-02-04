@@ -94,7 +94,7 @@ return array(
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=100yuristov',
 			'emulatePrepare' => true,
-			'username' => 'crm',
+			'username' => '100yuristov',
 			'password' => 'crm_local',
 			'charset' => 'utf8',
             'tablePrefix' => '100_',

@@ -68,3 +68,4 @@
 	<span style="font-size: 25pt; color: #39b778;">8-800-500-61-85</span><br/>
 	(звонок бесплатный)
 </p>
+<p>Ge-hegev</p>
