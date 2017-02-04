@@ -91,7 +91,7 @@ class QuestionCategory extends CActiveRecord
 	}
         
         // возвращает массив, ключи которого - id категорий, значения - названия
-        public function getCategoriesIdsNames()
+        public static function getCategoriesIdsNames()
         {
             $allCategories = array(0=>'Без категории');
                 

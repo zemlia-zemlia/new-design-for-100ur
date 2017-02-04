@@ -441,7 +441,7 @@ class User extends CActiveRecord
         
         public function getShortName()
         {
-            return $this->lastName . '&nbsp;' . mb_substr($this->name, 0,2) . '.' . mb_substr($this->name2,0,2) . '.';
+            return $this->lastName . '&nbsp;' . mb_substr($this->name, 0,1) . '.' . mb_substr($this->name2,0,1) . '.';
             //return $this->lastName;
         }
         

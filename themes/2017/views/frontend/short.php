@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
 <?php 
     Yii::app()->clientScript->registerCssFile("/bootstrap/css/bootstrap.min.css");

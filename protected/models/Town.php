@@ -47,14 +47,14 @@ class Town extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, ocrug,country', 'required'),
-                        array('alias','unique','message'=>'Такой город уже есть в базе'),
+			array('name', 'required'),
+			array('alias','unique','message'=>'Такой город уже есть в базе'),
 			array('size, regionId, countryId', 'numerical', 'integerOnly'=>true),
-                        array('name, ocrug,country, alias', 'length', 'max'=>64),
-                        array('name,ocrug,country','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. \(\)])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, скобки, точка, дефис и пробел'),
+			array('name, alias', 'length', 'max'=>64),
+			array('name','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. \(\)])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, скобки, точка, дефис и пробел'),
 			array('alias','match','pattern'=>'/^([a-z0-9\-])+$/'),
-                        array('description, description1, description2, seoKeywords, seoTitle, seoDescription','safe'),
-                        array('photoFile', 'file', 'types'=>'jpg, gif, png', 'allowEmpty'=>true),
+			array('description, description1, description2, seoKeywords, seoTitle, seoDescription','safe'),
+			array('photoFile', 'file', 'types'=>'jpg, gif, png', 'allowEmpty'=>true),
                         // The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, description', 'safe', 'on'=>'search'),
