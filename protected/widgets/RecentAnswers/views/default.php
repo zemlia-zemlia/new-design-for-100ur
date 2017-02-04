@@ -21,7 +21,9 @@ if(empty($answers) || sizeof($answers)==0) {
 
 <div class="row">
     <div class="col-md-4">
+		<?php if($answer->author):?>
         <img src="<?php echo $answer->author->getAvatarUrl();?>" class="img-responsive img-bordered" />
+		<?php endif;?>
     </div>
     <div class="col-md-8">
         <div class="answer-item-info">

@@ -1,6 +1,7 @@
 <?php
     $this->setPageTitle("Вопрос юристу и адвокату онлайн, юридическая помощь адвоката в Москве и СПБ ". Yii::app()->name);
     Yii::app()->clientScript->registerMetaTag("Задать вопрос адвокату без телефона и регистрации круглосуточно по всей России. Бесплатная помощь юриста онлайн и по телефону в Москве и Санкт-Петербурге.", 'description');
+	Yii::app()->clientScript->registerLinkTag("canonical",NULL,"https://".$_SERVER['SERVER_NAME']);
 
 ?>
 
