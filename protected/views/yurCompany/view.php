@@ -7,7 +7,6 @@
     $this->breadcrumbs=array(
         'Юридические фирмы' =>  array('/company'),
         CHtml::encode($company->town->name) =>  array('yurCompany/town', 'alias'=>$company->town->alias),
-        $company->name,
     );
     
 ?>
@@ -76,11 +75,41 @@
         <?php echo $company->description;?>
     </span>
 	<hr/>
-		<?php if($company->commentsChecked):?>
+        
+        
+        <div class="flat-panel">
+            <div class="inside">
+            <h2>Ваш отзыв</h2>
+            <?php $this->renderPartial("application.views.comment._form", array('model'=>$comment));?>
+            </div>
+        </div> 
+        
+    <?php if($company->commentsChecked):?>
 
-
+	<?php
+		$ratingSum = 0;
+		$commentsWithRating = 0;
+		foreach($company->commentsChecked as $com) {
+			if($com->rating) {
+				$ratingSum += (int)$com->rating;
+				$commentsWithRating++;
+			}
+		}
+		$averageRating = ($commentsWithRating>0)?round(($ratingSum/$commentsWithRating), 1):0;
+	?>
+	
 	<h2 class="header-block-light-grey">Отзывы о компании:</h2>
-	<br/>
+	
+		<?php if($averageRating):?>
+			<div itemprop="aggregateRating"
+				itemscope itemtype="http://schema.org/AggregateRating">
+			   Средняя оценка <span itemprop="ratingValue"><?php echo $averageRating;?></span>/5
+			   основана на <span itemprop="reviewCount"><?php echo $commentsWithRating;?></span> отзывах
+			  </div>
+		<?php endif;?>
+
+    
+        <br/>
         <?php foreach($company->commentsChecked as $com):?>
         <div itemprop="review" itemscope itemtype="http://schema.org/Review">  
             
@@ -122,7 +151,11 @@
                     <p><span itemprop="reviewBody"><?php echo CHtml::encode($com->text);?></span></p>
                     <?php if($com->rating):?>
                     <p><strong>Оценка:</strong> 
-                        <span itemprop="reviewRating"><?php echo (int)$com->rating;?></span>/5</p>
+                        <span itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+							<span itemprop="ratingValue"><?php echo (int)$com->rating;?></span>
+							/
+							<span itemprop="bestRating">5</span>
+						</span></p>
                     <?php endif;?>
                 </div>
             </div>
@@ -134,14 +167,6 @@
 <?php endif;?>
 
 </div>  <!-- Product --> 
-
-		
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<h2>Ваш отзыв</h2>
-			<?php $this->renderPartial("application.views.comment._form", array('model'=>$comment));?>
-		</div>
-	</div>
 
 <?php if($commentSaved === true):?>
 <script>

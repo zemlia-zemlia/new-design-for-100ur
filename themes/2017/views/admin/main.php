@@ -146,13 +146,13 @@
                                         <?php echo CHtml::link("<span class='glyphicon glyphicon-adjust'></span> " . 'Недозаполненные', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_PRESAVE)));?>
                                     </li>
                                     <li>
-                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Не подтверждены', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_NEW)));?>
+                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Email не указан / не подтвержден', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_NEW)));?>
                                     </li>
                                     <li>
-                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'На проверке', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_CHECK)));?>
+                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Предв. опубликован', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_CHECK)));?>
                                     </li>
                                     <li>
-                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-check'></span> " . 'Одобрены', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_MODERATED)));?>
+                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-check'></span> " . 'Ждет публикации', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_MODERATED)));?>
                                     </li>
                                     <li>
                                         <?php echo CHtml::link("<span class='glyphicon glyphicon-ok'></span> " . 'Опубликованы', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_PUBLISHED)));?>

@@ -73,13 +73,16 @@ switch ($data->leadStatus) {
             <?php echo nl2br(CHtml::encode($data->question)); ?>
         </p>
         
-        <?php if($data->brakComment):?>
+        <?php if($data->brakReason):?>
         <p>
-            <strong>Комментарий отбраковки:</strong><br />
+            <strong>Причина отбраковки:</strong>
+            <?php echo CHtml::encode($data->getReasonName());?>
+            <br />
+            <strong>Комментарий отбраковки:</strong>
             <?php echo CHtml::encode($data->brakComment);?>
         </p>
         <?php endif;?>
-		
+        	
 		
     </td>
     

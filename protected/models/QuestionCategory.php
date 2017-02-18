@@ -184,7 +184,7 @@ class QuestionCategory extends CActiveRecord
                     ->where('isDirection = 1')
                     ->order('name ASC')
                     ->queryAll();
-            
+            //CustomFuncs::printr($categoriesRows);
             $categories = array();
             $categoriesHierarchy = array();
             
@@ -202,19 +202,34 @@ class QuestionCategory extends CActiveRecord
                 }
             }
             
+//            CustomFuncs::printr($categories);exit;
             
             if($withHierarchy === true && $withAlias === true) {
+                // перебираем все категории-направления
                 foreach($categories as $catId=>$cat) {
+                    // если нет родителя, это категория верхнего уровня
                     if($cat['parentId'] == 0) {
                         $categoriesHierarchy[$catId] = $cat;
                     }
+                    
+                    /* если нет родителя, но родитель не найден в направлениях, записываем в верхний уровень
+                        происходит, если категорию дочернего уровня пометили как направление
+                    */
                     if($cat['parentId'] != 0 && !array_key_exists($cat['parentId'], $categories)) {
                         $categoriesHierarchy[$catId] = $cat;
                     }
+                }
+                
+                foreach ($categories as $catId=>$cat) {
+                     /*
+                     * если дочерняя категория и в наборе есть родитель
+                     */
                     if($cat['parentId'] != 0 && array_key_exists($cat['parentId'], $categories)) {
                         $categoriesHierarchy[$cat['parentId']]['children'][$catId] = $cat;
                     }
                 }
+                
+//                CustomFuncs::printr($categoriesHierarchy);exit;
                 
                 return $categoriesHierarchy;
             }

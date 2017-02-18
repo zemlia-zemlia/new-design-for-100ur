@@ -103,7 +103,7 @@ class Region extends CActiveRecord
         
         
         // возвращает массив, ключами которого являются id регионов, а значениями - их имена
-        public function getAllRegions($countryId = 2)
+        public static function getAllRegions($countryId = 2)
         {
             $allRegions = array();
             $criteria = new CDbCriteria;

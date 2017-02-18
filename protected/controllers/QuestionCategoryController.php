@@ -72,8 +72,18 @@ class QuestionCategoryController extends Controller
              
 	}
         
+        /**
+         * Показ категории вопроса по ее псевдониму
+         * 
+         * @param strung $name псевдоним категории
+         * @throws CHttpException
+         */
         public function actionAlias($name)
 	{
+            // какое количество соседних категорий до и после выводить у текущей категории
+            $neighboursLimit = 6;
+            
+            
             // если в урле заглавные буквы, редиректим на вариант с маленькими
             if(preg_match("/[A-Z]/", $name)) {
                 $this->redirect(array('questionCategory/alias', 'name'=>strtolower($name)), true, 301);
@@ -86,20 +96,84 @@ class QuestionCategoryController extends Controller
                 throw new CHttpException(404,'Категория не найдена');
             }
             
-            // надем категории, дочерние текущей
-            $childrenCategories = Yii::app()->db->cache(300)->createCommand()
-                    ->select('id, name, alias')
-                    ->from('{{questionCategory}}')
-                    ->where('parentId=:parentId', array(':parentId'=>$model->id))
-                    ->order('name')
-                    ->queryAll();
-            
-            $parentCategory = Yii::app()->db->cache(300)->createCommand()
+            if($model->parentId != 0) {
+                // это дочерняя категория. найдем родительскую категорию
+                $parentCategory = Yii::app()->db->cache(300)->createCommand()
                     ->select('id, name, alias')
                     ->from('{{questionCategory}}')
                     ->where('id=:parentId', array(':parentId'=>$model->parentId))
                     ->limit(1)
                     ->queryRow();
+                
+                $neighbourCategoriesRows = Yii::app()->db->cache(300)->createCommand()
+                    ->select('id, name, alias')
+                    ->from('{{questionCategory}}')
+                    ->where('parentId=:parentId', array(':parentId'=>$model->parentId))
+                    ->order('name')
+                    ->queryAll();
+                //CustomFuncs::printr($neighbourCategoriesRows);
+                /* получили массив категорий того же родителя и того же уровня
+                 * найдем в нем текущую категорию и по 6 категорий впереди и сзади
+                 */
+                $currentCategoryPosition = 0;
+                foreach($neighbourCategoriesRows as $index=>$neigbour) {
+                    if($neigbour['id'] == $model->id) {
+                        $currentCategoryPosition = $index;
+                        //echo $currentCategoryPosition . '<br />';
+                        break;
+                    }
+                }
+                $previousNeighbours = array();
+                $nextNeighbours = array();
+                $neighbours = array();
+                
+                // найдем впередистоящих соседей
+                for($i=1;$i<=$neighboursLimit;$i++) {
+                    $prevPosition = $currentCategoryPosition - $i;
+                    if($prevPosition < 0) {
+                        $prevPosition += sizeof($neighbourCategoriesRows);
+                    } 
+                    // для маленького числа соседей: защита от ссылки на ту же категорию
+                    if($prevPosition == $currentCategoryPosition) {
+                        break;
+                    }
+                    //echo $prevPosition . ' ';
+                    $previousNeighbours[$prevPosition] = $neighbourCategoriesRows[$prevPosition];
+                }
+                
+                // найдем далеестоящих соседей
+                for($i=1;$i<=$neighboursLimit;$i++) {
+                    $nextPosition = $currentCategoryPosition + $i;
+                    if($nextPosition >= sizeof($neighbourCategoriesRows)) {
+                        $nextPosition -= sizeof($neighbourCategoriesRows);
+                    } 
+                    
+                    // для маленького числа соседей: защита от ссылки на ту же категорию
+                    if($nextPosition == $currentCategoryPosition) {
+                        break;
+                    }
+                    //echo $nextPosition . ' ';
+                    $nextNeighbours[$nextPosition] = $neighbourCategoriesRows[$nextPosition];
+                }
+                
+                $neighbours = $previousNeighbours + $nextNeighbours;
+                
+                //CustomFuncs::printr($neighbours);
+                
+                
+            } else {
+                // это категория верхнего уровня. надем категории, дочерние текущей
+                $childrenCategories = Yii::app()->db->cache(300)->createCommand()
+                    ->select('id, name, alias')
+                    ->from('{{questionCategory}}')
+                    ->where('parentId=:parentId', array(':parentId'=>$model->id))
+                    ->order('name')
+                    ->limit(9)
+                    ->queryAll();
+            }
+            
+            
+            
                        
             
             $questions = $this->findQuestions($model);
@@ -117,6 +191,7 @@ class QuestionCategoryController extends Controller
                         'newQuestionModel'      =>  $newQuestionModel,
                         'childrenCategories'    =>  $childrenCategories,
                         'parentCategory'        =>  $parentCategory,
+                        'neighbours'            =>  $neighbours,
 		));
 	}
         

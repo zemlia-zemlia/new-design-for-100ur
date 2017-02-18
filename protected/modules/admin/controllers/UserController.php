@@ -98,6 +98,7 @@ class UserController extends Controller
 		$model = new User;
                 $model->setScenario('create');
                 $yuristSettings = new YuristSettings();
+                $allDirections = QuestionCategory::getDirections();
                 
                 // массив кодов и названий ролей пользователей
                 $rolesNames = User::getRoleNamesArray();
@@ -173,6 +174,7 @@ class UserController extends Controller
                         'allManagersNames'  =>  $allManagersNames,
                         'yuristSettings'    =>  $yuristSettings,
                         'townsArray'        =>  $townsArray,
+                        'allDirections'     =>  $allDirections,
 		));
 	}
 

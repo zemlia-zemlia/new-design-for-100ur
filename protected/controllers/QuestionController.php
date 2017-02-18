@@ -403,10 +403,9 @@ class QuestionController extends Controller
 
             $feed->addChannelTag('language', 'ru-ru');
             $feed->addChannelTag('pubDate', date(DATE_RSS, time()));
-            $feed->addChannelTag('link', 'http://www.100yuristov.com/question/rss' );
+            $feed->addChannelTag('link', 'https://100yuristov.com/question/rss' );
 
-            // * self reference
-            //$feed->addChannelTag('atom:link','http://www.100yuristov.com/question/rss');
+            
 
             foreach($questions as $question)
             {
@@ -419,7 +418,7 @@ class QuestionController extends Controller
                     $item->title = CHtml::encode($question->title);
                 }
                 
-                $item->link = "http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('question/view',array('id'=>$question->id));
+                $item->link = Yii::app()->createUrl('question/view',array('id'=>$question->id));
                 $item->date = time();
 
                 $item->description = CHtml::encode($question->questionText);

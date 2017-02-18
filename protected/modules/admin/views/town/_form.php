@@ -13,8 +13,6 @@
             ),
 )); ?>
 
-	<p class="note"><span class="required">*</span> - обязательные поля</p>
-
 	<?php echo $form->errorSummary($model, "Исправьте ошибки"); ?>
 <?php if($model->isNewRecord):?>
 	<div class="form-group">
@@ -41,13 +39,38 @@
 		<?php echo $form->error($model,'alias'); ?>
 	</div>
 <?php endif;?>
-        
+ <!--        
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'size'); ?>
 		<?php echo $form->textField($model,'size',array('class'=>'form-control')); ?>
 		<?php echo $form->error($model,'size'); ?>
 	</div>
-
+-->	
+	<div class="form-group">
+		<?php echo $form->labelEx($model,'seoTitle'); ?>
+		<?php echo $form->textField($model,'seoTitle',array('class'=>'form-control')); ?>
+		<?php echo $form->error($model,'seoTitle'); ?>
+	</div>
+	
+	<div class="form-group">
+		<?php echo $form->labelEx($model,'seoDescription'); ?>
+		<?php echo $form->textArea($model,'seoDescription',array('rows'=>3,'class'=>'form-control')); ?>
+		<?php echo $form->error($model,'seoDescription'); ?>
+	</div>
+	
+	<div class="form-group">
+		<?php echo $form->labelEx($model,'seoKeywords'); ?>
+		<?php echo $form->textArea($model,'seoKeywords',array('rows'=>3,'class'=>'form-control')); ?>
+		<?php echo $form->error($model,'seoKeywords'); ?>
+	</div>
+	
+	<div class="form-group">
+		<?php echo $form->labelEx($model,'photoFile'); ?>
+		<?php echo $form->fileField($model, 'photoFile');?>
+		<?php echo $form->error($model,'photoFile'); ?>
+	</div> 
+	
+		
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'description1'); ?>
                 <?php   
@@ -69,7 +92,7 @@
 		<?php //echo $form->textArea($model,'description1',array('rows'=>6, 'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'description1'); ?>
 	</div>
-
+<!--
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'description2'); ?>
                 <?php   
@@ -90,30 +113,8 @@
                 ?>
 		<?php echo $form->error($model,'description2'); ?>
 	</div>
-        
-        <div class="form-group">
-            <?php echo $form->labelEx($model,'photoFile'); ?>
-            <?php echo $form->fileField($model, 'photoFile');?>
-            <?php echo $form->error($model,'photoFile'); ?>
-        </div> 
-        
-        <div class="form-group">
-            <?php echo $form->labelEx($model,'seoTitle'); ?>
-            <?php echo $form->textField($model,'seoTitle',array('class'=>'form-control')); ?>
-            <?php echo $form->error($model,'seoTitle'); ?>
-        </div>
-        
-        <div class="form-group">
-            <?php echo $form->labelEx($model,'seoDescription'); ?>
-            <?php echo $form->textArea($model,'seoDescription',array('rows'=>3,'class'=>'form-control')); ?>
-            <?php echo $form->error($model,'seoDescription'); ?>
-        </div>
-        
-        <div class="form-group">
-            <?php echo $form->labelEx($model,'seoKeywords'); ?>
-            <?php echo $form->textArea($model,'seoKeywords',array('rows'=>3,'class'=>'form-control')); ?>
-            <?php echo $form->error($model,'seoKeywords'); ?>
-        </div>
+-->        
+
         
 	<div class="form-group">
 		<?php echo CHtml::submitButton('Сохранить', array('class'=>'btn btn-primary')); ?>

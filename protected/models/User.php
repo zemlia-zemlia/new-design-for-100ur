@@ -131,7 +131,7 @@ class User extends CActiveRecord
         }
         
         // возвращает массив, ключами которого являются id активных юристов, а значениями - их имена
-        public function getAllJuristsIdsNames()
+        public static function getAllJuristsIdsNames()
         {
             $allJurists = array();    
             $jurists = User::model()->findAllByAttributes(array(
@@ -146,7 +146,7 @@ class User extends CActiveRecord
         
         
         // возвращает массив, ключами которого являются id активных покупателей, а значениями - их имена
-        public function getAllBuyersIdsNames()
+        public static function getAllBuyersIdsNames()
         {
             $allBuyers = array();    
             $buyers = User::model()->findAllByAttributes(array(
@@ -374,7 +374,7 @@ class User extends CActiveRecord
         }
         
         // генерирует пароль длиной $len символов
-        public function generatePassword($len = 6)
+        public static function generatePassword($len = 6)
         {
             
             return substr(md5(mt_rand().mt_rand()), mt_rand(1,15), $len);

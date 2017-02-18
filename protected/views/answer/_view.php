@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-sm-2">
                 <div class="answer-item-avatar">
-                <img src="<?php echo $data->author->getAvatarUrl();?>" class="img-responsive" />
+                <img src="<?php echo $data->author->getAvatarUrl();?>" class="img-responsive img-bordered" />
                 </div>
                 <div class="answer-item-karma">
                     <small>

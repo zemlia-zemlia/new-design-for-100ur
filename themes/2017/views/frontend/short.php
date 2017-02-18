@@ -150,7 +150,7 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-3 cta-item" style="background-color: #39a6bd;">
                         <div class="cta-text">
-                        <h4 class="text-uppercase">Бесплатный вопрос</h4>
+                        <h4 class="text-uppercase">Вопрос юристу</h4>
                         <p class="small">Задайте любой вопрос специалистам, и в течение 15 минут вы получите ответы наших юристов.</p>
                         </div>
                         <?php echo CHtml::link("<span class='yur-icon yur-icon-question'></span> Задать вопрос &nbsp;<img src='/pics/2017/arrow_list_blue.png' alt='' />", Yii::app()->createUrl('question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=vopros'), array('class'=>'button button-white-gradient btn-block')); ?>
@@ -158,7 +158,7 @@
                     
                     <div class="col-md-3 col-sm-3 cta-item" style="background-color: #1d979b;">
                         <div class="cta-text">
-                        <h4 class="text-uppercase">Обратный звонок</h4>
+                        <h4 class="text-uppercase">Звонок юриста</h4>
                         <p class="small">Оставьте номер телефона, и наш юрист свяжется с вами, чтобы проконсультировать вас.</p>
                         </div>
                         <?php echo CHtml::link("<span class='yur-icon yur-icon-call'></span> Заказать звонок &nbsp;<img src='/pics/2017/arrow_list_blue.png' alt='' />", Yii::app()->createUrl('question/call'), array('class'=>'button button-white-gradient btn-block')); ?>

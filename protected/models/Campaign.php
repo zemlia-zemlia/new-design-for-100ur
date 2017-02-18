@@ -59,7 +59,7 @@ class Campaign extends CActiveRecord
                         ),
                     'leadsCount'     =>  array(self::STAT, 'Lead100', 'campaignId'),
                     'leadsTodayCount'    =>  array(self::STAT, 'Lead100', 'campaignId', 
-                        'condition' =>  'DATE(t.deliveryTime)="' . date('Y-m-d'). '"',
+                        'condition' =>  'DATE(t.deliveryTime)="' . date('Y-m-d'). '" AND leadStatus IN('.Lead100::LEAD_STATUS_SENT.', '.Lead100::LEAD_STATUS_NABRAK.', ' . Lead100::LEAD_STATUS_RETURN . ')',
                         ),
                     'transactions'     =>  array(self::HAS_MANY, 'TransactionCampaign', 'campaignId', 'order'=>'transactions.id DESC'),
 		);
@@ -133,12 +133,12 @@ class Campaign extends CActiveRecord
 		return parent::model($className);
 	}
         
-        /*
+        /**
          * находит список кампаний, подходящих для отправки заданного лида
          */
         public static function getCampaignsForLead($leadId)
         {
-            
+            // ограничим число кампаний, которые ищем
             $limit = 10;
             
             $lead = Lead100::model()->findByPk($leadId);
@@ -147,10 +147,16 @@ class Campaign extends CActiveRecord
                 return false;
             }
             
+//            CustomFuncs::printr($lead->attributes);
+            
             //echo $lead->town->id . ", " . $lead->town->regionId . ', ' . (int)date('h') . '<br />'; 
             
             $campaigns = array();
             
+            /**
+             * Выбираем из базы активные кампании, настроенные на данный регион, город и время работы (время NOW())
+             * сортировка по цене
+             */
             // SELECT * FROM `crm_campaign` WHERE (`townId`=563 OR `regionId`=57) AND `timeFrom`<=16 AND `timeTo`>=16 AND active=1
             $campaignsRows = Yii::app()->db->createCommand()
                     ->select('*')
@@ -163,30 +169,78 @@ class Campaign extends CActiveRecord
                     ->order('price DESC')
                     ->limit($limit)
                     ->queryAll();
-                        
+            
+//            echo "Кампании без учета дневных лимитов:";
+//            CustomFuncs::printr($campaignsRows);            
+            
             foreach($campaignsRows as $campaign) {
+                
+                // находим дневной лимит кампании
                 $dayLimit = $campaign['leadsDayLimit'];
                 
-                
+                // находим, сколько лидов сегодня уже отправлено в кампанию
                 $campaignTodayLeads = Yii::app()->db->createCommand()
                     ->select('COUNT(*) counter')
                     ->from("{{lead100}} l")
-                    ->where("DATE(deliveryTime)=:todayDate AND campaignId=:campaignId", array(
+                    ->where("DATE(deliveryTime)=:todayDate AND campaignId=:campaignId AND leadStatus IN(:status1, :status2, :status3)", array(
                         ':todayDate'    =>  date('Y-m-d'),
                         ':campaignId'   =>  $campaign['id'],
-                        ))
+                        ':status1'     =>  Lead100::LEAD_STATUS_SENT,
+                        ':status2'     =>  Lead100::LEAD_STATUS_NABRAK,
+                        ':status3'     =>  Lead100::LEAD_STATUS_RETURN,
+                    ))
                     ->queryRow();
                 
-                $campaign['todayLeads'] = (int)$campaignTodayLeads['counter'];
-                $campaign['todayLeadsPercent'] = ($dayLimit>0)?((int)$campaignTodayLeads['counter']/$dayLimit)*100:100;
+                //echo $campaign['id'] . ": " . $campaignTodayLeads['counter'] . 'лидов сегодня <br />';
                 
-                if($campaign['todayLeadsPercent']<100) {
+//                $campaign['todayLeads'] = (int)$campaignTodayLeads['counter'];
+//                $campaign['todayLeadsPercent'] = ($dayLimit>0)?((int)$campaignTodayLeads['counter']/$dayLimit)*100:100;
+                
+                // если в кампанию сегодня отправлено лидов меньше, чем дневной лимит, добавляем в список кампаний
+                if($campaignTodayLeads['counter']<$dayLimit) {
                     $campaigns[] = $campaign;
                 }
             }
             
+            //echo "Кампании с учетом дневных лимитов:";
+            //CustomFuncs::printr($campaigns);
+            
             if(sizeof($campaigns)) {
-                return $campaigns[0]['id'];
+                /** 
+                 * получили список кампаний, подходящих данному лиду
+                 * теперь нужно выбрать ту единственную, которая ему подходит
+                 * выберем рандомно, шанс пропорционален цене
+                 * 
+                 * если кампания найдена одна, возвращаем ее id и не паримся
+                 */
+                
+                if(sizeof($campaigns) == 1) {
+                    return $campaigns[0]['id'];
+                }
+                
+                /**
+                 * складываем цены всех найденных кампаний, чтобы рандомным числом определить счастливчика
+                 */
+                $pricesSum = 0;
+                foreach($campaigns as $c) {
+                    $pricesSum += $c['price'];
+                }
+                $rnd = mt_rand(1,$pricesSum);
+                
+//                echo "SUM = " . $pricesSum . ", RND = " . $rnd;
+                // определяем счастливчика и возвращаем его id
+                $sum = 0;
+                foreach($campaigns as $c) {
+                    $sum += $c['price'];
+                    if($sum >= $rnd) {
+                        
+//                        CustomFuncs::printr($c['id']);
+                        //exit;
+                        return $c['id'];
+                    }
+                }
+                
+                //return $campaigns[0]['id'];
             } else {
                 return false;
             }
@@ -195,7 +249,7 @@ class Campaign extends CActiveRecord
         }
         
         
-        public function getCampaignsForBuyer($buyerId)
+        public static function getCampaignsForBuyer($buyerId)
         {
             $criteria = new CDbCriteria;
             $criteria->order = "active DESC";

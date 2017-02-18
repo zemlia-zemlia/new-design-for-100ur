@@ -3,6 +3,7 @@
 /* @var $model Question */
 
 $this->setPageTitle(CHtml::encode($model->title) . ". Консультация юриста и адвоката. ". Yii::app()->name);
+Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('question/view', array('id'=>$model->id)));
 
 if($model->description) {
     Yii::app()->clientScript->registerMetaTag($model->description, "Description");
@@ -85,16 +86,53 @@ if($model->description) {
                 ),
     )); ?>    
     
-    
-    
+    <br/>    
     
 
 <?php if(Yii::app()->user->role == User::ROLE_ROOT || ($model->authorId == Yii::app()->user->id && ($model->price==0 || $model->payed == 0))):?>
 
 
-            <h3 class="vert-margin30 header-block-green"> 100% гарантия получения ответа </h3>
-            
-            <div class="alert alert-info gray-panel">
+		<h3 class="vert-margin20 header-block-light-grey"><strong> 100% гарантия получения ответа </strong></h3>
+
+		<table class="table center-align small table-bordered alert alert-info">
+                <tr>
+                    <th class="center-align">Тариф:</th>
+                    <th class="center-align">Бронзовый</th>
+                    <th class="center-align">Серебрянный</th>
+                    <th class="center-align">Золотой</th>
+                </tr>
+                <tr>
+
+                </tr>
+                <tr  class="warning">
+                    <td>Гарантировано ответов</td>
+                    <td>1</td>
+                    <td>3</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Один гарантированный ответ одного из юристов портала</td>
+                    <td>Три гарантированных ответа юристов, позволят Вам понять, как решить проблему</td>
+                    <td>Минимум пять гарантированных ответов юристов. Мнения нескольких юристов. Гарантия полного и подробного разбора ситуации.</td>
+                </tr>
+                <tr class="success">
+                    <td>Цена</td>
+                    <td>125 руб.</td>
+                    <td>295 руб.</td>
+                    <td>455 руб.</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><?php echo CHtml::link('Выбрать', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_1)), array('class'=>'btn btn-success btn-block'));?></td>
+                    <td><?php echo CHtml::link('Выбрать', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_2)), array('class'=>'btn btn-success btn-block'));?></td>
+                    <td><?php echo CHtml::link('Выбрать', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_3)), array('class'=>'btn btn-success btn-block'));?></td>
+                </tr>
+            </table>
+
+			
+			
+			<div class="alert alert-info gray-panel">
                 <h4>Вы экономите</h4>
 
                 <div class="row center-align vert-margin30">
@@ -118,52 +156,6 @@ if($model->description) {
                     </div>
                 </div>
             </div>
-            
-		 <table class="table center-align small table-bordered alert alert-info">
-                <tr>
-                    <th></th>
-                    <th class="center-align">Бесплатный</th>
-                    <th class="center-align">Бронзовый</th>
-                    <th class="center-align">Серебрянный</th>
-                    <th class="center-align">Золотой</th>
-                </tr>
-                <tr>
-                    <td>Гарантия ответа</td>
-                    <td><span class="glyphicon glyphicon-remove"></span></td>
-                    <td><span class="glyphicon glyphicon-ok"></span></td>
-                    <td><span class="glyphicon glyphicon-ok"></span></td>
-                    <td><span class="glyphicon glyphicon-ok"></span></td>
-                </tr>
-                <tr  class="warning">
-                    <td>Гарантировано ответов</td>
-                    <td><span class="glyphicon glyphicon-remove"></span></td>
-                    <td>1</td>
-                    <td>3</td>
-                    <td>5</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td>Один гарантированный ответ квалифицированного юриста</td>
-                    <td>Три гарантированных ответа юристов, позволят Вам понять, как решить проблему</td>
-                    <td>Минимум пять гарантированных ответов юристов. Мнения нескольких юристов. Гарантия полного и подробного разбора ситуации.</td>
-                </tr>
-                <tr class="success">
-                    <td>Цена</td>
-                    <td>0 руб.</td>
-                    <td>99 руб.</td>
-                    <td>199 руб.</td>
-                    <td>299 руб.</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td><?php echo CHtml::link('Выбрать', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_1)), array('class'=>'btn btn-success btn-block'));?></td>
-                    <td><?php echo CHtml::link('Выбрать', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_2)), array('class'=>'btn btn-success btn-block'));?></td>
-                    <td><?php echo CHtml::link('Выбрать', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_3)), array('class'=>'btn btn-success btn-block'));?></td>
-                </tr>
-            </table>
-
 
 <?php endif;?>    
 

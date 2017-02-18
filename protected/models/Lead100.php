@@ -154,10 +154,10 @@ class Lead100 extends CActiveRecord
                 self::LEAD_STATUS_DEFAULT           =>  'не обработан',
                 self::LEAD_STATUS_SENT_CRM          =>  'в CRM',
                 self::LEAD_STATUS_SENT_LEADIA       =>  'в Leadia',
-                self::LEAD_STATUS_SENT              =>  'отправлен',
-                self::LEAD_STATUS_NABRAK            =>  'на отбраковку',
+                self::LEAD_STATUS_SENT              =>  'выкуплен',
+                self::LEAD_STATUS_NABRAK            =>  'на отбраковке',
                 self::LEAD_STATUS_BRAK              =>  'брак',
-                self::LEAD_STATUS_RETURN            =>  'возврат',
+                self::LEAD_STATUS_RETURN            =>  'не принят к отбраковке',
             );
         }
         
@@ -211,45 +211,7 @@ class Lead100 extends CActiveRecord
         
         
         
-        // УСТАРЕВШАЯ ФУНКЦИЯ
-        // отправляет лид в Lidea
-        public function sendToLeadia($testMode = false)
-        {
-            $leadData = array();
-            $leadiaUrl = "http://cloud1.leadia.ru/lead.php";
-            
-            $leadData['form_page'] = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-            $leadData['referer'] = $_SERVER['HTTP_REFERER'];
-            $leadData['client_ip'] = $_SERVER['REMOTE_ADDR'];
-            $leadData['userid'] = '5702';
-            $leadData['product'] = 'lawyer';
-            $leadData['template'] = 'default';
-            $leadData['key'] = '';
-            $leadData['first_last_name'] = ($testMode == false)? CHtml::encode($this->name):"тест";
-            $leadData['phone'] = $this->phone;
-            $leadData['email'] = $this->email;
-            $leadData['region'] = $this->town->name;
-            $leadData['question'] = CHtml::encode($this->question);
-            $leadData['subaccount'] = '';
-            
-            
-            //url-ify the data for the POST
-            foreach($leadData as $key=>$value) { 
-                $fields_string .= $key.'='.$value.'&'; 
-            }
-            rtrim($fields_string, '&');
-            
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $leadiaUrl);
-            curl_setopt($ch,CURLOPT_POST, count($leadData));
-            curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-            curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
-
-            $response = curl_exec($ch);
-            curl_close($ch);
-            
-            return true;
-        }
+        
         
         // отправляет лид в кампанию
         public function sendToCampaign($campaignId)

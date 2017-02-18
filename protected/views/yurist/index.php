@@ -1,5 +1,5 @@
 <?php
-Yii::app()->clientScript->registerLinkTag("canonical",NULL,"https://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('yurist'));
+Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('yurist'));
 
 $pageTitle = "Юристы и адвокаты ";
 

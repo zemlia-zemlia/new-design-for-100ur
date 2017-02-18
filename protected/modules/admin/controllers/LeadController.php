@@ -204,7 +204,8 @@ class LeadController extends Controller
             $criteria->with = array('town', 'town.region');
 
             // сколько лидов обрабатывать за раз
-            $criteria->limit = 100;
+            //$criteria->limit = 100;
+            $criteria->limit = 10;
 
             $leads = Lead100::model()->findAll($criteria);
 
@@ -219,7 +220,7 @@ class LeadController extends Controller
 
             }
             
-            $this->redirect(array('/admin/lead/index', 'leadsSent'=>1));
+            //$this->redirect(array('/admin/lead/index', 'leadsSent'=>1));
 
         }
         
@@ -227,9 +228,9 @@ class LeadController extends Controller
         public function actionGenerate()
         {
             $limit = 10;
-            $towns = array(99,563, 10, 598);
+            $towns = array(598);
             $sourceId = 3;
-            $question = 'Текст вопроса';
+            $question = 'Тестовый текст вопроса';
             $status = Lead100::LEAD_STATUS_DEFAULT;
             $type = Lead100::TYPE_QUESTION;
             $names = array('Август', 'Августин', 'Аврор', 'Агап', 'Адам', 'Аксён', 'Алевтин', 'Александр', 'Алексей', 'Алексий', 'Альберт', 'Анастасий', 'Анатолий', 'Анвар', 'Андрей', 'Андрон', 'Анисим', 'Антип', 'Антон', 'Антонин', 'Аристарх', 'Аркадий', 'Арсений', 'Артамон', 'Артём', 'Артемий', 'Артур', 'Архип', 'Аскольд', 'Афанасий', 'Афиноген');

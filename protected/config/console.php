@@ -37,6 +37,7 @@ return array(
                     'urlFormat'=>'path',
                     'showScriptName'=>false,
                     'urlSuffix'=>'/',
+                    'baseUrl'	=>	'http://100juristov',
                     'rules'=>array(
                         '/q/<id:\d+>'                   =>  '/question/view',
                         '/cat/<id:\d+>'                 =>  '/questionCategory/view',

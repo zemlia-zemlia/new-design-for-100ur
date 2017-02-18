@@ -117,7 +117,7 @@ $allDirections = array(0=>'Без категории') + $allDirections;
 <small class="text-muted">
   <label>
       <input type="checkbox" value="1" checked="checked">
-    Согласен с условиями <?php echo CHtml::link('пользовательского соглашения', Yii::app()->createUrl('site/offer'), array('target'=>'_blank'));?>
+    Отправляя вопрос вы соглашаетесь с условиями <?php echo CHtml::link('пользовательского соглашения', Yii::app()->createUrl('site/offer'), array('target'=>'_blank'));?>
   </label>
 </small>
 </div>
@@ -134,19 +134,19 @@ $allDirections = array(0=>'Без категории') + $allDirections;
         </div>
         <div class="col-sm-3">
             <label>
-            <input type="radio" name="Question[price]" value="99" /> <strong>99 руб.</strong>
+            <input type="radio" name="Question[price]" value="99" /> <strong>125 руб.</strong>
             <p><small>Гарантия 1 ответа юриста в течение 3 часов</small></p>
             </label>
         </div>
         <div class="col-sm-3">
             <label>
-            <input type="radio" name="Question[price]" value="199" /> <strong>199 руб.</strong>
+            <input type="radio" name="Question[price]" value="199" /> <strong>255 руб.</strong>
             <p><small>Гарантия 3 ответов юристов в течение 3 часов</small></p>
             </label>
         </div>
         <div class="col-sm-3">
             <label>
-            <input type="radio" name="Question[price]" value="299" /> <strong>299 руб.</strong>
+            <input type="radio" name="Question[price]" value="299" /> <strong>399 руб.</strong>
             <p><small>Гарантия 5 ответов юристов в течение 3 часов</small></p>
             </label>
         </div>

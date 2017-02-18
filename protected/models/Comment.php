@@ -88,7 +88,7 @@ class Comment extends CActiveRecord
 			'text'      => 'Комментарий',
 			'dateTime'  => 'Дата и время',
                         'author'    =>  'Автор',
-                        'rating'    =>  'Рейтинг',
+                        'rating'    =>  'Оценка',
                         'authorName'=>  'Имя автора',
 		);
 	}

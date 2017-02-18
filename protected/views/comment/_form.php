@@ -31,7 +31,7 @@
     
         <?php if(!$hideRating):?>
             <div class="form-group">
-                <?php echo $form->labelEx($model,'rating'); ?>
+                Ваша оценка
                 <?php $this->widget('CStarRating',array('name'=>'Comment[rating]', 'value'=>$model->rating, 'maxRating'=>5));?>
             </div>
         <?php endif;?>
