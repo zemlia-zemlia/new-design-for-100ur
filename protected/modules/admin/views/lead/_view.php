@@ -52,7 +52,14 @@ switch ($data->leadStatus) {
 		<p style="border-bottom: #ded9d9 1px solid; ">
             <?php if($data->townId):?>
                 <span class="glyphicon glyphicon-map-marker"></span>
-                <?php echo CHtml::encode($data->town->name); ?> (<?php echo CHtml::encode($data->town->ocrug); ?>)
+                <?php echo CHtml::encode($data->town->name); ?> (<?php echo CHtml::encode($data->town->region->name); ?>)
+                
+                <?php 
+                    $distanceFromCapital = $data->town->region->getRangeFromCenter($data->town->lat, $data->town->lng);
+                ?>
+                <?php if($distanceFromCapital >=0):?>
+                <span class="label label-default"><abbr title="Расстояние от центра региона"><?php echo $distanceFromCapital;?>  км.</abbr></span>
+                <?php endif;?>
             <?php endif;?>
             &nbsp;
             

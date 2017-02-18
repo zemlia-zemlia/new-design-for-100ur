@@ -126,7 +126,18 @@
             </div>
             
 			
-
+            <?php 
+                switch($com->rating) {
+                    case 1:case 2:
+                        $reviewClass = 'alert alert-danger';
+                        break;
+                    case 4:case 5:
+                        $reviewClass = 'alert alert-success';
+                        break;
+                    default:
+                        $reviewClass = '';
+                }
+            ?>
 			
 			
             <div class="review-item row">
@@ -147,7 +158,7 @@
                             <?php echo CHtml::link("", Yii::app()->createUrl('yurCompany/view', array('id'=>$company->id)), array('itemprop'=>"url", 'style'=>'display:none;' ));?>
                         </p>    
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-9 <?php echo $reviewClass;?>">
                     <p><span itemprop="reviewBody"><?php echo CHtml::encode($com->text);?></span></p>
                     <?php if($com->rating):?>
                     <p><strong>Оценка:</strong> 

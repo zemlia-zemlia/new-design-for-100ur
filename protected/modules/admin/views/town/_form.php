@@ -39,6 +39,14 @@
 		<?php echo $form->error($model,'alias'); ?>
 	</div>
 <?php endif;?>
+
+        <div class="form-group">
+            <label>
+		<?php echo $form->checkBox($model,'isCapital'); ?>
+                <?php echo $model->getAttributeLabel('isCapital');?>
+            </label>
+		<?php echo $form->error($model,'isCapital'); ?>
+	</div>
  <!--        
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'size'); ?>

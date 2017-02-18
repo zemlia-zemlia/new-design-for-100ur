@@ -104,6 +104,10 @@ div.vert-margins {
 	padding:40px 0;
 }
 
+.vert-margin20 {
+    margin-bottom: 20px !important;
+}
+
 .vert-margin30 {
 	margin-bottom: 5px;
 }
@@ -383,4 +387,12 @@ table.categories-list td{
     z-index:100;
     padding:10px;
     background:#fff;
+}
+
+.table-links-hovered-container {
+    visibility:hidden;
+}
+
+tr:hover .table-links-hovered-container {
+    visibility:visible;
 }

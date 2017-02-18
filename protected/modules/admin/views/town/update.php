@@ -8,7 +8,8 @@ $this->pageTitle = "Редактирование города " . CHtml::encode(
 $this->breadcrumbs=array(
 	'Регионы'=>array('/admin/region'),
 	CHtml::encode($model->region->name)=>array('/admin/region/view', 'regionAlias'=>CHtml::encode($model->region->alias)),
-	'Редактирование',
+        CHtml::encode($model->name)=>array('/admin/town/view', 'id'=>$model->id),
+        'Редактирование',
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(

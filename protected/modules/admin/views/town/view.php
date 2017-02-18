@@ -23,6 +23,10 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <table class="table table-bordered">
     <tr>
+        <td>Столица региона</td>
+        <td><?php echo ($model->isCapital)?'Да':'Нет';?></td>    
+    </tr>
+    <tr>
         <td>Алиас</td>
         <td><?php echo $model->alias;?></td>    
     </tr>

@@ -21,10 +21,10 @@ class DefaultController extends Controller
         
         foreach($leadsRows as $row) {
             if($row['leadStatus'] == Lead100::LEAD_STATUS_SENT) {
-                $sumArray[$row['month'] . '.' . $row['year']] += $row['summa'];
-                $kolichArray[$row['month'] . '.' . $row['year']] ++ ;
+                $sumArray[$row['year']][$row['month']] += $row['summa'];
+                $kolichArray[$row['year']][$row['month']] ++ ;
             }
-            $buySumArray[$row['month'] . '.' . $row['year']] += $row['buyPrice'];
+            $buySumArray[$row['year']][$row['month']] += $row['buyPrice'];
         }
             
 //        CustomFuncs::printr($sumArray);
@@ -61,13 +61,36 @@ class DefaultController extends Controller
 			$fastQuestionsRatio = round(($fastQuestionsCount/$questionsCount)*100,1);
 		} else {
 			$fastQuestionsRatio = 0;
-		}		
+		}
+                
+        // извлекаем статистику кассы  
+        $moneyFlow = array();
+        $showDirections = array(502, 101, 3, 2, 4);
+        $moneyFlowRows = Yii::app()->db->createCommand()
+                ->select('value, type, direction, MONTH(datetime) month, YEAR(datetime) year')
+                ->from('{{money}}')
+                ->order('datetime')
+                ->queryAll();
+        
+        
+        
+        foreach($moneyFlowRows as $row) {
+            if(!in_array($row['direction'], $showDirections)) {
+                continue;
+            }
+            if($row['type'] == Money::TYPE_INCOME) {
+                $moneyFlow[$row['direction']][$row['year']][$row['month']] += $row['value'];
+            } else {
+                $moneyFlow[$row['direction']][$row['year']][$row['month']] -= $row['value'];
+            }
+        }
         
         $this->render('index', array(
-            'sumArray'      =>  $sumArray,
-            'kolichArray'   =>  $kolichArray,
-            'buySumArray'   =>  $buySumArray,
-			'fastQuestionsRatio'	=>	$fastQuestionsRatio,
+            'sumArray'              =>  $sumArray,
+            'kolichArray'           =>  $kolichArray,
+            'buySumArray'           =>  $buySumArray,
+            'fastQuestionsRatio'    =>	$fastQuestionsRatio,
+            'moneyFlow'             =>	$moneyFlow,
         ));
     }
 }

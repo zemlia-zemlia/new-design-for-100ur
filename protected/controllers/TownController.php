@@ -117,7 +117,8 @@ class TownController extends Controller
             $regionCriteria->addColumnCondition(array('regionId'=>$regionId));
             $regionCriteria->order = "t.name asc";
             
-            $closeTowns = Town::model()->findAll($regionCriteria);
+            //$closeTowns = Town::model()->findAll($regionCriteria);
+            $closeTowns = $model->getCloseTowns();
             
             $allDirections = QuestionCategory::getDirections(true);
             

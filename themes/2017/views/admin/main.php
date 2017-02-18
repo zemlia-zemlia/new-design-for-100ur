@@ -8,12 +8,12 @@
 <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 <?php 
     Yii::app()->clientScript->registerCssFile("/bootstrap/css/bootstrap.min.css");
-    Yii::app()->clientScript->registerCssFile('/css/2015/jquery-ui.css');
+    Yii::app()->clientScript->registerCssFile('/js/jquery-ui/jquery-ui.css');
     Yii::app()->clientScript->registerCssFile("/css/2017/admin.css");
 
     Yii::app()->clientScript->registerScriptFile("/js/respond.min.js");
     Yii::app()->clientScript->registerScriptFile("jquery.js");
-    Yii::app()->clientScript->registerScriptFile("/js/jquery-ui.min.js");
+    Yii::app()->clientScript->registerScriptFile("/js/jquery-ui/jquery-ui.min.js");
     Yii::app()->clientScript->registerScriptFile("/bootstrap/js/bootstrap.min.js", CClientScript::POS_END);
     Yii::app()->clientScript->registerScriptFile("/js/admin/scripts.js", CClientScript::POS_END);
     Yii::app()->ClientScript->registerScriptFile('/js/jquery.maskedinput.min.js', CClientScript::POS_END);
@@ -124,6 +124,7 @@
 							<li><?php echo CHtml::link("<span class='glyphicon glyphicon-briefcase'></span>  Кампании", Yii::app()->createUrl('/admin/campaign'));?></li>
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-signal'></span>  Статистика", Yii::app()->createUrl('/admin/lead/stats'));?></li>
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-share-alt'></span>  Источники", Yii::app()->createUrl('/admin/leadsource'));?></li>                        
+                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-share-alt'></span>  Касса", Yii::app()->createUrl('/admin/money'));?></li>                        
                         </ul>
                         </div>
                     </div>

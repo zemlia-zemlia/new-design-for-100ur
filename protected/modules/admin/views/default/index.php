@@ -7,13 +7,17 @@ $this->breadcrumbs=array(
 
 Yii::app()->clientScript->registerScriptFile('/js/highcharts/js/highcharts.js');
 
+// массив направлений доходов и расходов
+$moneyDirections = Money::getDirectionsArray();
+$startYear = 2016;
+$endYear = 2017;
 ?>
 <h1>Добро пожаловать в админку!</h1>
 
 
 <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
 
-<div id="chart_summa" style="width:100%; height:300px;"></div>
+<div id="chart_summa" style="width:100%; height:500px;"></div>
 
 <script type="text/javascript">
 $(function () { 
@@ -26,31 +30,50 @@ $(function () {
         },
         xAxis: {
             categories: [
-                <?php    foreach ($sumArray as $date=>$summa):?>
-                    <?php echo '"'.$date.'"'.','; ?>                
-                <?php  endforeach;?>                    
+                <?php for($y=$startYear; $y<=$endYear; $y++):?>
+                    <?php for($m=1; $m<=12; $m++):?>
+                        <?php echo '"'.$m.'.'. $y .'"'.','; ?>  
+                    <?php  endfor;?> 
+                <?php  endfor;?>                    
             ]
         },
         yAxis: {
             title: {
-                text: 'Продажи'
+                text: 'Доходы и расходы'
             }
         },
         series: [{
             name: 'Выручка',
             data: [
-                <?php    foreach ($sumArray as $date=>$summa):?>
-                    <?php echo $summa.','; ?>                
-                <?php  endforeach;?>      
+                <?php foreach ($sumArray as $year=>$summByMonth):?>
+                    <?php foreach ($summByMonth as $month=>$summa):?>    
+                        <?php echo '["' . $month . '.' . $year . '",' . $summa.'],'; ?>                
+                    <?php  endforeach;?>
+                <?php  endforeach;?>
             ]
         },{
-            name: 'Расходы',
+            name: 'Покупка лидов',
             data: [
-                <?php    foreach ($buySumArray as $date=>$summa):?>
-                    <?php echo $summa.','; ?>                
-                <?php  endforeach;?>      
+                <?php foreach ($buySumArray as $year=>$summByMonth):?>
+                    <?php foreach ($summByMonth as $month=>$summa):?>    
+                        <?php echo '["' . $month . '.' . $year . '",' . $summa.'],'; ?>                
+                    <?php  endforeach;?>
+                <?php  endforeach;?>
             ]
-        }]
+        },
+        <?php foreach($moneyFlow as $directionId=>$flow):?>
+        {
+            name: '<?php echo $moneyDirections[$directionId];?>',
+            data: [
+                <?php foreach ($flow as $year=>$summByMonth):?>
+                    <?php foreach ($summByMonth as $month=>$summa):?>    
+                        <?php echo '["' . $month . '.' . $year . '",' . abs($summa).'],'; ?>                
+                    <?php  endforeach;?>
+                <?php  endforeach;?>
+            ]
+        },
+        <?php endforeach;?>
+        ]
     });
     
     

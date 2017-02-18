@@ -132,8 +132,8 @@ class LeadController extends Controller
             
             $criteria = new CDbCriteria;
             
-            $criteria->order = 'id DESC';
-            //$criteria->with = array('campaign');
+            $criteria->order = 't.id DESC';
+            $criteria->with = array('town', 'town.region');
             $statusId = (isset($_GET['status']))?(int)$_GET['status']:false;
             
             if($statusId !== false) {

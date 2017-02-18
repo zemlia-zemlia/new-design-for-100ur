@@ -22,8 +22,9 @@ $this->breadcrumbs=array(
 ?>
 
 
-        <h1 class="vert-margin30"><?php echo CHtml::encode($model->name); ?></h1>
+<h1 class="vert-margin30"><?php echo CHtml::encode($model->name); ?></h1>
 
+<?php echo CHtml::encode($model->capital->name);?>
         
 <table class="table table-bordered" style="padding: 1px;">
 <tr>
@@ -37,10 +38,16 @@ $this->breadcrumbs=array(
     <th>Редактирование</th>
 </tr>
 <?php foreach($townsArray as $town):?>
-<tr>
+<tr <?php if($town['isCapital']):?>class="success"<?php endif;?>>
     <td>
         <strong><?php echo CHtml::encode($town['name']);?></strong>
-        <?php echo CHtml::encode($town['ocrug']);?>
+        <?php echo CHtml::encode($town['ocrug']);?><br />
+        <?php 
+            $distanceFromCapital = $model->getRangeFromCenter($town['lat'], $town['lng']);
+            if($distanceFromCapital >=0) {
+                echo $distanceFromCapital . ' км.';
+            }
+        ?>
     </td>
     <td>
         <?php echo $town['size'];?>
