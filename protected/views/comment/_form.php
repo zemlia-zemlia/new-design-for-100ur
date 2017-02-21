@@ -25,14 +25,13 @@
         <?php endif;?>
     
 	<div class="form-group">
-                <strong>Текст отзыва</strong><br />
 		<?php echo $form->textArea($model,'text',array('rows'=>6,'class'=>'form-control')); ?>
 		<?php echo $form->error($model,'text'); ?>
 	</div>
     
         <?php if(!$hideRating):?>
             <div class="form-group">
-                <?php echo $form->labelEx($model,'rating'); ?>
+                <strong>Поставьте оценку</strong>
                 <?php $this->widget('CStarRating',array('name'=>'Comment[rating]', 'value'=>$model->rating, 'maxRating'=>5));?>
             </div>
         <?php endif;?>

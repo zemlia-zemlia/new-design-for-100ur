@@ -2,16 +2,17 @@
 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
+
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'100 юристов',
+	'name'=>'| 100 Юристов и Адвокатов',
         'defaultController'=>'site',
 
 	'theme'=>'2017',
 	// preloading 'log' component
-	'preload'=>array('log'),
+	'preload'=>array('log'), 
 
 	// autoloading model and component classes
 	'import'=>array(
@@ -55,6 +56,7 @@ return array(
                     'urlFormat'=>'path',
                     'showScriptName'=>false,
                     'urlSuffix'=>'/',
+					'baseUrl'	=>	'https://100yuristov.com',
                     'rules'=>array(
                         '/q/<id:\d+>'                   =>  '/question/view',
                         '/cat/<id:\d+>'                 =>  '/questionCategory/view',
@@ -65,21 +67,21 @@ return array(
                         '/company/<alias:[\w\-]+>'      =>  '/yurCompany/town',
                         '/company'                      =>  '/yurCompany/index',
                         '/firm/<id:\d+>'                =>  '/yurCompany/view',
-                        '/user/<id:\d+>'                =>  '/user/view',
-                        '/konsultaciya-yurista-<name:[\w\-]+>'  =>  '/town/aliasOld',
+						'/user/<id:\d+>'                =>  '/user/view',
+						'/konsultaciya-yurista-<name:[\w\-]+>'  =>  '/town/aliasOld',
                         '/region/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>'                =>  '/region/view',
                         '/region/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>/<name:[\w\-]+>'  =>  '/town/alias',
-                        '/codecs/<codecsAlias:[\w\-\.]+>'  =>  '/codecs/view',
+						'/codecs/<codecsAlias:[\w\-\.]+>'  =>  '/codecs/view',
                         '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>'  =>  '/codecs/view',
                         '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>/<glavaAlias:[\w\-\.]+>'  =>  '/codecs/view',
                         '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>/<glavaAlias:[\w\-\.]+>/<articleAlias:[\w\-\.]+>'  =>  '/codecs/view',
+
                         ),
                     ),
 
 		'clientScript'=>array(
 
 			'scriptMap'=>array(
-                                //'jquery.js'=>'/js/jquery-1.11.1.min.js',
                                 'jquery.js'=>'/js/jquery-1.11.1.min.js',
                                 'jquery.min.js'=>'/js/jquery-1.11.1.min.js'
 			),
@@ -94,13 +96,13 @@ return array(
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=100yuristov',
 			'emulatePrepare' => true,
-			'username' => 'crm',
-			'password' => 'crm_local',
+			'username' => '100yuristov',
+			'password' => '4Ce!HtNVCUL^',
 			'charset' => 'utf8',
             'tablePrefix' => '100_',
-			'enableProfiling' => true,
+			'enableProfiling' => false,
 			'schemaCachingDuration' => 3000,
-                        'queryCacheID' => 'cache',
+            'queryCacheID' => 'cache',
 		),
 		
 		'errorHandler'=>array(
@@ -116,22 +118,20 @@ return array(
                                     
 				),
 				// uncomment the following to show log messages on web pages
+				/*
+					array(
+										'class'         =>  'CWebLogRoute',
+										'showInFireBug' =>  true,
+										'categories'    =>  'application',
+					),
 				
-				/*array(
-                                    'class'         =>  'CWebLogRoute',
-                                    'showInFireBug' =>  false,
-                                    'categories'    =>  'application',
-				),*/
-				
-                                array(
+                     array(
 
 					'class'=>'CProfileLogRoute',
 
-				),
-                                 
+				),*/
 			),
 		),
-            
             'cache'=>array(
 
             'class'=>'system.caching.CFileCache',

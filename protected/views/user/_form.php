@@ -78,7 +78,7 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                     <?php echo $form->error($model,'name'); ?>
                 </div> 
 
-                <?php if(Yii::app()->user->role == User::ROLE_ROOT || Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR || Yii::app()->user->role == User::ROLE_CALL_MANAGER):?>
+                <?php if(Yii::app()->user->role != User::ROLE_CLIENT):?>
                 <div class="yurist-fields">
                     <div class="form-group">
                         <?php echo $form->labelEx($model,'name2'); ?>
@@ -91,19 +91,33 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                         <?php echo $form->textField($model,'lastName', array('class'=>'form-control')); ?>
                         <?php echo $form->error($model,'lastName'); ?>
                     </div> 
-                    <?php if($model->officeId>0):?>
-                        <div class="form-group">
-                            <?php echo $form->labelEx($yuristSettings,'alias'); ?>
-                            <?php echo $form->textField($yuristSettings,'alias', array('class'=>'form-control')); ?>
-                            <?php echo $form->error($yuristSettings,'alias'); ?>
-                        </div>
-                    <?php endif;?>
+                    <!-- <div class="form-group">
+                        <?php echo $form->labelEx($yuristSettings,'alias'); ?>
+                        <?php echo $form->textField($yuristSettings,'alias', array('class'=>'form-control')); ?>
+                        <?php echo $form->error($yuristSettings,'alias'); ?>
+                    </div> -->
                 </div>
                 <?php endif;?>
             </div>
         </div>      
      
         <hr />
+        <?php if(Yii::app()->user->role != User::ROLE_CLIENT):?>
+        <div class="form-group"> 
+            <label>Приветствие</label>
+            <?php echo $form->textArea($yuristSettings, 'hello', array('class'=>'form-control', 'rows'=>2));?>
+            <?php echo $form->error($yuristSettings,'hello'); ?>
+        </div>
+        
+        <div class="form-group"> 
+            <label>О себе</label>
+            <?php echo $form->textArea($yuristSettings, 'description', array('class'=>'form-control', 'rows'=>5));?>
+            <?php echo $form->error($yuristSettings,'description'); ?>
+        </div>
+        
+        
+        <hr />
+        
         <h3 class="left-align text-uppercase">Контакты</h3>
     
         <div class="row">
@@ -148,9 +162,9 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                 </div>
             </div>
         </div>    
-           
+       <?php endif;?>    
     
-    <?php if(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR || Yii::app()->user->role == User::ROLE_CALL_MANAGER):?>
+    <?php if(Yii::app()->user->role == User::ROLE_JURIST):?>
 
         <hr />
         <h3 class="left-align text-uppercase">Платные услуги</h3>
@@ -193,43 +207,15 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                         <?php echo $form->error($yuristSettings,'startYear'); ?>
                 </div>
 
-                <?php echo $form->hiddenField($yuristSettings,'townId', array('class'=>'form-control', 'value'=>$model->townId)); ?>
-
-                <div class="form-group"> 
-                    <label>О себе</label>
-                    <?php echo $form->textArea($yuristSettings, 'description', array('class'=>'form-control', 'rows'=>3));?>
-                    <?php echo $form->error($yuristSettings,'description'); ?>
-                </div>
-                
+                <?php echo $form->hiddenField($yuristSettings,'townId', array('class'=>'form-control', 'value'=>$model->townId)); ?>                
             </div>
         </div>
             <?php endif;?>
         </div>
 
 
-        <?php if(($model->role == User::ROLE_JURIST || $model->role == User::ROLE_OPERATOR || $model->role == User::ROLE_CALL_MANAGER)):?>    
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group"> 
-                        <?php echo $form->labelEx($yuristSettings,'status'); ?>
-                        <?php echo $form->dropDownList($yuristSettings, 'status', YuristSettings::getStatusesArray(), array('class'=>'form-control'));?>
-                        <?php echo $form->error($yuristSettings,'status'); ?>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group"> 
-                        <br /><br />
-                        <?php
-                            if($yuristSettings->isVerified == 1) {
-                                echo "<span class='label label-success'>Верифицирован</span>";
-                            } else {
-                                echo "<span class='label label-danger'>Не верифицирован</span>";
-                            }
-                        ?>
-                    </div>
-                </div>
-            </div>
-
+        <?php if($model->role == User::ROLE_JURIST):?> 
+        
             <?php if($yuristSettings->status != 0 && $yuristSettings->isVerified == 0):?>
                 <script type="text/javascript">
                     $(function(){
@@ -368,14 +354,33 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                             $checked = false;
                         }
                     ?>
-                    <div class="col-md-4">
+                    <div class="col-md-6 checkbox-container">
                         <div class="checkbox">
                             <label>
-                                <?php echo CHtml::checkBox('User[categories][]', $checked, array('value'=>$key));?>
-                                <?php echo $direction;?>
+                                <?php echo CHtml::checkBox('User[categories][]', $checked, array('value'=>$key, 'class'=>'checkbox-root'));?>
+                                <?php echo $direction['name'];?>
                             </label>
                         </div>
-                    </div> <!-- .col-md-4 -->   
+                        
+                        <?php if($direction['children']):?>
+                            <?php foreach($direction['children'] as $childId=>$child):?>
+                                <?php 
+                                    if(in_array($childId, $userCategories)) {
+                                        $checked = true;
+                                    } else {
+                                        $checked = false;
+                                    }
+                                ?>
+                                <div class="checkbox">
+                                    <label>
+                                        &nbsp;&nbsp;
+                                        <?php echo CHtml::checkBox('User[categories][]', $checked, array('value'=>$childId, 'class'=>'checkbox-child'));?>
+                                        <?php echo $child['name'];?>
+                                    </label>
+                                </div>
+                            <?php endforeach;?>
+                        <?php endif;?>
+                    </div> <!-- .col-md-6 -->   
                 <?php endforeach;?>
                 
             </div>
@@ -386,17 +391,15 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                 
     <?php if($model->isNewRecord == false):?>
         <hr />
-        <h3 class="left-align text-uppercase">Пароль</h3>
+        <h3 class="left-align text-uppercase">Пароль <?php echo CHtml::link('Изменить', Yii::app()->createUrl('user/changePassword', array('id'=>$model->id)), array('class'=>'btn btn-default btn-sm'));?>        
+</h3>
 
-        <div class="vert-margin30">
-            <?php echo CHtml::link('Изменить пароль', Yii::app()->createUrl('user/changePassword', array('id'=>$model->id)), array('class'=>'btn btn-warning'));?>        
-        </div>
     <?php endif;?>
             
     <hr />    
 <div class="row">
     <div class="col-sm-12">
-        <div class="form-group">
+        <div class="form-group center-align">
                 <?php echo CHtml::submitButton($model->isNewRecord ? 'Зарегистрироваться' : 'Сохранить', array('class'=>'btn btn-primary btn-lg')); ?>
         </div>
     </div>

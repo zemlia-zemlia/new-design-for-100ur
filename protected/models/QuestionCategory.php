@@ -91,7 +91,7 @@ class QuestionCategory extends CActiveRecord
 	}
         
         // возвращает массив, ключи которого - id категорий, значения - названия
-        public function getCategoriesIdsNames()
+        public static function getCategoriesIdsNames()
         {
             $allCategories = array(0=>'Без категории');
                 
@@ -176,17 +176,17 @@ class QuestionCategory extends CActiveRecord
         /*
          * возвращает массив, ключами которого являются id категорий-направлений, а значениями - их названия
          */
-        public static function getDirections($withAlias = false)
+        public static function getDirections($withAlias = false, $withHierarchy = false)
         {
             $categoriesRows = Yii::app()->db->createCommand()
-                    ->select('id, name, alias')
+                    ->select('id, name, alias, parentId')
                     ->from('{{questionCategory}}')
                     ->where('isDirection = 1')
                     ->order('name ASC')
                     ->queryAll();
-            
+            //CustomFuncs::printr($categoriesRows);
             $categories = array();
-            
+            $categoriesHierarchy = array();
             
             if(!$withAlias) {
                 foreach ($categoriesRows as $row) {
@@ -197,10 +197,66 @@ class QuestionCategory extends CActiveRecord
                     $categories[$row['id']] = array(
                         'name'  =>  $row['name'],
                         'alias' =>  $row['alias'],
+                        'parentId'  =>  $row['parentId'],
                         );
                 }
             }
             
+//            CustomFuncs::printr($categories);exit;
+            
+            if($withHierarchy === true && $withAlias === true) {
+                // перебираем все категории-направления
+                foreach($categories as $catId=>$cat) {
+                    // если нет родителя, это категория верхнего уровня
+                    if($cat['parentId'] == 0) {
+                        $categoriesHierarchy[$catId] = $cat;
+                    }
+                    
+                    /* если нет родителя, но родитель не найден в направлениях, записываем в верхний уровень
+                        происходит, если категорию дочернего уровня пометили как направление
+                    */
+                    if($cat['parentId'] != 0 && !array_key_exists($cat['parentId'], $categories)) {
+                        $categoriesHierarchy[$catId] = $cat;
+                    }
+                }
+                
+                foreach ($categories as $catId=>$cat) {
+                     /*
+                     * если дочерняя категория и в наборе есть родитель
+                     */
+                    if($cat['parentId'] != 0 && array_key_exists($cat['parentId'], $categories)) {
+                        $categoriesHierarchy[$cat['parentId']]['children'][$catId] = $cat;
+                    }
+                }
+                
+//                CustomFuncs::printr($categoriesHierarchy);exit;
+                
+                return $categoriesHierarchy;
+            }
+            
             return $categories;
         }
+        
+        /*
+         * возвращает одномерный массив направлений. направления-потомки имеют в названии дефис в начале
+         * @param $directionsHirerarchy - массив иерархии направлений
+         */
+        public static function getDirectionsFlatList($directionsHirerarchy)
+        {
+            $directions = array();
+            
+            foreach($directionsHirerarchy as $key=>$direction) {
+                $directions[$key] = $direction['name'];
+                
+                if($direction['children']) {
+                    foreach ($direction['children'] as $childId=>$child) {
+                        $directions[$childId] = '-- ' . $child['name'];
+                    }
+                }
+            }
+            
+            
+            return $directions;
+        }
+        
 }

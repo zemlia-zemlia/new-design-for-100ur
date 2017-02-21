@@ -62,6 +62,9 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
         
         // будем присваивать лиды источнику id=24
         $leadSourceId = 24;        
+        // цена покупки лида
+        $buyPrice = 35;    
+        
         $existingLeads = Lead100::model()->findAll(array(
             'condition' =>  'question_date>NOW()- INTERVAL 7 DAY AND sourceId=' . $leadSourceId,
         ));
@@ -130,6 +133,7 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
                 $lead->email = $email;
                 $lead->question = trim($question);
                 $lead->sourceId = $leadSourceId; // id нужного источника лидов
+                $lead->buyPrice = $buyPrice;
                 $lead->townId = $townId;
                 $lead->leadStatus = Lead100::LEAD_STATUS_DEFAULT;
 

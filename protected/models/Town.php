@@ -15,6 +15,7 @@
  * @property string $photo
  * @property integer $regionId
  * @property integer $countryId
+ * @property integer $isCapital
  */
 class Town extends CActiveRecord
 {
@@ -47,14 +48,14 @@ class Town extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, ocrug,country', 'required'),
-                        array('alias','unique','message'=>'Такой город уже есть в базе'),
-			array('size, regionId, countryId', 'numerical', 'integerOnly'=>true),
-                        array('name, ocrug,country, alias', 'length', 'max'=>64),
-                        array('name,ocrug,country','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. \(\)])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, скобки, точка, дефис и пробел'),
+			array('name', 'required'),
+			array('alias','unique','message'=>'Такой город уже есть в базе'),
+			array('size, regionId, countryId, isCapital', 'numerical', 'integerOnly'=>true),
+			array('name, alias', 'length', 'max'=>64),
+			array('name','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. \(\)])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, скобки, точка, дефис и пробел'),
 			array('alias','match','pattern'=>'/^([a-z0-9\-])+$/'),
-                        array('description, description1, description2, seoKeywords, seoTitle, seoDescription','safe'),
-                        array('photoFile', 'file', 'types'=>'jpg, gif, png', 'allowEmpty'=>true),
+			array('description, description1, description2, seoKeywords, seoTitle, seoDescription','safe'),
+			array('photoFile', 'file', 'types'=>'jpg, gif, png', 'allowEmpty'=>true),
                         // The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, description', 'safe', 'on'=>'search'),
@@ -98,6 +99,7 @@ class Town extends CActiveRecord
                         'photoFile'     =>  'Файл с фотографией (минимум 1000х300 пикселей)',
                         'regionId'      =>  'ID региона',
                         'countryId'     =>  'ID страны',
+                        'isCapital'     =>  'Столица региона',
 		);
 	}
 
@@ -198,12 +200,25 @@ class Town extends CActiveRecord
             return $photoUrl;
         }
         
-        // ищем соседние города
-        // возвращает массив объектов Town
+        /**
+         *  ищем соседние города
+         * @return array массив объектов Town
+         */
         public function getCloseTowns()
         {
-            $region = $this->region;
-            $towns = $region->towns;
+            //$region = $this->region;
+            //$towns = $region->towns;
+            
+            $criteria = new CDbCriteria();
+            $criteria->select = "*, SQRT(
+                POW(110.6* (lat - " . $this->lat. "), 2) +
+                POW(110.6 * (" . $this->lng. " - lng) * COS(lat / 57.3), 2)) AS distance";
+            $criteria->having = "distance < 100";
+            $criteria->order = "name ASC";
+            $criteria->limit = 10;
+            
+            $towns = Town::model()->findAll($criteria);
+            
             return $towns;
         }
         

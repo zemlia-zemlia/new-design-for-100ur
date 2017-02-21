@@ -33,7 +33,7 @@ class QuestionController extends Controller
 	{
             return array(
                 array('allow', // allow all users 
-                        'actions'=>array('index', 'view', 'create', 'thankYou','rss', 'call', 'weCallYou', 'docsRequested', 'docs', 'getServices', 'services', 'upgrade', 'paymentSuccess', 'paymentFail', 'paymentCheck', 'paymentAviso', 'confirm'),
+                        'actions'=>array('index', 'view', 'create', 'thankYou','rss', 'call', 'weCallYou', 'docsRequested', 'docs', 'getServices', 'services', 'upgrade', 'paymentSuccess', 'paymentFail', 'paymentCheck', 'paymentAviso', 'confirm', 'sendLead'),
                         'users'=>array('*'),
                 ),
                 array('allow', // allow authenticated user to perform 'search'
@@ -58,6 +58,14 @@ class QuestionController extends Controller
             if(!$model) {
                 throw new CHttpException(404,'Вопрос не найден');
             }
+            
+            // проверим, правильный ли статус у вопроса
+            if(!in_array($model->status, array(Question::STATUS_CHECK, Question::STATUS_PUBLISHED))) {
+                throw new CHttpException(404,'Вопрос не найден');
+            }
+            
+            // если передан GET параметр autologin, попытаемся залогинить пользователя
+            User::autologin($_GET);
             
             $commentModel = new Comment;
             
@@ -150,8 +158,8 @@ class QuestionController extends Controller
                 // параметр, определяющий, будет ли в форме блок выбора цены (форма платного вопроса)
                 $pay = (isset($_GET['pay']))?true:false;
                 
-                                
-                $allDirections = QuestionCategory::getDirections();
+                $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);              
+                $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
 
                 
 		// Uncomment the following line if AJAX validation is needed
@@ -219,11 +227,30 @@ class QuestionController extends Controller
                                 
                                 $question->save();
                                 
+                                // сохраним категории, к которым относится вопрос, если категория указана
                                 if(isset($_POST['Question']['categories']) && $_POST['Question']['categories']!=0) {
                                     $q2cat = new Question2category();
                                     $q2cat->qId = $question->id;
-                                    $q2cat->cId = $_POST['Question']['categories'];
-                                    if(!$q2cat->save()) {
+                                    $questionCategory = $_POST['Question']['categories'];
+                                    $q2cat->cId = $questionCategory;
+                                    // сохраняем указанную категорию
+                                    if($q2cat->save()) {
+                                        // проверим, не является ли указанная категория дочерней
+                                        // если является, найдем ее родителя и запишем в категории вопроса
+                                        foreach($allDirectionsHierarchy as $parentId=>$parentCategory) {
+                                            if(!$parentCategory['children']) continue;
+                                            
+                                            foreach($parentCategory['children'] as $childId=>$childCategory) {
+                                                if($childId == $questionCategory) {
+                                                    $q2cat = new Question2category();
+                                                    $q2cat->qId = $question->id;
+                                                    $q2cat->cId = $parentId;
+                                                    $q2cat->save();
+                                                    break;
+                                                }
+                                            }
+                                        }
+
                                     }
                                     
                                 } 
@@ -376,10 +403,9 @@ class QuestionController extends Controller
 
             $feed->addChannelTag('language', 'ru-ru');
             $feed->addChannelTag('pubDate', date(DATE_RSS, time()));
-            $feed->addChannelTag('link', 'http://www.100yuristov.com/question/rss' );
+            $feed->addChannelTag('link', 'https://100yuristov.com/question/rss' );
 
-            // * self reference
-            //$feed->addChannelTag('atom:link','http://www.100yuristov.com/question/rss');
+            
 
             foreach($questions as $question)
             {
@@ -392,7 +418,7 @@ class QuestionController extends Controller
                     $item->title = CHtml::encode($question->title);
                 }
                 
-                $item->link = "http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('question/view',array('id'=>$question->id));
+                $item->link = Yii::app()->createUrl('question/view',array('id'=>$question->id));
                 $item->date = time();
 
                 $item->description = CHtml::encode($question->questionText);
@@ -632,6 +658,76 @@ class QuestionController extends Controller
             } else {
                 fwrite($paymentLog, "MD5 incorrect!");
                 $yaKassa->formResponse(1,'Error', 'paymentAviso');
+            }
+        }
+        
+        /**
+         * прием лида по POST запросу
+         */
+        public function actionSendLead()
+        {
+            // отключаем вывод профилирования на странице
+            //Yii::app()->log->setRoutes(array('CProfileLogRoute'=>array('enabled'=>false)));
+            
+            
+            if(!isset($_POST)) {
+                echo json_encode(array('code'=>400,'message'=>'No input data'));
+                exit;
+            }
+            $model = new Lead100;
+            //$leadAppId = 'yurCrm';
+            /*
+             * захардкодим возможные приложения для поставки лидов, потом будем хранить их в базе
+             */
+            $leadApps = array(
+                'yurCrm'    =>  array(
+                    'secretKey' =>  'Let me speak from my heart',
+                    'sourceId'  =>  3,
+                    ),
+                'yurCrmRegions'    =>  array(
+                    'secretKey' =>  'Euro integration',
+                    'sourceId'  =>  1,
+                    ),
+            );
+            
+            // проверим параметр appId, есть ли он в списке известных приложений
+            if(!array_key_exists($_POST['appId'], $leadApps)) {
+                echo json_encode(array('code'=>400,'message'=>'Unknown sender. Check App ID parameter'));
+                exit;
+            }
+            
+            $activeApp = $leadApps[$_POST['appId']];
+            
+            $model->attributes = $_POST;
+            $model->sourceId = $activeApp['sourceId'];
+            $model->type = Lead100::TYPE_INCOMING_CALL;
+            $model->phone = Question::normalizePhone($model->phone);
+            
+            $appSecret = $activeApp['secretKey'];
+            // сформируем подпись на основе принятых данных
+            $signature = md5($model->name . $model->phone . $model->email . $model->question . $model->townId . $_POST['appId'] . $appSecret);
+            
+            // проверим подпись
+            if($signature !== $_POST['signature']) {
+                echo json_encode(array('code'=>403,'message'=>'Signature wrong'));
+                exit;
+            }
+            
+            
+//            echo json_encode($model->name);exit;
+            
+            if($model->findDublicates()) {
+                die(json_encode(array('code'=>400, 'message'=>'Dublicates found')));
+                exit;
+            }
+            
+            if($model->save()) {
+                echo json_encode(array('code'=>200,'message'=>'OK'));
+//                echo json_encode($model->id);
+                exit;
+            } else {
+                echo json_encode(array('code'=>500,'message'=>'Lead not saved.', 'errors'=>$model->errors));
+                exit;
             }
         }
 }

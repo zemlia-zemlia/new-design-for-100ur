@@ -25,9 +25,9 @@
     <div id="header">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-4 col-sm-4">
+                <div class="col-md-3 col-sm-3 center-align">
                     <a href="/">
-                        <img src="/pics/2015/logo.png" alt="100 юристов" />
+                        <img src="/pics/2017/logo_white.png" alt="100 юристов" />
                     </a>
                      
                     <h5>ЮРИДИЧЕСКИЕ КОНСУЛЬТАЦИИ ОНЛАЙН</h5>
@@ -35,8 +35,10 @@
                         
                     </div> -->   
                 </div>
+                
+                <div class="col-md-6 col-sm-6 center-align"></div>
                        
-                <div class="alert alert-info col-md-2 col-sm-2 col-sm-offset-6 col-md-offset-6" style="text-align: right;">             
+                <div class="col-md-3 col-sm-3 center-align">
                 <?php
                     // выводим виджет с формой логина
                     $this->widget('application.widgets.Login.LoginWidget', array(
@@ -60,23 +62,18 @@
                 <div class="panel gray-panel" >
                     <div class="panel-body">
                         <h4>
-                            <?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/cabinet/campaign', array('id'=>$campaign->id)));?>
+                            <?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/cabinet/leads', array('campaign'=>$campaign->id)));?>
+                            
+                            <?php echo CHtml::link("<span class='glyphicon glyphicon-cog'></span>", Yii::app()->createUrl('/cabinet/campaign', array('id'=>$campaign->id)));?>    
+                            <?php if($campaign->active == 0):?>
+                                неактивная
+                            <?php endif;?>
                         </h4>
                         
-                        <p>
-                            <strong>Лиды:</strong>
-                            <?php echo CHtml::link('Все', Yii::app()->createUrl('/cabinet/leads', array('campaign'=>$campaign->id)));?> &nbsp;
-                            <?php echo CHtml::link('Купленные', Yii::app()->createUrl('/cabinet/leads', array('campaign'=>$campaign->id, 'status'=>Lead::LEAD_STATUS_SENT)));?> &nbsp;
-                            <?php echo CHtml::link('На отбраковке', Yii::app()->createUrl('/cabinet/leads', array('campaign'=>$campaign->id, 'status'=>Lead::LEAD_STATUS_NABRAK)));?> &nbsp;
-                            <?php echo CHtml::link('Брак', Yii::app()->createUrl('/cabinet/leads', array('campaign'=>$campaign->id, 'status'=>Lead::LEAD_STATUS_BRAK)));?> &nbsp;
-                            <?php echo CHtml::link('Возврат', Yii::app()->createUrl('/cabinet/leads', array('campaign'=>$campaign->id, 'status'=>Lead::LEAD_STATUS_RETURN)));?>
+                        <p class="center-align">
+                            <?php echo number_format($campaign->balance, 2, '.', ' ');?> руб.
                         </p>
-                        <p>
-                            <strong>Баланс:</strong> <?php echo number_format($campaign->balance, 2, '.', ' ');?> руб.
-                        </p>
-                        <p>
-                            <strong>Цена лида:</strong> <?php echo $campaign->price;?> руб.
-                        </p>
+                        
                     </div>
                 </div>	
                 <?php endforeach;?>

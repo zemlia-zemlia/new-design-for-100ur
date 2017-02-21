@@ -24,4 +24,5 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         'townsArray'        =>  $townsArray,
         'yuristSettings'    =>  $yuristSettings,
         'rolesNames'        =>  $rolesNames,
+        'allDirections'     =>  $allDirections,
     )); ?>

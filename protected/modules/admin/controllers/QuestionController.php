@@ -295,7 +295,7 @@ class QuestionController extends Controller
                     ->limit(30)
                     ->queryAll();
             
-            $allDirections = QuestionCategory::getDirections();    
+            $allDirections = QuestionCategory::getDirections(true, true);    
 
                             
             $this->render('nocat', array(
@@ -472,12 +472,28 @@ class QuestionController extends Controller
                 echo CJSON::encode(array('questionId'=>$questionId, 'status'=>400));
                 return;
             }
+            $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
             
             $q2c = new Question2category;
             $q2c->qId = $questionId;
             $q2c->cId = $catId;
             
             if($q2c->save()) {
+                // проверим, не является ли указанная категория дочерней
+                // если является, найдем ее родителя и запишем в категории вопроса
+                foreach($allDirectionsHierarchy as $parentId=>$parentCategory) {
+                    if(!$parentCategory['children']) continue;
+
+                    foreach($parentCategory['children'] as $childId=>$childCategory) {
+                        if($childId == $catId) {
+                            $q2cat = new Question2category();
+                            $q2cat->qId = $questionId;
+                            $q2cat->cId = $parentId;
+                            $q2cat->save();
+                            break;
+                        }
+                    }
+                }
                 echo CJSON::encode(array('questionId'=>$questionId, 'status'=>0));
                 return;
             } else {

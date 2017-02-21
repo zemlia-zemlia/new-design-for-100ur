@@ -56,7 +56,7 @@ class RegionController extends Controller
             
             $townsArray = Yii::app()->db->cache(0)->createCommand()
                         ->order('t.size DESC, t.name ASC')
-                        ->select('t.id, t.name, t.size, LENGTH(t.description1) hasDesc1, LENGTH(t.description2) hasDesc2, LENGTH(t.seoTitle) hasSeoTitle, LENGTH(t.seoDescription) hasSeoDescription, LENGTH(t.seoKeywords) hasSeoKeywords')
+                        ->select('t.id, t.name, t.isCapital, t.size, t.lat, t.lng, LENGTH(t.description1) hasDesc1, LENGTH(t.description2) hasDesc2, LENGTH(t.seoTitle) hasSeoTitle, LENGTH(t.seoDescription) hasSeoDescription, LENGTH(t.seoKeywords) hasSeoKeywords')
                         ->from('{{town}} t')
                         ->group('t.id')
                         ->where('t.regionId = :regionId', array(':regionId'=>$model->id))

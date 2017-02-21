@@ -46,6 +46,12 @@ $(function(){
             $(this).hide();
             return false;
         })
+        
+        $(".donate-yurist-link").on('click', function(e){
+            e.preventDefault();
+            $(this).closest(".answer-karma-string").find(".donate-block").show();
+            return false;
+        })
     
 });
 

@@ -62,6 +62,10 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <td><strong><?php echo $model->getAttributeLabel('source'); ?></strong></td>
         <td><?php echo $model->source->name; ?></td>
     </tr>
+    <tr>
+        <td><strong><?php echo $model->getAttributeLabel('buyPrice'); ?></strong></td>
+        <td><?php echo $model->buyPrice; ?> руб.</td>
+    </tr>
     <?php endif;?>
     
     <tr>
@@ -77,7 +81,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <?php if(Yii::app()->user->role == User::ROLE_ROOT):?>
 <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/lead/update', array('id'=>$model->id)), array('class'=>'btn btn-primary'));?>
 
-<?php echo CHtml::link('Удалить лида', Yii::app()->createUrl('/admin/lead/delete', array('id'=>$model->id)), array('class'=>'btn btn-danger'));?>
+<?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/lead/delete', array('id'=>$model->id)), array('class'=>'btn btn-danger'));?>
 <?php endif; ?>
 
 

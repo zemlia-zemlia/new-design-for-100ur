@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-sm-2">
                 <div class="answer-item-avatar">
-                <img src="<?php echo $data->author->getAvatarUrl();?>" class="img-responsive" />
+                <img src="<?php echo $data->author->getAvatarUrl();?>" class="img-responsive img-bordered" />
                 </div>
                 <div class="answer-item-karma">
                     <small>
@@ -83,25 +83,38 @@
                     ?>
                     <?php if($showKarmaLink === true):?>
                         <div class="vert-margin20 answer-karma-string" id="answer-karma-<?php echo $data->id;?>">
-                        Ответ оказался полезен? <?php echo CHtml::link("Да", Yii::app()->createUrl('user/karmaPlus'), array('class'=>'link-karma-plus btn btn-success btn-xs', 'data-id'=>$data->id));?>
+                            <?php if(Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT):?>
+                                <a href="#" class='btn btn-xs btn-default donate-yurist-link'><span class="glyphicon glyphicon-ruble"></span> Отблагодарить</a>
+                            <?php endif;?>
+                            Ответ оказался полезен? <?php echo CHtml::link("Да", Yii::app()->createUrl('user/karmaPlus'), array('class'=>'link-karma-plus btn btn-success btn-xs', 'data-id'=>$data->id));?>
+                            
+                            <?php if(Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT):?>
+                            <div class='donate-block'>
+                                <?php $this->renderPartial("application.views.question._donateForm", array(
+                                    'target'        =>  'Благодарность юристу #' . $data->authorId,
+                                    'successUrl'    =>  Yii::app()->createUrl('question/view', array('id'=>$data->questionId, 'answer_payed_id'=>$data->id)),
+                                ));?>
+                            </div>
+                            <?php endif;?>
                         </div>
                     <?php endif;?>
                 <?php endif;?>
                 
                 <?php foreach($data->comments as $comment):?>
-                    <div class="answer-comment">
-                        <p>
-                            <?php echo CustomFuncs::niceDate($comment->dateTime);?> 
-                            <?php echo CHtml::encode($comment->author->name);?></p>
-                        <p>
-                            <?php echo CHtml::encode($comment->text);?>
-                        </p>
-                    </div>
-                
+                    <?php if($comment->status != Comment::STATUS_SPAM):?>
+                        <div class="answer-comment">
+                            <p>
+                                Комментарий автора вопроса:</p>
+                            <p>
+                                <?php echo CHtml::encode($comment->text);?>
+                            </p>
+                        </div>
+                    <?php endif;?>
                 <?php endforeach;?>
                 
                 
-                <?php if($data->question->authorId == Yii::app()->user->id):?>
+                <?php if(sizeof($data->comments)==0 && $data->question->authorId == Yii::app()->user->id):?>
+                    <strong>Ваш комментарий:</strong>
                     <?php 
                         $this->renderPartial('application.views.comment._form', array(
                             'type'      => Comment::TYPE_ANSWER,

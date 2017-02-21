@@ -2,8 +2,7 @@
 /* @var $this QuestionController */
 /* @var $dataProvider CActiveDataProvider */
 
-//Yii::app()->clientScript->registerLinkTag("alternate","application/rss+xml","http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('question/rss'));
-Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('question'));
+Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('question'));
 
 $pageTitle = "Вопросы юристам ";
 

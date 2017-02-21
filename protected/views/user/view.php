@@ -29,27 +29,59 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <div class="row">
                 <div class="col-sm-3 center-align">
                     <p>
-                        <img src="<?php echo $model->getAvatarUrl();?>" class="gray-panel" />
+                        <img src="<?php echo $model->getAvatarUrl();?>" class="gray-panel img-bordered" />
                     </p>    
                     <?php echo CHtml::link('Задать вопрос', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-info'));?>
 
                 </div>
                 <div class="col-sm-9">
                     
+                    <?php if($model->settings->hello):?>
+                    <div class="alert alert-info">
+                        <?php echo CHtml::encode($model->settings->hello);?>
+                    </div>
+                    <?php endif;?>
                     
-                    <?php if($model->categories):?>
-                    <h3 class="left-align">Специализации</h3>
+                    <?php if($model->role == User::ROLE_JURIST):?>
                     
-                        <?php foreach ($model->categories as $cat): ?>
-                        <span class="yurist-directions-item"><?php echo $cat->name; ?></span>
-                        <?php endforeach;?>
-                    <hr />        
+                    <div class="row">
+                        <div class="col-sm-6 center-align">
+                            <p>Дано ответов</p>
+                            <?php
+                                $answersCountInt = $model->answersCount;
+                                $answersCount = str_pad((string)$answersCountInt,(strlen($answersCountInt)>4)?strlen($answersCountInt):4, '0',STR_PAD_LEFT);
+                                $numbers = str_split($answersCount);
+                                
+                                $karmaCount = str_pad((string)$model->karma, (strlen($model->karma)>3)?strlen($model->karma):3, '0',STR_PAD_LEFT);;
+                                $numbersKarma = str_split($karmaCount);
+                            ?>
+                            
+                            <p class="kpi-counter">
+                                <?php foreach($numbers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
+                            </p>
+                                
+                        </div>
+                        <div class="col-sm-6 center-align">
+                            <p><abbr title="Количество благодарностей за полезный ответ">Карма</abbr></p>
+                            <p class="kpi-counter">
+                                <?php foreach($numbersKarma as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
+                            </p>
+                        </div>
+                    </div>
+                    <?php endif;?>
+                    
+                    
+                    
+                    <?php if($model->settings->description):?>
+                        <h3 class="left-align">О себе</h3>
+                        <p><?php echo CHtml::encode($model->settings->description);?></p>
+                        <hr />
                     <?php endif;?>
             
                     <h3 class="left-align">Контакты</h3>
                     
                     <p>
-                        <strong>Город:</strong> <?php echo $model->settings->town->name;?>
+                        <strong>Город:</strong> <?php echo $model->town->name;?>
                     </p>
                     
                     <?php if($model->settings->phoneVisible):?>
@@ -60,7 +92,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                 <?php echo $model->settings->phoneVisible;?>
                                 </span>
                                 <span class="hidden-block-trigger">
-                                    <a href="#">Показать</a>
+                                    <a href="#" class="btn btn-default btn-xs">Показать</a>
                                 </span>
                         </span>
                     </p> 
@@ -74,7 +106,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                 <?php echo CHtml::encode($model->settings->emailVisible);?>
                             </span>
                             <span class="hidden-block-trigger">
-                                <a href="#">Показать</a>
+                                <a href="#" class="btn btn-default btn-xs">Показать</a>
                             </span>
                         </span>
                     </p>
@@ -119,6 +151,16 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     </p>
                     <hr /> 
                     
+                    <?php if($model->categories):?>
+                    <h3 class="left-align">Специализации</h3>
+                    
+                        <?php foreach ($model->categories as $cat): ?>
+                        <span class="yurist-directions-item"><?php echo $cat->name; ?></span>
+                        <?php endforeach;?>
+                    <hr />        
+                    <?php endif;?>
+                    
+                    
                     <?php if($model->settings->priceConsult  > 0 || $model->settings->priceDoc  > 0):?>
                         <h3 class="left-align">Платные услуги</h3>
                         <?php if($model->settings->priceConsult  > 0):?>
@@ -137,7 +179,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <div class="vert-margin30">
 <?php if(sizeof($questions)):?>        
-<h2>Последние ответы</h2>
+<h2 class="header-block-light-grey">Последние ответы</h2>
 <?php endif;?>
         
 <?php foreach($questions as $question):?>

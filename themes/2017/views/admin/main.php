@@ -8,12 +8,12 @@
 <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 <?php 
     Yii::app()->clientScript->registerCssFile("/bootstrap/css/bootstrap.min.css");
-    Yii::app()->clientScript->registerCssFile('/css/2015/jquery-ui.css');
-    Yii::app()->clientScript->registerCssFile("/css/2015/admin.css");
+    Yii::app()->clientScript->registerCssFile('/js/jquery-ui/jquery-ui.css');
+    Yii::app()->clientScript->registerCssFile("/css/2017/admin.css");
 
     Yii::app()->clientScript->registerScriptFile("/js/respond.min.js");
     Yii::app()->clientScript->registerScriptFile("jquery.js");
-    Yii::app()->clientScript->registerScriptFile("/js/jquery-ui.min.js");
+    Yii::app()->clientScript->registerScriptFile("/js/jquery-ui/jquery-ui.min.js");
     Yii::app()->clientScript->registerScriptFile("/bootstrap/js/bootstrap.min.js", CClientScript::POS_END);
     Yii::app()->clientScript->registerScriptFile("/js/admin/scripts.js", CClientScript::POS_END);
     Yii::app()->ClientScript->registerScriptFile('/js/jquery.maskedinput.min.js', CClientScript::POS_END);
@@ -66,7 +66,7 @@
                         <div class="panel-body">
                         <ul id="left-menu">
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-briefcase'></span>  Пользователи", Yii::app()->createUrl('/admin/user/index'));?></li>
-                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-eye-close'></span>  Запросы", Yii::app()->createUrl('/admin/user/requests'));?></li>
+                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-eye-close'></span>  Запросы", Yii::app()->createUrl('/admin/userStatusRequest'));?></li>
                             
                         </ul>
                         </div>
@@ -124,6 +124,7 @@
 							<li><?php echo CHtml::link("<span class='glyphicon glyphicon-briefcase'></span>  Кампании", Yii::app()->createUrl('/admin/campaign'));?></li>
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-signal'></span>  Статистика", Yii::app()->createUrl('/admin/lead/stats'));?></li>
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-share-alt'></span>  Источники", Yii::app()->createUrl('/admin/leadsource'));?></li>                        
+                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-share-alt'></span>  Касса", Yii::app()->createUrl('/admin/money'));?></li>                        
                         </ul>
                         </div>
                     </div>
@@ -135,6 +136,7 @@
                         <div class="panel-heading"><h4>Контент</h4></div>
                         <div class="panel-body">
                         <ul id="left-menu">
+							
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-question-sign'></span>  Вопросы", Yii::app()->createUrl('/admin/question'));?>
                                 <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR) || Yii::app()->user->role == User::ROLE_SECRETARY):?>
                                 <ul>
@@ -145,13 +147,13 @@
                                         <?php echo CHtml::link("<span class='glyphicon glyphicon-adjust'></span> " . 'Недозаполненные', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_PRESAVE)));?>
                                     </li>
                                     <li>
-                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Не подтверждены', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_NEW)));?>
+                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Email не указан / не подтвержден', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_NEW)));?>
                                     </li>
                                     <li>
-                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'На проверке', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_CHECK)));?>
+                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Предв. опубликован', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_CHECK)));?>
                                     </li>
                                     <li>
-                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-check'></span> " . 'Одобрены', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_MODERATED)));?>
+                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-check'></span> " . 'Ждет публикации', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_MODERATED)));?>
                                     </li>
                                     <li>
                                         <?php echo CHtml::link("<span class='glyphicon glyphicon-ok'></span> " . 'Опубликованы', Yii::app()->createUrl('/admin/question/index',array('status'=>  Question::STATUS_PUBLISHED)));?>
@@ -174,6 +176,7 @@
                                 </ul>    
                                 <?php endif;?>    
                             </li>
+							
                             
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-question-sign'></span>  Ответы юристов", Yii::app()->createUrl('/admin/answer'));?>
                                 <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR) || Yii::app()->user->role == User::ROLE_SECRETARY):?>

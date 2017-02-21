@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
 <?php 
     Yii::app()->clientScript->registerCssFile("/bootstrap/css/bootstrap.min.css");
@@ -98,6 +98,7 @@
                 </div>  
         </div>
     </div>
+        </div>
     </div> <!-- #header -->
     
     <nav class="navbar navbar-inverse">
@@ -149,7 +150,7 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-3 cta-item" style="background-color: #39a6bd;">
                         <div class="cta-text">
-                        <h4 class="text-uppercase">Бесплатный вопрос</h4>
+                        <h4 class="text-uppercase">Вопрос юристу</h4>
                         <p class="small">Задайте любой вопрос специалистам, и в течение 15 минут вы получите ответы наших юристов.</p>
                         </div>
                         <?php echo CHtml::link("<span class='yur-icon yur-icon-question'></span> Задать вопрос &nbsp;<img src='/pics/2017/arrow_list_blue.png' alt='' />", Yii::app()->createUrl('question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=vopros'), array('class'=>'button button-white-gradient btn-block')); ?>
@@ -157,7 +158,7 @@
                     
                     <div class="col-md-3 col-sm-3 cta-item" style="background-color: #1d979b;">
                         <div class="cta-text">
-                        <h4 class="text-uppercase">Обратный звонок</h4>
+                        <h4 class="text-uppercase">Звонок юриста</h4>
                         <p class="small">Оставьте номер телефона, и наш юрист свяжется с вами, чтобы проконсультировать вас.</p>
                         </div>
                         <?php echo CHtml::link("<span class='yur-icon yur-icon-call'></span> Заказать звонок &nbsp;<img src='/pics/2017/arrow_list_blue.png' alt='' />", Yii::app()->createUrl('question/call'), array('class'=>'button button-white-gradient btn-block')); ?>
@@ -192,8 +193,8 @@
             </div>    
                 
             <div class="col-sm-3 col-sm-pull-6 col-md-3 col-md-pull-6" id="left-panel">
-			
-                <div class="flat-panel vert-margin20">
+		<?php if(Yii::app()->user->role != User::ROLE_JURIST):?>	
+                    <div class="flat-panel vert-margin20">
                         <?php
                             $questionsCountInt = Question::getCount()*2;
                             $questionsCount = str_pad((string)$questionsCountInt,6, '0',STR_PAD_LEFT);
@@ -219,7 +220,8 @@
                                 <img src="/pics/2017/arrow_down.png" alt="" class="center-block" />
                             </div>
                         </div>
-                </div>	
+                    </div>	
+                <?php endif;?>
                 <!-- 
                 <div class="vert-margin20 center-align">
                     <a href="<?php echo Yii::app()->createUrl('question/create', array('pay'=>1));?>"><img src="/pics/2017/payed_consult_banner.jpg" alt="Платный ответ юриста" /></a>
@@ -265,17 +267,17 @@
                         </div> 
                 <?php endif;?>
                 
-                <div class="vert-margin20">
-                    <?php if(Yii::app()->user->isGuest):?>
+                <?php if(Yii::app()->user->isGuest):?>
+                    <div class="vert-margin20">
 
                             <?php
                                 // выводим виджет с формой логина
                                 $this->widget('application.widgets.Login.LoginWidget', array(
                                 ));
                             ?>
-
-                    <?php endif;?>
-                </div>
+                    </div>
+                <?php endif;?>
+                
                 
              				
                 <?php if(Yii::app()->user->isGuest):?>			
@@ -348,15 +350,15 @@
                 </div>
 				
 				<div class='col-md-3 col-sm-3'>
-						<ul>
-							<li><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/')?CHtml::link('Юристы', Yii::app()->createUrl('/yurist/')):'<span class="active"><p>Юристы</p></span>';?></li>
-							<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/offer/')?CHtml::link('Пользовательское соглашение', Yii::app()->createUrl('/site/offer/')):'<span class="active"><p>Пользовательское соглашение</p></span>';?></li>
-							<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/crm/')?CHtml::link('CRM Для юридических фирм', Yii::app()->createUrl('/site/crm/')):'<span class="active"><p>CRM Для юридических фирм</p></span>';?></li>
-							<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/')?CHtml::link('Клиенты Юристам и Адвокатам', Yii::app()->createUrl('/site/lead/')):'<span class="active"><p>Клиенты Юристам и Адвокатам</p></span>';?></li>
-							<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/about/')?CHtml::link('О проекте', Yii::app()->createUrl('/site/about/')):'<span class="active"><p>О проекте</p></span>';?></li>
-							<li><?php echo ($_SERVER['REQUEST_URI'] != '/company/')?CHtml::link('Каталог компаний', Yii::app()->createUrl('/company/')):'<span class="active"><p>Каталог компаний</p></span>';?></li>
-
-						</ul>
+		<small>
+				<ul>
+					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/offer/')?CHtml::link('Пользовательское соглашение', Yii::app()->createUrl('/site/offer/')):'<span class="active"><p>Пользовательское соглашение</p></span>';?></li>
+					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/crm/')?CHtml::link('CRM Для юридических фирм', Yii::app()->createUrl('/site/crm/')):'<span class="active"><p>CRM Для юридических фирм</p></span>';?></li>
+					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/')?CHtml::link('Лиды и клиенты на услуги', Yii::app()->createUrl('/site/lead/')):'<span class="active"><p>Лиды и клиенты на услуги</p></span>';?></li>
+					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/about/')?CHtml::link('О проекте', Yii::app()->createUrl('/site/about/')):'<span class="active"><p>О проекте</p></span>';?></li>
+					<li><?php echo ($_SERVER['REQUEST_URI'] != '/company/')?CHtml::link('Каталог компаний России', Yii::app()->createUrl('/company/')):'<span class="active"><p>Каталог компаний</p></span>';?></li>
+				</ul>
+		</small>
 				</div>
 
                 <div class='col-md-3 col-sm-3'>

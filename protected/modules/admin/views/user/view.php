@@ -30,10 +30,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <div class="col-md-10">
 <table class="table table-bordered">
-    <tr>
-        <td><strong><?php echo $model->getAttributeLabel('position');?></strong></td>
-        <td><?php echo CHtml::encode($model->position); ?></td>
-    </tr>
+    
 <?php 
 // Показываем контактные данные сотрудников только секретарю и менеджерам
 if(Yii::app()->user->checkAccess(User::ROLE_MANAGER) || Yii::app()->user->role == User::ROLE_SECRETARY):?>    
@@ -51,12 +48,7 @@ if(Yii::app()->user->checkAccess(User::ROLE_MANAGER) || Yii::app()->user->role =
         <td><strong><?php echo $model->getAttributeLabel('birthday');?></strong></td>
         <td><?php echo CustomFuncs::invertDate($model->birthday); ?></td>
     </tr>
-    <?php if((int)$model->managerId>0):?>
-    <tr>
-        <td><strong>Руководитель</strong></td>
-        <td><?php echo CHtml::link(CHtml::encode($model->manager->name) . " " . CHtml::encode($model->manager->name2) . " " . CHtml::encode($model->manager->lastName),Yii::app()->createUrl('user/view',array('id'=>$model->manager->id))); ?></td>
-    </tr>
-    <?php endif;?>
+
     
     <?php if($model->settings):?>
     <tr>

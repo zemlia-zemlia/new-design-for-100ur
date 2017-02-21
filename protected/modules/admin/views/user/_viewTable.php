@@ -1,7 +1,7 @@
     <tr>
         <td>
             <?php echo CHtml::link(CHtml::encode($data->name . ' ' . $data->name2 . ' ' . $data->lastName), array('view', 'id'=>$data->id)); ?>
-            <?php if($data->active==0):?>
+            <?php if($data->active100==0):?>
             <span class="label label-default">неактивен</span>
             <?php endif;?>
         </td>

@@ -64,6 +64,13 @@ switch ($data->leadStatus) {
             
             <span class="glyphicon glyphicon-user"></span>    
             <?php echo CHtml::encode($data->name)?> <br />
+            
+            <?php if($data->leadStatus == Lead100::LEAD_STATUS_NABRAK && $data->brakComment):?>
+            <p>
+                <strong>Комментарий отбраковки:</strong>
+                <?php echo CHtml::encode($data->brakComment);?>
+            </p>
+            <?php endif;?>
         </small>
     </td>
     
@@ -77,16 +84,8 @@ switch ($data->leadStatus) {
         ?>
         
         <?php if(($data->leadStatus == Lead100::LEAD_STATUS_SENT || $data->leadStatus == Lead100::LEAD_STATUS_SENT_CRM) && ($now - $leadTimestamp)<86400*4):?>
-            <?php echo CHtml::link('На отбраковку', '#', array('class'=>'btn btn-block btn-default brak-lead btn-sm', 'data-id'=>$data->id));?>
-            <div class="brak-lead-message" data-id="<?php echo $data->id;?>"></div>
-            <form id="lead-<?php echo $data->id;?>" data-id="<?php echo $data->id;?>" class="form-inline form-brak-lead">
-                <div class="form-group">
-                     <?php echo CHtml::activeDropDownList(Lead100::model(),'brakReason', Lead100::getBrakReasonsArray(),array('class'=>'form-control'));?>
-                </div>
+            <?php echo CHtml::link('На отбраковку', Yii::app()->createUrl('site/brakLead',array('code'=>$data->secretCode)), array('class'=>'btn btn-block btn-default btn-sm', 'target'=>'_blank', 'data-id'=>$data->id));?>
 
-                <a href="#" class="btn btn-primary btn-sm submit-brak-lead">Забраковать</a>
-                <a href="#" class="submit-brak-close">Отмена</a>
-            </form>
         <?php endif;?>
     </td>
 </tr>

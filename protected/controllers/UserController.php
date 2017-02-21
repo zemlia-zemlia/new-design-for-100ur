@@ -29,7 +29,7 @@ class UserController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('update', 'profile', 'changePassword', 'updateAvatar', 'invites','deleteAvatar','clearInfo', 'requestConfirmation', 'karmaPlus', 'stats'),
+				'actions'=>array('update', 'profile', 'changePassword', 'updateAvatar', 'invites','deleteAvatar','clearInfo', 'requestConfirmation', 'karmaPlus', 'stats', 'sendAnswerNotification'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -80,15 +80,22 @@ class UserController extends Controller
                         ),
                 ));
             
-//            $questionsDataProvider = new CActiveDataProvider('Question', array(
-//                    'criteria'  => $questionsCriteria,
-//                    'pagination'    =>  array(
-//                            'pageSize'=>20,
-//                        ),
-//                ));
+            // найдем последний запрос на смену статуса
+            $lastRequest = Yii::app()->db->createCommand()
+                    ->select('isVerified, status')
+                    ->from("{{userStatusRequest}}")
+                    ->where("yuristId=:id", array(':id'=>$user->id))
+                    ->order('id DESC')
+                    ->limit(1)
+                    ->queryRow();
+            
+            //CustomFuncs::printr($lastRequest);
+            
+            
             $this->render('profile', array(
                 'questionsDataProvider'     =>  $questionsDataProvider,
                 'user'                      =>  $user,
+                'lastRequest'               =>  $lastRequest,
             ));
         }
 
@@ -149,7 +156,7 @@ class UserController extends Controller
             $this->layout = '//frontend/short';
             $model= User::model()->findByPk($id);
             
-            $allDirections = QuestionCategory::getDirections();
+            $allDirections = QuestionCategory::getDirections(true, true);
                         
             if(!$model) {
                 throw new CHttpException(404,'Пользователь не найден');
@@ -164,7 +171,9 @@ class UserController extends Controller
             // модель для работы со сканом
             $userFile = new UserFile;
             
-            if($model->role == User::ROLE_JURIST || $model->role == User::ROLE_OPERATOR || $model->role == User::ROLE_CALL_MANAGER) {
+           
+            
+            if($model->role == User::ROLE_JURIST) {
                 if($model->settings) {
                     $yuristSettings = $model->settings;
                 } else {
@@ -179,7 +188,6 @@ class UserController extends Controller
             $rolesNames = array(
                 User::ROLE_CLIENT   =>  'Пользователь',
                 User::ROLE_JURIST   =>  'Юрист',
-                User::ROLE_OPERATOR =>  'Оператор',
             );
             
             if(isset($_POST['User'])) {
@@ -367,7 +375,11 @@ class UserController extends Controller
 
                         $question = Question::model()->find($questionCriteria);
                     
-                          $this->render('activationSuccess', array(
+                        if($question){
+                            $this->redirect(array('question/view', 'id'=>$question->id, 'justPublished'=>1));
+                        }
+                        
+                        $this->render('activationSuccess', array(
                             'user'          =>  $user, 
                             'loginModel'    =>  $loginModel,
                             'question'      =>  $question,
@@ -501,10 +513,10 @@ class UserController extends Controller
             
             // если не передан id ответа
             if (!$answerId) {
-                throw new CHttpException(400, 'User id not specified');
+                throw new CHttpException(400, 'Answer id not specified');
             }
             
-            $answer = Answer::model()->with('author')->findByPk($answerId);
+            $answer = Answer::model()->findByPk($answerId);
             
             if(!$answer) {
                 throw new CHttpException(404, 'Answer not found');
@@ -513,7 +525,7 @@ class UserController extends Controller
             // id пользователя, написавшего ответ
             $userId = $answer->authorId;
             
-            // проверим, не ставил ли плюс текущий пользователь заданному пользователю
+            // проверим, не ставил ли плюс текущий пользователь заданному ответу
             $existingPluses = Yii::app()->db->createCommand()
                     ->select("COUNT(*) counter")
                     ->from("{{karmaChange}}")

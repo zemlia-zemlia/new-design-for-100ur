@@ -39,7 +39,7 @@ $allDirections = array(0=>'Без категории') + $allDirections;
 		<?php echo $form->labelEx($model,'questionText'); ?>
                 <small>
                 <p>
-                    Если Вам трудно сформулировать вопрос — позвоните на нашу бесплатную горячую линию по телефону <strong>8 (800) 500-61-85</strong>, юрист Вам поможет.
+                    Если Вам трудно сформулировать вопрос — позвоните на нашу бесплатную горячую линию по телефону <strong class="red">8 (800) 500-61-85</strong>, юрист Вам поможет.
                 </p>
                 </small>
 		<?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>10, 'placeholder'=>'Текст вашего вопроса...')); ?>
@@ -49,7 +49,7 @@ $allDirections = array(0=>'Без категории') + $allDirections;
 <small>
     <p>
         <strong class="text-uppercase red">Это важно!</strong><br />
-        Оставьте ваш номер телефона, по которому в случае необходимости с вами сможет связаться наш юрист, чтобы уточнить суть вопроса. Звонок для Вас бесплатный
+        Оставьте ваш номер телефона, по которому в случае необходимости с вами сможет связаться наш юрист, чтобы уточнить суть вопроса. <strong>Звонок для Вас бесплатный</strong>
     </p>
 </small>
         
@@ -73,7 +73,7 @@ $allDirections = array(0=>'Без категории') + $allDirections;
         <img src="/pics/2017/red_lock.png" alt="" style="float:left;margin-top:10px;" />
         <p class="red" style="padding-top:10px;margin-left:35px;">
             
-            Ваши данные в безопасности. Ваш телефон нигде и никогда не публикуется и доступен только юристу-консультанту
+            Ваши данные в безопасности. Ваш телефон <strong>НИГДЕ и НИКОГДА</strong> не публикуется и доступен только юристу-консультанту
         </p>
         </small>
     </div>
@@ -117,7 +117,7 @@ $allDirections = array(0=>'Без категории') + $allDirections;
 <small class="text-muted">
   <label>
       <input type="checkbox" value="1" checked="checked">
-    Согласен с условиями <?php echo CHtml::link('пользовательского соглашения', Yii::app()->createUrl('site/offer'), array('target'=>'_blank'));?>
+    Отправляя вопрос вы соглашаетесь с условиями <?php echo CHtml::link('пользовательского соглашения', Yii::app()->createUrl('site/offer'), array('target'=>'_blank'));?>
   </label>
 </small>
 </div>
@@ -134,19 +134,19 @@ $allDirections = array(0=>'Без категории') + $allDirections;
         </div>
         <div class="col-sm-3">
             <label>
-            <input type="radio" name="Question[price]" value="99" /> <strong>99 руб.</strong>
+            <input type="radio" name="Question[price]" value="99" /> <strong>125 руб.</strong>
             <p><small>Гарантия 1 ответа юриста в течение 3 часов</small></p>
             </label>
         </div>
         <div class="col-sm-3">
             <label>
-            <input type="radio" name="Question[price]" value="199" /> <strong>199 руб.</strong>
+            <input type="radio" name="Question[price]" value="199" /> <strong>255 руб.</strong>
             <p><small>Гарантия 3 ответов юристов в течение 3 часов</small></p>
             </label>
         </div>
         <div class="col-sm-3">
             <label>
-            <input type="radio" name="Question[price]" value="299" /> <strong>299 руб.</strong>
+            <input type="radio" name="Question[price]" value="299" /> <strong>399 руб.</strong>
             <p><small>Гарантия 5 ответов юристов в течение 3 часов</small></p>
             </label>
         </div>

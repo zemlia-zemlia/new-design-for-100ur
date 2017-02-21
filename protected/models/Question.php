@@ -126,12 +126,14 @@ class Question extends CActiveRecord
         static public function getStatusesArray()
         {
             return array(
-                self::STATUS_NEW        =>  'Новый, не модерирован',
-                self::STATUS_MODERATED  =>  'Одобрен, неопубликован',
+				self::STATUS_PRESAVE    =>  'Недозаполненные',
+                self::STATUS_NEW        =>  'Email не указан / не подтвержден',
+				self::STATUS_CHECK      =>  'Предварительно опубликован',
+                self::STATUS_MODERATED  =>  'Ждет публикации',
                 self::STATUS_PUBLISHED  =>  'Опубликован',
                 self::STATUS_SPAM       =>  'Спам',
-                self::STATUS_CHECK      =>  'На проверке, опубликован',
-                self::STATUS_PRESAVE    =>  'Недозаполненные',
+                
+                
             );
         }
         
@@ -254,13 +256,13 @@ class Question extends CActiveRecord
         {
             switch($level) {
                 case self::LEVEL_1:
-                    return 99;
+                    return 125;
                     break;
                 case self::LEVEL_2:
-                    return 199;
+                    return 295;
                     break;
                 case self::LEVEL_3:
-                    return 299;
+                    return 455;
                     break;
             }
         }

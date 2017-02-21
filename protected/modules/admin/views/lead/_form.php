@@ -35,8 +35,27 @@
         <?php endif;?>
 
         <div class="form-group">
-		<?php echo $form->hiddenField($model,'sourceId', array('value'=>Yii::app()->params['100yuristovSourceId'])); ?>
+		<?php echo $form->hiddenField($model,'sourceId', array('value'=>($model->isNewRecord)?Yii::app()->params['100yuristovSourceId']:$model->sourceId)); ?>
 	</div>
+    
+        <?php if(!$model->isNewRecord):?>
+    <div class='row'>
+        <div class='col-md-6'>
+            <div class="form-group">
+		<?php echo $form->labelEx($model,'sourceId'); ?>
+		<?php echo $form->dropDownList($model,'sourceId', Leadsource100::getSourcesArray(false), array('class'=>'form-control')); ?>
+		<?php echo $form->error($model,'sourceId'); ?>
+            </div>
+        </div>
+        <div class='col-md-6'>
+            <div class="form-group">
+		<?php echo $form->labelEx($model,'buyPrice'); ?>
+		<?php echo $form->textField($model,'buyPrice',array('class'=>'form-control right-align')); ?>
+		<?php echo $form->error($model,'buyPrice'); ?>
+            </div>
+        </div>
+    </div>
+        <?php endif;?>
 
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'question'); ?>

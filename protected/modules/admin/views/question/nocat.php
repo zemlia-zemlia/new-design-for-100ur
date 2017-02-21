@@ -25,8 +25,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <tr>
         <th>Вопрос</th>
         <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
-            <th>Категория</th>
-            <th>Автор</th>
+        <th style="min-width:50%">Категория</th>
         <?php endif;?>
     </tr>
     </thead>
@@ -67,7 +66,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <?php if($data['createDate']) {echo CustomFuncs::niceDate($data['createDate'], false, false);}?>
                 <?php 
                     if($data['publishDate']) {
-                        echo "<span class='muted'>Опубликован " . CustomFuncs::invertDate($data['publishDate']) . "</span>";
+                        echo "<span class='muted'>Опубликован " . CustomFuncs::niceDate($data['publishDate']) . "</span>";
                     }
                 ?>
             &nbsp;
@@ -76,35 +75,38 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <b>ID:</b>
             <?php echo CHtml::link(CHtml::encode($data['id']), Yii::app()->createUrl('/admin/question/view', array('id'=>$data['id']))); ?>
         </small>
+        
+        <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>   
+            <div>          
+                <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/question/update', array('id'=>$data['id'])), array('class'=>'btn btn-primary btn-xs')); ?>
+                <?php echo CHtml::ajaxLink('В спам', Yii::app()->createUrl('/admin/question/toSpam'), array('data'=>"id=".$data['id'], 'type'=>'POST', 'success'=>'onSpamQuestion'), array('class'=>'btn btn-warning btn-xs')); ?>
+
+                <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+                    <?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/question/delete', array('id'=>$data['id'])), array('class'=>'btn btn-danger btn-xs')); ?>
+                <?php endif;?>
+            </div> 
+        <?php endif;?>
     </td>
     
     <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>  
     <td>
-        <small>
             <div class="container-fluid">
             <div class="row">
-            <?php foreach($allDirections as $directionId=>$directionName):?>
+            <?php foreach($allDirections as $directionId=>$direction):?>
                 <div class="col-md-6">
-                <?php echo CHtml::link($directionName, '#', array('class'=>'set-category-link btn btn-default btn-xs', 'data-category'=>$directionId, 'data-question'=>$data['id']));?><br />
+                <?php echo CHtml::link($direction['name'], '#', array('class'=>'set-category-link label label-primary', 'data-category'=>$directionId, 'data-question'=>$data['id']));?><br />
+                
+                    <?php if($direction['children']):?>
+                        <?php foreach($direction['children'] as $childId=>$child):?>
+                            &nbsp;&nbsp;<?php echo CHtml::link($child['name'], '#', array('class'=>'set-category-link  label label-info', 'data-category'=>$childId, 'data-question'=>$data['id']));?><br />
+                        <?php endforeach;?>
+                    <?php endif;?>
                 </div>
             <?php endforeach;?>
             </div>
             </div>
-        </small>
     </td>
-        
-    <td>
-        <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>   
-                      
-            <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/question/update', array('id'=>$data['id'])), array('class'=>'btn btn-primary btn-xs btn-block')); ?>
-            <?php echo CHtml::ajaxLink('В спам', Yii::app()->createUrl('/admin/question/toSpam'), array('data'=>"id=".$data['id'], 'type'=>'POST', 'success'=>'onSpamQuestion'), array('class'=>'btn btn-warning btn-xs btn-block')); ?>
-
-            <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
-                <?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/question/delete', array('id'=>$data['id'])), array('class'=>'btn btn-danger btn-xs btn-block')); ?>
-            <?php endif;?>
-         
-        <?php endif;?>
-    </td> 
+       
     
     <?php endif;?>    
 </tr>

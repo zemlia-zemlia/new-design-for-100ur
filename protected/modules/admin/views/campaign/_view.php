@@ -15,7 +15,7 @@ $leadsSentPercent = ($data->leadsDayLimit>0)?($data->leadsTodayCount/$data->lead
         <p>
             <?php echo CHtml::link(CHtml::encode($data->buyer->lastName . ' ' . $data->buyer->name), Yii::app()->createUrl('/admin/user/view', array('id'=>$data->buyer->id)));?>
         </p>
-        <?php echo $data->buyer->email;?></td>
+    </td>
     <td>
         <?php echo $data->region->name;?>
         <?php echo $data->town->name;?>

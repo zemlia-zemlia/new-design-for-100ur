@@ -12,7 +12,12 @@ if(isset($_GET) && (int)$_GET['Question_page'] && $dataProvider->pagination) {
 $this->setPageTitle($pageTitle);
 Yii::app()->clientScript->registerMetaTag($model->createPageDescription(), 'description');
 Yii::app()->clientScript->registerMetaTag($model->createPageKeywords(), 'keywords');
-Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('/town/alias', array('name'=>$model->alias)));
+Yii::app()->clientScript->registerLinkTag("canonical", NULL, 
+        Yii::app()->createUrl('town/alias', array(
+                                        'name'          =>  $model->alias,
+                                        'countryAlias'  =>  $model->country->alias,
+                                        'regionAlias'   =>  $model->region->alias,
+                                        )));
 
 
 $this->breadcrumbs=array(
@@ -102,9 +107,9 @@ $this->breadcrumbs=array(
 
 <?php foreach($allDirections as $direction):?>
     <div class="col-md-4">
-        <h4 class="left-align">
+        <p class="left-align">
             <?php echo CHtml::link($direction['name'], Yii::app()->createUrl('questionCategory/alias', array('name'=>$direction['alias'])));?>
-        </h4>
+        </p>
     </div>
 <?php endforeach;?>
 <div class="clearfix"></div>

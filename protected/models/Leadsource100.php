@@ -80,9 +80,7 @@ class Leadsource100 extends CActiveRecord
         static public function getSourcesArray($showInactive = true)
         {
             $attributes = array();
-            if(Yii::app()->user->officeId>0) {
-                $attributes['officeId'] = Yii::app()->user->officeId;
-            }
+
             if($showInactive == false) {
                 $attributes['active'] = 1;
             } 

@@ -30,7 +30,7 @@ class TopYurists extends CWidget
             $yurisIds = Yii::app()->db->createCommand()
                     ->select('id')
                     ->from('{{user}}')
-                    ->where('role IN(' . User::ROLE_JURIST. ', ' . User::ROLE_CALL_MANAGER. ', ' . User::ROLE_OPERATOR . ') AND active100=1')
+                    ->where('role = ' . User::ROLE_JURIST . ' AND active100=1')
                     ->limit($this->limit)
                     ->order('RAND()')
                     ->queryAll();
@@ -46,7 +46,7 @@ class TopYurists extends CWidget
                         ->from('{{user}} u')
                         ->leftJoin('{{answer}} a', 'a.authorId=u.id')
                         ->leftJoin('{{yuristSettings}} u_s', 'u.id=u_s.yuristId')
-                        ->leftJoin('{{town}} t', 't.id=u_s.townId')
+                        ->leftJoin('{{town}} t', 't.id=u.townId')
                         ->leftJoin('{{user2category}} u2c', 'u2c.uId=u.id')
                         ->leftJoin('{{questionCategory}} q_c', 'q_c.id = u2c.cId')
                         ->where('a.status IN(0,1) AND u.id=:uid AND q_c.id IS NOT NULL', array(':uid'=>$yurisId['id']))

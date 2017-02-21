@@ -9,17 +9,15 @@
  * @property string $name2
  * @property string $lastName
  * @property integer $role
- * @property string $position
  * @property string $email
  * @property string $phone
  * @property string $password
- * @property integer $active
  * @property integer $active100
- * @property string $managerId
  * @property string $townId
  * @property string $registerDate
  * @property integer $isSubscribed
  * @property integer $karma
+ * @property string autologin
  */
 class User extends CActiveRecord
 {
@@ -73,8 +71,8 @@ class User extends CActiveRecord
 		return array(
 			array('name, email, phone', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
 			array('townId', 'required', 'except'=>'unsubscribe', 'message'=>'Поле {attribute} должно быть заполнено'),
-			array('role, active, active100, managerId, townId, karma', 'numerical', 'integerOnly'=>true),
-			array('name, position, email, phone', 'length', 'max'=>255),
+			array('role, active100, townId, karma', 'numerical', 'integerOnly'=>true),
+			array('name, email, phone', 'length', 'max'=>255),
                         array('name2, lastName, birthday', 'safe'),
                         array('townId', 'match','not'=>true, 'except'=>'unsubscribe', 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
                         array('password','length','min'=>5,'max'=>128, 'tooShort'=>'Минимальная длина пароля 5 символов', 'allowEmpty'=>($this->scenario=='update' || $this->scenario=='register')),
@@ -83,7 +81,7 @@ class User extends CActiveRecord
 
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, role, position, email, phone, password, active, manager', 'safe', 'on'=>'search'),
+			array('id, name, role, email, phone, password', 'safe', 'on'=>'search'),
 		);
 	}
         
@@ -115,7 +113,7 @@ class User extends CActiveRecord
         {
             $managers = User::model()->findAllByAttributes(array(
                 'role'      =>  self::ROLE_MANAGER,
-                'active'    =>  1,
+                'active100'    =>  1,
             ));
             return $managers;
         }
@@ -133,12 +131,12 @@ class User extends CActiveRecord
         }
         
         // возвращает массив, ключами которого являются id активных юристов, а значениями - их имена
-        public function getAllJuristsIdsNames()
+        public static function getAllJuristsIdsNames()
         {
             $allJurists = array();    
             $jurists = User::model()->findAllByAttributes(array(
                 'role'      =>  self::ROLE_JURIST,
-                'active'    =>  1,
+                'active100'    =>  1,
             ));
             foreach($jurists as $jurist) {
                 $allJurists[$jurist->id] = $jurist->name;
@@ -148,7 +146,7 @@ class User extends CActiveRecord
         
         
         // возвращает массив, ключами которого являются id активных покупателей, а значениями - их имена
-        public function getAllBuyersIdsNames()
+        public static function getAllBuyersIdsNames()
         {
             $allBuyers = array();    
             $buyers = User::model()->findAllByAttributes(array(
@@ -202,7 +200,6 @@ class User extends CActiveRecord
 			'phone'     => 'Телефон',
 			'password'  => 'Пароль',
                         'password2' => 'Пароль еще раз',
-			'active'    => 'Активность',
 			'active100' => 'Активность на сайте',
 			'managerId' => 'Руководитель',
                         'birthday'  => 'Дата рождения',
@@ -269,13 +266,28 @@ class User extends CActiveRecord
                 'code'=>$this->confirm_code,
                 ))) . "?utm_source=100yuristov&utm_medium=mail&utm_campaign=user_registration";
             
-            $mailer->subject = "100 юристов - Регистрация пользователя";
+            $mailer->subject = "100 Юристов - Подтверждение Email";
             $mailer->message = "
-                <h1>Регистрация на сайте 100 юристов</h1>
+                <h1>Пожалуйста подтвердите Email</h1>
                 <p>Здравствуйте!<br />
-                Вы зарегистрировались на сайте <a href='https://".$_SERVER['SERVER_NAME']."'>100 юристов</a></p>".
-            "<p>Для того, чтобы начать пользоваться всеми возможностями сайта, необходимо подтвердить свой email. Для этого перейдите по ссылке:</p>".
-            "<p><strong>" . CHtml::link($confirmLink,$confirmLink) . "</strong></p>";
+                Вы задали вопрос на сайте <a href='https://".$_SERVER['SERVER_NAME']."'>100 юристов</a></p>".
+            "<p>Для того, чтобы юристы увидели Ваш вопрос, необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>".
+            "<p><strong>" . CHtml::link("Подтвердить Email",$confirmLink, array('style'=>' padding: 10px;
+    width: 150px;
+    display: block;
+    text-decoration: none;
+    border: 1px solid #84BEEB;
+    text-align: center;
+    font-size: 18px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    color: #000;
+    background: linear-gradient(to bottom, #ffc154 0%,#e88b0f 100%);
+    border: 1px solid #EF9A27;
+    border-radius: 4px;
+    line-height: 17px;
+    margin:0 auto;
+')) . "</strong></p>";
             
             if($newPassword) {
                 $mailer->message .= "<h2>Ваш временный пароль</h2>
@@ -362,7 +374,7 @@ class User extends CActiveRecord
         }
         
         // генерирует пароль длиной $len символов
-        public function generatePassword($len = 6)
+        public static function generatePassword($len = 6)
         {
             
             return substr(md5(mt_rand().mt_rand()), mt_rand(1,15), $len);
@@ -429,7 +441,7 @@ class User extends CActiveRecord
         
         public function getShortName()
         {
-            return $this->lastName . '&nbsp;' . mb_substr($this->name, 0,2) . '.' . mb_substr($this->name2,0,2) . '.';
+            return $this->lastName . '&nbsp;' . mb_substr($this->name, 0,1) . '.' . mb_substr($this->name2,0,1) . '.';
             //return $this->lastName;
         }
         
@@ -458,6 +470,26 @@ class User extends CActiveRecord
             
             // в письмо вставляем ссылку на вопрос + метки для отслеживания переходов
             $questionLink = "https://100yuristov.com/q/" . $question->id . "/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_notification&utm_term=" . $question->id;
+               
+            
+            /*  проверим, есть ли у пользователя заполненное поле autologin, если нет,
+             *  генерируем код для автоматического логина при переходе из письма
+             * если есть, вставляем существующее значение
+             * это сделано, чтобы не создавать новую строку autologin при наличии старой
+             * и дать возможность залогиниться из любого письма, содержащего актуальную строку autologin
+             */
+            $autologinString = (isset($this->autologin) && $this->autologin!='')?$this->autologin : $this->generateAutologinString();
+            
+            if($this->save()) {
+                /*
+                 * пытаемся сохранить пользователя (обновив поле autologin)
+                 */
+                $questionLink .= "&autologin=".$autologinString;
+            } else {
+                Yii::log("Не удалось сохранить строку autologin пользователю " . $this->email . " с уведомлением об ответе на вопрос " . $question->id, 'error', 'system.web.User');
+
+            }
+            
             
             $mailer = new GTMail;
             $mailer->subject = CHtml::encode($this->name) . ", новый ответ на Ваш вопрос!";
@@ -483,6 +515,72 @@ class User extends CActiveRecord
             }
         }
         
+        
+        /*
+         * функция отправки уведомления юристу о новом комментарии на его ответ
+         */
+        public function sendCommentNotification(Question $question, Comment $comment)
+        {
+            if($this->active100 == 0) {
+                return;
+            }
+            
+            if(!$question) {
+                return;
+            }
+            
+            if(!$comment) {
+                return;
+            }
+            
+            // в письмо вставляем ссылку на вопрос + метки для отслеживания переходов
+            $questionLink = "https://100yuristov.com/q/" . $question->id . "/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_notification&utm_term=" . $question->id;
+               
+            
+            /*  проверим, есть ли у пользователя заполненное поле autologin, если нет,
+             *  генерируем код для автоматического логина при переходе из письма
+             * если есть, вставляем существующее значение
+             * это сделано, чтобы не создавать новую строку autologin при наличии старой
+             * и дать возможность залогиниться из любого письма, содержащего актуальную строку autologin
+             */
+            $autologinString = (isset($this->autologin) && $this->autologin!='')?$this->autologin : $this->generateAutologinString();
+            
+            if($this->save()) {
+                /*
+                 * пытаемся сохранить пользователя (обновив поле autologin)
+                 */
+                $questionLink .= "&autologin=".$autologinString;
+            } else {
+                Yii::log("Не удалось сохранить строку autologin пользователю " . $this->email . " с уведомлением об ответе на вопрос " . $question->id, 'error', 'system.web.User');
+
+            }
+            
+            
+            $mailer = new GTMail;
+            $mailer->subject = CHtml::encode($this->name) . ", комментарий на Ваш ответ!";
+            $mailer->message = "<h1>Новый комментарий на Ваш ответ</h1>
+                <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />
+                Спешим сообщить, что на " . CHtml::link("Ваш ответ",$questionLink) . " получен новый комментарий " . CHtml::encode($comment->author->name . ' ' . $comment->author->lastName) . ".
+                <br /><br />
+                Будем держать Вас в курсе поступления других комментариев. 
+                <br /><br />
+                " . CHtml::link("Посмотреть комментарий",$questionLink, array('class'=>'btn')) . "
+                </p>";
+            
+            // отправляем письмо на почту пользователя
+            $mailer->email = $this->email;
+            
+            if($mailer->sendMail(true, '100yuristov')) {
+                Yii::log("Отправлено письмо пользователю " . $this->email . " с уведомлением о комментарии " . $comment->id, 'info', 'system.web.User');
+                return true;
+            } else {
+                // не удалось отправить письмо
+                Yii::log("Не удалось отправить письмо пользователю " . $this->email . " с уведомлением о комментарии " . $comment->id, 'error', 'system.web.User');
+                return false;
+            }
+        }
+
+
         /* функция проверки кода в ссылке "отписаться от рассылок"
          * возвращает true, если код верный, false - если неверный
          */
@@ -490,6 +588,38 @@ class User extends CActiveRecord
         {
             if($code === md5(self::UNSUBSCRIBE_SALT.$email)) {
                 return true;
+            } else {
+                return false;
+            }
+        }
+        
+        // генерирует строку для возможности автологина пользователя
+        public function generateAutologinString()
+        {
+            $this->autologin = md5($this->id . $this->email . self::UNSUBSCRIBE_SALT);
+            return $this->autologin;
+        }
+        
+        public static function autologin($params = array())
+        {
+            if(!isset($params['autologin'])) {
+                return false;
+            }
+            
+            $autologinString = $params['autologin'];
+            
+            if($identity===null)	{
+                $identity = new UserIdentity('', '');
+                $identity->autologinString = $autologinString;
+                $identity->autologin();
+            }
+            
+//            CustomFuncs::printr(Yii::app()->user);exit;
+            
+            if($identity->errorCode===UserIdentity::ERROR_NONE) {
+                    $duration=3600*24*30; // 30 days
+                    Yii::app()->user->login($identity, $duration);
+                    return true;
             } else {
                 return false;
             }

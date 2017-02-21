@@ -1,6 +1,7 @@
 <?php
     $this->setPageTitle("Вопрос юристу и адвокату онлайн, юридическая помощь адвоката в Москве и СПБ ". Yii::app()->name);
     Yii::app()->clientScript->registerMetaTag("Задать вопрос адвокату без телефона и регистрации круглосуточно по всей России. Бесплатная помощь юриста онлайн и по телефону в Москве и Санкт-Петербурге.", 'description');
+	Yii::app()->clientScript->registerLinkTag("canonical",NULL,"https://".$_SERVER['SERVER_NAME']);
 
 ?>
 
@@ -26,7 +27,7 @@
                         <?php if($question['counter'] == 1) {
                             echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>Есть ответ</span>";
                         } elseif($question['counter']>1) {
-                            echo "<span class='label label-success'>" . $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
+                            echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>" . $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
                         } elseif($question['counter'] == 0) {
                             echo "<span class='label label-default'>Нет ответа</span>";
                         }

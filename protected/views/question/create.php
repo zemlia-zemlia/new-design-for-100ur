@@ -36,7 +36,7 @@ $this->breadcrumbs=array(
     </div>
 </div>
 		
-
+<!-- 
 <div class="row center-align">
     <div class="col-sm-4">
             <img src="/pics/2017/icon_green_fast.png" alt="Быстро" class="center-block" />
@@ -57,3 +57,4 @@ $this->breadcrumbs=array(
             Мы никогда не рассылаем рекламу</p>
     </div>
 </div>
+-->

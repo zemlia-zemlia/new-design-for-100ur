@@ -241,7 +241,7 @@ class BlogController extends Controller
 
             $feed->addChannelTag('language', 'ru-ru');
             $feed->addChannelTag('pubDate', date(DATE_RSS, time()));
-            $feed->addChannelTag('link', 'http://www.100yuristov.com/blog/rss' );
+            $feed->addChannelTag('link', 'https://100yuristov.com/blog/rss' );
 
             // * self reference
             //$feed->addChannelTag('atom:link','http://www.100yuristov.com/question/rss');
@@ -254,10 +254,10 @@ class BlogController extends Controller
                 $item->title = CHtml::encode($post->title);
                 
                 
-                $item->link = "http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('post/view',array('id'=>$post->id));
+                $item->link = Yii::app()->createUrl('post/view',array('id'=>$post->id));
                 //$item->date = time();
                 $item->date = strtotime($post->datePublication);
-                $item->description = "http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('post/view',array('id'=>$post->id)) . " " . CHtml::encode($post->preview);
+                $item->description = Yii::app()->createUrl('post/view',array('id'=>$post->id)) . " " . CHtml::encode($post->preview);
 
                 $feed->addItem($item);
             }
@@ -275,7 +275,7 @@ class BlogController extends Controller
                 $item->title = CHtml::encode($question->title);
                 
                 
-                $item->link = "http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('question/view',array('id'=>$question->id));
+                $item->link = Yii::app()->createUrl('question/view',array('id'=>$question->id));
                 //$item->date = time();
                 $item->date = strtotime($question->publishDate);
                 $item->description = mb_substr($question->questionText,0,300,'utf-8');

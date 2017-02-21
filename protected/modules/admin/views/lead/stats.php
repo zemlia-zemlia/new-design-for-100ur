@@ -43,10 +43,12 @@
 <?php
     $sumTotal = 0;
     $kolichTotal = 0;
+    $buySumTotal = 0;
+    $profitTotal = 0;
 ?>
 
 <?php if(sizeof($sumArray)):?>
-<div id="chart_kolich" style="width:100%; height:300px;"></div>
+<!-- <div id="chart_kolich" style="width:100%; height:300px;"></div> -->
 <div id="chart_summa" style="width:100%; height:300px;"></div>
 <?php endif;?>
 
@@ -66,14 +68,17 @@
         </th>
         <th>Количество</th>
         <th>Выручка</th>
-		<th>Расходы</th>
+		<th>Расход на лиды</th>
+		<th>Расход на контекст</th>
 		<th>Прибыль</th>
     </tr>
     <?php    foreach ($sumArray as $date=>$summa):?>
     <?php
         $sumTotal += $summa;
+        $buySumTotal += $buySumArray[$date];
         $kolichTotal += $kolichArray[$date];
-        
+        $profit = $summa - $buySumArray[$date];
+        $profitTotal += $profit;
     ?>
     <tr>
         <td>
@@ -89,9 +94,14 @@
             ?>
         </td>
         <td><?php echo $kolichArray[$date];?></td>
-        <td><?php echo $summa;?> руб.</td>
-		<td></td>
-		<td></td>
+        <td><?php echo $summa;?></td>
+        <td><?php echo $buySumArray[$date];?></td>
+        <td></td>
+        <td>
+            <?php
+                echo $profit;
+            ?>
+        </td>
     </tr>
     <?php  endforeach;?>
     
@@ -100,8 +110,9 @@
         <th>Всего</th>
         <th><?php echo $kolichTotal;?></th>
         <th><?php echo $sumTotal;?> руб.</th>
-		<th></th>
-		<th></th>
+        <th><?php echo $buySumTotal;?> руб.</th>
+        <th></th>
+        <th><?php echo $profitTotal;?></th>
     </tr>
     <?php endif;?>
 	

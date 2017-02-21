@@ -10,7 +10,7 @@ if(isset($_GET) && (int)$_GET['Post_page']) {
 }
 $this->setPageTitle($pageTitle . Yii::app()->name);
 
-Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('/blog'));
+Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('/blog'));
 
 
 $this->breadcrumbs=array(

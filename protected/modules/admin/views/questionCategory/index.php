@@ -82,7 +82,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     
     <tr>
         <td>
-            <?php echo CHtml::link(CHtml::encode($child['name']), array('view', 'id'=>$childId)); ?></strong>
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?php echo CHtml::link(CHtml::encode($child['name']), array('view', 'id'=>$childId)); ?></strong>
         (id <?php echo $childId;?>) 
         </td>
         <td><?php echo QuestionCategory::checkIfArrayPropertyFilled($child, 'description1');?></td>

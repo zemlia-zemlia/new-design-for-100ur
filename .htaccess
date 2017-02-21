@@ -7,8 +7,11 @@ IndexIgnore */*
 RewriteEngine on
 RewriteBase /
 
-RewriteCond %{HTTP_HOST} ^per100km\.net$ [NC]
-RewriteRule ^(.*)$ http://www.per100km.net/$1 [R=301,L]
+#RewriteCond %{SERVER_PORT} 80
+#RewriteRule ^(.*)$ https://100yuristov.com/$1 [R,L]
+
+RewriteCond %{HTTP_HOST} ^www\.100yuristov\.com$ [NC] 
+RewriteRule ^(.*)$ https://100yuristov.com/$1 [R=301,L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -24,24 +27,5 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . index.php
 
 
-<ifModule deflate_module>
-AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/x-javascript text/jacascript
-</ifModule>
-
-<ifModule expires_module>
-  ExpiresActive On
-  ExpiresDefault "access plus 40 days"
-   ExpiresByType image/jpg A2592000
-   ExpiresByType image/jpeg A2592000
-   ExpiresByType image/gif A2592000
-   ExpiresByType image/png A2592000
-   ExpiresByType text/css A2592000
-   ExpiresByType text/javascript A2592000
-   ExpiresByType application/x-javascript A2592000
-   <FilesMatch \.php$>
-     ExpiresActive Off
-   </FilesMatch>
-</ifModule>
-
 #php_value error_reporting 7
-php_flag display_errors On
+php_flag display_errors Off

@@ -12,16 +12,20 @@ $this->breadcrumbs=array(
 );
 
 ?>
+<div class="vert-margin30">
+   <?php $this->renderPartial('_searchForm', array('model'=>$searchModel));?> 
+</div>
+
 <div  class="vert-margin30">
 <h1>Центр Обработки Обращений
     <?php if(Yii::app()->user->role == User::ROLE_ROOT):?>
         <?php echo CHtml::link('Отфильтровать обращения', Yii::app()->createUrl('/admin/lead/sendLeads'), array('class'=>'btn btn-primary'));?>
     <?php endif;?>
 </h1>
-    <!--
-    <?php if(Yii::app()->user->role == User::ROLE_ROOT):?>
+    
+    <?php if(Yii::app()->user->role == User::ROLE_ROOT && YII_DEBUG === true):?>
     <?php echo CHtml::link('Сгенерировать тестовых лидов', Yii::app()->createUrl('/admin/lead/generate'));?>
-    <?php endif;?> -->
+    <?php endif;?> 
 </div>
 
 <table class="table table-bordered table-hover table-striped">

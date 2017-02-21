@@ -88,7 +88,7 @@ class Comment extends CActiveRecord
 			'text'      => 'Комментарий',
 			'dateTime'  => 'Дата и время',
                         'author'    =>  'Автор',
-                        'rating'    =>  'Рейтинг',
+                        'rating'    =>  'Оценка',
                         'authorName'=>  'Имя автора',
 		);
 	}
@@ -153,5 +153,24 @@ class Comment extends CActiveRecord
                     ->queryRow();
             
             return ($counterRow!== false)?$counterRow['counter']:0;
+        }
+        
+        protected function afterSave()
+        {
+            /*
+             * после сохранения коментария, если это был комментарий к ответу юриста, отправим юристу уведомление
+             */
+            if($this->type == static::TYPE_ANSWER && $this->objectId && $this->isNewRecord === true) {
+                $answer = Answer::model()->with('question')->findByPk($this->objectId);
+                
+                if($answer && $answer->question) {
+                    $answerAuthor = $answer->author;
+                    if($answerAuthor && $answerAuthor->active100 == 1) {
+                        $answerAuthor->sendCommentNotification($answer->question, $this);
+                    }
+                }
+            }
+            
+            parent::afterSave();
         }
 }

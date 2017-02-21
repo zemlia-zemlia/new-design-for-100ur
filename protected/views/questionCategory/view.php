@@ -27,13 +27,13 @@ if($model->seoKeywords) {
     Yii::app()->clientScript->registerMetaTag(CHtml::encode($model->seoKeywords), 'keywords');
 } 
 
-Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('/questionCategory/alias', array('name'=>$model->alias)));
+Yii::app()->clientScript->registerLinkTag("canonical",NULL,Yii::app()->createUrl('/questionCategory/alias', array('name'=>$model->alias)));
 
 $this->breadcrumbs = array();
 if($parentCategory) {
     $this->breadcrumbs[$parentCategory['name']] = Yii::app()->createUrl('/questionCategory/alias',array('name'=>$parentCategory['alias']));
 }   
-$this->breadcrumbs[] = $model->name;
+//$this->breadcrumbs[] = $model->name;
 
 ?>
 
@@ -52,20 +52,48 @@ $this->breadcrumbs[] = $model->name;
 
 
 <h1 class="header-block header-block-light-grey vert-margin30">
-            <?php 
-                if($model->seoH1) {
-                    echo CHtml::encode($model->seoH1);
-                } else {
-                    echo CHtml::encode($model->name) . ', ' . 'консультации юриста и адвоката';
-                }
-            ?>
-        </h1>
+    <?php 
+        if($model->seoH1) {
+            echo CHtml::encode($model->seoH1);
+        } else {
+            echo CHtml::encode($model->name) . ', ' . 'консультации юриста и адвоката';
+        }
+    ?>
+</h1>
 
-			<?php if($model->description1):?>
-				<div class="vert-margin30">
-						<?php echo $model->description1;?>
-				</div>
-			<?php endif;?>
+<?php if(sizeof($childrenCategories)):?>
+      
+    <div class="row vert-margin30">
+    <?php foreach($childrenCategories as $child):?>
+        <div class="col-md-4">
+            <small>
+            <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span>&nbsp;' . $child['name'], Yii::app()->createUrl('questionCategory/alias', array('name'=>CHtml::encode($child['alias']))));?>
+            </small>
+        </div>    
+    <?php endforeach;?>
+    </div>
+
+<?php endif;?>
+
+<?php if(sizeof($neighbours)):?>
+      
+    <div class="row vert-margin30">
+    <?php foreach($neighbours as $neighbour):?>
+        <div class="col-md-4">
+            <small>
+            <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span> &nbsp;' . $neighbour['name'], Yii::app()->createUrl('questionCategory/alias', array('name'=>CHtml::encode($neighbour['alias']))));?>
+            </small>
+        </div>    
+    <?php endforeach;?>
+    </div>
+
+<?php endif;?>
+
+<?php if($model->description1):?>
+        <div class="vert-margin30">
+                        <?php echo $model->description1;?>
+        </div>
+<?php endif;?>
 
 	<div class="form-container">		
 				<h2 class="header-block header-block-green"> <strong class="glyphicon glyphicon-earphone"></strong> Горячая линия юридических консультаций</h2>
@@ -115,21 +143,6 @@ $this->breadcrumbs[] = $model->name;
         <?php endforeach;?>  
         </div>
         </div>
-
-<?php if(sizeof($childrenCategories)):?>
-
-            
-            <div class="row">
-            <?php foreach($childrenCategories as $child):?>
-                <div class="col-md-4">
-                    <small>
-                    <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span>&nbsp;' . $child['name'], Yii::app()->createUrl('questionCategory/alias', array('name'=>CHtml::encode($child['alias']))));?>
-                    </small>
-                </div>    
-            <?php endforeach;?>
-            </div>
-
-<?php endif;?>
 
 <?php if($model->description2):?>
 

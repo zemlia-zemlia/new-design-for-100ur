@@ -5,6 +5,12 @@ Disallow: /*create*
 Disallow: /question/thankYou/
 Disallow: /*index*
 Disallow: /*question*
+Disallow: /town
+Disallow: /user/restorePassword/
+Disallow: /site/offer/
+Disallow: /site/login/
+Disallow: /site/contacts/
+
 Allow: /assets/*.js
 Allow: /assets/*.css
 
@@ -15,8 +21,14 @@ Disallow: /*create*
 Disallow: /question/thankYou/
 Disallow: /*index*
 Disallow: /*question*
+Disallow: /town
+Disallow: /user/restorePassword/
+Disallow: /site/offer/
+Disallow: /site/login/
+Disallow: /site/contacts/
+
 Allow: /assets/*.js
 Allow: /assets/*.css
 
-Sitemap: http://www.100yuristov.com/sitemap.xml
-Host: www.100yuristov.com
+Sitemap: https://100yuristov.com/sitemap.xml
+Host:  https://100yuristov.com

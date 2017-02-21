@@ -2,7 +2,7 @@
 /* @var $this QuestionController */
 /* @var $dataProvider CActiveDataProvider */
 
-Yii::app()->clientScript->registerLinkTag("canonical",NULL,"http://".$_SERVER['SERVER_NAME'].Yii::app()->createUrl('town'));
+Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('town'));
 
 $pageTitle = "Юристы и Адвокаты России и СНГ";
 

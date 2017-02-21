@@ -3,6 +3,7 @@
 /* @var $model Question */
 
 $this->setPageTitle(CHtml::encode($model->title) . ". Консультация юриста и адвоката. ". Yii::app()->name);
+Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('question/view', array('id'=>$model->id)));
 
 if($model->description) {
     Yii::app()->clientScript->registerMetaTag($model->description, "Description");
@@ -55,21 +56,29 @@ if($model->description) {
             </p>
         </div>
         
+    <div class="flat-panel vert-margin30">
         <div>
         <?php if($model->title):?>
-        <h1 itemprop="name" class="header-block header-block-light-grey vert-margin30"><?php echo CHtml::encode($model->title); ?></h1>
+        <h1 itemprop="name" class="header-block header-block-light-grey"><?php echo CHtml::encode($model->title); ?></h1>
         <?php endif;?>
         </div>
 
-    <p itemprop="text">
-        <?php echo nl2br(CHtml::encode($model->questionText));?>
-    </p>
+    
+        <div itemprop="text" class="inside">
+            <?php echo nl2br(CHtml::encode($model->questionText));?>
+        </div>
 
+        <div class="inside right-align">
+            <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+            <script src="//yastatic.net/share2/share.js"></script>
+            <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,twitter,viber,whatsapp"></div>
+        </div>
+    </div>
 
     <?php $this->widget('zii.widgets.CListView', array(
             'dataProvider'  =>  $answersDataProvider,
             'itemView'      =>  'application.views.answer._view',
-            'emptyText'     =>  '<p class="alert alert-info gray-panel">Юристы пока не дали ответ...</p>',
+            'emptyText'     =>  '<p class="text-muted inside">Юристы пока не дали ответ...</p>',
             'summaryText'   =>  '',
             'pager'         =>  array('class'=>'GTLinkPager'), //we use own pager with russian words
             'viewData'      =>  array(
@@ -77,16 +86,53 @@ if($model->description) {
                 ),
     )); ?>    
     
-    
-    
+    <br/>    
     
 
 <?php if(Yii::app()->user->role == User::ROLE_ROOT || ($model->authorId == Yii::app()->user->id && ($model->price==0 || $model->payed == 0))):?>
 
 
-            <h3 class="vert-margin30"> 100% гарантия получения ответа </h3>
-            
-            <div class="alert alert-info gray-panel">
+		<h3 class="vert-margin20 header-block-light-grey"><strong> 100% гарантия получения ответа </strong></h3>
+
+		<table class="table center-align small table-bordered alert alert-info">
+                <tr>
+                    <th class="center-align">Тариф:</th>
+                    <th class="center-align">Бронзовый</th>
+                    <th class="center-align">Серебрянный</th>
+                    <th class="center-align">Золотой</th>
+                </tr>
+                <tr>
+
+                </tr>
+                <tr  class="warning">
+                    <td>Гарантировано ответов</td>
+                    <td>1</td>
+                    <td>3</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Один гарантированный ответ одного из юристов портала</td>
+                    <td>Три гарантированных ответа юристов, позволят Вам понять, как решить проблему</td>
+                    <td>Минимум пять гарантированных ответов юристов. Мнения нескольких юристов. Гарантия полного и подробного разбора ситуации.</td>
+                </tr>
+                <tr class="success">
+                    <td>Цена</td>
+                    <td>125 руб.</td>
+                    <td>295 руб.</td>
+                    <td>455 руб.</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><?php echo CHtml::link('Выбрать', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_1)), array('class'=>'btn btn-success btn-block'));?></td>
+                    <td><?php echo CHtml::link('Выбрать', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_2)), array('class'=>'btn btn-success btn-block'));?></td>
+                    <td><?php echo CHtml::link('Выбрать', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_3)), array('class'=>'btn btn-success btn-block'));?></td>
+                </tr>
+            </table>
+
+			
+			
+			<div class="alert alert-info gray-panel">
                 <h4>Вы экономите</h4>
 
                 <div class="row center-align vert-margin30">
@@ -110,52 +156,6 @@ if($model->description) {
                     </div>
                 </div>
             </div>
-            
-		 <table class="table center-align small table-bordered alert alert-info">
-                <tr>
-                    <th></th>
-                    <th class="center-align">Бесплатный</th>
-                    <th class="center-align">Бронзовый</th>
-                    <th class="center-align">Серебрянный</th>
-                    <th class="center-align">Золотой</th>
-                </tr>
-                <tr>
-                    <td>Гарантия ответа</td>
-                    <td><span class="glyphicon glyphicon-remove"></span></td>
-                    <td><span class="glyphicon glyphicon-ok"></span></td>
-                    <td><span class="glyphicon glyphicon-ok"></span></td>
-                    <td><span class="glyphicon glyphicon-ok"></span></td>
-                </tr>
-                <tr  class="warning">
-                    <td>Гарантировано ответов</td>
-                    <td><span class="glyphicon glyphicon-remove"></span></td>
-                    <td>1</td>
-                    <td>3</td>
-                    <td>5</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td>Один гарантированный ответ квалифицированного юриста</td>
-                    <td>Три гарантированных ответа юристов, позволят Вам понять, как решить проблему</td>
-                    <td>Минимум пять гарантированных ответов юристов. Мнения нескольких юристов. Гарантия полного и подробного разбора ситуации.</td>
-                </tr>
-                <tr class="success">
-                    <td>Цена</td>
-                    <td>0 руб.</td>
-                    <td>99 руб.</td>
-                    <td>199 руб.</td>
-                    <td>299 руб.</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td><?php echo CHtml::link('Выбрать', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_1)), array('class'=>'btn btn-success btn-block'));?></td>
-                    <td><?php echo CHtml::link('Выбрать', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_2)), array('class'=>'btn btn-success btn-block'));?></td>
-                    <td><?php echo CHtml::link('Выбрать', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_3)), array('class'=>'btn btn-success btn-block'));?></td>
-                </tr>
-            </table>
-
 
 <?php endif;?>    
 
@@ -214,33 +214,9 @@ if($model->description) {
             <div class="form-container-content">
                 <h3 class="center-align header-block header-block-light-grey">или на сайте в режиме on-line<br/>доступно для ВСЕХ регионов РФ</h3>
                                 
-                <?php $form=$this->beginWidget('CActiveForm', array(
-                        'id'                    =>  'question-form',
-                        'enableAjaxValidation'  =>  false,
-                        'action'                =>  Yii::app()->createUrl('question/create'),
-                )); ?>
-                
-                <div class="row">
-                    <div class="col-md-7">
-                        <div class="form-group">
-                                <?php echo $form->labelEx($newQuestionModel,'questionText'); ?>
-                                <?php echo $form->textArea($newQuestionModel,'questionText', array('class'=>'form-control', 'rows'=>6, 'placeholder'=>'Добрый день!...')); ?>
-                                <?php echo $form->error($newQuestionModel,'questionText'); ?>
-                        </div>
-                    </div>
-
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <label>Ваше имя *</label>
-                            <?php echo $form->textField($newQuestionModel,'authorName', array('class'=>'form-control', 'placeholder'=>'Иванов Иван')); ?>
-                            <?php echo $form->error($newQuestionModel,'authorName'); ?>
-                        </div>
-			<div class="form-group" id="form-submit-wrapper">
-                                <?php echo CHtml::submitButton($newQuestionModel->isNewRecord ? 'Задать вопрос юристу' : 'Сохранить', array('class'=>'button  button-blue-gradient btn-block', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
-                        </div>
-					</div>
-                </div> 
-                <?php $this->endWidget(); ?>
+                <?php echo $this->renderPartial('application.views.question._formBrief', array(
+                    'newQuestionModel'  =>  $newQuestionModel,
+                ));?>
                               
             </div>
 	</div>

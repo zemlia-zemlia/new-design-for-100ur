@@ -1,6 +1,6 @@
 <div class="new-lead-wrapper vert-margin30">
 <?php
-    CController::renderPartial('application.modules.admin.views.lead._form', array('model'=>$model, 'action'=>'/admin/lead/create/'));
+    Yii::app()->controller->renderPartial('application.modules.admin.views.lead._form', array('model'=>$model, 'action'=>'/admin/lead/create/'));
 ?>
     
     

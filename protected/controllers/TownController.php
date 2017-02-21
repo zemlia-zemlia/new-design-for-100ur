@@ -117,7 +117,8 @@ class TownController extends Controller
             $regionCriteria->addColumnCondition(array('regionId'=>$regionId));
             $regionCriteria->order = "t.name asc";
             
-            $closeTowns = Town::model()->findAll($regionCriteria);
+            //$closeTowns = Town::model()->findAll($regionCriteria);
+            $closeTowns = $model->getCloseTowns();
             
             $allDirections = QuestionCategory::getDirections(true);
             
@@ -189,16 +190,25 @@ class TownController extends Controller
 
             $arr = array();
 
-            $condition = "name LIKE '%".$term."%'";
-            $params = Array('limit'=>5);
-
-            $allTowns = Town::model()->cache(10000)->findAllByAttributes(array(),$condition,$params);
-
-            foreach($allTowns as $town)
+//            SELECT t.id, t.name, r.name FROM `100_town` t
+//            LEFT JOIN `100_region` r ON t.regionId=r.id
+//            WHERE t.name LIKE "Мос%"
+//            LIMIT 5
+            
+            $townsRows = Yii::app()->db->createCommand()
+                    ->select("t.id, t.name, r.name region")
+                    ->from("{{town}} t")
+                    ->leftJoin("{{region}} r", "t.regionId=r.id")
+                    ->where("t.name LIKE '" . $term . "%'")
+                    ->limit(5)
+                    ->queryAll();
+            //CustomFuncs::printr($townsRows);exit;        
+            
+            foreach($townsRows as $town)
             {
                 $arr[] = array(
-                  'value'   =>  CHtml::encode($town->name . ' (' . $town->region->name . ')'),  
-                  'id'      =>  $town->id,            
+                  'value'   =>  CHtml::encode($town['name'] . ' (' . $town['region'] . ')'),  
+                  'id'      =>  $town['id'],            
                 );
             }
             echo CJSON::encode($arr);

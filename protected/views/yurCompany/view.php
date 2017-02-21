@@ -7,7 +7,6 @@
     $this->breadcrumbs=array(
         'Юридические фирмы' =>  array('/company'),
         CHtml::encode($company->town->name) =>  array('yurCompany/town', 'alias'=>$company->town->alias),
-        $company->name,
     );
     
 ?>
@@ -21,7 +20,7 @@
 ?>
 
     <div itemscope="" itemtype="http://schema.org/Organization">
-    <h1 class="vert-margin30"><span itemprop="name"><?php echo CHtml::encode($company->name); ?></span></h1>
+    <h1 class="vert-margin30 header-block-green"><span itemprop="name"><?php echo CHtml::encode($company->name); ?></span></h1>
         
         <div class="container-fluid">
             <div class="row">
@@ -71,14 +70,46 @@
                 </div>
             </div>
         </div>
-        
+    <hr/>    
     <span itemprop="description">
         <?php echo $company->description;?>
     </span>
+	<hr/>
+        
+        
+        <div class="flat-panel">
+            <div class="inside">
+            <h2>Ваш отзыв</h2>
+            <?php $this->renderPartial("application.views.comment._form", array('model'=>$comment));?>
+            </div>
+        </div> 
+        
+    <?php if($company->commentsChecked):?>
 
-<?php if($company->commentsChecked):?>
+	<?php
+		$ratingSum = 0;
+		$commentsWithRating = 0;
+		foreach($company->commentsChecked as $com) {
+			if($com->rating) {
+				$ratingSum += (int)$com->rating;
+				$commentsWithRating++;
+			}
+		}
+		$averageRating = ($commentsWithRating>0)?round(($ratingSum/$commentsWithRating), 1):0;
+	?>
+	
+	<h2 class="header-block-light-grey">Отзывы о компании:</h2>
+	
+		<?php if($averageRating):?>
+			<div itemprop="aggregateRating"
+				itemscope itemtype="http://schema.org/AggregateRating">
+			   Средняя оценка <span itemprop="ratingValue"><?php echo $averageRating;?></span>/5
+			   основана на <span itemprop="reviewCount"><?php echo $commentsWithRating;?></span> отзывах
+			  </div>
+		<?php endif;?>
 
-        <h2>Отзывы</h2>
+    
+        <br/>
         <?php foreach($company->commentsChecked as $com):?>
         <div itemprop="review" itemscope itemtype="http://schema.org/Review">  
             
@@ -94,6 +125,21 @@
                     ?>
             </div>
             
+			
+            <?php 
+                switch($com->rating) {
+                    case 1:case 2:
+                        $reviewClass = 'alert alert-danger';
+                        break;
+                    case 4:case 5:
+                        $reviewClass = 'alert alert-success';
+                        break;
+                    default:
+                        $reviewClass = '';
+                }
+            ?>
+			
+			
             <div class="review-item row">
                 <div class="col-sm-3">
                     <?php if($com->author):?>
@@ -112,31 +158,26 @@
                             <?php echo CHtml::link("", Yii::app()->createUrl('yurCompany/view', array('id'=>$company->id)), array('itemprop'=>"url", 'style'=>'display:none;' ));?>
                         </p>    
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-9 <?php echo $reviewClass;?>">
                     <p><span itemprop="reviewBody"><?php echo CHtml::encode($com->text);?></span></p>
                     <?php if($com->rating):?>
                     <p><strong>Оценка:</strong> 
-                        <span itemprop="reviewRating"><?php echo (int)$com->rating;?></span>/5</p>
+                        <span itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+							<span itemprop="ratingValue"><?php echo (int)$com->rating;?></span>
+							/
+							<span itemprop="bestRating">5</span>
+						</span></p>
                     <?php endif;?>
                 </div>
             </div>
         </div>
         <?php endforeach;?>
+		
 
 
 <?php endif;?>
 
 </div>  <!-- Product --> 
-
-
-<div class="panel panel-default">
-    <div class="panel-body">
-        <h2>Оставьте свой отзыв</h2>
-        <?php $this->renderPartial("application.views.comment._form", array('model'=>$comment));?>
-    </div>
-</div>
-
-
 
 <?php if($commentSaved === true):?>
 <script>
