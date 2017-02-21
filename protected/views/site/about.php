@@ -44,9 +44,9 @@
                 <tr class="success">
                     <td>Цена</td>
                     <td>0 руб.</td>
-                    <td>99 руб.</td>
-                    <td>199 руб.</td>
-                    <td>299 руб.</td>
+                    <td>125 руб.</td>
+                    <td>295 руб.</td>
+                    <td>455 руб.</td>
                 </tr>
             </table>
 			
