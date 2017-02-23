@@ -55,6 +55,7 @@ return array(
                     'urlFormat'=>'path',
                     'showScriptName'=>false,
                     'urlSuffix'=>'/',
+                    'baseUrl'	=>	'http://100juristov',
                     'rules'=>array(
                         '/q/<id:\d+>'                   =>  '/question/view',
                         '/cat/<id:\d+>'                 =>  '/questionCategory/view',
@@ -94,7 +95,7 @@ return array(
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=100yuristov',
 			'emulatePrepare' => true,
-			'username' => '100yuristov',
+			'username' => 'crm',
 			'password' => 'crm_local',
 			'charset' => 'utf8',
             'tablePrefix' => '100_',
@@ -122,13 +123,13 @@ return array(
                                     'showInFireBug' =>  false,
                                     'categories'    =>  'application',
 				),*/
-				
+				/*
                                 array(
 
 					'class'=>'CProfileLogRoute',
 
 				),
-                                 
+                                 */
 			),
 		),
             
