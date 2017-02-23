@@ -3,6 +3,7 @@
 return array(
 	'adminEmail'    =>  '100yuristov@mail.ru',
         'leadsEmail'    =>  'admin@100yuristov.com',
+        'adminNotificationsEmail'    =>  '100yuristov@mail.ru',
         '100yuristovSourceId'   =>  3,  // id источника лидов, соответствующего 100 юристам
         'zakonSourceId'   =>  1,  // id источника лидов, соответствующего КЦ Закон
         'crmDomain'     =>  'http://crm',

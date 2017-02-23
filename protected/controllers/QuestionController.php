@@ -661,6 +661,9 @@ class QuestionController extends Controller
             }
         }
         
+        /**
+         * прием лида по POST запросу
+         */
         public function actionSendLead()
         {
             // отключаем вывод профилирования на странице
@@ -672,20 +675,35 @@ class QuestionController extends Controller
                 exit;
             }
             $model = new Lead100;
-            $leadAppId = 'yurCrm';
+            //$leadAppId = 'yurCrm';
+            /*
+             * захардкодим возможные приложения для поставки лидов, потом будем хранить их в базе
+             */
+            $leadApps = array(
+                'yurCrm'    =>  array(
+                    'secretKey' =>  'Let me speak from my heart',
+                    'sourceId'  =>  3,
+                    ),
+                'yurCrmRegions'    =>  array(
+                    'secretKey' =>  'Euro integration',
+                    'sourceId'  =>  1,
+                    ),
+            );
             
-            // проверим параметр appId
-            if($leadAppId != $_POST['appId']) {
+            // проверим параметр appId, есть ли он в списке известных приложений
+            if(!array_key_exists($_POST['appId'], $leadApps)) {
                 echo json_encode(array('code'=>400,'message'=>'Unknown sender. Check App ID parameter'));
                 exit;
             }
             
+            $activeApp = $leadApps[$_POST['appId']];
+            
             $model->attributes = $_POST;
-            $model->sourceId = 3;
+            $model->sourceId = $activeApp['sourceId'];
             $model->type = Lead100::TYPE_INCOMING_CALL;
             $model->phone = Question::normalizePhone($model->phone);
             
-            $appSecret = 'Let me speak from my heart';
+            $appSecret = $activeApp['secretKey'];
             // сформируем подпись на основе принятых данных
             $signature = md5($model->name . $model->phone . $model->email . $model->question . $model->townId . $_POST['appId'] . $appSecret);
             

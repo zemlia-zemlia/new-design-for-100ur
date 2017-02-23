@@ -26,7 +26,7 @@ $(function () {
             type: 'line'
         },
         title: {
-            text: 'Статистика продаж'
+            text: 'Доходы и расходы'
         },
         xAxis: {
             categories: [
@@ -73,6 +73,16 @@ $(function () {
             ]
         },
         <?php endforeach;?>
+        {
+            name: 'Сумма расходов',
+            data: [
+                <?php foreach ($totalExpences as $year=>$summByMonth):?>
+                    <?php foreach ($summByMonth as $month=>$summa):?>    
+                        <?php echo '["' . $month . '.' . $year . '",' . $summa.'],'; ?>                
+                    <?php  endforeach;?>
+                <?php  endforeach;?>
+            ]
+        },
         ]
     });
     

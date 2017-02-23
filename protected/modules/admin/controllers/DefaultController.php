@@ -72,7 +72,8 @@ class DefaultController extends Controller
                 ->order('datetime')
                 ->queryAll();
         
-        
+        // массив для хранения сумм расходов по месяцам
+        $totalExpences = array();
         
         foreach($moneyFlowRows as $row) {
             if(!in_array($row['direction'], $showDirections)) {
@@ -82,6 +83,7 @@ class DefaultController extends Controller
                 $moneyFlow[$row['direction']][$row['year']][$row['month']] += $row['value'];
             } else {
                 $moneyFlow[$row['direction']][$row['year']][$row['month']] -= $row['value'];
+                $totalExpences[$row['year']][$row['month']] += $row['value'];
             }
         }
         
@@ -91,6 +93,7 @@ class DefaultController extends Controller
             'buySumArray'           =>  $buySumArray,
             'fastQuestionsRatio'    =>	$fastQuestionsRatio,
             'moneyFlow'             =>	$moneyFlow,
+            'totalExpences'         =>	$totalExpences,
         ));
     }
 }

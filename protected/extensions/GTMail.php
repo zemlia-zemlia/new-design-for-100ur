@@ -16,7 +16,7 @@ class GTMail
             $controller = new CController('GTMail');
         }
         
-        $fromHeader = "=?utf-8?b?" . base64_encode(Yii::app()->params['leadsEmail']) . "?=<". Yii::app()->params['leadsEmail'] . ">";
+        $fromHeader = "=?utf-8?b?" . base64_encode("100 Юристов") . "?=<". Yii::app()->params['leadsEmail'] . ">";
 	$this->headers .= $fromHeader . "\r\n";
         
         $this->subject = "=?utf-8?b?" . base64_encode($this->subject) . "?="; //так по-правильному нужно кодировать тему письма
