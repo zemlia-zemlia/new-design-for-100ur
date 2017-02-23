@@ -264,6 +264,7 @@ class QuestionController extends Controller
 		}
                 
                 $townsArray = Town::getTownsIdsNames();
+				//$townsArray = array();
                 
 		$this->render('create',array(
 			'model'         =>  $question,

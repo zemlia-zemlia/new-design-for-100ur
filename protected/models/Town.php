@@ -110,7 +110,10 @@ class Town extends CActiveRecord
         }
         
         
-        // возвращает массив. ключи - id городов, значения - названия
+        /**
+		*		возвращает массив. ключи - id городов, значения - названия
+		*		@todo отрефакторить, жрет много ресурсов
+		*/
         static public function getTownsIdsNames()
         {
             $townsArray = array();
