@@ -70,6 +70,12 @@
                     </div>
                 </div> 
                 
+                <?php if($data->authorId == Yii::app()->user->id && time()-strtotime($data->datetime)<Answer::EDIT_TIMEOUT):?>
+                <div class="right-align">
+                    <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('question/updateAnswer', array('id'=>$data->id)), array('class'=>'btn btn-default btn-xs'));?>
+                </div>
+                <?php endif;?>
+                
                 <?php if(!Yii::app()->user->isGuest && $data->authorId != Yii::app()->user->id):?>
                     <?php 
                         // проверим, не голосовал ли текущий пользователь за данный ответ

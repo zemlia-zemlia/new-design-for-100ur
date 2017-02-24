@@ -15,6 +15,9 @@ class Answer extends CActiveRecord
         const STATUS_NEW = 0;
         const STATUS_PUBLISHED  = 1;
         const STATUS_SPAM = 2;
+        
+        // время на редактирование юристом собственного ответа (сек.)
+        const EDIT_TIMEOUT = 4800;
         /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

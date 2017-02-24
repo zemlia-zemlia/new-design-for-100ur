@@ -37,7 +37,7 @@ class QuestionController extends Controller
                         'users'=>array('*'),
                 ),
                 array('allow', // allow authenticated user to perform 'search'
-                        'actions'=>array('search'),
+                        'actions'=>array('search', 'updateAnswer'),
                         'users'=>array('@'),
                 ),
                 array('deny',  // deny all users
@@ -288,6 +288,35 @@ class QuestionController extends Controller
 		));
 	}
         
+        /**
+         * Страница редактирования ответа
+         * @param type $id
+         */
+        public function actionUpdateAnswer($id)
+        {
+            
+            $answer = Answer::model()->findByPk($id);
+            if(!$answer) {
+                throw new CHttpException(404,'Ответ не найден');
+            }
+            if(!(Yii::app()->user->role == User::ROLE_JURIST && $answer->authorId == Yii::app()->user->id && time()-strtotime($answer->datetime) < Answer::EDIT_TIMEOUT)) {
+                throw new CHttpException(403,'Вы не можете редактировать этот ответ');
+            }
+            
+            if(isset($_POST['Answer'])) {
+                $answer->attributes = $_POST['Answer'];
+                
+                if($answer->save()) {
+                    $this->redirect(array('question/view', 'id'=>$answer->questionId));
+                }
+            }
+            
+            $this->render('application.views.answer.update', array(
+                'model' => $answer,
+            ));
+        }
+
+
         /*
          * страница, где мы запрашиваем у пользователя его почту, записываем в вопрос и отправляем письмо со
          * ссылкой активации аккаунта
@@ -462,6 +491,8 @@ class QuestionController extends Controller
             if($searchModel->townId) {
                 $searchModel->townName = Town::getName($searchModel->townId);
             }
+            
+//            CustomFuncs::printr($searchModel);exit;
             $questions = $searchModel->search();
             $questionDataProvider = new CArrayDataProvider($questions, array(
                 'pagination'    =>  array(

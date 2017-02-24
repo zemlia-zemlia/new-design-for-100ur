@@ -1,21 +1,18 @@
 <?php
 /* @var $this AnswerController */
 /* @var $model Answer */
+$this->setPageTitle("Редактирование текста ответа " . $model->id . '. ' .  Yii::app()->name);
 
-$this->breadcrumbs=array(
-	'Answers'=>array('index'),
-	$model->id=>array('view','id'=>$model->id),
-	'Update',
-);
-
-$this->menu=array(
-	array('label'=>'List Answer', 'url'=>array('index')),
-	array('label'=>'Create Answer', 'url'=>array('create')),
-	array('label'=>'View Answer', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage Answer', 'url'=>array('admin')),
-);
 ?>
 
-<h1>Update Answer <?php echo $model->id; ?></h1>
+<h1>Редактирование ответа</h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<h3>Текст вопроса</h3>
+<p>
+    <?php echo CHtml::encode($model->question->questionText);?>
+</p>
+
+<?php echo $this->renderPartial('application.views.answer._form', array(
+    'model' =>  $model,
+    )); 
+?>

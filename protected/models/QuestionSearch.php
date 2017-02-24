@@ -42,7 +42,10 @@ class QuestionSearch extends CFormModel
 	}
 
         
-    // функция поиска
+    /**
+     *  функция поиска
+     * @return array
+     */
     public function search()
     {
 //        CustomFuncs::printr($this->attributes);
@@ -99,7 +102,7 @@ class QuestionSearch extends CFormModel
             $whereCondition[] = 't.id IN(' . $closeTownsStr . ')';
         }
         
-        if($this->myCats) {
+        if($this->myCats && Yii::app()->user->categories) {
             // если выбрано "моя специальность"
             $searchCommand = $searchCommand->leftJoin("{{question2category}} q2c", "q.id = q2c.qId");
             // получаем массив объектов-категорий
@@ -119,7 +122,6 @@ class QuestionSearch extends CFormModel
 //        CustomFuncs::printr($whereCondition);
 //        CustomFuncs::printr($searchCommand->text);
 //        exit;
-        
         
         
         $searchRows = $searchCommand->queryAll();

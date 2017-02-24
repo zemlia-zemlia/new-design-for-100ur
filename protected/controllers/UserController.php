@@ -129,7 +129,12 @@ class UserController extends Controller
                 $model->confirm_code = md5($model->email.mt_rand(100000,999999));
                 $model->password = $model->password2 = User::generatePassword(6);
                 
-                if($model->save()) {	
+                if($model->save()) {
+                    // после сохранения юриста сохраним запись о его настройках
+                    if($model->role == User::ROLE_JURIST) {
+                        $yuristSettings->yuristId = $model->id;
+                        $yuristSettings->save();
+                    }
                     if($model->sendConfirmation($newPassword)) {
                         $this->redirect(array('ConfirmationSent'));
                     } else {
