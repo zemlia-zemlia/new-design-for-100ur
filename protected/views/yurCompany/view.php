@@ -179,7 +179,7 @@
 
                             <div class="right-align">
                             <a class="btn btn-xs btn-default" role="button" data-toggle="collapse" href="#collapse-comment-<?php echo $com->id;?>" aria-expanded="false">
-                                Ответить
+                                Комментировать
                               </a>
                             </div>    
                             <div class="collapse child-comment-container" id="collapse-comment-<?php echo $com->id;?>">

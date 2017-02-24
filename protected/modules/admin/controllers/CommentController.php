@@ -90,7 +90,7 @@ class CommentController extends Controller
                    
                     $model->attributes = $_POST['Comment'];
                     
-                    if($model->save()) {
+                    if($model->saveNode()) {
                         $this->redirect(array('view','id'=>$model->id, 'question_updated'=>'yes'));
                     }
 		}
@@ -125,7 +125,7 @@ class CommentController extends Controller
             }
             $model = $this->loadModel($id);
             $model->status = Comment::STATUS_SPAM;
-            if($model->save()) {
+            if($model->saveNode()) {
                 echo CJSON::encode(array('id'=>$id, 'status'=>1));
             } else {
                 //print_r($model->errors);
@@ -135,7 +135,7 @@ class CommentController extends Controller
         
         public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		$this->loadModel($id)->deleteNode();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
