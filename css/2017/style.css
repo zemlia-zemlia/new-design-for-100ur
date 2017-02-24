@@ -643,6 +643,10 @@ hr {
     display:none;
 }
 
+.review-item {
+    margin-bottom:30px;
+}
+
 @media(max-width:996px) {
     #header {
         text-align:center;

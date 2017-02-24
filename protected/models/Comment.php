@@ -27,7 +27,12 @@ class Comment extends CActiveRecord
         const STATUS_CHECKED = 1;
         const STATUS_SPAM = 2;
         
-        
+        // используется в иерархии комментариев
+        public $parentId;
+
+
+
+
         /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -37,6 +42,23 @@ class Comment extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        /**
+         * Определение поведения для работы иерархичных комментариев
+         * @return type
+         */
+        public function behaviors()
+        {
+            return array(
+                'nestedSetBehavior' =>  array(
+                    'class'             =>  'ext.yiiext.behaviors.model.trees.NestedSetBehavior',
+                    'leftAttribute'     =>  'lft',
+                    'rightAttribute'    =>  'rgt',
+                    'levelAttribute'    =>  'level',
+                    'hasManyRoots'      =>  true, 
+                ),
+            );
+        }
 
 	/**
 	 * @return string the associated database table name
@@ -55,7 +77,7 @@ class Comment extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('text', 'required'),
-			array('type, authorId, objectId, rating, status', 'numerical', 'integerOnly'=>true),
+			array('type, authorId, objectId, rating, status, parentId', 'numerical', 'integerOnly'=>true),
                         array('authorName','length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -157,18 +179,30 @@ class Comment extends CActiveRecord
         
         protected function afterSave()
         {
-            /*
-             * после сохранения коментария, если это был комментарий к ответу юриста, отправим юристу уведомление
+            /**
+             * после сохранения коментария, если это был комментарий к ответу юриста, 
+             * отправим юристу уведомление
+             * а если это комментарий на комментарий, уведомим автора родительского комментария
              */
             if($this->type == static::TYPE_ANSWER && $this->objectId && $this->isNewRecord === true) {
                 $answer = Answer::model()->with('question')->findByPk($this->objectId);
                 
-                if($answer && $answer->question) {
-                    $answerAuthor = $answer->author;
-                    if($answerAuthor && $answerAuthor->active100 == 1) {
-                        $answerAuthor->sendCommentNotification($answer->question, $this);
+                if($this->level>1) {
+                    // это комментарий на комментарий
+                    $parentComment = $this->parent()->find();
+                    if($parentComment && $parentComment->author) {
+                        $parentComment->author->sendCommentNotification($answer->question, $this, true);
+                    }
+                } else {
+                    // это комментарий на ответ
+                    if($answer && $answer->question) {
+                        $answerAuthor = $answer->author;
+                        if($answerAuthor && $answerAuthor->active100 == 1) {
+                            $answerAuthor->sendCommentNotification($answer->question, $this, false);
+                        }
                     }
                 }
+                  
             }
             
             parent::afterSave();

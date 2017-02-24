@@ -110,7 +110,7 @@ class CommentController extends Controller
             
             $model = $this->loadModel($id);
             $model->status = Comment::STATUS_CHECKED;
-            if($model->save()) {
+            if($model->saveNode()) {
                 echo CJSON::encode(array('id'=>$id, 'status'=>1));
             } else {
                 //print_r($model->errors);

@@ -60,7 +60,7 @@ class Answer extends CActiveRecord
                     'question'      =>  array(self::BELONGS_TO, 'Question', 'questionId'),
                     'author'        =>  array(self::BELONGS_TO, 'User', 'authorId'),
                     'karmaChanges'  =>  array(self::HAS_MANY, 'KarmaChange', 'answerId'),
-                    'comments'      =>  array(self::HAS_MANY, 'Comment', 'objectId', 'condition'=>'comments.type=' . Comment::TYPE_ANSWER),
+                    'comments'      =>  array(self::HAS_MANY, 'Comment', 'objectId', 'condition'=>'comments.type=' . Comment::TYPE_ANSWER, 'order'=>'comments.root, comments.lft'),
 		);
 	}
 

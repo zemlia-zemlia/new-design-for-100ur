@@ -89,7 +89,17 @@ class YurCompanyController extends Controller
                 $comment->type = Comment::TYPE_COMPANY;
                 $comment->objectId = $company->id;
                 $comment->status = Comment::STATUS_NEW;
-                if($comment->save()) {
+                
+                if(isset($comment->parentId) && $comment->parentId >0) {
+                    // является потомком другого комментария, сохраним его как дочерний комментарий
+                    $rootComment=Comment::model()->findByPk($comment->parentId);
+                    $comment->appendTo($rootComment);
+                }
+                /*CustomFuncs::printr($_POST);
+                CustomFuncs::printr($rootComment->attributes);
+                CustomFuncs::printr($comment->attributes);exit;*/
+                
+                if($comment->saveNode()) {
                     $this->redirect(array('yurCompany/view', 'id'=>$company->id, 'commentSaved'=>1));
                 }
             }

@@ -123,13 +123,13 @@ return array(
                                     'showInFireBug' =>  false,
                                     'categories'    =>  'application',
 				),*/
-				/*
+				
                                 array(
 
 					'class'=>'CProfileLogRoute',
 
 				),
-                                 */
+                                
 			),
 		),
             

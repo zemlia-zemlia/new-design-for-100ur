@@ -38,6 +38,7 @@
     
         <?php echo $form->hiddenField($model, 'type', array('value'=>$type));?>
         <?php echo $form->hiddenField($model, 'objectId', array('value'=>$objectId));?>
+        <?php echo $form->hiddenField($model, 'parentId', array('value'=>$parentId));?>
 
 	
 	<div class="form-group">

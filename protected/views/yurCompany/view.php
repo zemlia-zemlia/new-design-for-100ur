@@ -28,6 +28,34 @@
                     <?php if($company->logo):?>
                     <?php echo CHtml::image($company->getPhotoUrl(), CHtml::encode($company->name), array('class'=>'img-responsive'));?>
                     <?php endif;?>
+                    
+                    <?php
+                        $ratingSum = 0;
+                        $commentsWithRating = 0;
+                        foreach($company->commentsChecked as $com) {
+                                if($com->rating) {
+                                        $ratingSum += (int)$com->rating;
+                                        $commentsWithRating++;
+                                }
+                        }
+                        $averageRating = ($commentsWithRating>0)?round(($ratingSum/$commentsWithRating), 1):0;
+                    ?>
+                    
+                    <?php if($averageRating):?>
+			<div itemprop="aggregateRating"
+				itemscope itemtype="http://schema.org/AggregateRating" class="center-align">
+			   Средняя оценка 
+                           <div>
+                                <strong style="font-size:20px;">
+                                    <span itemprop="ratingValue"><?php echo $averageRating;?></span>/5
+                                </strong>
+                           </div>
+                           <small class="text-muted">
+                           основана на <span itemprop="reviewCount"><?php echo $commentsWithRating;?></span> отзывах
+                            </small>
+                        </div>
+                    <?php endif;?>
+                    
                 </div>
                 <div class="col-md-8">
                     <?php if($company->town):?>
@@ -86,27 +114,8 @@
         
     <?php if($company->commentsChecked):?>
 
-	<?php
-		$ratingSum = 0;
-		$commentsWithRating = 0;
-		foreach($company->commentsChecked as $com) {
-			if($com->rating) {
-				$ratingSum += (int)$com->rating;
-				$commentsWithRating++;
-			}
-		}
-		$averageRating = ($commentsWithRating>0)?round(($ratingSum/$commentsWithRating), 1):0;
-	?>
-	
+
 	<h2 class="header-block-light-grey">Отзывы о компании:</h2>
-	
-		<?php if($averageRating):?>
-			<div itemprop="aggregateRating"
-				itemscope itemtype="http://schema.org/AggregateRating">
-			   Средняя оценка <span itemprop="ratingValue"><?php echo $averageRating;?></span>/5
-			   основана на <span itemprop="reviewCount"><?php echo $commentsWithRating;?></span> отзывах
-			  </div>
-		<?php endif;?>
 
     
         <br/>
@@ -129,45 +138,63 @@
             <?php 
                 switch($com->rating) {
                     case 1:case 2:
-                        $reviewClass = 'alert alert-danger';
+                        $reviewClass = 'danger';
                         break;
                     case 4:case 5:
-                        $reviewClass = 'alert alert-success';
+                        $reviewClass = 'success';
                         break;
                     default:
-                        $reviewClass = '';
+                        $reviewClass = 'default';
                 }
             ?>
 			
 			
-            <div class="review-item row">
-                <div class="col-sm-3">
-                    <?php if($com->author):?>
-                        <img src="<?php echo $com->author->getAvatarUrl();?>" /><br />
-                        <small><span itemprop="author"><?php echo CHtml::encode($com->author->name);?></span></small>
-                    <?php elseif($com->authorName):?>
+            <div class="review-item"  style="margin-left:<?php echo ($com->level>0)?(($com->level - 1)*20):0;?>px; margin-top:<?php echo ($com->level>1)?'-40':0;?>px;">
+                
+                <div class="panel panel-<?php echo $reviewClass;?>">
+                    <div class="panel-heading">
                         <small>
+                            <?php echo CustomFuncs::niceDate($com->dateTime, false);?>
+                        
+                        <?php if($com->author):?>
+                            <span itemprop="author"><?php echo CHtml::encode($com->author->name);?></span>
+                        <?php elseif($com->authorName):?>
                             <span itemprop="author"><?php echo CHtml::encode($com->authorName);?></span>
-                        </small>    
-                    <?php endif;?>
-                        <p>
-                            <small>
-                                <?php echo CustomFuncs::niceDate($com->dateTime, false);?>
-                            </small>
-                            <span itemprop="datePublished" style="display:none;"><?php echo date("c", strtotime($com->dateTime));?></span>
-                            <?php echo CHtml::link("", Yii::app()->createUrl('yurCompany/view', array('id'=>$company->id)), array('itemprop'=>"url", 'style'=>'display:none;' ));?>
-                        </p>    
-                </div>
-                <div class="col-sm-9 <?php echo $reviewClass;?>">
-                    <p><span itemprop="reviewBody"><?php echo CHtml::encode($com->text);?></span></p>
-                    <?php if($com->rating):?>
-                    <p><strong>Оценка:</strong> 
-                        <span itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
-							<span itemprop="ratingValue"><?php echo (int)$com->rating;?></span>
-							/
-							<span itemprop="bestRating">5</span>
-						</span></p>
-                    <?php endif;?>
+                        <?php endif;?>
+                        </small>
+                        <span itemprop="datePublished" style="display:none;"><?php echo date("c", strtotime($com->dateTime));?></span>
+                        <?php echo CHtml::link("", Yii::app()->createUrl('yurCompany/view', array('id'=>$company->id)), array('itemprop'=>"url", 'style'=>'display:none;' ));?>
+                    </div>
+                    
+                    <div class="panel-body">
+                        <p><span itemprop="reviewBody"><?php echo CHtml::encode($com->text);?></span></p>
+                            <?php if($com->rating):?>
+                            <p><strong>Оценка:</strong> 
+                                <span itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+                                                                <span itemprop="ratingValue"><?php echo (int)$com->rating;?></span>
+                                                                /
+                                                                <span itemprop="bestRating">5</span>
+                                                        </span></p>
+                            <?php endif;?>
+
+                            <div class="right-align">
+                            <a class="btn btn-xs btn-default" role="button" data-toggle="collapse" href="#collapse-comment-<?php echo $com->id;?>" aria-expanded="false">
+                                Ответить
+                              </a>
+                            </div>    
+                            <div class="collapse child-comment-container" id="collapse-comment-<?php echo $com->id;?>">
+                                <strong>Ваш ответ:</strong>
+                                <?php 
+                                    $this->renderPartial('application.views.comment._form', array(
+                                        'type'      => Comment::TYPE_COMPANY,
+                                        'objectId'  => $company->id,
+                                        'model'     => $comment,
+                                        'hideRating'=>  true,
+                                        'parentId'  =>  $com->id,
+                                    ));
+                                ?>
+                            </div>
+                    </div>
                 </div>
             </div>
         </div>

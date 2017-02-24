@@ -65,8 +65,8 @@ class YurCompany extends CActiveRecord
 		return array(
                     'author'   =>  array(self::BELONGS_TO, 'User', 'authorId'),
                     'town'     =>  array(self::BELONGS_TO, 'Town', 'townId'),
-                    'commentsChecked' =>  array(self::HAS_MANY, 'Comment', 'objectId', 'condition'=>'commentsChecked.type='.Comment::TYPE_COMPANY . ' AND commentsChecked.status='.Comment::STATUS_CHECKED, 'order'=>'commentsChecked.dateTime DESC'),
-                    'comments' =>  array(self::HAS_MANY, 'Comment', 'objectId', 'condition'=>'comments.type='.Comment::TYPE_COMPANY, 'order'=>'comments.dateTime DESC'),
+                    'commentsChecked' =>  array(self::HAS_MANY, 'Comment', 'objectId', 'condition'=>'commentsChecked.type='.Comment::TYPE_COMPANY . ' AND commentsChecked.status='.Comment::STATUS_CHECKED, 'order'=>'commentsChecked.root DESC, commentsChecked.lft, commentsChecked.dateTime DESC'),
+                    'comments' =>  array(self::HAS_MANY, 'Comment', 'objectId', 'condition'=>'comments.type='.Comment::TYPE_COMPANY, 'order'=>'comments.root DESC, comments.lft, comments.dateTime DESC'),
 		);
 	}
 

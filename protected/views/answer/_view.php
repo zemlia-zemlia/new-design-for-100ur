@@ -99,21 +99,55 @@
                         </div>
                     <?php endif;?>
                 <?php endif;?>
-                
+                              
                 <?php foreach($data->comments as $comment):?>
+                    <?php //CustomFuncs::printr($comment->attributes); continue;?>
                     <?php if($comment->status != Comment::STATUS_SPAM):?>
-                        <div class="answer-comment">
-                            <p>
-                                Комментарий автора вопроса:</p>
+                        <div class="answer-comment" style="margin-left:<?php echo ($comment->level - 1)*20;?>px;">
+                            <p> <strong><span class="glyphicon glyphicon-comment"></span> 
+                                <?php if($data->question->authorId == $comment->authorId) {
+                                          echo "Автор вопроса:";
+                                      } elseif($data->authorId == $comment->authorId) {
+                                      ?>    
+                                            <?php echo $data->author->getShortName();?>
+                                            <?php if($data->author->settings->isVerified):?>
+                                            <small>
+                                                <span class="label label-default"><?php echo $data->author->settings->getStatusName();?></span>
+                                            </small>
+                                            <?php endif;?>
+                                      <?php    
+                                      }
+                                ?>
+                                </strong>
+                            </p>
                             <p>
                                 <?php echo CHtml::encode($comment->text);?>
                             </p>
+                            <?php if(/*sizeof($data->comments)==0 && */ $data->authorId == Yii::app()->user->id ||  $data->question->authorId == Yii::app()->user->id || Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+                            <div class="right-align">
+                            <a class="btn btn-xs btn-default" role="button" data-toggle="collapse" href="#collapse-comment-<?php echo $comment->id;?>" aria-expanded="false">
+                                Ответить
+                              </a>
+                            </div>    
+                            <div class="collapse child-comment-container" id="collapse-comment-<?php echo $comment->id;?>">
+                                <strong>Ваш ответ:</strong>
+                                <?php 
+                                    $this->renderPartial('application.views.comment._form', array(
+                                        'type'      => Comment::TYPE_ANSWER,
+                                        'objectId'  => $data->id,
+                                        'model'     => $commentModel,
+                                        'hideRating'=>  true,
+                                        'parentId'  =>  $comment->id,
+                                    ));
+                                ?>
+                            </div>
+                            <?php endif;?>
                         </div>
                     <?php endif;?>
                 <?php endforeach;?>
                 
                 
-                <?php if(sizeof($data->comments)==0 && $data->question->authorId == Yii::app()->user->id):?>
+                <?php if(/*sizeof($data->comments)==0 && */$data->question->authorId == Yii::app()->user->id || Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
                     <strong>Ваш комментарий:</strong>
                     <?php 
                         $this->renderPartial('application.views.comment._form', array(
@@ -121,6 +155,7 @@
                             'objectId'  => $data->id,
                             'model'     => $commentModel,
                             'hideRating'    =>  true,
+                            'parentId'  =>  0,
                         ));
                     
                     ?>

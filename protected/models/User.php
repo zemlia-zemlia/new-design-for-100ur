@@ -441,7 +441,7 @@ class User extends CActiveRecord
         
         public function getShortName()
         {
-            return $this->lastName . '&nbsp;' . mb_substr($this->name, 0,1) . '.' . mb_substr($this->name2,0,1) . '.';
+            return $this->lastName . '&nbsp;' . mb_substr($this->name, 0, 1, 'utf-8') . '.' . mb_substr($this->name2, 0, 1, 'utf-8') . '.';
             //return $this->lastName;
         }
         
@@ -516,10 +516,10 @@ class User extends CActiveRecord
         }
         
         
-        /*
-         * функция отправки уведомления юристу о новом комментарии на его ответ
+        /**
+         * функция отправки уведомления юристу или клиенту о новом комментарии на его ответ / комментарий
          */
-        public function sendCommentNotification(Question $question, Comment $comment)
+        public function sendCommentNotification(Question $question, Comment $comment, $isChildComment = false)
         {
             if($this->active100 == 0) {
                 return;
@@ -534,7 +534,8 @@ class User extends CActiveRecord
             }
             
             // в письмо вставляем ссылку на вопрос + метки для отслеживания переходов
-            $questionLink = "https://100yuristov.com/q/" . $question->id . "/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_notification&utm_term=" . $question->id;
+            //$questionLink = "https://100yuristov.com/q/" . $question->id . "/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_notification&utm_term=" . $question->id;
+            $questionLink = Yii::app()->createUrl('question/view', array('id'=>$question->id)) . "/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_notification&utm_term=" . $question->id;
                
             
             /*  проверим, есть ли у пользователя заполненное поле autologin, если нет,
@@ -557,10 +558,10 @@ class User extends CActiveRecord
             
             
             $mailer = new GTMail;
-            $mailer->subject = CHtml::encode($this->name) . ", комментарий на Ваш ответ!";
-            $mailer->message = "<h1>Новый комментарий на Ваш ответ</h1>
+            $mailer->subject = CHtml::encode($this->name) . ", обновление в переписке по вопросу!";
+            $mailer->message = "<h1>Обновление в переписке по вопросу</h1>
                 <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />
-                Спешим сообщить, что на " . CHtml::link("Ваш ответ",$questionLink) . " получен новый комментарий " . CHtml::encode($comment->author->name . ' ' . $comment->author->lastName) . ".
+                Спешим сообщить, что в переписке по вопросу " . CHtml::link(CHtml::encode($question->title),$questionLink) . " появился новый комментарий от " . CHtml::encode($comment->author->name . ' ' . $comment->author->lastName) . ".
                 <br /><br />
                 Будем держать Вас в курсе поступления других комментариев. 
                 <br /><br />

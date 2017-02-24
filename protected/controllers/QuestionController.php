@@ -89,16 +89,29 @@ class QuestionController extends Controller
                 // отправлен ответ, сохраним его
                 $commentModel->attributes = $_POST['Comment'];
                 $commentModel->authorId = Yii::app()->user->id;
-                                
-                if($commentModel->save()){
+                
+                // проверим, является ли данный комментарий дочерним для другого комментария
+                if(isset($commentModel->parentId) && $commentModel->parentId >0) {
+                    // является, сохраним его как дочерний комментарий
+                    $rootComment=Comment::model()->findByPk($commentModel->parentId);
+                    $commentModel->appendTo($rootComment);
+                } else {
+                    // не является, сохраним его как комментарий верхнего уровня
+                } 
+//                CustomFuncs::printr($commentModel->attributes);
+//                exit;
+                
+                // сохраняем комментарий с учетом его иерархии
+                if($commentModel->saveNode()){
                     $this->redirect(array('/question/view', 'id'=>$model->id));
                 }
                 
             }
             
-            
+            // выборка ответов
             $criteria = new CDbCriteria;
             $criteria->order = 't.id ASC';
+            $criteria->with = "comments";
             $criteria->addColumnCondition(array('questionId'=>$model->id));
             
             $answersDataProvider = new CActiveDataProvider('Answer', array(
