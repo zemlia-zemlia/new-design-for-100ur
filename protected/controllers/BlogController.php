@@ -261,7 +261,7 @@ class BlogController extends Controller
 
                 $feed->addItem($item);
             }
-            
+            /*
             $questionsCriteria = new CDbCriteria();
             $questionsCriteria->condition = 'status=' . Question::STATUS_PUBLISHED;
             $questionsCriteria->order = 'id desc';
@@ -282,7 +282,7 @@ class BlogController extends Controller
 
                 $feed->addItem($item);
             }
-            
+            */
             $feed->generateFeed();
             Yii::app()->end();
         }
