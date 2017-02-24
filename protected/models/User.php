@@ -380,10 +380,12 @@ class User extends CActiveRecord
             return substr(md5(mt_rand().mt_rand()), mt_rand(1,15), $len);
         }
         
-        //Takes a password and returns the salted hash
+        /**
+         * Takes a password and returns the salted hash
+         */
         //$password - the password to hash
         //returns - the hash of the password (128 hex characters)
-        public function hashPassword($password)
+        public static function hashPassword($password)
         {
             $salt = bin2hex(mcrypt_create_iv(32)); //get 256 random bits in hex
             $hash = hash("sha256", $salt . $password); //prepend the salt, then hash
@@ -392,7 +394,9 @@ class User extends CActiveRecord
             return $final;
         }
 
-        //Validates a password
+        /**
+         * Validates a password
+         */
         //returns true if hash is the correct hash for that password
         //$this->password - the hash created by HashPassword (stored in your DB)
         //$password - the password to verify

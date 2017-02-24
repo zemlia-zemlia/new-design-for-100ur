@@ -30,7 +30,6 @@ $this->breadcrumbs=array(
             'model'         =>  $model,
             'allDirections' =>  $allDirections,
             'categoryId'    =>  $categoryId,
-            'townsArray'    =>  $townsArray,
             'pay'           =>  $pay,
         )); ?>
     </div>

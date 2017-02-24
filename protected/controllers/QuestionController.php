@@ -276,14 +276,14 @@ class QuestionController extends Controller
                         }
 		}
                 
-                $townsArray = Town::getTownsIdsNames();
-				//$townsArray = array();
+                //$townsArray = Town::getTownsIdsNames();
+		//$townsArray = array();
+                //CustomFuncs::printr($townsArray);
                 
 		$this->render('create',array(
 			'model'         =>  $question,
                         'allDirections' =>  $allDirections,
                         'categoryId'    =>  $categoryId,
-                        'townsArray'    =>  $townsArray,
                         'pay'           =>  $pay,
 		));
 	}

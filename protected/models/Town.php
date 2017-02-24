@@ -111,20 +111,24 @@ class Town extends CActiveRecord
         
         
         /**
-		*		возвращает массив. ключи - id городов, значения - названия
-		*		@todo отрефакторить, жрет много ресурсов
-		*/
+        *   возвращает массив городов 
+        *   @return Array массив. ключи - id городов, значения - названия + названия регионов
+        */
         static public function getTownsIdsNames()
         {
             $townsArray = array();
-            $towns = self::model()->cache(3600)->findAll(array(
-                'order' =>  'size DESC',
-            ));
-
+            
+            $towns = Yii::app()->db->cache(300)->createCommand()
+                    ->select('t.id, t.name, r.name regionName')
+                    ->from('{{town}} t')
+                    ->leftJoin('{{region}} r', 'r.id = t.regionId')
+                    ->order('t.size DESC')
+                    ->queryAll();
+            
             $townsArray = array();
             
             foreach($towns as $town) {
-                $townsArray[$town->id] = $town->name . " (" . $town->ocrug . ")";
+                $townsArray[$town['id']] = $town['name'] . " (" . $town['regionName'] . ")";
             }
             
             $townsArray = array(0=>'Не указан') + $townsArray;
