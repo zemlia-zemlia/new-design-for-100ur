@@ -17,32 +17,33 @@ $allDirections = array(0=>'Без категории') + $allDirections;
 
 ?>
 
+
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
 		<?php echo $form->labelEx($model,'authorName'); ?>
-		<?php echo $form->textField($model,'authorName', array('class'=>'form-control', 'placeholder'=>'Иван')); ?>
+		<?php echo $form->textField($model,'authorName', array('class'=>'form-control', 'placeholder'=>'Представьтесь')); ?>
 		<?php echo $form->error($model,'authorName'); ?>
 	</div>
     </div>
-    <div class="col-md-6">
+<!--<div class="col-md-6">
         <div class="form-group">
                 <label>Категория права</label> (необязательно)
 		<?php echo $form->dropDownList($model,'categories', $allDirections, array('class'=>'form-control')); ?>
-		<?php echo $form->error($model,'categories'); ?>
+		<?php echo $form->error($model,'categories'); ?>  
 	</div> 
-    </div>
+    </div>-->
 </div>
         
 
 	<div class="form-group">
-		<?php echo $form->labelEx($model,'questionText'); ?>
+		
                 <small>
                 <p>
                     Если Вам трудно сформулировать вопрос — позвоните на нашу бесплатную горячую линию по телефону <strong class="red">8 (800) 500-61-85</strong>, юрист Вам поможет.
                 </p>
                 </small>
-		<?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>10, 'placeholder'=>'Текст вашего вопроса...')); ?>
+		<?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>10, 'placeholder'=>'Опишите вашу ситуацию подробнее, чтобы юрист мог более детально внем сориентироваться и дать на него квалифицированный ответ.')); ?>
 		<?php echo $form->error($model,'questionText'); ?>
 	</div>
 

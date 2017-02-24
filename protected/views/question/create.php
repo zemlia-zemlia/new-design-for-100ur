@@ -14,14 +14,7 @@ $this->breadcrumbs=array(
 
 ?>
 
-<h1 class="header-block header-block-light-grey">Задайте вопрос юристу</h1>
-
-
-<h2 class="text-uppercase">Как это работает?</h2>
-
-<div class="vert-margin30">
-    <img src="/pics/2017/how_it_works.gif" alt="Задать вопрос юристу" class="center-block" />
-</div>
+<h1 class="header-block header-block-light-grey">Отправка вопроса юристу</h1>
 
 
 <div class='flat-panel vert-margin30'>
@@ -34,6 +27,15 @@ $this->breadcrumbs=array(
         )); ?>
     </div>
 </div>
+
+
+
+<h2 class="text-uppercase">Как это работает?</h2>
+
+<div class="vert-margin30">
+    <img src="/pics/2017/how_it_works.gif" alt="Задать вопрос юристу" class="center-block" />
+</div>
+
 		
 <!-- 
 <div class="row center-align">
