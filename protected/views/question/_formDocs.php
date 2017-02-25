@@ -39,8 +39,14 @@
     </div>
 
     <div class="form-group">
+            <?php
+                $currenTownName = (Yii::app()->user->getState('currentTownName'))?Yii::app()->user->getState('currentTownName'):'';
+                $currentRegionName = (Yii::app()->user->getState('currentTownRegionName'))?Yii::app()->user->getState('currentTownRegionName'):'';
+                $currenTownId = (Yii::app()->user->getState('currentTownId'))?Yii::app()->user->getState('currentTownId'):0;
+            ?>
+        
             <?php echo $form->labelEx($model,'town'); ?>
-            <?php echo CHtml::textField('town', '', array(
+            <?php echo CHtml::textField('town', $currenTownName, array(
                 'id'            =>  'town-selector', 
                 'class'         =>  'form-control',
                 'data-toggle'   =>  "tooltip",
@@ -48,7 +54,7 @@
                 'title'         =>  "Необходим для уточнения регионального законодательства",
             )); ?>
             <?php
-                echo $form->hiddenField($model, 'townId', array('id'=>'selected-town'));
+                echo $form->hiddenField($model, 'townId', array('id'=>'selected-town', 'value'=>$currenTownId));
             ?>
             <?php echo $form->error($model,'townId'); ?>
     </div>

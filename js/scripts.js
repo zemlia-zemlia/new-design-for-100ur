@@ -30,7 +30,7 @@ $(function(){
                 $( "#vuz-town-selector" ).attr('value',townName);
             }
         });
-        
+                
         $(".link-karma-plus").on("click", function(e){
             e.preventDefault();
             var link = $(this).attr('href');

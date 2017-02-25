@@ -21,6 +21,10 @@ class Controller extends CController
 	 */
 	public $breadcrumbs=array();
         
+        /**
+         * Функция вызывается перед вызовом любого контроллера
+         * @return boolean
+         */
         public function init()
         {
             if ( !Yii::app()->getRequest()->isSecureConnection && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') {
@@ -30,6 +34,23 @@ class Controller extends CController
                     Yii::app()->getRequest()->requestUri;
                     Yii::app()->request->redirect($url, true, 301);
                 return false;
+            }
+            
+            // проверка, сохранен ли в сессии пользователя ID его города
+            $currentTownId = Yii::app()->user->getState('currentTownId');
+            if(empty($currentTownId)) {
+                // если не сохранен, определим по IP
+                echo "Город не сохранен в сессии";
+                $currentTownByIp = CustomFuncs::detectTown('185.160.136.1');
+                echo "Город, определенный по IP: " .$currentTownByIp->name;
+                if($currentTownByIp) {
+                    Yii::app()->user->setState('currentTownId', $currentTownByIp->id);
+                    Yii::app()->user->setState('currentTownName', $currentTownByIp->name);
+                    Yii::app()->user->setState('currentTownRegionName', $currentTownByIp->region->name);  
+                } else {
+                    Yii::app()->user->setState('currentTownId', 0);
+                }
+                
             }
         }
 }
