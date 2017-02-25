@@ -41,7 +41,7 @@ class Controller extends CController
             if(empty($currentTownId)) {
                 // если не сохранен, определим по IP
                 echo "Город не сохранен в сессии";
-                $currentTownByIp = CustomFuncs::detectTown('185.160.136.1');
+                $currentTownByIp = CustomFuncs::detectTown();
                 echo "Город, определенный по IP: " .$currentTownByIp->name;
                 if($currentTownByIp) {
                     Yii::app()->user->setState('currentTownId', $currentTownByIp->id);
