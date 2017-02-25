@@ -277,6 +277,7 @@ class Question extends CActiveRecord
                 
                 // особый статус "предварительно сохранен"
                 $this->status = self::STATUS_PRESAVE;
+                $this->townId = Yii::app()->user->getState('currentTownId');
                 if(!$this->save()) {
                     //echo "Ошибки при предсохранении вопроса";
                     //CustomFuncs::printr($this->errors);

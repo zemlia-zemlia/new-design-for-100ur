@@ -37,7 +37,7 @@
                 <?php if($data->createDate) {echo CustomFuncs::niceDate($data->createDate, false, false);}?>
                 <?php 
                     if($data->publishDate) {
-                        echo "<span class='muted'>Опубликован " . CustomFuncs::invertDate($data->publishDate) . " " . CHtml::link(CHtml::encode($data->bublishUser->name . " " . $data->bublishUser->lastName), Yii::app()->createUrl('question/byPublisher', array('id'=>$data->bublishUser->id))) . "</span>";
+                        echo "<span class='muted'>Опубликован " . CustomFuncs::niceDate($data->publishDate) . " " . CHtml::link(CHtml::encode($data->bublishUser->name . " " . $data->bublishUser->lastName), Yii::app()->createUrl('question/byPublisher', array('id'=>$data->bublishUser->id))) . "</span>";
                     }
                 ?>
             &nbsp;

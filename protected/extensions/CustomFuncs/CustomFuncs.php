@@ -11,12 +11,28 @@ class CustomFuncs
              else return $form5;
     }
     
+    /**
+     * Определение города пользователя по IP адресу
+     * @param string $ip
+     * @return Town город или NULL
+     */
     public static function detectTown($ip=NULL)
     {
-            if(!Yii::app()->user->getState('currentTown'))
+            $town = NULL;
+            
+            if(!Yii::app()->user->getState('currentTownId'))
             {
-                if(empty($ip)) $ip=$_SERVER['HTTP_X_REAL_IP'];
-                else $ip = "79.111.82.114";
+                // если принудительно не задан IP, берем текущий IP адрес
+                if(empty($ip)) {
+                    if($_SERVER['HTTP_X_REAL_IP']) {
+                        $ip = $_SERVER['HTTP_X_REAL_IP'];
+                    } else {
+                        $ip = $_SERVER['REMOTE_ADDR'];
+                    } 
+                } 
+                
+                echo "IP: " . $ip; 
+                
                 $data = "<ipquery><fields><all/></fields><ip-list><ip>".$ip."</ip></ip-list></ipquery>";
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, "http://194.85.91.253:8090/geo/geo.html");
@@ -28,14 +44,12 @@ class CustomFuncs
                 curl_close($ch);
                 $xml=iconv('windows-1251','utf-8',$xml);
                 preg_match("/<city>(.*?)<\/city>/",$xml,$a);
-                $town =$a[1];
-                Yii::app()->user->getState('currentTown',$town);
+                $townName =$a[1];
                 
-            }
-            else
-            {
-                $town = Yii::app()->user->getState('currentTown');
-            }
+                $currentTown = Town::model()->findByAttributes(array('name'=>$townName));
+                return $currentTown;
+                
+            } 
             return $town;
     }
     

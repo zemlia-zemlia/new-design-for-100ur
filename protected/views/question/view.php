@@ -194,25 +194,15 @@ if($model->description) {
 <?php if(!(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR || Yii::app()->user->role == User::ROLE_CALL_MANAGER || ($model->authorId == Yii::app()->user->id))):?>
 
 	<div class="form-container">		
-				<h2 class="header-block header-block-green"> <strong class="glyphicon glyphicon-earphone"></strong> Задайте свой вопрос по телефону</h2>
-				<br/>
-				<p style="text-align: center;">
-					<span style="font-size: 25pt; color: #39b778;"><strong>8-800-500-61-85</strong></span><br/>
-				</p>
-				<p class="text-muted" style="text-align: center">
-					<small>
-					Москва
-					Санкт-Петербург 
-					Екатеринбург
-					Нижний Новгород
-					Волгоград
-					Красноярск<br/>
-					<b>Звонки принимаются с 10:00 до 19:00 (МСК), <a href="/question/create/">письменные обращения</a> КРУГЛОСУТОЧНО</b>
-					</small>
-				</p>
-
+            <div class="center-align">
+            <?php
+                // выводим виджет с номером 8800
+                $this->widget('application.widgets.Hotline.HotlineWidget', array(
+                ));
+            ?>		
+            </div>
             <div class="form-container-content">
-                <h3 class="center-align header-block header-block-light-grey">или на сайте в режиме on-line<br/>доступно для ВСЕХ регионов РФ</h3>
+                <h3 class="center-align header-block header-block-light-grey">Задать вопрос on-line<br/>доступно для ВСЕХ регионов РФ</h3>
                                 
                 <?php echo $this->renderPartial('application.views.question._formBrief', array(
                     'newQuestionModel'  =>  $newQuestionModel,

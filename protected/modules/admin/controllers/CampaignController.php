@@ -103,6 +103,10 @@ class CampaignController extends Controller
 		if(isset($_POST['Campaign']))
 		{
 			$model->attributes=$_POST['Campaign'];
+                        
+                        if($_POST['town'] == '') {
+                            $model->townId = 0;
+                        }
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
