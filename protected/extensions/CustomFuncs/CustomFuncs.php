@@ -31,7 +31,7 @@ class CustomFuncs
                     } 
                 } 
                 
-                echo "IP: " . $ip; 
+//                echo "IP: " . $ip; 
                 
                 $data = "<ipquery><fields><all/></fields><ip-list><ip>".$ip."</ip></ip-list></ipquery>";
                 $ch = curl_init();
