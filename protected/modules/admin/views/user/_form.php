@@ -24,6 +24,13 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
         
 
 <?php if(Yii::app()->user->checkAccess(User::ROLE_MANAGER) || $model->scenario!='update'):?>       
+
+<div class="form-group">
+        <?php echo $form->labelEx($model,'lastName'); ?>
+        <?php echo $form->textField($model,'lastName', array('class'=>'form-control')); ?>
+        <?php echo $form->error($model,'lastName'); ?>
+</div> 
+
 <div class="form-group">
         <?php echo $form->labelEx($model,'name'); ?>
         <?php echo $form->textField($model,'name', array('class'=>'form-control')); ?>
@@ -35,19 +42,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
         <?php echo $form->textField($model,'name2', array('class'=>'form-control')); ?>
         <?php echo $form->error($model,'name2'); ?>
 </div> 
-        
-<div class="form-group">
-        <?php echo $form->labelEx($model,'lastName'); ?>
-        <?php echo $form->textField($model,'lastName', array('class'=>'form-control')); ?>
-        <?php echo $form->error($model,'lastName'); ?>
-</div> 
-        
-<div class="form-group">
-    <?php echo $form->labelEx($yuristSettings,'alias'); ?>
-    <?php echo $form->textField($yuristSettings,'alias', array('class'=>'form-control')); ?>
-    <?php echo $form->error($yuristSettings,'alias'); ?>
-</div>
-
+ 
 <div class="form-group">
         <?php echo $form->labelEx($model,'role'); ?>
         <?php echo $form->dropDownList($model,'role', $rolesNames, array('class'=>'form-control'));?>
@@ -163,15 +158,9 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
                 </div>
             </div>
         </div>
-        
-        <div class="form-group"> 
-            <div><strong>Специализации:</strong></div>
-            <?php echo $form->dropDownList($model,'categories', $allDirections,
-			array('multiple'=>'multiple', 'style'=>'width:300px; height:300px; text-align:left;'));
-            ?>
-        </div>
-        
-        
+
+		
+		
         <?php if($model->files):?>
         <h4>Заявки на подтверждение статуса</h4>
         

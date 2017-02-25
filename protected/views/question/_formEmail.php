@@ -1,6 +1,7 @@
 
 <div class="vert-margin30">
-    <h3>Ответы присылать на электронную почту</h3>
+	<h3>На какой email выслать ответ?</h3>
+    <h4>Укажите Вашу электронную почту для подтверждения размещения вопроса и получения уведомлений об ответах. <br/><strong>E-mail Нигде не публикуется.</strong></h4>
 </div>
     <?php $form=$this->beginWidget('CActiveForm', array(
         'id'=>'question-form',
@@ -15,8 +16,8 @@
         'class'         =>  'form-control icon-input', 
         'style'         =>  'background-image:url(/pics/2017/flying_envelop.png)',
         'data-toggle'   =>  "tooltip",
-        'data-placement'=>  "bottom",
-        'title'         =>  "Необходим для отправки Вам уведомлений о новых ответах юристов, а также является логином для входа на сайт. Нигде не публикуется.",
+        'data-placement'=>  "right",
+        'title'         =>  "Необходим для отправки Вам уведомлений о новых ответах юристов, а также является логином для входа на сайт.",
         'placeholder'=>'ivanov@mail.ru')); ?>
     <?php echo $form->error($question,'email'); ?>
 </div>
