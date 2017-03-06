@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+    <title><![CDATA[Документация проекта 100 юристов]]></title>
+   <parser>
+    <target>../doc/output</target>
+    </parser>
+   <transformer>
+    <target>../doc</target>
+</transformer>
+    <files>
+        <directory>.</directory>
+        <ignore>vendor/*</ignore>
+        <ignore>protected/extensions/*/*</ignore>
+    </files>
+</phpdoc>
