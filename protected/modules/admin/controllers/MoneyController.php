@@ -28,7 +28,7 @@ class MoneyController extends Controller
 		return array(
 			
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('index', 'view', 'create', 'update', 'delete'),
+				'actions'=>array('index', 'view', 'report', 'create', 'update', 'delete'),
 				'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
 			),
 			array('deny',  // deny all users
@@ -148,6 +148,35 @@ class MoneyController extends Controller
 			'dataProvider'  =>  $dataProvider,
                         'balances'      =>  $balances,
                         'accounts'      =>  $accounts,
+		));
+	}
+
+	/**
+	*	Финансовый отчет за период
+	*
+	*/
+	public function actionReport()
+	{
+		$searchModel = new Money;
+
+		$searchModel->setScenario('search');
+
+
+        if(isset($_GET['Money'])) {
+            // если используется форма поиска по контактам
+            $searchModel->attributes=$_GET['Money'];
+        } else {
+        	// если не задан диапазон дат, построим отчет за последние 30 дней
+        	$searchModel->date1 = date('d-m-Y', time()-30*86400);
+        	$searchModel->date2 = date('d-m-Y');
+        }
+
+
+        $reportDataSet = $searchModel->getReportSet();
+
+        $this->render('report',array(
+			'searchModel'  	=>  $searchModel,
+            'reportDataSet' =>  $reportDataSet,
 		));
 	}
 

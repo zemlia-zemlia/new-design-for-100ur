@@ -17,6 +17,9 @@ class Money extends CActiveRecord
 	
         const TYPE_INCOME = 0; // доход
         const TYPE_EXPENCE = 1; // расход
+
+        public $date1;
+        public $date2; // диапазон дат для поиска
         
         
         /**
@@ -39,6 +42,7 @@ class Money extends CActiveRecord
 			array('accountId, type, direction', 'numerical', 'integerOnly'=>true),
 			array('value', 'length', 'max'=>10),
 			array('comment', 'length', 'max'=>255),
+			array('date1, date2','match','pattern'=>'/^([0-9\-\.])$/u', 'message'=>'В датах могут присутствовать только цифры, дефисы и точки'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, accountId, datetime, type, value, comment, direction', 'safe', 'on'=>'search'),
@@ -69,6 +73,8 @@ class Money extends CActiveRecord
 			'value'         => 'Сумма',
 			'comment'       => 'Комментарий',
 			'direction'     => 'Статья',
+			'date1'     	=> 'от',
+			'date2'     	=> 'до',
 		);
 	}
         
@@ -161,9 +167,43 @@ class Money extends CActiveRecord
 		$criteria->compare('comment',$this->comment,true);
 		$criteria->compare('direction',$this->direction);
 
+		if($this->date1){
+			$criteria->addCondition('datetime>="' . CustomFuncs::invertDate($this->date1) . '"');
+		}
+		if($this->date2){
+			$criteria->addCondition('datetime<="' . CustomFuncs::invertDate($this->date2) . '"');
+		}
+		
+
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+
+	/**
+	*	Возвращает массив записей, соответствующих условию
+	*
+	*/
+	public function getReportSet()
+	{
+		
+
+		$command = Yii::app()->db->createCommand()
+		->select('*')
+		->from('{{money}}');
+
+		if($this->date1) {
+			$command->andWhere('`datetime`>=:date1', array(':date1'=>CustomFuncs::invertDate($this->date1)));
+		}
+
+		if($this->date2) {
+			$command->andWhere('`datetime`<=:date2', array(':date2'=>CustomFuncs::invertDate($this->date2)));
+		}
+
+		//echo $command->text;
+		return $command->queryAll();
+
 	}
 
 	/**
