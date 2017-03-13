@@ -11,64 +11,27 @@
 	<br/>
 	<p>Портал "100 Юристов" предоставляет юридические консультации онлайн для всех жителей РФ, Беларуси и Украины. Нас егодняшний день вы можете получить очную консультацию, консультацию по телефону в следующих филиалах:</p>
 	<br/>
-					<h5>Москва</h5>
-                    <div class="vcard">
-                    <div>
-                      <span class="category">Юридический центр Москва</span>
-                      <span class="fn org">100 Юристов</span>
-                    </div>
-                    <div class="adr">
-                      <span class="locality">г. Москва</span>,
-                      <span class="street-address">Шлюзовая набережная, д.6, стр. 4</span>
-                    </div>
-                    <div>Мы работаем <span class="workhours">ежедневно с 10:00 до 19:00</span>
-                      <span class="url">
-                        <span class="value-title" title="http://www.100yuristov.com"> </span>
-                      </span>
-                    </div>
-                   </div>
-<hr />
-					<h5>Санкт-Петербург</h5>
-                    <div class="vcard">
-                    <div>
-                      <span class="category">Юридический центр Санкт-Петербург</span>
-                      <span class="fn org">100 Юристов</span>
-                    </div>
-                    <div class="adr">
-                      <span class="locality">г. Санкт-Петербург</span>,
-                      <span class="street-address">ул. 40 лет Победы, 8</span>
-                    </div>
-                    <div>Мы работаем <span class="workhours">ежедневно с 00:00 до 24:00</span>
-                      <span class="url">
-                        <span class="value-title" title="http://www.100yuristov.com"> </span>
-                      </span>
-                    </div>
-                   </div>
-<hr />
-					<h5>Нижний Новгород</h5>
-                    <div class="vcard vert-margin30">
-                    <div>
-                      <span class="category">Юридический центр Нижний Новгород</span>
-                      <span class="fn org">100 Юристов</span>
-                    </div>
-                    <div class="adr">
-                      <span class="locality">г. Нижний Новгород</span>,
-                      <span class="street-address">ул. Новая д.28</span>
-                    </div>
-                    <div>Мы работаем <span class="workhours">ежедневно с 00:00 до 24:00</span>
-                      <span class="url">
-                        <span class="value-title" title="http://www.100yuristov.com"> </span>
-                      </span>
-                    </div>
-                   </div>
-    
-              
-                    <div class="flat-panel">
-                        <div class="inside">
-                            <h2>Форма обратной связи</h2>                                        
-                            <?php $this->renderPartial('_contactForm', array('model'=>$contactForm));?>
-                        </div>
-                    </div>                                        
+		<div itemscope itemtype="http://schema.org/Organization"> 
+			<span itemprop="name">100 Юристов - Филиалы</span>
+				<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+				<span itemprop="addressLocality">Москва</span> <span itemprop="streetAddress">Шлюзовая набережная д.6 стр.4</span><br/>
+				<span itemprop="addressLocality">Санкт-Петербург</span> <span itemprop="streetAddress">ул. Достоевского д.25</span><br/>
+				<span itemprop="addressLocality">Нижний Новгород</span> <span itemprop="streetAddress">ул. Новая, д. 28</span><br/>
+				<span itemprop="addressLocality">Екатеринбург</span> <span itemprop="streetAddress">ул. 8 Марта, д. 142</span><br/>
+				<span itemprop="addressLocality">Красноярск</span> <span itemprop="streetAddress">просп. Мира, 30, корп.1</span><br/>
+				<span itemprop="addressLocality">Волгоград</span> <span itemprop="streetAddress">Невская улица, 16А</span><br/>
+				<span itemprop="telephone">8-800-500-61-85</span>
+				</div>
+		</div>
+		
+		<br/>
+  
+		<div class="flat-panel">
+			<div class="inside">
+				<h2>Связаться с нами</h2>                                        
+				<?php $this->renderPartial('_contactForm', array('model'=>$contactForm));?>
+			</div>
+		</div>                                        
 
 
 <?php if(sizeof($formResult)):?>
