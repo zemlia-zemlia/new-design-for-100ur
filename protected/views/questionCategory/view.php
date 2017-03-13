@@ -95,24 +95,25 @@ if($parentCategory) {
         </div>
 <?php endif;?>
 
+
 	<div class="form-container">		
-				<h2 class="header-block header-block-green"> <strong class="glyphicon glyphicon-earphone"></strong> Горячая линия юридических консультаций</h2>
-				<br/>
-				<p style="text-align: center;">
-					<span style="font-size: 25pt; color: #39b778;"><strong>8-800-500-61-85</strong></span><br/>
-				</p>
-				<p class="text-muted" style="text-align: center">
-					<small>
-					Москва
-					Санкт-Петербург 
-					Екатеринбург
-					Нижний Новгород
-					Волгоград
-					Красноярск<br/>
-					<b>Звонки принимаются с 10:00 до 19:00 (МСК), <a href="/question/create/">письменные обращения</a> КРУГЛОСУТОЧНО</b>
-					</small>
-				</p>
-	</div>		
+            <div class="center-align">
+            <?php
+                // выводим виджет с номером 8800
+                $this->widget('application.widgets.Hotline.HotlineWidget', array(
+                ));
+            ?>		
+            </div>
+            <div class="form-container-content">
+                <h3 class="center-align header-block header-block-light-grey">Задать вопрос on-line<br/>доступно для ВСЕХ регионов РФ</h3>
+                                
+                <?php echo $this->renderPartial('application.views.question._formBrief', array(
+                    'newQuestionModel'  =>  $newQuestionModel,
+                ));?>
+                              
+            </div>
+	</div>
+
 			
 			
         <div class="flat-panel vert-margin30">
@@ -150,45 +151,3 @@ if($parentCategory) {
 
 <?php endif;?>
 
-     
-
-
-
-<!-- Форма --> 
-
-            <div class="form-container form-container-content flat-panel">
-                <h3 class="header-block header-block-green">Задать свой вопрос</h3>
-                <div class="header-block-green-arrow"></div>
-                                
-                <div class="inside">
-                <?php $form=$this->beginWidget('CActiveForm', array(
-                        'id'                    =>  'question-form',
-                        'enableAjaxValidation'  =>  false,
-                        'action'                =>  Yii::app()->createUrl('question/create'),
-                )); ?>
-                
-                <div class="row">
-                    <div class="col-md-7">
-                        <div class="form-group">
-                                <?php echo $form->labelEx($newQuestionModel,'questionText'); ?>
-                                <?php echo $form->textArea($newQuestionModel,'questionText', array('class'=>'form-control', 'rows'=>6, 'placeholder'=>'Добрый день!...')); ?>
-                                <?php echo $form->error($newQuestionModel,'questionText'); ?>
-                        </div>
-                    </div>
-
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <label>Ваше имя *</label>
-                            <?php echo $form->textField($newQuestionModel,'authorName', array('class'=>'form-control', 'placeholder'=>'Иванов Иван')); ?>
-                            <?php echo $form->error($newQuestionModel,'authorName'); ?>
-                        </div>
-						<div class="form-group" id="form-submit-wrapper">
-                                <?php echo CHtml::submitButton($newQuestionModel->isNewRecord ? 'Задать вопрос юристу' : 'Сохранить', array('class'=>'button button-blue-gradient btn-block', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
-                        </div>
-					</div>
-                </div> 
-                <?php $this->endWidget(); ?>
-                </div>         
-            </div>
-
-<!-- Конец формы --> 
