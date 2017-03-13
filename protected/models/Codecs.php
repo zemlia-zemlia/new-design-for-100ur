@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This is the model class for table "{{codecs}}".
+ * Модель для работы с кодексами
  *
  * The followings are the available columns in table '{{codecs}}':
  * @property integer $id
@@ -120,7 +120,12 @@ class Codecs extends CActiveRecord
 		return parent::model($className);
 	}
         
-        // рекурсивная функция, находящая путь до элемента кодексов и записывающая его в этот элемент
+        /**
+         * рекурсивная функция, находящая путь до элемента кодексов и записывающая его в этот элемент
+         * 
+         * @param string $prefix 
+         * @return string путь до элемента
+         */
         public function getPath($prefix = '')
         {
             $this->path = $prefix . '|' . $this->alias;
@@ -135,6 +140,11 @@ class Codecs extends CActiveRecord
             
         }
         
+        /**
+         * Функция получения массива родителей элемента
+         * 
+         * @return array массив родителей
+         */
         public function getParents()
         {
             $path = $this->path;

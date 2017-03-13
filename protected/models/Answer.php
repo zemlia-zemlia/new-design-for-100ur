@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This is the model class for table "{{answer}}".
+ * Класс для работы с ответами
  *
  * The followings are the available columns in table '{{answer}}':
  * @property integer $id
@@ -9,6 +9,8 @@
  * @property string $answerText
  * @property integer $authorId
  * @property integer $status
+ * 
+ * @author Michael Krutikov m@mkrutikov.pro
  */
 class Answer extends CActiveRecord
 {
@@ -18,6 +20,7 @@ class Answer extends CActiveRecord
         
         // время на редактирование юристом собственного ответа (сек.)
         const EDIT_TIMEOUT = 4800;
+        
         /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -37,7 +40,7 @@ class Answer extends CActiveRecord
 	}
 
 	/**
-	 * @return array validation rules for model attributes.
+	 * @return array правила валидации для атрибутов модели
 	 */
 	public function rules()
 	{
@@ -82,7 +85,10 @@ class Answer extends CActiveRecord
 		);
 	}
 
-        // возвращает массив, ключами которого являются коды статусов, а значениями - названия статусов
+        /**
+         * возвращает массив, ключами которого являются коды статусов, а значениями - названия статусов
+         * @return Array массив статусов
+         */
         static public function getStatusesArray()
         {
             return array(
@@ -92,14 +98,23 @@ class Answer extends CActiveRecord
             );
         }
         
-        // возвращает название статуса для объекта
+        /** 
+         * возвращает название статуса для объекта
+         * 
+         * @return string название статуса
+         */
         public function getAnswerStatusName()
         {
             $statusesArray = self::getStatusesArray();
             return $statusesArray[$this->status];
         }
         
-        // статический метод, возвращает название статуса вопроса по коду
+        /** 
+         * статический метод, возвращает название статуса вопроса по коду
+         * 
+         * @param int $status код статуса
+         * @return string название статуса
+         */
         static public function getStatusName($status)
         {
             $statusesArray = self::getStatusesArray();
@@ -107,7 +122,8 @@ class Answer extends CActiveRecord
         }
         
 	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
+	 * Возвращает массив объектов на основе критерия поиска
+         * 
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
 	public function search()
@@ -127,6 +143,9 @@ class Answer extends CActiveRecord
 		));
 	}
         
+        /**
+         * Вызывается после сохранения объекта в базу
+         */
         protected function afterSave()
         {
             $question = $this->question;

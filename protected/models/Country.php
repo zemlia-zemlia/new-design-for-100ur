@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "{{country}}".
+ * Модель для работы с государствами
  *
- * The followings are the available columns in table '{{country}}':
+ * Поля из таблицы '{{country}}':
  * @property integer $id
  * @property string $name
  * @property string $alias

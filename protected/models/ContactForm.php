@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Класс для работы с формой обратной связи
+ */
 class ContactForm extends CFormModel
 {
 	public $email;
@@ -8,7 +11,7 @@ class ContactForm extends CFormModel
         public $verifyCode;
         
         /**
-	 * Declares the validation rules.
+	 * Правила проверки полей
 	 */
 	public function rules()
 	{
@@ -22,7 +25,7 @@ class ContactForm extends CFormModel
 	}
 
 	/**
-	 * Declares attribute labels.
+	 * Наименования полей формы
 	 */
 	public function attributeLabels()
 	{

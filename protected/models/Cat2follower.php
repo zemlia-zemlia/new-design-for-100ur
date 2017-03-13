@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This is the model class for table "{{cat2follower}}".
+ * Модель для хранения связей между категориями блога и подписчиками
  *
  * The followings are the available columns in table '{{cat2follower}}':
  * @property integer $catId

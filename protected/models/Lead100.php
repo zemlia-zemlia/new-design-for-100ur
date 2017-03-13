@@ -1,10 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "{{lead100}}".
  * Модель для работы с лидами 100 юристов
  *
- * The followings are the available columns in table '{{lead100}}':
+ * Поля из таблицы '{{lead100}}':
  * @property integer $id
  * @property string $name
  * @property string $phone
@@ -22,12 +21,15 @@
  * @property string $brakComment
  * @property string $secretCode
  * @property integer $buyPrice
+ * 
+ * @author Michael Krutikov m@mkrutikov.pro
  */
 class Lead100 extends CActiveRecord
 {
 	public $date1, $date2; // диапазон дат, используемый при поиске
         public $newTownId; // для случая смены города при отбраковке
         
+        // статусы лидов
         const LEAD_STATUS_DEFAULT = 0; // лид никуда не отправлен
         const LEAD_STATUS_SENT_CRM = 1; // лид отправлен в CRM
         const LEAD_STATUS_SENT_LEADIA = 2; // лид отправлен в Leadia
@@ -46,16 +48,10 @@ class Lead100 extends CActiveRecord
         const TYPE_SERVICES = 6; // запрос юридических услуг
         
         // причины отбраковки
-        const BRAK_REASON_BAD_QUESTION = 1;
-        const BRAK_REASON_BAD_NUMBER = 2;
-        const BRAK_REASON_BAD_REGION = 3;
-        const BRAK_REASON_SPAM = 4;
-        
-        // не юридический вопрос
-        // неверный номер
-        // не тот регион
-        // спам
-        
+        const BRAK_REASON_BAD_QUESTION = 1; // не юридический вопрос
+        const BRAK_REASON_BAD_NUMBER = 2; // неверный номер
+        const BRAK_REASON_BAD_REGION = 3; // не тот регион
+        const BRAK_REASON_SPAM = 4; // спам
         
         /*
 	 * Returns the static model of the specified AR class.
@@ -76,7 +72,7 @@ class Lead100 extends CActiveRecord
 	}
 
 	/**
-	 * @return array validation rules for model attributes.
+	 * @return array Правила валидации
 	 */
 	public function rules()
 	{
@@ -101,7 +97,7 @@ class Lead100 extends CActiveRecord
 	}
 
 	/**
-	 * @return array relational rules.
+	 * @return array Связи с другими моделями
 	 */
 	public function relations()
 	{
@@ -115,7 +111,7 @@ class Lead100 extends CActiveRecord
 	}
 
 	/**
-	 * @return array customized attribute labels (name=>label)
+	 * @return array Наименования атрибутов (name=>label)
 	 */
 	public function attributeLabels()
 	{
@@ -147,7 +143,11 @@ class Lead100 extends CActiveRecord
 	}
         
         
-        // возвращает массив, ключами которого являются коды статусов, а значениями - названия статусов
+        /**
+         * Возвращает массив, ключами которого являются коды статусов, а значениями - названия статусов
+         * 
+         * @return array Массив статусов (код статуса => название)
+         */
         static public function getLeadStatusesArray()
         {
             return array(
@@ -161,6 +161,11 @@ class Lead100 extends CActiveRecord
             );
         }
         
+        /**
+         * Возвращает название статуса объекта
+         * 
+         * @return string статус объекта
+         */
         public function getLeadStatusName()
         {
             $statusesArray = self::getLeadStatusesArray();
@@ -169,7 +174,11 @@ class Lead100 extends CActiveRecord
         }
         
         
-        // возвращает массив, ключами которого являются коды типов, а значениями - названия
+        /**
+         * возвращает массив, ключами которого являются коды типов, а значениями - названия
+         * 
+         * @return array Массив типов лидов (код => название)
+         */
         static public function getLeadTypesArray()
         {
             return array(
@@ -183,6 +192,11 @@ class Lead100 extends CActiveRecord
             );
         }
         
+        /**
+         * Возвращает название типа лида
+         * 
+         * @return string тип лида
+         */
         public function getLeadTypeName()
         {
             $typesArray = self::getLeadTypesArray();
@@ -190,7 +204,11 @@ class Lead100 extends CActiveRecord
             return $typeName;
         }
         
-        // возвращает массив, ключами которого являются коды типов, а значениями - названия
+        /**
+         * возвращает массив, ключами которого являются коды причин отбраковки, а значениями - названия
+         * 
+         * @return array массив причин отбраковки (код => наименование)
+         */
         static public function getBrakReasonsArray()
         {
             return array(
@@ -202,6 +220,11 @@ class Lead100 extends CActiveRecord
             );
         }
         
+        /**
+         * Возвращает причину отбраковки для лида
+         * 
+         * @return string Причина отбраковки
+         */
         public function getReasonName()
         {
             $reasonsArray = self::getBrakReasonsArray();
@@ -213,7 +236,12 @@ class Lead100 extends CActiveRecord
         
         
         
-        // отправляет лид в кампанию
+        /**
+         * Отправляет лид в кампанию с заданным id
+         * 
+         * @param int $campaignId id кампании
+         * @return boolean true - удалось отправить лид, false - не удалось
+         */
         public function sendToCampaign($campaignId)
         {
             $campaign = Campaign::model()->findByPk($campaignId);
@@ -256,7 +284,7 @@ class Lead100 extends CActiveRecord
                         $campaign->save();
                         if(!$transaction->save()){
                             Yii::log("Не удалось сохранить транзакцию за продажу лида " . $this->id, 'error', 'system.web.CCommand');
-                            CustomFuncs::printr($transaction->errors);
+                            //CustomFuncs::printr($transaction->errors);
                         }
 
                         return true;
@@ -302,6 +330,12 @@ class Lead100 extends CActiveRecord
 		));
 	}
         
+        /**
+         * Отправка лида по почте
+         * 
+         * @param int $campaignId id кампании
+         * @return boolean
+         */
         public function sendByEmail($campaignId = 0)
         {
             if($campaignId) {
@@ -329,6 +363,13 @@ class Lead100 extends CActiveRecord
             }
         }
         
+        /**
+         * Возвращает количество лидов с определенным статусом
+         * 
+         * @param int $status статус
+         * @param boolean $noCampaign считать ли лиды без кампании
+         * @return int количество лидов
+         */
         public static function getStatusCounter($status, $noCampaign = true)
         {
             if($noCampaign) {
@@ -345,7 +386,12 @@ class Lead100 extends CActiveRecord
             return $counter;
         }
         
-        // возвращает количество лидов с таким же номером телефона, добавленных не более $timeframe секунд назад
+        /**
+         * возвращает количество лидов с таким же номером телефона, добавленных не более $timeframe секунд назад
+         * 
+         * @param int $timeframe временной интеркал (сек.)
+         * @return int количество лидов 
+         */
         public function findDublicates($timeframe = 600)
         {
             $dublicatesRow = Yii::app()->db->createCommand()
@@ -359,6 +405,11 @@ class Lead100 extends CActiveRecord
             return $dublicatesRow['counter'];
         }
         
+        /**
+         * Метод, вызываемый перед сохранением объекта
+         * 
+         * @return boolean 
+         */
         protected function beforeSave()
         {
             $this->phone = Question::normalizePhone($this->phone);

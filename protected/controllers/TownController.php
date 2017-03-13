@@ -131,7 +131,7 @@ class TownController extends Controller
 		));
         }
         
-        /*
+        /**
          * метод для обработки старых адресов вида konsultaciya-yurista-voronezh
          * и редиректа на новые адреса городов
          */

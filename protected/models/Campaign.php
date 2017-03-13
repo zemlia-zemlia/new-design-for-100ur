@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "{{campaign}}".
+ * Класс для работы с кампаниями покупателей лидов
  *
- * The followings are the available columns in table '{{campaign}}':
+ * Доступные поля в таблице '{{campaign}}':
  * @property integer $id
  * @property integer $regionId
  * @property integer $timeFrom
@@ -15,6 +15,8 @@
  * @property integer $buyerId
  * @property integer $active
  * @property integer $sendEmail
+ * 
+ * @author Michael Krutikov m@mkrutikov.pro
  */
 class Campaign extends CActiveRecord
 {
@@ -34,11 +36,14 @@ class Campaign extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('timeFrom, timeTo, price, balance, leadsDayLimit, brakPercent, buyerId, active', 'required'),
-			array('regionId, townId, timeFrom, timeTo, price, sendEmail, balance, leadsDayLimit, brakPercent, buyerId, active', 'numerical', 'integerOnly'=>true),
+			array('timeFrom, timeTo, price, balance, leadsDayLimit, '
+                            . 'brakPercent, buyerId, active', 'required'),
+			array('regionId, townId, timeFrom, timeTo, price, sendEmail, '
+                            . 'balance, leadsDayLimit, brakPercent, buyerId, active', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, regionId, timeFrom, timeTo, price, balance, leadsDayLimit, brakPercent, buyerId, active', 'safe', 'on'=>'search'),
+			array('id, regionId, timeFrom, timeTo, price, balance, '
+                            . 'leadsDayLimit, brakPercent, buyerId, active', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,7 +64,9 @@ class Campaign extends CActiveRecord
                         ),
                     'leadsCount'     =>  array(self::STAT, 'Lead100', 'campaignId'),
                     'leadsTodayCount'    =>  array(self::STAT, 'Lead100', 'campaignId', 
-                        'condition' =>  'DATE(t.deliveryTime)="' . date('Y-m-d'). '" AND leadStatus IN('.Lead100::LEAD_STATUS_SENT.', '.Lead100::LEAD_STATUS_NABRAK.', ' . Lead100::LEAD_STATUS_RETURN . ')',
+                        'condition' =>  'DATE(t.deliveryTime)="' . date('Y-m-d'). 
+                        '" AND leadStatus IN('.Lead100::LEAD_STATUS_SENT.', '. 
+                        Lead100::LEAD_STATUS_NABRAK.', ' . Lead100::LEAD_STATUS_RETURN . ')',
                         ),
                     'transactions'     =>  array(self::HAS_MANY, 'TransactionCampaign', 'campaignId', 'order'=>'transactions.id DESC'),
 		);
@@ -135,6 +142,9 @@ class Campaign extends CActiveRecord
         
         /**
          * находит список кампаний, подходящих для отправки заданного лида
+         * 
+         * @param int $leadId ID лида
+         * @return int ID кампании для отправки лида 
          */
         public static function getCampaignsForLead($leadId)
         {
@@ -146,11 +156,7 @@ class Campaign extends CActiveRecord
             if(!$lead) {
                 return false;
             }
-            
-//            CustomFuncs::printr($lead->attributes);
-            
-            //echo $lead->town->id . ", " . $lead->town->regionId . ', ' . (int)date('h') . '<br />'; 
-            
+                        
             $campaigns = array();
             
             /**
@@ -168,10 +174,7 @@ class Campaign extends CActiveRecord
                         ))
                     ->order('price DESC')
                     ->limit($limit)
-                    ->queryAll();
-            
-//            echo "Кампании без учета дневных лимитов:";
-//            CustomFuncs::printr($campaignsRows);            
+                    ->queryAll();           
             
             foreach($campaignsRows as $campaign) {
                 
@@ -191,10 +194,6 @@ class Campaign extends CActiveRecord
                     ))
                     ->queryRow();
                 
-                //echo $campaign['id'] . ": " . $campaignTodayLeads['counter'] . 'лидов сегодня <br />';
-                
-//                $campaign['todayLeads'] = (int)$campaignTodayLeads['counter'];
-//                $campaign['todayLeadsPercent'] = ($dayLimit>0)?((int)$campaignTodayLeads['counter']/$dayLimit)*100:100;
                 
                 // если в кампанию сегодня отправлено лидов меньше, чем дневной лимит, добавляем в список кампаний
                 if($campaignTodayLeads['counter']<$dayLimit) {
@@ -202,8 +201,6 @@ class Campaign extends CActiveRecord
                 }
             }
             
-            //echo "Кампании с учетом дневных лимитов:";
-            //CustomFuncs::printr($campaigns);
             
             if(sizeof($campaigns)) {
                 /** 
@@ -227,28 +224,27 @@ class Campaign extends CActiveRecord
                 }
                 $rnd = mt_rand(1,$pricesSum);
                 
-//                echo "SUM = " . $pricesSum . ", RND = " . $rnd;
                 // определяем счастливчика и возвращаем его id
                 $sum = 0;
                 foreach($campaigns as $c) {
                     $sum += $c['price'];
                     if($sum >= $rnd) {
                         
-//                        CustomFuncs::printr($c['id']);
-                        //exit;
                         return $c['id'];
                     }
                 }
                 
-                //return $campaigns[0]['id'];
             } else {
                 return false;
             }
-            
-            //CustomFuncs::printr($campaigns);
         }
         
-        
+        /**
+         * Поиск активных кампаний по id покупателя
+         * 
+         * @param type $buyerId id покупателя
+         * @return array массив кампаний
+         */
         public static function getCampaignsForBuyer($buyerId)
         {
             $criteria = new CDbCriteria;
@@ -260,6 +256,13 @@ class Campaign extends CActiveRecord
             
             return $campaigns;
         }
+        
+        /**
+         * Возвращает имя кампании (город + регион) по ее id
+         * 
+         * @param int $id id кампании
+         * @return string имя кампании
+         */
         
         public static function getCampaignNameById($id)
         {

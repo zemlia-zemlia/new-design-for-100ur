@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "{{comment}}".
+ * Модель для работы с комментариями
  *
- * The followings are the available columns in table '{{comment}}':
+ * Поля, доступные в таблице '{{comment}}':
  * @property string $id
  * @property integer $type
  * @property integer $authorId
@@ -139,7 +139,11 @@ class Comment extends CActiveRecord
 	}
         
         
-        // возвращает массив, ключами которого являются коды статусов, а значениями - названия статусов
+        /**
+         * возвращает массив, ключами которого являются коды статусов, а значениями - названия статусов
+         * 
+         * @return array (код статуса => название)
+         */
         static public function getStatusesArray()
         {
             return array(
@@ -149,22 +153,35 @@ class Comment extends CActiveRecord
             );
         }
         
-        // возвращает название статуса для объекта
+        /**
+         * возвращает название статуса для объекта
+         * 
+         * @return string название статуса
+         */
         public function getCommentStatusName()
         {
             $statusesArray = self::getStatusesArray();
             return $statusesArray[$this->status];
         }
         
-        // статический метод, возвращает название статуса по коду
+        /**
+         * Статический метод, возвращает название статуса по коду
+         * 
+         * @param int $status код статуса
+         * @return string Название статуса 
+         */
         static public function getStatusName($status)
         {
             $statusesArray = self::getStatusesArray();
             return $statusesArray[$status];
         }
         
-        /*
-         * возвращает количество новых комментариев заданного типа
+        /**
+         * Возвращает количество новых комментариев заданного типа
+         * 
+         * @param int $type Тип комментария
+         * @param int $cacheTime Время кеширования (сек.)
+         * @return int количество новых комментариев
          */
         public static function newCommentsCount($type, $cacheTime = 0) 
         {
@@ -176,6 +193,11 @@ class Comment extends CActiveRecord
             
             return ($counterRow!== false)?$counterRow['counter']:0;
         }
+        
+        
+        /**
+         * Метод, вызываемый после сохранения комментария
+         */
         
         protected function afterSave()
         {
