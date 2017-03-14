@@ -12,32 +12,36 @@ class UserIdentity extends CUserIdentity
 
         const ERROR_USER_INACTIVE=5;
         const ERROR_AUTOLOGIN_WRONG=6;
-	/**
-	 * Authenticates a user.
-	 * @return boolean whether authentication succeeds.
+	
+        /**
+	 * Аутентификация пользователя
+	 * @return boolean успешна ли аутентификация
 	 */
 	public function authenticate()
 	{
-		$user=User::model()->find('LOWER(email)=?',array(strtolower($this->username)));
-		if($user===null) {
-                    // если не нашли пользователя
-                    $this->errorCode=self::ERROR_USERNAME_INVALID;
-                } else if($user->active100!=1) {
-                    $this->errorCode=self::ERROR_USER_INACTIVE;
-                } else if(!$user->validatePassword($this->password)) {
-                    // если неправильный пароль
-                    $this->errorCode=self::ERROR_PASSWORD_INVALID;
-                } else {
-                    // все ок
-                    $this->_id=$user->id;
-                    $this->username=$user->email;
-                    $this->errorCode=self::ERROR_NONE;
-		}
-                
-		return $this->errorCode==self::ERROR_NONE;
+            $user=User::model()->find('LOWER(email)=?',array(strtolower($this->username)));
+            if($user===null) {
+                // если не нашли пользователя
+                $this->errorCode=self::ERROR_USERNAME_INVALID;
+            } else if($user->active100!=1) {
+                $this->errorCode=self::ERROR_USER_INACTIVE;
+            } else if(!$user->validatePassword($this->password)) {
+                // если неправильный пароль
+                $this->errorCode=self::ERROR_PASSWORD_INVALID;
+            } else {
+                // все ок
+                $this->_id=$user->id;
+                $this->username=$user->email;
+                $this->errorCode=self::ERROR_NONE;
+            }
+
+            return $this->errorCode==self::ERROR_NONE;
 	}
         
-        // аутентификация пользователя по строке autologin
+        /**
+         * аутентификация пользователя по строке autologin
+         * @return int Код результата 
+         */
         public function autologin()
         {
             // если передана пустая строка autologin
@@ -67,37 +71,14 @@ class UserIdentity extends CUserIdentity
             return $this->errorCode == self::ERROR_NONE;
         }
 
-        public function authenticateVk()
-	{
-            $user=User::model()->find('vkId=?',array($this->username));
-            if($user===null) // если не нашли пользователя
-			$this->errorCode=self::ERROR_USERNAME_INVALID;
-                else if($user->active!=1)
-                        $this->errorCode=self::ERROR_USER_INACTIVE;
-		else // все ок
-		{
-			$this->_id=$user->id;
-			$this->username=$user->email;
-			$this->errorCode=self::ERROR_NONE;
-		}
-		return $this->errorCode==self::ERROR_NONE;
-        }
         
-        public function authenticateFb()
-        {
-            if($this->username) {
-                $this->_id=$this->username;
-                return $this->errorCode==self::ERROR_NONE;
-            } else {
-                $this->errorCode=self::ERROR_USERNAME_INVALID;
-            }
-            
-        }
 	/**
-	 * @return integer the ID of the user record
+         * Возвращает id текущего авторизованного пользователя
+         * 
+	 * @return integer id текущего пользователя
 	 */
 	public function getId()
 	{
-		return $this->_id;
+            return $this->_id;
 	}
 }

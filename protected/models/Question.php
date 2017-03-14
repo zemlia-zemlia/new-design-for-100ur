@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "{{question}}".
+ * Модель для работы с вопросами
  *
- * The followings are the available columns in table '{{question}}':
+ * Поля таблицы '{{question}}':
  * @property integer $id
  * @property integer $number
  * @property string $questionText
@@ -24,17 +24,18 @@
 class Question extends CActiveRecord
 {
     
-        const STATUS_NEW = 0;
-        const STATUS_MODERATED = 1;
-        const STATUS_PUBLISHED = 2;
-        const STATUS_SPAM = 3;
-        const STATUS_CHECK = 4;
-        const STATUS_PRESAVE = 5;
+        const STATUS_NEW = 0; // Новый
+        const STATUS_MODERATED = 1; // Ждет публикации
+        const STATUS_PUBLISHED = 2; // Опубликован
+        const STATUS_SPAM = 3; // Спам
+        const STATUS_CHECK = 4; // Предварительно опубликован
+        const STATUS_PRESAVE = 5; // Недозаполненный
         
         
         const LEAD_STATUS_SENT_CRM = 1;
         const LEAD_STATUS_SENT_LEADIA = 2;
         
+        // Уровни крутости VIP вопросов (уровни цены)
         const LEVEL_1 = 1;
         const LEVEL_2 = 2;
         const LEVEL_3 = 3;
@@ -46,7 +47,7 @@ class Question extends CActiveRecord
 	 */
 	public static function model($className=__CLASS__)
 	{
-		return parent::model($className);
+            return parent::model($className);
 	}
 
 	/**
@@ -54,7 +55,7 @@ class Question extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{question}}';
+            return '{{question}}';
 	}
 
 	/**
@@ -62,23 +63,23 @@ class Question extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('questionText, authorName', 'required', 'message'=>'{attribute} не заполнен'),
-			array('phone', 'required', 'on'=>'create', 'message'=>'Поле {attribute} должно быть заполнено'),
-			array('townId', 'required', 'except'=>array('preSave'), 'message'=>'Поле {attribute} должно быть заполнено'),
-                        array('number, categoryId, status, publishedBy, authorId, price, payed', 'numerical', 'integerOnly'=>true),
-			array('categoryName, sessionId', 'length', 'max'=>255),
-                        array('authorName, title','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-., ])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, точка, дефис и пробел'),
-                        array('phone','match','pattern'=>'/^([0-9\+])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
-			array('email','email', 'message'=>'В Email допускаются латинские символы, цифры, точка и дефис', 'allowEmpty'=>true),
-                        array('townId', 'match','not'=>true, 'except'=>array('preSave'), 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
-                        array('description', 'safe'),
-                        // The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, number, questionText, categoryId, categoryName', 'safe', 'on'=>'search'),
-		);
+            // NOTE: you should only define rules for those attributes that
+            // will receive user inputs.
+            return array(
+                array('questionText, authorName', 'required', 'message'=>'{attribute} не заполнен'),
+                array('phone', 'required', 'on'=>'create', 'message'=>'Поле {attribute} должно быть заполнено'),
+                array('townId', 'required', 'except'=>array('preSave'), 'message'=>'Поле {attribute} должно быть заполнено'),
+                array('number, categoryId, status, publishedBy, authorId, price, payed', 'numerical', 'integerOnly'=>true),
+                array('categoryName, sessionId', 'length', 'max'=>255),
+                array('authorName, title','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-., ])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, точка, дефис и пробел'),
+                array('phone','match','pattern'=>'/^([0-9\+])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
+                array('email','email', 'message'=>'В Email допускаются латинские символы, цифры, точка и дефис', 'allowEmpty'=>true),
+                array('townId', 'match','not'=>true, 'except'=>array('preSave'), 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
+                array('description', 'safe'),
+                // The following rule is used by search().
+                // Please remove those attributes that should not be searched.
+                array('id, number, questionText, categoryId, categoryName', 'safe', 'on'=>'search'),
+            );
 	}
 
 	/**
@@ -86,16 +87,16 @@ class Question extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-                    'town'          =>  array(self::BELONGS_TO, 'Town', 'townId'),
-                    'answers'       =>  array(self::HAS_MANY, 'Answer', 'questionId'),
-                    'answersCount'  =>  array(self::STAT, 'Answer', 'questionId'),
-                    'bublishUser'   =>  array(self::BELONGS_TO, 'User', 'publishedBy'),
-                    'author'   =>  array(self::BELONGS_TO, 'User', 'authorId'),
-                    'categories'    =>  array(self::MANY_MANY, 'QuestionCategory', '{{question2category}}(qId, cId)'),
-		);
+            // NOTE: you may need to adjust the relation name and the related
+            // class name for the relations automatically generated below.
+            return array(
+                'town'          =>  array(self::BELONGS_TO, 'Town', 'townId'),
+                'answers'       =>  array(self::HAS_MANY, 'Answer', 'questionId'),
+                'answersCount'  =>  array(self::STAT, 'Answer', 'questionId'),
+                'bublishUser'   =>  array(self::BELONGS_TO, 'User', 'publishedBy'),
+                'author'        =>  array(self::BELONGS_TO, 'User', 'authorId'),
+                'categories'    =>  array(self::MANY_MANY, 'QuestionCategory', '{{question2category}}(qId, cId)'),
+            );
 	}
 
 	/**
@@ -103,48 +104,59 @@ class Question extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
-			'id'            =>  'ID',
-			'number'        =>  'Уникальный номер вопроса',
-			'questionText'  =>  'Вопрос',
-			'categoryId'    =>  'ID категории',
-                        'category'      =>  'Категория',
-			'categoryName'  =>  'Название категории',
-                        'status'        =>  'Статус',
-                        'authorName'    =>  'Ваше имя',
-                        'town'          =>  'Город',
-                        'townId'        =>  'Город',
-                        'title'         =>  'Заголовок',
-                        'phone'         =>  'Номер телефона',
-                        'authorId'      =>  'ID автора',
-                        'price'         =>  'Цена',
-                        'payed'         =>  'Оплачен',
-		);
+            return array(
+                'id'            =>  'ID',
+                'number'        =>  'Уникальный номер вопроса',
+                'questionText'  =>  'Вопрос',
+                'categoryId'    =>  'ID категории',
+                'category'      =>  'Категория',
+                'categoryName'  =>  'Название категории',
+                'status'        =>  'Статус',
+                'authorName'    =>  'Ваше имя',
+                'town'          =>  'Город',
+                'townId'        =>  'Город',
+                'title'         =>  'Заголовок',
+                'phone'         =>  'Номер телефона',
+                'authorId'      =>  'ID автора',
+                'price'         =>  'Цена',
+                'payed'         =>  'Оплачен',
+            );
 	}
         
-        // возвращает массив, ключами которого являются коды статусов, а значениями - названия статусов
+        /**
+         * возвращает массив, ключами которого являются коды статусов, а значениями - названия статусов
+         * 
+         * @return array массив статусов 
+         */
         static public function getStatusesArray()
         {
             return array(
-				self::STATUS_PRESAVE    =>  'Недозаполненные',
+                self::STATUS_PRESAVE    =>  'Недозаполненные',
                 self::STATUS_NEW        =>  'Email не указан / не подтвержден',
-				self::STATUS_CHECK      =>  'Предварительно опубликован',
+                self::STATUS_CHECK      =>  'Предварительно опубликован',
                 self::STATUS_MODERATED  =>  'Ждет публикации',
                 self::STATUS_PUBLISHED  =>  'Опубликован',
                 self::STATUS_SPAM       =>  'Спам',
-                
-                
             );
         }
         
-        // возвращает название статуса для объекта
+        /**
+         * возвращает название статуса для вопроса
+         * 
+         * @return string название статуса
+         */
         public function getQuestionStatusName()
         {
             $statusesArray = self::getStatusesArray();
             return $statusesArray[$this->status];
         }
         
-        // статический метод, возвращает название статуса вопроса по коду
+        /**
+         * статический метод, возвращает название статуса вопроса по коду
+         * 
+         * @param int $status код статуса
+         * @return string название статуса 
+         */
         static public function getStatusName($status)
         {
             $statusesArray = self::getStatusesArray();
@@ -152,7 +164,12 @@ class Question extends CActiveRecord
         }
         
         
-        // возвращает количество вопросов с определенным статусом
+        /**
+         * возвращает количество вопросов с определенным статусом
+         * 
+         * @param int $status код статуса
+         * @return int количество вопросов
+         */
         static public function getCountByStatus($status)
         {
             $connection  = Yii::app()->db;
@@ -163,7 +180,10 @@ class Question extends CActiveRecord
             return $row['counter'];
         }
         
-        // возвращает количество вопросов без ответов
+        /**
+         * возвращает количество вопросов без ответов
+         * @return int количество вопросов
+         */
         static public function getCountWithoutAnswers()
         {
             $connection  = Yii::app()->db;
@@ -175,13 +195,15 @@ class Question extends CActiveRecord
             return $row['counter'];
         }
         
-        // возвращает количество вопросов 
+        /**
+         * возвращает общее количество вопросов 
+         * @return int количество вопросов 
+         */
         static public function getCount()
         {
             $connection  = Yii::app()->db;
             $sqlPublished = "SELECT COUNT(id) AS counter FROM {{question}}";
             $command = $connection->cache(600)->createCommand($sqlPublished);
-            $command->bindParam(":status",  $status, PDO::PARAM_INT);
             $row = $command->queryRow();
             return $row['counter'];
         }
@@ -210,6 +232,10 @@ class Question extends CActiveRecord
 		));
 	}
         
+        /**
+         * Метод, вызываемый перед сохранением модели в базе
+         * @return boolean
+         */
         protected function beforeSave()
         {
             if(!parent::beforeSave()) {
@@ -224,20 +250,24 @@ class Question extends CActiveRecord
             return true;
         }
         
-        // присваивает полю title первые 10 слов из текста вопроса
+        /**
+         * Присваивает полю title первые $wordsCount слов из текста вопроса, отфильтровывая стоп-слова
+         * 
+         * @param int $wordsCount лимит на количество слов в заголовке
+         */
         public function formTitle($wordsCount = 10)
         {
             $text = trim(preg_replace("/[^a-zA-Zа-яА-ЯёЁ0-9 ]/ui", ' ', $this->questionText));
-            //echo $text . "\n";
-            //echo $wordsCount . "\n";
+
             preg_match("/(\w+\s+){0,".$wordsCount."}/u", $text, $matches);
             $this->title = $matches[0];
-            //print_r($matches); exit;
+
             $patterns = array();
             $patterns[0] = '/Здравствуйте/ui';
             $patterns[1] = '/Добрый день/ui';
             $patterns[2] = '/[!,\.\?:]/ui';
             $patterns[3] = '/quote/ui';
+            
             $replacements = array();
             $replacements[3] = '';
             $replacements[2] = ' ';
@@ -249,8 +279,12 @@ class Question extends CActiveRecord
         }
         
         
-        /*
-         * возвращает цену вопроса по уровню
+        /**
+         * возвращает цену вопроса (руб.) по уровню вопроса
+         * в базе хранится уровень вопроса (целое число), т.к. цена каждого уровня может со временем меняться
+         * 
+         * @param int $level уровень вопроса
+         * @return int Цена вопроса (руб.)
          */
         public static function getPriceByLevel($level=self::LEVEL_1)
         {
@@ -267,7 +301,11 @@ class Question extends CActiveRecord
             }
         }
         
-        // сохраняет в базу вопрос, который не был полностью заполнен (имеет только имя и текст вопроса)
+        /**
+         *  сохраняет в базу вопрос, который не был полностью заполнен 
+         * (имеет только имя и текст вопроса)
+         * лид из такого вопроса не создать, но уникальный контент для публикации можно получить
+         */
         public function preSave()
         {
             if($this->sessionId == '') {
@@ -287,9 +325,16 @@ class Question extends CActiveRecord
             
         }
         
+        /**
+         * Создает нового пользователя, сохраняет в базе, присваивает его id
+         * как id автора вопроса
+         * Нужно, чтобы в дальнейшем пользователь мог получать уведомления, писать комментарии к ответам, etc.
+         * 
+         * @return boolean true - пользователь сохранен, false - не сохранен
+         */
         public function createAuthor()
         {
-            
+            // создаем нового пользователя с атрибутами, которые о себе указал автор вопроса
             $author = new User;
             $author->role = User::ROLE_CLIENT;
             $author->phone = $this->phone;
@@ -299,6 +344,8 @@ class Question extends CActiveRecord
             $author->password = $author->password2 = $author->generatePassword();
             $author->confirm_code = md5($this->email.mt_rand(100000,999999));
 
+            // сохраняем нового пользователя в базе, привязываем к вопросу, 
+            // отправляем ссылку на подтверждение профиля
             if($author->save()) {
                 $this->authorId = $author->id;
                 $author->sendConfirmation();
@@ -308,19 +355,21 @@ class Question extends CActiveRecord
             }
         }
         
+        /**
+        * возвращает id произвольного вопроса с определенным статусом и из категории, которая привязана 
+        * к пользователю (юристу)
+        *  Запрос:
+        *  SELECT * FROM `crm_question` q 
+        *   LEFT JOIN `crm_question2category` q2c ON q.id = q2c.qId
+        *   WHERE q2c.cId IN(3,5) AND q.status=2
+        *   ORDER BY RAND()
+        *   LIMIT 1
+        * 
+        * @return int id вопроса (0 - ничего не найдено)
+        */
         public static function getRandomId()
         {
-            
-            /*
-             * возвращает id произвольного вопроса с определенным статусом и из категории, которая привязана 
-             * к пользователю
-             *  SELECT * FROM `crm_question` q 
-                LEFT JOIN `crm_question2category` q2c ON q.id = q2c.qId
-                WHERE q2c.cId IN(3,5) AND q.status=2
-                ORDER BY RAND()
-                LIMIT 1
-             */
-            
+
             $myCategories = Yii::app()->user->categories;
             
             $myCategoriesStr = '';

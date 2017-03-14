@@ -1,9 +1,7 @@
 <?php
 
 /**
- * LoginForm class.
- * LoginForm is the data structure for keeping
- * user login form data. It is used by the 'login' action of 'SiteController'.
+ * Модель для работы с формой логина
  */
 class LoginForm extends CFormModel
 {
@@ -47,54 +45,36 @@ class LoginForm extends CFormModel
 	}
 
 	/**
-	 * Authenticates the password.
-	 * This is the 'authenticate' validator as declared in rules().
+	 * Проверка правильности введенных логина и пароля
 	 */
 	public function authenticate($attribute,$params)
 	{
-		$this->_identity=new UserIdentity($this->email,$this->password);
-		if(!$this->_identity->authenticate())
-			$this->addError('password','Неправильный E-mail или пароль, либо E-mail неактивирован');
-                
+            $this->_identity=new UserIdentity($this->email, $this->password);
+            
+            if(!$this->_identity->authenticate()) {
+                $this->addError('password','Неправильный E-mail или пароль, либо E-mail неактивирован');
+            }
                
 	}
 
 	/**
-	 * Logs in the user using the given username and password in the model.
-	 * @return boolean whether login is successful
+	 * Пытается залогинить пользователя по email и паролю
+         * 
+	 * @return boolean true - залогинен, false - ошибка
 	 */
 	public function login()
 	{
-		if($this->_identity===null)
-		{
-			$this->_identity=new UserIdentity($this->email,$this->password);
-			$this->_identity->authenticate();
-		}
-//                CustomFuncs::printr($this->_identity);
-		if($this->_identity->errorCode===UserIdentity::ERROR_NONE)
-		{
-			$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 days
-			Yii::app()->user->login($this->_identity,$duration);
-			return true;
-		}
-		else
-			return false;
-	}
-        
-        public function loginVk()
-	{
-		if($this->_identity===null)
-		{
-			$this->_identity=new UserIdentity($this->uid,$this->password);
-			$this->_identity->authenticateVk();
-		}
-		if($this->_identity->errorCode===UserIdentity::ERROR_NONE)
-		{
-			$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 days
-			Yii::app()->user->login($this->_identity,$duration);
-			return true;
-		}
-		else
-			return false;
+            if($this->_identity===null) {
+                $this->_identity=new UserIdentity($this->email,$this->password);
+                $this->_identity->authenticate();
+            }
+            
+            if($this->_identity->errorCode===UserIdentity::ERROR_NONE) {
+                $duration=$this->rememberMe ? 3600*24*30 : 0; // 30 days
+                Yii::app()->user->login($this->_identity,$duration);
+                return true;
+            } else {
+                return false;
+            }
 	}
 }

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "{{questionCategory}}".
+ * Модель для работы с категориями вопросов
  *
- * The followings are the available columns in table '{{questionCategory}}':
+ * Поля в таблице '{{questionCategory}}':
  * @property integer $id
  * @property string $name
  * @property integer $parentId
@@ -17,7 +17,7 @@
  */
 class QuestionCategory extends CActiveRecord
 {
-        const NO_CATEGORY = 0;	
+        const NO_CATEGORY = 0; // 0 - нет категории	
         
         /**
 	 * Returns the static model of the specified AR class.
@@ -26,7 +26,7 @@ class QuestionCategory extends CActiveRecord
 	 */
 	public static function model($className=__CLASS__)
 	{
-		return parent::model($className);
+            return parent::model($className);
 	}
 
 	/**
@@ -34,7 +34,7 @@ class QuestionCategory extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{questionCategory}}';
+            return '{{questionCategory}}';
 	}
 
 	/**
@@ -42,18 +42,18 @@ class QuestionCategory extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('name', 'required'),
-			array('parentId, isDirection', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>255),
-                        array('alias','match','pattern'=>'/^([a-z0-9\-])+$/'),
-                        array('description1, description2, seoTitle, seoDescription, seoKeywords, seoH1', 'safe'),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, name, parentId', 'safe', 'on'=>'search'),
-		);
+            // NOTE: you should only define rules for those attributes that
+            // will receive user inputs.
+            return array(
+                array('name', 'required'),
+                array('parentId, isDirection', 'numerical', 'integerOnly'=>true),
+                array('name', 'length', 'max'=>255),
+                array('alias','match','pattern'=>'/^([a-z0-9\-])+$/'),
+                array('description1, description2, seoTitle, seoDescription, seoKeywords, seoH1', 'safe'),
+                // The following rule is used by search().
+                // Please remove those attributes that should not be searched.
+                array('id, name, parentId', 'safe', 'on'=>'search'),
+            );
 	}
 
 	/**
@@ -61,13 +61,13 @@ class QuestionCategory extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-                    'questions'         =>  array(self::MANY_MANY, 'Question', '{{question2category}}(cId, qId)'),
-                    'parent'        =>  array(self::BELONGS_TO, 'QuestionCategory', 'parentId'),
-                    'children'      =>  array(self::HAS_MANY, 'QuestionCategory', 'parentId'),
-		);
+            // NOTE: you may need to adjust the relation name and the related
+            // class name for the relations automatically generated below.
+            return array(
+                'questions'         =>  array(self::MANY_MANY, 'Question', '{{question2category}}(cId, qId)'),
+                'parent'        =>  array(self::BELONGS_TO, 'QuestionCategory', 'parentId'),
+                'children'      =>  array(self::HAS_MANY, 'QuestionCategory', 'parentId'),
+            );
 	}
 
 	/**
@@ -75,32 +75,31 @@ class QuestionCategory extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
-			'id'                => 'ID',
-			'name'              => 'Название',
-			'parentId'          => 'ID родительской категории',
-                        'parent'            => 'Родительская категория',
-                        'description1'      =>  'Описание 1',
-                        'description2'      =>  'Описание 2',
-                        'seoTitle'          =>  'SEO title',
-                        'seoDescription'    =>  'SEO description',
-                        'seoKeywords'       =>  'SEO keywords',
-                        'seoH1'             =>  'Заголовок H1',
-                        'isDirection'       =>  'Является направлением',
-		);
+            return array(
+                'id'                => 'ID',
+                'name'              => 'Название',
+                'parentId'          => 'ID родительской категории',
+                'parent'            => 'Родительская категория',
+                'description1'      =>  'Описание 1',
+                'description2'      =>  'Описание 2',
+                'seoTitle'          =>  'SEO title',
+                'seoDescription'    =>  'SEO description',
+                'seoKeywords'       =>  'SEO keywords',
+                'seoH1'             =>  'Заголовок H1',
+                'isDirection'       =>  'Является направлением',
+            );
 	}
         
-        // возвращает массив, ключи которого - id категорий, значения - названия
+        /**
+         * возвращает массив, ключи которого - id категорий, значения - названия
+         * дочерние категории имеют дефис перед названием
+         * 
+         * @return array массив категорий [id => name]
+         */
         public static function getCategoriesIdsNames()
         {
             $allCategories = array(0=>'Без категории');
                 
-            /*$categories = self::model()->findAll(array(
-                'order' =>  'name ASC',
-            ));
-            foreach($categories as $cat){
-                $allCategories[$cat->id] = $cat->name;
-            }*/
             $topCategories = QuestionCategory::model()->findAll(array(
                 'order'     =>  't.name',
                 'with'      =>  'children',
@@ -126,21 +125,25 @@ class QuestionCategory extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+            // Warning: Please modify the following code to remove attributes that
+            // should not be searched.
 
-		$criteria=new CDbCriteria;
+            $criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('parentId',$this->parentId);
+            $criteria->compare('id',$this->id);
+            $criteria->compare('name',$this->name,true);
+            $criteria->compare('parentId',$this->parentId);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+            return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
+            ));
 	}
         
-        // перед сохранением экземпляра класса проверим, есть ли алиас. Если нет, присвоим.
+        /**
+         * перед сохранением экземпляра класса проверим, есть ли алиас. Если нет, присвоим.
+         * 
+         * @return boolean 
+         */
         protected function beforeSave()
         {
             if(parent::beforeSave()) {
@@ -153,6 +156,12 @@ class QuestionCategory extends CActiveRecord
             }
         }
         
+        /**
+         * Проверяет, заполнено ли свойство объекта
+         * 
+         * @param string $propName Имя свойства
+         * @return string Строка с галочкой, если поле заполнено, пустая - если не заполнено
+         */
         public function checkIfPropertyFilled($propName)
         {
             if($this->$propName) {
@@ -162,7 +171,13 @@ class QuestionCategory extends CActiveRecord
             }
         }
         
-        // проверяет, не 0 ли элемент массива с ключом $propName
+        /**
+         * проверяет, не 0 ли элемент массива с ключом $propName
+         * 
+         * @param array $categoryArray Массив с данными категории (fieldName => fieldValue)
+         * @param string $propName ключ массива fieldName
+         * @return string Строка с галочкой, если элемент заполнен, пустая - если не заполнен
+         */
         public static function checkIfArrayPropertyFilled($categoryArray, $propName)
         {
             if($categoryArray[$propName]) {
@@ -173,8 +188,20 @@ class QuestionCategory extends CActiveRecord
         }
 
 
-        /*
-         * возвращает массив, ключами которого являются id категорий-направлений, а значениями - их названия
+        /**
+         * возвращает массив, ключами которого являются id категорий-направлений, 
+         * а значениями - их названия
+         * 
+         * @param boolean $withAlias включать ли alias в массив результатов
+         * @param boolean $withHierarchy нужна ли иерархия в массиве результатов
+         * 
+         * @return array Массив категорий-направлений. Возможны 2 формата
+         * 1. id => name
+         * 2. id => array(
+         *              name => name,
+         *              alias => alias,
+         *              parentId => parentId
+         *          )
          */
         public static function getDirections($withAlias = false, $withHierarchy = false)
         {
@@ -237,9 +264,12 @@ class QuestionCategory extends CActiveRecord
             return $categories;
         }
         
-        /*
-         * возвращает одномерный массив направлений. направления-потомки имеют в названии дефис в начале
-         * @param $directionsHirerarchy - массив иерархии направлений
+        /**
+         * возвращает одномерный массив направлений. 
+         * направления-потомки имеют в названии дефис в начале
+         * 
+         * @param array $directionsHirerarchy Массив иерархии направлений
+         * @return array массив направлений
          */
         public static function getDirectionsFlatList($directionsHirerarchy)
         {

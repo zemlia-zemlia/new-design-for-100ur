@@ -75,8 +75,13 @@ class Leadsource100 extends CActiveRecord
 		);
 	}
         
-        // возвращает массив источников лидов, ключами которого являются ID, а значениями - названия
-        // $showInactive (boolean) - показывать неактивные источники
+        /**
+         *  возвращает массив источников лидов, ключами которого являются ID, а значениями - названия
+         * 
+         * @param boolean $showInactive показывать неактивные источники
+         * @return Array массив источников лидов (id => name)
+         */
+        
         static public function getSourcesArray($showInactive = true)
         {
             $attributes = array();

@@ -10,7 +10,88 @@ $this->setPageTitle("Финансовый отчет за период. " . Yii:
    <?php $this->renderPartial('_searchReportForm', array('model'=>$searchModel));?> 
 </div>
 
-<?php
-
-CustomFuncs::printr($reportDataSet);
-?>
+<table class="table">
+    <tr><td colspan="2">
+        <h3>Доходы</h3>
+        </td>
+    </tr>
+    <?php foreach($reportDataSetFiltered['income']['directions'] as $code=>$value):?>
+    <tr>
+        <td>
+            <?php echo Money::getDirectionByCode($code);?>
+        </td>
+        <td>
+            <?php echo $value;?>
+        </td>
+    </tr>
+    <?php endforeach;?>
+    <tr>
+        <td><strong>Всего доходов</strong></td>
+        <td><strong><?php echo $reportDataSetFiltered['income']['sum'];?></strong></td>
+    </tr>
+    
+    <tr>
+        <td colspan="2">
+            <h3>Расходы</h3>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <h4>Операционные расходы</h4>
+        </td>
+    </tr>
+    <?php foreach($reportDataSetFiltered['expences']['opex']['directions'] as $code=>$value):?>
+    <tr>
+        <td>
+            <?php echo Money::getDirectionByCode($code);?>
+        </td>
+        <td>
+            <?php echo $value;?>
+        </td>
+    </tr>
+    <?php endforeach;?>
+    <tr>
+        <td><strong>Всего операционных расходов</strong></td>
+        <td><strong><?php echo $reportDataSetFiltered['expences']['opex']['sum'];?></strong></td>
+    </tr>
+    
+    <tr>
+        <td colspan="2">
+            <h4>Капитальные расходы</h4>
+        </td>
+    </tr>
+    <?php foreach($reportDataSetFiltered['expences']['capex']['directions'] as $code=>$value):?>
+    <tr>
+        <td>
+            <?php echo Money::getDirectionByCode($code);?>
+        </td>
+        <td>
+            <?php echo $value;?>
+        </td>
+    </tr>
+    <?php endforeach;?>
+    <tr>
+        <td><strong>Всего капитальных расходов</strong></td>
+        <td><strong><?php echo $reportDataSetFiltered['expences']['capex']['sum'];?></strong></td>
+    </tr>
+    <tr>
+        <td><strong>Всего расходов</strong></td>
+        <td><strong><?php echo $reportDataSetFiltered['expences']['sum'];?></strong></td>
+    </tr>
+    
+    <tr>
+        <td colspan="2">
+            <h3>Прибыли и убытки</h3>
+        </td>
+    </tr>
+    
+    <tr>
+        <td>EBITDA</td>
+        <td><?php echo $reportDataSetFiltered['ebitda'];?></td>
+    </tr>
+    <tr>
+        <td>Чистая прибыль</td>
+        <td><?php echo $reportDataSetFiltered['net_profit'];?></td>
+    </tr>
+</table>
+      

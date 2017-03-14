@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "{{userStatusRequest}}".
+ * Модель для работы с заявками на изменение статусов пользователей
  *
- * The followings are the available columns in table '{{userStatusRequest}}':
+ * Доступные поля в таблице '{{userStatusRequest}}':
  * @property integer $id
  * @property integer $yuristId
  * @property integer $status
@@ -19,7 +19,7 @@
  */
 class UserStatusRequest extends CActiveRecord
 {
-	
+	// статусы заявок
         const STATUS_NEW = 0; // новая заявка
         const STATUS_ACCEPTED = 1; // одобрено
         const STATUS_DECLINED = 2; // отклонено
@@ -30,7 +30,7 @@ class UserStatusRequest extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{userStatusRequest}}';
+            return '{{userStatusRequest}}';
 	}
 
 	/**
@@ -38,16 +38,16 @@ class UserStatusRequest extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('yuristId', 'required'),
-			array('yuristId, status, isVerified, vuzTownId, educationYear', 'numerical', 'integerOnly'=>true),
-			array('vuz, facultet, education, advOrganisation, advNumber, position', 'length', 'max'=>255),
-                        // The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, yuristId, status, isVerified, vuz, facultet, education, vuzTownId, educationYear, advOrganisation, advNumber, position', 'safe', 'on'=>'search'),
-		);
+            // NOTE: you should only define rules for those attributes that
+            // will receive user inputs.
+            return array(
+                    array('yuristId', 'required'),
+                    array('yuristId, status, isVerified, vuzTownId, educationYear', 'numerical', 'integerOnly'=>true),
+                    array('vuz, facultet, education, advOrganisation, advNumber, position', 'length', 'max'=>255),
+                    // The following rule is used by search().
+                    // @todo Please remove those attributes that should not be searched.
+                    array('id, yuristId, status, isVerified, vuz, facultet, education, vuzTownId, educationYear, advOrganisation, advNumber, position', 'safe', 'on'=>'search'),
+            );
 	}
 
 	/**
@@ -55,13 +55,13 @@ class UserStatusRequest extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-                    'user'       =>  array(self::BELONGS_TO, 'User', 'yuristId'),
-                    'vuzTown'    =>  array(self::BELONGS_TO, 'Town', 'vuzTownId'),
-                    'userFile'   =>  array(self::BELONGS_TO, 'UserFile', 'fileId'),
-		);
+            // NOTE: you may need to adjust the relation name and the related
+            // class name for the relations automatically generated below.
+            return array(
+                'user'       =>  array(self::BELONGS_TO, 'User', 'yuristId'),
+                'vuzTown'    =>  array(self::BELONGS_TO, 'Town', 'vuzTownId'),
+                'userFile'   =>  array(self::BELONGS_TO, 'UserFile', 'fileId'),
+            );
 	}
 
 	/**
@@ -69,20 +69,20 @@ class UserStatusRequest extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
-			'id'                => 'ID',
-			'yuristId'          => 'ID юриста',
-			'status'            => 'Статус',
-			'isVerified'        => 'Проверен',
-			'vuz'               => 'ВУЗ',
-			'facultet'          => 'Факультет',
-			'education'         => 'Образование',
-			'vuzTownId'         => 'Город ВУЗа',
-			'educationYear'     => 'Год окончания учебного заведения',
-			'advOrganisation'   =>  'членство в адвокатском объединении', 
-                        'advNumber'         =>  'номер в реестре адвокатов', 
-                        'position'          =>  'должность',
-		);
+            return array(
+                'id'                => 'ID',
+                'yuristId'          => 'ID юриста',
+                'status'            => 'Статус',
+                'isVerified'        => 'Проверен',
+                'vuz'               => 'ВУЗ',
+                'facultet'          => 'Факультет',
+                'education'         => 'Образование',
+                'vuzTownId'         => 'Город ВУЗа',
+                'educationYear'     => 'Год окончания учебного заведения',
+                'advOrganisation'   =>  'членство в адвокатском объединении', 
+                'advNumber'         =>  'номер в реестре адвокатов', 
+                'position'          =>  'должность',
+            );
 	}
         
         // возвращает массив, ключами которого являются коды статусов верификации, а значениями - названия
@@ -116,26 +116,26 @@ class UserStatusRequest extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
+            // @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+            $criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('yuristId',$this->yuristId);
-		$criteria->compare('status',$this->status);
-		$criteria->compare('isVerified',$this->isVerified);
-		$criteria->compare('vuz',$this->vuz,true);
-		$criteria->compare('facultet',$this->facultet,true);
-		$criteria->compare('education',$this->education,true);
-		$criteria->compare('vuzTownId',$this->vuzTownId);
-		$criteria->compare('educationYear',$this->educationYear);
-		$criteria->compare('advOrganisation',$this->advOrganisation,true);
-		$criteria->compare('advNumber',$this->advNumber,true);
-		$criteria->compare('position',$this->position,true);
+            $criteria->compare('id',$this->id);
+            $criteria->compare('yuristId',$this->yuristId);
+            $criteria->compare('status',$this->status);
+            $criteria->compare('isVerified',$this->isVerified);
+            $criteria->compare('vuz',$this->vuz,true);
+            $criteria->compare('facultet',$this->facultet,true);
+            $criteria->compare('education',$this->education,true);
+            $criteria->compare('vuzTownId',$this->vuzTownId);
+            $criteria->compare('educationYear',$this->educationYear);
+            $criteria->compare('advOrganisation',$this->advOrganisation,true);
+            $criteria->compare('advNumber',$this->advNumber,true);
+            $criteria->compare('position',$this->position,true);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+            return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
+            ));
 	}
 
 	/**
@@ -146,10 +146,12 @@ class UserStatusRequest extends CActiveRecord
 	 */
 	public static function model($className=__CLASS__)
 	{
-		return parent::model($className);
+            return parent::model($className);
 	}
         
-        // проверка заполненности необходимых полей в зависимости от статуса
+        /** 
+         * проверка заполненности необходимых полей в зависимости от статуса
+         */
         public function validateRequest()
         {
             switch ($this->status) {
@@ -187,6 +189,11 @@ class UserStatusRequest extends CActiveRecord
             }
         }
 
+        /**
+         * Отправка уведомления о смене статуса
+         * 
+         * @return boolean результат: true - отправлено, false - ошибка
+         */
         public function sendNotification()
         {
             $user = $this->user;

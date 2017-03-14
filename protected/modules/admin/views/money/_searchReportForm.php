@@ -4,6 +4,7 @@
         'method'=>'GET',
         'htmlOptions'   => array('class'=>'form-inline'),
 	'enableAjaxValidation'=>false,
+        'action'    =>  Yii::app()->createUrl('admin/money/report'),
 )); ?>
 
 <div class="form-group">

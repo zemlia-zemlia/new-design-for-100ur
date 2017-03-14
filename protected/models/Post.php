@@ -118,6 +118,10 @@ class Post extends CActiveRecord
             ));
 	}
         
+        /**
+         * Метод, вызываемый после сохранения записи
+         * @throws CHttpException
+         */
         protected function afterSave()
         {
             parent::afterSave();
@@ -132,7 +136,9 @@ class Post extends CActiveRecord
             
         }
         
-        // увеличивает число просмотров объявления на 1
+        /**
+         *  увеличивает число просмотров поста на 1
+         */
         public function incrementCounter()
         {
             $connection = Yii::app()->db;
@@ -143,8 +149,10 @@ class Post extends CActiveRecord
    
         }
         
-        /* метод возвращает массив похожих постов
+        /**
+         *  метод возвращает массив похожих постов
          * @todo необходимо продумать алгоритм и реализацию выборки
+         * @return array массив похожих постов
          */
         public function getRelatedPosts()
         {
@@ -181,9 +189,12 @@ class Post extends CActiveRecord
             
         }
         
-        /*
+        /**
          * статический метод, возвращающий массив самых популярных постов (объекты класса Post)
          * если указана категория $categoryId, поиск ведется в ней
+         * 
+         * @param int $categoryId id категории
+         * @return array массив самых популярных постов
          */
         public static function getPopularPosts($categoryId = NULL)
         {
@@ -212,9 +223,13 @@ class Post extends CActiveRecord
         }
         
         
-        /*
+        /**
          * статический метод, возвращающий массив последних постов (объекты класса Post)
          * если указана категория $categoryId, поиск ведется в ней
+         * 
+         * @param int $categoryId id категории
+         * @param int $number лимит выборки
+         * @return array массив последних постов
          */
         public static function getRecentPosts($categoryId = NULL, $number = 4)
         {
@@ -243,8 +258,12 @@ class Post extends CActiveRecord
         }
         
         
-        /* изменение рейтинга поста на величину $delta с записью в таблицу истории изменений рейтингов постов
+        /**
+         *  изменение рейтинга поста на величину $delta с записью в таблицу истории изменений рейтингов постов
          * в случае успеха возвращает новый рейтинг, в противном случае - NULL
+         * 
+         * @param int $delta На какую величину изменить рейтинг
+         * @return int|NULL новый рейтинг
          */
         public function changeRating($delta=0)
         {
@@ -262,13 +281,23 @@ class Post extends CActiveRecord
             }
         }
         
+        /**
+         * Метод, вызываемый перед сохранением поста
+         * 
+         * @return boolean
+         */
         protected function beforeSave()
         {
             $this->update_timestamp = date('Y-m-d H:i:s');
             return parent::beforeSave();
         }
         
-        // возвращает URL фотографии города относительно корня сайта
+        /**
+         * возвращает URL фотографии поста относительно корня сайта
+         * 
+         * @param string $size Размер картинки full - большая, thumb - превью
+         * @return string URL фотографии
+         */
         public function getPhotoUrl($size='full')
         {
             $photoUrl = '';

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "{{region}}".
+ * Модель для работы с регионами
  *
- * The followings are the available columns in table '{{region}}':
+ * Поля в таблице '{{region}}':
  * @property integer $id
  * @property string $name
  * @property string $alias
@@ -16,7 +16,7 @@ class Region extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{region}}';
+            return '{{region}}';
 	}
 
 	/**
@@ -24,16 +24,16 @@ class Region extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('name, alias, countryId', 'required'),
-			array('countryId', 'numerical', 'integerOnly'=>true),
-			array('name, alias', 'length', 'max'=>255),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, name, alias, countryId', 'safe', 'on'=>'search'),
-		);
+            // NOTE: you should only define rules for those attributes that
+            // will receive user inputs.
+            return array(
+                    array('name, alias, countryId', 'required'),
+                    array('countryId', 'numerical', 'integerOnly'=>true),
+                    array('name, alias', 'length', 'max'=>255),
+                    // The following rule is used by search().
+                    // @todo Please remove those attributes that should not be searched.
+                    array('id, name, alias, countryId', 'safe', 'on'=>'search'),
+            );
 	}
 
 	/**
@@ -41,13 +41,13 @@ class Region extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-                    'towns'     =>  array(self::HAS_MANY, 'Town', 'regionId'),
-                    'country'   =>  array(self::BELONGS_TO, 'Country', 'countryId'),
-                    'capital'   =>  array(self::HAS_ONE, 'Town', 'regionId', 'condition'=>'isCapital=1'),
-		);
+            // NOTE: you may need to adjust the relation name and the related
+            // class name for the relations automatically generated below.
+            return array(
+                'towns'     =>  array(self::HAS_MANY, 'Town', 'regionId'),
+                'country'   =>  array(self::BELONGS_TO, 'Country', 'countryId'),
+                'capital'   =>  array(self::HAS_ONE, 'Town', 'regionId', 'condition'=>'isCapital=1'),
+            );
 	}
 
 	/**
@@ -55,12 +55,12 @@ class Region extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
-			'id' => 'ID',
-			'name' => 'Название',
-			'alias' => 'Псевдоним',
-			'countryId' => 'ID страны',
-		);
+            return array(
+                    'id' => 'ID',
+                    'name' => 'Название',
+                    'alias' => 'Псевдоним',
+                    'countryId' => 'ID страны',
+            );
 	}
 
 	/**
@@ -77,18 +77,18 @@ class Region extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
+            // @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+            $criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('alias',$this->alias,true);
-		$criteria->compare('countryId',$this->countryId);
+            $criteria->compare('id',$this->id);
+            $criteria->compare('name',$this->name,true);
+            $criteria->compare('alias',$this->alias,true);
+            $criteria->compare('countryId',$this->countryId);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+            return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
+            ));
 	}
 
 	/**
@@ -99,11 +99,16 @@ class Region extends CActiveRecord
 	 */
 	public static function model($className=__CLASS__)
 	{
-		return parent::model($className);
+            return parent::model($className);
 	}
         
         
-        // возвращает массив, ключами которого являются id регионов, а значениями - их имена
+        /**
+         * возвращает массив, ключами которого являются id регионов, а значениями - их имена
+         * 
+         * @param int $countryId id страны (2 - РФ)
+         * @return array массив регионов (id => name)
+         */
         public static function getAllRegions($countryId = 2)
         {
             $allRegions = array();
@@ -121,6 +126,7 @@ class Region extends CActiveRecord
         
         /**
          * Возвращает расстояние в километрах от центра столицы региона до точки с заданными координатами
+         * 
          * @param float $lat Широта точки
          * @param float $lng Долгота точки
          * @return int Расстояние в километрах или -1 в случае, если не удалось найти (например, неизвестна столица региона)

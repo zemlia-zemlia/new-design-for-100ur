@@ -1,9 +1,12 @@
 <?php
 
 /**
- * This is the model class for table "{{userFile}}".
+ * Модель для работы с файлами пользователей
+ * 
+ * Используется, например, для хранения сканов документов юристов, 
+ * претендующих на верификацию своего профиля
  *
- * The followings are the available columns in table '{{userFile}}':
+ * Поля в таблице '{{userFile}}':
  * @property integer $id
  * @property integer $userId
  * @property string $datetime
@@ -15,17 +18,18 @@
  */
 class UserFile extends CActiveRecord
 {
-	
+	// типы файлов
         const TYPE_NOTHING = 0; // нет статуса
         const TYPE_YURIST = 1; // подтверждение статуса юрист
         const TYPE_ADVOCAT = 2; // подтверждение статуса адвокат
         const TYPE_JUDGE = 3; // подтверждение статуса судья
         
+        // статусы файлов
         const STATUS_REVIEW = 0; // на рассмотрении
         const STATUS_CONFIRMED = 1; // одобрен
         const STATUS_DECLINED = 2; // не одобрен
         
-        
+        // папка для хранения пользовательских файлов
         const USER_FILES_FOLDER = '/upload/userfiles';
         
         public $userFile; // свойство для хранения данных о загружаемом файле
@@ -35,7 +39,7 @@ class UserFile extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{userFile}}';
+            return '{{userFile}}';
 	}
 
 	/**
@@ -43,17 +47,17 @@ class UserFile extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('userId, name, type', 'required'),
-			array('userId, isVerified, type', 'numerical', 'integerOnly'=>true),
-			array('name, reason', 'length', 'max'=>255),
-			array('userFile', 'file', 'allowEmpty'=>true, 'types'=>'jpg,pdf,tiff,png', 'maxSize'=>2*1024*1024, 'message'=>'Файл должен быть в допустимом формате'),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, userId, datetime, name, isVerified, comment, type, reason', 'safe', 'on'=>'search'),
-		);
+            // NOTE: you should only define rules for those attributes that
+            // will receive user inputs.
+            return array(
+                array('userId, name, type', 'required'),
+                array('userId, isVerified, type', 'numerical', 'integerOnly'=>true),
+                array('name, reason', 'length', 'max'=>255),
+                array('userFile', 'file', 'allowEmpty'=>true, 'types'=>'jpg,pdf,tiff,png', 'maxSize'=>2*1024*1024, 'message'=>'Файл должен быть в допустимом формате'),
+                // The following rule is used by search().
+                // @todo Please remove those attributes that should not be searched.
+                array('id, userId, datetime, name, isVerified, comment, type, reason', 'safe', 'on'=>'search'),
+            );
 	}
 
 	/**
@@ -61,11 +65,11 @@ class UserFile extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-                    'user'   =>  array(self::BELONGS_TO, 'User', 'userId'),
-		);
+            // NOTE: you may need to adjust the relation name and the related
+            // class name for the relations automatically generated below.
+            return array(
+                'user'   =>  array(self::BELONGS_TO, 'User', 'userId'),
+            );
 	}
 
 	/**
@@ -73,20 +77,24 @@ class UserFile extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
-			'id'            => 'ID',
-			'userId'        => 'ID пользователя',
-			'datetime'      => 'Дата и время загрузки',
-			'name'          => 'Имя файла',
-			'isVerified'    => 'Проверен',
-			'comment'       => 'Комментарий автора',
-			'type'          => 'Тип',
-			'reason'        => 'Причина отказа',
-			'userFile'      => 'Скан диплома (формат jpg, pdf, tiff, png, до 2 МБ)',
-		);
+            return array(
+                'id'            => 'ID',
+                'userId'        => 'ID пользователя',
+                'datetime'      => 'Дата и время загрузки',
+                'name'          => 'Имя файла',
+                'isVerified'    => 'Проверен',
+                'comment'       => 'Комментарий автора',
+                'type'          => 'Тип',
+                'reason'        => 'Причина отказа',
+                'userFile'      => 'Скан диплома (формат jpg, pdf, tiff, png, до 2 МБ)',
+            );
 	}
         
-        // возвращает массив, ключами которого являются коды типов, а значениями - названия
+        /**
+         * возвращает массив, ключами которого являются коды типов, а значениями - названия
+         * 
+         * @return array массив типов (код => название) 
+         */
         static public function getTypesArray()
         {
             return array(
@@ -94,10 +102,14 @@ class UserFile extends CActiveRecord
                 self::TYPE_YURIST     =>  'юрист',
                 self::TYPE_ADVOCAT    =>  'адвокат',
                 self::TYPE_JUDGE      =>  'судья',
-                                
             );
         }
         
+        /**
+         * Возвращает название типа текущего файла
+         * 
+         * @return string Название типа
+         */
         public function getTypeName()
         {
             $typesArray = self::getTypesArray();
@@ -105,7 +117,11 @@ class UserFile extends CActiveRecord
             return $typeName;
         }
 
-        // возвращает массив, ключами которого являются коды статусов, а значениями - названия
+        /** 
+         * возвращает массив, ключами которого являются коды статусов, а значениями - названия
+         * 
+         * @return array Массив статусов (код => название)
+         */
         static public function getStatusesArray()
         {
             return array(
@@ -115,6 +131,11 @@ class UserFile extends CActiveRecord
             );
         }
         
+        /**
+         * Возвращает статус текущего файла
+         * 
+         * @return string Статус файла
+         */
         public function getStatusName()
         {
             $statusesArray = self::getStatusesArray();

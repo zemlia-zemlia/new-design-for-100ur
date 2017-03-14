@@ -152,32 +152,37 @@ class MoneyController extends Controller
 	}
 
 	/**
-	*	Финансовый отчет за период
+	*   Финансовый отчет за период
 	*
 	*/
 	public function actionReport()
 	{
-		$searchModel = new Money;
+            $searchModel = new Money;
 
-		$searchModel->setScenario('search');
-
-
-        if(isset($_GET['Money'])) {
-            // если используется форма поиска по контактам
-            $searchModel->attributes=$_GET['Money'];
-        } else {
-        	// если не задан диапазон дат, построим отчет за последние 30 дней
-        	$searchModel->date1 = date('d-m-Y', time()-30*86400);
-        	$searchModel->date2 = date('d-m-Y');
-        }
+            $searchModel->setScenario('search');
 
 
-        $reportDataSet = $searchModel->getReportSet();
+            if(isset($_GET['Money'])) {
+                // если используется форма поиска по контактам
+                $searchModel->attributes = $_GET['Money'];
+            } else {
+                // если не задан диапазон дат, построим отчет за последние 30 дней
+                $searchModel->date1 = date('d-m-Y', time()-30*86400);
+                $searchModel->date2 = date('d-m-Y');
+            }
 
-        $this->render('report',array(
-			'searchModel'  	=>  $searchModel,
-            'reportDataSet' =>  $reportDataSet,
-		));
+            // сырой набор записей о транзакциях
+            $reportDataSet = $searchModel->getReportSet();
+            
+            // набор, отфильтрованный по типам и статьям доходов/расходов
+            $reportDataSetFiltered = Money::filterReportSet($reportDataSet);
+            
+            //CustomFuncs::printr($reportDataSetFiltered);
+
+            $this->render('report',array(
+                'searchModel'           =>  $searchModel,
+                'reportDataSetFiltered' =>  $reportDataSetFiltered,
+            ));
 	}
 
 	/**

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This is the model class for table "{{post2cat}}".
+ * Модель для хранения связей между постами и категориями постов
  *
  * The followings are the available columns in table '{{post2cat}}':
  * @property integer $postId
@@ -16,7 +16,7 @@ class Post2cat extends CActiveRecord
 	 */
 	public static function model($className=__CLASS__)
 	{
-		return parent::model($className);
+            return parent::model($className);
 	}
 
 	/**
@@ -24,7 +24,7 @@ class Post2cat extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{post2cat}}';
+            return '{{post2cat}}';
 	}
 
 	/**
@@ -32,15 +32,15 @@ class Post2cat extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('postId, catId', 'required'),
-			array('postId, catId', 'numerical', 'integerOnly'=>true),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('postId, catId', 'safe', 'on'=>'search'),
-		);
+            // NOTE: you should only define rules for those attributes that
+            // will receive user inputs.
+            return array(
+                array('postId, catId', 'required'),
+                array('postId, catId', 'numerical', 'integerOnly'=>true),
+                // The following rule is used by search().
+                // Please remove those attributes that should not be searched.
+                array('postId, catId', 'safe', 'on'=>'search'),
+            );
 	}
 
 	/**
@@ -48,10 +48,10 @@ class Post2cat extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-		);
+            // NOTE: you may need to adjust the relation name and the related
+            // class name for the relations automatically generated below.
+            return array(
+            );
 	}
 
 	/**
@@ -59,10 +59,10 @@ class Post2cat extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
-			'postId' => 'Post',
-			'catId' => 'Cat',
-		);
+            return array(
+                    'postId' => 'Post',
+                    'catId' => 'Cat',
+            );
 	}
 
 	/**
@@ -71,16 +71,16 @@ class Post2cat extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+            // Warning: Please modify the following code to remove attributes that
+            // should not be searched.
 
-		$criteria=new CDbCriteria;
+            $criteria=new CDbCriteria;
 
-		$criteria->compare('postId',$this->postId);
-		$criteria->compare('catId',$this->catId);
+            $criteria->compare('postId',$this->postId);
+            $criteria->compare('catId',$this->catId);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+            return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
+            ));
 	}
 }

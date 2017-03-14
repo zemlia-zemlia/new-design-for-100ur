@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * Модель для работы с формой поиска вопросов
+ */
 class QuestionSearch extends CFormModel
 {
     public $townId; // искать вопросы из города
@@ -19,32 +23,33 @@ class QuestionSearch extends CFormModel
     */
     public function attributeLabels()
     {
-            return array(
-                'townId'        =>  'город',
-                'noAnswers'     =>  'без ответов',
-                'today'         =>  'за 24 часа',
-                'myCats'        =>  'по моей специальности',
-                'sameRegion'    =>  'включая соседние города',
-                'myTown'        =>  'из моего города',
-            );
+        return array(
+            'townId'        =>  'город',
+            'noAnswers'     =>  'без ответов',
+            'today'         =>  'за 24 часа',
+            'myCats'        =>  'по моей специальности',
+            'sameRegion'    =>  'включая соседние города',
+            'myTown'        =>  'из моего города',
+        );
     }
     
     /**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('townId, today, noAnswers, sameRegion, myCats, myTown', 'numerical', 'integerOnly'=>true),
-		);
-	}
+    * @return array validation rules for model attributes.
+    */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+                array('townId, today, noAnswers, sameRegion, myCats, myTown', 'numerical', 'integerOnly'=>true),
+        );
+    }
 
         
     /**
-     *  функция поиска
-     * @return array
+     * функция поиска
+     * 
+     * @return array массив записей из базы
      */
     public function search()
     {
@@ -61,9 +66,7 @@ class QuestionSearch extends CFormModel
                 ->order('q.publishDate DESC')
                 ->limit($this->limit);
         
-        
-        
-        
+
         $whereCondition = array('and', array('in', 'q.status', array(Question::STATUS_CHECK, Question::STATUS_PUBLISHED)));
         $whereParams = array();
         $groupArray = array();

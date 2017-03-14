@@ -28,7 +28,7 @@
         <div class="container-fluid">
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
-            <a class="navbar-brand" href="http://www.100yuristov.com/admin/">Панель управления проектом</a>
+            <a class="navbar-brand" href="/admin/">Панель управления проектом</a>
            
           </div>
           

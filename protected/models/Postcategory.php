@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This is the model class for table "{{postcategory}}".
+ * Модель для работы с категориями постов
  *
  * The followings are the available columns in table '{{postcategory}}':
  * @property integer $id
@@ -12,7 +12,7 @@
  */
 class Postcategory extends CActiveRecord
 {
-	const NO_CATEGORY = 0;
+	const NO_CATEGORY = 0; // пост без категории имеет категорию 0
     
         /**
 	 * Returns the static model of the specified AR class.
@@ -21,7 +21,7 @@ class Postcategory extends CActiveRecord
 	 */
 	public static function model($className=__CLASS__)
 	{
-		return parent::model($className);
+            return parent::model($className);
 	}
 
 	/**
@@ -29,7 +29,7 @@ class Postcategory extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{postcategory}}';
+            return '{{postcategory}}';
 	}
 
 	/**
@@ -37,15 +37,15 @@ class Postcategory extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('title, description, alias', 'required'),
-			array('title, alias, avatar', 'length', 'max'=>256),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, title, description, alias, avatar', 'safe', 'on'=>'search'),
-		);
+            // NOTE: you should only define rules for those attributes that
+            // will receive user inputs.
+            return array(
+                    array('title, description, alias', 'required'),
+                    array('title, alias, avatar', 'length', 'max'=>256),
+                    // The following rule is used by search().
+                    // Please remove those attributes that should not be searched.
+                    array('id, title, description, alias, avatar', 'safe', 'on'=>'search'),
+            );
 	}
 
 	/**
@@ -53,11 +53,11 @@ class Postcategory extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-                    'posts' => array(self::MANY_MANY, 'Post', '{{post2cat}}(catId, postId)'),
-		);
+            // NOTE: you may need to adjust the relation name and the related
+            // class name for the relations automatically generated below.
+            return array(
+                'posts' => array(self::MANY_MANY, 'Post', '{{post2cat}}(catId, postId)'),
+            );
 	}
 
 	/**
@@ -65,13 +65,13 @@ class Postcategory extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
-			'id' => 'ID',
-			'title' => 'Название',
-			'description' => 'Описание',
-			'alias' => 'Символьный код',
-			'avatar' => 'Аватар',
-		);
+            return array(
+                'id'            => 'ID',
+                'title'         => 'Название',
+                'description'   => 'Описание',
+                'alias'         => 'Символьный код',
+                'avatar'        => 'Аватар',
+            );
 	}
 
 	/**
@@ -80,26 +80,28 @@ class Postcategory extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+            // Warning: Please modify the following code to remove attributes that
+            // should not be searched.
 
-		$criteria=new CDbCriteria;
+            $criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('alias',$this->alias,true);
-		$criteria->compare('avatar',$this->avatar,true);
+            $criteria->compare('id',$this->id);
+            $criteria->compare('title',$this->title,true);
+            $criteria->compare('description',$this->description,true);
+            $criteria->compare('alias',$this->alias,true);
+            $criteria->compare('avatar',$this->avatar,true);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+            return new CActiveDataProvider($this, array(
+                    'criteria'=>$criteria,
+            ));
 	}
         
-        /* определяет, подписан ли пользователь с id $userId на категорию
+        /**
+         * определяет, подписан ли пользователь с id $userId на категорию
          * если пользователь не указан, берется id текущего авторизованного пользователя
-         * возвращает true, если подписан
-         * false - если не подписан
+         * 
+         * @param int $userId id пользователя
+         * @return boolean true, если подписан, false - если не подписан
          */
         public function isUserFollowingCategory($userId = NULL)
         {
