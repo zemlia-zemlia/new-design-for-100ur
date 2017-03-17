@@ -1,7 +1,8 @@
 <?php
-/*
+/**
  * Класс для работы с Api Вконтакте
- * Автор: Михаил Крутиков, студия Большая Рыба
+ * 
+ * @author Михаил Крутиков, студия Большая Рыба
  * michael@bigfishstudio.ru
  * www.bigfishstudio.ru
  * 
@@ -15,7 +16,7 @@ class VkApi
                     "client_id=" . Yii::app()->params['vkApiId'] . 
                     "&client_secret=" . Yii::app()->params['vkSecret'] . 
                     "&code=" . $code . 
-                    "&redirect_uri="."http://".$_SERVER['SERVER_NAME'].$redirectUri."&";
+                    "&redirect_uri="."http://" . $_SERVER['SERVER_NAME'] . $redirectUri . "&";
          // обращаемся через CURL к серверу ВКонтакте за токеном    
          $ch = curl_init();
          curl_setopt($ch, CURLOPT_URL, $vkUrl);

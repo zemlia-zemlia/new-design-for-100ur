@@ -1,17 +1,16 @@
 <?php
 
 /**
- * UserIdentity represents the data needed to identity a user.
- * It contains the authentication method that checks if the provided
- * data can identity the user.
+ * Класс для работы с User identity, используется при аутентификации
  */
 class UserIdentity extends CUserIdentity
 {
 	protected $_id;
         public $autologinString;
 
-        const ERROR_USER_INACTIVE=5;
-        const ERROR_AUTOLOGIN_WRONG=6;
+        // добавляем свои константы для кодов ошибок
+        const ERROR_USER_INACTIVE = 5;
+        const ERROR_AUTOLOGIN_WRONG = 6;
 	
         /**
 	 * Аутентификация пользователя

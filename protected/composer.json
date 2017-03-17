@@ -1,0 +1,8 @@
+{
+    "require-dev": {
+        "phpunit/php-invoker": "*",
+        "phpunit/dbunit": ">=1.2",
+        "phpunit/phpunit-selenium": ">=1.2",
+        "phpunit/phpunit-story": "*"
+    }
+}

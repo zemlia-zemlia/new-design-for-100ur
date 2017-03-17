@@ -239,6 +239,7 @@ class Money extends CActiveRecord
                         $dataSetFiltered['income']['directions'][$setRow['direction']] += $setRow['value'];
                     }
                     break;
+                    
                 case self::TYPE_EXPENCE:
                     if($setRow['direction'] == 500) {
                         break;
@@ -254,6 +255,9 @@ class Money extends CActiveRecord
                         $dataSetFiltered['expences'][$expenceType]['sum'] += $setRow['value'];
                         $dataSetFiltered['expences'][$expenceType]['directions'][$setRow['direction']] += $setRow['value'];
                     }
+                    break;
+                    
+                default :
                     break;
             }
         }
