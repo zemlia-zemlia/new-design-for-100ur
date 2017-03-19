@@ -17,7 +17,7 @@ $this->breadcrumbs=array(
 </div>
 
 <div  class="vert-margin30">
-<h1>Центр Обработки Обращений
+<h1>Лиды
     <?php if(Yii::app()->user->role == User::ROLE_ROOT):?>
         <?php echo CHtml::link('Отфильтровать обращения', Yii::app()->createUrl('/admin/lead/sendLeads'), array('class'=>'btn btn-primary'));?>
     <?php endif;?>
