@@ -45,7 +45,7 @@
                 $currentRegionName = (Yii::app()->user->getState('currentTownRegionName'))?Yii::app()->user->getState('currentTownRegionName'):'';
                 $currenTownId = (Yii::app()->user->getState('currentTownId'))?Yii::app()->user->getState('currentTownId'):0;
             ?>
-        
+        <?php if($currenTownId == 0):?> 
             <?php echo $form->labelEx($model,'town'); ?>
             <?php echo CHtml::textField('town', $currenTownName, array(
                 'id'            =>  'town-selector', 
@@ -54,6 +54,8 @@
                 'data-placement'=>  "top",
                 'title'         =>  "Необходим для уточнения регионального законодательства",
             )); ?>
+        <?php endif;?>
+        
             <?php
                 echo $form->hiddenField($model, 'townId', array('id'=>'selected-town', 'value'=>$currenTownId));
             ?>

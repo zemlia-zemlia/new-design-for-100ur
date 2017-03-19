@@ -24,9 +24,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <thead>
     <tr>
         <th>Вопрос</th>
-        <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
-        <th style="min-width:50%">Категория</th>
-        <?php endif;?>
     </tr>
     </thead>
 
@@ -77,7 +74,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         </small>
         
         <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>   
-            <div>          
+            <div class="vert-margin20">          
                 <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/question/update', array('id'=>$data['id'])), array('class'=>'btn btn-primary btn-xs')); ?>
                 <?php echo CHtml::ajaxLink('В спам', Yii::app()->createUrl('/admin/question/toSpam'), array('data'=>"id=".$data['id'], 'type'=>'POST', 'success'=>'onSpamQuestion'), array('class'=>'btn btn-warning btn-xs')); ?>
 
@@ -86,25 +83,21 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <?php endif;?>
             </div> 
         <?php endif;?>
-    </td>
+    
     
     <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>  
-    <td>
-            <div class="container-fluid">
-            <div class="row">
+
             <?php foreach($allDirections as $directionId=>$direction):?>
-                <div class="col-md-6">
-                <?php echo CHtml::link($direction['name'], '#', array('class'=>'set-category-link label label-primary', 'data-category'=>$directionId, 'data-question'=>$data['id']));?><br />
+                <?php echo CHtml::link($direction['name'], '#', array('class'=>'set-category-link label label-primary', 'data-category'=>$directionId, 'data-question'=>$data['id']));?>
                 
                     <?php if($direction['children']):?>
                         <?php foreach($direction['children'] as $childId=>$child):?>
-                            &nbsp;&nbsp;<?php echo CHtml::link($child['name'], '#', array('class'=>'set-category-link  label label-info', 'data-category'=>$childId, 'data-question'=>$data['id']));?><br />
+                            &nbsp;&nbsp;<?php echo CHtml::link($child['name'], '#', array('class'=>'set-category-link  label label-info', 'data-category'=>$childId, 'data-question'=>$data['id']));?>
                         <?php endforeach;?>
                     <?php endif;?>
-                </div>
+                    <br />        
             <?php endforeach;?>
-            </div>
-            </div>
+
     </td>
        
     
