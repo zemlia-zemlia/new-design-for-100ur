@@ -109,17 +109,12 @@ class TownController extends Controller
 			
             $questionModel = new Question();
             
-            // города того же региона
-            //$closeTowns = $model->getCloseTowns
             $regionId = $model->regionId;
-            $regionCriteria = new CDbCriteria;
-            $regionCriteria->with = array("region", "country");
-            $regionCriteria->addColumnCondition(array('regionId'=>$regionId));
-            $regionCriteria->order = "t.name asc";
             
-            //$closeTowns = Town::model()->findAll($regionCriteria);
+            // массив соседних городов
             $closeTowns = $model->getCloseTowns();
             
+            // категории вопросов - направления
             $allDirections = QuestionCategory::getDirections(true);
             
             $this->render('view',array(
@@ -134,6 +129,7 @@ class TownController extends Controller
         /**
          * метод для обработки старых адресов вида konsultaciya-yurista-voronezh
          * и редиректа на новые адреса городов
+         * @deprecated
          */
         public function actionAliasOld($name)
         {

@@ -206,6 +206,43 @@
 
 </div>  <!-- Product --> 
 
+<?php if(sizeof($company->town->companies)>1):?>
+
+        <h3 class="header-block header-block-green">Другие юридические компании города <?php echo CHtml::encode($company->town->name);?></h3>
+        <div class="header-block-green-arrow"></div>
+            <div class="container-fluid">
+                <div class="row">
+                <?php 
+                    $companyCounter = 0;
+                    $companyLimit = 6;
+                ?>
+                <?php foreach($company->town->companies as $com):?>
+                    <?php 
+                        // В блоке других юр компаний не должно быть ссылки на текущую компанию
+                        if($com->id == $company->id) {
+                            continue;
+                        }
+                        $companyCounter++;
+                        if($companyCounter>$companyLimit) {
+                            break;
+                        }
+                    ?>
+                    <?php if($companyCounter%2 == 1) echo "<div class='row'>";?>
+
+                    <div class="col-md-2">
+                        <img src="<?php echo $com->getPhotoUrl('thumb');?>" alt="" class="img-responsive" />
+                    </div>
+                    <div class="col-md-4">
+                        <?php echo CHtml::link(CHtml::encode($com->name), Yii::app()->createUrl('yurCompany/view',array('id'=>$com->id)));?>
+                    </div>
+                    <?php if($companyCounter%2 == 0) echo "</div>";?>
+                <?php endforeach;?>
+                    <?php if($companyCounter%2 == 1 && $companyCounter != $companyLimit+1) echo "</div>";?>
+                </div>
+            </div>
+
+<?php endif;?>
+
 <?php if($commentSaved === true):?>
 <script>
     $(function(){
