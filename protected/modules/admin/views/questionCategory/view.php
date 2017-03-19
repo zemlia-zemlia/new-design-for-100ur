@@ -36,6 +36,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 </div>
 
 <div>
+    <?php echo CHtml::link('Смотреть на сайте', Yii::app()->createUrl('/questionCategory/alias', array('name'=>$model->alias)), array('class'=>'btn btn-default', 'target' => '_blank'));?>
     <?php echo CHtml::link('Редактировать категорию', Yii::app()->createUrl('/admin/questionCategory/update', array('id'=>$model->id)), array('class'=>'btn btn-primary'));?>
     <?php echo CHtml::link('Добавить вопрос', Yii::app()->createUrl('/admin/question/create', array('categoryId'=>$model->id)), array('class'=>'btn btn-primary'));?>
 

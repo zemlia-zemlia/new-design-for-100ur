@@ -289,4 +289,20 @@ class QuestionCategory extends CActiveRecord
             return $directions;
         }
         
+        /**
+         * Определяет, разрешать ли индексирование страницы текущей категории, исходя
+         * из заполненности метаданных
+         * 
+         * @return boolean true - можно индексировать, false - нельзя
+         */
+        public function isIndexingAllowed()
+        {
+            // разрешим индексировать категории, у которых заполнено описание (верхнее ИЛИ нижнее)
+            if($this->description1 || $this->description2) {
+                return true;
+            }
+            
+            return false;
+        }
+        
 }

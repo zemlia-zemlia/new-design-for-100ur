@@ -29,6 +29,8 @@ if($model->seoKeywords) {
 
 Yii::app()->clientScript->registerLinkTag("canonical",NULL,Yii::app()->createUrl('/questionCategory/alias', array('name'=>$model->alias)));
 
+Yii::app()->clientScript->registerMetaTag(($model->isIndexingAllowed())?'all':'noindex', "robots");
+
 $this->breadcrumbs = array();
 if($parentCategory) {
     $this->breadcrumbs[$parentCategory['name']] = Yii::app()->createUrl('/questionCategory/alias',array('name'=>$parentCategory['alias']));
@@ -38,7 +40,7 @@ if($parentCategory) {
 ?>
 
 <?php 
-//CustomFuncs::printr($model);
+//CustomFuncs::printr($model->isIndexingAllowed());
 ?>
 
 <?php

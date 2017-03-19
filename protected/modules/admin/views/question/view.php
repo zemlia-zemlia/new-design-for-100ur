@@ -64,4 +64,4 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 )); ?>
 
-<?php echo CHtml::link('Добавить ответ', Yii::app()->createUrl('/admin/answer/create',array('questionId'=>$model->id)),array('class'=>'btn btn-primary')); ?>
+<?php //echo CHtml::link('Добавить ответ', Yii::app()->createUrl('/admin/answer/create',array('questionId'=>$model->id)),array('class'=>'btn btn-primary')); ?>

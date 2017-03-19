@@ -129,7 +129,7 @@
                             <p>
                                 <?php echo CHtml::encode($comment->text);?>
                             </p>
-                            <?php if(/*sizeof($data->comments)==0 && */ $data->authorId == Yii::app()->user->id ||  $data->question->authorId == Yii::app()->user->id || Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+                            <?php if(!is_null($commentModel) && ($data->authorId == Yii::app()->user->id ||  $data->question->authorId == Yii::app()->user->id || Yii::app()->user->checkAccess(User::ROLE_ROOT))):?>
                             <div class="right-align">
                             <a class="btn btn-xs btn-default" role="button" data-toggle="collapse" href="#collapse-comment-<?php echo $comment->id;?>" aria-expanded="false">
                                 Ответить
@@ -153,7 +153,7 @@
                 <?php endforeach;?>
                 
                 
-                <?php if(/*sizeof($data->comments)==0 && */$data->question->authorId == Yii::app()->user->id || Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+                <?php if(!is_null($commentModel) && ($data->question->authorId == Yii::app()->user->id || Yii::app()->user->checkAccess(User::ROLE_ROOT))):?>
                     <strong>Ваш комментарий:</strong>
                     <?php 
                         $this->renderPartial('application.views.comment._form', array(

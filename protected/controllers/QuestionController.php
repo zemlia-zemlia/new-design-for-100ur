@@ -121,6 +121,14 @@ class QuestionController extends Controller
                         ),
             ));
             
+            // массив с id авторов ответов к текущему вопросу
+            // запишем в него авторов ответов, чтобы не дать юристу ответить на данный вопрос дважды
+            $answersAuthors = array();
+            
+            foreach ($answersDataProvider->data as $answer) {
+                $answersAuthors[] = $answer->authorId;
+            }
+            
             $categories = $model->categories;
             
             // массив для хранения id категорий данного вопроса
@@ -150,6 +158,7 @@ class QuestionController extends Controller
             $this->render('view',array(
                     'model'                 =>  $model,
                     'answersDataProvider'   =>  $answersDataProvider,
+                    'answersAuthors'        =>  $answersAuthors,
                     'newQuestionModel'      =>  $newQuestionModel,
                     'questionsSimilar'      =>  $questionsSimilar,
                     'answerModel'           =>  $answerModel,

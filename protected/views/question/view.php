@@ -170,7 +170,7 @@ if($model->description) {
     
 </div> <!-- Question --> 
 
-<?php if(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR || Yii::app()->user->role == User::ROLE_CALL_MANAGER):?>
+<?php if(Yii::app()->user->role == User::ROLE_JURIST && !in_array(Yii::app()->user->id, $answersAuthors)):?>
 <div class="panel gray-panel">
     <div class='panel-body'>
         
@@ -191,7 +191,7 @@ if($model->description) {
 <?php endif;?>
 
 
-<?php if(!(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR || Yii::app()->user->role == User::ROLE_CALL_MANAGER || ($model->authorId == Yii::app()->user->id))):?>
+<?php if(!(Yii::app()->user->role == User::ROLE_JURIST || ($model->authorId == Yii::app()->user->id))):?>
 
 	<div class="form-container">		
             <div class="center-align">
