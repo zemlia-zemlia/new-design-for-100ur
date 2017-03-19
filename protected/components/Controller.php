@@ -1,15 +1,14 @@
 <?php
 /**
- * Controller is the customized base controller class.
- * All controller classes for this application should extend from this base class.
+ * Кастомизированный класс контроллера. 
+ * Все контроллеры в приложении должны наследоваться от него
  */
 class Controller extends CController
 {
 	/**
-	 * @var string the default layout for the controller view. Defaults to 'column1',
-	 * meaning using a single column layout. See 'protected/views/layouts/column1.php'.
+	 * Шаблон по умолчанию
 	 */
-	public $layout='column1';
+	public $layout = '//frontend/main';
 	/**
 	 * @var array context menu items. This property will be assigned to {@link CMenu::items}.
 	 */
@@ -27,6 +26,7 @@ class Controller extends CController
          */
         public function init()
         {
+            // редирект на https версию, если зашли по http и это не локальный хост
             if ( !Yii::app()->getRequest()->isSecureConnection && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') {
                 # Redirect to the secure version of the page.
                 $url = 'https://' .

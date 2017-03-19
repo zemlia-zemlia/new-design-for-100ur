@@ -1,15 +1,7 @@
 <?php
 /* @var $this MoneyController */
 /* @var $dataProvider CActiveDataProvider */
-
-$this->breadcrumbs=array(
-	'Moneys',
-);
-
-$this->menu=array(
-	array('label'=>'Create Money', 'url'=>array('create')),
-	array('label'=>'Manage Money', 'url'=>array('admin')),
-);
+$this->setPageTitle("Касса. " . Yii::app()->name);
 
 $sumBalance = 0;
 
