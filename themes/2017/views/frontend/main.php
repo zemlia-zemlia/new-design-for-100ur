@@ -102,7 +102,6 @@
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/region/')?CHtml::link('Регионы', Yii::app()->createUrl('/region/')):'<span class="active">Регионы</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/')?CHtml::link('Филиалы', Yii::app()->createUrl('/site/contacts')):'<span class="active">Филиалы</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/blog/')?CHtml::link('Блог', Yii::app()->createUrl('/blog')):'<span class="active">Блог</span>';?></li>
-            <li><?php echo ($_SERVER['REQUEST_URI'] != '/codecs/')?CHtml::link('Кодексы', Yii::app()->createUrl('/codecs')):'<span class="active">Кодексы</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/question/')?CHtml::link('Вопросы', Yii::app()->createUrl('question')):'<span class="active">Вопросы</span>';?></li>
             <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/'))?CHtml::link('Задать вопрос', Yii::app()->createUrl('question/create',array('from'=>'top-menu'))):'<span class="active">Задать вопрос</span>';?></li>			
 			<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/goryachaya_liniya/')?CHtml::link('8-800', Yii::app()->createUrl('/site/goryachaya_liniya/')):'<span class="active">8-800</span>';?></li>
@@ -110,7 +109,7 @@
 			
 			
 			
-            <?php if(Yii::app()->user->checkAccess(User::ROLE_OPERATOR) || Yii::app()->user->checkAccess(User::ROLE_JURIST)):?>
+            <?php if(Yii::app()->user->checkAccess(User::ROLE_JURIST)):?>
             <li>    
                 <?php echo CHtml::ajaxLink("Кеш", Yii::app()->createUrl('site/clearCache'), array(
                             'success'=>'function(data, textStatus, jqXHR)

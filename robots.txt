@@ -10,6 +10,7 @@ Disallow: /user/restorePassword/
 Disallow: /site/offer/
 Disallow: /site/login/
 Disallow: /site/contacts/
+Disallow: /codecs/
 
 Allow: /assets/*.js
 Allow: /assets/*.css
