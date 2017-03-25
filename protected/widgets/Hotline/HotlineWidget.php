@@ -24,20 +24,11 @@ class HotlineWidget extends CWidget
         $payedRegions = array();
         $payedTowns = array();
         
-        $campaignsRows = Yii::app()->db->cache($this->cacheTime)->createCommand()
-                ->select('regionId, townId')
-                ->from('{{campaign}} c')
-                ->where('active=1 AND timeFrom<=HOUR(NOW()) AND timeTo>HOUR(NOW())')
-                ->queryAll();
+        $payedTownsRegions = Campaign::getPayedTownsRegions($cacheTime);
         
-        foreach($campaignsRows as $row) {
-            if($row['regionId'] != 0) {
-                $payedRegions[$row['regionId']] = 1;
-            }
-            if($row['townId'] != 0) {
-                $payedTowns[$row['townId']] = 1;
-            }
-        }
+        $payedRegions = $payedTownsRegions['regions'];
+        $payedTowns = $payedTownsRegions['towns'];
+        
         
 //        CustomFuncs::printr($payedRegions);
 //        CustomFuncs::printr($payedTowns);

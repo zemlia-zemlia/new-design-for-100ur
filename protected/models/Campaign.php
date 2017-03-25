@@ -275,4 +275,44 @@ class Campaign extends CActiveRecord
             }
             
         }
+        
+        /**
+         * Возвращает массивы продажных городов и регионов, ключами которых являются коды городов и регионов
+         * 
+         * @return array Массив городов и регионов, пример:
+         * array(
+         * 'regions' => array(
+         *      71 => 1, 
+         *      104 => 1), 
+         * 'towns' => array(
+         *      598 => 1,
+         *      830 => 1,
+         * )
+         * )
+         */
+        public static function getPayedTownsRegions($cacheTime = 600)
+        {
+            $payedRegions = array();
+            $payedTowns = array();
+        
+            $campaignsRows = Yii::app()->db->cache($cacheTime)->createCommand()
+                ->select('regionId, townId')
+                ->from('{{campaign}} c')
+                ->where('active=1 AND timeFrom<=HOUR(NOW()) AND timeTo>HOUR(NOW())')
+                ->queryAll();
+        
+            foreach($campaignsRows as $row) {
+                if($row['regionId'] != 0) {
+                    $payedRegions[$row['regionId']] = 1;
+                }
+                if($row['townId'] != 0) {
+                    $payedTowns[$row['townId']] = 1;
+                }
+            }
+            
+            return array(
+                'towns'     =>  $payedTowns,
+                'regions'   =>  $payedRegions,
+            );
+        }
 }

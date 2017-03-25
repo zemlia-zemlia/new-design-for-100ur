@@ -21,7 +21,11 @@ switch ($data->leadStatus) {
     case Lead100::LEAD_STATUS_SENT:
         $statusClass = 'label-success';
         break;
-    
+    case Lead100::LEAD_STATUS_DUPLICATE:
+        $statusClass = 'label-warning';
+        break;
+    default :
+        $statusClass = 'label-default';
 }
 ?>
 

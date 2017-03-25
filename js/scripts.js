@@ -52,6 +52,32 @@ $(function(){
             $(this).closest(".answer-karma-string").find(".donate-block").show();
             return false;
         })
+        
+        // начальный сдвиг надоедливого виджета относительно верха документа
+        var annoyingOffsetInitial = $("#left-panel").offset().top;
+        var annoyingWidthInitial = $('.annoying-widget').css('width');
+        var annoyingHeight = $('.annoying-widget').css('height');
+        
+        $(document).on('scroll', function(){
+            var annoyingWidget = $('.annoying-widget');
+            if(!annoyingWidget) {
+                return false;
+            }
+            
+            var annoyingOffset = annoyingWidget.offset().top - $(window).scrollTop();
+            
+//            console.log(annoyingOffsetInitial);
+//            console.log(annoyingOffset);
+            if(annoyingOffset <0) {
+                annoyingWidget.addClass('annoying-widget-fixed');
+                annoyingWidget.css('width',annoyingWidthInitial);
+                $("#left-panel").css('padding-top', annoyingHeight);
+            }
+            if($(window).scrollTop() < annoyingOffsetInitial) {
+                annoyingWidget.removeClass('annoying-widget-fixed');
+                $("#left-panel").css('padding-top', 0);
+            }
+        })
     
 });
 

@@ -174,6 +174,16 @@
             </div>    
                 
             <div class="col-sm-3 col-sm-pull-6 col-md-3 col-md-pull-6" id="left-panel">
+                
+                <?php if(Yii::app()->user->isGuest):?>
+                    <?php
+                        // выводим виджет Назойливый
+                        $this->widget('application.widgets.Annoying.AnnoyingWidget', array(
+                        ));
+                    ?>
+                <?php endif;?>
+                
+                
 		<?php if(Yii::app()->user->role != User::ROLE_JURIST):?>	
                     <div class="flat-panel vert-margin20">
                         <?php
