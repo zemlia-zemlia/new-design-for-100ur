@@ -194,7 +194,10 @@ class QuestionController extends Controller
                         
                        
                         if($question->sessionId == '' && $question->questionText!='' && $question->authorName!='') {
-                            $question->preSave();
+                            if(!$question->preSave()) {
+                                // если вопрос не предсохранился, очищаем свойство sessionId
+                                $question->sessionId = '';
+                            }
                         } else {
                             /*
                              * если вопрос был предсохранен, создадим объект Question из записи в базе,
@@ -216,11 +219,11 @@ class QuestionController extends Controller
                         $lead->phone = $question->phone;
                         $lead->email = $question->email;
                         $lead->townId = $question->townId;
-                        $lead->sourceId = 3; // Lidlaw
+                        $lead->sourceId = 3; // 100 юристов
                         $lead->leadStatus = Lead100::LEAD_STATUS_DEFAULT; // по умолчанию лид никуда не отправляем
 			//CustomFuncs::printr($lead);exit;
                         
-                        $duplicates = $lead->findDublicates(600);
+                        $duplicates = $lead->findDublicates(86400);
                         //CustomFuncs::printr($duplicates);exit;
                         if($duplicates) {
                             throw new CHttpException(400,'Похоже, Вы пытаетесь отправить заявку несколько раз. Ваша заявка уже сохранена.');

@@ -8,7 +8,9 @@
 /nbproject/*
 /upload/*
 /protected/config/*
+/protected/tests/_output
 /sitemap.xml
 /index.html
 /.htaccess
 /index.php
+/protected/tests/acceptance.suite.yml

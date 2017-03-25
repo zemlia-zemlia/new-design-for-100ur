@@ -37,6 +37,7 @@ class Lead100 extends CActiveRecord
         const LEAD_STATUS_BRAK = 4; // брак
         const LEAD_STATUS_RETURN = 5; // возврат с отбраковки
         const LEAD_STATUS_SENT = 6; // отправлен покупателю
+        const LEAD_STATUS_DUPLICATE = 7; // дубль (этот автор уже отправлял нам вопрос в последние N часов)
         
         
         // типы лидов
@@ -85,7 +86,7 @@ class Lead100 extends CActiveRecord
                         array('deliveryTime', 'safe'),
                         array('name, phone, email, secretCode, brakComment', 'length', 'max'=>255),
 			array('townId', 'match','not'=>true, 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
-                        array('name','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-., ])+$/u', 'message'=>'В имени могут присутствовать буквы, цифры, точка, дефис и пробел', 'except'=>'parsing'),
+                        array('name','match','pattern'=>'/^([а-яА-Я0-9ёЁ\-., ])+$/u', 'message'=>'В имени могут присутствовать русские буквы, цифры, точка, дефис и пробел', 'except'=>'parsing'),
                         array('phone','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\+\(\)\s \-])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
                         array('email', 'email', 'message'=>'E-mail похож на ненастоящий, проверьте, пожалуйста, правильность набора'),
                         array('date1, date2','match','pattern'=>'/^([0-9\-])+$/u', 'message'=>'В датах могут присутствовать только цифры и знак плюса'),
@@ -158,6 +159,7 @@ class Lead100 extends CActiveRecord
                 self::LEAD_STATUS_NABRAK            =>  'на отбраковке',
                 self::LEAD_STATUS_BRAK              =>  'брак',
                 self::LEAD_STATUS_RETURN            =>  'не принят к отбраковке',
+                self::LEAD_STATUS_DUPLICATE         =>  'дубль',
             );
         }
         
@@ -414,10 +416,19 @@ class Lead100 extends CActiveRecord
          */
         protected function beforeSave()
         {
+            // удаляем из номера телефона все нецифровые символы
             $this->phone = Question::normalizePhone($this->phone);
+            
+            // создаем поле Секретный код, чтобы покупатель лида мог работать с ним, перейдя по ссылке из письма
             if($this->secretCode == '') {
-                $this->secretCode = md5(time().$this->phone.strlen($this->question).mt_rand(100000,999999));
+                $this->secretCode = md5(time() . $this->phone . strlen($this->question) . mt_rand(100000,999999));
             }
+            
+            // если за последние 24 часа были лиды с таким же номером телефона, ставим лиду статус Дубль
+            if($this->findDublicates(86400)>0) {
+                $this->leadStatus = self::LEAD_STATUS_DUPLICATE;
+            }
+            
             return parent::beforeSave();
         }
 }

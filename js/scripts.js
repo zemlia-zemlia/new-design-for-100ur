@@ -81,7 +81,11 @@ function onKarmaPlus(data, status, xhr)
     var status = jsonData.status;
     if(status == 1){
         var answerId = jsonData.answerId;
-        $("#answer-karma-" + answerId).html("<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> Полезный ответ");
+        
+        var answerKarmaBlock = $("#answer-karma-" + answerId);
+        answerKarmaBlock.closest(".answer-karma-string").find(".donate-yurist-link").click();
+        
+        answerKarmaBlock.html("<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> Полезный ответ");
         yaCounter26550786.reachGoal('plus_answer');
     } else {
         alert('Ошибка: не удалось поставить плюс');

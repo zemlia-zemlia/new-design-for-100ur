@@ -71,7 +71,7 @@ class Question extends CActiveRecord
                 array('townId', 'required', 'except'=>array('preSave'), 'message'=>'Поле {attribute} должно быть заполнено'),
                 array('number, categoryId, status, publishedBy, authorId, price, payed', 'numerical', 'integerOnly'=>true),
                 array('categoryName, sessionId', 'length', 'max'=>255),
-                array('authorName, title','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-., ])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, точка, дефис и пробел'),
+                array('authorName, title','match','pattern'=>'/^([а-яА-Я0-9ёЁ\-., ])+$/u', 'message'=>'В {attribute} могут присутствовать русские буквы, цифры, точка, дефис и пробел'),
                 array('phone','match','pattern'=>'/^([0-9\+])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
                 array('email','email', 'message'=>'В Email допускаются латинские символы, цифры, точка и дефис', 'allowEmpty'=>true),
                 array('townId', 'match','not'=>true, 'except'=>array('preSave'), 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
@@ -315,14 +315,19 @@ class Question extends CActiveRecord
                 
                 // особый статус "предварительно сохранен"
                 $this->status = self::STATUS_PRESAVE;
-                $this->townId = Yii::app()->user->getState('currentTownId');
+                
+                if(Yii::app()->user->getState('currentTownId')) {
+                    $this->townId = Yii::app()->user->getState('currentTownId');
+                }
+                
                 if(!$this->save()) {
+                    return false;
                     //echo "Ошибки при предсохранении вопроса";
                     //CustomFuncs::printr($this->errors);
                 }
             }
             
-            
+            return true;
         }
         
         /**

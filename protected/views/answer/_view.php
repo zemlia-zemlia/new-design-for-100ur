@@ -87,13 +87,20 @@
                             }
                         }
                     ?>
-                    <?php if($showKarmaLink === true):?>
-                        <div class="vert-margin20 answer-karma-string" id="answer-karma-<?php echo $data->id;?>">
+                    
+                        <div class="vert-margin20 answer-karma-string" >
+                            
+                                
+                            <?php if($showKarmaLink === true):?>   
+                            <span id="answer-karma-<?php echo $data->id;?>">    
+                                <?php echo CHtml::link("Отметить как полезный!", Yii::app()->createUrl('user/karmaPlus'), array('class'=>'link-karma-plus btn btn-warning btn-xs', 'data-id'=>$data->id));?>
+                            </span>
+                            <?php endif;?>
+                            
                             <?php if(Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT):?>
                                 <a href="#" class='btn btn-xs btn-default donate-yurist-link'><span class="glyphicon glyphicon-ruble"></span> Отблагодарить</a>
                             <?php endif;?>
-                            Ответ оказался полезен? <?php echo CHtml::link("Да", Yii::app()->createUrl('user/karmaPlus'), array('class'=>'link-karma-plus btn btn-success btn-xs', 'data-id'=>$data->id));?>
-                            
+                                
                             <?php if(Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT):?>
                             <div class='donate-block'>
                                 <?php $this->renderPartial("application.views.question._donateForm", array(
@@ -103,7 +110,7 @@
                             </div>
                             <?php endif;?>
                         </div>
-                    <?php endif;?>
+                    
                 <?php endif;?>
                               
                 <?php foreach($data->comments as $comment):?>
