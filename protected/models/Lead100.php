@@ -424,9 +424,12 @@ class Lead100 extends CActiveRecord
                 $this->secretCode = md5(time() . $this->phone . strlen($this->question) . mt_rand(100000,999999));
             }
             
-            // если за последние 24 часа были лиды с таким же номером телефона, ставим лиду статус Дубль
-            if($this->findDublicates(86400)>0) {
-                $this->leadStatus = self::LEAD_STATUS_DUPLICATE;
+            if($this->isNewRecord) {
+                // проверка на дубли работает только для новых записей
+                // если за последние 24 часа были лиды с таким же номером телефона, ставим лиду статус Дубль
+                if($this->findDublicates(86400)>0) {
+                    $this->leadStatus = self::LEAD_STATUS_DUPLICATE;
+                }
             }
             
             return parent::beforeSave();
