@@ -27,11 +27,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 </style>
 
 <div class="vert-margin30">
-<h1>Категории вопросов</h1>
-</div>
-
-<div class="right-align vert-margin30">
-<?php echo CHtml::link('Добавить категорию', Yii::app()->createUrl('/admin/questionCategory/create'), array('class'=>'btn btn-primary')); ?>
+<h1>Категории вопросов <?php echo CHtml::link('Добавить категорию', Yii::app()->createUrl('/admin/questionCategory/create'), array('class'=>'btn btn-primary')); ?></h1>
 </div>
 
 <table class="table table-bordered table-hover" >
@@ -44,6 +40,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <th>Descr.</th>
         <th>Keyw.</th>
         <th>Напр</th>
+		<th>Управление</th>
     </tr>
 <?php foreach($categoriesArray as $rootId=>$rootCategory):?>
     <tr>
