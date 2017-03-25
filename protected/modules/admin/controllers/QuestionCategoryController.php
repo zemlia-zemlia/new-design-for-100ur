@@ -152,17 +152,6 @@ class QuestionCategoryController extends Controller
 	 */
 	public function actionIndex()
 	{
-
-//            $dataProvider=new CActiveDataProvider(QuestionCategory::model()->cache(120, NULL, 3), array(
-//                'criteria'      =>  array(
-//                    'order'     =>  't.name',
-//                    'with'      =>  array('children'),
-//                    'condition' =>  't.parentId=0',
-//                ),
-//                'pagination'    =>  array(
-//                            'pageSize'=>400,
-//                        ),
-//            ));
             /*
              * Извлекаем список категорий с иерархией
              * SELECT c.id, c.name, LENGTH(c.description1),  LENGTH(c.description2), LENGTH(c.seoTitle), LENGTH(c.seoDescription), LENGTH(c.seoKeywords), LENGTH(c.seoH1), c.isDirection, child.id, child.name, LENGTH(child.description1),  LENGTH(child.description2), LENGTH(child.seoTitle), LENGTH(child.seoDescription), LENGTH(child.seoKeywords), LENGTH(child.seoH1), child.isDirection
@@ -232,8 +221,27 @@ class QuestionCategoryController extends Controller
 //            CustomFuncs::printr($categoriesArray);
 //            exit;
             
-            $this->render('index',array(
-                    'categoriesArray'  =>  $categoriesArray,
+            // Найдем количество категорий, у которых отсутствует описание
+            $emptyCategoriesRow = Yii::app()->db->createCommand()
+                    ->select('COUNT(*) counter')
+                    ->from("{{questionCategory}}")
+                    ->where("description1='' AND description2=''")
+                    ->queryRow();
+            
+            $emptyCategoriesCount = (is_array($emptyCategoriesRow))?$emptyCategoriesRow['counter']:0;
+            
+            // Найдем количество категорий, у которых отсутствует описание
+            $totalCategoriesRow = Yii::app()->db->createCommand()
+                    ->select('COUNT(*) counter')
+                    ->from("{{questionCategory}}")
+                    ->queryRow();
+            
+            $totalCategoriesCount = (is_array($totalCategoriesRow))?$totalCategoriesRow['counter']:0;
+                        
+            $this->render('index', array(
+                'categoriesArray'       =>  $categoriesArray,
+                'emptyCategoriesCount'  =>  $emptyCategoriesCount,
+                'totalCategoriesCount'  =>  $totalCategoriesCount,
             ));
 	}
 
