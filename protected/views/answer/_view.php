@@ -13,9 +13,9 @@
                 <div class="answer-item-avatar">
                 <img src="<?php echo $data->author->getAvatarUrl();?>" class="img-responsive img-bordered" />
                 </div>
-                <div class="answer-item-karma">
+                <div class="answer-item-karma center-align">
                     <small>
-                    Рейтинг: <?php echo $data->author->karma;?>
+                    <span class='glyphicon glyphicon-thumbs-up'></span> <?php echo $data->author->karma;?>
                     </small>
                 </div>
             </div>
@@ -45,13 +45,6 @@
                     <span class="glyphicon glyphicon-signal"></span>    
                     <?php echo $data->author->answersCount . ' ' . CustomFuncs::numForms($data->author->answersCount, 'ответ', "ответа", "ответов");?>     
 
-                    
-                        &nbsp;&nbsp;
-                    <?php if(isset($data->author->town)):?>
-                        <span class="glyphicon glyphicon-map-marker"></span> <?php echo $data->author->town->name;?>
-                    <?php endif;?>
-                        
-                    
                         <br />
                     <?php if($data->datetime):?>
                         <span class="glyphicon glyphicon-calendar"></span> <?php echo CustomFuncs::niceDate($data->datetime, false);?>
@@ -93,7 +86,7 @@
                                 
                             <?php if($showKarmaLink === true):?>   
                             <span id="answer-karma-<?php echo $data->id;?>">    
-                                <?php echo CHtml::link("Отметить как полезный!", Yii::app()->createUrl('user/karmaPlus'), array('class'=>'link-karma-plus btn btn-warning btn-xs', 'data-id'=>$data->id));?>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-thumbs-up'></span> Отметить как полезный!", Yii::app()->createUrl('user/karmaPlus'), array('class'=>'link-karma-plus btn btn-warning btn-xs', 'data-id'=>$data->id));?>
                             </span>
                             <?php endif;?>
                             
@@ -160,7 +153,7 @@
                 <?php endforeach;?>
                 
                 
-                <?php if(!is_null($commentModel) && ($data->question->authorId == Yii::app()->user->id || Yii::app()->user->checkAccess(User::ROLE_ROOT))):?>
+                <?php if(!is_null($commentModel) && ($data->question->authorId == Yii::app()->user->id)):?>
                     <strong>Ваш комментарий:</strong>
                     <?php 
                         $this->renderPartial('application.views.comment._form', array(

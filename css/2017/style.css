@@ -481,6 +481,11 @@ hr {
     padding:10px 0;
 }
 
+.answer-item-author-block {
+    border-bottom: #999 1px dashed;
+    padding-bottom: 3px;
+}
+
 #footer {
     background:#09214f;
     border-top:#68be99 10px solid;
