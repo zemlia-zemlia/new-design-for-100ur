@@ -391,7 +391,7 @@ class Lead100 extends CActiveRecord
         }
         
         /**
-         * возвращает количество лидов с таким же номером телефона, добавленных не более $timeframe секунд назад
+         * возвращает количество лидов с таким же номером телефона и городом, добавленных не более $timeframe секунд назад
          * 
          * @param int $timeframe временной интеркал (сек.)
          * @return int количество лидов 
@@ -401,7 +401,7 @@ class Lead100 extends CActiveRecord
             $dublicatesRow = Yii::app()->db->createCommand()
                     ->select("COUNT(*) counter")
                     ->from("{{lead100}}")
-                    ->where("phone=:phone AND question_date>=NOW()-INTERVAL :timeframe SECOND", array(":phone"=>$this->phone, ":timeframe"=>$timeframe))
+                    ->where("phone=:phone AND townId=:townId AND question_date>=NOW()-INTERVAL :timeframe SECOND", array(":phone"=>$this->phone, ":townId" => $this->townId, ":timeframe"=>$timeframe))
                     ->queryRow();
             
             //CustomFuncs::printr($dublicatesRow['counter']);
