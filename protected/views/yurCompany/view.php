@@ -21,7 +21,11 @@
 
     <div itemscope="" itemtype="http://schema.org/Organization">
     <h1 class="vert-margin30 header-block-green"><span itemprop="name"><?php echo CHtml::encode($company->name); ?></span></h1>
-        
+	
+	<div class="alert alert-info">
+	  <i><strong>Внимание!</strong> Портал "100 Юристов" не связан с компаниями и организациями находищимися в данном каталоге и не несет ответственности за их деятельность. Каталог несет исключительно информационный характер. </i>
+	</div>  
+	
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-4">
@@ -103,11 +107,12 @@
         <?php echo $company->description;?>
     </span>
 	<hr/>
-        
+ 
+   
         
         <div class="flat-panel">
             <div class="inside">
-            <h2>Ваш отзыв</h2>
+            <h2>Сотавить отзыв о компании</h2>
             <?php $this->renderPartial("application.views.comment._form", array('model'=>$comment));?>
             </div>
         </div> 
