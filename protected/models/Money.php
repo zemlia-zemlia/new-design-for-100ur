@@ -11,12 +11,15 @@
  * @property string $value
  * @property string $comment
  * @property integer $direction
+ * @property integer $isInternal
  */
 class Money extends CActiveRecord
 {
 	
     const TYPE_INCOME = 0; // доход
     const TYPE_EXPENCE = 1; // расход
+    
+    const DIRECTION_INTERNAL = 900; // код направления для внутренних транзакций
 
     public $date1;
     public $date2; // диапазон дат для поиска
@@ -39,7 +42,7 @@ class Money extends CActiveRecord
         // will receive user inputs.
         return array(
             array('accountId, datetime, type, value, comment, direction', 'required'),
-            array('accountId, type, direction', 'numerical', 'integerOnly'=>true),
+            array('accountId, type, direction, isInternal', 'numerical', 'integerOnly'=>true),
             array('value', 'length', 'max'=>10),
             array('comment', 'length', 'max'=>255),
             array('date1, date2','match','pattern'=>'/^([0-9\-\.])$/u', 'message'=>'В датах могут присутствовать только цифры, дефисы и точки'),
@@ -75,6 +78,7 @@ class Money extends CActiveRecord
             'direction'     => 'Статья',
             'date1'         => 'от',
             'date2'         => 'до',
+            'isInternal'    => 'Внутренняя транзакция',
         );
     }
 
@@ -128,7 +132,7 @@ class Money extends CActiveRecord
             503 => "Размещение рекламы",
             504 => "VIP вопросы",
             505 => "Благодарность юристам",
-
+            900 => "Внутренние транзакции",
         );
     }
 
@@ -213,6 +217,8 @@ class Money extends CActiveRecord
         if($this->date2) {
                 $command->andWhere('`datetime`<=:date2', array(':date2'=>CustomFuncs::invertDate($this->date2)));
         }
+        
+        $command->andWhere('isInternal = 0');
         /*
         echo CustomFuncs::invertDate($this->date1);
         echo CustomFuncs::invertDate($this->date2);

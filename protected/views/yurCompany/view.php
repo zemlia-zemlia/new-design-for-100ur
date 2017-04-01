@@ -112,7 +112,7 @@
         
         <div class="flat-panel">
             <div class="inside">
-            <h2>Сотавить отзыв о компании</h2>
+            <h2>Оставить отзыв о компании</h2>
             <?php $this->renderPartial("application.views.comment._form", array('model'=>$comment));?>
             </div>
         </div> 

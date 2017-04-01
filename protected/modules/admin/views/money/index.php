@@ -9,6 +9,7 @@ $sumBalance = 0;
 
 <h1 class="vert-margin20">Касса  
     <?php echo CHtml::link("Добавить запись", Yii::app()->createUrl("/admin/money/create"), array('class'=>'btn btn-primary'));?>
+    <?php echo CHtml::link("Добавить транзакцию", Yii::app()->createUrl("/admin/money/addTransaction"), array('class'=>'btn btn-primary'));?>
     <?php echo CHtml::link("Отчет", Yii::app()->createUrl("/admin/money/report"), array('class'=>'btn btn-default'));?>
 </h1>
 

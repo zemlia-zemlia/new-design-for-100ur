@@ -25,16 +25,16 @@ class MoneyController extends Controller
 	 */
 	public function accessRules()
 	{
-		return array(
-			
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('index', 'view', 'report', 'create', 'update', 'delete'),
-				'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
+            return array(
+
+                array('allow', // allow admin user to perform 'admin' and 'delete' actions
+                        'actions'=>array('index', 'view', 'report', 'create', 'addTransaction', 'update', 'delete'),
+                        'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
+                ),
+                array('deny',  // deny all users
+                        'users'=>array('*'),
+                ),
+            );
 	}
 
 	/**
@@ -91,6 +91,13 @@ class MoneyController extends Controller
 		{
                     $model->attributes=$_POST['Money'];
                     $model->datetime = CustomFuncs::invertDate($model->datetime);
+                    
+                    if($model->direction == Money::DIRECTION_INTERNAL) {
+                        $model->isInternal = 1;
+                    } else {
+                        $model->isInternal = 0;
+                    }
+                    
                     if($model->save()) {
                         $this->redirect(array('view','id'=>$model->id));
                     }
@@ -184,8 +191,63 @@ class MoneyController extends Controller
                 'reportDataSetFiltered' =>  $reportDataSetFiltered,
             ));
 	}
+        
+        /**
+         * Добавление нового перевода между счетами
+         * Переводы между счетами - это 2 транзакции, которые не учитываются в доходах
+         * и расходах. Обозначаются особым флагом.
+         */
+        
+        public function actionAddTransaction()
+        {
+            $model = new MoneyMove;
+            $moneyRecord1 = new Money;
+            $moneyRecord2 = new Money;
+            
+            if(isset($_POST['MoneyMove'])) {
+                $model->attributes=$_POST['MoneyMove'];
+                //CustomFuncs::printr($model->attributes);
+                // сначала проверим правильность заполнения формы
+                if($model->validate()) {
+                    
+                    $model->datetime = CustomFuncs::invertDate($model->datetime);
 
-	/**
+                    // создаем 2 транзакции (для перевода между счетами - снятие и пополнение)
+                    
+
+                    $moneyRecord1->isInternal = 1;
+                    $moneyRecord2->isInternal = 1;
+                    
+                    $moneyRecord1->value = $moneyRecord2->value = $model->sum;
+                    $moneyRecord1->datetime = $moneyRecord2->datetime = $model->datetime;
+                    $moneyRecord1->accountId = $model->fromAccount;
+                    $moneyRecord2->accountId = $model->toAccount;
+                    $moneyRecord1->comment = $moneyRecord2->comment = $model->comment;
+                    $moneyRecord1->type = Money::TYPE_EXPENCE;
+                    $moneyRecord2->type = Money::TYPE_INCOME;
+                    $moneyRecord2->direction = $moneyRecord1->direction = Money::DIRECTION_INTERNAL; // код внутренних транзакций
+
+                    //CustomFuncs::printr($moneyRecord1->attributes);
+                    //CustomFuncs::printr($moneyRecord2->attributes);
+                    
+                    //exit;
+
+                    if($moneyRecord1->save() && $moneyRecord2->save()) {
+                        $this->redirect(array('index'));
+                    } else {
+                        $model->datetime = CustomFuncs::invertDate($model->datetime);
+                    }
+                }
+            }
+            
+            $this->render('addTransaction', array(
+                'model'         => $model,
+                'moneyRecord1'  => $moneyRecord1,
+                'moneyRecord2'  => $moneyRecord2,
+            ));
+        }
+
+        /**
 	 * Manages all models.
 	 */
 	public function actionAdmin()

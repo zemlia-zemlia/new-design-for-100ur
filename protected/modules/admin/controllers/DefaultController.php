@@ -53,14 +53,14 @@ class DefaultController extends Controller
 		$questionsCount = sizeof($answerStatRows);
 		$fastQuestionsCount = 0;
 		foreach($answerStatRows as $row) {
-			if($row['delta']<4) {
-				$fastQuestionsCount++;
-			}
+                    if($row['delta']<4) {
+                            $fastQuestionsCount++;
+                    }
 		}
 		if($questionsCount>0){
-			$fastQuestionsRatio = round(($fastQuestionsCount/$questionsCount)*100,1);
+                    $fastQuestionsRatio = round(($fastQuestionsCount/$questionsCount)*100,1);
 		} else {
-			$fastQuestionsRatio = 0;
+                    $fastQuestionsRatio = 0;
 		}
                 
         // извлекаем статистику кассы  
@@ -69,6 +69,7 @@ class DefaultController extends Controller
         $moneyFlowRows = Yii::app()->db->createCommand()
                 ->select('value, type, direction, MONTH(datetime) month, YEAR(datetime) year')
                 ->from('{{money}}')
+                ->where('isInternal = 0')
                 ->order('datetime')
                 ->queryAll();
         
