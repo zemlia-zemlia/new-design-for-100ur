@@ -57,8 +57,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 		<th>Управление</th>
     </tr>
 <?php foreach($categoriesArray as $rootId=>$rootCategory):?>
+    
+    <?php 
+           $padding = $rootCategory['level']*15; 
+    ?>
+    
     <tr>
-        <td>
+        <td style="padding-left:<?php echo $padding;?>px;">
+            
             <?php echo CHtml::link(CHtml::encode($rootCategory['name']), array('view', 'id'=>$rootId)); ?></strong>
         (id <?php echo $rootId;?>) 
         <?php echo CHtml::link("+подкатегория", array('create', 'parentId'=>$rootId), array('class'=>'btn btn-xs btn-primary')); ?>
@@ -85,41 +91,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <td>
             <?php echo CHtml::link("Ред.", array('update', 'id'=>$rootId)); ?>
         </td>
-    </tr>
-    
-    <?php if(!isset($rootCategory['children'])) continue;?>
-    
-    <?php foreach($rootCategory['children'] as $childId=>$child):?>
-    
-    <tr>
-        <td>
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?php echo CHtml::link(CHtml::encode($child['name']), array('view', 'id'=>$childId)); ?></strong>
-        (id <?php echo $childId;?>) 
-        </td>
-        <td><?php echo QuestionCategory::checkIfArrayPropertyFilled($child, 'description1');?></td>
-        <td>
-            <?php echo QuestionCategory::checkIfArrayPropertyFilled($child, 'description2');?>
-        </td>
-        <td>
-            <?php echo QuestionCategory::checkIfArrayPropertyFilled($child, 'seoH1');?>
-        </td>
-        <td>
-            <?php echo QuestionCategory::checkIfArrayPropertyFilled($child, 'seoTitle');?>
-        </td>
-        <td>
-            <?php echo QuestionCategory::checkIfArrayPropertyFilled($child, 'seoDescription');?>
-        </td>
-        <td>
-            <?php echo QuestionCategory::checkIfArrayPropertyFilled($child, 'seoKeywords');?>
-        </td>
-        <td>
-            <?php echo QuestionCategory::checkIfArrayPropertyFilled($child, 'isDirection');?>
-        </td>
-        <td>
-            <?php echo CHtml::link("Ред.", array('update', 'id'=>$childId)); ?>
-        </td>
-    </tr>
-    
-    <?php endforeach;?>
+    </tr>  
+
 <?php endforeach;?>
 </table>

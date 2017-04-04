@@ -49,7 +49,7 @@ if($model->description) {
                 <?php endif;?>
                 <?php if($model->categories):?>
                     <?php foreach($model->categories as $category):?>
-                    <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($category->name),Yii::app()->createUrl('questionCategory/alias',array('name'=>CHtml::encode($category->alias))));?> &nbsp;&nbsp;
+                    <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($category->name),Yii::app()->createUrl('questionCategory/alias', $category->getUrl()));?> &nbsp;&nbsp;
                     <?php endforeach;?>
                 <?php endif;?>
                 </small>

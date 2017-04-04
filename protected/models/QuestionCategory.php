@@ -36,6 +36,23 @@ class QuestionCategory extends CActiveRecord
 	{
             return '{{questionCategory}}';
 	}
+        
+        /**
+         * Определение поведения для работы иерархии
+         * @return type
+         */
+        public function behaviors()
+        {
+            return array(
+                'nestedSetBehavior' =>  array(
+                    'class'             =>  'ext.yiiext.behaviors.model.trees.NestedSetBehavior',
+                    'leftAttribute'     =>  'lft',
+                    'rightAttribute'    =>  'rgt',
+                    'levelAttribute'    =>  'level',
+                    'hasManyRoots'      =>  true, 
+                ),
+            );
+        }
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -303,6 +320,33 @@ class QuestionCategory extends CActiveRecord
             }
             
             return false;
+        }
+        
+        /**
+         * Функция получения URL страницы категории
+         * @return array
+         * примеры:
+         * /cat/ugolovnoe-pravo
+         * /cat/ugolovnoe-pravo/krazha
+         */
+        public function getUrl()
+        {
+            
+            $ancestors = $this->cache(3600)->ancestors()->findAll();
+            $urlArray = array();
+            
+            foreach($ancestors as $level=>$ancestor) {
+                if($level == 0) {
+                    $key = 'level2';
+                }
+                if($level == 1) {
+                    $key = 'level3';
+                }
+                $urlArray[$key] = $ancestor->alias;
+            }
+            $urlArray['name'] = $this->alias;
+
+            return $urlArray;
         }
         
 }

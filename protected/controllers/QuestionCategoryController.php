@@ -75,13 +75,13 @@ class QuestionCategoryController extends Controller
         /**
          * Показ категории вопроса по ее псевдониму
          * 
-         * @param strung $name псевдоним категории
+         * @param strung $level1 псевдоним категории
          * @throws CHttpException
          */
-        public function actionAlias($name)
+        public function actionAlias(/*$name*/)
 	{
-            // какое количество соседних категорий до и после выводить у текущей категории
-            $neighboursLimit = 6;
+            
+            $name = CHtml::encode($_GET['name']);
             
             
             // если в урле заглавные буквы, редиректим на вариант с маленькими
@@ -96,86 +96,30 @@ class QuestionCategoryController extends Controller
                 throw new CHttpException(404,'Категория не найдена');
             }
             
-            if($model->parentId != 0) {
-                // это дочерняя категория. найдем родительскую категорию
-                $parentCategory = Yii::app()->db->cache(300)->createCommand()
-                    ->select('id, name, alias')
-                    ->from('{{questionCategory}}')
-                    ->where('id=:parentId', array(':parentId'=>$model->parentId))
-                    ->limit(1)
-                    ->queryRow();
-                
-                $neighbourCategoriesRows = Yii::app()->db->cache(300)->createCommand()
-                    ->select('id, name, alias')
-                    ->from('{{questionCategory}}')
-                    ->where('parentId=:parentId', array(':parentId'=>$model->parentId))
-                    ->order('name')
-                    ->queryAll();
-                //CustomFuncs::printr($neighbourCategoriesRows);
-                /* получили массив категорий того же родителя и того же уровня
-                 * найдем в нем текущую категорию и по 6 категорий впереди и сзади
-                 */
-                $currentCategoryPosition = 0;
-                foreach($neighbourCategoriesRows as $index=>$neigbour) {
-                    if($neigbour['id'] == $model->id) {
-                        $currentCategoryPosition = $index;
-                        //echo $currentCategoryPosition . '<br />';
-                        break;
-                    }
-                }
-                $previousNeighbours = array();
-                $nextNeighbours = array();
-                $neighbours = array();
-                
-                // найдем впередистоящих соседей
-                for($i=1;$i<=$neighboursLimit;$i++) {
-                    $prevPosition = $currentCategoryPosition - $i;
-                    if($prevPosition < 0) {
-                        $prevPosition += sizeof($neighbourCategoriesRows);
-                    } 
-                    // для маленького числа соседей: защита от ссылки на ту же категорию
-                    if($prevPosition == $currentCategoryPosition) {
-                        break;
-                    }
-                    //echo $prevPosition . ' ';
-                    $previousNeighbours[$prevPosition] = $neighbourCategoriesRows[$prevPosition];
-                }
-                
-                // найдем далеестоящих соседей
-                for($i=1;$i<=$neighboursLimit;$i++) {
-                    $nextPosition = $currentCategoryPosition + $i;
-                    if($nextPosition >= sizeof($neighbourCategoriesRows)) {
-                        $nextPosition -= sizeof($neighbourCategoriesRows);
-                    } 
-                    
-                    // для маленького числа соседей: защита от ссылки на ту же категорию
-                    if($nextPosition == $currentCategoryPosition) {
-                        break;
-                    }
-                    //echo $nextPosition . ' ';
-                    $nextNeighbours[$nextPosition] = $neighbourCategoriesRows[$nextPosition];
-                }
-                
-                $neighbours = $previousNeighbours + $nextNeighbours;
-                
-                //CustomFuncs::printr($neighbours);
-                
-                
-            } else {
-                // это категория верхнего уровня. надем категории, дочерние текущей
-                $childrenCategories = Yii::app()->db->cache(300)->createCommand()
-                    ->select('id, name, alias')
-                    ->from('{{questionCategory}}')
-                    ->where('parentId=:parentId', array(':parentId'=>$model->id))
-                    ->order('name')
-                    ->limit(9)
-                    ->queryAll();
+            /* если к категории не первого уровня обратились по имени, 
+             * надо сделать редирект на полный адрес
+             */
+            if($model->level > 1 && !$_GET['level2']) {
+                //CustomFuncs::printr($model->getUrl());
+                $this->redirect(Yii::app()->createUrl('questionCategory/alias', $model->getUrl()), true, 301);
             }
             
             
+            // все предки категории
+            $ancestors = $model->ancestors()->findAll();
+            // все потомки
+            $children = $model->children();
+            // родитель | NULL
+            $parent = $model->parent();
             
-                       
+            // ищем соседей с тем же родителем
+//            $neighboursPrev = $model->prev()->findAll(array('limit'=>4));
+//            $neighboursNext = $model->next()->findAll(array('limit'=>4));
+            // временно не выводим соседей
+            $neighboursPrev = array();
+            $neighboursNext = array();
             
+                     
             $questions = $this->findQuestions($model);
             
             // если в категории не нашлось вопросов
@@ -191,7 +135,10 @@ class QuestionCategoryController extends Controller
                         'newQuestionModel'      =>  $newQuestionModel,
                         'childrenCategories'    =>  $childrenCategories,
                         'parentCategory'        =>  $parentCategory,
-                        'neighbours'            =>  $neighbours,
+                        'neighboursPrev'        =>  $neighboursPrev,
+                        'neighboursNext'        =>  $neighboursNext,
+                        'ancestors'             =>  $ancestors,
+                        'children'              =>  $children,
 		));
 	}
         

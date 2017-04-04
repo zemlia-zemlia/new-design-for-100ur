@@ -10,9 +10,9 @@ class QuestionCategoryController extends Controller
 	 */
 	public function filters()
 	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-		);
+            return array(
+                'accessControl', // perform access control for CRUD operations
+            );
 	}
 
 	/**
@@ -22,21 +22,21 @@ class QuestionCategoryController extends Controller
 	 */
 	public function accessRules()
 	{
-		return array(
-                        array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','view','create','update','admin','delete','translit'),
-				'users'=>array('@'),
-                                'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
-			),
-                        array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','view','create','update', 'ajaxGetList', 'directions'),
-				'users'=>array('@'),
-                                'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
+            return array(
+                array('allow', // allow authenticated user to perform 'create' and 'update' actions
+                        'actions'=>array('index','view','create','update','admin','delete','translit'),
+                        'users'=>array('@'),
+                        'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
+                ),
+                array('allow', // allow authenticated user to perform 'create' and 'update' actions
+                        'actions'=>array('index','view','create','update', 'ajaxGetList', 'directions', 'indexHierarchy'),
+                        'users'=>array('@'),
+                        'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
+                ),
+                array('deny',  // deny all users
+                        'users'=>array('*'),
+                ),
+            );
 	}
 
 	/**
@@ -87,9 +87,19 @@ class QuestionCategoryController extends Controller
 
 		if(isset($_POST['QuestionCategory']))
 		{
-			$model->attributes=$_POST['QuestionCategory'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+                    $model->attributes=$_POST['QuestionCategory'];
+                    
+                    if($model->parentId) {
+                        $parent = QuestionCategory::model()->findByPk($model->parentId);
+                        if(!$parent) {
+                            throw new CHttpException(400, 'Родительский элемент не найден');
+                        }
+                        // прикрепим категорию к родительской (в иерархии)
+                        $model->appendTo($parent);
+                    }
+                    if($model->saveNode()){
+                        $this->redirect(array('view','id'=>$model->id));
+                    }
 		}
 
                 // для работы визуального редактора подключим необходимую версию JQuery
@@ -110,29 +120,39 @@ class QuestionCategoryController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
-                
-                
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+            $model=$this->loadModel($id);
 
-		if(isset($_POST['QuestionCategory']))
-		{
-			$model->attributes=$_POST['QuestionCategory'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-                
-                // для работы визуального редактора подключим необходимую версию JQuery
-                $scriptMap = Yii::app()->clientScript->scriptMap;
-                $scriptMap['jquery.js'] = '/js/jquery-1.8.3.min.js'; 
-                $scriptMap['jquery.min.js'] = '/js/jquery-1.8.3.min.js'; 
-                Yii::app()->clientScript->scriptMap = $scriptMap;
-                
-		$this->render('update',array(
-			'model'         =>  $model,
 
-		));
+            // Uncomment the following line if AJAX validation is needed
+            // $this->performAjaxValidation($model);
+
+            if(isset($_POST['QuestionCategory']))
+            {
+                $model->attributes=$_POST['QuestionCategory'];
+                
+                if($model->parentId) {
+                        $parent = QuestionCategory::model()->findByPk($model->parentId);
+                        if(!$parent) {
+                            throw new CHttpException(400, 'Родительский элемент не найден');
+                        }
+                        // прикрепим категорию к родительской (в иерархии)
+                        $model->moveAsLast($parent);
+                    }
+                    
+                if($model->saveNode()) {
+                    $this->redirect(array('view','id'=>$model->id));
+                }
+            }
+
+            // для работы визуального редактора подключим необходимую версию JQuery
+            $scriptMap = Yii::app()->clientScript->scriptMap;
+            $scriptMap['jquery.js'] = '/js/jquery-1.8.3.min.js'; 
+            $scriptMap['jquery.min.js'] = '/js/jquery-1.8.3.min.js'; 
+            Yii::app()->clientScript->scriptMap = $scriptMap;
+
+            $this->render('update',array(
+                    'model'         =>  $model,
+            ));
 	}
 
 	/**
@@ -167,7 +187,8 @@ class QuestionCategoryController extends Controller
             if(Yii::app()->cache->get('categories_list')!== false) {
                 $categoriesArray = Yii::app()->cache->get('categories_list');
             } else {
-                // если не сохранен, вытащим его из базы    
+                // если не сохранен, вытащим его из базы   
+                
                 $categoriesRows = Yii::app()->db->createCommand()
                         ->select("c.id c_id, "
                                 . "c.name c_name, "
@@ -178,21 +199,11 @@ class QuestionCategoryController extends Controller
                                 . "LENGTH(c.seoKeywords) c_seoKeywords, "
                                 . "LENGTH(c.seoH1) c_seoH1, "
                                 . "c.isDirection c_isDirection, "
-                                . "child.id child_id, "
-                                . "child.name child_name, "
-                                . "LENGTH(child.description1) child_description1,  "
-                                . "LENGTH(child.description2) child_description2, "
-                                . "LENGTH(child.seoTitle) child_seoTitle, "
-                                . "LENGTH(child.seoDescription) child_seoDescription, "
-                                . "LENGTH(child.seoKeywords) child_seoKeywords, "
-                                . "LENGTH(child.seoH1) child_seoH1, "
-                                . "child.isDirection child_isDirection")
+                                . "c.level")
                         ->from("{{questionCategory}} c")
-                        ->leftJoin("{{questionCategory}} child", "child.parentId = c.id")
-                        ->where('c.parentId=0')
-                        ->order("c.name")
+                        ->order("c.root, c.lft")
                         ->queryAll();
-
+                        
                 foreach($categoriesRows as $row) {
                     $categoriesArray[$row['c_id']]['name'] = $row['c_name'];
                     $categoriesArray[$row['c_id']]['description1'] = $row['c_description1'];
@@ -202,25 +213,12 @@ class QuestionCategoryController extends Controller
                     $categoriesArray[$row['c_id']]['seoKeywords'] = $row['c_seoKeywords'];
                     $categoriesArray[$row['c_id']]['seoH1'] = $row['c_seoH1'];
                     $categoriesArray[$row['c_id']]['isDirection'] = $row['c_isDirection'];
-                    if($row['child_id']){
-                        $categoriesArray[$row['c_id']]['children'][$row['child_id']]['name'] = $row['child_name'];
-                        $categoriesArray[$row['c_id']]['children'][$row['child_id']]['description1'] = $row['child_description1'];
-                        $categoriesArray[$row['c_id']]['children'][$row['child_id']]['description2'] = $row['child_description2'];
-                        $categoriesArray[$row['c_id']]['children'][$row['child_id']]['seoTitle'] = $row['child_seoTitle'];
-                        $categoriesArray[$row['c_id']]['children'][$row['child_id']]['seoDescription'] = $row['child_seoDescription'];
-                        $categoriesArray[$row['c_id']]['children'][$row['child_id']]['seoKeywords'] = $row['child_seoKeywords'];
-                        $categoriesArray[$row['c_id']]['children'][$row['child_id']]['seoH1'] = $row['child_seoH1'];
-                        $categoriesArray[$row['c_id']]['children'][$row['child_id']]['isDirection'] = $row['child_isDirection'];
-
-                    }
+                    $categoriesArray[$row['c_id']]['level'] = $row['level'];
                 }
                 
-                Yii::app()->cache->set('categories_list', $categoriesArray, 600);
+                Yii::app()->cache->set('categories_list', $categoriesArray, 0);
             }
-            
-//            CustomFuncs::printr($categoriesArray);
-//            exit;
-            
+                      
             // Найдем количество категорий, у которых отсутствует описание
             $emptyCategoriesRow = Yii::app()->db->createCommand()
                     ->select('COUNT(*) counter')
@@ -244,8 +242,49 @@ class QuestionCategoryController extends Controller
                 'totalCategoriesCount'  =>  $totalCategoriesCount,
             ));
 	}
+        
+        /**
+         * Временный метод для показа (контроля) иерархии категорий
+         */
+        public function actionIndexHierarchy()
+        {
+           
+            $criteria=new CDbCriteria;
+            $criteria->order='t.root, t.lft'; // or 't.root, t.lft' for multiple trees
+            $categories=QuestionCategory::model()->findAll($criteria);
+            $level=0;
 
-	/**
+            foreach($categories as $n=>$category)
+            {
+                    if($category->level==$level)
+                            echo CHtml::closeTag('li')."\n";
+                    else if($category->level>$level)
+                            echo CHtml::openTag('ul')."\n";
+                    else
+                    {
+                            echo CHtml::closeTag('li')."\n";
+
+                            for($i=$level-$category->level;$i;$i--)
+                            {
+                                    echo CHtml::closeTag('ul')."\n";
+                                    echo CHtml::closeTag('li')."\n";
+                            }
+                    }
+
+                    echo CHtml::openTag('li');
+                    echo CHtml::encode($category->name);
+                    $level=$category->level;
+            }
+
+            for($i=$level;$i;$i--)
+            {
+                    echo CHtml::closeTag('li')."\n";
+                    echo CHtml::closeTag('ul')."\n";
+            }
+            
+        }
+
+        /**
 	 * Manages all models.
 	 */
 	public function actionAdmin()

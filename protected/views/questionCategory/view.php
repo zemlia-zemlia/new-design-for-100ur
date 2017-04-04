@@ -31,16 +31,13 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,Yii::app()->createUrl
 
 Yii::app()->clientScript->registerMetaTag(($model->isIndexingAllowed())?'all':'noindex', "robots");
 
-$this->breadcrumbs = array();
-if($parentCategory) {
-    $this->breadcrumbs[$parentCategory['name']] = Yii::app()->createUrl('/questionCategory/alias',array('name'=>$parentCategory['alias']));
-}   
-//$this->breadcrumbs[] = $model->name;
+$this->breadcrumbs = array('Категории' => array('/cat'));
 
-?>
+foreach($ancestors as $ancestor) {
+    $this->breadcrumbs[$ancestor->name] = Yii::app()->createUrl('questionCategory/alias', $ancestor->getUrl());
+}
+$this->breadcrumbs[] = $model->name;
 
-<?php 
-//CustomFuncs::printr($model->isIndexingAllowed());
 ?>
 
 <?php
@@ -63,13 +60,14 @@ if($parentCategory) {
     ?>
 </h1>
 
-<?php if(sizeof($childrenCategories)):?>
+<?php if(sizeof($children)):?>
       
     <div class="row vert-margin30">
-    <?php foreach($childrenCategories as $child):?>
+    <?php foreach($children as $child):?>
         <div class="col-md-4">
             <small>
-            <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span>&nbsp;' . $child['name'], Yii::app()->createUrl('questionCategory/alias', array('name'=>CHtml::encode($child['alias']))));?>
+            <?php //CustomFuncs::printr($child->getUrl());?>
+            <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span>&nbsp;' . $child->name, Yii::app()->createUrl('questionCategory/alias', $child->getUrl()));?>
             </small>
         </div>    
     <?php endforeach;?>
@@ -77,24 +75,39 @@ if($parentCategory) {
 
 <?php endif;?>
 
-<?php if(sizeof($neighbours)):?>
+<?php if(sizeof($neighboursPrev)):?>
       
     <div class="row vert-margin30">
-    <?php foreach($neighbours as $neighbour):?>
+    <?php foreach($neighboursPrev as $neighbour):?>
         <div class="col-md-4">
             <small>
-            <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span> &nbsp;' . $neighbour['name'], Yii::app()->createUrl('questionCategory/alias', array('name'=>CHtml::encode($neighbour['alias']))));?>
+            <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span> &nbsp;' . $neighbour->name, Yii::app()->createUrl('questionCategory/alias', $neighbour->getUrl()));?>
             </small>
         </div>    
     <?php endforeach;?>
     </div>
 
 <?php endif;?>
+
+<?php if(sizeof($neighboursNext)):?>
+      
+    <div class="row vert-margin30">
+    <?php foreach($neighboursNext as $neighbour):?>
+        <div class="col-md-4">
+            <small>
+            <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span> &nbsp;' . $neighbour->name, Yii::app()->createUrl('questionCategory/alias', $neighbour->getUrl()));?>
+            </small>
+        </div>    
+    <?php endforeach;?>
+    </div>
+
+<?php endif;?>
+
 
 <?php if($model->description1):?>
-        <div class="vert-margin30">
-                        <?php echo $model->description1;?>
-        </div>
+    <div class="vert-margin30">
+        <?php echo $model->description1;?>
+    </div>
 <?php endif;?>
 
 
