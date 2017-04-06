@@ -8,7 +8,7 @@ if($model->seoTitle) {
     $pageTitle = CHtml::encode($model->name) . ". Консультация юриста и адвоката. ";
 }
 
-if(isset($_GET) && (int)$_GET['page']) {
+if(isset($_GET) && (int)$_GET['page'] && $questionsDataProvider->pagination) {
     $pageNumber = (int)$_GET['page'];
     $pagesTotal = ceil($questionsDataProvider->totalItemCount / $questionsDataProvider->pagination->getPageSize());
     $pageTitle .= 'Страница ' . $pageNumber . ' из ' . $pagesTotal . '. ';
