@@ -15,7 +15,7 @@ class SitemapCommand extends CConsoleCommand
               <changefreq>daily</changefreq>
               <priority>0.9</priority>
            </url>';
-             
+        /*     
         $categories = Yii::app()->db->createCommand()
                 ->select('alias')
                 ->from('{{questionCategory}}')
@@ -23,6 +23,17 @@ class SitemapCommand extends CConsoleCommand
         foreach($categories as $cat) {
             $siteMap .= '<url>
               <loc>' . $siteUrl . '/cat/' . CHtml::encode($cat['alias']) .  '/</loc>
+              <lastmod>' . date('Y-m-d') . '</lastmod>
+              <changefreq>weekly</changefreq>
+              <priority>0.6</priority>
+           </url>';
+        }
+        */
+        
+        $categories = QuestionCategory::model()->findAll();
+        foreach($categories as $cat) {
+            $siteMap .= '<url>
+              <loc>' . Yii::app()->createUrl('questionCategory/alias', $cat->getUrl()) . '</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.6</priority>
