@@ -24,7 +24,7 @@ class QuestionCategoryController extends Controller
 	{
             return array(
                 array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                        'actions'=>array('index','view','create','update','admin','delete','translit'),
+                        'actions'=>array('index','view','create','update','admin','delete','translit', 'showActiveUrls'),
                         'users'=>array('@'),
                         'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
                 ),
@@ -243,6 +243,19 @@ class QuestionCategoryController extends Controller
             ));
 	}
         
+        /**
+         * Выводит список URL категорий, которые заполнены
+         */
+        public function actionShowActiveUrls()
+        {
+            $categories = QuestionCategory::model()->findAll('description1!="" OR description2!=""');
+            
+            $this->render('showActiveUrls', array(
+                'categories'    =>  $categories,
+            ));
+        }
+
+
         /**
          * Временный метод для показа (контроля) иерархии категорий
          */
