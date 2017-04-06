@@ -67,6 +67,7 @@
                             <?php
                                 // выводим виджет с номером 8800
                                 $this->widget('application.widgets.Hotline.HotlineWidget', array(
+                                    'showAlways' => true,
                                 ));
                             ?>
 
@@ -179,6 +180,7 @@
                     <?php
                         // выводим виджет Назойливый
                         $this->widget('application.widgets.Annoying.AnnoyingWidget', array(
+                            'showAlways' => true,
                         ));
                     ?>
                 <?php endif;?>

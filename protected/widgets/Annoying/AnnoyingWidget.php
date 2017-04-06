@@ -5,6 +5,7 @@
 class AnnoyingWidget extends CWidget
 {
     public $template = 'default'; // представление виджета по умолчанию
+    public $showAlways = false; // показывать всегда, независимо от текущего города и региона
     
     public function run()
     {
@@ -41,6 +42,7 @@ class AnnoyingWidget extends CWidget
             'payedTownsIds'    =>  $payedTownsIds,
             'payedTowns'       =>  $payedTowns,
             'payedRegions'     =>  $payedRegions,
+            'showAlways'       =>  $this->showAlways,
         ));
         
     }
