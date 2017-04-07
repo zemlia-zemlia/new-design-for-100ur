@@ -240,12 +240,16 @@ class Town extends CActiveRecord
      * в радиусе $radius км. от данного города
      * за расстояние считается дистанция между центрами
      * 
-     * @param float $radius Радиус поиска
+     * @param float $radius Радиус поиска (км)
      * @return array массив объектов Town
      */
     public function getCloseTowns($radius = 100)
     {
 
+        if(!$this->lat || !$this->lng) {
+            return array();
+        }
+        
         $criteria = new CDbCriteria();
         $criteria->select = "*, SQRT(
             POW(110.6* (lat - " . $this->lat. "), 2) +
