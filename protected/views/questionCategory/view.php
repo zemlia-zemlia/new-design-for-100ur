@@ -66,48 +66,6 @@ $this->breadcrumbs[] = $model->name;
     ?>
 </h1>
 
-<?php if(sizeof($children)):?>
-      
-    <div class="row vert-margin30">
-    <?php foreach($children as $child):?>
-        <div class="col-md-4">
-            <small>
-            <?php //CustomFuncs::printr($child->getUrl());?>
-            <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span>&nbsp;' . $child->name, Yii::app()->createUrl('questionCategory/alias', $child->getUrl()));?>
-            </small>
-        </div>    
-    <?php endforeach;?>
-    </div>
-
-<?php endif;?>
-
-<?php if(sizeof($neighboursPrev)):?>
-      
-    <div class="row vert-margin30">
-    <?php foreach($neighboursPrev as $neighbour):?>
-        <div class="col-md-4">
-            <small>
-            <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span> &nbsp;' . $neighbour->name, Yii::app()->createUrl('questionCategory/alias', $neighbour->getUrl()));?>
-            </small>
-        </div>    
-    <?php endforeach;?>
-    </div>
-
-<?php endif;?>
-
-<?php if(sizeof($neighboursNext)):?>
-      
-    <div class="row vert-margin30">
-    <?php foreach($neighboursNext as $neighbour):?>
-        <div class="col-md-4">
-            <small>
-            <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span> &nbsp;' . $neighbour->name, Yii::app()->createUrl('questionCategory/alias', $neighbour->getUrl()));?>
-            </small>
-        </div>    
-    <?php endforeach;?>
-    </div>
-
-<?php endif;?>
 
 
 <?php if($model->description1):?>
@@ -115,6 +73,61 @@ $this->breadcrumbs[] = $model->name;
         <?php echo $model->description1;?>
     </div>
 <?php endif;?>
+
+<?php if(sizeof($children)):?>
+    <?php $itemsCount =  sizeof($children);?>
+
+    <div class="row vert-margin30">
+        <?php foreach($children as $index=>$child):?>
+
+            <?php if($index == 0 || $index == floor($itemsCount/3) || $index == floor(2*$itemsCount/3)):?>
+                <div class="col-md-4">
+            <?php endif;?>
+            <small>
+                <p>
+                <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span>&nbsp; ' . $child->name, Yii::app()->createUrl('questionCategory/alias', $child->getUrl()));?>
+                </p>
+            </small>
+
+            <?php if($index == $itemsCount-1 || $index == floor($itemsCount/3)-1 || $index == floor(2*$itemsCount/3)-1):?>
+                </div>
+            <?php endif;?>  
+        <?php endforeach;?>
+    </div>
+
+<?php endif;?>
+
+<div class="row vert-margin30">
+<?php if(sizeof($neighboursPrev)):?>
+      
+    <div class="col-md-6">
+    <?php foreach($neighboursPrev as $neighbour):?>
+        
+        <small>
+            <p>
+                <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span> &nbsp;' . $neighbour->name, Yii::app()->createUrl('questionCategory/alias', $neighbour->getUrl()));?>
+            </p>
+        </small>
+          
+    <?php endforeach;?>
+    </div>  
+<?php endif;?>
+
+<?php if(sizeof($neighboursNext)):?>
+    <div class="col-md-6">  
+    <?php foreach($neighboursNext as $neighbour):?>
+        
+        <small>
+            <p>
+                <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span> &nbsp;' . $neighbour->name, Yii::app()->createUrl('questionCategory/alias', $neighbour->getUrl()));?>
+            </p>
+        </small>
+          
+    <?php endforeach;?>
+    </div>  
+<?php endif;?>
+</div>
+
 
 
 	<div class="form-container">		

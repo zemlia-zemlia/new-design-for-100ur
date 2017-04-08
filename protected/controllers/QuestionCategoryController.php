@@ -78,8 +78,9 @@ class QuestionCategoryController extends Controller
          * @param strung $level1 псевдоним категории
          * @throws CHttpException
          */
-        public function actionAlias(/*$name*/)
+        public function actionAlias()
 	{
+            $categoriesPerPage = 15;
             
             $name = CHtml::encode($_GET['name']);
             
@@ -108,18 +109,52 @@ class QuestionCategoryController extends Controller
             // все предки категории
             $ancestors = $model->ancestors()->findAll();
             // все потомки
-            $children = $model->children();
+            $childrenRaw = $model->children();
+            $children = array();
+            
+            if(sizeof($childrenRaw)>0) {
+                // нужно выбрать не более 15 дочерних категорий из всех
+                // если категорий всего до 15, берем все
+                if(sizeof($childrenRaw)<=$categoriesPerPage) {
+                    $children = $childrenRaw;
+                } else {
+                    // если больше 15, вычислим шаг, с которым будем выбирать категории
+                    $step = sizeof($childrenRaw) / $categoriesPerPage; // шаг - дробное число
+                }
+                for($i=0; $i<$categoriesPerPage; $i++) {
+                    $children[] = $childrenRaw[$i*floor($step)];
+                }
+            }
             // родитель | NULL
             $parent = $model->parent();
             
-            // ищем соседей с тем же родителем
-//            $neighboursPrev = $model->prev()->findAll(array('limit'=>4));
-//            $neighboursNext = $model->next()->findAll(array('limit'=>4));
-            // временно не выводим соседей
             $neighboursPrev = array();
             $neighboursNext = array();
             
-                     
+            if($parent) {
+                // ищем соседей с тем же родителем
+                $neighbours = $parent->children();
+                
+                // найдем в массиве соседей позицию текущего элемента
+                foreach($neighbours as $neighbourNumber=>$neighbour) {
+                    if($neighbour->id === $model->id) {
+                        $currentElementPosition = $neighbourNumber;
+                    }
+                }
+
+                foreach($neighbours as $neighbourNumber => $neighbour) {
+                    if($neighbourNumber>$currentElementPosition-7 && $neighbourNumber<$currentElementPosition) {
+                        $neighboursPrev[] = $neighbour;
+                    }
+                }
+
+                foreach($neighbours as $neighbourNumber => $neighbour) {
+                    if($neighbourNumber<$currentElementPosition+7 && $neighbourNumber>$currentElementPosition) {
+                        $neighboursNext[] = $neighbour;
+                    }
+                }
+            }
+                 
             $questions = $this->findQuestions($model);
             
             // если в категории не нашлось вопросов
