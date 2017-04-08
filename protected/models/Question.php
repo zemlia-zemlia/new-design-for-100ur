@@ -423,12 +423,12 @@ class Question extends CActiveRecord
             $mailer = new GTMail;
             $mailer->subject = "Добавлен новый VIP вопрос";
             $mailer->email = Yii::app()->params['adminNotificationsEmail'];
-            $mailer->message = "На сайт только что добавлен новый VIP вопрос"; 
-                    //CHtml::link("VIP вопрос", Yii::app()->createUrl('question/view', array('id'=>$this->id)));
+            $mailer->message = "На сайт только что добавлен новый " . 
+                    CHtml::link("VIP вопрос", Yii::app()->createUrl('question/view', array('id'=>$this->id)));
             
             fwrite($paymentLog, print_r($mailer, true));
             
-            if($mailer->sendMail(false)) {
+            if($mailer->sendMail()) {
                 fwrite($paymentLog, 'письмо отправлено' . PHP_EOL);
             } else {
                 fwrite($paymentLog, 'письмо не отправлено' . PHP_EOL);
