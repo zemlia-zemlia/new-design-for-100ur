@@ -122,7 +122,7 @@ class QuestionCategoryController extends Controller
                     $step = sizeof($childrenRaw) / $categoriesPerPage; // шаг - дробное число
                 }
                 $prevChildId = 0;
-                for($i=0; $i<$categoriesPerPage, $i<sizeof($childrenRaw); $i++) {
+                for($i=0; $i<$categoriesPerPage; $i++) {
                     // чтобы не записать несколько раз один элемент
                     if($prevChildId == $childrenRaw[$i*floor($step)]->id) {
                         break;
