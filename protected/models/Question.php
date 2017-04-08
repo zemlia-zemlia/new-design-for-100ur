@@ -290,7 +290,7 @@ class Question extends CActiveRecord
         {
             switch($level) {
                 case self::LEVEL_1:
-                    return 125;
+                    return 10;
                     break;
                 case self::LEVEL_2:
                     return 295;
