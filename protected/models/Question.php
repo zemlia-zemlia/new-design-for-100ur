@@ -411,23 +411,37 @@ class Question extends CActiveRecord
         
         /**
          * После оплаты вопроса отправляет уведомление админу и записывает транзакцию
+         * @param float $rateWithoutComission Сумма оплаты за вычетом комисии Яндекса
          */
         public function vipNotification($rateWithoutComission)
         {
+            $paymentLog = fopen($_SERVER['DOCUMENT_ROOT'] . YandexKassa::PAYMENT_LOG_FILE, 'w+');
+            fwrite($paymentLog, 'Отправляем уведомление о вип вопросе ' . $this->id . PHP_EOL);
+            
             $mailer = new GTMail;
             $mailer->subject = "Добавлен новый VIP вопрос";
             $mailer->email = Yii::app()->params['adminNotificationsEmail'];
             $mailer->message = "На сайт только что добавлен новый " . 
                     CHtml::link("VIP вопрос", Yii::app()->createUrl('question/view', array('id'=>$this->id)));
-
-            $mailer->sendMail();
+            
+            if($mailer->sendMail()) {
+                fwrite($paymentLog, 'письмо отправлено' . PHP_EOL);
+            } else {
+                fwrite($paymentLog, 'письмо не отправлено' . PHP_EOL);
+            }
             
             $transaction = new Money;
             $transaction->type = Money::TYPE_INCOME;
             $transaction->direction = 504;
             $transaction->value = $rateWithoutComission;
             $transaction->comment = "Оплата вопроса id=" . $this->id;
-            $transaction->save();
+            
+            if($transaction->save()) {
+                fwrite($paymentLog, 'транзакция сохранена' . PHP_EOL);
+            } else {
+                fwrite($paymentLog, 'транзакция не сохранена' . PHP_EOL);
+                fwrite($paymentLog, implode(':', $transaction->errors));
+            }
             
         }
 }
