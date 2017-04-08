@@ -58,6 +58,12 @@ $this->breadcrumbs[] = $model->name;
             echo CHtml::encode($model->name) . ', ' . 'консультации юриста и адвоката';
         }
     ?>
+    
+    <?php
+        if(Yii::app()->user->checkAccess(User::ROLE_EDITOR)) {
+            echo CHtml::link("<span class='glyphicon glyphicon-pencil'><span>", Yii::app()->createUrl('/admin/questionCategory/update', array('id'=>$model->id)), array('target'=>'_blank'));
+        }
+    ?>
 </h1>
 
 <?php if(sizeof($children)):?>

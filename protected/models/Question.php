@@ -408,4 +408,26 @@ class Question extends CActiveRecord
         {
             return preg_replace('/([^0-9])/i', '', $phone);
         }
+        
+        /**
+         * После оплаты вопроса отправляет уведомление админу и записывает транзакцию
+         */
+        public function vipNotification($rateWithoutComission)
+        {
+            $mailer = new GTMail;
+            $mailer->subject = "Добавлен новый VIP вопрос";
+            $mailer->email = Yii::app()->params['adminNotificationsEmail'];
+            $mailer->message = "На сайт только что добавлен новый " . 
+                    CHtml::link("VIP вопрос", Yii::app()->createUrl('question/view', array('id'=>$this->id)));
+
+            $mailer->sendMail();
+            
+            $transaction = new Money;
+            $transaction->type = Money::TYPE_INCOME;
+            $transaction->direction = 504;
+            $transaction->value = $rateWithoutComission;
+            $transaction->comment = "Оплата вопроса id=" . $this->id;
+            $transaction->save();
+            
+        }
 }

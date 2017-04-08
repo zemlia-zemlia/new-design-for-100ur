@@ -55,6 +55,7 @@ class YandexKassa
         $question = Question::model()->findByPk($this->params['customerNumber']);
         $question->setScenario("pay");
         $rate = $this->params['orderSumAmount'];
+        $rateWithoutComission = $this->params['shopSumAmount'];
         
         //Yii::log('question id = ' . $question . ', rate = ' . $rate, 'info', 'system.web.CController');
         $paymentLog = fopen($_SERVER['DOCUMENT_ROOT'] . YandexKassa::PAYMENT_LOG_FILE, 'a+');
@@ -66,6 +67,9 @@ class YandexKassa
         
         $question->payed = 1;
         $question->price = (int)$rate;
+        
+        // отправка уведомления и запись транзакции в кассу
+        $question->vipNotification($rateWithoutComission);
         
         if($question->save()) {
             return true;

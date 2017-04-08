@@ -655,7 +655,9 @@ class QuestionController extends Controller
             ));
         }
 
-        // платеж успешно
+        /**
+         *  платеж успешно совершен
+         */
         public function actionPaymentSuccess()
         {
             $params = $_GET;
