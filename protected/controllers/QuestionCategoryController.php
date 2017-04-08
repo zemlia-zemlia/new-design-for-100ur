@@ -121,8 +121,14 @@ class QuestionCategoryController extends Controller
                     // если больше 15, вычислим шаг, с которым будем выбирать категории
                     $step = sizeof($childrenRaw) / $categoriesPerPage; // шаг - дробное число
                 }
-                for($i=0; $i<$categoriesPerPage; $i++) {
+                $prevChildId = 0;
+                for($i=0; $i<$categoriesPerPage, $i<sizeof($childrenRaw); $i++) {
+                    // чтобы не записать несколько раз один элемент
+                    if($prevChildId == $childrenRaw[$i*floor($step)]->id) {
+                        break;
+                    }
                     $children[] = $childrenRaw[$i*floor($step)];
+                    $prevChildId = $childrenRaw[$i*floor($step)]->id;
                 }
             }
             // родитель | NULL
