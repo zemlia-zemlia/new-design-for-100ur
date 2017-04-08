@@ -85,7 +85,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <?php endif;?>
     
     
-    <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>  
+    
 
             <?php foreach($allDirections as $directionId=>$direction):?>
                 <?php echo CHtml::link($direction['name'], '#', array('class'=>'set-category-link label label-primary', 'data-category'=>$directionId, 'data-question'=>$data['id']));?>
@@ -99,8 +99,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <?php endforeach;?>
 
     </td>
-       
+    <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>    
     
+	
     <?php endif;?>    
 </tr>
     <?php endforeach;?>

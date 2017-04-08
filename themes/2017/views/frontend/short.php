@@ -135,7 +135,7 @@
                         <h4 class="text-uppercase">Вопрос юристу</h4>
                         <p class="small">Задайте любой вопрос специалистам, и в течение 15 минут вы получите ответы наших юристов.</p>
                         </div>
-                        <?php echo CHtml::link("<span class='yur-icon yur-icon-question'></span> Задать вопрос &nbsp;<img src='/pics/2017/arrow_list_blue.png' alt='' />", Yii::app()->createUrl('question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=vopros'), array('class'=>'button button-white-gradient btn-block')); ?>
+                        <?php echo CHtml::link("<span class='yur-icon yur-icon-question'></span> Задать вопрос &nbsp;<img src='/pics/2017/arrow_list_blue.png' alt='100 Юристов и Адвокатов'/>", Yii::app()->createUrl('question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=vopros'), array('class'=>'button button-white-gradient btn-block')); ?>
                     </div>
                     
                     <div class="col-md-3 col-sm-3 cta-item" style="background-color: #1d979b;">
@@ -143,7 +143,7 @@
                         <h4 class="text-uppercase">Звонок юриста</h4>
                         <p class="small">Оставьте номер телефона, и наш юрист свяжется с вами, чтобы проконсультировать вас.</p>
                         </div>
-                        <?php echo CHtml::link("<span class='yur-icon yur-icon-call'></span> Заказать звонок &nbsp;<img src='/pics/2017/arrow_list_blue.png' alt='' />", Yii::app()->createUrl('question/call'), array('class'=>'button button-white-gradient btn-block')); ?>
+                        <?php echo CHtml::link("<span class='yur-icon yur-icon-call'></span> Заказать звонок &nbsp;<img src='/pics/2017/arrow_list_blue.png' alt='100 Юристов - юридический портал' />", Yii::app()->createUrl('question/call'), array('class'=>'button button-white-gradient btn-block')); ?>
                     </div>
                         
                     <div class="col-md-3 col-sm-3 cta-item" style="background-color: #18668b;">
@@ -151,7 +151,7 @@
                         <h4 class="text-uppercase">Документы</h4>
                         <p class="small">Закажите документ, после чего наш юрист свяжется с вами, уточнит детали и подготовит его.</p>
                         </div>
-                        <?php echo CHtml::link("<span class='yur-icon yur-icon-doc'></span> Заказать документ &nbsp;<img src='/pics/2017/arrow_list_blue.png' alt='' />", Yii::app()->createUrl('question/docs'), array('class'=>'button button-white-gradient btn-block')); ?>
+                        <?php echo CHtml::link("<span class='yur-icon yur-icon-doc'></span> Заказать документ &nbsp;<img src='/pics/2017/arrow_list_blue.png' alt='100 Юристов - юридический портал' />", Yii::app()->createUrl('question/docs'), array('class'=>'button button-white-gradient btn-block')); ?>
                     </div>
                     
                     <div class="col-md-3 col-sm-3 cta-item" style="background-color: #206cbb;">
@@ -159,7 +159,7 @@
                         <h4 class="text-uppercase">Услуги</h4>
                         <p class="small">Заключить договор для сопровождения сделки, представления интересов в судах, организациях и т.д.</p>
                         </div>
-                        <?php echo CHtml::link("<span class='yur-icon yur-icon-service'></span> Получить услуги &nbsp;<img src='/pics/2017/arrow_list_blue.png' alt='' />", Yii::app()->createUrl('question/services'), array('class'=>'button button-white-gradient btn-block')); ?>
+                        <?php echo CHtml::link("<span class='yur-icon yur-icon-service'></span> Получить услуги &nbsp;<img src='/pics/2017/arrow_list_blue.png' alt='100 Юристов - юридический портал' />", Yii::app()->createUrl('question/services'), array('class'=>'button button-white-gradient btn-block')); ?>
                     </div>
                 </div>
             </div>
@@ -201,24 +201,20 @@
                                 <div class="header-block-grey-arrow"></div>
                                 <p>Задано вопросов</p>
                                 <p class="kpi-counter">
-                                    <img src="/pics/2017/icon_question.png" alt="" />
+                                    <img src="/pics/2017/icon_question.png" alt="100 Юристов - юридический портал" />
                                     <?php foreach($numbers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
                                 </p>
                                 <div>На них дано ответов</div>
                                 <p class="kpi-counter">
-                                    <img src="/pics/2017/icon_answer.png" alt="" />
+                                    <img src="/pics/2017/icon_answer.png" alt="100 Юристов - юридический портал" />
                                     <?php foreach($numbersAnswers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
                                 </p>
                                 <p>по ТЕМАМ</p>
-                                <img src="/pics/2017/arrow_down.png" alt="" class="center-block" />
+                                <img src="/pics/2017/arrow_down.png" alt="100 Юристов - юридический портал" class="center-block" />
                             </div>
                         </div>
                     </div>	
                 <?php endif;?>
-                <!-- 
-                <div class="vert-margin20 center-align">
-                    <a href="<?php echo Yii::app()->createUrl('question/create', array('pay'=>1));?>"><img src="/pics/2017/payed_consult_banner.jpg" alt="Платный ответ юриста" /></a>
-                </div> -->
 				
                 <div id="left-bar" class="">
                     <h4 id="left-menu-switch" class="header-bordered">Темы вопросов</h4>
@@ -275,7 +271,7 @@
              				
                 <?php if(Yii::app()->user->isGuest):?>			
                     <div class="">
-                        <?php echo CHtml::link("<img src='/pics/2017/yurist_call.jpg' alt=''  class='center-block' />", Yii::app()->createUrl('/question/call/')); ?> <br/>
+                        <?php echo CHtml::link("<img src='/pics/2017/yurist_call.jpg' alt='Юридический портал - 100 Юристов'  class='center-block' />", Yii::app()->createUrl('/question/call/')); ?> <br/>
                     </div>
                 <?php endif;?>
 
@@ -286,37 +282,7 @@
                         $this->widget('application.widgets.RecentAnswers.RecentAnswers', array(
                         ));
                     ?>
-                </div>
-				
-
-                <!--                               
-                <div class="panel gray-panel">
-                    <div class="panel-body">
-                        <div class="row">
-                            <h3 class="text-uppercase">Работаем при поддержке:</h3>
-                            <div class="col-md-6 col-xs-4">
-                                <img class="img-responsive center-block" alt="Правительство Москвы" title="Правительство Москвы" src="/pics/pravitelstvo.png"> 
-                            </div>
-                            <div class="col-md-6 col-xs-4">
-                                <img class="img-responsive center-block" alt="Министерство Юстиции" title="Министерство Юстиции" src="/pics/minyust.png"> 
-                            </div>
-                            <div class="col-md-6 col-xs-4">
-                                <img class="img-responsive center-block" alt="Дума Российской Федерации" title="Дума Российской Федерации" src="/pics/duma.png"> 
-                            </div>
-                            <div class="col-md-6 col-xs-4">
-                                <img class="img-responsive center-block" alt="Федеральная служба по контролю за наркотиками" title="Федеральная служба по контролю за наркотиками" src="/pics/fskn.png"> 
-                            </div>
-                            <div class="col-md-6 col-xs-4">
-                                <img class="img-responsive center-block" alt="" title="" src="/pics/tpp.png"> 
-                            </div>
-                            <div class="col-md-6 col-xs-4">
-                                <img class="img-responsive center-block" alt="" title="" src="/pics/cs.png"> 
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-                
-                                
+                </div>  
             </div>					
         </div>
      </div>
@@ -421,7 +387,7 @@
     } else { f(); }
 })(document, window, "yandex_metrika_callbacks");
 </script>
-<noscript><div><img src="//mc.yandex.ru/watch/26550786" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<noscript><div><img src="//mc.yandex.ru/watch/26550786" style="position:absolute; left:-9999px;" alt="Яндекс" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
 
 <!-- Rating@Mail.ru counter -->

@@ -20,63 +20,8 @@
 				<span itemprop="addressLocality">Екатеринбург</span> <span itemprop="streetAddress">ул. 8 Марта, д. 142</span><br/>
 				<span itemprop="addressLocality">Красноярск</span> <span itemprop="streetAddress">просп. Мира, 30, корп.1</span><br/>
 				<span itemprop="addressLocality">Волгоград</span> <span itemprop="streetAddress">Невская улица, 16А</span><br/>
+				<span itemprop="addressLocality">Чебоксары</span> <span itemprop="streetAddress">Улица Петрова, 6</span><br/>
 				<span itemprop="telephone">8-800-500-61-85</span>
 				</div>
 		</div>
-		
-		<br/>
-  
-		<div class="flat-panel">
-			<div class="inside">
-				<h2>Связаться с нами</h2>                                        
-				<?php $this->renderPartial('_contactForm', array('model'=>$contactForm));?>
-			</div>
-		</div>                                        
-
-
-<?php if(sizeof($formResult)):?>
-<!-- Modal -->
-<div class="modal fade" id="contact-form-result" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">
-            <?php
-                if(isset($formResult['code']) && $formResult['code'] === 0) {
-                    echo "Сообщение отправлено";
-                } else {
-                    echo "Сообщение не отправлено";
-                }
-            ?>
-        </h4>
-      </div>
-      <div class="modal-body">
-        <?php
-            echo $formResult['message'];
-        ?>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script type="text/javascript">
-    $(function(){
-        $("#contact-form-result").modal("show");
-        
-        $("#contact-form-result").on('hidden.bs.modal', function (e) {
-            location.href = location.href;
-        });
-    })
-</script>
-<?php endif; ?>
-
-<?php if($contactForm):?>
-<script>
-    $(function(){
-        scrollToElement("#contact-form");
-    })
-</script>
-<?php endif; ?>
-
 
