@@ -3,7 +3,6 @@ Disallow: /protected
 Disallow: /assets/
 Disallow: /*create*
 Disallow: /question/thankYou/
-Disallow: /*index*
 Disallow: /*question*
 Disallow: /town
 Disallow: /user/restorePassword/
@@ -20,7 +19,6 @@ Disallow: /protected
 Disallow: /assets/
 Disallow: /*create*
 Disallow: /question/thankYou/
-Disallow: /*index*
 Disallow: /*question*
 Disallow: /town
 Disallow: /user/restorePassword/
