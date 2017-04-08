@@ -426,6 +426,8 @@ class Question extends CActiveRecord
             $mailer->message = "На сайт только что добавлен новый VIP вопрос"; 
                     //CHtml::link("VIP вопрос", Yii::app()->createUrl('question/view', array('id'=>$this->id)));
             
+            fwrite($paymentLog, print_r($mailer, true));
+            
             if($mailer->sendMail(false)) {
                 fwrite($paymentLog, 'письмо отправлено' . PHP_EOL);
             } else {
