@@ -13,11 +13,11 @@ $this->setPageTitle($pageTitle);
 Yii::app()->clientScript->registerMetaTag($model->createPageDescription(), 'description');
 Yii::app()->clientScript->registerMetaTag($model->createPageKeywords(), 'keywords');
 Yii::app()->clientScript->registerLinkTag("canonical", NULL, 
-        Yii::app()->createUrl('town/alias', array(
-                                        'name'          =>  $model->alias,
-                                        'countryAlias'  =>  $model->country->alias,
-                                        'regionAlias'   =>  $model->region->alias,
-                                        )));
+Yii::app()->createUrl('town/alias', array(
+        'name'          =>  $model->alias,
+        'countryAlias'  =>  $model->country->alias,
+        'regionAlias'   =>  $model->region->alias,
+        )));
 
 
 $this->breadcrumbs=array(
@@ -49,22 +49,22 @@ $this->breadcrumbs=array(
 <?php endif;?>
 
 	<div class="form-container">		
-				<h2 class="header-block header-block-green"> <strong class="glyphicon glyphicon-earphone"></strong> Горячая линия юридических консультаций</h2>
-				<br/>
-				<p style="text-align: center;">
-					<span style="font-size: 25pt; color: #39b778;"><strong>8-800-500-61-85</strong></span><br/>
-				</p>
-				<p class="text-muted" style="text-align: center">
-					<small>
-					Москва
-					Санкт-Петербург 
-					Екатеринбург
-					Нижний Новгород
-					Волгоград
-					Красноярск<br/>
-					<b>Звонки принимаются с 10:00 до 19:00 (МСК), <a href="/question/create/">письменные обращения</a> КРУГЛОСУТОЧНО</b>
-					</small>
-				</p>
+            <h2 class="header-block header-block-green"> <strong class="glyphicon glyphicon-earphone"></strong> Горячая линия юридических консультаций</h2>
+            <br/>
+            <p style="text-align: center;">
+                    <span style="font-size: 25pt; color: #39b778;"><strong>8-800-500-61-85</strong></span><br/>
+            </p>
+            <p class="text-muted" style="text-align: center">
+                    <small>
+                    Москва
+                    Санкт-Петербург 
+                    Екатеринбург
+                    Нижний Новгород
+                    Волгоград
+                    Красноярск<br/>
+                    <b>Звонки принимаются с 10:00 до 19:00 (МСК), <a href="/question/create/">письменные обращения</a> КРУГЛОСУТОЧНО</b>
+                    </small>
+            </p>
 	</div>
 
 
@@ -98,21 +98,6 @@ $this->breadcrumbs=array(
             </div>
         <?php endforeach;?>
     </div>
-</div>
-
-
-<div>
-<h3 class="header-block header-block-green">Направления права</h3>
-<div class="header-block-green-arrow"></div>
-
-<?php foreach($allDirections as $direction):?>
-    <div class="col-md-4">
-        <p class="left-align">
-            <?php echo CHtml::link($direction['name'], Yii::app()->createUrl('questionCategory/alias', array('name'=>$direction['alias'])));?>
-        </p>
-    </div>
-<?php endforeach;?>
-<div class="clearfix"></div>
 </div>
 
 

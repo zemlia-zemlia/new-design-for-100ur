@@ -142,6 +142,7 @@ class CampaignController extends Controller
 	{
 		
             $criteria = new CDbCriteria;
+            $criteria->order = 'buyerId, id';
             
             if(!isset($_GET['show_inactive'])) {
                 $criteria->addColumnCondition(array('active'=>1));

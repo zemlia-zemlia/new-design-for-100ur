@@ -13,9 +13,9 @@ class MoneyController extends Controller
 	 */
 	public function filters()
 	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-		);
+            return array(
+                'accessControl', // perform access control for CRUD operations
+            );
 	}
 
 	/**
@@ -43,9 +43,9 @@ class MoneyController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+            $this->render('view',array(
+                    'model'=>$this->loadModel($id),
+            ));
 	}
 
 	/**
@@ -54,25 +54,25 @@ class MoneyController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Money;
+            $model=new Money;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+            // Uncomment the following line if AJAX validation is needed
+            // $this->performAjaxValidation($model);
 
-		if(isset($_POST['Money']))
-		{
-                    $model->attributes=$_POST['Money'];
+            if(isset($_POST['Money']))
+            {
+                $model->attributes=$_POST['Money'];
+                $model->datetime = CustomFuncs::invertDate($model->datetime);
+                if($model->save()) {
+                    $this->redirect(array('view','id'=>$model->id));
+                } else {
                     $model->datetime = CustomFuncs::invertDate($model->datetime);
-                    if($model->save()) {
-                        $this->redirect(array('view','id'=>$model->id));
-                    } else {
-                        $model->datetime = CustomFuncs::invertDate($model->datetime);
-                    }
-		}
+                }
+            }
 
-		$this->render('create',array(
-                    'model'=>$model,
-		));
+            $this->render('create',array(
+                'model'=>$model,
+            ));
 	}
 
 	/**
@@ -82,31 +82,31 @@ class MoneyController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
+            $model=$this->loadModel($id);
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+            // Uncomment the following line if AJAX validation is needed
+            // $this->performAjaxValidation($model);
 
-		if(isset($_POST['Money']))
-		{
-                    $model->attributes=$_POST['Money'];
-                    $model->datetime = CustomFuncs::invertDate($model->datetime);
-                    
-                    if($model->direction == Money::DIRECTION_INTERNAL) {
-                        $model->isInternal = 1;
-                    } else {
-                        $model->isInternal = 0;
-                    }
-                    
-                    if($model->save()) {
-                        $this->redirect(array('view','id'=>$model->id));
-                    }
-                    
-		}
+            if(isset($_POST['Money']))
+            {
+                $model->attributes=$_POST['Money'];
                 $model->datetime = CustomFuncs::invertDate($model->datetime);
-		$this->render('update',array(
-			'model'=>$model,
-		));
+
+                if($model->direction == Money::DIRECTION_INTERNAL) {
+                    $model->isInternal = 1;
+                } else {
+                    $model->isInternal = 0;
+                }
+
+                if($model->save()) {
+                    $this->redirect(array('view','id'=>$model->id));
+                }
+
+            }
+            $model->datetime = CustomFuncs::invertDate($model->datetime);
+            $this->render('update',array(
+                    'model'=>$model,
+            ));
 	}
 
 	/**
@@ -116,9 +116,9 @@ class MoneyController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+            $this->loadModel($id)->delete();
 
-		$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 	}
 
 	/**
@@ -127,35 +127,47 @@ class MoneyController extends Controller
 	public function actionIndex()
 	{
 		
-                // рассчитаем баланс каждого счета исходя из транзакций по нему
-                $balances = array();
-                
-                $balanceRows = Yii::app()->db->createCommand()
-                        ->select('type, value, accountId')
-                        ->from('{{money}}')
-                        ->queryAll();
-                foreach($balanceRows as $row) {
-                    if($row['type'] == Money::TYPE_INCOME) {
-                        $balances[$row['accountId']] += $row['value'];
-                    } else {
-                        $balances[$row['accountId']] -= $row['value'];
-                    }
+            // рассчитаем баланс каждого счета исходя из транзакций по нему
+            $balances = array();
+
+            $balanceRows = Yii::app()->db->createCommand()
+                    ->select('type, value, accountId')
+                    ->from('{{money}}')
+                    ->queryAll();
+            foreach($balanceRows as $row) {
+                if($row['type'] == Money::TYPE_INCOME) {
+                    $balances[$row['accountId']] += $row['value'];
+                } else {
+                    $balances[$row['accountId']] -= $row['value'];
                 }
-                
-                $accounts = Money::getAccountsArray();
-                
-                $dataProvider=new CActiveDataProvider('Money', array('criteria'=>array(
+            }
+
+            $accounts = Money::getAccountsArray();
+
+            // модель для формы поиска
+            $searchModel = new Money;
+            
+            // если использовался поиск, найдем только нужные транзакции
+            if(isset($_GET['Money'])) {
+                $searchModel->attributes = $_GET['Money'];
+                $dataProvider = $searchModel->search();
+            } else {
+                $dataProvider = new CActiveDataProvider('Money', array('criteria'=>array(
                     'order'=>'datetime DESC, id DESC',
-                ),
+                    ),
                     'pagination'    =>  array(
                         'pageSize'  =>  20,
                     ),
                 ));
-		$this->render('index',array(
-			'dataProvider'  =>  $dataProvider,
-                        'balances'      =>  $balances,
-                        'accounts'      =>  $accounts,
-		));
+            }
+            
+
+            $this->render('index',array(
+                    'dataProvider'  =>  $dataProvider,
+                    'balances'      =>  $balances,
+                    'accounts'      =>  $accounts,
+                    'searchModel'   =>  $searchModel,
+            ));
 	}
 
 	/**

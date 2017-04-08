@@ -190,10 +190,13 @@ class Money extends CActiveRecord
         if($this->date2){
                 $criteria->addCondition('datetime<="' . CustomFuncs::invertDate($this->date2) . '"');
         }
-
+        $criteria->order = 'datetime DESC, id DESC';
 
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,
+                'pagination'    =>  array(
+                        'pageSize'  =>  20,
+                    ),
         ));
     }
 

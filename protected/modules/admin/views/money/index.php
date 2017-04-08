@@ -36,6 +36,10 @@ $sumBalance = 0;
     </div>
 </div>
 
+<div class="vert-margin30">
+   <?php $this->renderPartial('_search', array('model'=>$searchModel));?> 
+</div>
+
 <table class="table table-bordered">
     
     <tr>

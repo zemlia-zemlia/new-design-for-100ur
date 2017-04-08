@@ -59,7 +59,7 @@ class YurCompanyController extends Controller
             $dataProvider = new CActiveDataProvider('YurCompany', array(
                 'criteria'      =>  $companyCriteria,        
                 'pagination'    =>  array(
-                            'pageSize'  =>  10,
+                            'pageSize'  =>  50,
                         ),
             ));
             

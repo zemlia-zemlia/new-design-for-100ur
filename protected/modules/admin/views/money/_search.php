@@ -4,52 +4,26 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="wide form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'action'=>Yii::app()->createUrl($this->route),
-	'method'=>'get',
+	'action'                =>  Yii::app()->createUrl($this->route),
+	'method'                =>  'get',
+        'htmlOptions'           =>  array('class'=>'form-inline'),
+	'enableAjaxValidation'  =>  false,
 )); ?>
 
-	<div class="row">
-		<?php echo $form->label($model,'id'); ?>
-		<?php echo $form->textField($model,'id'); ?>
-	</div>
-
-	<div class="row">
+	<div class="form-group">
 		<?php echo $form->label($model,'accountId'); ?>
-		<?php echo $form->textField($model,'accountId'); ?>
+		<?php echo $form->dropDownList($model,'accountId', array(''=>'Все') + Money::getAccountsArray(), array('class' => 'form-control')); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->label($model,'datetime'); ?>
-		<?php echo $form->textField($model,'datetime'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'type'); ?>
-		<?php echo $form->textField($model,'type'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'value'); ?>
-		<?php echo $form->textField($model,'value',array('size'=>10,'maxlength'=>10)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'comment'); ?>
-		<?php echo $form->textField($model,'comment',array('size'=>60,'maxlength'=>255)); ?>
-	</div>
-
-	<div class="row">
+	<div class="form-group">
 		<?php echo $form->label($model,'direction'); ?>
-		<?php echo $form->textField($model,'direction'); ?>
+		<?php echo $form->dropDownList($model,'direction', array(''=>'Все') + Money::getDirectionsArray(), array('class' => 'form-control')); ?>
 	</div>
 
-	<div class="row buttons">
-		<?php echo CHtml::submitButton('Search'); ?>
+	<div class="form-group buttons left-align">
+		<?php echo CHtml::submitButton('Найти', array('class' => 'btn btn-primary')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
-
-</div><!-- search-form -->

@@ -1,5 +1,5 @@
 <?php
-    $this->setPageTitle($company->name . ' ' . CHtml::encode($company->town->name) . '. Отзывы, контакты');
+    $this->setPageTitle($company->name . ' ' . CHtml::encode($company->town->name) . '. ' . CHtml::encode($company->address) . '. Отзывы, контакты');
 
     Yii::app()->clientScript->registerMetaTag(CHtml::encode($company->name . ' ' . $company->town->name . ', адрес, отзывы'), "Description");
 
