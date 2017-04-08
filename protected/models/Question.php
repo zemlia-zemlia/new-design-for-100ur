@@ -426,7 +426,7 @@ class Question extends CActiveRecord
             $mailer->message = "На сайт только что добавлен новый VIP вопрос"; 
                     //CHtml::link("VIP вопрос", Yii::app()->createUrl('question/view', array('id'=>$this->id)));
             
-            if($mailer->sendMail()) {
+            if($mailer->sendMail(false)) {
                 fwrite($paymentLog, 'письмо отправлено' . PHP_EOL);
             } else {
                 fwrite($paymentLog, 'письмо не отправлено' . PHP_EOL);
@@ -435,6 +435,8 @@ class Question extends CActiveRecord
             $transaction = new Money;
             $transaction->type = Money::TYPE_INCOME;
             $transaction->direction = 504;
+            $transaction->accountId = 4;
+            $transaction->datetime = date('Y-m-d');
             $transaction->value = $rateWithoutComission;
             $transaction->comment = "Оплата вопроса id=" . $this->id;
             
