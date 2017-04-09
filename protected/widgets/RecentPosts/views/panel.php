@@ -12,7 +12,7 @@ if(empty($recentPosts) || sizeof($recentPosts)==0) {
     <div class="col-md-4 post-panel-date">
                 
         <?php if($recentPost->photo):?>
-            <?php echo CHtml::link("<img src='" . $recentPost->getPhotoUrl('thumb'). "' alt=''/>", Yii::app()->createUrl('post/view',array('id'=>$recentPost->id)));?>
+            <?php echo CHtml::link("<img src='" . $recentPost->getPhotoUrl('thumb'). "' alt='" . CHtml::encode($recentPost->title) . "'/>", Yii::app()->createUrl('post/view',array('id'=>$recentPost->id)));?>
         <?php endif;?>
         <div class="post-panel-date-wrapper">
             <?php echo CustomFuncs::niceDate($recentPost->datePublication, false);?>

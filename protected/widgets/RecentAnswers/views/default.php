@@ -22,24 +22,24 @@ if(empty($answers) || sizeof($answers)==0) {
 <div class="row">
     <div class="col-md-4">
         <?php if($answer['authorId'] && ($author=User::model()->cache(600)->findByPk($answer['authorId'])) instanceof User):?>
-            <img src="<?php echo $author->getAvatarUrl();?>" class="img-responsive img-bordered" />
+            <img src="<?php echo $author->getAvatarUrl();?>" class="img-responsive img-bordered" alt="<?php echo CHtml::encode($author->name . ' ' . $author->lastName);?>" />
         <?php endif;?>
     </div>
     <div class="col-md-8">
         <div class="answer-item-info">
             <?php if($answer['answerTime']):?>
-            <img src="/pics/2017/icon_calendar_green.png" alt="" /> <?php echo CustomFuncs::niceDate($answer['answerTime'], false);?>
+            <img src="/pics/2017/icon_calendar_green.png" alt="Дата" /> <?php echo CustomFuncs::niceDate($answer['answerTime'], false);?>
             <br />
             <?php endif;?>
             <?php if($answer['authorId']):?>
-                <img src="/pics/2017/icon_yurist_green.png" alt="" />
+                <img src="/pics/2017/icon_yurist_green.png" alt="Юрист" />
                 <?php echo $answer['authorLastName'] . ' ' . mb_substr($answer['authorName'], 0, 1, 'utf-8') . '.' . mb_substr($answer['authorName2'], 0, 1, 'utf-8') . '.';?> 
             <?php endif;?>
         </div>
     </div>
 </div>
 
-<img src="/pics/2017/arrow_list_blue.png" alt="" /> 
+<img src="/pics/2017/arrow_list_blue.png" alt="Ответ" /> 
 <?php echo nl2br(mb_substr(CHtml::encode($answer['answerText']),0,100,'utf-8'));?>...
 <br />
         

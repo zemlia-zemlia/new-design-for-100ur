@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-sm-4">
                 <a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$user['id']));?>">
-                    <img src="<?php echo User::USER_PHOTO_PATH . User::USER_PHOTO_THUMB_FOLDER . '/'. $user['avatar'];?>" class="img-responsive center-block gray-panel" />
+                    <img src="<?php echo User::USER_PHOTO_PATH . User::USER_PHOTO_THUMB_FOLDER . '/'. $user['avatar'];?>" alt="<?php echo CHtml::encode($user['name'] . ' ' . $user['lastName']);?>" class="img-responsive center-block gray-panel" />
                 </a>
             </div>
             <div class="col-sm-8">

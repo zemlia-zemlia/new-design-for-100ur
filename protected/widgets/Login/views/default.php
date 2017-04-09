@@ -66,7 +66,7 @@
         <div class="profile-block-container flat-panel inside">
             <div class="row">
                 <div class="col-sm-4">
-                    <img src="<?php echo Yii::app()->user->getAvatarUrl();?>" alt="" />
+                    <img src="<?php echo Yii::app()->user->getAvatarUrl();?>" alt="Аватар" />
                 </div>
                 <div class="col-sm-8">
                     <div class="inside">

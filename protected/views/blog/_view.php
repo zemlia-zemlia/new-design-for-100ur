@@ -8,7 +8,7 @@
         <?php if($data->photo):?>
         <div>
             <a href="<?php echo Yii::app()->createUrl('post/view',array('id'=>$data->id));?>">
-                <img src="<?php echo $data->getPhotoUrl('thumb');?>" alt="" style="float:left; margin-right:20px;" />
+                <img src="<?php echo $data->getPhotoUrl('thumb');?>" alt="<?php echo CHtml::encode($data->title);?>" style="float:left; margin-right:20px;" />
             </a>
         </div>
         <?php endif;?>
@@ -34,7 +34,7 @@
                         <span class="muted"><?php echo CustomFuncs::invertDate($data->datePublication);?></span>
                     </div>
                     <div class='col-md-6 col-sm-6 right-align'>
-                        <img src='/pics/2015/icon_eye.png' alt='' />&nbsp;<span class='muted'><?php echo $data->viewsCount->views;?> <?php echo CustomFuncs::numForms($data->viewsCount->views, 'просмотр', "просмотра", "просмотров");?></span>
+                        <img src='/pics/2015/icon_eye.png' alt='просмотров' />&nbsp;<span class='muted'><?php echo $data->viewsCount->views;?> <?php echo CustomFuncs::numForms($data->viewsCount->views, 'просмотр', "просмотра", "просмотров");?></span>
                     </div>
                 </div>
             </div>
