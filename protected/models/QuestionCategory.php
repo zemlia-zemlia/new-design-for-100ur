@@ -323,17 +323,26 @@ class QuestionCategory extends CActiveRecord
         }
         
         /**
-         * Функция получения URL страницы категории
+         * Функция получения элементов URL страницы категории
          * @return array
          * примеры:
-         * /cat/ugolovnoe-pravo
-         * /cat/ugolovnoe-pravo/krazha
+         * /cat/ugolovnoe-pravo - ['name' => 'ugolovnoe-pravo'] 
+         * /cat/ugolovnoe-pravo/krazha - ['name' => 'krazha', 'level2' => 'ugolovnoe-pravo']
+         * @todo переписать запрос с ActiveRecord на DAO (во много раз сократит объем потребляемой памяти)
          */
         public function getUrl()
         {
             
-            $ancestors = $this->cache(3600)->ancestors()->findAll();
+            //$ancestors = $this->cache(3600)->ancestors()->findAll();
             $urlArray = array();
+            
+            $ancestors = Yii::app()->db->cache(3600)->createCommand()
+                    ->select('alias')
+                    ->from('{{questionCategory}}')
+                    ->where('lft<:lft AND rgt>:rgt AND root=:root', array(':lft' => $this->lft, ':rgt' => $this->rgt, ':root' => $this->root))
+                    ->order('lft')
+                    ->queryAll();
+            
             
             foreach($ancestors as $level=>$ancestor) {
                 if($level == 0) {
@@ -342,7 +351,7 @@ class QuestionCategory extends CActiveRecord
                 if($level == 1) {
                     $key = 'level3';
                 }
-                $urlArray[$key] = $ancestor->alias;
+                $urlArray[$key] = $ancestor['alias'];
             }
             $urlArray['name'] = $this->alias;
 

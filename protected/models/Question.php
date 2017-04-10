@@ -339,6 +339,22 @@ class Question extends CActiveRecord
          */
         public function createAuthor()
         {
+            // Если вопрос задал существующий пользователь, сразу вернем true
+            // проверим, есть ли в базе пользователь с таким мейлом
+            $findUserResult = Yii::app()->db->createCommand()
+                    ->select('id')
+                    ->from("{{user}}")
+                    ->where("LOWER(email)=:email AND email!=''", array(":email" => strtolower($this->email)))
+                    ->queryRow();
+            //CustomFuncs::printr($findUserResult);exit;
+            if($findUserResult) {
+                // если есть, то запишем id этого пользователя в авторы вопроса
+                $this->authorId = $findUserResult['id'];
+                $this->status = self::STATUS_CHECK;
+                return true;
+            } 
+
+            
             // создаем нового пользователя с атрибутами, которые о себе указал автор вопроса
             $author = new User;
             $author->role = User::ROLE_CLIENT;

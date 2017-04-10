@@ -231,25 +231,7 @@ class QuestionController extends Controller
                         
                         if($lead->save()) {
                                 $question->status = Question::STATUS_NEW;
-                                
-                                // проверим, есть ли в базе пользователь с таким мейлом
-                                $findUserResult = Yii::app()->db->createCommand()
-                                        ->select('id')
-                                        ->from("{{user}}")
-                                        ->where("email=:email AND email!=''", array(":email"=>$lead->email))
-                                        ->limit(1)
-                                        ->queryRow();
-                                if($findUserResult) {
-                                    // если есть, то запишем id этого пользователя в авторы вопроса
-                                    $question->authorId = $findUserResult['id'];
-                                } else {
-                                    // если пользователь не найден, при создании вопроса создадим пользователя
-                                    // будем делать это на этапе подписки на ответы при создании вопроса
-                                    //$question->createAuthor();
-                                    
-                                }
-                                
-                                
+
                                 $question->save();
                                 
                                 // сохраним категории, к которым относится вопрос, если категория указана
@@ -360,7 +342,11 @@ class QuestionController extends Controller
                 $question->email = $_POST['Question']['email'];
                 
                 if($question->createAuthor()) {
+                    //CustomFuncs::printr($question->attributes);
                     if($question->save()) {
+                        if($question->status == Question::STATUS_CHECK) {
+                            $this->redirect(array('question/view', 'id' => $question->id));
+                        }
                         $this->redirect(array('thankYou'));
                     }
                 } 
