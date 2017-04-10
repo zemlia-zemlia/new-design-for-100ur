@@ -1,6 +1,6 @@
 <div class="annoying-widget flat-panel">
     
-    <img src="/pics/2017/call.jpg" alt="" class="center-block">
+    <img src="/pics/2017/call.jpg" alt="Консультация юриста по телефону" class="center-block">
     
     <div class="inside">
         <?php if($showAlways === true || array_key_exists($currentTown->id, $payedTownsIds) || array_key_exists($currentTown->regionId, $payedRegionsIds)):?>

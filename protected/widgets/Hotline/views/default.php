@@ -4,7 +4,7 @@
 
 <div class="phone-wrapper">
     <span class="header-phone-800"><strong>
-            <img src="/pics/2017/icon_phone_dark.png" alt="" />
+            <img src="/pics/2017/icon_phone_dark.png" alt="Телефон" />
             8-800-500-61-85</strong>
     </span>
 
