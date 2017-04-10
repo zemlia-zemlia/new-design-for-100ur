@@ -17,7 +17,7 @@
  * @property string $registerDate
  * @property integer $isSubscribed
  * @property integer $karma
- * @property string autologin
+ * @property string $autologin
  */
 class User extends CActiveRecord
 {
