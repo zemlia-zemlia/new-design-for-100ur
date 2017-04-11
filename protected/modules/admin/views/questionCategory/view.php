@@ -19,6 +19,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <h1><?php echo CHtml::encode($model->name);?></h1>
 
+<?php CustomFuncs::printr($model->getUrl());?>
+
 <div class="vert-margin30">
 <p><strong>Родительская категория:</strong> 
 <?php if($model->parent):?>
