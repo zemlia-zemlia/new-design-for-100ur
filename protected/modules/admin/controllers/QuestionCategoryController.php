@@ -139,7 +139,13 @@ class QuestionCategoryController extends Controller
                         $model->moveAsLast($parent);
                     }
                     
+                
+                    
                 if($model->saveNode()) {
+                    
+                    // при изменении категории, заново найдем путь до нее    
+                    $model->getUrl(true);
+                
                     $this->redirect(array('view','id'=>$model->id));
                 }
             }

@@ -14,6 +14,12 @@
  * @property string $seoDescription
  * @property string $seoKeywords
  * @property string $seoH1
+ * @property integer $isDirection
+ * @property integer $root
+ * @property integer $lft
+ * @property integer $rgt
+ * @property integer $level
+ * @property string $path
  */
 class QuestionCategory extends CActiveRecord
 {
@@ -324,24 +330,30 @@ class QuestionCategory extends CActiveRecord
         
         /**
          * Функция получения элементов URL страницы категории
+         * @param boolean $rewritePath Перезаписать свойство path
          * @return array
          * примеры:
          * /cat/ugolovnoe-pravo - ['name' => 'ugolovnoe-pravo'] 
          * /cat/ugolovnoe-pravo/krazha - ['name' => 'krazha', 'level2' => 'ugolovnoe-pravo']
          * @todo переписать запрос с ActiveRecord на DAO (во много раз сократит объем потребляемой памяти)
          */
-        public function getUrl()
+        public function getUrl($rewritePath = false)
         {
             
             //$ancestors = $this->cache(3600)->ancestors()->findAll();
             $urlArray = array();
             
-            $ancestors = Yii::app()->db->cache(3600)->createCommand()
+            // если в свойстве path хранится путь к странице категории, вытащим его оттуда, не делая лишнего запроса к БД
+            if($this->path) {
+                $ancestors = explode("/", $this->path);
+            } else {
+                $ancestors = Yii::app()->db->cache(0)->createCommand()
                     ->select('alias')
                     ->from('{{questionCategory}}')
                     ->where('lft<:lft AND rgt>:rgt AND root=:root', array(':lft' => $this->lft, ':rgt' => $this->rgt, ':root' => $this->root))
                     ->order('lft')
                     ->queryAll();
+            }
             
             
             foreach($ancestors as $level=>$ancestor) {
@@ -351,10 +363,26 @@ class QuestionCategory extends CActiveRecord
                 if($level == 1) {
                     $key = 'level3';
                 }
-                $urlArray[$key] = $ancestor['alias'];
+                $urlArray[$key] = ($this->path)?$ancestor:$ancestor['alias'];
             }
             $urlArray['name'] = $this->alias;
-
+            
+            // если путь не сохранен (или задано переписать его), сохраним его в свойстве path на будущее
+            if(!$this->path) {
+                $this->path = implode('/', $urlArray);
+                $this->saveNode();
+            }
+            // если нужно перезаписать path, просто сбрасываем его, чтобы обновить при следующем обращении
+            if($rewritePath === true) {
+                $this->path = '';
+                $this->saveNode();
+                $descendants = $this->descendants()->findAll();
+                foreach ($descendants as $desc) {
+                    $desc->path = '';
+                    $desc->saveNode();
+                }
+            }
+            
             return $urlArray;
         }
         
