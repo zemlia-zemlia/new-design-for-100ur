@@ -92,7 +92,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 
                     <?php if($direction['children']):?>
                         <?php foreach($direction['children'] as $childId=>$child):?>
-                            &nbsp;&nbsp;<?php echo CHtml::link($child['name'], '#', array('class'=>'set-category-link  label label-info', 'data-category'=>$childId, 'data-question'=>$data['id']));?>
+                             <?php echo CHtml::link($child['name'], '#', array('class'=>'set-category-link  label label-default', 'data-category'=>$childId, 'data-question'=>$data['id']));?>
                         <?php endforeach;?>
                     <?php endif;?>
                     <br />        
