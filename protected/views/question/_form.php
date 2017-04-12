@@ -36,16 +36,22 @@ $allDirections = array(0=>'Без категории') + $allDirections;
 </div>
         
 
-	<div class="form-group">
-		
-                <small>
-                <p>
-                    Если Вам трудно сформулировать вопрос — позвоните на нашу бесплатную горячую линию по телефону <strong class="red">8 (800) 500-61-85</strong>, юрист Вам поможет.
-                </p>
-                </small>
-		<?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>10, 'placeholder'=>'Опишите вашу ситуацию подробнее, чтобы юрист мог более детально внем сориентироваться и дать на него квалифицированный ответ.')); ?>
-		<?php echo $form->error($model,'questionText'); ?>
-	</div>
+<div class="form-group">
+    <?php echo $form->labelEx($model,'title'); ?>
+    <?php echo $form->textField($model,'title', array('class'=>'form-control', 'placeholder'=>'Например: как выписать из квартиры брата бывшей жены?')); ?>
+    <?php echo $form->error($model,'title'); ?>
+</div>
+
+    <div class="form-group">
+
+            <small>
+            <p>
+                Если Вам трудно сформулировать вопрос — позвоните на нашу бесплатную горячую линию по телефону <strong class="red">8 (800) 500-61-85</strong>, юрист Вам поможет.
+            </p>
+            </small>
+            <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>10, 'placeholder'=>'Опишите вашу ситуацию подробнее, чтобы юрист мог более детально внем сориентироваться и дать на него квалифицированный ответ.')); ?>
+            <?php echo $form->error($model,'questionText'); ?>
+    </div>
 
 <small>
     <p>
@@ -89,6 +95,10 @@ $allDirections = array(0=>'Без категории') + $allDirections;
                 $currenTownName = (Yii::app()->user->getState('currentTownName'))?Yii::app()->user->getState('currentTownName'):'';
                 $currentRegionName = (Yii::app()->user->getState('currentTownRegionName'))?Yii::app()->user->getState('currentTownRegionName'):'';
                 $currenTownId = (Yii::app()->user->getState('currentTownId'))?Yii::app()->user->getState('currentTownId'):0;
+                
+                if(!$currenTownName && $model->townId!=0 && !is_null($model->town->name)) {
+                    $currenTownName = $model->town->name;
+                }
             ?>
             
             <?php if($currenTownId == 0):?>
