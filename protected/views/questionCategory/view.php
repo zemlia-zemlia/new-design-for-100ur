@@ -27,7 +27,7 @@ if($model->seoKeywords) {
     Yii::app()->clientScript->registerMetaTag(CHtml::encode($model->seoKeywords), 'keywords');
 } 
 
-Yii::app()->clientScript->registerLinkTag("canonical",NULL,Yii::app()->createUrl('/questionCategory/alias', array('name'=>$model->alias)));
+Yii::app()->clientScript->registerLinkTag("canonical",NULL,Yii::app()->createUrl('/questionCategory/alias', $model->getUrl()));
 
 Yii::app()->clientScript->registerMetaTag(($model->isIndexingAllowed())?'all':'noindex', "robots");
 

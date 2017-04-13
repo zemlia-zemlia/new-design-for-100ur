@@ -46,7 +46,7 @@ class QuestionCategoryController extends Controller
 	public function actionView($id)
 	{
             $model = QuestionCategory::model()->with('parent','children')->findByPk($id);
-            
+                       
             $questionsCriteria = new CdbCriteria;
             $questionsCriteria->with = array(
                         'categories'  =>  array(

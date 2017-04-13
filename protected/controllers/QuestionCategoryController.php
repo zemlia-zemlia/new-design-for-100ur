@@ -97,6 +97,18 @@ class QuestionCategoryController extends Controller
                 throw new CHttpException(404,'Категория не найдена');
             }
             
+            /*
+             * Редирект для решения проблемы дублей алиасов в конце адреса
+             */
+            $pageRightUrl = Yii::app()->createUrl('questionCategory/alias', $model->getUrl());
+            $pageRealUrl = Yii::app()->urlManager->baseUrl . $_SERVER['REQUEST_URI'];
+            
+            if($pageRightUrl != $pageRealUrl) {
+                $this->redirect($pageRightUrl, 301);
+            }
+            //CustomFuncs::printr(Yii::app()->createUrl('questionCategory/alias', $model->getUrl()));
+            //CustomFuncs::printr(Yii::app()->urlManager->baseUrl . $_SERVER['REQUEST_URI']);
+            
             /* если к категории не первого уровня обратились по имени, 
              * надо сделать редирект на полный адрес
              */
