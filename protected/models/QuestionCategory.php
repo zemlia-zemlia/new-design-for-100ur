@@ -365,11 +365,14 @@ class QuestionCategory extends CActiveRecord
                 }
                 $urlArray[$key] = ($this->path)?$ancestor:$ancestor['alias'];
             }
+
             $urlArray['name'] = $this->alias;
-            
-            // если путь не сохранен (или задано переписать его), сохраним его в свойстве path на будущее
+                        
+            // если путь не сохранен (или задано переписать его), сохраним его в свойстве path на будущее (без name)
             if(!$this->path) {
-                $this->path = implode('/', $urlArray);
+                $urlArrayPath = $urlArray;
+                array_pop($urlArrayPath);
+                $this->path = implode('/', $urlArrayPath);
                 $this->saveNode();
             }
             // если нужно перезаписать path, просто сбрасываем его, чтобы обновить при следующем обращении
