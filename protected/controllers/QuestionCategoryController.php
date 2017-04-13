@@ -104,7 +104,7 @@ class QuestionCategoryController extends Controller
             $pageRealUrl = Yii::app()->urlManager->baseUrl . $_SERVER['REQUEST_URI'];
             
             if($pageRightUrl != $pageRealUrl) {
-                $this->redirect($pageRightUrl, 301);
+                $this->redirect($pageRightUrl, true, 301);
             }
             //CustomFuncs::printr(Yii::app()->createUrl('questionCategory/alias', $model->getUrl()));
             //CustomFuncs::printr(Yii::app()->urlManager->baseUrl . $_SERVER['REQUEST_URI']);
