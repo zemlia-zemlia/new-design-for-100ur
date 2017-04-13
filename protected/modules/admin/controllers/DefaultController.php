@@ -88,13 +88,46 @@ class DefaultController extends Controller
             }
         }
         
+        // воронка вопросов по статусам
+        // SELECT status, count(*) counter FROM `100_question` WHERE createDate>NOW()-INTERVAL 90 DAY GROUP BY status
+        
+        $questionStatuses = array();
+        $questionStatusesRows = Yii::app()->db->createCommand()
+                ->select("status, count(*) counter")
+                ->from("{{question}}")
+                ->where("createDate>NOW()-INTERVAL 90 DAY")
+                ->group("status")
+                ->queryAll();
+        foreach ($questionStatusesRows as $row) {
+            $questionStatuses[$row['status']] = $row['counter'];
+        }
+        
+        // найдем статистику вопросов с ответами за последние 90 дней
+        /*
+         *  EXPLAIN SELECT q.id, COUNT(*) counter FROM `100_question` q
+            LEFT JOIN `100_answer` a ON a.questionId = q.id
+            WHERE q.createDate > NOW()-INTERVAL 90 DAY AND a.id IS NOT NULL
+            GROUP BY q.id 
+            ORDER BY counter DESC
+         */
+        $questionWithAnswerRows = Yii::app()->db->createCommand()
+                ->select("q.id")
+                ->from("{{question}} q")
+                ->leftJoin("{{answer}} a", "a.questionId = q.id")
+                ->where("q.createDate > NOW()-INTERVAL 90 DAY AND a.id IS NOT NULL")
+                ->group("q.id")
+                ->queryAll();
+        $questionsWithAnswersCount = sizeof($questionWithAnswerRows);
+        
         $this->render('index', array(
-            'sumArray'              =>  $sumArray,
-            'kolichArray'           =>  $kolichArray,
-            'buySumArray'           =>  $buySumArray,
-            'fastQuestionsRatio'    =>	$fastQuestionsRatio,
-            'moneyFlow'             =>	$moneyFlow,
-            'totalExpences'         =>	$totalExpences,
+            'sumArray'                  =>  $sumArray,
+            'kolichArray'               =>  $kolichArray,
+            'buySumArray'               =>  $buySumArray,
+            'fastQuestionsRatio'        =>  $fastQuestionsRatio,
+            'moneyFlow'                 =>  $moneyFlow,
+            'totalExpences'             =>  $totalExpences,
+            'questionStatuses'          =>  $questionStatuses,
+            'questionsWithAnswersCount' =>  $questionsWithAnswersCount,
         ));
     }
 }

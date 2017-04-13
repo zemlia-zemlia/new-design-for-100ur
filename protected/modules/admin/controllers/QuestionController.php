@@ -3,72 +3,72 @@
 class QuestionController extends Controller
 {
 
-	public $layout='//admin/main';
+    public $layout='//admin/main';
 
-	/**
-	 * @return array action filters
-	 */
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + toSpam', // we only allow deletion via POST request
-		);
-	}
+    /**
+     * @return array action filters
+     */
+    public function filters()
+    {
+        return array(
+            'accessControl', // perform access control for CRUD operations
+            'postOnly + toSpam', // we only allow deletion via POST request
+        );
+    }
 
-	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-	public function accessRules()
-	{
-            return array(
-                array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                        'actions'=>array('index','view', 'getRandom', 'nocat', 'vip'),
-                        'users'=>array('@'),
-                        'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_JURIST . ') || Yii::app()->user->checkAccess(' . User::ROLE_OPERATOR . ') || Yii::app()->user->checkAccess(' . User::ROLE_SECRETARY . ')',
-                ),
-                array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                        'actions'=>array('update','view','index', 'byPublisher', 'toSpam', 'setCategory'),
-                        'users'=>array('@'),
-                        'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
-                ),
-                array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                        'actions'=>array('create','update','admin','delete', 'publish', 'setPubTime', 'setTitles'),
-                        'users'=>array('@'),
-                        'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
-                ),
-                array('deny',  // deny all users
-                        'users'=>array('*'),
-                ),
-            );
-	}
+    /**
+     * Specifies the access control rules.
+     * This method is used by the 'accessControl' filter.
+     * @return array access control rules
+     */
+    public function accessRules()
+    {
+        return array(
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions'=>array('index','view', 'getRandom', 'nocat', 'vip'),
+                'users'=>array('@'),
+                'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_JURIST . ') || Yii::app()->user->checkAccess(' . User::ROLE_OPERATOR . ') || Yii::app()->user->checkAccess(' . User::ROLE_SECRETARY . ')',
+            ),
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions'=>array('update','view','index', 'byPublisher', 'toSpam', 'setCategory'),
+                'users'=>array('@'),
+                'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
+            ),
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions'=>array('create','update','admin','delete', 'publish', 'setPubTime', 'setTitles'),
+                'users'=>array('@'),
+                'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
+            ),
+            array('deny',  // deny all users
+                'users'=>array('*'),
+            ),
+        );
+    }
 
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-            $model = Question::model()->findByPk($id);
+    /**
+     * Displays a particular model.
+     * @param integer $id the ID of the model to be displayed
+     */
+    public function actionView($id)
+    {
+        $model = Question::model()->findByPk($id);
 
-            $criteria = new CDbCriteria;
-            $criteria->order = 't.id DESC';
-            $criteria->addColumnCondition(array('questionId'=>$model->id));
-            
-            $answersDataProvider = new CActiveDataProvider('Answer', array(
-                'criteria'=>$criteria,        
-                'pagination'=>array(
-                            'pageSize'=>20,
-                        ),
-            ));
-            
-            $this->render('view',array(
-                    'model'                 =>  $model,
-                    'answersDataProvider'   =>  $answersDataProvider,
-            ));
-	}
+        $criteria = new CDbCriteria;
+        $criteria->order = 't.id DESC';
+        $criteria->addColumnCondition(array('questionId'=>$model->id));
+
+        $answersDataProvider = new CActiveDataProvider('Answer', array(
+            'criteria'=>$criteria,        
+            'pagination'=>array(
+                        'pageSize'=>20,
+                    ),
+        ));
+
+        $this->render('view',array(
+                'model'                 =>  $model,
+                'answersDataProvider'   =>  $answersDataProvider,
+        ));
+    }
 
 	/**
 	 * Creates a new model.
@@ -202,81 +202,81 @@ class QuestionController extends Controller
 	public function actionIndex()
 	{
 		
-                $criteria = new CDbCriteria;
-                $criteria->order = 't.id DESC';
-                
-                if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)) {
-                    $answersCountRelation = "answersCount";
-                } else {
-                $answersCountRelation = array('answersCount' => array(
-                            'having' =>  's=0',
-                        ));
-                }
-                
-                
-                if(!isset($_GET['nocat'])) {
-                    $criteria->with = array(
-                        'categories', 
-                        'town', 
-                        (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR))?"answersCount":'answersCount' => array(
-                            'having' =>  's=0',
-                        ),
-                        'bublishUser',
-                    );
-                    $nocat = false;
-                } else {
-                    // если нужно показать опубликованные вопросы без категории
-                    $criteria->with = array(
-                        'categories'  =>  array(
-                            'on' =>  'categories.id IS NULL',
-                        ), 
-                        'town', 
-                        (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR))?"answersCount":'answersCount' => array(
-                            'having' =>  's=0',
-                        ),
-                    );
-                    //$criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED, 't.status' =>  Question::STATUS_CHECK), "OR", "AND");
-                    $criteria->addCondition('t.status = ' . Question::STATUS_PUBLISHED . ' OR t.status = ' . Question::STATUS_CHECK);
-                    $nocat = true;
-                }
-                
-                if(isset($_GET['notown'])) {
-                    $criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
-                    $criteria->addColumnCondition(array('t.townId' =>  0));
-                    $notown = true;
-                }
-                
-                
-                if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)){
-                    // админу и контент-менеджеру позволяем фильтровать вопросы по статусу
-                    if(isset($_GET['status'])) {
-                        $status = (int)$_GET['status'];
-                        $criteria->addColumnCondition(array('t.status'=>$status));
-                    } else {
-                        $status = null;
-                    }
-                } else {
-                    // юристу показываем вопросы со статусами Модерирован и Опубликован
-                    $criteria->addInCondition('t.status', array(Question::STATUS_MODERATED, Question::STATUS_PUBLISHED));
-                }
-                
-                    $dataProvider = new CActiveDataProvider('Question', array(
-                        'criteria'=>$criteria,        
-                        'pagination'=>array(
-                                    'pageSize'=>20,
-                                ),
+            $criteria = new CDbCriteria;
+            $criteria->order = 't.id DESC';
+
+            if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)) {
+                $answersCountRelation = "answersCount";
+            } else {
+            $answersCountRelation = array('answersCount' => array(
+                        'having' =>  's=0',
                     ));
-                    
-                $allDirections = QuestionCategory::getDirections();    
-                
-                
-		$this->render('index',array(
-			'dataProvider'  =>  $dataProvider,
-                        'status'        =>  $status,
-                        'nocat'         =>  $nocat,
-                        'notown'        =>  $notown,
-                        'allDirections' =>  $allDirections,
-		));
+            }
+
+
+            if(!isset($_GET['nocat'])) {
+                $criteria->with = array(
+                    'categories', 
+                    'town', 
+                    (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR))?"answersCount":'answersCount' => array(
+                        'having' =>  's=0',
+                    ),
+                    'bublishUser',
+                );
+                $nocat = false;
+            } else {
+                // если нужно показать опубликованные вопросы без категории
+                $criteria->with = array(
+                    'categories'  =>  array(
+                        'on' =>  'categories.id IS NULL',
+                    ), 
+                    'town', 
+                    (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR))?"answersCount":'answersCount' => array(
+                        'having' =>  's=0',
+                    ),
+                );
+                //$criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED, 't.status' =>  Question::STATUS_CHECK), "OR", "AND");
+                $criteria->addCondition('t.status = ' . Question::STATUS_PUBLISHED . ' OR t.status = ' . Question::STATUS_CHECK);
+                $nocat = true;
+            }
+
+            if(isset($_GET['notown'])) {
+                $criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
+                $criteria->addColumnCondition(array('t.townId' =>  0));
+                $notown = true;
+            }
+
+
+            if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)){
+                // админу и контент-менеджеру позволяем фильтровать вопросы по статусу
+                if(isset($_GET['status'])) {
+                    $status = (int)$_GET['status'];
+                    $criteria->addColumnCondition(array('t.status'=>$status));
+                } else {
+                    $status = null;
+                }
+            } else {
+                // юристу показываем вопросы со статусами Модерирован и Опубликован
+                $criteria->addInCondition('t.status', array(Question::STATUS_MODERATED, Question::STATUS_PUBLISHED));
+            }
+
+                $dataProvider = new CActiveDataProvider('Question', array(
+                    'criteria'=>$criteria,        
+                    'pagination'=>array(
+                                'pageSize'=>20,
+                            ),
+                ));
+
+            $allDirections = QuestionCategory::getDirections();    
+
+
+            $this->render('index',array(
+                    'dataProvider'  =>  $dataProvider,
+                    'status'        =>  $status,
+                    'nocat'         =>  $nocat,
+                    'notown'        =>  $notown,
+                    'allDirections' =>  $allDirections,
+            ));
 	}
         
         

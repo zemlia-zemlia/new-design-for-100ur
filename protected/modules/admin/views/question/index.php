@@ -11,7 +11,7 @@ $this->breadcrumbs=array(
 	'Вопросы и ответы',
 );
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('CRM',"/"),
+    'homeLink'=>CHtml::link('100 юристов',"/admin/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
