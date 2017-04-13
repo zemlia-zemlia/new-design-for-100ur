@@ -295,12 +295,23 @@ class QuestionController extends Controller
                     ->limit(30)
                     ->queryAll();
             
+            $questionsCountRows = Yii::app()->db->createCommand()
+                    ->select('q.id')
+                    ->from('{{question}} q')
+                    ->leftJoin('{{question2category}} q2c', 'q.id=q2c.qId')
+                    ->where('q2c.cId IS NULL AND q.status IN('.Question::STATUS_PUBLISHED . ',' . Question::STATUS_CHECK.')')
+                    ->group('q.id')
+                    ->queryAll();
+            
+            $questionsCount = sizeof($questionsCountRows);
+                    
             $allDirections = QuestionCategory::getDirections(true, true);    
 
                             
             $this->render('nocat', array(
-                'questions'     =>  $questions,
-                'allDirections' =>  $allDirections,
+                'questions'         =>  $questions,
+                'allDirections'     =>  $allDirections,
+                'questionsCount'    =>  $questionsCount,
             ));
         }
 

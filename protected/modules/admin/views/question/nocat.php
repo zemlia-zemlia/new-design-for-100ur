@@ -17,7 +17,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
  ));
 ?>
 <div class="vert-margin30">
-    <h1>Вопросы  без категории</h1>
+    <h1>Вопросы  без категории [<?php echo $questionsCount;?>]</h1>
 </div>
 
 <table class="table table-bordered table-hover table-striped">
