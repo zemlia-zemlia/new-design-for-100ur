@@ -94,40 +94,66 @@ if($model->description) {
 
 		<h3 class="header-block-light-grey"><strong> 100% гарантия получения ответа </strong></h3>
 
-		<table class="table center-align small table-bordered alert alert-info">
-                <tr>
-                    <th class="center-align" style="width: 33%">Бронза</th>
-                    <th class="center-align" style="width: 33%">Серебро</th>
-                    <th class="center-align" style="width: 33%">Золото</th>
-                </tr>
-                <tr>
+		<table class="table center-align table-bordered alert alert-warning">
+			<tr>
+				<th class="center-align" style="width: 33%">Бронза</th>
+				<th class="center-align" style="width: 33%">Серебро</th>
+				<th class="center-align" style="width: 33%">Золото</th>
+				<!--<th class="center-align" style="width: 33%">Vip1</th>-->
+				<!--<th class="center-align" style="width: 33%">Vip2</th>-->
+			</tr>
+			<tr>
 
-                </tr>
-                <tr  class="warning">
-                    <td>1<br/><span class="mutted">гарантированный ответ</span></td>
-                    <td>3<br/><span class="mutted">гарантированных ответа</span></td>
-                    <td>5<br/><span class="mutted">гарантированных ответов</span></td>
-                </tr>
-                <tr>
-                    <td>Один гарантированный ответ одного из проверенных юристов портала</td>
-                    <td>Три гарантированных ответа юристов, позволят Вам понять, как решить проблему</td>
-                    <td>Минимум пять гарантированных ответов юристов. Мнения нескольких юристов. Гарантия полного и подробного разбора ситуации.</td>
-                </tr>
-                <tr class="success">
-                    <td>125 руб.</td>
-                    <td>295 руб.</td>
-                    <td>455 руб.</td>
-                </tr>
-                <tr>
-                    <td><?php echo CHtml::link('Выбрать', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_1)), array('class'=>'btn btn-warning btn-block'));?></td>
-                    <td><?php echo CHtml::link('Выбрать', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_2)), array('class'=>'btn btn-warning btn-block'));?></td>
-                    <td><?php echo CHtml::link('Выбрать', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_3)), array('class'=>'btn btn-warning btn-block'));?></td>
-                </tr>
-            </table>
+			</tr>
+			<tr>
+				<td><strong style="font-size: 20px;">1</strong><br/><span class="mutted">гарантированный ответ</span>
+					<br/><br/>
+						<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_1)), array('class'=>'btn btn-warning btn-block'));?>
+				</td>
+				<td><strong style="font-size: 20px;">2</strong><br/><span class="mutted">гарантированных ответа</span>
+					<br/><br/>
+						<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_2)), array('class'=>'btn btn-warning btn-block'));?>
+				</td>
+				<td><strong style="font-size: 20px;">3</strong><br/><span class="mutted">гарантированных ответа</span>
+					<br/><br/>
+						<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_3)), array('class'=>'btn btn-warning btn-block'));?>
+				</td>
+				<!--<td>4<br/><span class="mutted">ответа</span></td>-->
+				<!--<td>5<br/><span class="mutted">ответов</span></td>-->
 
+			</tr>
+			<tr>
+				<td>185 руб.</td>
+				<td>365 руб.</td>
+				<td>585 руб.</td>
+				<!-- <td>765 руб.</td>-->
+				<!--<td>995 руб.</td>-->
+			</tr>
+        </table>
+			
+		<table class="table center-align table-bordered alert alert-warning">
+			<tr>
+				<th class="center-align" style="width: 33%">Vip</th>
+				<th class="center-align" style="width: 33%">Vip+</th>
+			</tr>
+			<tr>
+				<td><strong style="font-size: 20px;">4</strong><br/><span class="mutted">гарантированных ответа</span>
+				<br/><br/>
+					<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_4)), array('class'=>'btn btn-warning btn-block'));?>
+				</td>
+				<td><strong style="font-size: 20px;">5</strong><br/><span class="mutted">гарантированных ответов</span>
+				<br/><br/>
+					<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_5)), array('class'=>'btn btn-warning btn-block'));?>
+				</td>
+			</tr>
+			<tr>
+				<td>765 руб.</td>
+				<td>995 руб.</td>
+			</tr>
+		</table>
 			
 			
-			<div class="alert alert-info gray-panel">
+			<div class="alert alert-warning gray-panel">
                 <h4>Вы экономите</h4>
 
                 <div class="row center-align vert-margin30">

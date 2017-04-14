@@ -5,13 +5,14 @@
     <input type="hidden" name="customerNumber" value="<?php echo $question->id;?>" />
     <!--<input name="paymentType" value="ac" type="hidden">-->
     <input name="paymentType" value="" type="hidden">
-    <input type="submit" value="Оплатить <?php echo $question->price;?> рублей" class="btn btn-success btn-lg" />
+    <input type="submit" value="Перейти к оплате <?php echo $question->price;?> рублей" class="btn btn-success btn-lg" />
     
 </form>
-<p>
-    <span class="glyphicon glyphicon-lock"></span> Платеж производится через безопасное соединение с использованием сервиса Яндекс Касса
-</p>
-
+<div class="flat-panel">
+	<h5>
+		<span class="glyphicon glyphicon-lock"></span> Платеж производится через безопасное соединение с использованием сервиса Яндекс Касса
+	</h5>
+</div>
 <div class="center-align">
     <img src="/pics/payment/visa.png" alt="VISA" /> &nbsp;
     <img src="/pics/payment/mc.png" alt="MasterCard" /> &nbsp;
