@@ -156,26 +156,25 @@ $this->breadcrumbs[] = $model->name;
         
         <div class="inside">
         <?php foreach($questions as $question):?>
-        <div class="row">
-            
-            <div class="col-sm-9">
-                <p><?php echo CHtml::link(CHtml::encode($question['title']), Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?></p>
+            <div class="row">
+
+                <div class="col-sm-9">
+                    <p><?php echo CHtml::link(CHtml::encode($question['title']), Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?></p>
+                </div>
+                <div class="col-sm-3">
+
+                    <?php if($question['counter'] == 1) {
+                        echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>Есть ответ</span>";
+                    } elseif($question['counter']>1) {
+                        echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>" . $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
+                    } else {
+                        echo "Нет ответа";
+                    }
+                    ?>
+
+                </div>
             </div>
-            <div class="col-sm-3">
-                
-                <?php if($question['counter'] == 1) {
-                    echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>Есть ответ</span>";
-                } elseif($question['counter']>1) {
-                    echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>" . $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
-                } else {
-                    echo "Нет ответа";
-                }
-                ?>
-                
-            </div>
-        </div>
-        
-        <?php endforeach;?>  
+        <?php endforeach;?>         
         </div>
         </div>
 

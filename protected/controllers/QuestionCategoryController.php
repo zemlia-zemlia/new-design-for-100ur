@@ -106,8 +106,6 @@ class QuestionCategoryController extends Controller
             if($pageRightUrl != $pageRealUrl) {
                 $this->redirect($pageRightUrl, true, 301);
             }
-            //CustomFuncs::printr(Yii::app()->createUrl('questionCategory/alias', $model->getUrl()));
-            //CustomFuncs::printr(Yii::app()->urlManager->baseUrl . $_SERVER['REQUEST_URI']);
             
             /* если к категории не первого уровня обратились по имени, 
              * надо сделать редирект на полный адрес
@@ -182,17 +180,17 @@ class QuestionCategoryController extends Controller
             
             $newQuestionModel = new Question();
             
-            $this->render('view',array(
-			'model'                 =>  $model,
-                        'questions'             =>  $questions,
-                        'newQuestionModel'      =>  $newQuestionModel,
-                        'childrenCategories'    =>  $childrenCategories,
-                        'parentCategory'        =>  $parentCategory,
-                        'neighboursPrev'        =>  $neighboursPrev,
-                        'neighboursNext'        =>  $neighboursNext,
-                        'ancestors'             =>  $ancestors,
-                        'children'              =>  $children,
-		));
+            $this->render('view', array(
+                    'model'                 =>  $model,
+                    'questions'             =>  $questions,
+                    'newQuestionModel'      =>  $newQuestionModel,
+                    'childrenCategories'    =>  $childrenCategories,
+                    'parentCategory'        =>  $parentCategory,
+                    'neighboursPrev'        =>  $neighboursPrev,
+                    'neighboursNext'        =>  $neighboursNext,
+                    'ancestors'             =>  $ancestors,
+                    'children'              =>  $children,
+            ));
 	}
         
 	/**
@@ -254,7 +252,7 @@ class QuestionCategoryController extends Controller
                     ->select('q.id id, q.publishDate date, q.title title, a.id answerId')
                     ->from('{{question}} q')
                     ->leftJoin('{{answer}} a', 'q.id=a.questionId')
-                    ->where('q.status=:status', array(':status'=>  Question::STATUS_PUBLISHED))
+                    ->where('q.status IN (:status1, :status2)', array(':status1' =>  Question::STATUS_PUBLISHED, ':status2' =>  Question::STATUS_CHECK))
                     ->limit(20)
                     ->order('q.publishDate DESC');
             
