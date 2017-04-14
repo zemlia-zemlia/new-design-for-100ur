@@ -108,7 +108,7 @@ $allDirections = array(0=>'Без категории') + $allDirections;
             <?php endif;?>
             
                 <?php
-                    echo $form->hiddenField($model, 'townId', array('id'=>'selected-town', 'value'=>$currenTownId));
+                    echo $form->hiddenField($model, 'townId', array('id'=>'selected-town'));
                 ?>
 		<?php echo $form->error($model,'townId'); ?>
             

@@ -173,116 +173,119 @@ class QuestionController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$lead = new Lead100();
-                $question = new Question();
-                $question->setScenario('create');
-                
-                // параметр, определяющий, будет ли в форме блок выбора цены (форма платного вопроса)
-                $pay = (isset($_GET['pay']))?true:false;
-                
-                $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);              
-                $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
+            $lead = new Lead100();
+            $question = new Question();
+            $question->setScenario('create');
 
-                
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+            // параметр, определяющий, будет ли в форме блок выбора цены (форма платного вопроса)
+            $pay = (isset($_GET['pay']))?true:false;
 
-		if(isset($_POST['Question']))
-		{
-			$question->attributes = $_POST['Question'];
-                        $question->phone = preg_replace('/([^0-9])/i', '', $question->phone);
-                        
-                       
-                        if($question->sessionId == '' && $question->questionText!='' && $question->authorName!='') {
-                            if(!$question->preSave()) {
-                                // если вопрос не предсохранился, очищаем свойство sessionId
-                                $question->sessionId = '';
-                            }
-                        } else {
-                            /*
-                             * если вопрос был предсохранен, создадим объект Question из записи в базе,
-                             * чтобы при сохранении вопроса произошел update записи
-                             */
-                            if($question->sessionId) {
-                                $question = Question::model()->find(array(
-                                    'condition' =>  'sessionId = "'.$question->sessionId . '"'
-                                ));
-                            }
-                            $question->phone = Question::normalizePhone($question->phone);
-                            $question->status = Question::STATUS_NEW;
+            $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);              
+            $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
+
+
+            // Uncomment the following line if AJAX validation is needed
+            // $this->performAjaxValidation($model);
+
+            if(isset($_POST['Question']))
+            {
+                    $question->attributes = $_POST['Question'];
+                    $question->phone = preg_replace('/([^0-9])/i', '', $question->phone);
+
+                    if(!$question->townId) {
+                        $question->townId = (Yii::app()->user->getState('currentTownId')) ? Yii::app()->user->getState('currentTownId') : 0;
+                    }
+
+                    if($question->sessionId == '' && $question->questionText!='' && $question->authorName!='') {
+                        if(!$question->preSave()) {
+                            // если вопрос не предсохранился, очищаем свойство sessionId
+                            $question->sessionId = '';
                         }
-                        
-                        $question->setScenario('create');
-                        $question->validate();
-                        
-                        if(empty($question->errors)) {
-                            $lead->name = $question->authorName;
-                            $lead->question = $question->questionText;
-                            $lead->phone = $question->phone;
-                            $lead->email = $question->email;
-                            $lead->townId = $question->townId;
-                            $lead->sourceId = 3; // 100 юристов
-                            $lead->leadStatus = Lead100::LEAD_STATUS_DEFAULT; // по умолчанию лид никуда не отправляем
-                            //CustomFuncs::printr($lead);exit;
+                    } else {
+                        /*
+                         * если вопрос был предсохранен, создадим объект Question из записи в базе,
+                         * чтобы при сохранении вопроса произошел update записи
+                         */
+                        if($question->sessionId) {
+                            $question = Question::model()->find(array(
+                                'condition' =>  'sessionId = "'.$question->sessionId . '"'
+                            ));
+                        }
+                        $question->phone = Question::normalizePhone($question->phone);
+                        $question->status = Question::STATUS_NEW;
+                    }
 
-                            $duplicates = $lead->findDublicates(86400);
-                            //CustomFuncs::printr($duplicates);exit;
-                            if($duplicates) {
-                                throw new CHttpException(400,'Похоже, Вы пытаетесь отправить заявку несколько раз. Ваша заявка уже сохранена.');
-                            }
+                    $question->setScenario('create');
+                    $question->validate();
 
-                            if($lead->save()) {
-                                $question->status = Question::STATUS_NEW;
+                    if(empty($question->errors)) {
+                        $lead->name = $question->authorName;
+                        $lead->question = $question->questionText;
+                        $lead->phone = $question->phone;
+                        $lead->email = $question->email;
+                        $lead->townId = $question->townId;
+                        $lead->sourceId = 3; // 100 юристов
+                        $lead->leadStatus = Lead100::LEAD_STATUS_DEFAULT; // по умолчанию лид никуда не отправляем
+                        //CustomFuncs::printr($lead);exit;
 
-                                if($question->save()) {
-                                
-                                    // сохраним категории, к которым относится вопрос, если категория указана
-                                    if(isset($_POST['Question']['categories']) && $_POST['Question']['categories']!=0) {
-                                        $q2cat = new Question2category();
-                                        $q2cat->qId = $question->id;
-                                        $questionCategory = $_POST['Question']['categories'];
-                                        $q2cat->cId = $questionCategory;
-                                        // сохраняем указанную категорию
-                                        if($q2cat->save()) {
-                                            // проверим, не является ли указанная категория дочерней
-                                            // если является, найдем ее родителя и запишем в категории вопроса
-                                            foreach($allDirectionsHierarchy as $parentId=>$parentCategory) {
-                                                if(!$parentCategory['children']) continue;
+                        $duplicates = $lead->findDublicates(86400);
+                        //CustomFuncs::printr($duplicates);exit;
+                        if($duplicates) {
+                            throw new CHttpException(400,'Похоже, Вы пытаетесь отправить заявку несколько раз. Ваша заявка уже сохранена.');
+                        }
 
-                                                foreach($parentCategory['children'] as $childId=>$childCategory) {
-                                                    if($childId == $questionCategory) {
-                                                        $q2cat = new Question2category();
-                                                        $q2cat->qId = $question->id;
-                                                        $q2cat->cId = $parentId;
-                                                        $q2cat->save();
-                                                        break;
-                                                    }
+                        if($lead->save()) {
+                            $question->status = Question::STATUS_NEW;
+
+                            if($question->save()) {
+
+                                // сохраним категории, к которым относится вопрос, если категория указана
+                                if(isset($_POST['Question']['categories']) && $_POST['Question']['categories']!=0) {
+                                    $q2cat = new Question2category();
+                                    $q2cat->qId = $question->id;
+                                    $questionCategory = $_POST['Question']['categories'];
+                                    $q2cat->cId = $questionCategory;
+                                    // сохраняем указанную категорию
+                                    if($q2cat->save()) {
+                                        // проверим, не является ли указанная категория дочерней
+                                        // если является, найдем ее родителя и запишем в категории вопроса
+                                        foreach($allDirectionsHierarchy as $parentId=>$parentCategory) {
+                                            if(!$parentCategory['children']) continue;
+
+                                            foreach($parentCategory['children'] as $childId=>$childCategory) {
+                                                if($childId == $questionCategory) {
+                                                    $q2cat = new Question2category();
+                                                    $q2cat->qId = $question->id;
+                                                    $q2cat->cId = $parentId;
+                                                    $q2cat->save();
+                                                    break;
                                                 }
                                             }
-
                                         }
 
-                                    } 
-                                    
-                                    $this->redirect(array('confirm', 'qId'=>$question->id, 'sId'=>$question->sessionId));
-                                    
-                                }
-                        }
-                    }
-                        
+                                    }
 
-		}
-                
-                //$townsArray = Town::getTownsIdsNames();
-		//$townsArray = array();
-                //CustomFuncs::printr($townsArray);
-                
-		$this->render('create',array(
-			'model'         =>  $question,
-                        'allDirections' =>  $allDirections,
-                        'categoryId'    =>  $categoryId,
-                        'pay'           =>  $pay,
-		));
+                                } 
+
+                                $this->redirect(array('confirm', 'qId'=>$question->id, 'sId'=>$question->sessionId));
+
+                            }
+                    }
+                }
+
+
+            }
+
+            //$townsArray = Town::getTownsIdsNames();
+            //$townsArray = array();
+            //CustomFuncs::printr($townsArray);
+
+            $this->render('create',array(
+                    'model'         =>  $question,
+                    'allDirections' =>  $allDirections,
+                    'categoryId'    =>  $categoryId,
+                    'pay'           =>  $pay,
+            ));
 	}
         
         /**
