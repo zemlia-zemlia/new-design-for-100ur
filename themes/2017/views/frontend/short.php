@@ -236,7 +236,7 @@
             
             <div class="col-md-3 col-sm-3"  id="right-panel">
 			                
-                <?php if(Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_OPERATOR || Yii::app()->user->role == User::ROLE_CALL_MANAGER):?>
+                <?php if(Yii::app()->user->role == User::ROLE_JURIST):?>
                 
                 <div class="vert-margin20">           
                         <?php

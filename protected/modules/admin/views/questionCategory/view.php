@@ -11,15 +11,13 @@ $this->breadcrumbs=array(
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('CRM',"/"),
+    'homeLink'=>CHtml::link('100 юристов',"/admin/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
 ?>
 
 <h1><?php echo CHtml::encode($model->name);?></h1>
-
-<?php CustomFuncs::printr($model->getUrl());?>
 
 <div class="vert-margin30">
 <p><strong>Родительская категория:</strong> 
