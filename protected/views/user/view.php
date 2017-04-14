@@ -199,7 +199,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <?php 
     if(Yii::app()->user->role == User::ROLE_ROOT) {
-        echo CHtml::link('Смотреть статистику ответов по месяцам', Yii::app()->createUrl('user/stats', array('userId'=>$model->id)));
+        echo CHtml::link('Смотреть статистику ответов по месяцам', Yii::app()->createUrl('user/stats', array('userId'=>$model->id)), array('class'=>'btn btn-block btn-xs btn-default'));
     }
 ?>
+
+
     

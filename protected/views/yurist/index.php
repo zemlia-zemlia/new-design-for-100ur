@@ -6,7 +6,7 @@ $pageTitle = "Юристы и адвокаты ";
 $this->setPageTitle($pageTitle . Yii::app()->name);
 ?>
 
-<h1 class="vert-margin30">Юристы и адвокаты</h1>
+<h1 class="vert-margin30">Юристы и Адвокаты</h1>
 
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'  =>  $yuristsDataProvider,

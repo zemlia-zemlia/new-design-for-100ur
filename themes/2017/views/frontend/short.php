@@ -319,7 +319,7 @@
 		</small>
 				</div>
 
-                <div class='col-md-3 col-sm-3'>
+                <div class='col-md-3 col-sm-3 small'>
 					<div itemscope itemtype="http://schema.org/Organization"> 
 						<span itemprop="name">100 Юристов</span>
 							<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">

@@ -29,4 +29,4 @@
     </div>
 </div>
 
-<?php echo CHtml::link('Смотреть статистику по месяцам', Yii::app()->createUrl('user/stats'));?>
+<?php echo CHtml::link('Статистика моих ответов по месяцам', Yii::app()->createUrl('user/stats'), array('class'=>'btn btn-block btn-xs btn-default'));?>
