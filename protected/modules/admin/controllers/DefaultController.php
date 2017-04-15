@@ -119,6 +119,63 @@ class DefaultController extends Controller
                 ->queryAll();
         $questionsWithAnswersCount = sizeof($questionWithAnswerRows);
         
+        
+        // соберем статистику по статусам вопросов по месяцам за последние 12 недель
+        /*
+         * SELECT WEEK(createDate) week, COUNT(*) counter, status, email FROM `100_question`
+            WHERE createDate > NOW()-INTERVAL 12 WEEK
+            GROUP BY week, status, email
+            ORDER BY createDate asc
+         */
+        
+        $questionByWeekArray = array();
+        $questionByWeekRows = Yii::app()->db->createCommand()
+                ->select('WEEK(createDate) week, COUNT(*) counter, status, email')
+                ->from('{{question}}')
+                ->where('createDate > NOW()-INTERVAL 12 WEEK AND status!=:spam', array(':spam' => Question::STATUS_SPAM))
+                ->group('week, status, email')
+                ->order('createDate asc')
+                ->queryAll();
+        
+        //CustomFuncs::printr($questionByWeekRows);
+        //exit;
+        
+      
+        foreach($questionByWeekRows as $row) {
+            
+            $questionByWeekArray[$row['week']][$row['status']]['total'] += $row['counter'];
+            $questionByWeekArray[$row['week']]['total'] += $row['counter'];
+            if($row['status'] == Question::STATUS_NEW) {
+                if($row['email'] == '') {
+                    $questionByWeekArray[$row['week']][$row['status']]['no_email'] += $row['counter'];
+                } else {
+                    $questionByWeekArray[$row['week']][$row['status']]['with_email'] += $row['counter'];
+                }
+            }
+        }
+        
+        // заполним отсутствующую статистику нулями для красивого графика
+        foreach($questionByWeekArray as $week=>$weekData) {
+            for($status = 0; $status<=5; $status++) {
+                if(!$weekData[$status]) {
+                    $questionByWeekArray[$week][$status]['total'] = 0;
+                }
+                if($status == 0) {
+                    if(!$weekData[$status]['no_email']) {
+                        $questionByWeekArray[$week][$status]['no_email'] = 0;
+                    }
+                    if(!$weekData[$status]['with_email']) {
+                        $questionByWeekArray[$week][$status]['with_email'] = 0;
+                    }
+                }
+                
+            }
+        }
+        
+        //CustomFuncs::printr($questionByWeekArray);
+        
+        
+        
         $this->render('index', array(
             'sumArray'                  =>  $sumArray,
             'kolichArray'               =>  $kolichArray,
@@ -128,6 +185,7 @@ class DefaultController extends Controller
             'totalExpences'             =>  $totalExpences,
             'questionStatuses'          =>  $questionStatuses,
             'questionsWithAnswersCount' =>  $questionsWithAnswersCount,
+            'questionByWeekArray'       =>  $questionByWeekArray,
         ));
     }
 }

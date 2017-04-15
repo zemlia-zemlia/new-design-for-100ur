@@ -100,62 +100,84 @@ $(function () {
         </div>
     </div>
     <div class="col-md-6">
-        <div class="panel panel-default">
-            <?php
-                //CustomFuncs::printr($questionStatuses);
-                //CustomFuncs::printr(Question::getStatusesArray());
-                // все вопросы = Недозаполненные + не подтвержденные + предв. опубл. + опубликованные
-                $allQuestions = $questionStatuses[0] + $questionStatuses[4] + $questionStatuses[5] + $questionStatuses[2];
-                $filledQuestions = $allQuestions - $questionStatuses[5];
-                $withEmailQuestions = $allQuestions - $questionStatuses[5] - $questionStatuses[0];
-            ?>
-            <div id="questions-funnel"></div>
-
-            <script type="text/javascript">
-                Highcharts.chart('questions-funnel', {
-                    chart: {
-                        type: 'pyramid',
-                        marginRight: 100
-                    },
-                    title: {
-                        text: 'Воронка вопросов за 90 дней',
-                        x: -50
-                    },
-                    plotOptions: {
-                        series: {
-                            dataLabels: {
-                                enabled: true,
-                                format: '<b>{point.name}</b> ({point.y:,.0f})',
-                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
-                                softConnector: true
-                            },
-                            /*neckWidth: '30%',
-                            neckHeight: '0%'*/
-
-                            //-- Other available options
-                            // height: pixels or percent
-                            // width: pixels or percent
-                        }
-                    },
-                    legend: {
-                        enabled: false
-                    },
-                    series: [{
-                        name: 'Вопросы',
-                        data: [
-                            <?php echo "['Все вопросы', " . $allQuestions . "],";?>
-                            <?php echo "['Заполненные', " . $filledQuestions . "],";?>
-                            <?php echo "['Email подтвержден', " . $withEmailQuestions . "],";?>
-                            <?php echo "['С ответом', " . $questionsWithAnswersCount . "],";?>
-
-                        ]
-                    }]
-                });
-                </script>
-        </div>    
+          
     </div>
 </div>
 
 
+
+<div class="panel panel-default">
+<div id="chart_questions" style="width:100%; height:500px;"></div>
+
+<script type="text/javascript">
+$(function () { 
+    $('#chart_questions').highcharts({
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: 'Вопросы по статусам'
+        },
+        xAxis: {
+            categories: [
+                
+                    <?php echo implode(', ', array_keys($questionByWeekArray));?>
+            ]
+        },
+        yAxis: {
+            title: {
+                text: 'Вопросы'
+            }
+        },
+        series: [{
+            name: 'Всего',
+            data: [
+                <?php foreach ($questionByWeekArray as $week=>$questionsByWeek):?>
+                        <?php echo '[' .$week . ', '. $questionsByWeek['total'] .'],'; ?>                
+                <?php  endforeach;?>
+            ]
+        },
+        {
+            name: 'Недозаполненные',
+            data: [
+                <?php foreach ($questionByWeekArray as $week=>$questionsByWeek):?>
+                        
+                        <?php echo '[' .$week . ', '. $questionsByWeek[Question::STATUS_PRESAVE]['total'] .'],'; ?>                
+                <?php  endforeach;?>
+            ]
+        },
+        {
+            name: 'Email не указан',
+            data: [
+                <?php foreach ($questionByWeekArray as $week=>$questionsByWeek):?>
+                        
+                        <?php echo '[' .$week . ', '. $questionsByWeek[Question::STATUS_NEW]['no_email'] .'],'; ?>                
+                <?php  endforeach;?>
+            ]
+        },
+        {
+            name: 'Email не подтвержден',
+            data: [
+                <?php foreach ($questionByWeekArray as $week=>$questionsByWeek):?>
+                        
+                        <?php echo '[' .$week . ', '. $questionsByWeek[Question::STATUS_NEW]['with_email'] .'],'; ?>                
+                <?php  endforeach;?>
+            ]
+        },
+        {
+            name: 'Опубликован',
+            data: [
+                <?php foreach ($questionByWeekArray as $week=>$questionsByWeek):?>
+                        <?php echo '[' .$week . ', '. ($questionsByWeek[Question::STATUS_CHECK]['total'] + $questionsByWeek[Question::STATUS_PUBLISHED]['total']) .'],'; ?>                
+                <?php  endforeach;?>
+            ]
+        },
+        ]
+    });
+    
+    
+});
+</script>
+</div>
 
 <?php endif;?>
