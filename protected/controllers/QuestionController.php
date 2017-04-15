@@ -173,6 +173,8 @@ class QuestionController extends Controller
 	 */
 	public function actionCreate()
 	{
+            $this->layout = "//frontend/smart";
+            
             $lead = new Lead100();
             $question = new Question();
             $question->setScenario('create');
@@ -323,7 +325,7 @@ class QuestionController extends Controller
          */
         public function actionConfirm()
         {
-            $this->layout = '//frontend/short';
+            $this->layout = "//frontend/smart";
             
             $qId = (isset($_GET['qId']))?(int)$_GET['qId']:false;
             $sId = (isset($_GET['sId']))?$_GET['sId']:false;

@@ -167,7 +167,7 @@ hr {
 
 #top-menu-wrapper {
     background-color:#51b68a;
-    min-height: 62px;
+    min-height:auto;
     overflow-x:hidden; 
 }
 
@@ -189,7 +189,7 @@ hr {
 
 #top-menu-wrapper ul li a, #top-menu-wrapper ul li span {
     display:block;
-    padding:22px 10px 24px;
+    padding: 10px;
     border-top:#51b68a 2px solid;
     color:#fff;
     text-transform: uppercase;
@@ -434,6 +434,10 @@ hr {
     
 }
 
+.navbar {
+    min-height: auto;
+}
+    
 .navbar-inverse {
     border:none;
     margin-bottom:0;

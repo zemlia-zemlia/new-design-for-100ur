@@ -26,13 +26,6 @@ $allDirections = array(0=>'Без категории') + $allDirections;
 		<?php echo $form->error($model,'authorName'); ?>
 	</div>
     </div>
-<!--<div class="col-md-6">
-        <div class="form-group">
-                <label>Категория права</label> (необязательно)
-		<?php echo $form->dropDownList($model,'categories', $allDirections, array('class'=>'form-control')); ?>
-		<?php echo $form->error($model,'categories'); ?>  
-	</div> 
-    </div>-->
 </div>
         
 
