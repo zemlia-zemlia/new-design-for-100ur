@@ -206,11 +206,11 @@ class QuestionController extends Controller
                          * если вопрос был предсохранен, создадим объект Question из записи в базе,
                          * чтобы при сохранении вопроса произошел update записи
                          */
-                        if($question->sessionId) {
-                            $question = Question::model()->find(array(
-                                'condition' =>  'sessionId = "'.$question->sessionId . '"'
-                            ));
-                        }
+                        
+                        $question = Question::model()->find(array(
+                            'condition' =>  'sessionId = "'.$question->sessionId . '"'
+                        ));
+                        $question->attributes = $_POST['Question'];
                         $question->phone = Question::normalizePhone($question->phone);
                         $question->status = Question::STATUS_NEW;
                     }
