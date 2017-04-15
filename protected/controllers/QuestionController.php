@@ -194,9 +194,9 @@ class QuestionController extends Controller
                     $question->attributes = $_POST['Question'];
                     $question->phone = preg_replace('/([^0-9])/i', '', $question->phone);
 
-                    if(!$question->townId) {
+                    /*if(!$question->townId) {
                         $question->townId = (Yii::app()->user->getState('currentTownId')) ? Yii::app()->user->getState('currentTownId') : 0;
-                    }
+                    }*/
 
                     if($question->sessionId == '' && $question->questionText!='' && $question->authorName!='') {
                         if(!$question->preSave()) {
@@ -208,10 +208,11 @@ class QuestionController extends Controller
                          * если вопрос был предсохранен, создадим объект Question из записи в базе,
                          * чтобы при сохранении вопроса произошел update записи
                          */
-                        
-                        $question = Question::model()->find(array(
-                            'condition' =>  'sessionId = "'.$question->sessionId . '"'
-                        ));
+                        if($question->sessionId != '') {
+                            $question = Question::model()->find(array(
+                                'condition' =>  'sessionId = "'.$question->sessionId . '"'
+                            ));
+                        }
                         $question->attributes = $_POST['Question'];
                         $question->phone = Question::normalizePhone($question->phone);
                         $question->status = Question::STATUS_NEW;

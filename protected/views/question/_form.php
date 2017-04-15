@@ -14,7 +14,6 @@
     
 <?php
 $allDirections = array(0=>'Без категории') + $allDirections;
-
 ?>
 
 
@@ -79,13 +78,18 @@ $allDirections = array(0=>'Без категории') + $allDirections;
         <div class="form-group">
             <?php
                 // Если город определен по IP адресу, не показываем поле ввода города
-                $currenTownName = (Yii::app()->user->getState('currentTownName'))?Yii::app()->user->getState('currentTownName'):'';
-                $currentRegionName = (Yii::app()->user->getState('currentTownRegionName'))?Yii::app()->user->getState('currentTownRegionName'):'';
-                $currenTownId = (Yii::app()->user->getState('currentTownId'))?Yii::app()->user->getState('currentTownId'):0;
+                //$currenTownName = (Yii::app()->user->getState('currentTownName'))?Yii::app()->user->getState('currentTownName'):'';
+                //$currentRegionName = (Yii::app()->user->getState('currentTownRegionName'))?Yii::app()->user->getState('currentTownRegionName'):'';
+                //$currenTownId = (Yii::app()->user->getState('currentTownId'))?Yii::app()->user->getState('currentTownId'):0;
                 
-                if(!$currenTownName && $model->townId!=0 && !is_null($model->town->name)) {
+                /*if(!$currenTownName && $model->townId!=0 && !is_null($model->town->name)) {
+                    $currenTownName = $model->town->name;
+                }*/
+                $currenTownId = 0;
+                if(!is_null($model->town->name)) {
                     $currenTownName = $model->town->name;
                 }
+                
             ?>
             
             <?php if($currenTownId == 0):?>
