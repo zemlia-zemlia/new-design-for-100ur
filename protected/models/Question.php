@@ -39,7 +39,7 @@ class Question extends CActiveRecord
         const LEVEL_1 = 1;
         const LEVEL_2 = 2;
         const LEVEL_3 = 3;
-		const LEVEL_4 = 4;
+        const LEVEL_4 = 4;
         const LEVEL_5 = 5;
         
 	/**
@@ -300,10 +300,10 @@ class Question extends CActiveRecord
                 case self::LEVEL_3:
                     return 585;
                     break;
-				case self::LEVEL_4:
+                case self::LEVEL_4:
                     return 765;
                     break;
-				case self::LEVEL_5:
+                case self::LEVEL_5:
                     return 995;
                     break;
             }

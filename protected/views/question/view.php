@@ -118,16 +118,12 @@ if($model->description) {
 					<br/><br/>
 						<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_3)), array('class'=>'btn btn-warning btn-block'));?>
 				</td>
-				<!--<td>4<br/><span class="mutted">ответа</span></td>-->
-				<!--<td>5<br/><span class="mutted">ответов</span></td>-->
 
 			</tr>
 			<tr>
-				<td>185 руб.</td>
-				<td>365 руб.</td>
-				<td>585 руб.</td>
-				<!-- <td>765 руб.</td>-->
-				<!--<td>995 руб.</td>-->
+                            <td><?php echo Question::getPriceByLevel(Question::LEVEL_1);?> руб.</td>
+                            <td><?php echo Question::getPriceByLevel(Question::LEVEL_2);?> руб.</td>
+                            <td><?php echo Question::getPriceByLevel(Question::LEVEL_3);?> руб.</td>
 			</tr>
         </table>
 			
@@ -147,8 +143,8 @@ if($model->description) {
 				</td>
 			</tr>
 			<tr>
-				<td>765 руб.</td>
-				<td>995 руб.</td>
+				<td><?php echo Question::getPriceByLevel(Question::LEVEL_4);?> руб.</td>
+				<td><?php echo Question::getPriceByLevel(Question::LEVEL_5);?> руб.</td>
 			</tr>
 		</table>
 			

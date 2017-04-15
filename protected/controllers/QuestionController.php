@@ -33,7 +33,7 @@ class QuestionController extends Controller
 	{
             return array(
                 array('allow', // allow all users 
-                        'actions'=>array('index', 'view', 'create', 'thankYou','rss', 'call', 'weCallYou', 'docsRequested', 'docs', 'getServices', 'services', 'upgrade', 'paymentSuccess', 'paymentFail', 'paymentCheck', 'paymentAviso', 'confirm', 'sendLead'),
+                        'actions'=>array('index', 'archive', 'view', 'create', 'thankYou','rss', 'call', 'weCallYou', 'docsRequested', 'docs', 'getServices', 'services', 'upgrade', 'paymentSuccess', 'paymentFail', 'paymentCheck', 'paymentAviso', 'confirm', 'sendLead'),
                         'users'=>array('*'),
                 ),
                 array('allow', // allow authenticated user to perform 'search'
@@ -384,10 +384,30 @@ class QuestionController extends Controller
             $criteria->addCondition('status IN (' . Question::STATUS_PUBLISHED . ', ' . Question::STATUS_CHECK . ')');
             $criteria->order = 'publishDate DESC';
             
-            $questions = Question::model()->cache(600)->findAll($criteria);       
+            $questions = Question::model()->cache(600)->findAll($criteria);  
+            
+            /*
+             * SELECT YEAR(publishDate) year, MONTH(publishDate) month, COUNT(*) counter FROM `100_question` 
+                WHERE status IN (2,4)
+                GROUP BY year, month
+             */
+            // Годы и  месяцы, за которые есть вопросы
+            $datesArray = array();
+            $datesRows = Yii::app()->db->createCommand()
+                    ->select('YEAR(publishDate) year, MONTH(publishDate) month')
+                    ->from('{{question}}')
+                    ->where('status IN (:status1, :status2)', array(':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED))
+                    ->group('year, month')
+                    ->queryAll();
+            foreach($datesRows as $row) {
+                if($row['year'] && $row['month']) {
+                    $datesArray[$row['year']][] = $row['month'];
+                }
+            }
                         
             $this->render('index',array(
-                'questions'   =>  $questions,
+                'questions'     =>  $questions,
+                'datesArray'    =>  $datesArray,
             ));
 	}
 
@@ -783,5 +803,44 @@ class QuestionController extends Controller
                 echo json_encode(array('code'=>500,'message'=>'Lead not saved.', 'errors'=>$model->errors));
                 exit;
             }
+        }
+        
+        public function actionArchive($date)
+        {
+            $dateParts = explode('-', $date);
+            $year = $dateParts[0];
+            $month = $dateParts[1];
+            
+            $questionsDataProvider = new CActiveDataProvider('Question', array(
+                'criteria' => array(
+                    'condition' => 'YEAR(publishDate)='.$year . ' AND MONTH(publishDate)=' . $month . ' AND status IN (' . Question::STATUS_CHECK. ', ' . Question::STATUS_PUBLISHED . ')',  
+                    'order' =>  'publishDate DESC',
+                    'with'  =>  'answersCount',
+                ),
+                'pagination'    =>  array(
+                    'pageSize'  =>  50,
+                ),
+            ));
+            
+            // месяцы, за которые есть вопросы
+            $datesArray = array();
+            $datesRows = Yii::app()->db->createCommand()
+                    ->select('MONTH(publishDate) month')
+                    ->from('{{question}}')
+                    ->where('YEAR(publishDate) = :year AND status IN (:status1, :status2)', array(':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED, ':year' => $year))
+                    ->group('month')
+                    ->queryAll();
+            foreach($datesRows as $row) {
+                if($row['month']) {
+                    $datesArray[] = $row['month'];
+                }
+            }
+            
+            $this->render('archive', array(
+                'dataProvider'  => $questionsDataProvider,
+                'year'          =>  $year,
+                'month'         =>  $month,
+                'datesArray'    =>  $datesArray,
+            ));
         }
 }
