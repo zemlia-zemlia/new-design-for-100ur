@@ -9,9 +9,9 @@
     
 </form>
 <div class="flat-panel">
-	<h5>
-		<span class="glyphicon glyphicon-lock"></span> Платеж производится через безопасное соединение с использованием сервиса Яндекс Касса
-	</h5>
+	<p>
+		<span class="glyphicon glyphicon-lock"></span> Платеж производится через безопасное соединение с использованием сервиса "Яндекс Касса"
+	</p>
 </div>
 <div class="center-align">
     <img src="/pics/payment/visa.png" alt="VISA" /> &nbsp;
