@@ -10,6 +10,7 @@ Disallow: /site/offer/
 Disallow: /site/login/
 Disallow: /site/contacts/
 Disallow: /codecs/
+Disallow: *AdId*
 
 Allow: /assets/*.js
 Allow: /assets/*.css
@@ -27,6 +28,7 @@ Disallow: /site/offer/
 Disallow: /site/login/
 Disallow: /site/contacts/
 Disallow: /codecs/
+Disallow: *AdId*
 
 Allow: /assets/*.js
 Allow: /assets/*.css
