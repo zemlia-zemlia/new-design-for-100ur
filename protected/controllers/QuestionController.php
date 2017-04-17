@@ -378,6 +378,10 @@ class QuestionController extends Controller
 	 */
 	public function actionIndex()
 	{            
+            if($_SERVER['REQUEST_URI'] != '/q/') {
+                $this->redirect(Yii::app()->createUrl('question/index'), true, 301);
+            }
+            
             $criteria = new CDbCriteria;
             $criteria->limit = 40;
             $criteria->with = 'answersCount';
