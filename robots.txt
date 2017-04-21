@@ -11,10 +11,13 @@ Disallow: /site/login/
 Disallow: /site/contacts/
 Disallow: /codecs/
 Disallow: *AdId*
+Disallow: *baa=*
 
 Allow: /assets/*.js
 Allow: /assets/*.css
 Allow: /pics/
+
+
 
 User-agent: Yandex
 Disallow: /protected
@@ -29,6 +32,7 @@ Disallow: /site/login/
 Disallow: /site/contacts/
 Disallow: /codecs/
 Disallow: *AdId*
+Disallow: *baa=*
 
 Allow: /assets/*.js
 Allow: /assets/*.css

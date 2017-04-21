@@ -4,15 +4,17 @@
 
 Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('question'));
 
-$pageTitle = "Вопросы юристам ";
+$pageTitle = "Последние советы юристов бесплатно онлайн ";
 
 $this->setPageTitle($pageTitle . Yii::app()->name);
+
+Yii::app()->clientScript->registerMetaTag("Советы юристов по всем отраслям права задайте свой вопрос и получите ответ в течении 15 минут", 'description');
 ?>
 
 
 <div class="flat-panel">
 
-        <h1 class="header-block-light-grey vert-margin20"><?php echo $pageTitle;?></h1>
+        <h1 class="header-block-light-grey vert-margin20">Последние вопросы юристам</h1>
 
         <div class="inside">
         <?php foreach($questions as $question):?>

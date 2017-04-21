@@ -6,9 +6,8 @@
         </div>
         <div class="col-md-8">
             <div class="form-container">
-                <h2 class="center-align">Задайте вопрос юристу прямо сейчас</h2>
-                <h4>Не надо ждать  и  искать - просто отправьте свой вопрос</h4>
-                
+                <h2 class="center-align">Задайте вопрос юристу прямо сейчас:</h2>
+                                
                 <?php $form=$this->beginWidget('CActiveForm', array(
                         'id'                    =>  'question-form',
                         'enableAjaxValidation'  =>  false,

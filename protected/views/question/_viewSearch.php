@@ -1,5 +1,5 @@
 <div class="question-search-item"> 
-    <div class="panel-body">
+    <div class="flat-panel inside">
         
         <div class="container-fluid">
             <div class="row">

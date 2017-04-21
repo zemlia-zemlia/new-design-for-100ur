@@ -2,10 +2,10 @@
 /* @var $this QuestionController */
 /* @var $model Question */
 
-$this->setPageTitle("Задать вопрос юристам и адвокатам. ". Yii::app()->name);
+$this->setPageTitle("Задать вопрос юристу бесплатно онлайн. ". Yii::app()->name);
 
 Yii::app()->ClientScript->registerScriptFile('/js/jquery.maskedinput.min.js', CClientScript::POS_END);
-
+Yii::app()->clientScript->registerMetaTag("Задать вопрос юристу онлайн бесплатно без телефона и регистрации круглосуточно по всей России.", 'description');
 
 $this->breadcrumbs=array(
 	'Вопросы и ответы'=>array('index'),
@@ -14,7 +14,7 @@ $this->breadcrumbs=array(
 
 ?>
 
-<h1 class="header-block header-block-light-grey">Отправка вопроса юристу</h1>
+<h1 class="header-block header-block-light-grey">Задать вопрос юристу</h1>
 
 
 <div class='flat-panel vert-margin30'>

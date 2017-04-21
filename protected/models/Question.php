@@ -292,19 +292,19 @@ class Question extends CActiveRecord
         {
             switch($level) {
                 case self::LEVEL_1:
-                    return 185;
+                    return 142;
                     break;
                 case self::LEVEL_2:
-                    return 365;
+                    return 265;
                     break;
                 case self::LEVEL_3:
-                    return 585;
+                    return 385;
                     break;
                 case self::LEVEL_4:
-                    return 765;
+                    return 515;
                     break;
                 case self::LEVEL_5:
-                    return 995;
+                    return 695;
                     break;
             }
         }
