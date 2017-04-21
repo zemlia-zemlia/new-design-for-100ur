@@ -414,8 +414,21 @@ class LeadController extends Controller
 
             }
         }
+        
+        // получим данные по расходам на Директ
+        $expencesArray = array();
+        $expencesRows = Yii::app()->db->createCommand()
+                ->select('date, expences')
+                ->from('{{direct}}')
+                ->where('MONTH(date)="'.$month.'" AND YEAR(date)="' . $year . '"')
+                ->order('date DESC')
+                ->queryAll();
+        
+        foreach($expencesRows as $row) {
+            $expencesArray[$row['date']] = $row['expences'];
+        }
 
-        //CustomFuncs::printr($sumArray);
+        //CustomFuncs::printr($expencesArray);
         //CustomFuncs::printr($kolichArray);
 
         $this->render('stats', array(
@@ -426,6 +439,7 @@ class LeadController extends Controller
             'sumArray'      =>  $sumArray,
             'kolichArray'   =>  $kolichArray,
             'buySumArray'   =>  $buySumArray,
+            'expencesArray' =>  $expencesArray,
         ));
     }
 

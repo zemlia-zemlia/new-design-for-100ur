@@ -77,7 +77,7 @@
         $sumTotal += $summa;
         $buySumTotal += $buySumArray[$date];
         $kolichTotal += $kolichArray[$date];
-        $profit = $summa - $buySumArray[$date];
+        $profit = $summa - $buySumArray[$date] - $expencesArray[$date];
         $profitTotal += $profit;
     ?>
     <tr>
@@ -96,7 +96,7 @@
         <td><?php echo $kolichArray[$date];?></td>
         <td><?php echo $summa;?></td>
         <td><?php echo $buySumArray[$date];?></td>
-        <td></td>
+        <td><?php echo (int)$expencesArray[$date];?></td>
         <td>
             <?php
                 echo $profit;
