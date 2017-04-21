@@ -12,14 +12,14 @@
     $counterNoAnswers = Question::getCountWithoutAnswers();
 ?>
 
+<hr/>
+<h4>Фильтр вопросов:</h4>
 <h4 class="widget-search-header">
     <span>
     <?php echo CHtml::link($counterNoAnswers, Yii::app()->createUrl('/question/search')); ?>
     </span>
     <?php echo CHtml::link(CustomFuncs::numForms($counterNoAnswers, 'вопрос', "вопроса", "вопросов") . ' ждут <br />ответов', Yii::app()->createUrl('/question/search')); ?>
 </h4>
-
-<h4>Фильтр вопросов</h4>
 
     <div class="checkbox">
         <label data-toggle="tooltip" data-placement ="left" title="Укажите свои специальноси в профиле">
@@ -59,7 +59,7 @@
 
 
     <div class="form-group">
-            <?php echo CHtml::submitButton('Отфильтровать', array('class'=>'button button-blue-gradient btn-block')); ?>
+            <?php echo CHtml::submitButton('Показать', array('class'=>'button button-blue-gradient btn-block')); ?>
             
             <?php if($randomQuestionId):?>
                 <?php echo CHtml::link('Случайный вопрос', Yii::app()->createUrl('question/view', array('id'=>$randomQuestionId)), array('class'=>'button btn-block button-blue-gradient')); ?>

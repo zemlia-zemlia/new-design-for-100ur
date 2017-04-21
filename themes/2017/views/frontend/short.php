@@ -312,7 +312,8 @@
 				<ul>
 					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/offer/')?CHtml::link('Пользовательское соглашение', Yii::app()->createUrl('/site/offer/')):'<span class="active"><p>Пользовательское соглашение</p></span>';?></li>
 					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/crm/')?CHtml::link('CRM Для юридических фирм', Yii::app()->createUrl('/site/crm/')):'<span class="active"><p>CRM Для юридических фирм</p></span>';?></li>
-					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/')?CHtml::link('Лиды и клиенты на услуги', Yii::app()->createUrl('/site/lead/')):'<span class="active"><p>Лиды и клиенты на услуги</p></span>';?></li>
+					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/')?CHtml::link('Лиды', Yii::app()->createUrl('/site/lead/')):'<span class="active"><p>Лиды</p></span>';?></li>
+					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/klienti_dlya_yuristov/')?CHtml::link('Клиенты юристам', Yii::app()->createUrl('/site/klienti_dlya_yuristov/')):'<span class="active"><p>Клиенты юристам</p></span>';?></li>
 					<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/about/')?CHtml::link('О проекте', Yii::app()->createUrl('/site/about/')):'<span class="active"><p>О проекте</p></span>';?></li>
 					<li><?php echo ($_SERVER['REQUEST_URI'] != '/company/')?CHtml::link('Каталог компаний России', Yii::app()->createUrl('/company/')):'<span class="active"><p>Каталог компаний</p></span>';?></li>
 				</ul>

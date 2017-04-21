@@ -78,7 +78,7 @@ if($model->description) {
     <?php $this->widget('zii.widgets.CListView', array(
             'dataProvider'  =>  $answersDataProvider,
             'itemView'      =>  'application.views.answer._view',
-            'emptyText'     =>  '<p class="text-muted inside">Юристы пока не дали ответ...</p>',
+            'emptyText'     =>  '<p class="text-muted inside">Ответов на этот вопрос пока нет...</p>',
             'summaryText'   =>  '',
             'pager'         =>  array('class'=>'GTLinkPager'), //we use own pager with russian words
             'viewData'      =>  array(
@@ -148,10 +148,9 @@ if($model->description) {
 			</tr>
 		</table>
 			
-			
-			<div class="alert alert-warning gray-panel">
-                <h4>Вы экономите</h4>
+			<h3 class="header-block-light-grey"><strong> Вы экономите </strong></h3>
 
+			<div class="alert alert-warning gray-panel">
                 <div class="row center-align vert-margin30">
                     <div class="col-sm-4">
                         <h2><span class="glyphicon glyphicon-road"></span></h2>
@@ -188,11 +187,11 @@ if($model->description) {
 </div> <!-- Question --> 
 
 <?php if(Yii::app()->user->role == User::ROLE_JURIST && !in_array(Yii::app()->user->id, $answersAuthors)):?>
-<div class="panel gray-panel">
-    <div class='panel-body'>
+
+    <div class='flat-panel inside'>
         
         <?php if(Yii::app()->user->isVerified):?>
-            <h2>Ваш ответ</h2>
+            <h2>Ваш ответ:</h2>
             <?php $this->renderPartial('application.views.answer._form', array('model'=>$answerModel));?>
         <?php else:?>
             <div class="alert alert-warning">
@@ -204,13 +203,13 @@ if($model->description) {
             </div>
         <?php endif;?>
     </div>
-</div>
+
 <?php endif;?>
 
 
 <?php if(!(Yii::app()->user->role == User::ROLE_JURIST || ($model->authorId == Yii::app()->user->id))):?>
 
-	<div class="form-container">		
+	<div class="flat-panel inside">		
             <div class="center-align">
             <?php
                 // выводим виджет с номером 8800
@@ -218,7 +217,7 @@ if($model->description) {
                 ));
             ?>		
             </div>
-            <div class="form-container-content">
+            <div class="form-container-content form-container ">
                 <h3 class="center-align header-block header-block-light-grey">Задать вопрос on-line<br/>доступно для ВСЕХ регионов РФ</h3>
                                 
                 <?php echo $this->renderPartial('application.views.question._formBrief', array(
@@ -263,11 +262,10 @@ if($model->description) {
 </div>
 <?php endif;?>
 
-
-<div class="panel gray-panel">
-    <div class='panel-body'>
-       <h4>На ваши вопросы отвечают:</h4> 
-    
+<br/>
+<h3 class="header-block-light-grey"><strong> На ваши вопросы отвечают: </strong></h3>
+    <div class='flat-panel inside'>
+		
         <div class="row">
             
             <?php
@@ -279,4 +277,4 @@ if($model->description) {
             
         </div>
     </div>
-</div>        
+
