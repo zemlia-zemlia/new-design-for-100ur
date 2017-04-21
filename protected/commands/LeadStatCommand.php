@@ -10,7 +10,7 @@ class LeadStatCommand extends CConsoleCommand
     // рассылка статистики продаж лидов за последние N дней
     public function actionIndex()
     {
-        
+        foreach($this->emails as $email) {
             $mailer = new GTMail;
             
             $leadsRows = Yii::app()->db->createCommand()
@@ -37,12 +37,10 @@ class LeadStatCommand extends CConsoleCommand
             
             $mailer->message .= "</table>";
                             
-            
-            foreach($this->emails as $email) {
-                $mailer->email = $email;
+            $mailer->email = $email;
 
-                $mailer->sendMail(true);
-            }
+            $mailer->sendMail(true);
+        }
         
         
     }
