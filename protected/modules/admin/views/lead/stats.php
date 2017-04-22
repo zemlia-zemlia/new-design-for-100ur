@@ -66,8 +66,10 @@
                 }
             ?>
         </th>
-        <th>Количество</th>
+        <th>Лиды</th>
         <th>Выручка</th>
+		<th>VIP вопросы</th>
+		<th>Заказ док-в</th>
 		<th>Расход на лиды</th>
 		<th>Расход на контекст</th>
 		<th>Прибыль</th>
@@ -95,6 +97,8 @@
         </td>
         <td><?php echo $kolichArray[$date];?></td>
         <td><?php echo $summa;?></td>
+		<td></td>
+		<td></td>
         <td><?php echo $buySumArray[$date];?></td>
         <td><?php echo (int)$expencesArray[$date];?></td>
         <td>
@@ -110,6 +114,8 @@
         <th>Всего</th>
         <th><?php echo $kolichTotal;?></th>
         <th><?php echo $sumTotal;?> руб.</th>
+		<th></th>
+		<td></td>
         <th><?php echo $buySumTotal;?> руб.</th>
         <th></th>
         <th><?php echo $profitTotal;?></th>
