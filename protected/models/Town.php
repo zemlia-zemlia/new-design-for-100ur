@@ -243,7 +243,7 @@ class Town extends CActiveRecord
      * @param float $radius Радиус поиска (км)
      * @return array массив объектов Town
      */
-    public function getCloseTowns($radius = 100)
+    public function getCloseTowns($radius = 100, $limit = 10)
     {
 
         if(!$this->lat || !$this->lng) {
@@ -255,8 +255,8 @@ class Town extends CActiveRecord
             POW(110.6* (lat - " . $this->lat. "), 2) +
             POW(110.6 * (" . $this->lng. " - lng) * COS(lat / 57.3), 2)) AS distance";
         $criteria->having = "distance < " . $radius;
-        $criteria->order = "name ASC";
-        $criteria->limit = 10;
+        $criteria->order = "isCapital DESC, name ASC";
+        $criteria->limit = $limit;
 
         $towns = Town::model()->findAll($criteria);
 

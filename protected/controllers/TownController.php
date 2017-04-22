@@ -54,11 +54,11 @@ class TownController extends Controller
             }
             // если обратились по id города, делаем редирект на ЧПУ
             $this->redirect(array('town/alias','name'=>$town->alias), true, 301);
-            
+                      
             $criteria = new CDbCriteria;
             $criteria->order = 't.id desc';
-            $criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
-            $criteria->addColumnCondition(array('t.townId' =>  (int)$id));
+            //$criteria->addColumnCondition(array('t.status IN (' . Question::STATUS_PUBLISHED . ', ' . Question::STATUS_CHECK . ')'));
+            //$criteria->addCondition('t.townId IN (' . implode(',', $closeTownsIds) . ')');
             $criteria->with = array('categories', 'town', 'answersCount');
                 
             $dataProvider = new CActiveDataProvider('Question', array(
@@ -96,23 +96,44 @@ class TownController extends Controller
                     ), 301);
             }
             
-            $questions = Yii::app()->db->cache(600)->createCommand()
-                    ->select('q.id id, q.publishDate date, q.title title, COUNT(*) counter')
+            // найдем Id соседних городов
+            $closeTowns = $model->getCloseTowns(100, 20);
+            $closeTownsIds = array();
+            foreach($closeTowns as $t) {
+                $closeTownsIds[] = $t->id;
+            }
+            
+            //CustomFuncs::printr(implode(", ", $closeTownsIds));
+            
+            $questions = Yii::app()->db->cache(300)->createCommand()
+                    ->select('q.id id, q.publishDate date, q.title title, q.townId, COUNT(*) counter')
                     ->from('{{question}} q')
                     ->leftJoin('{{answer}} a', 'q.id=a.questionId')
                     ->group('q.id')
-                    ->where('(q.status=:status1 OR q.status=:status2) AND a.id IS NOT NULL AND q.townId=:townId', array(':status1'=>  Question::STATUS_PUBLISHED, ':status2'=>  Question::STATUS_CHECK, ':townId'=>$model->id))
-                    ->limit(30)
+                    ->where('(q.status=:status1 OR q.status=:status2) AND q.townId=:townId ', array(':status1'=>  Question::STATUS_PUBLISHED, ':status2'=>  Question::STATUS_CHECK, ':townId' => $model->id))
+                    ->limit(15)
                     ->order('q.publishDate DESC')
                     ->queryAll();
             
+            $questionsCloseTowns = Yii::app()->db->cache(300)->createCommand()
+                    ->select('q.id id, q.publishDate date, q.title title, q.townId, COUNT(*) counter')
+                    ->from('{{question}} q')
+                    ->leftJoin('{{answer}} a', 'q.id=a.questionId')
+                    ->group('q.id')
+                    ->where('(q.status=:status1 OR q.status=:status2) AND q.townId IN(' . implode(", ", $closeTownsIds) . ')', array(':status1'=>  Question::STATUS_PUBLISHED, ':status2'=>  Question::STATUS_CHECK))
+                    ->limit(15)
+                    ->order('q.publishDate DESC')
+                    ->queryAll();
+            
+            $questions = $questions + $questionsCloseTowns;
+            //CustomFuncs::printr($questions);exit;
 			
             $questionModel = new Question();
             
             $regionId = $model->regionId;
             
             // массив соседних городов
-            $closeTowns = $model->getCloseTowns();
+            //$closeTowns = $model->getCloseTowns();
             
             // категории вопросов - направления
             $allDirections = QuestionCategory::getDirections(true);

@@ -214,6 +214,7 @@ if($model->description) {
             <?php
                 // выводим виджет с номером 8800
                 $this->widget('application.widgets.Hotline.HotlineWidget', array(
+                    'showAlways'    =>  true,
                 ));
             ?>		
             </div>

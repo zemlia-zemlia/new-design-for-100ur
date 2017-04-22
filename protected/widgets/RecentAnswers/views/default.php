@@ -28,12 +28,15 @@ if(empty($answers) || sizeof($answers)==0) {
     <div class="col-md-8">
         <div class="answer-item-info">
             <?php if($answer['answerTime']):?>
-            <img src="/pics/2017/icon_calendar_green.png" alt="Дата" /> <?php echo CustomFuncs::niceDate($answer['answerTime'], false);?>
+            <span class="glyphicon glyphicon-calendar"></span> <?php echo CustomFuncs::niceDate($answer['answerTime'], false);?>
             <br />
             <?php endif;?>
             <?php if($answer['authorId']):?>
-                <img src="/pics/2017/icon_yurist_green.png" alt="Юрист" />
+                <span class="glyphicon glyphicon-user"></span>
                 <?php echo $answer['authorLastName'] . ' ' . mb_substr($answer['authorName'], 0, 1, 'utf-8') . '.' . mb_substr($answer['authorName2'], 0, 1, 'utf-8') . '.';?> 
+                <?php if(floor((time() - strtotime($answer['lastActivity']))/60)<30):?>
+                <div><span class="glyphicon glyphicon-flash"></span> <span class="text-success">Сейчас на сайте</span></div>
+                <?php endif;?>
             <?php endif;?>
         </div>
     </div>

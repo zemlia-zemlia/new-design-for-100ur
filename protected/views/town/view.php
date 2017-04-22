@@ -22,6 +22,10 @@ Yii::app()->createUrl('town/alias', array(
 
 $this->breadcrumbs=array(
 	'Регионы'   =>  array('/region'),
+        CHtml::encode($model->country->name) =>  array(
+                        'region/country', 
+                        'countryAlias'  => $model->country->alias,
+                    ),
 	CHtml::encode($model->region->name) =>  array(
                         'region/view', 
                         'regionAlias'   => $model->region->alias,
@@ -32,7 +36,7 @@ $this->breadcrumbs=array(
 
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('Юристы и Адвокаты',"/"),
+        'homeLink'=>CHtml::link('100 Юристов',"/"),
         'separator'=>' / ',
         'links'=>$this->breadcrumbs,
      ));
@@ -48,27 +52,7 @@ $this->breadcrumbs=array(
     </div>
 <?php endif;?>
 
-	<div class="form-container">		
-            <h2 class="header-block header-block-green"> <strong class="glyphicon glyphicon-earphone"></strong> Горячая линия юридических консультаций</h2>
-            <br/>
-            <p style="text-align: center;">
-                    <span style="font-size: 25pt; color: #39b778;"><strong>8-800-500-61-85</strong></span><br/>
-            </p>
-            <p class="text-muted" style="text-align: center">
-                    <small>
-                    Москва
-                    Санкт-Петербург 
-                    Екатеринбург
-                    Нижний Новгород
-                    Волгоград
-                    Красноярск<br/>
-                    <b>Звонки принимаются с 10:00 до 19:00 (МСК), <a href="/question/create/">письменные обращения</a> КРУГЛОСУТОЧНО</b>
-                    </small>
-            </p>
-	</div>
-
-
-<div class='flat-panel'>
+<div class='flat-panel vert-margin20'>
     <div class='inside'>
         
 <?php foreach($questions as $question):?>
@@ -100,6 +84,24 @@ $this->breadcrumbs=array(
     </div>
 </div>
 
+<div class="flat-panel inside">		
+    <div class="center-align">
+    <?php
+        // выводим виджет с номером 8800
+        $this->widget('application.widgets.Hotline.HotlineWidget', array(
+            'showAlways'    =>  true,
+        ));
+    ?>		
+    </div>
+    <div class="form-container-content form-container ">
+        <h3 class="center-align header-block header-block-light-grey">Задать вопрос on-line<br/>доступно для ВСЕХ регионов РФ</h3>
+
+        <?php echo $this->renderPartial('application.views.question._formBrief', array(
+            'newQuestionModel'  =>  $questionModel,
+        ));?>
+
+    </div>
+</div>
 
 <?php if(sizeof($model->companies)):?>
 

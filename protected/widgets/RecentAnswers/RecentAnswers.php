@@ -15,7 +15,7 @@ class RecentAnswers extends CWidget
         
         // выберем ответы за последний месяц, с вопросами и авторами
         $answersRows = Yii::app()->db->cache($this->cacheTime)->createCommand()
-                ->select('q.title questionTitle, q.id questionId, q.price questionPrice, q.payed questionPayed, a.answerText, a.datetime answerTime, a.authorId, u.name authorName, u.name2 authorName2, u.lastName authorLastName')
+                ->select('q.title questionTitle, q.id questionId, q.price questionPrice, q.payed questionPayed, a.answerText, a.datetime answerTime, a.authorId, u.name authorName, u.name2 authorName2, u.lastName authorLastName, u.lastActivity')
                 ->from('{{answer}} a')
                 ->leftJoin('{{user}} u', 'a.authorId = u.id')
                 ->leftJoin('{{question}} q', 'q.id = a.questionId')

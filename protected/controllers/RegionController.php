@@ -28,7 +28,7 @@ class RegionController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view', 'country'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -91,8 +91,27 @@ class RegionController extends Controller
                     'regions'   =>  $regionsArray,
 		));
 	}
+        
+        public function actionCountry($countryAlias)
+        {
+            $country = Country::model()->findByAttributes(array('alias' => $countryAlias));
+            
+            $regionsRows = Yii::app()->db->cache(0)->createCommand()
+                    ->select("r.id, r.name regionName, r.alias regionAlias, c.id countryId, c.name countryName, c.alias countryAlias")
+                    ->from("{{region}} r")
+                    ->leftJoin("{{country}} c", "c.id = r.countryId")
+                    ->where('c.alias = :alias', array(':alias' => $countryAlias))
+                    ->order("c.id asc, r.name")
+                    ->queryAll();
+            
+            
+            $this->render('country', array(
+                'regions'   =>  $regionsRows,
+                'country'   =>  $country,
+            ));
+        }
 
-	/**
+        /**
 	 * Manages all models.
 	 */
 	public function actionAdmin()

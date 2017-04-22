@@ -11,8 +11,11 @@
         <div class="row">
             <div class="col-sm-2">
                 <div class="answer-item-avatar">
-                <img src="<?php echo $data->author->getAvatarUrl();?>" alt="<?php echo CHtml::encode($data->author->name . ' ' . $data->author->lastName);?>" class="img-responsive img-bordered" />
+                    <img src="<?php echo $data->author->getAvatarUrl();?>" alt="<?php echo CHtml::encode($data->author->name . ' ' . $data->author->lastName);?>" class="img-responsive img-bordered" />
                 </div>
+                <?php if(floor((time() - strtotime($data->author->lastActivity))/60)<30):?>
+                    <div class="center-align"><small><span class="label label-success">онлайн</span></small></div>
+                <?php endif;?>
                 <div class="answer-item-karma center-align">
                     <small>
                     <span class='glyphicon glyphicon-thumbs-up'></span> <?php echo $data->author->karma;?>

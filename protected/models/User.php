@@ -18,6 +18,7 @@
  * @property integer $isSubscribed
  * @property integer $karma
  * @property string $autologin
+ * @property string $lastActivity
  */
 class User extends CActiveRecord
 {
@@ -240,6 +241,7 @@ class User extends CActiveRecord
                     'avatarFile'    => 'Фотография',
                     'registerDate'  => 'Дата регистрации',
                     'karma'         => 'Карма',
+                    'lastActivity'  => 'Время последней активности',
             );
     }
 
