@@ -480,6 +480,10 @@ hr {
     margin:10px 0;
 }
 
+.answer-item-info span.glyphicon {
+    color:#51b68a;
+}
+
 .answer-item-panel {
     border-bottom: #aaa 1px solid;
     padding:10px 0;

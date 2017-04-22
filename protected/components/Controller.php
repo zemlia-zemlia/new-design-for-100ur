@@ -52,5 +52,10 @@ class Controller extends CController
                 }
                 
             }
+            
+            if(Yii::app()->user->role == User::ROLE_JURIST) {
+                Yii::app()->db->createCommand()
+                        ->update('{{user}}', array('lastActivity' => date('Y-m-d H:i:s')), 'id=:id', array(':id' =>Yii::app()->user->id));
+            }
         }
 }

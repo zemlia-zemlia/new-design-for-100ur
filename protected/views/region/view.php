@@ -9,13 +9,14 @@ $this->setPageTitle($pageTitle . Yii::app()->name);
 
 $this->breadcrumbs=array(
 	'Регионы'   =>  array('/region'),
+        CHtml::encode($model->country->name)   =>  array('/region/country', 'countryAlias' => $model->country->alias),
 	CHtml::encode($model->name),
 );
 ?>
 
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('Юристы и Адвокаты',"/"),
+        'homeLink'=>CHtml::link('100 Юристов',"/"),
         'separator'=>' / ',
         'links'=>$this->breadcrumbs,
      ));

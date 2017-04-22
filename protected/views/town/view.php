@@ -22,6 +22,10 @@ Yii::app()->createUrl('town/alias', array(
 
 $this->breadcrumbs=array(
 	'Регионы'   =>  array('/region'),
+        CHtml::encode($model->country->name) =>  array(
+                        'region/country', 
+                        'countryAlias'  => $model->country->alias,
+                    ),
 	CHtml::encode($model->region->name) =>  array(
                         'region/view', 
                         'regionAlias'   => $model->region->alias,
@@ -32,7 +36,7 @@ $this->breadcrumbs=array(
 
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('Юристы и Адвокаты',"/"),
+        'homeLink'=>CHtml::link('100 Юристов',"/"),
         'separator'=>' / ',
         'links'=>$this->breadcrumbs,
      ));
@@ -48,10 +52,14 @@ $this->breadcrumbs=array(
     </div>
 <?php endif;?>
 
+<<<<<<< HEAD
 
 
 
 <div class='flat-panel'>
+=======
+<div class='flat-panel vert-margin20'>
+>>>>>>> e4a0aa4f0325365fd480a0e78f9128170e330347
     <div class='inside'>
         
 <?php foreach($questions as $question):?>
@@ -83,6 +91,24 @@ $this->breadcrumbs=array(
     </div>
 </div>
 
+<div class="flat-panel inside">		
+    <div class="center-align">
+    <?php
+        // выводим виджет с номером 8800
+        $this->widget('application.widgets.Hotline.HotlineWidget', array(
+            'showAlways'    =>  true,
+        ));
+    ?>		
+    </div>
+    <div class="form-container-content form-container ">
+        <h3 class="center-align header-block header-block-light-grey">Задать вопрос on-line<br/>доступно для ВСЕХ регионов РФ</h3>
+
+        <?php echo $this->renderPartial('application.views.question._formBrief', array(
+            'newQuestionModel'  =>  $questionModel,
+        ));?>
+
+    </div>
+</div>
 
 <?php if(sizeof($model->companies)):?>
 
