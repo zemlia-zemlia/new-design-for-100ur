@@ -32,3 +32,16 @@ function onCategorySet(data, requestStatus, xhr)
         $("tr#question-" + questionId).text('Ошибка: не удалось изменить категорию вопроса');
     }
 }
+
+function onSpamSingleQuestion(data, requestStatus, xhr)
+{
+    var jsonData = JSON.parse(data);
+    var status = jsonData.status;
+    if(status == 1){
+        var questionId = jsonData.id;
+        document.cookie = "'lastModeratedQuestionId'=" + questionId;
+        location.href = '/admin/question/setTitle';
+    } else {
+        alert('Ошибка: не удалось изменить статус вопроса');
+    }
+}

@@ -36,6 +36,10 @@ if($model->description) {
                 <?php endif;?>
             
                 <small>
+                <?php if($model->publishDate):?>
+                    <span class="glyphicon glyphicon-calendar"></span>&nbsp;<time itemprop="dateCreated" datetime="<?php echo $model->publishDate;?>"><?php echo CustomFuncs::niceDate($model->publishDate, false); ?></time> &nbsp;&nbsp;
+                <?php endif;?>
+                    
                 <?php if($model->authorName):?>
                     <span class="glyphicon glyphicon-user"></span>&nbsp;<span itemprop="name"><?php echo CHtml::encode($model->authorName); ?></span> &nbsp;&nbsp;
                 <?php endif;?>

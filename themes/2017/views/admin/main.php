@@ -169,7 +169,7 @@
                                     </li>
                                     
                                     <li>
-                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-chevron-right'></span> " . 'Одобренные мной', Yii::app()->createUrl('/admin/question/byPublisher',array('id'=>Yii::app()->user->id)));?>
+                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-chevron-right'></span> " . 'Редактирование', Yii::app()->createUrl('/admin/question/setTitle'));?>
                                     </li>
                                     
                                 </ul>    

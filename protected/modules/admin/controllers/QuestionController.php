@@ -27,10 +27,10 @@ class QuestionController extends Controller
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions'=>array('index','view', 'getRandom', 'nocat', 'vip'),
                 'users'=>array('@'),
-                'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_JURIST . ') || Yii::app()->user->checkAccess(' . User::ROLE_OPERATOR . ') || Yii::app()->user->checkAccess(' . User::ROLE_SECRETARY . ')',
+                'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_JURIST . ') || Yii::app()->user->checkAccess(' . User::ROLE_SECRETARY . ')',
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions'=>array('update','view','index', 'byPublisher', 'toSpam', 'setCategory'),
+                'actions'=>array('update','view','index', 'byPublisher', 'toSpam', 'setCategory', 'setTitle'),
                 'users'=>array('@'),
                 'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
             ),
@@ -514,28 +514,41 @@ class QuestionController extends Controller
             
         }
         
-        public function actionSetTitles()
+        /**
+         * Быстрое редактирование вопроса - заголовок и текст
+         */
+        public function actionSetTitle()
         {
-            $criteria = new CDbCriteria();
-            //$criteria->limit = 10;
-            $criteria->order = "id";
-            $criteria->addColumnCondition(array('title'=>''));
-
-            $questions = Question::model()->findAll($criteria);
-            echo sizeof($questions) . " found<br />";
-            foreach($questions as $question) {
-                echo $question->id . "<br />";
-                echo $question->questionText . "<br />";
-                $question->formTitle();
-                echo $question->title . "<br />";
-                if($question->save()) {
-                    echo " saved<br />";
-                } else {
-                    echo " NOT saved<br />";
-                    print_r($question->errors);
+            
+            if(isset($_POST['Question'])) {
+                // если была отправлена форма, сохраним вопрос
+                $id = $_POST['Question']['id'];
+                $question = Question::model()->findByPk($id);
+                $question->attributes = $_POST['Question'];
+                $question->isModerated = 1;
+                $question->status = Question::STATUS_PUBLISHED;
+                
+                if($question->save()){
+                    setcookie('lastModeratedQuestionId', $question->id);
+                    //Yii::app()->user->setState('lastModeratedQuestionId', $question->id);
+                    $this->redirect(array('question/setTitle'));
                 }
-                /*$question = null;
-                unset($question);*/
+            } else if(isset($_GET['id'])){
+                $id = (int)$_GET['id'];
+                $question = Question::model()->findByPk($id);
+            } else {
+                // если формы не было, найдем немодерированный вопрос в базе и выведем форму
+                $criteria = new CDbCriteria();
+                $criteria->order = "id DESC";
+                $criteria->limit = 1;
+                $criteria->addColumnCondition(array('isModerated'=>0));
+                $criteria->addCondition('status IN (' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')');
+
+                $question = Question::model()->find($criteria);
             }
+            
+            $this->render('setTitle', array(
+                'model' =>  $question,
+            ));
         }
 }

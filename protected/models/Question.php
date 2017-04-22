@@ -20,6 +20,7 @@
  * @property integer $price
  * @property integer $payed
  * @property string $sessionId
+ * @property integer $isModerated
  */
 class Question extends CActiveRecord
 {
@@ -122,6 +123,7 @@ class Question extends CActiveRecord
                 'authorId'      =>  'ID автора',
                 'price'         =>  'Цена',
                 'payed'         =>  'Оплачен',
+                'isModerated'   =>  'Отредактирован (модерирован)',
             );
 	}
         

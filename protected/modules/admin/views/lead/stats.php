@@ -45,11 +45,13 @@
     $kolichTotal = 0;
     $buySumTotal = 0;
     $profitTotal = 0;
+    $vipTotal = 0;
+    $expencesTotal = 0;
 ?>
 
 <?php if(sizeof($sumArray)):?>
 <!-- <div id="chart_kolich" style="width:100%; height:300px;"></div> -->
-<div id="chart_summa" style="width:100%; height:300px;"></div>
+<div id="chart_summa" style="width:100%; height:400px;"></div>
 <?php endif;?>
 
 <table class="table table-bordered">
@@ -79,7 +81,9 @@
         $sumTotal += $summa;
         $buySumTotal += $buySumArray[$date];
         $kolichTotal += $kolichArray[$date];
-        $profit = $summa - $buySumArray[$date] - $expencesArray[$date];
+        $vipTotal += $vipStats[$date];
+        $expencesTotal += $expencesArray[$date];
+        $profit = $summa + $vipStats[$date] - $buySumArray[$date] - $expencesArray[$date];
         $profitTotal += $profit;
     ?>
     <tr>
@@ -95,15 +99,15 @@
                 }
             ?>
         </td>
-        <td><?php echo $kolichArray[$date];?></td>
-        <td><?php echo $summa;?></td>
-		<td></td>
-		<td></td>
-        <td><?php echo $buySumArray[$date];?></td>
-        <td><?php echo (int)$expencesArray[$date];?></td>
-        <td>
+        <td class="text-right"><?php echo $kolichArray[$date];?></td>
+        <td class="text-right"><?php echo (int)$summa;?></td>
+        <td class="text-right"><?php echo (int)$vipStats[$date];?></td>
+        <td class="text-right"></td>
+        <td class="text-right"><?php echo (int)$buySumArray[$date];?></td>
+        <td class="text-right"><?php echo (int)$expencesArray[$date];?></td>
+        <td class="text-right">
             <?php
-                echo $profit;
+                echo (int)$profit;
             ?>
         </td>
     </tr>
@@ -112,13 +116,13 @@
     <?php if($kolichTotal):?>
     <tr>
         <th>Всего</th>
-        <th><?php echo $kolichTotal;?></th>
-        <th><?php echo $sumTotal;?> руб.</th>
-		<th></th>
+        <th class="text-right"><?php echo $kolichTotal;?></th>
+        <th class="text-right"><?php echo (int)$sumTotal;?> руб.</th>
+        <th class="text-right"><?php echo (int)$vipTotal;?> руб.</th>
 		<td></td>
-        <th><?php echo $buySumTotal;?> руб.</th>
-        <th></th>
-        <th><?php echo $profitTotal;?></th>
+        <th class="text-right"><?php echo (int)$buySumTotal;?> руб.</th>
+        <th class="text-right"><?php echo (int)$expencesTotal;?> руб.</th>
+        <th class="text-right"><?php echo (int)$profitTotal;?></th>
     </tr>
     <?php endif;?>
 	
@@ -159,7 +163,16 @@ $(function () {
                     <?php echo $summa.','; ?>                
                 <?php  endforeach;?>      
             ]
-        }]
+        },
+        {
+            name: 'Прибыль',
+            data: [
+                <?php    foreach ($sumArray as $date=>$summa):?>
+                    <?php echo $summa + $vipStats[$date] - $buySumArray[$date] - $expencesArray[$date].','; ?>                
+                <?php  endforeach;?>      
+            ]
+        }
+        ]
     });
     
     $('#chart_kolich').highcharts({

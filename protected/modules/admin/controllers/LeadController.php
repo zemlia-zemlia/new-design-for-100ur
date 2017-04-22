@@ -431,6 +431,25 @@ class LeadController extends Controller
         //CustomFuncs::printr($expencesArray);
         //CustomFuncs::printr($kolichArray);
 
+        // статистика по VIP вопросам
+        $vipRows = Yii::app()->db->createCommand()
+                ->select('SUM(value) sum, DATE(datetime) date')
+                ->from('{{money}}')
+                ->where('type=:type AND direction=:direction AND MONTH(datetime) = :month AND YEAR(datetime) = :year', 
+                        array(
+                            ':type' => Money::TYPE_INCOME, 
+                            ':direction' => 504, 
+                            ':month' => $month, 
+                            ':year' => $year,
+                            ))
+                ->group('date')
+                ->queryAll();
+        
+        $vipStats = array();
+        foreach($vipRows as $row) {
+            $vipStats[$row['date']] = $row['sum'];
+        }
+                
         $this->render('stats', array(
             'type'          =>  $type,
             'yearsArray'    =>  $yearsArray,
@@ -440,6 +459,7 @@ class LeadController extends Controller
             'kolichArray'   =>  $kolichArray,
             'buySumArray'   =>  $buySumArray,
             'expencesArray' =>  $expencesArray,
+            'vipStats'      =>  $vipStats,
         ));
     }
 
