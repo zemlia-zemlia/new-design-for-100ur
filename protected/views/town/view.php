@@ -52,14 +52,8 @@ $this->breadcrumbs=array(
     </div>
 <?php endif;?>
 
-<<<<<<< HEAD
 
-
-
-<div class='flat-panel'>
-=======
 <div class='flat-panel vert-margin20'>
->>>>>>> e4a0aa4f0325365fd480a0e78f9128170e330347
     <div class='inside'>
         
 <?php foreach($questions as $question):?>
