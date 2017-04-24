@@ -558,9 +558,17 @@ class QuestionController extends Controller
                         ->queryRow();
             $questionsCount = $questionsCountRow['counter'];
             
+            $questionsModeratedByMe = Yii::app()->db->createCommand()
+                        ->select('COUNT(*) counter')
+                        ->from("{{question}}")
+                        ->where("isModerated=1 AND status IN (:status1, :status2) AND moderatedBy=:userId", array(':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED, ':userId' => Yii::app()->user->id))
+                        ->queryRow();
+            $questionsModeratedByMeCount = $questionsModeratedByMe['counter'];
+            
             $this->render('setTitle', array(
-                'model' =>  $question,
+                'model'             =>  $question,
                 'questionsCount'    =>  $questionsCount,
+                'questionsModeratedByMeCount'   =>  $questionsModeratedByMeCount,
             ));
         }
 }
