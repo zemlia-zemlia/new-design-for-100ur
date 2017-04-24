@@ -326,6 +326,9 @@ class Question extends CActiveRecord
                 // особый статус "предварительно сохранен"
                 $this->status = self::STATUS_PRESAVE;
                 
+                if(Yii::app()->user->getState('currentTownId')) {
+                    $this->townId = Yii::app()->user->getState('currentTownId');
+                }
                
                 
                 if(!$this->save()) {
