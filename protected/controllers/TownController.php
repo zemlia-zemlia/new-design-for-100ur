@@ -115,15 +115,19 @@ class TownController extends Controller
                     ->order('q.publishDate DESC')
                     ->queryAll();
             
-            $questionsCloseTowns = Yii::app()->db->cache(300)->createCommand()
-                    ->select('q.id id, q.publishDate date, q.title title, q.townId, COUNT(*) counter')
-                    ->from('{{question}} q')
-                    ->leftJoin('{{answer}} a', 'q.id=a.questionId')
-                    ->group('q.id')
-                    ->where('(q.status=:status1 OR q.status=:status2) AND q.townId IN(' . implode(", ", $closeTownsIds) . ')', array(':status1'=>  Question::STATUS_PUBLISHED, ':status2'=>  Question::STATUS_CHECK))
-                    ->limit(15)
-                    ->order('q.publishDate DESC')
-                    ->queryAll();
+            // если в радиусе 100 километров есть города, добавим к выборке вопросов вопросы из соседних городов
+            $questionsCloseTowns = array();
+            if(sizeof($closeTownsIds)) {
+                $questionsCloseTowns = Yii::app()->db->cache(300)->createCommand()
+                        ->select('q.id id, q.publishDate date, q.title title, q.townId, COUNT(*) counter')
+                        ->from('{{question}} q')
+                        ->leftJoin('{{answer}} a', 'q.id=a.questionId')
+                        ->group('q.id')
+                        ->where('(q.status=:status1 OR q.status=:status2) AND q.townId IN(' . implode(", ", $closeTownsIds) . ')', array(':status1'=>  Question::STATUS_PUBLISHED, ':status2'=>  Question::STATUS_CHECK))
+                        ->limit(15)
+                        ->order('q.publishDate DESC')
+                        ->queryAll();
+            }
             
             $questions = $questions + $questionsCloseTowns;
             //CustomFuncs::printr($questions);exit;
