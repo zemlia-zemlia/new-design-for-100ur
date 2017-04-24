@@ -526,6 +526,8 @@ class QuestionController extends Controller
                 $question = Question::model()->findByPk($id);
                 $question->attributes = $_POST['Question'];
                 $question->isModerated = 1;
+                $question->moderatedBy = Yii::app()->user->id;
+                $question->moderatedTime = date('Y-m-d H:i:s');
                 $question->status = Question::STATUS_PUBLISHED;
                 
                 if($question->save()){

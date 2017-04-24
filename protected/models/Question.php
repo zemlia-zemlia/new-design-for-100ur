@@ -21,6 +21,8 @@
  * @property integer $payed
  * @property string $sessionId
  * @property integer $isModerated
+ * @property integer $moderatedBy
+ * @property integer $moderatedTime
  */
 class Question extends CActiveRecord
 {
