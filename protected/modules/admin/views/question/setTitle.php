@@ -12,3 +12,19 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/question.js');
 <?php echo $this->renderPartial('_formModerate', array(
         'model'         =>  $model,
     )); ?>
+
+
+<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+<table class="table">
+    <tr>
+        <th>Модератор</th>
+        <th>Вопросов</th>
+    </tr>
+    <?php foreach($moderatorsStats as $moderator):?>
+    <tr>
+        <td><?php echo $moderator['name'] . ' ' . $moderator['lastName'];?></td>
+        <td><?php echo $moderator['counter'];?></td>
+    </tr>
+    <?php endforeach;?>
+</table>
+<?php endif; ?>

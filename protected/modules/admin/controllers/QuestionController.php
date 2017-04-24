@@ -565,10 +565,26 @@ class QuestionController extends Controller
                         ->queryRow();
             $questionsModeratedByMeCount = $questionsModeratedByMe['counter'];
             
+            /*
+             * вытащим статистику по пользователям, которые модерируют вопросы
+             * SELECT u.name, u.lastName, COUNT(*) counter FROM `100_question` q LEFT JOIN `100_user` u ON u.id=q.moderatedBy WHERE q.moderatedBy!=0 GROUP BY u.id
+             */
+            
+            $moderatorsStats = Yii::app()->db->createCommand()
+                    ->select("u.name, u.lastName, COUNT(*) counter")
+                    ->from("{{question}} q")
+                    ->leftJoin("{{user}} u", "u.id=q.moderatedBy")
+                    ->where("q.moderatedBy!=0")
+                    ->group("u.id")
+                    ->order('counter DESC')
+                    ->queryAll();
+                    
+            
             $this->render('setTitle', array(
                 'model'             =>  $question,
                 'questionsCount'    =>  $questionsCount,
                 'questionsModeratedByMeCount'   =>  $questionsModeratedByMeCount,
+                'moderatorsStats'       =>  $moderatorsStats,
             ));
         }
 }
