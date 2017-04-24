@@ -14,11 +14,12 @@
                     <div class="row question-list-item <?php if($question['payed'] == 1):?> vip-question<?endif;?>">
                         <div class="col-sm-9">
                             <p style="font-size:1.1em;">
-                                <?php if($question['payed'] == 1){
-                                    echo "<span class='label label-primary'><abbr title='Вопрос с гарантией получения ответов'>VIP</abbr></span>";
+                                <?php echo CHtml::link($question['title'], Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?>
+                                <?php 
+                                if($question['payed'] == 1){
+                                    echo "<span class='label label-primary'><abbr title='Вопрос с гарантией получения ответов'><span class='glyphicon glyphicon-ruble'></span></abbr></span>";
                                 }
                                 ?>
-                                <?php echo CHtml::link($question['title'], Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?>
                             </p>
                         </div>
 

@@ -15,7 +15,7 @@ if(empty($answers) || sizeof($answers)==0) {
 <p>
     <?php echo CHtml::link(CHtml::encode($answer['questionTitle']), Yii::app()->createUrl('question/view',array('id'=>$answer['questionId'])));?>
         <?php if($answer['questionPrice']!=0 && $answer['questionPayed'] == 1):?>
-            <span class="label label-primary">VIP</span>
+            <span class="label label-primary"><span class='glyphicon glyphicon-ruble'></span></span>
             <?php endif;?>
 </p>
 
