@@ -4,7 +4,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/question.js');
 
 ?>
 
-<h1>Редактирование вопроса <?php echo $model->id; ?></h1>
+<h1>Редактирование вопроса <?php echo $model->id; ?> (осталось <?php echo $questionsCount;?>)</h1>
 
 <?php echo $this->renderPartial('_formModerate', array(
         'model'         =>  $model,

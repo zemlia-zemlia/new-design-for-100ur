@@ -545,10 +545,20 @@ class QuestionController extends Controller
                 $criteria->addCondition('status IN (' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')');
 
                 $question = Question::model()->find($criteria);
+                
+                
             }
+            
+            $questionsCountRow = Yii::app()->db->createCommand()
+                        ->select('COUNT(*) counter')
+                        ->from("{{question}}")
+                        ->where("isModerated=0 AND status IN (:status1, :status2)", array(':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED))
+                        ->queryRow();
+            $questionsCount = $questionsCountRow['counter'];
             
             $this->render('setTitle', array(
                 'model' =>  $question,
+                'questionsCount'    =>  $questionsCount,
             ));
         }
 }
