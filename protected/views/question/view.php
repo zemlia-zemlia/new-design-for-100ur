@@ -32,7 +32,7 @@ if($model->description) {
         <div  itemprop="author" itemscope itemtype="http://schema.org/Person">
             <p>
                 <?php if($model->price!=0 && $model->payed == 1):?>
-                <span class="label label-primary"><span class='glyphicon glyphicon-ruble'></span></span>
+                <span class="label label-warning"><span class='glyphicon glyphicon-ruble'></span></span>
                 <?php endif;?>
             
                 <small>
