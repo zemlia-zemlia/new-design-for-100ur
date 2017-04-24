@@ -359,6 +359,7 @@ class Question extends CActiveRecord
                 // если есть, то запишем id этого пользователя в авторы вопроса
                 $this->authorId = $findUserResult['id'];
                 $this->status = self::STATUS_CHECK;
+                $this->publishDate = date('Y-m-d H:i:s');
                 return true;
             } 
 
