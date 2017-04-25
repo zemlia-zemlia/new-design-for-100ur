@@ -541,7 +541,7 @@ class QuestionController extends Controller
             } else {
                 // если формы не было, найдем немодерированный вопрос в базе и выведем форму
                 $criteria = new CDbCriteria();
-                $criteria->order = "id DESC";
+                $criteria->order = "RAND()";
                 $criteria->limit = 1;
                 $criteria->addColumnCondition(array('isModerated'=>0));
                 $criteria->addCondition('status IN (' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')');
