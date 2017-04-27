@@ -28,11 +28,13 @@ class TopYurists extends CWidget
             
             // найдем 6 произвольных пользователей с ролями Юрист, оператор, менеджер операторов
             $yurisIds = Yii::app()->db->createCommand()
-                    ->select('id')
-                    ->from('{{user}}')
+                    ->select('u.id, COUNT(*) counter')
+                    ->from('{{user}} u')
+                    ->leftJoin('{{answer}} a', 'a.authorId=u.id')
                     ->where('role = ' . User::ROLE_JURIST . ' AND active100=1')
+                    ->group("u.id")
                     ->limit($this->limit)
-                    ->order('RAND()')
+                    ->order('counter DESC')
                     ->queryAll();
 
             
