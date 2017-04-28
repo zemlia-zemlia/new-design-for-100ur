@@ -462,9 +462,10 @@ class QuestionController extends Controller
         public function actionRss()
         {
             $criteria = new CDbCriteria;
-            $criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED));
+            $criteria->addInCondition('t.status',array(Question::STATUS_PUBLISHED, Question::STATUS_CHECK));
             $criteria->order = "t.id DESC";
             $criteria->with = array('answersCount');
+            $criteria->limit = 200;
             $questions = Question::model()->cache(600)->findAll($criteria);
                         
             Yii::import('ext.feed.*');
