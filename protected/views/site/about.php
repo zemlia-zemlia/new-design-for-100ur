@@ -13,29 +13,58 @@
 <h2 align="center">Платные вопросы</h2>
 
 <p>Проект 100 Юристов предлагает онлайн консультации юристов на платной основе, ниже представлены описание тарифных планов и их стоимость.</p>   
-<table class="table center-align small table-bordered alert alert-info">
-	<tr>
-		<th class="center-align" style="width: 33%">Бронза</th>
-		<th class="center-align" style="width: 33%">Серебро</th>
-		<th class="center-align" style="width: 33%">Золото</th>
-	</tr>
-	<tr>
+<table class="table center-align table-bordered alert alert-warning">
+			<tr>
+				<th class="center-align" style="width: 33%">Бронза</th>
+				<th class="center-align" style="width: 33%">Серебро</th>
+				<th class="center-align" style="width: 33%">Золото</th>
+				<!--<th class="center-align" style="width: 33%">Vip1</th>-->
+				<!--<th class="center-align" style="width: 33%">Vip2</th>-->
+			</tr>
+			<tr>
 
-	</tr>
-	<tr  class="warning">
-		<td>1<br/><span class="mutted">гарантированный ответ</span></td>
-		<td>3<br/><span class="mutted">гарантированных ответа</span></td>
-		<td>5<br/><span class="mutted">гарантированных ответов</span></td>
-	</tr>
-	<tr>
-		<td>Один гарантированный ответ одного из проверенных юристов портала</td>
-		<td>Три гарантированных ответа юристов, позволят Вам понять, как решить проблему</td>
-		<td>Минимум пять гарантированных ответов юристов. Мнения нескольких юристов. Гарантия полного и подробного разбора ситуации.</td>
-	</tr>
-	<tr class="success">
-		<td>125 руб.</td>
-		<td>295 руб.</td>
-		<td>455 руб.</td>
-	</tr>
-</table>
+			</tr>
+			<tr>
+				<td><strong style="font-size: 20px;">1</strong><br/><span class="mutted">гарантированный ответ</span>
+					<br/><br/>
+						<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_1)), array('class'=>'btn btn-warning btn-block'));?>
+				</td>
+				<td><strong style="font-size: 20px;">2</strong><br/><span class="mutted">гарантированных ответа</span>
+					<br/><br/>
+						<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_2)), array('class'=>'btn btn-warning btn-block'));?>
+				</td>
+				<td><strong style="font-size: 20px;">3</strong><br/><span class="mutted">гарантированных ответа</span>
+					<br/><br/>
+						<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_3)), array('class'=>'btn btn-warning btn-block'));?>
+				</td>
+
+			</tr>
+			<tr>
+                            <td><?php echo Question::getPriceByLevel(Question::LEVEL_1);?> руб.</td>
+                            <td><?php echo Question::getPriceByLevel(Question::LEVEL_2);?> руб.</td>
+                            <td><?php echo Question::getPriceByLevel(Question::LEVEL_3);?> руб.</td>
+			</tr>
+        </table>
 			
+		<table class="table center-align table-bordered alert alert-warning">
+			<tr>
+				<th class="center-align" style="width: 33%">Vip</th>
+				<th class="center-align" style="width: 33%">Vip+</th>
+			</tr>
+			<tr>
+				<td><strong style="font-size: 20px;">4</strong><br/><span class="mutted">гарантированных ответа</span>
+				<br/><br/>
+					<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_4)), array('class'=>'btn btn-warning btn-block'));?>
+				</td>
+				<td><strong style="font-size: 20px;">5</strong><br/><span class="mutted">гарантированных ответов</span>
+				<br/><br/>
+					<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_5)), array('class'=>'btn btn-warning btn-block'));?>
+				</td>
+			</tr>
+			<tr>
+				<td><?php echo Question::getPriceByLevel(Question::LEVEL_4);?> руб.</td>
+				<td><?php echo Question::getPriceByLevel(Question::LEVEL_5);?> руб.</td>
+			</tr>
+		</table>
+			
+<p class="center-align">ООО "КЦ Практик" | ИНН/КПП: 7723376093/ 772301001 | ОГРН 1157746093350</p>  

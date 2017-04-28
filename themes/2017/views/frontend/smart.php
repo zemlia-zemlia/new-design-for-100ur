@@ -100,14 +100,16 @@
         <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav">
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/')?CHtml::link('Главная', '/'):'<span class="active">Главная</span>';?></li>
-            <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/konsultaciya_yurista_advokata/')?CHtml::link('Консультация', Yii::app()->createUrl('/site/konsultaciya_yurista_advokata')):'<span class="active">Консультация</span>';?></li>
+            <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/konsultaciya_yurista_advokata/')?CHtml::link('Вопрос юристу', Yii::app()->createUrl('/site/konsultaciya_yurista_advokata')):'<span class="active">Вопрос юристу</span>';?></li>
 			<li><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/')?CHtml::link('Юристы', Yii::app()->createUrl('/yurist/')):'<span class="active">Юристы</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/region/')?CHtml::link('Регионы', Yii::app()->createUrl('/region/')):'<span class="active">Регионы</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/')?CHtml::link('Филиалы', Yii::app()->createUrl('/site/contacts')):'<span class="active">Филиалы</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/blog/')?CHtml::link('Блог', Yii::app()->createUrl('/blog')):'<span class="active">Блог</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/q/')?CHtml::link('Вопросы', Yii::app()->createUrl('/question/index')):'<span class="active">Вопросы</span>';?></li>
-            <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/'))?CHtml::link('Задать вопрос', Yii::app()->createUrl('question/create',array('from'=>'top-menu'))):'<span class="active">Задать вопрос</span>';?></li>
 			<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/goryachaya_liniya/')?CHtml::link('8-800', Yii::app()->createUrl('/site/goryachaya_liniya/')):'<span class="active">8-800</span>';?></li>
+			<li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/'))?CHtml::link('Задать вопрос', Yii::app()->createUrl('question/create',array('from'=>'top-menu'))):'<span class="active">Задать вопрос</span>';?></li>
+			
+			
             <?php if(Yii::app()->user->checkAccess(User::ROLE_JURIST)):?>
             <li>    
                 <?php echo CHtml::ajaxLink("Кеш", Yii::app()->createUrl('site/clearCache'), array(

@@ -95,14 +95,16 @@
         <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav">
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/')?CHtml::link('Главная', '/'):'<span class="active">Главная</span>';?></li>
-            <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/konsultaciya_yurista_advokata/')?CHtml::link('Консультация', Yii::app()->createUrl('/site/konsultaciya_yurista_advokata')):'<span class="active">Консультация</span>';?></li>
+            <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/konsultaciya_yurista_advokata/')?CHtml::link('Вопрос юристу', Yii::app()->createUrl('/site/konsultaciya_yurista_advokata')):'<span class="active">Вопрос юристу</span>';?></li>
 			<li><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/')?CHtml::link('Юристы', Yii::app()->createUrl('/yurist/')):'<span class="active">Юристы</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/region/')?CHtml::link('Регионы', Yii::app()->createUrl('/region/')):'<span class="active">Регионы</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/')?CHtml::link('Филиалы', Yii::app()->createUrl('/site/contacts')):'<span class="active">Филиалы</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/blog/')?CHtml::link('Блог', Yii::app()->createUrl('/blog')):'<span class="active">Блог</span>';?></li>
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/q/')?CHtml::link('Вопросы', Yii::app()->createUrl('/question/index')):'<span class="active">Вопросы</span>';?></li>
-            <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/'))?CHtml::link('Задать вопрос', Yii::app()->createUrl('question/create',array('from'=>'top-menu'))):'<span class="active">Задать вопрос</span>';?></li>
 			<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/goryachaya_liniya/')?CHtml::link('8-800', Yii::app()->createUrl('/site/goryachaya_liniya/')):'<span class="active">8-800</span>';?></li>
+			<li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/'))?CHtml::link('Задать вопрос', Yii::app()->createUrl('question/create',array('from'=>'top-menu'))):'<span class="active">Задать вопрос</span>';?></li>
+			
+			
             <?php if(Yii::app()->user->checkAccess(User::ROLE_JURIST)):?>
             <li>    
                 <?php echo CHtml::ajaxLink("Кеш", Yii::app()->createUrl('site/clearCache'), array(
@@ -131,7 +133,7 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-3 cta-item" style="background-color: #39a6bd;">
                         <div class="cta-text">
-                        <h4 class="text-uppercase">Вопрос юристу</h4>
+                        <p style="font-size: 20px; margin: 10px;" class="text-uppercase">Вопрос юристу</p>
                         <p class="small">Задайте любой вопрос специалистам, и в течение 15 минут вы получите ответы наших юристов.</p>
                         </div>
                         <?php echo CHtml::link("<span class='yur-icon yur-icon-question'></span> Задать вопрос &nbsp;<img src='/pics/2017/arrow_list_blue.png' alt='100 Юристов и Адвокатов'/>", Yii::app()->createUrl('question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=vopros'), array('class'=>'button button-white-gradient btn-block')); ?>
@@ -139,7 +141,7 @@
                     
                     <div class="col-md-3 col-sm-3 cta-item" style="background-color: #1d979b;">
                         <div class="cta-text">
-                        <h4 class="text-uppercase">Звонок юриста</h4>
+                        <p style="font-size: 20px; margin: 10px;" class="text-uppercase">Звонок юриста</p>
                         <p class="small">Оставьте номер телефона, и наш юрист свяжется с вами, чтобы проконсультировать вас.</p>
                         </div>
                         <?php echo CHtml::link("<span class='yur-icon yur-icon-call'></span> Заказать звонок &nbsp;<img src='/pics/2017/arrow_list_blue.png' alt='100 Юристов - юридический портал' />", Yii::app()->createUrl('question/call'), array('class'=>'button button-white-gradient btn-block')); ?>
@@ -147,15 +149,15 @@
                         
                     <div class="col-md-3 col-sm-3 cta-item" style="background-color: #18668b;">
                         <div class="cta-text">
-                        <h4 class="text-uppercase">Документы</h4>
-                        <p class="small">Закажите документ, после чего наш юрист свяжется с вами, уточнит детали и подготовит его.</p>
+                        <p style="font-size: 20px; margin: 10px;" class="text-uppercase">Документы online</p>
+                        <p class="small">Закажите документ, и наши юристы его подготовят для вас.</p>
                         </div>
                         <?php echo CHtml::link("<span class='yur-icon yur-icon-doc'></span> Заказать документ &nbsp;<img src='/pics/2017/arrow_list_blue.png' alt='100 Юристов - юридический портал' />", Yii::app()->createUrl('question/docs'), array('class'=>'button button-white-gradient btn-block')); ?>
                     </div>
                     
                     <div class="col-md-3 col-sm-3 cta-item" style="background-color: #206cbb;">
                         <div class="cta-text">
-                        <h4 class="text-uppercase">Услуги</h4>
+                        <p style="font-size: 20px; margin: 10px;" class="text-uppercase">Услуги</p>
                         <p class="small">Заключить договор для сопровождения сделки, представления интересов в судах, организациях и т.д.</p>
                         </div>
                         <?php echo CHtml::link("<span class='yur-icon yur-icon-service'></span> Получить услуги &nbsp;<img src='/pics/2017/arrow_list_blue.png' alt='100 Юристов - юридический портал' />", Yii::app()->createUrl('question/services'), array('class'=>'button button-white-gradient btn-block')); ?>
@@ -324,12 +326,12 @@
 					<div itemscope itemtype="http://schema.org/Organization"> 
 						<span itemprop="name">100 Юристов</span>
 							<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-							<span itemprop="addressLocality">Москва</span> <span itemprop="streetAddress">Шлюзовая набережная д.6 стр.4</span><br/>
-							<span itemprop="addressLocality">Санкт-Петербург</span> <span itemprop="streetAddress">ул. Достоевского д.25</span><br/>
-							<span itemprop="addressLocality">Нижний Новгород</span> <span itemprop="streetAddress">ул. Новая, д. 28</span><br/>
-							<span itemprop="addressLocality">Екатеринбург</span> <span itemprop="streetAddress">ул. 8 Марта, д. 142</span><br/>
-							<span itemprop="addressLocality">Красноярск</span> <span itemprop="streetAddress">просп. Мира, 30, корп.1</span><br/>
-							<span itemprop="addressLocality">Волгоград</span> <span itemprop="streetAddress">Невская улица, 16А</span><br/>
+							<span itemprop="addressLocality">Москва</span> 			<span itemprop="streetAddress">Шлюзовая набережная д.6 стр.4</span><br/>
+							<span itemprop="addressLocality">Санкт-Петербург</span> <span itemprop="streetAddress">Ул. Достоевского д.25</span><br/>
+							<span itemprop="addressLocality">Нижний Новгород</span> <span itemprop="streetAddress">Ул. Новая, д. 28</span><br/>
+							<span itemprop="addressLocality">Екатеринбург</span>	<span itemprop="streetAddress">Ул. 8 Марта, д. 142</span><br/>
+							<span itemprop="addressLocality">Ростов-на-Дону</span> 	<span itemprop="streetAddress">Ул. Красноармейская, д. 142/50</span><br/>
+							<span itemprop="addressLocality">Краснодар</span> 		<span itemprop="streetAddress">Ул. Московская, 148</span><br/>
 							<span itemprop="telephone">8-800-500-61-85</span>
 							</div>
 					</div>

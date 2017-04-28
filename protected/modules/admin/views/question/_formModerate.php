@@ -15,13 +15,13 @@
 
         <div class="form-group">
             <?php echo $form->labelEx($model,'questionText'); ?>
-            <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>10)); ?>
+            <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>15)); ?>
             <?php echo $form->error($model,'questionText'); ?>
         </div>  
     </div>
     <div class="col-md-3">
         <div class="form-group">
-            <?php echo CHtml::submitButton('Сохранить', array('class'=>'btn btn-primary btn-block')); ?>
+            <?php echo CHtml::submitButton('Сохранить + следующий', array('class'=>'btn btn-primary btn-block')); ?>
         </div>
         <div class="form-group">
             <?php echo CHtml::ajaxLink('В спам', Yii::app()->createUrl('/admin/question/toSpam'), array('data'=>"id=".$model->id, 'type'=>'POST', 'success'=>'onSpamSingleQuestion', 'beforeSend' => "function( xhr ) {return confirm('Вы уверены?');}"), array('class'=>'btn btn-warning btn-block')); ?>
