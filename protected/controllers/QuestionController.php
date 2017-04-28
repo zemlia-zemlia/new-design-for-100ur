@@ -494,7 +494,7 @@ class QuestionController extends Controller
                 }
                 
                 $item->link = Yii::app()->createUrl('question/view',array('id'=>$question->id));
-                $item->date = ($item->publishDate) ? date(DATE_RSS, strtotime($item->publishDate)) : date(DATE_RSS, strtotime($item->createDate));
+                $item->date = ($question->publishDate) ? date(DATE_RSS, strtotime($question->publishDate)) : date(DATE_RSS, strtotime($question->createDate));
 
                 $item->description = CHtml::encode($question->questionText);
 
