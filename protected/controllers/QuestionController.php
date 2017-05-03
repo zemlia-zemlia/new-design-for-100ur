@@ -90,6 +90,11 @@ class QuestionController extends Controller
                 $commentModel->attributes = $_POST['Comment'];
                 $commentModel->authorId = Yii::app()->user->id;
                 
+                // комментарии от юристов сразу помечаем как проверенные
+                if(Yii::app()->user->role == User::ROLE_JURIST) {
+                    $commentModel->status = Comment::STATUS_CHECKED;
+                }
+                
                 // проверим, является ли данный комментарий дочерним для другого комментария
                 if(isset($commentModel->parentId) && $commentModel->parentId >0) {
                     // является, сохраним его как дочерний комментарий
