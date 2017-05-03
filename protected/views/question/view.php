@@ -235,38 +235,6 @@ if($model->description) {
 <?php endif;?>
 
 
-
-<?php if(sizeof($questionsSimilar) > 0):?>
-
-<div class="flat-panel">
-    
-        <h3 class="header-block header-block-green">Вопросы со схожей тематикой:</h3> 
-        <div class="header-block-green-arrow"></div>
-
-        <div class='inside'>
-        <?php foreach($questionsSimilar as $question):?>
-        <div class="row">
-            
-            <div class="col-sm-9">
-                <p><?php echo CHtml::link(CHtml::encode($question['title']), Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?></p>
-            </div>
-            <div class="col-sm-3">
-                <img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>
-                <?php if($question['counter'] == 1) {
-                    echo "Есть ответ";
-                } elseif($question['counter']>1) {
-                    echo $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов');
-                }
-                ?>
-                </span>
-            </div>
-        </div>
-        
-        <?php endforeach;?> 
-        </div>
-</div>
-<?php endif;?>
-
 <br/>
 <h3 class="header-block-light-grey"><strong> На ваши вопросы отвечают: </strong></h3>
     <div class='flat-panel inside'>

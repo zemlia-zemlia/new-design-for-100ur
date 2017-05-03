@@ -137,21 +137,7 @@ class QuestionController extends Controller
             foreach($categories as $cat) {
                 $categoriesArray[] = $cat->id;
             }
-            
-            
-            
-            $questionsSimilar = Yii::app()->db->createCommand()
-                    ->select('q.id id, q.publishDate date, q.title title, COUNT(*) counter')
-                    ->from('{{question}} q')
-                    ->leftJoin('{{answer}} a', 'q.id=a.questionId')
-                    ->join("{{question2category}} q2c", "q2c.qId=q.id AND q2c.cId IN (:catId)", array(':catId'=>$categoriesArray))
-                    ->group('q.id')
-                    ->where('q.status=:status AND a.id IS NOT NULL', array(':status'=>  Question::STATUS_PUBLISHED))
-                    ->limit(8)
-                    ->order('q.publishDate DESC')
-                    ->queryAll();
-            
-                    
+      
             // модель для формы вопроса
             $newQuestionModel = new Question();
                         
@@ -160,7 +146,6 @@ class QuestionController extends Controller
                     'answersDataProvider'   =>  $answersDataProvider,
                     'answersAuthors'        =>  $answersAuthors,
                     'newQuestionModel'      =>  $newQuestionModel,
-                    'questionsSimilar'      =>  $questionsSimilar,
                     'answerModel'           =>  $answerModel,
                     'justPublished'         =>  $justPublished,
                     'commentModel'          =>  $commentModel,
