@@ -26,7 +26,7 @@ class TopYurists extends CWidget
             
             $users = array();
             
-            // найдем 6 произвольных пользователей с ролями Юрист, оператор, менеджер операторов
+            // найдем 6 юристов, у которых больше всего ответов
             $yurisIds = Yii::app()->db->createCommand()
                     ->select('u.id, COUNT(*) counter')
                     ->from('{{user}} u')
@@ -44,7 +44,7 @@ class TopYurists extends CWidget
             foreach($yurisIds as $yurisId) {
 
                 $yuristInfo = Yii::app()->db->createCommand()
-                        ->select("u.id, u.name, u.lastName, u_s.alias, u.avatar, t.name townName, q_c.name catName, COUNT(*) answersCount")
+                        ->select("u.id, u.name, u.lastName, u_s.alias, u.avatar, u.lastActivity, t.name townName, q_c.name catName, COUNT(*) answersCount")
                         ->from('{{user}} u')
                         ->leftJoin('{{answer}} a', 'a.authorId=u.id')
                         ->leftJoin('{{yuristSettings}} u_s', 'u.id=u_s.yuristId')
@@ -64,6 +64,7 @@ class TopYurists extends CWidget
                     $users[$yInfo['id']]['alias'] =  $yInfo['alias'];
                     $users[$yInfo['id']]['avatar'] =  $yInfo['avatar'];
                     $users[$yInfo['id']]['town'] =  $yInfo['townName'];
+                    $users[$yInfo['id']]['lastActivity'] =  $yInfo['lastActivity'];
                     $users[$yInfo['id']]['answersCount'] =  $yInfo['answersCount'];                    
                     
                     $users[$yInfo['id']]['categories'][] = $yInfo['catName'];

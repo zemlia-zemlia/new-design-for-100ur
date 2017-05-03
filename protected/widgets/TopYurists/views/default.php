@@ -18,9 +18,14 @@
             <div class="col-sm-8 ">
                 <p>
                 <a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$user['id']));?>" rel="nofollow">
-                    <?php echo ($user['alias'])?CHtml::encode($user['alias']):CHtml::encode($user['name'] . ' ' . $user['lastName']);?>
+                    <?php echo CHtml::encode($user['name'] . ' ' . $user['lastName']);?>
                 </a>
                 </p>
+                
+                <?php if(floor((time() - strtotime($user['lastActivity']))/60)<60):?>
+                    <small><div><span class="glyphicon glyphicon-flash"></span> <span class="text-success">Сейчас на сайте</span></div></small>
+                <?php endif;?>
+                
                 <p class="text-muted">
                     <small>
                     <?php if($user['town']):?>

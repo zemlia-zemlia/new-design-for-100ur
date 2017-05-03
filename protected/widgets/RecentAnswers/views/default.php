@@ -35,7 +35,7 @@ if(empty($answers) || sizeof($answers)==0) {
             <?php if($answer['authorId']):?>
                 <span class="glyphicon glyphicon-user"></span>
                 <?php echo $answer['authorLastName'] . ' ' . mb_substr($answer['authorName'], 0, 1, 'utf-8') . '.' . mb_substr($answer['authorName2'], 0, 1, 'utf-8') . '.';?> 
-                <?php if(floor((time() - strtotime($answer['lastActivity']))/60)<30):?>
+                <?php if(floor((time() - strtotime($answer['lastActivity']))/60)<60):?>
                 <div><span class="glyphicon glyphicon-flash"></span> <span class="text-success">Сейчас на сайте</span></div>
                 <?php endif;?>
             <?php endif;?>
