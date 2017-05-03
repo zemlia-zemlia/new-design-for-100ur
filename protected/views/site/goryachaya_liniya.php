@@ -8,11 +8,17 @@
 
 <h1>Горячая линия юридических консультаций</h1>
 <br/>
-<p style="text-align: center;">
-	<span style="font-size: 25pt; color: #39b778;"><strong>8-800-500-61-85</strong></span><br/>
-</p>
-<img width="100%" alt="Горячая линия" src="/pics/hot-line.jpg" title="Бесплатная горячая линия">
-<p style="text-align: center;"><strong>(звонок бесплатный)</strong></p>
+	<div class="flat-panel inside">		
+            <div class="center-align">
+            <?php
+                // выводим виджет с номером 8800
+                $this->widget('application.widgets.Hotline.HotlineWidget', array(
+                    'showAlways'    =>  true,
+                ));
+            ?>		
+            </div>
+	</div>
+<br/>
 <p>
 	 Новое время принесло не только технологические и промышленные инновации, но и усложнение социальной сферы. Взаимодействия между людьми выстроены таким образом, что конфликты могут случиться даже на пороге собственного дома. Единственный способ решить проблему без неприятных последствий – обращение к букве закона. И здесь без грамотной консультации юриста не обойтись.
 </p>
@@ -64,7 +70,15 @@
 	 <strong>Квалифицированная помощь, оказанная своевременно – это гарантия вашего благополучия!</strong>
 </p>
 
-<p style="text-align: center;">
-	<span style="font-size: 25pt; color: #39b778;">8-800-500-61-85</span><br/>
-	(звонок бесплатный)
-</p>
+<br/>
+	<div class="flat-panel inside">		
+            <div class="center-align">
+            <?php
+                // выводим виджет с номером 8800
+                $this->widget('application.widgets.Hotline.HotlineWidget', array(
+                    'showAlways'    =>  true,
+                ));
+            ?>		
+            </div>
+	</div>
+<br/>
