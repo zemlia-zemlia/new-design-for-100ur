@@ -498,14 +498,14 @@ class QuestionController extends Controller
         public function actionRssAnswers()
         {
            
-            $questions = Yii::app()->db->createCommand()
+            $questions = Yii::app()->db->cache(600)->createCommand()
                     ->select("q.id, q.title, q.publishDate, q.createDate, q.questionText, COUNT(*) answersCount")
                     ->from("{{question}} q")
                     ->leftJoin("{{answer}} a", "a.questionId=q.id")
                     ->group("q.id")
                     ->where("q.status IN(:status1, :status2) AND a.id IS NOT NULL", array(":status1" => Question::STATUS_CHECK, ":status2" => Question::STATUS_PUBLISHED))
                     ->order("q.publishDate DESC, q.id DESC")
-                    ->limit(20)
+                    ->limit(200)
                     ->queryAll();
             //CustomFuncs::printr($questions);exit;
 
