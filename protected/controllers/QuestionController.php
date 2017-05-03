@@ -52,6 +52,11 @@ class QuestionController extends Controller
 	 */
 	public function actionView($id)
 	{
+            // редирект для страниц с пагинацией в адресе
+            if($_GET['Question_page']) {
+                $this->redirect(array('view', 'id' => $id), true, 301); 
+            }
+            
             $this->layout = "//frontend/short";
             
             $model = Question::model()->with('categories')->findByPk($id);
@@ -344,6 +349,7 @@ class QuestionController extends Controller
                     //CustomFuncs::printr($question->attributes);
                     if($question->save()) {
                         if($question->status == Question::STATUS_CHECK) {
+                            //Telegram::send("StoYuristov", "Опубликован новый вопрос...");
                             $this->redirect(array('question/view', 'id' => $question->id));
                         }
                         $this->redirect(array('thankYou'));
