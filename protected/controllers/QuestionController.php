@@ -33,7 +33,7 @@ class QuestionController extends Controller
 	{
             return array(
                 array('allow', // allow all users 
-                        'actions'=>array('index', 'archive', 'view', 'create', 'thankYou','rss', 'call', 'weCallYou', 'docsRequested', 'docs', 'getServices', 'services', 'upgrade', 'paymentSuccess', 'paymentFail', 'paymentCheck', 'paymentAviso', 'confirm', 'sendLead'),
+                        'actions'=>array('index', 'archive', 'view', 'create', 'thankYou','rss', 'rssAnswers', 'call', 'weCallYou', 'docsRequested', 'docs', 'getServices', 'services', 'upgrade', 'paymentSuccess', 'paymentFail', 'paymentCheck', 'paymentAviso', 'confirm', 'sendLead'),
                         'users'=>array('*'),
                 ),
                 array('allow', // allow authenticated user to perform 'search'
@@ -487,6 +487,58 @@ class QuestionController extends Controller
                 $item->date = ($question->publishDate) ? date(DATE_RSS, strtotime($question->publishDate)) : date(DATE_RSS, strtotime($question->createDate));
 
                 $item->description = CHtml::encode($question->questionText);
+
+                $feed->addItem($item);
+            }
+            $feed->generateFeed();
+            Yii::app()->end();
+        }
+        
+        // generates RSS 2.0 feed with active questions with answers
+        public function actionRssAnswers()
+        {
+           
+            $questions = Yii::app()->db->createCommand()
+                    ->select("q.id, q.title, q.publishDate, q.createDate, q.questionText, COUNT(*) answersCount")
+                    ->from("{{question}} q")
+                    ->leftJoin("{{answer}} a", "a.questionId=q.id")
+                    ->group("q.id")
+                    ->where("q.status IN(:status1, :status2) AND a.id IS NOT NULL", array(":status1" => Question::STATUS_CHECK, ":status2" => Question::STATUS_PUBLISHED))
+                    ->order("q.publishDate DESC, q.id DESC")
+                    ->limit(20)
+                    ->queryAll();
+            //CustomFuncs::printr($questions);exit;
+
+            
+            Yii::import('ext.feed.*');
+            // RSS 2.0 is the default type
+            $feed = new EFeed();
+
+            $feed->title= Yii::app()->name;
+            $feed->description = 'Вопросы квалифицированным юристам';
+
+
+            $feed->addChannelTag('language', 'ru-ru');
+            $feed->addChannelTag('pubDate', date(DATE_RSS, time()));
+            $feed->addChannelTag('link', 'https://100yuristov.com/question/rssAnswers' );
+
+            
+
+            foreach($questions as $question)
+            {
+                $item = $feed->createNewItem();
+
+                
+                if($question['answersCount']) {
+                    $item->title = CHtml::encode($question['title']) . ' (' . $question['answersCount'] . ' ' . CustomFuncs::numForms($question['answersCount'], 'ответ', "ответа", "ответов") . ")";
+                } else {
+                    $item->title = CHtml::encode($question['title']);
+                }
+                
+                $item->link = Yii::app()->createUrl('question/view',array('id'=>$question['id']));
+                $item->date = ($question['publishDate']) ? date(DATE_RSS, strtotime($question['publishDate'])) : date(DATE_RSS, strtotime($question['createDate']));
+
+                $item->description = CHtml::encode($question['questionText']);
 
                 $feed->addItem($item);
             }
