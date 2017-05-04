@@ -51,8 +51,9 @@
     </div>
     <?php if(!isset($hideForgetPassword) || !$hideForgetPassword):?>
     <div class="col-sm-4 center-align">
-        <p>Забыли пароль?<br />
-        <?php echo CHtml::link('Восстановить пароль', Yii::app()->createUrl('user/restorePassword'), array('class'=>'btn btn-primary btn-block'));?>
+        <br />
+		<p>
+        <?php echo CHtml::link('Забыл пароль', Yii::app()->createUrl('user/restorePassword'), array('class'=>'btn btn-default btn-block'));?>
         </p>
         <!--
         <p>Если Вы у нас впервые<br />

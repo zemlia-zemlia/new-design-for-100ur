@@ -195,7 +195,11 @@ if($model->description) {
     <div class='flat-panel inside'>
         
         <?php if(Yii::app()->user->isVerified):?>
-            <h2>Ваш ответ:</h2>
+            <h2 class="header-block-light-grey" >Ваш ответ:</h2>
+			<p class="text-muted small">
+				При ответах на вопросы соблюдайте, пожалуйста, правила сайта. Обратите внимание, что реклама в тексте ответа запрещена, контактные данные можно указывать только в своем профиле. Запрещается полное или частичное копирование текста ответов с других ресурсов.
+			</p>
+			
             <?php $this->renderPartial('application.views.answer._form', array('model'=>$answerModel));?>
         <?php else:?>
             <div class="alert alert-warning">
@@ -206,6 +210,7 @@ if($model->description) {
                 <?php echo CHtml::link('Перейти в настройки', Yii::app()->createUrl('user/update', array('id'=>Yii::app()->user->id)), array('class'=>'btn btn-primary'));?>
             </div>
         <?php endif;?>
+				
     </div>
 
 <?php endif;?>

@@ -16,9 +16,10 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             
 ?>
 
-<div class="panel panel-default">
-    <div class="panel-body">
-        <h1>Регистрация нового пользователя</h1>
+
+<h1>Регистрация нового пользователя</h1>
+<div class="flat-panel inside">
+        
 
         <?php echo $this->renderPartial('_registerForm', array(
             'model'             =>  $model,
@@ -26,6 +27,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             'townsArray'        =>  $townsArray,
             'rolesNames'        =>  $rolesNames,
         )); ?>
-    </div>
+
 </div>
 

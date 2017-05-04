@@ -1,7 +1,7 @@
 <h1>Восстановление пароля</h1>
 
-<div class="panel panel-default">
-    <div class="panel-body">
+<div class="flat-panel inside">
+
 <?php if(empty($message)): ?>
     
 <div class="row">
@@ -28,7 +28,7 @@
     <div class="form-group">
         <?=CHtml::activeLabelEx($model, 'verifyCode')?>
         <br />
-        <?$this->widget('CCaptcha', array('clickableImage'=>true,'buttonLabel'=>'Показать другой код'))?><br />
+        <?$this->widget('CCaptcha', array('clickableImage'=>true,'buttonLabel'=>'Показать другой'))?><br />
         <? echo $form->textField($model, 'verifyCode', array('class'=>'form-control'))?>
     </div>
 <?endif?>
@@ -48,5 +48,5 @@
                 
 <?php endif; ?>
 
-    </div>
+
 </div>
