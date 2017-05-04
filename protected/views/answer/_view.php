@@ -35,11 +35,7 @@
                     <strong>
                         <span itemprop="name">
                             <a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$data->authorId));?>">
-                            <?php if($data->author->settings && $data->author->settings->alias):?>
-                                <?php echo CHtml::encode($data->author->settings->alias);?>
-                            <?php else:?>
-                                <?php echo CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->name2); ?>
-                            <?php endif;?>
+                                <?php echo CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->lastName); ?>
                             </a>
                         </span>
                     </strong>
@@ -118,7 +114,7 @@
                                           echo "Автор вопроса:";
                                       } elseif($data->authorId == $comment->authorId) {
                                       ?>    
-                                            <?php echo $data->author->getShortName();?>
+                                            <?php echo CHtml::encode($data->author->name . ' ' . $data->author->lastName);?>
                                             <?php if($data->author->settings->isVerified):?>
                                             <small>
                                                 <span class="label label-default"><?php echo $data->author->settings->getStatusName();?></span>

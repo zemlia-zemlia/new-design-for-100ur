@@ -3,14 +3,14 @@
 /* @var $model User */
 
 
-$userDisplayName = (isset($model->settings->alias) && $model->settings->alias!='')?CHtml::encode($model->settings->alias):CHtml::encode($model->name . ' ' . $model->lastName);
+$userDisplayName = CHtml::encode($model->name . ' ' . $model->lastName);
 
 $this->breadcrumbs=array(
         'Юристы и Адвокаты' =>  array('/yurist'),
 	$userDisplayName,
 );
 
-$this->setPageTitle("Юрист ". $userDisplayName . '. ' . Yii::app()->name);
+$this->setPageTitle("Юрист ". $userDisplayName . '. Город ' . $model->town->name . '. ' . Yii::app()->name);
         
 $this->widget('zii.widgets.CBreadcrumbs', array(
     'homeLink'=>CHtml::link('100 Юристов',"/"),
@@ -20,16 +20,16 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             
 ?>
 
-           
+<div itemscope itemtype="http://schema.org/Person">   
         <h1 class="vert-margin30">
-            <?php echo $userDisplayName;?>
+            <span itemprop="jobTitle">Юрист</span> <span itemprop="name"><?php echo CHtml::encode($model->name . ' ' . $model->name2 . ' ' . $model->lastName);?></span>
         </h1>
         
         <div class="container-fluid vert-margin30">
             <div class="row">
                 <div class="col-sm-3 center-align">
                     <p>
-                        <img src="<?php echo $model->getAvatarUrl();?>" class="gray-panel img-bordered" />
+                        <img src="<?php echo $model->getAvatarUrl();?>" class="gray-panel img-bordered" itemprop="image" />
                     </p>    
                     <?php echo CHtml::link('Задать вопрос', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-info'));?>
 
@@ -174,7 +174,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 </div>
             </div>
         </div>
-        
+</div>        
 
 
 <div class="vert-margin30">
