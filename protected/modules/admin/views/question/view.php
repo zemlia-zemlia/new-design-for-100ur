@@ -10,7 +10,7 @@ $this->breadcrumbs=array(
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('CRM',"/"),
+    'homeLink'=>CHtml::link('100 Юристов',"/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
@@ -51,6 +51,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 </div>
 
 <?php echo CHtml::link('Редактировать вопрос', Yii::app()->createUrl('/admin/question/update',array('id'=>$model->id)), array('class'=>'btn btn-primary'));?>
+
+<?php echo CHtml::link('Смотреть на сайте', Yii::app()->createUrl('/question/view',array('id'=>$model->id)), array('class'=>'btn btn-info', 'target' => '_blank'));?>
 
 <?php endif;?>
 
