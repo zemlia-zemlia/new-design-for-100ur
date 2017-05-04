@@ -44,7 +44,8 @@ class YuristController extends Controller
             $criteria->order = "karma DESC";
             $criteria->with = array("settings", "town", "town.region", "categories", "answersCount");
             $criteria->addColumnCondition(array('active100'=>1));
-            $criteria->addCondition("role IN(".User::ROLE_JURIST.", ".User::ROLE_CALL_MANAGER.", ". User::ROLE_OPERATOR.")");
+            $criteria->addColumnCondition(array('avatar!'=>''));
+            $criteria->addCondition("role = " . User::ROLE_JURIST);
         
             $yuristsDataProvider = new CActiveDataProvider('User', array(
                 'criteria'      =>  $criteria,        
