@@ -41,7 +41,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?> 
 <div class="vert-margin30">
     <p><strong>Статус:</strong> <?php echo CHtml::encode($model->getQuestionStatusName()); ?>
-        <span class="muted"><?php echo CustomFuncs::invertDate($model->publishDate) . ' ' . CHtml::encode($model->bublishUser->name . ' ' .$model->bublishUser->lastName);?></span>
+        <span class="muted"><?php echo CustomFuncs::niceDate($model->publishDate) . ' ' . CHtml::encode($model->bublishUser->name . ' ' .$model->bublishUser->lastName);?></span>
     </p>
     
     <p><strong>Автор вопроса:</strong> <?php echo CHtml::encode($model->authorName); ?></p>
