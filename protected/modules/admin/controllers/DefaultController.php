@@ -18,6 +18,7 @@ class DefaultController extends Controller
         $sumArray = array(); // выручка
         $kolichArray = array(); // количество
         $buySumArray = array(); // затраты на покупку лидов
+        $vipArray = array(); // доходы с vip вопросов
         
         foreach($leadsRows as $row) {
             if($row['leadStatus'] == Lead100::LEAD_STATUS_SENT) {
@@ -25,7 +26,26 @@ class DefaultController extends Controller
                 $kolichArray[$row['year']][$row['month']] ++ ;
             }
             $buySumArray[$row['year']][$row['month']] += $row['buyPrice'];
+            $vipArray[$row['year']][$row['month']] = 0; // предзаполнение массива выручки вип вопросов нулями
         }
+        
+        
+        // статистика по VIP вопросам
+        $vipRows = Yii::app()->db->createCommand()
+                ->select('SUM(value) sum, MONTH(datetime) month, YEAR(datetime) year')
+                ->from('{{money}}')
+                ->where('type=:type AND direction=:direction', 
+                        array(
+                            ':type' => Money::TYPE_INCOME, 
+                            ':direction' => 504, 
+                            ))
+                ->group('year, month')
+                ->queryAll();
+        
+        foreach($vipRows as $row) {
+            $vipArray[$row['year']][$row['month']] = $row['sum'];
+        }
+        //CustomFuncs::printr($vipArray);
             
 //        CustomFuncs::printr($sumArray);
 //        CustomFuncs::printr($kolichArray);
@@ -186,6 +206,7 @@ class DefaultController extends Controller
             'questionStatuses'          =>  $questionStatuses,
             'questionsWithAnswersCount' =>  $questionsWithAnswersCount,
             'questionByWeekArray'       =>  $questionByWeekArray,
+            'vipArray'                  =>  $vipArray,
         ));
     }
 }

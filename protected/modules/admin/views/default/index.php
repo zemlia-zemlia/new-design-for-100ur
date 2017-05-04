@@ -45,11 +45,11 @@ $(function () {
             }
         },
         series: [{
-            name: 'Выручка',
+            name: 'Выручка (с VIP вопросами)',
             data: [
                 <?php foreach ($sumArray as $year=>$summByMonth):?>
                     <?php foreach ($summByMonth as $month=>$summa):?>    
-                        <?php echo '["' . $month . '.' . $year . '",' . $summa.'],'; ?>                
+                        <?php echo '["' . $month . '.' . $year . '",' . floor($summa + $vipArray[$year][$month]) . '],'; ?>                
                     <?php  endforeach;?>
                 <?php  endforeach;?>
             ]
