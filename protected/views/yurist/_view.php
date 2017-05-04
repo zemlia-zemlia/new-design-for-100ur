@@ -16,20 +16,26 @@
                     <strong>Город:</strong> <?php echo $data->town->name;?>
                 <?php endif;?>
 				<br />
-					<strong>Статус:</strong>
+					<strong>Статус:</strong> <?php echo $data->settings->getStatusName();?>
                 <br />
-					<strong>Рейтинг:</strong> <?php echo (int)$data->karma;?><br />
+					<strong>Карма:</strong> <?php echo (int)$data->karma;?><br />
                 
                 <?php if($data->answersCount):?>
                     <strong>Ответов:</strong> <?php echo $data->answersCount;?>
-				<br />
-				<strong>Стоимость консультации:</strong>
-				<br />
-				<strong>Стоимость документа:</strong>
-				<br />
-					
-					
                 <?php endif;?>
+                    
+                <?php if($data->settings->priceConsult):?>
+                <br />
+                <strong>Стоимость консультации:</strong> от <?php echo $data->settings->priceConsult;?> руб.
+                <?php endif;?>
+                <?php if($data->settings->priceDoc):?>
+                    <br />
+                    <strong>Стоимость документа:</strong> от <?php echo $data->settings->priceDoc;?> руб.
+                <?php endif;?>
+                    <br />
+					
+					
+                
                 <!-- 
                 <?php if(sizeof($data->categories)):?>
                     <strong>Специализации:</strong> 
