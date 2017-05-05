@@ -5,7 +5,7 @@
 class SendAfterAnswerCommand extends CConsoleCommand
 {
     public $interval = 5; // интервал в днях, через который отправляем письмо после ответа
-    public $days = 300; // за сколько дней брать ответы
+    public $days = 1; // за сколько дней брать ответы
     
     public function actionIndex()
     {
