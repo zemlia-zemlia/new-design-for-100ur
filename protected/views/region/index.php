@@ -1,7 +1,7 @@
 <?php
 /* @var $this RegionController */
 /* @var $dataProvider CActiveDataProvider */
-$pageTitle = "Юристы и Адвокаты России и СНГ. ";
+$pageTitle = "Страны - Георгафия юридического портала 100 Юристов ";
 
 $this->setPageTitle($pageTitle . Yii::app()->name);
 
@@ -20,21 +20,18 @@ $this->breadcrumbs=array(
         'links'=>$this->breadcrumbs,
      ));
 ?>
-
-<div class="row">
-    <div class="col-md-6"></div>
-    <div class="col-md-6"><h2><?php echo CHtml::link('Россия', Yii::app()->createUrl('region/country', array('countryAlias' => 'russia')));?></h2></div>
+<h1>Страны</h1>
+<div class="flat-panel inside">
+	<div class="row">
+		<div class="col-md-12"><h2><?php echo CHtml::link('Россия', Yii::app()->createUrl('region/country', array('countryAlias' => 'russia')));?></h2></div>
+	</div>		
+	<div class="row">
+		<div class="col-md-12"><h2><?php echo CHtml::link('Беларусь', Yii::app()->createUrl('region/country', array('countryAlias' => 'belarus')));?></h2></div>
+	</div>
+	<div class="row">
+		<div class="col-md-12"><h2><?php echo CHtml::link('Украина', Yii::app()->createUrl('region/country', array('countryAlias' => 'ukraine')));?></h2></div>
+	</div>
 </div>
-        
-<div class="row">
-    <div class="col-md-6"></div>
-    <div class="col-md-6"><h2><?php echo CHtml::link('Беларусь', Yii::app()->createUrl('region/country', array('countryAlias' => 'belarus')));?></h2></div>
-</div>
-<div class="row">
-    <div class="col-md-6"></div>
-    <div class="col-md-6"><h2><?php echo CHtml::link('Украина', Yii::app()->createUrl('region/country', array('countryAlias' => 'ukraine')));?></h2></div>
-</div>
-
        
 
 
