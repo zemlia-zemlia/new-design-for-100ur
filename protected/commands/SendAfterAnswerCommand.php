@@ -4,8 +4,8 @@
  */
 class SendAfterAnswerCommand extends CConsoleCommand
 {
-    public $interval = 25; // интервал в днях, через который отправляем письмо после ответа
-    public $days = 3; // за сколько дней брать ответы
+    public $interval = 5; // интервал в днях, через который отправляем письмо после ответа
+    public $days = 300; // за сколько дней брать ответы
     
     public function actionIndex()
     {
@@ -51,7 +51,7 @@ class SendAfterAnswerCommand extends CConsoleCommand
             
             
             $mailer = new GTMail;
-            $mailer->subject = CHtml::encode($row['name']) . ", оцените ответ юриста на Ваш вопрос!";
+            $mailer->subject = CHtml::encode($row['authorName']) . ", оцените ответ юриста на Ваш вопрос!";
             $mailer->message = "
             <p>Здравствуйте, " . CHtml::encode($row['authorName']) . "<br /><br />
             Недавно наш юрист " . $row['yuristName'] . ' ' . $row['yuristLastName'] . ' дал(а) ответ на ' . CHtml::link("Ваш вопрос", $questionLink) . ".
