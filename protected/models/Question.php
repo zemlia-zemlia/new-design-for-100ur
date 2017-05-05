@@ -281,6 +281,7 @@ class Question extends CActiveRecord
             $replacements[0] = '';
             
             $this->title = preg_replace($patterns, $replacements, $this->title);
+            $this->title = trim($this->title);
             $this->title = mb_strtoupper(mb_substr($this->title, 0, 1, 'UTF-8'), 'UTF-8') . mb_substr($this->title, 1, mb_strlen($this->title), 'UTF-8');
         }
         
