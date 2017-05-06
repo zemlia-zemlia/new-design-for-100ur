@@ -70,12 +70,15 @@
                 </div>
                 <div class="col-sm-8">
                     <div class="inside">
-                        <?php echo CHtml::link(CHtml::encode(Yii::app()->user->name . ' ' . Yii::app()->user->lastName), Yii::app()->createUrl('/user'));?>
+                        <p>
+                        <?php echo CHtml::link(Yii::app()->user->shortName, Yii::app()->createUrl('/user'));?>
                         <?php echo CHtml::link('<span class="glyphicon glyphicon-log-out"></span>', Yii::app()->createUrl('site/logout'), array());?>
-                        <br />
-                        <?php if(Yii::app()->user->role == User::ROLE_JURIST):?>
-                            <span class="label label-default">Рейтинг: <?php echo Yii::app()->user->karma;?></span>
-                        <?php endif;?>
+                        </p>
+                        
+                            
+                        <?php //$settingsClass =  (Yii::app()->user->settings && Yii::app()->user->settings->status == 0) ? 'btn-danger' : 'btn-default';?>    
+                        <?php echo CHtml::link('Мои настройки', Yii::app()->createUrl('user/update', array('id'=>Yii::app()->user->id)), array('class'=>'btn btn-xs btn-default'));?>
+                            
                     </div>
                 </div>
             </div>

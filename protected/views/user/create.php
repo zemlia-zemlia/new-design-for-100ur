@@ -6,10 +6,20 @@ $this->breadcrumbs=array(
 	'Регистрация',
 );
 
-$this->setPageTitle("Регистрация нового пользователя. ". Yii::app()->name);
+$title = "Регистрация нового ";
+
+if($model->role == User::ROLE_CLIENT) {
+    $title .= "клиента";
+} else if($model->role == User::ROLE_JURIST) {
+    $title .= "юриста";
+} else {
+    $title .= "клиента";
+}
+
+$this->setPageTitle($title . '. ' . Yii::app()->name);
         
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 юристов',"/"),
+    'homeLink'=>CHtml::link('100 Юристов',"/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
@@ -17,7 +27,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 ?>
 
 
-<h1>Регистрация нового пользователя</h1>
+<h1><?php echo $title;?></h1>
 <div class="flat-panel inside">
         
 

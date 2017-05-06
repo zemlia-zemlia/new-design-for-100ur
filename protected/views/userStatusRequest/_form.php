@@ -32,12 +32,15 @@ unset($statusesArray[0]);
             switch(yuristStatus) {
                 case '1':
                     $("#user-profile-yurist").show();
+                    $("#form-submit").show();
                     break;
                 case '2':
                     $("#user-profile-advocat").show();
+                    $("#form-submit").show();
                     break;
                 case '3':
                     $("#user-profile-judge").show();
+                    $("#form-submit").hide();
                     break;
             }
             
@@ -68,18 +71,25 @@ unset($statusesArray[0]);
                 
 
 	<?php echo $form->errorSummary($model); ?>
+<div class='flat-panel vert-margin20 inside'>
+        <p class="text-center"><strong>Какой статус подтверждаем?</strong></p>
 
-        Выберите нужный статус
-        <div class="vert-margin30">
+        <div class="vert-margin20">
+            <div class='row'>
             <?php foreach($statusesArray as $statusCode=>$statusName):?>
+                <div class='col-md-4 radio-block'>
                 <label>
                     <input type="radio" name="UserStatusRequest[status]" value="<?php echo $statusCode;?>" <?php if($statusCode == $currentUser->settings->status) echo 'disabled'; ?> <?php if($statusCode == $model->status) echo "checked";?> /> <?php echo $statusName; ?>
-                    
                 </label>
+                </div>
             <?php endforeach;?>
+            </div>
         </div>
-        
+</div>
+
+
 	<div id="user-profile-yurist">
+            <div class='flat-panel vert-margin20 inside'>
                 <p>
                     Для подтверждения статуса юриста необходимо отправить дополнительные данные.
                 </p>
@@ -134,8 +144,10 @@ unset($statusesArray[0]);
                     </div>
                 </div>
             </div>
+        </div>
 
             <div id="user-profile-advocat">
+                <div class='flat-panel vert-margin20 inside'>
                 <p>
                     Для подтверждения статуса адвоката необходимо отправить дополнительные данные.
                 </p>
@@ -165,18 +177,20 @@ unset($statusesArray[0]);
                 </div>
 
             </div>
+            </div>
 
 
             <div id="user-profile-judge">
+                <div class='flat-panel vert-margin20 inside'>
                 <p>
                     Функция подтверждения статуса судьи пока в разработке..
                 </p>
+                </div>   
             </div>   
 
-	<div class="row buttons">
+	<div id='form-submit' class="row buttons inside">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Сохранить', array('id'=>'submitStatusRequest',  'class'=>'btn btn-primary')); ?>
 	</div>
-
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->

@@ -21,6 +21,9 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/statusRequest.js');
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,
 	'itemView'=>'_view',
+        'emptyText'     =>  'Не найдено ни одного запроса',
+        'summaryText'   =>  'Показаны запросы с {start} до {end}, всего {count}',
+        'pager'         =>  array('class'=>'GTLinkPager'), //we use own pager with russian words
 )); ?>
 </table>
 

@@ -9,8 +9,12 @@ $this->breadcrumbs=array(
         'Юристы и Адвокаты' =>  array('/yurist'),
 	$userDisplayName,
 );
-
-$this->setPageTitle("Юрист ". $userDisplayName . '. Город ' . $model->town->name . '. ' . Yii::app()->name);
+if($model->settings) {
+    $userStatusName = $model->settings->getStatusName() . ' ';
+} else {
+    $userStatusName = '';
+}
+$this->setPageTitle($userStatusName . $userDisplayName . '. Город ' . $model->town->name . '. ' . Yii::app()->name);
         
 $this->widget('zii.widgets.CBreadcrumbs', array(
     'homeLink'=>CHtml::link('100 Юристов',"/"),
@@ -22,7 +26,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <div itemscope itemtype="http://schema.org/Person">   
         <h1 class="vert-margin30">
-            <span itemprop="jobTitle">Юрист</span> <span itemprop="name"><?php echo CHtml::encode($model->name . ' ' . $model->name2 . ' ' . $model->lastName);?></span>
+            <span itemprop="jobTitle"><?php echo $userStatusName;?></span> <span itemprop="name"><?php echo CHtml::encode($model->name . ' ' . $model->name2 . ' ' . $model->lastName);?></span>
         </h1>
         
         <div class="container-fluid vert-margin30">
@@ -43,7 +47,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     <?php endif;?>
                     
                     <?php if($model->role == User::ROLE_JURIST):?>
-                    
+                    <div class='flat-panel inside vert-margin20'>
                     <div class="row">
                         <div class="col-sm-6 center-align">
                             <p>Дано ответов</p>
@@ -68,16 +72,20 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             </p>
                         </div>
                     </div>
+                    </div>
                     <?php endif;?>
                     
                     
                     
                     <?php if($model->settings->description):?>
+                    <div class='flat-panel inside vert-margin20'>
                         <h3 class="left-align">О себе</h3>
                         <p><?php echo CHtml::encode($model->settings->description);?></p>
-                        <hr />
+                    </div>
                     <?php endif;?>
             
+                    
+                    <div class='flat-panel inside vert-margin20'>
                     <h3 class="left-align">Контакты</h3>
                     
                     <p>
@@ -118,57 +126,41 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     </p>
                     <?php endif;?>
                    
-                    <hr /> 
+                    </div>
                     
-                    
-                    <h3 class="left-align">Карьера</h3>    
-                    <?php if($model->settings->startYear):?>
-                    <p>
-                        <strong>Год начала работы:</strong> <?php echo $model->settings->startYear;?>
-                    </p>
-                    <?php endif;?>
-                    
-                    <?php if($model->settings && $model->settings->status):?>
-                    <p>
-                        <strong>Статус:</strong> 
-                        <?php echo $model->settings->getStatusName();?>
-                        
-                        <?php if($model->settings->isVerified == 1):?>
-                            <span class="label label-success">подтверждён</span>
-                        <?php endif;?>
-                        
-                    </p>
-                    <?php endif;?>
-                    <hr /> 
-                    
-                    <h3 class="left-align">Образование</h3> 
-                    <p>
+                    <?php if($model->settings->education):?>
+                    <div class='flat-panel inside vert-margin20'>
+                        <h3 class="left-align">Образование</h3> 
+                        <p>
                             <?php if($model->settings->education) echo $model->settings->education . ', ';?>
                             <?php if($model->settings->vuz) echo 'ВУЗ: ' . $model->settings->vuz . ', ';?>
                             <?php if($model->settings->vuzTownId) echo '(' . $model->settings->vuzTown->name . '), ';?>
                             <?php if($model->settings->educationYear) echo 'год окончания: ' . $model->settings->educationYear . '.';?>
-                        
-                    </p>
-                    <hr /> 
+                        </p>
+                    </div> 
+                    <?php endif;?>
                     
                     <?php if($model->categories):?>
-                    <h3 class="left-align">Специализации</h3>
-                    
-                        <?php foreach ($model->categories as $cat): ?>
-                        <span class="yurist-directions-item"><?php echo $cat->name; ?></span>
-                        <?php endforeach;?>
-                    <hr />        
+                        <div class='flat-panel inside vert-margin20'>
+                            <h3 class="left-align">Специализации</h3>
+
+                            <?php foreach ($model->categories as $cat): ?>
+                            <span class="yurist-directions-item"><?php echo $cat->name; ?></span>
+                            <?php endforeach;?>
+                        </div>        
                     <?php endif;?>
                     
                     
                     <?php if($model->settings->priceConsult  > 0 || $model->settings->priceDoc  > 0):?>
-                        <h3 class="left-align">Платные услуги</h3>
-                        <?php if($model->settings->priceConsult  > 0):?>
-                            <p>Консультация от <?php echo $model->settings->priceConsult;?> руб.</p>
-                        <?php endif;?>
-                        <?php if($model->settings->priceDoc  > 0):?>
-                            <p>Составление документа от <?php echo $model->settings->priceDoc;?> руб.</p>
-                        <?php endif;?>
+                        <div class='flat-panel inside vert-margin20'>
+                            <h3 class="left-align">Платные услуги</h3>
+                            <?php if($model->settings->priceConsult  > 0):?>
+                                <p>Консультация от <?php echo $model->settings->priceConsult;?> руб.</p>
+                            <?php endif;?>
+                            <?php if($model->settings->priceDoc  > 0):?>
+                                <p>Составление документа от <?php echo $model->settings->priceDoc;?> руб.</p>
+                            <?php endif;?>
+                        </div>
                     <?php endif;?>
                     
                 </div>

@@ -187,7 +187,12 @@ class UserStatusRequestController extends Controller
                     // присваиваем пользователю новый статус, помечаем его как верифицированный
                     $yuristSettings->status = $request->status;
                     $yuristSettings->isVerified = 1;
-
+                    $yuristSettings->vuz = $request->vuz;
+                    $yuristSettings->facultet = $request->facultet;
+                    $yuristSettings->education = $request->education;
+                    $yuristSettings->vuzTownId = $request->vuzTownId;
+                    $yuristSettings->educationYear = $request->educationYear;
+                    
                     if($yuristSettings->save()) {
                         $request->sendNotification();
                         echo json_encode(array('code'=>0, 'id'=>$request->id, 'message'=>'OK'));

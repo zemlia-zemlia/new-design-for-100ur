@@ -219,4 +219,14 @@ class UserStatusRequest extends CActiveRecord
                 return false;
             }
         }
+        
+        public static function getNewRequestsCount()
+        {
+            $counterRow = Yii::app()->db->cache(600)->createCommand()
+                    ->select('COUNT(*) counter')
+                    ->from("{{userStatusRequest}}")
+                    ->where('isVerified = 0')
+                    ->queryRow();
+            return $counterRow['counter'];
+        }
 }

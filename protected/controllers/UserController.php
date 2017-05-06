@@ -103,15 +103,19 @@ class UserController extends Controller
         // creating a new user by registration form 
         public function actionCreate()
 	{
-            $this->layout = '//frontend/short';
-            $model=new User;
+            $this->layout = '//frontend/smart';
+            $model = new User;
             $yuristSettings = new YuristSettings;
             $model->setScenario('register');
             
-            if(!$model->role) {
-                $model->role = User::ROLE_CLIENT;
-            }
             
+            $model->role = (isset($_GET['role'])) ? (int)$_GET['role'] : 0;
+            
+            // при регистрации юриста действуют отдельные правила проверки полей
+            if($model->role == User::ROLE_JURIST) {
+                $model->setScenario('createJurist');
+            }
+                        
             $rolesNames = array(
                 User::ROLE_CLIENT   =>  'Пользователь',
                 User::ROLE_JURIST   =>  'Юрист',
@@ -158,7 +162,7 @@ class UserController extends Controller
         // страница редактирования пользователя 
         public function actionUpdate($id)
 	{
-            $this->layout = '//frontend/short';
+            $this->layout = '//frontend/smart';
             $model= User::model()->findByPk($id);
             
             $allDirections = QuestionCategory::getDirections(true, true);
@@ -171,7 +175,12 @@ class UserController extends Controller
                 throw new CHttpException(403,'Ошибка доступа: вы не можете редактировать чужой профиль');
             }
             
-            $model->setScenario('update');
+            if($model->role == User::ROLE_JURIST) {
+                $model->setScenario('updateJurist');
+            } else {
+                $model->setScenario('update');
+            }
+            
             
             // модель для работы со сканом
             $userFile = new UserFile;

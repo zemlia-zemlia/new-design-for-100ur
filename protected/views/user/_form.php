@@ -37,30 +37,44 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
     }
 ?>
     
-
-<?php if($model->isNewRecord):?>    
-    <div class="form-group radio-labels">
-            <strong>Выберите подходящий Вам тип аккаунта</strong><br />
-            <?php // echo $form->radioButtonList($model,'role', $rolesNames, array('class'=>'form-control'));?>
-            <div class="alert alert-info">
-                <?php echo $form->radioButton($model,'role', array('class'=>'form-control', 'value'=>User::ROLE_CLIENT, 'id'=>'role_client'));?>
-                <label for="role_client"><strong>Клиент.</strong> Вам подойдет этот тип аккаунта, если Вы хотите задать вопрос юристу или получить юридическую помощь</label><br />
-            </div>
-            <div class="alert alert-info">
-                <?php echo $form->radioButton($model,'role', array('class'=>'form-control', 'value'=>User::ROLE_JURIST, 'id'=>'role_yurist'));?>
-                <label for="role_yurist"><strong>Юрист.</strong> Для юристов и специалистов в области права.</label>
-            </div>
-            <?php echo $form->error($model,'role'); ?>
+<div class='flat-panel inside vert-margin20'>
+<?php if(Yii::app()->user->role == User::ROLE_JURIST):?> 
+    <small>ФИО:</small>
+    <p>
+        <?php echo CHtml::encode($model->name . ' ' . $model->name2 . ' ' . $model->lastName);?>
+    </p>    
+        <small>Email:</small>
+    <p>
+        <?php echo CHtml::encode($model->email);?>
+    </p> 
+    <p>
+        <small>Для изменения ФИО или Email отправьте запрос на адрес admin@100yuristov.com</small>
+    </p>
+    
+<?php else:?>
+    <div class="form-group">
+        <?php echo $form->labelEx($model,'name'); ?>
+        <?php echo $form->textField($model,'name', array('class'=>'form-control')); ?>
+        <?php echo $form->error($model,'name'); ?>
     </div>
 <?php endif;?>
-   
-        
     
-        <div class="row">
-            <div class="col-sm-5 center-align">
+    <?php if(Yii::app()->user->role != User::ROLE_JURIST):?> 
+        <div class="form-group">
+            <?php echo $form->labelEx($model,'email'); ?>
+            <?php echo $form->textField($model,'email', array('class'=>'form-control')); ?>
+            <?php echo $form->error($model,'email'); ?>
+        </div>
+    <?php endif;?>
+</div>
+    
+
+<div class='flat-panel inside vert-margin20'>    
+    <div class="row">
+            <div class="col-sm-4 center-align">
                 <?php if($model->isNewRecord == false):?>
 
-                    <img src="<?php echo $model->getAvatarUrl('big');?>" />
+                    <img src="<?php echo $model->getAvatarUrl('big');?>"  class='img-bordered' />
                     <small>
                     <div class="form-group">
                         <?php echo $form->labelEx($model,'avatarFile'); ?>
@@ -71,70 +85,43 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                 <?php endif;?>
             </div>
 
-            <div class="col-sm-7">
-                <div class="form-group">
-                    <?php echo $form->labelEx($model,'name'); ?>
-                    <?php echo $form->textField($model,'name', array('class'=>'form-control')); ?>
-                    <?php echo $form->error($model,'name'); ?>
-                </div> 
-
+            <div class="col-sm-8">
                 <?php if(Yii::app()->user->role != User::ROLE_CLIENT):?>
-                <div class="yurist-fields">
-                    <div class="form-group">
-                        <?php echo $form->labelEx($model,'name2'); ?>
-                        <?php echo $form->textField($model,'name2', array('class'=>'form-control')); ?>
-                        <?php echo $form->error($model,'name2'); ?>
-                    </div> 
+                    <div class="form-group"> 
+                        <label>Приветствие</label>
+                        <?php echo $form->textArea($yuristSettings, 'hello', array('class'=>'form-control', 'rows'=>4));?>
+                        <?php echo $form->error($yuristSettings,'hello'); ?>
+                    </div>
 
-                    <div class="form-group">
-                        <?php echo $form->labelEx($model,'lastName'); ?>
-                        <?php echo $form->textField($model,'lastName', array('class'=>'form-control')); ?>
-                        <?php echo $form->error($model,'lastName'); ?>
-                    </div> 
-                    <!-- <div class="form-group">
-                        <?php echo $form->labelEx($yuristSettings,'alias'); ?>
-                        <?php echo $form->textField($yuristSettings,'alias', array('class'=>'form-control')); ?>
-                        <?php echo $form->error($yuristSettings,'alias'); ?>
-                    </div> -->
-                </div>
+                    
                 <?php endif;?>
             </div>
         </div>      
      
-        <hr />
-        <?php if(Yii::app()->user->role != User::ROLE_CLIENT):?>
-        <div class="form-group"> 
-            <label>Приветствие</label>
-            <?php echo $form->textArea($yuristSettings, 'hello', array('class'=>'form-control', 'rows'=>2));?>
-            <?php echo $form->error($yuristSettings,'hello'); ?>
-        </div>
-        
         <div class="form-group"> 
             <label>О себе</label>
             <?php echo $form->textArea($yuristSettings, 'description', array('class'=>'form-control', 'rows'=>5));?>
             <?php echo $form->error($yuristSettings,'description'); ?>
         </div>
-        
-        
-        <hr />
-        
+    
+</div>
+    
+        <?php if(Yii::app()->user->role != User::ROLE_CLIENT):?>
+        <div class='flat-panel inside vert-margin20'>
         <h3 class="left-align text-uppercase">Контакты</h3>
     
         <div class="row">
             <div class="col-sm-6">
-                <div class="form-group">
-                    <?php echo $form->labelEx($model,'email'); ?>
-                    <?php echo $form->textField($model,'email', array('class'=>'form-control')); ?>
-                    <?php echo $form->error($model,'email'); ?>
-                </div>
-            </div>
-            <div class="col-sm-6">
+                <?php if(Yii::app()->user->role != User::ROLE_JURIST):?>
                 <div class="form-group">
                     <?php echo $form->labelEx($model,'phone'); ?>
                     <?php echo $form->textField($model,'phone', array('class'=>'form-control phone-mask')); ?>
                     <?php echo $form->error($model,'phone'); ?>
                 </div>
+                <?php endif;?>
             </div>
+        </div>
+        <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
                     <?php echo $form->labelEx($yuristSettings,'emailVisible'); ?>
@@ -161,12 +148,14 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                     ?>
                 </div>
             </div>
-        </div>    
+        </div> 
+        </div>
+        
        <?php endif;?>    
     
     <?php if(Yii::app()->user->role == User::ROLE_JURIST):?>
 
-        <hr />
+        <div class='flat-panel inside vert-margin20'>
         <h3 class="left-align text-uppercase">Платные услуги</h3>
         
         <div class="row">
@@ -191,150 +180,10 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                 </div>
             </div>
         </div>    
-        
-        
-        <hr />
-        <h3 class="left-align text-uppercase">Карьера</h3>
-        
-        <div class="yurist-fields">
-        <?php if(($model->role == User::ROLE_JURIST || $model->role == User::ROLE_OPERATOR || $model->role == User::ROLE_CALL_MANAGER) && !$model->isNewRecord):?>
-
-        <div class="row">
-            <div class="col-sm-12"> 
-                <div class="form-group">
-                        <?php echo $form->labelEx($yuristSettings,'startYear'); ?>
-                        <?php echo $form->textField($yuristSettings,'startYear', array('class'=>'form-control')); ?>
-                        <?php echo $form->error($yuristSettings,'startYear'); ?>
-                </div>
-
-                <?php echo $form->hiddenField($yuristSettings,'townId', array('class'=>'form-control', 'value'=>$model->townId)); ?>                
-            </div>
         </div>
-            <?php endif;?>
-        </div>
-
-
-        <?php if($model->role == User::ROLE_JURIST):?> 
         
-            <?php if($yuristSettings->status != 0 && $yuristSettings->isVerified == 0):?>
-                <script type="text/javascript">
-                    $(function(){
-                        $('#user-profile-<?php 
-
-                        switch($yuristSettings->status) {
-                            case YuristSettings::STATUS_YURIST:
-                                echo 'yurist';
-                                break;
-                            case YuristSettings::STATUS_ADVOCAT:
-                                echo 'advocat';
-                                break;
-                            case YuristSettings::STATUS_JUDGE:
-                                echo 'judge';
-                                break;
-
-                        }
-                        ?>').show();
-                    })
-                </script>
-            <?php endif;?>
-
-            <div id="user-profile-yurist">
-                <p>
-                    Для подтверждения статуса юриста необходимо отправить дополнительные данные.
-                </p>
-                
-                <hr />
-                <h3 class="left-align text-uppercase">Образование</h3>
-        
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                                <?php echo $form->labelEx($yuristSettings,'vuz'); ?>
-                                <?php echo $form->textField($yuristSettings,'vuz', array('class'=>'form-control')); ?>
-                                <?php echo $form->error($yuristSettings,'vuz'); ?>
-                        </div>
-                        <div class="form-group">
-                                <?php echo $form->labelEx($yuristSettings,'facultet'); ?>
-                                <?php echo $form->textField($yuristSettings,'facultet', array('class'=>'form-control')); ?>
-                                <?php echo $form->error($yuristSettings,'facultet'); ?>
-                        </div>
-                        <div class="form-group">
-                                <?php echo $form->labelEx($yuristSettings,'education'); ?>
-                                <?php echo $form->textField($yuristSettings,'education', array('class'=>'form-control')); ?>
-                                <?php echo $form->error($yuristSettings,'education'); ?>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                            <div class="form-group">
-                                    <?php echo $form->labelEx($yuristSettings,'vuzTownId'); ?>
-                                    <?php echo CHtml::textField('vuzTownId', ($yuristSettings->vuzTown->name)?$yuristSettings->vuzTown->name:'', array('id'=>'vuz-town-selector', 'class'=>'form-control')); ?>
-                                    <?php
-                                        echo $form->hiddenField($yuristSettings, 'vuzTownId', array('id'=>'vuz-selected-town'));
-                                    ?>
-                            </div>
-                    </div>    
-                    <div class="col-md-6">    
-                            <div class="form-group">
-                                    <?php echo $form->labelEx($yuristSettings,'educationYear'); ?>
-                                    <?php echo $form->textField($yuristSettings,'educationYear', array('class'=>'form-control')); ?>
-                                    <?php echo $form->error($yuristSettings,'educationYear'); ?>
-                            </div>
-                    </div>
-
-                </div>     
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <?php echo $form->labelEx($userFile,'userFile'); ?>
-                            <?php echo $form->fileField($userFile, 'userFile');?>
-                            <?php echo $form->error($userFile,'userFile'); ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="user-profile-advocat">
-                <p>
-                    Для подтверждения статуса юриста необходимо отправить дополнительные данные.
-                </p>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                                <?php echo $form->labelEx($yuristSettings,'advOrganisation'); ?>
-                                <?php echo $form->textField($yuristSettings,'advOrganisation', array('class'=>'form-control')); ?>
-                                <?php echo $form->error($yuristSettings,'advOrganisation'); ?>
-                        </div>
-
-                    </div>
-                    <div class="col-md-6">
-                            <div class="form-group">
-                                <?php echo $form->labelEx($yuristSettings,'advNumber'); ?>
-                                <?php echo $form->textField($yuristSettings,'advNumber', array('class'=>'form-control')); ?>
-                                <?php echo $form->error($yuristSettings,'advNumber'); ?>
-                            </div>
-                    </div>    
-                    <div class="col-md-6">    
-                            <div class="form-group">
-                                <?php echo $form->labelEx($yuristSettings,'position'); ?>
-                                <?php echo $form->textField($yuristSettings,'position', array('class'=>'form-control')); ?>
-                                <?php echo $form->error($yuristSettings,'position'); ?>
-                            </div>
-                    </div>
-                </div>
-
-            </div>
-
-
-            <div id="user-profile-judge">
-                <p>
-                    Функция подтверждения статуса судьи пока в разработке..
-                </p>
-            </div>   
-        <?php endif;?>
-    
-                
-        <hr />        
+   
+        <div class='flat-panel inside vert-margin20'>
         <h3 class="left-align text-uppercase">Специализации</h3>
         
         <div class="form-group"> 
@@ -355,48 +204,29 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
                         }
                     ?>
                     <div class="col-md-6 checkbox-container">
-                        <div class="checkbox">
+                        <div class="checkbox checkbox-profile">
                             <label>
                                 <?php echo CHtml::checkBox('User[categories][]', $checked, array('value'=>$key, 'class'=>'checkbox-root'));?>
                                 <?php echo $direction['name'];?>
                             </label>
                         </div>
-                        
-                        <?php if($direction['children']):?>
-                            <?php foreach($direction['children'] as $childId=>$child):?>
-                                <?php 
-                                    if(in_array($childId, $userCategories)) {
-                                        $checked = true;
-                                    } else {
-                                        $checked = false;
-                                    }
-                                ?>
-                                <div class="checkbox">
-                                    <label>
-                                        &nbsp;&nbsp;
-                                        <?php echo CHtml::checkBox('User[categories][]', $checked, array('value'=>$childId, 'class'=>'checkbox-child'));?>
-                                        <?php echo $child['name'];?>
-                                    </label>
-                                </div>
-                            <?php endforeach;?>
-                        <?php endif;?>
                     </div> <!-- .col-md-6 -->   
                 <?php endforeach;?>
                 
             </div>
         </div>
-    
+        </div>
     <?php endif;?>
       
                 
     <?php if($model->isNewRecord == false):?>
-        <hr />
-        <h3 class="left-align text-uppercase">Пароль <?php echo CHtml::link('Изменить', Yii::app()->createUrl('user/changePassword', array('id'=>$model->id)), array('class'=>'btn btn-default btn-sm'));?>        
-</h3>
-
+        <div class='flat-panel inside vert-margin20'>
+        <h3 class="left-align text-uppercase">
+            Пароль <?php echo CHtml::link('Изменить', Yii::app()->createUrl('user/changePassword', array('id'=>$model->id)), array('class'=>'btn btn-default btn-sm'));?>        
+        </h3>
+        </div>
     <?php endif;?>
             
-    <hr />    
 <div class="row">
     <div class="col-sm-12">
         <div class="form-group center-align">

@@ -8,11 +8,10 @@ $this->pageTitle=Yii::app()->name . ' - Аккаунт успешно актив
         <div class="vert-margin30">
         <?php if($user->role == User::ROLE_JURIST):?>
             <p>
-                Теперь вам доступна возможность отвечать на вопросы пользователей.
-                <br /><br />
-                Для этого войдите в личный кабинет. Параметры для доступа 
-                отправлены на Вашу почту.
+                Теперь Вам необходимо заполнить свой профиль.
             </p>
+            
+            <?php echo CHtml::link("Заполнить профиль", Yii::app()->createUrl('user/update', array('id' => Yii::app()->user->id)), array('class' => 'btn btn-primary'));?>
         <?php else:?>
             <p class="vert-margin30">
             Заданный Вами вопрос опубликован. Ждите уведомления об ответах юристов.

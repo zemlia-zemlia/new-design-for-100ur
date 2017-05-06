@@ -102,10 +102,10 @@ class YuristSettings extends CActiveRecord
             'vuzTownId'     =>  'город ВУЗа', 
             'educationYear' =>  'год окончания',
             'site'          =>  'сайт',
-            'priceConsult'  =>  'стоимость консультации',
-            'priceDoc'      =>  'стоимость составления документа',
-            'phoneVisible'  =>  'Отображаемый телефон',
-            'emailVisible'  =>  'Отображаемый Email',
+            'priceConsult'  =>  'консультация от',
+            'priceDoc'      =>  'составление документа от',
+            'phoneVisible'  =>  'Общедоступный телефон',
+            'emailVisible'  =>  'Общедоступный Email',
         );
     }
 

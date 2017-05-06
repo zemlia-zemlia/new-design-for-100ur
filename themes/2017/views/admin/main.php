@@ -82,7 +82,7 @@
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-share-alt'></span>  Источники", Yii::app()->createUrl('/admin/leadsource'));?></li>                        
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-share-alt'></span>  Касса", Yii::app()->createUrl('/admin/money'));?></li>
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-briefcase'></span>  Пользователи", Yii::app()->createUrl('/admin/user/index'));?></li>
-                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-eye-close'></span>  Запросы на смену статуса ", Yii::app()->createUrl('/admin/userStatusRequest'));?></li>
+                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-eye-close'></span>  Запросы на смену статуса ", Yii::app()->createUrl('/admin/userStatusRequest'));?> <span class="badge badge-default"><?php echo UserStatusRequest::getNewRequestsCount();?></span></li>
 	
                         </ul>
 					</div>

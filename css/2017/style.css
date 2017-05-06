@@ -35,6 +35,7 @@ h2 {
 
 h3 {
     font-size:18px;
+    margin-top:0;
 }
 
 h4 {
@@ -277,6 +278,10 @@ hr {
     border:#ddd 1px solid;
 }
 
+.checkbox-profile {
+    margin-top:5px;
+    margin-bottom:5px;
+}
 
 /* 
     это стили для левой и правой панели
@@ -628,7 +633,7 @@ hr {
 }
 
 /*-------------- yurist profile ----------------------*/
-#user-profile-advocat, #user-profile-yurist, #user-profile-judge {
+#user-profile-advocat, #user-profile-yurist, #user-profile-judge, #form-submit {
     display:none;
 }
 
@@ -659,6 +664,12 @@ hr {
 .annoying-widget {
     margin-bottom: 20px;
     text-align: center;
+}
+
+.radio-block {
+    border:#ddd 1px solid;
+    padding:10px;
+    text-align:center;
 }
 
 @media(max-width:767px) {

@@ -398,6 +398,7 @@ class QuestionController extends Controller
                     ->from('{{question}}')
                     ->where('status IN (:status1, :status2)', array(':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED))
                     ->group('year, month')
+                    ->order('publishDate DESC')
                     ->queryAll();
             foreach($datesRows as $row) {
                 if($row['year'] && $row['month']) {

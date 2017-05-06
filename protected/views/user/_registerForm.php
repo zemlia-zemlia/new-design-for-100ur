@@ -5,13 +5,6 @@
 Yii::app()->clientScript->registerScriptFile('/js/user.js');
 
 ?>
-<script type="text/javascript">
-    $(function(){
-        toggleUserForm();
-    })
-
-</script>
-
 <div class="container-fluid">
 <div class="form">
 
@@ -28,59 +21,41 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
 	<?php echo $form->errorSummary($model, "Исправьте ошибки"); ?>
         <?php echo $form->errorSummary($yuristSettings, "Исправьте ошибки"); ?>
 
-<div class="form-group radio-labels">
+    
+<?php if(!$model->role):?>
+    <div class="form-group">
+        <p class="text-center vert-margin20">
         <strong>Выберите подходящий Вам тип аккаунта</strong><br />
-        <?php // echo $form->radioButtonList($model,'role', $rolesNames, array('class'=>'form-control'));?>
-        <div class="alert alert-info">
-            <label for="role_client">
-                <?php echo $form->radioButton($model,'role', array('class'=>'', 'value'=>User::ROLE_CLIENT, 'id'=>'role_client'));?>
-                <strong>Клиент.</strong> Вам подойдет этот тип аккаунта, если Вы хотите задать вопрос юристу или получить юридическую помощь
-            </label><br />
+        </p> 
+        <div class="row">
+            <div class="col-sm-6 text-center">
+                <?php echo CHtml::link("Я клиент", Yii::app()->createUrl('user/create', array('role' => User::ROLE_CLIENT)), array('class' => 'btn btn-primary btn-lg'));?>
+            </div>
+            <div class="col-sm-6 text-center">
+                <?php echo CHtml::link("Я юрист", Yii::app()->createUrl('user/create', array('role' => User::ROLE_JURIST)), array('class' => 'btn btn-primary btn-lg'));?>
+            </div>
         </div>
-        <div class="alert alert-info">
-            <label for="role_yurist">
-                <?php echo $form->radioButton($model,'role', array('class'=>'', 'value'=>User::ROLE_JURIST, 'id'=>'role_yurist'));?>
-                <strong>Юрист.</strong> Для юристов и специалистов в области права.
-            </label>
-        </div>
-        <?php echo $form->error($model,'role'); ?>
-</div>
-      
-    <div class="form-group">
-        <?php echo $form->labelEx($model,'name'); ?>
-        <?php echo $form->textField($model,'name', array('class'=>'form-control')); ?>
-        <?php echo $form->error($model,'name'); ?>
-    </div> 
 
-    <div class="form-group">
-        <?php echo $form->labelEx($model,'email'); ?>
-        <?php echo $form->textField($model,'email', array('class'=>'form-control')); ?>
-        <?php echo $form->error($model,'email'); ?>
     </div>
-
-    <div class="form-group">
-        <?php echo $form->labelEx($model,'phone'); ?>
-        <?php echo $form->textField($model,'phone', array('class'=>'form-control')); ?>
-        <?php echo $form->error($model,'phone'); ?>
-    </div>
-
-    <div class="form-group">
-        <?php echo $form->labelEx($model,'townId'); ?>
-        <?php echo CHtml::textField('town', ($model->town->name)?$model->town->name:'', array('id'=>'town-selector', 'class'=>'form-control')); ?>
-        <?php
-            echo $form->hiddenField($model, 'townId', array('id'=>'selected-town'));
-        ?>
-    </div>
-         
+<?php else:?>
+    
+    <?php echo $form->hiddenField($model,'role'); ?>
+    <?php
+        $formView = ($model->role == User::ROLE_JURIST) ? "_registerFormJurist" : "_registerFormClient";
+    ?>
+    
+    <?php echo $this->renderPartial($formView, array('form' => $form,  'model' => $model));?>
+       
 
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-12 text-center">
         <div class="form-group">
-                <?php echo CHtml::submitButton($model->isNewRecord ? 'Зарегистрироваться' : 'Сохранить', array('class'=>'btn btn-primary btn-lg')); ?>
+                <?php echo CHtml::submitButton($model->isNewRecord ? 'Продолжить' : 'Сохранить', array('class'=>'btn btn-success btn-lg')); ?>
         </div>
     </div>
 </div> 
-
+<?php endif;?>  
+    
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
