@@ -307,6 +307,16 @@
 					<div class="logo-description-footer">
                     <h5>юридические консультации онлайн</h5>    
                     </div>
+                    <div id="social-icons-container">
+                        <noindex>
+                        <a href="https://www.instagram.com/100yuristov/" target="_blank" rel="nofollow"><img src="/pics/2017/ig_icon.png" alt="Instagram" /></a>
+                        <a href="https://vk.com/sto_yuristov" target="_blank" rel="nofollow"><img src="/pics/2017/vk_icon.png" alt="VK" /></a>
+                        <a href="#" rel="nofollow"><img src="/pics/2017/ok_icon.png" alt="Одноклассники" /></a>
+                        <a href="#" rel="nofollow"><img src="/pics/2017/yt_icon.png" alt="Youtube" /></a>
+                        <a href="#" rel="nofollow"><img src="/pics/2017/fb_icon.png" alt="Facebook" /></a>
+                        <a href="https://twitter.com/stoyuristov" target="_blank" rel="nofollow"><img src="/pics/2017/tw_icon.png" alt="Twitter" /></a>
+                        </noindex>
+                    </div>
                 </div>
 				
 				<div class='col-md-3 col-sm-3'>

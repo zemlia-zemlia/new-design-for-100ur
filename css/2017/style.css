@@ -514,6 +514,14 @@ hr {
     list-style-image: url(/pics/2017/arrow_list_white.png);
 }
 
+#social-icons-container img {
+    filter:opacity(0.5);
+    transition:all 0.5s;
+}
+
+#social-icons-container img:hover {
+    filter:none;
+}
 
 /*  search widget */
 
