@@ -230,7 +230,7 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
 <div class="row">
     <div class="col-sm-12">
         <div class="form-group center-align">
-                <?php echo CHtml::submitButton($model->isNewRecord ? 'Зарегистрироваться' : 'Сохранить', array('class'=>'btn btn-primary btn-lg')); ?>
+                <?php echo CHtml::submitButton('Сохранить изменения', array('class'=>'btn btn-primary btn-lg')); ?>
         </div>
     </div>
 </div> 

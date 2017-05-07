@@ -312,12 +312,21 @@ class User extends CActiveRecord
             ))) . "?utm_source=100yuristov&utm_medium=mail&utm_campaign=user_registration";
 
         $mailer->subject = "100 Юристов - Подтверждение Email";
+        
+        
         $mailer->message = "
             <h1>Пожалуйста подтвердите Email</h1>
-            <p>Здравствуйте!<br />
-            Вы задали вопрос на сайте <a href='https://".$_SERVER['SERVER_NAME']."'>100 юристов</a></p>".
-        "<p>Для того, чтобы юристы увидели Ваш вопрос, необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>".
-        "<p><strong>" . CHtml::link("Подтвердить Email",$confirmLink, array('style'=>' padding: 10px;
+            <p>Здравствуйте!<br />";
+        
+        if($this->role == self::ROLE_JURIST) {
+            $mailer->message .=   "Вы зарегистрировались в качестве юриста на сайте " . CHtml::link("100 Юристов", Yii::app()->createUrl('/')) . "</p>" .
+             "<p>Для активации профиля Вам необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";       
+        } else {
+            $mailer->message .=   "Вы задали вопрос на сайте " . CHtml::link("100 Юристов", Yii::app()->createUrl('/')) . "</p>".
+                "<p>Для того, чтобы юристы увидели Ваш вопрос, необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";
+        }
+        
+        $mailer->message .=   "<p><strong>" . CHtml::link("Подтвердить Email",$confirmLink, array('style'=>' padding: 10px;
             width: 150px;
             display: block;
             text-decoration: none;

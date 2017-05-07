@@ -393,6 +393,11 @@ class UserController extends Controller
                             $this->redirect(array('question/view', 'id'=>$question->id, 'justPublished'=>1));
                         }
                         
+                        // если активированный пользователь - юрист, направляем его в форму редактирования профиля
+                        if(Yii::app()->user->role == User::ROLE_JURIST) {
+                            $this->redirect(array('user/update', 'id'=>Yii::app()->user->id));
+                        }
+                        
                         $this->render('activationSuccess', array(
                             'user'          =>  $user, 
                             'loginModel'    =>  $loginModel,
