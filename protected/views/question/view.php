@@ -183,35 +183,39 @@ if($model->description) {
       
         
 <?php if(Yii::app()->user->isGuest):?>
-            <!--<div class="alert alert-success">
+            <div class="alert alert-success">
                     <strong>Внимание!</strong> Если вы специалист в области права вы можете дать ответ на этот вопрос пройдя нехитрую процедуру <a href="/user/create/" class="alert-link" >регистрации</a> и подтверждения вашей квалификации.
-            </div>	-->    
+            </div>  
 <?php endif;?>    
     
 </div> <!-- Question --> 
 
 <?php if(Yii::app()->user->role == User::ROLE_JURIST && !in_array(Yii::app()->user->id, $answersAuthors)):?>
 
-    <div class='flat-panel inside'>
+    
         
         <?php if(Yii::app()->user->isVerified):?>
+            <div class='flat-panel inside'>
             <h2 class="header-block-light-grey" >Ваш ответ:</h2>
 			<p class="text-muted small inside">
 				При ответах на вопросы соблюдайте, пожалуйста, правила сайта. Обратите внимание, что реклама в тексте ответа запрещена, контактные данные можно указывать только в своем профиле. Запрещается полное или частичное копирование текста ответов с других ресурсов.
 			</p>
 		
             <?php $this->renderPartial('application.views.answer._form', array('model'=>$answerModel));?>
-        <?php else:?>
-            <div class="alert alert-warning">
-                <p>
-                Вы не можете отвечать на вопросы, пока не подтвердили свою квалификацию. 
-                Вы можете сделать это в настройках своего профиля.
-                </p><br />
-                <?php echo CHtml::link('Перейти в настройки', Yii::app()->createUrl('user/update', array('id'=>Yii::app()->user->id)), array('class'=>'btn btn-primary'));?>
             </div>
+        <?php else:?>
+            <?php if(empty($lastRequest)):?>
+                <div class="alert alert-danger">
+                    <p>
+                    Вы не можете отвечать на вопросы, пока не подтвердили свою квалификацию. 
+                    Вы можете сделать это в настройках своего профиля.
+                    </p><br />
+                    <?php echo CHtml::link('Подтвердить квалификацию', Yii::app()->createUrl('userStatusRequest/create'), array('class'=>'btn btn-default'));?>
+                </div>
+            <?php endif;?>
         <?php endif;?>
 				
-    </div>
+    
 
 <?php endif;?>
 

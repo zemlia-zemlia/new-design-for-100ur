@@ -49,11 +49,11 @@
                 <div class="col-md-12">
                     <p><?php echo CHtml::submitButton('Войти',array('class'=>'button button-blue-gradient btn-block text-uppercase')); ?></p>
                 </div>
-                <!--
-                <div class="col-md-6">
-                    <p><?php //echo CHtml::link('Регистрация', Yii::app()->createUrl('user/create'), array('class'=>'btn btn-success btn-xs btn-block')); ?></p>
+                
+                <div class="col-md-12">
+                    <p><?php echo CHtml::link('Регистрация', Yii::app()->createUrl('user/create'), array('class'=>'button button-blue-gradient btn-block text-uppercase')); ?></p>
                 </div>
-                -->
+                
             </div>
         </div>
 

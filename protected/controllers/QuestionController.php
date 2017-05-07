@@ -147,7 +147,20 @@ class QuestionController extends Controller
             foreach($categories as $cat) {
                 $categoriesArray[] = $cat->id;
             }
-      
+            
+            if(Yii::app()->user->role == User::ROLE_JURIST) {
+                // найдем последний запрос на смену статуса
+                $lastRequest = Yii::app()->db->createCommand()
+                    ->select('*')
+                    ->from("{{userStatusRequest}}")
+                    ->where("yuristId=:id AND isVerified=0", array(':id'=>Yii::app()->user->id))
+                    ->order('id DESC')
+                    ->limit(1)
+                    ->queryRow();
+            } else {
+                $lastRequest = null;
+            }
+                  
             // модель для формы вопроса
             $newQuestionModel = new Question();
                         
@@ -159,6 +172,7 @@ class QuestionController extends Controller
                     'answerModel'           =>  $answerModel,
                     'justPublished'         =>  $justPublished,
                     'commentModel'          =>  $commentModel,
+                    'lastRequest'           =>  $lastRequest,
             ));
 	}
 
