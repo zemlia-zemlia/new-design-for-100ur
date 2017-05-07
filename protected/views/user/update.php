@@ -18,6 +18,13 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <h1 class="vert-margin30">Редактирование профиля</h1>
 
+<?php if($newUser):?>
+<div class="alert alert-info">
+    Максимально заполните информацию о себе.<br /><br />
+    Юристы с заполненным профилем участвуют в рейтинге и доверие к ним выше.
+</div>
+<?php endif;?>
+
 <?php echo $this->renderPartial('_form', array(
         'model'             =>  $model,
         'rolesNames'        =>  $rolesNames,

@@ -29,10 +29,18 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
         </p> 
         <div class="row">
             <div class="col-sm-6 text-center">
-                <?php echo CHtml::link("Я клиент", Yii::app()->createUrl('user/create', array('role' => User::ROLE_CLIENT)), array('class' => 'btn btn-primary btn-lg'));?>
+                <?php echo CHtml::link("Я клиент", Yii::app()->createUrl('user/create', array('role' => User::ROLE_CLIENT)), array('class' => 'btn btn-primary btn-lg vert-margin20'));?>
+                <p>
+                    Вам подойдет этот тип аккаунта, если Вы хотите задать вопрос юристу и получить консультацию.
+                </p>
+            
             </div>
             <div class="col-sm-6 text-center">
-                <?php echo CHtml::link("Я юрист", Yii::app()->createUrl('user/create', array('role' => User::ROLE_JURIST)), array('class' => 'btn btn-primary btn-lg'));?>
+                <?php echo CHtml::link("Я юрист", Yii::app()->createUrl('user/create', array('role' => User::ROLE_JURIST)), array('class' => 'btn btn-primary btn-lg vert-margin20'));?>
+                <p>
+                    Если вы специалист в области права и хотите отвечать на вопросы пользователей.
+                </p>
+            
             </div>
         </div>
 

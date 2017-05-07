@@ -140,7 +140,7 @@ class UserController extends Controller
                         $yuristSettings->save();
                     }
                     if($model->sendConfirmation($newPassword)) {
-                        $this->redirect(array('ConfirmationSent'));
+                        $this->redirect(array('ConfirmationSent', 'role' => $model->role));
                     } else {
                         throw new CHttpException(500,'Что-то пошло не так. Мы не смогли отправить Вам письмо с подтверждением регистрации на сайте. Не беспокойтесь, с вашим аккаунтом все в порядке, просто письмо с подтверждением придет немного позже.');
                     }
@@ -181,6 +181,7 @@ class UserController extends Controller
                 $model->setScenario('update');
             }
             
+            $newUser = (isset($_GET['newUser'])) ? true : false;
             
             // модель для работы со сканом
             $userFile = new UserFile;
@@ -299,6 +300,7 @@ class UserController extends Controller
                 'townsArray'        =>  $townsArray,
                 'rolesNames'        =>  $rolesNames,
                 'allDirections'     =>  $allDirections,
+                'newUser'           =>  $newUser,
             ));
         }
         
@@ -340,7 +342,9 @@ class UserController extends Controller
         public function actionConfirmationSent()
         {
            $this->layout = '//frontend/short';
-           $this->render('confirmationSent');  
+           
+           $role = ($_GET['role'] == User::ROLE_JURIST) ? User::ROLE_JURIST : User::ROLE_CLIENT;
+           $this->render('confirmationSent', array('role' => $role));  
         }
         
         public function actionConfirm()
@@ -395,7 +399,7 @@ class UserController extends Controller
                         
                         // если активированный пользователь - юрист, направляем его в форму редактирования профиля
                         if(Yii::app()->user->role == User::ROLE_JURIST) {
-                            $this->redirect(array('user/update', 'id'=>Yii::app()->user->id));
+                            $this->redirect(array('user/update', 'id'=>Yii::app()->user->id, 'newUser' => 1));
                         }
                         
                         $this->render('activationSuccess', array(
