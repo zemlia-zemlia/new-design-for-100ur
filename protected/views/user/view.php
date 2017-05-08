@@ -34,7 +34,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <div class="row">
                 <div class="col-sm-3 center-align">
                     <p>
-                        <img src="<?php echo $model->getAvatarUrl();?>" class="gray-panel img-bordered" itemprop="image" />
+                        <img src="<?php echo $model->getAvatarUrl();?>" alt="<?php echo $userStatusName . $userDisplayName;?>" class="gray-panel img-bordered" itemprop="image" />
                     </p>    
                     <?php echo CHtml::link('Задать вопрос', Yii::app()->createUrl('question/create'), array('class'=>'btn btn-info'));?>
 

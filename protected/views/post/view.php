@@ -68,7 +68,7 @@ $this->breadcrumbs=array(
                     <span class="muted"><?php echo CustomFuncs::invertDate($model->datePublication);?></span>
                 </div>
                 <div class='col-md-5 col-sm-5 right-align'>
-                    <img src='/pics/2015/icon_eye.png' alt='' />&nbsp;<span class='muted'><?php echo $model->viewsCount->views;?> <?php echo CustomFuncs::numForms($model->viewsCount->views, 'просмотр', "просмотра", "просмотров");?></span>
+                    <img src='/pics/2015/icon_eye.png' alt='просмотров' />&nbsp;<span class='muted'><?php echo $model->viewsCount->views;?> <?php echo CustomFuncs::numForms($model->viewsCount->views, 'просмотр', "просмотра", "просмотров");?></span>
                 </div>
 				<div class='col-md-4 col-sm-4 right-align'>
 				<script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
