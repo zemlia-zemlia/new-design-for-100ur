@@ -261,7 +261,7 @@ class Question extends CActiveRecord
          * 
          * @param int $wordsCount лимит на количество слов в заголовке
          */
-        public function formTitle($wordsCount = 10)
+        public function formTitle($wordsCount = 12)
         {
             $text = trim(preg_replace("/[^a-zA-Zа-яА-ЯёЁ0-9 ]/ui", ' ', $this->questionText));
 

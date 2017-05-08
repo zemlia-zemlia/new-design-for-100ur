@@ -28,6 +28,9 @@ class YurCompany extends CActiveRecord
     // пути для хранения картинок
     const COMPANY_PHOTO_PATH = "/upload/company";
     const COMPANY_PHOTO_THUMB_FOLDER = "/thumbs";
+    
+    // аватар по умолчанию
+    const DEFAULT_AVATAR_FILE = "/pics/yurist.png";
 
     /**
      * @return string the associated database table name
@@ -145,7 +148,9 @@ class YurCompany extends CActiveRecord
     public function getPhotoUrl($size='full')
     {
         $photoUrl = '';
-
+        if(!$this->logo) {
+            return self::DEFAULT_AVATAR_FILE;
+        }
         if($size == 'full') {
             $photoUrl = self::COMPANY_PHOTO_PATH . '/' . CHtml::encode($this->logo);
         } elseif($size == 'thumb') {

@@ -122,7 +122,7 @@ $this->breadcrumbs=array(
                     <?php if($companyCounter%2 == 1) echo "<div class='row'>";?>
 
                     <div class="col-md-2">
-                        <img src="<?php echo $company->getPhotoUrl('thumb');?>" alt="" class="img-responsive" />
+                        <img src="<?php echo $company->getPhotoUrl('thumb');?>" alt="<?php echo CHtml::encode($company->name);?>" class="img-responsive" />
                     </div>
                     <div class="col-md-4">
                         <?php echo CHtml::link(CHtml::encode($company->name), Yii::app()->createUrl('yurCompany/view',array('id'=>$company->id)));?>
