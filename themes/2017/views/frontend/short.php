@@ -311,9 +311,9 @@
                         <noindex>
                         <a href="https://www.instagram.com/100yuristov/" target="_blank" rel="nofollow"><img src="/pics/2017/ig_icon.png" alt="Instagram" /></a>
                         <a href="https://vk.com/sto_yuristov" target="_blank" rel="nofollow"><img src="/pics/2017/vk_icon.png" alt="VK" /></a>
-                        <a href="https://ok.ru/group/53087450366125" rel="nofollow"><img src="/pics/2017/ok_icon.png" alt="Одноклассники" /></a>
-                        <a href="https://www.youtube.com/channel/UCgleswVaxaLKwL-MeGDmtfQ" rel="nofollow"><img src="/pics/2017/yt_icon.png" alt="Youtube" /></a>
-                        <a href="https://www.facebook.com/100-%D0%AE%D1%80%D0%B8%D1%81%D1%82%D0%BE%D0%B2-1384104981880799/" rel="nofollow"><img src="/pics/2017/fb_icon.png" alt="Facebook" /></a>
+                        <a href="https://ok.ru/group/53087450366125" target="_blank" rel="nofollow"><img src="/pics/2017/ok_icon.png" alt="Одноклассники" /></a>
+                        <a href="https://www.youtube.com/channel/UCgleswVaxaLKwL-MeGDmtfQ" target="_blank" rel="nofollow"><img src="/pics/2017/yt_icon.png" alt="Youtube" /></a>
+                        <a href="https://www.facebook.com/100-%D0%AE%D1%80%D0%B8%D1%81%D1%82%D0%BE%D0%B2-1384104981880799/" target="_blank" rel="nofollow"><img src="/pics/2017/fb_icon.png" alt="Facebook" /></a>
                         <a href="https://twitter.com/stoyuristov" target="_blank" rel="nofollow"><img src="/pics/2017/tw_icon.png" alt="Twitter" /></a>
                         </noindex>
                     </div>
