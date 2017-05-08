@@ -4,7 +4,7 @@
 $purifier = new Purifier();
 
 $this->setPageTitle(CHtml::encode($model->title) . " " . "Консультации ". Yii::app()->name);
-Yii::app()->clientScript->registerMetaTag($purifier->purify($model->description), "Description");
+Yii::app()->clientScript->registerMetaTag($purifier->purify($model->preview), "Description");
 
 $this->breadcrumbs=array(
 	'Блог'=>array('/blog'),

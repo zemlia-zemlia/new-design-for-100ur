@@ -9,6 +9,7 @@ if(isset($_GET) && (int)$_GET['Question_page']) {
     $pageTitle .= 'Страница ' . $pageNumber . ' из ' . $pagesTotal . '. ';
 }
 $this->setPageTitle($pageTitle);
+Yii::app()->clientScript->registerMetaTag("Ответы юристов и адвокатов. " . $pageTitle, "Description");
 
 ?>
 <div class="flat-panel">
