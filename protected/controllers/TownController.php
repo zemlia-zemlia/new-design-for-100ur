@@ -86,6 +86,15 @@ class TownController extends Controller
                 throw new CHttpException(404,'Город не найден');
             }
             
+            if(isset($_GET['Question_page'])) {
+                $this->redirect(array(
+                    'town/alias', 
+                    'name'          =>  $model->alias,
+                    'countryAlias'  =>  $model->country->alias,
+                    'regionAlias'   =>  $model->region->alias,
+                    ), 301);
+            }
+            
             // при попытке обратиться по адресу типа town/alias/xxxx, переадресуем на адрес со страной и регионом
             if(!isset($_GET['regionAlias'])) {
                 $this->redirect(array(

@@ -12,7 +12,7 @@ $pageTitle.= ' ' . Yii::app()->name;
 $this->setPageTitle($pageTitle);
 
 Yii::app()->clientScript->registerMetaTag('Юридические компании и фирмы города ' . $town->name . ', оказывающие услуги в сфере права. ' . Yii::app()->name, 'description');
-Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('/yurCompany/town', array('alias'=>$town->alias)));
+//Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('/yurCompany/town', array('alias'=>$town->alias)));
 
 $this->breadcrumbs=array(
 	'Юридические фирмы'=>array('/company'),
