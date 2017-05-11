@@ -212,6 +212,10 @@ class QuestionController extends Controller
                         'having' =>  's=0',
                     ));
             }
+            
+            if(isset($_GET['moderatedBy'])) {
+                $criteria->addColumnCondition(array('moderatedBy' => (int)$_GET['moderatedBy']));
+            }
 
 
             if(!isset($_GET['nocat'])) {
@@ -571,7 +575,7 @@ class QuestionController extends Controller
              */
             
             $moderatorsStats = Yii::app()->db->createCommand()
-                    ->select("u.name, u.lastName, COUNT(*) counter")
+                    ->select("u.id, u.name, u.lastName, COUNT(*) counter")
                     ->from("{{question}} q")
                     ->leftJoin("{{user}} u", "u.id=q.moderatedBy")
                     ->where("q.moderatedBy!=0")

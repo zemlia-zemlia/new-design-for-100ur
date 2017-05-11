@@ -23,7 +23,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/question.js');
     <?php foreach($moderatorsStats as $moderator):?>
     <tr>
         <td><?php echo $moderator['name'] . ' ' . $moderator['lastName'];?></td>
-        <td><?php echo $moderator['counter'];?></td>
+        <td><?php echo CHtml::link($moderator['counter'], Yii::app()->createUrl('/admin/question/index', array('moderatedBy' => $moderator['id'])));?></td>
     </tr>
     <?php endforeach;?>
 </table>
