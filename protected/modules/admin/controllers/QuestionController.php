@@ -215,6 +215,9 @@ class QuestionController extends Controller
             
             if(isset($_GET['moderatedBy'])) {
                 $criteria->addColumnCondition(array('moderatedBy' => (int)$_GET['moderatedBy']));
+                $moderator = User::model()->findByPk((int)$_GET['moderatedBy']);
+            } else {
+                $moderator = null;
             }
 
 
@@ -280,6 +283,7 @@ class QuestionController extends Controller
                     'nocat'         =>  $nocat,
                     'notown'        =>  $notown,
                     'allDirections' =>  $allDirections,
+                    'moderator'     =>  $moderator,
             ));
 	}
         

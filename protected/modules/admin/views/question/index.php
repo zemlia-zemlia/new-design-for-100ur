@@ -25,6 +25,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         без города
     <?php endif;?>
 
+        <?php if($moderator):?>
+        Модератор <?php echo $moderator->getShortName();?>
+        <?php endif;?>
 
 <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
 
