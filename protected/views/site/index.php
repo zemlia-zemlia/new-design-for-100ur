@@ -40,7 +40,7 @@
                 <?php endforeach;?>
         
                 <div class='right-align'>
-                    <?php echo CHtml::link('Последние вопросы &raquo;', Yii::app()->createUrl('/question'), array('style'=>'color:#a2a2a2;'));?>
+                    <?php echo CHtml::link('Последние вопросы &raquo;', Yii::app()->createUrl('/question/index'), array('style'=>'color:#a2a2a2;'));?>
                 </div>
             </div>
         </div>
