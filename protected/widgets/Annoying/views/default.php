@@ -48,7 +48,7 @@
             <small>
             <p>
                 Уважаемый юрист, если Вы хотите консультировать граждан из Вашего города, 
-                отправьте заявку на адрес <strong><?php echo Yii::app()->params['leadsEmail'];?></strong>
+                <strong><?php echo CHtml::link('Зарегистрируйтесь', Yii::app()->createUrl('user/create', array('role' => User::ROLE_JURIST)));?></strong>
             </p>
             </small>
         </div>
