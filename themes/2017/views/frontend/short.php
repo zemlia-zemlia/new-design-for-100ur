@@ -187,35 +187,6 @@
                 <?php endif;?>
                 
                 
-		<?php if(Yii::app()->user->role != User::ROLE_JURIST):?>	
-                    <div class="flat-panel vert-margin20">
-                        <?php
-                            $questionsCountInt = Question::getCount()*2;
-                            $questionsCount = str_pad((string)$questionsCountInt,6, '0',STR_PAD_LEFT);
-                            $numbers = str_split($questionsCount);
-                            $answersCount = str_pad((string)round($questionsCountInt*1.684),6, '0',STR_PAD_LEFT);;
-                            $numbersAnswers = str_split($answersCount);
-                        ?>
-                        <div class="questions-counter-description">
-                            <div class="center-align">
-                                <div class="header-block-grey">За время работы портала</div>
-                                <div class="header-block-grey-arrow"></div>
-                                <p>Задано вопросов</p>
-                                <p class="kpi-counter">
-                                    <img src="/pics/2017/icon_question.png" alt="100 Юристов - юридический портал" />
-                                    <?php foreach($numbers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
-                                </p>
-                                <div>На них дано ответов</div>
-                                <p class="kpi-counter">
-                                    <img src="/pics/2017/icon_answer.png" alt="100 Юристов - юридический портал" />
-                                    <?php foreach($numbersAnswers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
-                                </p>
-                                <p>по ТЕМАМ</p>
-                                <img src="/pics/2017/arrow_down.png" alt="100 Юристов - юридический портал" class="center-block" />
-                            </div>
-                        </div>
-                    </div>	
-                <?php endif;?>
 				
                 <div id="left-bar" class="">
                     <h4 id="left-menu-switch" class="header-bordered">Темы вопросов</h4>
@@ -226,14 +197,6 @@
                     ?>
 
                 </div>
-                
-                <div>
-                    <?php
-                    // выводим виджет с последними 4 вопросами
-                        $this->widget('application.widgets.RecentPosts.RecentPosts', array('template'=>'panel'));
-                    ?> 
-                </div>
-
             </div>
             
             <div class="col-md-3 col-sm-3"  id="right-panel">
@@ -299,6 +262,15 @@
     <?php endif;?>    
 */?>	
 
+    <div class="container">
+        <?php
+        // выводим виджет с последними 4 вопросами
+            $this->widget('application.widgets.RecentPosts.RecentPosts', array(
+                'template'  =>  'horizontal',
+                'number'    =>  3,
+                ));
+        ?> 
+    </div>
     <div id="footer">
         <div class='container'>
             <div class='row'>

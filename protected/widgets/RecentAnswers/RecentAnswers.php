@@ -19,7 +19,7 @@ class RecentAnswers extends CWidget
                 ->from('{{answer}} a')
                 ->leftJoin('{{user}} u', 'a.authorId = u.id')
                 ->leftJoin('{{question}} q', 'q.id = a.questionId')
-                ->where('a.datetime>NOW()-INTERVAL 30 DAY AND a.status!=2')
+                ->where('a.datetime>NOW()-INTERVAL 30 DAY AND a.status!=2 AND a.videoLink=""')
                 ->order('answerTime DESC')
                 ->queryAll();
         

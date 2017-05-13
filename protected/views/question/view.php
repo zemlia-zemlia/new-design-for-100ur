@@ -208,16 +208,16 @@ if($model->description) {
     
 </div> <!-- Question --> 
 
-<?php if(Yii::app()->user->role == User::ROLE_JURIST && !in_array(Yii::app()->user->id, $answersAuthors)):?>
+<?php if(in_array(Yii::app()->user->role, array(User::ROLE_JURIST, User::ROLE_ROOT)) && !in_array(Yii::app()->user->id, $answersAuthors)):?>
 
     
         
-        <?php if(Yii::app()->user->isVerified):?>
+        <?php if(Yii::app()->user->isVerified || Yii::app()->user->role == User::ROLE_ROOT):?>
             <div class='flat-panel inside'>
             <h2 class="header-block-light-grey" >Ваш ответ:</h2>
-			<p class="text-muted small inside">
-				При ответах на вопросы соблюдайте, пожалуйста, правила сайта. Обратите внимание, что реклама в тексте ответа запрещена, контактные данные можно указывать только в своем профиле. Запрещается полное или частичное копирование текста ответов с других ресурсов.
-			</p>
+            <p class="text-muted small inside">
+                    При ответах на вопросы соблюдайте, пожалуйста, правила сайта. Обратите внимание, что реклама в тексте ответа запрещена, контактные данные можно указывать только в своем профиле. Запрещается полное или частичное копирование текста ответов с других ресурсов.
+            </p>
 		
             <?php $this->renderPartial('application.views.answer._form', array('model'=>$answerModel));?>
             </div>

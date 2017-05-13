@@ -412,7 +412,7 @@ hr {
 }
 
 #left-menu li {
-    display:inline-block;
+    display:block;
     padding:2px;
 }
 
@@ -420,9 +420,9 @@ hr {
     display:block;
     background: #e9ecef;
     color:#4e5d65;
-    padding:2px;
+    padding:4px;
     border-radius: 3px;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 #left-menu li a:hover {
@@ -673,6 +673,26 @@ hr {
 .annoying-widget {
     margin-bottom: 20px;
     text-align: center;
+    position: fixed;
+    top:200px;
+    left:-270px;
+    width:270px;
+    transition:all 0.5s;
+}
+
+.annoying-wrapper {
+    position:relative;
+}
+
+.annoying-close {
+    position:absolute;
+    right:5px;
+    top:5px;
+}
+.annoying-open {
+    position:absolute;
+    right:-30px;
+    bottom:0;
 }
 
 .radio-block {
@@ -689,9 +709,14 @@ hr {
 
 .annoying-widget-fixed {
     position: fixed;
-    top:0;
+    top:200px;
+    left:0;
     z-index:1100;
     box-shadow: #aaa 2px 2px 10px;
+}
+
+.annoying-widget-fixed .annoying-open {
+    display: none;
 }
 
 .annoying-phone {

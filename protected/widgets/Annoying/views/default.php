@@ -1,5 +1,12 @@
 <div class="annoying-widget flat-panel">
-    
+    <div class="annoying-wrapper">
+        
+        <div class="annoying-close">
+            <a href="#">Свернуть</a>
+        </div>
+        
+        <a href="#" class="annoying-open"><img src="/pics/2017/open_annoying.png" alt="Развернуть" /></a>
+        
     <img src="/pics/2017/call.jpg" alt="Консультация юриста по телефону" class="center-block">
     
     <div class="inside">
@@ -53,5 +60,6 @@
             </small>
         </div>
     </div>
+    </div> 
 </div>
 

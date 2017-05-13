@@ -84,6 +84,10 @@ class QuestionController extends Controller
                 $answerModel->authorId = Yii::app()->user->id;
                 $answerModel->questionId = $model->id;
                 
+                if(Yii::app()->user->checkAccess(User::ROLE_ROOT)) {
+                    $answerModel->setScenario('addVideo');
+                }
+                
                 if($answerModel->save()){
                     $this->redirect(array('/question/view', 'id'=>$model->id));
                 }

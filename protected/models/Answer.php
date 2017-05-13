@@ -7,6 +7,7 @@
  * @property integer $id
  * @property integer $questionId
  * @property string $answerText
+ * @property string $videoLink
  * @property integer $authorId
  * @property integer $status
  * 
@@ -47,8 +48,10 @@ class Answer extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('questionId, answerText', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
+			array('questionId', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
 			array('questionId, authorId, status', 'numerical', 'integerOnly'=>true),
+			array('videoLink', 'url'),
+			array('answerText', 'required', 'except' => 'addVideo'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, questionId, answerText, authorId', 'safe', 'on'=>'search'),
@@ -76,12 +79,13 @@ class Answer extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'questionId' => 'ID вопроса',
-                        'question' => 'Вопрос',
-			'answerText' => 'Ответ',
-			'authorId' => 'ID автора',
-                        'status'   =>   'Статус',
+			'id'            =>  'ID',
+			'questionId'    =>  'ID вопроса',
+                        'question'      =>  'Вопрос',
+			'answerText'    =>  'Ответ',
+			'authorId'      =>  'ID автора',
+                        'status'        =>  'Статус',
+                        'videoLink'     =>  'Ссылка на Youtube видео',
 		);
 	}
 
@@ -156,5 +160,21 @@ class Answer extends CActiveRecord
             }
             
             parent::afterSave();
+        }
+        
+        /**
+         * Получает код видео из ссылки на видео на Youtube
+         */
+        public function getVideoCode()
+        {
+            $videoCode = '';
+            if($this->videoLink) {
+                preg_match("/v=([0-9a-zA-Z\-_]+)/", $this->videoLink, $videoIdMatches);
+                if($videoIdMatches[1]) {
+                    $videoCode = $videoIdMatches[1];
+                }
+            }
+            
+            return $videoCode;
         }
 }

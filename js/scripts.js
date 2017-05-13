@@ -64,20 +64,51 @@ $(function(){
                 if(!annoyingWidget.length) {
                     return false;
                 }
+                
+                if(annoyingWidget.hasClass('no-scroll')) {
+                    return false;
+                }
+                
+                if(annoyingWidget.hasClass('do-scroll')) {
+                    return false;
+                }
+                
+                var show_annoying = get_cookie ( "show_annoying" );
+                if(show_annoying) {
+                    return false;
+                }
 
-                var annoyingOffset = annoyingWidget.offset().top - $(window).scrollTop();
+                //var annoyingOffset = annoyingWidget.offset().top - $(window).scrollTop();
+                var annoyingOffset = 200 - $(window).scrollTop();
 
                 if(annoyingOffset <0) {
                     annoyingWidget.addClass('annoying-widget-fixed');
                     annoyingWidget.css('width',annoyingWidthInitial);
-                    $("#left-panel").css('padding-top', annoyingHeight);
+                    //$("#left-panel").css('padding-top', annoyingHeight);
                 }
                 if($(window).scrollTop() < annoyingOffsetInitial) {
                     annoyingWidget.removeClass('annoying-widget-fixed');
-                    $("#left-panel").css('padding-top', 0);
+                    //$("#left-panel").css('padding-top', 0);
                 }
             })
+            
+            $(".annoying-close").on('click', function(e) {
+                e.preventDefault();
+                var widget = $(this).closest('.annoying-widget');
+                widget.removeClass('annoying-widget-fixed').addClass('no-scroll');
+                document.cookie = "show_annoying=no";
+                return false;
+            })
+            
+            $(".annoying-open").on('click', function(e) {
+                e.preventDefault();
+                var widget = $(this).closest('.annoying-widget');
+                widget.addClass('annoying-widget-fixed').removeClass('no-scroll').addClass('do-scroll');
+                return false;
+            })
         }
+        
+        
 
 });
 
@@ -125,4 +156,14 @@ function scrollToElement(element)
     destination = $(element).offset().top;	
     $("html, body").animate( { scrollTop: destination }, 1100 );
     return false;
+}
+
+function get_cookie ( cookie_name )
+{
+  var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)' );
+ 
+  if ( results )
+    return ( unescape ( results[2] ) );
+  else
+    return null;
 }

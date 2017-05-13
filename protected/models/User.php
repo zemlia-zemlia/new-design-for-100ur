@@ -606,8 +606,11 @@ class User extends CActiveRecord
         $mailer->subject = CHtml::encode($this->name) . ", новый ответ на Ваш вопрос!";
         $mailer->message = "<h1>Новый ответ на Ваш вопрос</h1>
             <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />
-            Спешим сообщить, что на " . CHtml::link("Ваш вопрос",$questionLink) . " получен новый ответ юриста " . CHtml::encode($answer->author->name . ' ' . $answer->author->lastName) . ".
-            <br /><br />
+            Спешим сообщить, что на " . CHtml::link("Ваш вопрос",$questionLink) . " получен новый ответ юриста ";
+        if(!$answer->videoLink) {
+            $mailer->message .=  CHtml::encode($answer->author->name . ' ' . $answer->author->lastName);
+        }
+        $mailer->message .=  ".<br /><br />
             Будем держать Вас в курсе поступления других ответов. 
             <br /><br />
             " . CHtml::link("Посмотреть ответ",$questionLink, array('class'=>'btn')) . "
