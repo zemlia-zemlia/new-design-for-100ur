@@ -96,86 +96,104 @@ if($model->description) {
 <?php if(Yii::app()->user->role == User::ROLE_ROOT || ($model->authorId == Yii::app()->user->id && ($model->price==0 || $model->payed == 0))):?>
 
 
-		<h3 class="header-block-light-grey"><strong> 100% гарантия получения ответа </strong></h3>
+    <h3 class="header-block-light-grey"><strong> 100% гарантия получения ответа </strong></h3>
 
-		<table class="table center-align table-bordered alert alert-warning">
-			<tr>
-				<th class="center-align" style="width: 33%">Бронза</th>
-				<th class="center-align" style="width: 33%">Серебро</th>
-				<th class="center-align" style="width: 33%">Золото</th>
-				<!--<th class="center-align" style="width: 33%">Vip1</th>-->
-				<!--<th class="center-align" style="width: 33%">Vip2</th>-->
-			</tr>
-			<tr>
-
-			</tr>
-			<tr>
-				<td><strong style="font-size: 20px;">1</strong><br/><span class="mutted">гарантированный ответ</span>
-					<br/><br/>
-						<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_1)), array('class'=>'btn btn-warning btn-block'));?>
-				</td>
-				<td><strong style="font-size: 20px;">2</strong><br/><span class="mutted">гарантированных ответа</span>
-					<br/><br/>
-						<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_2)), array('class'=>'btn btn-warning btn-block'));?>
-				</td>
-				<td><strong style="font-size: 20px;">3</strong><br/><span class="mutted">гарантированных ответа</span>
-					<br/><br/>
-						<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_3)), array('class'=>'btn btn-warning btn-block'));?>
-				</td>
-
-			</tr>
-			<tr>
-                            <td><?php echo Question::getPriceByLevel(Question::LEVEL_1);?> руб.</td>
-                            <td><?php echo Question::getPriceByLevel(Question::LEVEL_2);?> руб.</td>
-                            <td><?php echo Question::getPriceByLevel(Question::LEVEL_3);?> руб.</td>
-			</tr>
-        </table>
-			
-		<table class="table center-align table-bordered alert alert-warning">
-			<tr>
-				<th class="center-align" style="width: 33%">Vip</th>
-				<th class="center-align" style="width: 33%">Vip+</th>
-			</tr>
-			<tr>
-				<td><strong style="font-size: 20px;">4</strong><br/><span class="mutted">гарантированных ответа</span>
-				<br/><br/>
-					<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_4)), array('class'=>'btn btn-warning btn-block'));?>
-				</td>
-				<td><strong style="font-size: 20px;">5</strong><br/><span class="mutted">гарантированных ответов</span>
-				<br/><br/>
-					<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_5)), array('class'=>'btn btn-warning btn-block'));?>
-				</td>
-			</tr>
-			<tr>
-				<td><?php echo Question::getPriceByLevel(Question::LEVEL_4);?> руб.</td>
-				<td><?php echo Question::getPriceByLevel(Question::LEVEL_5);?> руб.</td>
-			</tr>
-		</table>
-			
-			<h3 class="header-block-light-grey"><strong> Вы экономите </strong></h3>
-
-			<div class="alert alert-warning gray-panel">
-                <div class="row center-align vert-margin30">
-                    <div class="col-sm-4">
-                        <h2><span class="glyphicon glyphicon-road"></span></h2>
-                        <p>
-                            4 часа на дорогу к юристу
-                        </p>
-                    </div>
-                    <div class="col-sm-4">
-                        <h2><span class="glyphicon glyphicon-ruble"></span></h2>
-                        <p>
-                            <strong>Минимум 1000 рублей</strong> за консультацию в офисе
-                        </p>
-                    </div>
-                    <div class="col-sm-4">
-                        <h2><span class="glyphicon glyphicon-time"></span></h2>
-                        <p>
-                            8 часов на поиск ответа в Интернете
-                        </p>
-                    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="center-align alert alert-warning">
+                <p>Бронза</p>
+                <p>
+                    <strong style="font-size: 20px;">1</strong><br/><span class="mutted">гарантированный ответ</span>
+                </p>
+                <p>
+                    <?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_1)), array('class'=>'btn btn-warning btn-block'));?>
+                </p>
+                <p><?php echo Question::getPriceByLevel(Question::LEVEL_1);?> руб.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="center-align alert alert-warning">
+                <p>Серебро</p>
+                <p>
+                    <strong style="font-size: 20px;">2</strong><br/><span class="mutted">гарантированных ответа</span>
+                </p>
+                <p>
+                    <?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_2)), array('class'=>'btn btn-warning btn-block'));?>
+                </p>
+                <p><?php echo Question::getPriceByLevel(Question::LEVEL_2);?> руб.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="center-align alert alert-warning">
+                <p>Золото</p>
+                <p>
+                    <strong style="font-size: 20px;">3</strong><br/><span class="mutted">гарантированных ответа</span>
+                </p>
+                <p>
+                    <?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_3)), array('class'=>'btn btn-warning btn-block'));?>
+                </p>
+                <p><?php echo Question::getPriceByLevel(Question::LEVEL_3);?> руб.</p>
+            </div>
+        </div>
+    </div>
+    
+        <div class="row">
+            <div class="col-md-6">
+                <div class="center-align alert alert-warning">
+                    <p>Vip</p>
+                    <p>
+                        <strong style="font-size: 20px;">4</strong><br/><span class="mutted">гарантированных ответа</span>
+                    </p>
+                    <p>
+                        <?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_4)), array('class'=>'btn btn-warning btn-block'));?>
+                    </p>
+                    <p>
+                        <?php echo Question::getPriceByLevel(Question::LEVEL_4);?> руб.
+                    </p>
                 </div>
             </div>
+            <div class="col-md-6">
+                <div class="center-align alert alert-warning">
+                    <p>Vip+</p>
+                    <p>
+                        <strong style="font-size: 20px;">5</strong><br/><span class="mutted">гарантированных ответов</span>
+                    </p>
+                    <p>
+                        <?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_5)), array('class'=>'btn btn-warning btn-block'));?>
+                    </p>
+                    <p>
+                        <?php echo Question::getPriceByLevel(Question::LEVEL_5);?> руб.
+                    </p>
+                </div>
+            </div>
+        </div>
+                        
+                
+                
+        <h3 class="header-block-light-grey"><strong> Вы экономите </strong></h3>
+
+        <div class="alert alert-warning gray-panel">
+        <div class="row center-align vert-margin30">
+            <div class="col-sm-4">
+                <h2><span class="glyphicon glyphicon-road"></span></h2>
+                <p>
+                    4 часа на дорогу к юристу
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <h2><span class="glyphicon glyphicon-ruble"></span></h2>
+                <p>
+                    <strong>Минимум 1000 рублей</strong> за консультацию в офисе
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <h2><span class="glyphicon glyphicon-time"></span></h2>
+                <p>
+                    8 часов на поиск ответа в Интернете
+                </p>
+            </div>
+        </div>
+    </div>
 
 <?php endif;?>    
 
