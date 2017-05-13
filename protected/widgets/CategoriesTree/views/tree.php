@@ -28,7 +28,7 @@
 
         >
 
-        <?php echo ($showLink==true)?CHtml::link(CHtml::encode($cat['name']), array('questionCategory/alias', 'name'=>CHtml::encode($cat['alias']))):CHtml::encode($cat['name']); ?>
+        <?php echo ($showLink==true) ? CHtml::link(CHtml::encode($cat['name']), array('questionCategory/alias', 'name'=>CHtml::encode($cat['alias']))):CHtml::encode($cat['name']); ?>
         
     </li>
 

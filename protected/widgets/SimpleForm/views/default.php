@@ -40,21 +40,31 @@
                     </div>
 
                     <div class="col-md-5">
-                        <div class="form-info-item" style="background-image: url(/pics/2017/icon_quick.png);">
-                            <h3 class="left-align">Это быстро</h3>
-                            <p>
-                            Вы получите ответ через 15 минут</p>
-                        </div>
-                        <div class="form-info-item" style="background-image: url(/pics/2017/icon_safe.png);">
-                            <h3 class="left-align">Безопасно</h3>
-                            <p>
-                            Только аккредитованные юристы</p>
-                        </div>
-                        <div class="form-info-item" style="background-image: url(/pics/2017/icon_no_spam.png);">
-                            <h3 class="left-align">Без спама</h3>
-                            <p>
-                            Мы никогда не рассылаем рекламу</p>
-                        </div>
+                        <?php if(Yii::app()->user->role != User::ROLE_JURIST):?>	
+                            <div>
+                                    <?php
+                                        $questionsCountInt = Question::getCount()*2;
+                                        $questionsCount = str_pad((string)$questionsCountInt,6, '0',STR_PAD_LEFT);
+                                        $numbers = str_split($questionsCount);
+                                        $answersCount = str_pad((string)round($questionsCountInt*1.684),6, '0',STR_PAD_LEFT);;
+                                        $numbersAnswers = str_split($answersCount);
+                                    ?>
+                                    <div class="questions-counter-description">
+                                        <div class="center-align">
+                                            <p>Задано вопросов</p>
+                                            <p class="kpi-counter">
+                                                <img src="/pics/2017/icon_question.png" alt="100 Юристов и Адвокатов" title="Юридический портал" />
+                                                <?php foreach($numbers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
+                                            </p>
+                                            <div>На них дано ответов</div>
+                                            <p class="kpi-counter">
+                                                <img src="/pics/2017/icon_answer.png" alt="100 Юристов и Адвокатов" title="Юридический портал" />
+                                                <?php foreach($numbersAnswers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
+                                            </p>
+                                        </div>
+                                    </div>
+                            </div>
+                        <?php endif;?>
                     </div>
                 </div> 
                 
