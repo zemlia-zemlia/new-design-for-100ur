@@ -253,14 +253,6 @@
 			                
                 <?php if(Yii::app()->user->role == User::ROLE_JURIST):?>
                 
-                <div class="vert-margin20">           
-                        <?php
-                            // выводим виджет со статистикой ответов
-                            $this->widget('application.widgets.MyAnswers.MyAnswers', array(
-                            ));
-                        ?>
-                        </div>        
-                
                         <div class="vert-margin20">          
                         <?php
                             // выводим виджет с поиском вопросов
@@ -268,6 +260,17 @@
                             ));
                         ?>
                         </div> 
+						
+						<div class="vert-margin20">           
+                        <?php
+                            // выводим виджет со статистикой ответов
+                            $this->widget('application.widgets.MyAnswers.MyAnswers', array(
+                            ));
+                        ?>
+                        </div>  
+						
+						
+						
                 <?php endif;?>
                 
                 

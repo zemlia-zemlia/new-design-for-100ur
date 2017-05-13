@@ -5,7 +5,9 @@
 ?>
 
 
-<h4 class="header-block header-block-light-grey">Счетчики ваших ответов</h4>
+<h4 class="header-block header-block-light-grey">Счетчики моих ответов</h4>
+
+<div class="flat-panel inside">
 
 <div class="row" id="my-answers-counters">
     <div class="col-md-4">
@@ -28,5 +30,5 @@
         </p>
     </div>
 </div>
-
+</div>
 <?php echo CHtml::link('Статистика моих ответов по месяцам', Yii::app()->createUrl('user/stats'), array('class'=>'btn btn-block btn-xs btn-default'));?>

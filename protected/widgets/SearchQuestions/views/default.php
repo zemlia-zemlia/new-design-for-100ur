@@ -12,8 +12,9 @@
     $counterNoAnswers = Question::getCountWithoutAnswers();
 ?>
 
-<hr/>
-<h4>Фильтр вопросов:</h4>
+<h4 class="header-block header-block-light-grey" >Фильтр вопросов:</h4>
+
+<div class="flat-panel inside">
 <h4 class="widget-search-header">
     <span>
     <?php echo CHtml::link($counterNoAnswers, Yii::app()->createUrl('/question/search')); ?>
@@ -65,5 +66,5 @@
                 <?php echo CHtml::link('Случайный вопрос', Yii::app()->createUrl('question/view', array('id'=>$randomQuestionId)), array('class'=>'button btn-block button-blue-gradient')); ?>
             <?php endif;?>
     </div>
-
+</div>
 <?php $this->endWidget(); ?>

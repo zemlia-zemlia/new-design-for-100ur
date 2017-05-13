@@ -170,31 +170,37 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 </div>        
 
 
-<div class="vert-margin30">
+
+<div class="vert-margin30 flat-panel inside">
 <?php if(sizeof($questions)):?>        
-<h2 class="header-block-light-grey">Последние ответы</h2>
+<h2 class="header-block-light-grey">Последние ответы юриста</h2>
 <?php endif;?>
         
 <?php foreach($questions as $question):?>
     <div class="row question-list-item <?php if($question['payed'] == 1):?> vip-question<?endif;?>">
         <div class="col-sm-12">
             <p style="font-size:1.1em;">
+			<small>
                 <?php if($question['payed'] == 1){
                     echo "<span class='label label-primary'><abbr title='Вопрос с гарантией получения ответов'>VIP</abbr></span>";
                 }
                 ?>
                 <?php echo CHtml::link($question['title'], Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?>
+			</small>
             </p>
         </div>
     </div>
 <?php endforeach;?>
-</div>
 
 <?php 
     if(Yii::app()->user->role == User::ROLE_ROOT) {
         echo CHtml::link('Смотреть статистику ответов по месяцам', Yii::app()->createUrl('user/stats', array('userId'=>$model->id)), array('class'=>'btn btn-block btn-xs btn-default'));
     }
 ?>
+
+</div>
+
+
 
 
     

@@ -74,6 +74,8 @@ $this->breadcrumbs[] = $model->name;
     </div>
 <?php endif;?>
 
+<div class="flat-panel inside">
+
 <?php if(sizeof($children)):?>
     <?php $itemsCount =  sizeof($children);?>
 
@@ -96,8 +98,9 @@ $this->breadcrumbs[] = $model->name;
     </div>
 
 <?php endif;?>
+</div>
 
-<div class="row vert-margin30">
+<div class="row vert-margin30 ">
 <?php if(sizeof($neighboursPrev)):?>
       
     <div class="col-md-6">
