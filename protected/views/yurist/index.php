@@ -13,7 +13,8 @@ $this->setPageTitle($pageTitle . Yii::app()->name);
     <p>
         Хотите получать клиентов, отвечая на вопросы на нашем сайте?
         <br />
-        Напишите нам: admin@100yuristov.com
+        <strong><?php echo CHtml::link('Зарегистрируйтесь как юрист', Yii::app()->createUrl('user/create', array('role' => User::ROLE_JURIST)));?></strong>
+
     </p>
 </div>
 
