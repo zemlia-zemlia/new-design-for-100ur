@@ -29,7 +29,8 @@ if($model->seoKeywords) {
 
 Yii::app()->clientScript->registerLinkTag("canonical",NULL,Yii::app()->createUrl('/questionCategory/alias', $model->getUrl()));
 
-Yii::app()->clientScript->registerMetaTag(($model->isIndexingAllowed())?'all':'noindex', "robots");
+// временно отключаем запрет индексации недозаполненных категорий
+//Yii::app()->clientScript->registerMetaTag(($model->isIndexingAllowed())?'all':'noindex', "robots");
 
 $this->breadcrumbs = array('Категории' => array('/cat'));
 
