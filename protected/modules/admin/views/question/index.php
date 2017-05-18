@@ -26,7 +26,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <?php endif;?>
 
         <?php if($moderator):?>
-        Модератор <?php echo $moderator->g1etShortName();?>
+        Модератор <?php echo $moderator->getShortName();?>
         <?php endif;?>
 
 <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
