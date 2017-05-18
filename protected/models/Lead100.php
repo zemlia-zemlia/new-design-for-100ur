@@ -28,6 +28,7 @@ class Lead100 extends CActiveRecord
 {
 	public $date1, $date2; // диапазон дат, используемый при поиске
         public $newTownId; // для случая смены города при отбраковке
+        public $regionId;
         
         // статусы лидов
         const LEAD_STATUS_DEFAULT = 0; // лид никуда не отправлен
@@ -82,7 +83,7 @@ class Lead100 extends CActiveRecord
 		return array(
 			array('name, phone, sourceId, question, townId', 'required','message'=>'Поле должно быть заполнено'),
 			array('sourceId, townId, newTownId, questionId, leadStatus, addedById, type, campaignId, brakReason', 'numerical', 'integerOnly'=>true),
-			array('price, buyPrice', 'numerical'),
+			array('price, buyPrice, regionId', 'numerical'),
                         array('deliveryTime', 'safe'),
                         array('name, phone, email, secretCode, brakComment', 'length', 'max'=>255),
 			array('townId', 'match','not'=>true, 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
@@ -128,6 +129,7 @@ class Lead100 extends CActiveRecord
 			'question_date' => 'Дата первого обращения',
                         'townId'        => 'ID города',
                         'town'          => 'Город',
+                        'regionId'      =>  'Регион',
                         'questionId'    => 'ID связанного вопроса',
                         'type'          => 'Тип',
                         'deliveryTime'  =>  'Время отправки покупателю',
@@ -327,7 +329,14 @@ class Lead100 extends CActiveRecord
                 $criteria->compare('DATE(t.question_date)>',  CustomFuncs::invertDate($this->date1));
                 $criteria->compare('DATE(t.question_date)<',  CustomFuncs::invertDate($this->date2));
                 
-                $criteria->order = 'id DESC';
+                // если применялся поиск по региону
+                if($this->regionId) {
+                    $criteria->with = array('town' => array('condition' => 'town.regionId=' . $this->regionId), 'town.region');
+                } else {
+                    $criteria->with = array('town', 'town.region');
+                }
+        
+                $criteria->order = 't.id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

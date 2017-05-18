@@ -58,6 +58,13 @@
         echo $form->hiddenField($model, 'townId', array('id'=>'selected-town'));
     ?>
 </div>
+    
+<div class="form-group">
+    <?php echo $form->labelEx($model,'regionId'); ?>
+    <?php echo $form->dropDownList($model, 'regionId', array(0=>'Все') + Region::getAllRegions(), array(
+                    'class'         =>  'form-control',
+    )); ?>
+</div>
 
 <div class="form-group">
     <?php echo $form->labelEx($model,'phone'); ?>
