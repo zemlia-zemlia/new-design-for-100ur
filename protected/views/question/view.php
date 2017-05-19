@@ -215,7 +215,7 @@ if($model->description) {
         <?php if(Yii::app()->user->isVerified || Yii::app()->user->role == User::ROLE_ROOT):?>
             <div class='flat-panel inside'>
             <h2 class="header-block-light-grey" >Ваш ответ:</h2>
-            <p class="text-muted small inside">
+            <p class="text-muted inside">
                     При ответах на вопросы соблюдайте, пожалуйста, правила сайта. Обратите внимание, что реклама в тексте ответа запрещена, контактные данные можно указывать только в своем профиле. Запрещается полное или частичное копирование текста ответов с других ресурсов.
             </p>
 		

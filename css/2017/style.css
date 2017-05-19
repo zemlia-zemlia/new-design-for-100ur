@@ -413,15 +413,15 @@ hr {
 
 #left-menu li {
     display:block;
-    padding:2px;
+    padding:1px;
 }
 
 #left-menu li a {
     display:block;
     background: #e9ecef;
     color:#4e5d65;
-    padding:4px;
-    border-radius: 3px;
+    padding:2px;
+    border-radius: 2px;
     font-size: 14px;
 }
 
