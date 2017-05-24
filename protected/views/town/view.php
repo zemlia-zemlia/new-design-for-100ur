@@ -43,7 +43,7 @@ $this->breadcrumbs=array(
 ?>
 
 
-<h1>Юристы и Адвокаты г. <?php echo CHtml::encode($model->name); ?> (<?php echo CHtml::encode($model->ocrug); ?>)</h1>
+<h1>Юристы и Адвокаты г. <?php echo CHtml::encode($model->name); ?> (<?php echo CHtml::encode($model->region->name); ?>)</h1>
 			
 
 <?php if($model->description1):?>
