@@ -6,7 +6,6 @@
  * Поля в таблице '{{town}}':
  * @property integer $id
  * @property string $name
- * @property string $ocrug
  * @property string $description1
  * @property string $description2
  * @property string $seoTitle
@@ -157,7 +156,6 @@ class Town extends CActiveRecord
 
             $criteria->compare('id',$this->id);
             $criteria->compare('name',$this->name,true);
-            $criteria->compare('ocrug',$this->ocrug,true);
             $criteria->compare('country',$this->country,true);
             $criteria->compare('alias',$this->alias,true);
             // для поиска городов с описанием и без:
@@ -182,7 +180,7 @@ class Town extends CActiveRecord
         if(!empty($this->seoTitle)) {
            $pageTitle =  $this->seoTitle;
         } else {
-            $pageTitle = "Консультация юриста в городе " . CHtml::encode($this->name) . ". ".CHtml::encode($this->ocrug) . ". ". Yii::app()->name;
+            $pageTitle = "Консультация юриста в городе " . CHtml::encode($this->name) . ". ".CHtml::encode($this->region->name) . ". ". Yii::app()->name;
         }
         return $pageTitle;
     }

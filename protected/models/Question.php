@@ -80,7 +80,6 @@ class Question extends CActiveRecord
                 array('phone','match','pattern'=>'/^([0-9\+])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
                 array('email','email', 'message'=>'В Email допускаются латинские символы, цифры, точка и дефис', 'allowEmpty'=>true),
                 array('townId', 'match','not'=>true, 'except'=>array('preSave'), 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
-                array('description', 'safe'),
                 // The following rule is used by search().
                 // Please remove those attributes that should not be searched.
                 array('id, number, questionText, categoryId, categoryName', 'safe', 'on'=>'search'),
