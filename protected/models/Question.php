@@ -7,8 +7,6 @@
  * @property integer $id
  * @property integer $number
  * @property string $questionText
- * @property integer $categoryId
- * @property string $categoryName
  * @property string $title
  * @property string $townId
  * @property string $authorName
@@ -74,15 +72,15 @@ class Question extends CActiveRecord
                 array('questionText, authorName', 'required', 'message'=>'{attribute} не заполнен'),
                 array('phone', 'required', 'on'=>'create', 'message'=>'Поле {attribute} должно быть заполнено'),
                 array('townId', 'required', 'except'=>array('preSave'), 'message'=>'Поле {attribute} должно быть заполнено'),
-                array('number, categoryId, status, publishedBy, authorId, price, payed', 'numerical', 'integerOnly'=>true),
-                array('categoryName, sessionId', 'length', 'max'=>255),
+                array('number, status, publishedBy, authorId, price, payed', 'numerical', 'integerOnly'=>true),
+                array('sessionId', 'length', 'max'=>255),
                 array('authorName, title','match','pattern'=>'/^([а-яА-Я0-9ёЁ\-.,\? ])+$/u', 'message'=>'В {attribute} могут присутствовать русские буквы, цифры, точка, дефис и пробел'),
                 array('phone','match','pattern'=>'/^([0-9\+])+$/u', 'message'=>'В номере телефона могут присутствовать только цифры и знак плюса'),
                 array('email','email', 'message'=>'В Email допускаются латинские символы, цифры, точка и дефис', 'allowEmpty'=>true),
                 array('townId', 'match','not'=>true, 'except'=>array('preSave'), 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
                 // The following rule is used by search().
                 // Please remove those attributes that should not be searched.
-                array('id, number, questionText, categoryId, categoryName', 'safe', 'on'=>'search'),
+                array('id, number, questionText', 'safe', 'on'=>'search'),
             );
 	}
 
@@ -114,7 +112,6 @@ class Question extends CActiveRecord
                 'questionText'  =>  'Вопрос',
                 'categoryId'    =>  'ID категории',
                 'category'      =>  'Категория',
-                'categoryName'  =>  'Название категории',
                 'status'        =>  'Статус',
                 'authorName'    =>  'Ваше имя',
                 'town'          =>  'Город',
@@ -229,8 +226,6 @@ class Question extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('number',$this->number);
 		$criteria->compare('questionText',$this->questionText,true);
-		$criteria->compare('categoryId',$this->categoryId);
-		$criteria->compare('categoryName',$this->categoryName,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

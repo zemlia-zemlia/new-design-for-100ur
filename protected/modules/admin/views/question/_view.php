@@ -47,7 +47,7 @@
             <?php echo CHtml::link(CHtml::encode($data->id), Yii::app()->createUrl('/admin/question/view', array('id'=>$data->id))); ?>
             &nbsp;
             <?php if($data->town):?>
-                <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::encode($data->town->name . ' (' . $data->town->ocrug . ')');?>
+                <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::encode($data->town->name . ' (' . $data->town->region->name . ')');?>
             <?php endif;?>
             &nbsp;  
             <?php if($data->authorName):?>
