@@ -255,6 +255,7 @@ class Town extends CActiveRecord
         $criteria->having = "distance < " . $radius;
         $criteria->order = "isCapital DESC, name ASC";
         $criteria->limit = $limit;
+        $criteria->condition = 'id!='.$this->id;
 
         $towns = Town::model()->findAll($criteria);
 

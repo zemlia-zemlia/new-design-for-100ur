@@ -110,7 +110,6 @@ class Question extends CActiveRecord
                 'id'            =>  'ID',
                 'number'        =>  'Уникальный номер вопроса',
                 'questionText'  =>  'Вопрос',
-                'categoryId'    =>  'ID категории',
                 'category'      =>  'Категория',
                 'status'        =>  'Статус',
                 'authorName'    =>  'Ваше имя',
