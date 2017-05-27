@@ -57,7 +57,7 @@ if(Yii::app()->user->checkAccess(User::ROLE_MANAGER) || Yii::app()->user->role =
     </tr>
     <tr>
         <td><strong>Город</strong></td>
-        <td><?php echo CHtml::encode($model->town->name . ' (' . $model->town->ocrug . ')'); ?></td>
+        <td><?php echo CHtml::encode($model->town->name . ' (' . $model->town->region->name . ')'); ?></td>
     </tr>
     <tr>
         <td><strong>Год начала работы</strong></td>
