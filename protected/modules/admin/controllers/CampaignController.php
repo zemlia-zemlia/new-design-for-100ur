@@ -142,19 +142,25 @@ class CampaignController extends Controller
 	{
 		
             $criteria = new CDbCriteria;
-            $criteria->order = 'buyerId, id';
+            $criteria->order = 'name';
+            $criteria->condition = 'role=' . User::ROLE_BUYER;
+            
             
             if(!isset($_GET['show_inactive'])) {
-                $criteria->addColumnCondition(array('active'=>1));
+                $criteria->with = array(array('campaigns', 'condition' => 'campaigns.active=1', 'order' => 'campaigns.active ASC'));
+
                 $showInactive = false;
             } else {
+                $criteria->with = array(array('campaigns', 'order' => 'campaigns.active ASC'));
                 $showInactive = true;
             }
             
-            $dataProvider=new CActiveDataProvider('Campaign', array(
+            //CustomFuncs::printr($criteria);
+                        
+            $dataProvider=new CActiveDataProvider('User', array(
                     'criteria'  =>  $criteria,
-                ));
-		$this->render('index',array(
+                ));            
+            $this->render('index',array(
 			'dataProvider'  =>  $dataProvider,
                         'showInactive'  =>  $showInactive,
 		));
@@ -205,33 +211,33 @@ class CampaignController extends Controller
         
         public function actionTopup()
         {
-            $campaignId = isset($_POST['campaignId'])?(int)$_POST['campaignId']:0;
+            $buyerId = isset($_POST['buyerId'])?(int)$_POST['buyerId']:0;
             $sum = isset($_POST['sum'])?(int)$_POST['sum']:0;
             
-            if($sum<=0 || !$campaignId) {
+            if($sum<=0 || !$buyerId) {
                 echo json_encode(array('code'=>400, 'message'=>'Error, not enough data'));
                 exit;
             }
             
-            $campaign = Campaign::model()->findByPk($campaignId);
+            $buyer = User::model()->findByPk($buyerId);
             
-            if(!$campaign) {
-                echo json_encode(array('code'=>400, 'message'=>'Error, campaign not found'));
+            if(!$buyer) {
+                echo json_encode(array('code'=>400, 'message'=>'Error, buyer not found'));
                 exit;
             }
             
             $transaction = new TransactionCampaign;
             $transaction->sum = $sum;
-            $transaction->campaignId = $campaignId;
-            $transaction->description = "Пополнение счета кампании";
+            $transaction->buyerId = $buyerId;
+            $transaction->description = "Пополнение баланса пользователя";
             
-            $campaign->balance += $sum;
+            $buyer->balance += $sum;
             
             if($transaction->save()) {
-                if($campaign->save()) {
-                    echo json_encode(array('code'=>0,'id'=>$campaignId, 'balance'=>$campaign->balance));
+                if($buyer->save()) {
+                    echo json_encode(array('code'=>0,'id'=>$buyerId, 'balance'=>$buyer->balance));
                 } else {
-                    CustomFuncs::printr($campaign->errors);
+                    CustomFuncs::printr($buyer->errors);
                 }
             } else {
                 CustomFuncs::printr($transaction->errors);

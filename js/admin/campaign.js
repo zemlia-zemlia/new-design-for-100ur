@@ -1,6 +1,6 @@
 $(function(){
     
-    $(".campaign-topup").on('click', function(e){
+    $(".buyer-topup").on('click', function(e){
         e.preventDefault();
         var campaignId = $(this).attr('data-id');
         
@@ -8,25 +8,25 @@ $(function(){
             return false;
         }
         
-        $("#campaign-"+campaignId).show();
+        $("#buyer-"+campaignId).show();
         return false;
     })
     
-    $(".campaign-topup-close").on('click', function(e) {
+    $(".buyer-topup-close").on('click', function(e) {
         e.preventDefault();
         $(this).closest('form').hide();
         return false;
     })
     
-    $(".form-campaign-topup a.submit-topup").on('click', function(e){
+    $(".form-buyer-topup a.submit-topup").on('click', function(e){
         e.preventDefault();
         var form = $(this).closest('form');
         var sum = form.find('[name=sum]').val();
-        var campaignId = form.attr('data-id');
+        var buyerId = form.attr('data-id');
         
         $.ajax('/admin/campaign/topup/', {
             method:'POST',
-            data:{sum:sum, campaignId:campaignId},
+            data:{sum:sum, buyerId:buyerId},
             success:onCampaignTopupSubmit,
         });
         
@@ -46,9 +46,9 @@ function onCampaignTopupSubmit(data, textStatus, jqXHR )
     var dataDecoded = JSON.parse(data);
     if(dataDecoded && dataDecoded.code == 0) {
         $(".balance-"+dataDecoded.id).text(dataDecoded.balance);
-        $(".campaign-topup-message").text('');
+        $(".buyer-topup-message").text('');
     } else {
-        $(".campaign-topup-message").hide().text('Не удалось пополнить баланс').show();
+        $(".buyer-topup-message").hide().text('Не удалось пополнить баланс').show();
     }
     
 }

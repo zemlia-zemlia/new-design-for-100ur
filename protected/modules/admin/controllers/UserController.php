@@ -68,14 +68,15 @@ class UserController extends Controller
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
-	{
-		
-                                 
+	{                    
             $model = User::model()->findByPk($id);
        
+            $transactionsDataProvider = new CArrayDataProvider($model->transactions);
+            
             $this->render('view',array(
-			'model'             =>  $model,
-		));
+                'model'                     =>  $model,
+                'transactionsDataProvider'  =>  $transactionsDataProvider,
+            ));
 	}
         
 

@@ -9,6 +9,9 @@
     <td>
         <?php echo CustomFuncs::niceDate($data->time);?>
     </td>
+    <td>
+        <?php echo $data->campaign->town->name . ' ' . $data->campaign->region->name;?>
+    </td>
     <td class="<?php echo $transactionClass;?>">
         <?php echo $data->sum;?>
     </td>

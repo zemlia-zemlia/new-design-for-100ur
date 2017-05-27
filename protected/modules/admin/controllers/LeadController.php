@@ -317,14 +317,16 @@ class LeadController extends Controller
         $lead->leadStatus = $status;
 
         // найдем кампанию, в которую отправлен лид
-        // если новый статус - Брак, вернем деньги за лида на баланс кампании
+        // если новый статус - Брак, вернем деньги за лида на баланс пользователя
         $campaign = $lead->campaign;
         if($lead->campaign && $lead->leadStatus == Lead100::LEAD_STATUS_BRAK) {
-            $campaign->balance += $lead->price;
-            // записываем данные о снятии средств со счета кампании
+            $buyer = $campaign->buyer;
+            $buyer->balance += $lead->price;
+            // записываем данные о возврате средств на баланс пользователя
             $transaction = new TransactionCampaign;
             $transaction->sum = (int)$lead->price;
             $transaction->campaignId = $campaign->id;
+            $transaction->buyerId = $buyer->id;
             $transaction->description = 'Возврат за лид ID=' . $lead->id;
 
             if(!$transaction->save()){
@@ -333,8 +335,8 @@ class LeadController extends Controller
                 exit;
             }
 
-            if(!$campaign->save()){
-                echo json_encode(array('code'=>500,'id'=>$lead->id, 'message'=>'Не удалось обновить баланс кампании'));
+            if(!$buyer->save()){
+                echo json_encode(array('code'=>500,'id'=>$lead->id, 'message'=>'Не удалось обновить баланс пользователя'));
                 exit;
             }
         }

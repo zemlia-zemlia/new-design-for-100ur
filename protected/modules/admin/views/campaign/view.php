@@ -99,25 +99,3 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 </table>
 
 <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/campaign/update', array('id'=>$model->id)), array('class'=>'btn btn-primary'));?>
-
-
-<?php if($transactionsDataProvider->totalItemCount):?>
-<h2>Транзакции</h2>
-
-<table class="table table-bordered">
-    <tr>
-        <th>Время</th>
-        <th>Сумма</th>
-        <th>Описание</th>
-    </tr>
-
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'  =>  $transactionsDataProvider,
-	'itemView'      =>  'application.views.transactionCampaign._view',
-        'emptyText'     =>  'Не найдено ни одной транзакции',
-        'summaryText'   =>  'Показаны транзакции с {start} до {end}, всего {count}',
-        'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
-)); ?>
-</table>
-
-<?php endif;?>

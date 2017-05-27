@@ -5,6 +5,7 @@
  *
  * The followings are the available columns in table '{{transactionCampaign}}':
  * @property integer $id
+ * @property integer $buyerId
  * @property integer $campaignId
  * @property string $time
  * @property integer $sum
@@ -28,8 +29,8 @@ class TransactionCampaign extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-                array('campaignId, sum, description', 'required'),
-                array('campaignId, sum', 'numerical', 'integerOnly'=>true),
+                array('buyerId, sum, description', 'required'),
+                array('campaignId, sum, buyerId', 'numerical', 'integerOnly'=>true),
                 // The following rule is used by search().
                 // @todo Please remove those attributes that should not be searched.
                 array('id, campaignId, time, sum, description', 'safe', 'on'=>'search'),

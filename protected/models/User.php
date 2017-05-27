@@ -19,6 +19,7 @@
  * @property integer $karma
  * @property string $autologin
  * @property string $lastActivity
+ * @property float $balance
  */
 class User extends CActiveRecord
 {
@@ -79,6 +80,7 @@ class User extends CActiveRecord
             
             array('townId', 'required', 'except'=>'unsubscribe', 'message'=>'Поле {attribute} должно быть заполнено'),
             array('role, active100, townId, karma', 'numerical', 'integerOnly'=>true),
+            array('balance', 'numerical'),
             array('name, email, phone', 'length', 'max'=>255),
             array('name2, lastName, birthday', 'safe'),
             array('townId', 'match','not'=>true, 'except'=>'unsubscribe, changePassword, restorePassword', 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
@@ -217,6 +219,10 @@ class User extends CActiveRecord
                 'town'              =>  array(self::BELONGS_TO, 'Town', 'townId'),
                 'answersCount'      =>  array(self::STAT, 'Answer', 'authorId', 'condition'=>'status IN (' . Answer::STATUS_NEW. ', ' . Answer::STATUS_PUBLISHED. ')'),
                 'categories'        =>  array(self::MANY_MANY, 'QuestionCategory', '{{user2category}}(uId, cId)'),
+                'campaigns'         =>  array(self::HAS_MANY, 'Campaign', 'buyerId'),
+                'campaignsActiveCount'   =>  array(self::STAT, 'Campaign', 'buyerId', 'condition'=>'active=1'),
+                'transactions'      =>  array(self::HAS_MANY, 'TransactionCampaign', 'buyerId', 'order'=>'transactions.id DESC'),
+
             );
     }
 
@@ -245,6 +251,7 @@ class User extends CActiveRecord
                     'registerDate'  => 'Дата регистрации',
                     'karma'         => 'Карма',
                     'lastActivity'  => 'Время последней активности',
+                    'balance'       => 'Баланс',
             );
     }
 

@@ -253,7 +253,8 @@ class Lead100 extends CActiveRecord
             if(!$campaign) {
                 return false;
             }
-                      
+            // покупатель лида   
+            $buyer = $campaign->buyer;
             
             $this->price = $campaign->price;
             $this->deliveryTime = date('Y-m-d H:i:s');
@@ -265,13 +266,13 @@ class Lead100 extends CActiveRecord
 
             
             
-            // списываем средства с баланса
-            if($campaign->balance < $this->price) {
-                // на балансе кампании недостаточно средств
+            // списываем средства с баланса покупателя
+            if($buyer->balance < $this->price) {
+                // на балансе покупателя недостаточно средств
                 return false;
             } else {
 
-                $campaign->balance -= $this->price;
+                $buyer->balance -= $this->price;
 
             }
 
@@ -279,13 +280,14 @@ class Lead100 extends CActiveRecord
             $transaction = new TransactionCampaign;
             $transaction->sum = -$this->price;
             $transaction->campaignId = $campaign->id;
+            $transaction->buyerId = $campaign->buyerId;
             $transaction->description = 'Списание за лид ID=' . $this->id;
             
             // пытаемся отправить лид по почте
             if($campaign->sendEmail) {
                 if($this->sendByEmail($campaign->id)) {
                     if($this->save()){
-                        $campaign->save();
+                        $buyer->save();
                         if(!$transaction->save()){
                             Yii::log("Не удалось сохранить транзакцию за продажу лида " . $this->id, 'error', 'system.web.CCommand');
                             //CustomFuncs::printr($transaction->errors);
