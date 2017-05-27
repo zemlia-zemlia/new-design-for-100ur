@@ -23,8 +23,9 @@ class CabinetController extends Controller
             return array(
                 
                 array('allow',  // разрешаем доступ только авторизованным пользователям
-                        'actions'=>array('index', 'leads', 'viewLead', 'campaign', 'brakLead'),
+                        'actions'=>array('index', 'leads', 'viewLead', 'campaign', 'brakLead', 'transactions', 'topup'),
                         'users'=>array('@'),
+                        'expression' =>  'Yii::app()->user->role == User::ROLE_BUYER',
                 ),
                 array('deny',  // запрещаем все, что не разрешено
                         'users'=>array('*'),
@@ -40,23 +41,36 @@ class CabinetController extends Controller
 	{
             // выберем кампании текущего пользователя
             
-            $criteriaCampigns = new CDbCriteria;
+            $myCampaigns = Campaign::getCampaignsForBuyer(Yii::app()->user->id);
+            $myCampaignIds = array();
             
-            $criteriaCampigns->addColumnCondition(array('buyerId'=>Yii::app()->user->id));
+            foreach ($myCampaigns as $campaign) {
+                $myCampaignIds[] = $campaign->id;
+            }
             
-            if(!isset($_GET['show_inactive'])) {
-                $criteriaCampigns->addColumnCondition(array('active'=>1));
+            $criteria = new CDbCriteria;
+            
+            $criteria->addInCondition('campaignId', $myCampaignIds);
+            
+            $showInactive = true;
+            
+            $currentUser = User::model()->findByPk(Yii::app()->user->id);
+            
+            /*if(!isset($_GET['show_inactive'])) {
+                $criteria->addColumnCondition(array('active'=>1));
                 $showInactive = false;
             } else {
                 $showInactive = true;
-            }
+            }*/
             
-            $dataProvider=new CActiveDataProvider('Campaign', array(
-                    'criteria'  =>  $criteriaCampigns,
+            $dataProvider=new CActiveDataProvider('Lead100', array(
+                    'criteria'  =>  $criteria,
                 ));
+            
             $this->render('index',array(
                     'dataProvider'  =>  $dataProvider,
                     'showInactive'  =>  $showInactive,
+                    'currentUser'   =>  $currentUser,
             ));
                
 	}
@@ -128,6 +142,37 @@ class CabinetController extends Controller
             $this->render('viewCampaign',array(
                     'model'                     =>  $campaign,
                     'transactionsDataProvider'  =>  $transactionsDataProvider,
+            ));
+            
+        }
+        
+        
+        /**
+         * Страница пополнения баланса покупателя
+         */
+        public function actionTopup()
+        {
+            $this->render('topup',array());
+        }
+
+        public function actionTransactions()
+        {
+            
+            $criteria = new CDbCriteria();
+            $criteria->addColumnCondition(array('buyerId'=>Yii::app()->user->id));
+            
+            $currentUser = User::model()->findByPk(Yii::app()->user->id);
+            
+            $transactionsDataProvider = new CActiveDataProvider('TransactionCampaign', array(
+                    'criteria'  =>  $criteria,
+                    'pagination'    =>  array(
+                        'pageSize'=>50,
+                    ),
+                ));
+                        
+            $this->render('transactions',array(
+                    'transactionsDataProvider'  =>  $transactionsDataProvider,
+                    'currentUser'               =>  $currentUser,
             ));
             
         }

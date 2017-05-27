@@ -6,7 +6,7 @@ class CampaignController extends Controller
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//frontend/main';
+	public $layout='//frontend/cabinet';
 
 	/**
 	 * @return array action filters
@@ -67,21 +67,33 @@ class CampaignController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Campaign;
+            $this->layout = '//frontend/cabinet';
+            $model=new Campaign;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+            // Uncomment the following line if AJAX validation is needed
+            // $this->performAjaxValidation($model);
 
-		if(isset($_POST['Campaign']))
-		{
-			$model->attributes=$_POST['Campaign'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
+            if(isset($_POST['Campaign']))
+            {
+                $model->attributes=$_POST['Campaign'];
+                if(Yii::app()->user->role != User::ROLE_ROOT) {
+                    $model->buyerId = Yii::app()->user->id;
+                }
+                $model->price = 90;
+                $model->brakPercent = 20;
+                $model->active = Campaign::ACTIVE_MODERATION; // статус по умолчанию - На рассмотрении 
+                
+                if($model->save()) {
+                    $this->redirect(array('cabinet/campaign','id'=>$model->id));
+                }
+            }
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
+            $regions = array('0'=>'Не выбран') + Region::getAllRegions();
+
+            $this->render('create', array(
+                    'model'     =>  $model,
+                    'regions'   =>  $regions,
+            ));
 	}
 
 	/**
@@ -99,12 +111,17 @@ class CampaignController extends Controller
 		if(isset($_POST['Campaign']))
 		{
 			$model->attributes=$_POST['Campaign'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+			if($model->save()) {
+                            $this->redirect(array('cabinet/campaign','id'=>$model->id));
+                        }
 		}
 
+                $regions = array('0'=>'Не выбран') + Region::getAllRegions();
+
+                            
 		$this->render('update',array(
 			'model'=>$model,
+                        'regions'   =>  $regions,
 		));
 	}
 

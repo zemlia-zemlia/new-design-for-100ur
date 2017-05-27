@@ -1,57 +1,41 @@
 <?php
 $this->setPageTitle("Кабинет покупателя лидов. ". Yii::app()->name);
 
-$this->breadcrumbs=array(
-	'Кабинет покупателя лидов'
-);
-
 ?>
 
-<?php
-    $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('100 юристов',"/"),
-        'separator'=>' / ',
-        'links'=>$this->breadcrumbs,
-     ));
-?>
+<h1 class="vert-margin20">Мои лиды</h1>
 
-<h1>Кабинет покупателя лидов</h1>
-
-
-<div class='panel'>
-    <div class='panel-body'>
-        <h2>Мои кампании</h2> 
-        
-        
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Регион</th>
-                    <th><span class="glyphicon glyphicon-time"></span></th>
-                    <th>%&nbsp;брака</th>
-                    <th>Лимит</th>
-                    <th>Цена</th>
-                    <th>Баланс</th>
-                    <th>Отправлено</th>
-                </tr>
-            </thead>    
-        <?php $this->widget('zii.widgets.CListView', array(
-                'dataProvider'=>$dataProvider,
-                'itemView'=>'application.views.campaign._view',
-                'emptyText'     =>  'Не найдено ни одной кампании',
-                'ajaxUpdate'    =>  false,
-                'summaryText'   =>  '',
-                'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
-        )); ?>
-        </table>
-
-        <?php 
-        if(!$showInactive) {
-            echo CHtml::link('Показать неактивные', $this->createUrl('?show_inactive=true'));
-        }
-        ?>
-        
-        
-    </div>
+<?php if(sizeof($currentUser->campaigns) == 0):?>
+<div class="alert alert-danger">
+    <p>
+        Для того, чтобы начать покупать лиды, Вам необходимо <?php echo CHtml::link('создать кампанию', Yii::app()->createUrl('campaign/create'));?> и дождаться ее проверки.<br />
+        Цена лида будет определена модератором при одобрении кампании.<br />
+        После этого Вы сможете пополнить баланс и получать лиды.
+    </p>
 </div>
+
+<?php endif;?>
+   
+        
+<table class="table table-bordered table-hover table-striped">
+    <thead>
+    <tr>
+        <th></th>
+        <th>Текст лида</th>
+    </tr>
+    </thead>
+<?php $this->widget('zii.widgets.CListView', array(
+        'dataProvider'=>$dataProvider,
+        'itemView'=>'_viewLead',
+        'emptyText' =>  'Не найдено ни одного лида',
+        'summaryText'=>'Показаны лиды с {start} до {end}, всего {count}',
+        'pager'=>array('class'=>'GTLinkPager') //we use own pager with russian words
+)); ?>
+</table>
+
+<?php 
+if(!$showInactive) {
+    echo CHtml::link('Показать неактивные', $this->createUrl('?show_inactive=true'));
+}
+?>
+

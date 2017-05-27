@@ -68,7 +68,7 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
     <?php endif;?>
 </div>
     
-
+<?php if($model->role == User::ROLE_JURIST):?>
 <div class='flat-panel inside vert-margin20'>    
     <div class="row">
             <div class="col-sm-4 center-align">
@@ -153,7 +153,6 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
         
        <?php endif;?>    
     
-    <?php if(Yii::app()->user->role == User::ROLE_JURIST):?>
 
         <div class='flat-panel inside vert-margin20'>
         <h3 class="left-align text-uppercase">Платные услуги</h3>

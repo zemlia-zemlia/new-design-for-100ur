@@ -124,9 +124,9 @@ class UserController extends Controller
             if(isset($_POST['User'])) {
                 $model->attributes=$_POST['User'];
                 
-                // можно зарегистрироваться с ролью Юрист или Пользователь
-                // все, кто не юристы - пользователи
-                if($model->role != User::ROLE_JURIST) {
+                // можно зарегистрироваться с ролью Юрист, Пользователь, покупатель
+                // все, кто не юристы и покупатели - пользователи
+                if($model->role != User::ROLE_JURIST && $model->role != User::ROLE_BUYER) {
                     $model->role = User::ROLE_CLIENT;
                 }
                 
@@ -278,14 +278,19 @@ class UserController extends Controller
                 }
                 
                 if($model->save()) {	
-                    if($model->save() && $yuristSettings->hasErrors() == false){
+                    if($model->role == User::ROLE_JURIST && $yuristSettings->hasErrors() == false) {
                         $this->redirect(array('profile'));
+                    } 
+                    if($model->role == User::ROLE_BUYER) {
+                        $this->redirect(array('/cabinet'));
                     } else {
+                        $this->redirect(array('profile'));
+                    }
+                } else {
                         CustomFuncs::printr($model->errors);
                         CustomFuncs::printr($yuristSettings->errors);
                         throw new CHttpException(500,'Что-то пошло не так. Не удалось сохранить данные профиля.');
                     }
-                }
                 
             } else {
                 $model->password = '';
@@ -400,8 +405,9 @@ class UserController extends Controller
                         // если активированный пользователь - юрист, направляем его в форму редактирования профиля
                         if(Yii::app()->user->role == User::ROLE_JURIST) {
                             $this->redirect(array('user/update', 'id'=>Yii::app()->user->id, 'newUser' => 1));
+                        } elseif(Yii::app()->user->role == User::ROLE_BUYER) {
+                            $this->redirect(array('/cabinet'));
                         }
-                        
                         $this->render('activationSuccess', array(
                             'user'          =>  $user, 
                             'loginModel'    =>  $loginModel,

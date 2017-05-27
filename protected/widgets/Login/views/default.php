@@ -66,19 +66,27 @@
         <div class="profile-block-container flat-panel inside">
             <div class="row">
                 <div class="col-sm-4">
-                    <img src="<?php echo Yii::app()->user->getAvatarUrl();?>" alt="Аватар" />
+                    <img src="<?php echo Yii::app()->user->getAvatarUrl();?>" alt="Аватар" class="img-bordered" />
                 </div>
                 <div class="col-sm-8">
                     <div class="inside">
-                        <p>
-                        <?php echo CHtml::link(Yii::app()->user->shortName, Yii::app()->createUrl('/user'));?>
+                        <div>
+                        <?php echo CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER)? '/cabinet':'/user'));?>
                         <?php echo CHtml::link('<span class="glyphicon glyphicon-log-out"></span>', Yii::app()->createUrl('site/logout'), array());?>
-                        </p>
+                        </div>
+                        
                         
                             
                         <?php //$settingsClass =  (Yii::app()->user->settings && Yii::app()->user->settings->status == 0) ? 'btn-danger' : 'btn-default';?>    
                         <?php echo CHtml::link('Мои настройки', Yii::app()->createUrl('user/update', array('id'=>Yii::app()->user->id)), array('class'=>'btn btn-xs btn-default'));?>
-                            
+                         
+                        <?php if(Yii::app()->user->role == User::ROLE_BUYER):?>
+                            <small>
+                                <div>
+                                    Баланс: <?php echo CHtml::link(Yii::app()->user->balance, Yii::app()->createUrl('/cabinet/transactions'));?> руб.
+                                </div>
+                            </small>
+                        <?php endif;?>
                     </div>
                 </div>
             </div>

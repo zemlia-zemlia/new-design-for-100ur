@@ -18,6 +18,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 ?>
 
 <h1>Кампания #<?php echo $model->id; ?></h1>
+
 <div class='panel'>
     <div class='panel-body'>
 
@@ -27,7 +28,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     Активность
                 </td>
                 <td>
-                    <?php echo $model->active?'Да':'Нет';?>
+                    <?php echo $model->getActiveStatusName();?>
                 </td>
             </tr>
             <tr>
@@ -48,22 +49,18 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     <?php echo $model->timeTo;?>
                 </td>
             </tr>
+            
+            <?php if($model->active != Campaign::ACTIVE_MODERATION):?>
             <tr>
                 <td>
                     Цена лида
                 </td>
                 <td>
-                    <?php echo $model->price;?>
+                    <?php echo $model->price;?> руб.
                 </td>
             </tr>
-            <tr>
-                <td>
-                    Баланс
-                </td>
-                <td>
-                    <?php echo number_format($model->balance, 2, '.', ' ');?> руб.
-                </td>
-            </tr>
+            <?php endif;?>
+            
             <tr>
                 <td>
                     Лимит заявок в день
@@ -81,6 +78,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 </td>
             </tr>
         </table>
+
+        <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('campaign/update', array('id' => $model->id)), array('class'=>'btn btn-primary'));?>
 
 
 

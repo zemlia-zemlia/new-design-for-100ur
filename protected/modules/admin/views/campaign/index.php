@@ -40,3 +40,24 @@ if(!$showInactive) {
     echo CHtml::link('Показать неактивные', Yii::app()->createUrl('admin/campaign/index', array('show_inactive' => true)));
 }
 ?>
+
+<h2>На модерации</h2>
+
+<table class="table table-bordered">
+    
+    <thead>
+        <tr>
+            <th>Регион</th>
+            <th><span class="glyphicon glyphicon-time"></span></th>
+            <th>%&nbsp;брака</th>
+            <th>Лимит</th>
+            <th>Цена</th>
+            <th>Отправлено</th>
+        </tr>
+    </thead>    
+<?php $this->widget('zii.widgets.CListView', array(
+	'dataProvider'  =>  $dataProviderModeration,
+	'itemView'      =>  '_viewCampaign',
+)); ?>
+</table>
+

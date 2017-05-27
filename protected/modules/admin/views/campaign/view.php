@@ -35,7 +35,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             Активность
         </td>
         <td>
-            <?php echo $model->active?'Да':'Нет';?>
+            <?php echo $model->getActiveStatusName();?>
         </td>
     </tr>
     <tr>
@@ -72,14 +72,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <?php echo $model->price;?>
         </td>
     </tr>
-    <tr>
-        <td>
-            Баланс
-        </td>
-        <td>
-            <?php echo $model->balance;?>
-        </td>
-    </tr>
+   
     <tr>
         <td>
             Лимит заявок в день

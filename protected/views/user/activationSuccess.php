@@ -11,7 +11,7 @@ $this->pageTitle=Yii::app()->name . ' - Аккаунт успешно актив
                 Теперь Вам необходимо заполнить свой профиль.
             </p>
             
-            <?php echo CHtml::link("Заполнить профиль", Yii::app()->createUrl('user/update', array('id' => Yii::app()->user->id)), array('class' => 'btn btn-primary'));?>
+            <?php echo CHtml::link("Заполнить профиль", Yii::app()->createUrl('user/update', array('id' => Yii::app()->user->id)), array('class' => 'btn btn-primary'));?>            
         <?php else:?>
             <p class="vert-margin30">
             Заданный Вами вопрос опубликован. Ждите уведомления об ответах юристов.

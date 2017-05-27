@@ -33,7 +33,7 @@
 <p>
 	 Мы получаем заявки, как со своих сайтов, так и с сайтов партнеров. Заявки поступают к нам в систему, после чего перенаправляются рекламодателю (юристу).
 </p>
-<strong>
-<p align="center">Свяжитесь с нами для обсуждения деталей сотрудничества.<br/> Пишите нам по адресу:</p> 
-<p align="center">admin@100yuristov.com</p> 
-</strong>
+
+<p class="text-center">
+    <?php echo CHtml::link('Начать получать лиды', Yii::app()->createUrl('user/create', array('role' => User::ROLE_BUYER)), array('class' => 'btn btn-primary btn-lg'));?>
+</p>

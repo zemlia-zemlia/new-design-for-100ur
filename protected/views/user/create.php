@@ -12,6 +12,8 @@ if($model->role == User::ROLE_CLIENT) {
     $title .= "клиента";
 } else if($model->role == User::ROLE_JURIST) {
     $title .= "юриста";
+} else if($model->role == User::ROLE_BUYER) {
+    $title .= "покупателя лидов";
 } else {
     $title .= "клиента";
 }

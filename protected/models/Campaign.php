@@ -9,7 +9,6 @@
  * @property integer $timeFrom
  * @property integer $timeTo
  * @property integer $price
- * @property integer $balance
  * @property integer $leadsDayLimit
  * @property integer $brakPercent
  * @property integer $buyerId
@@ -20,7 +19,11 @@
  */
 class Campaign extends CActiveRecord
 {
-	/**
+	// Статусы активности кампании
+        const ACTIVE_NO = 0;
+        const ACTIVE_YES = 1;
+        const ACTIVE_MODERATION = 2;
+        /**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
@@ -36,13 +39,13 @@ class Campaign extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('timeFrom, timeTo, price, balance, leadsDayLimit, '
+			array('timeFrom, timeTo, price, leadsDayLimit, '
                             . 'brakPercent, buyerId, active', 'required'),
 			array('regionId, townId, timeFrom, timeTo, price, sendEmail, '
-                            . 'balance, leadsDayLimit, brakPercent, buyerId, active', 'numerical', 'integerOnly'=>true),
+                            . 'leadsDayLimit, brakPercent, buyerId, active', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, regionId, timeFrom, timeTo, price, balance, '
+			array('id, regionId, timeFrom, timeTo, price, '
                             . 'leadsDayLimit, brakPercent, buyerId, active', 'safe', 'on'=>'search'),
 		);
 	}
@@ -118,7 +121,6 @@ class Campaign extends CActiveRecord
 		$criteria->compare('timeFrom',$this->timeFrom);
 		$criteria->compare('timeTo',$this->timeTo);
 		$criteria->compare('price',$this->price);
-		$criteria->compare('balance',$this->balance);
 		$criteria->compare('leadsDayLimit',$this->leadsDayLimit);
 		$criteria->compare('brakPercent',$this->brakPercent);
 		$criteria->compare('buyerId',$this->buyerId);
@@ -128,8 +130,23 @@ class Campaign extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public static function getActivityStatuses()
+        {
+            return array(
+                self::ACTIVE_NO             => 'Неактивна',
+                self::ACTIVE_YES            => 'Активна',
+                self::ACTIVE_MODERATION     => 'На проверке',
+            );
+        }
+        
+        public function getActiveStatusName()
+        {
+            $statuses = self::getActivityStatuses();
+            return $statuses[$this->active];
+        }
 
-	/**
+        /**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
@@ -240,7 +257,7 @@ class Campaign extends CActiveRecord
         }
         
         /**
-         * Поиск активных кампаний по id покупателя
+         * Поиск кампаний по id покупателя
          * 
          * @param type $buyerId id покупателя
          * @return array массив кампаний
@@ -251,7 +268,9 @@ class Campaign extends CActiveRecord
             $criteria->order = "active DESC";
             $criteria->addColumnCondition(array('buyerId'=>(int)$buyerId));
             
-            $campaigns = self::model()->cache(600)->findAll($criteria);
+            $dependency = new CDbCacheDependency('SELECT COUNT(id) FROM {{campaign}}');
+            
+            $campaigns = self::model()->cache(600, $dependency)->findAll($criteria);
             //CustomFuncs::printr($campaigns);
             
             return $campaigns;

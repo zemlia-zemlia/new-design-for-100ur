@@ -7,12 +7,12 @@
 <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 <?php 
     Yii::app()->clientScript->registerCssFile("/bootstrap/css/bootstrap.min.css");
-    Yii::app()->clientScript->registerCssFile("/css/2015/style.css");
+    Yii::app()->clientScript->registerCssFile("/css/2017/style.css");
     Yii::app()->clientScript->registerScriptFile("/js/respond.min.js");
-    Yii::app()->clientScript->registerScriptFile("jquery.js",CClientScript::POS_END);
+    Yii::app()->clientScript->registerScriptFile("jquery.js");
     Yii::app()->clientScript->registerScriptFile("/bootstrap/js/bootstrap.min.js",CClientScript::POS_END);
     Yii::app()->clientScript->registerScriptFile("/js/jquery.maskedinput.min.js",CClientScript::POS_END);
-    Yii::app()->clientScript->registerCssFile('/css/2015/jquery-ui.css');
+    Yii::app()->clientScript->registerCssFile('/css/2017/jquery-ui.css');
     Yii::app()->clientScript->registerScriptFile('/js/jquery-ui.min.js');
     
     Yii::app()->clientScript->registerScriptFile("/js/scripts.js");
@@ -22,58 +22,86 @@
 </head>  
 
 <body>
-    <div id="header">
-        <div class="container-fluid">
+        <div id="header">
+        <div class="container">
             <div class="row">
                 <div class="col-md-3 col-sm-3 center-align">
-                    <a href="/">
-                        <img src="/pics/2017/logo_white.png" alt="100 юристов" />
-                    </a>
-                     
-                    <h5>ЮРИДИЧЕСКИЕ КОНСУЛЬТАЦИИ ОНЛАЙН</h5>
-                    <!--  <div class="logo-description">
-                        
-                    </div> -->   
+                    <div class="logo-wrapper">
+                        <?php if($_SERVER['REQUEST_URI'] != '/'):?>
+                        <a href="/">
+                            <img src="/pics/2017/logo_white.png" alt="100 Юристов и Адвокатов" title="Юридический портал"/>
+                        </a>
+                        <?php else:?>
+                            <img src="/pics/2017/logo_white.png" alt="100 Юристов и Адвокатов" title="Юридический портал" />
+                        <?php endif;?>      
+                    </div>			
+                     <div class="logo-description">
+                         <h5>юридические консультации онлайн</h5>   
+                    </div>  
                 </div>
+		
+                <?php if(Yii::app()->user->isGuest):?>
+                    <div class="col-md-3 col-sm-3 center-align"></div>
+                    <div class="col-md-6 col-sm-6 center-align">
+                <?php else:?>
+                    <div class="col-md-6 col-sm-6 center-align"></div>
+                    <div class="col-md-3 col-sm-3 center-align">  
+                <?php endif;?>
                 
-                <div class="col-md-6 col-sm-6 center-align"></div>
-                       
-                <div class="col-md-3 col-sm-3 center-align">
-                <?php
-                    // выводим виджет с формой логина
-                    $this->widget('application.widgets.Login.LoginWidget', array(
-                    ));
-                ?>
-                </div>
-            </div>
-            
+                    <?php if(Yii::app()->user->isGuest):?>
+                        
+                        <?php
+                            // выводим виджет с номером 8800
+                            $this->widget('application.widgets.Hotline.HotlineWidget', array(
+                                'showAlways' => true,
+                            ));
+                        ?>
+                            
+
+                    <?php else:?>                    
+                        <?php
+                            // выводим виджет с формой логина
+                            $this->widget('application.widgets.Login.LoginWidget', array(
+                            ));
+                        ?>
+                    <?php endif;?>
+                </div>  
         </div>
     </div>
+    </div> <!-- #header -->
     
         
+    <div class="top-form-replace"></div>
+    
     <div id="middle">
         <div class="container-fluid">
                 
 			
             <div class="col-md-3 col-sm-4">
-			
+                <h1 class="vert-margin20">Мои кампании</h1>	
                 <?php $campaigns = Campaign::getCampaignsForBuyer(Yii::app()->user->id);?>
+                
+                <?php echo CHtml::link('Создать кампанию', Yii::app()->createUrl('campaign/create'), array('class' => 'btn btn-primary btn-block'));?>
+                
+                
                 <?php foreach($campaigns as $campaign):?>
-                <div class="panel gray-panel" >
-                    <div class="panel-body">
+                <div class="flat-panel" >
+                    <div class="inside">
                         <h4>
                             <?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/cabinet/leads', array('campaign'=>$campaign->id)));?>
                             
-                            <?php echo CHtml::link("<span class='glyphicon glyphicon-cog'></span>", Yii::app()->createUrl('/cabinet/campaign', array('id'=>$campaign->id)));?>    
-                            <?php if($campaign->active == 0):?>
-                                неактивная
+                            <?php if($campaign->active != Campaign::ACTIVE_MODERATION):?>
+                                <?php echo $campaign->price;?> руб.
                             <?php endif;?>
+                            
+                            <?php echo CHtml::link("<span class='glyphicon glyphicon-cog'></span>", Yii::app()->createUrl('/cabinet/campaign', array('id'=>$campaign->id)));?>    
                         </h4>
-                        
-                        <p class="center-align">
-                            <?php echo number_format($campaign->balance, 2, '.', ' ');?> руб.
+                        <?php if($campaign->active != Campaign::ACTIVE_YES):?>
+                        <p class="text-center">                            
+                            <?php echo $campaign->getActiveStatusName();?>
                         </p>
-                        
+                        <?php endif;?>
+
                     </div>
                 </div>	
                 <?php endforeach;?>

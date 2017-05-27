@@ -65,17 +65,17 @@ class CampaignController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model  =   new Campaign;
+            $model  =   new Campaign;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Campaign']))
 		{
-			$model->attributes=$_POST['Campaign'];
-			if($model->save()) {
-                            $this->redirect(array('view','id'=>$model->id));
-                        }
+                    $model->attributes=$_POST['Campaign'];
+                    if($model->save()) {
+                        $this->redirect(array('view','id'=>$model->id));
+                    }
 		}
                 
                 $buyersArray = User::getAllBuyersIdsNames();
@@ -159,10 +159,20 @@ class CampaignController extends Controller
                         
             $dataProvider=new CActiveDataProvider('User', array(
                     'criteria'  =>  $criteria,
-                ));            
+                ));  
+            
+            $criteriaModeration = new CDbCriteria();
+            $criteriaModeration->addCondition('active=' . Campaign::ACTIVE_MODERATION);
+            
+            $dataProviderModeration = new CActiveDataProvider('Campaign', array(
+                    'criteria'  =>  $criteriaModeration,
+                ));  
+            
+            
             $this->render('index',array(
-			'dataProvider'  =>  $dataProvider,
-                        'showInactive'  =>  $showInactive,
+			'dataProvider'              =>  $dataProvider,
+                        'showInactive'              =>  $showInactive,
+                        'dataProviderModeration'    =>  $dataProviderModeration,
 		));
 	}
 

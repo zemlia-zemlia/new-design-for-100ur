@@ -109,9 +109,9 @@
 <p>
 	 Эти советы и рекомендации – самые оптимальные варианты поиска клиентов для юристов.
 </p>
-<strong>
-<p align="center">Свяжитесь с нами для обсуждения деталей сотрудничества.<br/> Пишите нам по адресу:</p> 
-<p align="center">admin@100yuristov.com</p> 
-</strong>
+
+<p class="text-center">
+    <?php echo CHtml::link('Начать получать лиды', Yii::app()->createUrl('user/create', array('role' => User::ROLE_BUYER)), array('class' => 'btn btn-primary btn-lg'));?>
+</p>
 
 <p align="center" ><a href="/site/faq/"  >Часто задаваемые вопросы при работе с лидами</a></p>
