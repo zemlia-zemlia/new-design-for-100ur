@@ -90,7 +90,7 @@ class User extends CActiveRecord
 
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, name, role, email, phone, password', 'safe', 'on'=>'search'),
+            array('id, name, role, email, phone, password', 'safe', 'on'=>'search, balance'),
         );
     }
 

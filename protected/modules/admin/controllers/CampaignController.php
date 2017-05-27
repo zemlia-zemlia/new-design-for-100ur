@@ -220,6 +220,7 @@ class CampaignController extends Controller
             }
             
             $buyer = User::model()->findByPk($buyerId);
+            $buyer->setScenario('balance');
             
             if(!$buyer) {
                 echo json_encode(array('code'=>400, 'message'=>'Error, buyer not found'));

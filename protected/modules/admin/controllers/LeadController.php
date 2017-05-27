@@ -321,6 +321,7 @@ class LeadController extends Controller
         $campaign = $lead->campaign;
         if($lead->campaign && $lead->leadStatus == Lead100::LEAD_STATUS_BRAK) {
             $buyer = $campaign->buyer;
+            $buyer->setScenario('balance');
             $buyer->balance += $lead->price;
             // записываем данные о возврате средств на баланс пользователя
             $transaction = new TransactionCampaign;

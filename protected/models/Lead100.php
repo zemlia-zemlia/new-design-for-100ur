@@ -255,6 +255,7 @@ class Lead100 extends CActiveRecord
             }
             // покупатель лида   
             $buyer = $campaign->buyer;
+            $buyer->setScenario('balance');
             
             $this->price = $campaign->price;
             $this->deliveryTime = date('Y-m-d H:i:s');
