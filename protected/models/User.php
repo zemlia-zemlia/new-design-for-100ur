@@ -85,7 +85,7 @@ class User extends CActiveRecord
             array('name2, lastName, birthday', 'safe'),
             array('townId', 'match','not'=>true, 'except'=>'unsubscribe, changePassword, restorePassword', 'pattern'=>'/^0$/', 'message'=>'Поле Город не заполнено'),
             array('password','length','min'=>5,'max'=>128, 'tooShort'=>'Минимальная длина пароля 5 символов', 'allowEmpty'=>($this->scenario=='update' || $this->scenario=='register')),
-            array('password2', 'compare', 'compareAttribute'=>'password', 'except'=>'confirm, create, register, update, updateJurist, unsubscribe', 'message'=>'Пароли должны совпадать','allowEmpty'=>($this->scenario=='update' || $this->scenario=='register')),
+            array('password2', 'compare', 'compareAttribute'=>'password', 'except'=>'confirm, create, register, update, updateJurist, unsubscribe, balance', 'message'=>'Пароли должны совпадать','allowEmpty'=>($this->scenario=='update' || $this->scenario=='register')),
             array('email','email', 'message'=>'В Email допускаются латинские символы, цифры, точка и дефис'),
 
             // The following rule is used by search().
