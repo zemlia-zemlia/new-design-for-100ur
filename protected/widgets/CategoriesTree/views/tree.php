@@ -1,3 +1,7 @@
+<?php if(stristr($_SERVER['REQUEST_URI'], '/q/')):?>
+<noindex>
+<?php endif;?>
+
 <ul id="left-menu">
     
 <?php foreach($topCategories as $cat):?>
@@ -35,3 +39,6 @@
 <?php endforeach;?>
 </ul>
 
+<?php if(stristr($_SERVER['REQUEST_URI'], '/q/')):?>
+</noindex>
+<?php endif;?>

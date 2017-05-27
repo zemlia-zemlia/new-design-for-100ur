@@ -1,4 +1,7 @@
-
+<?php if(stristr($_SERVER['REQUEST_URI'], '/q/')):?>
+<noindex>
+<?php endif;?>
+    
 <h3 class="header-block header-block-grey header-icon-answers">Ответы</h3>
 <div class="header-block-blue-arrow" style="width:50px;"></div>
 
@@ -50,3 +53,7 @@ if(empty($answers) || sizeof($answers)==0) {
 </div>
 <?php endforeach;?>
 </div> <!-- .inside -->
+
+<?php if(stristr($_SERVER['REQUEST_URI'], '/q/')):?>
+</noindex>
+<?php endif;?>

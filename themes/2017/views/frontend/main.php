@@ -204,12 +204,11 @@
 				
                 <div id="left-bar" class="">
                     <h4 id="left-menu-switch" class="header-bordered">Темы вопросов</h4>
-
                     <?php
                     // выводим виджет с деревом категорий
                             $this->widget('application.widgets.CategoriesTree.CategoriesTree', array());
                     ?>
-
+                    
                 </div>
                 
                 
