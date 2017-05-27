@@ -48,11 +48,6 @@ $leadsSentPercent = ($campaign->leadsDayLimit>0)?($campaign->leadsTodayCount/$ca
     </td>
     
     <td><?php echo $campaign->price;?> руб.</td>
-    <td>
-        <h4><span class="label label-default balance-<?php echo $data->id;?>">
-        <?php echo $campaign->balance;?> руб.</span></h4>
-
-    </td>
 	
     <td>
         <abbr title='Всего'><?php echo $campaign->leadsCount;?></abbr> / 
