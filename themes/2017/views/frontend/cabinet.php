@@ -114,6 +114,14 @@
         </div>
      </div>
     
+    <div id="footer">
+        <div class="container">
+            <div class="text-center">
+                <p><strong>Возникли вопросы?</strong><br /> Задайте их техподдержке: admin@100yuristov.com, ответим оперативно.</p>
+            </div>
+        </div>
+    </div>
+    
 <?php if($_SERVER['REMOTE_ADDR'] != '127.0.0.1'):?>  
  
  <script>
