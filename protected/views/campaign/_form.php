@@ -81,12 +81,24 @@
         
 <?php if(Yii::app()->user->role == User::ROLE_ROOT):?>
 	<div class="form-group">
-		<?php echo $form->labelEx($model,'brakPercent', array('class' => 'col-sm-2 control-label')); ?>
+            <?php echo $form->labelEx($model,'brakPercent', array('class' => 'col-sm-2 control-label')); ?>
             <div class="col-sm-10 col-md-2">
 		<?php echo $form->textField($model,'brakPercent', array('class'=>'form-control')); ?>
 		<?php echo $form->error($model,'brakPercent'); ?>
             </div>
 	</div>
+        
+        <div class="form-group">
+            <?php echo $form->labelEx($model,'price', array('class' => 'col-sm-2 control-label')); ?>
+            <div class="col-sm-10 col-md-2">
+                <div class="input-group">
+                    <?php echo $form->textField($model,'price', array('class'=>'form-control')); ?>
+                    <span class="input-group-addon">руб.</span>
+                </div>
+		<?php echo $form->error($model,'price'); ?>
+            </div>
+	</div>
+        
  <?php endif;?>
         
         
