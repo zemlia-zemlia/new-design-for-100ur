@@ -161,6 +161,7 @@ class CabinetController extends Controller
             
             $criteria = new CDbCriteria();
             $criteria->addColumnCondition(array('buyerId'=>Yii::app()->user->id));
+            $criteria->order = 'id DESC';
             
             $currentUser = User::model()->findByPk(Yii::app()->user->id);
             
