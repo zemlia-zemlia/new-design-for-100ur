@@ -27,7 +27,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             Покупатель
         </td>
         <td>
-            <?php echo $model->buyer->lastName . ' ' . $model->buyer->name;?>
+            <?php echo CHtml::link(CHtml::encode($model->buyer->lastName . ' ' . $model->buyer->name), Yii::app()->createUrl('/admin/user/view', array('id' => $model->buyer->id)));?>
+            <?php echo CHtml::encode($model->buyer->email);?>
         </td>
     </tr>
     <tr>
