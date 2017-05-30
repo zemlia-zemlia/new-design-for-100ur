@@ -26,7 +26,6 @@ $this->pageTitle = "Города. " . Yii::app()->name;
 <tr>
     <td>
         <strong><?php echo CHtml::encode($town['name']);?></strong>
-        <?php echo CHtml::encode($town['ocrug']);?>
     </td>
     <td>
         <?php echo CHtml::encode($town['counter']);?>

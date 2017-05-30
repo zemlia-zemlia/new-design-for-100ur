@@ -153,7 +153,7 @@ class TownController extends Controller
 	{
 		$townsArray = Yii::app()->db->cache(3600)->createCommand()
                         ->order('counter DESC')
-                        ->select('t.id, t.name, t.ocrug, COUNT(*) counter')
+                        ->select('t.id, t.name, COUNT(*) counter')
                         ->from('{{town}} t')
                         ->leftJoin('{{question}} q', 't.id = q.townId')
                         ->group('t.id')

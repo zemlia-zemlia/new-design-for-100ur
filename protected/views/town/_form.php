@@ -22,18 +22,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'ocrug'); ?>
-		<?php echo $form->textArea($model,'ocrug',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'ocrug'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'country'); ?>
-		<?php echo $form->textField($model,'country',array('size'=>32,'maxlength'=>32)); ?>
-		<?php echo $form->error($model,'country'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'description'); ?>
 		<?php echo $form->textArea($model,'description',array('rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'description'); ?>

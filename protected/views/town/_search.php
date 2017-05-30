@@ -22,16 +22,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'ocrug'); ?>
-		<?php echo $form->textArea($model,'ocrug',array('rows'=>6, 'cols'=>50)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'country'); ?>
-		<?php echo $form->textField($model,'country',array('size'=>32,'maxlength'=>32)); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'description'); ?>
 		<?php echo $form->textArea($model,'description',array('rows'=>6, 'cols'=>50)); ?>
 	</div>

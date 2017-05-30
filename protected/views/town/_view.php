@@ -13,13 +13,6 @@
 	<?php echo CHtml::encode($data->name); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('ocrug')); ?>:</b>
-	<?php echo CHtml::encode($data->ocrug); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('country')); ?>:</b>
-	<?php echo CHtml::encode($data->country); ?>
-	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('description')); ?>:</b>
 	<?php echo CHtml::encode($data->description); ?>

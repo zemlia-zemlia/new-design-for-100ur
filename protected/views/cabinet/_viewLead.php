@@ -49,7 +49,7 @@ switch ($data->leadStatus) {
         
             <?php if($data->townId):?>
                 <span class="glyphicon glyphicon-map-marker"></span>
-                <?php echo CHtml::encode($data->town->name); ?> (<?php echo CHtml::encode($data->town->ocrug); ?>)
+                <?php echo CHtml::encode($data->town->name); ?> (<?php echo CHtml::encode($data->town->region->name); ?>)
             <?php endif;?>
             &nbsp;
             
