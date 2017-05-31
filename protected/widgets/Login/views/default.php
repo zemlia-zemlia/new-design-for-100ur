@@ -43,8 +43,11 @@
 
                 <?php echo $form->error($model,'rememberMe'); ?>
 
+                <p>
+                    <?php echo CHtml::link("Забыли пароль?", Yii::app()->createUrl('user/restorePassword'));?>
+                </p>
             </div>
-
+            
             <div class="row">
                 <div class="col-md-12">
                     <p><?php echo CHtml::submitButton('Войти',array('class'=>'button button-blue-gradient btn-block text-uppercase')); ?></p>

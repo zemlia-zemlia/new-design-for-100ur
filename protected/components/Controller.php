@@ -35,7 +35,7 @@ class Controller extends CController
                     Yii::app()->request->redirect($url, true, 301);
                 return false;
             }
-            
+                        
             // проверка, сохранен ли в сессии пользователя ID его города
             $currentTownId = Yii::app()->user->getState('currentTownId');
             if(empty($currentTownId)) {
