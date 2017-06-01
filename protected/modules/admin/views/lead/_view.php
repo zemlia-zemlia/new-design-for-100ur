@@ -70,7 +70,7 @@ switch ($data->leadStatus) {
                         <?php echo "IP: " . $data->questionObject->ip;?>
                     <?php endif;?>
                     <?php if($data->questionObject->townIdByIP):?>
-                        <?php echo "Город по IP адресу: " . $data->questionObject->townIdByIP;?>
+                        <?php echo "Город по IP адресу: " . $data->questionObject->townByIP->name;?>
                     <?php endif;?>
                 <?php endif;?>
             <?php endif;?>
