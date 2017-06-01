@@ -67,25 +67,25 @@ class CampaignController extends Controller
 	{
             $model  =   new Campaign;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+            // Uncomment the following line if AJAX validation is needed
+            // $this->performAjaxValidation($model);
 
-		if(isset($_POST['Campaign']))
-		{
-                    $model->attributes=$_POST['Campaign'];
-                    if($model->save()) {
-                        $this->redirect(array('view','id'=>$model->id));
-                    }
-		}
-                
-                $buyersArray = User::getAllBuyersIdsNames();
-                $regions = array('0'=>'Не выбран') + Region::getAllRegions();
+            if(isset($_POST['Campaign']))
+            {
+                $model->attributes=$_POST['Campaign'];
+                if($model->save()) {
+                    $this->redirect(array('view','id'=>$model->id));
+                }
+            }
 
-		$this->render('create', array(
-			'model'         =>  $model,
-                        'buyersArray'   =>  $buyersArray,
-                        'regions'       =>  $regions,
-		));
+            $buyersArray = User::getAllBuyersIdsNames();
+            $regions = array('0'=>'Не выбран') + Region::getAllRegions();
+
+            $this->render('create', array(
+                    'model'         =>  $model,
+                    'buyersArray'   =>  $buyersArray,
+                    'regions'       =>  $regions,
+            ));
 	}
 
 	/**
@@ -95,30 +95,30 @@ class CampaignController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
+            $model=$this->loadModel($id);
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+            // Uncomment the following line if AJAX validation is needed
+            // $this->performAjaxValidation($model);
 
-		if(isset($_POST['Campaign']))
-		{
-			$model->attributes=$_POST['Campaign'];
-                        
-                        if($_POST['town'] == '') {
-                            $model->townId = 0;
-                        }
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-                
-                $buyersArray = User::getAllBuyersIdsNames();
-                $regions = array('0'=>'Не выбран') + Region::getAllRegions();
+            if(isset($_POST['Campaign']))
+            {
+                    $model->attributes=$_POST['Campaign'];
 
-		$this->render('update',array(
-			'model'         =>  $model,
-                        'buyersArray'   =>  $buyersArray,
-                        'regions'       =>  $regions,
-		));
+                    if($_POST['town'] == '') {
+                        $model->townId = 0;
+                    }
+                    if($model->save())
+                            $this->redirect(array('view','id'=>$model->id));
+            }
+
+            $buyersArray = User::getAllBuyersIdsNames();
+            $regions = array('0'=>'Не выбран') + Region::getAllRegions();
+
+            $this->render('update',array(
+                    'model'         =>  $model,
+                    'buyersArray'   =>  $buyersArray,
+                    'regions'       =>  $regions,
+            ));
 	}
 
 	/**
@@ -128,11 +128,11 @@ class CampaignController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+            $this->loadModel($id)->delete();
 
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+            if(!isset($_GET['ajax']))
+                    $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
 	/**
@@ -157,9 +157,10 @@ class CampaignController extends Controller
             
             //CustomFuncs::printr($criteria);
                         
-            $dataProvider=new CActiveDataProvider('User', array(
-                    'criteria'  =>  $criteria,
-                ));  
+            $dataProvider = new CActiveDataProvider('User', array(
+                'criteria'  =>  $criteria,
+                'pagination' => false,
+            ));  
             
             $criteriaModeration = new CDbCriteria();
             $criteriaModeration->addCondition('active=' . Campaign::ACTIVE_MODERATION);
