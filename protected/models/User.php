@@ -77,7 +77,7 @@ class User extends CActiveRecord
             array('name, email', 'required', 'message'=>'Поле {attribute} должно быть заполнено'),
             array('name2, lastName', 'required', 'message'=>'Поле {attribute} должно быть заполнено', 'on' => 'createJurist, updateJurist'),
             array('phone', 'required', 'message'=>'Поле {attribute} должно быть заполнено', 'on' => 'register, update'),
-            
+            array('email', 'unique', 'message' => 'Пользователь с таким Email уже зарегистрирован'),
             array('townId', 'required', 'except'=>'unsubscribe', 'message'=>'Поле {attribute} должно быть заполнено'),
             array('role, active100, townId, karma', 'numerical', 'integerOnly'=>true),
             array('balance', 'numerical'),
