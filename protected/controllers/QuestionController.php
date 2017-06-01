@@ -229,6 +229,8 @@ class QuestionController extends Controller
                         $question->attributes = $_POST['Question'];
                         $question->phone = Question::normalizePhone($question->phone);
                         $question->status = Question::STATUS_NEW;
+                        $question->ip = (isset($_SERVER['HTTP_X_REAL_IP'])) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
+                        $question->townIdByIP = Yii::app()->user->getState('currentTownId');
                     }
 
                     $question->setScenario('create');
@@ -254,6 +256,9 @@ class QuestionController extends Controller
                             $question->status = Question::STATUS_NEW;
 
                             if($question->save()) {
+                                
+                                $lead->questionId = $question->id;
+                                $lead->save();
 
                                 // сохраним категории, к которым относится вопрос, если категория указана
                                 if(isset($_POST['Question']['categories']) && $_POST['Question']['categories']!=0) {

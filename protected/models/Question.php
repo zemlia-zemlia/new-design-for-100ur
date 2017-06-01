@@ -21,6 +21,8 @@
  * @property integer $isModerated
  * @property integer $moderatedBy
  * @property integer $moderatedTime
+ * @property string $ip
+ * @property integer $townIdByIP
  */
 class Question extends CActiveRecord
 {
@@ -93,6 +95,7 @@ class Question extends CActiveRecord
             // class name for the relations automatically generated below.
             return array(
                 'town'          =>  array(self::BELONGS_TO, 'Town', 'townId'),
+                'townByIP'      =>  array(self::BELONGS_TO, 'Town', 'townIdByIP'),
                 'answers'       =>  array(self::HAS_MANY, 'Answer', 'questionId'),
                 'answersCount'  =>  array(self::STAT, 'Answer', 'questionId'),
                 'bublishUser'   =>  array(self::BELONGS_TO, 'User', 'publishedBy'),

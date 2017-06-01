@@ -109,6 +109,7 @@ class Lead100 extends CActiveRecord
                     'source'        =>  array(self::BELONGS_TO, 'Leadsource100', 'sourceId'),
                     'town'          =>  array(self::BELONGS_TO, 'Town', 'townId'),
                     'campaign'      =>  array(self::BELONGS_TO, 'Campaign', 'campaignId'),
+                    'questionObject'      =>  array(self::BELONGS_TO, 'Question', 'questionId'),
 		);
 	}
 
