@@ -49,7 +49,16 @@
             <?php if($data->town):?>
                 <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::encode($data->town->name . ' (' . $data->town->region->name . ')');?>
             <?php endif;?>
-            &nbsp;  
+            &nbsp; 
+            <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+                <?php if($data->ip):?>
+                    <?php echo "IP: " . $data->ip;?> &nbsp; 
+                <?php endif;?>
+                <?php if($data->townIdByIP):?>
+                    <?php echo "Город по IP адресу: " . $data->townByIP->name;?> &nbsp; 
+                <?php endif;?>
+            <?php endif;?>
+            
             <?php if($data->authorName):?>
             <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo CHtml::encode($data->authorName);?>
             <? endif;?>
