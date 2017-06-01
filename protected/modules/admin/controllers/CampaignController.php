@@ -142,7 +142,7 @@ class CampaignController extends Controller
 	{
 		
             $criteria = new CDbCriteria;
-            $criteria->order = 'name';
+            $criteria->order = 't.balance DESC';
             $criteria->condition = 'role=' . User::ROLE_BUYER;
             
             
