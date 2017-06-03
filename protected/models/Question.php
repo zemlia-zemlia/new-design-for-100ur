@@ -325,8 +325,8 @@ class Question extends CActiveRecord
                 // особый статус "предварительно сохранен"
                 $this->status = self::STATUS_PRESAVE;
                 
-                //Если город явно не указан, возьмем город из IP адреса
-                if(!$this->townId && Yii::app()->user->getState('currentTownId')) {
+                //Если город явно не указан и телефон не указан, возьмем город из IP адреса
+                if(!$this->townId && !$question->phone && Yii::app()->user->getState('currentTownId')) {
                     $this->townId = Yii::app()->user->getState('currentTownId');
                 }
                

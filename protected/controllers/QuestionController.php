@@ -211,7 +211,7 @@ class QuestionController extends Controller
                         $question->townId = (Yii::app()->user->getState('currentTownId')) ? Yii::app()->user->getState('currentTownId') : 0;
                     }*/
 
-                    if($question->sessionId == '' && $question->questionText!='' && $question->authorName!='' && !$question->phone) {
+                    if($question->sessionId == '' && $question->questionText!='' && $question->authorName!='') {
                         if(!$question->preSave()) {
                             // если вопрос не предсохранился, очищаем свойство sessionId
                             $question->sessionId = '';
