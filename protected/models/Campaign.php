@@ -184,7 +184,7 @@ class Campaign extends CActiveRecord
             $campaignsRows = Yii::app()->db->createCommand()
                     ->select('*')
                     ->from("{{campaign}} c")
-                    ->where("(`townId`=:townId OR `regionId`=:regionId) AND `timeFrom`<=:hour AND `timeTo`>=:hour AND active=1", array(
+                    ->where("(`townId`=:townId OR `regionId`=:regionId) AND `timeFrom`<=:hour AND `timeTo`>:hour AND active=1", array(
                         ':townId'       =>  $lead->town->id,
                         ':regionId'     =>  $lead->town->regionId,
                         ':hour'         =>  (int)date('H'),

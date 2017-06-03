@@ -452,7 +452,8 @@ class UserController extends Controller
                 $model->attributes = $_POST['RestorePasswordForm'];
                 $email = trim(strtolower(CHtml::encode($model->email)));
                 // ищем пользователя по введенному Email, если не найден, получим NULL
-                $user = User::model()->findByAttributes(array('LOWER(email)'=>$email));
+                $user = User::model()->find('LOWER(email)=?',array($email));
+                //$user = User::model()->find(array('LOWER(email)'=>$email));
                 if($user)
                 {
                     // если пользователь существует, генерируем ему новый пароль
@@ -469,6 +470,10 @@ class UserController extends Controller
                         $message = "Ошибка! Не удалось изменить пароль";
                     }
                     $this->render('restorePassword', array('model'=>$model, 'message'=>$message));
+                } else {
+                    // форма не была отправлена, отображаем форму
+                    $model->addError('email', 'Пользователь не найден');
+                    $this->render('restorePassword', array('model' => $model));
                 }
             }
             else

@@ -21,9 +21,7 @@ $leadsSentPercent = ($data->leadsDayLimit>0)?($data->leadsTodayCount/$data->lead
     <td>
         <?php echo $data->brakPercent;?>
     </td>
-    <td>
-        <?php echo $data->leadsDayLimit;?>
-    </td>
+
     
     <td><?php echo $data->price;?> руб.</td>
 	

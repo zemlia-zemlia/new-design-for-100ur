@@ -15,6 +15,7 @@
             <p>Наши юристы и адвокаты готовы бесплатно ответить на ваш вопрос прямо сейчас по многоканальному номеру</p>    
             </small>
             <div class="annoying-phone">8-800-500-61-85</div>
+            <!--
             <?php foreach($payedTowns as $town):?>
                 <?php $townsNames[] = CHtml::encode($town->name);?> 
             <?php endforeach;?>
@@ -38,6 +39,7 @@
                 </p>
                 </small>
             <?php endif;?>
+            -->
         <?php else:?>
             <p>Наши юристы и адвокаты готовы бесплатно ответить на ваш вопрос прямо сейчас</p>
             <?php echo CHtml::link('Задать вопрос', Yii::app()->createUrl('question/create'), array('class' => 'btn btn-success btn-block'));?>

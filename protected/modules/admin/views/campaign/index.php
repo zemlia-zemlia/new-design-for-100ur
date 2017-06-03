@@ -18,10 +18,10 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
     
     <thead>
         <tr>
+            <th></th>
             <th>Регион</th>
             <th><span class="glyphicon glyphicon-time"></span></th>
             <th>%&nbsp;брака</th>
-            <th>Лимит</th>
             <th>Цена</th>
             <th>Отправлено</th>
         </tr>
@@ -50,7 +50,6 @@ if(!$showInactive) {
             <th>Регион</th>
             <th><span class="glyphicon glyphicon-time"></span></th>
             <th>%&nbsp;брака</th>
-            <th>Лимит</th>
             <th>Цена</th>
             <th>Отправлено</th>
         </tr>
