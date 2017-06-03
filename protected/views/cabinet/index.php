@@ -20,8 +20,8 @@ $this->setPageTitle("Кабинет покупателя лидов. ". Yii::app
 <table class="table table-bordered table-hover table-striped">
     <thead>
     <tr>
-        <th></th>
-        <th>Текст лида</th>
+        <th>Лид</th>
+        <th>Управление</th>
     </tr>
     </thead>
 <?php $this->widget('zii.widgets.CListView', array(

@@ -29,6 +29,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <div class="alert alert-danger">
     <p>
-    При оплате на карту или Яндекс Деньги в сообщении к платежу укажите "Пополнение баланса пользователя <?php echo Yii::app()->user->id;?>"
+    <strong>ВНИМАНИЕ!</strong> При оплате на карту или Яндекс Деньги в сообщении к платежу укажите "Пополнение баланса пользователя <?php echo Yii::app()->user->id;?>"
     </p>
 </div>

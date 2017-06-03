@@ -19,8 +19,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <h1>Кампания #<?php echo $model->id; ?></h1>
 
-<div class='panel'>
-    <div class='panel-body'>
+<div class='flat-panel inside'>
+
 
         <table class="table table-bordered">
             <tr>
@@ -81,8 +81,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
         <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('campaign/update', array('id' => $model->id)), array('class'=>'btn btn-primary'));?>
 
-
-
+</div>
+<br/>
+<div class='flat-panel inside'>
         <?php if($transactionsDataProvider->totalItemCount):?>
         <h2>Транзакции</h2>
 
@@ -104,5 +105,5 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
         <?php endif;?>
 
-    </div>
+
 </div>

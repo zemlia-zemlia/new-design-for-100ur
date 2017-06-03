@@ -27,8 +27,8 @@
             <div class="row">
                 <div class="col-md-3 col-sm-3 center-align">
                     <div class="logo-wrapper">
-                        <?php if($_SERVER['REQUEST_URI'] != '/'):?>
-                        <a href="/">
+                        <?php if($_SERVER['REQUEST_URI'] != '/cabinet/'):?>
+                        <a href="/cabinet/">
                             <img src="/pics/2017/logo_white.png" alt="100 Юристов и Адвокатов" title="Юридический портал"/>
                         </a>
                         <?php else:?>
@@ -107,7 +107,7 @@
                 <?php endforeach;?>
             </div>
             
-            <div class="col-md-9 col-sm-8">
+            <div class="flat-panel inside col-md-9 col-sm-8">
                 <?php echo $content;?>
             </div>
             				

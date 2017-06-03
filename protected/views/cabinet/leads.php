@@ -30,8 +30,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
   <li role="presentation" <?php if($status == Lead100::LEAD_STATUS_RETURN):?>class="active"<?php endif;?>><?php echo CHtml::link('Возврат', Yii::app()->createUrl('/cabinet/leads', array('campaign'=>$campaign->id, 'status'=>Lead100::LEAD_STATUS_RETURN)));?></li>
 </ul>
 
-<div class="panel panel-default">
-    <div class="panel-body">
+<div class='flat-panel inside'>
+
         
         <?php if($dataProvider->totalItemCount):?>
         <table class="table table-bordered table-hover table-striped">
@@ -53,5 +53,5 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <p>Не найдено ни одного лида</p>
         <?php endif;?>
         
-    </div>
+
 </div>
