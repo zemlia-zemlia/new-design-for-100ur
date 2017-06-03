@@ -392,6 +392,12 @@ hr {
   font-size: 2em;
 }
 
+@media(max-width:767px) {
+    .kpi-counter span {
+        font-size:1em;
+    }
+}
+
 #my-answers-counters .kpi-counter span {
     font-size: 15px;
 }
@@ -704,6 +710,14 @@ hr {
 @media(max-width:767px) {
     .annoying-widget {
         display:none;
+    }
+    
+    .question-list-item {
+        margin-bottom:15px;
+    }
+    
+    .center-mobile {
+        text-align: center;
     }
 }
 

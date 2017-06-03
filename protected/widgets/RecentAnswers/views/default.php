@@ -24,12 +24,12 @@ if(empty($answers) || sizeof($answers)==0) {
 </p>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-xs-4">
         <?php if($answer['authorId'] && ($author=User::model()->cache(600)->findByPk($answer['authorId'])) instanceof User):?>
             <img src="<?php echo $author->getAvatarUrl();?>" class="img-responsive img-bordered" alt="<?php echo CHtml::encode($author->name . ' ' . $author->lastName);?>" />
         <?php endif;?>
     </div>
-    <div class="col-md-8">
+    <div class="col-xs-8">
         <div class="answer-item-info">
             <?php if($answer['answerTime']):?>
             <span class="glyphicon glyphicon-calendar"></span> <?php echo CustomFuncs::niceDate($answer['answerTime'], false);?>

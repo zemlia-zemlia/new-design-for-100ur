@@ -11,7 +11,7 @@ if(empty($recentPosts) || sizeof($recentPosts)==0) {
 <?php foreach($recentPosts as $recentPost): ?>
     <div class="col-md-4">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 center-align">
 
                 <?php if($recentPost->photo):?>
                     <?php echo CHtml::link("<img src='" . $recentPost->getPhotoUrl('thumb'). "' alt='" . CHtml::encode($recentPost->title) . "'/>", Yii::app()->createUrl('post/view',array('id'=>$recentPost->id)));?>
@@ -22,11 +22,15 @@ if(empty($recentPosts) || sizeof($recentPosts)==0) {
             </div>
             <div class="col-md-8">
 
-                <p><?php echo CHtml::link(CHtml::encode($recentPost->title), Yii::app()->createUrl('post/view',array('id'=>$recentPost->id))); ?><br />
+                <p class="center-mobile">
+                    <?php echo CHtml::link(CHtml::encode($recentPost->title), Yii::app()->createUrl('post/view',array('id'=>$recentPost->id))); ?><br />
+                </p>
+                <p>
                     <small>
                     <?php echo nl2br(mb_substr(CHtml::encode($recentPost->preview),0,100,'utf-8'));?>...
                     </small>
                 </p>
+                <br />
 
             </div>
         </div>

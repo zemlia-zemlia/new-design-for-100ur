@@ -51,16 +51,24 @@
                                     ?>
                                     <div class="questions-counter-description">
                                         <div class="center-align">
-                                            <p>Задано вопросов</p>
-                                            <p class="kpi-counter">
-                                                <img src="/pics/2017/icon_question.png" alt="100 Юристов и Адвокатов" title="Юридический портал" />
-                                                <?php foreach($numbers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
-                                            </p>
-                                            <div>На них дано ответов</div>
-                                            <p class="kpi-counter">
-                                                <img src="/pics/2017/icon_answer.png" alt="100 Юристов и Адвокатов" title="Юридический портал" />
-                                                <?php foreach($numbersAnswers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
-                                            </p>
+                                            <div class="row">
+                                                <div class="col-sm-12 col-xs-6">
+                                                    <p>Задано вопросов</p>
+                                                    <p class="kpi-counter">
+                                                        <img src="/pics/2017/icon_question.png" alt="100 Юристов и Адвокатов" title="Юридический портал" class="hidden-xs" />
+                                                        <?php foreach($numbers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
+                                                    </p>
+                                                </div>
+                                                <div class="col-sm-12 col-xs-6">
+                                                    <p>На них дано ответов</p>
+                                                    <p class="kpi-counter">
+                                                        <img src="/pics/2017/icon_answer.png" alt="100 Юристов и Адвокатов" title="Юридический портал" class="hidden-xs" />
+                                                        <?php foreach($numbersAnswers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            
+                                            
                                         </div>
                                     </div>
                             </div>

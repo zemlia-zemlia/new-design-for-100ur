@@ -12,8 +12,8 @@
             <div class="inside">
                 <?php foreach($questions as $question):?>
                     <div class="row question-list-item <?php if($question['payed'] == 1):?> vip-question<?endif;?>">
-                        <div class="col-sm-9">
-                            <p style="font-size:1.1em;">
+                        <div class="col-sm-10">
+                            <p style="font-size:0.9em;">
                                 <?php 
                                 if($question['payed'] == 1){
                                     echo "<span class='label label-warning'><abbr title='Вопрос с 100% гарантией получения ответов'><span class='glyphicon glyphicon-ruble'></span></abbr></span>";
@@ -24,17 +24,17 @@
                             </p>
                         </div>
 
-                        <div class="col-sm-3">
-
-                        <?php if($question['counter'] == 1) {
-                            echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>Есть ответ</span>";
-                        } elseif($question['counter']>1) {
-                            echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>" . $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
-                        } elseif($question['counter'] == 0) {
-                            echo "<span class='label label-default'>Нет ответа</span>";
-                        }
-                        ?>
-                        </span>
+                        <div class="col-sm-2 text-center">
+                            <small>
+                                <?php if($question['counter'] == 1) {
+                                    echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> Есть ответ</span>";
+                                } elseif($question['counter']>1) {
+                                    echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
+                                } elseif($question['counter'] == 0) {
+                                    echo "<span class='text-muted'>Нет ответа</span>";
+                                }
+                                ?>
+                            </small>
                     </div>
                     </div>
                 <?php endforeach;?>
@@ -45,7 +45,16 @@
             </div>
         </div>
 
+<h3 class="header-block-light-grey"><strong> На ваши вопросы отвечают: </strong></h3>
+<div class='flat-panel inside'>
 
+        <?php
+            // выводим виджет с топовыми юристами
+            $this->widget('application.widgets.TopYurists.TopYurists', array(
+                'cacheTime' =>  0,
+            ));
+        ?>
+</div>
 
 <h1>Юридическая консультация</h1>
 <div style="text-align: justify;">

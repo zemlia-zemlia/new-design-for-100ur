@@ -4,23 +4,36 @@
 
 <?php foreach ($users as $user):?>
     <?php if($usersCount%2 == 0) :?>
-        <div class="row">
+        <div class="row row-yurist">
     <?php endif;?>
 
     <div class="col-sm-6 vert-margin30">
         
         <div class="row">
-            <div class="col-sm-4 text-center">
-                <a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$user['id']));?>" rel="nofollow">
-                    <img class="img-responsive img-bordered" src="<?php echo User::USER_PHOTO_PATH . User::USER_PHOTO_THUMB_FOLDER . '/'. $user['avatar'];?>" alt="<?php echo CHtml::encode($user['name'] . ' ' . $user['lastName']);?>" class="img-responsive center-block gray-panel" />
-                </a>
+            <div class="col-xs-4 text-center">
+                <div class="">
+                    <a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$user['id']));?>" rel="nofollow">
+                        <img class="img-responsive img-bordered" src="<?php echo User::USER_PHOTO_PATH . User::USER_PHOTO_THUMB_FOLDER . '/'. $user['avatar'];?>" alt="<?php echo CHtml::encode($user['name'] . ' ' . $user['lastName']);?>" class="img-responsive center-block gray-panel" />
+                    </a>
+                    <div class="answer-item-karma center-align">
+                        <small>
+                        <span class='glyphicon glyphicon-thumbs-up'></span> <?php echo $user['karma'];?>
+                        </small>
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-8 ">
-                <p>
+            <div class="col-xs-8">
+                <div>
                 <a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$user['id']));?>" rel="nofollow">
                     <?php echo CHtml::encode($user['name'] . ' ' . $user['lastName']);?>
                 </a>
-                </p>
+                </div>
+                
+                <div>
+                    <small class="text-muted">
+                    <?php echo YuristSettings::getStatusNameByCode($user['yuristStatus']);?>
+                    </small>
+                </div>
                 
                 <?php if(floor((time() - strtotime($user['lastActivity']))/60)<60):?>
                     <small><div><span class="glyphicon glyphicon-flash"></span> <span class="text-success">Сейчас на сайте</span></div></small>
@@ -51,7 +64,6 @@
                     ?>
                     </small></p> -->
                 <?php endif;?>
-                <a href="/question/create/?utm_source=100yuristov&utm_campaign=yuristi&utm_medium=button&utm_content=<?php echo CHtml::encode($user['name'] . '_' . $user['lastName']);?>" class="btn btn-warning btn-xs" rel="nofollow">Обратиться к юристу</a>
             </div>
         </div>  
     </div>

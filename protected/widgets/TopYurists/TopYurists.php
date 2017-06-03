@@ -44,7 +44,7 @@ class TopYurists extends CWidget
             foreach($yurisIds as $yurisId) {
 
                 $yuristInfo = Yii::app()->db->createCommand()
-                        ->select("u.id, u.name, u.lastName, u_s.alias, u.avatar, u.lastActivity, t.name townName, q_c.name catName, COUNT(*) answersCount")
+                        ->select("u.id, u.name, u.lastName, u_s.alias, u.avatar, u.karma, u.lastActivity, t.name townName, u_s.status yuristStatus, q_c.name catName, COUNT(*) answersCount")
                         ->from('{{user}} u')
                         ->leftJoin('{{answer}} a', 'a.authorId=u.id')
                         ->leftJoin('{{yuristSettings}} u_s', 'u.id=u_s.yuristId')
@@ -62,8 +62,10 @@ class TopYurists extends CWidget
                     $users[$yInfo['id']]['name'] =  $yInfo['name'];
                     $users[$yInfo['id']]['lastName'] =  $yInfo['lastName'];
                     $users[$yInfo['id']]['alias'] =  $yInfo['alias'];
+                    $users[$yInfo['id']]['karma'] =  $yInfo['karma'];
                     $users[$yInfo['id']]['avatar'] =  $yInfo['avatar'];
                     $users[$yInfo['id']]['town'] =  $yInfo['townName'];
+                    $users[$yInfo['id']]['yuristStatus'] =  $yInfo['yuristStatus'];
                     $users[$yInfo['id']]['lastActivity'] =  $yInfo['lastActivity'];
                     $users[$yInfo['id']]['answersCount'] =  $yInfo['answersCount'];                    
                     
