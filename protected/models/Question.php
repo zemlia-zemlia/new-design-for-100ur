@@ -327,8 +327,8 @@ class Question extends CActiveRecord
                 
                 //Если город явно не указан и телефон не указан, возьмем город из IP адреса
                 if(!$this->townId && !$this->phone && Yii::app()->user->getState('currentTownId')) {
-                    $question->ip = (isset($_SERVER['HTTP_X_REAL_IP'])) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
-                    $question->townIdByIP = Yii::app()->user->getState('currentTownId');
+                    $this->ip = (isset($_SERVER['HTTP_X_REAL_IP'])) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
+                    $this->townIdByIP = Yii::app()->user->getState('currentTownId');
                 }
                
                 
