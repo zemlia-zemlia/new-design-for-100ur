@@ -98,9 +98,6 @@ $allDirections = array(0=>'Без категории') + $allDirections;
                     'id'            =>  'town-selector', 
                     'class'         =>  'form-control icon-input', 
                     'style'         =>  'background-image:url(/pics/2017/map_mark_icon.png)',
-                    'data-toggle'   =>  "tooltip",
-                    'data-placement'=>  "top",
-                    'title'         =>  "Необходим для уточнения регионального законодательства",
                 )); ?>
             <?php endif;?>
             

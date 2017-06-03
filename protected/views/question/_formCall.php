@@ -42,9 +42,6 @@
             <?php echo CHtml::textField('town', $currenTownName, array(
                 'id'            =>  'town-selector', 
                 'class'         =>  'form-control',
-                'data-toggle'   =>  "tooltip",
-                'data-placement'=>  "bottom",
-                'title'         =>  "Необходим для уточнения регионального законодательства",
             )); ?>
                 
             <?php
