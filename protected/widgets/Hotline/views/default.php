@@ -1,5 +1,5 @@
 <div class="header-phone">
-    <strong>Горячая линия</strong> юридических консультаций
+    <strong>Горячая линия</strong>
 </div>
 
 <div class="phone-wrapper">
