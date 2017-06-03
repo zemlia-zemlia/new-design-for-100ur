@@ -616,8 +616,7 @@ class QuestionController extends Controller
         
         public function actionCall()
         {
-            //$this->layout = "//frontend/short";
-            
+            $this->layout = "//frontend/smart";
             $lead = new Lead100();
             
             if(isset($_POST['Lead100'])) {
