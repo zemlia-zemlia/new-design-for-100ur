@@ -442,6 +442,7 @@ class UserController extends Controller
         // восстановление пароля пользователя
         public function actionRestorePassword()
         {
+            $this->layout = "//frontend/smart";
             // $model - модель с формой восстановления пароля
             $model=new RestorePasswordForm;
             
@@ -449,9 +450,9 @@ class UserController extends Controller
             {
                 // получили данные из формы восстановления пароля
                 $model->attributes = $_POST['RestorePasswordForm'];
-                $email = CHtml::encode($model->email);
+                $email = trim(strtolower(CHtml::encode($model->email)));
                 // ищем пользователя по введенному Email, если не найден, получим NULL
-                $user = User::model()->findByAttributes(array('email'=>$email));
+                $user = User::model()->findByAttributes(array('LOWER(email)'=>$email));
                 if($user)
                 {
                     // если пользователь существует, генерируем ему новый пароль
@@ -484,7 +485,7 @@ class UserController extends Controller
             
             $model = User::model()->with('settings')->findByPk($id);
             
-            if(!$model || !in_array($model->role, array(User::ROLE_JURIST, User::ROLE_OPERATOR))) {
+            if(!$model || $model->role != User::ROLE_JURIST) {
                 throw new CHttpException(404,'Пользователь не найден');
             }
             
@@ -492,7 +493,7 @@ class UserController extends Controller
                     ->select('q.id id, q.publishDate date, q.title title')
                     ->from('{{question}} q')
                     ->leftJoin('{{answer}} a', 'q.id=a.questionId')
-                    ->where('a.id IS NOT NULL AND q.status=:status AND a.authorId = :authorId', array(':status'=>  Question::STATUS_PUBLISHED, ':authorId'=>$model->id))
+                    ->where('a.id IS NOT NULL AND q.status IN (:status1, :status2) AND a.authorId = :authorId', array(':status1'=>  Question::STATUS_PUBLISHED, ':status2'=>  Question::STATUS_CHECK, ':authorId'=>$model->id))
                     ->limit(10)
                     ->order('q.publishDate DESC')
                     ->queryAll();

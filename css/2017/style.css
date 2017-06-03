@@ -212,7 +212,7 @@ hr {
 }
 
 #hero > .container {
-    background-image:url(/pics/2017/hero_image.jpg);
+    /*background-image:url(/pics/2017/hero_image.jpg);*/
     background-size: cover;
     background-repeat: no-repeat;
     padding:20px 0;
@@ -488,6 +488,10 @@ hr {
     border:#d8d9d9 5px solid;
 }
 
+.answer-item {
+    padding:10px 0;
+}
+
 .answer-item-info {
     margin:6px 0;
 }
@@ -718,6 +722,10 @@ hr {
     
     .center-mobile {
         text-align: center;
+    }
+    
+    #hero-video-container {
+        padding:10px;
     }
 }
 

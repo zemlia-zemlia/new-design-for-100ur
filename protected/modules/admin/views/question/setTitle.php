@@ -28,3 +28,8 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/question.js');
     <?php endforeach;?>
 </table>
 <?php endif; ?>
+
+<?php if(Yii::app()->user->role == User::ROLE_EDITOR):?>
+<?php echo CHtml::link("Вопросы, отредактированные мной", Yii::app()->createUrl('/admin/question/index', array('moderatedBy' => Yii::app()->user->id)));?>
+<?php endif; ?>
+

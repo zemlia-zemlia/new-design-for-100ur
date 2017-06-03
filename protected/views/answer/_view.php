@@ -7,12 +7,12 @@
 
 <?php if($data->status!=Answer::STATUS_SPAM):?>
 <div class="flat-panel">
-    <div class='inside'>
+    <div class=''>
 <div class='answer-item'>
     
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-2 col-xs-4">
                 <?php if($videoCode):?>
                 <img src='/pics/2017/logo_white.png' class='img-responsive' alt='100 Юристов' />
                 <?php else:?>
@@ -22,14 +22,10 @@
                     <?php if(floor((time() - strtotime($data->author->lastActivity))/60)<60):?>
                         <div class="center-align"><small><span class="label label-success">онлайн</span></small></div>
                     <?php endif;?>
-                    <div class="answer-item-karma center-align">
-                        <small>
-                        <span class='glyphicon glyphicon-thumbs-up'></span> <?php echo $data->author->karma;?>
-                        </small>
-                    </div>
+                    
                 <?php endif;?>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-10 col-xs-8">
                 
                 <?php if($videoCode):?>
                     <div class="embed-responsive embed-responsive-16by9">
@@ -39,11 +35,7 @@
                 <div class="answer-item-author-block">
                     <small>
                     <div itemprop="author" class='answer-item-author' itemscope itemtype="http://schema.org/Person">
-                        <span class="glyphicon glyphicon-comment"></span> Отвечает 
-                        <?php if($data->author->settings->isVerified):?>
-                            <span class="label label-success"><?php echo $data->author->settings->getStatusName();?></span>
-                        <?php endif;?>
-                    &nbsp;&nbsp;
+                        
                     <span class="glyphicon glyphicon-user"></span>
                     <strong>
                         <span itemprop="name">
@@ -52,11 +44,19 @@
                             </a>
                         </span>
                     </strong>
+                    
+                    <?php if($data->author->settings->isVerified):?>
+                            <span class="label label-success"><?php echo $data->author->settings->getStatusName();?></span>
+                        <?php endif;?>
                     &nbsp;&nbsp;
+                    <br />
 
                     <span class="glyphicon glyphicon-signal"></span>    
                     <?php echo $data->author->answersCount . ' ' . CustomFuncs::numForms($data->author->answersCount, 'ответ', "ответа", "ответов");?>     
 
+                    &nbsp;&nbsp;
+                    
+                    <span class='glyphicon glyphicon-thumbs-up'></span> <?php echo $data->author->karma;?>
                         <br />
                     <?php if($data->datetime):?>
                         <span class="glyphicon glyphicon-calendar"></span> <?php echo CustomFuncs::niceDate($data->datetime, false);?>
@@ -66,6 +66,9 @@
                     </small>
                 </div>
                 
+            </div>
+            
+            <div class="col-xs-12">
                 <div itemprop="suggestedAnswer acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 
                     <div itemprop="text">

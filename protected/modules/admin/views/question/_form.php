@@ -57,14 +57,6 @@
 		<?php echo $form->dropDownList($model,'townId', $townsArray, array('class'=>'form-control')); ?>
 		<?php echo $form->error($model,'townId'); ?>
             </div>
-
-            <div class="form-group"> 
-                <?php echo $form->labelEx($model,'description'); ?>
-                <?php   
-                    echo $form->textArea($model, 'description', array('class'=>'form-control'));
-                ?>
-                <?php echo $form->error($model,'description'); ?>
-            </div>
         </div>
         
 

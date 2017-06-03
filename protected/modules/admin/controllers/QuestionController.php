@@ -215,6 +215,7 @@ class QuestionController extends Controller
             
             if(isset($_GET['moderatedBy'])) {
                 $criteria->addColumnCondition(array('moderatedBy' => (int)$_GET['moderatedBy']));
+                $criteria->order = "moderatedTime DESC";
                 $moderator = User::model()->findByPk((int)$_GET['moderatedBy']);
             } else {
                 $moderator = null;
