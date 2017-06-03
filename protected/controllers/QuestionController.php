@@ -292,6 +292,8 @@ class QuestionController extends Controller
 
                             }
                     }
+                } else {
+                    CustomFuncs::printr($question->errors);
                 }
 
 
