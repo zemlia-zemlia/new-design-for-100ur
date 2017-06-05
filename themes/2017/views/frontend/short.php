@@ -45,15 +45,12 @@
                     <div class="logo-wrapper">
                         <?php if($_SERVER['REQUEST_URI'] != '/'):?>
                         <a href="/">
-                            <img src="/pics/2017/logo_white.png" alt="100 Юристов и Адвокатов" title="100 Юристов и Адвокатов"/>
+                            <img src="/pics/2017/100_yuristov_logo.svg" alt="100 Юристов и Адвокатов" title="Юридический портал" style="width:240px; height:50px;" />
                         </a>
                         <?php else:?>
-                            <img src="/pics/2017/logo_white.png" alt="100 Юристов и Адвокатов" title="100 Юристов и Адвокатов" />
+                            <img src="/pics/2017/100_yuristov_logo.svg" alt="100 Юристов и Адвокатов" title="Юридический портал" style="width:240px; height:50px;" />
                         <?php endif;?>      
-                    </div>			
-                     <div class="logo-description">
-                         <h5>юридические консультации онлайн</h5>   
-                    </div>  
+                    </div>			  
                 </div>
 		
                 <?php if(Yii::app()->user->isGuest):?>
