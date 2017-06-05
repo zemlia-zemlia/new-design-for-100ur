@@ -100,7 +100,7 @@
             <?php endif;?>
         <?php endif;?>
     </td>
-        
+    <?php endif;?>    
     <td>
         <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>   
                       
@@ -114,7 +114,7 @@
         <?php endif;?>
     </td> 
     
-    <?php endif;?>    
+        
 </tr>
 
 <?php //endif;?> 

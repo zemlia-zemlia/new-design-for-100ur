@@ -50,6 +50,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <th>Вопрос</th>
         <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
             <th>Категория</th>
+        <?php endif;?>   
+        <?php if(Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>
             <th>Автор</th>
         <?php endif;?>
     </tr>
