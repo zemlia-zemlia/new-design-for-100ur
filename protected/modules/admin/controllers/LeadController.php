@@ -137,7 +137,7 @@ class LeadController extends Controller
         $statusId = (isset($_GET['status']))?(int)$_GET['status']:false;
 
         if($statusId !== false) {
-            $criteria->addColumnCondition(array('leadStatus'=>$statusId));
+            $criteria->addColumnCondition(array('t.leadStatus'=>$statusId));
             $criteria->addColumnCondition(array('campaignId!'=>'NULL'));
 
         }
