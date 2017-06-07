@@ -123,7 +123,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     
                     <?php if($model->settings->site):?>
                     <p>
-                        <strong>Сайт:</strong> <?php echo CHtml::encode($model->settings->site);?>
+                        <strong>Сайт:</strong> <?php echo CHtml::link(CHtml::encode($model->settings->site), $model->settings->site, array('target'=>'_blank'));?>
                     </p>
                     <?php endif;?>
                    
