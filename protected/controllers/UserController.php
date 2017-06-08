@@ -25,7 +25,7 @@ class UserController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index', 'view','create','confirm','confirmationSent', 'restorePassword', 'captcha', 'unsubscribe'),
+				'actions'=>array('index', 'view','create','confirm','confirmationSent', 'restorePassword', 'setNewPassword', 'captcha', 'unsubscribe'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -373,14 +373,18 @@ class UserController extends Controller
               if($user->active100==0) {
                 $user->activate();
                 $user->registerDate = date('Y-m-d');
-                $newPassword = $user->password = $user->password2 = $user->generatePassword();
+                // при активации пользователя заменяем у него confirm_code, чтобы он смог сменить пароль, перейдя по ссылке в письме
+                $user->confirm_code = $user->generateAutologinString();
+                // задаем пользователю некий произвольный пароль, который на следующем шаге попросим сменить. Пароль в открытом виде не отсылаем пользователю
+                $newPassword = $user->password = $user->password2 = $user->generatePassword(10);
                 $user->publishNewQuestions();
               }
                             
               if($user->save()) {
-                  // после активации и сохранения пользователя, отправим ему на почту временный пароль
+                  // после активации и сохранения пользователя, отправим ему на почту ссылку на смену временного пароля
                   if($newPassword) {
-                    $user->sendNewPassword($newPassword);
+                    //$user->sendNewPassword($newPassword);
+                    $user->sendChangePasswordLink();
                   }
                   
                   // логиним пользователя
@@ -439,7 +443,10 @@ class UserController extends Controller
         }
         
         
-        // восстановление пароля пользователя
+        /**
+         *  восстановление пароля пользователя
+         * Страница с формой, где пользователь вводит свою почту, на которую отправляется ссылка для восстановления пароля
+         */
         public function actionRestorePassword()
         {
             $this->layout = "//frontend/smart";
@@ -456,34 +463,89 @@ class UserController extends Controller
                 //$user = User::model()->find(array('LOWER(email)'=>$email));
                 if($user)
                 {
-                    // если пользователь существует, генерируем ему новый пароль
-                    $newPassword = User::generatePassword(6);
+                    // если пользователь существует, отправим ему ссылку на смену пароля
+                    //$newPassword = User::generatePassword(6);
                     $user->setScenario("restorePassword");
-                    if($user->changePassword($newPassword))
-                    {
+                    if($user->sendChangePasswordLink()) {
                         // если удалось изменить пароль
-                        $message = "Пароль изменен и отправлен на E-mail";
-                    }
-                    else
-                    {
+                        $message = "Ссылка на изменение пароля отправлена на Ваш E-mail";
+                    } else {
                         // если не удалось изменить пароль
                         $message = "Ошибка! Не удалось изменить пароль";
                     }
+                    
                     $this->render('restorePassword', array('model'=>$model, 'message'=>$message));
                 } else {
                     // форма не была отправлена, отображаем форму
                     $model->addError('email', 'Пользователь не найден');
                     $this->render('restorePassword', array('model' => $model));
                 }
-            }
-            else
-            {
+            } else  {
                 // форма не была отправлена, отображаем форму
                 $this->render('restorePassword', array('model' => $model));
             }
             
         }
         
+        
+        /**
+         * Форма установки нового пароля при восстановлении пароля
+         */
+        public function actionSetNewPassword()
+        {
+            // если пользователь уже залогинен, перенаправляем его на страницу смены пароля в его профиле
+            if(!Yii::app()->user->isGuest) {
+                $this->redirect(array("user/changePassword", 'id' => Yii::app()->user->id));
+            }
+            
+            $this->layout = "//frontend/smart";
+            
+            $email = strtolower(CHtml::encode($_GET['email']));
+            $code = CHtml::encode($_GET['code']);
+            
+            $criteria = new CDbCriteria();
+            $criteria->addColumnCondition(array('email' => $email, 'confirm_code'=>$code));
+            // находим пользователя по присланным параметрам
+            $user = User::model()->find($criteria);
+            
+            if(!$user) {
+                throw new CHttpException(404, 'Пользователь не найден');
+            }
+            $user->setScenario('changePassword');
+            $user->password = '';
+            
+            // если была заполнена форма
+            if($_POST['User']) {
+                $user->attributes = $_POST['User'];
+//                CustomFuncs::printr($model);exit;
+                if($user->validate()){
+                    // если данные пользователя прошли проверку (пароль не слишком короткий)
+                    // шифруем пароль перед сохранением в базу
+                    $user->password = User::hashPassword($user->password);
+                    $user->password2 = $user->password;
+                    $user->confirm_code = '';
+                    
+                    if($user->save()){
+                        $this->redirect(array('site/login'));
+                    } else {
+                        //CustomFuncs::printr($user->errors);
+                        throw new CHttpException(500, 'Ошибка, не удалось изменить пароль');
+                    }
+                }
+            }
+            
+            $this->render('changePassword', array(
+                'model' => $user,
+            ));
+            
+        }
+
+                
+        /**
+         * 
+         * @param type $id
+         * @throws CHttpException
+         */
         public function actionView($id)
         {
             $this->layout = '//frontend/short';

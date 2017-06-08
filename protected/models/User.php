@@ -13,6 +13,7 @@
  * @property string $phone
  * @property string $password
  * @property integer $active100
+ * @property string $confirm_code
  * @property string $townId
  * @property string $registerDate
  * @property integer $isSubscribed
@@ -426,7 +427,40 @@ class User extends CActiveRecord
             return false;
         }
     }
+    
+    
+    /**
+     * Высылает на email пользователю ссылку на смену пароля
+     * 
+     * @return boolean true - удалось отправить письмо, false - не удалось
+     */
+    public function sendChangePasswordLink()
+    {
+        $this->scenario = 'confirm';
+        if($this->confirm_code == '') {
+            $this->confirm_code = $this->generateAutologinString();
+            if(!$this->save()) {
+                CustomFuncs::printr($this->errors);
+                throw new CHttpException(400, "Не удалось отправить ссылку на смену пароля");
+            }
+        }
+        $changePasswordLink = Yii::app()->createUrl("user/setNewPassword", array('email' => $this->email, 'code' => $this->confirm_code));
+        $mailer = new GTMail;
+        $mailer->subject = "Смена пароля пользователя";
+        $mailer->message = "Здравствуйте!<br />
+            Ваша ссылка для смены пароля на портале 100 Юристов:<br />".
+                CHtml::link($changePasswordLink, $changePasswordLink) .
+                "<br />";
+        
+        $mailer->email = $this->email;
 
+        if($mailer->sendMail()) {
+            return true;
+        } else {
+            // не удалось отправить письмо
+            return false;
+        }
+    }
 
     /**
      * Высылает пароль $newPassword на email пользователю
