@@ -440,8 +440,8 @@ class User extends CActiveRecord
         if($this->confirm_code == '') {
             $this->confirm_code = $this->generateAutologinString();
             if(!$this->save()) {
-                CustomFuncs::printr($this->errors);
-                //throw new CHttpException(400, "Не удалось отправить ссылку на смену пароля");
+                //CustomFuncs::printr($this->errors);
+                throw new CHttpException(400, "Не удалось отправить ссылку на смену пароля");
             }
         }
         $changePasswordLink = Yii::app()->createUrl("user/setNewPassword", array('email' => $this->email, 'code' => $this->confirm_code));
