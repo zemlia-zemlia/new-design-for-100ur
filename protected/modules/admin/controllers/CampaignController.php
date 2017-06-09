@@ -147,7 +147,7 @@ class CampaignController extends Controller
             
             
             if(!isset($_GET['show_inactive'])) {
-                $criteria->with = array(array('campaigns', 'condition' => 'campaigns.active=1', 'order' => 'campaigns.active ASC'));
+                $criteria->with = array(array('leadsCount', 'leadsTodayCount', 'campaigns', 'condition' => 'campaigns.active=1', 'order' => 'campaigns.active ASC'));
 
                 $showInactive = false;
             } else {
@@ -164,6 +164,7 @@ class CampaignController extends Controller
             
             $criteriaModeration = new CDbCriteria();
             $criteriaModeration->addCondition('active=' . Campaign::ACTIVE_MODERATION);
+            $criteriaModeration->with = array('leadsCount', 'leadsTodayCount');
             
             $dataProviderModeration = new CActiveDataProvider('Campaign', array(
                     'criteria'  =>  $criteriaModeration,

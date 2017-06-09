@@ -48,6 +48,7 @@ if(!$showInactive) {
     <thead>
         <tr>
             <th>Регион</th>
+            <th>Покупатель</th>
             <th><span class="glyphicon glyphicon-time"></span></th>
             <th>%&nbsp;брака</th>
             <th>Цена</th>
