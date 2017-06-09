@@ -30,7 +30,7 @@
 $leadsSentPercent = ($campaign->leadsDayLimit>0)?($campaign->leadsTodayCount/$campaign->leadsDayLimit)*100:0;
 ?>
 <tr>
-    <td style="width:30px;">
+    <td style="width:330px;">
     </td>
     <td>        
         <?php echo CHtml::link(CHtml::encode($campaign->region->name . ' ' . $campaign->town->name), Yii::app()->createUrl('/admin/campaign/view', array('id'=>$campaign->id)));?>
