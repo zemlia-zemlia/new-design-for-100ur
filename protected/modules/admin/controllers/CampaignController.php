@@ -102,13 +102,22 @@ class CampaignController extends Controller
 
             if(isset($_POST['Campaign']))
             {
-                    $model->attributes=$_POST['Campaign'];
+                $oldActivity = $model->active; // запомним статус активности кампании
+                
+                $model->attributes = $_POST['Campaign'];
+                $buyer = $model->buyer; // покупатель
 
-                    if($_POST['town'] == '') {
-                        $model->townId = 0;
+                if($_POST['town'] == '') {
+                    $model->townId = 0;
+                }
+                if($model->save()) {
+                    
+                    // если статус активности сменился с Модерация на другой, отправим уведомление
+                    if($model->active != $oldActivity && $oldActivity == Campaign::ACTIVE_MODERATION) {
+                        $buyer->sendBuyerNotification(User::BUYER_EVENT_CONFIRM, $model);
                     }
-                    if($model->save())
-                            $this->redirect(array('view','id'=>$model->id));
+                    $this->redirect(array('view','id'=>$model->id));
+                }
             }
 
             $buyersArray = User::getAllBuyersIdsNames();
@@ -168,6 +177,7 @@ class CampaignController extends Controller
             
             $dataProviderModeration = new CActiveDataProvider('Campaign', array(
                     'criteria'  =>  $criteriaModeration,
+                    'pagination'    =>  false,
                 ));  
             
             
@@ -248,6 +258,8 @@ class CampaignController extends Controller
             
             if($transaction->save()) {
                 if($buyer->save()) {
+                    // если баланс пополнен, отправляем уведомление покупателю
+                    $buyer->sendBuyerNotification(User::BUYER_EVENT_TOPUP);
                     echo json_encode(array('code'=>0,'id'=>$buyerId, 'balance'=>$buyer->balance));
                 } else {
                     CustomFuncs::printr($buyer->errors);

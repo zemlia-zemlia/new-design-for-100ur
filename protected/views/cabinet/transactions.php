@@ -19,10 +19,10 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <p>
     Ваш баланс: <?php echo Yii::app()->user->balance;?> руб.
     
-    <?php if($currentUser->campaignsActiveCount == 0):?>
-        <span class="text-warning">для пополнения счета у Вас должна быть хотя бы одна активная кампания, одобренная модератором</span>
+    <?php if(Yii::app()->user->campaignsModeratedCount > 0):?>
+            <?php echo CHtml::link('Пополнить баланс', Yii::app()->createUrl('/cabinet/topup'));?>
     <?php else:?>
-        <?php echo CHtml::link('Пополнить баланс', Yii::app()->createUrl('/cabinet/topup'));?>
+            <span class="text-warning">для пополнения счета у Вас должна быть хотя бы одна активная кампания, одобренная модератором</span>
     <?php endif;?>
 </p>
 

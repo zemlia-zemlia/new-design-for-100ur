@@ -8,7 +8,9 @@ class LoginWidget extends CWidget
         
         $model = new LoginForm;
         
-        $this->render($this->template, array('model'=>$model));
+        $this->render($this->template, array(
+            'model'         =>  $model,
+        ));
     }
 }
 ?>

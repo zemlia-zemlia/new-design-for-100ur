@@ -265,8 +265,9 @@ class Lead100 extends CActiveRecord
             
             // отправляем покупателям
             $this->leadStatus = self::LEAD_STATUS_SENT;
-
             
+            // запомним старый баланс покупателя
+            $oldBalance = $buyer->balance;
             
             // списываем средства с баланса покупателя
             if($buyer->balance < $this->price) {
@@ -277,6 +278,14 @@ class Lead100 extends CActiveRecord
                 $buyer->balance -= $this->price;
 
             }
+            
+            // Если баланс покупателя пересек одно из заданных значений, отправляем ему уведомление о расходе
+            foreach(User::BALANCE_STEPS as $balanceStep) {
+                if($oldBalance > $balanceStep && $buyer->balance <= $balanceStep) {
+                    $buyer->sendBuyerNotification(User::BUYER_EVENT_LOW_BALANCE);
+                }
+            }
+            
 
             // записываем данные о снятии средств со счета кампании
             $transaction = new TransactionCampaign;

@@ -87,7 +87,9 @@
                             <small>
                                 <div>
                                     Баланс: <?php echo CHtml::link(Yii::app()->user->balance, Yii::app()->createUrl('/cabinet/transactions'));?> руб.
-                                    <?php echo CHtml::link("<span class='glyphicon glyphicon-plus'></span>", Yii::app()->createUrl('cabinet/topup'), array('title' => 'Пополнить'));?>
+                                    <?php if(Yii::app()->user->campaignsModeratedCount > 0):?>
+                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-plus'></span>", Yii::app()->createUrl('cabinet/topup'), array('title' => 'Пополнить'));?>
+                                    <?php endif;?>
                                 </div>
                             </small>
                         <?php endif;?>

@@ -48,6 +48,14 @@ class User extends CActiveRecord
     const USER_PHOTO_THUMB_FOLDER = "/thumbs";
     // аватар по умолчанию
     const DEFAULT_AVATAR_FILE = "/pics/yurist.png";
+    
+    // события, связанные с покупателем
+    const BUYER_EVENT_CONFIRM = 1; // одобрение кампании модератором
+    const BUYER_EVENT_TOPUP = 2; // пополнение счета
+    const BUYER_EVENT_LOW_BALANCE = 3; // снижение баланса
+    
+    // значения баланса, при достижении которых покупателю отправляется уведомление о снижении баланса
+    const BALANCE_STEPS = array(500, 1000, 5000, 10000);
 
     /**
      * Returns the static model of the specified AR class.
@@ -222,6 +230,7 @@ class User extends CActiveRecord
                 'categories'        =>  array(self::MANY_MANY, 'QuestionCategory', '{{user2category}}(uId, cId)'),
                 'campaigns'         =>  array(self::HAS_MANY, 'Campaign', 'buyerId'),
                 'campaignsActiveCount'   =>  array(self::STAT, 'Campaign', 'buyerId', 'condition'=>'active=1'),
+                'campaignsModeratedCount'   =>  array(self::STAT, 'Campaign', 'buyerId', 'condition'=>'active!=2'),
                 'transactions'      =>  array(self::HAS_MANY, 'TransactionCampaign', 'buyerId', 'order'=>'transactions.id DESC'),
 
             );
@@ -799,6 +808,62 @@ class User extends CActiveRecord
                 Yii::app()->user->login($identity, $duration);
                 return true;
         } else {
+            return false;
+        }
+    }
+    
+    /**
+     * Отправляет покупателю письмо с уведомлением по его кампании
+     * 
+     * @param Campaign $campaign кампания, к которой относится уведомление
+     */
+    public function sendBuyerNotification($eventType, $campaign = NULL)
+    {
+        $mailer = new GTMail;
+        $cabinetLink = Yii::app()->createUrl('/cabinet');
+        
+        switch($eventType) {
+            case self::BUYER_EVENT_CONFIRM:
+                $mailer->subject = CHtml::encode($this->name) . ", Ваша кампания одобрена";
+                $mailer->message = "<h1>Ваша кампания одобрена модератором</h1>
+                    <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />
+                    Ваша кампания по покупке лидов одобрена. Параметры кампании Вы можете увидеть в ее настройках
+                    в <a href='" . $cabinetLink . "'>личном кабинете</a>. Для получения лидов Вам необходимо пополнить баланс. Способы пополнения
+                    также доступны в личном кабинете.
+                    </p>";
+                break;
+            case self::BUYER_EVENT_TOPUP:
+                $mailer->subject = CHtml::encode($this->name) . ", Ваш баланс пополнен";
+                $mailer->message = "<h1>Ваш баланс пополнен</h1>
+                    <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />
+                    Ваш баланс пополнен и составляет " . $this->balance . " руб. "
+                    . "Информация о списаниях и зачислениях доступна в <a href='" . $cabinetLink . "'>личном кабинете</a>.
+                    </p>";
+                break;
+            case self::BUYER_EVENT_LOW_BALANCE:
+                $mailer->subject = CHtml::encode($this->name) . ", уведомление о расходе средств";
+                $mailer->message = "<h1>Уведомление о расходе средств</h1>
+                    <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />
+                    Ваш баланс составляет " . $this->balance . " руб. "
+                    . "Пополнить баланс, увидеть информацию о списаниях и зачислениях можно в <a href='" . $cabinetLink . "'>личном кабинете</a>.
+                        
+                    </p>";
+                break;
+            
+            default:
+                return false;
+        }
+        
+
+        // отправляем письмо на почту покупателю
+        $mailer->email = $this->email;
+
+        if($mailer->sendMail(true)) {
+            Yii::log("Отправлено письмо покупателю " . $this->email, 'info', 'system.web.User');
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log("Не удалось отправить письмо покупателю " . $this->email, 'error', 'system.web.User');
             return false;
         }
     }
