@@ -47,7 +47,16 @@ switch ($data->leadStatus) {
             </span>
             <br /> 
             <span class="label label-default"><?php echo $data->getLeadTypeName();?></span>
-			
+			<br /> 
+			<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+				<?php if($data->questionObject->ip):?>
+					<?php echo "IP: " . $data->questionObject->ip;?>
+				<?php endif;?>
+				<br /> 
+				<?php if($data->questionObject->townIdByIP):?>
+					<?php echo "IPGeo: " . $data->questionObject->townByIP->name;?>
+				<?php endif;?>
+			<?php endif;?>
         </small>
     </td>
     <td class="success" >
@@ -65,14 +74,7 @@ switch ($data->leadStatus) {
                 <span class="label label-default"><abbr title="Расстояние от центра региона"><?php echo $distanceFromCapital;?>  км.</abbr></span>
                 <?php endif;?>
                 
-                <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
-                    <?php if($data->questionObject->ip):?>
-                        <?php echo "IP: " . $data->questionObject->ip;?>
-                    <?php endif;?>
-                    <?php if($data->questionObject->townIdByIP):?>
-                        <?php echo "Город по IP адресу: " . $data->questionObject->townByIP->name;?>
-                    <?php endif;?>
-                <?php endif;?>
+
             <?php endif;?>
             &nbsp;
             

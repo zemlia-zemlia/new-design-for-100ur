@@ -53,11 +53,13 @@
         <div id="header">
 	<table width="100%" border="0" cellpadding="5" cellspacing="5">
             <tr>
-              <td width="50%"><a href='https://100yuristov.com/?utm_medium=email&utm_source=message_header'><img src="https://100yuristov.com/pics/2017/logo_white.png" alt="" width="239" height="42" /></a></td>
-              <td width="50%">
-                  <h4>
-                      юридические консультации онлайн
-                  </h4>
+              <td width=""><a href='https://100yuristov.com/?utm_medium=email&utm_source=message_header'><img src="https://100yuristov.com/pics/2017/logo_white.png" alt="" width="239" height="42" /></a>
+				<h4>
+					юридические консультации онлайн
+				</h4>
+			  </td>
+              <td width="">
+
               </td>
             </tr>
 
