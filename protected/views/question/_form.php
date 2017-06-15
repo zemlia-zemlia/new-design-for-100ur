@@ -125,7 +125,7 @@ $allDirections = array(0=>'Без категории') + $allDirections;
 <small class="text-muted">
   <label>
       <input type="checkbox" value="1" checked="checked">
-    Отправляя вопрос вы соглашаетесь с условиями <?php echo CHtml::link('пользовательского соглашения', Yii::app()->createUrl('site/offer'), array('target'=>'_blank'));?>
+    Отправляя вопрос, вы соглашаетесь с условиями <?php echo CHtml::link('пользовательского соглашения', Yii::app()->createUrl('site/offer'), array('target'=>'_blank'));?>
   </label>
 </small>
 </div>

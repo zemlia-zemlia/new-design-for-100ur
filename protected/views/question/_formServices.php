@@ -55,6 +55,14 @@
     <?php echo $form->error($model,'townId'); ?>
     </div>
 
+<div class="vert-margin20">
+    <small class="text-muted">
+      <label>
+          <input type="checkbox" value="1" checked="checked">
+        Отправляя запрос, вы соглашаетесь с условиями <?php echo CHtml::link('пользовательского соглашения', Yii::app()->createUrl('site/offer'), array('target'=>'_blank'));?>
+      </label>
+    </small>
+</div>
 
     <div class="form-group" id="form-submit-wrapper">
         <?php echo CHtml::submitButton('Перезвоните мне', array('class'=>'button button-blue-gradient btn-block')); ?>

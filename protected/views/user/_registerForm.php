@@ -53,7 +53,15 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
     ?>
     
     <?php echo $this->renderPartial($formView, array('form' => $form,  'model' => $model));?>
-       
+      
+<div class="vert-margin20">
+    <small class="text-muted">
+      <label>
+          <input type="checkbox" value="1" checked="checked">
+        Регистрируясь, вы соглашаетесь с условиями <?php echo CHtml::link('пользовательского соглашения', Yii::app()->createUrl('site/offer'), array('target'=>'_blank'));?>
+      </label>
+    </small>
+</div>
 
 <div class="row">
     <div class="col-sm-12 text-center">

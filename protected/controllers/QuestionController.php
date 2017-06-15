@@ -653,7 +653,7 @@ class QuestionController extends Controller
         
         public function actionDocs()
         {
-            //$this->layout = "//frontend/short";
+            $this->layout = "//frontend/smart";
             
             $lead = new Lead100();
             
@@ -691,7 +691,7 @@ class QuestionController extends Controller
         
         public function actionServices()
         {
-            
+            $this->layout = "//frontend/smart";
             $lead = new Lead100();
             
             if(isset($_POST['Lead100'])) {
