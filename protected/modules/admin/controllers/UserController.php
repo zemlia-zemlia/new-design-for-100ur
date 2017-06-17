@@ -73,9 +73,25 @@ class UserController extends Controller
        
             $transactionsDataProvider = new CArrayDataProvider($model->transactions);
             
+            $leadsStats = NULL;
+            
+            $leadSearchModel = new Lead100;
+            $leadSearchModel->scenario = 'search';
+            
+            if($model->role == User::ROLE_BUYER) {
+                $leadSearchModel->attributes = $_GET['Lead100'];
+
+                // по умолчанию собираем статистику по проданным лидам за последние 30 дней
+                $dateTo = ($leadSearchModel->date2 != '') ? CustomFuncs::invertDate($leadSearchModel->date2) : date("Y-m-d");
+                $dateFrom = ($leadSearchModel->date1 != '') ? CustomFuncs::invertDate($leadSearchModel->date1) : date("Y-m-d", time()-86400*30);
+                $leadsStats = Lead100::getStatsByPeriod($dateFrom, $dateTo, $model->id);               
+            }
+            
             $this->render('view',array(
                 'model'                     =>  $model,
                 'transactionsDataProvider'  =>  $transactionsDataProvider,
+                'leadsStats'                =>  $leadsStats,
+                'searchModel'               =>  $leadSearchModel,
             ));
 	}
         

@@ -456,4 +456,48 @@ class Lead100 extends CActiveRecord
             
             return parent::beforeSave();
         }
+        
+        /**
+         * Возвращает статистику проданных лидов для покупателя или кампании
+         */
+        public static function getStatsByPeriod($dateFrom, $dateTo, $buyerId = 0, $campaignId = 0)
+        {
+            // Нужно обязательно указать либо покупателя, либо кампанию
+            if($buyerId === 0 && $campaignId === 0) {
+                return false;
+            }
+            
+            $leadsCommand = Yii::app()->db->createCommand()
+                    ->select('id, price, DATE(deliveryTime) date')
+                    ->from("{{lead100}}")
+                    ->order("date")
+                    ->where("DATE(deliveryTime) >= :dateFrom AND DATE(deliveryTime) <= :dateTo AND leadStatus IN (:status1, :status2)", array(':dateFrom' => $dateFrom, ':dateTo' => $dateTo, ':status1' => self::LEAD_STATUS_SENT, ':status2' => self::LEAD_STATUS_RETURN));
+            
+            // если выборка по покупателю, найдем лиды, проданные в его кампании
+            if($buyerId) {
+                $buyer = User::model()->with('campaigns')->findByPk($buyerId);
+                $campaignsIds = array();
+                foreach($buyer->campaigns as $camp) {
+                    $campaignsIds[] = $camp->id;
+                }
+                //CustomFuncs::printr($campaignsIds);exit;
+                $leadsCommand->andWhere(array("in", "campaignId", $campaignsIds));
+            }
+            
+            // если по кампании
+            if($campaignId) {
+                $leadsCommand->andWhere("campaignId = :campaignId", array(':campaignId' => (int)$campaignId));
+            }
+            $leadsRows = $leadsCommand->queryAll();
+            $leads = array();
+            
+            foreach($leadsRows as $row) {
+                $leads['dates'][$row['date']]['count']++;
+                $leads['dates'][$row['date']]['sum'] += $row['price'];
+                $leads['total']++;
+                $leads['sum'] += $row['price'];
+            }
+            
+            return $leads;            
+        }
 }

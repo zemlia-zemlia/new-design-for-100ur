@@ -53,9 +53,26 @@ class CampaignController extends Controller
 	{
             $model = Campaign::model()->with('transactions')->findByPk($id);
             $transactionsDataProvider = new CArrayDataProvider($model->transactions);
+            
+            $leadsStats = NULL;
+            
+            $leadSearchModel = new Lead100;
+            $leadSearchModel->scenario = 'search';
+            
+            
+            $leadSearchModel->attributes = $_GET['Lead100'];
+
+            // по умолчанию собираем статистику по проданным лидам за последние 30 дней
+            $dateTo = ($leadSearchModel->date2 != '') ? CustomFuncs::invertDate($leadSearchModel->date2) : date("Y-m-d");
+            $dateFrom = ($leadSearchModel->date1 != '') ? CustomFuncs::invertDate($leadSearchModel->date1) : date("Y-m-d", time()-86400*30);
+            $leadsStats = Lead100::getStatsByPeriod($dateFrom, $dateTo, null, $model->id);               
+            
+            
             $this->render('view',   array(
                 'model'                     =>  $model,
                 'transactionsDataProvider'  =>  $transactionsDataProvider,
+                'leadsStats'                =>  $leadsStats,
+                'searchModel'               =>  $leadSearchModel,
             ));
 	}
 

@@ -102,27 +102,59 @@ if(Yii::app()->user->checkAccess(User::ROLE_MANAGER) || Yii::app()->user->role =
     <?php echo CHtml::link('Редактировать профиль', Yii::app()->createUrl('/admin/user/update',array('id'=>$model->id)), array('class'=>'btn btn-primary'));?>
 
     <?php if($transactionsDataProvider->totalItemCount):?>
-<h2>Транзакции</h2>
+        <h2>Транзакции</h2>
 
-<table class="table table-bordered">
-    <tr>
-        <th>Время</th>
-        <th>Кампания</th>
-        <th>Сумма</th>
-        <th>Описание</th>
-    </tr>
+        <table class="table table-bordered">
+            <tr>
+                <th>Время</th>
+                <th>Кампания</th>
+                <th>Сумма</th>
+                <th>Описание</th>
+            </tr>
 
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'  =>  $transactionsDataProvider,
-	'itemView'      =>  'application.views.transactionCampaign._view',
-        'emptyText'     =>  'Не найдено ни одной транзакции',
-        'summaryText'   =>  'Показаны транзакции с {start} до {end}, всего {count}',
-        'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
-)); ?>
-</table>
+        <?php $this->widget('zii.widgets.CListView', array(
+                'dataProvider'  =>  $transactionsDataProvider,
+                'itemView'      =>  'application.views.transactionCampaign._view',
+                'emptyText'     =>  'Не найдено ни одной транзакции',
+                'summaryText'   =>  'Показаны транзакции с {start} до {end}, всего {count}',
+                'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
+        )); ?>
+        </table>
 
+    <?php endif;?>
+
+        
+<?php if($model->role == User::ROLE_BUYER):?>        
+    <h2>Статистика продаж лидов по дням</h2>
+    <div class="vert-margin30">
+       <?php $this->renderPartial('application.modules.admin.views.lead._searchFormDates', array(
+           'model'=>$searchModel,
+           'action' =>  Yii::app()->createUrl('admin/user/view', array('id' => $model->id)),
+           ));?> 
+    </div>
+    <?php if(is_array($leadsStats) && is_array($leadsStats['dates'])):?>
+
+        <table class="table table-bordered">
+            <tr>
+                <th>Дата</th>
+                <th class="text-right">Количество</th>
+                <th class="text-right">Сумма</th>
+            </tr>
+            <?php foreach ($leadsStats['dates'] as $date=>$leadsByDate):?>
+            <tr>
+                <td><?php echo CustomFuncs::niceDate($date, false, false);?></td>
+                <td class="text-right"><?php echo $leadsByDate['count'];?></td>
+                <td class="text-right"><?php echo $leadsByDate['sum'];?> руб.</td>
+            </tr>
+            <?php endforeach;?>
+            <tr>
+                <th></th>
+                <th class="text-right"><?php echo $leadsStats['total'];?></th>
+                <th class="text-right"><?php echo $leadsStats['sum'];?> руб.</th>
+            </tr>
+        </table>
+    <?php endif;?>
 <?php endif;?>
-
 </div>
 </div>
     
