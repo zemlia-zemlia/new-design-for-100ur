@@ -298,7 +298,7 @@ class QuestionController extends Controller
                     ->select('q.id id, questionText, status, title, createDate, publishDate')
                     ->from('{{question}} q')
                     ->leftJoin('{{question2category}} q2c', 'q.id=q2c.qId')
-                    ->where('q2c.cId IS NULL AND q.status IN('.Question::STATUS_PUBLISHED . ',' . Question::STATUS_CHECK.')')
+                    ->where('q2c.cId IS NULL AND q.status IN('.Question::STATUS_PUBLISHED . ',' . Question::STATUS_CHECK.', ' . Question::STATUS_MODERATED. ')')
                     ->group('q.id')
                     ->order('q.id DESC')
                     ->limit(30)
@@ -308,7 +308,7 @@ class QuestionController extends Controller
                     ->select('q.id')
                     ->from('{{question}} q')
                     ->leftJoin('{{question2category}} q2c', 'q.id=q2c.qId')
-                    ->where('q2c.cId IS NULL AND q.status IN('.Question::STATUS_PUBLISHED . ',' . Question::STATUS_CHECK.')')
+                    ->where('q2c.cId IS NULL AND q.status IN('.Question::STATUS_PUBLISHED . ',' . Question::STATUS_CHECK.', ' . Question::STATUS_MODERATED. ')')
                     ->group('q.id')
                     ->queryAll();
             
@@ -570,7 +570,7 @@ class QuestionController extends Controller
                     $criteria->addColumnCondition(array('isModerated'=>0));
                 }
                 
-                $criteria->addCondition('status IN (' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')');
+                $criteria->addCondition('status IN (' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ', ' . Question::STATUS_MODERATED. ')');
 
                 $question = Question::model()->find($criteria);
                 
@@ -580,14 +580,14 @@ class QuestionController extends Controller
             $questionsCountRow = Yii::app()->db->createCommand()
                         ->select('COUNT(*) counter')
                         ->from("{{question}}")
-                        ->where("isModerated=0 AND status IN (:status1, :status2)", array(':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED))
+                        ->where("isModerated=0 AND status IN (:status1, :status2, :status3)", array(':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED, ':status3' => Question::STATUS_MODERATED))
                         ->queryRow();
             $questionsCount = $questionsCountRow['counter'];
             
             $questionsModeratedByMe = Yii::app()->db->createCommand()
                         ->select('COUNT(*) counter')
                         ->from("{{question}}")
-                        ->where("isModerated=1 AND status IN (:status1, :status2) AND moderatedBy=:userId", array(':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED, ':userId' => Yii::app()->user->id))
+                        ->where("isModerated=1 AND status IN (:status1, :status2, :status3) AND moderatedBy=:userId", array(':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED, ':status3' => Question::STATUS_MODERATED, ':userId' => Yii::app()->user->id))
                         ->queryRow();
             $questionsModeratedByMeCount = $questionsModeratedByMe['counter'];
             
