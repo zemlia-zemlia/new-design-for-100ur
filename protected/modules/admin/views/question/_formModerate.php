@@ -17,7 +17,11 @@
             <?php echo $form->labelEx($model,'questionText'); ?>
             <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>15)); ?>
             <?php echo $form->error($model,'questionText'); ?>
-        </div>  
+        </div> 
+        
+        <?php if($showMy == true):?>
+            Отредактирован вами <?php echo CustomFuncs::niceDate($model->moderatedTime);?>
+        <?php endif;?>
     </div>
     <div class="col-md-3">
         <div class="form-group">
@@ -33,6 +37,10 @@
             <?php echo CHtml::link('Назад', Yii::app()->createUrl('/admin/question/setTitle', array('id'=>$_COOKIE['lastModeratedQuestionId'])), array('class'=>'btn btn-default btn-block')); ?>
         </div>
         <?php endif;?>
+        
+        <div class="form-group alert alert-danger">
+            <?php echo CHtml::checkBox('my', $showMy, array('class'=>'')); ?> Исправленные мной
+        </div>
     </div>
 </div>
 <?php $this->endWidget(); ?>

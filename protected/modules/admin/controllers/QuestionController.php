@@ -528,6 +528,11 @@ class QuestionController extends Controller
          */
         public function actionSetTitle()
         {
+            if(isset($_POST['my']) || isset($_GET['my'])) {
+                $showMy = true;
+            } else {
+                $showMy = false;
+            }
             
             if(isset($_POST['Question'])) {
                 // если была отправлена форма, сохраним вопрос
@@ -542,7 +547,11 @@ class QuestionController extends Controller
                 if($question->save()){
                     setcookie('lastModeratedQuestionId', $question->id);
                     //Yii::app()->user->setState('lastModeratedQuestionId', $question->id);
-                    $this->redirect(array('question/setTitle'));
+                    if($showMy) {
+                        $this->redirect(array('question/setTitle', 'my' => 1));
+                    } else {
+                        $this->redirect(array('question/setTitle'));
+                    }
                 }
             } else if(isset($_GET['id'])){
                 $id = (int)$_GET['id'];
@@ -550,9 +559,17 @@ class QuestionController extends Controller
             } else {
                 // если формы не было, найдем немодерированный вопрос в базе и выведем форму
                 $criteria = new CDbCriteria();
-                $criteria->order = "RAND()";
                 $criteria->limit = 1;
-                $criteria->addColumnCondition(array('isModerated'=>0));
+                
+                // Если задано показывать модерированные мной вопросы, выбираем 1 вопрос, который был модерирован максимально давно
+                if($showMy == true) {
+                    $criteria->order = "moderatedTime ASC";
+                    $criteria->addColumnCondition(array('isModerated'=>1, 'moderatedBy' => Yii::app()->user->id));
+                } else {
+                    $criteria->order = "RAND()";
+                    $criteria->addColumnCondition(array('isModerated'=>0));
+                }
+                
                 $criteria->addCondition('status IN (' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')');
 
                 $question = Question::model()->find($criteria);
@@ -594,6 +611,7 @@ class QuestionController extends Controller
                 'questionsCount'    =>  $questionsCount,
                 'questionsModeratedByMeCount'   =>  $questionsModeratedByMeCount,
                 'moderatorsStats'       =>  $moderatorsStats,
+                'showMy'                =>  $showMy,
             ));
         }
 }

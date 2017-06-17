@@ -11,6 +11,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/question.js');
 
 <?php echo $this->renderPartial('_formModerate', array(
         'model'         =>  $model,
+        'showMy'        =>  $showMy,
     )); ?>
 
 
