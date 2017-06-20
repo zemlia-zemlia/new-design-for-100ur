@@ -1,13 +1,14 @@
 <?php
 /*
  * 
- * собирает лиды из писем, расположенных в почтовом ящике all@yurcrm.ru
+ * собирает лиды из писем, расположенных в почтовом ящике admin@100yuristov.com
  */
 class GetLeadsFromYurcrmCommand extends CConsoleCommand
 {
     protected $towns = array(
-        472  =>  'Krasnoyarsk',
-        165  =>  'Volgograd',
+        1036  => 'LeadLawCheboksary',
+        472  =>  'LeadLawKrasnoyarsk',
+		822  =>  'LeadLawSPb',
         
     );
     
@@ -60,10 +61,10 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
         // подключаем библиотеку для парсинга текста письма
         require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'simplehtmldom_1_5/simple_html_dom.php';
         
-        // будем присваивать лиды источнику id=24
+        // будем присваивать лидам источник id=24
         $leadSourceId = 24;        
         // цена покупки лида
-        $buyPrice = 35;    
+        $buyPrice = 30;    
         
         $existingLeads = Lead100::model()->findAll(array(
             'condition' =>  'question_date>NOW()- INTERVAL 7 DAY AND sourceId=' . $leadSourceId,
