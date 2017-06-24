@@ -34,6 +34,16 @@
 	 Мы получаем заявки, как со своих сайтов, так и с сайтов партнеров. Заявки поступают к нам в систему, после чего перенаправляются рекламодателю (юристу).
 </p>
 
-<p class="text-center">
-    <?php echo CHtml::link('Начать получать лиды', Yii::app()->createUrl('user/create', array('role' => User::ROLE_BUYER)), array('class' => 'btn btn-primary btn-lg'));?>
-</p>
+<div class="alert alert-info" role="alert">
+	<h3 class="strong text-center">Как начать?</h3>
+		<ol>
+			<li>Регистрируетесь</li>
+			<li>Создаете кампанию по получению лидов</li>
+			<li>После модерации кампании пополняете баланс</li>
+			<li>Получаете Лиды (заявки)</li>
+		</ol>
+		
+		<p class="text-center">
+			<?php echo CHtml::link('Начать получать лиды', Yii::app()->createUrl('user/create', array('role' => User::ROLE_BUYER)), array('class' => 'btn btn-warning btn-lg btn-block'));?>
+		</p>
+</div>

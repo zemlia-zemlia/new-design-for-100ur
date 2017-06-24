@@ -4,9 +4,12 @@
 ?>
 <?php if($showInactive == true || $data->campaignsActiveCount > 0):?>
 <tr class="active">
-    <td colspan="6">
-        <?php echo CHtml::link(CHtml::encode($data->lastName . ' ' . $data->name), Yii::app()->createUrl('/admin/user/view', array('id'=>$data->id)));?>
-        <span class="label label-default balance-<?php echo $data->id;?>">
+    <td colspan="">
+        <?php echo CHtml::link(CHtml::encode($data->lastName . ' ' . $data->name), Yii::app()->createUrl('/admin/user/view', array('id'=>$data->id)));?> 
+
+    </td>
+	<td colspan="5">
+		<span class="label label-default balance-<?php echo $data->id;?>">
         <?php echo $data->balance;?> руб.</span>
             
         <div class="buyer-topup-message"></div>
@@ -21,7 +24,7 @@
             <br />
             <a href="#" class="buyer-topup-close">Отмена</a>
         </form>
-    </td>
+	</td>
 </tr>
 
 <?php foreach($data->campaigns as $campaign):?>
@@ -30,7 +33,7 @@
 $leadsSentPercent = ($campaign->leadsDayLimit>0)?($campaign->leadsTodayCount/$campaign->leadsDayLimit)*100:0;
 ?>
 <tr>
-    <td style="width:330px;">
+    <td style="width:200px;">
     </td>
     <td>        
         <?php echo CHtml::link(CHtml::encode($campaign->region->name . ' ' . $campaign->town->name), Yii::app()->createUrl('/admin/campaign/view', array('id'=>$campaign->id)));?>

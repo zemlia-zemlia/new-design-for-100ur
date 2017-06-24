@@ -1,5 +1,5 @@
 <?php
-    $this->setPageTitle("Лиды для юристов. Купить заявки на юридические услуги ". Yii::app()->name);
+    $this->setPageTitle("Юридические заявки. Купить лиды на юридические услуги ". Yii::app()->name);
     Yii::app()->clientScript->registerMetaTag("Предоставляете юридические услуги?! У нас можно купить юридические заявки и звонки клиентов с юридическими вопросами вашего региона. Подробнее…", 'description');
 ?>
 
@@ -22,6 +22,24 @@
 	 Поэтом мы предлагаем вам уволить ваших специалистов по рекламе (если вы успели их нанять) пойти по гораздо простому пути – покупке готовых юридических заявок.
 </p>
 
+
+<div class="alert alert-info" role="alert">
+	<h3 class="strong text-center">Как начать?</h3>
+		<ol>
+			<li>Регистрируетесь</li>
+			<li>Создаете кампанию по получению лидов</li>
+			<li>После модерации кампании пополняете баланс</li>
+			<li>Получаете Лиды (заявки)</li>
+		</ol>
+		
+		<p class="text-center">
+			<?php echo CHtml::link('Начать получать лиды', Yii::app()->createUrl('user/create', array('role' => User::ROLE_BUYER)), array('class' => 'btn btn-warning btn-lg btn-block'));?>
+		</p>
+</div>
+
+
+
+
 <h2 align="center">Примеры реальных заявок:</h2>
 <p><img width="100%" alt="Лиды для юристов" src="/pics/l1.png" title="Клиенты юристам"></p>
 <p><img width="100%" alt="Заявки на консультацию юриста" src="/pics/l5.png" title="Клиенты для юристов и адвокатов"></p>
@@ -34,7 +52,7 @@
 </p>
 
 <p class="text-center">
-    <?php echo CHtml::link('Начать получать лиды', Yii::app()->createUrl('user/create', array('role' => User::ROLE_BUYER)), array('class' => 'btn btn-primary btn-lg'));?>
+    <?php echo CHtml::link('Начать получать лиды >>>', Yii::app()->createUrl('user/create', array('role' => User::ROLE_BUYER)), array('class' => 'btn btn-success btn-lg btn-block'));?>
 </p>
 
 <p>
@@ -144,6 +162,16 @@
 </p>
 <p align="center" ><a href="/site/faq/"  >Часто задаваемые вопросы при работе с лидами</a></p>
 
-<p class="text-center">
-    <?php echo CHtml::link('Начать получать лиды', Yii::app()->createUrl('user/create', array('role' => User::ROLE_BUYER)), array('class' => 'btn btn-primary btn-lg'));?>
-</p>
+<div class="alert alert-info" role="alert">
+	<h3 class="strong text-center">Как начать?</h3>
+		<ol>
+			<li>Регистрируетесь</li>
+			<li>Создаете кампанию по получению лидов</li>
+			<li>После модерации кампании пополняете баланс</li>
+			<li>Получаете Лиды (заявки)</li>
+		</ol>
+
+		<p class="text-center">
+			<?php echo CHtml::link('Начать получать лиды', Yii::app()->createUrl('user/create', array('role' => User::ROLE_BUYER)), array('class' => 'btn btn-warning btn-lg btn-block'));?>
+		</p>
+</div>
