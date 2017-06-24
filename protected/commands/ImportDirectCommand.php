@@ -19,7 +19,7 @@ class ImportDirectCommand extends CConsoleCommand
             $date = date('Y-m-d', strtotime($dataRow[0]));
             
             // данные за сегодня не записываем, т.к. они за неполный день
-            if($date == date('Y-m-d')) {
+            if($date == date('d.m.Y')) {
                 continue;
             }
             $expence = $dataRow[1];
