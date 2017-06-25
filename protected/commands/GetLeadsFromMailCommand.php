@@ -130,7 +130,7 @@ class GetLeadsFromMailCommand extends CConsoleCommand
                 }  else {
                     $message = 'вопрос не указан';
                 }        
-                if(is_array($nameMatches) && $nameMatches[1]) {
+                if(is_array($nameMatches) && isset($nameMatches[1])) {
                     $name = trim($nameMatches[1]);
                     $name = str_replace("&nbsp;", " ", $name);
                     $name = trim($name);
