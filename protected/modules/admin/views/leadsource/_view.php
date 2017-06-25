@@ -5,7 +5,11 @@
 
 <tr <?php if(!$data->active) echo 'class="muted"';?>>
     <td>
-	<?php echo CHtml::encode($data->name); ?>
+        <?php echo $data->id;?>
+    </td>
+    <td>
+	
+        <?php echo CHtml::link(CHtml::encode($data->name), $this->createUrl('view', array('id'=>$data->id))); ?>
     </td>
     <td>
 	<?php echo CHtml::encode($data->description); ?>

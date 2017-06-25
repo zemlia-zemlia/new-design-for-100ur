@@ -828,6 +828,10 @@ class QuestionController extends Controller
             //$leadAppId = 'yurCrm';
             /*
              * захардкодим возможные приложения для поставки лидов, потом будем хранить их в базе
+             * appId => [
+             *      'secretKey' => 'xxxxx',
+             *      'sourceId'  =>  N,
+             * ]
              */
             $leadApps = array(
                 'yurCrm'    =>  array(

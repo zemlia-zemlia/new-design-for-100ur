@@ -10,6 +10,8 @@
  * @property integer $officeId
  * @property integer $noLead
  * @property integer $active
+ * @property string $appId
+ * @property string $secretKey
  */
 class Leadsource100 extends CActiveRecord
 {
@@ -72,6 +74,8 @@ class Leadsource100 extends CActiveRecord
                         'officeId'      =>  'Офис',
                         'noLead'        =>  'Клиенты сразу приходят на консультацию',
                         'active'        =>  'Активность',
+                        'appId'         =>  'ID источника для API',
+                        'secretKey'     =>  'Секретный ключ для API',
 		);
 	}
         

@@ -28,6 +28,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <table class="table table-bordered table-hover table-striped">
     <thead>
     <tr>
+        <th>ID</th>
         <th>Название</th>
         <th>Описание</th>
         <th></th>
