@@ -123,10 +123,13 @@ class GetLeadsFromMailCommand extends CConsoleCommand
                 preg_match("/Город:([^<]+)</iu", $bodyDecoded, $townMatches);
                 
                 $messageArray = explode("Сообщение:", $bodyDecoded);
-                $messageWithSuffix = trim($messageArray[1]);
-                $messageArray2 = explode("</p>", $messageWithSuffix);
-                $message = $messageArray2[0];
-                                
+                if(is_array($messageArray) && $messageArray[1]) {
+                    $messageWithSuffix = trim($messageArray[1]);
+                    $messageArray2 = explode("</p>", $messageWithSuffix);
+                    $message = $messageArray2[0];
+                }  else {
+                    $message = '';
+                }           
                 $name = trim($nameMatches[1]);
                 $name = str_replace("&nbsp;", " ", $name);
                 $name = trim($name);
