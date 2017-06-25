@@ -144,14 +144,16 @@ class GetLeadsFromMailCommand extends CConsoleCommand
                 }
                 $question = $message;
                 
-                echo "phone: " . $phone . PHP_EOL;
-                echo "name: " . $name . PHP_EOL;
+                //echo "phone: " . $phone . PHP_EOL;
+                //echo "name: " . $name . PHP_EOL;
                 //echo "message: " . $message . PHP_EOL;
                 
                 //print_r($nameMatches[1]);
                 
                 // название города из письма
-                $townName = trim($townMatches[1]);
+                if(is_array($townMatches) && isset($townMatches[1])) {
+                    $townName = trim($townMatches[1]);
+                }
                 // найдем id города по названию
                 if($townName) {
                     $townRow = Yii::app()->db->cache(600)->createCommand()
@@ -164,7 +166,7 @@ class GetLeadsFromMailCommand extends CConsoleCommand
                     }
                 }
                 
-                echo "townName: " . $townName . PHP_EOL;
+                //echo "townName: " . $townName . PHP_EOL;
                 //echo "townId: " . $townId . PHP_EOL;
                 
                 //print_r($nameMatches[1]);
