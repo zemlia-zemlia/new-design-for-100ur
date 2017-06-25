@@ -119,7 +119,7 @@ class GetLeadsFromMailCommand extends CConsoleCommand
                 $townId = 0;
                     
                 preg_match("/Имя:([^<]+)</iu", $bodyDecoded, $nameMatches);
-                preg_match("/(Телефон):(.+)</iu", $bodyDecoded, $phoneMatches);
+                preg_match("/(Телефон):([^<]+)</iu", $bodyDecoded, $phoneMatches);
                 preg_match("/Город:([^<]+)</iu", $bodyDecoded, $townMatches);
                 
                 $messageArray = explode("Сообщение:", $bodyDecoded);
@@ -137,12 +137,15 @@ class GetLeadsFromMailCommand extends CConsoleCommand
                 } else {
                     $name = 'Без имени';
                 }
-                $phone = $phoneMatches[2];
-                $phone = Question::normalizePhone($phone);
+                
+                if(is_array($phoneMatches) && isset($phoneMatches[2])) {
+                    $phone = $phoneMatches[2];
+                    $phone = Question::normalizePhone($phone);
+                }
                 $question = $message;
                 
-                //echo "phone: " . $phone . PHP_EOL;
-                //echo "name: " . $name . PHP_EOL;
+                echo "phone: " . $phone . PHP_EOL;
+                echo "name: " . $name . PHP_EOL;
                 //echo "message: " . $message . PHP_EOL;
                 
                 //print_r($nameMatches[1]);
@@ -161,7 +164,7 @@ class GetLeadsFromMailCommand extends CConsoleCommand
                     }
                 }
                 
-                //echo "townName: " . $townName . PHP_EOL;
+                echo "townName: " . $townName . PHP_EOL;
                 //echo "townId: " . $townId . PHP_EOL;
                 
                 //print_r($nameMatches[1]);
