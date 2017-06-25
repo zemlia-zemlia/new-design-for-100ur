@@ -128,11 +128,15 @@ class GetLeadsFromMailCommand extends CConsoleCommand
                     $messageArray2 = explode("</p>", $messageWithSuffix);
                     $message = $messageArray2[0];
                 }  else {
-                    $message = '';
-                }           
-                $name = trim($nameMatches[1]);
-                $name = str_replace("&nbsp;", " ", $name);
-                $name = trim($name);
+                    $message = 'вопрос не указан';
+                }        
+                if(is_array($nameMatches) && $nameMatches[1]) {
+                    $name = trim($nameMatches[1]);
+                    $name = str_replace("&nbsp;", " ", $name);
+                    $name = trim($name);
+                } else {
+                    $name = 'Без имени';
+                }
                 $phone = $phoneMatches[2];
                 $phone = Question::normalizePhone($phone);
                 $question = $message;
