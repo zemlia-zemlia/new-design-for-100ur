@@ -1,5 +1,8 @@
     <tr>
         <td>
+            <?php echo $data->id;?>
+        </td>
+        <td>
             <?php echo CHtml::link(CHtml::encode($data->name . ' ' . $data->name2 . ' ' . $data->lastName), array('view', 'id'=>$data->id)); ?>
             <?php if($data->active100==0):?>
             <span class="label label-default">неактивен</span>
