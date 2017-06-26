@@ -6,7 +6,7 @@
 <tr class="active">
     <td colspan="">
         <?php echo CHtml::link(CHtml::encode($data->lastName . ' ' . $data->name), Yii::app()->createUrl('/admin/user/view', array('id'=>$data->id)));?> 
-
+        id: <?php echo $data->id;?>
     </td>
 	<td colspan="5">
 		<span class="label label-default balance-<?php echo $data->id;?>">
