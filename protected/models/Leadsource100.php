@@ -124,4 +124,22 @@ class Leadsource100 extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        /**
+         * Генерирует appId
+         * @return integer appId
+         */
+        public function generateAppId()
+        {
+            $this->appId = mt_rand(1000000, 9999999);
+        }
+        
+        /**
+         * Генерирует secretKey
+         * @return string secretKey
+         */
+        public function generateSecretKey()
+        {
+            $this->secretKey = md5($this->id . mt_rand(1000000, 9999999) . time());
+        }
 }
