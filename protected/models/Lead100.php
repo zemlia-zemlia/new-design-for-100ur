@@ -458,6 +458,24 @@ class Lead100 extends CActiveRecord
         }
         
         /**
+         * Метод, автоматически вызываемый после сохранения лида
+         */
+        protected function afterSave() {
+            parent::afterSave();
+            
+            if(!$this->isNewRecord) {
+                return;
+            }
+            // после сохранения лида ищем для него кампанию
+            $campaignId = Campaign::getCampaignsForLead($this->id);
+            // если кампания найдена, отправляем в нее лид
+            if($campaignId) {
+                $this->sendToCampaign($campaignId);
+            }
+        }
+
+
+        /**
          * Возвращает статистику проданных лидов для покупателя или кампании
          */
         public static function getStatsByPeriod($dateFrom, $dateTo, $buyerId = 0, $campaignId = 0)
