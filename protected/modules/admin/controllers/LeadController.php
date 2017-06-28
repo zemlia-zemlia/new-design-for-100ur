@@ -69,14 +69,17 @@ class LeadController extends Controller
                 $model->attributes=$_POST['Lead100'];
                 
                 // проверим, нет ли лида с таким телефоном за последние 7 дней
-                $existingLeads = Lead100::model()->findAll(array(
-                    'condition' =>  'question_date>NOW()- INTERVAL 7 DAY',
-                ));
+                
+                $existingLeads = Yii::app()->db->createCommand()
+                        ->select('phone')
+                        ->from('{{lead100}}')
+                        ->where('question_date>NOW()- INTERVAL 7 DAY')
+                        ->queryAll();
                 // массив, в котором будут храниться телефоны лидов, которые добавлены в базу за последний день, чтобы не добавить одного лида несколько раз
                 $existingLeadsPhones = array();
 
                 foreach($existingLeads as $existingLead) {
-                    $existingLeadsPhones[] = Question::normalizePhone($existingLead->phone);
+                    $existingLeadsPhones[] = Question::normalizePhone($existingLead['phone']);
                 }
                 
                 $normalizedPhone = Question::normalizePhone($model->phone);

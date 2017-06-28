@@ -73,14 +73,16 @@ class GetLeadsFrom140Command extends CConsoleCommand
         foreach ($this->folders as $folder) {
             $leadSourceIds[] = $folder['sourceId'];
         }
-        $existingLeads = Lead100::model()->findAll(array(
-            'condition' =>  'question_date>NOW()- INTERVAL 7 DAY AND sourceId IN(' . implode(', ', $leadSourceIds) . ')',
-        ));
+        $existingLeads = Yii::app()->db->createCommand()
+                        ->select('phone')
+                        ->from('{{lead100}}')
+                        ->where('question_date>NOW()- INTERVAL 7 DAY')
+                        ->queryAll();
         // массив, в котором будут храниться телефоны лидов, которые добавлены в базу за последний день, чтобы не добавить одного лида несколько раз
         $existingLeadsPhones = array();
         
         foreach($existingLeads as $existingLead) {
-            $existingLeadsPhones[] = Question::normalizePhone($existingLead->phone);
+            $existingLeadsPhones[] = Question::normalizePhone($existingLead['phone']);
         }
         echo "existing leads numbers: ";
         print_r($existingLeadsPhones);
