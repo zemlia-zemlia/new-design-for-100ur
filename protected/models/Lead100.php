@@ -467,11 +467,13 @@ class Lead100 extends CActiveRecord
                 return;
             }
             // после сохранения лида ищем для него кампанию
-            //$campaignId = Campaign::getCampaignsForLead($this->id);
+            $campaignId = Campaign::getCampaignsForLead($this->id);
             // если кампания найдена, отправляем в нее лид
-            /*if($campaignId) {
+            if($campaignId) {
+                // установим свойство isNewRecord = false, чтобы обновить, а не создать копию лида при продаже 
+                $this->setIsNewRecord(false);
                 $this->sendToCampaign($campaignId);
-            }*/
+            }
         }
 
 
