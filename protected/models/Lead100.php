@@ -81,7 +81,7 @@ class Lead100 extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, phone, sourceId, question, townId', 'required','message'=>'Поле должно быть заполнено'),
+			array('name, phone, sourceId, question, townId', 'required','message'=>'Поле {attribute} должно быть заполнено'),
 			array('sourceId, townId, newTownId, questionId, leadStatus, addedById, type, campaignId, brakReason', 'numerical', 'integerOnly'=>true),
 			array('price, buyPrice, regionId', 'numerical'),
                         array('deliveryTime', 'safe'),

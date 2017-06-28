@@ -67,18 +67,39 @@ class LeadController extends Controller
         if(isset($_POST['Lead100']))
         {
                 $model->attributes=$_POST['Lead100'];
-                if($model->save()) {
-                    if(Yii::app()->request->isAjaxRequest) {
-                        echo 'ok';exit;
-                    }
-                    $this->redirect(array('view','id'=>$model->id));
+                
+                // проверим, нет ли лида с таким телефоном за последние 7 дней
+                $existingLeads = Lead100::model()->findAll(array(
+                    'condition' =>  'question_date>NOW()- INTERVAL 7 DAY',
+                ));
+                // массив, в котором будут храниться телефоны лидов, которые добавлены в базу за последний день, чтобы не добавить одного лида несколько раз
+                $existingLeadsPhones = array();
+
+                foreach($existingLeads as $existingLead) {
+                    $existingLeadsPhones[] = Question::normalizePhone($existingLead->phone);
+                }
+                
+                $normalizedPhone = Question::normalizePhone($model->phone);
+                
+                if(in_array($normalizedPhone, $existingLeadsPhones)) {
+                    $model->addError('phone', "Лид с таким номером телефона уже добавлен за последние 7 дней");
                 } else {
-                    if(Yii::app()->request->isAjaxRequest) {
-                        echo 'error';exit;
+                    if($model->save()) {
+                        if(Yii::app()->request->isAjaxRequest) {
+                            echo 'ok';
+                            exit;
+                        }
+                        $this->redirect(array('view','id'=>$model->id));
+                    } else {
+                        if(Yii::app()->request->isAjaxRequest) {
+                            echo 'error';exit;
+                        }
                     }
                 }
+                
+                
         }
-
+        
         $this->render('create',array(
                 'model'=>$model,
         ));
