@@ -178,18 +178,19 @@ class Campaign extends CActiveRecord
             
             /**
              * Выбираем из базы активные кампании, настроенные на данный регион, город и время работы (время NOW())
-             * сортировка по цене
+             * сортировка по цене. Учитываем, что баланс владельца кампании должен быть больше цены лида
              */
             // SELECT * FROM `crm_campaign` WHERE (`townId`=563 OR `regionId`=57) AND `timeFrom`<=16 AND `timeTo`>=16 AND active=1
             $campaignsRows = Yii::app()->db->createCommand()
-                    ->select('*')
+                    ->select('c.*, u.balance')
                     ->from("{{campaign}} c")
-                    ->where("(`townId`=:townId OR `regionId`=:regionId) AND `timeFrom`<=:hour AND `timeTo`>:hour AND active=1", array(
+                    ->leftJoin("{{user}} u", "u.id = c.buyerId")
+                    ->where("(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1 AND u.balance>=c.price", array(
                         ':townId'       =>  $lead->town->id,
                         ':regionId'     =>  $lead->town->regionId,
                         ':hour'         =>  (int)date('H'),
                         ))
-                    ->order('price DESC')
+                    ->order('c.price DESC')
                     ->limit($limit)
                     ->queryAll();           
             
