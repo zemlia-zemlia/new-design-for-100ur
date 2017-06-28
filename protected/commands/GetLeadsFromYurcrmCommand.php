@@ -14,6 +14,16 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
     
     // Настройки парсинга лидов из папок
     protected $folders = array(
+		'LeadLawAltay' => array(
+            'townId'    => 71,
+            'sourceId'  => 24,
+            'buyPrice'  => 20,
+        ),
+		'LeadLawNN' => array(
+            'townId'    => 641,
+            'sourceId'  => 24,
+            'buyPrice'  => 63,
+        ),
         'LeadLawCheboksary' => array(
             'townId'    => 1036,
             'sourceId'  => 24,
