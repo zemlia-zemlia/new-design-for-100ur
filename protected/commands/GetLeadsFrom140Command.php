@@ -116,7 +116,7 @@ class GetLeadsFrom140Command extends CConsoleCommand
                 $phone = Question::normalizePhone($phone);
                 $name = $nameMatches[1];
                 
-                //echo "phone: " . $phone . PHP_EOL;
+                echo "phone: " . $phone . PHP_EOL;
                 //echo "name: " . $name . PHP_EOL;
                 //echo "message: " . $message . PHP_EOL;
                 

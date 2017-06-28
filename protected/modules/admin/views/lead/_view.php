@@ -44,6 +44,9 @@ switch ($data->leadStatus) {
 			<br />
             <span class="label <?php echo $statusClass;?>">    
             <?php echo $data->getLeadStatusName();?>
+                <?php if($data->leadStatus == Lead100::LEAD_STATUS_SENT):?>
+                    <?php echo CHtml::encode($data->campaign->buyer->name);?>
+                <?php endif;?>
             </span>
             <br /> 
             <span class="label label-default"><?php echo $data->getLeadTypeName();?></span>
