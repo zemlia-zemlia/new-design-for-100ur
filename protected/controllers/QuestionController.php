@@ -621,17 +621,35 @@ class QuestionController extends Controller
             
             if(isset($_POST['Lead100'])) {
                 $lead->attributes = $_POST['Lead100'];
-                $lead->phone = preg_replace('/([^0-9])/i', '', $lead->phone);
+                $lead->phone = Question::normalizePhone($lead->phone);
                 $lead->sourceId = 3;
                 $lead->type = Lead100::TYPE_CALL;
                 
-                if($lead->validate()) {
-                    $lead->question = CHtml::encode('Нужна консультация юриста. Перезвоните мне. ' . $lead->question);
+                $existingLeads = Yii::app()->db->createCommand()
+                        ->select('phone')
+                        ->from('{{lead100}}')
+                        ->where('question_date>NOW()- INTERVAL 12 HOUR')
+                        ->queryAll();
+                // массив, в котором будут храниться телефоны лидов, которые добавлены в базу за последний день, чтобы не добавить одного лида несколько раз
+                $existingLeadsPhones = array();
+
+                foreach($existingLeads as $existingLead) {
+                    $existingLeadsPhones[] = Question::normalizePhone($existingLead['phone']);
+                }
+                                
+                if(in_array($lead->phone, $existingLeadsPhones)) {
+                    $lead->addError('phone', "Похоже, вы пытаетесь задать свой вопрос повторно");
+                } else {
+                    if($lead->validate()) {
+                        $lead->question = CHtml::encode('Нужна консультация юриста. Перезвоните мне. ' . $lead->question);
+
+                        if($lead->save()) {
+                            $this->redirect(array('weCallYou'));
+                        }
+                    } 
+                }
                 
-                    if($lead->save()) {
-                        $this->redirect(array('weCallYou'));
-                    }
-                }      
+     
                 
             }
             
