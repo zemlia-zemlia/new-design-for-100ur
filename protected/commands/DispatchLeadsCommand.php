@@ -25,6 +25,14 @@ class DispatchLeadsCommand extends CConsoleCommand
             $lead->sendToCampaign($campaignId);
 
         }
+        
+        // получим статистику запросов к базе
+        $dbStats = Yii::app()->db->getStats();
+        if(is_array($dbStats)) {
+            echo "Number of queries: " . $dbStats[0] . PHP_EOL;
+            echo "Queries duration (s): " . $dbStats[1] . PHP_EOL;
+        }
+        
     }
 }
 
