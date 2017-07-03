@@ -104,11 +104,12 @@
                                 <?php echo CHtml::link("<span class='glyphicon glyphicon-thumbs-up'></span> Отметить как полезный!", Yii::app()->createUrl('user/karmaPlus'), array('class'=>'link-karma-plus btn btn-warning btn-xs', 'data-id'=>$data->id));?>
                             </span>
                             <?php endif;?>
-                            
+							
+                            <? /*
                             <?php if(Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT):?>
                                 <!--<a href="#" class='btn btn-xs btn-default donate-yurist-link'><span class="glyphicon glyphicon-ruble"></span> Отблагодарить</a>-->
                             <?php endif;?>
-                                
+                               
                             <?php if(Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT):?>
                             <div class='donate-block'>
                                 <?php $this->renderPartial("application.views.question._donateForm", array(
@@ -116,7 +117,9 @@
                                     'successUrl'    =>  Yii::app()->createUrl('question/view', array('id'=>$data->questionId, 'answer_payed_id'=>$data->id)),
                                 ));?>
                             </div>
-                            <?php endif;?>
+                            <?php endif;?> */ 
+							?>
+							
                         </div>
                     
                     <?php endif;?>
