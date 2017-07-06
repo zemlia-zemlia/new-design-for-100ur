@@ -83,7 +83,7 @@ switch ($data->leadStatus) {
             $now = time();
         ?>
         
-        <?php if(($data->leadStatus == Lead100::LEAD_STATUS_SENT || $data->leadStatus == Lead100::LEAD_STATUS_SENT_CRM) && ($now - $leadTimestamp)<86400*4):?>
+        <?php if(($data->leadStatus == Lead100::LEAD_STATUS_SENT || $data->leadStatus == Lead100::LEAD_STATUS_SENT_CRM) && ($now - $leadTimestamp)<86400*4 && $data->campaign->brakPercent > 0):?>
             <?php echo CHtml::link('На отбраковку', Yii::app()->createUrl('site/brakLead',array('code'=>$data->secretCode)), array('class'=>'btn btn-block btn-default btn-sm', 'target'=>'_blank', 'data-id'=>$data->id));?>
 
         <?php endif;?>

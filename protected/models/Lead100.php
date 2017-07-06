@@ -376,9 +376,12 @@ class Lead100 extends CActiveRecord
             $mailer->message .= "<p>Телефон: " . $this->phone . "</p>";
             $mailer->message .= "<p>Сообщение:<br />" . CHtml::encode($this->question) . "</p>"; 
             
-            $mailer->message .= "<hr /><p>"
+            // Вставляем ссылку на отбраковку только если у кампании процент брака больше нуля
+            if($campaign->brakPercent > 0) {
+                $mailer->message .= "<hr /><p>"
                     . "<a style='display:inline-block; padding:5px 10px; border:#999 1px solid; color:#666; background-color:#fff; text-decoration:none;' href='https://100yuristov.com/site/brakLead/?code=" . $this->secretCode . "'>Отбраковка</a>"
                     . "</p>";
+            }
             
             $mailer->email = $campaign->buyer->email;
             

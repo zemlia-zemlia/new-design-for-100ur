@@ -41,7 +41,6 @@ class StoYuristovClient {
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
 
         $this->_curlLink = $ch;
-//        curl_setopt($ch, CURLOPT_POSTFIELDS, $lead);
     }
 
     /**
