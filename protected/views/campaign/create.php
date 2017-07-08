@@ -10,7 +10,7 @@ $this->breadcrumbs=array(
 
 ?>
 <div class="vert-margin20">
-<h1>Новая кампания</h1>
+<h1>Создание кампании по покупке лидов</h1>
 </div>
 <?php 
     $this->renderPartial('_form', array(

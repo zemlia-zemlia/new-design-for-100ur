@@ -69,7 +69,7 @@
                 </div>
             </div>
                 <?php echo $form->error($model,'timeTo'); ?>
-        </div>
+        </div> 
 
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'leadsDayLimit', array('class' => 'col-sm-2 control-label')); ?>

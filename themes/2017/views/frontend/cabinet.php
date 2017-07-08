@@ -73,18 +73,20 @@
         
     <div class="top-form-replace"></div>
     
-    <div id="middle">
-        <div class="container-fluid">
+    <div id="middle ">
+        <div class="container-fluid container">
                 
 			
             <div class="col-md-3 col-sm-4">
                 <h1 class="vert-margin20">Мои кампании</h1>	
+				<p>
                 <?php $campaigns = Campaign::getCampaignsForBuyer(Yii::app()->user->id);?>
                 
                 <?php echo CHtml::link('Создать кампанию', Yii::app()->createUrl('campaign/create'), array('class' => 'btn btn-primary btn-block'));?>
                 
                 
                 <?php foreach($campaigns as $campaign):?>
+				</p>
                 <div class="flat-panel" >
                     <div class="inside">
                         <h4>
@@ -114,8 +116,8 @@
         </div>
      </div>
     
-    <div id="footer">
-        <div class="container">
+    <div id="footer" class="container">
+        <div >
             <div class="text-center">
                 <p><strong>Возникли вопросы?</strong><br /> Задайте их техподдержке: admin@100yuristov.com, ответим оперативно.</p>
             </div>
