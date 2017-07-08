@@ -21,6 +21,7 @@
  * @property string $autologin
  * @property string $lastActivity
  * @property float $balance
+ * @property string $lastTransactionTime
  */
 class User extends CActiveRecord
 {

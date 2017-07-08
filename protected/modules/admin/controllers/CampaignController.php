@@ -83,6 +83,12 @@ class CampaignController extends Controller
 	public function actionCreate()
 	{
             $model  =   new Campaign;
+            
+            $buyerId = (int)$_GET['buyerId'];
+            
+            if(!User::model()->findByPk($buyerId)) {
+                throw new CHttpException("Пользователь не найден", 404);
+            }
 
             // Uncomment the following line if AJAX validation is needed
             // $this->performAjaxValidation($model);
@@ -90,6 +96,7 @@ class CampaignController extends Controller
             if(isset($_POST['Campaign']))
             {
                 $model->attributes=$_POST['Campaign'];
+                $model->buyerId = $buyerId;
                 if($model->save()) {
                     $this->redirect(array('view','id'=>$model->id));
                 }
@@ -158,7 +165,7 @@ class CampaignController extends Controller
 
             // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
             if(!isset($_GET['ajax']))
-                    $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+                    $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 	}
 
 	/**
@@ -167,42 +174,117 @@ class CampaignController extends Controller
 	public function actionIndex()
 	{
 		
-            $criteria = new CDbCriteria;
-            $criteria->order = 't.balance DESC';
-            $criteria->condition = 'role=' . User::ROLE_BUYER;
+            /*
+             * Базовый запрос
+             * Ищем кампании с их пользователями, балансами.
+             * Есть 4 типа кампаний:
+             * 1) Активные (active=1, есть транзакции за последние 10 дней)
+             * 2) Условно активные (active=1, транзакций нет больше 10 дней)
+             * 3) Неактивные (active=0)
+             * 4) На модерации (active=2)
+             */            
+//            SELECT c.id, c.townId, t.name townName, c.regionId, r.name regionName, COUNT(l.id), u.name, u.balance, u.lastTransactionTime 
+//            FROM `100_campaign` c
+//            LEFT JOIN `100_user` u ON u.id = c.buyerId
+//            LEFT JOIN `100_lead100` l ON l.campaignId = c.id AND l.leadStatus=6
+//            LEFT JOIN `100_town` t ON t.id = c.townId
+//            LEFT JOIN `100_region` r ON r.id = c.regionId
+//            WHERE c.active=1 AND u.lastTransactionTime<NOW()-INTERVAL 10 DAY OR u.lastTransactionTime IS NULL
+//            GROUP BY c.id
+//            ORDER BY u.name
+             
+            $campaignsCommand = Yii::app()->db->createCommand()
+                    ->select("c.id, c.townId, t.name townName, c.regionId, r.name regionName, c.leadsDayLimit, c.brakPercent, c.timeFrom, c.timeTo, c.price, COUNT(l.id) leadsSent, u.id userId, u.name, u.balance, u.lastTransactionTime")
+                    ->from("{{campaign}} c")
+                    ->leftJoin("{{user}} u", "u.id = c.buyerId")
+                    ->leftJoin("{{town}} t", "t.id = c.townId")
+                    ->leftJoin("{{region}} r", "r.id = c.regionId")
+                    ->leftJoin("{{lead100}} l", "l.campaignId = c.id AND l.leadStatus=" . Lead100::LEAD_STATUS_SENT)
+                    ->group("c.id")
+                    ->order("u.id");
             
-            
-            if(!isset($_GET['show_inactive'])) {
-                $criteria->with = array(array('leadsCount', 'leadsTodayCount', 'campaigns', 'condition' => 'campaigns.active=1', 'order' => 'campaigns.active ASC'));
-
-                $showInactive = false;
-            } else {
-                $criteria->with = array(array('campaigns', 'order' => 'campaigns.active ASC'));
-                $showInactive = true;
+            // условия выборки в зависимости от выбранного типа кампании
+            switch($_GET['type']) {
+                case 'active': default:
+                    $active = Campaign::ACTIVE_YES;
+                    $campaignsCommand->andWhere("c.active=:active AND u.lastTransactionTime>NOW()-INTERVAL 10 DAY", array(':active' => $active));
+                    $type = 'active';
+                    break;
+                case 'passive':
+                    $active = Campaign::ACTIVE_YES;
+                    $campaignsCommand->andWhere("c.active=:active AND u.lastTransactionTime<NOW()-INTERVAL 10 DAY", array(':active' => $active));
+                    $type = 'passive';
+                    break;
+                case 'inactive':
+                    $active = Campaign::ACTIVE_NO;
+                    $campaignsCommand->andWhere("c.active=:active", array(':active' => $active));
+                    $type = 'inactive';
+                    break;
+                case 'moderation':
+                    $active = Campaign::ACTIVE_MODERATION;
+                    $campaignsCommand->andWhere("c.active=:active", array(':active' => $active));
+                    $type = 'moderation';
+                    break;
             }
             
-            //CustomFuncs::printr($criteria);
-                        
-            $dataProvider = new CActiveDataProvider('User', array(
-                'criteria'  =>  $criteria,
-                'pagination' => false,
-            ));  
+            $campaignsRows = $campaignsCommand->queryAll();
             
-            $criteriaModeration = new CDbCriteria();
-            $criteriaModeration->addCondition('active=' . Campaign::ACTIVE_MODERATION);
-            $criteriaModeration->with = array('leadsCount', 'leadsTodayCount');
+            /*
+             * Выберем одним запросом количество лидов, отправленных сегодня в кампании
+             * с группировкой по кампаниям
+             */
+//            SELECT c.id, COUNT(l.id)
+//            FROM `100_campaign` c
+//            LEFT JOIN `100_lead100` l ON l.campaignId = c.id AND l.leadStatus=6
+//            WHERE c.active=1 AND DATE(l.question_date) = DATE(NOW())
+//            GROUP BY c.id
             
-            $dataProviderModeration = new CActiveDataProvider('Campaign', array(
-                    'criteria'  =>  $criteriaModeration,
-                    'pagination'    =>  false,
-                ));  
+            $todayLeadsRows = Yii::app()->db->createCommand()
+                    ->select("c.id, COUNT(l.id) counter")
+                    ->from("{{campaign}} c")
+                    ->leftJoin("{{lead100}} l", "l.campaignId = c.id AND l.leadStatus=" . Lead100::LEAD_STATUS_SENT)
+                    ->where("c.active=:active AND DATE(l.question_date) = DATE(NOW())", array(':active' => $active))
+                    ->group("c.id")
+                    ->queryAll();
             
+            /*
+             * Массив со счетчиками лидов, отправленных сегодня в кампании (campaignId => count)
+             */
+            $todayLeadsArray = array();
             
-            $this->render('index',array(
-			'dataProvider'              =>  $dataProvider,
-                        'showInactive'              =>  $showInactive,
-                        'dataProviderModeration'    =>  $dataProviderModeration,
-		));
+            foreach ($todayLeadsRows as $row) {
+                $todayLeadsArray[$row['id']] = $row['counter'];
+            }
+            
+            $campaignsArray = array();
+            
+            foreach($campaignsRows as $row) {
+                $campaignsArray[$row['userId']]['name'] = $row['name'];
+                $campaignsArray[$row['userId']]['id'] = $row['userId'];
+                $campaignsArray[$row['userId']]['balance'] = $row['balance'];
+                $campaignsArray[$row['userId']]['campaigns'][$row['id']]['id'] = $row['id'];
+                $campaignsArray[$row['userId']]['campaigns'][$row['id']]['townId'] = $row['townId'];
+                $campaignsArray[$row['userId']]['campaigns'][$row['id']]['regionId'] = $row['regionId'];
+                $campaignsArray[$row['userId']]['campaigns'][$row['id']]['regionName'] = $row['regionName'];
+                $campaignsArray[$row['userId']]['campaigns'][$row['id']]['townName'] = $row['townName'];
+                $campaignsArray[$row['userId']]['campaigns'][$row['id']]['timeFrom'] = $row['timeFrom'];
+                $campaignsArray[$row['userId']]['campaigns'][$row['id']]['timeTo'] = $row['timeTo'];
+                $campaignsArray[$row['userId']]['campaigns'][$row['id']]['price'] = $row['price'];
+                $campaignsArray[$row['userId']]['campaigns'][$row['id']]['leadsDayLimit'] = $row['leadsDayLimit'];
+                $campaignsArray[$row['userId']]['campaigns'][$row['id']]['brakPercent'] = $row['brakPercent'];
+                $campaignsArray[$row['userId']]['campaigns'][$row['id']]['leadsSent'] = $row['leadsSent'];
+                $campaignsArray[$row['userId']]['campaigns'][$row['id']]['todayLeads'] = (int)$todayLeadsArray[$row['id']];
+                
+            }
+            
+            //CustomFuncs::printr($campaignsRows);
+            //CustomFuncs::printr($campaignsArray);
+            //exit;
+            
+            $this->render('index', array(
+		'campaignsArray' => $campaignsArray,	
+                'type' => $type,
+            ));
 	}
 
 	/**
@@ -274,6 +356,7 @@ class CampaignController extends Controller
             $buyer->balance += $sum;
             
             if($transaction->save()) {
+                $buyer->lastTransactionTime = date("Y-m-d H:i:s");
                 if($buyer->save()) {
                     // если баланс пополнен, отправляем уведомление покупателю
                     $buyer->sendBuyerNotification(User::BUYER_EVENT_TOPUP);

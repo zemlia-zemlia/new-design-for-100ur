@@ -102,4 +102,17 @@ class TransactionCampaign extends CActiveRecord
     {
         return parent::model($className);
     }
+    
+    /**
+     * После сохранения транзакции записываем ее время в кампанию
+     */
+    protected function afterSave()
+    {        
+        if($this->buyerId) {
+            Yii::app()->db->createCommand()
+                ->update("{{user}}", array('lastTransactionTime' => date("Y-m-d H:i:s")), 'id = ' . $this->buyerId);
+        }
+        parent::afterSave();
+
+    }
 }

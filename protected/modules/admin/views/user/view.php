@@ -15,7 +15,12 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
  ));
 ?>
 
-<h1 class="vert-margin30"><?php echo CHtml::encode($model->name) . " " . CHtml::encode($model->name2) . " " . CHtml::encode($model->lastName);?></h1>
+<h1 class="vert-margin30">
+    <?php echo CHtml::encode($model->name) . " " . CHtml::encode($model->name2) . " " . CHtml::encode($model->lastName);?>
+    <?php if($model->role == User::ROLE_BUYER):?>
+        <?php echo CHtml::link("+ кампания", Yii::app()->createUrl('admin/campaign/create', array('buyerId' => $model->id)), array('class' => 'btn btn-primary'));?>
+    <?php endif;?>
+</h1>
 
 <div class="row vert-margin30">
 <?php if($model->avatar): ?>

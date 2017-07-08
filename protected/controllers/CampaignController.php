@@ -73,6 +73,8 @@ class CampaignController extends Controller
             // Uncomment the following line if AJAX validation is needed
             // $this->performAjaxValidation($model);
 
+            $model->active = Campaign::ACTIVE_MODERATION; // статус по умолчанию - На рассмотрении 
+
             if(isset($_POST['Campaign']))
             {
                 $model->attributes=$_POST['Campaign'];
@@ -81,7 +83,6 @@ class CampaignController extends Controller
                 }
                 $model->price = 90;
                 $model->brakPercent = 20;
-                $model->active = Campaign::ACTIVE_MODERATION; // статус по умолчанию - На рассмотрении 
                 
                 if($model->save()) {
                     $this->redirect(array('cabinet/campaign','id'=>$model->id));

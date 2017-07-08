@@ -14,6 +14,7 @@
  * @property integer $buyerId
  * @property integer $active
  * @property integer $sendEmail
+ * @property string $lastTransactionTime
  * 
  * @author Michael Krutikov m@mkrutikov.pro
  */
@@ -39,13 +40,13 @@ class Campaign extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('timeFrom, timeTo, price, leadsDayLimit, '
-                            . 'brakPercent, buyerId, active', 'required'),
-			array('regionId, townId, timeFrom, timeTo, price, sendEmail, '
+			array('price, leadsDayLimit, '
+                            . 'brakPercent, buyerId, active', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
+			array('regionId, townId, price, sendEmail, '
                             . 'leadsDayLimit, brakPercent, buyerId, active', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, regionId, timeFrom, timeTo, price, '
+			array('id, regionId, price, '
                             . 'leadsDayLimit, brakPercent, buyerId, active', 'safe', 'on'=>'search'),
 		);
 	}
@@ -95,6 +96,7 @@ class Campaign extends CActiveRecord
 			'buyerId'       => 'ID покупателя',
 			'active'        => 'Активность',
 			'sendEmail'     => 'Отправлять лиды на Email',
+			'lastTransactionTime'     => 'Время последней транзакции',
 		);
 	}
 
@@ -336,5 +338,50 @@ class Campaign extends CActiveRecord
                 'towns'     =>  $payedTowns,
                 'regions'   =>  $payedRegions,
             );
+            
+            
+            
+        }
+        
+        /**
+         * Метод, вызываемый перед сохранением кампании.
+         * Проверяет заполненность только одного из свойств: город ИЛИ регион
+         * 
+         * @return boolean Пройдена ли проверка
+         */
+        protected function beforeSave()
+        {
+            if(false === parent::beforeSave()) {
+                return false;
+            }
+                
+            if($this->regionId && $this->townId) {
+                $this->addError('townId', 'Выберите город ИЛИ регион (не оба одновременно)');
+            }
+            
+            if(!$this->regionId && !$this->townId) {
+                $this->addError('townId', 'Выберите город ИЛИ регион (не оба одновременно)');
+            }
+                        
+            if(empty($this->errors)) {
+                return true;
+            } else {
+                return false;
+            }
+
+        }
+        
+        /**
+         * Возвращает число кампаний в статусе На модерации
+         */
+        public static function getModerationCount()
+        {
+            $campaignsRow = Yii::app()->db->createCommand()
+                    ->select('COUNT(*) counter')
+                    ->from('{{campaign}}')
+                    ->where("active=:active", array(':active' => self::ACTIVE_MODERATION))
+                    ->queryRow();
+            
+            return $campaignsRow['counter'];
         }
 }
