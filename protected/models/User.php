@@ -233,6 +233,8 @@ class User extends CActiveRecord
                 'campaignsActiveCount'   =>  array(self::STAT, 'Campaign', 'buyerId', 'condition'=>'active=1'),
                 'campaignsModeratedCount'   =>  array(self::STAT, 'Campaign', 'buyerId', 'condition'=>'active!=2'),
                 'transactions'      =>  array(self::HAS_MANY, 'TransactionCampaign', 'buyerId', 'order'=>'transactions.id DESC'),
+                'comments'          =>  array(self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_USER, 'order' => 'comments.root, comments.lft'),
+                'commentsCount'     =>  array(self::STAT, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_USER),
 
             );
     }

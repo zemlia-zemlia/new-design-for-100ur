@@ -131,6 +131,7 @@
         <?php echo $content;?>
     </div>
     
+<?php if(Yii::app()->user->role != User::ROLE_ROOT):?> 
     <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
 (function (d, w, c) {
@@ -173,6 +174,7 @@ _tmr.push({id: "2577054", type: "pageView", start: (new Date()).getTime()});
 <img src="//top-fwz1.mail.ru/counter?id=2577054;js=na" style="border:0;" height="1" width="1" alt="Рейтинг@Mail.ru" />
 </div></noscript>
 <!-- //Rating@Mail.ru counter -->
+<?php endif;?>
 
 </body>
 </html>

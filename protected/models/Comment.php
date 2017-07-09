@@ -22,6 +22,7 @@ class Comment extends CActiveRecord
         const TYPE_EVENT = 3;
         const TYPE_ANSWER = 4;
         const TYPE_COMPANY = 5;
+        const TYPE_USER = 6;
         
         const STATUS_NEW = 0;
         const STATUS_CHECKED = 1;

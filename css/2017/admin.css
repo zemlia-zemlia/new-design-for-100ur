@@ -396,3 +396,7 @@ table.categories-list td{
 tr:hover .table-links-hovered-container {
     visibility:visible;
 }
+
+.user-comment {
+    margin-bottom:30px;
+}

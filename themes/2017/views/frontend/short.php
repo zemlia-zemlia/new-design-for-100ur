@@ -347,7 +347,7 @@
         </div>
     </div>
     
-  
+<?php if(Yii::app()->user->role != User::ROLE_ROOT):?>   
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
 (function (d, w, c) {
@@ -392,7 +392,7 @@ _tmr.push({id: "2577054", type: "pageView", start: (new Date()).getTime()});
 <!-- //Rating@Mail.ru counter -->
 
 <script type="text/javascript" src="//api.venyoo.ru/wnew.js?wc=venyoo/default/science&widget_id=5214416909631488"></script>
-
+<?php endif;?>
 
 </body>
 </html>
