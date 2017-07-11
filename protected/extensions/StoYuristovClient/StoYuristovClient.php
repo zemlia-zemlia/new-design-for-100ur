@@ -13,7 +13,7 @@ class StoYuristovClient {
     protected $_curlLink; // линк Curl
     protected $_signature; // подпись запроса
     protected $_apiUrlTest = 'http://100juristov/api/sendLead';
-    protected $_apiUrl = 'https://100yuristov.com/question/sendLead/';
+    protected $_apiUrl = 'https://100yuristov.com/api/sendLead/';
     
     // параметры лида
     public $name;
