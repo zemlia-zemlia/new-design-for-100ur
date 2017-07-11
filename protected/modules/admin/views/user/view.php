@@ -18,10 +18,12 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <h1 class="vert-margin30">
     <?php echo CHtml::encode($model->name) . " " . CHtml::encode($model->name2) . " " . CHtml::encode($model->lastName); ?>
     <?php if ($model->role == User::ROLE_BUYER): ?>
-        <?php echo CHtml::link("+ кампания", Yii::app()->createUrl('admin/campaign/create', array('buyerId' => $model->id)), array('class' => 'btn btn-primary')); ?>
+        <?php echo CHtml::link("Добавить кампанию", Yii::app()->createUrl('admin/campaign/create', array('buyerId' => $model->id)), array('class' => 'btn btn-primary')); ?>
     <?php endif; ?>
 </h1>
 
+<div class="row">
+<div class="col-md-8">
 <div class="row vert-margin30">
     <?php if ($model->avatar): ?>
         <div class="col-md-2">
@@ -33,7 +35,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         </div>
     <?php endif; ?>
 
-    <div class="col-md-10">
+    <div class="col-md-12">
         <table class="table table-bordered">
 
             <?php
@@ -110,59 +112,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         </div>
         
         
-        <?php if ($model->comments): ?>
-            <h2>Комментарии</h2>
-            <?php foreach ($model->comments as $comment): ?>
-                <?php if ($comment->status != Comment::STATUS_SPAM): ?>
-                    <div class="user-comment" style="margin-left:<?php echo ($comment->level - 1) * 20; ?>px;">
-                        
-                        <p>
-                            <strong>
-                                <?php echo CHtml::encode($comment->author->name . ' ' . $comment->author->lastName); ?></strong>
-                                <span class="text-muted">
-                                    <?php echo CustomFuncs::niceDate($comment->dateTime, false, false);?>
-                                </span>
-                                <br />
-                                <?php echo CHtml::encode($comment->text); ?>
-                        </p>
-                        <?php if (!is_null($commentModel)): ?>
-                            <div class="left-align">
-                                <a class="btn btn-xs btn-default" role="button" data-toggle="collapse" href="#collapse-comment-<?php echo $comment->id; ?>" aria-expanded="false">
-                                    Ответить
-                                </a>
-                            </div>    
-                            <div class="collapse child-comment-container" id="collapse-comment-<?php echo $comment->id; ?>">
-                                <strong>Ваш ответ:</strong>
-                                <?php
-                                $this->renderPartial('application.views.comment._form', array(
-                                    'type' => Comment::TYPE_USER,
-                                    'objectId' => $model->id,
-                                    'model' => $commentModel,
-                                    'hideRating' => true,
-                                    'parentId' => $comment->id,
-                                ));
-                                ?>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        <?php endif; ?>
 
-        <?php if (!is_null($commentModel)): ?>
-            <div>
-                <strong>Ваш комментарий:</strong>
-                <?php
-                $this->renderPartial('application.views.comment._form', array(
-                    'type' => Comment::TYPE_USER,
-                    'objectId' => $model->id,
-                    'model' => $commentModel,
-                    'hideRating' => true,
-                    'parentId' => 0,
-                ));
-                ?>
-            </div>
-        <?php endif; ?>
+
+
 
 
         <?php if ($transactionsDataProvider->totalItemCount): ?>
@@ -225,5 +177,64 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <?php endif; ?>
     </div>
 </div>
+</div>
 
+<div class="col-md-4">
 
+        <?php if (!is_null($commentModel)): ?>
+            <div>
+                <strong>Ваш комментарий:</strong>
+                <?php
+                $this->renderPartial('application.views.comment._form', array(
+                    'type' => Comment::TYPE_USER,
+                    'objectId' => $model->id,
+                    'model' => $commentModel,
+                    'hideRating' => true,
+                    'parentId' => 0,
+                ));
+                ?>
+            </div>
+        <?php endif; ?>
+		
+        <?php if ($model->comments): ?>
+            <h2>Комментарии</h2>
+            <?php foreach ($model->comments as $comment): ?>
+                <?php if ($comment->status != Comment::STATUS_SPAM): ?>
+                    <div class="user-comment" style="margin-left:<?php echo ($comment->level - 1) * 20; ?>px;">
+                        
+                        <p>
+                            <strong>
+                                <?php echo CHtml::encode($comment->author->name . ' ' . $comment->author->lastName); ?></strong>
+                                <span class="text-muted">
+                                    <?php echo CustomFuncs::niceDate($comment->dateTime, false, false);?>
+                                </span>
+                                <br />
+                                <?php echo CHtml::encode($comment->text); ?>
+                        </p>
+                        <?php if (!is_null($commentModel)): ?>
+                            <div class="left-align">
+                                <a class="btn btn-xs btn-default" role="button" data-toggle="collapse" href="#collapse-comment-<?php echo $comment->id; ?>" aria-expanded="false">
+                                    Ответить
+                                </a>
+                            </div>    
+                            <div class="collapse child-comment-container" id="collapse-comment-<?php echo $comment->id; ?>">
+                                <strong>Ваш ответ:</strong>
+                                <?php
+                                $this->renderPartial('application.views.comment._form', array(
+                                    'type' => Comment::TYPE_USER,
+                                    'objectId' => $model->id,
+                                    'model' => $commentModel,
+                                    'hideRating' => true,
+                                    'parentId' => $comment->id,
+                                ));
+                                ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+</div>
+
+</div>
