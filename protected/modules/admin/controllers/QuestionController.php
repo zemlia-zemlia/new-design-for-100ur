@@ -566,7 +566,7 @@ class QuestionController extends Controller
                     $criteria->order = "moderatedTime ASC";
                     $criteria->addColumnCondition(array('isModerated'=>1, 'moderatedBy' => Yii::app()->user->id));
                 } else {
-                    $criteria->order = "RAND()";
+                    $criteria->order = "id DESC";
                     $criteria->addColumnCondition(array('isModerated'=>0));
                 }
                 
