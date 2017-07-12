@@ -15,6 +15,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 ));
 ?>
 
+
+<div class="row">
+<div class="col-md-8">
 <h1 class="vert-margin30">
     <?php echo CHtml::encode($model->name) . " " . CHtml::encode($model->name2) . " " . CHtml::encode($model->lastName); ?>
     <?php if ($model->role == User::ROLE_BUYER): ?>
@@ -22,8 +25,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <?php endif; ?>
 </h1>
 
-<div class="row">
-<div class="col-md-8">
 <div class="row vert-margin30">
     <?php if ($model->avatar): ?>
         <div class="col-md-2">
@@ -180,7 +181,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 </div>
 
 <div class="col-md-4">
-
+<h2>Комментарии</h2>
         <?php if (!is_null($commentModel)): ?>
             <div>
                 <strong>Ваш комментарий:</strong>
@@ -197,7 +198,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <?php endif; ?>
 		
         <?php if ($model->comments): ?>
-            <h2>Комментарии</h2>
+            
             <?php foreach ($model->comments as $comment): ?>
                 <?php if ($comment->status != Comment::STATUS_SPAM): ?>
                     <div class="user-comment" style="margin-left:<?php echo ($comment->level - 1) * 20; ?>px;">
