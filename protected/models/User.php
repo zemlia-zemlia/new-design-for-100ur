@@ -39,6 +39,7 @@ class User extends CActiveRecord
     const ROLE_CLIENT = 3;
     const ROLE_EDITOR = 5;
     const ROLE_BUYER = 6;
+    const ROLE_PARTNER = 7;
     const ROLE_EXECUTOR = 8;
     const ROLE_JURIST = 10;
     const ROLE_MANAGER = 20;
@@ -120,6 +121,7 @@ class User extends CActiveRecord
             self::ROLE_MANAGER      =>  'руководитель',
             self::ROLE_ROOT         =>  'администратор',
             self::ROLE_BUYER        =>  'покупатель лидов',
+            self::ROLE_PARTNER      =>  'поставщик лидов',
         );
     }
 
