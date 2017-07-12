@@ -36,7 +36,7 @@ class PartnerController extends Controller {
      */
     public function actionIndex()
     {
-        
+        echo $this->render('index');
     }
     /**
      * Список купленных лидов

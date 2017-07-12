@@ -30,6 +30,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <tr>
         <th>ID</th>
         <th>Название</th>
+        <th>Пользователь</th>
         <th>Описание</th>
         <th></th>
     </tr>
