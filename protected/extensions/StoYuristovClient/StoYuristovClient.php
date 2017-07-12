@@ -1,7 +1,5 @@
 <?php
 
-//namespace stoyuristov;
-
 /**
  * Клиент для работы с API сервиса 100 Юристов
  * @author Михаил Крутиков <m@mkrutikov.pro>
@@ -12,9 +10,9 @@ class StoYuristovClient {
     protected $_secretKey; // секретный ключ кампании
     protected $_curlLink; // линк Curl
     protected $_signature; // подпись запроса
-    protected $_apiUrlTest = 'http://100yuristov/api/sendLead/';
-//    protected $_apiUrl = 'https://100yuristov.com/api/sendLead/';
-    protected $_apiUrl = '';
+    protected $_apiUrlTest = 'http://100juristov/api/sendLead/';
+    protected $_apiUrl = 'https://100yuristov.com/api/sendLead/';
+//    protected $_apiUrl = '';
     protected $_testMode; // 0|1 Включение / выключение тестового режима
     // параметры лида
     public $name;
