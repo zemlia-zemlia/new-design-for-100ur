@@ -12,7 +12,6 @@ class StoYuristovClient {
     protected $_signature; // подпись запроса
     protected $_apiUrlTest = 'http://100juristov/api/sendLead/';
     protected $_apiUrl = 'https://100yuristov.com/api/sendLead/';
-//    protected $_apiUrl = '';
     protected $_testMode; // 0|1 Включение / выключение тестового режима
     // параметры лида
     public $name;
@@ -34,7 +33,7 @@ class StoYuristovClient {
         $this->_testMode = $testMode;
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, ($this->_testMode === 1) ? $this->_apiUrlTest : $this->_apiUrl);
+        curl_setopt($ch, CURLOPT_URL, $this->_apiUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -94,6 +93,7 @@ class StoYuristovClient {
             'question' => $this->question,
             'appId' => $this->_appId,
             'signature' => $this->_signature,
+            'testMode' => $this->_testMode,
         );
     }
 

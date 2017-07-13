@@ -96,6 +96,7 @@ class ApiController extends Controller {
         $leadQuestion = $request->getPost('question');
         $signature = $request->getPost('signature');
         $leadEmail = $request->getPost('email');
+        $testMode = $request->getPost('testMode');
 
         // проверка подписи
 
@@ -137,6 +138,17 @@ class ApiController extends Controller {
         if ($model->findDublicates(12 * 3600)) {
             die(json_encode(array('code' => 400, 'message' => 'Dublicates found')));
             exit;
+        }
+        
+        // если тестовый режим, то не сохраняем, а только проверяем лид
+        if($testMode != 0) {
+            if($model->validate()) {
+                echo json_encode(array('code' => 200, 'message' => 'OK. You are in the test mode. Lead accepted but not saved.'));
+                exit;
+            } else {
+                echo json_encode(array('code' => 500, 'message' => 'Lead not saved.', 'errors' => $model->errors));
+                exit;
+            }
         }
 
         if ($model->save()) {
