@@ -120,6 +120,8 @@ class LeadsourceController extends Controller {
      */
     public function actionIndex() {
         $criteria = new CDbCriteria;
+        
+        $criteria->with = 'user';
 
         // добавим условие выборки контактов по офису
         if (isset($_GET['officeId'])) {

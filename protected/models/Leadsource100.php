@@ -12,6 +12,7 @@
  * @property integer $active
  * @property string $appId
  * @property string $secretKey
+ * @property integer $userId
  */
 class Leadsource100 extends CActiveRecord {
 
@@ -40,7 +41,7 @@ class Leadsource100 extends CActiveRecord {
         return array(
             array('name', 'required'),
             array('name, description', 'length', 'max' => 255),
-            array('officeId, noLead, active', 'numerical', 'integerOnly' => true),
+            array('officeId, noLead, active, userId', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, name, description', 'safe', 'on' => 'search'),
@@ -54,7 +55,8 @@ class Leadsource100 extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'office' => array(self::BELONGS_TO, 'Office', 'officeId'),
+            'office'    => array(self::BELONGS_TO, 'Office', 'officeId'),
+            'user'      => array(self::BELONGS_TO, 'User', 'userId'),
         );
     }
 
