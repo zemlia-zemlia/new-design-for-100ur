@@ -94,6 +94,18 @@
         <?php else:?>
 		<?php echo $form->hiddenField($model,'type', array('value'=>Lead100::TYPE_INCOMING_CALL)); ?>            
         <?php endif;?>
+    
+        <?php if($model->isNewRecord && Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+            <label>
+                <?php echo $form->checkBox($model,'testMode', array()); ?>
+                <?php echo $model->getAttributeLabel('testMode');?>
+            </label>
+            <p class="text-muted">
+                <small>
+                В тестовом режиме лид не сохраняется в базу, а отправляется через API с выводом информации об обработке
+                </small>
+            </p>
+        <?php endif;?>
 
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-primary btn-block')); ?>
 
