@@ -65,7 +65,7 @@
 
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'town'); ?>
-                <?php echo CHtml::textField('town', '', array(
+                <?php echo CHtml::textField('town', $model->town->name, array(
                     'id'            =>  'town-selector', 
                     'class'         =>  'form-control',
                 )); ?>

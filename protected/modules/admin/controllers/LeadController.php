@@ -68,34 +68,21 @@ class LeadController extends Controller {
                 $source = $model->source;
                 if($source) {
                     $apiClient = new StoYuristovClient($source->appId, $source->secretKey, 1);
-                    CustomFuncs::printr($apiClient);
                     
                     $apiClient->name = $model->name;
                     $apiClient->phone = $model->phone;
                     $apiClient->town = $model->town->name;
                     $apiClient->question = $model->question;
-
+                    
                     $apiResult = $apiClient->send();
+                    //CustomFuncs::printr($apiClient);
+                    //CustomFuncs::printr($apiResult);
                 }
                 
             } else {
 
                 // проверим, нет ли лида с таким телефоном за последние 12 часов
 
-    /*          $existingLeads = Yii::app()->db->createCommand()
-                        ->select('phone')
-                        ->from('{{lead100}}')
-                        ->where('question_date>NOW()- INTERVAL 12 HOUR')
-                        ->queryAll();
-                // массив, в котором будут храниться телефоны лидов, которые добавлены в базу за последний день, чтобы не добавить одного лида несколько раз
-                $existingLeadsPhones = array();
-
-                foreach ($existingLeads as $existingLead) {
-                    $existingLeadsPhones[] = Question::normalizePhone($existingLead['phone']);
-                }
-
-                $normalizedPhone = Question::normalizePhone($model->phone);
-    */
                 if ($model->findDublicates()) {
                     $model->addError('phone', "Лид с таким номером телефона уже добавлен за последние 12 часов");
                 } else {

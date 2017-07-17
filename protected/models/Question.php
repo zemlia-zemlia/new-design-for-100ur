@@ -23,6 +23,8 @@
  * @property integer $moderatedTime
  * @property string $ip
  * @property integer $townIdByIP
+ * @property integer $sourceId
+ * @property float $buyPrice
  */
 class Question extends CActiveRecord
 {
@@ -96,6 +98,7 @@ class Question extends CActiveRecord
             return array(
                 'town'          =>  array(self::BELONGS_TO, 'Town', 'townId'),
                 'townByIP'      =>  array(self::BELONGS_TO, 'Town', 'townIdByIP'),
+                'source'        =>  array(self::BELONGS_TO, 'Leadsource100', 'sourceId'),
                 'answers'       =>  array(self::HAS_MANY, 'Answer', 'questionId'),
                 'answersCount'  =>  array(self::STAT, 'Answer', 'questionId'),
                 'bublishUser'   =>  array(self::BELONGS_TO, 'User', 'publishedBy'),
@@ -124,6 +127,8 @@ class Question extends CActiveRecord
                 'price'         =>  'Цена',
                 'payed'         =>  'Оплачен',
                 'isModerated'   =>  'Отредактирован (модерирован)',
+                'sourceId'      =>  'id источника',
+                'buyPrice'      =>  'Цена покупки вопроса',
             );
 	}
         

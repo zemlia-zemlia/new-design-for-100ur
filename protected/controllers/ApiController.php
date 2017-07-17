@@ -96,7 +96,8 @@ class ApiController extends Controller {
         $leadQuestion = $request->getPost('question');
         $signature = $request->getPost('signature');
         $leadEmail = $request->getPost('email');
-        $testMode = $request->getPost('testMode');
+        //$testMode = $request->getPost('testMode');
+        $testMode = 0;
 
         // проверка подписи
 
@@ -140,10 +141,17 @@ class ApiController extends Controller {
             exit;
         }
         
+        // посчитаем цену покупки лида, исходя из города и региона
+        $prices = $model->calculatePrices();
+        if($prices[0]) {
+            $model->buyPrice = $prices[0];
+        } else {
+            $model->buyPrice = 0;
+        }
         // если тестовый режим, то не сохраняем, а только проверяем лид
         if($testMode != 0) {
             if($model->validate()) {
-                echo json_encode(array('code' => 200, 'message' => 'OK. You are in the test mode. Lead accepted but not saved.'));
+                echo json_encode(array('code' => 200, 'buyPrice' => $model->buyPrice, 'message' => 'OK. You are in the test mode. Lead accepted but not saved.'));
                 exit;
             } else {
                 echo json_encode(array('code' => 500, 'message' => 'Lead not saved.', 'errors' => $model->errors));
@@ -152,7 +160,7 @@ class ApiController extends Controller {
         }
 
         if ($model->save()) {
-            echo json_encode(array('code' => 200, 'message' => 'OK'));
+            echo json_encode(array('code' => 200, 'buyPrice' => $model->buyPrice, 'message' => 'OK'));
             exit;
         } else {
             echo json_encode(array('code' => 500, 'message' => 'Lead not saved.', 'errors' => $model->errors));

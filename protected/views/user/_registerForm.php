@@ -27,7 +27,7 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
         <p class="text-center vert-margin20">
         <strong>Выберите подходящий Вам тип аккаунта</strong><br />
         </p> 
-        <div class="row">
+        <div class="row vert-margin20">
             <div class="col-sm-6 text-center">
                 <?php echo CHtml::link("Я клиент", Yii::app()->createUrl('user/create', array('role' => User::ROLE_CLIENT)), array('class' => 'btn btn-primary btn-lg vert-margin20'));?>
                 <p>
@@ -43,7 +43,7 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
             
             </div>
         </div>
-
+        
     </div>
 <?php else:?>
     

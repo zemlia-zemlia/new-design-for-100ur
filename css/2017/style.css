@@ -55,15 +55,15 @@ hr {
 }
 
 .right-align {
-	text-align: right;
+    text-align: right;
 }
 
 .left-align {
-	text-align: left;
+    text-align: left;
 }
 
 .center-align {
-	text-align: center;
+    text-align: center;
 }
 
 .vert-margin20 {
@@ -71,7 +71,11 @@ hr {
 }
 
 .vert-margin30 {
-	margin-bottom: 30px !important;
+    margin-bottom: 30px !important;
+}
+
+.vert-margin40 {
+    margin-bottom: 40px !important;
 }
 
 .container600 {
@@ -290,7 +294,7 @@ hr {
 @media(min-width:992px) {
     
     #left-panel {
-	width: 18%;	
+        width: 18%;	
     } 
     
     #center-panel {
@@ -298,7 +302,7 @@ hr {
     } 
 
     #right-panel {
-	width: 23%;
+        width: 23%;
     }  
 }
 */
@@ -383,13 +387,13 @@ hr {
 }
 
 .kpi-counter span {
-  background: #69747a none repeat scroll 0 0;
-  border-radius: 3px;
-  color: #fff;
-  display: inline-block;
-  margin: 0 1px;
-  padding: 3px;
-  font-size: 2em;
+    background: #69747a none repeat scroll 0 0;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    margin: 0 1px;
+    padding: 3px;
+    font-size: 2em;
 }
 
 @media(max-width:767px) {
@@ -443,13 +447,13 @@ hr {
     border-bottom:#333 2px solid;
     text-transform: uppercase;
     padding:5px 0;
-    
+
 }
 
 .navbar {
     min-height: auto;
 }
-    
+
 .navbar-inverse {
     border:none;
     margin-bottom:0;
@@ -715,15 +719,15 @@ hr {
     .annoying-widget {
         display:none;
     }
-    
+
     .question-list-item {
         margin-bottom:15px;
     }
-    
+
     .center-mobile {
         text-align: center;
     }
-    
+
     #hero-video-container {
         padding:10px;
     }
@@ -757,31 +761,31 @@ hr {
         /*left: 50%;*/
         position: static;
     }
-    
+
     #top-menu-wrapper ul li {
         display:block;
         position:static;
         float:none;
     }
-    
+
     #top-menu-wrapper ul li a, #top-menu-wrapper ul li span {
         padding:10px;
     }
-    
+
     #hero {
         text-align: center;
     }
-    
+
     #hero > .container {
         background-image:none;
         background-color:#f6f8f9;
         padding:0 15px;
     }
-    
+
     .form-info-item {
         text-align: left;
     }
-    
+
     #footer ul li {
         display:block;
         margin:10px 0;
@@ -793,12 +797,12 @@ hr {
         padding-left:8px;
         padding-right: 8px;
     }
-    
+
     .row {
         margin-left:-8px;
         margin-right: -8px;
     }
-    
+
     .container {
         padding-left: 8px;
         padding-right: 8px;

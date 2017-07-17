@@ -492,5 +492,41 @@ class Lead100 extends CActiveRecord {
 
         return $leads;
     }
+    
+    /**
+     * Вычисляет базовые цены покупки и продажи для лида
+     * 
+     * @return array Массив с двумя ценами [0 => цена покупки, 1 => цена продажи]
+     */
+    public function calculatePrices()
+    {
+        $regionBuyPrice = 20;
+        $regionSellPrice = 50;
+        $townBuyPrice = 0;
+        $townSellPrice = 0;
+        
+        $town = $this->town;
+        if($town) {
+            $region = $this->town->region;
+            $townBuyPrice = $town->buyPrice;
+            $townSellPrice = $town->sellPrice;
+        }
+        
+        if($region) {
+            $regionBuyPrice = $region->buyPrice;
+            $regionSellPrice = $region->sellPrice;
+        }
+        
+        // цена города приоритетнее цены региона
+        
+        if($townBuyPrice == 0) {
+            $townBuyPrice = $regionBuyPrice;
+        }
+        if($townSellPrice == 0) {
+            $townSellPrice = $regionSellPrice;
+        }
+        
+        return array(0 => $townBuyPrice, 1 => $townSellPrice);
+    }
 
 }
