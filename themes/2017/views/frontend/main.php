@@ -363,6 +363,8 @@
 			</div>
         </div>
     </div>
+        
+        <?php echo Yii::app()->user->getState('sourceId');?>
                 
 <?php if(Yii::app()->user->role != User::ROLE_ROOT):?>          
 <!-- Yandex.Metrika counter -->

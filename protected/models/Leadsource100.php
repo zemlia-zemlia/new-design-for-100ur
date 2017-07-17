@@ -5,6 +5,7 @@
  *
  * The followings are the available columns in table '{{leadsource}}':
  * @property integer $id
+ * @property integer $type
  * @property string $name
  * @property string $description
  * @property integer $officeId
@@ -16,6 +17,9 @@
  */
 class Leadsource100 extends CActiveRecord {
 
+    const TYPE_LEAD = 1; // источник для привлечения лидов
+    const TYPE_QUESTION = 2; // источник для привлечения вопросов
+    
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -39,9 +43,9 @@ class Leadsource100 extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name', 'required'),
+            array('name', 'required', 'message' => 'Поле {attribute} не заполнено'),
             array('name, description', 'length', 'max' => 255),
-            array('officeId, noLead, active, userId', 'numerical', 'integerOnly' => true),
+            array('officeId, noLead, active, userId, type', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, name, description', 'safe', 'on' => 'search'),
@@ -66,6 +70,7 @@ class Leadsource100 extends CActiveRecord {
     public function attributeLabels() {
         return array(
             'id' => 'ID',
+            'type' => 'Тип',
             'name' => 'Название',
             'description' => 'Описание',
             'officeId' => 'Офис',
@@ -97,6 +102,27 @@ class Leadsource100 extends CActiveRecord {
             $sourcesArray[$source->id] = $source->name;
         }
         return $sourcesArray;
+    }
+    
+    /**
+     * Возвращает массив типов источников (code => name)
+     */
+    public static function getTypes()
+    {
+        return array(
+            self::TYPE_LEAD         => 'лиды',
+            self::TYPE_QUESTION     => 'вопросы',
+        );
+    }
+    
+    /**
+     * Возвращает название типа источника
+     * @return type
+     */
+    public function getTypeName()
+    {
+        $types = self::getTypes();
+        return $types[$this->type];
     }
 
     /**
@@ -134,5 +160,19 @@ class Leadsource100 extends CActiveRecord {
     public function generateSecretKey() {
         $this->secretKey = md5($this->id . mt_rand(1000000, 9999999) . time());
     }
-
+    
+    /**
+     * Возвращает массив источников, привязанных к пользователю
+     * @param integer $userId ID пользователя
+     * @return array Массив источников
+     */
+    public static function getSourcesByUser($userId)
+    {
+        $criteria = new CDbCriteria;
+        $criteria->addColumnCondition(array('userId' => $userId));
+        
+        $sources = self::model()->findAll($criteria);
+        
+        return $sources;
+    }
 }

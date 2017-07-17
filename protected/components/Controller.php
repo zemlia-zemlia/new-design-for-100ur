@@ -35,6 +35,20 @@ class Controller extends CController
                     Yii::app()->request->redirect($url, true, 301);
                 return false;
             }
+            
+            // если при заходе на сайт в ссылке присутствует параметр partnerAppId, запишем его в сессию
+            if(isset($_GET['partnerAppId']) && !Yii::app()->user->getState('sourceId')) {
+                $source = Yii::app()->db->createCommand()
+                        ->select('id')
+                        ->from('{{leadsource100}}')
+                        ->where('appId = :appId', array(':appId' => (int)$_GET['partnerAppId']))
+                        ->queryRow();
+                
+                if($source) {
+                    Yii::app()->user->setState('sourceId', $source['id']);
+                }
+                
+            }
                         
             // проверка, сохранен ли в сессии пользователя ID его города
             $currentTownId = Yii::app()->user->getState('currentTownId');

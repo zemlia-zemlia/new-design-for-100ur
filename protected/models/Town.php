@@ -15,6 +15,8 @@
  * @property integer $regionId
  * @property integer $countryId
  * @property integer $isCapital
+ * @property integer $buyPrice
+ * @property integer $sellPrice
  */
 class Town extends CActiveRecord
 {
@@ -51,7 +53,7 @@ class Town extends CActiveRecord
         return array(
             array('name', 'required'),
             array('alias','unique','message'=>'Такой город уже есть в базе'),
-            array('size, regionId, countryId, isCapital', 'numerical', 'integerOnly'=>true),
+            array('size, regionId, countryId, isCapital, buyPrice, sellPrice', 'numerical', 'integerOnly'=>true),
             array('name, alias', 'length', 'max'=>64),
             array('name','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. \(\)])+$/u', 'message'=>'В {attribute} могут присутствовать буквы, цифры, скобки, точка, дефис и пробел'),
             array('alias','match','pattern'=>'/^([a-z0-9\-])+$/'),
@@ -101,6 +103,8 @@ class Town extends CActiveRecord
             'regionId'      =>  'ID региона',
             'countryId'     =>  'ID страны',
             'isCapital'     =>  'Столица региона',
+            'buyPrice'      =>  'Базовая цена покупки лида',
+            'sellPrice'     =>  'Базовая цена продажи лида',
         );
     }
 

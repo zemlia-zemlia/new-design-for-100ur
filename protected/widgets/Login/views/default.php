@@ -81,7 +81,12 @@
                         
                             
                         <?php //$settingsClass =  (Yii::app()->user->settings && Yii::app()->user->settings->status == 0) ? 'btn-danger' : 'btn-default';?>    
-                        <?php echo CHtml::link('Мои настройки', Yii::app()->createUrl('user/update', array('id'=>Yii::app()->user->id)), array('class'=>'btn btn-xs btn-default'));?>
+                        
+                            <?php if(Yii::app()->user->role == User::ROLE_PARTNER):?>
+                                <?php echo CHtml::link('Кабинет', Yii::app()->createUrl('/webmaster'), array('class'=>'btn btn-xs btn-default'));?>
+                            <?php endif;?>
+                            
+                            <?php echo CHtml::link('Настройки', Yii::app()->createUrl('user/update', array('id'=>Yii::app()->user->id)), array('class'=>'btn btn-xs btn-default'));?>
                          
                         <?php if(Yii::app()->user->role == User::ROLE_BUYER):?>
                             <small>

@@ -33,7 +33,7 @@ class StoYuristovClient {
         $this->_testMode = $testMode;
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->_apiUrl);
+        curl_setopt($ch, CURLOPT_URL, ($this->_testMode == 1) ? $this->_apiUrlTest : $this->_apiUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_POST, 1);
