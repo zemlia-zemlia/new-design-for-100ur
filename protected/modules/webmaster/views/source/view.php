@@ -75,7 +75,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             Реферальная ссылка
         </td>
         <td>
-            <?php echo Yii::app()->urlManager->baseUrl . '?partnerAppId=' . $model->appId;?>
+            <?php echo Yii::app()->urlManager->baseUrl . '/?partnerAppId=' . $model->appId;?>
         </td>
     </tr>
     <?php endif;?>
