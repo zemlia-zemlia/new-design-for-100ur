@@ -840,22 +840,32 @@ class User extends CActiveRecord {
             return $this->balance;
         }
         
-        /*
-            SELECT SUM(t.`sum`) 
-            FROM `100_partnertransaction` t
-            LEFT JOIN `100_lead100` l ON t.leadId = l.id
-            WHERE t.partnerId=4025 
-            AND ((t.leadId!=0 AND t.datetime<NOW()-INTERVAL 3 DAY AND l.leadStatus=6) OR (t.questionId!=0) OR (t.questionId = 0 AND t.leadId = 0))
-         */
-        
         $transactionsSumRow = Yii::app()->db->createCommand()
                 ->select("SUM(t.`sum`) balance")
                 ->from("{{partnertransaction}} t")
-                ->leftJoin("{{lead100}} l", "t.leadId = l.id")
-                ->where("t.partnerId=:userId AND ((t.leadId!=0 AND t.datetime<NOW()-INTERVAL 3 DAY AND l.leadStatus IN (:statusSent, :statusNaBrak, :statusReturn)) OR (t.questionId!=0) OR (t.questionId = 0 AND t.leadId = 0))", array(':userId' => $this->id, ':statusSent' => Lead100::LEAD_STATUS_SENT, ':statusNaBrak' => Lead100::LEAD_STATUS_NABRAK, ':statusReturn' => Lead100::LEAD_STATUS_RETURN,))
+                ->where("t.partnerId=:userId AND ((t.leadId!=0 AND t.datetime<NOW()-INTERVAL 3 DAY) OR (t.questionId!=0) OR (t.questionId = 0 AND t.leadId = 0))", array(':userId' => $this->id))
                 ->queryRow();
-        
+                
         return $transactionsSumRow['balance'];
+    }
+    
+    /**
+     * Вычисление холд вебмастера
+     */
+    public function calculateWebmasterHold()
+    {
+        // если пользователь не вебмастер, сразу возвращаем его баланс
+        if($this->role != self::ROLE_PARTNER) {
+            return 0;
+        }
+        
+        $transactionsSumRow = Yii::app()->db->createCommand()
+                ->select("SUM(t.`sum`) hold")
+                ->from("{{partnertransaction}} t")
+                ->where("t.partnerId=:userId AND t.leadId!=0 AND t.datetime>=NOW()-INTERVAL 3 DAY", array(':userId' => $this->id))
+                ->queryRow();
+                
+        return $transactionsSumRow['hold'];
     }
 
 }

@@ -104,12 +104,16 @@
                                                 $balance = $currentUser->calculateWebmasterBalance();
                                                 Yii::app()->cache->set('webmaster_' . Yii::app()->user->id . '_balance', $balance, 3600);
                                             }
+                                            $hold = $currentUser->calculateWebmasterHold();
                                             $transactionPage = '/webmaster/transaction/index';
                                         }
                                     ?>
                                     Баланс: <?php echo CHtml::link($balance, Yii::app()->createUrl($transactionPage));?> руб.
                                     <?php if(Yii::app()->user->campaignsModeratedCount > 0):?>
                                         <?php echo CHtml::link("<span class='glyphicon glyphicon-plus'></span>", Yii::app()->createUrl('cabinet/topup'), array('title' => 'Пополнить'));?>
+                                    <?php endif;?>
+                                    <?php if($hold):?>
+                                        <div>Холд: <?php echo $hold;?> руб.</div> 
                                     <?php endif;?>
                                 </div>
                             </small>

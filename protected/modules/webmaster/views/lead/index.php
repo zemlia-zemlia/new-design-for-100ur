@@ -23,6 +23,11 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <h1>Кабинет вебмастера. Мои лиды</h1>
 </div>
 
+
+<div class="right-align">
+    <?php echo CHtml::link('Добавить лид', Yii::app()->createUrl('/webmaster/lead/create'), array('class' => 'btn btn-primary'));?>
+</div>
+
 <table class="table table-bordered table-hover table-striped">
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,

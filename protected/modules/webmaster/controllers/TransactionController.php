@@ -11,13 +11,20 @@ class TransactionController extends Controller {
      * Список транзакций вебмастера
      */
     public function actionIndex() {
-        $transactionsRows = Yii::app()->db->createCommand()
-            ->select("*")
-            ->from("{{partnertransaction}} t")
-            ->leftJoin("{{lead100}} l", "t.leadId = l.id")
-            ->where("t.partnerId=:userId", array(':userId' => Yii::app()->user->id))
-            ->queryAll();
         
-        echo $this->render('index');
+        $criteria = new CDbCriteria();
+        $criteria->addColumnCondition(array('partnerId' => Yii::app()->user->id));
+        $criteria->order = "id DESC";
+        
+        $dataProvider = new CActiveDataProvider('Partnertransaction', array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 50,
+            ),
+        ));
+        
+        echo $this->render('index', array(
+                'dataProvider' => $dataProvider,
+            ));
     }
 }

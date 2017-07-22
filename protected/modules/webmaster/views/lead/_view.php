@@ -42,7 +42,7 @@ switch ($data->leadStatus) {
                 <?php echo $data->getLeadStatusName();?>
             </span>
             &nbsp;
-            <?php if($data->buyPrice>0):?>
+            <?php if($data->buyPrice>0 && $data->leadStatus != Lead100::LEAD_STATUS_BRAK):?>
                 <?php echo $data->buyPrice;?> руб.
             <?php endif;?>
         </small>
@@ -76,7 +76,7 @@ switch ($data->leadStatus) {
             <?php endif;?>
             
             <span class="glyphicon glyphicon-user"></span>    
-            <?php echo CHtml::link(CHtml::encode($data->name), array('view', 'id'=>$data->id)); ?> <br />
+            <?php echo CHtml::link(CHtml::encode($data->name), array('/webmaster/lead/view', 'id'=>$data->id)); ?> <br />
         </p>
 		
 		<p >

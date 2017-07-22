@@ -171,6 +171,7 @@ class LeadController extends Controller {
                 'criteria' => $criteria,
                 'pagination' => array(
                     'pageSize' => 50,
+                    'params' => $_GET['Lead100'],
                 ),
             ));
         }
@@ -399,12 +400,11 @@ class LeadController extends Controller {
 
         if ($type == 'dates') {
             foreach ($leadsRows as $row) {
-                if ($row['leadStatus'] == Lead100::LEAD_STATUS_SENT) {
+                if ($row['leadStatus'] != Lead100::LEAD_STATUS_BRAK) {
                     $sumArray[$row['lead_date']] += $row['summa'];
                     $kolichArray[$row['lead_date']] ++;
-                }
-
-                $buySumArray[$row['lead_date']] += $row['buyPrice'];
+                    $buySumArray[$row['lead_date']] += $row['buyPrice'];
+                }   
             }
         }
 

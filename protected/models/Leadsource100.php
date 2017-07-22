@@ -175,4 +175,18 @@ class Leadsource100 extends CActiveRecord {
         
         return $sources;
     }
+    
+    public static function getSourcesArrayByUser($userId)
+    {
+        $criteria = new CDbCriteria;
+        $criteria->addColumnCondition(array('userId' => $userId));
+        
+        $sources = self::model()->findAll($criteria);
+        foreach ($sources as $source) {
+            $sourcesArray[$source->id] = $source->name;
+        }
+        return $sourcesArray;
+    }
+    
+    
 }

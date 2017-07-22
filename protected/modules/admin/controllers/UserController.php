@@ -85,6 +85,19 @@ class UserController extends Controller {
             $dateFrom = ($leadSearchModel->date1 != '') ? CustomFuncs::invertDate($leadSearchModel->date1) : date("Y-m-d", time() - 86400 * 30);
             $leadsStats = Lead100::getStatsByPeriod($dateFrom, $dateTo, $model->id);
         }
+        
+        if ($model->role == User::ROLE_PARTNER) {
+            $criteria = new CDbCriteria();
+            $criteria->addColumnCondition(array('partnerId' => $model->id));
+            $criteria->order = "id DESC";
+
+            $partnerTransactionsDataProvider = new CActiveDataProvider('Partnertransaction', array(
+                'criteria' => $criteria,
+                'pagination' => array(
+                    'pageSize' => 20,
+                ),
+            ));
+        }
 
         // если был отправлен комментарий
         if (isset($_POST['Comment'])) {
@@ -116,6 +129,7 @@ class UserController extends Controller {
             'leadsStats' => $leadsStats,
             'searchModel' => $leadSearchModel,
             'commentModel' => $commentModel,
+            'partnerTransactionsDataProvider'   =>  $partnerTransactionsDataProvider,
         ));
     }
 

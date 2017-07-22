@@ -438,9 +438,23 @@ class Question extends CActiveRecord
             }
         }
         
+        /**
+         * Преобразует телефонные номера в стандартный формат 70000000000
+         * @param type $phone
+         * @return type
+         */
         public static function normalizePhone($phone)
         {
-            return preg_replace('/([^0-9])/i', '', $phone);
+            // удаляем из номера все кроме цифр
+            $digitalNumber = preg_replace('/([^0-9])/i', '', $phone);
+            // берем первые 11 символов
+            $digitalNumber = mb_substr($digitalNumber, 0, 11, 'utf-8');
+            
+            if(mb_substr($digitalNumber, 0, 1, 'utf-8') != '7') {
+                $digitalNumber = substr_replace($digitalNumber, '7', 0, 1);
+            }
+            
+            return $digitalNumber;
         }
         
         /**

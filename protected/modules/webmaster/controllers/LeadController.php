@@ -52,5 +52,44 @@ class LeadController extends Controller {
             'model' => $model,
         ));
     }
+    
+    /**
+     * Добавление лида вебмастером
+     */
+    public function actionCreate() {
+        $model = new Lead100;
+       
+        if($_GET['sourceId']) {
+            $model->sourceId = (int)$_GET['sourceId'];
+        }
+        
+        if (isset($_POST['Lead100'])) {
+            $model->attributes = $_POST['Lead100'];
+
+            // посчитаем цену покупки лида, исходя из города и региона
+            $prices = $model->calculatePrices();
+            if($prices[0]) {
+                $model->buyPrice = $prices[0];
+            } else {
+                $model->buyPrice = 0;
+            }
+
+            // уточним цену покупки лида с учетом коэффициента покупателя
+            
+            $priceCoeff = Yii::app()->user->priceCoeff; // коэффициент, на который умножается цена покупки лида
+
+            $model->buyPrice = $model->buyPrice * $priceCoeff;
+        
+            if ($model->save()) {
+                
+                
+                $this->redirect(array('index'));
+            }
+        }
+
+        $this->render('create', array(
+            'model'     => $model,
+        ));
+    }
 
 }

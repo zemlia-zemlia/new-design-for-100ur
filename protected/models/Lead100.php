@@ -78,7 +78,7 @@ class Lead100 extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, phone, sourceId, question, townId', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
+            array('name, phone, sourceId, question, townId, town', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('sourceId, townId, newTownId, questionId, leadStatus, addedById, type, campaignId, brakReason', 'numerical', 'integerOnly' => true),
             array('price, buyPrice, regionId, testMode', 'numerical'),
             array('deliveryTime', 'safe'),
@@ -282,6 +282,19 @@ class Lead100 extends CActiveRecord {
                         Yii::log("Не удалось сохранить транзакцию за продажу лида " . $this->id, 'error', 'system.web.CCommand');
                         //CustomFuncs::printr($transaction->errors);
                     }
+                    
+                    if($this->source && $this->source->user) {
+                        // запишем транзакцию за лид
+                        $partnerTransaction = new PartnerTransaction;
+                        $partnerTransaction->sum = $this->buyPrice;
+                        $partnerTransaction->leadId = $this->id;
+                        $partnerTransaction->sourceId = $this->sourceId;
+                        $partnerTransaction->partnerId = $this->source->user->id;
+                        $partnerTransaction->comment = "Начисление за лид #" . $this->id;
+                        if(!$partnerTransaction->save()) {
+                            Yii::log("Не удалось сохранить транзакцию за покупку лида " . $this->id . ' ' . print_r($partnerTransaction->errors), 'error', 'system.web.CCommand');
+                        }
+                    }
 
                     return true;
                 } else {
@@ -328,6 +341,9 @@ class Lead100 extends CActiveRecord {
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+            'pagination' => array(
+                    'pageSize' => 50,
+                ),
         ));
     }
 
@@ -427,6 +443,24 @@ class Lead100 extends CActiveRecord {
                 $this->leadStatus = self::LEAD_STATUS_DUPLICATE;
             }
         }
+        
+        // при переводе лида в статус Брак из другого статуса удаляем у вебмастера транзакцию по этому лиду
+        if($this->leadStatus == self::LEAD_STATUS_BRAK) {
+            $oldStatusRow = Yii::app()->db->createCommand()
+                    ->select('leadStatus')
+                    ->from('{{lead100}}')
+                    ->where('id=:id', array(':id' => $this->id))
+                    ->queryRow();
+            // старый статус
+            $oldStatus = $oldStatusRow['leadStatus'];
+            
+            if($oldStatus !== $this->leadStatus) {
+                $removeTransactionResult = Yii::app()->db->createCommand()
+                        ->delete('{{partnertransaction}}', 'leadId=:leadId', array(':leadId' => $this->id));
+            }
+            
+        }
+        
 
         return parent::beforeSave();
     }

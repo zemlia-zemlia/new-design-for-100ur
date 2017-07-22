@@ -170,18 +170,8 @@ class ApiController extends Controller {
         }
 
         if ($model->save()) {
-            //echo json_encode(array('code' => 200, 'buyPrice' => $model->buyPrice, 'message' => 'OK'));
+            echo json_encode(array('code' => 200, 'buyPrice' => $model->buyPrice, 'message' => 'OK'));
             
-            // запишем транзакцию за лид
-            $transaction = new PartnerTransaction;
-            $transaction->sum = $model->buyPrice;
-            $transaction->leadId = $model->id;
-            $transaction->sourceId = $sourceId;
-            $transaction->partnerId = $sourceUser->id;
-            $transaction->comment = "Начисление за лид #" . $model->id;
-            if(!$transaction->save()) {
-                echo json_encode(array('code' => 500, 'errors' => $transaction->errors, 'message' => 'Ошибка при сохранении транзакции'));
-            }
             exit;
         } else {
             echo json_encode(array('code' => 500, 'message' => 'Lead not saved.', 'errors' => $model->errors));

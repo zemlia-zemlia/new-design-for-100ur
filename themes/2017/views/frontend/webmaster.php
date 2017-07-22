@@ -15,6 +15,7 @@
         Yii::app()->clientScript->registerCssFile('/css/2017/jquery-ui.css');
         Yii::app()->clientScript->registerScriptFile('/js/jquery-ui.min.js');
         Yii::app()->clientScript->registerScriptFile("/js/jquery.placeholder.min.js", CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile("/js/scripts.js", CClientScript::POS_END);
         ?>
     </head>  
 
@@ -83,10 +84,7 @@
                             <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/lead/')?CHtml::link('Лиды', Yii::app()->createUrl('/webmaster/lead/')):'<span class="active">Лиды</span>';?></li>
                             <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/question/')?CHtml::link('Вопросы', Yii::app()->createUrl('/webmaster/question/')):'<span class="active">Вопросы</span>';?></li>
                             <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/source/')?CHtml::link('Источники', Yii::app()->createUrl('/webmaster/source/')):'<span class="active">Источники</span>';?></li>
-                            <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/transaction/')?CHtml::link('Транзакции', Yii::app()->createUrl('/webmaster/transaction/')):'<span class="active">Транзакции</span>';?></li>
-                            <!--
-                            <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/stats/')?CHtml::link('Статистика', Yii::app()->createUrl('/webmaster/stats/')):'<span class="active">Статистика</span>';?></li>
-                            -->
+                            <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/api/')?CHtml::link('API', Yii::app()->createUrl('/webmaster/api/')):'<span class="active">API</span>';?></li>
                         </ul>
                         </div>
                     </div>
@@ -115,7 +113,12 @@
                                     <h4>
                                         <?php echo CHtml::link($source->name, Yii::app()->createUrl('/webmaster/source/view', array('id'=>$source->id)));?>
                                     </h4>
-                                    <p class="text-center"><small>Привлекаем <?php echo $source->getTypeName();?></small></p>
+                                    <p class="text-center">
+                                        <small>Привлекаем <?php echo $source->getTypeName();?>
+                                            <?php if($source->type == Leadsource100::TYPE_LEAD):?>
+                                                <?php echo CHtml::link('Добавить вручную', Yii::app()->createUrl('/webmaster/lead/create', array('sourceId' => $source->id)));?>
+                                            <?php endif;?>
+                                        </small></p>
                                     <?php if($source->description):?>
                                     <p class="text-center">                            
                                         <?php echo CHtml::encode($source->description);?>

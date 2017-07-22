@@ -104,7 +104,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
             <tr>
                 <td>Баланс</td>
-                <td><?php echo $model->balance; ?> руб.</td>
+                <td><?php echo ($model->role == User::ROLE_PARTNER) ? round($model->calculateWebmasterBalance(), 2) : $model->balance; ?> руб.</td>
             </tr>
         </table>
 
@@ -141,6 +141,27 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             </table>
 
         <?php endif; ?>
+            
+        <?php if($partnerTransactionsDataProvider):?>
+            <h2>Транзакции вебмастера</h2>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Дата</th>
+                    <th>Сумма</th>
+                    <th>Комментарий</th>
+                </tr>
+                </thead>
+            <?php $this->widget('zii.widgets.CListView', array(
+                    'dataProvider'=>$partnerTransactionsDataProvider,
+                    'itemView'=>'_partnerTransaction',
+                    'emptyText' =>  'Не найдено ни одной транзакции',
+                    'summaryText'=>'Показаны транзакции с {start} до {end}, всего {count}',
+                    'pager'=>array('class'=>'GTLinkPager') //we use own pager with russian words
+            )); ?>
+            </table>
+        <?php endif;?>
 
 
         <?php if ($model->role == User::ROLE_BUYER): ?>        
