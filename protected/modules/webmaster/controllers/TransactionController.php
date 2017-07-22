@@ -16,7 +16,7 @@ class TransactionController extends Controller {
         $criteria->addColumnCondition(array('partnerId' => Yii::app()->user->id));
         $criteria->order = "id DESC";
         
-        $dataProvider = new CActiveDataProvider('Partnertransaction', array(
+        $dataProvider = new CActiveDataProvider('PartnerTransaction', array(
             'criteria' => $criteria,
             'pagination' => array(
                 'pageSize' => 50,

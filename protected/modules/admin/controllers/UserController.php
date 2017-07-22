@@ -91,7 +91,7 @@ class UserController extends Controller {
             $criteria->addColumnCondition(array('partnerId' => $model->id));
             $criteria->order = "id DESC";
 
-            $partnerTransactionsDataProvider = new CActiveDataProvider('Partnertransaction', array(
+            $partnerTransactionsDataProvider = new CActiveDataProvider('PartnerTransaction', array(
                 'criteria' => $criteria,
                 'pagination' => array(
                     'pageSize' => 20,
