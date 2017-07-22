@@ -59,7 +59,6 @@ class Leadsource100 extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'office'    => array(self::BELONGS_TO, 'Office', 'officeId'),
             'user'      => array(self::BELONGS_TO, 'User', 'userId'),
         );
     }
@@ -78,6 +77,7 @@ class Leadsource100 extends CActiveRecord {
             'active' => 'Активность',
             'appId' => 'ID источника для API',
             'secretKey' => 'Секретный ключ для API',
+            'userId' => 'ID пользователя',
         );
     }
 

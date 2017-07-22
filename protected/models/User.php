@@ -247,7 +247,7 @@ class User extends CActiveRecord {
             'karma' => 'Карма',
             'lastActivity' => 'Время последней активности',
             'balance' => 'Баланс',
-            'priceCoeff' => 'Коэффициент цены лида у партнера',
+            'priceCoeff' => 'Коэффициент цены лида у вебмастера',
         );
     }
 

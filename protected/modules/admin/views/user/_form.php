@@ -128,7 +128,15 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
     <?php echo $form->error($model,'birthday'); ?>
 </div>
         
-    <?php if($model->role == User::ROLE_JURIST || $model->role == User::ROLE_OPERATOR || $model->isNewRecord):?>
+<div class="form-group">
+    <?php echo $form->labelEx($model,'priceCoeff'); ?>
+    <?php echo $form->textField($model, 'priceCoeff', array(
+        'class'         =>  'form-control',
+    )); ?>
+    <?php echo $form->error($model,'priceCoeff'); ?>
+</div>
+        
+    <?php if($model->role == User::ROLE_JURIST || $model->isNewRecord):?>
         
         <div class="form-group">
                 <?php echo $form->labelEx($yuristSettings,'startYear'); ?>

@@ -36,10 +36,17 @@
         
         
         <div class="form-group">
-            <?php echo $form->checkBox($model, 'noLead');?>
-            <?php echo $model->getAttributeLabel('noLead'); ?>
-            <?php echo $form->error($model, 'noLead'); ?>
+            <?php echo $form->labelEx($model, 'userId');?>
+            <?php echo $form->textField($model, 'userId',array('class'=>'form-control')); ?>
+            <?php echo $form->error($model, 'userId'); ?>
+            
+            <?php if($model->user):?>
+                Текущий пользователь: <?php echo CHtml::link(CHtml::encode($model->user->name . ' ' . $model->user->lastName), Yii::app()->createUrl('admin/user/view', array('id' => $model->user->id)));?>
+                (id: <?php echo $model->user->id;?>)
+            <?php endif;?>
         </div> 
+        
+        
 
 	<div class="form-group">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-primary')); ?>

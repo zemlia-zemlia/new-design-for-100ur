@@ -85,6 +85,9 @@ class ApiController extends Controller {
             echo json_encode(array('code' => 404, 'message' => 'Unknown or blocked sender. Check appId parameter'));
             exit;
         }
+        
+        // находим источник в виде объекта, в будущем он будет нужен для расчета коэффициента цены
+        $sourceObject = Leadsource100::model()->findByPk($source['id']);
 
         $sourceId = $source['id'];
         $secretKey = $source['secretKey'];
@@ -148,6 +151,13 @@ class ApiController extends Controller {
         } else {
             $model->buyPrice = 0;
         }
+        
+        // уточним цену покупки лида с учетом коэффициента покупателя
+        $sourceUser = $sourceObject->user;
+        $priceCoeff = !is_null($sourceUser) ? $sourceUser->priceCoeff : 1; // коэффициент, на который умножается цена покупки лида
+        
+        $model->buyPrice = $model->buyPrice * $priceCoeff;
+        
         // если тестовый режим, то не сохраняем, а только проверяем лид
         if($testMode != 0) {
             if($model->validate()) {
