@@ -99,16 +99,17 @@
 
                     <div class="col-md-3 col-sm-4">
                         <?php $sources = Leadsource100::getSourcesByUser(Yii::app()->user->id);?>
-                        
-                        <h4>Мои источники</h4>
-                        
+                        <div class="flat-panel" >
+                                <div class="inside">
+									<h1>Мои источники</h1>
+								</div>
+						</div>
                         <?php if(sizeof($sources) == 0):?>
                         <p>
                             Для начала заработка создайте хотя бы один источник лидов или трафика
                         </p>
-                            <?php echo CHtml::link('Создать источник', Yii::app()->createUrl('/webmaster/source/create'), array('class' => 'btn btn-block btn-primary'));?>
+						<?php echo CHtml::link('Создать источник', Yii::app()->createUrl('/webmaster/source/create'), array('class' => 'btn btn-block btn-primary'));?>
                         <?php endif;?>
-                        
                         <?php foreach($sources as $source):?>
                             <div class="flat-panel" >
                                 <div class="inside">
@@ -123,14 +124,15 @@
                                     <?php endif;?>
 
                                 </div>
-                            </div>	
+                            </div><br/>	
                         <?php endforeach;?>
+						
                     </div>
-
+					<p>
                     <div class="flat-panel inside col-md-9 col-sm-8">
                         <?php echo $content; ?>
                     </div>
-
+					</p>
                 </div>
             </div>
 
