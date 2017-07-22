@@ -78,20 +78,33 @@
                         <?php echo CHtml::link('<span class="glyphicon glyphicon-log-out"></span>', Yii::app()->createUrl('site/logout'), array());?>
                         </div>
                         
-                        
-                            
-                        <?php //$settingsClass =  (Yii::app()->user->settings && Yii::app()->user->settings->status == 0) ? 'btn-danger' : 'btn-default';?>    
-                        
-                            <?php if(Yii::app()->user->role == User::ROLE_PARTNER):?>
-                                <?php echo CHtml::link('Кабинет', Yii::app()->createUrl('/webmaster'), array('class'=>'btn btn-xs btn-default'));?>
-                            <?php endif;?>
-                            
-                            <?php echo CHtml::link('Настройки', Yii::app()->createUrl('user/update', array('id'=>Yii::app()->user->id)), array('class'=>'btn btn-xs btn-default'));?>
-                         
-                        <?php if(Yii::app()->user->role == User::ROLE_BUYER):?>
+                                                
+                        <?php if(Yii::app()->user->role == User::ROLE_PARTNER):?>
+                            <?php echo CHtml::link('Кабинет', Yii::app()->createUrl('/webmaster'), array('class'=>'btn btn-xs btn-default'));?>
+                        <?php endif;?>
+
+                        <?php echo CHtml::link('Настройки', Yii::app()->createUrl('user/update', array('id'=>Yii::app()->user->id)), array('class'=>'btn btn-xs btn-default'));?>
+
+                        <?php if(Yii::app()->user->role == User::ROLE_BUYER || Yii::app()->user->role == User::ROLE_PARTNER):?>
                             <small>
                                 <div>
-                                    Баланс: <?php echo CHtml::link(Yii::app()->user->balance, Yii::app()->createUrl('/cabinet/transactions'));?> руб.
+                                    <?php 
+                                        // найдем баланс пользователя. если это не вебмастер:
+                                        if(Yii::app()->user->role != User::ROLE_PARTNER) {
+                                            $balance = Yii::app()->user->balance;
+                                            $transactionPage = '/cabinet/transactions';
+                                        } else {
+                                            // если это вебмастер, кешируем баланс, рассчитанный из транзакций вебмастера
+                                            if($cachedBalance = Yii::app()->cache->get('webmaster_' . Yii::app()->user->id . '_balance')) {
+                                                $balance = $cachedBalance;
+                                            } else {
+                                                $balance = $currentUser->calculateWebmasterBalance();
+                                                Yii::app()->cache->set('webmaster_' . Yii::app()->user->id . '_balance', $balance, 3600);
+                                            }
+                                            $transactionPage = '/webmaster/transaction/index';
+                                        }
+                                    ?>
+                                    Баланс: <?php echo CHtml::link($balance, Yii::app()->createUrl($transactionPage));?> руб.
                                     <?php if(Yii::app()->user->campaignsModeratedCount > 0):?>
                                         <?php echo CHtml::link("<span class='glyphicon glyphicon-plus'></span>", Yii::app()->createUrl('cabinet/topup'), array('title' => 'Пополнить'));?>
                                     <?php endif;?>

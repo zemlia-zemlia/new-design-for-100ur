@@ -566,10 +566,25 @@ class User extends CActiveRecord {
     /**
      * Переводит вопросы, автором которых является данный пользователь, из статуса "Новый"
      * в статус "Предварительно опубликован"
+     * При этом, если у вопроса указан источник, создаем транзакции вебмастера
      */
     public function publishNewQuestions() {
-        Yii::app()->db->createCommand()
-                ->update('{{question}}', array('status' => Question::STATUS_CHECK, 'publishDate' => date('Y-m-d H:i:s')), 'authorId!=0 AND authorId=:authorId AND status=:statusOld', array(':authorId' => $this->id, ':statusOld' => Question::STATUS_NEW));
+        
+        $questions = Question::model()->findAll('authorId!=0 AND authorId=:authorId AND status=:statusOld', array(':authorId' => $this->id, ':statusOld' => Question::STATUS_NEW));
+        foreach ($questions as $question) {
+            $question->status = Question::STATUS_CHECK;
+            $question->publishDate = date('Y-m-d H:i:s');
+            
+            if($question->save() && $question->sourceId !== 0) {
+                $webmasterTransaction = new PartnerTransaction();
+                $webmasterTransaction->sum = $question->buyPrice;
+                $webmasterTransaction->sourceId = $question->sourceId;
+                $webmasterTransaction->partnerId = $question->source->userId;
+                $webmasterTransaction->questionId = $question->id;
+                $webmasterTransaction->comment = "Начисление за вопрос #" . $question->id;
+                $webmasterTransaction->save();
+            }
+        }
     }
 
     /**
@@ -812,6 +827,35 @@ class User extends CActiveRecord {
             Yii::log("Не удалось отправить письмо покупателю " . $this->email, 'error', 'system.web.User');
             return false;
         }
+    }
+    
+    
+    /**
+     * Вычисление баланса вебмастера
+     */
+    public function calculateWebmasterBalance()
+    {
+        // если пользователь не вебмастер, сразу возвращаем его баланс
+        if($this->role != self::ROLE_PARTNER) {
+            return $this->balance;
+        }
+        
+        /*
+            SELECT SUM(t.`sum`) 
+            FROM `100_partnertransaction` t
+            LEFT JOIN `100_lead100` l ON t.leadId = l.id
+            WHERE t.partnerId=4025 
+            AND ((t.leadId!=0 AND t.datetime<NOW()-INTERVAL 3 DAY AND l.leadStatus=6) OR (t.questionId!=0) OR (t.questionId = 0 AND t.leadId = 0))
+         */
+        
+        $transactionsSumRow = Yii::app()->db->createCommand()
+                ->select("SUM(t.`sum`) balance")
+                ->from("{{partnertransaction}} t")
+                ->leftJoin("{{lead100}} l", "t.leadId = l.id")
+                ->where("t.partnerId=:userId AND ((t.leadId!=0 AND t.datetime<NOW()-INTERVAL 3 DAY AND l.leadStatus IN (:statusSent, :statusNaBrak, :statusReturn)) OR (t.questionId!=0) OR (t.questionId = 0 AND t.leadId = 0))", array(':userId' => $this->id, ':statusSent' => Lead100::LEAD_STATUS_SENT, ':statusNaBrak' => Lead100::LEAD_STATUS_NABRAK, ':statusReturn' => Lead100::LEAD_STATUS_RETURN,))
+                ->queryRow();
+        
+        return $transactionsSumRow['balance'];
     }
 
 }

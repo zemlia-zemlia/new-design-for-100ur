@@ -8,8 +8,13 @@ class LoginWidget extends CWidget
         
         $model = new LoginForm;
         
+        if(Yii::app()->user->role == User::ROLE_PARTNER) {
+            $currentUser = User::model()->findByPk(Yii::app()->user->id);
+        }
+        
         $this->render($this->template, array(
             'model'         =>  $model,
+            'currentUser'   =>  $currentUser,
         ));
     }
 }

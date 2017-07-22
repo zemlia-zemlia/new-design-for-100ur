@@ -2,6 +2,7 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'lead-search-form',
         'method'=>'GET',
+        'action'    =>  Yii::app()->createUrl('/admin/lead/index'),
         'htmlOptions'   => array('class'=>'form-inline'),
 	'enableAjaxValidation'=>false,
 )); ?>
@@ -62,6 +63,13 @@
 <div class="form-group">
     <?php echo $form->labelEx($model,'regionId'); ?>
     <?php echo $form->dropDownList($model, 'regionId', array(0=>'Все') + Region::getAllRegions(), array(
+                    'class'         =>  'form-control',
+    )); ?>
+</div>
+    
+<div class="form-group">
+    <?php echo $form->labelEx($model,'sourceId'); ?>
+    <?php echo $form->dropDownList($model, 'sourceId', array(0=>'Все') + Leadsource100::getSourcesArray(true), array(
                     'class'         =>  'form-control',
     )); ?>
 </div>

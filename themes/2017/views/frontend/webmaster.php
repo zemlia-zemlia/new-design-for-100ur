@@ -14,8 +14,6 @@
         Yii::app()->clientScript->registerScriptFile("/js/jquery.maskedinput.min.js", CClientScript::POS_END);
         Yii::app()->clientScript->registerCssFile('/css/2017/jquery-ui.css');
         Yii::app()->clientScript->registerScriptFile('/js/jquery-ui.min.js');
-
-        //Yii::app()->clientScript->registerScriptFile("/js/scripts.js");
         Yii::app()->clientScript->registerScriptFile("/js/jquery.placeholder.min.js", CClientScript::POS_END);
         ?>
     </head>  
@@ -85,6 +83,7 @@
                             <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/lead/')?CHtml::link('Лиды', Yii::app()->createUrl('/webmaster/lead/')):'<span class="active">Лиды</span>';?></li>
                             <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/question/')?CHtml::link('Вопросы', Yii::app()->createUrl('/webmaster/question/')):'<span class="active">Вопросы</span>';?></li>
                             <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/source/')?CHtml::link('Источники', Yii::app()->createUrl('/webmaster/source/')):'<span class="active">Источники</span>';?></li>
+                            <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/transaction/')?CHtml::link('Транзакции', Yii::app()->createUrl('/webmaster/transaction/')):'<span class="active">Транзакции</span>';?></li>
                             <!--
                             <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/stats/')?CHtml::link('Статистика', Yii::app()->createUrl('/webmaster/stats/')):'<span class="active">Статистика</span>';?></li>
                             -->
@@ -100,10 +99,10 @@
                     <div class="col-md-3 col-sm-4">
                         <?php $sources = Leadsource100::getSourcesByUser(Yii::app()->user->id);?>
                         <div class="flat-panel" >
-                                <div class="inside">
-									<h1>Мои источники</h1>
-								</div>
-						</div>
+                            <div class="inside">
+                                <h1>Мои источники</h1>
+                            </div>
+                        </div>
                         <?php if(sizeof($sources) == 0):?>
                         <p>
                             Для начала заработка создайте хотя бы один источник лидов или трафика

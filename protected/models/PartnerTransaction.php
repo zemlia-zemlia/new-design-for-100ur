@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This is the model class for table "{{partnertransaction}}".
+ * Класс для работы с транзакциями за лиды, купленные у вебмастеров
  *
  * The followings are the available columns in table '{{partnertransaction}}':
  * @property integer $id
@@ -10,10 +10,13 @@
  * @property string $sum
  * @property string $datetime
  * @property integer $leadId
+ * @property integer $questionId
  * @property string $comment
  */
 class PartnerTransaction extends CActiveRecord {
 
+    public $date1, $date2; // используются при фильтрации
+    
     /**
      * @return string the associated database table name
      */
@@ -28,13 +31,13 @@ class PartnerTransaction extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id, partnerId, sourceId, sum, datetime, leadId, comment', 'required', 'message' => 'Поле {attribute} не заполнено'),
-            array('id, partnerId, sourceId, leadId', 'numerical', 'integerOnly' => true),
+            array('partnerId, sourceId, sum', 'required', 'message' => 'Поле {attribute} не заполнено'),
+            array('partnerId, sourceId, leadId, questionId', 'numerical', 'integerOnly' => true),
             array('sum', 'length', 'max' => 6),
             array('comment', 'length', 'max' => 255),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, partnerId, sourceId, sum, datetime, leadId, comment', 'safe', 'on' => 'search'),
+            array('partnerId, sourceId, sum, datetime, leadId, comment', 'safe', 'on' => 'search'),
         );
     }
 
@@ -56,13 +59,14 @@ class PartnerTransaction extends CActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'id' => 'ID',
-            'partnerId' => 'id партнера',
-            'sourceId' => 'id источника',
-            'sum' => 'Сумма',
-            'datetime' => 'Дата и время',
-            'leadId' => 'id лида',
-            'comment' => 'Комментарий',
+            'id'            => 'ID',
+            'partnerId'     => 'id вебмастера',
+            'sourceId'      => 'id источника',
+            'sum'           => 'Сумма',
+            'datetime'      => 'Дата и время',
+            'leadId'        => 'id лида',
+            'questionId'    => 'id вопроса',
+            'comment'       => 'Комментарий',
         );
     }
 
