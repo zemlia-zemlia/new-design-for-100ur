@@ -37,15 +37,18 @@
             </div>
 
             <div class="form-group">
-                <?php echo $form->checkBox($model,'rememberMe'); ?>
+				<div class="col-md-6">
+					<?php echo $form->checkBox($model,'rememberMe'); ?>
 
-                <?php echo $model->getAttributeLabel('rememberMe');?>
+					<?php echo $model->getAttributeLabel('Запомнить');?>
 
-                <?php echo $form->error($model,'rememberMe'); ?>
-
-                <p>
-                    <?php echo CHtml::link("Забыли пароль?", Yii::app()->createUrl('user/restorePassword'));?>
-                </p>
+					<?php echo $form->error($model,'rememberMe'); ?>
+				</div>
+				<div class="col-md-6 small">
+					<p>
+						<?php echo CHtml::link("Забыли пароль?", Yii::app()->createUrl('user/restorePassword'));?>
+					</p>
+				</div>
             </div>
             
             <div class="row">

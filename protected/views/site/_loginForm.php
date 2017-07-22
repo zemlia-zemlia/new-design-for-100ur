@@ -15,7 +15,7 @@
 <div class="container-fluid">
 <div class="row">
     <?php if(!isset($hideForgetPassword) || !$hideForgetPassword):?>
-    <div class="col-sm-8">
+    <div class="col-sm-7">
         <?php else:?>
     <div class="col-sm-12">    
         <?php endif;?>
@@ -50,16 +50,17 @@
            <?php echo CHtml::submitButton('Войти',array('class'=>'btn btn-success btn-lg btn-block')); ?>
     </div>
     <?php if(!isset($hideForgetPassword) || !$hideForgetPassword):?>
+	<div class="col-sm-1 center-align">
+	</div>
     <div class="col-sm-4 center-align">
         <br />
-		<p>
-        <?php echo CHtml::link('Забыл пароль', Yii::app()->createUrl('user/restorePassword'), array('class'=>'btn btn-default btn-block'));?>
+		<p>Если забыли пароль<br />
+        <?php echo CHtml::link('Напомнить', Yii::app()->createUrl('user/restorePassword'), array('class'=>'btn btn-default btn-block'));?>
         </p>
-        <!--
         <p>Если Вы у нас впервые<br />
-        <?php //echo CHtml::link('Регистрация', Yii::app()->createUrl('user/create'), array('class'=>'btn btn-primary btn-block'));?>
+        <?php echo CHtml::link('Регистрация', Yii::app()->createUrl('user/create'), array('class'=>'btn btn-primary btn-block'));?>
         </p>
-        -->
+
     </div>
     <?php endif;?>
 </div>
