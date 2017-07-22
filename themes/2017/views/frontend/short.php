@@ -102,7 +102,7 @@
             <li><?php echo ($_SERVER['REQUEST_URI'] != '/q/')?CHtml::link('Вопросы', Yii::app()->createUrl('/question/index')):'<span class="active">Вопросы</span>';?></li>
 			<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/goryachaya_liniya/')?CHtml::link('8-800', Yii::app()->createUrl('/site/goryachaya_liniya/')):'<span class="active">8-800</span>';?></li>
 			<li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/'))?CHtml::link('Задать вопрос', Yii::app()->createUrl('question/create',array('from'=>'top-menu'))):'<span class="active">Задать вопрос</span>';?></li>
-			
+            <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/login/')?CHtml::link('Вход/Регистрация', Yii::app()->createUrl('/site/login/')):'<span class="active">Вход/Регистрация</span>';?></li>
 			
             <?php if(Yii::app()->user->checkAccess(User::ROLE_JURIST)):?>
             <li>    
