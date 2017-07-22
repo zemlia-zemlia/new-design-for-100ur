@@ -6,9 +6,10 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
 
 
 ?>
+<h1>Кабинет вебмастера</h1>
 
 <div  class="vert-margin30">
-<h1>Кабинет вебмастера</h1>
+
 </div>
 
 <div class="vert-margin40">
