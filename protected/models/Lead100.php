@@ -328,6 +328,10 @@ class Lead100 extends CActiveRecord {
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+			'pagination' => array(
+                    'pageSize' => 50,
+                    //'params' => $_GET,
+                ),
         ));
     }
 

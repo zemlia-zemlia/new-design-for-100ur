@@ -171,6 +171,7 @@ class LeadController extends Controller {
                 'criteria' => $criteria,
                 'pagination' => array(
                     'pageSize' => 50,
+					'params' => $_GET['Lead100'], 
                 ),
             ));
         }

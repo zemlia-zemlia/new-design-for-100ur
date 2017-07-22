@@ -2,7 +2,7 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'lead-search-form',
         'method'=>'GET',
-        'action'    =>  Yii::app()->createUrl('/admin/lead/index'),
+        'action'    =>  Yii::app()->createUrl('admin/lead/index'),
         'htmlOptions'   => array('class'=>'form-inline'),
 	'enableAjaxValidation'=>false,
 )); ?>
