@@ -19,13 +19,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 ?>
 
-<div  class="vert-margin30">
-<h1>Кабинет вебмастера. Мои лиды</h1>
-</div>
-
-
-<div class="right-align">
-    <?php echo CHtml::link('Добавить лид', Yii::app()->createUrl('/webmaster/lead/create'), array('class' => 'btn btn-primary'));?>
+<div  class="vert-margin20">
+<h1>Кабинет вебмастера. Мои лиды   <?php echo CHtml::link('Добавить лид вручную', Yii::app()->createUrl('/webmaster/lead/create'), array('class' => 'btn btn-primary'));?></h1>
 </div>
 
 <table class="table table-bordered table-hover table-striped">
