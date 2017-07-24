@@ -440,7 +440,8 @@ class Lead100 extends CActiveRecord {
             // проверка на дубли работает только для новых записей
             // если за последние 24 часа были лиды с таким же номером телефона, ставим лиду статус Дубль
             if ($this->findDublicates(86400) > 0) {
-                $this->leadStatus = self::LEAD_STATUS_DUPLICATE;
+                //$this->leadStatus = self::LEAD_STATUS_DUPLICATE;
+                return false;
             }
         }
         
