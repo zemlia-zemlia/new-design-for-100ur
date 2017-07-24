@@ -26,15 +26,7 @@
 		<?php echo $form->error($model,'phone'); ?>
 	</div>
         
-        <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
-        <div class="form-group">
-		<?php echo $form->labelEx($model,'email'); ?>
-		<?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>255, 'class'=>'form-control')); ?>
-		<?php echo $form->error($model,'email'); ?>
-	</div>
-        <?php endif;?>
-
-        <div class="form-group">
+	<div class="form-group">
 		<?php echo $form->hiddenField($model,'sourceId', array('value'=>($model->isNewRecord)?Yii::app()->params['100yuristovSourceId']:$model->sourceId)); ?>
 	</div>
     
