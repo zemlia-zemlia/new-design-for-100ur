@@ -44,22 +44,22 @@ switch ($data->leadStatus) {
 			<br />
             <span class="label <?php echo $statusClass;?>">    
             <?php echo $data->getLeadStatusName();?>
-                <?php if($data->leadStatus == Lead100::LEAD_STATUS_SENT):?>
+                <?php if($data->campaign && $data->campaign->buyer):?>
                     <?php echo CHtml::encode($data->campaign->buyer->name);?>
                 <?php endif;?>
             </span>
             <br /> 
             <span class="label label-default"><?php echo $data->getLeadTypeName();?></span>
-			<br /> 
-			<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
-				<?php if($data->questionObject->ip):?>
-					<?php echo "IP: " . $data->questionObject->ip;?>
-				<?php endif;?>
-				<br /> 
-				<?php if($data->questionObject->townIdByIP):?>
-					<?php echo "IPGeo: " . $data->questionObject->townByIP->name;?>
-				<?php endif;?>
-			<?php endif;?>
+            <br /> 
+            <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+                <?php if($data->questionObject->ip):?>
+                    <?php echo "IP: " . $data->questionObject->ip;?>
+                <?php endif;?>
+                <br /> 
+                <?php if($data->questionObject->townIdByIP):?>
+                    <?php echo "IPGeo: " . $data->questionObject->townByIP->name;?>
+                <?php endif;?>
+            <?php endif;?>
         </small>
     </td>
     <td class="success" >
