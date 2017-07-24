@@ -400,3 +400,7 @@ tr:hover .table-links-hovered-container {
 .user-comment {
     margin-bottom:30px;
 }
+
+.region-buy-price, .town-buy-price {
+    max-width: 50px;
+}

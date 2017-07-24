@@ -6,6 +6,7 @@ $pageTitle = "Юристы и Адвокаты России и СНГ. ";
 $this->setPageTitle($pageTitle . Yii::app()->name);
 
 Yii::app()->clientScript->registerMetaTag("Каталог Юристов и Адвокатов России и СНГ", "Description");
+Yii::app()->clientScript->registerScriptFile('/js/admin/region.js');
 
 $this->breadcrumbs=array(
 	'Регионы',
@@ -26,28 +27,26 @@ $this->breadcrumbs=array(
     function showCountry($regions)
     {
          
-            $regionCounter = 0;
-            $regionsNumber = sizeof($regions);
-            
-            foreach($regions as $region) {
-            
-                $regionCounter++;
-                if($regionCounter == 1) {
-                    echo '<div class="col-md-4">';
-                } elseif($regionCounter == ceil($regionsNumber/3) || $regionCounter == ceil($regionsNumber/3)*2) {
-                    echo '</div><div class="col-md-4">';
-                }
+        //CustomFuncs::printr($regions);
+        $regionCounter = 0;
+        $regionsNumber = sizeof($regions);
 
-            
-                echo "<small>";
-                echo CHtml::link($region['regionName'], Yii::app()->createUrl('admin/region/view', array(
-                        'regionAlias'   => $region['regionAlias'],
-                        'countryAlias'  => $region['countryAlias'],
-                    )));
-                echo "</small><br />";
+        echo "<table class='table table-bordered'>";
+        echo '<tr><th>Регион</th><th>Цена покупки</th></tr>';
+        foreach($regions as $region) {
+
+            $regionCounter++;
+            echo "<tr><td>";
+            echo CHtml::link($region['regionName'], Yii::app()->createUrl('admin/region/view', array(
+                    'regionAlias'   => $region['regionAlias'],
+                    'countryAlias'  => $region['countryAlias'],
+                )));
+            echo "</td><td><div>";
+            echo CHtml::textField('buyPrice', $region['buyPrice'], array('class' => 'form-control region-buy-price', 'data-id'=>$region['id']));
+            echo "</div></td></tr>";
              
         }
-        echo "</div> <!-- .col-md-4 -->";
+        echo "</table>";
     }
 
 ?>

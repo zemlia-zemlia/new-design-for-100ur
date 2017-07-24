@@ -4,6 +4,7 @@
 
 $pageTitle = "Юристы и Адвокаты " . CHtml::encode($model->name) . '.';
 Yii::app()->clientScript->registerMetaTag("Каталог и рейтинг Юристов и Адвокатов " . CHtml::encode($model->name), "Description");
+Yii::app()->clientScript->registerScriptFile('/js/admin/town.js');
 
 $this->setPageTitle($pageTitle . Yii::app()->name);
 
@@ -36,6 +37,7 @@ $this->breadcrumbs=array(
     <th>Desc</th>
     <th>Keyw</th>
     <th>Редактирование</th>
+    <th>Цена</th>
 </tr>
 <?php foreach($townsArray as $town):?>
 <tr <?php if($town['isCapital']):?>class="success"<?php endif;?>>
@@ -79,6 +81,11 @@ $this->breadcrumbs=array(
     </td>
     <td>
         <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/town/update',array('id'=>$town['id'])), array('class'=>'btn btn-primary btn-xs'));?>
+    </td>
+    <td style="max-width: 50px">
+        <div>
+            <?php echo CHtml::textField('buyPrice', $town['buyPrice'], array('class' => 'form-control town-buy-price', 'data-id'=>$town['id']));?>
+        </div>
     </td>
 </tr>
 
