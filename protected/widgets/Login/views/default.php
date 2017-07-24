@@ -40,7 +40,7 @@
 				<div class="col-md-6">
 					<?php echo $form->checkBox($model,'rememberMe'); ?>
 
-					<?php echo $model->getAttributeLabel('Запомнить');?>
+					<?php echo $model->getAttributeLabel('rememberMe');?>
 
 					<?php echo $form->error($model,'rememberMe'); ?>
 				</div>
