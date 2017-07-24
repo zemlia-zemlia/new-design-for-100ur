@@ -67,8 +67,17 @@ $this->breadcrumbs[] = $model->name;
     ?>
 </h1>
 
-
-
+	<div class="form-container">		
+            <div class="form-container-content">
+                <h3 class="center-align header-block header-block-light-grey">Задайте свой вопрос on-line</h3>
+                                
+                <?php echo $this->renderPartial('application.views.question._formBrief', array(
+                    'newQuestionModel'  =>  $newQuestionModel,
+                ));?>
+                              
+            </div>
+	</div>
+<br/>
 <?php if($model->description1):?>
     <div class="vert-margin30">
         <?php echo $model->description1;?>
@@ -134,23 +143,7 @@ $this->breadcrumbs[] = $model->name;
 
 
 
-	<div class="form-container">		
-            <div class="center-align">
-            <?php
-                // выводим виджет с номером 8800
-                $this->widget('application.widgets.Hotline.HotlineWidget', array(
-                ));
-            ?>		
-            </div>
-            <div class="form-container-content">
-                <h3 class="center-align header-block header-block-light-grey">Задать вопрос on-line<br/>доступно для ВСЕХ регионов РФ</h3>
-                                
-                <?php echo $this->renderPartial('application.views.question._formBrief', array(
-                    'newQuestionModel'  =>  $newQuestionModel,
-                ));?>
-                              
-            </div>
-	</div>
+
 
 			
 			

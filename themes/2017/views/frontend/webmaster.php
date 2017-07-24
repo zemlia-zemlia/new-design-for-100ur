@@ -94,13 +94,13 @@
                 <div class="container-fluid container">
 
 
-                    <div class="col-md-3 col-sm-4">
+                    <div class="col-md-3 col-sm-4 inside">
                         <?php $sources = Leadsource100::getSourcesByUser(Yii::app()->user->id);?>
-                        <div class="flat-panel" >
-                            <div class="inside">
+                        
+                            <div class="">
                                 <h1>Мои источники</h1>
                             </div>
-                        </div>
+                        
                         <?php if(sizeof($sources) == 0):?>
                         <p>
                             Для начала заработка создайте хотя бы один источник лидов или трафика
@@ -137,7 +137,7 @@
 					</p>
                 </div>
             </div>
-
+			<br/>
             <div id="footer" class="container">
                 <div >
                     <div class="text-center">
