@@ -121,6 +121,7 @@ class LeadController extends Controller {
 
         if (isset($_POST['Lead100'])) {
             $model->attributes = $_POST['Lead100'];
+            $model->phone = Question::normalizePhone($model->phone);
             //CustomFuncs::printr($model);exit;
             if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->id));
