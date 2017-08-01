@@ -85,7 +85,7 @@ class Lead100 extends CActiveRecord {
             array('name, phone, email, secretCode, brakComment', 'length', 'max' => 255),
             array('townId', 'match', 'not' => true, 'pattern' => '/^0$/', 'message' => 'Поле Город не заполнено'),
             array('name', 'match', 'pattern' => '/^([а-яА-Я0-9ёЁ\-., ])+$/u', 'message' => 'В имени могут присутствовать русские буквы, цифры, точка, дефис и пробел', 'except' => 'parsing'),
-            array('phone', 'match', 'pattern' => '/^([а-яa-zА-ЯA-Z0-9ёЁ\+\(\)\s \-])+$/u', 'message' => 'В номере телефона могут присутствовать только цифры и знак плюса'),
+            array('phone', 'match', 'pattern' => '/^([0-9]{11})+$/u', 'message' => 'В номере телефона могут присутствовать только цифры'),
             array('email', 'email', 'message' => 'E-mail похож на ненастоящий, проверьте, пожалуйста, правильность набора'),
             array('date1, date2', 'match', 'pattern' => '/^([0-9\-])+$/u', 'message' => 'В датах могут присутствовать только цифры и знак плюса'),
             // The following rule is used by search().
