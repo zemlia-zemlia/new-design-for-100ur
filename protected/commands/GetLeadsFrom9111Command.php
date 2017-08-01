@@ -120,13 +120,18 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
                 preg_match("/(Телефон):(.+)<br>/iu", $bodyDecoded, $phoneMatches);
                 preg_match("/(Текст заявки<\/b>:)(.+)<br>/iu", $bodyDecoded, $messageMatches);
                 
-                $name = trim($nameMatches[1]);
-                $name = str_replace("&nbsp;", " ", $name);
-                $name = trim($name);
-                $phone = $phoneMatches[2];
-                $phone = Question::normalizePhone($phone);
-                $question = trim($messageMatches[2]);
-
+                if($nameMatches) {
+                    $name = trim($nameMatches[1]);
+                    $name = str_replace("&nbsp;", " ", $name);
+                    $name = trim($name);
+                }
+                if($phoneMatches) {
+                    $phone = $phoneMatches[2];
+                    $phone = Question::normalizePhone($phone);
+                }
+                if($messageMatches) {
+                    $question = trim($messageMatches[2]);
+                }
                 //echo $name . ': ' . $phone . ': '. $question . "\n\r";
 
                 //print_r($nameMatches[1]);
