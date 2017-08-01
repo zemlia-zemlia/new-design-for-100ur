@@ -60,16 +60,18 @@ $this->setPageTitle("Финансовый отчет за период. " . Yii:
             <h4>Капитальные расходы</h4>
         </td>
     </tr>
-    <?php foreach($reportDataSetFiltered['expences']['capex']['directions'] as $code=>$value):?>
-    <tr>
-        <td>
-            <?php echo Money::getDirectionByCode($code);?>
-        </td>
-        <td>
-            <?php echo $value;?>
-        </td>
-    </tr>
-    <?php endforeach;?>
+    <?php if($reportDataSetFiltered['expences']['capex']['directions']):?>
+        <?php foreach($reportDataSetFiltered['expences']['capex']['directions'] as $code=>$value):?>
+        <tr>
+            <td>
+                <?php echo Money::getDirectionByCode($code);?>
+            </td>
+            <td>
+                <?php echo $value;?>
+            </td>
+        </tr>
+        <?php endforeach;?>
+    <?php endif;?>
     <tr>
         <td><strong>Всего капитальных расходов</strong></td>
         <td><strong><?php echo $reportDataSetFiltered['expences']['capex']['sum'];?></strong></td>

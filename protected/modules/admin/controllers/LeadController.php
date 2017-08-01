@@ -62,6 +62,7 @@ class LeadController extends Controller {
 
         if (isset($_POST['Lead100'])) {
             $model->attributes = $_POST['Lead100'];
+            $model->phone = Question::normalizePhone($model->phone);
             
             if($model->testMode) {
                 // тестовый режим. найдем по источнику его данные
