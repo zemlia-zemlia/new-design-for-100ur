@@ -65,7 +65,8 @@ class LeadController extends Controller {
         
         if (isset($_POST['Lead100'])) {
             $model->attributes = $_POST['Lead100'];
-
+            $model->phone = Question::normalizePhone($model->phone);
+            
             // посчитаем цену покупки лида, исходя из города и региона
             $prices = $model->calculatePrices();
             if($prices[0]) {
