@@ -12,14 +12,19 @@
  * @property integer $leadId
  * @property integer $questionId
  * @property string $comment
+ * @property integer $status
  */
 class PartnerTransaction extends CActiveRecord {
 
+    const STATUS_COMPLETE = 1; // транзакция совершена
+    const STATUS_PENDING = 2; // транзакция на рассмотрении
+
     public $date1, $date2; // используются при фильтрации
-    
+
     /**
      * @return string the associated database table name
      */
+
     public function tableName() {
         return '{{partnertransaction}}';
     }
@@ -48,9 +53,9 @@ class PartnerTransaction extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'partner'   => array(self::BELONGS_TO, 'User', 'partnerId'),
-            'source'    => array(self::BELONGS_TO, 'Leadsource100', 'sourceId'),
-            'lead'      => array(self::BELONGS_TO, 'Lead100', 'leadId'),
+            'partner' => array(self::BELONGS_TO, 'User', 'partnerId'),
+            'source' => array(self::BELONGS_TO, 'Leadsource100', 'sourceId'),
+            'lead' => array(self::BELONGS_TO, 'Lead100', 'leadId'),
         );
     }
 
@@ -59,15 +64,47 @@ class PartnerTransaction extends CActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'id'            => 'ID',
-            'partnerId'     => 'id вебмастера',
-            'sourceId'      => 'id источника',
-            'sum'           => 'Сумма',
-            'datetime'      => 'Дата и время',
-            'leadId'        => 'id лида',
-            'questionId'    => 'id вопроса',
-            'comment'       => 'Комментарий',
+            'id' => 'ID',
+            'partnerId' => 'id вебмастера',
+            'sourceId' => 'id источника',
+            'sum' => 'Сумма',
+            'datetime' => 'Дата и время',
+            'leadId' => 'id лида',
+            'questionId' => 'id вопроса',
+            'comment' => 'Комментарий',
         );
+    }
+
+    /**
+     * Возвращает массив статусов транзакций
+     * @return type
+     */
+    public static function getStatuses() {
+        return array(
+            self::STATUS_COMPLETE   => 'Совершена',
+            self::STATUS_PENDING    => 'На проверке',
+        );
+    }
+
+    /**
+     * Возвращает название статуса транзакции
+     */
+    public function getStatus() {
+        $allStatuses = self::getStatuses();
+        return $allStatuses[$this->status];
+    }
+    
+    /**
+     * Возвращает сумму всех транзакций вебмастеров
+     */
+    public static function sumAll()
+    {
+        $sumRow = Yii::app()->db->createCommand()
+                ->select('SUM(`sum`) totalSum')
+                ->from('{{partnertransaction}}')
+                ->where('status=:status', array(':status' => self::STATUS_COMPLETE))
+                ->queryRow();
+        return $sumRow['totalSum'];
     }
 
     /**

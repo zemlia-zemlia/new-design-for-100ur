@@ -23,7 +23,6 @@ $this->breadcrumbs=array(
 <div class="vert-margin30">
     <?php echo CHtml::link('Пользователи (клиенты)', Yii::app()->createUrl('admin/user/index',array('role'=>User::ROLE_CLIENT)));?> &nbsp;&nbsp;
     <?php echo CHtml::link('Юристы', Yii::app()->createUrl('admin/user/index',array('role'=>User::ROLE_JURIST)));?> &nbsp;&nbsp;
-    <?php echo CHtml::link('Операторы', Yii::app()->createUrl('admin/user/index',array('role'=>User::ROLE_OPERATOR)));?> &nbsp;&nbsp;
     <?php echo CHtml::link('Секретари', Yii::app()->createUrl('admin/user/index',array('role'=>User::ROLE_SECRETARY)));?> &nbsp;&nbsp;
     <?php echo CHtml::link('Покупатели', Yii::app()->createUrl('admin/user/index',array('role'=>User::ROLE_BUYER)));?> &nbsp;&nbsp;
     <?php echo CHtml::link('Контент-менеджеры', Yii::app()->createUrl('admin/user/index',array('role'=>User::ROLE_EDITOR)));?> &nbsp;&nbsp;
@@ -35,9 +34,14 @@ $this->breadcrumbs=array(
       <tr>
           <th>ID</th>
           <th>Имя</th>
-		  <th>Город</th>
+          <th>Город</th>
           <th>Email</th>
-		  <th>Телефон</th>
+	  <th>Телефон</th>
+          <?php if($role == User::ROLE_BUYER):?>
+            <th>
+                Камп.
+            </th>
+          <?php endif;?>
           <th>Редактировать</th>
       </tr>
       </thead>

@@ -213,6 +213,7 @@ class User extends CActiveRecord {
             'answersCount' => array(self::STAT, 'Answer', 'authorId', 'condition' => 'status IN (' . Answer::STATUS_NEW . ', ' . Answer::STATUS_PUBLISHED . ')'),
             'categories' => array(self::MANY_MANY, 'QuestionCategory', '{{user2category}}(uId, cId)'),
             'campaigns' => array(self::HAS_MANY, 'Campaign', 'buyerId'),
+            'campaignsCount' => array(self::STAT, 'Campaign', 'buyerId'),
             'campaignsActiveCount' => array(self::STAT, 'Campaign', 'buyerId', 'condition' => 'active=1'),
             'campaignsModeratedCount' => array(self::STAT, 'Campaign', 'buyerId', 'condition' => 'active!=2'),
             'transactions' => array(self::HAS_MANY, 'TransactionCampaign', 'buyerId', 'order' => 'transactions.id DESC'),

@@ -22,11 +22,12 @@ $(function(){
         e.preventDefault();
         var form = $(this).closest('form');
         var sum = form.find('[name=sum]').val();
+        var account = form.find('[name=account]').val();
         var buyerId = form.attr('data-id');
         
         $.ajax('/admin/campaign/topup/', {
             method:'POST',
-            data:{sum:sum, buyerId:buyerId},
+            data:{sum:sum, account:account, buyerId:buyerId},
             success:onCampaignTopupSubmit,
         });
         

@@ -319,6 +319,7 @@ class CampaignController extends Controller {
     public function actionTopup() {
         $buyerId = isset($_POST['buyerId']) ? (int) $_POST['buyerId'] : 0;
         $sum = isset($_POST['sum']) ? (int) $_POST['sum'] : 0;
+        $account = isset($_POST['account']) ? (int) $_POST['account'] : 1;
 
         if ($sum <= 0 || !$buyerId) {
             echo json_encode(array('code' => 400, 'message' => 'Error, not enough data'));
@@ -336,12 +337,23 @@ class CampaignController extends Controller {
         $transaction = new TransactionCampaign;
         $transaction->sum = $sum;
         $transaction->buyerId = $buyerId;
-        $transaction->description = "Пополнение баланса пользователя";
+        $transaction->description = "Пополнение баланса пользователя " . $buyerId;
+        
+        // создаем запись кассы
+        $moneyTransaction = new Money();
+        $moneyTransaction->accountId = $account;
+        $moneyTransaction->value = $sum;
+        $moneyTransaction->type = Money::TYPE_INCOME;
+        $moneyTransaction->direction = 501;
+        $moneyTransaction->datetime = date('Y-m-d');
+        $moneyTransaction->comment = 'Пополнение баланса пользователя ' . $buyerId;
+        
 
         $buyer->balance += $sum;
 
         if ($transaction->save()) {
             $buyer->lastTransactionTime = date("Y-m-d H:i:s");
+            $moneyTransaction->save();
             if ($buyer->save()) {
                 // если баланс пополнен, отправляем уведомление покупателю
                 $buyer->sendBuyerNotification(User::BUYER_EVENT_TOPUP);

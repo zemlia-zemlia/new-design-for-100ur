@@ -365,6 +365,7 @@ class UserController extends Controller {
     public function actionIndex() {
         $criteria = new CDbCriteria;
         $criteria->order = 't.active100 DESC, t.role DESC';
+        $criteria->with = 'town';
 
         // если не задано, каких пользователей выводить, выводим юристов
 
@@ -373,6 +374,9 @@ class UserController extends Controller {
         $roles = User::getRoleNamesArray();
         $roleName = $roles[$role];
 
+        if($role == User::ROLE_BUYER) {
+            $criteria->with = array('town', 'campaignsCount');
+        }
         $criteria->addColumnCondition(array('t.role' => $role));
 
         $usersDataProvider = new CActiveDataProvider('User', array(

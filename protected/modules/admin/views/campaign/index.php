@@ -56,7 +56,9 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                 <div class="form-group">
                     <input type="text" name="sum" style="width:70px" class="form-control input-sm" placeholder="Сумма" />
                 </div>
-
+                <div class="form-group">
+                    <?php echo CHtml::dropDownList('account', 1, Money::getAccountsArray(), array('class' => 'form-control input-sm'));?>
+                </div>
                 <a href="#" class="btn  btn-primary btn-sm submit-topup">+</a>
                 <br />
                 <a href="#" class="buyer-topup-close">Отмена</a>

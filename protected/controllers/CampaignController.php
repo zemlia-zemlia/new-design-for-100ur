@@ -70,9 +70,6 @@ class CampaignController extends Controller
             $this->layout = '//frontend/cabinet';
             $model=new Campaign;
 
-            // Uncomment the following line if AJAX validation is needed
-            // $this->performAjaxValidation($model);
-
             $model->active = Campaign::ACTIVE_MODERATION; // статус по умолчанию - На рассмотрении 
 
             if(isset($_POST['Campaign']))
@@ -84,7 +81,28 @@ class CampaignController extends Controller
                 $model->price = 90;
                 $model->brakPercent = 20;
                 
-                if($model->save()) {
+                // Проверим, не создано ли у этого пользователя других кампаний из этого города и региона
+                $existingCampaignsFromSameRegionCommand = Yii::app()->db->createCommand()
+                        ->select('id')
+                        ->from('{{campaign}}')
+                        ->where("buyerId=:userId", array(':userId' => Yii::app()->user->id));
+                        
+                if($model->townId) {
+                    $existingCampaignsFromSameRegionCommand->andWhere('townId=:townId', array(':townId'   => $model->townId));
+                }
+                
+                if($model->regionId) {
+                    $existingCampaignsFromSameRegionCommand->andWhere('regionId=:regionId', array(':regionId'   => $model->regionId));
+                }
+                  
+                $existingCampaignsFromSameRegion = $existingCampaignsFromSameRegionCommand->queryAll();
+
+                if(sizeof($existingCampaignsFromSameRegion)) {
+                    $model->addError('townId', 'Вы уже создали кампанию в этом городе/регионе');
+                }
+                
+                
+                if(!$model->errors && $model->save()) {
                     $this->redirect(array('cabinet/campaign','id'=>$model->id));
                 }
             }

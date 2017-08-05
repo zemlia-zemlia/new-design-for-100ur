@@ -61,10 +61,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
             <?php if ($model->settings): ?>
                 <tr>
-                    <td><strong>Псевдоним</strong></td>
-                    <td><?php echo CHtml::encode($model->settings->alias); ?></td>
-                </tr>
-                <tr>
                     <td><strong>Город</strong></td>
                     <td><?php echo CHtml::encode($model->town->name . ' (' . $model->town->region->name . ')'); ?></td>
                 </tr>
@@ -113,8 +109,23 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         </div>
         
         
-
-
+        <?php if($model->role == User::ROLE_BUYER && $model->campaigns):?>
+            <h2>Кампании</h2>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Кампания</th>
+                    <th>Активность</th>
+                    <th>Цена лида</th>
+                </tr>
+                <?php foreach($model->campaigns as $campaign):?>
+                <tr>
+                    <td><?php echo $campaign->id . ' ' . CHtml::link(trim($campaign->town->name . ' ' . $campaign->region->name), Yii::app()->createUrl('/admin/campaign/view', array('id' => $campaign->id)));?></td>
+                    <td><?php echo $campaign->getActiveStatusName();?></td>
+                    <td><?php echo (int)$campaign->price;?> руб.</td>
+                </tr>
+                <?php endforeach;?>
+            </table>
+        <?php endif;?>
 
 
 
