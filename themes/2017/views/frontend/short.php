@@ -45,10 +45,10 @@
                     <div class="logo-wrapper">
                         <?php if($_SERVER['REQUEST_URI'] != '/'):?>
                         <a href="/">
-                            <img src="/pics/2017/100_yuristov_logo.svg" alt="100 Юристов и Адвокатов" title="Юридический портал" style="width:240px; height:50px;" />
+                            <img src="/pics/2017/100_yuristov_logo.svg" alt="100 Юристов и Адвокатов" title="Юридический портал" style="width:276px; height:75px;" />
                         </a>
                         <?php else:?>
-                            <img src="/pics/2017/100_yuristov_logo.svg" alt="100 Юристов и Адвокатов" title="Юридический портал" style="width:240px; height:50px;" />
+                            <img src="/pics/2017/100_yuristov_logo.svg" alt="100 Юристов и Адвокатов" title="Юридический портал" style="width:276px; height:75px;" />
                         <?php endif;?>      
                     </div>			  
                 </div>
@@ -240,6 +240,15 @@
                     </div>
                 <?php endif;?>
 
+				<div class="vert-margin20">
+					<script type="text/javascript" src="//vk.com/js/api/openapi.js?146"></script>
+
+					<!-- VK Widget -->
+					<div id="vk_groups"></div>
+					<script type="text/javascript">
+					VK.Widgets.Group("vk_groups", {mode: 3, no_cover: 1, width: "275"}, 78448546);
+					</script>
+				</div>
 		
                 <div class="vert-margin20 flat-panel">   
                     <?php
