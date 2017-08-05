@@ -422,16 +422,22 @@ class LeadController extends Controller {
         }
 
         // получим данные по расходам на Директ
-        $expencesArray = array();
+        $expencesDirectArray = array();
+        $expencesCallsArray = array();
         $expencesRows = Yii::app()->db->createCommand()
-                ->select('date, expences')
-                ->from('{{direct}}')
+                ->select('date, expences, type, comment')
+                ->from('{{expence}}')
                 ->where('MONTH(date)="' . $month . '" AND YEAR(date)="' . $year . '"')
                 ->order('date DESC')
                 ->queryAll();
 
-        foreach ($expencesRows as $row) {
-            $expencesArray[$row['date']] = $row['expences'];
+        foreach ($expencesRows as $index=>$row) {
+            if($row['type'] == Expence::TYPE_DIRECT) {
+                $expencesDirectArray[$row['date']]['expence'] = $row['expences'];
+            }
+            if($row['type'] == Expence::TYPE_CALLS) {
+                $expencesCallsArray[$row['date']]['expence'] += $row['expences'];
+            }
         }
 
         //CustomFuncs::printr($expencesArray);
@@ -455,15 +461,16 @@ class LeadController extends Controller {
         }
 
         $this->render('stats', array(
-            'type' => $type,
-            'yearsArray' => $yearsArray,
-            'month' => $month,
-            'year' => $year,
-            'sumArray' => $sumArray,
-            'kolichArray' => $kolichArray,
-            'buySumArray' => $buySumArray,
-            'expencesArray' => $expencesArray,
-            'vipStats' => $vipStats,
+            'type'                  => $type,
+            'yearsArray'            => $yearsArray,
+            'month'                 => $month,
+            'year'                  => $year,
+            'sumArray'              => $sumArray,
+            'kolichArray'           => $kolichArray,
+            'buySumArray'           => $buySumArray,
+            'expencesDirectArray'   => $expencesDirectArray,
+            'expencesCallsArray'    => $expencesCallsArray,
+            'vipStats'              => $vipStats,
         ));
     }
 
@@ -491,5 +498,5 @@ class LeadController extends Controller {
             Yii::app()->end();
         }
     }
-
+    
 }

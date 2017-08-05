@@ -21,6 +21,10 @@
 
 <h1 class="vert-margin30">Статистика продаж</h1>
 
+<div class="right-align">
+    <?php echo CHtml::link('Расходы', Yii::app()->createUrl('admin/expence'));?>
+</div>
+
 <form class="form-inline vert-margin30" role="form" action="">
     Статистика за месяц: 
     <div class="form-group">
@@ -70,11 +74,12 @@
         </th>
         <th>Лиды</th>
         <th>Выручка</th>
-		<th>VIP вопросы</th>
-		<th>Заказ док-в</th>
-		<th>Расход на лиды</th>
-		<th>Расход на контекст</th>
-		<th>Прибыль</th>
+        <th>VIP вопросы</th>
+        <th>Заказ док-в</th>
+        <th>Покупка лидов</th>
+        <th>Расход на контекст</th>
+        <th>Прочие расходы</th>
+        <th>Прибыль</th>
     </tr>
     <?php    foreach ($sumArray as $date=>$summa):?>
     <?php
@@ -82,8 +87,9 @@
         $buySumTotal += $buySumArray[$date];
         $kolichTotal += $kolichArray[$date];
         $vipTotal += $vipStats[$date];
-        $expencesTotal += $expencesArray[$date];
-        $profit = $summa + $vipStats[$date] - $buySumArray[$date] - $expencesArray[$date];
+        $expencesDirectTotal += $expencesDirectArray[$date]['expence'];
+        $expencesCallsTotal += $expencesCallsArray[$date]['expence'];
+        $profit = $summa + $vipStats[$date] - $buySumArray[$date] - $expencesDirectArray[$date]['expence'] - $expencesCallsArray[$date]['expence'];
         $profitTotal += $profit;
     ?>
     <tr>
@@ -104,7 +110,8 @@
         <td class="text-right"><?php echo (int)$vipStats[$date];?></td>
         <td class="text-right"></td>
         <td class="text-right"><?php echo (int)$buySumArray[$date];?></td>
-        <td class="text-right"><?php echo (int)$expencesArray[$date];?></td>
+        <td class="text-right"><?php echo (int)$expencesDirectArray[$date]['expence'];?></td>
+        <td class="text-right"><?php echo (int)$expencesCallsArray[$date]['expence'];?></td>
         <td class="text-right">
             <?php
                 echo (int)$profit;
@@ -121,7 +128,8 @@
         <th class="text-right"><?php echo (int)$vipTotal;?> руб.</th>
 		<td></td>
         <th class="text-right"><?php echo (int)$buySumTotal;?> руб.</th>
-        <th class="text-right"><?php echo (int)$expencesTotal;?> руб.</th>
+        <th class="text-right"><?php echo (int)$expencesDirectTotal;?> руб.</th>
+        <th class="text-right"><?php echo (int)$expencesCallsTotal;?> руб.</th>
         <th class="text-right"><?php echo (int)$profitTotal;?></th>
     </tr>
     <?php endif;?>
@@ -168,7 +176,7 @@ $(function () {
             name: 'Прибыль',
             data: [
                 <?php    foreach ($sumArray as $date=>$summa):?>
-                    <?php echo $summa + $vipStats[$date] - $buySumArray[$date] - $expencesArray[$date].','; ?>                
+                    <?php echo $summa + $vipStats[$date] - $buySumArray[$date] - $expencesDirectArray[$date]['expence']  - $expencesCallsArray[$date]['expence'].','; ?>                
                 <?php  endforeach;?>      
             ]
         }

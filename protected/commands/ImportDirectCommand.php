@@ -29,9 +29,11 @@ class ImportDirectCommand extends CConsoleCommand
             // дата в таблице - уникальный ключ. Ловим неудачные попытки перезаписать данные на определенную дату
             try {
                 Yii::app()->db->createCommand()
-                    ->insert('{{direct}}', array(
-                        'date' => $date, 
-                        'expences' => $expence,
+                    ->insert('{{expence}}', array(
+                        'date'      => $date, 
+                        'expences'  => $expence,
+                        'type'      => Expence::TYPE_DIRECT,
+                        'comment'   => "Расходы на Яндекс Директ",
                         ));
             } catch (CDbException  $e) {
                 // ничего не делаем
