@@ -32,6 +32,8 @@ class ExpenceController extends Controller {
     public function actionCreate()
     {
         $model = new Expence;
+        $model->type = Expence::TYPE_CALLS;
+        $model->date = date('Y-m-d');
         
         if (isset($_POST['Expence'])) {
             $model->attributes = $_POST['Expence'];
