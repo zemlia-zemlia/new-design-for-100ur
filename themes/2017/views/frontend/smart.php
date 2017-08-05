@@ -51,10 +51,10 @@
                     <div class="logo-wrapper">
                         <?php if($_SERVER['REQUEST_URI'] != '/'):?>
                         <a href="/">
-                            <img src="/pics/2017/100_yuristov_logo.svg" alt="100 Юристов и Адвокатов" title="Юридический портал" style="width:240px; height:50px;" />
+                            <img src="/pics/2017/100_yuristov_logo.svg" alt="100 Юристов и Адвокатов" title="Юридический портал" style="width:276px; height:75px;" />
                         </a>
                         <?php else:?>
-                            <img src="/pics/2017/100_yuristov_logo.svg" alt="100 Юристов и Адвокатов" title="Юридический портал" style="width:240px; height:50px;" />
+                            <img src="/pics/2017/100_yuristov_logo.svg" alt="100 Юристов и Адвокатов" title="Юридический портал" style="width:276px; height:75px;" />
                         <?php endif;?>      
                     </div>			
                 </div>

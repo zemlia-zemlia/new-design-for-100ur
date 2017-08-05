@@ -35,9 +35,7 @@
                             <img src="/pics/2017/logo_white.png" alt="100 Юристов и Адвокатов" title="Юридический портал" />
                         <?php endif;?>      
                     </div>			
-                     <div class="logo-description">
-                         <h5>юридические консультации онлайн</h5>   
-                    </div>  
+
                 </div>
 		
                 <?php if(Yii::app()->user->isGuest):?>

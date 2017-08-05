@@ -39,7 +39,7 @@
     
     <div class="container container600">
         <a href="/">
-            <img src="/pics/2017/logo_white.png" alt="100 Юристов и Адвокатов" title="100 Юристов и Адвокатов" class="vert-margin30 center-block" />
+            <img src="/pics/2017/100_yuristov_logo.svg" alt="100 Юристов и Адвокатов" title="100 Юристов и Адвокатов" class="vert-margin30 center-block" />
         </a>
         
         <?php echo $content;?>

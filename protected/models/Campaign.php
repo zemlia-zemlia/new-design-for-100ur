@@ -40,10 +40,8 @@ class Campaign extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('price, leadsDayLimit, '
-                            . 'brakPercent, buyerId, active', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
-			array('regionId, townId, price, sendEmail, '
-                            . 'leadsDayLimit, brakPercent, buyerId, active', 'numerical', 'integerOnly'=>true),
+			array('price, leadsDayLimit, brakPercent, buyerId, active', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
+			array('regionId, townId, price, sendEmail, leadsDayLimit, brakPercent, buyerId, active, timeFrom, timeTo', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, regionId, price, '
