@@ -844,7 +844,7 @@ class User extends CActiveRecord {
         $transactionsSumRow = Yii::app()->db->createCommand()
                 ->select("SUM(t.`sum`) balance")
                 ->from("{{partnertransaction}} t")
-                ->where("t.partnerId=:userId AND ((t.leadId!=0 AND t.datetime<NOW()-INTERVAL 3 DAY) OR (t.questionId!=0) OR (t.questionId = 0 AND t.leadId = 0))", array(':userId' => $this->id))
+                ->where("t.partnerId=:userId AND t.status=:status", array(':userId' => $this->id, ':status' => PartnerTransaction::STATUS_COMPLETE))
                 ->queryRow();
                 
         return $transactionsSumRow['balance'];

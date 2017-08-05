@@ -36,9 +36,10 @@ class PartnerTransaction extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('partnerId, sourceId, sum', 'required', 'message' => 'Поле {attribute} не заполнено'),
+            array('partnerId, sum', 'required', 'message' => 'Поле {attribute} не заполнено'),
             array('partnerId, sourceId, leadId, questionId', 'numerical', 'integerOnly' => true),
-            array('sum', 'length', 'max' => 6),
+            array('sum', 'length', 'max' => 6, 'message' => 'Сумма слишком большая'),
+            array('comment', 'required', 'on'=>'pull', 'message' => 'Заполните поле с комментарием'),
             array('comment', 'length', 'max' => 255),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
