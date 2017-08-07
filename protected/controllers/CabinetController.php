@@ -180,6 +180,11 @@ class CabinetController extends Controller {
             echo json_encode(array('code' => 403, 'message' => 'Вы не можете редактировать этого лида'));
             exit;
         }
+        
+        if (!(!is_null($lead->deliveryTime) && (time() - strtotime($lead->deliveryTime) < 86400 * Yii::app()->params['leadHoldPeriodDays']))) {
+            echo json_encode(array('code' => 403, 'message' => 'Нельзя отправить на отбраковку лид, отправленный покупателю более 3 суток назад'));
+            exit;
+        }
 
         $lead->leadStatus = Lead100::LEAD_STATUS_NABRAK;
         $lead->brakReason = (int) $reason;

@@ -863,7 +863,7 @@ class User extends CActiveRecord {
         $transactionsSumRow = Yii::app()->db->createCommand()
                 ->select("SUM(t.`sum`) hold")
                 ->from("{{partnertransaction}} t")
-                ->where("t.partnerId=:userId AND t.leadId!=0 AND t.datetime>=NOW()-INTERVAL 3 DAY", array(':userId' => $this->id))
+                ->where("t.partnerId=:userId AND t.leadId!=0 AND t.datetime>=NOW()-INTERVAL :interval DAY", array(':userId' => $this->id, ':interval' => Yii::app()->params['leadHoldPeriodDays']))
                 ->queryRow();
                 
         return $transactionsSumRow['hold'];
