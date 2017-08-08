@@ -240,13 +240,13 @@
                     </div>
                 <?php endif;?>
 
-				<div class="vert-margin20">
+				<div class="vert-margin20 ">
 					<script type="text/javascript" src="//vk.com/js/api/openapi.js?146"></script>
 
 					<!-- VK Widget -->
 					<div id="vk_groups"></div>
 					<script type="text/javascript">
-					VK.Widgets.Group("vk_groups", {mode: 3, no_cover: 1, width: "275"}, 78448546);
+						VK.Widgets.Group("vk_groups", {mode: 3, no_cover: 1, width: "auto"}, 78448546);
 					</script>
 				</div>
 		
