@@ -576,6 +576,9 @@ class User extends CActiveRecord {
             $question->status = Question::STATUS_CHECK;
             $question->publishDate = date('Y-m-d H:i:s');
             
+            // при публикации вопроса автоматически присваиваем ему категории по ключевым словам
+            $question->autolinkCategories();
+            
             if($question->save() && $question->sourceId !== 0) {
                 $webmasterTransaction = new PartnerTransaction();
                 $webmasterTransaction->sum = $question->buyPrice;

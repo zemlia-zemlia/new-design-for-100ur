@@ -498,4 +498,26 @@ class Question extends CActiveRecord
             }
             
         }
+        
+        /**
+         * Привязывает к вопросу категории, исходя из ключевых слов в тексте вопроса
+         */
+        public function autolinkCategories()
+        {
+            $keys2categories = QuestionCategory::keys2categories();
+            
+            foreach ($keys2categories as $key => $catId) {
+                
+                if(stristr($this->questionText, $key)) {
+                    // если в тексте вопроса нашлось ключевое слово, прикрепляем вопрос к категории
+                    try {
+                    Yii::app()->db->createCommand()
+                        ->insert('{{question2category}}', array('cId' => $catId, 'qId' => $this->id));
+                    } catch(CDbException $e) {
+                        // дублирование связей вопрос-категория, не записываем
+                    }
+                }
+                
+            }
+        }
 }

@@ -7,31 +7,13 @@
 class SetCategoriesCommand extends CConsoleCommand
 {
     
-    public $keys2categories = array(
-        'кредит'    =>  47,
-        'МФО'    =>  1040,
-        'коллектор'    =>  48,
-        'колектор'    =>  48,
-        'ипотек'    =>  608,
-        'наслед'    =>  60,
-        'снт'    =>  323,
-        'приватизац'    =>  79,
-        'жкх'    =>  1074,
-        'тсж'    =>  327,
-        'дтп'    =>  307,
-        'пдд'    =>  307,
-        'осаго'    =>  307,
-        'каско'    =>  307,
-        'алимент'    =>  5,
-        'адвокат'    =>  383,
-        'развод'    =>  330,
-        'дду'    =>  1506,
-        'банкрот'    =>  468,
-        
-    );
+    public $keys2categories;
     
     public function actionIndex()
     {
+        // получаем массив ключевых слов и соответствующих категорий
+        $keys2categories = QuestionCategory::keys2categories();
+        
         foreach($this->keys2categories as $key => $categoryId) {
             $questionsIds = Yii::app()->db->createCommand()
                     ->select('id')
