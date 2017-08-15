@@ -278,6 +278,10 @@ class Lead100 extends CActiveRecord {
             if ($this->sendByEmail($campaign->id)) {
                 if ($this->save()) {
                     $buyer->save();
+                    
+                    // записываем в кампанию время отправки последнего лида
+                    Yii::app()->db->createCommand()->update('{{campaign}}', array('lastLeadTime' => date('Y-m-d H:i:s')), 'id=:id', array(':id' => $campaign->id));
+                    
                     if (!$transaction->save()) {
                         Yii::log("Не удалось сохранить транзакцию за продажу лида " . $this->id, 'error', 'system.web.CCommand');
                         //CustomFuncs::printr($transaction->errors);
