@@ -502,7 +502,7 @@ class Lead100 extends CActiveRecord {
                 ->select('id, price, DATE(deliveryTime) date')
                 ->from("{{lead100}}")
                 ->order("date")
-                ->where("DATE(deliveryTime) >= :dateFrom AND DATE(deliveryTime) <= :dateTo AND leadStatus IN (:status1, :status2)", array(':dateFrom' => $dateFrom, ':dateTo' => $dateTo, ':status1' => self::LEAD_STATUS_SENT, ':status2' => self::LEAD_STATUS_RETURN));
+                ->where("DATE(deliveryTime) >= :dateFrom AND DATE(deliveryTime) <= :dateTo AND leadStatus IN (:status1, :status2, :status3)", array(':dateFrom' => $dateFrom, ':dateTo' => $dateTo, ':status1' => self::LEAD_STATUS_SENT, ':status2' => self::LEAD_STATUS_RETURN, ':status3' => self::LEAD_STATUS_NABRAK));
 
         // если выборка по покупателю, найдем лиды, проданные в его кампании
         if ($buyerId) {
