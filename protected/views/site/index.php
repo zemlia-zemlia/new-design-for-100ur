@@ -1,6 +1,6 @@
 <?php
-    $this->setPageTitle("Юридическая Консультация онлайн - Бесплатно по любым вопросам. ". Yii::app()->name);
-    Yii::app()->clientScript->registerMetaTag("Получите юридическую консультацию круглосуточно онлайн по любому вопросу на 100yuristov.com. Профессионально, быстро, гарантированно!", 'description');
+    $this->setPageTitle("Юридическая Консультация онлайн - Бесплатно. Круглосуточно. ". Yii::app()->name);
+    Yii::app()->clientScript->registerMetaTag("Задавайте свои вопросы. Круглосуточная юридическая консультация онлайн по любому вопросу. Заказ юридических документов и услуг, каталог юристов", 'description');
 	Yii::app()->clientScript->registerLinkTag("canonical",NULL,"https://".$_SERVER['SERVER_NAME']);
 
 ?>

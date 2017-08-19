@@ -257,17 +257,7 @@
                         <?php echo CHtml::link("<img src='/pics/2017/yurist_call.jpg' alt='100 Юристов и Адвокатов' title='Юридический портал' class='center-block' />", Yii::app()->createUrl('/question/call/')); ?> <br/>
                     </div>
                 <?php endif;?>
-				
-				<div class="vert-margin20 ">
-					<script type="text/javascript" src="//vk.com/js/api/openapi.js?146"></script>
-
-					<!-- VK Widget -->
-					<div id="vk_groups"></div>
-					<script type="text/javascript">
-						VK.Widgets.Group("vk_groups", {mode: 3, no_cover: 1, width: "auto"}, 78448546);
-					</script>
-				</div>
-				
+					
                 <div class="vert-margin20 flat-panel">   
                     <?php
                         // выводим виджет с последними ответами
