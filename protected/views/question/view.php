@@ -22,59 +22,62 @@ Yii::app()->clientScript->registerMetaTag(CHtml::encode(mb_substr($model->questi
  
 <div itemscope itemtype="http://schema.org/Question">
      
-
-
-    
-        <div  itemprop="author" itemscope itemtype="http://schema.org/Person">
-            <p>
-                <?php if($model->price!=0 && $model->payed == 1):?>
-                <span class="label label-warning"><span class='glyphicon glyphicon-ruble'></span></span>
-                <?php endif;?>
-            
-                <small>
-                <?php if($model->publishDate):?>
-                    <span class="glyphicon glyphicon-calendar"></span>&nbsp;<time itemprop="dateCreated" datetime="<?php echo $model->publishDate;?>"><?php echo CustomFuncs::niceDate($model->publishDate, false); ?></time> &nbsp;&nbsp;
-                <?php endif;?>
-                    
-                <?php if($model->authorName):?>
-                    <span class="glyphicon glyphicon-user"></span>&nbsp;<span itemprop="name"><?php echo CHtml::encode($model->authorName); ?></span> &nbsp;&nbsp;
-                <?php endif;?>
-                <?php if($model->town):?>
-                    <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($model->town->name),Yii::app()->createUrl('town/alias',
-                        array(
-                            'name'          =>  $model->town->alias,
-                            'countryAlias'  =>  $model->town->country->alias,
-                            'regionAlias'   =>  $model->town->region->alias,    
-                            ))); ?> &nbsp;&nbsp;
-                <?php endif;?>
-                <?php if($model->categories):?>
-                    <?php foreach($model->categories as $category):?>
-                    <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($category->name),Yii::app()->createUrl('questionCategory/alias', $category->getUrl()));?> &nbsp;&nbsp;
-                    <?php endforeach;?>
-                <?php endif;?>
-                </small>
-            </p>
-        </div>
+    <div id="question-hero">
         
-    <div class="flat-panel vert-margin30">
+        <div class="row">
+            <div class="col-sm-9">
+                <div  itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <p>
+                    <?php if($model->price!=0 && $model->payed == 1):?>
+                    <span class="label label-warning"><span class='glyphicon glyphicon-ruble'></span></span>
+                    <?php endif;?>
+
+                    <small>
+                    <?php if($model->publishDate):?>
+                        <span class="glyphicon glyphicon-calendar"></span>&nbsp;<time itemprop="dateCreated" datetime="<?php echo $model->publishDate;?>"><?php echo CustomFuncs::niceDate($model->publishDate, false); ?></time> &nbsp;&nbsp;
+                    <?php endif;?>
+
+                    <?php if($model->authorName):?>
+                        <span class="glyphicon glyphicon-user"></span>&nbsp;<span itemprop="name"><?php echo CHtml::encode($model->authorName); ?></span> &nbsp;&nbsp;
+                    <?php endif;?>
+                    <?php if($model->town):?>
+                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($model->town->name),Yii::app()->createUrl('town/alias',
+                            array(
+                                'name'          =>  $model->town->alias,
+                                'countryAlias'  =>  $model->town->country->alias,
+                                'regionAlias'   =>  $model->town->region->alias,    
+                                ))); ?> &nbsp;&nbsp;
+                    <?php endif;?>
+                    <?php if($model->categories):?>
+                        <?php foreach($model->categories as $category):?>
+                        <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($category->name),Yii::app()->createUrl('questionCategory/alias', $category->getUrl()));?> &nbsp;&nbsp;
+                        <?php endforeach;?>
+                    <?php endif;?>
+                    </small>
+                </p>
+            </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="right-align">
+                    <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+                    <script src="//yastatic.net/share2/share.js"></script>
+                    <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,twitter,viber,whatsapp"></div>
+                </div>      
+            </div>
+        </div>
+
+
         <div>
         <?php if($model->title):?>
-        <h1 itemprop="name" class="header-block header-block-light-grey"><?php echo CHtml::encode($model->title); ?></h1>
+        <h1 itemprop="name" class="center-align"><?php echo CHtml::encode($model->title); ?></h1>
         <?php endif;?>
         </div>
-
-    
-        <div itemprop="text" class="inside">
-            <?php echo nl2br(CHtml::encode($model->questionText));?>
-        </div>
-
-        <div class="inside right-align">
-            <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
-            <script src="//yastatic.net/share2/share.js"></script>
-            <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,twitter,viber,whatsapp"></div>
-        </div>
+</div>
+        
+   <div itemprop="text" class="vert-margin20 inside flat-panel">
+        <?php echo nl2br(CHtml::encode($model->questionText));?>
     </div>
-
+    
     <?php $this->widget('zii.widgets.CListView', array(
             'dataProvider'  =>  $answersDataProvider,
             'itemView'      =>  'application.views.answer._view',
@@ -85,18 +88,6 @@ Yii::app()->clientScript->registerMetaTag(CHtml::encode(mb_substr($model->questi
                 'commentModel'          =>  $commentModel,
                 ),
     )); ?>    
-    
-    <br/>    
-    
-
-
-      
-        
-<?php if(Yii::app()->user->isGuest):?>
-            <div class="alert alert-success">
-                    <strong>Внимание!</strong> Если вы специалист в области права вы можете дать ответ на этот вопрос пройдя нехитрую процедуру <a href="/user/create/" class="alert-link" >регистрации</a> и подтверждения вашей квалификации.
-            </div>  
-<?php endif;?>    
     
 </div> <!-- Question --> 
 
@@ -130,28 +121,6 @@ Yii::app()->clientScript->registerMetaTag(CHtml::encode(mb_substr($model->questi
 <?php endif;?>
 <br/>
 
-<?php if(!(Yii::app()->user->role == User::ROLE_JURIST || ($model->authorId == Yii::app()->user->id))):?>
-
-	<div class="flat-panel inside">		
-            <div class="center-align">
-            <?php
-                // выводим виджет с номером 8800
-                $this->widget('application.widgets.Hotline.HotlineWidget', array(
-                    'showAlways'    =>  true,
-                ));
-            ?>		
-            </div>
-            <div class="form-container-content form-container ">
-                <h3 class="center-align header-block header-block-light-grey">Задать вопрос on-line<br/>доступно для ВСЕХ регионов РФ</h3>
-                                
-                <?php echo $this->renderPartial('application.views.question._formBrief', array(
-                    'newQuestionModel'  =>  $newQuestionModel,
-                ));?>
-                              
-            </div>
-	</div>
-
-<?php endif;?>
 
 
 <br/>

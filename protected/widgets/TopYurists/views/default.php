@@ -3,11 +3,11 @@
 ?>
 
 <?php foreach ($users as $user):?>
-    <?php if($usersCount%2 == 0) :?>
+    <?php if($usersCount%3 == 0) :?>
         <div class="row row-yurist">
     <?php endif;?>
 
-    <div class="col-sm-6 vert-margin30">
+    <div class="col-sm-4 vert-margin30">
         
         <div class="row">
             <div class="col-xs-4 text-center">
@@ -67,7 +67,7 @@
             </div>
         </div>  
     </div>
-    <?php if($usersCount%2 == 1) :?>
+    <?php if($usersCount%3 == 2) :?>
         </div>
     <?php endif;?>
 
@@ -75,6 +75,7 @@
             
             
 <?php endforeach; ?>
-    <?php if($usersCount%2 == 1) :?>
-        </div>
+    <?php if($usersCount%3 == 2) :?>
+        </div> <!-- .row-yurist -->
     <?php endif;?>
+       

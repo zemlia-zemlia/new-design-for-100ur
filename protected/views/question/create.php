@@ -14,11 +14,10 @@ $this->breadcrumbs=array(
 
 ?>
 
-<h1 class="header-block header-block-light-grey">Задать вопрос юристу</h1>
-
-
 <div class='flat-panel vert-margin30'>
     <div class='inside'>
+        <h1 class="">Задать вопрос юристу</h1>
+
         <?php echo $this->renderPartial('_form', array(
             'model'         =>  $model,
             'allDirections' =>  $allDirections,

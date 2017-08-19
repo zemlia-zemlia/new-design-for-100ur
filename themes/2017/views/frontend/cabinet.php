@@ -69,7 +69,11 @@
     </div> <!-- #header -->
     
         
-    <div class="top-form-replace"></div>
+<div class="container">
+    <div class="top-form-replace">
+        <hr/>
+    </div>    
+</div>
     
     <div id="middle ">
         <div class="container-fluid container">

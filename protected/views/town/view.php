@@ -85,25 +85,6 @@ $this->breadcrumbs=array(
     </div>
 </div>
 
-<div class="flat-panel inside">		
-    <div class="center-align">
-    <?php
-        // выводим виджет с номером 8800
-        $this->widget('application.widgets.Hotline.HotlineWidget', array(
-            'showAlways'    =>  true,
-        ));
-    ?>		
-    </div>
-    <div class="form-container-content form-container ">
-        <h3 class="center-align header-block header-block-light-grey">Задать вопрос on-line<br/>доступно для ВСЕХ регионов РФ</h3>
-
-        <?php echo $this->renderPartial('application.views.question._formBrief', array(
-            'newQuestionModel'  =>  $questionModel,
-        ));?>
-
-    </div>
-</div>
-
 <?php if(sizeof($model->companies)):?>
 
         <h3 class="header-block header-block-green">Юридические компании города</h3>

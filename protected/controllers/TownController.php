@@ -4,7 +4,7 @@ class TownController extends Controller
 {
 	
     
-        public $layout='//frontend/main';
+        public $layout='//frontend/question';
         
 
 	/**

@@ -29,22 +29,10 @@ $allDirections = array(0=>'Без категории') + $allDirections;
         
 
     <div class="form-group">
-
-            <small>
-            <p>
-                Если Вам трудно сформулировать вопрос — позвоните на нашу бесплатную горячую линию по телефону <strong class="red">8 (800) 500-61-85</strong>, юрист Вам поможет.
-            </p>
-            </small>
             <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>10, 'placeholder'=>'Опишите вашу ситуацию подробнее, чтобы юрист мог более детально внем сориентироваться и дать на него квалифицированный ответ.')); ?>
             <?php echo $form->error($model,'questionText'); ?>
     </div>
 
-<small>
-    <p>
-        <strong class="text-uppercase red">Это важно!</strong><br />
-        Оставьте ваш номер телефона, по которому в случае необходимости с вами сможет связаться наш юрист, чтобы уточнить суть вопроса. <strong>Звонок для Вас бесплатный</strong>
-    </p>
-</small>
         
 <div class="row">
     <div class="col-md-6">
@@ -64,7 +52,7 @@ $allDirections = array(0=>'Без категории') + $allDirections;
     <div class="col-md-6">
         <small>
         <img src="/pics/2017/red_lock.png" alt="" style="float:left;margin-top:10px;" />
-        <p class="red" style="padding-top:10px;margin-left:35px;">
+        <p class="text-muted" style="padding-top:10px;margin-left:35px;">
             
             Ваши данные в безопасности. Ваш телефон <strong>НИГДЕ и НИКОГДА</strong> не публикуется и доступен только юристу-консультанту
         </p>

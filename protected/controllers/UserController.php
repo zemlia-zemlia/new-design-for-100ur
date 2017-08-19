@@ -2,7 +2,7 @@
 
 class UserController extends Controller {
 
-    public $layout = '//frontend/main';
+    public $layout = '//frontend/question';
     public $defaultAction = 'profile';
 
     /**
@@ -47,7 +47,7 @@ class UserController extends Controller {
     }
 
     public function actionProfile() {
-        $this->layout = '//frontend/short';
+        $this->layout = '//frontend/question';
 
         $user = User::model()->findByPk(Yii::app()->user->id);
 
@@ -290,7 +290,7 @@ class UserController extends Controller {
     }
 
     public function actionChangePassword($id) {
-        $this->layout = '//frontend/short';
+        $this->layout = '//frontend/question';
         // если пользователь не админ, он может менять пароль только у себя
         if (Yii::app()->user->id !== $id && !Yii::app()->user->checkAccess(User::ROLE_ROOT)) {
             throw new CHttpException(403, 'У вас нет прав менять пароль другого пользователя');
@@ -321,14 +321,14 @@ class UserController extends Controller {
     }
 
     public function actionConfirmationSent() {
-        $this->layout = '//frontend/short';
+        $this->layout = '//frontend/question';
 
         $role = ($_GET['role'] == User::ROLE_JURIST) ? User::ROLE_JURIST : User::ROLE_CLIENT;
         $this->render('confirmationSent', array('role' => $role));
     }
 
     public function actionConfirm() {
-        $this->layout = '//frontend/short';
+        $this->layout = '//frontend/question';
 
         $email = CHtml::encode($_GET['email']);
         $code = CHtml::encode($_GET['code']);
@@ -509,7 +509,7 @@ class UserController extends Controller {
      * @throws CHttpException
      */
     public function actionView($id) {
-        $this->layout = '//frontend/short';
+        $this->layout = '//frontend/question';
 
         $model = User::model()->with('settings')->findByPk($id);
 

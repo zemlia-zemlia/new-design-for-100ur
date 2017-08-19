@@ -2,7 +2,7 @@
 
 class QuestionController extends Controller {
 
-    public $layout = '//frontend/main';
+    public $layout = '//frontend/question';
 
     /*
      * адреса для оплаты вопросов через Яндекс кассу
@@ -52,8 +52,6 @@ class QuestionController extends Controller {
         if ($_GET['Question_page']) {
             $this->redirect(array('view', 'id' => $id), true, 301);
         }
-
-        $this->layout = "//frontend/short";
 
         $model = Question::model()->with('categories')->findByPk($id);
         if (!$model) {
@@ -558,7 +556,6 @@ class QuestionController extends Controller {
     }
 
     public function actionSearch() {
-        $this->layout = '//frontend/short';
 
         // модель для формы поиска по вопросам
         $searchModel = new QuestionSearch();

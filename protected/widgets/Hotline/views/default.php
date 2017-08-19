@@ -1,16 +1,13 @@
-<div class="header-phone">
-    <strong>Горячая линия</strong>
+<div class="hotline-wrapper">
+    <div>
+        <strong>Горячая линия</strong> с 10 до 19 МСК
+    </div>
+
+    <div class="phone-wrapper">
+        <span class="header-phone-800"><strong>
+                8-800-500-61-85</strong>
+        </span>
+        &nbsp;
+        <?php echo CHtml::link('Заказать звонок', Yii::app()->createUrl('question/call'), array('class'=>'button button-green-border')); ?>
+    </div>
 </div>
-
-<div class="phone-wrapper">
-    <span class="header-phone-800"><strong>
-            <img src="/pics/2017/icon_phone_dark.png" alt="Телефон" />
-            8-800-500-61-85</strong>
-    </span>
-
-    <?php echo CHtml::link('Перезвоните мне', Yii::app()->createUrl('question/call'), array('class'=>'button button-green-border')); ?>
-</div>
-
-<p class="text-muted">
-    <small><b>Звонки принимаются с 10:00 до 19:00 (МСК), письменные обращения КРУГЛОСУТОЧНО</b></small>
-</p>

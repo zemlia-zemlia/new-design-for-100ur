@@ -5,58 +5,33 @@
 
 ?>
 
-        <div class="flat-panel">
 
-            <h3 class="header-block-light-grey" style="font-size: 15px; ">Последние вопросы юристам и адвокатам портала</h3>   
-        
-            <div class="inside">
-                <?php foreach($questions as $question):?>
-                    <div class="row question-list-item <?php if($question['payed'] == 1):?> vip-question<?endif;?>">
-                        <div class="col-sm-10">
-                            <p style="font-size:0.9em;">
-                                <?php 
-                                if($question['payed'] == 1){
-                                    echo "<span class='label label-warning'><abbr title='Вопрос с 100% гарантией получения ответов'><span class='glyphicon glyphicon-ruble'></span></abbr></span>";
-                                }
-                                ?>
-                                <?php echo CHtml::link($question['title'], Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?>
-                                
-                            </p>
-                        </div>
+    <h3 class="">Последние вопросы юристам и адвокатам портала</h3>   
 
-                        <div class="col-sm-2 text-center">
-                            <small>
-                                <?php if($question['counter'] == 1) {
-                                    echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> Есть ответ</span>";
-                                } elseif($question['counter']>1) {
-                                    echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
-                                } elseif($question['counter'] == 0) {
-                                    echo "<span class='text-muted'>Нет ответа</span>";
-                                }
-                                ?>
-                            </small>
-                    </div>
-                    </div>
-                <?php endforeach;?>
-        
-                <div class='right-align'>
-                    <?php echo CHtml::link('Последние вопросы &raquo;', Yii::app()->createUrl('/question/index'), array('style'=>'color:#a2a2a2;'));?>
-                </div>
-            </div>
-        </div>
+    <?php
+        // выводим виджет с последними ответами
+        $this->widget('application.widgets.RecentAnswers.RecentAnswers', array(
+            'template' => 'page',
+        ));
+    ?>
 
 <h3 class="header-block-light-grey"><strong> На ваши вопросы отвечают: </strong></h3>
-<div class='flat-panel inside'>
+<div class='flat-panel inside vert-margin20'>
 
         <?php
             // выводим виджет с топовыми юристами
             $this->widget('application.widgets.TopYurists.TopYurists', array(
                 'cacheTime' =>  0,
+                'limit'     =>  9,
             ));
         ?>
 </div>
 
-<h1>Юридическая консультация</h1>
+<p class="right-align">
+    <?php echo CHtml::link('Все юристы', Yii::app()->createUrl('yurist'));?>
+</p>
+
+<h1 class="header-block-light-grey">Юридическая консультация</h1>
 <div style="text-align: justify;">
 <p>
 	 Воспользовавшись нашим специализированным интернет-порталом, каждый желающий имеет возможность получить профессиональную юридическую консультацию граждан в онлайн-режиме. Причем сделать это могут жители как столицы, так&nbsp;и других регионов нашей страны.

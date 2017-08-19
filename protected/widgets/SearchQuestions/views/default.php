@@ -12,7 +12,7 @@
     $counterNoAnswers = Question::getCountWithoutAnswers();
 ?>
 
-<h4 class="header-block header-block-light-grey" >Фильтр вопросов:</h4>
+<h4 class="header-block header-block-light-grey" >Поиск вопросов:</h4>
 
 <div class="flat-panel inside">
 <h4 class="widget-search-header">
@@ -60,7 +60,7 @@
 
 
     <div class="form-group">
-            <?php echo CHtml::submitButton('Показать', array('class'=>'button button-blue-gradient btn-block')); ?>
+            <?php echo CHtml::submitButton('Найти', array('class'=>'yellow-button btn-block')); ?>
             
             <?php if($randomQuestionId):?>
                 <?php echo CHtml::link('Случайный вопрос', Yii::app()->createUrl('question/view', array('id'=>$randomQuestionId)), array('class'=>'button btn-block button-blue-gradient')); ?>

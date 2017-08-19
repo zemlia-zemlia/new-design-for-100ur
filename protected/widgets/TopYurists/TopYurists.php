@@ -19,7 +19,7 @@ class TopYurists extends CWidget
 //        $criteria->with = array('categories', 'settings', 'settings.town');
 //        
 //        $users = User::model()->cache($this->cacheTime)->findAll($criteria);
-        
+                
         $users=Yii::app()->cache->get('top_yurists');
         
         if($users === false) {

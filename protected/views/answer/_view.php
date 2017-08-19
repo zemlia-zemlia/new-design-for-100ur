@@ -23,6 +23,13 @@
                         <div class="center-align"><small><span class="label label-success">онлайн</span></small></div>
                     <?php endif;?>
                     
+                    <div  class="center-align">
+                    <small>
+                        <span class="glyphicon glyphicon-signal"></span>&nbsp;<?php echo $data->author->answersCount . ' ' . CustomFuncs::numForms($data->author->answersCount, 'ответ', "ответа", "ответов");?>     
+                        <br />
+                        <span class='glyphicon glyphicon-thumbs-up'></span>&nbsp;<?php echo $data->author->karma;?>                        
+                    </small>
+                    </div>
                 <?php endif;?>
             </div>
             <div class="col-sm-10 col-xs-8">
@@ -33,56 +40,52 @@
                     </div>
                 <?php else:?>
                 <div class="answer-item-author-block">
+                    <div class="vert-margin20">
                     <small>
                     <div itemprop="author" class='answer-item-author' itemscope itemtype="http://schema.org/Person">
                         
-                    <span class="glyphicon glyphicon-user"></span>
-                    <strong>
-                        <span itemprop="name">
-                            <a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$data->authorId));?>">
-                                <?php echo CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->lastName); ?>
-                            </a>
-                        </span>
-                    </strong>
-                    
-                    <?php if($data->author->settings->isVerified):?>
-                            <span class="label label-success"><?php echo $data->author->settings->getStatusName();?></span>
+                        <span class="glyphicon glyphicon-user"></span>
+                        <strong>
+                            <span itemprop="name">
+                                <a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$data->authorId));?>">
+                                    <?php echo CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->lastName); ?>
+                                </a>
+                            </span>
+                        </strong>
+
+                        <?php if($data->author->settings->isVerified):?>
+                                <span class="label label-success"><?php echo $data->author->settings->getStatusName();?></span>
+                            <?php endif;?>
+                        &nbsp;&nbsp;
+
+                        <?php if($data->datetime):?>
+                            <span class="glyphicon glyphicon-calendar"></span> <?php echo CustomFuncs::niceDate($data->datetime, false);?>
                         <?php endif;?>
-                    &nbsp;&nbsp;
-                    <br />
-
-                    <span class="glyphicon glyphicon-signal"></span>    
-                    <?php echo $data->author->answersCount . ' ' . CustomFuncs::numForms($data->author->answersCount, 'ответ', "ответа", "ответов");?>     
-
-                    &nbsp;&nbsp;
-                    
-                    <span class='glyphicon glyphicon-thumbs-up'></span> <?php echo $data->author->karma;?>
-                        <br />
-                    <?php if($data->datetime):?>
-                        <span class="glyphicon glyphicon-calendar"></span> <?php echo CustomFuncs::niceDate($data->datetime, false);?>
-                    <?php endif;?>
-
                     </div>
                     </small>
+                    </div>
+                    
+                    
+                    <div itemprop="suggestedAnswer acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+
+                        <div itemprop="text">
+                            <p>
+                                <?php echo CHtml::encode($data->answerText); ?>
+                            </p>
+                        </div>
+                    </div> 
+
+                    <?php if($data->authorId == Yii::app()->user->id && time()-strtotime($data->datetime)<Answer::EDIT_TIMEOUT):?>
+                    <div class="right-align">
+                        <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('question/updateAnswer', array('id'=>$data->id)), array('class'=>'btn btn-default btn-xs'));?>
+                    </div>
+                    <?php endif;?>
                 </div>
                 
             </div>
             
             <div class="col-xs-12">
-                <div itemprop="suggestedAnswer acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-
-                    <div itemprop="text">
-                        <p>
-                            <?php echo CHtml::encode($data->answerText); ?>
-                        </p>
-                    </div>
-                </div> 
                 
-                <?php if($data->authorId == Yii::app()->user->id && time()-strtotime($data->datetime)<Answer::EDIT_TIMEOUT):?>
-                <div class="right-align">
-                    <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('question/updateAnswer', array('id'=>$data->id)), array('class'=>'btn btn-default btn-xs'));?>
-                </div>
-                <?php endif;?>
                 
                 <?php if(!Yii::app()->user->isGuest && $data->authorId != Yii::app()->user->id):?>
                     <?php 
