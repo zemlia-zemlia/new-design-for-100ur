@@ -33,18 +33,15 @@ switch ($data->leadStatus) {
         </p>
 
         <small class="muted">
-        <span>id:&nbsp;<?php echo $data->id;?></span> &nbsp;
-        
+       
         <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo CustomFuncs::niceDate($data->question_date, false, false); ?>&nbsp;&nbsp;
 
         <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->role == User::ROLE_SECRETARY):?>
             <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo $data->source->name; ?> &nbsp;&nbsp;       
         <?php endif;?>
           
+
             
-        <span class="label <?php echo $statusClass;?>">    
-        <?php echo $data->getLeadStatusName();?></span>
-            <br />
                       
         
             <?php if($data->townId):?>
@@ -63,7 +60,11 @@ switch ($data->leadStatus) {
             <?php endif;?>
             
             <span class="glyphicon glyphicon-user"></span>    
-            <?php echo CHtml::encode($data->name)?> <br />
+            <?php echo CHtml::encode($data->name)?> 
+			
+			            
+			<span class="label <?php echo $statusClass;?>">    
+			<?php echo $data->getLeadStatusName();?></span>
             
             <?php if($data->leadStatus == Lead100::LEAD_STATUS_NABRAK && $data->brakComment):?>
             <p>
