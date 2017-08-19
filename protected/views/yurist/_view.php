@@ -1,3 +1,9 @@
+<?php if($index%2 == 0) :?>
+        <div class="row row-yurist">
+    <?php endif;?>
+
+    <div class="col-sm-6 vert-margin30">
+
 <?php
     $yuristName = ($data->settings && $data->settings->alias!='')?$data->settings->alias:$data->lastName . ' ' . $data->name . ' ' . $data->name2; 
 ?>
@@ -32,20 +38,12 @@
                     <br />
                     <strong>Стоимость документа:</strong> от <?php echo $data->settings->priceDoc;?> руб.
                 <?php endif;?>
-                    <br />
-					
-					
-                
-                <!-- 
-                <?php if(sizeof($data->categories)):?>
-                    <strong>Специализации:</strong> 
-                <?php endif;?>
-                <?php foreach ($data->categories as $cat): ?>
-                    <span class="yurist-directions-item"><?php echo $cat->name; ?></span>
-                <?php endforeach;?>
-                -->                
+                    
             </p>
         </div>
     </div>
 </div>
-
+    </div>
+<?php if($index%2 == 1) :?>
+    </div>
+<?php endif;?>
