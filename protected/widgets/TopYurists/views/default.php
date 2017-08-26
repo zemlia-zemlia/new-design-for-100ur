@@ -2,6 +2,7 @@
     $usersCount = 0;
 ?>
 
+<div class="container-fluid">
 <?php foreach ($users as $user):?>
     <?php if($usersCount%3 == 0) :?>
         <div class="row row-yurist">
@@ -11,7 +12,6 @@
         
         <div class="row">
             <div class="col-xs-4 text-center">
-                <div class="">
                     <a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$user['id']));?>" rel="nofollow">
                         <img class="img-responsive img-bordered" src="<?php echo User::USER_PHOTO_PATH . User::USER_PHOTO_THUMB_FOLDER . '/'. $user['avatar'];?>" alt="<?php echo CHtml::encode($user['name'] . ' ' . $user['lastName']);?>" class="img-responsive center-block gray-panel" />
                     </a>
@@ -20,7 +20,6 @@
                         <span class='glyphicon glyphicon-thumbs-up'></span> <?php echo $user['karma'];?>
                         </small>
                     </div>
-                </div>
             </div>
             <div class="col-xs-8">
                 <div>
@@ -65,7 +64,7 @@
                     </small></p> -->
                 <?php endif;?>
             </div>
-        </div>  
+        </div> 
     </div>
     <?php if($usersCount%3 == 2) :?>
         </div>
@@ -78,4 +77,4 @@
     <?php if($usersCount%3 == 2) :?>
         </div> <!-- .row-yurist -->
     <?php endif;?>
-       
+</div>   

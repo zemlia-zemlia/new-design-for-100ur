@@ -27,7 +27,7 @@
                                                 </p>
                                             </div>
                                             <div class="col-sm-6 col-xs-6">
-                                                <p>На них дано ответов</p>
+                                                <p>Дано ответов</p>
                                                 <p class="kpi-counter">
                                                     <img src="/pics/2017/icon_answer.png" alt="100 Юристов и Адвокатов" title="Юридический портал" class="hidden-xs" />
                                                     <?php foreach($numbersAnswers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
@@ -51,7 +51,7 @@
                 <?php $form=$this->beginWidget('CActiveForm', array(
                         'id'                    =>  'question-form',
                         'enableAjaxValidation'  =>  false,
-                        'action'                =>  Yii::app()->createUrl('question/create'),
+                        'action'                =>  Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=hero&utm_campaign='.Yii::app()->controller->id,
                 )); ?>
                 
                 
@@ -73,7 +73,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group" id="form-submit-wrapper">
-                                        <?php echo CHtml::submitButton($model->isNewRecord ? 'Получить ответ на вопрос' : 'Сохранить', array('class'=>'yellow-button btn-block', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
+                                        <?php echo CHtml::submitButton($model->isNewRecord ? 'Получить ответ на вопрос' : 'Сохранить', array('class'=>'yellow-button', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
                                 </div>
                             </div>
                         </div>

@@ -131,16 +131,16 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="hor-list-menu">
-                        <li>
+                        <li class="hidden-xs">
                             <?php echo ($_SERVER['REQUEST_URI'] != '/cat/')?CHtml::link('Темы вопросов', Yii::app()->createUrl('/cat/'), array('class' => 'black-button')):'<span class="active">Темы вопросов</span>';?></li> 			
                         </li>
-                        <li><?php echo ($_SERVER['REQUEST_URI'] != '/q/')?CHtml::link('Все вопросы', Yii::app()->createUrl('/question/index')):'<span class="active">Все вопросы</span>';?></li> 			
+                        <li class="hidden-xs"><?php echo ($_SERVER['REQUEST_URI'] != '/q/')?CHtml::link('Все вопросы', Yii::app()->createUrl('/question/index')):'<span class="active">Все вопросы</span>';?></li> 			
                         <li><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/')?CHtml::link('Юристы', Yii::app()->createUrl('/yurist/')):'<span class="active">Юристы</span>';?></li>
                         <li><?php echo CHtml::link("Заказать документ", Yii::app()->createUrl('question/docs'), array('class'=>'')); ?></li>
                         <li><?php echo CHtml::link("Заказать услугу", Yii::app()->createUrl('question/services'), array('class'=>'')); ?></li>    
-                        <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/'))?CHtml::link('Задать бесплатный вопрос юристу', Yii::app()->createUrl('question/create',array('from'=>'top-menu')), array('class' => 'yellow-button arrow')):'';?></li>
+                        <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/'))?CHtml::link('Задать бесплатный вопрос юристу', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign='.Yii::app()->controller->id, array('class' => 'yellow-button arrow')):'';?></li>
                         <?php if(!stristr($_SERVER['REQUEST_URI'], '/question/create/')):?>
-                        <li>Круглосуточно</li>
+                        <li class="hidden-xs">Круглосуточно</li>
                         <?php endif;?>
                         <?php if(Yii::app()->user->checkAccess(User::ROLE_JURIST)):?>
                             <li>    

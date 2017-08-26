@@ -20,7 +20,7 @@
             <?php echo $form->error($newQuestionModel,'authorName'); ?>
         </div>
         <div class="form-group" id="form-submit-wrapper">
-                <?php echo CHtml::submitButton($newQuestionModel->isNewRecord ? 'Задать вопрос юристу' : 'Сохранить', array('class'=>'button  button-blue-gradient btn-block', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
+                <?php echo CHtml::submitButton($newQuestionModel->isNewRecord ? 'Задать вопрос юристу' : 'Сохранить', array('class'=>'yellow-button', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
         </div>
                         </div>
 </div> 

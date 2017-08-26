@@ -151,7 +151,7 @@ $allDirections = array(0=>'Без категории') + $allDirections;
 <?php endif;?>
 
 	<div class="form-group">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Отправить' : 'Задать вопрос', array('class'=>'button button-blue-gradient btn-block btn-lg')); ?>
+		<?php echo CHtml::submitButton('Отправить вопрос юристу', array('class'=>'yellow-button center-block')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

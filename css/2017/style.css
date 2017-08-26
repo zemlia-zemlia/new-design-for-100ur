@@ -158,7 +158,7 @@ hr {
 }
 
 .form-container {
-    padding:10px 20px;
+    padding:10px;
 }
 
 .phone-wrapper {
@@ -830,6 +830,40 @@ ul.hor-list-menu a {
     text-decoration: underline;
     padding:10px;
     font-size:13px;
+}
+
+ul.hor-list-menu span.active {
+    display: inline-block;
+    padding:10px;
+    font-size:13px;
+}
+
+@media(max-width:767px) {
+    ul.hor-list-menu a {
+        font-size:12px;
+        padding:5px;
+    }
+    
+    .header-phone-800 {
+        font-size:18px;
+    }
+    
+    .phone-wrapper .button {
+        padding:3px 10px;
+    }
+    
+    ul.hor-list-menu a.yellow-button {
+        margin:10px auto;
+    }
+    
+    .form-container {
+        padding:10px 0;
+    }
+    
+    .form-container .yellow-button{
+        display:block;
+        margin:0 auto;
+    }
 }
 
 ul.hor-list-menu a.black-button {

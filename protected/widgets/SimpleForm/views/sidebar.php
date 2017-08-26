@@ -8,9 +8,8 @@
         <?php $form=$this->beginWidget('CActiveForm', array(
                 'id'                    =>  'question-form',
                 'enableAjaxValidation'  =>  false,
-                'action'                =>  Yii::app()->createUrl('question/create'),
+                'action'                =>  Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=sidebar&utm_campaign='.Yii::app()->controller->id,
         )); ?>
-
 
 
         <div class="row">

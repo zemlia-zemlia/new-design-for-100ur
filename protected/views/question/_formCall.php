@@ -62,7 +62,7 @@
 </div>
 
     <div class="form-group" id="form-submit-wrapper">
-        <?php echo CHtml::submitButton('Отправить запрос', array('class'=>'button button-blue-gradient btn-block')); ?>
+        <?php echo CHtml::submitButton('Отправить запрос', array('class'=>'yellow-button center-block')); ?>
     </div>
 
 <?php $this->endWidget(); ?>
