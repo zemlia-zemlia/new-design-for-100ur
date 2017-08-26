@@ -8,7 +8,7 @@ class RecentAnswers extends CWidget
 {
     public $template = 'default'; // представление виджета по умолчанию
     public $cacheTime = 0; // время кеширования
-    public $limit = 5;
+    public $limit = 6;
     
     public function run()
     {
@@ -19,7 +19,7 @@ class RecentAnswers extends CWidget
                 ->from('{{answer}} a')
                 ->leftJoin('{{user}} u', 'a.authorId = u.id')
                 ->leftJoin('{{question}} q', 'q.id = a.questionId')
-                ->where('a.datetime>NOW()-INTERVAL 30 DAY AND a.status!=2 AND a.videoLink=""')
+                ->where('a.datetime>NOW()-INTERVAL 130 DAY AND a.status!=2 AND a.videoLink="" AND u.active100=1')
                 ->order('answerTime DESC')
                 ->queryAll();
         

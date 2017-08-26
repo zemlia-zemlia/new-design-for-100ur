@@ -2,7 +2,7 @@
     <div class="annoying-wrapper">
         
         <div class="annoying-close">
-            <a href="#">Свернуть</a>
+            <a href="#"><span aria-hidden="true">&times;</span></a>
         </div>
         
         <a href="#" class="annoying-open"><img src="/pics/2017/open_annoying.png" alt="Развернуть" /></a>

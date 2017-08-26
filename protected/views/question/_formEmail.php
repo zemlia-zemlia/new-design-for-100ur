@@ -24,6 +24,6 @@
 </div>
 
 <div class="form-group">
-    <?php echo CHtml::submitButton($model->isNewRecord ? 'Сохранить' : 'Сохранить', array('class'=>'button button-blue-gradient btn-block btn-lg')); ?>
+    <?php echo CHtml::submitButton('Продолжить', array('class'=>'yellow-button center-block')); ?>
 </div>
 <?php $this->endWidget(); ?>

@@ -46,25 +46,26 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
             <?php endif;?>
             
             <?php if(Yii::app()->user->role != User::ROLE_JURIST):?>
-            
-            <div class="vert-margin20">
-            <?php
-            // выводим виджет с формой
-                $this->widget('application.widgets.SimpleForm.SimpleForm', array(
-                    'template' => 'sidebar',
-                    ));
-            ?> 
-            </div>
-            
-            <div class="grey-panel inside">
-                <h4>Вы специалист в области права?</h4>
-                <p>
-                Вы можете дать ответ на этот вопрос пройдя нехитрую процедуру 
-                регистрации и подтверждения вашей квалификации.
-                </p>
-                <p class="right-align">
-                    <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', array('role' => User::ROLE_JURIST)));?>
-                </p>
+            <div data-spy="affix" data-offset-top="200">
+                <div class="vert-margin20">
+                <?php
+                // выводим виджет с формой
+                    $this->widget('application.widgets.SimpleForm.SimpleForm', array(
+                        'template' => 'sidebar',
+                        ));
+                ?> 
+                </div>
+
+                <div class="grey-panel inside">
+                    <h4>Вы специалист в области права?</h4>
+                    <p>
+                    Вы можете дать ответ на этот вопрос пройдя нехитрую процедуру 
+                    регистрации и подтверждения вашей квалификации.
+                    </p>
+                    <p class="right-align">
+                        <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', array('role' => User::ROLE_JURIST)));?>
+                    </p>
+                </div>
             </div>
             <?php endif;?>
         </div>

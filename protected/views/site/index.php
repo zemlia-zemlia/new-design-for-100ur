@@ -7,29 +7,32 @@
 
 
     <h3 class="">Последние ответы юристов на вопросы</h3>   
-
+    <div class="vert-margin30">
     <?php
         // выводим виджет с последними ответами
         $this->widget('application.widgets.RecentAnswers.RecentAnswers', array(
-            'template' => 'page',
+            'template'  => 'page',
+            'limit'     => 6,
         ));
     ?>
-
+    </div>
 <h3 class="header-block-light-grey"><strong> На ваши вопросы отвечают: </strong></h3>
-<div class='flat-panel inside vert-margin20'>
+<div class='flat-panel inside vert-margin30'>
 
-        <?php
-            // выводим виджет с топовыми юристами
-            $this->widget('application.widgets.TopYurists.TopYurists', array(
-                'cacheTime' =>  0,
-                'limit'     =>  9,
-            ));
-        ?>
+    <?php
+        // выводим виджет с топовыми юристами
+        $this->widget('application.widgets.TopYurists.TopYurists', array(
+            'cacheTime' =>  0,
+            'limit'     =>  9,
+        ));
+    ?>
+    
+    <p class="right-align">
+        <?php echo CHtml::link('Все юристы', Yii::app()->createUrl('yurist'));?>
+    </p>
 </div>
 
-<p class="right-align">
-    <?php echo CHtml::link('Все юристы', Yii::app()->createUrl('yurist'));?>
-</p>
+
 
 <h1 class="header-block-light-grey">Юридическая консультация</h1>
 <div style="text-align: justify;">
