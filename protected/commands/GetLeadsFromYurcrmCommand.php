@@ -69,6 +69,11 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
             'sourceId'  => 24,
             'buyPrice'  => 25,
         ),
+        'LeadLawChelyabinsk' => array(
+            'townId'    => 1039,
+            'sourceId'  => 24,
+            'buyPrice'  => 25,
+        ),
     );
 
 

@@ -31,7 +31,7 @@ $this->breadcrumbs=array(
 <table class="table table-bordered table-hover table-striped">
     <thead>
     <tr>
-        <th></th>
+ 
         <th>Текст лида</th>
         <th>Управление</th>
     </tr>

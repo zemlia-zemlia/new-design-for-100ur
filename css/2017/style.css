@@ -612,7 +612,7 @@ hr {
 
 
 .errorMessage {
-    color:#ff0000;
+    color:#62b562;
     font-size:12px;
     font-weight: 600;
 }
@@ -637,8 +637,8 @@ hr {
 }
 
 .answer-karma-string {
-    border-top:#999 1px dashed;
-    border-bottom:#999 1px dashed;
+    /*border-top:#999 1px dashed;*/
+    /*border-bottom:#999 1px dashed;*/
     padding:3px 0;
     text-align: right;
 }
@@ -751,7 +751,7 @@ hr {
 }
 
 .annoying-phone {
-    color:#ff2400;
+    color:#62b562;
     font-size:25px;
     margin-bottom:10px;
     font-weight: bold;

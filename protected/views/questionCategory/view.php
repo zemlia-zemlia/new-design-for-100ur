@@ -32,7 +32,7 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL,Yii::app()->createUrl
 // временно отключаем запрет индексации недозаполненных категорий
 //Yii::app()->clientScript->registerMetaTag(($model->isIndexingAllowed())?'all':'noindex', "robots");
 
-$this->breadcrumbs = array('Категории' => array('/cat'));
+$this->breadcrumbs = array('Темы вопросов' => array('/cat'));
 
 foreach($ancestors as $ancestor) {
     $this->breadcrumbs[$ancestor->name] = Yii::app()->createUrl('questionCategory/alias', $ancestor->getUrl());
@@ -43,7 +43,7 @@ $this->breadcrumbs[] = $model->name;
 
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('Вопрос юристу',"/"),
+        'homeLink'=>CHtml::link('Юридическая консультация',"/"),
         'separator'=>' / ',
         'links'=>$this->breadcrumbs,
      ));

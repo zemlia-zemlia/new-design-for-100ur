@@ -53,3 +53,5 @@ php_flag display_errors On
 
 #redirect 301 /question/index/  /question/
 #redirect 301 /site/$ https://100yuristov.com/
+
+#redirect 301 /site/konsultaciya_yurista_advokata/ https://100yuristov.com/

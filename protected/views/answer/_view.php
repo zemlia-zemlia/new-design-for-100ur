@@ -6,7 +6,7 @@
 <?php $videoCode = $data->getVideoCode();?>
 
 <?php if($data->status!=Answer::STATUS_SPAM):?>
-<div class="flat-panel">
+<div class=" ">
     <div class=''>
 <div class='answer-item'>
     
@@ -20,16 +20,10 @@
                         <img src="<?php echo $data->author->getAvatarUrl();?>" alt="<?php echo CHtml::encode($data->author->name . ' ' . $data->author->lastName);?>" class="img-responsive img-bordered" />
                     </div>
                     <?php if(floor((time() - strtotime($data->author->lastActivity))/60)<60):?>
-                        <div class="center-align"><small><span class="label label-success">онлайн</span></small></div>
+                        <div class="center-align"><small><span class="label label-success">Сейчас на сайте</span></small></div>
                     <?php endif;?>
                     
-                    <div  class="center-align">
-                    <small>
-                        <span class="glyphicon glyphicon-signal"></span>&nbsp;<?php echo $data->author->answersCount . ' ' . CustomFuncs::numForms($data->author->answersCount, 'ответ', "ответа", "ответов");?>     
-                        <br />
-                        <span class='glyphicon glyphicon-thumbs-up'></span>&nbsp;<?php echo $data->author->karma;?>                        
-                    </small>
-                    </div>
+
                 <?php endif;?>
             </div>
             <div class="col-sm-10 col-xs-8">
@@ -54,13 +48,20 @@
                         </strong>
 
                         <?php if($data->author->settings->isVerified):?>
-                                <span class="label label-success"><?php echo $data->author->settings->getStatusName();?></span>
+                                <small><span class="label label-success"><?php echo $data->author->settings->getStatusName();?></span></small>
                             <?php endif;?>
-                        &nbsp;&nbsp;
+							
+                        &nbsp;|&nbsp;
 
                         <?php if($data->datetime):?>
                             <span class="glyphicon glyphicon-calendar"></span> <?php echo CustomFuncs::niceDate($data->datetime, false);?>
                         <?php endif;?>
+						
+						<br/>
+						
+						<span class="glyphicon glyphicon-signal"></span>&nbsp;<?php echo $data->author->answersCount . ' ' . CustomFuncs::numForms($data->author->answersCount, 'ответ', "ответа", "ответов");?>     
+                        &nbsp;|&nbsp;
+                        <span class='glyphicon glyphicon-thumbs-up'></span>&nbsp;<?php echo $data->author->karma;?> 
                     </div>
                     </small>
                     </div>
