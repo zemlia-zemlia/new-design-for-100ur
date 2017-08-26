@@ -24,7 +24,7 @@ class TopYurists extends CWidget
         $users = Yii::app()->db->cache($this->cacheTime)->createCommand()
                 ->select('u.*, s.status yuristStatus, t.name town')
                 ->from('{{user}} u')
-                ->leftJoin('{{yuristsettings}} s', 's.yuristId = u.id')
+                ->leftJoin('{{yuristSettings}} s', 's.yuristId = u.id')
                 ->leftJoin('{{town}} t', 't.id = u.townId')
                 ->where('role = ' . User::ROLE_JURIST . ' AND active100=1 AND avatar IS NOT NULL AND s.status!=0')
                 ->limit($this->limit)
