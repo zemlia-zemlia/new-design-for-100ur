@@ -29,7 +29,7 @@
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="form-group">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-primary btn-block')); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'yellow-button center-block')); ?>
             </div>
         </div>
     </div>

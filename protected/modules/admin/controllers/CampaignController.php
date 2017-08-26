@@ -30,7 +30,7 @@ class CampaignController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'topup'),
+                'actions' => array('create', 'update', 'topup', 'setLimit'),
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -185,7 +185,7 @@ class CampaignController extends Controller {
 //            ORDER BY u.name
 
         $campaignsCommand = Yii::app()->db->createCommand()
-                ->select("c.id, c.townId, t.name townName, c.regionId, r.name regionName, c.leadsDayLimit, c.brakPercent, c.timeFrom, c.timeTo, c.price, COUNT(l.id) leadsSent, u.id userId, u.name, u.balance, u.lastTransactionTime")
+                ->select("c.id, c.townId, t.name townName, c.regionId, r.name regionName, c.leadsDayLimit, c.realLimit, c.brakPercent, c.timeFrom, c.timeTo, c.price, COUNT(l.id) leadsSent, u.id userId, u.name, u.balance, u.lastTransactionTime")
                 ->from("{{campaign}} c")
                 ->leftJoin("{{user}} u", "u.id = c.buyerId")
                 ->leftJoin("{{town}} t", "t.id = c.townId")
@@ -262,6 +262,7 @@ class CampaignController extends Controller {
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['timeTo'] = $row['timeTo'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['price'] = $row['price'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['leadsDayLimit'] = $row['leadsDayLimit'];
+            $campaignsArray[$row['userId']]['campaigns'][$row['id']]['realLimit'] = $row['realLimit'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['brakPercent'] = $row['brakPercent'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['leadsSent'] = $row['leadsSent'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['todayLeads'] = (int) $todayLeadsArray[$row['id']];
@@ -366,4 +367,23 @@ class CampaignController extends Controller {
         }
     }
 
+    public function actionSetLimit()
+    {
+        $campaignId = (int)$_POST['id'];
+        $limit = (int)$_POST['limit'];
+        
+        $campaign = Campaign::model()->findByPk($campaignId);
+        
+        if(!$campaign) {
+            throw new CHttpException(400, 'Кампания не найдена');
+        }
+        
+        $campaign->realLimit = $limit;
+        
+        if($campaign->save()) {
+            die('1');
+        } else {
+            die('0');
+        }
+    }
 }

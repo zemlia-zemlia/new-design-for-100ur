@@ -31,9 +31,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 ?>
 
 
-<h1><?php echo $title;?></h1>
 <div class="flat-panel inside">
         
+<h1><?php echo $title;?></h1>
 
         <?php echo $this->renderPartial('_registerForm', array(
             'model'             =>  $model,

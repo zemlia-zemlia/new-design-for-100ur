@@ -404,3 +404,8 @@ tr:hover .table-links-hovered-container {
 .region-buy-price, .town-buy-price {
     max-width: 50px;
 }
+
+.input-xs {
+    height:24px;
+    padding:2px 5px;
+}

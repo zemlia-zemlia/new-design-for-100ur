@@ -23,7 +23,7 @@
         // выводим виджет с топовыми юристами
         $this->widget('application.widgets.TopYurists.TopYurists', array(
             'cacheTime' =>  0,
-            'limit'     =>  9,
+            'limit'     =>  6,
         ));
     ?>
     

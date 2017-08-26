@@ -1,6 +1,6 @@
-<h1>Восстановление пароля</h1>
 
 <div class="flat-panel inside">
+<h1>Восстановление пароля</h1>
 
 <?php if(empty($message)): ?>
     
@@ -34,7 +34,7 @@
 <?endif?>
 
 <div class="form-group">
-    <?php echo CHtml::submitButton('Выслать пароль', array('class'=>'btn btn-primary btn-block')); ?>
+    <?php echo CHtml::submitButton('Выслать пароль', array('class'=>'yellow-button center-block')); ?>
 </div>
 
 <?php $this->endWidget(); ?>

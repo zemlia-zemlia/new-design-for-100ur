@@ -568,10 +568,13 @@ class User extends CActiveRecord {
      * Переводит вопросы, автором которых является данный пользователь, из статуса "Новый"
      * в статус "Предварительно опубликован"
      * При этом, если у вопроса указан источник, создаем транзакции вебмастера
+     * @return integer Количество опубликованных вопросов
      */
     public function publishNewQuestions() {
         
         $questions = Question::model()->findAll('authorId!=0 AND authorId=:authorId AND status=:statusOld', array(':authorId' => $this->id, ':statusOld' => Question::STATUS_NEW));
+        $publishedQuestionsNumber = 0;
+        
         foreach ($questions as $question) {
             $question->status = Question::STATUS_CHECK;
             $question->publishDate = date('Y-m-d H:i:s');
@@ -580,6 +583,7 @@ class User extends CActiveRecord {
             $question->autolinkCategories();
             
             if($question->save() && $question->sourceId !== 0) {
+                $publishedQuestionsNumber++;
                 $webmasterTransaction = new PartnerTransaction();
                 $webmasterTransaction->sum = $question->buyPrice;
                 $webmasterTransaction->sourceId = $question->sourceId;
@@ -589,6 +593,8 @@ class User extends CActiveRecord {
                 $webmasterTransaction->save();
             }
         }
+        
+        return $publishedQuestionsNumber;
     }
 
     /**

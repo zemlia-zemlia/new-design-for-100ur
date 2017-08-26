@@ -85,7 +85,7 @@
                 
             </div>
             
-            <div class="col-xs-12">
+            <div class="col-sm-10 col-sm-offset-2">
                 
                 
                 <?php if(!Yii::app()->user->isGuest && $data->authorId != Yii::app()->user->id):?>
@@ -152,7 +152,7 @@
                             <p>
                                 <?php echo CHtml::encode($comment->text);?>
                             </p>
-                            <?php if(!is_null($commentModel) && ($data->authorId == Yii::app()->user->id ||  $data->question->authorId == Yii::app()->user->id || Yii::app()->user->checkAccess(User::ROLE_ROOT))):?>
+                            <?php if(!is_null($commentModel) && $comment->authorId != Yii::app()->user->id && ($data->authorId == Yii::app()->user->id ||  $data->question->authorId == Yii::app()->user->id || Yii::app()->user->checkAccess(User::ROLE_ROOT))):?>
                             <div class="right-align">
                             <a class="btn btn-xs btn-default" role="button" data-toggle="collapse" href="#collapse-comment-<?php echo $comment->id;?>" aria-expanded="false">
                                 Ответить

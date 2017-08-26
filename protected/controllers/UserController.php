@@ -350,7 +350,7 @@ class UserController extends Controller {
                 $user->confirm_code = $user->generateAutologinString();
                 // задаем пользователю некий произвольный пароль, который на следующем шаге попросим сменить. Пароль в открытом виде не отсылаем пользователю
                 $newPassword = $user->password = $user->password2 = $user->generatePassword(10);
-                $user->publishNewQuestions();
+                $publishedQuestionsNumber = $user->publishNewQuestions();
             }
 
             if ($user->save()) {
@@ -376,7 +376,11 @@ class UserController extends Controller {
                     $question = Question::model()->find($questionCriteria);
 
                     if ($question) {
-                        $this->redirect(array('question/view', 'id' => $question->id, 'justPublished' => 1));
+                        if($publishedQuestionsNumber) {
+                            $this->redirect(array('question/view', 'id' => $question->id, 'justPublished' => 1));
+                        } else {
+                            $this->redirect(array('question/view', 'id' => $question->id));
+                        }
                     }
 
                     // если активированный пользователь - юрист, направляем его в форму редактирования профиля

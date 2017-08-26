@@ -36,6 +36,26 @@ $(function(){
         //console.log(sum + ': ' + campaignId);
         return false;
     })
+    
+    $(document).on('change', '.set-real-limit', function(){
+        var campaignId = $(this).attr('data-id');
+        var limit = $(this).val();
+        var currentField = $(this);
+        
+        $.ajax('/admin/campaign/setLimit/', {
+            'data' : {'id':campaignId, 'limit': limit},
+            'method':'POST',
+        }).done(function(data){
+            console.log(data);
+            console.log($(this));
+            
+            if(data == '1') {
+                currentField.closest('div').removeClass('has-danger').addClass('has-success');
+            } else {
+                currentField.closest('div').removeClass('has-success').addClass('has-danger');
+            }            
+        });
+    });
 
 })
 

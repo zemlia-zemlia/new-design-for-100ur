@@ -42,7 +42,7 @@
 
 	
 	<div class="form-group">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-primary btn-block')); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Ответить' : 'Сохранить', array('class'=>'yellow-button center-block')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

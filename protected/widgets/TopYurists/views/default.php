@@ -13,13 +13,9 @@
         <div class="row">
             <div class="col-xs-4 text-center">
                     <a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$user['id']));?>" rel="nofollow">
-                        <img class="img-responsive img-bordered" src="<?php echo User::USER_PHOTO_PATH . User::USER_PHOTO_THUMB_FOLDER . '/'. $user['avatar'];?>" alt="<?php echo CHtml::encode($user['name'] . ' ' . $user['lastName']);?>" class="img-responsive center-block gray-panel" />
+                        <img class="img-responsive" src="<?php echo User::USER_PHOTO_PATH . User::USER_PHOTO_THUMB_FOLDER . '/'. $user['avatar'];?>" alt="<?php echo CHtml::encode($user['name'] . ' ' . $user['lastName']);?>" class="img-responsive center-block gray-panel" />
                     </a>
-                    <div class="answer-item-karma center-align">
-                        <small>
-                        <span class='glyphicon glyphicon-thumbs-up'></span> <?php echo $user['karma'];?>
-                        </small>
-                    </div>
+                    
             </div>
             <div class="col-xs-8">
                 <div>
@@ -43,7 +39,6 @@
                     <?php if($user['town']):?>
                         <?php echo $user['town'];?><br />
                     <?php endif;?>
-                    Ответов: <?php echo $user['answersCount'];?>
                     </small>
                 </p>
                 

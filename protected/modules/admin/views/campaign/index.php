@@ -36,6 +36,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
             <th>%&nbsp;брака</th>
             <th>Цена</th>
             <th>Отправлено</th>
+            <th>Лимит</th>
         </tr>
     </thead>    
 
@@ -45,7 +46,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                 id: <?php echo $user['id'];?>
                 <?php echo CHtml::link(CHtml::encode($user['name']), Yii::app()->createUrl('/admin/user/view', array('id'=>$user['id'])));?> 
             </td>
-            <td colspan="5">
+            <td colspan="6">
                     <span class="label label-default balance-<?php echo $user['id'];?>">
             <?php echo $user['balance'];?> руб.</span>
 
@@ -88,6 +89,15 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                     <abbr title='Всего'><?php echo $campaign['leadsSent'];?></abbr> / 
                     <abbr title='Сегодня'><?php echo $campaign['todayLeads'];?></abbr> / 
                     <abbr title='Лимит'><?php echo $campaign['leadsDayLimit'];?></abbr>
+                </td>
+                <td>
+                    <div class="">
+                    <?php echo CHtml::textField('realLimit', $campaign['realLimit'], array(
+                        'class'=>'form-control set-real-limit input-sm input-xs', 
+                        'style' => 'max-width:50px',
+                        'data-id' => $campaign['id'],
+                        ));?>
+                    </div>
                 </td>
             </tr>
             <?php endforeach;?>

@@ -38,16 +38,24 @@
             <?php echo $form->error($model,'password'); ?>
         </div>
 
-        <div class="form-group">
-            <?php echo $form->checkBox($model,'rememberMe'); ?>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <?php echo $form->checkBox($model,'rememberMe'); ?>
 
-            <?php echo $model->getAttributeLabel('rememberMe');?>
+                    <?php echo $model->getAttributeLabel('rememberMe');?>
 
-            <?php echo $form->error($model,'rememberMe'); ?>
+                    <?php echo $form->error($model,'rememberMe'); ?>
 
+                </div>
+            </div>
+            <div class="col-md-6">
+                <?php echo CHtml::submitButton('Войти',array('class'=>'yellow-button btn-lg btn-block')); ?>
+            </div>
         </div>
+        
 
-           <?php echo CHtml::submitButton('Войти',array('class'=>'btn btn-success btn-lg btn-block')); ?>
+        
     </div>
     <?php if(!isset($hideForgetPassword) || !$hideForgetPassword):?>
 	<div class="col-sm-1 center-align">
@@ -58,7 +66,7 @@
         <?php echo CHtml::link('Напомнить', Yii::app()->createUrl('user/restorePassword'), array('class'=>'btn btn-default btn-block'));?>
         </p>
         <p>Если Вы у нас впервые<br />
-        <?php echo CHtml::link('Регистрация', Yii::app()->createUrl('user/create'), array('class'=>'btn btn-primary btn-block'));?>
+        <?php echo CHtml::link('Регистрация', Yii::app()->createUrl('user/create'), array('class'=>'btn btn-default btn-block'));?>
         </p>
 
     </div>
