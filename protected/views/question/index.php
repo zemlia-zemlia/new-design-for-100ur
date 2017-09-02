@@ -12,7 +12,7 @@ Yii::app()->clientScript->registerMetaTag("Советы юристов по вс
 ?>
 
 
-<div class="flat-panel">
+<div class="flat-panel  vert-margin20">
 
         <h1 class="header-block-light-grey vert-margin20">Последние вопросы юристам</h1>
 

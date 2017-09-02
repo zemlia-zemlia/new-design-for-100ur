@@ -59,7 +59,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                 <div class="grey-panel inside">
                     <h4>Вы специалист в области права?</h4>
                     <p>
-                    Вы можете дать ответ на этот вопрос пройдя нехитрую процедуру 
+                    Вы можете отвечать на вопросы наших пользователей пройдя нехитрую процедуру 
                     регистрации и подтверждения вашей квалификации.
                     </p>
                     <p class="right-align">

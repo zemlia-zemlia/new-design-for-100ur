@@ -35,6 +35,11 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
             'sourceId' => 33,
             'buyPrice' => 45,
         ),
+		'9111Spb' => array(
+            'townId' => 822,
+            'sourceId' => 33,
+            'buyPrice' => 84,
+        ),
     );
 
     // возвращает массив мейлов из заданной папки на сервере
