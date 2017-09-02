@@ -68,12 +68,27 @@
     </div>
     </div> <!-- #header -->
     
+    <nav class="navbar navbar-inverse vert-margin20">
+        <div id="top-menu-wrapper">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/')?CHtml::link('Главная', '/cabinet/'):'<span class="active">Главная</span>';?></li>
+                <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/transactions/')?CHtml::link('Баланс', Yii::app()->createUrl('/cabinet/transactions/')):'<span class="active">Баланс</span>';?></li>
+                <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/api/')?CHtml::link('API', Yii::app()->createUrl('/cabinet/api/')):'<span class="active">API</span>';?></li>
+            </ul>
+            </div>
+        </div>
+    </nav>
+    
         
-<div class="container">
-    <div class="top-form-replace">
-        <hr/>
-    </div>    
-</div>
+
     
     <div id="middle ">
         <div class="container-fluid container">
