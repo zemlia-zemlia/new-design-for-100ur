@@ -890,7 +890,7 @@ ul.hor-list-menu a.black-button {
 
 ul.hor-list-menu a.yellow-button, 
 .yellow-button {
-    display: block;
+    display: inline-block;
     color:#333;
     background-color:#ffc900;
     padding:5px 20px;
@@ -898,6 +898,10 @@ ul.hor-list-menu a.yellow-button,
     border-radius:4px;
     font-weight: bold;
     border:none;
+}
+
+.yellow-button.center-block {
+    display: block;
 }
 
 .yellow-button.arrow {

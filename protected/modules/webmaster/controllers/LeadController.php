@@ -92,5 +92,10 @@ class LeadController extends Controller {
             'model'     => $model,
         ));
     }
+    
+    public function actionPrices()
+    {
+        $this->render('prices', array());
+    }
 
 }

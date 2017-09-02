@@ -29,8 +29,7 @@ $this->breadcrumbs=array(
    
         <div class="category-post-header">
 
-            
-            <?php if($model->authorId == Yii::app()->user->id || Yii::app()->user->checkAccess('moderator')):?>
+            <?php if($model->authorId == Yii::app()->user->id || Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>
             <div>
                 <i class="glyphicon glyphicon-edit"></i> <?php echo CHtml::link('Редактировать пост', Yii::app()->createUrl('post/update', array('id'=>$model->id)));?>
                 &nbsp;&nbsp; 

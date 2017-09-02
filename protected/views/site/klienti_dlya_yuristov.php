@@ -49,6 +49,6 @@
 		</ol>
 		
 		<p class="text-center">
-			<?php echo CHtml::link('Начать получать лиды', Yii::app()->createUrl('user/create', array('role' => User::ROLE_BUYER)), array('class' => 'btn btn-warning btn-lg btn-block'));?>
+			<?php echo CHtml::link('Начать получать лиды', Yii::app()->createUrl('user/create', array('role' => User::ROLE_BUYER)), array('class' => 'yellow-button'));?>
 		</p>
 </div>

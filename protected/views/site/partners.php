@@ -28,6 +28,10 @@
 	</ul>
 </p>
 
+<div class="vert-margin30 text-center">
+    <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('user/create', array('role' => User::ROLE_PARTNER)), array('class' => 'yellow-button'));?>
+</div>
+
 <h2 class="vert-margin20 header-block-light-grey">Описание CPL</h2>
 <p>В отличии от первого варианта партнерки в этом случае оплачиваются только активные в данный момент времени регионы. Активные регионы могут добавляться и удаляться.</p>
 
@@ -43,6 +47,10 @@
 </ul>
 
 <p>Внимание! В случае, если обнаруживается ситуация, что номер телефона в заявке фиктивный, т.е. ответивший по телефону человек не оставлял заявку на консультацию, то такая заявка отклоняется. Партнеры, с аккаунтов которых систематически поступают фиктивные заявки, блокируются, а их денежные средства замораживаются до выяснения причин.</p>
+
+<div class="vert-margin30 text-center">
+    <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('user/create', array('role' => User::ROLE_PARTNER)), array('class' => 'yellow-button'));?>
+</div>
 
 <h2>Оплачиваемые тематики</h2> 
 <ul>
@@ -101,6 +109,9 @@
 	<li>Клиент говорит, что ему уже звонили.</li>
 </ul>
 
+<div class="vert-margin30 text-center">
+    <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('user/create', array('role' => User::ROLE_PARTNER)), array('class' => 'yellow-button'));?>
+</div>
 
 <div class="panel panel-info">
         <div class="panel-heading">
@@ -109,111 +120,8 @@
         <div class="panel-body">
             В таблице ниже отображаются выкупаемые регионы в режиме реального времени. В зависимости от текущего времени, дня недели и других факторов перечень регионов и их стоимость могут полностью меняться.
         </div>
-        <table class="table table-striped table-bordered table-hover">
-            <tbody><tr>
-                <th>
-                    Регион
-                </th>
-                <th>
-                    Цена лида
-                </th>
-            </tr>
-
-                <tr>
-                    <td>
-                        Московская область
-                    </td>
-                    <td>
-                        170 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Москва
-                    </td>
-                    <td>
-                        170 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Ленинградская область
-                    </td>
-                    <td>
-                        130
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Санкт-Петербург
-                    </td>
-                    <td>
-                        130
-                    </td>
-                </tr>
-				<tr>
-                    <td>
-                        Свердловская обл
-                    </td>
-                    <td>
-                        55 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Воронежская область
-                    </td>
-                    <td>
-                        55 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Алтайский край
-                    </td>
-                    <td>
-                        55 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Новосибирская область
-                    </td>
-                    <td>
-                        55 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Краснодарский край
-                    </td>
-                    <td>
-                        55 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Красноярский край
-                    </td>
-                    <td>
-                        55 
-                    </td>
-                </tr>
-				<tr>
-                    <td>
-                        Волгоградская обл
-                    </td>
-                    <td>
-                        55 
-                    </td>
-                </tr>
-				<tr>
-                    <td>
-                        Нижегородская обл
-                    </td>
-                    <td>
-                        55 
-                    </td>
-                </tr>
-        </tbody></table>
+        <?php
+        // выводим виджет с ценами по регионам
+            $this->widget('application.widgets.RegionPrices.RegionPrices', array());
+        ?> 
     </div>

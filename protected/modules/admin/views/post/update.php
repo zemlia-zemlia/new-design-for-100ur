@@ -13,7 +13,7 @@ $this->breadcrumbs=array(
 
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('CRM',"/"),
+        'homeLink'=>CHtml::link('100 Юристов',"/"),
         'separator'=>' / ',
         'links'=>$this->breadcrumbs,
      ));

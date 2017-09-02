@@ -80,6 +80,7 @@
                         <ul class="nav navbar-nav">
                             <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/')?CHtml::link('Главная', '/webmaster/'):'<span class="active">Главная</span>';?></li>
                             <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/lead/')?CHtml::link('Лиды', Yii::app()->createUrl('/webmaster/lead/')):'<span class="active">Лиды</span>';?></li>
+                            <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/lead/prices/')?CHtml::link('Цены', Yii::app()->createUrl('/webmaster/lead/prices/')):'<span class="active">Цены</span>';?></li>
                             <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/question/')?CHtml::link('Вопросы', Yii::app()->createUrl('/webmaster/question/')):'<span class="active">Вопросы</span>';?></li>
                             <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/source/')?CHtml::link('Источники', Yii::app()->createUrl('/webmaster/source/')):'<span class="active">Источники</span>';?></li>
                             <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/api/')?CHtml::link('API', Yii::app()->createUrl('/webmaster/api/')):'<span class="active">API</span>';?></li>

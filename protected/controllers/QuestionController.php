@@ -376,7 +376,7 @@ class QuestionController extends Controller {
     }
 
     public function actionThankYou() {
-        $this->layout = '//frontend/short';
+        $this->layout = '//frontend/smart';
         $this->render('thankYou');
     }
 
