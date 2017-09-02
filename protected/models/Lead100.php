@@ -368,6 +368,7 @@ class Lead100 extends CActiveRecord {
         $mailer->message .= "<p>Имя: " . CHtml::encode($this->name) . ",</p>";
         $mailer->message .= "<p>Город: " . CHtml::encode($this->town->name) . " (" . $this->town->region->name . ")" . "</p>";
         $mailer->message .= "<p>Телефон: " . $this->phone . "</p>";
+        $mailer->message .= "<p>Уникальный код заявки: " . $this->secretCode . "</p>";
         $mailer->message .= "<p>Сообщение:<br />" . CHtml::encode($this->question) . "</p>";
 
         // Вставляем ссылку на отбраковку только если у кампании процент брака больше нуля

@@ -33,7 +33,7 @@ class ApiController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow all users 
-                'actions' => array('sendLead'),
+                'actions' => array('sendLead', 'brakLead'),
                 'users' => array('*'),
             ),
             array('deny', // deny all users
@@ -175,6 +175,71 @@ class ApiController extends Controller {
             exit;
         } else {
             echo json_encode(array('code' => 500, 'message' => 'Lead not saved.', 'errors' => $model->errors));
+            exit;
+        }
+    }
+    
+    /**
+     * Отбраковка лида по POST запросу
+     * Обязательные поля запроса:
+     * code - уникальный код лида (хранится в БД в поле secretCode)
+     * brakReason - код причины брака
+     * brakComment - комментарий отбраковки
+     * @throws CHttpException
+     */
+    public function actionBrakLead()
+    {
+        $request = Yii::app()->request;
+
+        if (!$request->isPostRequest) {
+            echo json_encode(array('code' => 400, 'message' => 'No input data'));
+            exit;
+        }
+                
+        $code = CHtml::encode($_POST['code']);
+        $brakReason = CHtml::encode($_POST['brakReason']);
+        $brakComment = CHtml::encode($_POST['brakComment']);
+
+        if ($code == '') {
+            echo json_encode(array('code' => 400, 'message' => 'Please specify lead secret code'));
+            exit;
+        }
+
+        $lead = Lead100::model()->findByAttributes(array('secretCode' => $code));
+
+        if (!$lead) {
+            echo json_encode(array('code' => 400, 'message' => 'Lead not found'));
+            exit;
+        }
+
+        if ($lead->leadStatus != Lead100::LEAD_STATUS_SENT) {
+            echo json_encode(array('code' => 400, 'message' => 'Lead in this status could not be sent to brak'));
+            exit;
+        }
+
+        if (!(!is_null($lead->deliveryTime) && (time() - strtotime($lead->deliveryTime) < 86400 * Yii::app()->params['leadHoldPeriodDays']))) {
+            echo json_encode(array('code' => 400, 'message' => 'Lead could not be sent to brak because it was created more than '. Yii::app()->params['leadHoldPeriodDays'] . ' days ago'));
+            exit;
+        }
+        
+        $lead->brakReason = $brakReason;
+        $lead->brakComment = $brakComment;
+
+        if (!$lead->brakReason) {
+            $lead->addError('brakReason', 'Please specify a reason');
+        }
+
+        if (!$lead->brakComment) {
+            $lead->addError('brakComment', 'Please specify a comment');
+        }
+
+        $lead->leadStatus = Lead100::LEAD_STATUS_NABRAK;
+        
+        if (!$lead->hasErrors() && $lead->save()) {
+            echo json_encode(array('code' => 200, 'message' => 'OK'));
+            exit;
+        } else {
+            echo json_encode(array('code' => 400, 'message' => 'Lead not saved.', 'errors' => $lead->errors));
             exit;
         }
     }
