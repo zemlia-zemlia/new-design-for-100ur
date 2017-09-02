@@ -18,7 +18,7 @@ class CabinetController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // разрешаем доступ только авторизованным пользователям
-                'actions' => array('index', 'leads', 'viewLead', 'campaign', 'brakLead', 'transactions', 'topup', 'api'),
+                'actions' => array('index', 'leads', 'faq', 'viewLead', 'campaign', 'brakLead', 'transactions', 'topup', 'api'),
                 'users' => array('@'),
                 'expression' => 'Yii::app()->user->role == User::ROLE_BUYER',
             ),
@@ -203,5 +203,10 @@ class CabinetController extends Controller {
     {
         $this->render('api');
     }
+    
+    public function actionFaq() {
+        $this->render('faq');
+    }
+
 
 }

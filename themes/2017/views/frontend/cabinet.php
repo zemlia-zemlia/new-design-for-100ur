@@ -82,6 +82,7 @@
                 <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/')?CHtml::link('Главная', '/cabinet/'):'<span class="active">Главная</span>';?></li>
                 <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/transactions/')?CHtml::link('Баланс', Yii::app()->createUrl('/cabinet/transactions/')):'<span class="active">Баланс</span>';?></li>
                 <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/api/')?CHtml::link('API', Yii::app()->createUrl('/cabinet/api/')):'<span class="active">API</span>';?></li>
+                <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/faq/')?CHtml::link('FAQ', Yii::app()->createUrl('/cabinet/faq/')):'<span class="active">FAQ</span>';?></li>
             </ul>
             </div>
         </div>
