@@ -52,5 +52,3 @@
 			<?php echo CHtml::link('Начать получать лиды', Yii::app()->createUrl('user/create', array('role' => User::ROLE_BUYER)), array('class' => 'btn btn-warning btn-lg btn-block'));?>
 		</p>
 </div>
-
-<p align="center" ><a href="/site/faq/"  >Часто задаваемые вопросы при работе с лидами</a></p>
