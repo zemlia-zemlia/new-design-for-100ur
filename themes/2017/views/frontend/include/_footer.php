@@ -36,14 +36,25 @@
                 <div itemscope itemtype="http://schema.org/Organization"> 
                     <span itemprop="name">100 Юристов</span>
                     <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                        <span itemprop="addressLocality">Москва</span> 			<span itemprop="streetAddress">Шлюзовая набережная д.6 стр.4</span><br/>
-                        <span itemprop="addressLocality">Санкт-Петербург</span> <span itemprop="streetAddress">Ул. Достоевского д.25</span><br/>
-                        <span itemprop="addressLocality">Нижний Новгород</span> <span itemprop="streetAddress">Ул. Новая, д. 28</span><br/>
-                        <span itemprop="addressLocality">Екатеринбург</span>	<span itemprop="streetAddress">Ул. 8 Марта, д. 142</span><br/>
-                        <span itemprop="addressLocality">Ростов-на-Дону</span> 	<span itemprop="streetAddress">Ул. Красноармейская, д. 142/50</span><br/>
-                        <span itemprop="addressLocality">Краснодар</span> 		<span itemprop="streetAddress">Ул. Московская, 148</span><br/>
-                        <span itemprop="telephone">8-800-500-61-85</span>
+                        <span itemprop="addressLocality">Москва</span> <span itemprop="streetAddress">Шлюзовая набережная д.6 стр.4</span>
                     </div>
+                    <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                        <span itemprop="addressLocality">Санкт-Петербург</span> <span itemprop="streetAddress">Ул. Достоевского д.25</span>
+                    </div>
+                    <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                        <span itemprop="addressLocality">Нижний Новгород</span> <span itemprop="streetAddress">Ул. Новая, д. 28</span>
+                    </div>
+                    <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                        <span itemprop="addressLocality">Екатеринбург</span> <span itemprop="streetAddress">Ул. 8 Марта, д. 142</span>
+                    </div>
+                    <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                        <span itemprop="addressLocality">Ростов-на-Дону</span> <span itemprop="streetAddress">Ул. Красноармейская, д. 142/50</span>
+                    </div>
+                    <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                        <span itemprop="addressLocality">Краснодар</span> <span itemprop="streetAddress">Ул. Московская, 148</span>
+                    </div>    
+                    <span itemprop="telephone">8-800-500-61-85</span>
+                    
                 </div>
             </div>
 
