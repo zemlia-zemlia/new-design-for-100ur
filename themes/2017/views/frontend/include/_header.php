@@ -12,14 +12,14 @@
 <?php 
     Yii::app()->clientScript->registerCssFile("/bootstrap/css/bootstrap.min.css");
     Yii::app()->clientScript->registerCssFile("/css/2017/style.css");
-    Yii::app()->clientScript->registerScriptFile("/js/respond.min.js");
-    Yii::app()->clientScript->registerScriptFile("jquery.js");
+    Yii::app()->clientScript->registerScriptFile("/js/respond.min.js",CClientScript::POS_END);
+    Yii::app()->clientScript->registerScriptFile("jquery.js",CClientScript::POS_END);
     Yii::app()->clientScript->registerScriptFile("/bootstrap/js/bootstrap.min.js",CClientScript::POS_END);
     Yii::app()->clientScript->registerScriptFile("/js/jquery.maskedinput.min.js",CClientScript::POS_END);
     Yii::app()->clientScript->registerCssFile('/css/2017/jquery-ui.css');
-    Yii::app()->clientScript->registerScriptFile('/js/jquery-ui.min.js');
+    Yii::app()->clientScript->registerScriptFile('/js/jquery-ui.min.js',CClientScript::POS_END);
     
-    Yii::app()->clientScript->registerScriptFile("/js/scripts.js");
+    Yii::app()->clientScript->registerScriptFile("/js/scripts.js",CClientScript::POS_END);
     Yii::app()->clientScript->registerScriptFile("/js/jquery.placeholder.min.js",CClientScript::POS_END);
 
 ?>
