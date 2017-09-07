@@ -13,6 +13,7 @@
         $this->widget('application.widgets.RecentAnswers.RecentAnswers', array(
             'template'  => 'page',
             'limit'     => 6,
+            'cacheTime' => 600,
         ));
     ?>
     </div>
