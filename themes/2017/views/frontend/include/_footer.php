@@ -23,10 +23,11 @@
                     <ul>
                         <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/offer/') ? CHtml::link('Пользовательское соглашение', Yii::app()->createUrl('/site/offer/')) : '<span class="active">Пользовательское соглашение</span>'; ?></li>
                         <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/crm/') ? CHtml::link('CRM Для юридических фирм', Yii::app()->createUrl('/site/crm/')) : '<span class="active">CRM Для юридических фирм</span>'; ?></li>
-                        <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/') ? CHtml::link('Лиды', Yii::app()->createUrl('/site/lead/')) : '<span class="active">Лиды</span>'; ?></li>
-                        <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/klienti_dlya_yuristov/') ? CHtml::link('Клиенты юристам', Yii::app()->createUrl('/site/klienti_dlya_yuristov/')) : '<span class="active">Клиенты юристам</span>'; ?></li>
-                        <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/partners/') ? CHtml::link('Партнерка', Yii::app()->createUrl('/site/partners/')) : '<span class="active">Партнерка</span>'; ?></li>
+                        <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/') ? CHtml::link('Юридические заявки', Yii::app()->createUrl('/site/lead/')) : '<span class="active">Юридические заявки</span>'; ?></li>
+                        <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/klienti_dlya_yuristov/') ? CHtml::link('Клиенты для юристов', Yii::app()->createUrl('/site/klienti_dlya_yuristov/')) : '<span class="active">Клиенты для юристов</span>'; ?></li>
+                        <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/partners/') ? CHtml::link('Партнерская программа', Yii::app()->createUrl('/site/partners/')) : '<span class="active">Партнерская программа</span>'; ?></li>
                         <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/about/') ? CHtml::link('О проекте', Yii::app()->createUrl('/site/about/')) : '<span class="active">О проекте</span>'; ?></li>
+						<li><?php echo ($_SERVER['REQUEST_URI'] != '/region/') ? CHtml::link('География', Yii::app()->createUrl('/region/')) : '<span class="active">География</span>'; ?></li>
                         <li><?php echo ($_SERVER['REQUEST_URI'] != '/company/') ? CHtml::link('Каталог компаний России', Yii::app()->createUrl('/company/')) : '<span class="active">Каталог компаний</span>'; ?></li>
                     </ul>
                 </small>

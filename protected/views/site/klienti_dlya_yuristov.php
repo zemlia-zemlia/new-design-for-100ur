@@ -39,11 +39,11 @@
 	Получить информацию о потенциальных клиентах, нуждающихся в услугах юриста в вашем городе (районе) можно здесь и сейчас.
 </p>
 
-<div class="alert alert-info" role="alert">
+<blockquote>
 	<h3 class="strong text-center">Как начать?</h3>
 		<ol>
 			<li>Регистрируетесь</li>
-			<li>Создаете кампанию по получению лидов</li>
+			<li>Создаете кампанию по получению лидов </li>
 			<li>После модерации кампании пополняете баланс</li>
 			<li>Получаете Лиды (заявки)</li>
 		</ol>
@@ -51,4 +51,4 @@
 		<p class="text-center">
 			<?php echo CHtml::link('Начать получать лиды', Yii::app()->createUrl('user/create', array('role' => User::ROLE_BUYER)), array('class' => 'yellow-button'));?>
 		</p>
-</div>
+</blockquote>
