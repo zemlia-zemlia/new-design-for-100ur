@@ -142,7 +142,7 @@ $this->breadcrumbs[] = $model->name;
         
         <div class="inside">
         <?php foreach($questions as $question):?>
-            <div class="row">
+            <div class="row vert-margin20">
 
                 <div class="col-sm-9">
                     <p><?php echo CHtml::link(CHtml::encode($question['title']), Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?></p>
