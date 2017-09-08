@@ -161,7 +161,7 @@ class GetLeadsFromMailCommand extends CConsoleCommand
                     $townRow = Yii::app()->db->cache(600)->createCommand()
                         ->select('id')
                         ->from('{{town}}')
-                        ->where('LOWER(`name`)=:name', array(':name' => mb_strtolower($townName, 'utf-8')))
+                        ->where('`name`=:name', array(':name' => mb_strtolower($townName, 'utf-8')))
                         ->queryRow();
                     if($townRow) {
                         $townId = $townRow['id'];
