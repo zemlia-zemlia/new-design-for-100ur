@@ -13,7 +13,7 @@
         $this->widget('application.widgets.RecentAnswers.RecentAnswers', array(
             'template'  => 'page',
             'limit'     => 6,
-            'cacheTime' => 600,
+            'cacheTime' => 3600,
         ));
     ?>
     </div>
@@ -23,7 +23,7 @@
     <?php
         // выводим виджет с топовыми юристами
         $this->widget('application.widgets.TopYurists.TopYurists', array(
-            'cacheTime' =>  0,
+            'cacheTime' =>  300,
             'limit'     =>  6,
         ));
     ?>
