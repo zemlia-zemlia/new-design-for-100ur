@@ -36,8 +36,8 @@
                 
                 <p class="text-muted">
                     <small>
-                    <?php if($user['town']):?>
-                        <?php echo $user['town'];?><br />
+                    <?php if($user['townName']):?>
+                        <?php echo $user['townName'];?><br />
                     <?php endif;?>
                     </small>
                 </p>

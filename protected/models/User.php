@@ -285,6 +285,17 @@ class User extends CActiveRecord {
      */
     protected function beforeSave() {
         if (parent::beforeSave()) {
+            // записываем название города, чтобы не дергать его джойном лишний раз
+            if($this->townId) {
+                $townNameRow = Yii::app()->db->createCommand()
+                        ->select('name')
+                        ->from('{{town}}')
+                        ->where('id=:id', array(':id' => $this->townId))
+                        ->limit(1)
+                        ->queryRow();
+                $townName = $townNameRow['name'];
+                $this->townName = $townName;
+            }
             if ($this->isNewRecord || (strlen($this->password) < 128)) {
                 // при регистрации пользователя и смене пароля перед сохранением пароль необходимо зашифровать
                 $this->password = self::hashPassword($this->password);
