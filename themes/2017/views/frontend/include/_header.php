@@ -124,7 +124,7 @@
                         <li class="hidden-xs">
                             <?php echo ($_SERVER['REQUEST_URI'] != '/cat/')?CHtml::link('Темы вопросов', Yii::app()->createUrl('/cat/'), array('class' => 'black-button')):'<span class="active">Темы вопросов</span>';?> 			
                         </li>
-                        <li "><?php echo ($_SERVER['REQUEST_URI'] != '/q/')?CHtml::link('Новые вопросы', Yii::app()->createUrl('/question/index')):'<span class="active">Новые вопросы</span>';?></li> 			
+                        <li><?php echo ($_SERVER['REQUEST_URI'] != '/q/')?CHtml::link('Новые вопросы', Yii::app()->createUrl('/question/index')):'<span class="active">Новые вопросы</span>';?></li> 			
                         <li><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/')?CHtml::link('Каталог юристов', Yii::app()->createUrl('/yurist/')):'<span class="active">Каталог юристов</span>';?></li>
                         <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/docs/'))?CHtml::link("Документы", Yii::app()->createUrl('question/docs'), array('class'=>'')):'<span class="active">Документы</span>'; ?></li>
                         <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/services/'))?CHtml::link("Услуги", Yii::app()->createUrl('question/services'), array('class'=>'')):'<span class="active">Услуги</span>'; ?></li>    

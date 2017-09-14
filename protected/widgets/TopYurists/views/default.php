@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-xs-4 text-center">
                     <a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$user['id']));?>" rel="nofollow">
-                        <img class="img-responsive" src="<?php echo User::USER_PHOTO_PATH . User::USER_PHOTO_THUMB_FOLDER . '/'. $user['avatar'];?>" alt="<?php echo CHtml::encode($user['name'] . ' ' . $user['lastName']);?>" class="img-responsive center-block gray-panel" />
+                        <img src="<?php echo User::USER_PHOTO_PATH . User::USER_PHOTO_THUMB_FOLDER . '/'. $user['avatar'];?>" alt="<?php echo CHtml::encode($user['name'] . ' ' . $user['lastName']);?>" class="img-responsive center-block gray-panel" />
                     </a>
                     
             </div>
