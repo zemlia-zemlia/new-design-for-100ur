@@ -2,7 +2,7 @@
 /* @var $this QuestionController */
 /* @var $dataProvider CActiveDataProvider */
 
-Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('question'));
+Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('q'));
 
 $pageTitle = "Последние советы юристов бесплатно онлайн ";
 
