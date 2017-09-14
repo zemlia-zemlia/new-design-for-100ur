@@ -11,9 +11,12 @@
     
     <div class="inside">
         <?php if($showAlways === true || array_key_exists($currentTown->id, $payedTownsIds) || array_key_exists($currentTown->regionId, $payedRegionsIds)):?>
-            <small>
-            <p>Наши юристы и адвокаты готовы бесплатно ответить на ваш вопрос прямо сейчас по многоканальному номеру</p>    
-            </small>
+            
+            <p>
+                <small>Наши юристы и адвокаты готовы бесплатно ответить на ваш вопрос прямо сейчас по многоканальному номеру
+                </small>
+            </p>    
+            
             <div class="annoying-phone">8-800-500-61-85</div>
             <!--
             <?php foreach($payedTowns as $town):?>

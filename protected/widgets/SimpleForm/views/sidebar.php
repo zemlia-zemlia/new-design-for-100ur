@@ -6,7 +6,7 @@
         </p>
 
         <?php $form=$this->beginWidget('CActiveForm', array(
-                'id'                    =>  'question-form',
+                'id'                    =>  'question-form-sidebar',
                 'enableAjaxValidation'  =>  false,
                 'action'                =>  Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=sidebar&utm_campaign='.Yii::app()->controller->id,
         )); ?>
