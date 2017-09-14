@@ -122,7 +122,7 @@
                 <div class="col-sm-12">
                     <ul class="hor-list-menu">
                         <li class="hidden-xs">
-                            <?php echo ($_SERVER['REQUEST_URI'] != '/cat/')?CHtml::link('Темы вопросов', Yii::app()->createUrl('/cat/'), array('class' => 'black-button')):'<span class="active">Темы вопросов</span>';?></li> 			
+                            <?php echo ($_SERVER['REQUEST_URI'] != '/cat/')?CHtml::link('Темы вопросов', Yii::app()->createUrl('/cat/'), array('class' => 'black-button')):'<span class="active">Темы вопросов</span>';?> 			
                         </li>
                         <li class="hidden-xs"><?php echo ($_SERVER['REQUEST_URI'] != '/q/')?CHtml::link('Все вопросы', Yii::app()->createUrl('/question/index')):'<span class="active">Все вопросы</span>';?></li> 			
                         <li><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/')?CHtml::link('Юристы', Yii::app()->createUrl('/yurist/')):'<span class="active">Юристы</span>';?></li>
