@@ -31,7 +31,7 @@
                 </div>
                 
                 <?php if(floor((time() - strtotime($user['lastActivity']))/60)<60):?>
-                    <small><div><span class="glyphicon glyphicon-flash"></span> <span class="text-success">Сейчас на сайте</span></div></small>
+                    <div class="small"><span class="glyphicon glyphicon-flash"></span> <span class="text-success">Сейчас на сайте</span></div>
                 <?php endif;?>
                 
                 <p class="text-muted">
