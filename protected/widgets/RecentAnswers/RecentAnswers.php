@@ -41,6 +41,7 @@ class RecentAnswers extends CWidget
                     break;
                 }
             }
+            CustomFuncs::printr($this->cacheTime);
             Yii::app()->cache->set('recentAnswers', $answers, $this->cacheTime);
         }                    
         $this->render($this->template, array(

@@ -527,7 +527,7 @@ class UserController extends Controller {
                 ->leftJoin('{{answer}} a', 'q.id=a.questionId')
                 ->where('a.id IS NOT NULL AND q.status IN (:status1, :status2) AND a.authorId = :authorId', array(':status1' => Question::STATUS_PUBLISHED, ':status2' => Question::STATUS_CHECK, ':authorId' => $model->id))
                 ->limit(10)
-                ->order('q.publishDate DESC')
+                ->order('a.datetime DESC')
                 ->queryAll();
 
 
