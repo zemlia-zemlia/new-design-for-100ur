@@ -39,6 +39,7 @@ class CustomFuncs
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
                 curl_setopt($ch, CURLOPT_HEADER, false);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
                 curl_setopt($ch, CURLOPT_POST, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
                 $xml = curl_exec($ch);
