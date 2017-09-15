@@ -83,6 +83,10 @@ class QuestionController extends Controller {
             }
 
             if ($answerModel->save()) {
+                // записываем время ответа в запись о пользователе
+                Yii::app()->db->createCommand()
+                        ->update('{{user}}', array('lastAnswer' => date('Y-m-d H:i:s')), 'id=:id', array(':id' => Yii::app()->user->id));
+                
                 $this->redirect(array('/question/view', 'id' => $model->id));
             }
         }

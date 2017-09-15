@@ -23,6 +23,7 @@
  * @property float $balance
  * @property string $lastTransactionTime
  * @property float $priceCoeff
+ * @property integer $lastAnswer
  */
 class User extends CActiveRecord {
 
@@ -249,6 +250,7 @@ class User extends CActiveRecord {
             'lastActivity' => 'Время последней активности',
             'balance' => 'Баланс',
             'priceCoeff' => 'Коэффициент цены лида у вебмастера',
+            'lastAnswer'    =>  'Время последнего ответа',
         );
     }
 
