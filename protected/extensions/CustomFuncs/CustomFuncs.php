@@ -47,8 +47,10 @@ class CustomFuncs
                 $xml=iconv('windows-1251','utf-8',$xml);
                 preg_match("/<city>(.*?)<\/city>/",$xml,$a);
                 $townName =$a[1];
-                
-                $currentTown = Town::model()->findByAttributes(array('name'=>$townName));
+                //echo 'Город:' . $townName; exit;
+                if($townName) {
+                    $currentTown = Town::model()->findByAttributes(array('name'=>$townName));
+                }
                 return $currentTown;
                 
             } 

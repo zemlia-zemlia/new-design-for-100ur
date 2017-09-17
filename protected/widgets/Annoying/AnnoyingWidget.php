@@ -16,7 +16,6 @@ class AnnoyingWidget extends CWidget
         if(YII_DEBUG && !$currenTownId) {
             $currenTownId = 598;
         }
-        
         $currentTown = Town::model()->findByPk($currenTownId);
         
         $payedTownsRegions = Campaign::getPayedTownsRegions();
