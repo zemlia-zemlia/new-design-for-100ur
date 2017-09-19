@@ -10,6 +10,7 @@ if(isset($_GET) && (int)$_GET['Question_page']) {
 }
 $this->setPageTitle($pageTitle);
 Yii::app()->clientScript->registerMetaTag("Ответы юристов и адвокатов. " . $pageTitle, "Description");
+Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('/question/archive', array('date'=>$year . '-' . $month)));
 
 ?>
 <div class="flat-panel">
