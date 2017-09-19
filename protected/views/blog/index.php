@@ -11,7 +11,7 @@ if(isset($_GET) && (int)$_GET['Post_page']) {
 $this->setPageTitle($pageTitle . Yii::app()->name);
 
 Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('/blog'));
-
+Yii::app()->clientScript->registerMetaTag("Блог портала 100 Юристов", "Description");
 
 $this->breadcrumbs=array(
 	'Блог портала 100 Юристов',

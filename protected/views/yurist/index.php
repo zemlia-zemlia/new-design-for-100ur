@@ -4,6 +4,7 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUr
 $pageTitle = "Юристы и адвокаты ";
 
 $this->setPageTitle($pageTitle . Yii::app()->name);
+Yii::app()->clientScript->registerMetaTag("Юристы и адвокаты", "Description");
 ?>
 
 <h1 class="vert-margin30">Юристы и Адвокаты</h1>

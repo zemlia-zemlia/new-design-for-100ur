@@ -5,7 +5,7 @@
 
 <?php $videoCode = $data->getVideoCode();?>
 
-<?php if($data->status!=Answer::STATUS_SPAM):?>
+<?php if($data->status!=Answer::STATUS_SPAM && $data->author && $data->author->role === User::ROLE_JURIST):?>
 <div class=" ">
     <div class=''>
 <div class='answer-item'>
@@ -16,13 +16,15 @@
                 <?php if($videoCode):?>
                 <img src='/pics/2017/logo_white.png' class='img-responsive' alt='100 Юристов' />
                 <?php else:?>
-                    <div class="answer-item-avatar">
-                        <img src="<?php echo $data->author->getAvatarUrl();?>" alt="<?php echo CHtml::encode($data->author->name . ' ' . $data->author->lastName);?>" class="img-responsive img-bordered" />
-                    </div>
-                    <?php if(floor((time() - strtotime($data->author->lastActivity))/60)<60):?>
-                        <div class="center-align"><small><span class="label label-success">Сейчас на сайте</span></small></div>
+                
+                    <?php if($data->author):?>
+                        <div class="answer-item-avatar">
+                            <img src="<?php echo $data->author->getAvatarUrl();?>" alt="<?php echo CHtml::encode($data->author->name . ' ' . $data->author->lastName);?>" class="img-responsive img-bordered" />
+                        </div>
+                        <?php if(floor((time() - strtotime($data->author->lastActivity))/60)<60):?>
+                            <div class="center-align"><small><span class="label label-success">Сейчас на сайте</span></small></div>
+                        <?php endif;?>
                     <?php endif;?>
-                    
 
                 <?php endif;?>
             </div>

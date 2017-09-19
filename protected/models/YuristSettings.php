@@ -118,7 +118,7 @@ class YuristSettings extends CActiveRecord
     static public function getStatusesArray()
     {
         return array(
-            self::STATUS_NOTHING    =>  'без статуса',
+            self::STATUS_NOTHING    =>  '',
             self::STATUS_YURIST     =>  'Юрист',
             self::STATUS_ADVOCAT    =>  'Адвокат',
             self::STATUS_JUDGE      =>  'Судья',
