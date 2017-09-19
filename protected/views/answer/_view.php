@@ -4,8 +4,7 @@
 ?>
 
 <?php $videoCode = $data->getVideoCode();?>
-
-<?php if($data->status!=Answer::STATUS_SPAM && $data->author && $data->author->role === User::ROLE_JURIST):?>
+<?php if($data->status!=Answer::STATUS_SPAM && !is_null($data->author) && $data->author->role == User::ROLE_JURIST):?>
 <div class=" ">
     <div class=''>
 <div class='answer-item'>
