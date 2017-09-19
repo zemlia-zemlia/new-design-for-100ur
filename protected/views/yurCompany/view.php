@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <?php if($company->logo):?>
-                    <?php echo CHtml::image($company->getPhotoUrl(), CHtml::encode($company->name), array('class'=>'img-responsive'));?>
+                    <?php echo CHtml::image($company->getPhotoUrl(), CHtml::encode($company->name), array('class'=>'img-responsive', 'title' => CHtml::encode($company->name)));?>
                     <?php endif;?>
                     
                     <?php
