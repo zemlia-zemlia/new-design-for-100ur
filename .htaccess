@@ -1,7 +1,5 @@
 AddDefaultCharset UTF-8
 
-ErrorDocument 404 /index.html
-
 Options +FollowSymLinks
 
 IndexIgnore */*
