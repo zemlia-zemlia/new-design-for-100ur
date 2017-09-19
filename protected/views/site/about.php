@@ -25,17 +25,16 @@
 
 			</tr>
 			<tr>
-				<td><strong style="font-size: 20px;">1</strong><br/><span class="mutted">гарантированный ответ</span>
-					<br/><br/>
-						<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_1)), array('class'=>'btn btn-warning btn-block'));?>
+				<td>
+				<strong style="font-size: 20px;">1</strong><br/><span class="mutted">гарантированный ответ</span>
 				</td>
-				<td><strong style="font-size: 20px;">2</strong><br/><span class="mutted">гарантированных ответа</span>
-					<br/><br/>
-						<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_2)), array('class'=>'btn btn-warning btn-block'));?>
+				
+				<td>
+				<strong style="font-size: 20px;">2</strong><br/><span class="mutted">гарантированных ответа</span>
 				</td>
-				<td><strong style="font-size: 20px;">3</strong><br/><span class="mutted">гарантированных ответа</span>
-					<br/><br/>
-						<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_3)), array('class'=>'btn btn-warning btn-block'));?>
+				
+				<td>
+				<strong style="font-size: 20px;">3</strong><br/><span class="mutted">гарантированных ответа</span>
 				</td>
 
 			</tr>
@@ -52,13 +51,11 @@
 				<th class="center-align" style="width: 33%">Vip+</th>
 			</tr>
 			<tr>
-				<td><strong style="font-size: 20px;">4</strong><br/><span class="mutted">гарантированных ответа</span>
-				<br/><br/>
-					<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_4)), array('class'=>'btn btn-warning btn-block'));?>
+				<td>
+				<strong style="font-size: 20px;">4</strong><br/><span class="mutted">гарантированных ответа</span>
 				</td>
-				<td><strong style="font-size: 20px;">5</strong><br/><span class="mutted">гарантированных ответов</span>
-				<br/><br/>
-					<?php echo CHtml::link('Получить', Yii::app()->createUrl('question/upgrade', array('id'=>$model->id, 'level'=>Question::LEVEL_5)), array('class'=>'btn btn-warning btn-block'));?>
+				<td>
+				<strong style="font-size: 20px;">5</strong><br/><span class="mutted">гарантированных ответов</span>
 				</td>
 			</tr>
 			<tr>
