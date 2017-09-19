@@ -37,8 +37,60 @@ class LeadsourceController extends Controller {
      * @param integer $id the ID of the model to be displayed
      */
     public function actionView($id) {
+        
+        $model = $this->loadModel($id);
+        
+        // загружаем статистику по лидам из заданного источника
+        $year = (isset($_GET['year']))?(int)$_GET['year'] : date('Y');
+        $month = (isset($_GET['month']))?(int)$_GET['month'] : date('m');
+        
+        // массив лет, за которые есть лиды из данного источника
+        $yearsArray = array();
+        $yearsRows = Yii::app()->db->createCommand()
+                ->select('DISTINCT(YEAR(question_date))')
+                ->from('{{lead100}} l')
+                ->where('l.sourceId=:sourceId', array(
+                    ':sourceId' => $model->id,
+                ))
+                ->queryColumn();
+        foreach($yearsRows as $row) {
+            $yearsArray[$row] = $row;
+        }
+        //CustomFuncs::printr($yearsArray);
+        
+        // лиды из данного источника за заданный месяц
+        $leadsStats = array();
+        $leadsRows = Yii::app()->db->createCommand()
+                ->select('l.id, l.buyPrice, l.price, l.leadStatus, t.name townName')
+                ->from('{{lead100}} l')
+                ->leftJoin('{{town}} t', 'l.townId=t.id')
+                ->where('l.sourceId=:sourceId AND YEAR(l.question_date)=:year AND MONTH(l.question_date)=:month', array(
+                    ':sourceId' => $model->id,
+                    ':year'     => $year,
+                    ':month'    => $month,
+                ))
+                ->queryAll();
+        
+        foreach ($leadsRows as $row) {
+            $leadsStats[$row['townName']]['total']++;
+            $leadsStats[$row['townName']]['expences']+=$row['buyPrice'];
+            
+            if($row['leadStatus'] == Lead100::LEAD_STATUS_BRAK) {
+                $leadsStats[$row['townName']]['brak']++;
+            } else {
+                $leadsStats[$row['townName']]['sold']++;
+                $leadsStats[$row['townName']]['revenue']+=$row['price'];
+            }
+        }
+        
+        //CustomFuncs::printr($leadsStats);
+        
         $this->render('view', array(
-            'model' => $this->loadModel($id),
+            'model'         =>  $model,
+            'year'          =>  $year,
+            'month'         =>  $month,
+            'yearsArray'    =>  $yearsArray,
+            'leadsStats'    =>  $leadsStats,
         ));
     }
 

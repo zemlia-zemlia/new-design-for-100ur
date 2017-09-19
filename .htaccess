@@ -1,9 +1,4 @@
-Order Deny,Allow
-Deny from 194.28.174.226
-
 AddDefaultCharset UTF-8
-
-ErrorDocument 404 /index.html
 
 Options +FollowSymLinks
 
@@ -23,6 +18,8 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !/$
 RewriteRule ^(.*)$ $1/ [R=301,L]
 
+#RewriteCond %{REQUEST_URI} /index.php
+#RewriteRule ^(.*)$ https://100yuristov.com/ [R=301,L]
 
 # if a directory or a file exists, use it directly
 RewriteCond %{REQUEST_FILENAME} !-f
