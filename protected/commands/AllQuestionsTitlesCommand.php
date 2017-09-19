@@ -8,7 +8,7 @@ class AllQuestionsTitlesCommand extends CConsoleCommand
     public function actionIndex()
     {
         $criteria = new CDbCriteria();
-        $criteria->limit = 10;
+        $criteria->limit = 50;
         $criteria->order = "id";
         $criteria->addColumnCondition(array('title'=>''));
         
