@@ -164,7 +164,9 @@
                                     <li>
                                         <?php echo CHtml::link("<span class='glyphicon glyphicon-chevron-right'></span> " . 'Редактирование', Yii::app()->createUrl('/admin/question/setTitle'));?>
                                     </li>
-                                    
+                                    <li>
+                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-th-large'></span> " . 'Дубликаты', Yii::app()->createUrl('/admin/question/duplicates'));?>
+                                    </li>
                                 </ul>    
                                 <?php endif;?>    
                             </li>

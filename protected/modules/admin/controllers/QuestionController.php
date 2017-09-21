@@ -35,7 +35,7 @@ class QuestionController extends Controller
                 'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions'=>array('create','update','admin','delete', 'publish', 'setPubTime', 'setTitles'),
+                'actions'=>array('create','update','admin','delete', 'publish', 'setPubTime', 'setTitles', 'duplicates'),
                 'users'=>array('@'),
                 'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
             ),
@@ -612,6 +612,44 @@ class QuestionController extends Controller
                 'questionsModeratedByMeCount'   =>  $questionsModeratedByMeCount,
                 'moderatorsStats'       =>  $moderatorsStats,
                 'showMy'                =>  $showMy,
+            ));
+        }
+        
+        
+        /**
+         * Находит несколько вопросов с одинаковым текстом и показывает их
+         */
+        public function actionDuplicates()
+        {
+            $questions = [];
+            
+//            SELECT id, md5(questionText), COUNT(*) counter
+//            FROM `100_question`
+//            WHERE status IN (2,4)
+//            GROUP BY MD5(questionText)
+//            HAVING counter>1
+//            ORDER BY counter DESC
+//            LIMIT 1
+                    
+            $md5 = Yii::app()->db->createCommand()
+                    ->select('id, md5(questionText) hash, COUNT(*) counter')
+                    ->from('{{question}}')
+                    ->where('status IN (2,4)')
+                    ->group('MD5(questionText)')
+                    ->having('counter>1')
+                    ->order('counter DESC')
+                    ->limit(1)
+                    ->queryRow();
+            
+            $criteria = new CDbCriteria();
+            $criteria->addColumnCondition(array('MD5(questionText)' => $md5['hash']));
+            $criteria->addInCondition('status', array(Question::STATUS_CHECK, Question::STATUS_PUBLISHED));
+            $dataProvider = new CActiveDataProvider('Question', array(
+                    'criteria'=>$criteria)
+                );
+                    
+            $this->render('duplicates', array(
+                'dataProvider' => $dataProvider,
             ));
         }
 }
