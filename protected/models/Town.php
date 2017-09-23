@@ -199,7 +199,7 @@ class Town extends CActiveRecord
         if(!empty($this->seoDescription)) {
            $pageDescription =  $this->seoDescription;
         } else { 
-            $pageDescription = "Консультация юриста по всем отраслям права в городе " . CHtml::encode($this->name) . ", только профессиональные юристы и адвокаты.";
+            $pageDescription = "Консультация юриста по всем отраслям права в городе " . CHtml::encode($this->name) . ", " . CHtml::encode($this->region->name) . ", только профессиональные юристы и адвокаты.";
         }
         return $pageDescription;
     }
