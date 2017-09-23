@@ -1,9 +1,9 @@
 <div class="question-search-item"> 
-    <div class="flat-panel inside">
+    <div class="">
         
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-10" style="border: #dad8d8 1px solid;">
+                <div class="col-md-10">
                     <p>
                     <?php if($data['title']):?>
                         <strong><?php echo CHtml::link(CHtml::encode($data['title']), Yii::app()->createUrl('question/view', array('id'=>$data['id']))); ?></strong>
@@ -12,16 +12,7 @@
 
                     <p >
                     <small>
-                    <?php if($data['publishDate']):?>
-                        <!-- 
-                        <?php
-                            $pubTime = strtotime($data['publishDate']);
-                            $labelClass = (time()-$pubTime<86400)?'label-danger':'label-default';
-                        ?> 
-                        
-                        <span class="label <?php echo $labelClass;?>"><?php echo CustomFuncs::niceDate($data['publishDate'], false, false);?></span>
-                        <?php echo CustomFuncs::showTime($data['publishDate']);?>
-                    <?php endif;?>&nbsp; -->
+
 						
                     <?php if($data['townName']):?>
                         <span class="glyphicon glyphicon-map-marker"></span>&nbsp;
@@ -42,5 +33,6 @@
             </div>
         </div>
         
-    </div>    
+    </div> 
+    <hr />
 </div>

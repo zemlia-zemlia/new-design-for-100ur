@@ -96,13 +96,15 @@ class QuestionSearch extends CFormModel
             $myTown = Town::model()->findByPk($myTownId);
             $closeTowns = $myTown->getCloseTowns();
             
-            $closeTownsStr = '';
-            $closeTownsIds = array();
-            foreach($closeTowns as $town) {
-                $closeTownsIds[] = $town->id;
+            if(sizeof($closeTowns)) {
+                $closeTownsStr = '';
+                $closeTownsIds = array();
+                foreach($closeTowns as $town) {
+                    $closeTownsIds[] = $town->id;
+                }
+                $closeTownsStr = implode(',', $closeTownsIds);
+                $whereCondition[] = 't.id IN(' . $closeTownsStr . ')';
             }
-            $closeTownsStr = implode(',', $closeTownsIds);
-            $whereCondition[] = 't.id IN(' . $closeTownsStr . ')';
         }
         
         if($this->myCats && Yii::app()->user->categories) {

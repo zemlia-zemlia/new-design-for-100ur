@@ -20,6 +20,7 @@
 
             <div class='col-md-3 col-sm-3'>
                     <ul class="small">
+                        <li><?php echo ($_SERVER['REQUEST_URI'] != '/q/')?CHtml::link('Новые вопросы', Yii::app()->createUrl('/question/index')):'<span class="active">Новые вопросы</span>';?></li> 			
                         <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/offer/') ? CHtml::link('Пользовательское соглашение', Yii::app()->createUrl('/site/offer/')) : '<span class="active">Пользовательское соглашение</span>'; ?></li>
                         <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/crm/') ? CHtml::link('CRM Для юридических фирм', Yii::app()->createUrl('/site/crm/')) : '<span class="active">CRM Для юридических фирм</span>'; ?></li>
                         <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/') ? CHtml::link('Юридические заявки', Yii::app()->createUrl('/site/lead/')) : '<span class="active">Юридические заявки</span>'; ?></li>

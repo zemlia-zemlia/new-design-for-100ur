@@ -26,10 +26,14 @@
             </div>
         <?php endif;?>
 
+    <p class="text-muted center-align">
+        Реклама в тексте ответа запрещена, контактные данные можно указывать только в своем профиле. Запрещается полное или частичное копирование текста ответов с других ресурсов.
+    </p>
+                
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="form-group">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'yellow-button center-block')); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Опубликовать ответ' : 'Сохранить', array('class'=>'yellow-button center-block btn-lg')); ?>
             </div>
         </div>
     </div>

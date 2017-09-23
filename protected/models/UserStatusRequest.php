@@ -39,7 +39,10 @@ class UserStatusRequest extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('yuristId', 'required'),
+            array('yuristId', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
+            array('vuz, facultet, education, vuzTownId, educationYear', 'required', 'on'=>'createYurist', 'message' => 'Поле {attribute} должно быть заполнено'),
+            array('advOrganisation, advNumber, position', 'required', 'on'=>'createAdvocat', 'message' => 'Поле {attribute} должно быть заполнено'),
+            array('', 'required', 'on'=>'createJudge', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('yuristId, status, isVerified, vuzTownId, educationYear', 'numerical', 'integerOnly' => true),
             array('vuz, facultet, education, advOrganisation, advNumber, position', 'length', 'max' => 255),
             array('userFile', 'file', 'types' => 'jpg,gif,png,tiff', 'maxSize' => '2048000', 'allowEmpty' => true),

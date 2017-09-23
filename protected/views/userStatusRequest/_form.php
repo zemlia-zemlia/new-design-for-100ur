@@ -66,11 +66,12 @@ unset($statusesArray[0]);
 
         }
         ?>').show();
+                            
+        $('#form-submit').show();
     })
 </script>
                 
 
-	<?php echo $form->errorSummary($model); ?>
 <div class='flat-panel vert-margin20 inside'>
         <p class="text-center"><strong>Какой статус подтверждаем?</strong></p>
 
@@ -90,9 +91,9 @@ unset($statusesArray[0]);
         </div>
 </div>
 
+<div class='flat-panel vert-margin20 inside'>
 
 	<div id="user-profile-yurist">
-            <div class='flat-panel vert-margin20 inside'>
                 <p>
                     Для подтверждения статуса юриста необходимо отправить дополнительные данные.
                 </p>
@@ -146,11 +147,9 @@ unset($statusesArray[0]);
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
 
             <div id="user-profile-advocat">
-                <div class='flat-panel vert-margin20 inside'>
                 <p>
                     Для подтверждения статуса адвоката необходимо отправить дополнительные данные.
                 </p>
@@ -180,20 +179,18 @@ unset($statusesArray[0]);
                 </div>
 
             </div>
-            </div>
 
 
             <div id="user-profile-judge">
-                <div class='flat-panel vert-margin20 inside'>
                 <p>
                     Функция подтверждения статуса судьи пока в разработке..
                 </p>
-                </div>   
             </div>   
 
-	<div id='form-submit' class="row buttons inside">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Сохранить', array('id'=>'submitStatusRequest',  'class'=>'btn btn-primary')); ?>
+	<div id='form-submit' class="row buttons inside center-align">
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Сохранить', array('id'=>'submitStatusRequest',  'class'=>'yellow-button')); ?>
 	</div>
+</div>
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->

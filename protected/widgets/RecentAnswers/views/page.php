@@ -21,7 +21,7 @@ if(empty($answers) || sizeof($answers)==0) {
     <div class="row">
 <?php endif;?>
     
-    <div class="col-md-6 vert-margin20">
+    <div class="col-md-6">
         <p>
             <?php echo CHtml::link(CHtml::encode($answer['questionTitle']), Yii::app()->createUrl('question/view',array('id'=>$answer['questionId'])));?>
         
@@ -41,14 +41,14 @@ if(empty($answers) || sizeof($answers)==0) {
         </p>
         
         <div class="row">
-            <div class="col-xs-4 col-sm-2">
+            <div class="col-xs-4 col-sm-3">
 
                 <?php if($answer['authorId'] && ($author=User::model()->cache(600)->findByPk($answer['authorId'])) instanceof User):?>
                     <img src="<?php echo $author->getAvatarUrl();?>" class="img-responsive" alt="<?php echo CHtml::encode($author->name . ' ' . $author->lastName);?>" />
                 <?php endif;?>
 
             </div>
-            <div class="col-xs-8 col-sm-10">
+            <div class="col-xs-8 col-sm-9">
 
                 <?php echo nl2br(mb_substr(CHtml::encode($answer['answerText']),0,150,'utf-8'));?>
                 <?php if(mb_strlen($answer['answerText'])>150):?>
@@ -63,6 +63,9 @@ if(empty($answers) || sizeof($answers)==0) {
 
     <?php if($index%2 == 1) :?>
         </div>
+        <?php if($index != 5):?>
+        <hr />
+        <?php endif;?>
     <?php endif;?>
         
     <?php $index++;?>

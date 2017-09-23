@@ -7,6 +7,10 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUr
 
 Yii::app()->clientScript->registerMetaTag(CHtml::encode(mb_substr($model->questionText, 0, 250,'utf-8')), 'description');
 
+$this->breadcrumbs=array(
+	'Все вопросы'=>array('index'),
+	CHtml::encode($model->title),
+);
 ?>
 
 <?php if($justPublished == true):?>
@@ -20,9 +24,19 @@ Yii::app()->clientScript->registerMetaTag(CHtml::encode(mb_substr($model->questi
 </div>
 <?php endif;?>
  
+<div>
+        <?php 
+        $this->widget('zii.widgets.CBreadcrumbs', array(
+            'homeLink'=>CHtml::link('Вопрос юристу',"/"),
+            'separator'=>' / ',
+            'links'=>$this->breadcrumbs,
+         ));
+        ?>
+    </div>
+
 <div itemscope itemtype="http://schema.org/Question">
      
-    <div id="question-hero">
+    <div id="question-hero" class="vert-margin20">
         
         <div class="row">
             <div class="col-sm-9">
@@ -73,39 +87,33 @@ Yii::app()->clientScript->registerMetaTag(CHtml::encode(mb_substr($model->questi
         <?php endif;?>
         </div>
 </div>
-        
-   <div itemprop="text" class="vert-margin20 inside">
+     
+    
+   <div itemprop="text" class="vert-margin20 inside lead">
         <?php echo nl2br(CHtml::encode($model->questionText));?>
     </div>
     
-    <?php $this->widget('zii.widgets.CListView', array(
-            'dataProvider'  =>  $answersDataProvider,
-            'itemView'      =>  'application.views.answer._view',
-            'emptyText'     =>  '<p class="text-muted inside">Ответов на этот вопрос пока нет...</p>',
-            'summaryText'   =>  '',
-            'pager'         =>  array('class'=>'GTLinkPager'), //we use own pager with russian words
-            'viewData'      =>  array(
-                'commentModel'          =>  $commentModel,
-                ),
-    )); ?>    
-    
-</div> <!-- Question --> 
-<br/>
 <?php if(in_array(Yii::app()->user->role, array(User::ROLE_JURIST, User::ROLE_ROOT)) && !in_array(Yii::app()->user->id, $answersAuthors)):?>
 
-    
-        
         <?php if(Yii::app()->user->isVerified || Yii::app()->user->role == User::ROLE_ROOT):?>
-            <div class='flat-panel inside'>
+    
             <h2 class="header-block-light-grey" >Ваш ответ на вопрос клиента:</h2>
-            <div class="alert alert-success">
-                    При ответах на вопросы соблюдайте, пожалуйста, правила сайта. Обратите внимание, что реклама в тексте ответа запрещена, контактные данные можно указывать только в своем профиле. Запрещается полное или частичное копирование текста ответов с других ресурсов.
-            </div>
-		
+            <div class='flat-panel inside vert-margin30'>
+
             <?php $this->renderPartial('application.views.answer._form', array('model'=>$answerModel));?>
+                
             </div>
         <?php else:?>
-            <?php if(empty($lastRequest)):?>
+            <?php if(sizeof($lastRequest)):?>
+                <div class="alert alert-danger">
+                    <p>
+                    Вы не можете отвечать на вопросы.
+                    Ваша заявка на подтверждение квалификации находится на проверке модератором. 
+                    Пожалуйста, дождитесь модерации.
+                    </p>
+                </div>
+                
+            <?php elseif(sizeof($lastRequest) == 0):?>
                 <div class="alert alert-danger">
                     <p>
                     Вы не можете отвечать на вопросы, пока не подтвердили свою квалификацию. 
@@ -119,9 +127,24 @@ Yii::app()->clientScript->registerMetaTag(CHtml::encode(mb_substr($model->questi
     
 
 <?php endif;?>
+    
+    <?php $this->widget('zii.widgets.CListView', array(
+            'dataProvider'  =>  $answersDataProvider,
+            'itemView'      =>  'application.views.answer._view',
+            'emptyText'     =>  '<p class="text-muted inside">Ответов на этот вопрос пока нет...</p>',
+            'summaryText'   =>  '',
+            'pager'         =>  array('class'=>'GTLinkPager'), //we use own pager with russian words
+            'viewData'      =>  array(
+                'commentModel'          =>  $commentModel,
+                ),
+    )); ?>    
+    
+</div> <!-- Question --> 
+
 <br/>
 
-<h3 class="header-block-light-grey"><strong> На ваши вопросы отвечают: </strong></h3>
+<?php if(Yii::app()->user->role != User::ROLE_JURIST):?>
+    <h3 class="header-block-light-grey"><strong> На ваши вопросы отвечают: </strong></h3>
     <div class='flat-panel inside vert-margin20' >
 		
         <div class="row">
@@ -135,4 +158,19 @@ Yii::app()->clientScript->registerMetaTag(CHtml::encode(mb_substr($model->questi
             
         </div>
     </div>
+<?php endif;?>
+
+    <?php 
+    // если перед этим опубликовали вопрос, отправим цель в метрику
+        if(Yii::app()->user->getState('justPublished') == 1):?>
+    
+    <script type="text/javascript">
+        window.onload = function() {
+            console.log('works');
+            yaCounter26550786.reachGoal('questionPublished');
+        }
+    </script>
+    
+    <?php Yii::app()->user->setState('justPublished',0);?>
+    <?php endif; ?>
 

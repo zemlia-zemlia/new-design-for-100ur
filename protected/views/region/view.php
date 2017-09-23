@@ -8,7 +8,7 @@ Yii::app()->clientScript->registerMetaTag("Каталог и рейтинг Юр
 $this->setPageTitle($pageTitle . Yii::app()->name);
 
 $this->breadcrumbs=array(
-	'Регионы'   =>  array('/region'),
+	'Страны'   =>  array('/region'),
         CHtml::encode($model->country->name)   =>  array('/region/country', 'countryAlias' => $model->country->alias),
 	CHtml::encode($model->name),
 );

@@ -17,10 +17,6 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
             ),
 )); ?>
 
-
-	<?php echo $form->errorSummary($model, "Исправьте ошибки"); ?>
-        <?php echo $form->errorSummary($yuristSettings, "Исправьте ошибки"); ?>
-
     
 <?php if(!$model->role):?>
     <div class="form-group">

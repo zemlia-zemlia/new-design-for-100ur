@@ -4,7 +4,7 @@ $this->setPageTitle(CHtml::encode($country->name) . '. '. Yii::app()->name);
 Yii::app()->clientScript->registerMetaTag("Каталог Юристов и Адвокатов " . CHtml::encode($country->name), "Description");
 
 $this->breadcrumbs=array(
-        'Регионы'   =>  array('/region'),
+        'Страны'   =>  array('/region'),
 	CHtml::encode($country->name),
 );
 

@@ -552,7 +552,7 @@ class User extends CActiveRecord {
      * возвращает URL аватара текущего пользователя. Если аватар не задан, 
      * возвращает URL аватара по умолчанию
      * 
-     * @param string $size размер картинки: thumb - маленькая, по умолчанию - большая
+     * @param string $size размер картинки: по умолчанию thumb - маленькая, по умолчанию - большая
      * @return type 
      */
     public function getAvatarUrl($size = 'thumb') {
@@ -564,7 +564,6 @@ class User extends CActiveRecord {
         if ($size == 'thumb') {
             $avatarFolder .= User::USER_PHOTO_THUMB_FOLDER;
         }
-
         return $avatarFolder . "/" . $this->avatar;
     }
 
@@ -585,7 +584,12 @@ class User extends CActiveRecord {
      */
     public function publishNewQuestions() {
         
-        $questions = Question::model()->findAll('authorId!=0 AND authorId=:authorId AND status=:statusOld', array(':authorId' => $this->id, ':statusOld' => Question::STATUS_NEW));
+        $questionCriteria = new CDbCriteria();
+        $questionCriteria->limit = 1;
+        $questionCriteria->condition = 'authorId!=0 AND authorId=:authorId AND status=:statusOld';
+        $questionCriteria->params = array(':authorId' => $this->id, ':statusOld' => Question::STATUS_NEW);
+        
+        $questions = Question::model()->findAll($questionCriteria);
         $publishedQuestionsNumber = 0;
         
         foreach ($questions as $question) {
@@ -596,6 +600,10 @@ class User extends CActiveRecord {
             $question->autolinkCategories();
             
             if($question->save() && $question->sourceId !== 0) {
+                
+                // запоминаем в сессию, что только что опубликовали вопрос
+                Yii::app()->user->setState('justPublished', 1);
+                    
                 $publishedQuestionsNumber++;
                 $webmasterTransaction = new PartnerTransaction();
                 $webmasterTransaction->sum = $question->buyPrice;

@@ -155,7 +155,7 @@ class QuestionController extends Controller {
                     ->where("yuristId=:id AND isVerified=0", array(':id' => Yii::app()->user->id))
                     ->order('id DESC')
                     ->limit(1)
-                    ->queryRow();
+                    ->queryAll();
         } else {
             $lastRequest = null;
         }

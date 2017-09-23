@@ -10,7 +10,7 @@
         <div class="yurist-list-item">
             <div class="row">
                 <div class="col-sm-3">
-                    <img src="<?php echo $data->getAvatarUrl();?>" alt="<?php echo CHtml::encode($yuristName);?> " class="img-responsive img-bordered" />
+                    <img src="<?php echo $data->getAvatarUrl();?>" alt="<?php echo CHtml::encode($yuristName);?> " class="img-responsive" />
                 </div>
                 <div class="col-sm-9">
 

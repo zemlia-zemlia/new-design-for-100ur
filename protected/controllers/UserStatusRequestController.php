@@ -6,7 +6,7 @@ class UserStatusRequestController extends Controller {
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
-    public $layout = '//frontend/short';
+    public $layout = '//frontend/smart';
 
     /**
      * @return array action filters
@@ -65,9 +65,21 @@ class UserStatusRequestController extends Controller {
         if (isset($_POST['UserStatusRequest'])) {
             $model->attributes = $_POST['UserStatusRequest'];
             $model->yuristId = Yii::app()->user->id;
+            
+            switch ($model->status) {
+                case YuristSettings::STATUS_YURIST:
+                    $model->scenario = 'createYurist';
+                    break;
+                case YuristSettings::STATUS_ADVOCAT:
+                    $model->scenario = 'createAdvocat';
+                    break;
+                case YuristSettings::STATUS_JUDGE:
+                    $model->scenario = 'createJudge';
+                    break;
+            }
 
-            $model->validateRequest();
-
+            //$model->validateRequest();
+            $model->validate();
 //                    CustomFuncs::printr($model->errors);exit;
             // загрузка скана
             if (!empty($_FILES) && !$model->errors) {
@@ -95,8 +107,14 @@ class UserStatusRequestController extends Controller {
                     }
                 }
             }
+            
+            // Если подтверждаем юриста, проверим, что он загрузил скан
+            if($model->scenario == 'createYurist' && !$scan) {
+                $userFile->addError('userFile', 'Не загружен файл со сканом');
+                $modelHasErrors = true;
+            }
 
-            if (!$model->errors && $model->save()) {
+            if (!$model->errors && !$modelHasErrors && $model->save()) {
                 $this->redirect(array('/user'));
             }
         }

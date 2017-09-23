@@ -88,8 +88,9 @@ class UserController extends Controller {
 
         $this->render('profile', array(
             'questionsDataProvider' => $questionsDataProvider,
-            'user' => $user,
-            'lastRequest' => $lastRequest,
+            'questions'             => $questions,
+            'user'                  => $user,
+            'lastRequest'           => $lastRequest,
         ));
     }
 
@@ -321,7 +322,7 @@ class UserController extends Controller {
     }
 
     public function actionConfirmationSent() {
-        $this->layout = '//frontend/question';
+        $this->layout = '//frontend/smart';
 
         $role = ($_GET['role'] == User::ROLE_JURIST) ? User::ROLE_JURIST : User::ROLE_CLIENT;
         $this->render('confirmationSent', array('role' => $role));
@@ -374,12 +375,14 @@ class UserController extends Controller {
                     $questionCriteria->limit = 1;
 
                     $question = Question::model()->find($questionCriteria);
+                    
 
                     if ($question) {
                         if($publishedQuestionsNumber) {
                             $this->redirect(array('question/view', 'id' => $question->id, 'justPublished' => 1));
                         } else {
                             $this->redirect(array('question/view', 'id' => $question->id));
+                        
                         }
                     }
 
@@ -515,9 +518,9 @@ class UserController extends Controller {
     public function actionView($id) {
         $this->layout = '//frontend/question';
 
-        $model = User::model()->with('settings')->findByPk($id);
+        $user = User::model()->with('settings')->findByPk($id);
 
-        if (!$model || $model->role != User::ROLE_JURIST) {
+        if (!$user || $user->role != User::ROLE_JURIST) {
             throw new CHttpException(404, 'Пользователь не найден');
         }
 
@@ -525,15 +528,21 @@ class UserController extends Controller {
                 ->select('q.id id, q.publishDate date, q.title title')
                 ->from('{{question}} q')
                 ->leftJoin('{{answer}} a', 'q.id=a.questionId')
-                ->where('a.id IS NOT NULL AND q.status IN (:status1, :status2) AND a.authorId = :authorId', array(':status1' => Question::STATUS_PUBLISHED, ':status2' => Question::STATUS_CHECK, ':authorId' => $model->id))
+                ->where('a.id IS NOT NULL AND q.status IN (:status1, :status2) AND a.authorId = :authorId', array(':status1' => Question::STATUS_PUBLISHED, ':status2' => Question::STATUS_CHECK, ':authorId' => $user->id))
                 ->limit(10)
                 ->order('a.datetime DESC')
                 ->queryAll();
 
-
-        $this->render('view', array(
-            'model' => $model,
-            'questions' => $questions,
+//        $questionsDataProvider = new CArrayDataProvider($questions, array(
+//            'pagination' => array(
+//                'pageSize' => 20,
+//            ),
+//        ));
+        
+        $this->render('profile', array(
+            'questionsDataProvider' => $questionsDataProvider,
+            'questions'             =>  $questions,
+            'user'                  => $user,
         ));
     }
 

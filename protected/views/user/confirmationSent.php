@@ -6,13 +6,13 @@ $this->setPageTitle("Регистрация завершена. ". Yii::app()->n
                    
 ?>
 <div class="panel panel-default">
-    <div class="panel-body">
+    <div class="panel-body center-align">
         <h2>Регистрация завершена</h2>
         <p>
         Проверьте почту, мы отправили Вам ссылку на активацию профиля. 
         </p>
         <div class="center-align">
-            <a href="/" class="btn btn-primary">На главную страницу</a>
+            <a href="/" class="btn btn-default">На главную страницу</a>
         </div>
 
     </div>

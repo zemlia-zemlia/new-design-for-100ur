@@ -17,8 +17,8 @@
         ));
     ?>
     </div>
-<h3 class="header-block-light-grey"><strong> На ваши вопросы отвечают: </strong></h3>
-<div class='flat-panel inside vert-margin30'>
+<h3 class="header-block-light-grey vert-margin20">На ваши вопросы отвечают:</h3>
+<div class='vert-margin30'>
 
     <?php
         // выводим виджет с топовыми юристами
@@ -35,7 +35,7 @@
 
 
 
-<h1 class="header-block-light-grey">Юридическая консультация</h1>
+<h1 class="header-block-light-grey vert-margin20">Юридическая консультация</h1>
 <div style="text-align: justify;">
 <p>
 	 Воспользовавшись нашим специализированным интернет-порталом, каждый желающий имеет возможность получить профессиональную юридическую консультацию граждан в онлайн-режиме. Причем сделать это могут жители как столицы, так&nbsp;и других регионов нашей страны.

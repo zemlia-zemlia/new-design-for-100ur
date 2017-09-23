@@ -18,7 +18,7 @@
                 
                     <?php if($data->author):?>
                         <div class="answer-item-avatar">
-                            <img src="<?php echo $data->author->getAvatarUrl();?>" alt="<?php echo CHtml::encode($data->author->name . ' ' . $data->author->lastName);?>" class="img-responsive img-bordered" />
+                            <img src="<?php echo $data->author->getAvatarUrl();?>" alt="<?php echo CHtml::encode($data->author->name . ' ' . $data->author->lastName);?>" class="img-responsive" />
                         </div>
                         <?php if(floor((time() - strtotime($data->author->lastActivity))/60)<60):?>
                             <div class="center-align"><small><span class="label label-success">Сейчас на сайте</span></small></div>

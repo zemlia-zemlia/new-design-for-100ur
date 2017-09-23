@@ -21,7 +21,7 @@ Yii::app()->createUrl('town/alias', array(
 
 
 $this->breadcrumbs=array(
-	'Регионы'   =>  array('/region'),
+	'Страны'   =>  array('/region'),
         CHtml::encode($model->country->name) =>  array(
                         'region/country', 
                         'countryAlias'  => $model->country->alias,
@@ -55,8 +55,31 @@ $this->breadcrumbs=array(
 
 <div class='flat-panel vert-margin20'>
     <div class='inside'>
-        
+        <?php foreach($questions as $question):?>
+            <div class="row question-list-item">
+                <div class="col-sm-10">
+                    <p style="font-size:0.9em;">
+                        
+                        <?php echo CHtml::link($question['title'], Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?>
+                    </p>
+                </div>
+                
+                <div class="col-sm-2 text-center">
+                    <small>
+                    <?php if($question['counter'] == 1) {
+                        echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> Есть ответ</span>";
+                    } elseif($question['counter']>1) {
+                        echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
+                    } elseif($question['counter'] == 0) {
+                        echo "<span class='text-muted'>Нет ответа</span>";
+                    }
+                    ?>
+                    </small>
+            </div>
+            </div>
+        <?php endforeach;?>
 <?php foreach($questions as $question):?>
+        <!--
             <div class="row question-list-item <?php if($question['payed'] == 1):?> vip-question<?endif;?>">
                 <div class="col-sm-9">
                     <p style="font-size:1.1em;">
@@ -81,6 +104,7 @@ $this->breadcrumbs=array(
                 </span>
             </div>
             </div>
+        -->
         <?php endforeach;?>
     </div>
 </div>
