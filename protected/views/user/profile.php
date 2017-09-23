@@ -3,17 +3,26 @@
 /* @var $model User */
 
 $this->breadcrumbs=array(
-	'Личный кабинет',
+        'Юристы'    => array('/yurist'),
+	CHtml::encode($user->name . ' ' . $user->lastName),
 );
+$title = CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
 
-$this->setPageTitle("Личный кабинет пользователя. ". Yii::app()->name);
+if($user->settings) {
+    $title = $user->settings->getStatusName() . ' ' . $title;
+}
+
+$title .= ', ' . $user->town->name;
+
+$this->setPageTitle($title . '. '. Yii::app()->name);
         
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 юристов',"/"),
-    'separator'=>' / ',
-    'links'=>$this->breadcrumbs,
- ));
-            
+if(Yii::app()->user->id != $user->id) {
+    $this->widget('zii.widgets.CBreadcrumbs', array(
+        'homeLink'=>CHtml::link('100 Юристов',"/"),
+        'separator'=>' / ',
+        'links'=>$this->breadcrumbs,
+     ));
+}          
 ?>
 
 <div class="vert-margin30">

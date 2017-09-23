@@ -42,7 +42,7 @@
                         <span class="glyphicon glyphicon-user"></span>
                         <strong>
                             <span itemprop="name">
-                                <a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$data->authorId));?>">
+                                <a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$data->authorId));?>" rel="nofollow">
                                     <?php echo CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->lastName); ?>
                                 </a>
                             </span>
