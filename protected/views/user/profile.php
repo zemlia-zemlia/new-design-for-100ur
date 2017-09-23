@@ -148,7 +148,7 @@ if(Yii::app()->user->id != $user->id) {
                                             <?php if($user->settings->site):?>
                                             <div class="col-md-6">
                                             <p>
-                                                <strong><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></strong> <?php echo CHtml::encode($user->settings->site);?>
+                                                <strong><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></strong> <?php echo CHtml::link(CHtml::encode($user->settings->site), CHtml::encode($user->settings->site), array('target'=>'_blank'));?>
                                             </p>
                                             </div>
                                             <?php endif;?>
