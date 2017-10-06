@@ -12,14 +12,14 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
 
 ?>
 
-<h1>Кампании <?php echo CHtml::link('Создать кампанию', Yii::app()->createUrl('/admin/campaign/create'), array('class'=>'btn btn-primary')); ?></h1>
+<h1>Кампании</h1>
 
 
 <div class="vert-margin20">
     <p>
         <?php echo CHtml::link("Активные", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'active')), array('class' => ($type == 'active') ? 'text-muted' : ''));?> &nbsp; 
         <?php echo CHtml::link("Пассивные", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'passive')), array('class' => ($type == 'passive') ? 'text-muted' : ''));?> &nbsp; 
-        <?php echo CHtml::link("Неактивные", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'inactive')), array('class' => ($type == 'inactive') ? 'text-muted' : ''));?> &nbsp; 
+        <?php echo CHtml::link("Отключены", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'inactive')), array('class' => ($type == 'inactive') ? 'text-muted' : ''));?> &nbsp; 
         <?php echo CHtml::link("На модерации", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'moderation')), array('class' => ($type == 'moderation') ? 'text-muted' : ''));?> 
         <span class="badge"><?php echo Campaign::getModerationCount();?></span>
         &nbsp; 

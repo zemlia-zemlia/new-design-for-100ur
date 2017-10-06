@@ -57,7 +57,7 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
 		'LeadLawMsk' => array(
             'townId'    => 598,
             'sourceId'  => 24,
-            'buyPrice'  => 250,
+            'buyPrice'  => 220,
         ),
 		'LeadLawKrasnodar' => array(
             'townId'    => 461,
@@ -76,6 +76,11 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
         ),
 		'LeadLawNabChelny' => array(
             'townId'    => 608,
+            'sourceId'  => 24,
+            'buyPrice'  => 25,
+        ),
+		'LeadLawPerm' => array(
+            'townId'    => 737,
             'sourceId'  => 24,
             'buyPrice'  => 25,
         ),

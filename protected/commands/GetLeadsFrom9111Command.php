@@ -18,27 +18,27 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
         '9111Ekaterinburg' => array(
             'townId' => 269,
             'sourceId' => 33,
-            'buyPrice' => 45,
+            'buyPrice' => 50,
         ),
         '9111NNovgood' => array(
             'townId' => 641,
             'sourceId' => 33,
-            'buyPrice' => 45,
+            'buyPrice' => 50,
         ),
         '9111Rostov' => array(
             'townId' => 805,
             'sourceId' => 33,
-            'buyPrice' => 45,
+            'buyPrice' => 60,
         ),
         '9111Volgograd' => array(
             'townId' => 165,
             'sourceId' => 33,
-            'buyPrice' => 45,
+            'buyPrice' => 50,
         ),
 		'9111Spb' => array(
             'townId' => 822,
             'sourceId' => 33,
-            'buyPrice' => 100,
+            'buyPrice' => 150,
         ),
 		'9111Msk' => array(
             'townId' => 598,
@@ -50,6 +50,22 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
             'sourceId' => 33,
             'buyPrice' => 50,
         ),
+		'9111Krasnoyarsk' => array(
+            'townId' => 472,
+            'sourceId' => 33,
+            'buyPrice' => 50,
+        ),
+		'9111Chelyabinsk' => array(
+            'townId' => 1039,
+            'sourceId' => 33,
+            'buyPrice' => 50,
+        ),
+		'9111Perm' => array(
+            'townId' => 737,
+            'sourceId' => 33,
+            'buyPrice' => 45,
+        ),
+		
     );
 
     // возвращает массив мейлов из заданной папки на сервере

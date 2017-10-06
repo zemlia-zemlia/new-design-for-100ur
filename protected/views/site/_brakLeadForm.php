@@ -30,7 +30,7 @@
 </div>
 
 <div class="form-group" id="lead-region" <?php if($model->brakReason != Lead100::BRAK_REASON_BAD_REGION):?> style="display:none"<?php endif;?>>
-    <?php echo $form->labelEx($lead,'town'); ?>
+    <?php echo $form->labelEx($lead,'Укажите реальный город клиента'); ?>
     <?php echo CHtml::textField('town', '', array(
                     'id'            =>  'town-selector', 
                     'class'         =>  'form-control',

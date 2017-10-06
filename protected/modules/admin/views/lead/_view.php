@@ -86,17 +86,18 @@ switch ($data->leadStatus) {
     </td>
     
     <td>
+			<small>
+			<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->role == User::ROLE_SECRETARY):?>
+                <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo $data->source->name; ?>       
+            <?php endif;?></small><br/>
+			
 	        <small class="muted" > 
+
+			
 			<span>id:&nbsp;<?php echo $data->id;?></span> &nbsp;<br/>
 			
             <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo CustomFuncs::niceDate($data->question_date, false, false); ?>&nbsp;<br/>
-            
 
-			
-            <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->role == User::ROLE_SECRETARY):?>
-                <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo $data->source->name; ?>       
-            <?php endif;?><br/>
-			
             <span class="label label-default"><?php echo $data->getLeadTypeName();?></span> <br/>
             
             <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
@@ -115,7 +116,7 @@ switch ($data->leadStatus) {
 				<?php echo CHtml::link($data->questionId, Yii::app()->createUrl('/admin/question/view', array('id'=>$data->questionId)));?>
 			<?php else:?>
 				<?php if($data->sourceId!=3):?>
-					<?php echo CHtml::ajaxLink('В вопрос', Yii::app()->createUrl('/admin/lead/toQuestion', array('id'=>$data->id)), array('type'=>'POST', 'success'=>'LeadToQuestionAjax'), array('class'=>'btn btn-primary btn-xs btn-block'));?>
+					<?php echo CHtml::ajaxLink('В вопрос', Yii::app()->createUrl('/admin/lead/toQuestion', array('id'=>$data->id)), array('type'=>'POST', 'success'=>'LeadToQuestionAjax'), array('class'=>'btn btn-default btn-xs btn-block'));?>
 				<?php endif;?>
 			<?php endif;?>
 				
