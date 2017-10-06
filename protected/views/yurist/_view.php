@@ -2,7 +2,7 @@
         <div class="row row-yurist">
     <?php endif;?>
 
-    <div class="col-sm-6 vert-margin30">
+    <div class="col-sm-6 vert-margin20">
 
 <?php
     $yuristName = ($data->settings && $data->settings->alias!='')?$data->settings->alias:$data->lastName . ' ' . $data->name . ' ' . $data->name2; 

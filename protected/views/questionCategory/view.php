@@ -29,6 +29,9 @@ if($model->seoKeywords) {
 
 Yii::app()->clientScript->registerLinkTag("canonical",NULL,Yii::app()->createUrl('/questionCategory/alias', $model->getUrl()));
 
+// нашел какой-то метатег чтобы он подгружал картинку когда вставляешь сссылку в группе
+// <meta property="og:image" content="https://100yuristov.com/pics/2017/100_yuristov_logo.svg">
+
 // временно отключаем запрет индексации недозаполненных категорий
 //Yii::app()->clientScript->registerMetaTag(($model->isIndexingAllowed())?'all':'noindex', "robots");
 
@@ -73,7 +76,7 @@ $this->breadcrumbs[] = $model->name;
     </div>
 <?php endif;?>
 
-<div class="flat-panel inside">
+<div class="">
 
 <?php if(sizeof($children)):?>
     <?php $itemsCount =  sizeof($children);?>

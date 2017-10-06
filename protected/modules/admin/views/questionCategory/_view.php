@@ -7,7 +7,7 @@
     <td>
         <strong><?php echo CHtml::link(CHtml::encode($data->name), array('view', 'id'=>$data->id)); ?></strong>
         (id <?php echo $data->id;?>) 
-        <?php echo CHtml::link("+подкатегория", array('create', 'parentId'=>$data->id), array('class'=>'btn btn-xs btn-primary')); ?>
+        <?php echo CHtml::link("+подкатегория", array('create', 'parentId'=>$data->id), array('class'=>'btn btn-xs btn-default')); ?>
     </td>
     <td>
         <?php echo $data->checkIfPropertyFilled('description1');?>

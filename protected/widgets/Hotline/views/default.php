@@ -1,6 +1,6 @@
 <div class="hotline-wrapper">
     <div>
-        <strong>Горячая линия</strong> с 10 до 19 МСК
+        <strong>Горячая линия</strong> - звонок по России бесплатный
     </div>
 
     <div class="phone-wrapper">

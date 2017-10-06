@@ -1,13 +1,13 @@
 <?php
 Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('yurist'));
 
-$pageTitle = "Юристы и адвокаты ";
+$pageTitle = "Каталог юристов и адвокатов. 100 Юристов - Юридические консультации онлайн";
 
 $this->setPageTitle($pageTitle . Yii::app()->name);
-Yii::app()->clientScript->registerMetaTag("Юристы и адвокаты", "Description");
+Yii::app()->clientScript->registerMetaTag("Каталог юристов и адвокатов юридического портала 100 Юристов.", "Description");
 ?>
 
-<h1 class="vert-margin30">Юристы и Адвокаты</h1>
+<h1>Каталог юристов</h1>
 
 <div class="alert alert-success">
     <h4>Вы юрист?</h4>
