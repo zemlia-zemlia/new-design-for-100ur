@@ -244,3 +244,9 @@ if(Yii::app()->user->id != $user->id) {
        </div>
    <?php endforeach;?>
 <?php endif;?>
+
+<?php 
+    if(Yii::app()->user->role == User::ROLE_ROOT) {
+        echo CHtml::link('Смотреть статистику ответов по месяцам', Yii::app()->createUrl('user/stats', array('userId'=>$user->id)), array('class'=>'btn btn-xs btn-default'));
+    }
+?>
