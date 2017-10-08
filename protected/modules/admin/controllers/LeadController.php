@@ -52,7 +52,10 @@ class LeadController extends Controller {
     public function actionView($id) {
         $model = $this->loadModel($id);
         $campaignIds = Campaign::getCampaignsForLead($model->id, true);
-        $campaigns = Campaign::model()->findAll('id IN(' . implode(', ', $campaignIds). ')');
+        $campaigns = array();
+        if(is_array($campaignIds) && sizeof($campaignIds)) {
+            $campaigns = Campaign::model()->findAll('id IN(' . implode(', ', $campaignIds). ')');
+        }
         $this->render('view', array(
             'model'         => $model,
             'campaigns'   =>  $campaigns,

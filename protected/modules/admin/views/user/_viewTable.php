@@ -9,7 +9,7 @@
             <?php endif;?>
             
             <?php if($data->role == User::ROLE_PARTNER):?>
-            <span class='text-muted'><?php echo $data->balance;?> руб.</span>
+            <span class='text-muted'><?php echo round($data->calculateWebmasterBalance(), 2);?> руб.</span>
             <?php endif;?>
         </td>
         <td>
