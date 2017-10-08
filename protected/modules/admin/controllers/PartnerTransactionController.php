@@ -114,7 +114,7 @@ class PartnerTransactionController extends Controller {
             exit;
             
         } else {
-            echo json_encode(array('code' => 500, 'message' => 'Could not save request'));
+            echo json_encode(array('code' => 500, 'message' => 'Could not save request' . print_r($request->errors)));
             exit;
         }
 
