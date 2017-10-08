@@ -6,7 +6,11 @@
 <tr id="request-id-<?php echo $data->id;?>">
 
     <td>
-        <?php echo CHtml::encode($data->user->name . ' ' . $data->user->lastName);?>
+        <?php echo CHtml::encode($data->user->name . ' ' . $data->user->name2 . ' ' . $data->user->lastName);?>
+        <br />
+        id: <?php echo CHtml::link($data->user->id, Yii::app()->createUrl('admin/user/view', array('id' => $data->user->id)));?>
+        <br />
+        Роль: <?php echo $data->user->getRoleName();?>
     </td>
     <td>
         <p>

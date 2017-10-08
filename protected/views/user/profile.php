@@ -40,7 +40,8 @@ if(Yii::app()->user->id != $user->id) {
 
     
     <?php if($user->id == Yii::app()->user->id):?>
-        <?php if($lastRequest && $lastRequest['isVerified'] == 0):?>
+            <?php if(Yii::app()->user->role == User::ROLE_JURIST):?>
+            <?php if($lastRequest && $lastRequest['isVerified'] == 0):?>
                 <div class='alert alert-success'>
                 <p>Активна заявка на подтверждение статуса <?php echo YuristSettings::getStatusNameByCode($lastRequest['status']);?>. Дождитесь проверки заявки модератором.</p>
                 </div>
@@ -60,7 +61,7 @@ if(Yii::app()->user->id != $user->id) {
                         <?php echo CHtml::link('Сменить статус', Yii::app()->createUrl('userStatusRequest/create'), array('class'=>'btn btn-xs btn-default'));?>
                     </div>
                 <?php endif;?>
-
+            <?php endif;?>
         <?php endif;?>
     <?php endif;?>
   
@@ -93,6 +94,7 @@ if(Yii::app()->user->id != $user->id) {
                                 <p>На сайте с <?php echo CustomFuncs::invertDate($user->registerDate);?></p>
                                 <?php endif;?>
                             </div>
+                            <?php if($user->role == User::ROLE_JURIST):?> 
                             <div class="col-sm-4 center-align">
                                <p>Дано ответов</p>
                                <?php
@@ -115,6 +117,7 @@ if(Yii::app()->user->id != $user->id) {
                                    <?php foreach($numbersKarma as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
                                </p>
                            </div>
+                        <?php endif;?>
                         </div>
                         
                          <hr/>

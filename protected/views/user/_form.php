@@ -59,13 +59,6 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
     </div>
 <?php endif;?>
     
-    <?php if(Yii::app()->user->role != User::ROLE_JURIST):?> 
-        <div class="form-group">
-            <?php echo $form->labelEx($model,'email'); ?>
-            <?php echo $form->textField($model,'email', array('class'=>'form-control')); ?>
-            <?php echo $form->error($model,'email'); ?>
-        </div>
-    <?php endif;?>
 </div>
     
 <?php if($model->role == User::ROLE_JURIST):?>
