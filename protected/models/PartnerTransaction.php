@@ -40,7 +40,7 @@ class PartnerTransaction extends CActiveRecord {
         return array(
             array('partnerId, sum', 'required', 'message' => 'Поле {attribute} не заполнено'),
             array('partnerId, sourceId, leadId, questionId', 'numerical', 'integerOnly' => true),
-            array('sum', 'length', 'max' => 6, 'message' => 'Сумма слишком большая'),
+            array('sum', 'length', 'max' => 10, 'message' => 'Сумма слишком большая'),
             array('comment', 'required', 'on'=>'pull', 'message' => 'Заполните поле с комментарием'),
             array('comment', 'length', 'max' => 255),
             // The following rule is used by search().
