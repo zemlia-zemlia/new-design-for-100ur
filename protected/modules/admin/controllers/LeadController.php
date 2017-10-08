@@ -30,6 +30,11 @@ class LeadController extends Controller {
                 'expression' => 'Yii::app()->user->role == ' . User::ROLE_ROOT . ' || Yii::app()->user->role == ' . User::ROLE_SECRETARY,
             ),
             array('allow', // 
+                'actions' => array('forceSell'),
+                'users' => array('@'),
+                'expression' => 'Yii::app()->user->role == ' . User::ROLE_ROOT,
+            ),
+            array('allow', // 
                 'actions' => array('update', 'delete', 'sendLeads', 'toQuestion', 'generate', 'dispatch', 'changeStatus'),
                 'users' => array('@'),
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_MANAGER . ') || Yii::app()->user->checkAccess(' . User::ROLE_SECRETARY . ')',
@@ -45,8 +50,12 @@ class LeadController extends Controller {
      * @param integer $id the ID of the model to be displayed
      */
     public function actionView($id) {
+        $model = $this->loadModel($id);
+        $campaignIds = Campaign::getCampaignsForLead($model->id, true);
+        $campaigns = Campaign::model()->findAll('id IN(' . implode(', ', $campaignIds). ')');
         $this->render('view', array(
-            'model' => $this->loadModel($id),
+            'model'         => $model,
+            'campaigns'   =>  $campaigns,
         ));
     }
 
@@ -496,6 +505,31 @@ class LeadController extends Controller {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'lead-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
+        }
+    }
+    
+    /**
+     * Принудительная продажа лида в кампанию
+     */
+    public function actionForceSell()
+    {
+        $leadId = (int)$_POST['leadId'];
+        $campaignId = (int)$_POST['campaignId'];
+        
+        $lead = Lead100::model()->findByPk($leadId);
+        $campaign = Lead100::model()->findByPk($campaignId);
+        
+        if(!$lead || !$campaign) {
+            echo json_encode(array('code' => 404, 'message' => 'Лид или кампания не найдены')); 
+            exit;
+        }
+        
+        if($lead->sendToCampaign($campaign->id)) {
+            echo json_encode(array('code' => 0, 'message' => 'Лид продан')); 
+            exit;
+        } else {
+            echo json_encode(array('code' => 500, 'message' => 'Лид не продан из-за ошибки на сервере')); 
+            exit;
         }
     }
     

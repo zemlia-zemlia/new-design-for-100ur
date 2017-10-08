@@ -127,6 +127,12 @@ class CampaignController extends Controller {
             if ($_POST['town'] == '') {
                 $model->townId = 0;
             }
+            
+            $model->days = implode(',', $model->workDays);
+//            CustomFuncs::printr($model->workDays);
+//            CustomFuncs::printr($model->days);
+//            exit;           
+            
             if ($model->save()) {
 
                 // если статус активности сменился с Модерация на другой, отправим уведомление
@@ -139,6 +145,8 @@ class CampaignController extends Controller {
 
         $buyersArray = User::getAllBuyersIdsNames();
         $regions = array('0' => 'Не выбран') + Region::getAllRegions();
+        
+        $model->workDays = explode(',', $model->days);
 
         $this->render('update', array(
             'model' => $model,
@@ -185,7 +193,7 @@ class CampaignController extends Controller {
 //            ORDER BY u.name
 
         $campaignsCommand = Yii::app()->db->createCommand()
-                ->select("c.id, c.townId, t.name townName, c.regionId, r.name regionName, c.leadsDayLimit, c.realLimit, c.brakPercent, c.timeFrom, c.timeTo, c.price, COUNT(l.id) leadsSent, u.id userId, u.name, u.balance, u.lastTransactionTime")
+                ->select("c.id, c.townId, c.days, t.name townName, c.regionId, r.name regionName, c.leadsDayLimit, c.realLimit, c.brakPercent, c.timeFrom, c.timeTo, c.price, COUNT(l.id) leadsSent, u.id userId, u.name, u.balance, u.lastTransactionTime")
                 ->from("{{campaign}} c")
                 ->leftJoin("{{user}} u", "u.id = c.buyerId")
                 ->leftJoin("{{town}} t", "t.id = c.townId")
@@ -254,6 +262,7 @@ class CampaignController extends Controller {
             $campaignsArray[$row['userId']]['id'] = $row['userId'];
             $campaignsArray[$row['userId']]['balance'] = $row['balance'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['id'] = $row['id'];
+            $campaignsArray[$row['userId']]['campaigns'][$row['id']]['days'] = $row['days'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['townId'] = $row['townId'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['regionId'] = $row['regionId'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['regionName'] = $row['regionName'];

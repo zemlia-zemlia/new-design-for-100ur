@@ -364,7 +364,7 @@ class UserController extends Controller {
      */
     public function actionIndex() {
         $criteria = new CDbCriteria;
-        $criteria->order = 't.active100 DESC, t.role DESC';
+        $criteria->order = 't.active100 DESC, t.id DESC';
         $criteria->with = 'town';
 
         // если не задано, каких пользователей выводить, выводим юристов

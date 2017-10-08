@@ -33,7 +33,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
             <th></th>
             <th>Регион</th>
             <th><span class="glyphicon glyphicon-time"></span></th>
-            <th>%&nbsp;брака</th>
+            <th>Дни</th>
             <th>Цена</th>
             <th>Отправлено</th>
             <th>Лимит</th>
@@ -80,7 +80,26 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                     <?php echo $campaign['timeFrom'] . '&nbsp;-&nbsp;' . $campaign['timeTo'];?>
                 </td>
                 <td>
-                    <?php echo $campaign['brakPercent'];?>
+                    <small>
+                        <?php 
+                            $workDays = array();
+                            $workDays = explode(',', $campaign['days']);
+                        ?>
+                        
+                        <?php for($dayNumber=1; $dayNumber<=7; $dayNumber++):?>
+                            <?php 
+                                if(!in_array($dayNumber, $workDays)) {
+                                    $labelClass = 'label-default';
+                                } else {
+                                    $labelClass = ($dayNumber>5)?'label-danger':'label-success';
+                                }
+                            ?>
+                            <span class="label <?php echo $labelClass;?>">
+                                <?php  echo CustomFuncs::getWeekDays()[$dayNumber];?>
+                            </span> &nbsp;
+                        <?php endfor;?>
+                        
+                    </small>
                 </td>
 
                 <td><?php echo $campaign['price'];?> руб.</td>

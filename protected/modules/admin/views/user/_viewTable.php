@@ -7,6 +7,10 @@
             <?php if($data->active100==0):?>
             <span class="label label-default">неактивен</span>
             <?php endif;?>
+            
+            <?php if($data->role == User::ROLE_PARTNER):?>
+            <span class='text-muted'><?php echo $data->balance;?> руб.</span>
+            <?php endif;?>
         </td>
         <td>
            <?php echo $data->town->name;?>

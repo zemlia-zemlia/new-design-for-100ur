@@ -16,6 +16,7 @@
  * @property integer $active
  * @property integer $sendEmail
  * @property string $lastTransactionTime
+ * @property string $days
  * 
  * @author Michael Krutikov m@mkrutikov.pro
  */
@@ -25,6 +26,8 @@ class Campaign extends CActiveRecord {
     const ACTIVE_NO = 0;
     const ACTIVE_YES = 1;
     const ACTIVE_MODERATION = 2;
+    
+    public $workDays;
 
     /**
      * @return string the associated database table name
@@ -42,6 +45,8 @@ class Campaign extends CActiveRecord {
         return array(
             array('price, leadsDayLimit, brakPercent, buyerId, active', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('regionId, townId, price, sendEmail, leadsDayLimit, realLimit, brakPercent, buyerId, active, timeFrom, timeTo', 'numerical', 'integerOnly' => true),
+            array('days', 'length', 'max' => 255),
+            array('workDays', 'type', 'type'=>'array'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, regionId, price, '
@@ -78,22 +83,24 @@ class Campaign extends CActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'id' => 'ID',
-            'regionId' => 'ID региона',
-            'townId' => 'ID города',
-            'region' => 'Регион',
-            'town' => 'Город',
-            'timeFrom' => 'Время работы от',
-            'timeTo' => 'Время работы до',
-            'price' => 'Цена лида',
-            'balance' => 'Баланс',
-            'leadsDayLimit' => 'Дневной лимит лидов',
-            'realLimit' => 'Реальный лимит лидов',
-            'brakPercent' => 'Процент брака',
-            'buyerId' => 'ID покупателя',
-            'active' => 'Активность',
-            'sendEmail' => 'Отправлять лиды на Email',
-            'lastTransactionTime' => 'Время последней транзакции',
+            'id'                    => 'ID',
+            'regionId'              => 'ID региона',
+            'townId'                => 'ID города',
+            'region'                => 'Регион',
+            'town'                  => 'Город',
+            'timeFrom'              => 'Время работы от',
+            'timeTo'                => 'Время работы до',
+            'price'                 => 'Цена лида',
+            'balance'               => 'Баланс',
+            'leadsDayLimit'         => 'Дневной лимит лидов',
+            'realLimit'             => 'Реальный лимит лидов',
+            'brakPercent'           => 'Процент брака',
+            'buyerId'               => 'ID покупателя',
+            'active'                => 'Активность',
+            'sendEmail'             => 'Отправлять лиды на Email',
+            'lastTransactionTime'   => 'Время последней транзакции',
+            'days'                  => 'Рабочие дни',
+            'workDays'              => 'Рабочие дни',
         );
     }
 
@@ -158,7 +165,7 @@ class Campaign extends CActiveRecord {
      * @param int $leadId ID лида
      * @return int ID кампании для отправки лида 
      */
-    public static function getCampaignsForLead($leadId) {
+    public static function getCampaignsForLead($leadId, $returnArray = false) {
         // ограничим число кампаний, которые ищем
         $limit = 10;
 
@@ -192,6 +199,12 @@ class Campaign extends CActiveRecord {
 
         foreach ($campaignsRows as $campaign) {
 
+            // Проверка, работает ли кампания в данный день недели
+            $workDaysArray = explode(',', $campaign['days']);
+            if(!in_array(date('N'), $workDaysArray)) {
+                continue;
+            }
+            
             // находим дневной лимит кампании
             $dayLimit = ($campaign['realLimit']!=0)?$campaign['realLimit']:$campaign['leadsDayLimit'];
 
@@ -215,8 +228,22 @@ class Campaign extends CActiveRecord {
             }
         }
 
+        //CustomFuncs::printr($campaigns);
 
         if (sizeof($campaigns)) {
+            
+            /*
+             * Если нужно вернуть массив id кампаний, возвращаем его
+             */
+            if($returnArray === true) {
+                $campIds = array();
+                foreach ($campaigns as $camp) {
+                    //CustomFuncs::printr($camp['id']);
+                    $campIds[] = $camp['id'];
+                }
+                return $campIds;
+            }
+            
             /**
              * получили список кампаний, подходящих данному лиду
              * теперь нужно выбрать ту единственную, которая ему подходит

@@ -14,6 +14,7 @@
 
 	<?php echo $form->errorSummary($model, 'Пожалуйста, исправьте ошибки'); ?>
 
+    <?php if($model->isNewRecord):?>
         <p class="flat-panel inside">
             Выберите регион ИЛИ город, в котором хотите покупать лиды.
         </p>
@@ -44,7 +45,8 @@
 		<?php echo $form->error($model,'townId'); ?>
             </div>
         </div>
-
+<?php endif;?>
+        
 <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
         <p class="flat-panel inside">
             Укажите время, в которое хотите получать лиды. Если хотите покупать круглосуточно, укажите с 0 до 24.<br />
@@ -72,6 +74,16 @@
             </div>
                 <?php echo $form->error($model,'timeTo'); ?>
         </div> 
+        
+        <div class="form-group">
+            <?php echo $form->labelEx($model,'days', array('class' => 'col-sm-2 control-label')); ?>
+            <div class="col-sm-10 col-md-2">
+                <?php echo $form->checkBoxList($model,'workDays', CustomFuncs::getWeekDays(), array('class'=>'')); ?>
+            </div>
+                <?php echo $form->error($model,'days'); ?>
+        </div> 
+        
+        
 <?php endif;?>
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'leadsDayLimit', array('class' => 'col-sm-2 control-label')); ?>

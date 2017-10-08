@@ -58,6 +58,29 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </tr>
     <tr>
         <td>
+            Дни
+        </td>
+        <td>
+            <?php 
+                $workDays = array();
+                $workDays = explode(',', $model->days);
+            ?>
+            <?php for($dayNumber=1; $dayNumber<=7; $dayNumber++):?>
+                <?php 
+                    if(!in_array($dayNumber, $workDays)) {
+                        $labelClass = 'label-default';
+                    } else {
+                        $labelClass = ($dayNumber>5)?'label-danger':'label-success';
+                    }
+                ?>
+                <span class="label <?php echo $labelClass;?>">
+                    <?php  echo CustomFuncs::getWeekDays()[$dayNumber];?>
+                </span> &nbsp;
+            <?php endfor;?>
+        </td>
+    </tr>
+    <tr>
+        <td>
             Время
         </td>
         <td>

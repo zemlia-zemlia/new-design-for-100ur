@@ -62,7 +62,8 @@ class PartnerTransactionController extends Controller {
     public function actionIndex() {
         $criteria = new CDbCriteria();
         $criteria->order = 'id DESC';
-        $criteria->addCondition('status=' . PartnerTransaction::STATUS_PENDING . ' AND sum<0');
+        $criteria->addCondition('sum<0');
+        //$criteria->with = array('partner');
         
         $dataProvider = new CActiveDataProvider('PartnerTransaction', array(
             'criteria' => $criteria,

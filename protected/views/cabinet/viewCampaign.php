@@ -40,15 +40,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     <?php echo $model->town->name;?>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    Время (МСК)
-                </td>
-                <td>
-                    С <?php echo $model->timeFrom;?> до
-                    <?php echo $model->timeTo;?>
-                </td>
-            </tr>
+            
             
             <?php if($model->active != Campaign::ACTIVE_MODERATION):?>
             <tr>
