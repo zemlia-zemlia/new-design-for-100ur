@@ -14,7 +14,7 @@
 
 	<?php echo $form->errorSummary($model, 'Пожалуйста, исправьте ошибки'); ?>
 
-    <?php if($model->isNewRecord):?>
+    <?php if($model->isNewRecord || Yii::app()->user->role == User::ROLE_ROOT):?>
         <p class="flat-panel inside">
             Выберите регион ИЛИ город, в котором хотите покупать лиды.
         </p>
