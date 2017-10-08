@@ -77,12 +77,13 @@
                                     <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Брак", Yii::app()->createUrl('/admin/lead/index', array('status'=>  Lead100::LEAD_STATUS_BRAK)));?></li>
                                     <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Возврат", Yii::app()->createUrl('/admin/lead/index', array('status'=>  Lead100::LEAD_STATUS_RETURN)));?></li>
                                 </ul>
-							<li><?php echo CHtml::link("<span class='glyphicon glyphicon-briefcase'></span>  Кампании", Yii::app()->createUrl('/admin/campaign'));?></li>
+                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-briefcase'></span>  Кампании", Yii::app()->createUrl('/admin/campaign'));?></li>
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-signal'></span>  Статистика", Yii::app()->createUrl('/admin/lead/stats'));?></li>
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-share-alt'></span>  Источники", Yii::app()->createUrl('/admin/leadsource'));?></li>                        
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-share-alt'></span>  Касса", Yii::app()->createUrl('/admin/money'));?></li>
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-briefcase'></span>  Пользователи", Yii::app()->createUrl('/admin/user/index'));?></li>
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-eye-close'></span>  Запросы на смену статуса ", Yii::app()->createUrl('/admin/userStatusRequest'));?> <span class="badge badge-default"><?php echo UserStatusRequest::getNewRequestsCount();?></span></li>
+                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-eye-close'></span>  Заявки на вывод средств ", Yii::app()->createUrl('/admin/partnerTransaction'));?> <span class="badge badge-default"><?php echo PartnerTransaction::getNewRequestsCount();?></span></li>
 	
                         </ul>
 					</div>

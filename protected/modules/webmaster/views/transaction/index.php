@@ -19,7 +19,12 @@
             Ваш баланс:<br /> <strong><?php echo $balance;?> руб.</strong><br /> (из них холд <?php echo $hold;?> руб.)
         </td>
         <td class="center-align">
-            Доступно для вывода:<br /> <strong><?php echo $balance - $hold;?> руб.</strong>
+            Доступно для вывода:<br /> <strong>
+                <?php if(($balance-$hold)< PartnerTransaction::MIN_WITHDRAW):?>
+                <small><span class="text-danger">Минимальная сумма для вывода - 1000&nbsp;руб.</span></small>
+                <?php else:?>
+                    <?php echo $balance - $hold;?> руб.</strong>
+                <?php endif;?>
         </td>
         <td>
             <?php echo $this->renderPartial('_form', array(
@@ -30,6 +35,7 @@
     </tr>
 </table>
 
+<hr/>
 
 <?php if($requestsDataProvider->totalItemCount):?>
     <h2>Заявки на вывод средств</h2>

@@ -61,6 +61,24 @@ class TransactionController extends Controller {
                 $transaction->addError('sum', 'Недостаточно средств');
             }
             
+            if(abs($transaction->sum) < PartnerTransaction::MIN_WITHDRAW) {
+                $transaction->addError('sum', 'Минимальная сумма для вывода - ' . PartnerTransaction::MIN_WITHDRAW . ' руб.');
+            }
+            
+            // Проверяем, нет ли у текущего пользователя заявок на рассмотрении
+            $pendingTransactions = Yii::app()->db->createCommand()
+                    ->select('id')
+                    ->from('{{partnerTransaction}}')
+                    ->where('status=:status AND partnerId=:partnerId', array(
+                        ':status' => PartnerTransaction::STATUS_PENDING,
+                        ':partnerId' => Yii::app()->user->id,
+                        ))
+                    ->limit(1)
+                    ->queryRow();
+            if(sizeof($pendingTransactions)) {
+                $transaction->addError('comment', 'Невозможно создать заявку на вывод средств, т.к. у Вас уже есть активная заявка. Пожалуйста, дождитесь ее рассмотрения');
+            }
+            
             if(!$transaction->hasErrors()) {
                 
                 $transaction->sum = 0 - abs($transaction->sum);

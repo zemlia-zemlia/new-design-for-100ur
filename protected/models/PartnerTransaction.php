@@ -18,6 +18,8 @@ class PartnerTransaction extends CActiveRecord {
 
     const STATUS_COMPLETE = 1; // транзакция совершена
     const STATUS_PENDING = 2; // транзакция на рассмотрении
+    
+    const MIN_WITHDRAW = 1; // минимальная сумма для вывода
 
     public $date1, $date2; // используются при фильтрации
 
@@ -146,6 +148,20 @@ class PartnerTransaction extends CActiveRecord {
      */
     public static function model($className = __CLASS__) {
         return parent::model($className);
+    }
+    
+    
+    /**
+     * Возвращает число заявок, находящихся в статусе На рассмотрении
+     */
+    public static function getNewRequestsCount()
+    {
+        $counterRow = Yii::app()->db->cache(600)->createCommand()
+                ->select('COUNT(*) counter')
+                ->from("{{partnerTransaction}}")
+                ->where('status = ' . self::STATUS_PENDING . ' AND sum<0')
+                ->queryRow();
+        return $counterRow['counter'];
     }
 
 }
