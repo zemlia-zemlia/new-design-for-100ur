@@ -520,7 +520,7 @@ class LeadController extends Controller {
         $campaignId = (int)$_POST['campaignId'];
         
         $lead = Lead100::model()->findByPk($leadId);
-        $campaign = Lead100::model()->findByPk($campaignId);
+        $campaign = Campaign::model()->findByPk($campaignId);
         
         if(!$lead || !$campaign) {
             echo json_encode(array('code' => 404, 'message' => 'Лид или кампания не найдены')); 
