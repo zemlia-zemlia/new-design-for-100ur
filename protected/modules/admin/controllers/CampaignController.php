@@ -242,7 +242,7 @@ class CampaignController extends Controller {
                 ->select("c.id, COUNT(l.id) counter")
                 ->from("{{campaign}} c")
                 ->leftJoin("{{lead100}} l", "l.campaignId = c.id AND l.leadStatus!=" . Lead100::LEAD_STATUS_BRAK)
-                ->where("c.active=:active AND DATE(l.question_date) = DATE(NOW())", array(':active' => $active))
+                ->where("c.active=:active AND DATE(l.deliveryTime) = DATE(NOW())", array(':active' => $active))
                 ->group("c.id")
                 ->queryAll();
 
