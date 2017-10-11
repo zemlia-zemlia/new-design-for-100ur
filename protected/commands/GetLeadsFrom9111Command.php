@@ -128,12 +128,12 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
         foreach ($existingLeads as $existingLead) {
             $existingLeadsPhones[] = Question::normalizePhone($existingLead->phone);
         }
-        echo "existing leads numbers: ";
-        print_r($existingLeadsPhones);
+        //echo "existing leads numbers: ";
+        //print_r($existingLeadsPhones);
 
         foreach ($this->folders as $folderAlias => $folderSettings) {
 
-            echo $folderAlias . "\n\r";
+            //echo $folderAlias . "\n\r";
 
             $emails = $this->getEmailsFromFolder($folderAlias);
 
@@ -171,7 +171,7 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
                 //continue;
 
                 if (in_array($phone, $existingLeadsPhones)) {
-                    echo 'duplicate! skipping' . PHP_EOL;
+                    //echo 'duplicate! skipping' . PHP_EOL;
                     continue;
                     // если лид с таким телефоном уже есть в базе, пропускаем его
                 }
@@ -195,7 +195,7 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
 
                 if (!$lead->save()) {
                     echo $lead->phone;
-                    print_r($lead->errors);
+                    //print_r($lead->errors);
                     Yii::log($lead->getError('question') . ': ' . $lead->name, 'error', 'system.web');
                 }
             }

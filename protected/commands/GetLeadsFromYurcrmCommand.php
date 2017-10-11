@@ -153,12 +153,12 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
         foreach($existingLeads as $existingLead) {
             $existingLeadsPhones[] = Question::normalizePhone($existingLead->phone);
         }
-        echo "existing leads numbers: ";
-        print_r($existingLeadsPhones);
+        //echo "existing leads numbers: ";
+        //print_r($existingLeadsPhones);
         
         foreach($this->folders as $folderAlias=>$folderSettings) {
             
-            echo $folderAlias . "\n\r";
+            //echo $folderAlias . "\n\r";
             
             $emails = $this->getEmailsFromFolder($folderAlias);
         
@@ -195,7 +195,7 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
                 $phone = Question::normalizePhone($phone);
                 $question = $message;
                 
-                echo $phone . "\n\r";
+                //echo $phone . "\n\r";
                 
                 //print_r($nameMatches[1]);
                 //print_r($phoneMatches[2]);
@@ -218,8 +218,8 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
                 $lead->leadStatus = Lead100::LEAD_STATUS_DEFAULT;
 
                 if(!$lead->save()) {
-                    echo $lead->phone;
-                    print_r($lead->errors);
+                    //echo $lead->phone;
+                    //print_r($lead->errors);
                     Yii::log($lead->getError('question') . ': ' .$lead->name, 'error', 'system.web');
                 }
 

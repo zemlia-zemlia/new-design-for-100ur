@@ -89,7 +89,7 @@ class GetLeadsFrom140Command extends CConsoleCommand
         
         foreach($this->folders as $folderAlias=>$folderSettings) {
             
-            echo $folderAlias . "\n\r";
+            //echo $folderAlias . "\n\r";
             
             $emails = $this->getEmailsFromFolder($folderAlias);
         
@@ -118,7 +118,7 @@ class GetLeadsFrom140Command extends CConsoleCommand
                 $phone = Question::normalizePhone($phone);
                 $name = $nameMatches[1];
                 
-                echo "phone: " . $phone . PHP_EOL;
+                //echo "phone: " . $phone . PHP_EOL;
                 //echo "name: " . $name . PHP_EOL;
                 //echo "message: " . $message . PHP_EOL;
                 
@@ -140,7 +140,7 @@ class GetLeadsFrom140Command extends CConsoleCommand
 
                 if(!$lead->save()) {
                     //echo $lead->name;
-                    print_r($lead->errors);
+                    //print_r($lead->errors);
                 }
 
             }    
