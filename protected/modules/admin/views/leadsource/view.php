@@ -101,14 +101,34 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <th>Прибыль</th>
     </tr>
     <?php    foreach ($leadsStats as $townName => $townStats):?>
+        <?php 
+            $sumTotal += (int)$townStats['total'];
+            $expTotal += (int)$townStats['expences'];
+            $soldTotal += (int)$townStats['sold'];
+            $revenueTotal += (int)$townStats['revenue'];
+            $brakTotal += (int)$townStats['brak'];
+        ?>
         <tr>
             <td><?php echo $townName;?></td>
             <td><?php echo (int)$townStats['total'];?></td>
-            <td><?php echo (int)$townStats['brak'];?> (<?php echo round(((int)$townStats['brak']/$townStats['total'])*100);?>%)</td>
+            <td><?php echo (int)$townStats['brak'];?> (<?php if($townStats['total']) {echo round(((int)$townStats['brak']/$townStats['total'])*100);}?>%)</td>
             <td><?php echo (int)$townStats['expences'];?></td>
             <td><?php echo (int)$townStats['sold'];?></td>
             <td><?php echo (int)$townStats['revenue'];?></td>
             <td><?php echo (int)$townStats['revenue']-$townStats['expences'];?></td>
         </tr>
     <?php    endforeach;?>
+        
+        <?php
+            $profitTotal = $revenueTotal - $expTotal;
+        ?>
+        <tr>
+            <th>Итого</th>
+            <th><?php echo $sumTotal;?></th>
+            <th><?php echo $brakTotal;?> (<?php if($sumTotal) {echo round(($brakTotal/$sumTotal)*100);}?>%)</th>
+            <th><?php echo $expTotal;?> руб.</th>
+            <th><?php echo $soldTotal;?> руб.</th>
+            <th><?php echo $revenueTotal;?> руб.</th>
+            <th><?php echo $profitTotal;?> руб.</th>
+        </tr>
 </table>
