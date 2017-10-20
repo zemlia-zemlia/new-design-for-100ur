@@ -74,7 +74,7 @@ class TransactionController extends Controller {
                         ':partnerId' => Yii::app()->user->id,
                         ))
                     ->limit(1)
-                    ->queryRow();
+                    ->queryAll();
             if(sizeof($pendingTransactions)) {
                 $transaction->addError('comment', 'Невозможно создать заявку на вывод средств, т.к. у Вас уже есть активная заявка. Пожалуйста, дождитесь ее рассмотрения');
             }
