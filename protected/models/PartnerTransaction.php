@@ -28,7 +28,7 @@ class PartnerTransaction extends CActiveRecord {
      */
 
     public function tableName() {
-        return '{{partnertransaction}}';
+        return '{{partnerTransaction}}';
     }
 
     /**
