@@ -3,7 +3,7 @@
 /**
  * Класс для работы с транзакциями за лиды, купленные у вебмастеров
  *
- * The followings are the available columns in table '{{partnertransaction}}':
+ * The followings are the available columns in table '{{partnerTransaction}}':
  * @property integer $id
  * @property integer $partnerId
  * @property integer $sourceId
@@ -104,7 +104,7 @@ class PartnerTransaction extends CActiveRecord {
     {
         $sumRow = Yii::app()->db->createCommand()
                 ->select('SUM(`sum`) totalSum')
-                ->from('{{partnertransaction}}')
+                ->from('{{partnerTransaction}}')
                 ->where('status=:status', array(':status' => self::STATUS_COMPLETE))
                 ->queryRow();
         return $sumRow['totalSum'];
@@ -158,7 +158,7 @@ class PartnerTransaction extends CActiveRecord {
     {
         $counterRow = Yii::app()->db->cache(600)->createCommand()
                 ->select('COUNT(*) counter')
-                ->from("{{partnertransaction}}")
+                ->from("{{partnerTransaction}}")
                 ->where('status = ' . self::STATUS_PENDING . ' AND sum<0')
                 ->queryRow();
         return $counterRow['counter'];

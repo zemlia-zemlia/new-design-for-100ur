@@ -462,7 +462,7 @@ class Lead100 extends CActiveRecord {
             
             if($oldStatus !== $this->leadStatus) {
                 $removeTransactionResult = Yii::app()->db->createCommand()
-                        ->delete('{{partnertransaction}}', 'leadId=:leadId', array(':leadId' => $this->id));
+                        ->delete('{{partnerTransaction}}', 'leadId=:leadId', array(':leadId' => $this->id));
             }
             
         }
