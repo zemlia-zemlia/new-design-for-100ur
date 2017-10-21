@@ -136,7 +136,9 @@ class ApiController extends Controller {
         $model->name = CHtml::encode($leadName);
         $model->sourceId = $source['id'];
         $model->email = $leadEmail;
-        $model->type = $leadType;
+        if($leadType) {
+            $model->type = $leadType;
+        }
         $model->townId = $townId;
         $model->question = $purifier->purify($leadQuestion);
         $model->phone = Question::normalizePhone($leadPhone);
