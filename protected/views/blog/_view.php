@@ -2,44 +2,43 @@
 /* @var $this CategoryController */
 ?>
 
-<div class='panel gray-panel'>
-    <div class='panel-body'>
-        
-        <?php if($data->photo):?>
-        <div>
-            <a href="<?php echo Yii::app()->createUrl('post/view',array('id'=>$data->id));?>">
-                <img src="<?php echo $data->getPhotoUrl('thumb');?>" alt="<?php echo CHtml::encode($data->title);?>" style="float:left; margin-right:20px;" />
-            </a>
-        </div>
-        <?php endif;?>
-        
-        <div class="category-post-header">
-        <h3>
-            <?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('post/view',array('id'=>$data->id)));?>
-        </h3>
+    <div class="row">
+        <div class="col-sm-3 col-xs-12 center-align">
+            <?php if($data->photo):?>
+                <a href="<?php echo Yii::app()->createUrl('post/view',array('id'=>$data->id));?>">
+                    <img src="<?php echo $data->getPhotoUrl();?>" alt="<?php echo CHtml::encode($data->title);?>" class="vert-margin20" />
+                </a>
+            <?php endif;?>
         </div>
         
-        <div class="category-post-preview">
-            <?php
-                // очищаем текст поста от ненужных тегов перед выводом в браузер
-                $purifier = new Purifier();
-                echo $purifier->purify($data->preview); 
-            ?>
-        </div>
-        
-        <div class="post-stats" <?php if($data->photo):?> style="margin-left:220px;" <?php endif;?>>
-            <div class="container-fluid">
-                <div class='row'>
-                    <div class='col-md-6 col-sm-6'>
-                        <span class="muted"><?php echo CustomFuncs::invertDate($data->datePublication);?></span>
-                    </div>
-                    <div class='col-md-6 col-sm-6 right-align'>
-                        <img src='/pics/2015/icon_eye.png' alt='просмотров' />&nbsp;<span class='muted'><?php echo $data->viewsCount->views;?> <?php echo CustomFuncs::numForms($data->viewsCount->views, 'просмотр', "просмотра", "просмотров");?></span>
-                    </div>
-                </div>
+        <div class="col-sm-9 col-xs-12">
+            <div class="category-post-header">
+            <h3>
+                <?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('post/view',array('id'=>$data->id)));?>
+            </h3>
             </div>
-            
-        </div>
+
+            <div class="category-post-preview vert-margin20">
+                <?php
+                    // очищаем текст поста от ненужных тегов перед выводом в браузер
+                    $purifier = new Purifier();
+                    echo $purifier->purify($data->preview); 
+                ?>
+            </div>
         
+            <small>
+                <div class="post-stats">
+                        <div class='row'>
+                            <div class='col-xs-6 left-align'>
+                                <span class="muted"><?php echo CustomFuncs::invertDate($data->datePublication);?></span>
+                            </div>
+                            <div class='col-xs-6 right-align'>
+                                <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span class='muted'><?php echo $data->viewsCount->views;?> </span>
+                            </div>
+                        </div>
+
+                </div>
+            </small>
+        </div>
     </div>
-</div>
+<hr />

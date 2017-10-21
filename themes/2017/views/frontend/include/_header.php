@@ -124,7 +124,8 @@
                         <li class="hidden-xs">
                             <?php echo ($_SERVER['REQUEST_URI'] != '/cat/')?CHtml::link('Темы вопросов', Yii::app()->createUrl('/cat/'), array('class' => 'black-button')):'<span class="active">Темы вопросов</span>';?> 			
                         </li>
-                        <li><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/')?CHtml::link('Каталог юристов', Yii::app()->createUrl('/yurist/')):'<span class="active">Каталог юристов</span>';?></li>
+                        <li class="visible-xs-inline"><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/')?CHtml::link('Каталог юристов', Yii::app()->createUrl('/yurist/')):'<span class="active">Каталог юристов</span>';?></li>
+                        <li class="hidden-xs"><?php echo ($_SERVER['REQUEST_URI'] != '/question/call/')?CHtml::link('Заказать звонок', Yii::app()->createUrl('/question/call/')):'<span class="active">Заказать звонок</span>';?></li>
                         <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/docs/'))?CHtml::link("Заказать документы", Yii::app()->createUrl('question/docs'), array('class'=>'')):'<span class="active">Заказать документы</span>'; ?></li>
                         <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/services/'))?CHtml::link("Заказать услуги", Yii::app()->createUrl('question/services'), array('class'=>'')):'<span class="active">Заказать услуги</span>'; ?></li>    
                         <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/'))?CHtml::link('Задать бесплатный вопрос юристу', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign='.Yii::app()->controller->id, array('class' => 'yellow-button arrow')):'';?></li>

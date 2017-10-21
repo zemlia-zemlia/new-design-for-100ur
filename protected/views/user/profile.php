@@ -72,7 +72,11 @@ if(Yii::app()->user->id != $user->id) {
                             <img src="<?php echo $user->getAvatarUrl('big');?>" class='' />
                         </p>  
                         <?php if($user->id == Yii::app()->user->id):?>
-                            <?php echo CHtml::link('Редактировать профиль', Yii::app()->createUrl('user/update', array('id' => Yii::app()->user->id)));?>
+                            <?php if(Yii::app()->user->role == User::ROLE_CLIENT):?>
+                                <?php echo CHtml::link('Изменить пароль', Yii::app()->createUrl('user/changePassword', array('id'=>Yii::app()->user->id)));?>
+                            <?php else:?>
+                                <?php echo CHtml::link('Редактировать профиль', Yii::app()->createUrl('user/update', array('id' => Yii::app()->user->id)));?>
+                            <?php endif;?>
                         <?php endif;?>
                     </div>
                      <div class="col-sm-8">
@@ -88,7 +92,7 @@ if(Yii::app()->user->id != $user->id) {
                          <div class="row vert-margin30">
                             <div class="col-sm-4 col-xs-12 center-align">
                                 <p>
-                                    <strong>Город:</strong> <?php echo $user->town->name;?>
+                                    <strong>Город:</strong><br /><?php echo $user->town->name;?>
                                 </p>
                                 <?php if($user->registerDate):?>
                                 <p>На сайте с <?php echo CustomFuncs::invertDate($user->registerDate);?></p>
@@ -121,13 +125,12 @@ if(Yii::app()->user->id != $user->id) {
                         </div>
                         
                          <hr/>
-                         <div class="row">
-                             <div class="col-md-12">
+
                                  <?php if($user->role == User::ROLE_JURIST):?>
                                     
-
-                                        <div class=''>                                                 
-                                            <h3 class="left-align">Контакты</h3>
+                                    <h3 class="left-align">Контакты</h3>
+                                        <div class='row'>                                                 
+                                            
                                             <?php if($user->settings->phoneVisible):?>
                                             <div class="col-md-6">
                                             <p>
@@ -163,8 +166,7 @@ if(Yii::app()->user->id != $user->id) {
                                         </div>
                                         <hr/>
                                  <?php endif;?>
-                             </div>
-                         </div>
+                             
                      </div>
                      
                  </div>
