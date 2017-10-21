@@ -135,6 +135,7 @@ class DefaultController extends Controller
             $leadsByTypes[$row['type']][$row['date1']] = (int)$row['counter'];
         }
         
+        $uniqueLeadDates = array_unique($uniqueLeadDates);
         //CustomFuncs::printr($leadsByTypes);
 
         $this->render('index', array(
