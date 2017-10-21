@@ -144,8 +144,8 @@ $this->breadcrumbs=array(
 <br/>
 
 <?php if(Yii::app()->user->role != User::ROLE_JURIST):?>
-    <h3 class="header-block-light-grey"><strong> На ваши вопросы отвечают: </strong></h3>
-    <div class='flat-panel inside vert-margin20' >
+    <h3 class="header-block-light-grey vert-margin20">На ваши вопросы отвечают:</h3>
+    <div class='vert-margin20' >
 		
         <div class="row">
             

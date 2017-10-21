@@ -86,7 +86,7 @@ if(Yii::app()->user->id != $user->id) {
                              </div>
                          </div>
                          <div class="row vert-margin30">
-                            <div class="col-sm-4 center-align">
+                            <div class="col-sm-4 col-xs-12 center-align">
                                 <p>
                                     <strong>Город:</strong> <?php echo $user->town->name;?>
                                 </p>
@@ -95,8 +95,8 @@ if(Yii::app()->user->id != $user->id) {
                                 <?php endif;?>
                             </div>
                             <?php if($user->role == User::ROLE_JURIST):?> 
-                            <div class="col-sm-4 center-align">
-                               <p>Дано ответов</p>
+                            <div class="col-sm-4 col-xs-6 center-align">
+                               <p>Ответов</p>
                                <?php
                                    $answersCountInt = $user->answersCount;
                                    $answersCount = str_pad((string)$answersCountInt,(strlen($answersCountInt)>4)?strlen($answersCountInt):4, '0',STR_PAD_LEFT);
@@ -111,7 +111,7 @@ if(Yii::app()->user->id != $user->id) {
                                </p>
 
                            </div>
-                           <div class="col-sm-4 center-align">
+                           <div class="col-sm-4 col-xs-6 center-align">
                                <p><abbr title="Количество благодарностей за полезный ответ">Карма</abbr></p>
                                <p class="kpi-counter">
                                    <?php foreach($numbersKarma as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
@@ -126,8 +126,8 @@ if(Yii::app()->user->id != $user->id) {
                                  <?php if($user->role == User::ROLE_JURIST):?>
                                     
 
-                                        <div class='vert-margin30'>                                                 
-
+                                        <div class=''>                                                 
+                                            <h3 class="left-align">Контакты</h3>
                                             <?php if($user->settings->phoneVisible):?>
                                             <div class="col-md-6">
                                             <p>
@@ -155,9 +155,13 @@ if(Yii::app()->user->id != $user->id) {
                                             </p>
                                             </div>
                                             <?php endif;?>
+                                            
+                                            <?php if(!$user->settings->site && !$user->settings->emailVisible && !$user->settings->phoneVisible):?>
+                                                К сожалению, юрист не указал своих контактных данных
+                                            <?php endif;?>
 
                                         </div>
-                                 
+                                        <hr/>
                                  <?php endif;?>
                              </div>
                          </div>
@@ -232,7 +236,7 @@ if(Yii::app()->user->id != $user->id) {
     <?php if($user->role == User::ROLE_CLIENT):?>
         <h2 class="header-block-light-grey vert-margin20">Мои вопросы</h2>
     <?php else:?>
-        <h2 class="header-block-light-grey vert-margin20">Ответы</h2>
+        <h2 class="header-block-light-grey vert-margin20">Последние вопросы, на которые ответил юрист</h2>
     <?php endif;?>
 
    <?php foreach($questions as $question):?>

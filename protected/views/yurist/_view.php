@@ -9,10 +9,12 @@
 ?>
         <div class="yurist-list-item">
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-3 col-xs-5">
+                    <a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$data->id));?>">
                     <img src="<?php echo $data->getAvatarUrl();?>" alt="<?php echo CHtml::encode($yuristName);?> " class="img-responsive" />
+                    </a>
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-9 col-xs-7">
 
                     <strong class="left-align" style="font-size: 15px;">
                         <?php echo CHtml::link(CHtml::encode($yuristName), Yii::app()->createUrl('user/view', array('id'=>$data->id)));?>
@@ -32,11 +34,11 @@
 
                         <?php if($data->settings->priceConsult):?>
                         <br />
-                        <strong>Стоимость консультации:</strong> от <?php echo $data->settings->priceConsult;?> руб.
+                        <strong>Консультация:</strong> от <?php echo $data->settings->priceConsult;?> <span class="glyphicon glyphicon-ruble"></span>
                         <?php endif;?>
                         <?php if($data->settings->priceDoc):?>
                             <br />
-                            <strong>Стоимость документа:</strong> от <?php echo $data->settings->priceDoc;?> руб.
+                            <strong>Документ:</strong> от <?php echo $data->settings->priceDoc;?>  <span class="glyphicon glyphicon-ruble"></span>
                         <?php endif;?>
 
                     </p>

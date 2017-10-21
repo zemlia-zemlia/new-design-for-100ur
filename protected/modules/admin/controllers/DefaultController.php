@@ -124,7 +124,7 @@ class DefaultController extends Controller
         $leadsByTypesRows = Yii::app()->db->createCommand()
                 ->select("COUNT(*) counter, type, DATE(question_date) date1")
                 ->from('{{lead100}}')
-                ->where('question_date>NOW()-INTERVAL 30 DAY')
+                ->where('question_date>NOW()-INTERVAL 30 DAY AND sourceId=:sourceId', array(':sourceId' => 3))
                 ->group('date1, type')
                 ->queryAll();
         $leadsByTypes = array();

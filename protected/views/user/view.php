@@ -50,7 +50,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     <?php if($model->role == User::ROLE_JURIST):?>
                     <div class='flat-panel inside vert-margin20'>
                     <div class="row">
-                        <div class="col-sm-6 center-align">
+                        <div class="col-sm-6 col-xs-6 center-align">
                             <p>Дано ответов</p>
                             <?php
                                 $answersCountInt = $model->answersCount;
@@ -66,7 +66,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             </p>
                                 
                         </div>
-                        <div class="col-sm-6 center-align">
+                        <div class="col-sm-6 col-xs-6 center-align">
                             <p><abbr title="Количество благодарностей за полезный ответ">Карма</abbr></p>
                             <p class="kpi-counter">
                                 <?php foreach($numbersKarma as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />

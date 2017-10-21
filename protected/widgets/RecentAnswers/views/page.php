@@ -24,20 +24,7 @@ if(empty($answers) || sizeof($answers)==0) {
     <div class="col-md-6">
         <p>
             <?php echo CHtml::link(CHtml::encode($answer['questionTitle']), Yii::app()->createUrl('question/view',array('id'=>$answer['questionId'])));?>
-        
-        
-        <?php if($answer['authorId']):?>
-            <br />
-            <strong>
-                <small>
-                    <?php echo $author->settings->getStatusName();?>
-                    <?php echo $answer['authorLastName'] . ' ' . mb_substr($answer['authorName'], 0, 1, 'utf-8') . '.' . mb_substr($answer['authorName2'], 0, 1, 'utf-8') . '.';?> 
-                    <?php if(floor((time() - strtotime($answer['lastActivity']))/60)<60):?>
-                        <span class="glyphicon glyphicon-flash"></span> <span class="text-success">Сейчас на сайте</span>
-                    <?php endif;?>
-                </small>
-            </strong>
-        <?php endif;?>
+
         </p>
         
         <div class="row">
@@ -49,7 +36,18 @@ if(empty($answers) || sizeof($answers)==0) {
 
             </div>
             <div class="col-xs-8 col-sm-9">
-
+                <?php if($answer['authorId']):?>
+                    <strong>
+                        <small>
+                            <?php echo $author->settings->getStatusName();?>
+                            <?php echo $answer['authorLastName'] . ' ' . mb_substr($answer['authorName'], 0, 1, 'utf-8') . '.' . mb_substr($answer['authorName2'], 0, 1, 'utf-8') . '.';?> 
+                            <?php if(floor((time() - strtotime($answer['lastActivity']))/60)<60):?>
+                                <span class="glyphicon glyphicon-flash"></span> <span class="text-success">Сейчас на сайте</span>
+                            <?php endif;?>
+                        </small>
+                    </strong>
+                <br />
+                <?php endif;?>
                 <?php echo nl2br(mb_substr(CHtml::encode($answer['answerText']),0,150,'utf-8'));?>
                 <?php if(mb_strlen($answer['answerText'])>150):?>
                 ...
@@ -59,10 +57,14 @@ if(empty($answers) || sizeof($answers)==0) {
         </div>
     </div>
 
-    
+        
+    <?php if($index%2 == 0):?>
+        <hr class="visible-xs-block" />
+    <?php endif;?>
 
     <?php if($index%2 == 1) :?>
         </div>
+    
         <?php if($index != 5):?>
         <hr />
         <?php endif;?>

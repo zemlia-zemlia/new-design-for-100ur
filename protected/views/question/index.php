@@ -12,14 +12,13 @@ Yii::app()->clientScript->registerMetaTag("Советы юристов по вс
 ?>
 
 
-<div class="flat-panel  vert-margin20">
 
         <h1 class="header-block-light-grey vert-margin20">Последние вопросы юристам</h1>
 
-        <div class="inside">
+        <div class="">
         <?php foreach($questions as $question):?>
             <div class="row question-list-item  <?php if($question->payed == 1):?> vip-question<?endif;?>">
-                <div class="col-sm-10">
+                <div class="col-sm-10 col-xs-8">
                     <p style="font-size:0.9em;">
                         <?php if($question->payed == 1){
                             echo "<span class='label label-warning'><abbr title='Вопрос с гарантией получения ответов'><span class='glyphicon glyphicon-ruble'></span></abbr></span>";
@@ -29,7 +28,7 @@ Yii::app()->clientScript->registerMetaTag("Советы юристов по вс
                     </p>
                 </div>
                 
-                <div class="col-sm-2 text-center">
+                <div class="col-sm-2 col-xs-4 text-center">
                     <small>
                     <?php if($question->answersCount == 1) {
                         echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> Есть ответ</span>";
@@ -45,7 +44,6 @@ Yii::app()->clientScript->registerMetaTag("Советы юристов по вс
         <?php endforeach;?>
         </div>
        
-</div>
 
 <div class="flat-panel">
     <div class="inside">

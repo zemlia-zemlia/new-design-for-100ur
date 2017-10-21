@@ -66,8 +66,11 @@
                     </div>
                     </small>
                     </div>
-                    
-                    
+                </div>
+                
+            </div>        
+            
+            <div class="col-xs-12 col-sm-10 col-sm-offset-2">
                     <div itemprop="suggestedAnswer acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 
                         <div itemprop="text">
@@ -82,11 +85,9 @@
                         <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('question/updateAnswer', array('id'=>$data->id)), array('class'=>'btn btn-default btn-xs'));?>
                     </div>
                     <?php endif;?>
-                </div>
-                
-            </div>
+            </div>    
             
-            <div class="col-sm-10 col-sm-offset-2">
+            <div class="col-sm-10 col-xs-12  col-sm-offset-2">
                 
                 
                 <?php if(!Yii::app()->user->isGuest && $data->authorId != Yii::app()->user->id):?>
