@@ -56,6 +56,7 @@ class ApiController extends Controller {
      * 
      * Необязательные поля
      * email - Email клиента
+     * type - Тип лида (вопрос, звонок, etc)
      * 
      */
     public function actionSendLead() {
@@ -99,6 +100,7 @@ class ApiController extends Controller {
         $leadQuestion = $request->getPost('question');
         $signature = $request->getPost('signature');
         $leadEmail = $request->getPost('email');
+        $leadType = $request->getPost('type');
         //$testMode = $request->getPost('testMode');
         $testMode = 0;
 
@@ -134,6 +136,7 @@ class ApiController extends Controller {
         $model->name = CHtml::encode($leadName);
         $model->sourceId = $source['id'];
         $model->email = $leadEmail;
+        $model->type = $leadType;
         $model->townId = $townId;
         $model->question = $purifier->purify($leadQuestion);
         $model->phone = Question::normalizePhone($leadPhone);

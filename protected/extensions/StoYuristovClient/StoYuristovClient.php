@@ -19,6 +19,7 @@ class StoYuristovClient {
     public $question;
     public $town;
     public $email;
+    public $type;
 
     /**
      * Конструктор
@@ -90,6 +91,7 @@ class StoYuristovClient {
             'phone' => $this->phone,
             'email' => $this->email,
             'town' => $this->town,
+            'type' => $this->type,
             'question' => $this->question,
             'appId' => $this->_appId,
             'signature' => $this->_signature,
