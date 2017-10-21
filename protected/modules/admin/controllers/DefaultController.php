@@ -108,94 +108,35 @@ class DefaultController extends Controller
             }
         }
         
-        // воронка вопросов по статусам
-        // SELECT status, count(*) counter FROM `100_question` WHERE createDate>NOW()-INTERVAL 90 DAY GROUP BY status
-        
-        $questionStatuses = array();
-        $questionStatusesRows = Yii::app()->db->createCommand()
-                ->select("status, count(*) counter")
+        $publishedQuestionsRows = Yii::app()->db->createCommand()
+                ->select("COUNT(*) counter, DATE(createDate) date1")
                 ->from("{{question}}")
-                ->where("createDate>NOW()-INTERVAL 90 DAY")
-                ->group("status")
+                ->where("createDate>NOW()-INTERVAL 8 DAY AND status IN (2,4)")
+                ->group('date1')
                 ->queryAll();
-        foreach ($questionStatusesRows as $row) {
-            $questionStatuses[$row['status']] = $row['counter'];
+        $publishedQuestionsCount = array();
+        foreach($publishedQuestionsRows as $row) {
+            $publishedQuestionsCount[$row['date1']] = $row['counter'];
         }
         
-        // найдем статистику вопросов с ответами за последние 90 дней
-        /*
-         *  EXPLAIN SELECT q.id, COUNT(*) counter FROM `100_question` q
-            LEFT JOIN `100_answer` a ON a.questionId = q.id
-            WHERE q.createDate > NOW()-INTERVAL 90 DAY AND a.id IS NOT NULL
-            GROUP BY q.id 
-            ORDER BY counter DESC
-         */
-        $questionWithAnswerRows = Yii::app()->db->createCommand()
-                ->select("q.id")
-                ->from("{{question}} q")
-                ->leftJoin("{{answer}} a", "a.questionId = q.id")
-                ->where("q.createDate > NOW()-INTERVAL 90 DAY AND a.id IS NOT NULL")
-                ->group("q.id")
+        array_shift($publishedQuestionsCount);
+        
+        $leadsByTypesRows = Yii::app()->db->createCommand()
+                ->select("COUNT(*) counter, type, DATE(question_date) date1")
+                ->from('{{lead100}}')
+                ->where('question_date>NOW()-INTERVAL 30 DAY')
+                ->group('date1, type')
                 ->queryAll();
-        $questionsWithAnswersCount = sizeof($questionWithAnswerRows);
+        $leadsByTypes = array();
+        $uniqueLeadDates = array();
         
-        
-        // соберем статистику по статусам вопросов по месяцам за последние 12 недель
-        /*
-         * SELECT WEEK(createDate) week, COUNT(*) counter, status, email FROM `100_question`
-            WHERE createDate > NOW()-INTERVAL 12 WEEK
-            GROUP BY week, status, email
-            ORDER BY createDate asc
-         */
-        
-        $questionByWeekArray = array();
-        $questionByWeekRows = Yii::app()->db->createCommand()
-                ->select('WEEK(createDate) week, COUNT(*) counter, status, email')
-                ->from('{{question}}')
-                ->where('createDate > NOW()-INTERVAL 12 WEEK AND status!=:spam', array(':spam' => Question::STATUS_SPAM))
-                ->group('week, status, email')
-                ->order('createDate asc')
-                ->queryAll();
-        
-        //CustomFuncs::printr($questionByWeekRows);
-        //exit;
-        
-      
-        foreach($questionByWeekRows as $row) {
-            
-            $questionByWeekArray[$row['week']][$row['status']]['total'] += $row['counter'];
-            $questionByWeekArray[$row['week']]['total'] += $row['counter'];
-            if($row['status'] == Question::STATUS_NEW) {
-                if($row['email'] == '') {
-                    $questionByWeekArray[$row['week']][$row['status']]['no_email'] += $row['counter'];
-                } else {
-                    $questionByWeekArray[$row['week']][$row['status']]['with_email'] += $row['counter'];
-                }
-            }
+        foreach ($leadsByTypesRows as $row) {
+            $uniqueLeadDates[] = $row['date1'];
+            $leadsByTypes[$row['type']][$row['date1']] = (int)$row['counter'];
         }
         
-        // заполним отсутствующую статистику нулями для красивого графика
-        foreach($questionByWeekArray as $week=>$weekData) {
-            for($status = 0; $status<=5; $status++) {
-                if(!$weekData[$status]) {
-                    $questionByWeekArray[$week][$status]['total'] = 0;
-                }
-                if($status == 0) {
-                    if(!$weekData[$status]['no_email']) {
-                        $questionByWeekArray[$week][$status]['no_email'] = 0;
-                    }
-                    if(!$weekData[$status]['with_email']) {
-                        $questionByWeekArray[$week][$status]['with_email'] = 0;
-                    }
-                }
-                
-            }
-        }
-        
-        //CustomFuncs::printr($questionByWeekArray);
-        
-        
-        
+        //CustomFuncs::printr($leadsByTypes);
+
         $this->render('index', array(
             'sumArray'                  =>  $sumArray,
             'kolichArray'               =>  $kolichArray,
@@ -204,9 +145,9 @@ class DefaultController extends Controller
             'moneyFlow'                 =>  $moneyFlow,
             'totalExpences'             =>  $totalExpences,
             'questionStatuses'          =>  $questionStatuses,
-            'questionsWithAnswersCount' =>  $questionsWithAnswersCount,
-            'questionByWeekArray'       =>  $questionByWeekArray,
-            'vipArray'                  =>  $vipArray,
+            'publishedQuestionsCount'   =>  $publishedQuestionsCount,
+            'leadsByTypes'              =>  $leadsByTypes,
+            'uniqueLeadDates'           =>  $uniqueLeadDates,
         ));
     }
 }

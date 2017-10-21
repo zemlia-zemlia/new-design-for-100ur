@@ -100,84 +100,61 @@ $(function () {
         </div>
     </div>
     <div class="col-md-6">
-          
+        <h3>Опубликованные вопросы</h3>
+        <table class="table">
+            <tr>
+                <?php foreach($publishedQuestionsCount as $date=>$counter):?>
+                    <td class="center-align"><small><?php echo date('d.m', strtotime($date));?></small></td>
+                <?php endforeach;?>
+            </tr>
+            <tr>
+                <?php foreach($publishedQuestionsCount as $date=>$counter):?>
+                    <td class="center-align"><?php echo $counter;?></td>
+                <?php endforeach;?>
+            </tr>
+        </table>
     </div>
 </div>
 
-
-
-<div class="panel panel-default">
-<div id="chart_questions" style="width:100%; height:500px;"></div>
+<div id="chart_leads" style="width:100%; height:500px;"></div>
 
 <script type="text/javascript">
 $(function () { 
-    $('#chart_questions').highcharts({
+    $('#chart_leads').highcharts({
         chart: {
             type: 'line'
         },
         title: {
-            text: 'Вопросы по статусам'
+            text: 'Лиды по типам'
         },
         xAxis: {
             categories: [
-                
-                    <?php echo implode(', ', array_keys($questionByWeekArray));?>
+                <?php foreach($uniqueLeadDates as $leadDate):?>
+                        '<?php echo date('d.m', strtotime($leadDate)); ?>', 
+                <?php  endforeach;?>                    
             ]
         },
         yAxis: {
             title: {
-                text: 'Вопросы'
+                text: 'Лиды'
             }
         },
-        series: [{
-            name: 'Всего',
+        series: [
+            <?php foreach($leadsByTypes as $type=>$leadsByDates):?>
+            {
+            name: '<?php echo Lead100::getLeadTypesArray()[$type];?>',
             data: [
-                <?php foreach ($questionByWeekArray as $week=>$questionsByWeek):?>
-                        <?php echo '[' .$week . ', '. $questionsByWeek['total'] .'],'; ?>                
+                <?php foreach ($uniqueLeadDates as $date):?>
+                        <?php echo '["' . date('d.m', strtotime($date)) . '",' . (int)$leadsByTypes[$type][$date] . '],'; ?>                
                 <?php  endforeach;?>
-            ]
-        },
-        {
-            name: 'Недозаполненные',
-            data: [
-                <?php foreach ($questionByWeekArray as $week=>$questionsByWeek):?>
-                        
-                        <?php echo '[' .$week . ', '. $questionsByWeek[Question::STATUS_PRESAVE]['total'] .'],'; ?>                
-                <?php  endforeach;?>
-            ]
-        },
-        {
-            name: 'Email не указан',
-            data: [
-                <?php foreach ($questionByWeekArray as $week=>$questionsByWeek):?>
-                        
-                        <?php echo '[' .$week . ', '. $questionsByWeek[Question::STATUS_NEW]['no_email'] .'],'; ?>                
-                <?php  endforeach;?>
-            ]
-        },
-        {
-            name: 'Email не подтвержден',
-            data: [
-                <?php foreach ($questionByWeekArray as $week=>$questionsByWeek):?>
-                        
-                        <?php echo '[' .$week . ', '. $questionsByWeek[Question::STATUS_NEW]['with_email'] .'],'; ?>                
-                <?php  endforeach;?>
-            ]
-        },
-        {
-            name: 'Опубликован',
-            data: [
-                <?php foreach ($questionByWeekArray as $week=>$questionsByWeek):?>
-                        <?php echo '[' .$week . ', '. ($questionsByWeek[Question::STATUS_CHECK]['total'] + $questionsByWeek[Question::STATUS_PUBLISHED]['total']) .'],'; ?>                
-                <?php  endforeach;?>
-            ]
-        },
+                ]
+            },
+            <?php endforeach;?>
         ]
     });
     
     
 });
 </script>
-</div>
 
 <?php endif;?>
