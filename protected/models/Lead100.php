@@ -287,7 +287,7 @@ class Lead100 extends CActiveRecord {
                         //CustomFuncs::printr($transaction->errors);
                     }
                     
-                    if($this->source && $this->source->user) {
+                    if($this->source && $this->source->user && $this->buyPrice>0) {
                         // запишем транзакцию за лид
                         $partnerTransaction = new PartnerTransaction;
                         $partnerTransaction->sum = $this->buyPrice;
