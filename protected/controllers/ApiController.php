@@ -101,8 +101,8 @@ class ApiController extends Controller {
         $signature = $request->getPost('signature');
         $leadEmail = $request->getPost('email');
         $leadType = $request->getPost('type');
-        //$testMode = $request->getPost('testMode');
-        $testMode = 0;
+        $testMode = $request->getPost('testMode');
+        //$testMode = 0;
 
         // проверка подписи
 
@@ -162,7 +162,7 @@ class ApiController extends Controller {
         $priceCoeff = !is_null($sourceUser) ? $sourceUser->priceCoeff : 1; // коэффициент, на который умножается цена покупки лида
         
         $model->buyPrice = $model->buyPrice * $priceCoeff;
-        
+                
         // если тестовый режим, то не сохраняем, а только проверяем лид
         if($testMode != 0) {
             if($model->validate()) {
