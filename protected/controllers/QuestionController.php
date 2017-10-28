@@ -30,7 +30,7 @@ class QuestionController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow all users 
-                'actions' => array('index', 'archive', 'view', 'create', 'thankYou', 'rss', 'rssAnswers', 'call', 'weCallYou', 'docsRequested', 'docs', 'getServices', 'services', 'upgrade', 'paymentSuccess', 'paymentFail', 'paymentCheck', 'paymentAviso', 'confirm', 'sendLead'),
+                'actions' => array('index', 'archive', 'view', 'create', 'thankYou', 'rss', 'rssAnswers', 'call', 'callBack', 'weCallYou', 'docsRequested', 'docs', 'getServices', 'services', 'upgrade', 'paymentSuccess', 'paymentFail', 'paymentCheck', 'paymentAviso', 'confirm', 'sendLead'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'search'
@@ -635,6 +635,46 @@ class QuestionController extends Controller {
             'model' => $lead,
             'townsArray' => $townsArray,
         ));
+    }
+    
+    public function actionCallBack()
+    {
+        $this->layout = "//frontend/smart";
+        
+        $lead = new Lead100();
+        $question = new Question;
+        
+        if (isset($_POST['Lead100'])) {
+            $lead->attributes = $_POST['Lead100'];
+            $question->townId = $lead->townId;
+            $currentTownId = $lead->townId;
+            
+            // загрузили данные о лиде (город), теперь проверим, продажный ли регион этого города
+            
+            // Определим, для каких регионов и городов у нас есть рекламные кампании
+            $payedRegions = array();
+            $payedTowns = array();
+
+            $payedTownsRegions = Campaign::getPayedTownsRegions();
+
+            $payedRegions = $payedTownsRegions['regions'];
+            $payedTowns = $payedTownsRegions['towns'];
+
+            /*
+             * показываем виджет только если пользователь находится в одном из продажных городов ИЛИ регионов
+             */
+            if(array_key_exists($currentTownId, $payedTowns) || array_key_exists($currentTown->regionId, $payedRegions)) {
+                $isRegionPayed = true;
+            } else {
+                $isRegionPayed = false;
+            }
+            
+            $this->render('callBack', array(
+                'lead'          =>  $lead,
+                'question'      =>  $question,
+                'isRegionPayed' =>  $isRegionPayed,
+            ));
+        }
     }
 
     public function actionWeCallYou() {

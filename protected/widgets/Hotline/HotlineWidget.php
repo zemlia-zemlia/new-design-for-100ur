@@ -9,9 +9,17 @@ class HotlineWidget extends CWidget
     public $template = 'default'; // представление виджета по умолчанию
     public $cacheTime = 0;
     public $showAlways = false; // показывать всегда, независимо от текущего города и региона
+    public $showPhone = true; // показывать номер телефона вместо формы запроса города
     
     public function run()
     {
+        
+        if($this->showPhone === false) {
+            $model = new Lead100;
+            return $this->render('callBack', array(
+                'model' => $model,
+                ));
+        }
         
         if($this->showAlways === true) {
             $this->render($this->template);

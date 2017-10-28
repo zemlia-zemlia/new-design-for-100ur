@@ -4,8 +4,9 @@
 /* @var $form CActiveForm */
 ?>
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'question-form',
-	'enableAjaxValidation'=>false,
+	'id'                    =>  'question-form',
+	'enableAjaxValidation'  =>  false,
+        'action'                =>  Yii::app()->createUrl('question/create'),
 )); ?>
 
 	
@@ -13,7 +14,7 @@
 	<?php //echo $form->errorSummary($model, "Для отправки вопроса укажите данные"); ?>
     
 <?php
-$allDirections = array(0=>'Без категории') + $allDirections;
+//$allDirections = array(0=>'Без категории') + $allDirections;
 ?>
 
 

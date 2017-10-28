@@ -73,6 +73,13 @@
                     'class'         =>  'form-control',
     )); ?>
 </div>
+    
+<div class="form-group">
+    <?php echo $form->labelEx($model,'type'); ?>
+    <?php echo $form->dropDownList($model, 'type', array(''=>'Все') + Lead100::getLeadTypesArray(), array(
+                    'class'         =>  'form-control',
+    )); ?>
+</div>
 
 <div class="form-group">
     <?php echo $form->labelEx($model,'phone'); ?>

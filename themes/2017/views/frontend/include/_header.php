@@ -105,7 +105,8 @@
                         <?php
                             // выводим виджет с номером 8800
                             $this->widget('application.widgets.Hotline.HotlineWidget', array(
-                                'showAlways' => true,
+                                'showAlways'    => true,
+                                //'showPhone'     =>  false, // true - показать телефон, false - форму запроса города
                             ));
                         ?>
                     <?php else:?>                    

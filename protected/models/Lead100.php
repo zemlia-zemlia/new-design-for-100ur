@@ -330,6 +330,7 @@ class Lead100 extends CActiveRecord {
         $criteria->compare('question', $this->question, true);
         $criteria->compare('question_date', $this->question_date, true);
         $criteria->compare('townId', $this->townId);
+        $criteria->compare('type', $this->type);
         $criteria->compare('leadStatus', $this->leadStatus);
         $criteria->compare('DATE(t.question_date)>', CustomFuncs::invertDate($this->date1));
         $criteria->compare('DATE(t.question_date)<', CustomFuncs::invertDate($this->date2));
