@@ -52,17 +52,23 @@
         </div>
     </nav>
     
+    
+    
     <div id="middle">
         <div class="container-fluid">
             <div class="row">
                 <?php if(!Yii::app()->user->isGuest):?>
                 <div class="col-md-3 col-sm-3">
-                                       
+                  
+                    
 		<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
                     <div class="panel panel-default">
                         <div class="panel-heading">
+                            <a role="button" data-toggle="collapse" href="#admin-collapse" aria-expanded="true" aria-controls="collapseExample">
                              <h4>Админ панель</h4>
+                            </a>
                         </div>
+                    <div class="collapse in" id="admin-collapse">  
                         <div class="panel-body">
                         <ul id="left-menu">
                           
@@ -86,8 +92,9 @@
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-eye-close'></span>  Заявки на вывод средств ", Yii::app()->createUrl('/admin/partnerTransaction'));?> <span class="badge badge-default"><?php echo PartnerTransaction::getNewRequestsCount();?></span></li>
 	
                         </ul>
-					</div>
-				</div>
+                        </div>
+                    </div>
+                </div>
 				
 	<?php endif;?>
                     
@@ -123,8 +130,11 @@
                     
                     <div class="panel panel-default">
 						<div class="panel-heading">
+                            <a role="button" data-toggle="collapse" href="#content-collapse" aria-expanded="false" aria-controls="collapseExample">
                              <h4>Управление контентом</h4>
+                            </a>
                         </div>
+                        <div class="collapse" id="content-collapse">
                         <div class="panel-body">  
 						<?php if(Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>
 
@@ -234,9 +244,9 @@
                             
                         </ul>
                         </div>
+                        </div>
                     </div>
                     <?php endif;?>
-                    
      
                 </div>
                 <?php endif;?>

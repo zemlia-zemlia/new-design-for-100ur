@@ -47,7 +47,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
             <?php endif;?>
             
             <?php if(Yii::app()->user->role != User::ROLE_JURIST):?>
-            <div data-spy="affix" data-offset-top="200" class="hidden-xs">
+            <div data-spy="" data-offset-top="200" class="hidden-xs">
                 <div class="vert-margin20">
                 <?php
                 // выводим виджет с формой

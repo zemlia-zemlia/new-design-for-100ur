@@ -9,6 +9,8 @@ $(function(){
             $("ul#left-menu").toggle();
         });
         
+        
+        
         $( "#town-selector" ).autocomplete({
             source:'/town/ajaxGetList/',
             select: function(event, ui){

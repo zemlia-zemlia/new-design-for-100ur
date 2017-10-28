@@ -79,9 +79,12 @@ $this->breadcrumbs[] = $model->name;
 <div class="">
 
 <?php if(sizeof($children)):?>
+    
+    <h2 class="vert-margin20">Смотрите также темы:</h2>
+
     <?php $itemsCount =  sizeof($children);?>
 
-    <div class="row vert-margin30">
+    <div class="row">
         <?php foreach($children as $index=>$child):?>
 
             <?php if($index == 0 || $index == floor($itemsCount/3) || $index == floor(2*$itemsCount/3)):?>
@@ -101,6 +104,7 @@ $this->breadcrumbs[] = $model->name;
 
 <?php endif;?>
 </div>
+
 
 <div class="row vert-margin30 ">
 <?php if(sizeof($neighboursPrev)):?>
@@ -139,28 +143,35 @@ $this->breadcrumbs[] = $model->name;
 
 			
 			
-        <div class="flat-panel vert-margin30">
-        <h2 class="header-block header-block-green">Последние вопросы юристам</h2>
-        <div class="header-block-green-arrow"></div>
+        <div class="vert-margin30">
+        <h2 class="">Последние вопросы юристам</h2>
         
         <div class="inside">
         <?php foreach($questions as $question):?>
-            <div class="row vert-margin20">
-
-                <div class="col-sm-9">
-                    <p><?php echo CHtml::link(CHtml::encode($question['title']), Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?></p>
+            
+            
+            <div class="row question-list-item  <?php if($question['payed'] == 1):?> vip-question<?endif;?>">
+                <div class="col-sm-10 col-xs-8">
+                    <p style="font-size:0.9em;">
+                        <?php if($question['payed'] == 1){
+                            echo "<span class='label label-warning'><abbr title='Вопрос с гарантией получения ответов'><span class='glyphicon glyphicon-ruble'></span></abbr></span>";
+                        }
+                        ?>
+                        <?php echo CHtml::link($question['title'], Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?>
+                    </p>
                 </div>
-                <div class="col-sm-3">
-
+                
+                <div class="col-sm-2 col-xs-4 text-center">
+                    <small>
                     <?php if($question['counter'] == 1) {
-                        echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>Есть ответ</span>";
+                        echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> Есть ответ</span>";
                     } elseif($question['counter']>1) {
-                        echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>" . $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
-                    } else {
-                        echo "Нет ответа";
+                        echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
+                    } elseif($question['counter'] == 0) {
+                        echo "<span class='text-muted'>Нет ответа</span>";
                     }
                     ?>
-
+                    </small>
                 </div>
             </div>
         <?php endforeach;?>         

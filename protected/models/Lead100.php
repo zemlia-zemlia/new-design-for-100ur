@@ -288,9 +288,12 @@ class Lead100 extends CActiveRecord {
                     }
                     
                     if($this->source && $this->source->user && $this->buyPrice>0) {
+                        $sourceUser = $this->source->user;
+                        $priceCoeff = !is_null($sourceUser) ? $sourceUser->priceCoeff : 1; // коэффициент, на который умножается цена покупки лида
+
                         // запишем транзакцию за лид
                         $partnerTransaction = new PartnerTransaction;
-                        $partnerTransaction->sum = $this->buyPrice;
+                        $partnerTransaction->sum = $this->buyPrice * $priceCoeff;
                         $partnerTransaction->leadId = $this->id;
                         $partnerTransaction->sourceId = $this->sourceId;
                         $partnerTransaction->partnerId = $this->source->user->id;

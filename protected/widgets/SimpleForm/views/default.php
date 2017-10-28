@@ -5,49 +5,9 @@
         
         </div>
         <div class="col-md-6">
-            
-            <div class="right-align">
-                    <?php if(Yii::app()->user->role != User::ROLE_JURIST):?>	
-                        <div>
-                            <?php
-                                $questionsCountInt = Question::getCount()*2;
-                                $questionsCount = str_pad((string)$questionsCountInt,6, '0',STR_PAD_LEFT);
-                                $numbers = str_split($questionsCount);
-                                $answersCount = str_pad((string)round($questionsCountInt*1.684),6, '0',STR_PAD_LEFT);;
-                                $numbersAnswers = str_split($answersCount);
-                            ?>
-                                <div class="questions-counter-description">
-                                    <div class="center-align">
-                                        <div class="row">
-                                            <div class="col-sm-6 col-xs-6">
-                                                <p>Задано вопросов</p>
-                                                <p class="kpi-counter">
-                                                    <img src="/pics/2017/icon_question.png" alt="100 Юристов и Адвокатов" title="Юридический портал" class="hidden-xs" />
-                                                    <?php foreach($numbers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
-                                                </p>
-                                            </div>
-                                            <div class="col-sm-6 col-xs-6">
-                                                <p>Дано ответов</p>
-                                                <p class="kpi-counter">
-                                                    <img src="/pics/2017/icon_answer.png" alt="100 Юристов и Адвокатов" title="Юридический портал" class="hidden-xs" />
-                                                    <?php foreach($numbersAnswers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
-                                                </p>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                        </div>
-                    <?php endif;?>
-                </div>
-            
             <div class="form-container">
                 <h2 class="center-align">Задайте вопрос юристу. Это бесплатно.</h2>
-                <p class="center-align">
-                    Получите ответ за 15 минут
-                </p>
-                                
+                                                
                 <?php $form=$this->beginWidget('CActiveForm', array(
                         'id'                    =>  'question-form',
                         'enableAjaxValidation'  =>  false,
@@ -77,6 +37,9 @@
                                 </div>
                             </div>
                         </div>
+                        <p class="">
+                            Получите первый ответ уже через <strong>15 минут</strong>
+                        </p>
                         
                     </div>
                 </div>
@@ -87,5 +50,56 @@
         </div>
     </div>
 
+        <?php
+            $questionsCountInt = Question::getCount()*2;
+            $questionsCount = str_pad((string)$questionsCountInt,6, '0',STR_PAD_LEFT);
+            $numbers = str_split($questionsCount);
+            $answersCount = round($questionsCountInt*1.684);
+            $numbersAnswers = str_split($answersCount);
+            
+            $yuristsCountRow = Yii::app()->db->createCommand()
+                    ->select('COUNT(*) counter')
+                    ->from('{{user}}')
+                    ->where('role=:role', array(':role' => User::ROLE_JURIST))
+                    ->queryRow();
+            $yuristsCount = round($yuristsCountRow['counter']*5.314);
+        ?>
+        
+        <div class="counters-wrapper">
+            <div class="row">
+                <div class="col-sm-3 center-align counter-green">
+                    <div class="counter-number">
+                        <span class="glyphicon glyphicon-bullhorn"></span> <?php echo $questionsCountInt;?>
+                    </div>
+                    <div class="counter-description">
+                        вопросов задано
+                    </div>
+                </div>
+                <div class="col-sm-3 center-align counter-yellow">
+                    <div class="counter-number">
+                        <span class="glyphicon glyphicon-comment"></span> <?php echo $answersCount;?>
+                    </div>
+                    <div class="counter-description">
+                        ответов получено
+                    </div>
+                </div>
+                <div class="col-sm-3 center-align counter-green">
+                    <div class="counter-number">
+                        <span class="glyphicon glyphicon-education"></span> <?php echo $yuristsCount;?>
+                    </div>
+                    <div class="counter-description">
+                        юристов на сайте
+                    </div>
+                </div>
+                <div class="col-sm-3 center-align counter-yellow">
+                    <div class="counter-number">
+                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                    </div>
+                    <div class="counter-description">
+                        нас рекомендуют
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -159,9 +159,9 @@ class ApiController extends Controller {
         
         // уточним цену покупки лида с учетом коэффициента покупателя
         $sourceUser = $sourceObject->user;
-        $priceCoeff = !is_null($sourceUser) ? $sourceUser->priceCoeff : 1; // коэффициент, на который умножается цена покупки лида
+        //$priceCoeff = !is_null($sourceUser) ? $sourceUser->priceCoeff : 1; // коэффициент, на который умножается цена покупки лида
         
-        $model->buyPrice = $model->buyPrice * $priceCoeff;
+        //$model->buyPrice = $model->buyPrice * $priceCoeff;
                 
         // если тестовый режим, то не сохраняем, а только проверяем лид
         if($testMode != 0) {

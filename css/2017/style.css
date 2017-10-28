@@ -222,7 +222,7 @@ hr {
     background-image:url(/pics/2017/hero_image.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-    padding:20px 0;
+    padding:20px 0 0;
 }
 
 .form-info-item {
@@ -529,6 +529,10 @@ hr {
 
 #footer a {
     color:#51b68a;
+}
+
+#footer span.active {
+    color:#ccc;
 }
 
 #footer ul {
@@ -931,4 +935,39 @@ ul.hor-list-menu a.yellow-button,
     margin:15px 0 30px 0;
     font-size:24px;
     font-weight: 600;
+}
+
+.counters-wrapper {
+    padding:10px;
+    background:rgba(255,255,255,0.8);
+}
+
+.counters-wrapper-border {
+    border:#eee 1px solid;
+}
+
+.counter-number {
+    font-size:30px;
+    font-weight: 400;
+}
+
+.counter-description {
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+.counters-wrapper-border .counter-number {
+    font-size:22px;
+}
+
+.counters-wrapper-border .counter-description {
+    font-weight:400;
+}
+
+.counter-green {
+    color:#4c9676;
+}
+
+.counter-yellow {
+    color:#0078a3;
 }

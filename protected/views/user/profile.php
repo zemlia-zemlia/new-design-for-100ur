@@ -179,40 +179,42 @@ if(Yii::app()->user->id != $user->id) {
                     <hr />
                 <?php endif;?>
 
-                    
-        <?php if($user->settings->education):?>
-         <div class='vert-margin20'>             
-             <h3 class="left-align">Образование 
-                 <?php if($user->settings && $user->settings->isVerified):?>
-                    <span class="text-success glyphicon glyphicon-ok-sign"></span>
-                <?php endif;?>
-             </h3> 
-             <p>
-                     <?php if($user->settings->education) echo $user->settings->education . ', ';?>
-                     <?php if($user->settings->vuz) echo 'ВУЗ: ' . $user->settings->vuz . ', ';?>
-                     <?php if($user->settings->vuzTownId) echo '(' . $user->settings->vuzTown->name . '), ';?>
-                     <?php if($user->settings->educationYear) echo 'год окончания: ' . $user->settings->educationYear . '.';?>
+          
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <?php if($user->settings->education):?>
+                            <div class='vert-margin20'>             
+                                <h3 class="left-align">Образование 
+                                    <?php if($user->settings && $user->settings->isVerified):?>
+                                       <span class="text-success glyphicon glyphicon-ok-sign"></span>
+                                   <?php endif;?>
+                                </h3> 
+                                <p>
+                                    <?php if($user->settings->education) echo $user->settings->education . ', ';?><br />
+                                    <?php if($user->settings->vuz) echo 'ВУЗ: ' . $user->settings->vuz . ', ';?><br />
+                                    <?php if($user->settings->vuzTownId) echo 'Город: ' . $user->settings->vuzTown->name . ', ';?><br />
+                                    <?php if($user->settings->educationYear) echo 'Год окончания: ' . $user->settings->educationYear . '.';?>
 
-             </p>
-             <hr />
-         </div> 
-        <?php endif;?>
+                                </p>
+                            </div> 
+                           <?php endif;?>
+                        </div>
+                        <div class="col-sm-8">
+                            <?php if($user->categories):?>
+                                <div class='vert-margin20'>  
+                                <h3 class="left-align">Специализации</h3>
 
+                                    <?php foreach ($user->categories as $cat): ?>
+                                    <span class="yurist-directions-item"><?php echo $cat->name; ?></span>
+                                    <?php endforeach;?>
+                                    
+                                </div>
+                            <?php endif;?>
+                        </div>
+                    </div>            
 
-         <?php if($user->categories):?>
-             <div class='vert-margin20'>  
-             <h3 class="left-align">Специализации</h3>
-
-                 <?php foreach ($user->categories as $cat): ?>
-                 <span class="yurist-directions-item"><?php echo $cat->name; ?></span>
-                 <?php endforeach;?>
-                 <hr />
-             </div>
-         <?php endif;?>
-
-
-
-
+            <hr />
+            
              <?php if($user->settings->priceConsult  > 0 || $user->settings->priceDoc  > 0):?>
                  <div class='vert-margin20'> 
                      <h3 class="left-align">Платные услуги</h3>
