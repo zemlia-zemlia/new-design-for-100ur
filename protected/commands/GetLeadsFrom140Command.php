@@ -33,7 +33,7 @@ class GetLeadsFrom140Command extends CConsoleCommand
                
         //извлекаем письма из папки в ящике
         $emails = imap_search($mbox, 'ALL SINCE '. date('d-M-Y',strtotime("-1 day")));
-        var_dump($emails);
+        //var_dump($emails);
         if($emails == false && imap_errors()) {
             echo "Messages search wrong criteria";
             exit;
@@ -84,8 +84,8 @@ class GetLeadsFrom140Command extends CConsoleCommand
         foreach($existingLeads as $existingLead) {
             $existingLeadsPhones[] = Question::normalizePhone($existingLead['phone']);
         }
-        echo "existing leads numbers: ";
-        print_r($existingLeadsPhones);
+        //echo "existing leads numbers: ";
+        //print_r($existingLeadsPhones);
         
         foreach($this->folders as $folderAlias=>$folderSettings) {
             

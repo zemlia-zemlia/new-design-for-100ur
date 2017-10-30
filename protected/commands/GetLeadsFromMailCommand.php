@@ -91,12 +91,12 @@ class GetLeadsFromMailCommand extends CConsoleCommand
         foreach($existingLeads as $existingLead) {
             $existingLeadsPhones[] = Question::normalizePhone($existingLead['phone']);
         }
-        echo "existing leads numbers: ";
-        print_r($existingLeadsPhones);
+        //echo "existing leads numbers: ";
+        //print_r($existingLeadsPhones);
         
         foreach($this->folders as $folderAlias=>$folderSettings) {
             
-            echo $folderAlias . "\n\r";
+            //echo $folderAlias . "\n\r";
             
             $emails = $this->getEmailsFromFolder($folderAlias);
         
