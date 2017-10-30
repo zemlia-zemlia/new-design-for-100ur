@@ -112,7 +112,7 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
         if (!count($emails) || $emails == false){
                 return array();
             } else {
-                print_r($emails);
+                //print_r($emails);
                 // If we've got some email IDs, sort them from new to old and show them
                 rsort($emails);
 
