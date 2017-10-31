@@ -29,8 +29,8 @@ switch ($data->leadStatus) {
 }
 ?>
 
-<tr id="lead-<?php echo $data->id;?>" >
-    <td>
+<div class="row leads-row" id="lead-<?php echo $data->id;?>" >
+    <div class="col-sm-10">
 		<p>
 			
 			
@@ -83,9 +83,9 @@ switch ($data->leadStatus) {
         
 		
 		
-    </td>
+    </div>
     
-    <td>
+    <div class="col-sm-2">
 			<small>
 			<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->role == User::ROLE_SECRETARY):?>
                 <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo $data->source->name; ?>       
@@ -130,5 +130,5 @@ switch ($data->leadStatus) {
 				<div id="lead-status-message-<?php echo $data->id;?>"></div>
 			<?php endif;?>
 		</p>
-    </td>
-</tr>
+   </div>
+</div>

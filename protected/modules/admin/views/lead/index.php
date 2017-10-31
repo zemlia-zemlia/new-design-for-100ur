@@ -28,19 +28,20 @@ $this->breadcrumbs=array(
     <?php endif;?> 
 </div>
 
-<table class="table table-bordered table-hover table-striped">
+<!--<table class="table table-bordered table-hover table-striped">
     <thead>
     <tr>
  
         <th>Текст лида</th>
         <th>Управление</th>
     </tr>
-    </thead>
+    </thead>-->
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,
 	'itemView'=>'_view',
+        'template'  =>  '{summary}{pager}{items}{pager}',
         'emptyText' =>  'Не найдено ни одного лида',
         'summaryText'=>'Показаны лиды с {start} до {end}, всего {count}',
         'pager'=>array('class'=>'GTLinkPager') //we use own pager with russian words
 )); ?>
-</table>
+<!--</table>-->
