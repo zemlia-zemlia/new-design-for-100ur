@@ -9,16 +9,36 @@
         <div id="docType"></div>
     </div>
     <div class="form-group">    
-        <select id="docSubType" class="form-control" style="display:none;">          
+        <select id="docSubType" name="Order[itemType]" value="<?php echo $order->itemType;?>" class="form-control" style="display:none;">          
         </select>
+        <?php echo $form->error($order, 'itemType'); ?>
     </div>
+
+    <div class="form-group">
+
+        <label>Подробное описание</label>
+        <?php echo $form->textArea($order, 'description', array('class'=>'form-control', 'rows'=>6)); ?>
+        <?php echo $form->error($order, 'description'); ?>
+    </div>
+
+<h2>Как с Вами связаться?</h2>
 	
 <div class="row">
     <div class="col-md-6">  
         <div class="form-group">
-            <?php echo $form->labelEx($model,'name'); ?>
-            <?php echo $form->textField($model,'name', array('class'=>'form-control', 'placeholder'=>'Иванов Иван')); ?>
-            <?php echo $form->error($model,'name'); ?>
+            <?php echo $form->labelEx($author,'name'); ?>
+            <?php echo $form->textField($author,'name', array('class'=>'form-control', 'placeholder'=>'Иванов Иван')); ?>
+            <?php echo $form->error($author,'name'); ?>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">  
+        <div class="form-group">
+            <?php echo $form->labelEx($author,'email'); ?>
+            <?php echo $form->textField($author,'email', array('class'=>'form-control', 'placeholder'=>'ivan@mail.ru')); ?>
+            <?php echo $form->error($author,'email'); ?>
         </div>
     </div>
 </div>
@@ -27,14 +47,14 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-                <?php echo $form->labelEx($model,'phone'); ?>
-                <?php echo $form->textField($model,'phone', array(
+                <?php echo $form->labelEx($author,'phone'); ?>
+                <?php echo $form->textField($author,'phone', array(
                     'class'         =>  'form-control phone-mask', 
                     'data-toggle'   =>  "tooltip",
                     'data-placement'=>  "top",
                     'title'         =>  "Номер телефона необходим, чтобы юрист смог с Вами связаться. Нигде не публикуется.",
                     )); ?>
-                <?php echo $form->error($model,'phone'); ?>
+                <?php echo $form->error($author,'phone'); ?>
         </div>
     </div>
     <div class="col-md-6">
@@ -49,19 +69,15 @@
 </div>
     
 
-    <div class="form-group">
 
-        <label>Комментарий</label>
-        <?php echo $form->textArea($model,'question', array('class'=>'form-control', 'rows'=>4)); ?>
-    </div>
 
     <?php echo CHtml::hiddenField('question_hidden', '', array('id'=>'Lead_question_hidden'));?>
 
 <div class="row">
     <div class="col-md-6">  
         <div class="form-group">         
-        <?php echo $form->labelEx($model,'town'); ?>
-        <?php echo CHtml::textField('town', $currenTownName, array(
+        <?php echo $form->labelEx($author,'town'); ?>
+        <?php echo CHtml::textField('town', ($author->townId)?$townsArray[$author->townId]:'', array(
             'id'            =>  'town-selector', 
             'class'         =>  'form-control',
             'data-toggle'   =>  "tooltip",
@@ -70,9 +86,9 @@
         )); ?>
 
         <?php
-            echo $form->hiddenField($model, 'townId', array('id'=>'selected-town'));
+            echo $form->hiddenField($author, 'townId', array('id'=>'selected-town'));
         ?>
-        <?php echo $form->error($model,'townId'); ?>
+        <?php echo $form->error($author,'townId'); ?>
         </div>
     </div>
 </div>

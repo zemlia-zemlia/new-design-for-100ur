@@ -16,6 +16,7 @@ class Order extends CActiveRecord {
     
     // Статусы заказа
     const STATUS_NEW = 0; // новый
+    const STATUS_CONFIRMED = 6; // подтвержден
     const STATUS_AWAITING_PAYMENT = 1; // ожидает оплаты
     const STATUS_PAYED = 2; // оплачен
     const STATUS_DONE = 3; // выполнен
@@ -36,7 +37,7 @@ class Order extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('status, createDate, itemType, price, description, userId', 'required'),
+            array('itemType, description, userId', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('status, itemType, price, userId', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.

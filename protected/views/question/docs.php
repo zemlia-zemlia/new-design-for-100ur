@@ -4,54 +4,34 @@ $this->setPageTitle("Заказ документов ". Yii::app()->name);
 
 
 <h1 class="header-block header-block-light-grey">Заказ документов</h1>
-
+<?php 
+//CustomFuncs::printr($order->errors);
+//CustomFuncs::printr($author->errors);
+?>
 
 <div class='flat-panel'>
     <div class='inside'>
         <?php echo $this->renderPartial('_formDocs', array(
-            'model'         =>  $model,
+            'order'         =>  $order,
+            'author'        =>  $author,
             'townsArray'    =>  $townsArray,
         )); ?>
     </div>
 </div>
 
 
-<script type="text/javascript">
+<script type="text/javascript">   
     var docs = {
-        1:{ type:'Регистрация бизнеса',
-            type_description:'Комплекты документов для регистрации ООО, ИП, ТСЖ и др.',
-            subtypes:['Регистрация ООО','Внесение изменений в учредительные документы','Регистрация ИП', 'Регистрация ТСЖ', 'Другое']
-        },
-        2:{ type:'Договоры и соглашения',
-            type_description:'Договоры аренды, подряда, купли-продажи, займа, комиссии и др',
-            subtypes:['Трудовой договор','Договор купли-продажи','Договор на оказание услуг','Договор дарения', 'Договор аренды','Другое']
-        },
-        3:{ type:'Документы в суд',
-            type_description:'Исковое заявление, отзыв на исковое заявление, ходатайство, жалоба на решение суда и др.',
-            subtypes:['Исковое заявление','Отзыв или возражение на исковое заявление','Ходатайство','Жалоба на решение суда','Жалоба на постановление по делу об административном правонарушении', 'Другое']
-        },
-        4:{ type:'Претензии потребителей',
-            type_description:'Претензии на возврат денег за товар. Претензии в страховую, в банк, к ЖКХ и др.',
-            subtypes:['Претензия на возврат денежных средств за товар (услугу) ненадлежащего качества',
-                'Претензия в страховую компанию',
-                'Претензия в банк',
-                'Претензия к ЖКХ, управляющей компании',
-                'Претензия к застройщику',
-                'Другое'
-            ]
-        },
-        5:{ type:'Жалоба на чиновника',
-            type_description:'Жалоба на действия должностного лица, судебного пристава, сотрудника ГИБДД и др.',
-            subtypes:['Жалоба на действия должностного лица',
-                'Жалоба на действия судебного пристава-исполнителя',
-                'Жалоба на действия сотрудника ГИБДД',
-                'Другое'
-            ]
-        },
-        6:{ type:'Другое',
-            type_description:'Любой другой документ. Вы можете описать его самостоятельно.',
-            subtypes:['Указывать не требуется']
-        },
+        <?php foreach(DocType::getClassesArray() as $classId => $docClass):?>
+            <?php echo $classId;?>: { type:'<?php echo $docClass['name'];?>',
+                type_description:'<?php echo $docClass['description'];?>',
+                subtypes:[
+                    <?php foreach($docTypesArray[$classId] as $type):?>
+                            {id:<?php echo $type->id;?>, name: '<?php echo $type->name;?>'},
+                    <?php endforeach;?>
+                ]
+            },
+        <?php endforeach;?>
     };
     
     $(function(){
@@ -87,7 +67,7 @@ $this->setPageTitle("Заказ документов ". Yii::app()->name);
                     $("#docSubType").append('<option value="">Выберите подтип документа</option>').show();
                 }
                 for(var subtype in docs[current_type]['subtypes']) {
-                    $("#docSubType").append('<option value="'+ docs[current_type]['subtypes'][subtype] +'">'+ docs[current_type]['subtypes'][subtype] +'</option>');
+                    $("#docSubType").append('<option value="'+ docs[current_type]['subtypes'][subtype].id +'">'+ docs[current_type]['subtypes'][subtype].name +'</option>');
                     //console.log('+' + docs[current_type]['subtypes'][subtype]);
                 }
             }

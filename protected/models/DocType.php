@@ -5,16 +5,23 @@
  *
  * The followings are the available columns in table '{{docType}}':
  * @property integer $id
+ * @property integer $class
  * @property string $name
  * @property integer $minPrice
  */
 class DocType extends CActiveRecord {
 
+    const CLASS_BUSINESS = 1; // Регистрация бизнеса
+    const CLASS_DEAL = 2; // Договоры и соглашения
+    const CLASS_COURT = 3; // Документы в суд
+    const CLASS_COMPLAIN = 4; // Претензии потребителей
+    const CLASS_AUTHORITY = 5; // Жалоба на чиновника
+    const CLASS_OTHER = 6; // Другое
     /**
      * @return string the associated database table name
      */
     public function tableName() {
-        return '{{docType}}';
+        return '{{doctype}}';
     }
 
     /**
@@ -24,8 +31,8 @@ class DocType extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, minPrice', 'required'),
-            array('minPrice', 'numerical', 'integerOnly' => true),
+            array('name, class', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
+            array('minPrice, class', 'numerical', 'integerOnly' => true),
             array('name', 'length', 'max' => 255),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
@@ -49,10 +56,55 @@ class DocType extends CActiveRecord {
     public function attributeLabels() {
         return array(
             'id'        => 'ID',
+            'class'     => 'Раздел',
             'name'      => 'Наименование',
             'minPrice'  => 'Минимальная цена',
         );
     }
+    
+    /**
+     * возвращает массив, ключами которого являются коды классов, а значениями - названия 
+     * @return Array массив классов
+     */
+    static public function getClassesArray() {
+        return array(
+            self::CLASS_BUSINESS     => [
+                'name'          =>  'Регистрация бизнеса',
+                'description'   =>  'Комплекты документов для регистрации ООО, ИП, ТСЖ и др.',
+            ],
+            self::CLASS_DEAL         => [
+                'name'          =>  'Договоры и соглашения',
+                'description'   =>  'Договоры аренды, подряда, купли-продажи, займа, комиссии и др',
+            ],
+            self::CLASS_COURT        => [
+                'name'          =>  'Документы в суд',
+                'description'   =>  'Исковое заявление, отзыв на исковое заявление, ходатайство, жалоба на решение суда и др.',
+            ],
+            self::CLASS_COMPLAIN     => [
+                'name'          =>  'Претензии потребителей',
+                'description'   =>  'Претензии на возврат денег за товар. Претензии в страховую, в банк, к ЖКХ и др.',
+            ],
+            self::CLASS_AUTHORITY    => [
+                'name'          =>  'Жалоба на чиновника',
+                'description'   =>  'Жалоба на действия должностного лица, судебного пристава, сотрудника ГИБДД и др.',
+            ],
+            self::CLASS_OTHER        => [
+                'name'          =>  'Другое', 
+                'description'   =>  'Любой другой документ. Вы можете описать его самостоятельно.',
+            ],
+        );
+    }
+    
+    /**
+     * возвращает название класса для объекта
+     * 
+     * @return string название статуса
+     */
+    public function getClassName() {
+        $classesArray = self::getClassesArray();
+        return $classesArray[$this->class]['name'];
+    }
+
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.

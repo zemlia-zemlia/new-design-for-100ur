@@ -352,6 +352,7 @@ class UserController extends Controller {
                 // задаем пользователю некий произвольный пароль, который на следующем шаге попросим сменить. Пароль в открытом виде не отсылаем пользователю
                 $newPassword = $user->password = $user->password2 = $user->generatePassword(10);
                 $publishedQuestionsNumber = $user->publishNewQuestions();
+                $user->confirmOrders();
             }
 
             if ($user->save()) {
