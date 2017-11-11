@@ -42,7 +42,7 @@ class CabinetController extends Controller {
         $criteria = new CDbCriteria;
 
         $criteria->addInCondition('campaignId', $myCampaignIds);
-        $criteria->order = 'id DESC';
+        $criteria->order = 'deliveryTime DESC';
 
         $showInactive = true;
 
