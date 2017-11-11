@@ -35,7 +35,7 @@ class OrderController extends Controller {
             array('allow', // allow all users 
                 'actions' => array('index'),
                 'users' => array('@'),
-                'expression'    =>  "Yii::app()->user->role == User::ROLE_JURIST",
+                'expression'    =>  "Yii::app()->user->checkAccess(User::ROLE_JURIST)",
             ),
             array('deny', // deny all users
                 'users' => array('*'),

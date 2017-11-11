@@ -256,7 +256,7 @@ if(Yii::app()->user->id != $user->id) {
    <?php endforeach;?>
 <?php endif;?>
         
-<?php if(Yii::app()->user->role == User::ROLE_CLIENT):?>
+<?php if(Yii::app()->user->role == User::ROLE_CLIENT && Yii::app()->user->id == $model->id):?>
         <h2>Мои заказы документов</h2>
         <table class="table table-bordered">
         <?php $this->widget('zii.widgets.CListView', array(
