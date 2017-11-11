@@ -15,9 +15,10 @@
 class Order extends CActiveRecord {
     
     // Статусы заказа
-    const STATUS_NEW = 0; // новый
-    const STATUS_AWAITING_PAYMENT = 1; // ожидает оплаты
-    const STATUS_PAYED = 2; // оплачен
+    const STATUS_NEW = 0; // новый (черновик)
+    const STATUS_CONFIRMED = 6; // подтвержден (активный)
+    const STATUS_JURIST_SELECTED = 1; // выбран юрист
+    const STATUS_JURIST_CONFIRMED = 2; // юрист подтвердил принятие заказа
     const STATUS_DONE = 3; // выполнен
     const STATUS_REWORK = 4; // на доработке
     const STATUS_CLOSED = 5; // закрыт
@@ -36,7 +37,7 @@ class Order extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('status, createDate, itemType, price, description, userId', 'required'),
+            array('itemType, description, userId', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('status, itemType, price, userId', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
@@ -53,7 +54,8 @@ class Order extends CActiveRecord {
         return array(
             'author'    => array(self::BELONGS_TO, 'User', 'userId'),
             'docType'   => array(self::BELONGS_TO, 'DocType', 'itemType'),
-            'comments'  => array(self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_ORDER, 'order' => 'comments.root, comments.lft'),
+            'responses'  => array(self::HAS_MANY, 'OrderResponse', 'objectId', 'condition' => 'responses.type=' . Comment::TYPE_RESPONSE, 'order' => 'responses.id ASC'),
+            'responsesCount'  => array(self::STAT, 'OrderResponse', 'objectId', 'condition' => 't.type=' . Comment::TYPE_RESPONSE, 'order' => 't.root, t.lft'),
         );
     }
 
@@ -79,12 +81,13 @@ class Order extends CActiveRecord {
      */
     static public function getStatusesArray() {
         return array(
-            self::STATUS_NEW                => 'новый',
-            self::STATUS_AWAITING_PAYMENT   => 'ожидает оплаты',
-            self::STATUS_PAYED              => 'оплачен',
+            self::STATUS_NEW                => 'новый (черновик)',
+            self::STATUS_JURIST_SELECTED    => 'выбран юрист',
+            self::STATUS_JURIST_CONFIRMED   => 'юрист подтвердил принятие заказа',
             self::STATUS_DONE               => 'выполнен',
             self::STATUS_REWORK             => 'на доработке',
             self::STATUS_CLOSED             => 'закрыт',
+            self::STATUS_CONFIRMED          => 'подтвержден',
         );
     }
     

@@ -898,5 +898,14 @@ class User extends CActiveRecord {
                 
         return $transactionsSumRow['hold'];
     }
+    
+    /**
+     * Отмечает все новые заказы пользователя как подтвержденные
+     */
+    public function confirmOrders()
+    {
+        Yii::app()->db->createCommand()
+                ->update('{{order}}', ['status' => Order::STATUS_CONFIRMED], 'status='.Order::STATUS_NEW . ' AND userId='.$this->id);
+    }
 
 }

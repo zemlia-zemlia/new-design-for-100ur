@@ -685,34 +685,72 @@ class QuestionController extends Controller {
     public function actionDocs() {
         $this->layout = "//frontend/smart";
 
-        $lead = new Lead100();
+        $order = new Order();
+        $author = new User();
+        $docType = null;
+        
+        if(!Yii::app()->user->isGuest) {
+            $currentUser = User::model()->findByPk(Yii::app()->user->id);
+            $author->attributes = $currentUser->attributes;
+        }
 
-        if (isset($_POST['Lead100'])) {
-            $lead->attributes = $_POST['Lead100'];
-            $lead->phone = preg_replace('/([^0-9])/i', '', $lead->phone);
-            $lead->sourceId = 3;
-            $lead->type = Lead100::TYPE_DOCS;
+        if (isset($_POST['Order'])) {
+            $order->attributes = $_POST['Order'];
+            
+            // найдем информацию по типу заказываемого документа
+            if($order->itemType) {
+                $docType = DocType::model()->findByPk($order->itemType);
+            }
+            
+            if(isset($_POST['User'])) {
+                $author->attributes = $_POST['User'];
+            }
 
-            if ($lead->validate()) {
-                $docType = $_POST['question_hidden'];
-                $lead->question = CHtml::encode('Заявка на документ. ' . $docType . '. ' . $lead->question);
+            //if ($order->validate() && $author->validate()) {
+                
+                if(Yii::app()->user->isGuest) {
+                    $order->status = Order::STATUS_NEW;
+                    // для нового пользователя сгенерируем его секретный код и пароль
+                    $author->confirm_code = md5($author->email . mt_rand(100000, 999999));
+                    $author->password = $author->password2 = User::generatePassword(10);
+                    $author->role = User::ROLE_CLIENT;
+                    
+                    // перед сохранением пользователя проверим заказ
+                    if($order->validate(['description', 'itemType']) && $author->save()) {
+                        // после сохранения пользователя отправим ему ссылку на активацию
+                        $author->sendConfirmation();
+                        $order->userId = $author->id;
+                    }
+                } else {
+                    $order->status = Order::STATUS_CONFIRMED;
+                    $order->userId = Yii::app()->user->id;
+                }
 
-                if ($lead->save()) {
+                if ($order->save()) {
+                    
                     $this->redirect(array('docsRequested'));
                 }
-            }
+            //}
         }
 
         $townsArray = Town::getTownsIdsNames();
+        $docTypes = DocType::model()->findAll();
+        $docTypesArray = [];
+        foreach($docTypes as $type) {
+            $docTypesArray[$type->class][] = $type;
+        }
 
         $this->render('docs', array(
-            'model' => $lead,
-            'townsArray' => $townsArray,
+            'order'         =>  $order,
+            'author'        =>  $author,
+            'townsArray'    =>  $townsArray,
+            'docTypesArray' =>  $docTypesArray,
+            'docType'       =>  $docType,
         ));
     }
 
     public function actionDocsRequested() {
-        $this->layout = "//frontend/short";
+        $this->layout = "//frontend/smart";
         $this->render('docsRequested');
     }
 

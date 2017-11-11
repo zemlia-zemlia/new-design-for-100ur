@@ -255,6 +255,20 @@ if(Yii::app()->user->id != $user->id) {
        </div>
    <?php endforeach;?>
 <?php endif;?>
+        
+<?php if(Yii::app()->user->role == User::ROLE_CLIENT):?>
+        <h2>Мои заказы документов</h2>
+        <table class="table table-bordered">
+        <?php $this->widget('zii.widgets.CListView', array(
+                'dataProvider'  =>  $ordersDataProvider,
+                'itemView'      =>  'application.views.order._view',
+                'emptyText'     =>  'Не найдено ни одного заказа',
+                'summaryText'   =>  'Показаны заказы с {start} до {end}, всего {count}',
+                'pager'         =>  array('class'=>'GTLinkPager'), //we use own pager with russian words
+            )); 
+        ?>
+        </table>
+<?php endif;?>
 
 <?php 
     if(Yii::app()->user->role == User::ROLE_ROOT) {
