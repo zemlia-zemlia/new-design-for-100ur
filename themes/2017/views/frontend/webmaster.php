@@ -84,6 +84,7 @@
                             <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/question/')?CHtml::link('Вопросы', Yii::app()->createUrl('/webmaster/question/')):'<span class="active">Вопросы</span>';?></li>
                             <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/source/')?CHtml::link('Источники', Yii::app()->createUrl('/webmaster/source/')):'<span class="active">Источники</span>';?></li>
                             <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/api/')?CHtml::link('API', Yii::app()->createUrl('/webmaster/api/')):'<span class="active">API</span>';?></li>
+                            <li><?php echo ($_SERVER['REQUEST_URI'] != '/webmaster/faq/')?CHtml::link('FAQ', Yii::app()->createUrl('/webmaster/faq/')):'<span class="active">FAQ</span>';?></li>
                         </ul>
                         </div>
                     </div>
