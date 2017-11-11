@@ -21,6 +21,7 @@
         <?php echo $form->error($order, 'description'); ?>
     </div>
 
+<?php if(Yii::app()->user->isGuest):?>
 <h2>Как с Вами связаться?</h2>
 	
 <div class="row">
@@ -92,6 +93,7 @@
         </div>
     </div>
 </div>
+<?php endif;?>
 
 <div class="vert-margin20">
     <small class="text-muted">

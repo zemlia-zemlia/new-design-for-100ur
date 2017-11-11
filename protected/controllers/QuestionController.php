@@ -687,6 +687,7 @@ class QuestionController extends Controller {
 
         $order = new Order();
         $author = new User();
+        $docType = null;
         
         if(!Yii::app()->user->isGuest) {
             $currentUser = User::model()->findByPk(Yii::app()->user->id);
@@ -695,6 +696,11 @@ class QuestionController extends Controller {
 
         if (isset($_POST['Order'])) {
             $order->attributes = $_POST['Order'];
+            
+            // найдем информацию по типу заказываемого документа
+            if($order->itemType) {
+                $docType = DocType::model()->findByPk($order->itemType);
+            }
             
             if(isset($_POST['User'])) {
                 $author->attributes = $_POST['User'];
@@ -707,6 +713,7 @@ class QuestionController extends Controller {
                     // для нового пользователя сгенерируем его секретный код и пароль
                     $author->confirm_code = md5($author->email . mt_rand(100000, 999999));
                     $author->password = $author->password2 = User::generatePassword(10);
+                    $author->role = User::ROLE_CLIENT;
                     
                     // перед сохранением пользователя проверим заказ
                     if($order->validate(['description', 'itemType']) && $author->save()) {
@@ -734,10 +741,11 @@ class QuestionController extends Controller {
         }
 
         $this->render('docs', array(
-            'order'         => $order,
-            'author'        => $author,
-            'townsArray'    => $townsArray,
-            'docTypesArray' => $docTypesArray,
+            'order'         =>  $order,
+            'author'        =>  $author,
+            'townsArray'    =>  $townsArray,
+            'docTypesArray' =>  $docTypesArray,
+            'docType'       =>  $docType,
         ));
     }
 

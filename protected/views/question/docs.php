@@ -7,6 +7,7 @@ $this->setPageTitle("Заказ документов ". Yii::app()->name);
 <?php 
 //CustomFuncs::printr($order->errors);
 //CustomFuncs::printr($author->errors);
+//CustomFuncs::printr($order->attributes);
 ?>
 
 <div class='flat-panel'>
@@ -36,7 +37,7 @@ $this->setPageTitle("Заказ документов ". Yii::app()->name);
     
     $(function(){
         console.log(docs);
-        
+                
         for(var key in docs) {
             $("#docType").append('<div class="doc-type-wrapper"><label><input type="radio" name="doc_type" value="' + key + '"> <span class="doc_type_name">' + docs[key]['type'] + '</span></input><div class="doc-type-desc">'+ docs[key]['type_description'] +'</div></label></div>');
 //            console.log(docs[key]['type']);
@@ -45,7 +46,7 @@ $this->setPageTitle("Заказ документов ". Yii::app()->name);
 //                console.log('+' + docs[key]['subtypes'][subtype]);
 //            }
         }
-        
+               
         $("[name=doc_type]").on('change', function(){
             var current_type = $(this).val();
             console.log(current_type);
@@ -72,7 +73,7 @@ $this->setPageTitle("Заказ документов ". Yii::app()->name);
                 }
             }
         })
-        
+                
         $("#docSubType").on('change', function(){
             var subtype = $(this).val();
             var type = $("#docType input:checked").closest('label').find(".doc_type_name").text();
@@ -82,6 +83,19 @@ $this->setPageTitle("Заказ документов ". Yii::app()->name);
             console.log(question);
             
         });
+        
+        var selectedDocClass = <?php echo (!is_null($docType))?$docType->class:'null';?>;
+        var selectedDocType = <?php echo (!is_null($docType))?$docType->id:'null';?>;
+        
+//        console.log('class=' + selectedDocClass);
+//        console.log('type=' + selectedDocType);
+        
+        if(selectedDocClass) {
+            $('input[name=doc_type][value=' + selectedDocClass + ']').click();
+        }
+        if(selectedDocType) {
+            $("select#docSubType").val(selectedDocType);
+        }
         
     })
     

@@ -1,38 +1,32 @@
 <?php
-$this->setPageTitle("Заказ документа отправлен". Yii::app()->name);
+if(Yii::app()->user->isGuest) {
+    $title = "Осталось подтвердить Email";
+} else {
+    $title = "Заказ документа отправлен";
+}
+
+
+$this->setPageTitle($title . '. ' . Yii::app()->name);
 ?>
 <div class='panel panel-default'>
     <div class='panel-body'>
-        <h1>Юрист свяжется с Вами в ближайшее время</h1>
+        <h1><?php echo $title;?></h1>
+        <?php if(Yii::app()->user->isGuest):?>
+            <p>
+                Для подтверждения своей почты перейдите по ссылке, которую мы отправили Вам в письме.
+                После этого Ваш заказ будет отправлен юристам.
+            </p>
+        <?php else:?>
+            <p>
+                Ваш заказ принят. Вы получите уведомление, когда юрист примет его в работу.
+            </p>
+            <p>
+                Все Ваши заказы доступны в личном кабинете.
+            </p>
+            <p class="center-align">
+                <?php echo CHtml::link('Перейти в личный кабинет', Yii::app()->createUrl('/user/'), ['class' => 'yellow-button']);?>
+            </p>
+        <?php endif;?>
+        
     </div>
 </div>
-
-
-<!-- Modal -->
-<div class="modal fade" id="thank-you-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Спасибо!</h4>
-      </div>
-      <div class="modal-body">
-        <h2 class="vert-margin30">Юрист свяжется с Вами в ближайшее время</h2>
-        
-        <p class="center-align">
-            <a href="/" class="btn btn-primary">Понятно</a>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script type="text/javascript">
-    $(function(){
-        $("#thank-you-modal").modal('show');
-        
-        $('#thank-you-modal').on('hidden.bs.modal', function (e) {
-            location.href = '/';
-          })
-    });
-</script>

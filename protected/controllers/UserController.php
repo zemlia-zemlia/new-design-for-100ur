@@ -52,15 +52,25 @@ class UserController extends Controller {
         $user = User::model()->findByPk(Yii::app()->user->id);
 
         $questionsCriteria = new CDbCriteria;
+        $ordersCriteria = new CDbCriteria; // мои заказы документов
 
         if (Yii::app()->user->role == User::ROLE_CLIENT) {
             $questionsCriteria->addColumnCondition(array('t.authorId' => Yii::app()->user->id));
             $questionsCriteria->addCondition('t.status IN(' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')');
+        
+            $ordersCriteria->addColumnCondition(array('t.userId' => Yii::app()->user->id));
+            $ordersCriteria->order = 't.id DESC';
+            
+            $ordersDataProvider = new CActiveDataProvider('Order', [
+                'criteria'  => $ordersCriteria,
+            ]);
+            
         } else {
             $questionsCriteria->with = array(
                 'answers' => array(
                     'condition' => 'answers.authorId = ' . Yii::app()->user->id,
             ));
+            $ordersDataProvider = null;
         }
 
         $questionsCriteria->order = 't.id DESC';
@@ -87,10 +97,11 @@ class UserController extends Controller {
 
 
         $this->render('profile', array(
-            'questionsDataProvider' => $questionsDataProvider,
-            'questions'             => $questions,
-            'user'                  => $user,
-            'lastRequest'           => $lastRequest,
+            'questionsDataProvider' =>  $questionsDataProvider,
+            'questions'             =>  $questions,
+            'user'                  =>  $user,
+            'lastRequest'           =>  $lastRequest,
+            'ordersDataProvider'    =>  $ordersDataProvider,
         ));
     }
 

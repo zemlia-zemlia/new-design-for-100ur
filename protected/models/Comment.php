@@ -23,7 +23,7 @@ class Comment extends CActiveRecord
         const TYPE_ANSWER = 4;
         const TYPE_COMPANY = 5;
         const TYPE_USER = 6;
-        const TYPE_ORDER = 7;
+        const TYPE_RESPONSE = 7; // комментарии к откликам на заказы документов
         
         const STATUS_NEW = 0;
         const STATUS_CHECKED = 1;
@@ -229,6 +229,147 @@ class Comment extends CActiveRecord
                   
             }
             
+            if($this->type == self::TYPE_RESPONSE && !($this instanceof OrderResponse)) {
+                if($this->level == 1) {
+                    // это комментарий к отклику
+                    $object = OrderResponse::model()->findByPk($this->objectId);
+                    $order = $object->order;
+                } else {
+                    // это комментарий на комментарий к отклику
+                    $object = $this->parent()->find();
+                    $response = OrderResponse::model()->findByPk((int)$object->objectId);
+                    $order = $response->order;
+                    
+                }
+                
+                $commentAuthor = $this->author;
+                /*
+                 * $object - это объект, к которому привязывается комментарий
+                 * $author - автор объекта
+                 */
+                $author = $object->author;
+                
+//                CustomFuncs::printr($this->attributes);
+//                CustomFuncs::printr($object->attributes);
+//                CustomFuncs::printr($author->attributes);
+//                exit;
+                
+                // в письмо вставляем ссылку на вопрос + метки для отслеживания переходов
+                $questionLink = Yii::app()->createUrl('order/view', ['id'=>$order->id]);
+
+
+                /*  проверим, есть ли у пользователя заполненное поле autologin, если нет,
+                 *  генерируем код для автоматического логина при переходе из письма
+                 * если есть, вставляем существующее значение
+                 * это сделано, чтобы не создавать новую строку autologin при наличии старой
+                 * и дать возможность залогиниться из любого письма, содержащего актуальную строку autologin
+                 */
+                $autologinString = (isset($author->autologin) && $author->autologin != '') ? $author->autologin : $author->generateAutologinString();
+
+                if(!$author->autologin) {
+                    if ($author->save()) {
+                        // пытаемся сохранить пользователя (обновив поле autologin)
+                        
+                    } else {
+                        Yii::log("Не удалось сохранить строку autologin пользователю " . $author->email . " с уведомлением о комментарии на заказ " . $order->id, 'error', 'system.web.User');
+                    }
+                }
+                $questionLink .= "?autologin=" . $autologinString;
+
+                $mailer = new GTMail;
+                $mailer->subject = CHtml::encode($author->name) . ", новое сообщение в заказе";
+                $mailer->message = "<h1>Новое сообщение в заказе</h1>
+                    <p>Здравствуйте, " . CHtml::encode($author->name) . "<br /><br />
+                    На " . CHtml::link("заказ", $questionLink) . " получен новый комментарий от пользователя " . CHtml::encode($commentAuthor->lastName . ' ' . $commentAuthor->name);
+
+                $mailer->message .= "<br /><br />Посмотреть его можно по ссылке: " . CHtml::link($questionLink, $questionLink);
+
+                $mailer->message .= ".<br /><br />
+                    Будем держать Вас в курсе поступления других комментариев. 
+                    <br /><br />
+                    </p>";
+
+                // отправляем письмо на почту пользователя
+                $mailer->email = $author->email;
+
+                if ($mailer->sendMail(true, '100yuristov')) {
+                    Yii::log("Отправлено письмо пользователю " . $author->email . " с уведомлением о комментарии на заказ " . $order->id, 'info', 'system.web.User');
+                    return true;
+                } else {
+                    // не удалось отправить письмо
+                    Yii::log("Не удалось отправить письмо пользователю " . $author->email . " с уведомлением о комментарии на заказ " . $order->id, 'error', 'system.web.User');
+                    return false;
+                }
+                
+            }
+            
             parent::afterSave();
         }
+        
+    /**
+     * Отправка уведомления автору комментария или отклика, на который оставлен комментарий
+     */
+    public function sendNotification()
+    {
+        // функция работает только для комментариев к откликам на заказы
+        if($this->type != self::TYPE_RESPONSE) {
+            return false;
+        }
+        
+        $object = $this->author;
+        $objectAuthor = $object->author;
+        
+        if ($client->active100 == 0) {
+            return false;
+        }
+        
+        // в письмо вставляем ссылку на вопрос + метки для отслеживания переходов
+        $questionLink = Yii::app()->createUrl('order/view', ['id'=>$order->id]);
+
+
+        /*  проверим, есть ли у пользователя заполненное поле autologin, если нет,
+         *  генерируем код для автоматического логина при переходе из письма
+         * если есть, вставляем существующее значение
+         * это сделано, чтобы не создавать новую строку autologin при наличии старой
+         * и дать возможность залогиниться из любого письма, содержащего актуальную строку autologin
+         */
+        $autologinString = (isset($client->autologin) && $client->autologin != '') ? $client->autologin : $client->generateAutologinString();
+
+        if ($client->save()) {
+            /*
+             * пытаемся сохранить пользователя (обновив поле autologin)
+             */
+            $questionLink .= "?autologin=" . $autologinString;
+        } else {
+            Yii::log("Не удалось сохранить строку autologin пользователю " . $client->email . " с уведомлением об отклике на заказ " . $order->id, 'error', 'system.web.User');
+        }
+
+
+        $mailer = new GTMail;
+        $mailer->subject = CHtml::encode($client->name) . ", новое предложение по Вашему заказу";
+        $mailer->message = "<h1>Новое предложение по Вашему заказу</h1>
+            <p>Здравствуйте, " . CHtml::encode($client->name) . "<br /><br />
+            На " . CHtml::link("Ваш заказ", $questionLink) . " получено новое предложение от юриста " . CHtml::encode($jurist->lastName . ' ' . $jurist->name);
+        
+        $mailer->message .= "<br /><br />Посмотреть его можно по ссылке: " . CHtml::link($questionLink, $questionLink);
+        
+        $mailer->message .= ".<br /><br />
+            Будем держать Вас в курсе поступления других предложений. 
+            <br /><br />
+            " . CHtml::link("Посмотреть предложение", $questionLink, array('class' => 'btn')) . "
+            </p>";
+
+        // отправляем письмо на почту пользователя
+        $mailer->email = $client->email;
+
+        if ($mailer->sendMail(true, '100yuristov')) {
+            Yii::log("Отправлено письмо пользователю " . $client->email . " с уведомлением об ответе на заказ " . $order->id, 'info', 'system.web.User');
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log("Не удалось отправить письмо пользователю " . $client->email . " с уведомлением об ответе на заказ " . $order->id, 'error', 'system.web.User');
+            return false;
+        }
+        
+    }
 }
