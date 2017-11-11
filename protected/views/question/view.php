@@ -24,7 +24,7 @@ $this->breadcrumbs=array(
 </div>
 <?php endif;?>
  
-<div>
+<div class="small">
         <?php 
         $this->widget('zii.widgets.CBreadcrumbs', array(
             'homeLink'=>CHtml::link('Вопрос юристу',"/"),
@@ -36,7 +36,7 @@ $this->breadcrumbs=array(
 
 <div itemscope itemtype="http://schema.org/Question">
      
-    <div id="question-hero" class="vert-margin20">
+    <div id="question-hero" class="">
         
         <div class="row">
             <div class="col-sm-9">
@@ -89,7 +89,7 @@ $this->breadcrumbs=array(
 </div>
      
     
-   <div itemprop="text" class="vert-margin20 inside lead">
+   <div itemprop="text" class="vert-margin20 inside" >
         <?php echo nl2br(CHtml::encode($model->questionText));?>
     </div>
     
@@ -97,9 +97,9 @@ $this->breadcrumbs=array(
 
         <?php if(Yii::app()->user->isVerified || Yii::app()->user->role == User::ROLE_ROOT):?>
     
-            <h2 class="header-block-light-grey" >Ваш ответ на вопрос клиента:</h2>
+            
             <div class='flat-panel inside vert-margin30'>
-
+			<h2 class="" >Ваш ответ на вопрос клиента:</h2>
             <?php $this->renderPartial('application.views.answer._form', array('model'=>$answerModel));?>
                 
             </div>

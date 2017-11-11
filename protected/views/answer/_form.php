@@ -17,7 +17,8 @@
             <?php echo $form->textArea($model,'answerText',array('rows'=>6, 'class'=>'form-control')); ?>
             <?php echo $form->error($model,'answerText'); ?>
 	</div>
-    
+    <?
+	/*
         <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
             <div class="form-group">
                 <?php echo $form->labelEx($model,'videoLink'); ?>
@@ -25,7 +26,8 @@
                 <?php echo $form->error($model,'videoLink'); ?>
             </div>
         <?php endif;?>
-
+	*/
+	?>
     <p class="text-muted center-align">
         Реклама в тексте ответа запрещена, контактные данные можно указывать только в своем профиле. Запрещается полное или частичное копирование текста ответов с других ресурсов.
     </p>
