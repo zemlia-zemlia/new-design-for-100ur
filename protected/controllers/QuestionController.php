@@ -707,7 +707,9 @@ class QuestionController extends Controller {
                     // для нового пользователя сгенерируем его секретный код и пароль
                     $author->confirm_code = md5($author->email . mt_rand(100000, 999999));
                     $author->password = $author->password2 = User::generatePassword(10);
-                    if($author->save()) {
+                    
+                    // перед сохранением пользователя проверим заказ
+                    if($order->validate(['description', 'itemType']) && $author->save()) {
                         // после сохранения пользователя отправим ему ссылку на активацию
                         $author->sendConfirmation();
                         $order->userId = $author->id;
