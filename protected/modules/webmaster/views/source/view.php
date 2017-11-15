@@ -69,7 +69,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <?php echo $model->secretKey;?>
         </td>
     </tr>
-    <?php elseif($model->type == Leadsource100::TYPE_QUESTION):?>
+    <?php endif;?>
     <tr>
         <td>
             Реферальная ссылка
@@ -78,6 +78,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <?php echo Yii::app()->urlManager->baseUrl . '/?partnerAppId=' . $model->appId;?>
         </td>
     </tr>
-    <?php endif;?>
+    
     
 </table>

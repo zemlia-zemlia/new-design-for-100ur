@@ -202,8 +202,11 @@ class QuestionController extends Controller {
             
             // если пользователь пришел по партнерской ссылке, запишем в вопрос id источника
             if(Yii::app()->user->getState('sourceId')) {
-                $question->sourceId = Yii::app()->user->getState('sourceId');
-                $question->buyPrice = Yii::app()->params['questionPrice'];
+                $source = Leadsource100::model()->findByPk(Yii::app()->user->getState('sourceId'));
+                if($source->type == Leadsource100::TYPE_QUESTION) {
+                    $question->sourceId = Yii::app()->user->getState('sourceId');
+                    $question->buyPrice = Yii::app()->params['questionPrice'];
+                }
             }
 
             /* if(!$question->townId) {
@@ -241,7 +244,14 @@ class QuestionController extends Controller {
                 $lead->phone = $question->phone;
                 $lead->email = $question->email;
                 $lead->townId = $question->townId;
-                $lead->sourceId = 3; // 100 юристов
+                
+                
+                if($source && $source->type == Leadsource100::TYPE_LEAD) {
+                    $lead->sourceId = $source->id;
+                } else {
+                    $lead->sourceId = 3; // 100 юристов
+                }
+                
                 $lead->leadStatus = Lead100::LEAD_STATUS_DEFAULT; // по умолчанию лид никуда не отправляем
                 //CustomFuncs::printr($lead);exit;
 
