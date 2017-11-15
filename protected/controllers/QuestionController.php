@@ -239,6 +239,7 @@ class QuestionController extends Controller {
             $question->validate();
 
             if (empty($question->errors)) {
+                // Создаем лид
                 $lead->name = $question->authorName;
                 $lead->question = $question->questionText;
                 $lead->phone = $question->phone;
@@ -248,6 +249,13 @@ class QuestionController extends Controller {
                 
                 if($source && $source->type == Leadsource100::TYPE_LEAD) {
                     $lead->sourceId = $source->id;
+                    // посчитаем цену покупки лида, исходя из города и региона
+                    $prices = $lead->calculatePrices();
+                    if($prices[0]) {
+                        $lead->buyPrice = $prices[0];
+                    } else {
+                        $lead->buyPrice = 0;
+                    }
                 } else {
                     $lead->sourceId = 3; // 100 юристов
                 }
