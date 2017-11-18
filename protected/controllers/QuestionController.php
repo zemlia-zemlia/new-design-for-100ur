@@ -316,10 +316,10 @@ class QuestionController extends Controller {
         //CustomFuncs::printr($townsArray);
 
         $this->render('create', array(
-            'model' => $question,
+            'model'         => $question,
             'allDirections' => $allDirections,
-            'categoryId' => $categoryId,
-            'pay' => $pay,
+            'categoryId'    => $categoryId,
+            'pay'           => $pay,
         ));
     }
 

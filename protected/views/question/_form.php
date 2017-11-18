@@ -11,13 +11,13 @@
 
 	
 
-	<?php //echo $form->errorSummary($model, "Для отправки вопроса укажите данные"); ?>
+<?php //echo $form->errorSummary($model, "Для отправки вопроса укажите данные"); ?>
     
 <?php
-//$allDirections = array(0=>'Без категории') + $allDirections;
+$allDirections = array(0=>'Без категории') + $allDirections;
 ?>
 
-
+  
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
@@ -27,13 +27,22 @@
 	</div>
     </div>
 </div>
-        
 
-    <div class="form-group">
-            <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>10, 'placeholder'=>'Опишите вашу ситуацию подробнее, чтобы юрист мог более детально внем сориентироваться и дать на него квалифицированный ответ.')); ?>
-            <?php echo $form->error($model,'questionText'); ?>
+<div class="form-group">
+        <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>10, 'placeholder'=>'Опишите вашу ситуацию подробнее, чтобы юрист мог более детально внем сориентироваться и дать на него квалифицированный ответ.')); ?>
+        <?php echo $form->error($model,'questionText'); ?>
+</div>
+<!--
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+		<?php echo $form->labelEx($model,'categories'); ?>
+		<?php echo $form->dropDownList($model,'categories', $allDirections, array('class'=>'form-control')); ?>
+		<?php echo $form->error($model,'categories'); ?>
+	</div>
     </div>
-
+</div>
+-->
         
 <div class="row">
     <div class="col-md-6">

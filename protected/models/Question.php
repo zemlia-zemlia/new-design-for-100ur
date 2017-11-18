@@ -46,7 +46,7 @@ class Question extends CActiveRecord
         const LEVEL_3 = 3;
         const LEVEL_4 = 4;
         const LEVEL_5 = 5;
-        
+                
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -117,6 +117,7 @@ class Question extends CActiveRecord
                 'number'        =>  'Уникальный номер вопроса',
                 'questionText'  =>  'Вопрос',
                 'category'      =>  'Категория',
+                'categories'    =>  'Направление права',
                 'status'        =>  'Статус',
                 'authorName'    =>  'Ваше имя',
                 'town'          =>  'Город',

@@ -413,13 +413,13 @@ class QuestionCategoryController extends Controller
             $direction = QuestionCategory::model()->findByPk($directionId);
             $parent = QuestionCategory::model()->findByPk($parentId);
             
-            if(!$direction || !$parent) {
+            if(!$direction || !($parent || $parentId==0)) {
                 echo json_encode(['code' => 404, 'message' => 'Направление или новый родитель не найдены']);
                 exit;
             }
             
-            if(!$direction->isDirection || !$parent->isDirection) {
-                echo json_encode(['code' => 404, 'message' => 'Категория или новый родитель являются направлением']);
+            if(!$direction->isDirection || !($parent->isDirection || $parentId==0)) {
+                echo json_encode(['code' => 404, 'message' => 'Категория или новый родитель не являются направлением']);
                 exit;
             }
             

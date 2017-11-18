@@ -20,6 +20,8 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/directions.js');
         </td>
         <td>
             <p><strong><?php echo $cat['name'];?></strong></p>
+            <div class="set-parent-result"></div>
+
             
             <?php if ($cat['children']):?>
                 <table class="table">
@@ -46,6 +48,10 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/directions.js');
                 </table>
             <?php endif;?>
         
+        </td>
+        <td style="width:10%">
+            <?php echo CHtml::textField('parent[' . $catId . ']', 0, ['class' => 'form-control change-direction-parent', 'data-id' => $catId]);?>
+            <?php //echo $child['parentDirectionId'];?>
         </td>
     </tr>
     
