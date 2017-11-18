@@ -229,10 +229,10 @@ class QuestionCategory extends CActiveRecord
         public static function getDirections($withAlias = false, $withHierarchy = false)
         {
             $categoriesRows = Yii::app()->db->createCommand()
-                    ->select('id, name, alias, parentId')
+                    ->select('id, name, alias, parentDirectionId')
                     ->from('{{questionCategory}}')
                     ->where('isDirection = 1')
-                    ->order('name ASC')
+                    ->order('parentDirectionId ASC, name ASC')
                     ->queryAll();
             //CustomFuncs::printr($categoriesRows);
             $categories = array();
@@ -245,9 +245,10 @@ class QuestionCategory extends CActiveRecord
             } else {
                 foreach ($categoriesRows as $row) {
                     $categories[$row['id']] = array(
+                        'id'    =>  $row['id'],
                         'name'  =>  $row['name'],
                         'alias' =>  $row['alias'],
-                        'parentId'  =>  $row['parentId'],
+                        'parentDirectionId'  =>  $row['parentDirectionId'],
                         );
                 }
             }
@@ -258,14 +259,14 @@ class QuestionCategory extends CActiveRecord
                 // перебираем все категории-направления
                 foreach($categories as $catId=>$cat) {
                     // если нет родителя, это категория верхнего уровня
-                    if($cat['parentId'] == 0) {
+                    if($cat['parentDirectionId'] == 0) {
                         $categoriesHierarchy[$catId] = $cat;
                     }
                     
                     /* если нет родителя, но родитель не найден в направлениях, записываем в верхний уровень
                         происходит, если категорию дочернего уровня пометили как направление
                     */
-                    if($cat['parentId'] != 0 && !array_key_exists($cat['parentId'], $categories)) {
+                    if($cat['parentDirectionId'] != 0 && !array_key_exists($cat['parentDirectionId'], $categories)) {
                         $categoriesHierarchy[$catId] = $cat;
                     }
                 }
@@ -274,8 +275,8 @@ class QuestionCategory extends CActiveRecord
                      /*
                      * если дочерняя категория и в наборе есть родитель
                      */
-                    if($cat['parentId'] != 0 && array_key_exists($cat['parentId'], $categories)) {
-                        $categoriesHierarchy[$cat['parentId']]['children'][$catId] = $cat;
+                    if($cat['parentDirectionId'] != 0 && array_key_exists($cat['parentDirectionId'], $categories)) {
+                        $categoriesHierarchy[$cat['parentDirectionId']]['children'][$catId] = $cat;
                     }
                 }
                 

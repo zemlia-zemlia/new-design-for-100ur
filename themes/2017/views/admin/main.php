@@ -173,6 +173,10 @@
                                     </li>
                                     
                                     <li>
+                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-list'></span> " . 'Направления', Yii::app()->createUrl('/admin/questionCategory/directions'));?>
+                                    </li>
+                                    
+                                    <li>
                                         <?php echo CHtml::link("<span class='glyphicon glyphicon-chevron-right'></span> " . 'Редактирование', Yii::app()->createUrl('/admin/question/setTitle'));?>
                                     </li>
                                     <li>

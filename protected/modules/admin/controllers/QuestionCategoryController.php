@@ -29,7 +29,7 @@ class QuestionCategoryController extends Controller
                         'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
                 ),
                 array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                        'actions'=>array('index','view','create','update', 'ajaxGetList', 'directions', 'indexHierarchy'),
+                        'actions'=>array('index','view','create','update', 'ajaxGetList', 'directions', 'setDirectionParent', 'indexHierarchy'),
                         'users'=>array('@'),
                         'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
                 ),
@@ -396,18 +396,38 @@ class QuestionCategoryController extends Controller
         {
             $directions = QuestionCategory::getDirections(true, true);
             
-//            CustomFuncs::printr($directions);
-            echo "<ul>";
-            foreach($directions as $catId=>$cat) {
-                echo "<li>" . $cat['name'] . '</li>';
-                if($cat['children']) {
-                    echo '<ul>';
-                    foreach($cat['children'] as $childId=>$child) {
-                        echo "<li>" . $child['name'] . '</li>';
-                    }
-                    echo '</ul>';
-                }
+            return $this->render('directions', [
+                'directions'    =>  $directions,
+            ]);            
+        }
+        
+        /**
+         * Установка направлению нового родителя через AJAX запрос
+         */
+        public function actionSetDirectionParent()
+        {
+            $directionId = (int)$_POST['id'];
+            $parentId = (int)$_POST['parentId'];
+            
+            // проверим, что направление и новый родитель существуют и являются направлениями
+            $direction = QuestionCategory::model()->findByPk($directionId);
+            $parent = QuestionCategory::model()->findByPk($parentId);
+            
+            if(!$direction || !$parent) {
+                echo json_encode(['code' => 404, 'message' => 'Направление или новый родитель не найдены']);
+                exit;
             }
-            echo "</ul>";
+            
+            if(!$direction->isDirection || !$parent->isDirection) {
+                echo json_encode(['code' => 404, 'message' => 'Категория или новый родитель являются направлением']);
+                exit;
+            }
+            
+            if(Yii::app()->db->createCommand()->update('{{questionCategory}}', ['parentDirectionId' => $parentId], 'id='.$directionId)) {
+                echo json_encode(['code' => 0, 'message' => 'Категория обновлена. Перезагрузите страницу']);
+                exit;
+            }
+
+            $campaign = Campaign::model()->findByPk($campaignId);
         }
 }
