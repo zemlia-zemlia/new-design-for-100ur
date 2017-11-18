@@ -54,9 +54,11 @@ class UserController extends Controller {
         $questionsCriteria = new CDbCriteria;
         $ordersCriteria = new CDbCriteria; // мои заказы документов
 
+        $questionsCriteria->addCondition('t.status IN(' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')');
+
+                    
         if (Yii::app()->user->role == User::ROLE_CLIENT) {
             $questionsCriteria->addColumnCondition(array('t.authorId' => Yii::app()->user->id));
-            $questionsCriteria->addCondition('t.status IN(' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')');
         
             $ordersCriteria->addColumnCondition(array('t.userId' => Yii::app()->user->id));
             $ordersCriteria->order = 't.id DESC';
@@ -74,15 +76,16 @@ class UserController extends Controller {
         }
 
         $questionsCriteria->order = 't.id DESC';
+        $questionsCriteria->limit = 10;
 
         $questions = Question::model()->findAll($questionsCriteria);
 
 
-        $questionsDataProvider = new CArrayDataProvider($questions, array(
-            'pagination' => array(
-                'pageSize' => 20,
-            ),
-        ));
+//        $questionsDataProvider = new CArrayDataProvider($questions, array(
+//            'pagination' => array(
+//                'pageSize' => 20,
+//            ),
+//        ));
 
         // найдем последний запрос на смену статуса
         $lastRequest = Yii::app()->db->createCommand()

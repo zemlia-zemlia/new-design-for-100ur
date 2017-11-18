@@ -303,6 +303,13 @@ class QuestionController extends Controller {
                                     }
                                 }
                             }
+                            // если у вопроса есть категории, запишем их и лиду
+                            foreach($question->categories as $cat) {
+                                $lead2category = new Lead2Category;
+                                $lead2category->leadId = $lead->id;
+                                $lead2category->cId = $cat->id;
+                                $lead2category->save();
+                            }
                         }
 
                         $this->redirect(array('confirm', 'qId' => $question->id, 'sId' => $question->sessionId));

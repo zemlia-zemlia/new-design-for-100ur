@@ -68,7 +68,7 @@ class LeadController extends Controller {
      */
     public function actionCreate() {
         $model = new Lead100;
-        $apiResult = null;
+        $apiResult = null;        
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
@@ -128,6 +128,9 @@ class LeadController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->loadModel($id);
+        
+        $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
+        $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
@@ -137,12 +140,27 @@ class LeadController extends Controller {
             $model->phone = Question::normalizePhone($model->phone);
             //CustomFuncs::printr($model);exit;
             if ($model->save()) {
+                
+                Lead2Category::model()->deleteAll('leadId='.$model->id);
+                foreach($model->categoriesId as $catId) {
+                    $lead2category = new Lead2Category;
+                    $lead2category->leadId = $model->id;
+                    $lead2category->cId = $catId;
+                    $lead2category->save();
+                }
+                
                 $this->redirect(array('view', 'id' => $model->id));
             }
         }
+        
+        $model->categoriesId = [];
+        foreach($model->categories as $cat) {
+            $model->categoriesId[] = $cat->id;
+        }
 
         $this->render('update', array(
-            'model' => $model,
+            'model'         =>  $model,
+            'allDirections' =>  $allDirections,
         ));
     }
 

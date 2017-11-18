@@ -32,7 +32,7 @@ $allDirections = array(0=>'Без категории') + $allDirections;
         <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>10, 'placeholder'=>'Опишите вашу ситуацию подробнее, чтобы юрист мог более детально внем сориентироваться и дать на него квалифицированный ответ.')); ?>
         <?php echo $form->error($model,'questionText'); ?>
 </div>
-<!--
+
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
@@ -42,7 +42,7 @@ $allDirections = array(0=>'Без категории') + $allDirections;
 	</div>
     </div>
 </div>
--->
+
         
 <div class="row">
     <div class="col-md-6">

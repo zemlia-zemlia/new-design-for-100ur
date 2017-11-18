@@ -60,9 +60,7 @@ switch ($data->leadStatus) {
 			
 			<span class="glyphicon glyphicon-user"></span>    
             <?php echo CHtml::link(CHtml::encode($data->name), array('view', 'id'=>$data->id)); ?> 
-			
-
-			
+		
         </p>
 		
 		<p class="small">
@@ -80,7 +78,12 @@ switch ($data->leadStatus) {
         </p>
         <?php endif;?>
         
-        
+        <?php if(sizeof($data->categories)):?>  
+            Категории:             
+            <?php foreach($data->categories as $cat):?>
+                <?php echo $cat->name;?>&nbsp; 
+            <?php endforeach;?>
+        <?php endif;?>	
 		
 		
     </div>

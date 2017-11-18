@@ -75,6 +75,16 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <td><?php echo CustomFuncs::niceDate($model->question_date); ?></td>
             </tr>
             <tr>
+                <td><strong>Категории</strong></td>
+                <td>
+                    <ul>
+                    <?php foreach($model->categories as $cat):?>
+                        <li><?php echo $cat->name;?></li>
+                    <?php endforeach;?>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
                 <td><strong><?php echo $model->getAttributeLabel('question'); ?></strong></td>
                 <td><?php echo nl2br(CHtml::encode($model->question)); ?></td>
             </tr>

@@ -11,7 +11,7 @@ $this->breadcrumbs=array(
 	'Редактирование',
 );
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('CRM',"/"),
+    'homeLink'=>CHtml::link('100 Юристов',"/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
@@ -20,4 +20,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <h1>Редактирование лида <?php echo $model->id; ?></h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array(
+        'model'         =>  $model,
+        'allDirections' =>  $allDirections,
+    )); ?>

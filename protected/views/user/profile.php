@@ -243,6 +243,7 @@ if(Yii::app()->user->id != $user->id) {
         <h2 class="header-block-light-grey vert-margin20">Последние вопросы, на которые ответил юрист</h2>
     <?php endif;?>
 
+        
    <?php foreach($questions as $question):?>
        <div class="row question-list-item">
            <div class="col-sm-12">

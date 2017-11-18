@@ -30,6 +30,7 @@ class Lead100 extends CActiveRecord {
     public $newTownId; // для случая смены города при отбраковке
     public $regionId;
     public $testMode = 0; // режим тестирования в форме создания лида
+    public $categoriesId; // для формы создания/редактирования лида
 
     // статусы лидов
 
@@ -81,7 +82,7 @@ class Lead100 extends CActiveRecord {
             array('name, phone, sourceId, question, townId, town', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('sourceId, townId, newTownId, questionId, leadStatus, addedById, type, campaignId, brakReason', 'numerical', 'integerOnly' => true),
             array('price, buyPrice, regionId, testMode', 'numerical'),
-            array('deliveryTime', 'safe'),
+            array('deliveryTime, categoriesId', 'safe'),
             array('name, phone, email, secretCode, brakComment', 'length', 'max' => 255),
             array('townId', 'match', 'not' => true, 'pattern' => '/^0$/', 'message' => 'Поле Город не заполнено'),
             array('name', 'match', 'pattern' => '/^([а-яА-Я0-9ёЁ\-., ])+$/u', 'message' => 'В имени могут присутствовать русские буквы, цифры, точка, дефис и пробел', 'except' => 'parsing'),
@@ -101,10 +102,11 @@ class Lead100 extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'source' => array(self::BELONGS_TO, 'Leadsource100', 'sourceId'),
-            'town' => array(self::BELONGS_TO, 'Town', 'townId'),
-            'campaign' => array(self::BELONGS_TO, 'Campaign', 'campaignId'),
-            'questionObject' => array(self::BELONGS_TO, 'Question', 'questionId'),
+            'source'            => array(self::BELONGS_TO, 'Leadsource100', 'sourceId'),
+            'town'              => array(self::BELONGS_TO, 'Town', 'townId'),
+            'campaign'          => array(self::BELONGS_TO, 'Campaign', 'campaignId'),
+            'questionObject'    => array(self::BELONGS_TO, 'Question', 'questionId'),
+            'categories'        => array(self::MANY_MANY, 'QuestionCategory', '{{lead2category}}(leadId, cId)'),
         );
     }
 
@@ -138,6 +140,7 @@ class Lead100 extends CActiveRecord {
             'date1'         => 'От',
             'date2'         => 'До',
             'testMode'      => 'Режим тестирования API',
+            'categories'    => 'Категории права',
         );
     }
 
