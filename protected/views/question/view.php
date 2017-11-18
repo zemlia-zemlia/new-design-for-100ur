@@ -138,6 +138,13 @@ $this->breadcrumbs=array(
     
 
 <?php endif;?>
+    <?php if($answersDataProvider->itemCount>0):?>
+    <?php if($answersDataProvider->itemCount == 1):?>
+            <h2>Ответ юриста на вопрос</h2>
+        <?php else:?>
+            <h2>Ответы юристов на вопрос</h2>
+        <?php endif;?>
+    <?php endif;?>
     
     <?php $this->widget('zii.widgets.CListView', array(
             'dataProvider'  =>  $answersDataProvider,

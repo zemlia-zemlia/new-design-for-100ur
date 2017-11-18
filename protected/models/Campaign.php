@@ -46,6 +46,7 @@ class Campaign extends CActiveRecord {
             array('price, leadsDayLimit, brakPercent, buyerId, active', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('regionId, townId, price, sendEmail, leadsDayLimit, realLimit, brakPercent, buyerId, active, timeFrom, timeTo', 'numerical', 'integerOnly' => true),
             array('days', 'length', 'max' => 255),
+            array('leadsDayLimit', 'compare', 'compareValue'=>10, 'operator' => '>='),
             array('workDays', 'type', 'type'=>'array'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
