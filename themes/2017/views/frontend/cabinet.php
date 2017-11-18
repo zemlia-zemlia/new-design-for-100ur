@@ -80,6 +80,7 @@
             <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/')?CHtml::link('Главная', '/cabinet/'):'<span class="active">Главная</span>';?></li>
+				<li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/')?CHtml::link('Мои кампании', '/cabinet/'):'<span class="active">Мои кампании</span>';?></li>
                 <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/transactions/')?CHtml::link('Баланс', Yii::app()->createUrl('/cabinet/transactions/')):'<span class="active">Баланс</span>';?></li>
                 <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/api/')?CHtml::link('API', Yii::app()->createUrl('/cabinet/api/')):'<span class="active">API</span>';?></li>
                 <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/faq/')?CHtml::link('FAQ', Yii::app()->createUrl('/cabinet/faq/')):'<span class="active">FAQ</span>';?></li>
@@ -111,13 +112,13 @@
                             <?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/cabinet/leads', array('campaign'=>$campaign->id)));?>
                             
                             <?php if($campaign->active != Campaign::ACTIVE_MODERATION):?>
-                                <?php echo $campaign->price;?> руб.
+                                <!-- <?php echo $campaign->price;?> руб. -->
                             <?php endif;?>
                             
                             <?php echo CHtml::link("<span class='glyphicon glyphicon-cog'></span>", Yii::app()->createUrl('/cabinet/campaign', array('id'=>$campaign->id)));?> 
 							
 							<?php if($campaign->active != Campaign::ACTIVE_YES):?>
-							<p class="text-center">                            
+							<p>                            
 								<?php echo $campaign->getActiveStatusName();?>
 							</p>
 							<?php endif;?>							
