@@ -500,7 +500,7 @@ hr {
 }
 
 .answer-item {
-    padding:10px 0;
+    padding:10px 0 30px;
 }
 
 .answer-item-info {
@@ -517,6 +517,8 @@ hr {
 }
 
 .answer-item-author-block {
+    background:linear-gradient(to right, #eee, #fff);
+    padding:8px;
 }
 
 #footer {

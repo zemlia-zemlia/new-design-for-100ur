@@ -132,7 +132,7 @@ function addLink() {
         body_element.removeChild(newdiv);
     }, 0);
 }
-document.oncopy = addLink;
+
 
 function onKarmaPlus(data, status, xhr)
 {

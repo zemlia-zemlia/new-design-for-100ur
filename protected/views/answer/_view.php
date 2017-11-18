@@ -34,8 +34,8 @@
                         <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<?php echo $videoCode;?>" allowfullscreen></iframe>
                     </div>
                 <?php else:?>
-                <div class="answer-item-author-block">
-                    <div class="vert-margin20">
+                <div class="answer-item-author-block vert-margin20">
+                    <div class="">
                     <small>
                     <div itemprop="author" class='answer-item-author' itemscope itemtype="http://schema.org/Person">
                         
@@ -43,13 +43,13 @@
                         <strong>
                             <span itemprop="name">
                                 <a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$data->authorId));?>" rel="nofollow">
-                                    <?php echo CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->lastName); ?>
+                                    <?php echo CHtml::encode($data->author->name . " " . $data->author->name2 . " " . $data->author->lastName); ?>
                                 </a>
                             </span>
                         </strong>
 
                         <?php if($data->author->settings->isVerified):?>
-                                <small><span class="label label-success"><?php echo $data->author->settings->getStatusName();?></span></small>
+                                <em class="text-muted"><?php echo $data->author->settings->getStatusName();?></em>
                             <?php endif;?>
 							
                         &nbsp;|&nbsp;
@@ -68,9 +68,7 @@
                     </div>
                 </div>
                 
-            </div>        
-            
-            <div class="col-xs-12 col-sm-10 col-sm-offset-2">
+                <div class="hidden-xs">
                     <div itemprop="suggestedAnswer acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
 
                         <div itemprop="text">
@@ -85,6 +83,27 @@
                         <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('question/updateAnswer', array('id'=>$data->id)), array('class'=>'btn btn-default btn-xs'));?>
                     </div>
                     <?php endif;?>
+                </div>
+                
+            </div>        
+            
+            <div class="col-xs-12 col-sm-10 col-sm-offset-2">
+                <div class="visible-xs-block">
+                    <div itemprop="suggestedAnswer acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+
+                        <div itemprop="text">
+                            <p>
+                                <?php echo CHtml::encode($data->answerText); ?>
+                            </p>
+                        </div>
+                    </div> 
+
+                    <?php if($data->authorId == Yii::app()->user->id && time()-strtotime($data->datetime)<Answer::EDIT_TIMEOUT):?>
+                    <div class="right-align">
+                        <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('question/updateAnswer', array('id'=>$data->id)), array('class'=>'btn btn-default btn-xs'));?>
+                    </div>
+                    <?php endif;?>
+                </div>
             </div>    
             
             <div class="col-sm-10 col-xs-12  col-sm-offset-2">
@@ -137,14 +156,14 @@
                         <div class="answer-comment" style="margin-left:<?php echo ($comment->level - 1)*20;?>px;">
                             <p> <strong><span class="glyphicon glyphicon-comment"></span> 
                                 <?php if($data->question->authorId == $comment->authorId) {
-                                          echo "Автор вопроса:";
+                                          echo CHtml::encode($data->question->authorName) . " <em class='text-muted'>(Автор вопроса)</em>";
                                       } elseif($data->authorId == $comment->authorId) {
                                       ?>    
-                                            <?php echo CHtml::encode($data->author->name . ' ' . $data->author->lastName);?>
+                                            <?php echo CHtml::encode($data->author->name . ' ' . $data->author->name2 . ' ' . $data->author->lastName);?>
                                             <?php if($data->author->settings->isVerified):?>
-                                            <small>
-                                                <span class="label label-default"><?php echo $data->author->settings->getStatusName();?></span>
-                                            </small>
+                                            
+                                                <em class='text-muted'><?php echo $data->author->settings->getStatusName();?></em>
+                                            
                                             <?php endif;?>
                                       <?php    
                                       }

@@ -14,7 +14,7 @@
 <?php //echo $form->errorSummary($model, "Для отправки вопроса укажите данные"); ?>
     
 <?php
-$allDirections = array(0=>'Без категории') + $allDirections;
+$allDirections = array(0=>'Не выбрано') + $allDirections;
 ?>
 
   
@@ -36,10 +36,18 @@ $allDirections = array(0=>'Без категории') + $allDirections;
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-		<?php echo $form->labelEx($model,'categories'); ?>
+		<?php //echo $form->labelEx($model,'categories'); ?>
+                <label>Направление права (необязательно)</label>
 		<?php echo $form->dropDownList($model,'categories', $allDirections, array('class'=>'form-control')); ?>
 		<?php echo $form->error($model,'categories'); ?>
 	</div>
+    </div>
+    <div class="col-md-6">
+        <small>
+        <p class="text-muted" style="padding-top:10px;margin-left:35px;">
+            Правильный выбор категории поможет найти специалистов именно в этой отрасли права. Если Вы сомневаетесь в выборе, пропустите этот пункт.
+        </p>
+        </small>
     </div>
 </div>
 

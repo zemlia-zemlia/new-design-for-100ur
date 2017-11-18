@@ -51,17 +51,6 @@ $this->breadcrumbs=array(
                         <span class="glyphicon glyphicon-calendar"></span>&nbsp;<time itemprop="dateCreated" datetime="<?php echo $model->publishDate;?>"><?php echo CustomFuncs::niceDate($model->publishDate, false); ?></time> &nbsp;&nbsp;
                     <?php endif;?>
 
-                    <?php if($model->authorName):?>
-                        <span class="glyphicon glyphicon-user"></span>&nbsp;<span itemprop="name"><?php echo CHtml::encode($model->authorName); ?></span> &nbsp;&nbsp;
-                    <?php endif;?>
-                    <?php if($model->town):?>
-                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($model->town->name),Yii::app()->createUrl('town/alias',
-                            array(
-                                'name'          =>  $model->town->alias,
-                                'countryAlias'  =>  $model->town->country->alias,
-                                'regionAlias'   =>  $model->town->region->alias,    
-                                ))); ?> &nbsp;&nbsp;
-                    <?php endif;?>
                     <?php if($model->categories):?>
                         <?php foreach($model->categories as $category):?>
                         <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($category->name),Yii::app()->createUrl('questionCategory/alias', $category->getUrl()));?> &nbsp;&nbsp;
@@ -92,6 +81,28 @@ $this->breadcrumbs=array(
    <div itemprop="text" class="vert-margin20 inside" >
         <?php echo nl2br(CHtml::encode($model->questionText));?>
     </div>
+    
+    <p class="">
+        <em>
+            <?php if($model->authorName):?>
+                <span class="glyphicon glyphicon-user"></span>&nbsp;<span itemprop="name"><?php echo CHtml::encode($model->authorName); ?></span> &nbsp;&nbsp;
+            <?php endif;?>
+            <?php if($model->town):?>
+                <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($model->town->name),Yii::app()->createUrl('town/alias',
+                    array(
+                        'name'          =>  $model->town->alias,
+                        'countryAlias'  =>  $model->town->country->alias,
+                        'regionAlias'   =>  $model->town->region->alias,    
+                        ))); ?> &nbsp;
+                    <?php if(!$model->town->isCapital):?>
+                        <span class="text-muted">(<?php echo $model->town->region->name;?>)</span>
+                    <?php endif;?>
+                    &nbsp;&nbsp;
+            <?php endif;?>
+        </em>
+    </p>
+    
+    <hr/>
     
 <?php if(in_array(Yii::app()->user->role, array(User::ROLE_JURIST, User::ROLE_ROOT)) && !in_array(Yii::app()->user->id, $answersAuthors)):?>
 

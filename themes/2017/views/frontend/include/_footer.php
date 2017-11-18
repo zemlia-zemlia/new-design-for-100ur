@@ -169,6 +169,16 @@
 
 
 <?php endif; ?>
+    
+    <?php if(Yii::app()->user->isGuest):?>
+    <script type="text/javascript">
+        $(function(){
+            console.log('doc ready');
+            document.oncopy = addLink;
+        })
+        
+    </script>
+    <?php endif;?>
 
 </body>
 </html>

@@ -39,8 +39,9 @@ if(empty($answers) || sizeof($answers)==0) {
                 <?php if($answer['authorId']):?>
                     <strong>
                         <small>
-                            <?php echo $author->settings->getStatusName();?>
+                            
                             <?php echo $answer['authorLastName'] . ' ' . mb_substr($answer['authorName'], 0, 1, 'utf-8') . '.' . mb_substr($answer['authorName2'], 0, 1, 'utf-8') . '.';?> 
+                            <em class="text-muted"><?php echo $author->settings->getStatusName();?></em>
                             <?php if(floor((time() - strtotime($answer['lastActivity']))/60)<60):?>
                                 <span class="glyphicon glyphicon-flash"></span> <span class="text-success">Сейчас на сайте</span>
                             <?php endif;?>
