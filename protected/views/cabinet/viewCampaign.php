@@ -82,6 +82,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <table class="table table-bordered">
             <tr>
                 <th>Время</th>
+				<th>Регион</th>
                 <th>Сумма</th>
                 <th>Описание</th>
             </tr>
