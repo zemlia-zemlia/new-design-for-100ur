@@ -1,32 +1,212 @@
 <?php
 /* @var $this OrderController */
 /* @var $model Order */
+$this->setPageTitle("Заказ документов #" . $order->id . '. ' . Yii::app()->name);
 
 $this->breadcrumbs=array(
-	'Orders'=>array('index'),
-	$model->id,
+	'Заказы документов'=>array('index'),
+	$order->id,
 );
 
-$this->menu=array(
-	array('label'=>'List Order', 'url'=>array('index')),
-	array('label'=>'Create Order', 'url'=>array('create')),
-	array('label'=>'Update Order', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Delete Order', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Order', 'url'=>array('admin')),
-);
+$this->widget('zii.widgets.CBreadcrumbs', array(
+    'homeLink'=>CHtml::link('100 Юристов',"/admin"),
+    'separator'=>' / ',
+    'links'=>$this->breadcrumbs,
+ ));
 ?>
 
-<h1>View Order #<?php echo $model->id; ?></h1>
+<h1>Заказ документов #<?php echo $order->id; ?></h1>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$model,
-	'attributes'=>array(
-		'id',
-		'status',
-		'createDate',
-		'itemType',
-		'price',
-		'description',
-		'userId',
-	),
-)); ?>
+<table class="table table-bordered">
+    <tr>
+        <td>
+            <strong>Дата заказа</strong>
+        </td>
+        <td>
+            <?php echo CustomFuncs::niceDate($order->createDate, true, false);?>
+        </td>
+    </tr>
+    <?php if($order->author):?>
+    <tr>
+        <td>
+            <strong>Автор</strong>
+        </td>
+        <td>
+            <p>
+            <?php echo CHtml::encode(trim($order->author->name . ' ' . $order->author->name2 . ' ' .$order->author->lastName));?>
+            </p>
+            <p>
+                Город: <?php echo $order->author->town->name;?> (<?php echo $order->author->town->region->name;?>)
+            </p>
+        </td>
+    </tr>
+    <?php endif;?>
+    <tr>
+        <td>
+            <strong>Вид документа</strong>
+        </td>
+        <td>
+            <?php echo $order->docType->getClassName();?>.
+            <?php echo $order->docType->name;?>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <strong>Статус заказа</strong>
+        </td>
+        <td>
+            <?php echo $order->getStatusName();?>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <strong>Комментарий к заказу</strong>
+        </td>
+        <td>
+            <?php echo CHtml::encode($order->description);?>
+        </td>
+    </tr>
+</table>
+
+<h3>Предложения юристов</h3>
+
+<?php if(Yii::app()->user->role == User::ROLE_CLIENT && sizeof($order->responses) == 0):?>
+<p class="center-align">
+    Юристы пока не прислали ни одного предложения.
+</p>
+<?php endif;?>
+
+<?php $myResponses = 0;?>
+
+<?php foreach($order->responses as $response):?>
+    <?php if(Yii::app()->user->role == User::ROLE_JURIST && $response->authorId!=Yii::app()->user->id) {
+            continue;
+        }
+    ?>
+    
+    <?php if(Yii::app()->user->role == User::ROLE_JURIST && $response->authorId ==Yii::app()->user->id) {
+            $myResponses++;
+        }
+    ?>
+
+    <?php if($response->status != Comment::STATUS_SPAM):?>
+        <div class="answer-comment" style="margin-left:<?php echo ($response->level - 1)*20;?>px;">
+            
+            <div class="row">
+                <div class="col-sm-2 col-xs-4">
+                    
+
+                        <?php if($response->author):?>
+                            <div class="answer-item-avatar">
+                                <img src="<?php echo $response->author->getAvatarUrl();?>" alt="<?php echo CHtml::encode($response->author->name . ' ' . $response->author->lastName);?>" class="img-responsive" />
+                            </div>
+                            <?php if(floor((time() - strtotime($response->author->lastActivity))/60)<60):?>
+                                <div class="center-align">
+                                    <small>
+                                        <span class="glyphicon glyphicon-flash"></span>
+                                        <span class="text-success">Сейчас на сайте</span>
+                                    </small>
+                                </div>
+                            <?php endif;?>
+                        <div class="center-align lead">
+                            <span class="label label-success">
+                                <?php echo $response->price;?> руб. 
+                            </span>
+                        </div>
+                        <?php endif;?>
+
+                </div>
+                <div class="col-sm-10 col-xs-8">
+                    <p>
+                    <?php echo CHtml::encode($response->author->name . ' ' . $response->author->lastName);?>
+                    <?php if($response->author->settings->isVerified):?>
+                    <small>
+                        <span class="label label-default"><?php echo $response->author->settings->getStatusName();?></span>
+                    </small>
+                    <?php endif;?>
+                    </p>
+                    <p>
+                        <?php echo CHtml::encode($response->text);?>
+                    </p>
+                    
+                    <?php foreach($response->comments as $comment):?>
+                <div class="answer-comment" style="margin-left:<?php echo ($comment->level - 1)*20;?>px;">
+                    
+                    <?php //CustomFuncs::printr($comment->children);?>
+                    <p> <strong><span class="glyphicon glyphicon-comment"></span> 
+
+                            <?php echo CHtml::encode($comment->author->name . ' ' . $comment->author->lastName);?>
+                            <?php if($comment->author->settings->isVerified):?>
+                            <small>
+                                <span class="label label-default"><?php echo $comment->author->settings->getStatusName();?></span>
+                            </small>
+                            <?php endif;?>
+
+                        </strong>
+                    </p>
+                    <p>
+                        <?php echo CHtml::encode($comment->text);?>
+                    </p>
+                    
+                    <?php if(!is_null($commentModel) && $comment->authorId != Yii::app()->user->id):?>
+                        <div class="right-align">
+                        <a class="btn btn-xs btn-default" role="button" data-toggle="collapse" href="#collapse-comment-<?php echo $comment->id;?>" aria-expanded="false">
+                            Ответить
+                          </a>
+                        </div>    
+                        <div class="collapse child-comment-container" id="collapse-comment-<?php echo $comment->id;?>">
+                            <strong>Ваш ответ:</strong>
+                            <?php 
+                                $this->renderPartial('application.views.comment._form', array(
+                                    'type'      => Comment::TYPE_RESPONSE,
+                                    'objectId'  => $response->id,
+                                    'model'     => $commentModel,
+                                    'hideRating'=> true,
+                                    'parentId'  => $comment->id,
+                                ));
+                            ?>
+                        </div>
+                    <?php endif;?>
+                </div>
+            <?php endforeach;?>
+                </div>
+            </div>
+            
+            
+            
+            <?php if(!is_null($commentModel) && ($order->userId == Yii::app()->user->id)):?>
+            <div class="right-align">
+            <a class="btn btn-xs btn-default" role="button" data-toggle="collapse" href="#collapse-response-<?php echo $response->id;?>" aria-expanded="false">
+                Ответить
+              </a>
+            </div>    
+            <div class="collapse child-comment-container" id="collapse-response-<?php echo $response->id;?>">
+                <strong>Ваш ответ:</strong>
+                <?php 
+                    $this->renderPartial('application.views.comment._form', array(
+                        'type'      => Comment::TYPE_RESPONSE,
+                        'objectId'  => $response->id,
+                        'model'     => $commentModel,
+                        'hideRating'=> true,
+                        'parentId'  => 0,
+                    ));
+                ?>
+            </div>
+            <?php endif;?>
+        </div>
+    <?php endif;?>
+<?php endforeach;?>
+
+
+<?php if(!is_null($orderResponse) && Yii::app()->user->role == User::ROLE_JURIST && $myResponses == 0):?>
+    <?php 
+        $this->renderPartial('application.views.orderResponse._form', array(
+            'type'          => Comment::TYPE_RESPONSE,
+            'objectId'      => $order->id,
+            'model'         => $orderResponse,
+            'hideRating'    =>  true,
+            'parentId'      =>  0,
+        ));
+
+    ?>
+<?php endif;?>

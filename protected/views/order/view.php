@@ -28,6 +28,21 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <?php echo CustomFuncs::niceDate($order->createDate, true, false);?>
         </td>
     </tr>
+    <?php if($order->author):?>
+    <tr>
+        <td>
+            <strong>Автор</strong>
+        </td>
+        <td>
+            <p>
+            <?php echo CHtml::encode(trim($order->author->name . ' ' . $order->author->name2 . ' ' .$order->author->lastName));?>
+            </p>
+            <p>
+                Город: <?php echo $order->author->town->name;?> (<?php echo $order->author->town->region->name;?>)
+            </p>
+        </td>
+    </tr>
+    <?php endif;?>
     <tr>
         <td>
             <strong>Вид документа</strong>

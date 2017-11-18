@@ -45,7 +45,7 @@ class OrderController extends Controller {
      */
     public function actionView($id) {
         $this->render('view', array(
-            'model' => $this->loadModel($id),
+            'order' => $this->loadModel($id),
         ));
     }
 
@@ -109,10 +109,15 @@ class OrderController extends Controller {
      * Lists all models.
      */
     public function actionIndex() {
-        $dataProvider = new CActiveDataProvider('Order');
-        $this->render('index', array(
-            'dataProvider' => $dataProvider,
-        ));
+        $ordersCriteria = new CDbCriteria();
+        
+        $ordersDataProvider = new CActiveDataProvider('Order', [
+            'criteria'  =>  $ordersCriteria,
+        ]);
+        
+        $this->render('index', [
+            'ordersDataProvider'    =>  $ordersDataProvider,
+        ]);
     }
 
     /**

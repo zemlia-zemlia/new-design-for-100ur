@@ -1,37 +1,17 @@
-<?php
-/* @var $this OrderController */
-/* @var $data Order */
-?>
+<tr>
+    <td>
+        <?php echo CustomFuncs::niceDate($data->createDate, false, false);?>
+    </td>
+    <td>
+        <?php echo $data->docType->getClassName();?>.
+        <?php echo $data->docType->name;?>
+        <?php echo CHtml::link('Подробнее', Yii::app()->createUrl('admin/order/view', ['id' => $data->id]));?>
 
-<div class="view">
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('id')); ?>:</b>
-	<?php echo CHtml::link(CHtml::encode($data->id), array('view', 'id'=>$data->id)); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('status')); ?>:</b>
-	<?php echo CHtml::encode($data->status); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('createDate')); ?>:</b>
-	<?php echo CHtml::encode($data->createDate); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('itemType')); ?>:</b>
-	<?php echo CHtml::encode($data->itemType); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('price')); ?>:</b>
-	<?php echo CHtml::encode($data->price); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('description')); ?>:</b>
-	<?php echo CHtml::encode($data->description); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('userId')); ?>:</b>
-	<?php echo CHtml::encode($data->userId); ?>
-	<br />
-
-
-</div>
+    </td>
+    <td>
+        <?php echo $data->getStatusName();?>
+        <p>
+        <span class="glyphicon glyphicon-comment"></span> <?php echo $data->responsesCount;?>
+        </p>
+    </td>
+</tr>

@@ -87,9 +87,16 @@
 <?php endif;?>
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'leadsDayLimit', array('class' => 'col-sm-2 control-label')); ?>
-            <div class="col-sm-10 col-md-2">
-		<?php echo $form->textField($model,'leadsDayLimit', array('class'=>'form-control')); ?>
-		<?php echo $form->error($model,'leadsDayLimit'); ?>
+            <div class="col-sm-10 col-md-6">
+                <?php if($model->isNewRecord):?>
+                    <?php echo $form->textField($model,'leadsDayLimit', array('class'=>'form-control')); ?>
+                    <?php echo $form->error($model,'leadsDayLimit'); ?>
+                <?php else:?>
+                    <strong><?php echo $model->leadsDayLimit;?></strong>
+                    <span class="text-muted">
+                        Для смены лимита обратитесь в техподдержку
+                    </span>
+                <?php endif;?>
             </div>
 	</div>
         

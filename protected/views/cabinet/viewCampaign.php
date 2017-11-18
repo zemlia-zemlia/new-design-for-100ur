@@ -21,6 +21,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <div class='flat-panel inside'>
 
+    <p class="text-danger">
+        Для изменения параметров кампании, ее включения/выключения необходимо обратиться в техподдержку.
+    </p>
 
         <table class="table table-bordered">
             <tr>
@@ -70,8 +73,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 </td>
             </tr>
         </table>
-
-        <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('campaign/update', array('id' => $model->id)), array('class'=>'btn btn-primary'));?>
 
 </div>
 <br/>

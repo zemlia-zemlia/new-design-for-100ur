@@ -1,20 +1,16 @@
 <?php
-/* @var $this OrderController */
-/* @var $dataProvider CActiveDataProvider */
-
-$this->breadcrumbs=array(
-	'Orders',
-);
-
-$this->menu=array(
-	array('label'=>'Create Order', 'url'=>array('create')),
-	array('label'=>'Manage Order', 'url'=>array('admin')),
-);
+$this->setPageTitle("Заказы документов" . '. ' . Yii::app()->name);
 ?>
 
-<h1>Orders</h1>
+<h1>Заказы документов</h1>
 
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-)); ?>
+<table class="table table-bordered">
+    <?php $this->widget('zii.widgets.CListView', array(
+            'dataProvider'  =>  $ordersDataProvider,
+            'itemView'      =>  '_view',
+            'emptyText'     =>  'Не найдено ни одного заказа',
+            'summaryText'   =>  'Показаны заказы с {start} до {end}, всего {count}',
+            'pager'         =>  array('class'=>'GTLinkPager'), //we use own pager with russian words
+        )); 
+    ?>
+</table>
