@@ -142,11 +142,13 @@ class LeadController extends Controller {
             if ($model->save()) {
                 
                 Lead2Category::model()->deleteAll('leadId='.$model->id);
-                foreach($model->categoriesId as $catId) {
-                    $lead2category = new Lead2Category;
-                    $lead2category->leadId = $model->id;
-                    $lead2category->cId = $catId;
-                    $lead2category->save();
+                if(sizeof($model->categoriesId)){
+                    foreach($model->categoriesId as $catId) {
+                        $lead2category = new Lead2Category;
+                        $lead2category->leadId = $model->id;
+                        $lead2category->cId = $catId;
+                        $lead2category->save();
+                    }
                 }
                 
                 $this->redirect(array('view', 'id' => $model->id));
