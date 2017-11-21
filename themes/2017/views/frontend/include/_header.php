@@ -43,13 +43,11 @@ window.addEventListener('load', function() {
             <div class="row">
                 <div class="col-md-12 right-align">
                     <ul class="hor-list-menu">
-                        <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/goryachaya_liniya/')?CHtml::link('Горячая линия', Yii::app()->createUrl('/site/goryachaya_liniya/')):'<span class="active">Горячая линия</span>';?></li>
-                        <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/')?CHtml::link('Филиалы', Yii::app()->createUrl('/site/contacts')):'<span class="active">Филиалы</span>';?></li>
-                        <li><?php echo ($_SERVER['REQUEST_URI'] != '/blog/')?CHtml::link('Блог', Yii::app()->createUrl('/blog')):'<span class="active">Блог</span>';?></li>
-                        <?php if(Yii::app()->user->isGuest):?>
-                            <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/login/')?CHtml::link('Вход', Yii::app()->createUrl('/site/login/')):'<span class="active">Вход</span>';?></li> 
-                        <?php else:?>
-                            <li>|</li>
+
+							<?php if(Yii::app()->user->isGuest):?>
+								<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/login/')?CHtml::link('Вход', Yii::app()->createUrl('/site/login/')):'<span class="active">Вход</span>';?></li> 
+							<?php else:?>
+                            
                             <li><?php echo CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER)? '/cabinet':'/user'));?></li>
                             <?php if(Yii::app()->user->role == User::ROLE_PARTNER):?>
                                 <li><?php echo CHtml::link('Кабинет', Yii::app()->createUrl('/webmaster'), array('class'=>''));?></li>

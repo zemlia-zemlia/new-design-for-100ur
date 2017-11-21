@@ -78,11 +78,11 @@ $this->breadcrumbs=array(
 </div>
      
     
-   <div itemprop="text" class="vert-margin20 inside" >
+   <div itemprop="text" class="inside" >
         <?php echo nl2br(CHtml::encode($model->questionText));?>
     </div>
     
-    <p class="">
+    <p class="vert-margin30">
         <em>
             <?php if($model->authorName):?>
                 <span class="glyphicon glyphicon-user"></span>&nbsp;<span itemprop="name"><?php echo CHtml::encode($model->authorName); ?></span> &nbsp;&nbsp;
@@ -102,7 +102,7 @@ $this->breadcrumbs=array(
         </em>
     </p>
     
-    <hr/>
+
     
 <?php if(in_array(Yii::app()->user->role, array(User::ROLE_JURIST, User::ROLE_ROOT)) && !in_array(Yii::app()->user->id, $answersAuthors)):?>
 
