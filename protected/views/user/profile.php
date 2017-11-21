@@ -276,3 +276,12 @@ if(Yii::app()->user->id != $user->id) {
         echo CHtml::link('Смотреть статистику ответов по месяцам', Yii::app()->createUrl('user/stats', array('userId'=>$user->id)), array('class'=>'btn btn-xs btn-default'));
     }
 ?>
+
+        
+    <?php 
+        // Добавление текущего пользователя в список рассылки согласно его роли
+//        $currentUser = User::model()->findByPk(Yii::app()->user->id);
+//        if($currentUser) {
+//            $currentUser->addToSendpulse();
+//        }
+    ?>

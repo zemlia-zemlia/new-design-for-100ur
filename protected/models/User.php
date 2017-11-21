@@ -1,4 +1,7 @@
 <?php
+    // Загрузка библиотек для работы с API Sendpulse
+    use Sendpulse\RestApi\ApiClient;
+    use Sendpulse\RestApi\Storage\FileStorage;
 
 /**
  * Модель для работы с пользователями
@@ -906,6 +909,37 @@ class User extends CActiveRecord {
     {
         Yii::app()->db->createCommand()
                 ->update('{{order}}', ['status' => Order::STATUS_CONFIRMED], 'status='.Order::STATUS_NEW . ' AND userId='.$this->id);
+    }
+    
+    /**
+     * Добавление пользователя в список рассылки Sendpulse через API
+     */
+    public function addToSendpulse()
+    {        
+        // API credentials from https://login.sendpulse.com/settings/#api
+        define('API_USER_ID', Yii::app()->params['sendPulseApiId']);
+        define('API_SECRET', Yii::app()->params['sendPulseApiSecret']);
+        define('PATH_TO_ATTACH_FILE', __FILE__);
+
+        // Инициализируем апи клиент
+        $SPApiClient = new ApiClient(API_USER_ID, API_SECRET, new FileStorage());
+        
+        // добавляем инфо о пользователе в почтовый сервис
+        if(array_key_exists($this->role, Yii::app()->params['sendpulseBooks'])) {
+            $bookID = Yii::app()->params['sendpulseBooks'][$this->role];
+            $emails = array(
+               array(
+                   'email' => $this->email,
+                   'variables' => array(
+                       'Телефон'    => $this->phone,
+                       'Имя'        => CHtml::encode($this->name),
+                       'lastName'   => CHtml::encode($this->lastName),
+                       'townId'     => $this->townId,
+                   )
+               )
+            );
+            $SPApiClient->addEmails($bookID, $emails);
+        }
     }
 
 }

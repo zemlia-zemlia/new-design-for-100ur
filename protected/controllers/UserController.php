@@ -335,6 +335,9 @@ class UserController extends Controller {
         ));
     }
 
+    /**
+     * Отображение страницы с результатом отправки ссылки на подтверждение профиля
+     */
     public function actionConfirmationSent() {
         $this->layout = '//frontend/smart';
 
@@ -342,6 +345,10 @@ class UserController extends Controller {
         $this->render('confirmationSent', array('role' => $role));
     }
 
+    /**
+     * Подтверждение Email пользователя
+     * @throws CHttpException
+     */
     public function actionConfirm() {
         $this->layout = '//frontend/question';
 
@@ -365,6 +372,7 @@ class UserController extends Controller {
                 $user->confirm_code = $user->generateAutologinString();
                 // задаем пользователю некий произвольный пароль, который на следующем шаге попросим сменить. Пароль в открытом виде не отсылаем пользователю
                 $newPassword = $user->password = $user->password2 = $user->generatePassword(10);
+                // публикуем вопросы и заказы пользователя
                 $publishedQuestionsNumber = $user->publishNewQuestions();
                 $user->confirmOrders();
             }
@@ -375,6 +383,9 @@ class UserController extends Controller {
                     //$user->sendNewPassword($newPassword);
                     $user->sendChangePasswordLink();
                 }
+                
+                // добавим пользователя в список рассылки в Sendpulse
+                $user->addToSendpulse();
 
                 // логиним пользователя
                 $loginModel = new LoginForm;

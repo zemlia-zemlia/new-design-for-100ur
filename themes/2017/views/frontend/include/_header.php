@@ -25,6 +25,14 @@
 ?>
 <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
 <script charset="UTF-8" src="//cdn.sendpulse.com/28edd3380a1c17cf65b137fe96516659/js/push/5ed016b8521088d90d6a9ad8b03ca9e3_1.js" async></script>
+<?php if(!Yii::app()->user->isGuest):?>
+<script type="text/javascript">
+window.addEventListener('load', function() {
+    oSpP.push("Name", CHtml::encode(Yii::app()->user->name));
+    oSpP.push("Email",Yii::app()->user->email);
+});
+</script>
+<?php endif;?>
 </head>  
 
 <body>
