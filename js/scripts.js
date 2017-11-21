@@ -110,7 +110,9 @@ $(function(){
             })
         }
         
-        
+        $(document).on('paste', 'textarea', function(){
+            console.log('text pasted');
+        })
 
 });
 
