@@ -277,11 +277,3 @@ if(Yii::app()->user->id != $user->id) {
     }
 ?>
 
-        
-    <?php 
-        // Добавление текущего пользователя в список рассылки согласно его роли
-//        $currentUser = User::model()->findByPk(Yii::app()->user->id);
-//        if($currentUser) {
-//            $currentUser->addToSendpulse();
-//        }
-    ?>
