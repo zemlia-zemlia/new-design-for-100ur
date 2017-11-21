@@ -28,8 +28,8 @@
 <?php if(!Yii::app()->user->isGuest):?>
 <script type="text/javascript">
 window.addEventListener('load', function() {
-    oSpP.push("Name", CHtml::encode(Yii::app()->user->name));
-    oSpP.push("Email",Yii::app()->user->email);
+    oSpP.push("Name", "<?php echo CHtml::encode(Yii::app()->user->name);?>");
+    oSpP.push("Email","<?php echo Yii::app()->user->email;?>");
 });
 </script>
 <?php endif;?>
