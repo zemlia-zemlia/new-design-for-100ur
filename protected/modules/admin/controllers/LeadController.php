@@ -68,7 +68,9 @@ class LeadController extends Controller {
      */
     public function actionCreate() {
         $model = new Lead100;
-        $apiResult = null;        
+        $apiResult = null;  
+        $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
+        $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
@@ -116,8 +118,9 @@ class LeadController extends Controller {
         }
 
         $this->render('create', array(
-            'model'     => $model,
-            'apiResult' => $apiResult,
+            'model'         => $model,
+            'allDirections' => $allDirections,
+            'apiResult'     => $apiResult,
         ));
     }
 

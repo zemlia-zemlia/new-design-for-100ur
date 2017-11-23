@@ -104,11 +104,13 @@
 
         </div>
         <div class="col-md-4">
+            <?php if(!$model->isNewRecord):?>
             <div class="form-group">
                 <h3>Категории права</h3>
                 <?php echo $form->checkBoxList($model,'categoriesId', $allDirections, array('class'=>'')); ?>
                 <?php echo $form->error($model,'categories'); ?>
             </div>
+            <?php endif;?>
         </div>
     </div>
     

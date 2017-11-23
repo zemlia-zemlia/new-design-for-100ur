@@ -26,4 +26,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </textarea>
 <?php endif;?>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array(
+        'model'=>$model, 
+        'allDirections' => $allDirections,
+    )); ?>
