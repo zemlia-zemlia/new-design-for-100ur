@@ -36,6 +36,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
             <th>Дни</th>
             <th>Цена</th>
             <th>Отправлено</th>
+            <th>Брак, %</th>
             <th>Лимит</th>
         </tr>
     </thead>    
@@ -46,7 +47,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                 id: <?php echo $user['id'];?>
                 <?php echo CHtml::link(CHtml::encode($user['name']), Yii::app()->createUrl('/admin/user/view', array('id'=>$user['id'])));?> 
             </td>
-            <td colspan="6">
+            <td colspan="7">
                     <span class="label label-default balance-<?php echo $user['id'];?>">
             <?php echo $user['balance'];?> руб.</span>
 
@@ -108,6 +109,11 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                     <abbr title='Всего'><?php echo $campaign['leadsSent'];?></abbr> / 
                     <abbr title='Сегодня'><?php echo $campaign['todayLeads'];?></abbr> / 
                     <abbr title='Лимит'><?php echo $campaign['leadsDayLimit'];?></abbr>
+                </td>
+                <td>
+                    <?php echo $campaign['object']->calculateCurrentBrakPercent();?>
+                    /
+                    <?php echo $campaign['brakPercent'];?>
                 </td>
                 <td>
                     <div class="">

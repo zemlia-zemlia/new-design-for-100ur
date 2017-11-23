@@ -275,6 +275,8 @@ class CampaignController extends Controller {
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['brakPercent'] = $row['brakPercent'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['leadsSent'] = $row['leadsSent'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['todayLeads'] = (int) $todayLeadsArray[$row['id']];
+            
+            $campaignsArray[$row['userId']]['campaigns'][$row['id']]['object'] = Campaign::model()->findByPk($row['id']);
         }
 
         //CustomFuncs::printr($campaignsRows);

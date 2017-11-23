@@ -392,17 +392,16 @@ class Campaign extends CActiveRecord {
         return $campaignsRow['counter'];
     }
     
-    
     /**
-     * Проверка, можно ли забраковать лид данной кампании в данный момент
-     * @return boolean
+     * Подсчитывает текущий процент брака за текущие сутки
+     * @return integer Description
      */
-    public function checkCanBrak()
+    public function calculateCurrentBrakPercent()
     {
         $campaign24hoursLeadsRows = Yii::app()->db->createCommand()
                     ->select('leadStatus, COUNT(*) counter')
                     ->from('{{lead100}}')
-                    ->where('campaignId = ' . $this->id . ' AND deliveryTime>NOW()-INTERVAL 24 HOUR')
+                    ->where('campaignId = ' . $this->id . ' AND DATE(deliveryTime)="'.date('Y-m-d') . '"')
                     ->group('leadStatus')
                     ->queryAll();
         //CustomFuncs::printr($campaign24hoursLeadsRows);
@@ -419,10 +418,21 @@ class Campaign extends CActiveRecord {
         //echo "Всего лидов за сутки: " . $totalLeads . '<br />';
         //echo "Брак + на отбраковке: " . $brakLeads . '<br />';
         if($totalLeads>0) {
-            $brakPercent = ($brakLeads/$totalLeads)*100;
+            $brakPercent = round(($brakLeads/$totalLeads)*100);
         } else {
             $brakPercent = 0;
         }
+        return $brakPercent;
+    }
+
+
+    /**
+     * Проверка, можно ли забраковать лид данной кампании в данный момент
+     * @return boolean
+     */
+    public function checkCanBrak()
+    {
+        $brakPercent = $this->calculateCurrentBrakPercent();
         //echo 'Процент брака: ' . $brakPercent . '<br />';
         //echo 'Допустимый процент брака: ' . $campaign->brakPercent . '<br />';
 
