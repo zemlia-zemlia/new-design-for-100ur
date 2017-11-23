@@ -391,5 +391,45 @@ class Campaign extends CActiveRecord {
 
         return $campaignsRow['counter'];
     }
+    
+    
+    /**
+     * Проверка, можно ли забраковать лид данной кампании в данный момент
+     * @return boolean
+     */
+    public function checkCanBrak()
+    {
+        $campaign24hoursLeadsRows = Yii::app()->db->createCommand()
+                    ->select('leadStatus, COUNT(*) counter')
+                    ->from('{{lead100}}')
+                    ->where('campaignId = ' . $this->id . ' AND deliveryTime>NOW()-INTERVAL 24 HOUR')
+                    ->group('leadStatus')
+                    ->queryAll();
+        //CustomFuncs::printr($campaign24hoursLeadsRows);
+
+        $totalLeads = 0;
+        $brakLeads = 0;
+        foreach($campaign24hoursLeadsRows as $row) {
+            if($row['leadStatus'] == Lead100::LEAD_STATUS_BRAK || $row['leadStatus'] == Lead100::LEAD_STATUS_NABRAK) {
+                $brakLeads = $row['counter'];
+            }
+            $totalLeads += $row['counter'];
+        }
+
+        //echo "Всего лидов за сутки: " . $totalLeads . '<br />';
+        //echo "Брак + на отбраковке: " . $brakLeads . '<br />';
+        if($totalLeads>0) {
+            $brakPercent = ($brakLeads/$totalLeads)*100;
+        } else {
+            $brakPercent = 0;
+        }
+        //echo 'Процент брака: ' . $brakPercent . '<br />';
+        //echo 'Допустимый процент брака: ' . $campaign->brakPercent . '<br />';
+
+        if($brakPercent > $this->brakPercent) {
+            return false;
+        }
+        return true;
+    }
 
 }

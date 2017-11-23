@@ -44,9 +44,9 @@ window.addEventListener('load', function() {
                 <div class="col-md-12 right-align">
                     <ul class="hor-list-menu">
 
-							<?php if(Yii::app()->user->isGuest):?>
-								<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/login/')?CHtml::link('Вход', Yii::app()->createUrl('/site/login/')):'<span class="active">Вход</span>';?></li> 
-							<?php else:?>
+                            <?php if(Yii::app()->user->isGuest):?>
+                                    <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/login/')?CHtml::link('Вход', Yii::app()->createUrl('/site/login/')):'<span class="active">Вход</span>';?></li> 
+                            <?php else:?>
                             
                             <li><?php echo CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER)? '/cabinet':'/user'));?></li>
                             <?php if(Yii::app()->user->role == User::ROLE_PARTNER):?>

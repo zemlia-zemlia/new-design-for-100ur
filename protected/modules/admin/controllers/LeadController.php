@@ -290,7 +290,7 @@ class LeadController extends Controller {
                 'type' => $type,
                 'townId' => $towns[mt_rand(0, sizeof($towns) - 1)],
                 'active' => 1,
-                'phone' => mt_rand(1000000000, 9999999999),
+                'phone' => "7900" . mt_rand(1000000, 9999999),
                 'email' => 'bot_' . mt_rand(100000, 999999) . '@100yuristov.com',
             );
 
@@ -299,6 +299,7 @@ class LeadController extends Controller {
             if ($lead->save()) {
                 echo "Лид " . $lead->id . ' сохранен<br />';
             } else {
+                CustomFuncs::printr($lead->attributes);
                 CustomFuncs::printr($lead->errors);
             }
         }
