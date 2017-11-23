@@ -111,6 +111,8 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                     <abbr title='Лимит'><?php echo $campaign['leadsDayLimit'];?></abbr>
                 </td>
                 <td>
+                    <?php echo $campaign['object']->calculateCurrentBrakPercent(date('Y-m-d', time()-86400));?>
+                    /
                     <?php echo $campaign['object']->calculateCurrentBrakPercent();?>
                     /
                     <?php echo $campaign['brakPercent'];?>

@@ -393,15 +393,20 @@ class Campaign extends CActiveRecord {
     }
     
     /**
-     * Подсчитывает текущий процент брака за текущие сутки
+     * Подсчитывает текущий процент брака определенную дату
+     * @param string $date Дата, за которую нужна статистика, формат yyyy-mm-dd
      * @return integer Description
      */
-    public function calculateCurrentBrakPercent()
+    public function calculateCurrentBrakPercent($date = NULL)
     {
+        if(is_null($date)) {
+            $date = date('Y-m-d');
+        }
+        
         $campaign24hoursLeadsRows = Yii::app()->db->createCommand()
                     ->select('leadStatus, COUNT(*) counter')
                     ->from('{{lead100}}')
-                    ->where('campaignId = ' . $this->id . ' AND DATE(deliveryTime)="'.date('Y-m-d') . '"')
+                    ->where('campaignId = ' . $this->id . ' AND DATE(deliveryTime)="'. $date . '"')
                     ->group('leadStatus')
                     ->queryAll();
         //CustomFuncs::printr($campaign24hoursLeadsRows);
