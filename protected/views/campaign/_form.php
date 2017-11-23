@@ -88,7 +88,7 @@
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'leadsDayLimit', array('class' => 'col-sm-2 control-label')); ?>
             <div class="col-sm-10 col-md-6">
-                <?php if($model->isNewRecord):?>
+                <?php if($model->isNewRecord || Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
                     <?php echo $form->textField($model,'leadsDayLimit', array('class'=>'form-control')); ?>
                     <?php echo $form->error($model,'leadsDayLimit'); ?>
                 <?php else:?>
