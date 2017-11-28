@@ -80,6 +80,7 @@
         <th>Расход на контекст</th>
         <th>Прочие расходы</th>
         <th>Прибыль</th>
+        <th>Марж</th>
     </tr>
     <?php    foreach ($sumArray as $date=>$summa):?>
     <?php
@@ -91,6 +92,8 @@
         $expencesCallsTotal += $expencesCallsArray[$date]['expence'];
         $profit = $summa + $vipStats[$date] - $buySumArray[$date] - $expencesDirectArray[$date]['expence'] - $expencesCallsArray[$date]['expence'];
         $profitTotal += $profit;
+        $marginPercent = round(($profit / ($summa + $vipStats[$date])) * 100); // маржинальность за день
+        $marginPercentSum += $marginPercent;
     ?>
     <tr>
         <td>
@@ -117,6 +120,11 @@
                 echo (int)$profit;
             ?>
         </td>
+        <td>
+            <span class="<?php echo ($marginPercent>=50)?'text-success':'text-warning' ;?>">
+                <strong><?php echo $marginPercent;?>%</strong>
+            </span>
+        </td>
     </tr>
     <?php  endforeach;?>
     
@@ -131,6 +139,13 @@
         <th class="text-right"><?php echo (int)$expencesDirectTotal;?> руб.</th>
         <th class="text-right"><?php echo (int)$expencesCallsTotal;?> руб.</th>
         <th class="text-right"><?php echo (int)$profitTotal;?></th>
+        <td>
+            <span class="<?php echo (round($marginPercentSum/sizeof($sumArray))>=50)?'text-success':'text-warning' ;?>">
+                <strong>
+                    <?php echo round($marginPercentSum/sizeof($sumArray));?>%
+                </strong>
+            </span>
+        </td>
     </tr>
     <?php endif;?>
 	
