@@ -433,11 +433,12 @@ class Campaign extends CActiveRecord {
 
     /**
      * Проверка, можно ли забраковать лид данной кампании в данный момент
+     * @param string $date Дата, на которую считать процент брака
      * @return boolean
      */
-    public function checkCanBrak()
+    public function checkCanBrak($date = NULL)
     {
-        $brakPercent = $this->calculateCurrentBrakPercent();
+        $brakPercent = $this->calculateCurrentBrakPercent($date);
         //echo 'Процент брака: ' . $brakPercent . '<br />';
         //echo 'Допустимый процент брака: ' . $campaign->brakPercent . '<br />';
 
