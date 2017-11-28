@@ -68,6 +68,10 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <td><strong><?php echo $model->getAttributeLabel('buyPrice'); ?></strong></td>
                 <td><?php echo $model->buyPrice; ?> руб.</td>
             </tr>
+            <tr>
+                <td><strong>Цена продажи</strong></td>
+                <td><?php echo $model->price; ?> руб.</td>
+            </tr>
             <?php endif;?>
 
             <tr>
