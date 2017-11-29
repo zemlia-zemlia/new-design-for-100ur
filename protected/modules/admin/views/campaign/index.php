@@ -37,6 +37,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
             <th>Цена</th>
             <th>Отправлено</th>
             <th>Брак, %</th>
+            <th><abbr title="Процент маржинальности за последние 5 суток">Марж.</abbr></th>
             <th>Лимит</th>
         </tr>
     </thead>    
@@ -47,7 +48,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                 id: <?php echo $user['id'];?>
                 <?php echo CHtml::link(CHtml::encode($user['name']), Yii::app()->createUrl('/admin/user/view', array('id'=>$user['id'])));?> 
             </td>
-            <td colspan="7">
+            <td colspan="8">
                     <span class="label label-default balance-<?php echo $user['id'];?>">
             <?php echo $user['balance'];?> руб.</span>
 
@@ -116,6 +117,15 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                     <?php echo $campaign['object']->calculateCurrentBrakPercent();?>
                     /
                     <?php echo $campaign['brakPercent'];?>
+                </td>
+                <td>
+                    <?php
+                        $revenue = (int)$leadsByStatusArray[$campaign['id']]['revenue'];
+                        $expences = (int)$leadsByStatusArray[$campaign['id']]['expences'];
+                        $profit = $revenue - $expences;
+                        $marginPercent = ($revenue!=0) ? round($profit/$revenue*100) : 0;
+                    ?>
+                    <?php echo $marginPercent;?>%
                 </td>
                 <td>
                     <div class="">

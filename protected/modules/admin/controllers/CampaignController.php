@@ -282,10 +282,36 @@ class CampaignController extends Controller {
         //CustomFuncs::printr($campaignsRows);
         //CustomFuncs::printr($campaignsArray);
         //exit;
-
+        
+        /* теперь нужно вытащить данные по маржинальности кампаний за последние 5 дней.
+         * найдем лиды, отправленные в найденные кампании за последние 5 дней, вытащим суммы их цен покупки и продажи
+         * цена покупки - для всех лидов, цена продажи - для лидов в статусе Отправлен
+         * 
+         *  SELECT campaignId, leadStatus, SUM(buyPrice), SUM(price)  FROM 100_lead100
+         *  WHERE deliveryTime > NOW()-INTERVAL 5 DAY
+         *  GROUP BY campaignId, leadStatus
+         */
+        $leadsByStatusArray = [];
+        $leadsByStatusRows = Yii::app()->db->cache(600)->createCommand()
+                ->select("campaignId, leadStatus, SUM(buyPrice) sumBuy, SUM(price) sumSell")
+                ->from("{{lead100}}")
+                ->where("deliveryTime > NOW()-INTERVAL 5 DAY")
+                ->group("campaignId, leadStatus")
+                ->queryAll();
+        //CustomFuncs::printr($leadsByStatusRows);
+        
+        foreach ($leadsByStatusRows as $row) {
+            $leadsByStatusArray[$row['campaignId']]['expences'] += $row['sumBuy']; // суммируем цены покупки для всех статусов в расход по кампании
+            if($row['leadStatus'] == Lead100::LEAD_STATUS_SENT || $row['leadStatus'] == Lead100::LEAD_STATUS_RETURN) {
+                $leadsByStatusArray[$row['campaignId']]['revenue'] += $row['sumSell']; // суммируем цены продажи для проданных лидов в доход по кампании
+            }
+        }
+        //CustomFuncs::printr($leadsByStatusArray);
+        
         $this->render('index', array(
-            'campaignsArray' => $campaignsArray,
-            'type' => $type,
+            'campaignsArray'        =>  $campaignsArray,
+            'type'                  =>  $type,
+            'leadsByStatusArray'    =>  $leadsByStatusArray
         ));
     }
 
