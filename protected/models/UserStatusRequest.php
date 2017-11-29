@@ -42,10 +42,10 @@ class UserStatusRequest extends CActiveRecord {
             array('yuristId', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('vuz, facultet, education, vuzTownId, educationYear', 'required', 'on'=>'createYurist', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('advOrganisation, advNumber, position', 'required', 'on'=>'createAdvocat', 'message' => 'Поле {attribute} должно быть заполнено'),
-            array('', 'required', 'on'=>'createJudge', 'message' => 'Поле {attribute} должно быть заполнено'),
+            //array('', 'required', 'on'=>'createJudge', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('yuristId, status, isVerified, vuzTownId, educationYear', 'numerical', 'integerOnly' => true),
             array('vuz, facultet, education, advOrganisation, advNumber, position', 'length', 'max' => 255),
-            array('userFile', 'file', 'types' => 'jpg,gif,png,tiff', 'maxSize' => '2048000', 'allowEmpty' => true),
+            array('userFile', 'file', 'types' => 'jpg,gif,png,tiff,pdf', 'maxSize' => '2048000', 'allowEmpty' => true, 'message' => 'Неправильный формат загруженного файла'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, yuristId, status, isVerified, vuz, facultet, education, vuzTownId, educationYear, advOrganisation, advNumber, position', 'safe', 'on' => 'search'),

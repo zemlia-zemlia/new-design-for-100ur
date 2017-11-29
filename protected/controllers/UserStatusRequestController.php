@@ -85,11 +85,12 @@ class UserStatusRequestController extends Controller {
             if (!empty($_FILES) && !$model->errors) {
 
                 $scan = CUploadedFile::getInstance($userFile, 'userFile');
-                if ($scan && $scan->getError() == 0) { // если файл нормально загрузился
+                if ($scan && $scan->getError() == 0 && $userFile->validate()) { // если файл нормально загрузился
                     $scanFileName = md5($scan->getName() . $scan->getSize() . mt_rand(10000, 100000)) . "." . $scan->getExtensionName();
-                    Yii::app()->ih
-                            ->load($scan->tempName)
-                            ->save(Yii::getPathOfAlias('webroot') . UserFile::USER_FILES_FOLDER . '/' . $scanFileName);
+//                    Yii::app()->ih
+//                            ->load($scan->tempName)
+//                            ->save(Yii::getPathOfAlias('webroot') . UserFile::USER_FILES_FOLDER . '/' . $scanFileName);
+                    $scan->saveAs(Yii::getPathOfAlias('webroot') . UserFile::USER_FILES_FOLDER . '/' . $scanFileName);
                     // CustomFuncs::printr($scan);
                     // exit;
 
