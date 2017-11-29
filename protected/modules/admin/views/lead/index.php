@@ -19,7 +19,7 @@ $this->breadcrumbs=array(
 <div  class="vert-margin30">
 <h1>Лиды
     <?php if(Yii::app()->user->role == User::ROLE_ROOT):?>
-        <?php echo CHtml::link('Отфильтровать обращения', Yii::app()->createUrl('/admin/lead/sendLeads'), array('class'=>'btn btn-primary'));?>
+        <?php echo CHtml::link('Разобрать лиды', Yii::app()->createUrl('/admin/lead/sendLeads'), array('class'=>'btn btn-primary'));?>
     <?php endif;?>
 </h1>
     
@@ -28,14 +28,6 @@ $this->breadcrumbs=array(
     <?php endif;?> 
 </div>
 
-<!--<table class="table table-bordered table-hover table-striped">
-    <thead>
-    <tr>
- 
-        <th>Текст лида</th>
-        <th>Управление</th>
-    </tr>
-    </thead>-->
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,
 	'itemView'=>'_view',
