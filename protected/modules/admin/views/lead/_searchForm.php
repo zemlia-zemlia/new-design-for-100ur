@@ -1,4 +1,4 @@
-<div class="vert-margin30 flat-panel center-align inside">
+<div class="vert-margin30 flat-panel  inside">
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'lead-search-form',
         'method'=>'GET',
@@ -13,7 +13,7 @@
 ?>
 
 <div class="form-group">
-                <?php echo $form->labelEx($model,'date1'); ?>
+                <?php echo $form->labelEx($model,'date1'); ?> <br/>
                 <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
                         array(
                         'name'=>"Lead100[date1]",
@@ -32,7 +32,7 @@
             </div>
 
             <div class="form-group">
-                <?php echo $form->labelEx($model,'date2'); ?>
+                <?php echo $form->labelEx($model,'date2'); ?><br/>
                 <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
                         array(
                         'name'=>"Lead100[date2]",
@@ -50,7 +50,7 @@
                 <?php echo $form->error($model,'date2'); ?>
             </div>
 <div class="form-group">
-    <?php echo $form->labelEx($model,'town'); ?>
+    <?php echo $form->labelEx($model,'town'); ?><br/>
     <?php echo CHtml::textField('town', $townName, array(
                     'id'            =>  'town-selector', 
                     'class'         =>  'form-control',
@@ -61,33 +61,33 @@
 </div>
     
 <div class="form-group">
-    <?php echo $form->labelEx($model,'regionId'); ?>
+    <?php echo $form->labelEx($model,'regionId'); ?><br/>
     <?php echo $form->dropDownList($model, 'regionId', array(0=>'Все') + Region::getAllRegions(), array(
                     'class'         =>  'form-control',
     )); ?>
 </div>
     
 <div class="form-group">
-    <?php echo $form->labelEx($model,'sourceId'); ?>
+    <?php echo $form->labelEx($model,'sourceId'); ?><br/>
     <?php echo $form->dropDownList($model, 'sourceId', array(0=>'Все') + Leadsource100::getSourcesArray(true), array(
                     'class'         =>  'form-control',
     )); ?>
 </div>
     
 <div class="form-group">
-    <?php echo $form->labelEx($model,'type'); ?>
+    <?php echo $form->labelEx($model,'type'); ?><br/>
     <?php echo $form->dropDownList($model, 'type', array(''=>'Все') + Lead100::getLeadTypesArray(), array(
                     'class'         =>  'form-control',
     )); ?>
 </div>
 
 <div class="form-group">
-    <?php echo $form->labelEx($model,'phone'); ?>
+    <?php echo $form->labelEx($model,'phone'); ?><br/>
     <?php echo $form->textField($model,'phone', array('class'=>'form-control input-sm', 'style'=>'width:100px;')); ?>
     <?php echo $form->error($model,'phone'); ?>
 </div>
 
-<div class="form-group buttons left-align">
+<div class="form-group buttons left-align"><br/>
     <?php echo CHtml::submitButton("Найти", array('class'=>'btn btn-primary input-sm')); ?>
 </div>
 
