@@ -442,7 +442,7 @@ class Campaign extends CActiveRecord {
         //echo 'Процент брака: ' . $brakPercent . '<br />';
         //echo 'Допустимый процент брака: ' . $campaign->brakPercent . '<br />';
 
-        if($brakPercent > $this->brakPercent) {
+        if($brakPercent >= $this->brakPercent) {
             return false;
         }
         return true;
