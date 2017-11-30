@@ -37,7 +37,7 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
         'LeadLawSPb' => array(
             'townId'    => 822,
             'sourceId'  => 24,
-            'buyPrice'  => 140,
+            'buyPrice'  => 120,
         ),
 		'LeadLawEkb' => array(
             'townId'    => 269,

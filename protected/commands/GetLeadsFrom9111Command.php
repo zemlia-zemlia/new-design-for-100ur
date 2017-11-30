@@ -28,7 +28,7 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
         '9111Rostov' => array(
             'townId' => 805,
             'sourceId' => 33,
-            'buyPrice' => 60,
+            'buyPrice' => 75,
         ),
         '9111Volgograd' => array(
             'townId' => 165,
@@ -38,12 +38,12 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
 		'9111Spb' => array(
             'townId' => 822,
             'sourceId' => 33,
-            'buyPrice' => 150,
+            'buyPrice' => 110,
         ),
 		'9111Msk' => array(
             'townId' => 598,
             'sourceId' => 33,
-            'buyPrice' => 150,
+            'buyPrice' => 160,
         ),
 		'9111Novosibirsk' => array(
             'townId' => 666,
