@@ -122,7 +122,7 @@ class Question extends CActiveRecord
                 'authorName'    =>  'Ваше имя',
                 'town'          =>  'Город',
                 'townId'        =>  'Город',
-                'title'         =>  'Заголовок вопроса',
+                'title'         =>  'Тема вопроса',
                 'phone'         =>  'Номер телефона',
                 'authorId'      =>  'ID автора',
                 'price'         =>  'Цена',

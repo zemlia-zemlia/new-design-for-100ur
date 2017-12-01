@@ -30,7 +30,7 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
 
 <div class="form-group">
         <?php echo $form->labelEx($model,'title'); ?>
-        <?php echo $form->textField($model,'title', array('class'=>'form-control')); ?>
+        <?php echo $form->textField($model,'title', array('class'=>'form-control', 'placeholder'=>'Например, Как оспорить наследство?')); ?>
         <?php echo $form->error($model,'title'); ?>
 </div>
 
