@@ -622,6 +622,9 @@ class QuestionController extends Controller {
     public function actionCall() {
         $this->layout = "//frontend/smart";
         $lead = new Lead100();
+        
+        $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
+        $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
 
         if (isset($_POST['Lead100'])) {
             $lead->attributes = $_POST['Lead100'];
@@ -648,6 +651,34 @@ class QuestionController extends Controller {
                     $lead->question = CHtml::encode('Нужна консультация юриста. Перезвоните мне. ' . $lead->question);
 
                     if ($lead->save()) {
+                        // сохраним категории, к которым относится вопрос, если категория указана
+                        if (isset($_POST['Lead100']['categories']) && $_POST['Lead100']['categories'] != 0) {
+                            
+                            $lead2category = new Lead2Category;
+                            $lead2category->leadId = $lead->id;
+                            $leadCategory = (int)$_POST['Lead100']['categories'];
+                            $lead2category->cId = $leadCategory;
+                            
+                            if ($lead2category->save()) {
+                                // проверим, не является ли указанная категория дочерней
+                                // если является, найдем ее родителя и запишем в категории вопроса
+                                foreach ($allDirectionsHierarchy as $parentId => $parentCategory) {
+                                    if (!$parentCategory['children'])
+                                        continue;
+
+                                    foreach ($parentCategory['children'] as $childId => $childCategory) {
+                                        if ($childId == $leadCategory) {
+                                            $lead2category = new Lead2Category();
+                                            $lead2category->leadId = $lead->id;
+                                            $lead2category->cId = $parentId;
+                                            $lead2category->save();
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
                         $this->redirect(array('weCallYou'));
                     }
                 }
@@ -657,8 +688,9 @@ class QuestionController extends Controller {
         $townsArray = Town::getTownsIdsNames();
 
         $this->render('call', array(
-            'model' => $lead,
-            'townsArray' => $townsArray,
+            'model'         => $lead,
+            'townsArray'    => $townsArray,
+            'allDirections' => $allDirections,
         ));
     }
     
@@ -703,7 +735,7 @@ class QuestionController extends Controller {
     }
 
     public function actionWeCallYou() {
-        $this->layout = "//frontend/short";
+        $this->layout = "//frontend/smart";
         $this->render('weCallYou');
     }
 
@@ -717,6 +749,13 @@ class QuestionController extends Controller {
         if(!Yii::app()->user->isGuest) {
             $currentUser = User::model()->findByPk(Yii::app()->user->id);
             $author->attributes = $currentUser->attributes;
+        }
+        
+        if(isset($_GET['juristId']) && (int)$_GET['juristId']>0) {
+            $juristId = (int)$_GET['juristId'];
+            if(User::model()->findByAttributes(['role' => User::ROLE_JURIST, 'active100' => 1, 'id' => $juristId])) {
+                $order->juristId = $juristId;
+            }            
         }
 
         if (isset($_POST['Order'])) {
@@ -752,7 +791,9 @@ class QuestionController extends Controller {
                 }
 
                 if ($order->save()) {
-                    
+                    if($order->juristId) {
+                        $order->sendJuristNotification();
+                    }
                     $this->redirect(array('docsRequested'));
                 }
             //}

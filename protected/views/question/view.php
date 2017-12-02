@@ -82,7 +82,7 @@ $this->breadcrumbs=array(
         <?php echo nl2br(CHtml::encode($model->questionText));?>
     </div>
     
-    <p class="vert-margin30">
+    <p class="vert-margin30 right-align">
         <em>
             <?php if($model->authorName):?>
                 <span class="glyphicon glyphicon-user"></span>&nbsp;<span itemprop="name"><?php echo CHtml::encode($model->authorName); ?></span> &nbsp;&nbsp;
@@ -101,6 +101,19 @@ $this->breadcrumbs=array(
             <?php endif;?>
         </em>
     </p>
+    
+    <div class="vert-margin30 blue-block inside">
+        <div class="row">
+            <div class="col-sm-8 center-align">
+                <h3>Ваш вопрос требует составления документа?</h3>
+                <p>Доверьте это опытным юристам</p>
+            </div>
+            <div class="col-sm-4 center-align">
+                <p></p>
+                <?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/docs'), ['class' => 'yellow-button']);?>
+            </div>
+        </div>
+    </div>
     
 
     

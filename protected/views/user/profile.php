@@ -222,7 +222,11 @@ if(Yii::app()->user->id != $user->id) {
                          <p>Консультация от <?php echo $user->settings->priceConsult;?> руб.</p>
                      <?php endif;?>
                      <?php if($user->settings->priceDoc  > 0):?>
-                         <p>Составление документа от <?php echo $user->settings->priceDoc;?> руб.</p>
+                         <p>Составление документа от <?php echo $user->settings->priceDoc;?> руб.
+                            <?php if($user->id == 8):?>
+                                <?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/docs', ['juristId' => $user->id]));?>
+                            <?php endif;?>
+                         </p>
                      <?php endif;?>
                  </div>        
              <?php endif;?>
@@ -257,7 +261,7 @@ if(Yii::app()->user->id != $user->id) {
    <?php endforeach;?>
 <?php endif;?>
         
-<?php if(Yii::app()->user->role == User::ROLE_CLIENT && Yii::app()->user->id == $model->id):?>
+<?php if(Yii::app()->user->role == User::ROLE_CLIENT && Yii::app()->user->id == $user->id):?>
         <h2>Мои заказы документов</h2>
         <table class="table table-bordered">
         <?php $this->widget('zii.widgets.CListView', array(

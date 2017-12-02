@@ -446,6 +446,9 @@ class Question extends CActiveRecord
          */
         public static function normalizePhone($phone)
         {
+            if($phone == '') {
+                return '';
+            }
             // удаляем из номера все кроме цифр
             $digitalNumber = preg_replace('/([^0-9])/i', '', $phone);
             // берем первые 11 символов

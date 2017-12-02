@@ -111,6 +111,8 @@ class OrderController extends Controller {
     public function actionIndex() {
         $ordersCriteria = new CDbCriteria();
         
+        $ordersCriteria->order = 'id DESC';
+        
         $ordersDataProvider = new CActiveDataProvider('Order', [
             'criteria'  =>  $ordersCriteria,
         ]);

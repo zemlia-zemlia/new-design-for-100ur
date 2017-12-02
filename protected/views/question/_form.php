@@ -7,61 +7,75 @@
 	'id'                    =>  'question-form',
 	'enableAjaxValidation'  =>  false,
         'action'                =>  Yii::app()->createUrl('question/create'),
+        'htmlOptions'               =>  ['class'=>'form-horizontal'],
 )); ?>
 
 	
 
 <?php //echo $form->errorSummary($model, "Для отправки вопроса укажите данные"); ?>
+<?php //CustomFuncs::printr($model->attributes);?>
     
 <?php
 $allDirections = array(0=>'Не выбрано') + $allDirections;
 ?>
 
   
-<div class="row">
-    <div class="col-md-6">
-        <div class="form-group">
-		<?php echo $form->labelEx($model,'authorName'); ?>
-		<?php echo $form->textField($model,'authorName', array('class'=>'form-control', 'placeholder'=>'Представьтесь')); ?>
-		<?php echo $form->error($model,'authorName'); ?>
-	</div>
-    </div>
-</div>
-
 <div class="form-group">
-        <?php echo $form->labelEx($model,'title'); ?>
+    <?php echo $form->labelEx($model,'title', ['class' =>  'col-sm-4 control-label']); ?>
+    <div class="col-sm-8">
         <?php echo $form->textField($model,'title', array('class'=>'form-control', 'placeholder'=>'Например, Как оспорить наследство?')); ?>
         <?php echo $form->error($model,'title'); ?>
+    </div>
+    
 </div>
 
 <div class="form-group">
-        <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>10, 'placeholder'=>'Опишите вашу ситуацию подробнее, чтобы юрист мог более детально внем сориентироваться и дать на него квалифицированный ответ.')); ?>
+    <label class="col-sm-4 control-label">Подробное описание</label>
+    <div class="col-sm-8">
+        <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>10, 'placeholder'=>'Опишите вашу ситуацию подробнее, чтобы юрист мог более детально в нем сориентироваться и дать на него квалифицированный ответ.')); ?>
         <?php echo $form->error($model,'questionText'); ?>
+    </div>
+    
 </div>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="form-group">
-		<?php //echo $form->labelEx($model,'categories'); ?>
-                <label>Направление права (необязательно)</label>
-		<?php echo $form->dropDownList($model,'categories', $allDirections, array('class'=>'form-control')); ?>
-		<?php echo $form->error($model,'categories'); ?>
+            <label class="col-sm-4 control-label">Категория права</label>
+            <div class="col-sm-8">
+            <?php echo $form->dropDownList($model,'categories', $allDirections, array('class'=>'form-control')); ?>
+                <small>
+                <p class="text-muted">
+                    Правильный выбор категории поможет найти специалистов именно в этой отрасли права. Если Вы сомневаетесь в выборе, пропустите этот пункт.
+                </p>
+                </small>
+                <?php echo $form->error($model,'categories'); ?>
+            </div>
+            
 	</div>
     </div>
-    <div class="col-md-6">
-        <small>
-        <p class="text-muted" style="padding-top:10px;margin-left:35px;">
-            Правильный выбор категории поможет найти специалистов именно в этой отрасли права. Если Вы сомневаетесь в выборе, пропустите этот пункт.
-        </p>
-        </small>
-    </div>
 </div>
 
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <?php echo $form->labelEx($model,'authorName', ['class' =>  'col-sm-4 control-label']); ?>
+            <div class="col-sm-8">
+		<?php echo $form->textField($model,'authorName', array('class'=>'form-control', 'placeholder'=>'Представьтесь')); ?>
+                <?php echo $form->error($model,'authorName'); ?>
+            </div>
+            
+	</div>
+    </div>
+</div>
         
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="form-group">
-		<?php echo $form->labelEx($model,'phone'); ?>
+		<?php echo $form->labelEx($model,'phone', ['class' =>  'col-sm-4 control-label']); ?>
+            <div class="col-sm-8">
 		<?php echo $form->textField($model,'phone', array(
                     'class'         =>  'form-control icon-input', 
                     'style'         =>  'background-image:url(/pics/2017/phone_icon.png)',
@@ -69,23 +83,21 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
                     'data-placement'=>  "bottom",
                     'title'         =>  "Номер телефона необходим, чтобы юрист смог с Вами связаться. Нигде не публикуется.",
                     )); ?>
+                <small>
+                <img src="/pics/2017/red_lock.png" alt="" style="float:left;margin-top:10px;" />
+                <p class="text-muted" style="padding-top:10px;margin-left:35px;">
+
+                    Ваши данные в безопасности. Ваш телефон <strong>НИГДЕ и НИКОГДА</strong> не публикуется и доступен только юристу-консультанту
+                </p>
+                </small>
 		<?php echo $form->error($model,'phone'); ?>
+            </div>
 	</div>
-    </div>
-    
-    <div class="col-md-6">
-        <small>
-        <img src="/pics/2017/red_lock.png" alt="" style="float:left;margin-top:10px;" />
-        <p class="text-muted" style="padding-top:10px;margin-left:35px;">
-            
-            Ваши данные в безопасности. Ваш телефон <strong>НИГДЕ и НИКОГДА</strong> не публикуется и доступен только юристу-консультанту
-        </p>
-        </small>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-6">    
+    <div class="col-md-12">    
         
         <div class="form-group">
             <?php
@@ -105,18 +117,21 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
             ?>
             
             <?php if($currenTownId == 0):?>
-                <?php echo $form->labelEx($model,'town'); ?>
-                <?php echo CHtml::textField('town', $currenTownName, array(
-                    'id'            =>  'town-selector', 
-                    'class'         =>  'form-control icon-input', 
-                    'style'         =>  'background-image:url(/pics/2017/map_mark_icon.png)',
-                )); ?>
+                <?php echo $form->labelEx($model,'town', ['class' =>  'col-sm-4 control-label']); ?>
+                <div class="col-sm-8">
+                    <?php echo CHtml::textField('town', $currenTownName, array(
+                        'id'            =>  'town-selector', 
+                        'class'         =>  'form-control icon-input', 
+                        'style'         =>  'background-image:url(/pics/2017/map_mark_icon.png)',
+                    )); ?>
+                    <?php echo $form->error($model,'townId'); ?>
+                </div>
             <?php endif;?>
             
                 <?php
                     echo $form->hiddenField($model, 'townId', array('id'=>'selected-town'));
                 ?>
-		<?php echo $form->error($model,'townId'); ?>
+		
             
             
 		<?php //echo $form->labelEx($model,'email'); ?>
@@ -133,7 +148,7 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
 
 <?php echo $form->hiddenField($model, 'sessionId', array('value'=>$model->sessionId));?>
 
-<div class="vert-margin20">
+<div class="vert-margin20 center-align">
 <small class="text-muted">
   <label>
       <input type="checkbox" value="1" checked="checked">

@@ -11,6 +11,7 @@
  * @property integer $price
  * @property string $description
  * @property integer $userId
+ * @property integer $juristId
  */
 class Order extends CActiveRecord {
     
@@ -38,7 +39,7 @@ class Order extends CActiveRecord {
         // will receive user inputs.
         return array(
             array('itemType, description, userId', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
-            array('status, itemType, price, userId', 'numerical', 'integerOnly' => true),
+            array('status, itemType, price, userId, juristId', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, status, createDate, itemType, price, description, userId', 'safe', 'on' => 'search'),
@@ -53,6 +54,7 @@ class Order extends CActiveRecord {
         // class name for the relations automatically generated below.
         return array(
             'author'    => array(self::BELONGS_TO, 'User', 'userId'),
+            'jurist'    => array(self::BELONGS_TO, 'User', 'juristId'),
             'docType'   => array(self::BELONGS_TO, 'DocType', 'itemType'),
             'responses'  => array(self::HAS_MANY, 'OrderResponse', 'objectId', 'condition' => 'responses.type=' . Comment::TYPE_RESPONSE, 'order' => 'responses.id ASC'),
             'responsesCount'  => array(self::STAT, 'OrderResponse', 'objectId', 'condition' => 't.type=' . Comment::TYPE_RESPONSE, 'order' => 't.root, t.lft'),
@@ -139,6 +141,59 @@ class Order extends CActiveRecord {
      */
     public static function model($className = __CLASS__) {
         return parent::model($className);
+    }
+    
+    /**
+     *  Возвращает количество заказов в формате Подтвержден
+     * @param intefer $cacheTime Длительность хранения результата запроса в кеше
+     * @return integer количество заказов
+     */
+    public static function calculateNewOrders($cacheTime=600)
+    {
+        $countRow = Yii::app()->db->cache($cacheTime)->createCommand()
+                ->select('COUNT(*) counter')
+                ->from("{{order}}")
+                ->where("status=:status", [':status' => self::STATUS_CONFIRMED])
+                ->queryRow();
+        if($countRow && $countRow['counter']) {
+            return $countRow['counter'];
+        } else {
+            return 0;
+        }
+    }
+    
+    /**
+     * Отправляем юристу уведомление о том, что он выбран исполнителем по заказу документа
+     */
+    public function sendJuristNotification()
+    {
+        $jurist = $this->jurist;
+        if(!$jurist) {
+            return false;
+        }
+        
+        $orderLink = Yii::app()->createUrl('order/view',['id' => $this->id]);
+        
+        $mailer = new GTMail;
+        $mailer->subject = CHtml::encode($jurist->name) . ", Вас выбрали исполнителем по заказу документа";
+        $mailer->message = "<h1>Вас выбрали исполнителем по заказу документа</h1>
+            <p>Здравствуйте, " . CHtml::encode($jurist->name) . "<br /><br />
+            Создатель " . CHtml::link("заказа документа", $orderLink) . " назначил Вас исполнителем";
+        
+        $mailer->message .= "<br /><br />Посмотреть заказ можно по ссылке: " . CHtml::link($orderLink, $orderLink);
+        
+        // отправляем письмо на почту пользователя
+        $mailer->email = $jurist->email;
+
+        if ($mailer->sendMail(true, '100yuristov')) {
+            Yii::log("Отправлено письмо пользователю " . $jurist->email . " с уведомлением о назначении исполнителем заказа " . $this->id, 'info', 'system.web.User');
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log("Не удалось отправить письмо пользователю " . $jurist->email . " с уведомлением о назначении исполнителем заказа " . $this->id, 'error', 'system.web.User');
+            return false;
+        }
+        
     }
 
 }

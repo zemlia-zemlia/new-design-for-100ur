@@ -43,6 +43,18 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         </td>
     </tr>
     <?php endif;?>
+        <?php if($order->jurist):?>
+    <tr>
+        <td>
+            <strong>Юрист</strong>
+        </td>
+        <td>
+            <p>
+            <?php echo CHtml::link(CHtml::encode(trim($order->jurist->name . ' ' . $order->jurist->name2 . ' ' .$order->jurist->lastName)), Yii::app()->createUrl('user/view', ['id' => $order->jurist->id]));?>
+            </p>
+        </td>
+    </tr>
+    <?php endif;?>
     <tr>
         <td>
             <strong>Вид документа</strong>
@@ -120,7 +132,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 </div>
                 <div class="col-sm-10 col-xs-8">
                     <p>
-                    <?php echo CHtml::encode($response->author->name . ' ' . $response->author->lastName);?>
+                    <?php echo CHtml::link(CHtml::encode($response->author->name . ' ' . $response->author->lastName), Yii::app()->createUrl('user/view', ['id' => $response->author->id]));?>
                     <?php if($response->author->settings->isVerified):?>
                     <small>
                         <span class="label label-default"><?php echo $response->author->settings->getStatusName();?></span>
@@ -151,7 +163,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     </p>
                     
                     <?php if(!is_null($commentModel) && $comment->authorId != Yii::app()->user->id):?>
-                        <div class="right-align">
+                        <div class="right-align"> 
                         <a class="btn btn-xs btn-default" role="button" data-toggle="collapse" href="#collapse-comment-<?php echo $comment->id;?>" aria-expanded="false">
                             Ответить
                           </a>
@@ -178,6 +190,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             
             <?php if(!is_null($commentModel) && ($order->userId == Yii::app()->user->id)):?>
             <div class="right-align">
+                <?php if($order->userId == Yii::app()->user->id && !$order->juristId):?>
+                    <?php echo CHtml::link('Выбрать этого юриста исполнителем', Yii::app()->createUrl('/order/setJurist', ['id' => $order->id, 'juristId' => $response->authorId]), ['class' => 'btn btn-xs btn-success']);?>
+                <?php endif;?>
             <a class="btn btn-xs btn-default" role="button" data-toggle="collapse" href="#collapse-response-<?php echo $response->id;?>" aria-expanded="false">
                 Ответить
               </a>

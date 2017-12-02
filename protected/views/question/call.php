@@ -11,6 +11,7 @@ $this->setPageTitle("Заказать звонок ". Yii::app()->name);
         <?php echo $this->renderPartial('_formCall', array(
             'model'         =>  $model,
             'townsArray'    =>  $townsArray,
+            'allDirections' =>  $allDirections,
         )); ?>
     </div>
 </div>

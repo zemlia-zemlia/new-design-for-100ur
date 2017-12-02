@@ -37,6 +37,11 @@ class OrderController extends Controller {
                 'users' => array('@'),
                 'expression'    =>  "Yii::app()->user->checkAccess(User::ROLE_JURIST)",
             ),
+            array('allow',
+                'actions' => array('setJurist'),
+                'users' => array('@'),
+                'expression'    =>  "Yii::app()->user->checkAccess(User::ROLE_CLIENT)",
+            ),
             array('deny', // deny all users
                 'users' => array('*'),
             ),
@@ -49,7 +54,16 @@ class OrderController extends Controller {
     public function actionIndex()
     {
         $ordersCriteria = new CDbCriteria();
-        $ordersCriteria->addColumnCondition(['status' => Order::STATUS_CONFIRMED]);
+        
+        $ordersCriteria->order = 'id DESC';
+             
+        if(isset($_GET['my']) && Yii::app()->user->role == User::ROLE_JURIST) {
+            $ordersCriteria->addColumnCondition(['juristId' => Yii::app()->user->id]);
+            $showMyOrders = true;
+        } else {
+            $ordersCriteria->addColumnCondition(['status' => Order::STATUS_CONFIRMED]);
+            $showMyOrders = false;
+        }
         
         $ordersDataProvider = new CActiveDataProvider('Order', [
             'criteria'  =>  $ordersCriteria,
@@ -57,6 +71,7 @@ class OrderController extends Controller {
         
         $this->render('index', [
             'ordersDataProvider'    =>  $ordersDataProvider,
+            'showMyOrders'          =>  $showMyOrders,
         ]);
     }
 
@@ -122,4 +137,39 @@ class OrderController extends Controller {
             'orderResponse' =>  $orderResponse,
         ]);
     }
+    
+    /**
+     * Назначает юриста исполнителем по заказу документов
+     */
+    public function actionSetJurist($id)
+    {
+        $order = Order::model()->findByPk($id);
+        
+        if(!$order) {
+            throw new CHttpException(404, 'Заказ не найден');
+        }
+        
+        if($order->userId != Yii::app()->user->id) {
+            throw new CHttpException(403, 'Вы не можете управлять чужими заказами');
+        }
+        
+        if($order->juristId) {
+            throw new CHttpException(400, 'У этого заказа уже выбран юрист');
+        }
+        $juristId = (int)$_GET['juristId'];
+        $jurist = User::model()->findByAttributes(['role' => User::ROLE_JURIST, 'active100' => 1, 'id' => $juristId]);
+        if(!$jurist) {
+            throw new CHttpException(404, 'Юрист не найден');
+        }
+        
+        $order->juristId = $juristId;
+        if($order->save()) {
+            $order->sendJuristNotification();
+            $this->redirect(['order/view', 'id'=>$order->id]);
+        } else {
+            throw new CHttpException(500, 'Не удалось назначить заказу юриста. Внутренняя ошибка.');
+        }
+        
+    }
+
 }

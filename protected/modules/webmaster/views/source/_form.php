@@ -55,12 +55,6 @@
                 </div>
             </div>
         </div>
-        
-        <div class="form-group">
-            <?php echo $form->checkBox($model,'active',array()); ?>
-            <?php echo $model->getAttributeLabel('active');?>
-            <?php echo $form->error($model,'active'); ?>
-	</div>
 
 	<div class="form-group">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-primary')); ?>

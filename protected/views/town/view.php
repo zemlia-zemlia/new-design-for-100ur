@@ -111,8 +111,7 @@ $this->breadcrumbs=array(
 
 <?php if(sizeof($model->companies)):?>
 
-        <h3 class="header-block header-block-green">Юридические компании города</h3>
-        <div class="header-block-green-arrow"></div>
+        <h3 class="header-block header-block-light-grey vert-margin20">Юридические компании города</h3>
             <div class="container-fluid">
                 <div class="row">
                 <?php 
@@ -143,8 +142,7 @@ $this->breadcrumbs=array(
 <?php if(is_array($closeTowns) && sizeof($closeTowns)):?>
 <div class="flat-panel vert-margin30">
     
-        <h3 class="header-block header-block-green">Соседние города</h3>
-        <div class="header-block-green-arrow"></div>
+        <h3 class="header-block header-block-light-grey">Соседние города</h3>
         
         <div class="inside">
             <div class="row">
@@ -170,8 +168,21 @@ $this->breadcrumbs=array(
     </div>
 <?php endif;?>
 
+    <div class="vert-margin30 blue-block inside">
+        <div class="row">
+            <div class="col-sm-8 center-align">
+                <h3>Ваш вопрос требует составления документа?</h3>
+                <p>Доверьте это опытным юристам</p>
+            </div>
+            <div class="col-sm-4 center-align">
+                <p></p>
+                <?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/docs'), ['class' => 'yellow-button']);?>
+            </div>
+        </div>
+    </div>
+        
 <br/>
-<h3 class="header-block-light-grey"><strong> На ваши вопросы отвечают: </strong></h3>
+<h3 class="header-block header-block-light-grey"><strong> На ваши вопросы отвечают: </strong></h3>
     <div class='flat-panel inside'>
 		
         <div class="row">

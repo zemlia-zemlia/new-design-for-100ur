@@ -139,7 +139,18 @@ $this->breadcrumbs[] = $model->name;
 
 
 
-
+<div class="vert-margin30 blue-block inside">
+        <div class="row">
+            <div class="col-sm-8 center-align">
+                <h3>Ваш вопрос требует составления документа?</h3>
+                <p>Доверьте это опытным юристам</p>
+            </div>
+            <div class="col-sm-4 center-align">
+                <p></p>
+                <?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/docs'), ['class' => 'yellow-button']);?>
+            </div>
+        </div>
+</div>
 
 			
 			

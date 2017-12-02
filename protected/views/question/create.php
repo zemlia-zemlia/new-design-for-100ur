@@ -31,36 +31,36 @@ $this->breadcrumbs=array(
      
         <div class="counters-wrapper counters-wrapper-border vert-margin20">
             <div class="row">
-                <div class="col-sm-3 center-align counter-green">
+                <div class="col-sm-3 col-xs-6 center-align counter-green">
                     <div class="counter-number">
                         <span class="glyphicon glyphicon-bullhorn"></span> <?php echo $questionsCountInt;?>
                     </div>
                     <div class="counter-description">
-                        вопросов задано
+                        вопросов
                     </div>
                 </div>
-                <div class="col-sm-3 center-align counter-yellow">
+                <div class="col-sm-3 col-xs-6 center-align counter-yellow">
                     <div class="counter-number">
                         <span class="glyphicon glyphicon-comment"></span> <?php echo $answersCount;?>
                     </div>
                     <div class="counter-description">
-                        ответов получено
+                        ответов
                     </div>
                 </div>
-                <div class="col-sm-3 center-align counter-green">
+                <div class="col-sm-3 col-xs-6 center-align counter-green">
                     <div class="counter-number">
                         <span class="glyphicon glyphicon-education"></span> <?php echo $yuristsCount;?>
                     </div>
                     <div class="counter-description">
-                        юристов на сайте
+                        юристов
                     </div>
                 </div>
-                <div class="col-sm-3 center-align counter-yellow">
+                <div class="col-sm-3 col-xs-6 center-align counter-yellow">
                     <div class="counter-number">
-                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                        <span class="glyphicon glyphicon-thumbs-up"></span> 97%
                     </div>
                     <div class="counter-description">
-                        нас рекомендуют
+                        рекомендаций
                     </div>
                 </div>
             </div>

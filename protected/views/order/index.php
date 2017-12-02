@@ -2,7 +2,7 @@
 $this->setPageTitle("Заказы документов" . '. ' . Yii::app()->name);
 ?>
 
-<h1>Заказы документов</h1>
+<h1><?php echo ($showMyOrders == true)?'Мои заказы':'Заказы';?>  документов</h1>
 
 <table class="table table-bordered">
     <?php $this->widget('zii.widgets.CListView', array(

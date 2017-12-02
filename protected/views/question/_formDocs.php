@@ -95,6 +95,8 @@
 </div>
 <?php endif;?>
 
+<?php echo $form->hiddenField($order, 'juristId');?>
+
 <div class="vert-margin20">
     <small class="text-muted">
       <label>

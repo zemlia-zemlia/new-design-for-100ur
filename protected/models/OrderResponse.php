@@ -89,15 +89,13 @@ class OrderResponse extends Comment {
         $autologinString = (isset($client->autologin) && $client->autologin != '') ? $client->autologin : $client->generateAutologinString();
 
         if(!$client->autologin) {
-            if ($client->save()) {
-                /*
-                 * пытаемся сохранить пользователя (обновив поле autologin)
-                 */
-                $questionLink .= "?autologin=" . $autologinString;
-            } else {
+            $client->autologin = $autologinString;
+            if (!$client->save()) {
                 Yii::log("Не удалось сохранить строку autologin пользователю " . $client->email . " с уведомлением об отклике на заказ " . $order->id, 'error', 'system.web.User');
             }
         }
+        
+        $questionLink .= "?autologin=" . $autologinString;
 
 
         $mailer = new GTMail;
@@ -127,5 +125,5 @@ class OrderResponse extends Comment {
         }
         
     }
-
+    
 }

@@ -42,48 +42,9 @@ window.addEventListener('load', function() {
             
             <div class="row">
                 <div class="col-md-12 right-align">
-                    <ul class="hor-list-menu">
-
-							<?php if(Yii::app()->user->isGuest):?>
-								<li><?php echo ($_SERVER['REQUEST_URI'] != '/site/login/')?CHtml::link('Вход на сайт', Yii::app()->createUrl('/site/login/')):'<span class="active">Вход на сайт</span>';?></li> 
-							<?php else:?>
-                            
-                            <li><?php echo CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER)? '/cabinet':'/user'));?></li>
-                            <?php if(Yii::app()->user->role == User::ROLE_PARTNER):?>
-                                <li><?php echo CHtml::link('Кабинет', Yii::app()->createUrl('/webmaster'), array('class'=>''));?></li>
-                            <?php endif;?>
-                                
-                            <?php if(Yii::app()->user->role == User::ROLE_BUYER || Yii::app()->user->role == User::ROLE_PARTNER):?>
-                                <li>
-                                        <?php 
-                                            // найдем баланс пользователя. если это не вебмастер:
-                                            if(Yii::app()->user->role != User::ROLE_PARTNER) {
-                                                $balance = Yii::app()->user->balance;
-                                                $transactionPage = '/cabinet/transactions';
-                                            } else {
-                                                $currentUser = User::model()->findByPk(Yii::app()->user->id);
-        
-                                                // если это вебмастер, кешируем баланс, рассчитанный из транзакций вебмастера
-                                                if($cachedBalance = Yii::app()->cache->get('webmaster_' . Yii::app()->user->id . '_balance')) {
-                                                    $balance = $cachedBalance;
-                                                } else {
-                                                    $balance = $currentUser->calculateWebmasterBalance();
-                                                    Yii::app()->cache->set('webmaster_' . Yii::app()->user->id . '_balance', $balance, 3600);
-                                                }
-                                                $transactionPage = '/webmaster/transaction/index';
-                                            }
-                                        ?>
-                                        Баланс: <?php echo CHtml::link($balance, Yii::app()->createUrl($transactionPage));?> руб.
-                                        <?php if(Yii::app()->user->campaignsModeratedCount > 0):?>
-                                            <?php echo CHtml::link("<span class='glyphicon glyphicon-plus'></span>", Yii::app()->createUrl('cabinet/topup'), array('title' => 'Пополнить'));?>
-                                        <?php endif;?>
-
-                                </li>  
-                            <?php endif;?>
-                                
-                            <li><?php echo CHtml::link('<span class="glyphicon glyphicon-log-out"></span>', Yii::app()->createUrl('site/logout'), array());?></li>
-                        <?php endif;?>
-                    </ul>
+                    <?php if(!Yii::app()->user->isGuest):?>
+                    
+                    <?php endif;?>
                 </div>
             </div>
             
@@ -101,10 +62,48 @@ window.addEventListener('load', function() {
                 </div>
 		
                 <?php if(Yii::app()->user->isGuest):?>
-                    <div class="col-md-4 col-sm-4">
+                    <div class="col-md-4 col-sm-4"></div>
                 <?php else:?>
-                    <div class="col-md-6 col-sm-6 center-align"></div>
-                    <div class="col-md-3 col-sm-3 center-align">  
+                        <div class="col-md-8 col-sm-8 right-align">
+                            <ul class="hor-list-menu">
+                                <li><?php echo CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER)? '/cabinet':'/user'));?></li>
+                                <?php if(Yii::app()->user->role == User::ROLE_PARTNER):?>
+                                    <li><?php echo CHtml::link('Кабинет', Yii::app()->createUrl('/webmaster'), array('class'=>''));?></li>
+                                <?php endif;?>
+
+                                <?php if(Yii::app()->user->role == User::ROLE_BUYER || Yii::app()->user->role == User::ROLE_PARTNER):?>
+                                    <li>
+                                            <?php 
+                                                // найдем баланс пользователя. если это не вебмастер:
+                                                if(Yii::app()->user->role != User::ROLE_PARTNER) {
+                                                    $balance = Yii::app()->user->balance;
+                                                    $transactionPage = '/cabinet/transactions';
+                                                } else {
+                                                    $currentUser = User::model()->findByPk(Yii::app()->user->id);
+
+                                                    // если это вебмастер, кешируем баланс, рассчитанный из транзакций вебмастера
+                                                    if($cachedBalance = Yii::app()->cache->get('webmaster_' . Yii::app()->user->id . '_balance')) {
+                                                        $balance = $cachedBalance;
+                                                    } else {
+                                                        $balance = $currentUser->calculateWebmasterBalance();
+                                                        Yii::app()->cache->set('webmaster_' . Yii::app()->user->id . '_balance', $balance, 3600);
+                                                    }
+                                                    $transactionPage = '/webmaster/transaction/index';
+                                                }
+                                            ?>
+                                            Баланс: <?php echo CHtml::link($balance, Yii::app()->createUrl($transactionPage));?> руб.
+                                            <?php if(Yii::app()->user->campaignsModeratedCount > 0):?>
+                                                <?php echo CHtml::link("<span class='glyphicon glyphicon-plus'></span>", Yii::app()->createUrl('cabinet/topup'), array('title' => 'Пополнить'));?>
+                                            <?php endif;?>
+
+                                    </li>  
+                                <?php endif;?>
+
+                                <li><?php echo CHtml::link('<span class="glyphicon glyphicon-log-out"></span>', Yii::app()->createUrl('site/logout'), array());?></li>
+
+                            </ul>
+                        </div>
+                    
                 <?php endif;?>
                 
                     <?php if(Yii::app()->user->isGuest):?>
@@ -116,14 +115,8 @@ window.addEventListener('load', function() {
                                 //'showPhone'     =>  false, // true - показать телефон, false - форму запроса города
                             ));
                         ?>
-                    <?php else:?>                    
-                        <?php
-                            // выводим виджет с формой логина
-//                            $this->widget('application.widgets.Login.LoginWidget', array(
-//                            ));
-                        ?>
                     <?php endif;?>
-                </div>
+                
             </div>
             
             <div class="row">
@@ -136,10 +129,13 @@ window.addEventListener('load', function() {
                         <li class="hidden-xs"><?php echo ($_SERVER['REQUEST_URI'] != '/question/call/')?CHtml::link('Заказать звонок', Yii::app()->createUrl('/question/call/')):'<span class="active">Заказать звонок</span>';?></li>
                         <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/docs/'))?CHtml::link("Заказать документы", Yii::app()->createUrl('question/docs'), array('class'=>'')):'<span class="active">Заказать документы</span>'; ?></li>
                         <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/services/'))?CHtml::link("Заказать услуги", Yii::app()->createUrl('question/services'), array('class'=>'')):'<span class="active">Заказать услуги</span>'; ?></li>    
-                        <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/'))?CHtml::link('Задать бесплатный вопрос юристу', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign='.Yii::app()->controller->id, array('class' => 'yellow-button arrow')):'';?></li>
                         <?php if(!stristr($_SERVER['REQUEST_URI'], '/question/create/')):?>
-                        <li class="hidden-xs">Круглосуточно</li>
+                            <?php if(Yii::app()->user->isGuest):?>
+                            <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/login/')?CHtml::link('Вход на сайт', Yii::app()->createUrl('/site/login/')):'<span class="active">Вход на сайт</span>';?></li> 
+                            <?php endif;?>
                         <?php endif;?>
+                        <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/'))?CHtml::link('Задать бесплатный вопрос юристу', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign='.Yii::app()->controller->id, array('class' => 'yellow-button arrow')):'';?></li>
+
                         <?php if(Yii::app()->user->checkAccess(User::ROLE_JURIST)):?>
                             <li>    
                                 <?php echo CHtml::ajaxLink("Кеш", Yii::app()->createUrl('site/clearCache'), array(
