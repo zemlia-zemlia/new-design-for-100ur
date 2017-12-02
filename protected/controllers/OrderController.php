@@ -163,6 +163,8 @@ class OrderController extends Controller {
         }
         
         $order->juristId = $juristId;
+        $order->status = Order::STATUS_JURIST_SELECTED;
+        
         if($order->save()) {
             $order->sendJuristNotification();
             $this->redirect(['order/view', 'id'=>$order->id]);

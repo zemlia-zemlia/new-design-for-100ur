@@ -115,6 +115,15 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                 <img src="<?php echo $response->author->getAvatarUrl();?>" alt="<?php echo CHtml::encode($response->author->name . ' ' . $response->author->lastName);?>" class="img-responsive" />
                             </div>
                         <?php endif;?>
+                    
+                    <?php if(floor((time() - strtotime($response->author->lastActivity))/60)<60):?>
+                        <div>
+                        <small>
+                            <span class="glyphicon glyphicon-flash"></span>
+                            <span class="text-success">Сейчас на сайте</span>
+                        </small>
+                        </div>
+                    <?php endif;?>
 
                 </div>
                 <div class="col-sm-10 col-xs-8">
@@ -127,12 +136,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                 <span class="label label-default"><?php echo $response->author->settings->getStatusName();?></span>
                             </small>
                             <?php endif;?>
-                            <?php if(floor((time() - strtotime($response->author->lastActivity))/60)<60):?>
-                                <small>
-                                    <span class="glyphicon glyphicon-flash"></span>
-                                    <span class="text-success">Сейчас на сайте</span>
-                                </small>
-                            <?php endif;?>
+                            
                             </p>
                         </div>
                         <div class="col-sm-6">
