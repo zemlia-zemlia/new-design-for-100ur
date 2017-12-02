@@ -174,6 +174,23 @@ class Order extends CActiveRecord {
         
         $orderLink = Yii::app()->createUrl('order/view',['id' => $this->id]);
         
+        /*  проверим, есть ли у пользователя заполненное поле autologin, если нет,
+         *  генерируем код для автоматического логина при переходе из письма
+         * если есть, вставляем существующее значение
+         * это сделано, чтобы не создавать новую строку autologin при наличии старой
+         * и дать возможность залогиниться из любого письма, содержащего актуальную строку autologin
+         */
+        $autologinString = (isset($jurist->autologin) && $jurist->autologin != '') ? $jurist->autologin : $jurist->generateAutologinString();
+
+        if(!$jurist->autologin) {
+            $jurist->autologin = $autologinString;
+            if (!$jurist->save()) {
+                Yii::log("Не удалось сохранить строку autologin пользователю " . $jurist->email . " с уведомлением об отклике на заказ " . $this->id, 'error', 'system.web.User');
+            }
+        }
+        
+        $orderLink .= "?autologin=" . $autologinString;
+        
         $mailer = new GTMail;
         $mailer->subject = CHtml::encode($jurist->name) . ", Вас выбрали исполнителем по заказу документа";
         $mailer->message = "<h1>Вас выбрали исполнителем по заказу документа</h1>

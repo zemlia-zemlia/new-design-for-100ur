@@ -102,6 +102,7 @@ $this->breadcrumbs=array(
         </em>
     </p>
     
+<?php if(Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_CLIENT):?>        
     <div class="vert-margin30 blue-block inside">
         <div class="row">
             <div class="col-sm-8 center-align">
@@ -114,6 +115,7 @@ $this->breadcrumbs=array(
             </div>
         </div>
     </div>
+<?php endif;?>
     
 
     

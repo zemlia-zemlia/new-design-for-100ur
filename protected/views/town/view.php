@@ -168,6 +168,7 @@ $this->breadcrumbs=array(
     </div>
 <?php endif;?>
 
+<?php if(Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_CLIENT):?>        
     <div class="vert-margin30 blue-block inside">
         <div class="row">
             <div class="col-sm-8 center-align">
@@ -180,6 +181,7 @@ $this->breadcrumbs=array(
             </div>
         </div>
     </div>
+<?php endif;?>
         
 <br/>
 <h3 class="header-block header-block-light-grey"><strong> На ваши вопросы отвечают: </strong></h3>

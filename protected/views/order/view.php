@@ -104,7 +104,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     ?>
 
     <?php if($response->status != Comment::STATUS_SPAM):?>
-        <div class="answer-comment" style="margin-left:<?php echo ($response->level - 1)*20;?>px;">
+        <div class="answer-comment order-response" style="margin-left:<?php echo ($response->level - 1)*20;?>px;">
             
             <div class="row">
                 <div class="col-sm-2 col-xs-4">
@@ -114,35 +114,43 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             <div class="answer-item-avatar">
                                 <img src="<?php echo $response->author->getAvatarUrl();?>" alt="<?php echo CHtml::encode($response->author->name . ' ' . $response->author->lastName);?>" class="img-responsive" />
                             </div>
-                            <?php if(floor((time() - strtotime($response->author->lastActivity))/60)<60):?>
-                                <div class="center-align">
-                                    <small>
-                                        <span class="glyphicon glyphicon-flash"></span>
-                                        <span class="text-success">Сейчас на сайте</span>
-                                    </small>
-                                </div>
-                            <?php endif;?>
-                        <div class="center-align lead">
-                            <span class="label label-success">
-                                <?php echo $response->price;?> руб. 
-                            </span>
-                        </div>
                         <?php endif;?>
 
                 </div>
                 <div class="col-sm-10 col-xs-8">
-                    <p>
-                    <?php echo CHtml::link(CHtml::encode($response->author->name . ' ' . $response->author->lastName), Yii::app()->createUrl('user/view', ['id' => $response->author->id]));?>
-                    <?php if($response->author->settings->isVerified):?>
-                    <small>
-                        <span class="label label-default"><?php echo $response->author->settings->getStatusName();?></span>
-                    </small>
-                    <?php endif;?>
-                    </p>
+                    <div class="row answer-item-author-block vert-margin20">
+                        <div class="col-sm-6">
+                            <p>
+                            <?php echo CHtml::link(CHtml::encode($response->author->name . ' ' . $response->author->lastName), Yii::app()->createUrl('user/view', ['id' => $response->author->id]));?>
+                            <?php if($response->author->settings->isVerified):?>
+                            <small>
+                                <span class="label label-default"><?php echo $response->author->settings->getStatusName();?></span>
+                            </small>
+                            <?php endif;?>
+                            <?php if(floor((time() - strtotime($response->author->lastActivity))/60)<60):?>
+                                <small>
+                                    <span class="glyphicon glyphicon-flash"></span>
+                                    <span class="text-success">Сейчас на сайте</span>
+                                </small>
+                            <?php endif;?>
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="right-align order-price-tag">
+                                    выполню заказ за
+                                    <span class="label label-success">
+                                        <?php echo $response->price;?> руб. 
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+
                     <p>
                         <?php echo CHtml::encode($response->text);?>
                     </p>
-                    
+                                       
                     <?php foreach($response->comments as $comment):?>
                 <div class="answer-comment" style="margin-left:<?php echo ($comment->level - 1)*20;?>px;">
                     
@@ -183,6 +191,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     <?php endif;?>
                 </div>
             <?php endforeach;?>
+
                 </div>
             </div>
             
@@ -196,22 +205,27 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <a class="btn btn-xs btn-default" role="button" data-toggle="collapse" href="#collapse-response-<?php echo $response->id;?>" aria-expanded="false">
                 Ответить
               </a>
-            </div>    
-            <div class="collapse child-comment-container" id="collapse-response-<?php echo $response->id;?>">
-                <strong>Ваш ответ:</strong>
-                <?php 
-                    $this->renderPartial('application.views.comment._form', array(
-                        'type'      => Comment::TYPE_RESPONSE,
-                        'objectId'  => $response->id,
-                        'model'     => $commentModel,
-                        'hideRating'=> true,
-                        'parentId'  => 0,
-                    ));
-                ?>
+            </div>   
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <div class="collapse child-comment-container" id="collapse-response-<?php echo $response->id;?>">
+                        <strong>Ваш ответ:</strong>
+                        <?php 
+                            $this->renderPartial('application.views.comment._form', array(
+                                'type'      => Comment::TYPE_RESPONSE,
+                                'objectId'  => $response->id,
+                                'model'     => $commentModel,
+                                'hideRating'=> true,
+                                'parentId'  => 0,
+                            ));
+                        ?>
+                    </div>
+                </div>
             </div>
             <?php endif;?>
         </div>
     <?php endif;?>
+<hr />
 <?php endforeach;?>
 
 

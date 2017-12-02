@@ -978,3 +978,11 @@ ul.hor-list-menu a.yellow-button,
     background-color:#67adb0;
     color:#fff;
 }
+
+.order-price-tag {
+    font-size:18px;
+}
+
+.order-response {
+    border:none;
+}
