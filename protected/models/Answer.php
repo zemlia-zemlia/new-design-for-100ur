@@ -47,7 +47,9 @@ class Answer extends CActiveRecord {
             array('questionId', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('questionId, authorId, status', 'numerical', 'integerOnly' => true),
             array('videoLink', 'url'),
-            array('answerText', 'required', 'except' => 'addVideo'),
+            array('answerText', 'required', 'except' => 'addVideo', 'message' => 'Не введен текст ответа'),
+            array('answerText', 'length', 'except' => 'addVideo', 'min' => 100, 'tooShort' => 'Текст ответа слишком короткий (минимум 100 символов)'),
+            array('answerText', 'validateText', 'except' => 'addVideo', 'message' => 'Текст ответа содержит запрещенные слова (например, Email адреса)'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, questionId, answerText, authorId', 'safe', 'on' => 'search'),
@@ -164,6 +166,18 @@ class Answer extends CActiveRecord {
         }
 
         return $videoCode;
+    }
+    
+    /**
+     * Валидатор, проверяющий текст ответа на наличие запрещенных слов
+     * @param type $attribute
+     * @param type $params
+     */
+    public function validateText($attribute,$params) {
+        if(preg_match("/([a-zA-Z0-9\-\.]+)@([a-zA-Z0-9\-\.]+)/u", $this->$attribute)) {
+            $this->addError($attribute, 'Текст ответа содержит недопустимые символы');
+        }
+        
     }
 
 }

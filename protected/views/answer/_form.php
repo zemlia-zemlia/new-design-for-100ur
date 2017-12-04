@@ -11,7 +11,7 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<?php echo $form->errorSummary($model, "Исправьте ошибки"); ?>
+	<?php// echo $form->errorSummary($model, "Исправьте ошибки"); ?>
 
 	<div class="form-group">
             <?php echo $form->textArea($model,'answerText',array('rows'=>6, 'class'=>'form-control')); ?>
