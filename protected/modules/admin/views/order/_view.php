@@ -1,8 +1,35 @@
+<?php
+// раскрашиваем бейджи статусов
+switch ($data->status) {
+    case Order::STATUS_NEW:
+        $statusClass = 'label-default';
+        break;
+    case Order::STATUS_CONFIRMED:
+        $statusClass = 'label-warning';
+        break;
+    case Order::STATUS_JURIST_SELECTED:
+        $statusClass = 'label-inverse';
+        break;
+    case Order::STATUS_JURIST_CONFIRMED:
+        $statusClass = 'label-inverse';
+        break;
+    case Order::STATUS_DONE:
+        $statusClass = 'label-info';
+        break;
+    case Order::STATUS_REWORK:
+        $statusClass = 'label-info';
+        break;
+    case Order::STATUS_CLOSED:
+        $statusClass = 'label-success';
+        break;
+}
+?>
+
 <tr>
 	<td>
             <?php echo CHtml::link($data->id, Yii::app()->createUrl('admin/order/view', ['id' => $data->id]));?>
             <br />
-            <span class="label label-warning">
+            <span class="label <?php echo $statusClass;?>">
                 <?php echo $data->getStatusName();?>
             </span>
 	</td>
@@ -21,7 +48,6 @@
             <?php echo ($data->jurist) ? $data->jurist->getShortName() : 'нет';?> 
 	</td>
     <td>
-        <?php echo $data->getStatusName();?>
         <p>
         <span class="glyphicon glyphicon-comment"></span> <?php echo $data->responsesCount;?>
         </p>
