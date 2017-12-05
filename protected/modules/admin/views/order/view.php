@@ -41,6 +41,18 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         </td>
     </tr>
     <?php endif;?>
+    <?php if($order->jurist):?>
+    <tr>
+        <td>
+            <strong>Юрист</strong>
+        </td>
+        <td>
+            <p>
+            <?php echo CHtml::link(CHtml::encode(trim($order->jurist->name . ' ' . $order->jurist->name2 . ' ' .$order->jurist->lastName)), Yii::app()->createUrl('admin/user/view', ['id' => $order->juristId]));?>
+            </p>
+        </td>
+    </tr>
+    <?php endif;?>
     <tr>
         <td>
             <strong>Вид документа</strong>

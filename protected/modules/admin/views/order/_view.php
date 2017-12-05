@@ -1,9 +1,13 @@
 <tr>
 	<td>
-		Номер заказа #ID + статус
+            <?php echo CHtml::link($data->id, Yii::app()->createUrl('admin/order/view', ['id' => $data->id]));?>
+            <br />
+            <span class="label label-warning">
+                <?php echo $data->getStatusName();?>
+            </span>
 	</td>
 	<td>
-		Город 
+            <?php echo $data->author->townName;?> 
 	</td>
 
     <td>
@@ -12,11 +16,9 @@
     <td>
         <?php echo $data->docType->getClassName();?>.
         <?php echo $data->docType->name;?>
-        <?php echo CHtml::link('Подробнее', Yii::app()->createUrl('admin/order/view', ['id' => $data->id]));?>
-
     </td>
 	<td>
-		Исполнитель заказа 
+            <?php echo ($data->jurist) ? $data->jurist->getShortName() : 'нет';?> 
 	</td>
     <td>
         <?php echo $data->getStatusName();?>

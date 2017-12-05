@@ -7,7 +7,7 @@ class DispatchLeadsCommand extends CConsoleCommand
         $criteria = new CDbCriteria;
             
         $criteria->addColumnCondition(array('leadStatus'=>Lead100::LEAD_STATUS_DEFAULT));
-        $criteria->addColumnCondition(array('question_date>'=>date('Y-m-d')));
+        $criteria->addColumnCondition('question_date>NOW()-INTERVAL 17 HOUR');
         $criteria->with = array('town', 'town.region');
 
         // сколько лидов обрабатывать за раз
