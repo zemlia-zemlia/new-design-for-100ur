@@ -20,7 +20,11 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 ?>
 
 <div  class="vert-margin20">
-<h1>Кабинет вебмастера. Мои лиды   <?php echo CHtml::link('Добавить лид вручную', Yii::app()->createUrl('/webmaster/lead/create'), array('class' => 'btn btn-primary'));?></h1>
+<h1>Кабинет вебмастера. Мои лиды   
+    <?php if(sizeof(Leadsource100::getSourcesArrayByUser(Yii::app()->user->id))>0):?>
+    <?php echo CHtml::link('Добавить лид вручную', Yii::app()->createUrl('/webmaster/lead/create'), array('class' => 'btn btn-primary'));?>
+    <?php endif;?>
+</h1>
 </div>
 
 <table class="table table-bordered table-hover table-striped">

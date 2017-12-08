@@ -58,6 +58,12 @@ class LeadController extends Controller {
      */
     public function actionCreate() {
         $model = new Lead100;
+
+        // Проверим, есть ли источники у текущего пользователя. Если нет, перенаправим на создание источника
+        $mySources = Leadsource100::getSourcesArrayByUser(Yii::app()->user->id);
+        if(sizeof($mySources) == 0) {
+            $this->redirect(['source/create']);
+        }
        
         if($_GET['sourceId']) {
             $model->sourceId = (int)$_GET['sourceId'];
