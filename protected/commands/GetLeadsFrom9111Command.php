@@ -203,6 +203,9 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
                 $lead->phone = $phone;
                 //$lead->email = $email;
                 $lead->question = trim($question);
+                if($lead->question == '') {
+                    $lead->question = 'Клиент просит перезвонить ему';
+                }  
                 $lead->sourceId = $this->folders[$folderAlias]['sourceId']; // id нужного источника лидов
                 $lead->buyPrice = $this->folders[$folderAlias]['buyPrice']; // цена покупки
                 $lead->townId = $this->folders[$folderAlias]['townId']; // id города
@@ -211,7 +214,7 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
                 if (!$lead->save()) {
                     echo $lead->phone;
                     //print_r($lead->errors);
-                    Yii::log($lead->getError('question') . ': ' . $lead->name, 'error', 'system.web');
+                    Yii::log("Ошибка парсинга лида из почты 9111: " . $lead->name . ': ' . $lead->phone, 'error', 'system.web');
                 }
             }
         }
