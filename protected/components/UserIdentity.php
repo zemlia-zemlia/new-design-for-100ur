@@ -59,6 +59,10 @@ class UserIdentity extends CUserIdentity
                 // если не нашли пользователя
                 return $this->errorCode=self::ERROR_AUTOLOGIN_WRONG;
             }
+            // если пользователь неактивен
+            if($user->active100!=1) {
+                return $this->errorCode=self::ERROR_USER_INACTIVE;
+            }
             
             $this->_id=$user->id;
             $this->username=$user->email;
