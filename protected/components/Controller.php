@@ -26,6 +26,12 @@ class Controller extends CController
          */
         public function init()
         {
+            // если пользователь неактивен, разлогиниваем его
+            if(!Yii::app()->user->isGuest && Yii::app()->user->active100 == 0) {
+                Yii::app()->user->logout();
+                CController::redirect(Yii::app()->homeUrl);
+            }
+            
             // редирект на https версию, если зашли по http и это не локальный хост
             if ( !Yii::app()->getRequest()->isSecureConnection && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') {
                 # Redirect to the secure version of the page.
