@@ -5,6 +5,14 @@ $this->setPageTitle("Заказы документов" . '. ' . Yii::app()->nam
 <h1>Заказы документов</h1>
 
 <table class="table table-bordered">
+    <tr>
+        <th>номер</th>
+        <th>город</th>
+        <th>дата</th>
+        <th>тип</th>
+        <th>юрист</th>
+        <th>комм.</th>
+    </tr>
     <?php $this->widget('zii.widgets.CListView', array(
             'dataProvider'  =>  $ordersDataProvider,
             'itemView'      =>  '_view',

@@ -8,10 +8,10 @@ switch ($data->status) {
         $statusClass = 'label-warning';
         break;
     case Order::STATUS_JURIST_SELECTED:
-        $statusClass = 'label-inverse';
+        $statusClass = 'label-default';
         break;
     case Order::STATUS_JURIST_CONFIRMED:
-        $statusClass = 'label-inverse';
+        $statusClass = 'label-default';
         break;
     case Order::STATUS_DONE:
         $statusClass = 'label-info';

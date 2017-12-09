@@ -12,6 +12,7 @@
  * @property string $description
  * @property integer $userId
  * @property integer $juristId
+ * @property string $term
  */
 class Order extends CActiveRecord {
     
@@ -19,10 +20,13 @@ class Order extends CActiveRecord {
     const STATUS_NEW = 0; // новый (черновик)
     const STATUS_CONFIRMED = 6; // подтвержден (активный)
     const STATUS_JURIST_SELECTED = 1; // выбран юрист
-    const STATUS_JURIST_CONFIRMED = 2; // юрист подтвердил принятие заказа
+    const STATUS_JURIST_CONFIRMED = 2; // в работе. юрист подтвердил принятие заказа
     const STATUS_DONE = 3; // выполнен
     const STATUS_REWORK = 4; // на доработке
     const STATUS_CLOSED = 5; // закрыт
+    const STATUS_ARCHIVE = 7; // архив, брошенный заказ
+    
+    public $termDays; // количество дней на исполнение (используется в форме выбора юриста)
 
     /**
      * @return string the associated database table name
@@ -39,7 +43,8 @@ class Order extends CActiveRecord {
         // will receive user inputs.
         return array(
             array('itemType, description, userId', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
-            array('status, itemType, price, userId, juristId', 'numerical', 'integerOnly' => true),
+            array('status, itemType, price, userId, juristId, termDays', 'numerical', 'integerOnly' => true, 'message' => 'Поле {attribute} должно быть целым числом'),
+            array('term', 'date', 'format' => 'yyyy-mm-dd'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, status, createDate, itemType, price, description, userId', 'safe', 'on' => 'search'),
@@ -53,10 +58,12 @@ class Order extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'author'    => array(self::BELONGS_TO, 'User', 'userId'),
-            'jurist'    => array(self::BELONGS_TO, 'User', 'juristId'),
-            'docType'   => array(self::BELONGS_TO, 'DocType', 'itemType'),
-            'responses'  => array(self::HAS_MANY, 'OrderResponse', 'objectId', 'condition' => 'responses.type=' . Comment::TYPE_RESPONSE, 'order' => 'responses.id ASC'),
+            'author'        => array(self::BELONGS_TO, 'User', 'userId'),
+            'jurist'        => array(self::BELONGS_TO, 'User', 'juristId'),
+            'docType'       => array(self::BELONGS_TO, 'DocType', 'itemType'),
+            'comments'      =>  array(self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_ORDER, 'order' => 'comments.root, comments.lft'),
+            'commentsCount' =>  array(self::STAT, 'Comment', 'objectId', 'condition' => 't.type=' . Comment::TYPE_ORDER, 'order' => 't.root, t.lft'),
+            'responses'     => array(self::HAS_MANY, 'OrderResponse', 'objectId', 'condition' => 'responses.type=' . Comment::TYPE_RESPONSE, 'order' => 'responses.id ASC'),
             'responsesCount'  => array(self::STAT, 'OrderResponse', 'objectId', 'condition' => 't.type=' . Comment::TYPE_RESPONSE, 'order' => 't.root, t.lft'),
         );
     }
@@ -74,6 +81,8 @@ class Order extends CActiveRecord {
             'description'   => 'Описание',
             'userId'        => 'Клиент',
             'author'        => 'Клиент',
+            'term'          => 'Срок',
+            'termDays'      => 'Срок в днях',
         );
     }
     
@@ -85,11 +94,27 @@ class Order extends CActiveRecord {
         return array(
             self::STATUS_NEW                => 'новый (черновик)',
             self::STATUS_JURIST_SELECTED    => 'выбран юрист',
-            self::STATUS_JURIST_CONFIRMED   => 'юрист подтвердил принятие заказа',
+            self::STATUS_JURIST_CONFIRMED   => 'в работе',
             self::STATUS_DONE               => 'выполнен',
             self::STATUS_REWORK             => 'на доработке',
             self::STATUS_CLOSED             => 'закрыт',
             self::STATUS_CONFIRMED          => 'подтвержден',
+        );
+    }
+    
+    /**
+     * возвращает массив, ключами которого являются коды статусов, а значениями - описания статусов
+     * @return Array массив статусов
+     */
+    static public function getStatusesNotes() {
+        return array(
+            self::STATUS_NEW                => '',
+            self::STATUS_JURIST_SELECTED    => 'Пожалуйста, подождите, пока юрист подтвердит принятие заказа',
+            self::STATUS_JURIST_CONFIRMED   => 'Юрист работает над Вашим документом. Вы получите уведомление на Email о готовности документа',
+            self::STATUS_DONE               => 'Юрист подготовил Ваш документ, пожалуйста, проверьте его',
+            self::STATUS_REWORK             => 'Заказ отправлен на доработку. Вы получите уведомление на Email о готовности документа',
+            self::STATUS_CLOSED             => '',
+            self::STATUS_CONFIRMED          => 'Ваш заказ открыт, ожидайте предложений услуг от юристов',
         );
     }
     

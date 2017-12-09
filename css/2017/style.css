@@ -319,6 +319,14 @@ hr {
     background-color:#eee;
 }
 
+.green-panel {
+    background-color:#ade6cc;
+}
+
+.rounded {
+    border-radius:10px;
+    box-shadow: 2px 2px 3px #eee;
+}
 
 .header-block {
     margin-bottom:0;

@@ -33,12 +33,12 @@ class OrderController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow all users 
-                'actions' => array('index'),
+                'actions' => array('index', 'changeStatus'),
                 'users' => array('@'),
                 'expression'    =>  "Yii::app()->user->checkAccess(User::ROLE_JURIST)",
             ),
             array('allow',
-                'actions' => array('setJurist'),
+                'actions' => array('setJurist', 'cancel', 'update'),
                 'users' => array('@'),
                 'expression'    =>  "Yii::app()->user->checkAccess(User::ROLE_CLIENT)",
             ),
@@ -91,6 +91,9 @@ class OrderController extends Controller {
         $commentModel = new Comment;
         $orderResponse = new OrderResponse;
         
+        // модель для комментария к заказу
+        $orderComment = new Comment;
+        
         // проверка прав доступа - заявку может видить ее автор, юристы, админы
         
         if(!(Yii::app()->user->checkAccess(User::ROLE_JURIST) || Yii::app()->user->id == $order->userId)) {
@@ -116,7 +119,7 @@ class OrderController extends Controller {
                 $this->redirect(array('/order/view', 'id' => $order->id));
             }
         }
-        
+                
         // Обработка отклика юриста
         if (isset($_POST['OrderResponse'])) {
             // отправлен ответ, сохраним его
@@ -135,6 +138,7 @@ class OrderController extends Controller {
             'order'         =>  $order,
             'commentModel'  =>  $commentModel,
             'orderResponse' =>  $orderResponse,
+            'orderComment'  =>  $orderComment,
         ]);
     }
     
@@ -143,6 +147,7 @@ class OrderController extends Controller {
      */
     public function actionSetJurist($id)
     {
+        $this->layout = '//frontend/smart';
         $order = Order::model()->findByPk($id);
         
         if(!$order) {
@@ -162,16 +167,137 @@ class OrderController extends Controller {
             throw new CHttpException(404, 'Юрист не найден');
         }
         
-        $order->juristId = $juristId;
-        $order->status = Order::STATUS_JURIST_SELECTED;
+        $order->price = (int)$_GET['price'];
         
-        if($order->save()) {
-            $order->sendJuristNotification();
-            $this->redirect(['order/view', 'id'=>$order->id]);
-        } else {
-            throw new CHttpException(500, 'Не удалось назначить заказу юриста. Внутренняя ошибка.');
+        if (isset($_POST['Order'])) {
+            $order->attributes = $_POST['Order'];
+            $order->juristId = $juristId;
+            $order->status = Order::STATUS_JURIST_SELECTED;
+            
+            if((int)$order->termDays>0) {
+                $order->term = date('Y-m-d', time() + $order->termDays*86400);
+            }
+
+            if($order->save()) {
+                $order->sendJuristNotification();
+                $this->redirect(['order/view', 'id'=>$order->id]);
+            } 
         }
         
+        $this->render('setJurist', [
+            'order'     =>  $order,
+            'jurist'    =>  $jurist,
+        ]);
+        
+    }
+    
+    /**
+     * Изменение юристом статуса заказа
+     * @param integer $id - ID заказа
+     */
+    public function actionChangeStatus($id)
+    {
+        $order = Order::model()->findByPk($id);
+        
+        if(!$order) {
+            throw new CHttpException(404, 'Заказ не найден');
+        }
+        
+        if($order->juristId != Yii::app()->user->id) {
+            throw new CHttpException(403, 'Нельзя менять статус заказа, назначенного другому юристу');
+        }
+        
+        $action = $_GET['action'];
+        
+        if($action == 'confirm') {
+            $order->status = Order::STATUS_JURIST_CONFIRMED;
+        } elseif($action == 'decline') {
+            // если юрист отказывается от заказа, заказ отправляется в статус Подтвержден
+            $order->status = Order::STATUS_CONFIRMED;
+            $order->juristId = 0;
+            $order->price = 0;
+            $order->term = null;
+        } else {
+            throw new CHttpException(400, 'Вы пытаетесь присвоить заказу неизвестный статус');
+        }
+        
+        if($order->save()) {
+            $this->redirect(['order/view', 'id' => $order->id]);
+        } else {
+            throw new CHttpException(500, 'Ошибка, не удалось сохранить заказ');
+        }
+    }
+    
+    
+    /**
+     * Отмена клиентом заказа, отправленного юристу.
+     * Переводит заказ в статус Подтвержден
+     */
+    public function actionCancel($id)
+    {
+        $order = Order::model()->findByPk($id);
+        
+        if(!$order) {
+            throw new CHttpException(404, 'Заказ не найден');
+        }
+        
+        if($order->userId != Yii::app()->user->id) {
+            throw new CHttpException(403, 'Нельзя менять статус чужого заказа');
+        }
+        
+        if($order->status != Order::STATUS_JURIST_SELECTED) {
+            throw new CHttpException(403, 'Нельзя менять статус заказа, находящегося в текущем статусе');
+        }
+        
+        $order->status = Order::STATUS_CONFIRMED;
+        $order->juristId = 0;
+        $order->price = 0;
+        $order->term = null;
+        
+        if($order->save()) {
+            $this->redirect(['order/view', 'id' => $order->id]);
+        } else {
+            throw new CHttpException(500, 'Ошибка, не удалось сохранить заказ');
+        }
+    }
+    
+    /**
+     * Редактирование параметров заказа клиентом
+     * @param type $id
+     */
+    public function actionUpdate($id) 
+    {
+        $this->layout = '//frontend/smart';
+        
+        $order = Order::model()->findByPk($id);
+        
+        if(!$order) {
+            throw new CHttpException(404, 'Заказ не найден');
+        }
+        
+        if($order->userId != Yii::app()->user->id) {
+            throw new CHttpException(403, 'Нельзя менять чужой заказ');
+        }
+        
+        // подсчитаем, сколько дней осталось до срока исполнения
+        $order->termDays = floor((strtotime($order->term) - time())/86400);
+        
+        if (isset($_POST['Order'])) {
+            $order->attributes = $_POST['Order'];
+                        
+            if((int)$order->termDays>0) {
+                $order->term = date('Y-m-d', time() + $order->termDays*86400);
+            }
+
+            if($order->save()) {
+                $order->sendJuristNotification();
+                $this->redirect(['order/view', 'id'=>$order->id]);
+            } 
+        }
+        
+        return $this->render('update', [
+            'order' =>  $order,
+        ]);
     }
 
 }

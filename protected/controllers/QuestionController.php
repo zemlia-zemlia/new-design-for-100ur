@@ -790,6 +790,11 @@ class QuestionController extends Controller {
                     $order->userId = Yii::app()->user->id;
                 }
 
+                // если клиент указал конкретного юриста, ставим статус заявки Выбран юрист
+                if($order->jurist) {
+                    $order->status = Order::STATUS_JURIST_SELECTED;
+                }
+                
                 if ($order->save()) {
                     if($order->juristId) {
                         $order->sendJuristNotification();

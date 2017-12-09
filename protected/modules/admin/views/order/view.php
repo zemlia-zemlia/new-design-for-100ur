@@ -53,6 +53,27 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         </td>
     </tr>
     <?php endif;?>
+    <?php if($order->term):?>
+    <tr>
+        <td>
+            <strong>Срок</strong>
+        </td>
+        <td>
+            <?php echo CustomFuncs::invertDate($order->term);?>
+        </td>
+    </tr>
+    <?php endif;?>
+    
+    <?php if($order->price):?>
+    <tr>
+        <td>
+            <strong>Стоимость</strong>
+        </td>
+        <td>
+            <?php echo $order->price;?> руб.
+        </td>
+    </tr>
+    <?php endif;?>
     <tr>
         <td>
             <strong>Вид документа</strong>
