@@ -10,6 +10,7 @@
 <?php 
     
     $townName = ($model->townId)?Town::getName($model->townId):'';
+    //CustomFuncs::printr($model->attributes);
 ?>
 
 <div class="form-group">
@@ -69,7 +70,7 @@
     
 <div class="form-group">
     <?php echo $form->labelEx($model,'sourceId'); ?><br/>
-    <?php echo $form->dropDownList($model, 'sourceId', array(0=>'Все') + Leadsource100::getSourcesArray(true), array(
+    <?php echo $form->dropDownList($model, 'sourceId', array(''=>'Все') + Leadsource100::getSourcesArray(true), array(
                     'class'         =>  'form-control',
     )); ?>
 </div>

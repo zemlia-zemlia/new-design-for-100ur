@@ -186,6 +186,7 @@ class LeadController extends Controller {
     public function actionIndex() {
 
         $searchModel = new Lead100;
+        $searchModel->type='';
 
         $criteria = new CDbCriteria;
 

@@ -97,7 +97,7 @@ class Leadsource100 extends CActiveRecord {
         //CustomFuncs::printr($attributes);
         $sources = self::model()->cache(3600)->findAllByAttributes($attributes);
 
-        $sourcesArray = array(null => 'Нет');
+        $sourcesArray = array(0 => 'Нет');
         foreach ($sources as $source) {
             $sourcesArray[$source->id] = $source->name;
         }
