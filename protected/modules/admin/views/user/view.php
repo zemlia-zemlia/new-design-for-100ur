@@ -109,6 +109,24 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         </div>
         
         
+        <?php if($model->role == User::ROLE_PARTNER):?>
+            <div class="vert-margin30">
+            <h2>Лиды вебмастера</h2>
+            
+            <?php
+                $this->widget('zii.widgets.CListView', array(
+                    'dataProvider' => $leadsDataProvider,
+                    'itemView' => 'application.modules.admin.views.lead._view',
+                    'emptyText' => 'Не найдено ни одного лида',
+                    'summaryText' => 'Показаны лиды с {start} до {end}, всего {count}',
+                    'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
+                ));
+            ?>
+            </div>
+        <hr />
+        <?php endif;?>
+        
+        
         <?php if($model->role == User::ROLE_BUYER && $model->campaigns):?>
             <h2>Кампании</h2>
             <table class="table table-bordered">

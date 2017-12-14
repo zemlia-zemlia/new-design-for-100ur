@@ -97,6 +97,22 @@ class UserController extends Controller {
                     'pageSize' => 20,
                 ),
             ));
+            
+            $mySources = $model->sources;
+            $mySourcesIds = [];
+            foreach ($mySources as $source) {
+                $mySourcesIds[] = $source->id;
+            }
+            
+            $leadsCriteria = new CDbCriteria();
+            $leadsCriteria->order = 'id DESC';
+            $leadsCriteria->addInCondition('sourceId', $mySourcesIds);
+            $leadsDataProvider = new CActiveDataProvider('Lead100', array(
+                'criteria' => $leadsCriteria,
+                'pagination' => array(
+                    'pageSize' => 20,
+                ),
+            ));
         }
 
         // если был отправлен комментарий
@@ -125,11 +141,12 @@ class UserController extends Controller {
 
         $this->render('view', array(
             'transactionsDataProvider' => $transactionsDataProvider,
-            'model' => $model,
-            'leadsStats' => $leadsStats,
-            'searchModel' => $leadSearchModel,
-            'commentModel' => $commentModel,
+            'model'         => $model,
+            'leadsStats'    => $leadsStats,
+            'searchModel'   => $leadSearchModel,
+            'commentModel'  => $commentModel,
             'partnerTransactionsDataProvider'   =>  $partnerTransactionsDataProvider,
+            'leadsDataProvider'                 =>  $leadsDataProvider,
         ));
     }
 
