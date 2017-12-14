@@ -59,7 +59,7 @@ switch ($data->leadStatus) {
 			<?php echo CHtml::encode($data->phone); ?> &nbsp;
 			
 			<span class="glyphicon glyphicon-user"></span>    
-            <?php echo CHtml::link(CHtml::encode($data->name), array('view', 'id'=>$data->id)); ?> 
+            <?php echo CHtml::link(CHtml::encode($data->name), array('/admin/lead/view', 'id'=>$data->id)); ?> 
 		
         </p>
 		
