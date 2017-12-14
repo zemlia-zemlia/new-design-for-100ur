@@ -240,7 +240,7 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
                 if(!$lead->save()) {
                     //echo $lead->phone;
                     //print_r($lead->errors);
-                    Yii::log($lead->getError('question') . ': ' .$lead->name, 'error', 'system.web');
+                    Yii::log('Ошибка парсинга лида из папки ящика ' . $folderAlias . ' : ' . $lead->getError('question') . ': ' .$lead->name, 'error', 'system.web');
                 }
 
 
