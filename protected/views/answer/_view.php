@@ -5,11 +5,10 @@
 
 <?php $videoCode = $data->getVideoCode();?>
 <?php if($data->status!=Answer::STATUS_SPAM && !is_null($data->author) && $data->author->role == User::ROLE_JURIST):?>
-<div class=" ">
-    <div class=''>
+
 <div class='answer-item'>
     
-    <div class="container-fluid">
+    <div class="">
         <div class="row">
             <div class="col-sm-2 col-xs-4">
                 <?php if($videoCode):?>
@@ -18,7 +17,9 @@
                 
                     <?php if($data->author):?>
                         <div class="answer-item-avatar">
+                            <a href="<?php echo Yii::app()->createUrl('user/view', ['id' => $data->author->id]);?>"> 
                             <img src="<?php echo $data->author->getAvatarUrl();?>" alt="<?php echo CHtml::encode($data->author->name . ' ' . $data->author->lastName);?>" class="img-responsive" />
+                            </a>
                         </div>
                         <?php if(floor((time() - strtotime($data->author->lastActivity))/60)<60):?>
                             <div class="center-align"><small><span class="label label-success">Сейчас на сайте</span></small></div>
@@ -126,7 +127,7 @@
                                 
                             <?php if($showKarmaLink === true):?>   
                             <span id="answer-karma-<?php echo $data->id;?>">    
-                                <?php echo CHtml::link("<span class='glyphicon glyphicon-thumbs-up'></span> Отметить как полезный!", Yii::app()->createUrl('user/karmaPlus'), array('class'=>'link-karma-plus btn btn-warning btn-xs', 'data-id'=>$data->id));?>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-thumbs-up'></span> Полезный ответ", Yii::app()->createUrl('user/karmaPlus'), array('class'=>'link-karma-plus btn btn-warning btn-xs', 'data-id'=>$data->id));?>
                             </span>
                             <?php endif;?>
 							
@@ -218,6 +219,4 @@
 
 
     </div>
-</div> 
-</div>
 <?php endif;?>

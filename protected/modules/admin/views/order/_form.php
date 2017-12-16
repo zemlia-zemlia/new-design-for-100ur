@@ -15,48 +15,29 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
-	<div class="row">
+	<div class="form-group">
 		<?php echo $form->labelEx($model,'status'); ?>
-		<?php echo $form->textField($model,'status'); ?>
+		<?php echo $form->dropDownList($model,'status', Order::getStatusesArray(), ['class'=>'form-control']); ?>
 		<?php echo $form->error($model,'status'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'createDate'); ?>
-		<?php echo $form->textField($model,'createDate'); ?>
-		<?php echo $form->error($model,'createDate'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'itemType'); ?>
-		<?php echo $form->textField($model,'itemType'); ?>
-		<?php echo $form->error($model,'itemType'); ?>
-	</div>
-
-	<div class="row">
+	<div class="form-group">
 		<?php echo $form->labelEx($model,'price'); ?>
-		<?php echo $form->textField($model,'price'); ?>
+		<?php echo $form->textField($model,'price', ['class'=>'form-control']); ?>
 		<?php echo $form->error($model,'price'); ?>
 	</div>
 
-	<div class="row">
+	<div class="form-group">
 		<?php echo $form->labelEx($model,'description'); ?>
-		<?php echo $form->textArea($model,'description',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->textArea($model,'description', ['rows'=>6, 'class'=>'form-control']); ?>
 		<?php echo $form->error($model,'description'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'userId'); ?>
-		<?php echo $form->textField($model,'userId'); ?>
-		<?php echo $form->error($model,'userId'); ?>
-	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+	<div class="form-group">
+		<?php echo CHtml::submitButton('Сохранить', ['class' => 'btn btn-primary']); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

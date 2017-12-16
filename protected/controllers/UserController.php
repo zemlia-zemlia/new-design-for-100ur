@@ -29,6 +29,11 @@ class UserController extends Controller {
                 'actions' => array('update', 'profile', 'changePassword', 'updateAvatar', 'invites', 'deleteAvatar', 'clearInfo', 'requestConfirmation', 'karmaPlus', 'stats', 'sendAnswerNotification'),
                 'users' => array('@'),
             ),
+            array('allow',
+                'actions'       =>  ['feed'],
+                'users'         => array('@'),
+                'expression'    =>  'Yii::app()->user->role == User::ROLE_JURIST',
+            ),
             array('deny', // deny all users
                 'users' => array('*'),
             ),
@@ -714,4 +719,26 @@ class UserController extends Controller {
         ));
     }
 
+    /**
+     * Лента новостей пользователя (юриста). Содержит уведомления типа комментариев к его ответам и т.д.
+     */
+    public function actionFeed()
+    {
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        if(!$user) {
+            throw new CHttpException(404, 'Ошибка: пользователь не найден');
+        }
+        
+        $feedArray = $user->getFeed();
+        
+        $feedDataProvider = new CArrayDataProvider($feedArray, [
+            'pagination'    =>  [
+                'pageSize'  =>  20,
+            ]
+        ]);
+        
+        $this->render('feed', [
+            'feedDataProvider'  =>  $feedDataProvider,
+            ]);
+    }
 }

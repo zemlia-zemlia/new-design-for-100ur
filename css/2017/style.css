@@ -86,6 +86,9 @@ hr {
     color:#ff0000;
 }
 
+.green {
+    color:#51b68a;
+}
 #header {
     padding:10px 0 5px 0;
 }
@@ -511,6 +514,11 @@ hr {
     padding:10px 0 30px;
 }
 
+.answer-item .row > div.col-xs-8,
+.answer-item-author > div.col-xs-8 {
+    padding-left:0px;    
+}
+
 .answer-item-info {
     margin:6px 0;
 }
@@ -561,8 +569,7 @@ hr {
 /*  search widget */
 
 .widget-search-header {
-    border-bottom: #999 1px solid;
-    padding-bottom: 10px;
+    
 }
 
 .widget-search-header a {
@@ -891,6 +898,10 @@ ul.hor-list-menu span.active {
         display:block;
         margin:0 auto;
     }
+    
+    .doc-type-wrapper {
+        width:100%;
+    }
 }
 
 ul.hor-list-menu a.black-button {
@@ -993,4 +1004,8 @@ ul.hor-list-menu a.yellow-button,
 
 .order-response {
     border:none;
+}
+
+.jurist-top-menu {
+    text-align:center;
 }

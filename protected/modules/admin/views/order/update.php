@@ -1,21 +1,21 @@
 <?php
 /* @var $this OrderController */
 /* @var $model Order */
+$this->setPageTitle("Редактирование заказа документов #" . $model->id . '. ' . Yii::app()->name);
 
 $this->breadcrumbs=array(
-	'Orders'=>array('index'),
+	'Заказы документов'=>array('index'),
 	$model->id=>array('view','id'=>$model->id),
-	'Update',
+	'Редактирование',
 );
 
-$this->menu=array(
-	array('label'=>'List Order', 'url'=>array('index')),
-	array('label'=>'Create Order', 'url'=>array('create')),
-	array('label'=>'View Order', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage Order', 'url'=>array('admin')),
-);
+$this->widget('zii.widgets.CBreadcrumbs', array(
+    'homeLink'=>CHtml::link('100 Юристов',"/admin"),
+    'separator'=>' / ',
+    'links'=>$this->breadcrumbs,
+ ));
 ?>
 
-<h1>Update Order <?php echo $model->id; ?></h1>
+<h1>Редактирование заказа документов #<?php echo $model->id; ?></h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

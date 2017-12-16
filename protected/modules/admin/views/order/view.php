@@ -15,7 +15,11 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
  ));
 ?>
 
-<h1>Заказ документов #<?php echo $order->id; ?></h1>
+<h1 class="vert-margin30">Заказ документов #<?php echo $order->id; ?>
+    <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+        <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/order/update', ['id' => $order->id]), ['class' => 'btn btn-primary']);?>
+    <?php endif;?>
+</h1>
 
 <table class="table table-bordered">
     <tr>

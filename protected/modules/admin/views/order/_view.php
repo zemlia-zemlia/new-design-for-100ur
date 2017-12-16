@@ -22,6 +22,9 @@ switch ($data->status) {
     case Order::STATUS_CLOSED:
         $statusClass = 'label-success';
         break;
+    case Order::STATUS_ARCHIVE:
+        $statusClass = 'label-default';
+        break;
 }
 ?>
 

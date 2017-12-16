@@ -99,6 +99,7 @@ class Order extends CActiveRecord {
             self::STATUS_REWORK             => 'на доработке',
             self::STATUS_CLOSED             => 'закрыт',
             self::STATUS_CONFIRMED          => 'подтвержден',
+            self::STATUS_ARCHIVE            => 'архив',
         );
     }
     

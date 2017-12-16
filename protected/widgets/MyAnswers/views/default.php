@@ -10,20 +10,20 @@
 <div class="flat-panel inside">
 
 <div class="row" id="my-answers-counters">
-    <div class="col-md-4">
+    <div class="col-xs-4">
         <div class="center-align"><small>Всего</small></div>
         <p class="kpi-counter center-align">
             <?php foreach($answersTotalString as $num):?><span><?php echo $num;?></span><?php endforeach;?>
         </p>
 
     </div>
-    <div class="col-md-4">
+    <div class="col-xs-4">
         <div class="center-align"><small>За 30 дней</small></div>
         <p class="kpi-counter center-align">
             <?php foreach($answersMonthString as $num):?><span><?php echo $num;?></span><?php endforeach;?>
         </p>
     </div>
-    <div class="col-md-4">
+    <div class="col-xs-4">
         <div class="center-align"><small>Сегодня</small></div>
         <p class="kpi-counter center-align">
             <?php foreach($answersDayString as $num):?><span><?php echo $num;?></span><?php endforeach;?>

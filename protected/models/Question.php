@@ -524,4 +524,27 @@ class Question extends CActiveRecord
                 
             }
         }
+        
+        /**
+         * Отмечает прочитанными все комментарии к данному вопросу, которые были написаны к ответу заданного пользователя
+         */
+        public function checkCommentsAsRead($userId)
+        {
+            if(!$userId) {
+                return false;
+            }
+            
+            $checkResult = Yii::app()->db->createCommand("UPDATE {{question}} q
+                    LEFT JOIN {{answer}} a ON a.questionId = q.id
+                    LEFT JOIN {{comment}} c ON c.objectId = a.id
+                    LEFT JOIN {{user}} u ON u.id = c.authorId
+                    SET c.seen=1
+                    WHERE c.type=" . Comment::TYPE_ANSWER . " AND c.seen=0 AND a.authorId = " . $userId. " AND q.id=" . $this->id)
+                    ->execute();
+            
+            if($checkResult) {
+                return true;
+            }
+                    
+        }
 }

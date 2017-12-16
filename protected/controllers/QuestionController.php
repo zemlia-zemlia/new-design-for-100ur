@@ -34,7 +34,7 @@ class QuestionController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'search'
-                'actions' => array('search', 'updateAnswer'),
+                'actions' => array('search', 'updateAnswer', 'checkCommentsAsRead'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -162,6 +162,10 @@ class QuestionController extends Controller {
 
         // модель для формы вопроса
         $newQuestionModel = new Question();
+        
+        if(Yii::app()->user->role == User::ROLE_JURIST) {
+            $model->checkCommentsAsRead(Yii::app()->user->id);
+        }
 
         $this->render('view', array(
             'model' => $model,
@@ -1045,6 +1049,36 @@ class QuestionController extends Controller {
             'month' => $month,
             'datesArray' => $datesArray,
         ));
+    }
+    
+    /**
+     * Отметка комментариев к ответам вопроса как прочитанные
+     */
+    public function actionCheckCommentsAsRead()
+    {
+        $request = Yii::app()->request;
+        if(!$request->isAjaxRequest) {
+            throw new CHttpException(400, 'Запрос должен быть в формате AJAX');
+        }
+        
+        $userId = Yii::app()->user->id;
+        $questionId = (int)$_POST['id'];
+        
+        $question = Question::model()->findByPk($questionId);
+        
+        if(!$question) {
+            throw new CHttpException(404, 'Вопрос не найден');
+        }
+        
+        if ($question->checkCommentsAsRead($userId)) {
+            echo json_encode(array('code' => 200, 'message' => '', 'id' => $question->id));
+            exit;
+        } else {
+            echo json_encode(array('code' => 500, 'message' => 'Не удалось отметить комментарии прочитанными', 'id' => $question->id));
+            exit;
+        }
+        
+        
     }
 
 }

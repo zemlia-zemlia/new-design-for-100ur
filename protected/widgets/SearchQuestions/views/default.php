@@ -15,13 +15,24 @@
 <h4 class="header-block header-block-light-grey" >Поиск вопросов:</h4>
 
 <div class="flat-panel inside">
-<h4 class="widget-search-header">
-    <span>
-    <?php echo CHtml::link($counterNoAnswers, Yii::app()->createUrl('/question/search')); ?>
-    </span>
-    <?php echo CHtml::link(CustomFuncs::numForms($counterNoAnswers, 'вопрос', "вопроса", "вопросов") . ' ждут <br />ответов', Yii::app()->createUrl('/question/search')); ?>
-</h4>
+    <div class="row">
+        <div class="col-xs-4">
+            <h4 class="widget-search-header">
+                <span>
+                <?php echo $counterNoAnswers; ?>
+                </span>
+            </h4>
+        </div>
+        <div class="col-xs-8">
+            <?php echo CustomFuncs::numForms($counterNoAnswers, 'вопрос', "вопроса", "вопросов") . ' без ответов'; ?>
+            <br />
+            <?php echo CHtml::link("показать", Yii::app()->createUrl('/question/search'), ['class'=>'yellow-button arrow']); ?>
+        </div>
+    </div>
+    <hr />
 
+    <h4>Отфильтровать по параметрам</h4>
+    
     <div class="checkbox">
         <label data-toggle="tooltip" data-placement ="left" title="Укажите свои специальноси в профиле">
             <?php echo $form->checkBox($model, 'myCats', array(
@@ -60,10 +71,10 @@
 
 
     <div class="form-group">
-            <?php echo CHtml::submitButton('Найти', array('class'=>'yellow-button btn-block')); ?>
+            <?php echo CHtml::submitButton('Отфильтровать', array('class'=>'yellow-button btn-block')); ?>
             
             <?php if($randomQuestionId):?>
-                <?php echo CHtml::link('Случайный вопрос', Yii::app()->createUrl('question/view', array('id'=>$randomQuestionId)), array('class'=>'button btn-block button-blue-gradient')); ?>
+                <?php echo CHtml::link('Показать случайный вопрос', Yii::app()->createUrl('question/view', array('id'=>$randomQuestionId)), array('class'=>'button btn-block button-blue-gradient')); ?>
             <?php endif;?>
     </div>
 </div>
