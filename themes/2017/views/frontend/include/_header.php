@@ -130,8 +130,10 @@ window.addEventListener('load', function() {
                                 
                             </li>
                             <li><?php echo CHtml::link('Поиск вопросов', Yii::app()->createUrl('question/search'));?></li>
-                            <li><?php echo CHtml::link('Заказы документов', Yii::app()->createUrl('order/index'));?></li>
-                        
+                            <li><?php echo CHtml::link('Заказы документов ' . '<strong class="red">(' . Order::calculateNewOrders() .')</strong>', Yii::app()->createUrl('order/index'));?></li>
+                            <li>
+                                <?php echo CHtml::link('Мои заказы', Yii::app()->createUrl('/order/index', ['my'=>1]));?>
+                            </li>
                         <?php else:?>
                             
                             <li class="visible-xs-inline"><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/')?CHtml::link('Каталог юристов', Yii::app()->createUrl('/yurist/')):'<span class="active">Каталог юристов</span>';?></li>

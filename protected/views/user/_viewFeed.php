@@ -19,7 +19,8 @@
             </p>
         </div>
         <div class="col-sm-2 right-align">
-            <?php echo CHtml::link('Скрыть', '#', ['class' => 'btn btn-default hide-comment', 'data-id' => $data['id']]); ?>
+            <?php echo CHtml::link('Смотреть',Yii::app()->createUrl($route, ['id' => $data['id']]), ['class' => 'btn btn-info btn-block']); ?>
+            <?php echo CHtml::link('Скрыть', '#', ['class' => 'btn btn-default hide-comment btn-block btn-xs', 'data-id' => $data['id']]); ?>
         </div>
     </div>
     <hr />

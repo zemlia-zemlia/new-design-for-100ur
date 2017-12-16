@@ -18,20 +18,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
 
         <div class="col-sm-4" id="right-panel">
                 <?php if(Yii::app()->user->role == User::ROLE_JURIST):?>
-                    <?php if(Yii::app()->user->id == 8):?>
-                        <div class="vert-margin20">
-                            <h4 class="header-block header-block-light-grey">Заказы документов</h4>
-                            <div class="flat-panel inside">
-                            <p> 
-                                <?php echo CHtml::link('Новые заказы', Yii::app()->createUrl('/order/'));?>
-                                <span class="badge badge-default"><?php echo Order::calculateNewOrders();?></span>
-                            </p>
-                            <p> 
-                                <?php echo CHtml::link('Мои заказы', Yii::app()->createUrl('/order/index', ['my'=>1]));?>
-                            </p>
-                            </div>
-                        </div>
-                    <?php endif;?>
+
             
                     <div class="vert-margin20">          
                     <?php
