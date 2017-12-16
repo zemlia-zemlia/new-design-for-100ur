@@ -19,12 +19,12 @@
         <div class="col-xs-4">
             <h4 class="widget-search-header">
                 <span>
-                <?php echo $counterNoAnswers; ?>
+                    <?php echo CHtml::link($counterNoAnswers, Yii::app()->createUrl('/question/search')); ?>
                 </span>
             </h4>
         </div>
         <div class="col-xs-8">
-            <?php echo CustomFuncs::numForms($counterNoAnswers, 'вопрос', "вопроса", "вопросов") . ' без ответов'; ?>
+            <?php echo CHtml::link(CustomFuncs::numForms($counterNoAnswers, 'вопрос', "вопроса", "вопросов") . ' без ответов', Yii::app()->createUrl('/question/search')); ?>
             <br />
             <?php echo CHtml::link("показать", Yii::app()->createUrl('/question/search'), ['class'=>'yellow-button arrow']); ?>
         </div>
