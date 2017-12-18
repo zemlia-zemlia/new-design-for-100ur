@@ -37,7 +37,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         </td>
         <td>
             <p>
-            <?php echo CHtml::encode(trim($order->author->name . ' ' . $order->author->name2 . ' ' .$order->author->lastName));?>
+            <?php echo CHtml::link(CHtml::encode(trim($order->author->name . ' ' . $order->author->name2 . ' ' .$order->author->lastName)), Yii::app()->createUrl('admin/user/view', ['id' => $order->author->id]));?>
             </p>
             <p>
                 Город: <?php echo $order->author->town->name;?> (<?php echo $order->author->town->region->name;?>)
@@ -155,7 +155,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 </div>
                 <div class="col-sm-10 col-xs-8">
                     <p>
-                    <?php echo CHtml::encode($response->author->name . ' ' . $response->author->lastName);?>
+                    <?php echo CHtml::link(CHtml::encode($response->author->name . ' ' . $response->author->lastName), Yii::app()->createUrl('admin/user/view', ['id' => $response->author->id]));?>
                     <?php if($response->author->settings->isVerified):?>
                     <small>
                         <span class="label label-default"><?php echo $response->author->settings->getStatusName();?></span>

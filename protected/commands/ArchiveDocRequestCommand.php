@@ -7,7 +7,7 @@
 
 class ArchiveDocRequestCommand extends CConsoleCommand
 {
-    protected $_hours = 72; // сколько часов храним запрос на документ до архивации
+    protected $_hours = 120; // сколько часов храним запрос на документ до архивации
     
     public function actionIndex()
     {

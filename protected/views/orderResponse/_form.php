@@ -11,13 +11,14 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
+    <?php if(Yii::app()->user->isVerified):?>
     <div class="alert alert-success">
         <p>
             Для того, чтобы предложить свои услуги по данному заказу, заполните форму ниже.<br />
             В случае выбора Вас исполнителем по данному заказу, Вам придет уведомление.
         </p>
     </div>
-
+    
 	
     <div class="row">
         <div class="col-sm-9">
@@ -43,7 +44,13 @@
             </div>
         </div>
     </div>
-	
+    <?php else:?>
+    <div class="alert alert-warning">
+        <p>
+            Для того, чтобы предложить свои услуги по данному заказу, Вы должны <?php echo CHtml::link('подтвердить свою квалификацию', Yii::app()->createUrl('/user/'));?>.
+        </p>
+    </div>
+    <?php endif;?>
     
         
 
