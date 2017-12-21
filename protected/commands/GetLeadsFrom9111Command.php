@@ -204,7 +204,7 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
                 //$lead->email = $email;
                 $lead->question = trim($question);
                 if($lead->question == '') {
-                    $lead->question = 'Клиент просит перезвонить ему';
+                    $lead->question = 'Текст вопроса потерян. Необходимо уточнить вопрос по телефону и проконсультировать';
                 }  
                 $lead->sourceId = $this->folders[$folderAlias]['sourceId']; // id нужного источника лидов
                 $lead->buyPrice = $this->folders[$folderAlias]['buyPrice']; // цена покупки
