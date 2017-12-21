@@ -62,7 +62,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <?php if(Yii::app()->user->role != User::ROLE_JURIST):?>
             <tr>
                 <td><strong><?php echo $model->getAttributeLabel('source'); ?></strong></td>
-                <td><?php echo $model->source->name; ?></td>
+                <td><?php echo CHtml::link(CHtml::encode($model->source->name), Yii::app()->createUrl('admin/leadsource/view', ['id' => $model->source->id])); ?></td>
             </tr>
             <tr>
                 <td><strong><?php echo $model->getAttributeLabel('buyPrice'); ?></strong></td>
