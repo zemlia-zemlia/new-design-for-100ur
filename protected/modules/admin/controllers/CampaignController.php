@@ -67,6 +67,7 @@ class CampaignController extends Controller {
         // найдем лиды, отправленные в данную кампанию
         $leadsCriteria = new CDbCriteria();
         $leadsCriteria->addColumnCondition(['campaignId' => $model->id]);
+        $leadsCriteria->order = 'id DESC';
         $leadsDataProvider = new CActiveDataProvider('Lead100', [
             'criteria' => $leadsCriteria,
             ]
