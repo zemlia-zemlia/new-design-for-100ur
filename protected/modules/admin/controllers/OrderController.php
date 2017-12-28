@@ -115,8 +115,20 @@ class OrderController extends Controller {
             'criteria'  =>  $ordersCriteria,
         ]);
         
+        // извлечем неархивные заказы по статусам
+        $ordersByStatus = [];
+        $orderStatsRows = Yii::app()->db->createCommand()
+                ->select('id, status')
+                ->from('{{order}}')
+                ->where('status!=:stat', [':stat' => Order::STATUS_ARCHIVE])
+                ->queryAll();
+        foreach($orderStatsRows as $row) {
+            $ordersByStatus[$row['status']][] = $row['id'];
+        }
+        
         $this->render('index', [
             'ordersDataProvider'    =>  $ordersDataProvider,
+            'ordersByStatus'        =>  $ordersByStatus,
         ]);
     }
 
