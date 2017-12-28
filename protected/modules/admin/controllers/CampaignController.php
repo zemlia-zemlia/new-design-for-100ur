@@ -63,13 +63,22 @@ class CampaignController extends Controller {
         $dateTo = ($leadSearchModel->date2 != '') ? CustomFuncs::invertDate($leadSearchModel->date2) : date("Y-m-d");
         $dateFrom = ($leadSearchModel->date1 != '') ? CustomFuncs::invertDate($leadSearchModel->date1) : date("Y-m-d", time() - 86400 * 30);
         $leadsStats = Lead100::getStatsByPeriod($dateFrom, $dateTo, null, $model->id);
+        
+        // найдем лиды, отправленные в данную кампанию
+        $leadsCriteria = new CDbCriteria();
+        $leadsCriteria->addColumnCondition(['campaignId' => $model->id]);
+        $leadsDataProvider = new CActiveDataProvider('Lead100', [
+            'criteria' => $leadsCriteria,
+            ]
+        );
 
 
         $this->render('view', array(
-            'model' => $model,
-            'transactionsDataProvider' => $transactionsDataProvider,
-            'leadsStats' => $leadsStats,
-            'searchModel' => $leadSearchModel,
+            'model'                     => $model,
+            'transactionsDataProvider'  => $transactionsDataProvider,
+            'leadsStats'                => $leadsStats,
+            'searchModel'               => $leadSearchModel,
+            'leadsDataProvider'         => $leadsDataProvider,
         ));
     }
 

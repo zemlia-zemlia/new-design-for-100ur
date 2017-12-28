@@ -117,6 +117,17 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/campaign/update', array('id'=>$model->id)), array('class'=>'btn btn-primary'));?>
 
+<h2>Лиды</h2>
+<?php $this->widget('zii.widgets.CListView', array(
+	'dataProvider'  =>  $leadsDataProvider,
+	'itemView'      =>  'application.modules.admin.views.lead._view',
+        'template'      =>  '{summary}{pager}{items}{pager}',
+        'emptyText'     =>  'Не найдено ни одного лида',
+        'summaryText'   =>  'Показаны лиды с {start} до {end}, всего {count}',
+        'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
+)); ?>
+
+
 <h2>Статистика продаж лидов по дням</h2>
     <div class="vert-margin30">
        <?php $this->renderPartial('application.modules.admin.views.lead._searchFormDates', array(
