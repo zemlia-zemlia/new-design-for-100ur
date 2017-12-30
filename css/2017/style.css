@@ -1013,3 +1013,19 @@ ul.hor-list-menu a.yellow-button,
 .company-list-item {
     margin-bottom: 20px;
 }
+
+@media(min-width:768px) {
+    .category-hero {
+        position:relative;
+        margin-bottom:30px;
+    }
+
+    .category-hero h1 {
+        font-weight: 600;
+        text-shadow: 1px 1px 2px #666;
+        color: #fff;
+        font-size:30px;
+        position:absolute;
+        top:50px;
+    }
+}

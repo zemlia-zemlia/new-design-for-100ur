@@ -23,7 +23,9 @@
  */
 class QuestionCategory extends CActiveRecord
 {
-        const NO_CATEGORY = 0; // 0 - нет категории	
+        const NO_CATEGORY = 0; // 0 - нет категории
+        
+        const IMAGES_DIRECTORY = '/upload/categories/';
         
         /**
 	 * Returns the static model of the specified AR class.

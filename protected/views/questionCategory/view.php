@@ -52,15 +52,22 @@ $this->breadcrumbs[] = $model->name;
      ));
 ?>
 
+<?php 
+if($model->seoH1) {
+    $pageTitle = CHtml::encode($model->seoH1);
+} else {
+    $pageTitle = CHtml::encode($model->name) . ', ' . 'консультации юриста и адвоката';
+}
+?>
 
-
-<h1 class="header-block header-block-light-grey vert-margin30">
+<div class="category-hero">
+     <?php if($model->image):?>
+     <img src="<?php echo QuestionCategory::IMAGES_DIRECTORY . $model->image;?>" alt="<?php echo $pageTitle;?>" title="<?php echo $pageTitle;?>" class="img-responsive hidden-xs" />
+     <?php endif;?>
+     
+<h1>
     <?php 
-        if($model->seoH1) {
-            echo CHtml::encode($model->seoH1);
-        } else {
-            echo CHtml::encode($model->name) . ', ' . 'консультации юриста и адвоката';
-        }
+        echo $pageTitle;
     ?>
     
     <?php
@@ -69,6 +76,7 @@ $this->breadcrumbs[] = $model->name;
         }
     ?>
 </h1>
+</div>
 
 <?php if($model->description1):?>
     <div class="vert-margin30">
