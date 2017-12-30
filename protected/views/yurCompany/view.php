@@ -28,10 +28,8 @@
 	
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-4">
-                    <?php if($company->logo):?>
+                <div class="col-md-3">
                     <?php echo CHtml::image($company->getPhotoUrl(), CHtml::encode($company->name), array('class'=>'img-responsive', 'title' => CHtml::encode($company->name)));?>
-                    <?php endif;?>
                     
                     <?php
                         $ratingSum = 0;
@@ -61,7 +59,7 @@
                     <?php endif;?>
                     
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <?php if($company->town):?>
                     <p><strong>Город:</strong> <?php echo CHtml::encode($company->town->name);?></p>
                     <?php endif;?>
@@ -234,10 +232,10 @@
                     ?>
                     <?php if($companyCounter%2 == 1) echo "<div class='row'>";?>
 
-                    <div class="col-md-2">
+                    <div class="col-md-2 vert-margin30">
                         <img src="<?php echo $com->getPhotoUrl('thumb');?>" title="<?php echo CHtml::encode($com->name);?>" alt="<?php echo CHtml::encode($com->name);?>" class="img-responsive" />
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 vert-margin30">
                         <?php echo CHtml::link(CHtml::encode($com->name), Yii::app()->createUrl('yurCompany/view',array('id'=>$com->id)));?>
                     </div>
                     <?php if($companyCounter%2 == 0) echo "</div>";?>
