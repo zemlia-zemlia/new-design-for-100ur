@@ -1018,6 +1018,7 @@ ul.hor-list-menu a.yellow-button,
     .category-hero {
         position:relative;
         margin-bottom:30px;
+        min-height:200px;
     }
 
     .category-hero h1 {
