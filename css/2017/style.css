@@ -1028,5 +1028,6 @@ ul.hor-list-menu a.yellow-button,
         font-size:30px;
         position:absolute;
         top:50px;
+        width:100%;
     }
 }
