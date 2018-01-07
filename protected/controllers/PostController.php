@@ -49,13 +49,14 @@ class PostController extends Controller {
 
         $dependency = new CDbCacheDependency('SELECT MAX(datetime) FROM {{postComment}} WHERE postId=' . (int) $id);
 
-        $model = Post::model()->cache(180, $dependency, 1)->with(array('categories',
+        /*$model = Post::model()->cache(180, $dependency, 1)->with(array('categories',
                     'author',
                     'comments' => array('order' => 'comments.datetime DESC'),
                     'commentsCount',
                     'comments.author' => array('alias' => 'comment_author'), // избавляемся от конфликта имен при запросе
-                ))->findByPk($id);
+                ))->findByPk($id);*/
 
+        $model = Post::model()->findByPk($id);
         if (!$model) {
             throw new CHttpException(404, 'Публикация не найдена');
         }
@@ -75,17 +76,26 @@ class PostController extends Controller {
                 $postLiked = true;
         }
 
-        $postCommentModel = new PostComment; // модель комментария поста
-        if (isset($_POST['PostComment'])) {
-            $postCommentModel->attributes = $_POST['PostComment'];
+        $postCommentModel = new Comment; // модель комментария поста
+        if (isset($_POST['Comment'])) {
+            $postCommentModel->attributes = $_POST['Comment'];
             $postCommentModel->authorId = Yii::app()->user->id;
-            $postCommentModel->postId = $model->id;
-            if ($postCommentModel->save()) {
+            $postCommentModel->objectId = $model->id;
+            $postCommentModel->type = Comment::TYPE_POST;
+            
+            // проверим, является ли данный комментарий дочерним для другого комментария
+            if (isset($postCommentModel->parentId) && $postCommentModel->parentId > 0) {
+                // является, сохраним его как дочерний комментарий
+                $rootComment = Comment::model()->findByPk($postCommentModel->parentId);
+                $postCommentModel->appendTo($rootComment);
+            }
+            
+            if ($postCommentModel->saveNode()) {
                 /* если комментарий добавлен, делаем редирект на страницу поста
                  * просто отрендерить представление нельзя, в этом случае новый комментарий не отобразится,
                  * так как комментарии были извлечены в коде выше
                  */
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect(array('view', 'id' => $model->id, 'alias' => $model->alias));
             }
         }
 

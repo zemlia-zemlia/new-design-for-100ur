@@ -45,7 +45,7 @@ class BlogController extends Controller {
 
     /**
      * Отображает категорию публикаций
-     * 
+     * @deprecated since version number
      */
     public function actionView($id) {
         //define(YII_DEBUG,true);
@@ -129,6 +129,15 @@ class BlogController extends Controller {
      * Lists all models.
      */
     public function actionIndex() {
+        
+        $posts = Post::model()->findAll();
+        foreach($posts as $post) {
+            $post->alias = mb_substr(CustomFuncs::translit($post->title), 0, 200, 'utf-8');
+            $post->alias = preg_replace("/[^a-zA-Z0-9\-]/ui", '', $post->alias);
+            $post->save();
+        }
+        
+        
         $dataProvider = new CActiveDataProvider('Post', array(
             'criteria' => array(
                 'with' => array('commentsCount', 'author', 'viewsCount'),

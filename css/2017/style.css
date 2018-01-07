@@ -1031,3 +1031,40 @@ ul.hor-list-menu a.yellow-button,
         width:100%;
     }
 }
+
+
+.category-post-header h3 {
+    text-align: left;
+}
+
+.post-preview {
+    font-size:20px;
+    line-height:1.4em;
+    color:#999;
+    padding:10px 0;
+    margin:30px 0;
+    font-style:italic;
+}
+
+@media(min-width:768px) {
+    .post-hero {
+        position:relative;
+        min-height:300px;
+    }
+    
+    .text-over-hero {
+        position:absolute;
+        bottom:20px;
+        padding:40px 20px;
+        background-color:rgba(255,255,255,0.4);
+        font-size:1.3em;
+    }
+}
+
+
+
+@media(max-width:767px) {
+    .category-post-header h3 {
+        text-align: center;
+    }
+}

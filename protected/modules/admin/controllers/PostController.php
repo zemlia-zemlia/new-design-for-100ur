@@ -86,7 +86,7 @@ class PostController extends Controller {
     public function actionCreate() {
         // проверка, подтвердил ли текущий пользователь свой email
         $currentUser = User::model()->findByPk(Yii::app()->user->id);
-        if (!$currentUser || $currentUser->active == 0) {
+        if (!$currentUser || $currentUser->active100 == 0) {
             $this->redirect(array('postingDenied'));
         }
 

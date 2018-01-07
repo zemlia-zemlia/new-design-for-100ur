@@ -25,6 +25,7 @@ class Comment extends CActiveRecord
         const TYPE_USER = 6;
         const TYPE_RESPONSE = 7; // комментарии к откликам на заказы документов
         const TYPE_ORDER = 8; // комментарии к заказам документов
+        const TYPE_POST = 9; // комментарии к заказам документов
         
         const STATUS_NEW = 0;
         const STATUS_CHECKED = 1;

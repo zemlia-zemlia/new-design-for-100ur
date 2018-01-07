@@ -5,7 +5,7 @@ class SitemapCommand extends CConsoleCommand
     // рассылка уведомлений
     public function actionIndex()
     {
-        $siteUrl = "https://100yuristov.com";
+        $siteUrl = Yii::app()->baseUrl;
         
         $siteMap = '<?xml version="1.0" encoding="UTF-8"?>
         <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -48,7 +48,7 @@ class SitemapCommand extends CConsoleCommand
                 ->queryAll();
         foreach($towns as $town) {
             $siteMap .= '<url>
-              <loc>' . $siteUrl . '/region/' .  CHtml::encode($town['country']) . '/'. CHtml::encode($town['region']) . '/' .CHtml::encode($town['town']) .  '/</loc>
+              <loc>' . Yii::app()->createUrl('town/alias', ['countryAlias' => CHtml::encode($town['country']), 'regionAlias' => CHtml::encode($town['region']), 'name' => CHtml::encode($town['town'])]) .  '</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.4</priority>
@@ -64,7 +64,7 @@ class SitemapCommand extends CConsoleCommand
                 ->queryAll();
         foreach($questions as $question) {
             $siteMap .= '<url>
-              <loc>' . $siteUrl . '/q/' . $question['id'] .  '/</loc>
+              <loc>' . Yii::app()->createUrl('question/view', ['id' => $question['id']]) .  '</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.3</priority>
@@ -72,13 +72,13 @@ class SitemapCommand extends CConsoleCommand
         }
 
         $posts = Yii::app()->db->createCommand()
-                ->select('id')
+                ->select('id, alias')
                 ->from('{{post}}')
                 ->where('datePublication<:now', array(':now'=>date('Y-m-d')))
                 ->queryAll();
         foreach($posts as $post) {
             $siteMap .= '<url>
-              <loc>' . $siteUrl . '/post/' . $post['id'] .  '/</loc>
+              <loc>' . Yii::app()->createUrl('post/view', ['id' => $post['id'], 'alias'=>$post['alias']])  .  '</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.6</priority>
@@ -91,7 +91,7 @@ class SitemapCommand extends CConsoleCommand
                 ->queryAll();
         foreach($yurCompanies as $yurCompany) {
             $siteMap .= '<url>
-              <loc>' . $siteUrl . '/firm/' . $yurCompany['id'] .  '/</loc>
+              <loc>' .  Yii::app()->createUrl('yurCompany/view', ['id' => $yurCompany['id']])  .  '</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.5</priority>
