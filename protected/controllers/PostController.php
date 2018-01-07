@@ -53,7 +53,7 @@ class PostController extends Controller {
         }
         
         if(!Yii::app()->request->getParam('alias')) {
-            $this->redirect(['post/view', 'id' => $model->id, 'alias' => $model->alias], 301);
+            $this->redirect(['post/view', 'id' => $model->id, 'alias' => $model->alias], true, 301);
         }
 
         $commentsDataProvider = new CArrayDataProvider($model->comments);
