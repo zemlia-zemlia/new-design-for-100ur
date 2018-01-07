@@ -37,7 +37,7 @@ class UserController extends Controller {
             array('allow', // действия, разрешенные для всех пользователей типа менеджер
                 'actions' => array('create', 'ConfirmationSent', 'index', 'delete', 'stats', 'verifyFile', 'requests'),
                 'users' => array('@'),
-                'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_MANAGER . ')',
+                'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_SECRETARY . ')',
             ),
             array('allow', // действия, разрешенные для всех пользователей типа менеджер
                 'actions' => array('mystats'),

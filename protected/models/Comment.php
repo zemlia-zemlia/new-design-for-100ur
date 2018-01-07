@@ -316,11 +316,10 @@ class Comment extends CActiveRecord
         if($this->type != self::TYPE_RESPONSE) {
             return false;
         }
+        $order = Order::model()->findByPk($this->objectId);
+        $client = $this->author;
         
-        $object = $this->author;
-        $objectAuthor = $object->author;
-        
-        if ($client->active100 == 0) {
+        if ($client->active100 == 0 || !$order) {
             return false;
         }
         

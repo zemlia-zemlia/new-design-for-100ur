@@ -110,6 +110,10 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             Процент брака
         </td>
         <td>
+            <?php echo $model->calculateCurrentBrakPercent(date('Y-m-d', time()-86400));?>
+            /
+            <?php echo $model->calculateCurrentBrakPercent();?>
+            /
             <?php echo $model->brakPercent;?>
         </td>
     </tr>

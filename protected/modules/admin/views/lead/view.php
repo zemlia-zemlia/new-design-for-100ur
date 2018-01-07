@@ -94,10 +94,12 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             </tr>
         </table>    
 
-        <?php if(Yii::app()->user->role == User::ROLE_ROOT):?>
-        <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/lead/update', array('id'=>$model->id)), array('class'=>'btn btn-primary'));?>
-
-        <?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/lead/delete', array('id'=>$model->id)), array('class'=>'btn btn-danger'));?>
+        <?php if(Yii::app()->user->checkAccess(User::ROLE_SECRETARY)):?>
+            <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/lead/update', array('id'=>$model->id)), array('class'=>'btn btn-primary'));?>
+        <?php endif; ?>
+        
+        <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+            <?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/lead/delete', array('id'=>$model->id)), array('class'=>'btn btn-danger'));?>
         <?php endif; ?>
     </div>
     <div class='col-md-4'>

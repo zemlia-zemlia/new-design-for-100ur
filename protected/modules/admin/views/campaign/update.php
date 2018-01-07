@@ -3,9 +3,9 @@
 /* @var $model Campaign */
 
 $this->breadcrumbs=array(
-	'Campaigns'=>array('index'),
+	'Кампании'=>array('index'),
 	$model->id=>array('view','id'=>$model->id),
-	'Update',
+	'Редактирование',
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(

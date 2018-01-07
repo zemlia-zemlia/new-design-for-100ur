@@ -104,10 +104,11 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             </tr>
         </table>
 
-        <div class="vert-margin20">
-            <?php echo CHtml::link('Редактировать профиль', Yii::app()->createUrl('/admin/user/update', array('id' => $model->id)), array('class' => 'btn btn-primary')); ?>
-        </div>
-        
+        <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+            <div class="vert-margin20">
+                <?php echo CHtml::link('Редактировать профиль', Yii::app()->createUrl('/admin/user/update', array('id' => $model->id)), array('class' => 'btn btn-primary')); ?>
+            </div>
+        <?php endif; ?>
         
         <?php if($model->role == User::ROLE_PARTNER):?>
             <div class="vert-margin30">

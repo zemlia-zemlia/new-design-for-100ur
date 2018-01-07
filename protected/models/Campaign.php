@@ -26,6 +26,7 @@ class Campaign extends CActiveRecord {
     const ACTIVE_NO = 0;
     const ACTIVE_YES = 1;
     const ACTIVE_MODERATION = 2;
+    const ACTIVE_ARCHIVE = 3;
     
     public $workDays;
 
@@ -139,9 +140,10 @@ class Campaign extends CActiveRecord {
 
     public static function getActivityStatuses() {
         return array(
-            self::ACTIVE_NO => 'Неактивна',
-            self::ACTIVE_YES => 'Активна',
+            self::ACTIVE_NO         => 'Неактивна',
+            self::ACTIVE_YES        => 'Активна',
             self::ACTIVE_MODERATION => 'На проверке',
+            self::ACTIVE_ARCHIVE    => 'В архиве',
         );
     }
 
@@ -194,7 +196,7 @@ class Campaign extends CActiveRecord {
                     ':hour' => (int) date('H'),
                     ':buyPrice' => (int) $lead->buyPrice,
                 ))
-                ->order('c.price DESC')
+                ->order('c.lastLeadTime ASC')
                 ->limit($limit)
                 ->queryAll();
 
@@ -248,32 +250,13 @@ class Campaign extends CActiveRecord {
             /**
              * получили список кампаний, подходящих данному лиду
              * теперь нужно выбрать ту единственную, которая ему подходит
-             * выберем рандомно, шанс пропорционален цене
+             * просто берем первый элемент массива (кампания, в которую дольше всего не отправляли лиды)
              * 
-             * если кампания найдена одна, возвращаем ее id и не паримся
+             * 
              */
-            if (sizeof($campaigns) == 1) {
-                return $campaigns[0]['id'];
-            }
+            return $campaigns[0]['id'];
+            
 
-            /**
-             * складываем цены всех найденных кампаний, чтобы рандомным числом определить счастливчика
-             */
-            $pricesSum = 0;
-            foreach ($campaigns as $c) {
-                $pricesSum += $c['price'];
-            }
-            $rnd = mt_rand(1, $pricesSum);
-
-            // определяем счастливчика и возвращаем его id
-            $sum = 0;
-            foreach ($campaigns as $c) {
-                $sum += $c['price'];
-                if ($sum >= $rnd) {
-
-                    return $c['id'];
-                }
-            }
         } else {
             return false;
         }

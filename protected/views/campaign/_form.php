@@ -14,7 +14,7 @@
 
 	<?php echo $form->errorSummary($model, 'Пожалуйста, исправьте ошибки'); ?>
 
-    <?php if($model->isNewRecord || Yii::app()->user->role == User::ROLE_ROOT):?>
+    <?php if($model->isNewRecord || Yii::app()->user->checkAccess(User::ROLE_SECRETARY)):?>
         <p class="flat-panel inside">
             Выберите регион ИЛИ город, в котором хотите покупать лиды.
         </p>
@@ -47,7 +47,7 @@
         </div>
 <?php endif;?>
         
-<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+<?php if(Yii::app()->user->checkAccess(User::ROLE_SECRETARY)):?>
         <p class="flat-panel inside">
             Укажите время, в которое хотите получать лиды. Если хотите покупать круглосуточно, укажите с 0 до 24.<br />
             Внимание: время указывается московское!
@@ -88,7 +88,7 @@
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'leadsDayLimit', array('class' => 'col-sm-2 control-label')); ?>
             <div class="col-sm-10 col-md-6">
-                <?php if($model->isNewRecord || Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+                <?php if($model->isNewRecord || Yii::app()->user->checkAccess(User::ROLE_SECRETARY)):?>
                     <?php echo $form->textField($model,'leadsDayLimit', array('class'=>'form-control')); ?>
                     <?php echo $form->error($model,'leadsDayLimit'); ?>
                 <?php else:?>
@@ -100,7 +100,7 @@
             </div>
 	</div>
         
-<?php if(Yii::app()->user->role == User::ROLE_ROOT):?>
+<?php if(Yii::app()->user->checkAccess(User::ROLE_SECRETARY)):?>
 	<div class="form-group">
             <?php echo $form->labelEx($model,'brakPercent', array('class' => 'col-sm-2 control-label')); ?>
             <div class="col-sm-10 col-md-2">
@@ -126,7 +126,7 @@
     <div class="form-group">
         <?php echo $form->labelEx($model,'active', array('class' => 'col-sm-2 control-label')); ?>
         <div class="col-sm-10 col-md-6">
-            <?php if(Yii::app()->user->role == User::ROLE_ROOT):?>
+            <?php if(Yii::app()->user->checkAccess(User::ROLE_SECRETARY)):?>
                 
                     <?php echo $form->dropDownList($model,'active', Campaign::getActivityStatuses(), array('class'=>'form-control')); ?>
                     <?php echo $form->error($model,'active'); ?>

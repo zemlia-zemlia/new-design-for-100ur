@@ -238,5 +238,86 @@ class Order extends CActiveRecord {
         }
         
     }
+    
+    /**
+     * Отправка заказа в архив с уведомлением автора заказа
+     * @return boolean Результат сохранения записи
+     */
+    public function sendToArchive()
+    {
+        $this->status = self::STATUS_ARCHIVE;
+        
+        if($this->save()) {
+            if($this->sendArchiveNotification()) {
+                return true;
+            }
+            
+        } else {
+            Yii::log("Ошибка при архивации заказов документов #" . $this->id, 'error', 'system.web');
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Отправка уведомления пользователю о том, что его заказ отправлен в архив
+     */
+    public function sendArchiveNotification()
+    {
+        $client = $this->author;
+        
+        if ($client->active100 == 0) {
+            return false;
+        }
+        
+        // в письмо вставляем ссылку на вопрос + метки для отслеживания переходов
+        $questionLink = Yii::app()->createUrl('order/view', ['id'=>$this->id]);
+
+
+        /*  проверим, есть ли у пользователя заполненное поле autologin, если нет,
+         *  генерируем код для автоматического логина при переходе из письма
+         * если есть, вставляем существующее значение
+         * это сделано, чтобы не создавать новую строку autologin при наличии старой
+         * и дать возможность залогиниться из любого письма, содержащего актуальную строку autologin
+         */        
+        $autologinString = (isset($client->autologin) && $client->autologin != '') ? $client->autologin : $client->generateAutologinString();
+
+        if(!$client->autologin) {
+            $client->autologin = $autologinString;
+            if (!$client->save()) {
+                Yii::log("Не удалось сохранить строку autologin пользователю " . $client->email . " с уведомлением об отклике на заказ " . $this->id, 'error', 'system.web.User');
+            }
+        }
+        
+        $questionLink .= "&autologin=" . $autologinString;
+
+
+        $mailer = new GTMail;
+        $mailer->subject = CHtml::encode($client->name) . ", Ваш заказ документа отправлен в архив";
+        $mailer->message = "<h1>Ваш заказ документа отправлен в архив</h1>
+            <p>Здравствуйте, " . CHtml::encode($client->name) . "<br /><br />" . 
+                CHtml::link("Ваш заказ", $questionLink) . " отправлен в архив, так как по нему не совершалось никаких действий несколько дней.</p>";
+        
+        $mailer->message .= "<p><strong>Помогите нам улучшить сервис</strong><br />"
+                . "Будем рады получить от Вас обратную связь. Что не устроило Вас в предложениях юристов? "
+                . "Может быть, у Вас возникли трудности в пользовании сайтом?<br />"
+                . "<strong>Просто ответьте на это письмо.</strong>"
+                . "</p>";
+        
+       
+
+        // отправляем письмо на почту пользователя
+        $mailer->email = $client->email;
+        
+        if ($mailer->sendMail(true, '100yuristov')) {
+            Yii::log("Отправлено письмо пользователю " . $client->email . " с уведомлением об ответе на заказ " . $this->id, 'info', 'system.web.User');
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log("Не удалось отправить письмо пользователю " . $client->email . " с уведомлением об ответе на заказ " . $this->id, 'error', 'system.web.User');
+            return false;
+        }
+        
+    }
 
 }

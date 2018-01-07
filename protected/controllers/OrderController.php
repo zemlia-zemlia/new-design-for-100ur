@@ -88,6 +88,11 @@ class OrderController extends Controller {
         
         
         $order = Order::model()->findByPk($id);
+        
+        if(!$order) {
+            throw new CHttpException(404, 'Заказ не найден');
+        }
+        
         $commentModel = new Comment;
         $orderResponse = new OrderResponse;
         
@@ -111,11 +116,15 @@ class OrderController extends Controller {
                 $rootComment = Comment::model()->findByPk($commentModel->parentId);
                 if ($commentModel->appendTo($rootComment)) {
                     // при appendTo происходит сохранение, офигеть
+                    // Отправляем уведомление о комментарии
+                    $commentModel->sendNotification();
                     $this->redirect(array('/order/view', 'id' => $order->id));
                 }
             } 
             // сохраняем комментарий с учетом его иерархии
             if ($commentModel->saveNode()) {
+                // Отправляем уведомление о комментарии
+                $commentModel->sendNotification();
                 $this->redirect(array('/order/view', 'id' => $order->id));
             }
         }

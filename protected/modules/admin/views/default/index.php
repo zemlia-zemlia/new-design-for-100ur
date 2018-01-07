@@ -16,6 +16,8 @@ $endYear = 2017;
 <h1>Добро пожаловать в админку!</h1>
 
 
+
+
 <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
 
 <div class="panel panel-default">

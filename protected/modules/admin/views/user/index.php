@@ -15,10 +15,11 @@ $this->breadcrumbs=array(
     <h1>Пользователи: <?php echo $roleName;?></h1>
 </div>
 
+<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
 <div class="right-align vert-margin30">
     <?php echo CHtml::link('Добавить пользователя', Yii::app()->createUrl('/admin/user/create'), array('class'=>'btn btn-success'));?>
 </div>
-
+<?php endif;?>
 
 <div class="vert-margin30">
     <?php echo CHtml::link('Пользователи (клиенты)', Yii::app()->createUrl('admin/user/index',array('role'=>User::ROLE_CLIENT)));?> &nbsp;&nbsp;
@@ -26,7 +27,7 @@ $this->breadcrumbs=array(
     <?php echo CHtml::link('Секретари', Yii::app()->createUrl('admin/user/index',array('role'=>User::ROLE_SECRETARY)));?> &nbsp;&nbsp;
     <?php echo CHtml::link('Покупатели', Yii::app()->createUrl('admin/user/index',array('role'=>User::ROLE_BUYER)));?> &nbsp;&nbsp;
     <?php echo CHtml::link('Контент-менеджеры', Yii::app()->createUrl('admin/user/index',array('role'=>User::ROLE_EDITOR)));?> &nbsp;&nbsp;
-    <?php echo CHtml::link('Поставщики', Yii::app()->createUrl('admin/user/index',array('role'=>User::ROLE_PARTNER)));?> &nbsp;&nbsp;
+    <?php echo CHtml::link('Вебмастера', Yii::app()->createUrl('admin/user/index',array('role'=>User::ROLE_PARTNER)));?> &nbsp;&nbsp;
 </div>
 
    <table class="table table-bordered table-hover table-striped">

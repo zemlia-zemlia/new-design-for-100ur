@@ -916,6 +916,11 @@ class User extends CActiveRecord {
      */
     public function addToSendpulse()
     {        
+        // на локальной версии не отправляем пользователей в Sendpulse
+        if(YII_DEBUG === true) {
+            return false;
+        }
+        
         // API credentials from https://login.sendpulse.com/settings/#api
         define('API_USER_ID', Yii::app()->params['sendPulseApiId']);
         define('API_SECRET', Yii::app()->params['sendPulseApiSecret']);

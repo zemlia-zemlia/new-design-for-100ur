@@ -85,7 +85,7 @@ class OrderResponse extends Comment {
          * если есть, вставляем существующее значение
          * это сделано, чтобы не создавать новую строку autologin при наличии старой
          * и дать возможность залогиниться из любого письма, содержащего актуальную строку autologin
-         */
+         */        
         $autologinString = (isset($client->autologin) && $client->autologin != '') ? $client->autologin : $client->generateAutologinString();
 
         if(!$client->autologin) {
@@ -95,7 +95,7 @@ class OrderResponse extends Comment {
             }
         }
         
-        $questionLink .= "?autologin=" . $autologinString;
+        $questionLink .= "&autologin=" . $autologinString;
 
 
         $mailer = new GTMail;

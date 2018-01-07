@@ -12,6 +12,12 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
 
 ?>
 
+<style>
+    .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+        padding:3px;
+    }
+</style>
+
 <h1>Кампании</h1>
 
 
@@ -20,8 +26,12 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
         <?php echo CHtml::link("Активные", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'active')), array('class' => ($type == 'active') ? 'text-muted' : ''));?> &nbsp; 
         <?php echo CHtml::link("Пассивные", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'passive')), array('class' => ($type == 'passive') ? 'text-muted' : ''));?> &nbsp; 
         <?php echo CHtml::link("Отключены", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'inactive')), array('class' => ($type == 'inactive') ? 'text-muted' : ''));?> &nbsp; 
-        <?php echo CHtml::link("На модерации", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'moderation')), array('class' => ($type == 'moderation') ? 'text-muted' : ''));?> 
+        <?php echo CHtml::link("Архив", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'archive')), array('class' => ($type == 'archive') ? 'text-muted' : ''));?> &nbsp; 
+        <?php echo CHtml::link("Одобренные", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'accepted')), array('class' => ($type == 'accepted') ? 'text-muted' : ''));?> &nbsp; 
+
+        <?php echo CHtml::link("На модерации", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'moderation')), array('class' => ($type == 'moderation') ? 'text-muted' : ''));?>
         <span class="badge"><?php echo Campaign::getModerationCount();?></span>
+        
         &nbsp; 
     </p>
 </div>
@@ -36,7 +46,6 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
             <th>Дни</th>
             <th>Цена</th>
             <th>Отправлено</th>
-            <th>Брак, %</th>
             <th><abbr title="Процент маржинальности за последние 5 суток">Марж.</abbr></th>
             <th>Лимит</th>
         </tr>
@@ -75,8 +84,8 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                 <td style="width:200px;">
                 </td>
                 <td>        
-                    <?php echo CHtml::link($campaign['id'] . ' ' .  CHtml::encode($campaign['regionName'] . ' ' . $campaign['townName']), Yii::app()->createUrl('/admin/campaign/view', array('id'=>$campaign['id'])));?>
-
+                    <?php echo CHtml::link(CHtml::encode($campaign['regionName'] . ' ' . $campaign['townName']), Yii::app()->createUrl('/admin/campaign/view', array('id'=>$campaign['id'])));?>
+                    <small><span class="text-muted">(id:<?php echo $campaign['id'];?>)</span></small>
                 </td> 
                 <td>
                     <?php echo $campaign['timeFrom'] . '&nbsp;-&nbsp;' . $campaign['timeTo'];?>
@@ -98,7 +107,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                             ?>
                             <span class="label <?php echo $labelClass;?>">
                                 <?php  echo CustomFuncs::getWeekDays()[$dayNumber];?>
-                            </span> &nbsp;
+                            </span>
                         <?php endfor;?>
                         
                     </small>
@@ -110,13 +119,6 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                     <abbr title='Всего'><?php echo $campaign['leadsSent'];?></abbr> / 
                     <abbr title='Сегодня'><?php echo $campaign['todayLeads'];?></abbr> / 
                     <abbr title='Лимит'><?php echo $campaign['leadsDayLimit'];?></abbr>
-                </td>
-                <td>
-                    <?php echo $campaign['object']->calculateCurrentBrakPercent(date('Y-m-d', time()-86400));?>
-                    /
-                    <?php echo $campaign['object']->calculateCurrentBrakPercent();?>
-                    /
-                    <?php echo $campaign['brakPercent'];?>
                 </td>
                 <td>
                     <?php

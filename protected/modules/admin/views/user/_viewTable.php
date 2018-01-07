@@ -29,6 +29,8 @@
         <?php endif;?>
         
         <td>
-            <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/user/update',array('id'=>$data->id)), array('class'=>'btn btn-xs btn-primary'));?>
+            <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+                <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/user/update',array('id'=>$data->id)), array('class'=>'btn btn-xs btn-primary'));?>
+            <?php endif;?>
         </td>
     </tr>

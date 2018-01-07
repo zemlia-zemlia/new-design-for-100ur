@@ -31,7 +31,7 @@ class CampaignController extends Controller {
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('create', 'update', 'topup', 'setLimit'),
-                'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
+                'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_SECRETARY . ')',
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => array('admin', 'delete'),
@@ -186,11 +186,12 @@ class CampaignController extends Controller {
         /*
          * Базовый запрос
          * Ищем кампании с их пользователями, балансами.
-         * Есть 4 типа кампаний:
+         * Есть 5 типов кампаний:
          * 1) Активные (active=1, есть транзакции за последние 10 дней)
          * 2) Условно активные (active=1, транзакций нет больше 10 дней)
          * 3) Неактивные (active=0)
          * 4) На модерации (active=2)
+         * 5) Одобренные (active=1, lastLeadTime = NULL)
          */
 //            SELECT c.id, c.townId, t.name townName, c.regionId, r.name regionName, COUNT(l.id), u.name, u.balance, u.lastTransactionTime 
 //            FROM `100_campaign` c
@@ -210,7 +211,7 @@ class CampaignController extends Controller {
                 ->leftJoin("{{region}} r", "r.id = c.regionId")
                 ->leftJoin("{{lead100}} l", "l.campaignId = c.id AND l.leadStatus!=" . Lead100::LEAD_STATUS_BRAK)
                 ->group("c.id")
-                ->order("u.id");
+                ->order("u.id, townName, regionName");
 
         // условия выборки в зависимости от выбранного типа кампании
         switch ($_GET['type']) {
@@ -233,6 +234,16 @@ class CampaignController extends Controller {
                 $active = Campaign::ACTIVE_MODERATION;
                 $campaignsCommand->andWhere("c.active=:active", array(':active' => $active));
                 $type = 'moderation';
+                break;
+            case 'accepted':
+                $active = Campaign::ACTIVE_YES;
+                $campaignsCommand->andWhere("c.active=:active AND lastLeadTime IS NULL", array(':active' => $active));
+                $type = 'accepted';
+                break;
+            case 'archive':
+                $active = Campaign::ACTIVE_ARCHIVE;
+                $campaignsCommand->andWhere("c.active=:active", array(':active' => $active));
+                $type = 'archive';
                 break;
         }
 

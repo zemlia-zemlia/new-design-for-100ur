@@ -58,16 +58,18 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                 ?> 
                 </div>
 
-                <div class="grey-panel inside">
-                    <h4>Вы специалист в области права?</h4>
-                    <p>
-                    Вы можете отвечать на вопросы наших пользователей пройдя нехитрую процедуру 
-                    регистрации и подтверждения вашей квалификации.
-                    </p>
-                    <p class="right-align">
-                        <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', array('role' => User::ROLE_JURIST)));?>
-                    </p>
-                </div>
+                <?php if(Yii::app()->user->isGuest):?>
+                    <div class="grey-panel inside">
+                        <h4>Вы специалист в области права?</h4>
+                        <p>
+                        Вы можете отвечать на вопросы наших пользователей пройдя нехитрую процедуру 
+                        регистрации и подтверждения вашей квалификации.
+                        </p>
+                        <p class="right-align">
+                            <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', array('role' => User::ROLE_JURIST)));?>
+                        </p>
+                    </div>
+                <?php endif;?>
             </div>
             <?php endif;?>
         </div>
