@@ -1056,8 +1056,9 @@ ul.hor-list-menu a.yellow-button,
         position:absolute;
         bottom:20px;
         padding:40px 20px;
-        background-color:rgba(255,255,255,0.4);
+        background-color:rgba(255,255,255,0.7);
         font-size:1.3em;
+        color:#333 !important;
     }
 }
 
