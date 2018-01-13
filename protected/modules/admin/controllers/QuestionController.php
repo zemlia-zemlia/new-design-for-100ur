@@ -632,17 +632,17 @@ class QuestionController extends Controller
 //            LIMIT 1
                     
             $md5 = Yii::app()->db->createCommand()
-                    ->select('id, md5(questionText) hash, COUNT(*) counter')
+                    ->select('id, md5(title) hash, COUNT(*) counter')
                     ->from('{{question}}')
                     ->where('status IN (2,4)')
-                    ->group('MD5(questionText)')
+                    ->group('MD5(title)')
                     ->having('counter>1')
                     ->order('counter DESC')
                     ->limit(1)
                     ->queryRow();
             
             $criteria = new CDbCriteria();
-            $criteria->addColumnCondition(array('MD5(questionText)' => $md5['hash']));
+            $criteria->addColumnCondition(array('MD5(title)' => $md5['hash']));
             $criteria->addInCondition('status', array(Question::STATUS_CHECK, Question::STATUS_PUBLISHED));
             $dataProvider = new CActiveDataProvider('Question', array(
                     'criteria'=>$criteria)
