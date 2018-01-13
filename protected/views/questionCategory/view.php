@@ -13,7 +13,7 @@ if(isset($_GET) && (int)$_GET['page'] && $questionsDataProvider->pagination) {
     $pagesTotal = ceil($questionsDataProvider->totalItemCount / $questionsDataProvider->pagination->getPageSize());
     $pageTitle .= 'Страница ' . $pageNumber . ' из ' . $pagesTotal . '. ';
 }
-$this->setPageTitle($pageTitle . ' ' . Yii::app()->name);
+$this->setPageTitle($pageTitle);
 
 
 

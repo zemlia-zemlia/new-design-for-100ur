@@ -22,7 +22,8 @@
 	
     <div class="form-group">
             <?php echo $form->labelEx($model,'seoTitle'); ?>
-            <?php echo $form->textField($model,'seoTitle',array('class'=>'form-control')); ?>
+            <?php echo $form->textField($model,'seoTitle',array('class'=>'form-control strlen-count')); ?>
+            <div class="length-counter"></div>
             <?php echo $form->error($model,'seoTitle'); ?>
 	</div>
         

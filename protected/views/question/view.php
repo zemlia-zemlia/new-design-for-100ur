@@ -2,7 +2,12 @@
 /* @var $this QuestionController */
 /* @var $model Question */
 
-$this->setPageTitle(CHtml::encode($model->title) . ". Консультация юриста и адвоката. " . Yii::app()->name);
+$pageTitle = (mb_strlen($model->title, 'utf-8')<50) ? CHtml::encode($model->title) . '. Консультация юриста' : CHtml::encode(mb_substr($model->title, 0, 85, 'utf-8'));
+
+$this->setPageTitle($pageTitle);
+
+$pageH1 = CHtml::encode(CustomFuncs::cutString($model->title, 70));
+
 Yii::app()->clientScript->registerLinkTag("canonical", NULL, Yii::app()->createUrl('question/view', array('id' => $model->id)));
 
 Yii::app()->clientScript->registerMetaTag(CHtml::encode(mb_substr($model->questionText, 0, 250, 'utf-8')), 'description');
@@ -66,7 +71,7 @@ $this->breadcrumbs = array(
 
         <div>
             <?php if ($model->title): ?>
-                <h1 itemprop="name" class="center-align"><?php echo CHtml::encode($model->title); ?></h1>
+                <h1 itemprop="name"><?php echo $pageH1; ?></h1>
             <?php endif; ?>
         </div>
     </div>

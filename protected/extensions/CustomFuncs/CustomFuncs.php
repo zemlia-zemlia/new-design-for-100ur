@@ -303,6 +303,29 @@ class CustomFuncs
             7 => 'вс',
         );
     }
+    
+    /**
+     * Обрезает строку до необходимой длины, сохраняя последнее слово целым
+     * @param string $string Исходная строка
+     * @param integer $len Максимальная длина итоговой строки
+     * @param string $encode Кодировка строки
+     */
+    public static function cutString($string, $len, $encode = 'utf-8')
+    {
+        // если строка и так короткая, не делаем ничего
+        if(mb_strlen($string, $encode) <= $len) {
+            return $string;
+        }
+        
+        $cuttedString = mb_substr($string, 0, $len, $encode);
+        
+        // определим позицию последнего пробела, чтобы в конце строки не было разрезанного слова
+        $lastSpacePosition = mb_strripos($cuttedString, ' ', 0, $encode);
+        
+        $finalString = mb_substr($string, 0, $lastSpacePosition, $encode);
+        
+        return $finalString;
+    }
 
 }
 ?>
