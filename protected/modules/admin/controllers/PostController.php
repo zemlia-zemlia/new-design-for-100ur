@@ -40,14 +40,8 @@ class PostController extends Controller {
      */
     public function actionView($id) {
 
-        $dependency = new CDbCacheDependency('SELECT MAX(datetime) FROM {{postComment}} WHERE postId=' . (int) $id);
 
-        $model = Post::model()->cache(180, $dependency, 1)->with(array(
-                    'author',
-                    'comments' => array('order' => 'comments.datetime DESC'),
-                    'commentsCount',
-                    'comments.author' => array('alias' => 'comment_author'), // избавляемся от конфликта имен при запросе
-                ))->findByPk($id);
+        $model = Post::model()->findByPk($id);
 
         if (!$model) {
             throw new CHttpException(404, 'Публикация не найдена');

@@ -16,6 +16,19 @@ $title .= ', ' . $user->town->name;
 
 $this->setPageTitle($title . '. ' . Yii::app()->name);
 
+// формируем метаописание профиля
+$pageDescription = '';
+if ($user->settings) {
+    // для юриста выведем его статус (юрист/адвокат)
+    $pageDescription.= $user->settings->getStatusName() . ' ';
+}
+$pageDescription .= CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName) . '. ';
+if($user->town) {
+    $pageDescription .= $user->town->name;
+}
+Yii::app()->clientScript->registerMetaTag($pageDescription, 'description');
+       
+
 if (Yii::app()->user->id != $user->id) {
     $this->widget('zii.widgets.CBreadcrumbs', array(
         'homeLink' => CHtml::link('100 Юристов', "/"),
@@ -25,14 +38,19 @@ if (Yii::app()->user->id != $user->id) {
 }
 ?>
 
-<div class="vert-margin30">
+<div class="vert-margin30"  itemscope itemtype="http://schema.org/Person">
     <h1 class='vert-margin30'>
         <?php if ($user->settings): ?>
-            <?php echo $user->settings->getStatusName(); ?> 
+            <span itemprop="jobTitle">
+                <?php echo $user->settings->getStatusName(); ?> 
+            </span>
         <?php endif; ?>
-        <?php
-        echo CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
-        ?>
+        
+        <span itemprop="name">
+            <?php
+                echo CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
+            ?>
+        </span>
         <?php if ($user->settings && $user->settings->isVerified): ?>
             <span class="text-success glyphicon glyphicon-ok-sign"></span>
         <?php endif; ?>
@@ -69,7 +87,11 @@ if (Yii::app()->user->id != $user->id) {
         <div class="row">
             <div class="col-sm-4 center-align">
                 <p>
-                    <img src="<?php echo $user->getAvatarUrl('big'); ?>" class='' />
+                    <img src="<?php echo $user->getAvatarUrl('big'); ?>" class='' alt="<?php
+                        echo CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
+                    ?>" title="<?php
+                        echo CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
+                    ?>" itemprop="image" />
                 </p>  
                 <?php if ($user->id == Yii::app()->user->id): ?>
                     <?php if (Yii::app()->user->role == User::ROLE_CLIENT): ?>

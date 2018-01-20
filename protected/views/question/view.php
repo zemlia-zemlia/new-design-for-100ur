@@ -2,7 +2,9 @@
 /* @var $this QuestionController */
 /* @var $model Question */
 
-$pageTitle = (mb_strlen($model->title, 'utf-8')<50) ? CHtml::encode($model->title) . '. Консультация юриста' : CHtml::encode(mb_substr($model->title, 0, 85, 'utf-8'));
+//$pageTitle = (mb_strlen($model->title, 'utf-8')<50) ? CHtml::encode($model->title) . '. Консультация юриста' : CHtml::encode(mb_substr($model->title, 0, 85, 'utf-8'));
+
+$pageTitle = CHtml::encode(CustomFuncs::cutString($model->title, 70));
 
 $this->setPageTitle($pageTitle);
 

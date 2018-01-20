@@ -1,5 +1,6 @@
 <?php
 $this->setPageTitle("Заказать звонок ". Yii::app()->name);
+Yii::app()->clientScript->registerMetaTag("Заказать звонок юриста, получить консультацию по телефону", 'description');
 ?>
 
 

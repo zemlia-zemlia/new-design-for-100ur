@@ -84,7 +84,7 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
                     'title'         =>  "Номер телефона необходим, чтобы юрист смог с Вами связаться. Нигде не публикуется.",
                     )); ?>
                 <small>
-                <img src="/pics/2017/red_lock.png" alt="" style="float:left;margin-top:10px;" />
+                <img src="/pics/2017/red_lock.png" alt="ваши данные в безопасности" style="float:left;margin-top:10px;" />
                 <p class="text-muted" style="padding-top:10px;margin-left:35px;">
 
                     Ваши данные в безопасности. Ваш телефон <strong>НИГДЕ и НИКОГДА</strong> не публикуется и доступен только юристу-консультанту
