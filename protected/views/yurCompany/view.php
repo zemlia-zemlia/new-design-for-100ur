@@ -18,17 +18,18 @@
         'links'=>$this->breadcrumbs,
      ));
 ?>
-
-    <div itemscope="" itemtype="http://schema.org/Organization">
-    <h1 class="vert-margin30 header-block-green"><span itemprop="name"><?php echo CHtml::encode($company->name); ?></span></h1>
 	
-	<div class="alert alert-info">
+	<div class="alert alert-danger">
 	  <i><strong>Внимание!</strong> Портал "100 Юристов" не связан с компаниями и организациями находящимися в данном каталоге и не несет ответственности за их деятельность. Каталог несет исключительно информационный характер. </i>
 	</div>  
 	
+    <div itemscope="" itemtype="http://schema.org/Organization">
+    <h1 class="vert-margin30"><span itemprop="name"><?php echo CHtml::encode($company->name); ?></span></h1>
+
+	
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-5">
                     <?php echo CHtml::image($company->getPhotoUrl(), CHtml::encode($company->name), array('class'=>'img-responsive', 'title' => CHtml::encode($company->name)));?>
                     
                     <?php
@@ -46,10 +47,10 @@
                     <?php if($averageRating):?>
 			<div itemprop="aggregateRating"
 				itemscope itemtype="http://schema.org/AggregateRating" class="center-align">
-			   Средняя оценка 
-                           <div>
+			   
+                           <div> 
                                 <strong style="font-size:20px;">
-                                    <span itemprop="ratingValue"><?php echo $averageRating;?></span>/5
+                                    Средняя оценка: <span itemprop="ratingValue"><?php echo $averageRating;?></span> из 5
                                 </strong>
                            </div>
                            <small class="text-muted">
@@ -59,7 +60,7 @@
                     <?php endif;?>
                     
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-7">
                     <?php if($company->town):?>
                     <p><strong>Город:</strong> <?php echo CHtml::encode($company->town->name);?></p>
                     <?php endif;?>
@@ -100,8 +101,8 @@
                 </div>
             </div>
         </div>
-    <hr/>    
-    <span itemprop="description">
+		<br/>
+     <span itemprop="description">
         <?php echo $company->description;?>
     </span>
 	<hr/>
@@ -110,15 +111,15 @@
         
         <div class="flat-panel">
             <div class="inside">
-            <h2>Оставить отзыв о компании</h2>
+            <h2>Взаимодействовали с компанией? <br/> Оставьте свой отзыв!</h2>
             <?php $this->renderPartial("application.views.comment._form", array('model'=>$comment));?>
             </div>
         </div> 
         
     <?php if($company->commentsChecked):?>
 
-
-	<h2 class="header-block-light-grey">Отзывы о компании:</h2>
+<br/>
+	<h2>Отзывы о компании:</h2>
 
     
         <br/>
@@ -210,9 +211,8 @@
 </div>  <!-- Product --> 
 
 <?php if(sizeof($company->town->companies)>1):?>
-
-        <h3 class="header-block header-block-green">Другие юридические компании города <?php echo CHtml::encode($company->town->name);?></h3>
-        <div class="header-block-green-arrow"></div>
+		<br/>
+        <h3 class="vert-margin30">Другие юридические компании города <?php echo CHtml::encode($company->town->name);?></h3>
             <div class="container-fluid">
                 <div class="row">
                 <?php 
