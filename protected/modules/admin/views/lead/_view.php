@@ -119,7 +119,7 @@ switch ($data->leadStatus) {
                 <?php echo CHtml::link($data->questionId, Yii::app()->createUrl('/admin/question/view', array('id' => $data->questionId))); ?>
             <?php else: ?>
                 <?php if ($data->sourceId != 3): ?>
-                    <?php echo CHtml::ajaxLink('В вопрос', Yii::app()->createUrl('/admin/lead/toQuestion', array('id' => $data->id)), array('type' => 'POST', 'success' => 'LeadToQuestionAjax'), array('class' => 'btn btn-default btn-xs btn-block')); ?>
+             <!--       <?php echo CHtml::ajaxLink('В вопрос', Yii::app()->createUrl('/admin/lead/toQuestion', array('id' => $data->id)), array('type' => 'POST', 'success' => 'LeadToQuestionAjax'), array('class' => 'btn btn-default btn-xs btn-block')); ?> -->
                 <?php endif; ?>
             <?php endif; ?>
 
