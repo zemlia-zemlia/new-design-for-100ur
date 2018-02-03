@@ -13,7 +13,7 @@ class TopYurists extends CWidget
         // найдем 6 рандомных юристов
 
         $users = Yii::app()->db->cache($this->cacheTime)->createCommand()
-                ->select('u.*, s.status yuristStatus')
+                ->select('u.*, s.status yuristStatus, s.*')
                 ->from('{{user}} u')
                 ->leftJoin('{{yuristSettings}} s', 's.yuristId = u.id')
                 //->leftJoin('{{town}} t', 't.id = u.townId')

@@ -70,8 +70,16 @@ class TownController extends Controller {
         ));
     }
 
-    // displays town by alias
-    public function actionAlias($name) {
+    /** 
+     * Вывод страницы города по алиасу
+     * 
+     * @param type $name
+     * @throws CHttpException
+     */
+    public function actionAlias($name) 
+    {
+        $this->layout = "/frontend/catalog";
+        
         $model = Town::model()->cache(60)->findByAttributes(array('alias' => CHtml::encode($name)));
         if (empty($model)) {
             throw new CHttpException(404, 'Город не найден');
@@ -103,18 +111,6 @@ class TownController extends Controller {
             $closeTownsIds[] = $t->id;
         }
 
-        //CustomFuncs::printr(implode(", ", $closeTownsIds));
-
-        $questions = Yii::app()->db->cache(300)->createCommand()
-                ->select('q.id id, q.publishDate date, q.title title, q.townId, COUNT(a.id) counter')
-                ->from('{{question}} q')
-                ->leftJoin('{{answer}} a', 'q.id=a.questionId')
-                ->group('q.id')
-                ->where('(q.status=:status1 OR q.status=:status2) AND q.townId=:townId ', array(':status1' => Question::STATUS_PUBLISHED, ':status2' => Question::STATUS_CHECK, ':townId' => $model->id))
-                ->limit(15)
-                ->order('q.publishDate DESC')
-                ->queryAll();
-
         // если в радиусе 100 километров есть города, добавим к выборке вопросов вопросы из соседних городов
         $questionsCloseTowns = array();
         if (sizeof($closeTownsIds)) {
@@ -129,9 +125,7 @@ class TownController extends Controller {
                     ->queryAll();
         }
 
-        $questions = $questions + $questionsCloseTowns;
-        //CustomFuncs::printr($questions);exit;
-
+        
         $questionModel = new Question();
 
         $regionId = $model->regionId;
@@ -140,13 +134,31 @@ class TownController extends Controller {
         //$closeTowns = $model->getCloseTowns();
         // категории вопросов - направления
         $allDirections = QuestionCategory::getDirections(true);
+        
+        
+        $criteria = new CDbCriteria;
+
+        $criteria->order = "karma DESC";
+        $criteria->with = array("settings", "town", "town.region", "categories", "answersCount");
+        $criteria->addColumnCondition(array('active100' => 1));
+        $criteria->addColumnCondition(array('avatar!' => ''));
+        $criteria->addColumnCondition(array('t.townId' => $model->id));
+        $criteria->addCondition("role = " . User::ROLE_JURIST);
+
+        $yuristsDataProvider = new CActiveDataProvider('User', array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 10,
+            ),
+        ));
+        
 
         $this->render('view', array(
             'model' => $model,
-            'questions' => $questions,
             'questionModel' => $questionModel,
             'closeTowns' => $closeTowns,
             'allDirections' => $allDirections,
+            'yuristsDataProvider'   =>  $yuristsDataProvider,
         ));
     }
 

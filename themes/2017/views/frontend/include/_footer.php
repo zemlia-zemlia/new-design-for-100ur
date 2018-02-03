@@ -7,7 +7,7 @@
                 <div class="vert-margin20">
                 <?php echo ($_SERVER['REQUEST_URI'] != '/site/about/') ? CHtml::link('О проекте', Yii::app()->createUrl('/site/about/')) : '<span class="active">О проекте</span>'; ?><br />
                 <?php echo ($_SERVER['REQUEST_URI'] != '/site/offer/') ? CHtml::link('Пользовательское соглашение', Yii::app()->createUrl('/site/offer/')) : '<span class="active">Пользовательское соглашение</span>'; ?><br />
-                <?php echo ($_SERVER['REQUEST_URI'] != '/region/') ? CHtml::link('География', Yii::app()->createUrl('/region/')) : '<span class="active">География</span>'; ?><br />
+                <?php echo ($_SERVER['REQUEST_URI'] != '/region/') ? CHtml::link('Каталог юристов', Yii::app()->createUrl('/region/country', ['countryAlias' => 'russia'])) : '<span class="active">География</span>'; ?><br />
                 </div>
                 
                 <div id="social-icons-container">

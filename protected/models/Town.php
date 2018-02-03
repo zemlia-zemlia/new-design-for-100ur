@@ -76,6 +76,7 @@ class Town extends CActiveRecord
             'questions'           =>  array(self::HAS_MANY, 'Question', 'townId'),
             'questionsCount'      =>  array(self::STAT, 'Question', 'townId'),
             'companies'           =>  array(self::HAS_MANY, 'YurCompany', 'townId'),
+            'yurists'             =>  array(self::HAS_MANY, 'User', 'townId', 'condition' => 'role='.User::ROLE_JURIST),
             'region'              =>  array(self::BELONGS_TO, 'Region', 'regionId'),
             'country'             =>  array(self::BELONGS_TO, 'Country', 'countryId'),
         );
@@ -184,7 +185,7 @@ class Town extends CActiveRecord
         if(!empty($this->seoTitle)) {
            $pageTitle =  $this->seoTitle;
         } else {
-            $pageTitle = "Консультация юриста в городе " . CHtml::encode($this->name) . ". ".CHtml::encode($this->region->name) . ". ". Yii::app()->name;
+            $pageTitle = "Консультация юриста в городе " . CHtml::encode($this->name) . ". ".CHtml::encode($this->region->name) . ". ";
         }
         return $pageTitle;
     }

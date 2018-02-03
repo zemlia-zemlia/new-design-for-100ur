@@ -1,11 +1,34 @@
 <?php
 /* @var $this UserController */
 /* @var $model User */
+/**
+ * Просмотр профиля юриста
+ */
 
-$this->breadcrumbs = array(
-    'Юристы' => array('/yurist'),
-    CHtml::encode($user->name . ' ' . $user->lastName),
-);
+// Построим цепочку хлебных крошек из ссылок на город и регион юриста
+
+$town = $user->town;
+if($town) {
+    $region = $town->region;
+    $country = $town->country;
+}
+
+$this->breadcrumbs = [];
+
+if($country) {
+    $this->breadcrumbs[$country->name] = Yii::app()->createUrl('region/country', ['countryAlias' => $country->alias]);
+}
+if($region && $country) {
+    $this->breadcrumbs[$region->name] = Yii::app()->createUrl('region/view', ['countryAlias' => $country->alias, 'regionAlias' => $region->alias]);
+}
+if($town && $region && $country) {
+    $this->breadcrumbs[$town->name] = Yii::app()->createUrl('town/alias', ['countryAlias' => $country->alias, 'regionAlias' => $region->alias, 'name' => $town->alias]);
+}
+
+$this->breadcrumbs[] = CHtml::encode($user->name . ' ' . $user->lastName);
+
+
+
 $title = CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
 
 if ($user->settings) {

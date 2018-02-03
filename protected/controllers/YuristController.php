@@ -32,6 +32,10 @@ class YuristController extends Controller {
     }
 
     public function actionIndex() {
+        
+        return $this->redirect(['region/country', 'countryAlias' => 'russia'], true, 301);
+        
+        
         $criteria = new CDbCriteria;
 
         $criteria->order = "karma DESC";

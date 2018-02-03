@@ -43,7 +43,7 @@ class Region extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'towns' => array(self::HAS_MANY, 'Town', 'regionId'),
+            'towns' => array(self::HAS_MANY, 'Town', 'regionId', 'order' => 'isCapital DESC, name ASC'),
             'country' => array(self::BELONGS_TO, 'Country', 'countryId'),
             'capital' => array(self::HAS_ONE, 'Town', 'regionId', 'condition' => 'isCapital=1'),
         );
