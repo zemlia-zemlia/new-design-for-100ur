@@ -13,6 +13,11 @@ RewriteBase /
 RewriteCond %{HTTP_HOST} ^www\.100yuristov\.com$ [NC] 
 RewriteRule ^(.*)$ https://100yuristov.com/$1 [R=301,L]
 
+# замена раздела region на yurist
+RewriteCond %{REQUEST_URI} ^/region/(.*)$ [NC]
+RewriteRule ^region/(.*)$ /yurist/$1 [R=301,L]
+
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !/$
