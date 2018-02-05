@@ -38,7 +38,7 @@ class OrderController extends Controller {
                 'expression'    =>  "Yii::app()->user->checkAccess(User::ROLE_JURIST)",
             ),
             array('allow',
-                'actions' => array('setJurist', 'cancel', 'update'),
+                'actions' => array('setJurist', 'cancel', 'update', 'toArchive'),
                 'users' => array('@'),
                 'expression'    =>  "Yii::app()->user->checkAccess(User::ROLE_CLIENT)",
             ),
@@ -307,6 +307,33 @@ class OrderController extends Controller {
         return $this->render('update', [
             'order' =>  $order,
         ]);
+    }
+    
+    /**
+     * Архивация заказа клиентом
+     * 
+     * @param integer $id ID заказа
+     * @throws CHttpException
+     */
+    public function actionToArchive($id)
+    {
+        $order = Order::model()->findByPk($id);
+        
+        if(!$order) {
+            throw new CHttpException(404, 'Заказ не найден');
+        }
+        
+        if($order->userId != Yii::app()->user->id) {
+            throw new CHttpException(403, 'Нельзя менять чужой заказ');
+        }
+        
+        $order->status = Order::STATUS_ARCHIVE;
+        
+        if($order->save()) {
+            $this->redirect(['order/view', 'id'=>$order->id]);
+        } else {
+            throw new CHttpException(500, 'Не удалось изменить статус заказа');
+        }
     }
 
 }

@@ -30,7 +30,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <h1>Заказ документа #<?php echo $order->id; ?></h1>
 
 <div class="row">
-    <div class="<?php echo (Yii::app()->user->role != User::ROLE_JURIST)?'col-sm-8':'col-sm-12';?>">
+    <div class="<?php echo (Yii::app()->user->role != User::ROLE_JURIST) ? 'col-sm-8' : 'col-sm-12'; ?>">
         <table class="table table-bordered">
             <tr>
                 <td>
@@ -139,24 +139,35 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             </tr>
         </table>
     </div>
-    <?php if(Yii::app()->user->role != User::ROLE_JURIST):?>
+    <?php if (Yii::app()->user->role != User::ROLE_JURIST): ?>
         <div class="col-sm-4">
             <p><strong>Ход работы над заказом</strong></p>
             <ol>
                 <li class="text-success">Заказ создан</li>
-                <li class="<?php echo ($order->status!=Order::STATUS_NEW)?'text-success':'text-muted';?>">Заказ подтвержден</li>
-                <li class="<?php echo ($order->responsesCount!=0)?'text-success':'text-muted';?>">Юристы откликнулись 
-                    <?php if($order->responsesCount>0):?>
-                        (<?php echo $order->responsesCount;?>)
-                    <?php endif;?>
+                <li class="<?php echo ($order->status != Order::STATUS_NEW) ? 'text-success' : 'text-muted'; ?>">Заказ подтвержден</li>
+                <li class="<?php echo ($order->responsesCount != 0) ? 'text-success' : 'text-muted'; ?>">Юристы откликнулись 
+                    <?php if ($order->responsesCount > 0): ?>
+                        (<?php echo $order->responsesCount; ?>)
+                    <?php endif; ?>
                 </li>
-                <li class="<?php echo ($order->juristId!=0)?'text-success':'text-muted';?>">Выбран юрист</li>
-                <li class="<?php echo (in_array($order->status, [Order::STATUS_JURIST_CONFIRMED, Order::STATUS_CLOSED, Order::STATUS_DONE]))?'text-success':'text-muted';?>">Заказ в работе</li>
-                <li class="<?php echo ($order->juristId!=0)?'text-success':'text-muted';?>">Заказ выполнен</li>
-                <li class="<?php echo ($order->status == Order::STATUS_CLOSED)?'text-success':'text-muted';?>">Заказ закрыт</li>
+                <li class="<?php echo ($order->juristId != 0) ? 'text-success' : 'text-muted'; ?>">Выбран юрист</li>
+                <li class="<?php echo (in_array($order->status, [Order::STATUS_JURIST_CONFIRMED, Order::STATUS_CLOSED, Order::STATUS_DONE])) ? 'text-success' : 'text-muted'; ?>">Заказ в работе</li>
+                <li class="<?php echo ($order->juristId != 0) ? 'text-success' : 'text-muted'; ?>">Заказ выполнен</li>
+                <li class="<?php echo ($order->status == Order::STATUS_CLOSED) ? 'text-success' : 'text-muted'; ?>">Заказ закрыт</li>
             </ol>
         </div>
-    <?php endif;?>
+
+        <?php if (Yii::app()->user->role == User::ROLE_CLIENT && $order->status != Order::STATUS_ARCHIVE): ?>
+            <strong>Заказ больше не актуален?</strong>
+            <p>
+                <?php echo CHtml::link("Отправить в архив", Yii::app()->createUrl('order/toArchive', ['id' => $order->id])); ?><br />
+                Юристы не будут видеть Ваш заказ и не смогут на него откликнуться
+            </p>
+        <?php endif; ?>
+
+    <?php endif; ?>
+
+
 </div>
 
 
@@ -197,39 +208,39 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 }
                 ?>
 
-        <?php if ($response->status != Comment::STATUS_SPAM): ?>
+                <?php if ($response->status != Comment::STATUS_SPAM): ?>
                     <div class="answer-comment order-response" style="margin-left:<?php echo ($response->level - 1) * 20; ?>px;">
 
                         <div class="row">
                             <div class="col-sm-2 col-xs-4">
 
 
-            <?php if ($response->author): ?>
+                                <?php if ($response->author): ?>
                                     <div class="answer-item-avatar">
                                         <img src="<?php echo $response->author->getAvatarUrl(); ?>" alt="<?php echo CHtml::encode($response->author->name . ' ' . $response->author->lastName); ?>" class="img-responsive" />
                                     </div>
                                 <?php endif; ?>
 
-            <?php if (floor((time() - strtotime($response->author->lastActivity)) / 60) < 60): ?>
+                                <?php if (floor((time() - strtotime($response->author->lastActivity)) / 60) < 60): ?>
                                     <div>
                                         <small>
                                             <span class="glyphicon glyphicon-flash"></span>
                                             <span class="text-success">Сейчас на сайте</span>
                                         </small>
                                     </div>
-            <?php endif; ?>
+                                <?php endif; ?>
 
                             </div>
                             <div class="col-sm-10 col-xs-8">
                                 <div class="row answer-item-author-block vert-margin20">
                                     <div class="col-sm-6">
                                         <p>
-            <?php echo CHtml::link(CHtml::encode($response->author->name . ' ' . $response->author->lastName), Yii::app()->createUrl('user/view', ['id' => $response->author->id])); ?>
-            <?php if ($response->author->settings->isVerified): ?>
+                                            <?php echo CHtml::link(CHtml::encode($response->author->name . ' ' . $response->author->lastName), Yii::app()->createUrl('user/view', ['id' => $response->author->id])); ?>
+                                            <?php if ($response->author->settings->isVerified): ?>
                                                 <small>
                                                     <span class="label label-default"><?php echo $response->author->settings->getStatusName(); ?></span>
                                                 </small>
-            <?php endif; ?>
+                                            <?php endif; ?>
 
                                         </p>
                                     </div>
@@ -237,7 +248,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                         <div class="right-align order-price-tag">
                                             выполню заказ за
                                             <span class="label label-success">
-            <?php echo $response->price; ?> руб. 
+                                                <?php echo $response->price; ?> руб. 
                                             </span>
                                         </div>
                                     </div>
@@ -246,29 +257,29 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 
                                 <p>
-                                <?php echo CHtml::encode($response->text); ?>
+                                    <?php echo CHtml::encode($response->text); ?>
                                 </p>
 
-                                    <?php foreach ($response->comments as $comment): ?>
+                                <?php foreach ($response->comments as $comment): ?>
                                     <div class="answer-comment" style="margin-left:<?php echo ($comment->level - 1) * 20; ?>px;">
 
-                                                <?php //CustomFuncs::printr($comment->children); ?>
+                                        <?php //CustomFuncs::printr($comment->children); ?>
                                         <p> <strong><span class="glyphicon glyphicon-comment"></span> 
 
-                <?php echo CHtml::encode($comment->author->name . ' ' . $comment->author->lastName); ?>
-                <?php if ($comment->author->settings->isVerified): ?>
+                                                <?php echo CHtml::encode($comment->author->name . ' ' . $comment->author->lastName); ?>
+                                                <?php if ($comment->author->settings->isVerified): ?>
                                                     <small>
                                                         <span class="label label-default"><?php echo $comment->author->settings->getStatusName(); ?></span>
                                                     </small>
-                <?php endif; ?>
+                                                <?php endif; ?>
 
                                             </strong>
                                         </p>
                                         <p>
-                                        <?php echo CHtml::encode($comment->text); ?>
+                                            <?php echo CHtml::encode($comment->text); ?>
                                         </p>
 
-                <?php if (!is_null($commentModel) && $comment->authorId != Yii::app()->user->id): ?>
+                                        <?php if (!is_null($commentModel) && $comment->authorId != Yii::app()->user->id): ?>
                                             <div class="right-align"> 
                                                 <a class="btn btn-xs btn-default" role="button" data-toggle="collapse" href="#collapse-comment-<?php echo $comment->id; ?>" aria-expanded="false">
                                                     Ответить
@@ -286,23 +297,23 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                                 ));
                                                 ?>
                                             </div>
-                                    <?php endif; ?>
+                                        <?php endif; ?>
                                     </div>
-            <?php endforeach; ?>
+                                <?php endforeach; ?>
 
                             </div>
                         </div>
 
 
 
-            <?php if (!is_null($commentModel) && ($order->userId == Yii::app()->user->id)): ?>
+                        <?php if (!is_null($commentModel) && ($order->userId == Yii::app()->user->id)): ?>
                             <div class="right-align">
                                 <a class="btn btn-xs btn-warning" role="button" data-toggle="collapse" href="#collapse-response-<?php echo $response->id; ?>" aria-expanded="false">
                                     Обсудить условия
                                 </a>
                                 <?php if ($order->userId == Yii::app()->user->id && !$order->juristId): ?>
-                    <?php echo CHtml::link('Выбрать исполнителем', Yii::app()->createUrl('/order/setJurist', ['id' => $order->id, 'juristId' => $response->authorId, 'price' => $response->price]), ['class' => 'btn btn-xs btn-success']); ?>
-                <?php endif; ?>
+                                    <?php echo CHtml::link('Выбрать исполнителем', Yii::app()->createUrl('/order/setJurist', ['id' => $order->id, 'juristId' => $response->authorId, 'price' => $response->price]), ['class' => 'btn btn-xs btn-success']); ?>
+                                <?php endif; ?>
 
                             </div>   
                             <div class="row">
@@ -321,7 +332,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                     </div>
                                 </div>
                             </div>
-                    <?php endif; ?>
+                        <?php endif; ?>
                     </div>
                 <?php endif; ?>
                 <hr />
@@ -338,22 +349,22 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     'parentId' => 0,
                 ));
                 ?>
-        <?php endif; ?>
+            <?php endif; ?>
         </div>
-<?php endif; ?>
+    <?php endif; ?>
 
     <div role="tabpanel" class="tab-pane <?php echo $commentsClass; ?>" id="comments">
 
         <h2>Сообщения</h2>
         <div class="container-fluid">
-            
-            <?php if(sizeof($order->comments == 0) && Yii::app()->user->id == $order->userId):?>
-            <p>
-                Здесь будет переписка с выбранным исполнителем заказа
-            </p>
-            <?php endif;?>
-            
-<?php foreach ($order->comments as $com): ?>
+
+            <?php if (sizeof($order->comments == 0) && Yii::app()->user->id == $order->userId): ?>
+                <p>
+                    Здесь будет переписка с выбранным исполнителем заказа
+                </p>
+            <?php endif; ?>
+
+            <?php foreach ($order->comments as $com): ?>
                 <div class="row">
                     <div class="answer-comment 
                     <?php
@@ -366,15 +377,15 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                          ">
 
                         <p> <strong><span class="glyphicon glyphicon-comment"></span> 
-    <?php echo ($com->authorId == Yii::app()->user->id) ? 'Вы' : CHtml::encode($com->author->name . ' ' . $com->author->lastName); ?>
+                                <?php echo ($com->authorId == Yii::app()->user->id) ? 'Вы' : CHtml::encode($com->author->name . ' ' . $com->author->lastName); ?>
                             </strong>
                         </p>
                         <p>
-    <?php echo CHtml::encode($com->text); ?>
+                            <?php echo CHtml::encode($com->text); ?>
                         </p>
                     </div>
                 </div>
-<?php endforeach; ?>
+            <?php endforeach; ?>
         </div>
 
         <?php
@@ -394,6 +405,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     //'parentId'  => $comment->id,
             ));
             ?>
-<?php endif; ?>
+        <?php endif; ?>
     </div>
 </div>
