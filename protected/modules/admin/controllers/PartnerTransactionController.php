@@ -97,6 +97,9 @@ class PartnerTransactionController extends Controller {
 
         if ($request->save()) {
             if ($requestVerified == PartnerTransaction::STATUS_COMPLETE) {
+                // меняем баланс пользователя
+                Yii::app()->db->createCommand("UPDATE {{user}} SET balance = balance-" . abs($request->sum) . " WHERE id=" . $request->partnerId)->query();
+                Yii::app()->cache->delete('webmaster_' . $request->partnerId . '_balance');
                 
                 // если одобрили вывод средств, создаем транзакцию в кассе
                 $moneyTransaction = new Money();

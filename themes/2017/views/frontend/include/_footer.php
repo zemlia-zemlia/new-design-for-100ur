@@ -1,15 +1,15 @@
 <div id="footer">
     <div class='container'>
         <div class='row'>
-            
+
             <div class="col-sm-3">
                 <h3 class="left-align">100 Юристов</h3>  
                 <div class="vert-margin20">
-                <?php echo ($_SERVER['REQUEST_URI'] != '/site/about/') ? CHtml::link('О проекте', Yii::app()->createUrl('/site/about/')) : '<span class="active">О проекте</span>'; ?><br />
-                <?php echo ($_SERVER['REQUEST_URI'] != '/site/offer/') ? CHtml::link('Пользовательское соглашение', Yii::app()->createUrl('/site/offer/')) : '<span class="active">Пользовательское соглашение</span>'; ?><br />
-                <?php echo ($_SERVER['REQUEST_URI'] != '/region/') ? CHtml::link('Каталог юристов', Yii::app()->createUrl('/region/country', ['countryAlias' => 'russia'])) : '<span class="active">География</span>'; ?><br />
+                    <?php echo ($_SERVER['REQUEST_URI'] != '/site/about/') ? CHtml::link('О проекте', Yii::app()->createUrl('/site/about/')) : '<span class="active">О проекте</span>'; ?><br />
+                    <?php echo ($_SERVER['REQUEST_URI'] != '/site/offer/') ? CHtml::link('Пользовательское соглашение', Yii::app()->createUrl('/site/offer/')) : '<span class="active">Пользовательское соглашение</span>'; ?><br />
+                    <?php echo ($_SERVER['REQUEST_URI'] != '/region/') ? CHtml::link('Каталог юристов', Yii::app()->createUrl('/region/country', ['countryAlias' => 'russia'])) : '<span class="active">География</span>'; ?><br />
                 </div>
-                
+
                 <div id="social-icons-container">
                     <noindex>
                         <a href="https://www.instagram.com/100yuristov/" target="_blank" rel="nofollow"><img src="/pics/2017/ig_icon.png" alt="Instagram" /></a>
@@ -23,11 +23,11 @@
             </div>
             <div class="col-sm-3">
                 <h3 class="left-align">Клиентам</h3>
-                    <?php echo ($_SERVER['REQUEST_URI'] != '/q/')?CHtml::link('Новые вопросы', Yii::app()->createUrl('/question/index')):'<span class="active">Новые вопросы</span>';?> <br />			
-                    <?php echo ($_SERVER['REQUEST_URI'] != '/company/') ? CHtml::link('Каталог компаний России', Yii::app()->createUrl('/company/')) : '<span class="active">Каталог компаний</span>'; ?><br />
-					<?php echo ($_SERVER['REQUEST_URI'] != '/site/goryachaya_liniya/')?CHtml::link('Горячая линия', Yii::app()->createUrl('/site/goryachaya_liniya/')):'<span class="active">Горячая линия</span>';?><br />
-					<?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/')?CHtml::link('Наши филиалы', Yii::app()->createUrl('/site/contacts')):'<span class="active">Наши филиалы</span>';?><br />
-					<?php echo ($_SERVER['REQUEST_URI'] != '/blog/')?CHtml::link('Советы юристов', Yii::app()->createUrl('/blog')):'<span class="active">Советы юристов</span>';?>
+                <?php echo ($_SERVER['REQUEST_URI'] != '/q/') ? CHtml::link('Новые вопросы', Yii::app()->createUrl('/question/index')) : '<span class="active">Новые вопросы</span>'; ?> <br />			
+                <?php echo ($_SERVER['REQUEST_URI'] != '/company/') ? CHtml::link('Каталог компаний России', Yii::app()->createUrl('/company/')) : '<span class="active">Каталог компаний</span>'; ?><br />
+                <?php echo ($_SERVER['REQUEST_URI'] != '/site/goryachaya_liniya/') ? CHtml::link('Горячая линия', Yii::app()->createUrl('/site/goryachaya_liniya/')) : '<span class="active">Горячая линия</span>'; ?><br />
+                <?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/') ? CHtml::link('Наши филиалы', Yii::app()->createUrl('/site/contacts')) : '<span class="active">Наши филиалы</span>'; ?><br />
+                <?php echo ($_SERVER['REQUEST_URI'] != '/blog/') ? CHtml::link('Советы юристов', Yii::app()->createUrl('/blog')) : '<span class="active">Советы юристов</span>'; ?>
             </div>
             <div class="col-sm-3">
                 <h3 class="left-align">Юристам</h3>
@@ -38,12 +38,13 @@
                 </p>
                 <h3 class="left-align">Партнерам</h3>
                 <p>
-                    <?php echo ($_SERVER['REQUEST_URI'] != '/site/partners/') ? CHtml::link('Партнерская программа', Yii::app()->createUrl('/site/partners/')) : '<span class="active">Партнерская программа</span>'; ?><br />
+                    <?php echo ($_SERVER['REQUEST_URI'] != '/site/referal/') ? CHtml::link('Партнерская программа', Yii::app()->createUrl('/site/referal/')) : '<span class="active">Партнерская программа</span>'; ?><br />
+                    <?php echo ($_SERVER['REQUEST_URI'] != '/site/partners/') ? CHtml::link('Вебмастерам', Yii::app()->createUrl('/site/partners/')) : '<span class="active">Вебмастерам</span>'; ?><br />
                 </p>
             </div>
-            
+
             <div class="col-sm-3">
-                
+
                 <div itemscope itemtype="http://schema.org/Organization" class="vert-margin20 small"> 
                     <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                         <p>
@@ -52,37 +53,37 @@
                     </div>
                     <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                         <p>
-                        <span itemprop="addressLocality">Санкт-Петербург</span> <span itemprop="streetAddress">Ул. Достоевского д.25</span>
+                            <span itemprop="addressLocality">Санкт-Петербург</span> <span itemprop="streetAddress">Ул. Достоевского д.25</span>
                         </p>
                     </div>
                     <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                         <p>
-                        <span itemprop="addressLocality">Нижний Новгород</span> <span itemprop="streetAddress">Ул. Новая, д. 28</span>
+                            <span itemprop="addressLocality">Нижний Новгород</span> <span itemprop="streetAddress">Ул. Новая, д. 28</span>
                         </p>
                     </div>
                     <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                         <p>
-                        <span itemprop="addressLocality">Екатеринбург</span> <span itemprop="streetAddress">Ул. 8 Марта, д. 142</span>
+                            <span itemprop="addressLocality">Екатеринбург</span> <span itemprop="streetAddress">Ул. 8 Марта, д. 142</span>
                         </p>
                     </div>
                     <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                         <p>
-                        <span itemprop="addressLocality">Ростов-на-Дону</span> <span itemprop="streetAddress">Ул. Красноармейская, д. 142/50</span>
+                            <span itemprop="addressLocality">Ростов-на-Дону</span> <span itemprop="streetAddress">Ул. Красноармейская, д. 142/50</span>
                         </p>
                     </div>
                     <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                         <p>
-                        <span itemprop="addressLocality">Краснодар</span> <span itemprop="streetAddress">Ул. Московская, 148</span>
+                            <span itemprop="addressLocality">Краснодар</span> <span itemprop="streetAddress">Ул. Московская, 148</span>
                         </p>
                     </div> 
                     <p>
-                    <span itemprop="name">100 Юристов</span>: 
+                        <span itemprop="name">100 Юристов</span>: 
 
-                    <span itemprop="telephone">8-800-500-61-85</span>
+                        <span itemprop="telephone">8-800-500-61-85</span>
                     </p>
                 </div>
-                
-                
+
+
             </div>
         </div>     
         <div class='row'>
@@ -101,13 +102,20 @@
 
 <?php if (Yii::app()->user->role != User::ROLE_ROOT): ?>    
     <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-      ga('create', 'UA-56588534-1', 'auto');
-      ga('send', 'pageview');
+        ga('create', 'UA-56588534-1', 'auto');
+        ga('send', 'pageview');
 
     </script>
 
@@ -171,16 +179,15 @@
 
 
 <?php endif; ?>
-    
-    <?php if(Yii::app()->user->isGuest):?>
+
+<?php if (Yii::app()->user->isGuest): ?>
     <script type="text/javascript">
-        $(function(){
-            console.log('doc ready');
+        $(function () {
             document.oncopy = addLink;
         })
-        
+
     </script>
-    <?php endif;?>
+<?php endif; ?>
 
 </body>
 </html>

@@ -4,24 +4,23 @@
 /**
  * Просмотр профиля юриста
  */
-
 // Построим цепочку хлебных крошек из ссылок на город и регион юриста
 
 $town = $user->town;
-if($town) {
+if ($town) {
     $region = $town->region;
     $country = $town->country;
 }
 
 $this->breadcrumbs = [];
 
-if($country) {
+if ($country) {
     $this->breadcrumbs[$country->name] = Yii::app()->createUrl('region/country', ['countryAlias' => $country->alias]);
 }
-if($region && $country) {
+if ($region && $country) {
     $this->breadcrumbs[$region->name] = Yii::app()->createUrl('region/view', ['countryAlias' => $country->alias, 'regionAlias' => $region->alias]);
 }
-if($town && $region && $country) {
+if ($town && $region && $country) {
     $this->breadcrumbs[$town->name] = Yii::app()->createUrl('town/alias', ['countryAlias' => $country->alias, 'regionAlias' => $region->alias, 'name' => $town->alias]);
 }
 
@@ -43,14 +42,14 @@ $this->setPageTitle($title . '. ' . Yii::app()->name);
 $pageDescription = '';
 if ($user->settings) {
     // для юриста выведем его статус (юрист/адвокат)
-    $pageDescription.= $user->settings->getStatusName() . ' ';
+    $pageDescription .= $user->settings->getStatusName() . ' ';
 }
 $pageDescription .= CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName) . '. ';
-if($user->town) {
+if ($user->town) {
     $pageDescription .= $user->town->name;
 }
 Yii::app()->clientScript->registerMetaTag($pageDescription, 'description');
-       
+
 
 if (Yii::app()->user->id != $user->id) {
     $this->widget('zii.widgets.CBreadcrumbs', array(
@@ -68,10 +67,10 @@ if (Yii::app()->user->id != $user->id) {
                 <?php echo $user->settings->getStatusName(); ?> 
             </span>
         <?php endif; ?>
-        
+
         <span itemprop="name">
             <?php
-                echo CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
+            echo CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
             ?>
         </span>
         <?php if ($user->settings && $user->settings->isVerified): ?>
@@ -111,10 +110,10 @@ if (Yii::app()->user->id != $user->id) {
             <div class="col-sm-4 center-align">
                 <p>
                     <img src="<?php echo $user->getAvatarUrl('big'); ?>" class='' alt="<?php
-                        echo CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
+                    echo CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
                     ?>" title="<?php
-                        echo CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
-                    ?>" itemprop="image" />
+                         echo CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
+                         ?>" itemprop="image" />
                 </p>  
                 <?php if ($user->id == Yii::app()->user->id): ?>
                     <?php if (Yii::app()->user->role == User::ROLE_CLIENT): ?>
@@ -157,47 +156,47 @@ if (Yii::app()->user->id != $user->id) {
                             ?>
 
                             <p class="kpi-counter">
-    <?php foreach ($numbers as $num): ?><span><?php echo $num; ?></span><?php endforeach; ?><br />
+                                <?php foreach ($numbers as $num): ?><span><?php echo $num; ?></span><?php endforeach; ?><br />
                             </p>
 
                         </div>
                         <div class="col-sm-4 col-xs-6 center-align">
                             <p><abbr title="Количество благодарностей за полезный ответ">Карма</abbr></p>
                             <p class="kpi-counter">
-    <?php foreach ($numbersKarma as $num): ?><span><?php echo $num; ?></span><?php endforeach; ?><br />
+                                <?php foreach ($numbersKarma as $num): ?><span><?php echo $num; ?></span><?php endforeach; ?><br />
                             </p>
                         </div>
-<?php endif; ?>
+                    <?php endif; ?>
                 </div>
 
                 <hr/>
 
-<?php if ($user->role == User::ROLE_JURIST): ?>
+                <?php if ($user->role == User::ROLE_JURIST): ?>
 
                     <h3 class="left-align">Контакты</h3>
                     <div class='row'>                                                 
 
-    <?php if ($user->settings->phoneVisible): ?>
+                        <?php if ($user->settings->phoneVisible): ?>
                             <div class="col-md-6">
                                 <p>
                                     <strong><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span></strong> 
-        <?php echo $user->settings->phoneVisible; ?>
+                                    <?php echo $user->settings->phoneVisible; ?>
 
                                 </p> 
                             </div>
                         <?php endif; ?>
 
-    <?php if ($user->settings->emailVisible): ?>
+                        <?php if ($user->settings->emailVisible): ?>
                             <div class="col-md-6">
                                 <p>
                                     <strong><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></strong> 
-        <?php echo CHtml::encode($user->settings->emailVisible); ?>
+                                    <?php echo CHtml::encode($user->settings->emailVisible); ?>
 
                                 </p>
                             </div>
                         <?php endif; ?>
 
-    <?php if ($user->settings->site): ?>
+                        <?php if ($user->settings->site): ?>
                             <div class="col-md-6">
                                 <p>
                                     <strong><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></strong> <?php echo CHtml::link(CHtml::encode($user->settings->site), CHtml::encode($user->settings->site), array('target' => '_blank', 'rel' => 'nofollow')); ?>
@@ -207,11 +206,11 @@ if (Yii::app()->user->id != $user->id) {
 
                         <?php if (!$user->settings->site && !$user->settings->emailVisible && !$user->settings->phoneVisible): ?>
                             К сожалению, юрист не указал своих контактных данных
-    <?php endif; ?>
+                        <?php endif; ?>
 
                     </div>
                     <hr/>
-<?php endif; ?>
+                <?php endif; ?>
 
             </div>
 
@@ -219,72 +218,66 @@ if (Yii::app()->user->id != $user->id) {
     </div>
     <?php if ($user->role == User::ROLE_JURIST): ?>
 
-    <?php if ($user->settings->description): ?>
+        <?php if ($user->settings->description): ?>
             <h3 class="left-align">О себе</h3>
             <p><?php echo CHtml::encode($user->settings->description); ?></p>
             <hr />
-    <?php endif; ?>
+        <?php endif; ?>
 
 
         <div class="row">
             <div class="col-sm-4">
-    <?php if ($user->settings->education): ?>
+                <?php if ($user->settings->education): ?>
                     <div class='vert-margin20'>             
                         <h3 class="left-align">Образование 
                             <?php if ($user->settings && $user->settings->isVerified): ?>
                                 <span class="text-success glyphicon glyphicon-ok-sign"></span>
-        <?php endif; ?>
+                            <?php endif; ?>
                         </h3> 
                         <p>
                             <?php if ($user->settings->education) echo $user->settings->education . ', '; ?><br />
                             <?php if ($user->settings->vuz) echo 'ВУЗ: ' . $user->settings->vuz . ', '; ?><br />
                             <?php if ($user->settings->vuzTownId) echo 'Город: ' . $user->settings->vuzTown->name . ', '; ?><br />
-        <?php if ($user->settings->educationYear) echo 'Год окончания: ' . $user->settings->educationYear . '.'; ?>
+                            <?php if ($user->settings->educationYear) echo 'Год окончания: ' . $user->settings->educationYear . '.'; ?>
 
                         </p>
                     </div> 
-    <?php endif; ?>
+                <?php endif; ?>
             </div>
             <div class="col-sm-8">
-    <?php if ($user->categories): ?>
+                <?php if ($user->categories): ?>
                     <div class='vert-margin20'>  
                         <h3 class="left-align">Специализации</h3>
 
                         <?php foreach ($user->categories as $cat): ?>
                             <span class="yurist-directions-item"><?php echo $cat->name; ?></span>
-        <?php endforeach; ?>
+                        <?php endforeach; ?>
 
                     </div>
-    <?php endif; ?>
+                <?php endif; ?>
             </div>
         </div>            
 
         <hr />
 
-    <?php if ($user->settings->priceConsult > 0 || $user->settings->priceDoc > 0): ?>
+        <?php if ($user->settings->priceConsult > 0 || $user->settings->priceDoc > 0): ?>
             <div class='vert-margin20'> 
                 <h3 class="left-align">Платные услуги</h3>
                 <?php if ($user->settings->priceConsult > 0): ?>
                     <p>Консультация от <?php echo $user->settings->priceConsult; ?> руб.</p>
                 <?php endif; ?>
-                    <?php if ($user->settings->priceDoc > 0): ?>
+                <?php if ($user->settings->priceDoc > 0): ?>
                     <p>Составление документа от <?php echo $user->settings->priceDoc; ?> руб.
                         <?php if ($user->id == 8): ?>
                             <?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/docs', ['juristId' => $user->id])); ?>
-                    <?php endif; ?>
+                        <?php endif; ?>
                     </p>
-            <?php endif; ?>
+                <?php endif; ?>
             </div>        
         <?php endif; ?>
 
-<?php endif; ?>        
-
-
-
-
+    <?php endif; ?>        
 </div>
-
-
 
 <?php if (sizeof($questions) > 0): ?>
     <?php if ($user->role == User::ROLE_CLIENT): ?>
@@ -299,7 +292,7 @@ if (Yii::app()->user->id != $user->id) {
             <div class="col-sm-12">
                 <p style="font-size:1.1em;">
                     <small>
-        <?php echo CHtml::link($question['title'], Yii::app()->createUrl('question/view', array('id' => $question['id']))); ?>
+                        <?php echo CHtml::link($question['title'], Yii::app()->createUrl('question/view', array('id' => $question['id']))); ?>
                     </small>
                 </p>
             </div>

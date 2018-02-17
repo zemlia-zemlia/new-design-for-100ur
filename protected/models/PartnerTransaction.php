@@ -2,6 +2,7 @@
 
 /**
  * Класс для работы с транзакциями за лиды, купленные у вебмастеров
+ * а также бонусы за пользователей в партнерской программе
  *
  * The followings are the available columns in table '{{partnerTransaction}}':
  * @property integer $id
@@ -11,6 +12,7 @@
  * @property string $datetime
  * @property integer $leadId
  * @property integer $questionId
+ * @property integer $userId
  * @property string $comment
  * @property integer $status
  */
@@ -18,8 +20,8 @@ class PartnerTransaction extends CActiveRecord {
 
     const STATUS_COMPLETE = 1; // транзакция совершена
     const STATUS_PENDING = 2; // транзакция на рассмотрении
-    
     const MIN_WITHDRAW = 1000; // минимальная сумма для вывода
+    const MIN_WITHDRAW_REFERAL = 500; // минимальная сумма для вывода по реферальной программе
 
     public $date1, $date2; // используются при фильтрации
 
@@ -39,9 +41,9 @@ class PartnerTransaction extends CActiveRecord {
         // will receive user inputs.
         return array(
             array('partnerId, sum', 'required', 'message' => 'Поле {attribute} не заполнено'),
-            array('partnerId, sourceId, leadId, questionId', 'numerical', 'integerOnly' => true),
+            array('partnerId, sourceId, leadId, questionId, userId', 'numerical', 'integerOnly' => true),
             array('sum', 'length', 'max' => 10, 'message' => 'Сумма слишком большая'),
-            array('comment', 'required', 'on'=>'pull', 'message' => 'Заполните поле с комментарием'),
+            array('comment', 'required', 'on' => 'pull', 'message' => 'Заполните поле с комментарием'),
             array('comment', 'length', 'max' => 255),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
@@ -74,6 +76,7 @@ class PartnerTransaction extends CActiveRecord {
             'datetime' => 'Дата и время',
             'leadId' => 'id лида',
             'questionId' => 'id вопроса',
+            'userId' => 'id пользователя',
             'comment' => 'Комментарий',
         );
     }
@@ -84,8 +87,8 @@ class PartnerTransaction extends CActiveRecord {
      */
     public static function getStatuses() {
         return array(
-            self::STATUS_COMPLETE   => 'Совершена',
-            self::STATUS_PENDING    => 'На проверке',
+            self::STATUS_COMPLETE => 'Совершена',
+            self::STATUS_PENDING => 'На проверке',
         );
     }
 
@@ -96,12 +99,11 @@ class PartnerTransaction extends CActiveRecord {
         $allStatuses = self::getStatuses();
         return $allStatuses[$this->status];
     }
-    
+
     /**
      * Возвращает сумму всех транзакций вебмастеров
      */
-    public static function sumAll()
-    {
+    public static function sumAll() {
         $sumRow = Yii::app()->db->createCommand()
                 ->select('SUM(`sum`) totalSum')
                 ->from('{{partnerTransaction}}')
@@ -149,13 +151,11 @@ class PartnerTransaction extends CActiveRecord {
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
-    
-    
+
     /**
      * Возвращает число заявок, находящихся в статусе На рассмотрении
      */
-    public static function getNewRequestsCount()
-    {
+    public static function getNewRequestsCount() {
         $counterRow = Yii::app()->db->cache(600)->createCommand()
                 ->select('COUNT(*) counter')
                 ->from("{{partnerTransaction}}")
