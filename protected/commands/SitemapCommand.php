@@ -44,6 +44,7 @@ class SitemapCommand extends CConsoleCommand
                 ->from('{{town}} t')
                 ->leftJoin('{{region}} r', 'r.id=t.regionId')
                 ->leftJoin('{{country}} c', 'c.id=t.countryId')
+                ->where('c.id=2')
                 ->queryAll();
         foreach($towns as $town) {
             $siteMap .= '<url>
