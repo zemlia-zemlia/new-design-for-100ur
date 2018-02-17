@@ -1,5 +1,7 @@
 <?php
 $this->setPageTitle("Заказ документов ". Yii::app()->name);
+Yii::app()->clientScript->registerMetaTag("Заказать юридический документ онлайн, заявления, иски, претензии и т.д.", 'description');
+
 ?>
 
 

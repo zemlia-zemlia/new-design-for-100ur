@@ -28,18 +28,18 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             
 
 
-            echo "<small>";
+            echo " ";
             echo CHtml::link($region['regionName'], Yii::app()->createUrl('region/view', array(
                         'regionAlias' => $region['regionAlias'],
                         'countryAlias' => $region['countryAlias'],
             )));
-            echo "</small><br />";
+            echo " <br />";
         }
         
         ?>
     </div>
     <div class="col-sm-9">
-        <h1 class="vert-margin30">Юристы, <?php echo CHtml::encode($country->name); ?></h1>
+        <h1 class="vert-margin30">Рейтинг юристов и адвокатов, <?php echo CHtml::encode($country->name); ?></h1>
 
 
         <div class="row">
@@ -76,8 +76,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <div class="grey-panel inside">
                     <h4>Вы специалист в области права?</h4>
                     <p>
-                        Вы можете консультировать наших пользователей онлайн, пройдя нехитрую процедуру 
-                        регистрации и подтверждения вашей квалификации.
+                        Для участия в рейтинге нужно пройти нехитрую процедуру регистрации и подтверждения вашей квалификации.
                     </p>
                     <p class="right-align">
                         <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', array('role' => User::ROLE_JURIST))); ?>

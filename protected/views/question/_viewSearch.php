@@ -1,5 +1,5 @@
 <div class="question-search-item"> 
-    <div class="">
+    <div class="vert-margin20">
         
         <div class="container-fluid">
             <div class="row">
@@ -34,5 +34,5 @@
         </div>
         
     </div> 
-    <hr />
+
 </div>

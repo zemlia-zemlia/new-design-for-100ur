@@ -52,7 +52,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 
     <div class="col-sm-9">
-        <h1 class="vert-margin30"><?php echo CHtml::encode($model->name); ?></h1>
+        <h1 class="vert-margin30">Рейтинг юристов и адвокатов: <?php echo CHtml::encode($model->name); ?></h1>
 
         <div class="row">
             <div class="col-sm-8">
@@ -88,8 +88,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <div class="grey-panel inside">
                     <h4>Вы специалист в области права?</h4>
                     <p>
-                        Вы можете консультировать наших пользователей онлайн, пройдя нехитрую процедуру 
-                        регистрации и подтверждения вашей квалификации.
+                        Для участия в рейтинге нужно пройти нехитрую процедуру регистрации и подтверждения вашей квалификации.
                     </p>
                     <p class="right-align">
                         <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', array('role' => User::ROLE_JURIST))); ?>

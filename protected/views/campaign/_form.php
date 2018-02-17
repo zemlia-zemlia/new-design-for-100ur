@@ -16,7 +16,8 @@
 
     <?php if($model->isNewRecord || Yii::app()->user->checkAccess(User::ROLE_SECRETARY)):?>
         <p class="flat-panel inside">
-            Выберите регион ИЛИ город, в котором хотите покупать лиды.
+            Выберите регион ИЛИ город, в котором хотите покупать лиды.<br/>
+			<strong>Выбрать можно ИЛИ весь регион, ИЛИ один конкретный город.</strong> Если вы желаете выкупать несколько регионов или городов то необходимо создавать на них отдельные кампании.
         </p>
     
 	<div class="form-group">
@@ -49,7 +50,7 @@
         
 <?php if(Yii::app()->user->checkAccess(User::ROLE_SECRETARY)):?>
         <p class="flat-panel inside">
-            Укажите время, в которое хотите получать лиды. Если хотите покупать круглосуточно, укажите с 0 до 24.<br />
+            Укажите рабочие дни и время, в которое хотите получать лиды. Если хотите покупать круглосуточно, укажите с 0 до 24.<br />
             Внимание: время указывается московское!
         </p>
         
@@ -59,7 +60,7 @@
                     <div class="input-group">
                     <?php echo $form->textField($model,'timeFrom', array('class'=>'form-control')); ?>
                     <span class="input-group-addon">ч.</span>
-	</div>
+				</div>
                 </div>
                 <?php echo $form->error($model,'timeFrom'); ?>
         </div>
@@ -82,7 +83,7 @@
             </div>
                 <?php echo $form->error($model,'days'); ?>
         </div> 
-        
+ <hr/>       
         
 <?php endif;?>
 	<div class="form-group">
@@ -99,7 +100,9 @@
                 <?php endif;?>
             </div>
 	</div>
-        
+	
+  <hr/>  
+  
 <?php if(Yii::app()->user->checkAccess(User::ROLE_SECRETARY)):?>
 	<div class="form-group">
             <?php echo $form->labelEx($model,'brakPercent', array('class' => 'col-sm-2 control-label')); ?>
@@ -159,7 +162,7 @@
     
 	<div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('class'=>'btn btn-primary')); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Отправить на модерацию' : 'Сохранить', array('class'=>'btn btn-primary')); ?>
             </div>
         </div>
 
