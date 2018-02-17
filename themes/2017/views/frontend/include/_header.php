@@ -135,7 +135,7 @@
                     <div class="col-sm-12">
                         <ul class="hor-list-menu">
                             <li class="hidden-xs">
-                                <?php echo ($_SERVER['REQUEST_URI'] != '/cat/') ? CHtml::link('Темы вопросов', Yii::app()->createUrl('/cat/'), array('class' => 'black-button')) : '<span class="active">Темы вопросов</span>'; ?> 			
+                                <?php echo ($_SERVER['REQUEST_URI'] != '/cat/') ? CHtml::link('Темы вопросов', Yii::app()->createUrl('/cat/'), array('class' => 'black-button')) : '<span class="black-button">Темы вопросов</span>'; ?> 			
                             </li>
                             <?php if (Yii::app()->user->role == User::ROLE_JURIST): ?>
                                 <li><?php echo CHtml::link('Обновления для меня ' . '<strong class="red">(' . Yii::app()->user->newEventsCount . ')</strong>', Yii::app()->createUrl('user/feed')); ?>
