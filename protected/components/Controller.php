@@ -56,7 +56,23 @@ class Controller extends CController {
                 Yii::app()->user->setState('sourceId', $source['id']);
             }
         }
+        
+        /* Реферальная программа
+         * если при заходе на сайт в ссылке присутствует параметр ref, запишем его в сессию
+         */
+        if (isset($_GET['ref']) && !Yii::app()->user->getState('ref')) {
+            $refUser = Yii::app()->db->createCommand()
+                    ->select('id')
+                    ->from('{{user}}')
+                    ->where('id = :refId', array(':refId' => (int) $_GET['ref']))
+                    ->queryRow();
 
+            if ($refUser) {
+                Yii::app()->user->setState('ref', $refUser['id']);
+            }
+            
+        }
+        
         // проверка, сохранен ли в сессии пользователя ID его города
         $currentTownId = Yii::app()->user->getState('currentTownId');
         if (empty($currentTownId)) {

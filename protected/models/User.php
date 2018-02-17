@@ -1,7 +1,8 @@
 <?php
-    // Загрузка библиотек для работы с API Sendpulse
-    use Sendpulse\RestApi\ApiClient;
-    use Sendpulse\RestApi\Storage\FileStorage;
+
+// Загрузка библиотек для работы с API Sendpulse
+use Sendpulse\RestApi\ApiClient;
+use Sendpulse\RestApi\Storage\FileStorage;
 
 /**
  * Модель для работы с пользователями
@@ -27,6 +28,7 @@
  * @property string $lastTransactionTime
  * @property float $priceCoeff
  * @property integer $lastAnswer
+ * @property integer $refId
  */
 class User extends CActiveRecord {
 
@@ -86,7 +88,7 @@ class User extends CActiveRecord {
             array('phone', 'required', 'message' => 'Поле {attribute} должно быть заполнено', 'on' => 'register, update'),
             array('email', 'unique', 'message' => 'Пользователь с таким Email уже зарегистрирован'),
             array('townId', 'required', 'except' => 'unsubscribe, confirm', 'message' => 'Поле {attribute} должно быть заполнено'),
-            array('role, active100, townId, karma', 'numerical', 'integerOnly' => true),
+            array('role, active100, townId, karma, refId', 'numerical', 'integerOnly' => true),
             array('balance, priceCoeff', 'numerical'),
             array('name, email, phone', 'length', 'max' => 255),
             array('name2, lastName, birthday', 'safe'),
@@ -210,11 +212,13 @@ class User extends CActiveRecord {
         // class name for the relations automatically generated below.
         return array(
             'manager' => array(self::BELONGS_TO, 'User', 'managerId'),
+            'referer' => array(self::BELONGS_TO, 'User', 'refId'),
             'settings' => array(self::HAS_ONE, 'YuristSettings', 'yuristId'),
             'files' => array(self::HAS_MANY, 'UserFile', 'userId', 'order' => 'files.id DESC'),
             'karmaChanges' => array(self::HAS_MANY, 'KarmaChange', 'userId'),
             'town' => array(self::BELONGS_TO, 'Town', 'townId'),
             'answersCount' => array(self::STAT, 'Answer', 'authorId', 'condition' => 'status IN (' . Answer::STATUS_NEW . ', ' . Answer::STATUS_PUBLISHED . ')'),
+            'questionsCount' => array(self::STAT, 'Question', 'authorId', 'condition' => 'status IN (' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')'),
             'categories' => array(self::MANY_MANY, 'QuestionCategory', '{{user2category}}(uId, cId)'),
             'campaigns' => array(self::HAS_MANY, 'Campaign', 'buyerId'),
             'campaignsCount' => array(self::STAT, 'Campaign', 'buyerId'),
@@ -253,7 +257,8 @@ class User extends CActiveRecord {
             'lastActivity' => 'Время последней активности',
             'balance' => 'Баланс',
             'priceCoeff' => 'Коэффициент цены лида у вебмастера',
-            'lastAnswer'    =>  'Время последнего ответа',
+            'lastAnswer' => 'Время последнего ответа',
+            'refId' => 'ID пригласившего пользователя',
         );
     }
 
@@ -291,7 +296,7 @@ class User extends CActiveRecord {
     protected function beforeSave() {
         if (parent::beforeSave()) {
             // записываем название города, чтобы не дергать его джойном лишний раз
-            if($this->townId) {
+            if ($this->townId) {
                 $townNameRow = Yii::app()->db->createCommand()
                         ->select('name')
                         ->from('{{town}}')
@@ -304,6 +309,11 @@ class User extends CActiveRecord {
             if ($this->isNewRecord || (strlen($this->password) < 128)) {
                 // при регистрации пользователя и смене пароля перед сохранением пароль необходимо зашифровать
                 $this->password = self::hashPassword($this->password);
+            }
+
+            // если при создании пользователя в сессии есть id пригласившего, запишем его
+            if ($this->isNewRecord && Yii::app()->user->getState('ref') > 0) {
+                $this->refId = Yii::app()->user->getState('ref');
             }
             return true;
         } else {
@@ -586,27 +596,27 @@ class User extends CActiveRecord {
      * @return integer Количество опубликованных вопросов
      */
     public function publishNewQuestions() {
-        
+
         $questionCriteria = new CDbCriteria();
         $questionCriteria->limit = 1;
         $questionCriteria->condition = 'authorId!=0 AND authorId=:authorId AND status=:statusOld';
         $questionCriteria->params = array(':authorId' => $this->id, ':statusOld' => Question::STATUS_NEW);
-        
+
         $questions = Question::model()->findAll($questionCriteria);
         $publishedQuestionsNumber = 0;
-        
+
         foreach ($questions as $question) {
             $question->status = Question::STATUS_CHECK;
             $question->publishDate = date('Y-m-d H:i:s');
-            
+
             // при публикации вопроса автоматически присваиваем ему категории по ключевым словам
             $question->autolinkCategories();
-            
-            if($question->save() && $question->sourceId !== 0) {
-                
+
+            if ($question->save() && $question->sourceId !== 0) {
+
                 // запоминаем в сессию, что только что опубликовали вопрос
                 Yii::app()->user->setState('justPublished', 1);
-                    
+
                 $publishedQuestionsNumber++;
                 $webmasterTransaction = new PartnerTransaction();
                 $webmasterTransaction->sum = $question->buyPrice;
@@ -617,7 +627,7 @@ class User extends CActiveRecord {
                 $webmasterTransaction->save();
             }
         }
-        
+
         return $publishedQuestionsNumber;
     }
 
@@ -862,65 +872,60 @@ class User extends CActiveRecord {
             return false;
         }
     }
-    
-    
+
     /**
      * Вычисление баланса вебмастера
      */
-    public function calculateWebmasterBalance()
-    {
+    public function calculateWebmasterBalance() {
         // если пользователь не вебмастер, сразу возвращаем его баланс
-        if($this->role != self::ROLE_PARTNER) {
-            return $this->balance;
-        }
-        
+//        if ($this->role != self::ROLE_PARTNER) {
+//            return $this->balance;
+//        }
+
         $transactionsSumRow = Yii::app()->db->createCommand()
                 ->select("SUM(t.`sum`) balance")
                 ->from("{{partnerTransaction}} t")
                 ->where("t.partnerId=:userId AND t.status=:status", array(':userId' => $this->id, ':status' => PartnerTransaction::STATUS_COMPLETE))
                 ->queryRow();
-                
+
         return $transactionsSumRow['balance'];
     }
-    
+
     /**
      * Вычисление холд вебмастера
      */
-    public function calculateWebmasterHold()
-    {
+    public function calculateWebmasterHold() {
         // если пользователь не вебмастер, сразу возвращаем его баланс
-        if($this->role != self::ROLE_PARTNER) {
+        if ($this->role != self::ROLE_PARTNER) {
             return 0;
         }
-        
+
         $transactionsSumRow = Yii::app()->db->createCommand()
                 ->select("SUM(t.`sum`) hold")
                 ->from("{{partnerTransaction}} t")
                 ->where("t.partnerId=:userId AND t.leadId!=0 AND t.datetime>=NOW()-INTERVAL :interval DAY", array(':userId' => $this->id, ':interval' => Yii::app()->params['leadHoldPeriodDays']))
                 ->queryRow();
-                
+
         return $transactionsSumRow['hold'];
     }
-    
+
     /**
      * Отмечает все новые заказы пользователя как подтвержденные
      */
-    public function confirmOrders()
-    {
+    public function confirmOrders() {
         Yii::app()->db->createCommand()
-                ->update('{{order}}', ['status' => Order::STATUS_CONFIRMED], 'status='.Order::STATUS_NEW . ' AND userId='.$this->id);
+                ->update('{{order}}', ['status' => Order::STATUS_CONFIRMED], 'status=' . Order::STATUS_NEW . ' AND userId=' . $this->id);
     }
-    
+
     /**
      * Добавление пользователя в список рассылки Sendpulse через API
      */
-    public function addToSendpulse()
-    {        
+    public function addToSendpulse() {
         // на локальной версии не отправляем пользователей в Sendpulse
-        if(YII_DEBUG === true) {
+        if (YII_DEBUG === true) {
             return false;
         }
-        
+
         // API credentials from https://login.sendpulse.com/settings/#api
         define('API_USER_ID', Yii::app()->params['sendPulseApiId']);
         define('API_SECRET', Yii::app()->params['sendPulseApiSecret']);
@@ -928,33 +933,32 @@ class User extends CActiveRecord {
 
         // Инициализируем апи клиент
         $SPApiClient = new ApiClient(API_USER_ID, API_SECRET, new FileStorage());
-        
+
         // добавляем инфо о пользователе в почтовый сервис
-        if(array_key_exists($this->role, Yii::app()->params['sendpulseBooks'])) {
+        if (array_key_exists($this->role, Yii::app()->params['sendpulseBooks'])) {
             $bookID = Yii::app()->params['sendpulseBooks'][$this->role];
             $emails = array(
-               array(
-                   'email' => $this->email,
-                   'variables' => array(
-                       'Телефон'    => $this->phone,
-                       'Имя'        => CHtml::encode($this->name),
-                       'lastName'   => CHtml::encode($this->lastName),
-                       'townId'     => $this->townId,
-                   )
-               )
+                array(
+                    'email' => $this->email,
+                    'variables' => array(
+                        'Телефон' => $this->phone,
+                        'Имя' => CHtml::encode($this->name),
+                        'lastName' => CHtml::encode($this->lastName),
+                        'townId' => $this->townId,
+                    )
+                )
             );
             $SPApiClient->addEmails($bookID, $emails);
         }
     }
-    
+
     /**
      * Возвращает массив непросмотренных комментариев, написанных к ответам юриста
      * @param integer $days За сколько дней искать комментарии
      * @param boolean $returnCount Вернуть количество элементов
      * @return array Массив с комментариями
      */
-    public function getFeed($days = 30, $returnCount = false)
-    {
+    public function getFeed($days = 30, $returnCount = false) {
 //        SELECT q.title, c.text, u.name
 //        FROM `100_question` q
 //        LEFT JOIN `100_answer` a ON a.questionId = q.id
@@ -962,9 +966,9 @@ class User extends CActiveRecord {
 //        LEFT JOIN `100_user` u ON u.id = c.authorId
 //        WHERE c.type=4 AND c.seen=0 AND a.authorId = 8 AND c.dateTime>NOW()-INTERVAL 30 DAY
 //        ORDER BY c.id DESC
-        
+
         $feedArray = [];
-        
+
         $feed = Yii::app()->db->createCommand()
                 ->select("q.id, c.type, q.title, c.text, u.name, COUNT(*) counter")
                 ->from("{{question}} q")
@@ -975,24 +979,52 @@ class User extends CActiveRecord {
                 ->group("q.id")
                 ->order("c.id DESC")
                 ->queryAll();
-        
-        if($returnCount == true) {
+
+        if ($returnCount == true) {
             return sizeof($feed);
         }
-        
-       
-        foreach($feed as $row) {
+
+
+        foreach ($feed as $row) {
             $feedArray[] = [
-                'id'      =>  $row['id'],
-                'type'    =>  $row['type'],
-                'title'   =>  $row['title'],
-                'text'    =>  $row['text'],
-                'name'    =>  $row['name'],
-                'counter' =>  $row['counter'],
+                'id' => $row['id'],
+                'type' => $row['type'],
+                'title' => $row['title'],
+                'text' => $row['text'],
+                'name' => $row['name'],
+                'counter' => $row['counter'],
             ];
         }
-        
+
         return $feedArray;
+    }
+
+    /**
+     * Возвращает сумму бонуса, которая причитается за приглашенного пользователя
+     */
+    public function referalOk() {
+        // Если пользователя никто не пригласил, бонуса нет
+        if (!$this->refId) {
+            return 0;
+        }
+
+        // для разных ролей действуют разные правила расчета бонусов
+        if ($this->role == User::ROLE_JURIST) {
+            
+            $answersCount = $this->answersCount;
+            $isVerified = $this->settings->isVerified;
+            
+            if($isVerified == 1 && $answersCount>=10) {
+                return Yii::app()->params['bonuses'][User::ROLE_JURIST];
+            }
+        }
+
+        if ($this->role == User::ROLE_CLIENT) {
+            $questionsCount = $this->questionsCount;
+            if($this->active100 == 1 && $questionsCount >0) {
+                return Yii::app()->params['bonuses'][User::ROLE_CLIENT];
+            }
+        }
     }
 
 }
