@@ -40,7 +40,7 @@ Yii::app()->clientScript->registerMetaTag("Получайте деньги за 
 
 <div class="vert-margin40 text-center">
     <h3>Поделиться ссылкой с друзьями в один клик:</h3>
-    <div class="ya-share2" data-services="vkontakte,twitter,facebook,gplus" data-image="<?php echo Yii::app()->urlManager->baseUrl;?>/pics/100_yuristov_logo_blue.jpg" data-counter data-title="Юридическая консультация онлайн" data-description="Задайте вопрос юристу и получите ответ в течение 15 минут" data-url="<?php echo Yii::app()->urlManager->baseUrl . '/?ref=' . Yii::app()->user->id;?>"></div>
+    <div class="ya-share2" data-services="vkontakte,twitter,facebook,gplus,moimir,odnoklassniki,viber,telegram,whatsapp" data-image="<?php echo Yii::app()->urlManager->baseUrl;?>/pics/100_yuristov_logo_blue.jpg" data-counter data-title="Юридическая консультация онлайн. Задайте вопрос юристу и получите ответ в течение 15 минут" data-url="<?php echo Yii::app()->urlManager->baseUrl . '/?ref=' . Yii::app()->user->id;?>"></div>
 </div>
 
 <table class="table table-bordered vert-margin20">
