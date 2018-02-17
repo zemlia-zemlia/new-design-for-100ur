@@ -32,6 +32,9 @@
                 });
             </script>
         <?php endif; ?>
+            
+        <meta property="og:image" content="https://100yuristov.com/pics/2017/100_yuristov_logo_blue.jpg">
+        <meta name="twitter:card" content="https://100yuristov.com/pics/2017/100_yuristov_logo_blue.jpg">
     </head>  
 
     <body>
