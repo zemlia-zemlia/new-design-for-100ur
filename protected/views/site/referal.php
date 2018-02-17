@@ -1,12 +1,12 @@
 <?php
-$this->setPageTitle("Юридическая партнерская программа." . Yii::app()->name);
+$this->setPageTitle("Реферальная программа." . Yii::app()->name);
 Yii::app()->clientScript->registerMetaTag("Получайте деньги за каждого приглашенного зарегистрировавшегося пользователя", 'description');
 ?>
 
 <script src="https://yastatic.net/share2/share.js" async="async"></script>
 
 
-<h1>Юридическая партнёрская программа</h1>
+<h1>Реферальная программа</h1>
 
 <p class="vert-margin40 lead text-center">
     Зарабатывайте, приглашая своих знакомых с помощью реферальной ссылки
@@ -86,7 +86,15 @@ Yii::app()->clientScript->registerMetaTag("Получайте деньги за 
 
 <h3 class="vert-margin20">Где размещать ссылку? </h3>
 <div class="row vert-margin40">
-    <div class="col-sm-6">
+    <div class="col-sm-2">
+        <p>
+            <strong>Мессенджеры:</strong><br />
+            Whatsapp<br />
+            Viber<br />
+            Telegram
+        </p>
+    </div>
+    <div class="col-sm-5">
         <p>
             <strong>Социальные сети:</strong><br />
             Вконтакте (<a href="https://vk.com" rel="nofollow">vk.com</a>),
@@ -96,7 +104,7 @@ Yii::app()->clientScript->registerMetaTag("Получайте деньги за 
             Мой@Мир (<a href="https://my.mail.ru" rel="nofollow">my.mail.ru</a>)
         </p>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-5">
         <p><strong>Сервисы блогов и микроблогов:</strong><br />
             Twitter (<a href="https://twitter.com" rel="nofollow">twitter.com</a>),
             Живой Журнал (<a href="https://livejournal.com" rel="nofollow">livejournal.com</a>),
@@ -105,8 +113,12 @@ Yii::app()->clientScript->registerMetaTag("Получайте деньги за 
             MyPage (<a href="https://mypage.ru" rel="nofollow">mypage.ru</a>),
             LiveInternet (<a href="https://liveinternet.ru" rel="nofollow">liveinternet.ru</a>)
         </p>
-
     </div>
+</div>
+
+<div class="vert-margin40 text-center">
+    <h3>Для вашего удобства мы подготовили ссылки на популярные сервисы</h3>
+    <div class="ya-share2" data-services="vkontakte,twitter,facebook,gplus,moimir,odnoklassniki,viber,telegram,whatsapp" data-image="<?php echo Yii::app()->urlManager->baseUrl; ?>/pics/2017/100_yuristov_logo_blue.jpg" data-counter data-title="Юридическая консультация онлайн. Задайте вопрос юристу и получите ответ в течение 15 минут" data-url="<?php echo Yii::app()->urlManager->baseUrl . '/?ref=' . Yii::app()->user->id; ?>"></div>
 </div>
 
 <?php if (!Yii::app()->user->isGuest): ?>
