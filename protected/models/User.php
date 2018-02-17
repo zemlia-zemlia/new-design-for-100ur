@@ -1014,7 +1014,7 @@ class User extends CActiveRecord {
             $answersCount = $this->answersCount;
             $isVerified = $this->settings->isVerified;
             
-            if($isVerified == 1 && $answersCount>=10) {
+            if($isVerified == 1 && $answersCount>=25) {
                 return Yii::app()->params['bonuses'][User::ROLE_JURIST];
             }
         }

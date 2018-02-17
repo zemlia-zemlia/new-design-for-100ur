@@ -40,7 +40,7 @@ Yii::app()->clientScript->registerMetaTag("Получайте деньги за 
 
 <div class="vert-margin40 text-center">
     <h3>Поделиться ссылкой с друзьями в один клик:</h3>
-    <div class="ya-share2" data-services="vkontakte,twitter,facebook,gplus,moimir,odnoklassniki,viber,telegram,whatsapp" data-image="<?php echo Yii::app()->urlManager->baseUrl;?>/pics/2017/100_yuristov_logo_blue.jpg" data-counter data-title="Юридическая консультация онлайн. Задайте вопрос юристу и получите ответ в течение 15 минут" data-url="<?php echo Yii::app()->urlManager->baseUrl . '/?ref=' . Yii::app()->user->id;?>"></div>
+    <div class="ya-share2" data-services="vkontakte,twitter,facebook,gplus,moimir,odnoklassniki,viber,telegram,whatsapp" data-image="<?php echo Yii::app()->urlManager->baseUrl; ?>/pics/2017/100_yuristov_logo_blue.jpg" data-counter data-title="Юридическая консультация онлайн. Задайте вопрос юристу и получите ответ в течение 15 минут" data-url="<?php echo Yii::app()->urlManager->baseUrl . '/?ref=' . Yii::app()->user->id; ?>"></div>
 </div>
 
 <table class="table table-bordered vert-margin20">
@@ -67,7 +67,7 @@ Yii::app()->clientScript->registerMetaTag("Получайте деньги за 
                 <li>зарегистрироваться</li>
                 <li>подтвердить свою почту</li>
                 <li>подтвердить свой статус юриста или адвоката</li>
-                <li>дать не менее 10 ответов на вопросы пользователей</li>
+                <li>дать не менее 25 ответов на вопросы пользователей</li>
             </ul>
         </td>
     </tr>
@@ -78,7 +78,36 @@ Yii::app()->clientScript->registerMetaTag("Получайте деньги за 
     <li>Средства с пользовательского счета выводятся на баланс номера мобильного телефона</li>
     <li>Минимальная сумма на вывод — 500 рублей</li>
     <li>Максимальная сумма на вывод за одну операцию — 5000 рублей</li>
+    <li>Для того, чтобы вывести средства, в личном кабинете нужно сформировать заявку на 
+        вывод, указав сумму и номер телефона для зачисления средств.</li>
+    <li>Кнопка "Вывести средства" появится у Вас по достижении на балансе 500 рублей.</li>
+    <li>Заявки на вывод средств обрабатываются в течение двух рабочих дней.</li>
 </ul>
+
+<h3 class="vert-margin20">Где размещать ссылку? </h3>
+<div class="row vert-margin40">
+    <div class="col-sm-6">
+        <p>
+            <strong>Социальные сети:</strong><br />
+            Вконтакте (<a href="https://vk.com" rel="nofollow">vk.com</a>),
+            Одноклассники (<a href="https://ok.ru" rel="nofollow">ok.ru</a>),
+            Facebook (<a href="https://fb.com" rel="nofollow">fb.com</a>),
+            Google+ (<a href="https://plus.google.com" rel="nofollow">plus.google.com</a>),
+            Мой@Мир (<a href="https://my.mail.ru" rel="nofollow">my.mail.ru</a>)
+        </p>
+    </div>
+    <div class="col-sm-6">
+        <p><strong>Сервисы блогов и микроблогов:</strong><br />
+            Twitter (<a href="https://twitter.com" rel="nofollow">twitter.com</a>),
+            Живой Журнал (<a href="https://livejournal.com" rel="nofollow">livejournal.com</a>),
+            Блог.ру (<a href="https://blog.ru" rel="nofollow">blog.ru</a>),
+            Blogger.com (<a href="https://blogger.com" rel="nofollow">blogger.com</a>),
+            MyPage (<a href="https://mypage.ru" rel="nofollow">mypage.ru</a>),
+            LiveInternet (<a href="https://liveinternet.ru" rel="nofollow">liveinternet.ru</a>)
+        </p>
+
+    </div>
+</div>
 
 <?php if (!Yii::app()->user->isGuest): ?>
     <h2 class="vert-margin20">Приглашённые вами пользователи</h2>
