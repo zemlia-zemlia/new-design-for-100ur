@@ -400,7 +400,7 @@ class Campaign extends CActiveRecord {
         $brakLeads = 0;
         foreach($campaign24hoursLeadsRows as $row) {
             if($row['leadStatus'] == Lead100::LEAD_STATUS_BRAK || $row['leadStatus'] == Lead100::LEAD_STATUS_NABRAK) {
-                $brakLeads = $row['counter'];
+                $brakLeads += $row['counter'];
             }
             $totalLeads += $row['counter'];
         }
