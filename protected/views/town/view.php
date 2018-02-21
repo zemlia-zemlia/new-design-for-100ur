@@ -76,7 +76,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 ?>
 
                 <?php if ($yuristsDataProvider->itemCount): ?>
-                    <hr />
+                    
 
                 <?php else: ?>
                     <div class='vert-margin30'>
@@ -104,6 +104,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 </div>
             </div>
         </div>
+        
+        <hr />
 
 
         <?php if (sizeof($model->companies)): ?>
