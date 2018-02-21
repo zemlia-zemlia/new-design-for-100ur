@@ -364,6 +364,8 @@ class Campaign extends CActiveRecord {
 
     /**
      * Возвращает число кампаний в статусе На модерации
+     * 
+     * @return integer число кампаний
      */
     public static function getModerationCount() {
         $campaignsRow = Yii::app()->db->createCommand()

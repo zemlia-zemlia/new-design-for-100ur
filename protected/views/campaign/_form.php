@@ -14,7 +14,7 @@
 
 	<?php echo $form->errorSummary($model, 'Пожалуйста, исправьте ошибки'); ?>
 
-    <?php if($model->isNewRecord || Yii::app()->user->checkAccess(User::ROLE_SECRETARY)):?>
+    <?php if($model->isNewRecord || Yii::app()->user->role == User::ROLE_SECRETARY || Yii::app()->user->role == User::ROLE_ROOT):?>
         <p class="flat-panel inside">
             Выберите регион ИЛИ город, в котором хотите покупать лиды.<br/>
 			<strong>Выбрать можно ИЛИ весь регион, ИЛИ один конкретный город.</strong> Если вы желаете выкупать несколько регионов или городов то необходимо создавать на них отдельные кампании.
@@ -48,7 +48,7 @@
         </div>
 <?php endif;?>
         
-<?php if(Yii::app()->user->checkAccess(User::ROLE_SECRETARY)):?>
+<?php if(Yii::app()->user->role == User::ROLE_SECRETARY || Yii::app()->user->role == User::ROLE_ROOT):?>
         <p class="flat-panel inside">
             Укажите рабочие дни и время, в которое хотите получать лиды. Если хотите покупать круглосуточно, укажите с 0 до 24.<br />
             Внимание: время указывается московское!
@@ -103,7 +103,7 @@
 	
   <hr/>  
   
-<?php if(Yii::app()->user->checkAccess(User::ROLE_SECRETARY)):?>
+<?php if(Yii::app()->user->role == User::ROLE_SECRETARY || Yii::app()->user->role == User::ROLE_ROOT):?>
 	<div class="form-group">
             <?php echo $form->labelEx($model,'brakPercent', array('class' => 'col-sm-2 control-label')); ?>
             <div class="col-sm-10 col-md-2">
@@ -129,7 +129,7 @@
     <div class="form-group">
         <?php echo $form->labelEx($model,'active', array('class' => 'col-sm-2 control-label')); ?>
         <div class="col-sm-10 col-md-6">
-            <?php if(Yii::app()->user->checkAccess(User::ROLE_SECRETARY)):?>
+            <?php if(Yii::app()->user->role == User::ROLE_SECRETARY || Yii::app()->user->role == User::ROLE_ROOT):?>
                 
                     <?php echo $form->dropDownList($model,'active', Campaign::getActivityStatuses(), array('class'=>'form-control')); ?>
                     <?php echo $form->error($model,'active'); ?>
