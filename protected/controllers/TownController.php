@@ -86,12 +86,13 @@ class TownController extends Controller {
         }
 
         if (isset($_GET['Question_page'])) {
-            $this->redirect(array(
+            //die('try to redirect');
+            return $this->redirect(array(
                 'town/alias',
                 'name' => $model->alias,
                 'countryAlias' => $model->country->alias,
                 'regionAlias' => $model->region->alias,
-                    ), 301);
+                    ), true, 301);
         }
 
         // при попытке обратиться по адресу типа town/alias/xxxx, переадресуем на адрес со страной и регионом
