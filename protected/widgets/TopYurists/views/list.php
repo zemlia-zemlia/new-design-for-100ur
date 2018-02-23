@@ -15,11 +15,21 @@ $usersCount = 0;
             </div>
             <div class="col-xs-9">
                 <div>
+                    <?php if ($user['townName']): ?>
+                        <div style="float:right;">
+                            <em class="text-muted">
+                                <small>
+                                    <?php echo $user['townName']; ?>
+                                </small>
+                            </em>
+                        </div>
+                    <?php endif; ?>
+
                     <a href="<?php echo Yii::app()->createUrl('user/view', array('id' => $user['id'])); ?>" rel="nofollow">
                         <?php echo CHtml::encode($user['name'] . ' ' . $user['lastName']); ?>
                     </a>
                     <span class="text-muted"><em>
-                        <?php echo YuristSettings::getStatusNameByCode($user['yuristStatus']); ?>
+                            <?php echo YuristSettings::getStatusNameByCode($user['yuristStatus']); ?>
                         </em>
                     </span>
                 </div>
@@ -28,11 +38,6 @@ $usersCount = 0;
                     <div class="small"><span class="glyphicon glyphicon-flash"></span> <span class="text-success">Сейчас на сайте</span></div>
                 <?php endif; ?>
 
-                    
-                        <?php if ($user['townName']): ?>
-                            <?php echo $user['townName']; ?><br />
-                        <?php endif; ?>
-                    
 
                 <strong>Карма:</strong> <?php echo (int) $user['karma']; ?>
 

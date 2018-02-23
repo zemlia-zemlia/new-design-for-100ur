@@ -17,7 +17,7 @@ class TopYurists extends CWidget
                 ->from('{{user}} u')
                 ->leftJoin('{{yuristSettings}} s', 's.yuristId = u.id')
                 //->leftJoin('{{town}} t', 't.id = u.townId')
-                ->where('role = ' . User::ROLE_JURIST . ' AND active100=1 AND avatar IS NOT NULL AND s.status!=0')
+                ->where('role = ' . User::ROLE_JURIST . ' AND active100=1 AND karma>0 AND avatar IS NOT NULL AND s.status!=0')
                 ->limit($this->limit)
                 ->order('RAND()')
                 ->queryAll();

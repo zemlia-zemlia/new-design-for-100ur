@@ -13,16 +13,22 @@
             </div>
             <div class="col-sm-9 col-xs-7">
 
+                <?php if ($data->town): ?>
+                    <div style="float:right;">
+                        <em class="text-muted">
+                            <small>
+                                <?php echo $data->town->name; ?>
+                            </small>
+                        </em>
+                    </div>
+                <?php endif; ?>
+
                 <strong class="left-align" style="font-size: 15px;">
                     <?php echo CHtml::link(CHtml::encode($yuristName), Yii::app()->createUrl('user/view', array('id' => $data->id))); ?> 
                     <span class="text-muted"><em><?php echo $data->settings->getStatusName(); ?></em></span>
                 </strong>
                 <p class="">
-                    <?php if ($data->town): ?>
-                        <?php echo $data->town->name; ?>
-                    <?php endif; ?>
-                    <br />
-                    
+
                     <strong>Карма:</strong> <?php echo (int) $data->karma; ?>
 
                     <?php if ($data->answersCount): ?>

@@ -25,7 +25,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
         foreach ($regions as $region) {
 
-            
+
 
 
             echo " ";
@@ -35,7 +35,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             )));
             echo " <br />";
         }
-        
         ?>
     </div>
     <div class="col-sm-9">
@@ -72,17 +71,20 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <?php endif; ?>
 
             </div>
-            <div class="col-sm-4">
-                <div class="grey-panel inside">
-                    <h4>Вы специалист в области права?</h4>
-                    <p>
-                        Для участия в рейтинге нужно пройти нехитрую процедуру регистрации и подтверждения вашей квалификации.
-                    </p>
-                    <p class="right-align">
-                        <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', array('role' => User::ROLE_JURIST))); ?>
-                    </p>
+
+            <?php if (Yii::app()->user->isGuest): ?>
+                <div class="col-sm-4">
+                    <div class="grey-panel inside">
+                        <h4>Вы специалист в области права?</h4>
+                        <p>
+                            Для участия в рейтинге нужно пройти нехитрую процедуру регистрации и подтверждения вашей квалификации.
+                        </p>
+                        <p class="right-align">
+                            <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', array('role' => User::ROLE_JURIST))); ?>
+                        </p>
+                    </div>
                 </div>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

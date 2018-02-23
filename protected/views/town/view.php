@@ -76,7 +76,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 ?>
 
                 <?php if ($yuristsDataProvider->itemCount): ?>
-                    
+
 
                 <?php else: ?>
                     <div class='vert-margin30'>
@@ -85,26 +85,29 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         $this->widget('application.widgets.TopYurists.TopYurists', array(
                             'cacheTime' => 300,
                             'limit' => 6,
-                            'template'  =>  'list',
+                            'template' => 'list',
                         ));
                         ?>
                     </div>
                 <?php endif; ?>
 
             </div>
-            <div class="col-sm-4">
-                <div class="grey-panel inside">
-                    <h4>Вы специалист в области права?</h4>
-                    <p>
-                        Для участия в рейтинге нужно пройти нехитрую процедуру регистрации и подтверждения вашей квалификации.
-                    </p>
-                    <p class="right-align">
-                        <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', array('role' => User::ROLE_JURIST))); ?>
-                    </p>
+            <?php if (Yii::app()->user->isGuest): ?>
+                <div class="col-sm-4">
+                    <div class="grey-panel inside">
+                        <h4>Вы специалист в области права?</h4>
+                        <p>
+                            Для участия в рейтинге нужно пройти нехитрую процедуру регистрации и подтверждения вашей квалификации.
+                        </p>
+                        <p class="right-align">
+                            <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', array('role' => User::ROLE_JURIST))); ?>
+                        </p>
+                    </div>
                 </div>
-            </div>
+            <?php endif; ?>
+
         </div>
-        
+
         <hr />
 
 

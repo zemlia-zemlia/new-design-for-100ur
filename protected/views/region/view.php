@@ -84,6 +84,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <?php endif; ?>
 
             </div>
+            <?php if (Yii::app()->user->isGuest): ?>
             <div class="col-sm-4">
                 <div class="grey-panel inside">
                     <h4>Вы специалист в области права?</h4>
@@ -95,6 +96,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     </p>
                 </div>
             </div>
+            <?php endif; ?>
         </div>
         <hr />
     </div>

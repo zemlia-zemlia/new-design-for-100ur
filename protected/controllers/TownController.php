@@ -138,7 +138,7 @@ class TownController extends Controller {
         
         $criteria = new CDbCriteria;
 
-        $criteria->order = "karma DESC";
+        $criteria->order = "rating DESC, karma DESC";
         $criteria->with = array("settings", "town", "town.region", "categories", "answersCount");
         $criteria->addColumnCondition(array('active100' => 1));
         $criteria->addColumnCondition(array('avatar!' => ''));
