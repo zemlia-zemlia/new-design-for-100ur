@@ -7,7 +7,7 @@ class NewQuestionsNotificationCommand extends CConsoleCommand
 {
     public function actionIndex()
     {
-        Question::sendRecentQuestionsNotifications();
+        Question::sendRecentQuestionsNotifications(24);
     }
 }
 

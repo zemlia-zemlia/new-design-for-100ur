@@ -572,7 +572,7 @@ class Question extends CActiveRecord {
                     if ($yurist['subscribeQuestions'] == 2) {
                         // вариант, когда юрист подписан на вопросы из региона
 
-                        if (!$questions[$regionId]) {
+                        if (!isset($questions[$regionId])) {
                             continue;
                         }
                         if (sizeof($questions[$regionId]) == 0) {
@@ -604,10 +604,10 @@ class Question extends CActiveRecord {
                           }*/
                     } else {
                         // вариант, когда юрист подписан на вопросы из города
-                        if (!$questions[$regionId]) {
+                        if (!isset($questions[$regionId])) {
                             continue;
                         }
-                        if (!$questions[$regionId][$townId]) {
+                        if (!isset($questions[$regionId][$townId])) {
                             continue;
                         }
                         if (!sizeof($questions[$regionId]) || !sizeof($questions[$regionId][$townId])) {
