@@ -5,6 +5,7 @@
 /nbproject/*
 /upload/*
 /protected/config/*
+/protected/mailoutput
 /protected/tests/_output
 /sitemap.xml
 /index.html
