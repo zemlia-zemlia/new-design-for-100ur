@@ -572,7 +572,7 @@ class Question extends CActiveRecord {
                     if ($yurist['subscribeQuestions'] == 2) {
                         // вариант, когда юрист подписан на вопросы из региона
 
-                        if (sizeof($questions[$regionId]) == 0) {
+                        if (!$questions[$regionId] || sizeof($questions[$regionId]) == 0) {
                             continue;
                         }
                         echo 'message to Yurist ' . $yurist['email'] . '<br />' . PHP_EOL;
@@ -601,7 +601,7 @@ class Question extends CActiveRecord {
                           }
                     } else {
                         // вариант, когда юрист подписан на вопросы из города
-                        if (!sizeof($questions[$regionId]) || !sizeof($questions[$regionId][$townId])) {
+                        if (!$questions[$regionId] || !sizeof($questions[$regionId]) || !sizeof($questions[$regionId][$townId])) {
                             // если нет свежих вопросов из заданного города, переходим к следующему юристу
                             continue;
                         }
