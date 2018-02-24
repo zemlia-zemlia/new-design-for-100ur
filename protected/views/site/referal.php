@@ -45,22 +45,20 @@ Yii::app()->clientScript->registerMetaTag("Получайте деньги за 
 
 <table class="table table-bordered vert-margin20">
     <tr>
-        <th>Вознаграждение</th>
-        <th>Тип пользователя</th>
+        <th>Кого приглашаете:</th>
         <th>Условия</th>
     </tr>
     <tr>
-        <td><?php echo Yii::app()->params['bonuses'][User::ROLE_CLIENT]; ?> руб.</td>
         <td>Клиент</td>
         <td>Приглашенный пользователь должен:
             <ul>
                 <li>задать вопрос через форму на сайте</li>
                 <li>подтвердить свою почту</li>
             </ul>
+			<strong>За приглашенного клиента вы получите: <?php echo Yii::app()->params['bonuses'][User::ROLE_CLIENT]; ?> руб.</strong>
         </td>
     </tr>
     <tr>
-        <td><?php echo Yii::app()->params['bonuses'][User::ROLE_JURIST]; ?> руб.</td>
         <td>Юрист</td>
         <td>Приглашенный пользователь должен:
             <ul>
@@ -69,6 +67,7 @@ Yii::app()->clientScript->registerMetaTag("Получайте деньги за 
                 <li>подтвердить свой статус юриста или адвоката</li>
                 <li>дать не менее 25 ответов на вопросы пользователей</li>
             </ul>
+		<strong>За приглашенного юриста вы получите: <?php echo Yii::app()->params['bonuses'][User::ROLE_JURIST]; ?> руб. </strong>
         </td>
     </tr>
 </table>
@@ -86,7 +85,7 @@ Yii::app()->clientScript->registerMetaTag("Получайте деньги за 
 
 <h3 class="vert-margin20">Где размещать ссылку? </h3>
 <div class="row vert-margin40">
-    <div class="col-sm-2">
+    <div class="col-sm-3">
         <p>
             <strong>Мессенджеры:</strong><br />
             Whatsapp<br />
@@ -94,23 +93,23 @@ Yii::app()->clientScript->registerMetaTag("Получайте деньги за 
             Telegram
         </p>
     </div>
-    <div class="col-sm-5">
+    <div class="col-sm-4">
         <p>
             <strong>Социальные сети:</strong><br />
-            Вконтакте (<a href="https://vk.com" rel="nofollow">vk.com</a>),
-            Одноклассники (<a href="https://ok.ru" rel="nofollow">ok.ru</a>),
-            Facebook (<a href="https://fb.com" rel="nofollow">fb.com</a>),
-            Google+ (<a href="https://plus.google.com" rel="nofollow">plus.google.com</a>),
+            Вконтакте (<a href="https://vk.com" rel="nofollow">vk.com</a>),<br/>
+            Одноклассники (<a href="https://ok.ru" rel="nofollow">ok.ru</a>),<br/>
+            Facebook (<a href="https://fb.com" rel="nofollow">fb.com</a>),<br/>
+            Google+ (<a href="https://plus.google.com" rel="nofollow">plus.google.com</a>),<br/>
             Мой@Мир (<a href="https://my.mail.ru" rel="nofollow">my.mail.ru</a>)
         </p>
     </div>
     <div class="col-sm-5">
         <p><strong>Сервисы блогов и микроблогов:</strong><br />
-            Twitter (<a href="https://twitter.com" rel="nofollow">twitter.com</a>),
-            Живой Журнал (<a href="https://livejournal.com" rel="nofollow">livejournal.com</a>),
-            Блог.ру (<a href="https://blog.ru" rel="nofollow">blog.ru</a>),
-            Blogger.com (<a href="https://blogger.com" rel="nofollow">blogger.com</a>),
-            MyPage (<a href="https://mypage.ru" rel="nofollow">mypage.ru</a>),
+            Twitter (<a href="https://twitter.com" rel="nofollow">twitter.com</a>),<br/>
+            Живой Журнал (<a href="https://livejournal.com" rel="nofollow">livejournal.com</a>),<br/>
+            Блог.ру (<a href="https://blog.ru" rel="nofollow">blog.ru</a>),<br/>
+            Blogger.com (<a href="https://blogger.com" rel="nofollow">blogger.com</a>),<br/>
+            MyPage (<a href="https://mypage.ru" rel="nofollow">mypage.ru</a>),<br/>
             LiveInternet (<a href="https://liveinternet.ru" rel="nofollow">liveinternet.ru</a>)
         </p>
     </div>

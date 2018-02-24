@@ -2,7 +2,7 @@
 /* @var $this QuestionController */
 /* @var $model Question */
 
-$this->setPageTitle("Задать вопрос юристу бесплатно онлайн. ". Yii::app()->name);
+$this->setPageTitle("Задать вопрос юристу бесплатно онлайн и без регистрации ". Yii::app()->name);
 
 Yii::app()->ClientScript->registerScriptFile('/js/jquery.maskedinput.min.js', CClientScript::POS_END);
 Yii::app()->clientScript->registerMetaTag("Задать вопрос юристу онлайн бесплатно без телефона и регистрации круглосуточно по всей России.", 'description');
