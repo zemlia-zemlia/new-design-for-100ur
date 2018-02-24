@@ -572,7 +572,10 @@ class Question extends CActiveRecord {
                     if ($yurist['subscribeQuestions'] == 2) {
                         // вариант, когда юрист подписан на вопросы из региона
 
-                        if (!$questions[$regionId] || sizeof($questions[$regionId]) == 0) {
+                        if (!$questions[$regionId]) {
+                            continue;
+                        }
+                        if (sizeof($questions[$regionId]) == 0) {
                             continue;
                         }
                         echo 'message to Yurist ' . $yurist['email'] . '<br />' . PHP_EOL;
@@ -596,12 +599,18 @@ class Question extends CActiveRecord {
                         
                         $mailer->message .= "<p style='font-size:0.8em'>Если вы не хотите получать уведомления о новых вопросах, вы можете отключить их в личном кабинете на нашем сайте, в редактировании профиля</p>";
                         //echo "<div>" . $mailer->message . "</div><hr />";
-                        if ($mailer->sendMail()) {
+                        /*if ($mailer->sendMail()) {
                           echo 'message sent <br />' . PHP_EOL;
-                          }
+                          }*/
                     } else {
                         // вариант, когда юрист подписан на вопросы из города
-                        if (!$questions[$regionId] || !sizeof($questions[$regionId]) || !sizeof($questions[$regionId][$townId])) {
+                        if (!$questions[$regionId]) {
+                            continue;
+                        }
+                        if (!$questions[$regionId][$townId]) {
+                            continue;
+                        }
+                        if (!sizeof($questions[$regionId]) || !sizeof($questions[$regionId][$townId])) {
                             // если нет свежих вопросов из заданного города, переходим к следующему юристу
                             continue;
                         }
@@ -625,9 +634,9 @@ class Question extends CActiveRecord {
                         $mailer->message .= "<p style='font-size:0.8em'>Если вы не хотите получать уведомления о новых вопросах, вы можете отключить их в личном кабинете на нашем сайте, в редактировании профиля</p>";
 
                         //echo "<div>" . $mailer->message . "</div><hr />";
-                        if ($mailer->sendMail()) {
+                        /*if ($mailer->sendMail()) {
                           echo 'message sent <br />' . PHP_EOL;
-                        }
+                        }*/
                     }
                 }
             }
