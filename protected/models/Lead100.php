@@ -31,6 +31,8 @@ class Lead100 extends CActiveRecord {
     public $regionId;
     public $testMode = 0; // режим тестирования в форме создания лида
     public $categoriesId; // для формы создания/редактирования лида
+    public $agree = 1; // согласие на обработку персональных данных
+
 
     // статусы лидов
 
@@ -83,6 +85,7 @@ class Lead100 extends CActiveRecord {
             array('sourceId, townId, newTownId, questionId, leadStatus, addedById, type, campaignId, brakReason', 'numerical', 'integerOnly' => true),
             array('price, buyPrice, regionId, testMode', 'numerical'),
             array('deliveryTime, categoriesId', 'safe'),
+            array('agree', 'compare', 'compareValue' => 1, 'on'=>array('create'), 'message' => 'Вы должны согласиться на обработку персональных данных'),
             array('name, phone, email, secretCode, brakComment', 'length', 'max' => 255),
             array('townId', 'match', 'not' => true, 'pattern' => '/^0$/', 'message' => 'Поле Город не заполнено'),
             array('name', 'match', 'pattern' => '/^([а-яА-Я0-9ёЁ\-., ])+$/u', 'message' => 'В имени могут присутствовать русские буквы, цифры, точка, дефис и пробел', 'except' => 'parsing'),
@@ -141,6 +144,7 @@ class Lead100 extends CActiveRecord {
             'date2'         => 'До',
             'testMode'      => 'Режим тестирования API',
             'categories'    => 'Категории права',
+            'agree'         =>  'Согласие на обработку персональных данных',
         );
     }
 

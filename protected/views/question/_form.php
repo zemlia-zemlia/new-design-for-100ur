@@ -151,9 +151,11 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
 <div class="vert-margin20 center-align">
 <small class="text-muted">
   <label>
-      <input type="checkbox" value="1" checked="checked">
+      <?php echo $form->checkBox($model, 'agree');?>
     Отправляя вопрос, вы соглашаетесь с условиями <?php echo CHtml::link('пользовательского соглашения', Yii::app()->createUrl('site/offer'), array('target'=>'_blank'));?>
   </label>
+    <?php echo $form->error($model, 'agree');?>
+    
 </small>
 </div>
 

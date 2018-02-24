@@ -27,6 +27,7 @@ class Order extends CActiveRecord {
     const STATUS_ARCHIVE = 7; // архив, брошенный заказ
     
     public $termDays; // количество дней на исполнение (используется в форме выбора юриста)
+    public $agree = 1; // согласие на обработку персональных данных
 
     /**
      * @return string the associated database table name
@@ -45,6 +46,7 @@ class Order extends CActiveRecord {
             array('itemType, description, userId', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('status, itemType, price, userId, juristId, termDays', 'numerical', 'integerOnly' => true, 'message' => 'Поле {attribute} должно быть целым числом'),
             array('term', 'date', 'format' => 'yyyy-mm-dd'),
+            array('agree', 'compare', 'compareValue' => 1, 'on'=>array('create'), 'message' => 'Вы должны согласиться на обработку персональных данных'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, status, createDate, itemType, price, description, userId', 'safe', 'on' => 'search'),
@@ -83,6 +85,7 @@ class Order extends CActiveRecord {
             'author'        => 'Клиент',
             'term'          => 'Срок',
             'termDays'      => 'Срок в днях',
+            'agree'         =>  'Согласие на обработку персональных данных',
         );
     }
     

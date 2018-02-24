@@ -35,7 +35,7 @@ class QuestionController extends Controller
                 'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions'=>array('create','update','admin','delete', 'publish', 'setPubTime', 'setTitles', 'duplicates'),
+                'actions'=>array('create','update','admin','delete', 'publish', 'setPubTime', 'setTitles', 'duplicates', 'notifyYurists'),
                 'users'=>array('@'),
                 'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
             ),
@@ -651,5 +651,10 @@ class QuestionController extends Controller
             $this->render('duplicates', array(
                 'dataProvider' => $dataProvider,
             ));
+        }
+        
+        public function actionNotifyYurists()
+        {
+            Question::sendRecentQuestionsNotifications();
         }
 }

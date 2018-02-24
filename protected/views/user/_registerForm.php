@@ -53,9 +53,10 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
 <div class="vert-margin20">
     <small class="text-muted">
       <label>
-          <input type="checkbox" value="1" checked="checked">
-        Регистрируясь, вы соглашаетесь с условиями <?php echo CHtml::link('пользовательского соглашения', Yii::app()->createUrl('site/offer'), array('target'=>'_blank'));?>
-      </label>
+            <?php echo $form->checkBox($model, 'agree'); ?>
+            Регистрируясь, вы соглашаетесь с условиями <?php echo CHtml::link('пользовательского соглашения', Yii::app()->createUrl('site/offer'), array('target' => '_blank')); ?>
+        </label>
+        <?php echo $form->error($model, 'agree'); ?>
     </small>
 </div>
 

@@ -626,6 +626,7 @@ class QuestionController extends Controller {
     public function actionCall() {
         $this->layout = "//frontend/smart";
         $lead = new Lead100();
+        $lead->setScenario('create');
         
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
@@ -747,6 +748,7 @@ class QuestionController extends Controller {
         $this->layout = "//frontend/smart";
 
         $order = new Order();
+        $order->setScenario('create');
         $author = new User();
         $docType = null;
         
@@ -832,6 +834,8 @@ class QuestionController extends Controller {
     public function actionServices() {
         $this->layout = "//frontend/smart";
         $lead = new Lead100();
+        $lead->setScenario('create');
+        
 
         if (isset($_POST['Lead100'])) {
             $lead->attributes = $_POST['Lead100'];

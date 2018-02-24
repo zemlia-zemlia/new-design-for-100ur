@@ -34,6 +34,7 @@ class User extends CActiveRecord {
 
     public $password2; // поле подтверждения пароля для формы создания пользователя и смены пароля
     public $verifyCode; // код капчи
+    public $agree = 1; // согласие на обработку персональных данных
 
     const UNSUBSCRIBE_SALT = 'Kvadrat Malevi4a'; // используется при генерации и проверке кода для ссылки "отписаться от новостей"
     // константы для ролей пользователей
@@ -92,6 +93,7 @@ class User extends CActiveRecord {
             array('balance, priceCoeff', 'numerical'),
             array('name, email, phone', 'length', 'max' => 255),
             array('name2, lastName, birthday', 'safe'),
+            array('agree', 'compare', 'compareValue' => 1, 'on'=>array('register', 'createJurist'), 'message' => 'Вы должны согласиться на обработку персональных данных'),
             array('townId', 'match', 'not' => true, 'except' => 'unsubscribe, confirm, changePassword, restorePassword', 'pattern' => '/^0$/', 'message' => 'Поле Город не заполнено'),
             array('password', 'length', 'min' => 5, 'max' => 128, 'tooShort' => 'Минимальная длина пароля 5 символов', 'allowEmpty' => ($this->scenario == 'update' || $this->scenario == 'register')),
             array('password2', 'compare', 'compareAttribute' => 'password', 'except' => 'confirm, create, register, update, updateJurist, unsubscribe, balance', 'message' => 'Пароли должны совпадать', 'allowEmpty' => ($this->scenario == 'update' || $this->scenario == 'register')),
@@ -259,6 +261,7 @@ class User extends CActiveRecord {
             'priceCoeff' => 'Коэффициент цены лида у вебмастера',
             'lastAnswer' => 'Время последнего ответа',
             'refId' => 'ID пригласившего пользователя',
+            'agree'         =>  'Согласие на обработку персональных данных',
         );
     }
 

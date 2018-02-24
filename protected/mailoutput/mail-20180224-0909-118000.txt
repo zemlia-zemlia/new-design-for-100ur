@@ -1,0 +1,85 @@
+To: advokat-gudkova@yandex.ru
+Subject: =?utf-8?b?0KHQstC10LbQuNC1INCy0L7Qv9GA0L7RgdGLINC40Lcg0LLQsNGI0LXQs9C+INGA0LXQs9C40L7QvdCw?=
+X-PHP-Originating-Script: 0:GTMail.php
+MIME-Version: 1.0
+Content-type: text/html; charset=utf-8
+From:=?utf-8?b?MTAwINCu0YDQuNGB0YLQvtCy?=<admin@100yuristov.com>
+
+<style>
+    body {
+        background: #eee;
+        font-family:Helvetica, Arial;
+        padding:0;
+        margin:0;
+    }
+    
+    #main-wrapper {
+        background: #fff;
+        max-width:600px;
+        margin:0 auto;
+        height:100%;
+        border-right: #ddd 1px solid;
+        border-left: #ddd 1px solid;
+        color:#444;
+        padding:0 10px;
+    }
+    
+    #header {
+        margin-bottom:30px;
+        border-bottom:#dde3e8 2px solid;
+    }
+    
+    h1,h2,h3,h4,h5,h6 {
+        font-weight:normal;
+    }
+    
+    h4 {
+        text-transform: uppercase;
+    }
+    
+    img {
+        border:none;
+    }
+    
+    #footer {
+        margin-top:30px;
+        border-top:#dde3e8 2px solid;
+        padding:10px 0;
+    }
+</style>
+
+<body>
+    <div id="main-wrapper" style="background: #fff;
+        max-width:600px;
+        margin:0 auto;
+        height:100%;
+        border-right: #ddd 1px solid;
+        border-left: #ddd 1px solid;
+        color:#444;
+        padding:0 10px;">
+        <div id="header">
+	<table width="100%" border="0" cellpadding="5" cellspacing="5">
+            <tr>
+              <td width=""><a href='https://100yuristov.com/?utm_medium=email&utm_source=message_header'><img src="https://100yuristov.com/pics/2017/logo_white.png" alt="" width="239" height="42" /></a>
+
+			  </td>
+              <td width="">
+				
+              </td>
+            </tr>
+
+          </table>
+        </div>
+<h2>Галина, подборка свежих вопросов из вашего региона </h2><p><a href="http://100juristov/q/42589/?autologin=6ac56fb0cffd210001031bee2b37921e">может ли ребенок без уо пойти в 1-ый класс в 8 лет</a><br />У моего ребенка зпр. Я не хочу отдавать его в 7 лет именно потому что у него задержка развития и дополнительный год может очень многое дать и облегчить дальнейшее обучение. А также я считаю что моему...</p><hr /><p style='font-size:0.8em'>Если вы не хотите получать уведомления о новых вопросах, вы можете отключить их в личном кабинете на нашем сайте, в редактировании профиля</p><div id="footer" style="margin-top:30px;
+        border-top:#dde3e8 2px solid;
+        padding:10px 0;">
+    <table width="100%" border="0" cellpadding="5" cellspacing="5">
+      <tr>
+        <td width="">С уважением, юридический портал <a href='https://100yuristov.com/?utm_medium=email&utm_source=message_footer'>100&nbsp;Юристов</a></td>
+      </tr>
+    </table>
+</div>
+
+
+</div> <!-- #main-wrapper -->
+</body>

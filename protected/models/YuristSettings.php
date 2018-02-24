@@ -24,6 +24,7 @@
  * @property integer $priceDoc
  * @property string $phoneVisible
  * @property string $emailVisible
+ * @property integer $subscribeQuestions
  * 
  */
 class YuristSettings extends CActiveRecord
@@ -33,6 +34,10 @@ class YuristSettings extends CActiveRecord
     const STATUS_YURIST = 1; // юрист
     const STATUS_ADVOCAT = 2; // адвокат
     const STATUS_JUDGE = 3; // судья
+    
+    const SUBSCRIPTION_NOTHING = 0; // нет подписок
+    const SUBSCRIPTION_TOWN = 1; // подписка на вопросы своего города
+    const SUBSCRIPTION_REGION = 2; // подписка на вопросы региона
 
     public $statusNew;
 
@@ -53,7 +58,7 @@ class YuristSettings extends CActiveRecord
         // will receive user inputs.
         return array(
                 array('yuristId', 'required'),
-                array('yuristId, startYear, isVerified, status, vuzTownId, educationYear, priceConsult, priceDoc', 'numerical', 'integerOnly'=>true),
+                array('yuristId, startYear, isVerified, status, vuzTownId, educationYear, priceConsult, priceDoc, subscribeQuestions', 'numerical', 'integerOnly'=>true),
                 array('alias', 'length', 'max'=>255),
                 array('alias','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. ])+$/u', 'message'=>'В псевдониме могут присутствовать буквы, цифры, точка, дефис и пробел'),
                 array('site','match','pattern'=>'/^(https?:\/\/)?([\dа-яёЁa-z\.-]+)\.([а-яёЁa-z\.]{2,6})([\/\w \.-]*)*\/?$/u', 'message'=>'В адресе сайта присутствуют недопустимые символы'),
@@ -106,6 +111,7 @@ class YuristSettings extends CActiveRecord
             'priceDoc'      =>  'составление документа от',
             'phoneVisible'  =>  'Общедоступный телефон',
             'emailVisible'  =>  'Общедоступный Email',
+            'subscribeQuestions'     =>  'Получать уведомления о вопросах',
         );
     }
 
@@ -150,6 +156,34 @@ class YuristSettings extends CActiveRecord
         $statusesArray = self::getStatusesArray();
         $statusName = $statusesArray[$code];
         return $statusName;
+    }
+    
+    /** 
+     * возвращает массив, ключами которого являются коды типов подписки на вопросы, а значениями - названия
+     * 
+     * @return array Массив типов подписки (код => название)
+     */
+    static public function getSubscriptionsArray()
+    {
+        return array(
+            self::SUBSCRIPTION_NOTHING      =>  'Не получать уведомления',
+            self::SUBSCRIPTION_TOWN         =>  'Из моего города',
+            self::SUBSCRIPTION_REGION       =>  'Из моего региона',
+
+        );
+    }
+
+    /**
+     * Возвращает название типа подписки на вопросы
+     * 
+     * @return string Название статуса
+     */
+
+    public function getSubscriptionName()
+    {
+        $subscriptionsArray = self::getSubscriptionsArray();
+        $subscriptionName = $subscriptionsArray[$this->subscribeQuestions];
+        return $subscriptionName;
     }
 
     /**

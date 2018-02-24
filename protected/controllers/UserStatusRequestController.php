@@ -85,7 +85,8 @@ class UserStatusRequestController extends Controller {
             if (!empty($_FILES) && !$model->errors) {
 
                 $scan = CUploadedFile::getInstance($userFile, 'userFile');
-                if ($scan && $scan->getError() == 0 && $userFile->validate()) { // если файл нормально загрузился
+                //CustomFuncs::printr($scan);
+                if ($scan && $scan->getError() == 0) { // если файл нормально загрузился
                     $scanFileName = md5($scan->getName() . $scan->getSize() . mt_rand(10000, 100000)) . "." . $scan->getExtensionName();
 //                    Yii::app()->ih
 //                            ->load($scan->tempName)
@@ -106,6 +107,10 @@ class UserStatusRequestController extends Controller {
                         // после сохранения файла сохраним ссылку на него в объекте запроса
                         $model->fileId = $userFile->id;
                     }
+                } else {
+                    $modelHasErrors = true;
+                    //CustomFuncs::printr($userFile->errors);
+                    //echo "не загружен файл";
                 }
             }
             
