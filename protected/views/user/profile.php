@@ -88,8 +88,8 @@ if (Yii::app()->user->id != $user->id) {
             <?php else: ?>
                 <?php if ($user->settings->status == 0): ?>
                     <div class='alert alert-danger'>
-                        Ваша квалификация не подтверждена.
-                        <?php echo CHtml::link('Подтвердить', Yii::app()->createUrl('userStatusRequest/create'), array('class' => 'btn btn-xs btn-default')); ?>
+                        Вам пока не доступны все возможности сайта т.к. ваша квалификация не подтверждена.
+                        <?php echo CHtml::link('Подтвердить квалификацию', Yii::app()->createUrl('userStatusRequest/create'), array('class' => 'btn btn-xs btn-default')); ?>
 
                     </div>
                 <?php else: ?>

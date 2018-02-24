@@ -149,7 +149,6 @@ $this->breadcrumbs = array(
                 <div class="alert alert-danger">
                     <p>
                         Вы не можете отвечать на вопросы, пока не подтвердили свою квалификацию. 
-                        Вы можете сделать это в настройках своего профиля.
                     </p><br />
                 <?php echo CHtml::link('Подтвердить квалификацию', Yii::app()->createUrl('userStatusRequest/create'), array('class' => 'btn btn-default')); ?>
                 </div>
