@@ -98,7 +98,7 @@ $(function(){
                 e.preventDefault();
                 var widget = $(this).closest('.annoying-widget');
                 widget.removeClass('annoying-widget-fixed').addClass('no-scroll');
-                document.cookie = "show_annoying=no";
+                document.cookie = "show_annoying=no;path=/";
                 return false;
             })
             
