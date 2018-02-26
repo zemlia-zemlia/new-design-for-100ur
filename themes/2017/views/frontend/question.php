@@ -41,9 +41,9 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
             <?php if (Yii::app()->user->isGuest): ?>
                 <?php
                 // выводим виджет Назойливый
-                $this->widget('application.widgets.Annoying.AnnoyingWidget', array(
+                /*$this->widget('application.widgets.Annoying.AnnoyingWidget', array(
                     'showAlways' => true,
-                ));
+                ));*/
                 ?>
             <?php endif; ?>
 
