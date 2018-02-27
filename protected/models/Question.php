@@ -600,8 +600,9 @@ class Question extends CActiveRecord {
                         $mailer->message .= "<p style='font-size:0.8em'>Если вы не хотите получать уведомления о новых вопросах, вы можете отключить их в личном кабинете на нашем сайте, в редактировании профиля</p>";
                         //echo "<div>" . $mailer->message . "</div><hr />";
                         if ($mailer->sendMail()) {
-                          echo 'message sent <br />' . PHP_EOL;
-                          }
+                            echo 'message sent <br />' . PHP_EOL;
+                            Yii::log("Отправлено письмо юристу " . $mailer->email . " с уведомлением о новых вопросах", 'info', 'system.web.User');
+                        }
                     } else {
                         // вариант, когда юрист подписан на вопросы из города
                         if (!isset($questions[$regionId])) {
@@ -636,6 +637,7 @@ class Question extends CActiveRecord {
                         //echo "<div>" . $mailer->message . "</div><hr />";
                         if ($mailer->sendMail()) {
                           echo 'message sent <br />' . PHP_EOL;
+                          Yii::log("Отправлено письмо юристу " . $mailer->email . " с уведомлением о новых вопросах", 'info', 'system.web.User');
                         }
                     }
                 }
