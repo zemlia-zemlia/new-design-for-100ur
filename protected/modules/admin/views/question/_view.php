@@ -70,6 +70,10 @@
             <?php endif;?>
             &nbsp;
             <?php echo $data->getQuestionStatusName(); ?>
+            <?php if($data->status == Question::STATUS_NEW && $data->email):?>
+                &nbsp;&nbsp;
+                Email: <?php echo CHtml::encode($data->email);?>
+            <?php endif;?>
         </small>
         
         <?php if($data->payed == 1):?>
