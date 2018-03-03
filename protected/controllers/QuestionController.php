@@ -863,7 +863,7 @@ class QuestionController extends Controller {
     }
 
     public function actionGetServices() {
-        $this->layout = "//frontend/short";
+        $this->layout = "//frontend/smart";
         $this->render('getServices');
     }
 
