@@ -82,8 +82,9 @@ class UserStatusRequestController extends Controller {
             $model->validate();
 //                    CustomFuncs::printr($model->errors);exit;
             // загрузка скана
-            if (!empty($_FILES) && !$model->errors) {
-
+            if (!empty($_FILES) && !$model->errors && $model->scenario == 'createYurist') {
+                //echo 'files are loaded..';
+                //CustomFuncs::printr($_FILES);
                 $scan = CUploadedFile::getInstance($userFile, 'userFile');
                 //CustomFuncs::printr($scan);
                 if ($scan && $scan->getError() == 0) { // если файл нормально загрузился
@@ -119,7 +120,7 @@ class UserStatusRequestController extends Controller {
                 $userFile->addError('userFile', 'Не загружен файл со сканом');
                 $modelHasErrors = true;
             }
-
+            
             if (!$model->errors && !$modelHasErrors && $model->save()) {
                 $this->redirect(array('/user'));
             }
