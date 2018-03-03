@@ -77,6 +77,7 @@ class QuestionController extends Controller {
             $answerModel->attributes = $_POST['Answer'];
             $answerModel->authorId = Yii::app()->user->id;
             $answerModel->questionId = $model->id;
+            $answerModel->datetime = date("Y-m-d h:i:s");
 
             if (Yii::app()->user->checkAccess(User::ROLE_ROOT)) {
                 $answerModel->setScenario('addVideo');
@@ -85,7 +86,7 @@ class QuestionController extends Controller {
             if ($answerModel->save()) {
                 // записываем время ответа в запись о пользователе
                 Yii::app()->db->createCommand()
-                        ->update('{{user}}', array('lastAnswer' => date('Y-m-d H:i:s')), 'id=:id', array(':id' => Yii::app()->user->id));
+                        ->update('{{user}}', array('lastAnswer' => $answerModel->datetime), 'id=:id', array(':id' => Yii::app()->user->id));
                 
                 $this->redirect(array('/question/view', 'id' => $model->id));
             }

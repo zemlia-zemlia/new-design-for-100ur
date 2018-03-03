@@ -23,7 +23,7 @@ class RecentAnswers extends CWidget
                     ->from('{{answer}} a')
                     ->leftJoin('{{user}} u', 'a.authorId = u.id AND u.lastAnswer = a.datetime')
                     ->leftJoin('{{question}} q', 'q.id = a.questionId')
-                    ->where('u.lastAnswer IS NOT NULL AND u.active100=1')
+                    ->where('u.lastAnswer IS NOT NULL AND u.active100=1 AND a.status!=:spamStatus', ['spamStatus' => Answer::STATUS_SPAM])
                     ->order('u.lastAnswer DESC')
                     ->limit($this->limit)
                     ->queryAll();
@@ -33,7 +33,7 @@ class RecentAnswers extends CWidget
             foreach($answersRows as $row) {
                 $answers[$row['authorId']] = $row;
             }
-            
+            // храним результаты выборки ответов в кеше
             Yii::app()->cache->set('recentAnswers', $answers, $this->cacheTime);
         }                    
         $this->render($this->template, array(
