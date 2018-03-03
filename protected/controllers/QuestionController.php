@@ -751,6 +751,7 @@ class QuestionController extends Controller {
         $order = new Order();
         $order->setScenario('create');
         $author = new User();
+        $author->setScenario('register');
         $docType = null;
         
         if(!Yii::app()->user->isGuest) {
