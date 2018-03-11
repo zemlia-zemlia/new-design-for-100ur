@@ -3,7 +3,7 @@
 /* @var $model User */
 /* @var $form CActiveForm */
 
-Yii::app()->clientScript->registerScriptFile('/js/user.js');
+Yii::app()->clientScript->registerScriptFile('/js/user.js', CClientScript::POS_END);
 ?>
 
 <style>
