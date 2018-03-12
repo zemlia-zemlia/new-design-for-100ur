@@ -52,6 +52,7 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
 </div>
 
+<?php if(false):?>
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
@@ -69,6 +70,7 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
     </div>
 </div>
+<?php endif;?>
 
 <div class="form-group">
     <label class='col-sm-4 control-label'>Комментарий*:</label>
