@@ -22,6 +22,11 @@
         <?php endif; ?>
 
     </td>
+    <?php if ($data->role == User::ROLE_JURIST): ?>
+        <td>
+            <?php echo CustomFuncs::niceDate($data->lastActivity, true, false); ?>
+        </td>
+    <?php endif; ?>
     <td>
         <?php echo $data->town->name; ?>
     </td>

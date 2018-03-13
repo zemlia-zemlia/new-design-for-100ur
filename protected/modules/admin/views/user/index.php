@@ -42,6 +42,9 @@ $this->breadcrumbs=array(
       <tr>
           <th>ID</th>
           <th>Имя</th>
+          <?php if ($role == User::ROLE_JURIST): ?>
+            <th>Посл. акт.</th>
+          <?php endif;?>
           <th>Город</th>
           <th>Email</th>
 	  <th>Телефон</th>
