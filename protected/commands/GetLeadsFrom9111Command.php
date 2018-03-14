@@ -143,19 +143,19 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
         foreach ($existingLeads as $existingLead) {
             $existingLeadsPhones[] = Question::normalizePhone($existingLead->phone);
         }
-        //echo "existing leads numbers: ";
-        //print_r($existingLeadsPhones);
+        echo "existing leads numbers: ";
+        print_r($existingLeadsPhones);
 
         foreach ($this->folders as $folderAlias => $folderSettings) {
 
-            //echo $folderAlias . "\n\r";
+            echo $folderAlias . "\n\r";
 
             $emails = $this->getEmailsFromFolder($folderAlias);
-
+			echo 'messages in the folder:' . sizeof($emails). PHP_EOL;
             foreach ($emails as $email) {
 
                 $bodyDecoded = imap_base64($email);
-                //echo $bodyDecoded;
+                echo $bodyDecoded;
                 
                 $name = '';
                 $phone = '';
@@ -180,8 +180,8 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
                 }
                 //echo $name . ': ' . $phone . ': '. $question . "\n\r";
 
-                //print_r($nameMatches[1]);
-                //print_r($phoneMatches[2]);
+                //print_r($nameMatches);
+                //print_r($phoneMatches);
                 //print_r($message);
                 //continue;
 
