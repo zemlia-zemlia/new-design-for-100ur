@@ -113,7 +113,7 @@ $this->breadcrumbs = array(
             <div class="row">
                 <div class="col-sm-8 center-align">
                     <h3>Ваш вопрос требует составления документа?</h3>
-                    <p>Доверьте это опытным юристам</p>
+                    <p>Иски, заявления, претензии, жалобы, договоры - заказать онлайн</p>
                 </div>
                 <div class="col-sm-4 center-align">
                     <p></p>

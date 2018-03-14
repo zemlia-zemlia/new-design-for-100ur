@@ -183,8 +183,8 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
                 }
                 //echo $name . ': ' . $phone . ': '. $question . "\n\r";
 
-                //print_r($nameMatches[1]);
-                //print_r($phoneMatches[2]);
+                //print_r($nameMatches);
+                //print_r($phoneMatches);
                 //print_r($message);
                 //continue;
 
