@@ -151,10 +151,13 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
             //echo $folderAlias . "\n\r";
 
             $emails = $this->getEmailsFromFolder($folderAlias);
-
+            //echo 'messages in the folder:' . sizeof($emails). PHP_EOL;
+            
             foreach ($emails as $email) {
 
-                $bodyDecoded = imap_base64($email);
+                //$bodyDecoded = imap_base64($email);
+                $bodyDecoded = $email;
+                
                 //echo $bodyDecoded;
                 
                 $name = '';
