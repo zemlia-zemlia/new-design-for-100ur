@@ -73,7 +73,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <?php endif;?>
 
 <div class="form-group">
-    <label class='col-sm-4 control-label'>Комментарий*:</label>
+    <label class='col-sm-4 control-label'>Комментарий:</label>
     <div class="col-sm-8">
         <?php echo $form->textArea($model, 'question', array('class' => 'form-control', 'rows' => 6, 'placeholder' => 'Пожалуйста, опишите суть вопроса.')); ?>
         <?php echo $form->error($model, 'question'); ?>

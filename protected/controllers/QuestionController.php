@@ -627,7 +627,7 @@ class QuestionController extends Controller {
     public function actionCall() {
         $this->layout = "//frontend/smart";
         $lead = new Lead100();
-        $lead->setScenario('create');
+        $lead->setScenario('createCall');
         
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);

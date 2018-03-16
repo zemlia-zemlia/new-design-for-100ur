@@ -69,11 +69,11 @@ class Question extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('questionText, authorName', 'required', 'message' => 'Поле {attribute} не заполнено'),
+            array('authorName', 'required', 'message' => 'Поле {attribute} не заполнено'),
             array('phone', 'required', 'on' => 'create', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('townId', 'required', 'except' => array('preSave'), 'message' => 'Поле {attribute} должно быть заполнено'),
             array('number, status, publishedBy, authorId, price, payed', 'numerical', 'integerOnly' => true),
-            array('agree', 'compare', 'compareValue' => 1, 'on' => array('create'), 'message' => 'Вы должны согласиться на обработку персональных данных'),
+            array('agree', 'compare', 'compareValue' => 1, 'on' => array('create', 'createCall'), 'message' => 'Вы должны согласиться на обработку персональных данных'),
             array('sessionId', 'length', 'max' => 255),
             array('authorName, title', 'match', 'pattern' => '/^([а-яА-Я0-9ёЁA-Za-z\-.,\? ])+$/u', 'message' => 'В {attribute} могут присутствовать русские буквы, цифры, точка, дефис и пробел'),
             array('phone', 'match', 'pattern' => '/^([0-9\+])+$/u', 'message' => 'В номере телефона могут присутствовать только цифры и знак плюса'),

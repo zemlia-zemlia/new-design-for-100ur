@@ -81,11 +81,12 @@ class Lead100 extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, phone, sourceId, question, townId, town', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
+            array('name, phone, sourceId, townId, town', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('sourceId, townId, newTownId, questionId, leadStatus, addedById, type, campaignId, brakReason', 'numerical', 'integerOnly' => true),
+            array('question', 'required', 'message' => 'Поле {attribute} не заполнено', 'except' => ['createCall']),
             array('price, buyPrice, regionId, testMode', 'numerical'),
             array('deliveryTime, categoriesId', 'safe'),
-            array('agree', 'compare', 'compareValue' => 1, 'on'=>array('create'), 'message' => 'Вы должны согласиться на обработку персональных данных'),
+            array('agree', 'compare', 'compareValue' => 1, 'on'=>array('create', 'createCall'), 'message' => 'Вы должны согласиться на обработку персональных данных'),
             array('name, phone, email, secretCode, brakComment', 'length', 'max' => 255),
             array('townId', 'match', 'not' => true, 'pattern' => '/^0$/', 'message' => 'Поле Город не заполнено'),
             array('name', 'match', 'pattern' => '/^([а-яА-Я0-9ёЁ\-., ])+$/u', 'message' => 'В имени могут присутствовать русские буквы, цифры, точка, дефис и пробел', 'except' => 'parsing'),
