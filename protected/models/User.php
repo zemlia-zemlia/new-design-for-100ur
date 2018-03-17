@@ -1043,7 +1043,7 @@ class User extends CActiveRecord {
         
         // если не загружен аватар
         if (!$this->avatar) {
-            return 'Пожалуйста, загрузите свою фотографию. Юристы с фотографией вызывают больше доверия. ' . $editProfilePage;
+            return 'Пожалуйста, загрузите свою фотографию. Юристы с фотографией вызывают больше доверия и учавствуют в рейтингах. ' . $editProfilePage;
         }
         
         // если не заполнено приветствие
@@ -1053,7 +1053,7 @@ class User extends CActiveRecord {
         
         // если не заполнены контакты (должен быть либо телефон, либо мейл)
         if (!$this->settings->phoneVisible && !$this->settings->emailVisible) {
-            return 'Пожалуйста, укажите телефон или Email в своем профиле. ' . $editProfilePage;
+            return 'Пожалуйста, укажите телефон или Email в своем профиле чтобы клиенты могли с вами связаться. ' . $editProfilePage;
         }
         
         // если не заполнены специализации
@@ -1063,7 +1063,7 @@ class User extends CActiveRecord {
         
         // если не заполнены специализации
         if (!$this->settings->description) {
-            return 'Пожалуйста, напишите немного о себе в своем профиле. ' . $editProfilePage;
+            return 'Пожалуйста, напишите немного о себе в своем профиле, это увеличит доверие со стороны клиента. ' . $editProfilePage;
         }
     }
 
