@@ -116,7 +116,11 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
             foreach ($emails as $email_id) {
                 // Fetch the email's overview and show subject, from and date. 
                 $overview = imap_fetch_overview($mbox, $email_id, 0);
-                $emailBody[] = imap_fetchbody($mbox, $email_id, 2);
+                if($overview && $overview[0]->subject) {
+                    $emailSubject[$email_id] = imap_utf8($overview[0]->subject);
+                }
+                
+                $emailBody[$email_id] = imap_fetchbody($mbox, $email_id, 2);
             }
 
             imap_close($mbox);
@@ -153,7 +157,7 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
             $emails = $this->getEmailsFromFolder($folderAlias);
             //echo 'messages in the folder:' . sizeof($emails). PHP_EOL;
             
-            foreach ($emails as $email) {
+            foreach ($emails as $emailId => $email) {
 
                 //$bodyDecoded = imap_base64($email);
                 $bodyDecoded = $email;
