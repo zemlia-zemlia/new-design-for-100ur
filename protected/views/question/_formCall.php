@@ -13,7 +13,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="col-md-12">
         <div class="form-group">
             <?php echo $form->labelEx($model, 'name', ['class' => 'col-sm-4 control-label']); ?>
-            <div class="col-sm-8">
+            <div class="col-sm-4">
                 <?php echo $form->textField($model, 'name', array('class' => 'form-control', 'placeholder' => 'Иванов Иван')); ?>
                 <?php echo $form->error($model, 'name'); ?>
             </div>
@@ -25,7 +25,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="col-md-12">
         <div class="form-group">
             <?php echo $form->labelEx($model, 'phone', ['class' => 'col-sm-4 control-label']); ?>
-            <div class="col-sm-8">
+            <div class="col-sm-4">
                 <?php
                 echo $form->textField($model, 'phone', array(
                     //'class'         =>  'form-control phone-mask', 
@@ -40,7 +40,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <img src="/pics/2017/red_lock.png" alt="ваши данные в безопасности" style="float:left;margin-top:10px;" />
                     <p class="text-muted" style="padding-top:10px;margin-left:35px;">
 
-                        Ваши данные в безопасности. Ваш телефон <strong>НИГДЕ и НИКОГДА</strong> не публикуется и доступен только юристу-консультанту
+                        Ваши данные в безопасности. Телефон <strong>НИГДЕ и НИКОГДА</strong> не публикуется и доступен только юристу-консультанту
                     </p>
                 </small>
                 <?php echo $form->error($model, 'phone'); ?>
@@ -73,9 +73,9 @@ $form = $this->beginWidget('CActiveForm', array(
 <?php endif;?>
 
 <div class="form-group">
-    <label class='col-sm-4 control-label'>Комментарий:</label>
-    <div class="col-sm-8">
-        <?php echo $form->textArea($model, 'question', array('class' => 'form-control', 'rows' => 6, 'placeholder' => 'Пожалуйста, опишите суть вопроса.')); ?>
+    <label class='col-sm-4 control-label'>Тема:</label>
+    <div class="col-sm-7">
+        <?php echo $form->textArea($model, 'question', array('class' => 'form-control', 'rows' => 6, 'placeholder' => 'В двух словах о чем у вас вопрос.')); ?>
         <?php echo $form->error($model, 'question'); ?>
     </div>
 </div>
@@ -86,7 +86,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="col-md-12">
 
             <?php echo $form->labelEx($model, 'town', ['class' => 'col-sm-4 control-label']); ?>
-            <div class="col-sm-8">
+            <div class="col-sm-4">
                 <?php
                 echo CHtml::textField('town', $currenTownName, array(
                     'id' => 'town-selector',
