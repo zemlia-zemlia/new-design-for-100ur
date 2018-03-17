@@ -44,6 +44,8 @@ class Lead100 extends CActiveRecord {
     const LEAD_STATUS_RETURN = 5; // возврат с отбраковки
     const LEAD_STATUS_SENT = 6; // отправлен покупателю
     const LEAD_STATUS_DUPLICATE = 7; // дубль (этот автор уже отправлял нам вопрос в последние N часов)
+    const LEAD_STATUS_PREMODERATION = 8; // на премодерации
+    
     // типы лидов
     const TYPE_QUESTION = 1; // вопрос (по умолч.)
     const TYPE_CALL = 2; // запрос звонка
@@ -164,6 +166,7 @@ class Lead100 extends CActiveRecord {
             self::LEAD_STATUS_BRAK => 'брак',
             self::LEAD_STATUS_RETURN => 'не принят к отбраковке',
             self::LEAD_STATUS_DUPLICATE => 'дубль',
+            self::LEAD_STATUS_PREMODERATION => 'недолид',
         );
     }
 
@@ -492,6 +495,11 @@ class Lead100 extends CActiveRecord {
         if (!$this->isNewRecord) {
             return;
         }
+        
+        if($this->leadStatus != Lead100::LEAD_STATUS_DEFAULT) {
+            return;
+        }
+        
         // после сохранения лида ищем для него кампанию
         $campaignId = Campaign::getCampaignsForLead($this->id);
         // если кампания найдена, отправляем в нее лид

@@ -10,6 +10,10 @@
     <td>
 	
         <?php echo CHtml::link(CHtml::encode($data->name), $this->createUrl('view', array('id'=>$data->id))); ?>
+        
+        <?php if($data->moderation == 1):?>
+        <div><span class="label label-warning">с премодерацией</span></div>
+        <?php endif;?>
     </td>
     <td>
         <?php if($data->user):?>

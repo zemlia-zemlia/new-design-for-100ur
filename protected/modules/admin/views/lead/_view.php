@@ -124,14 +124,24 @@ switch ($data->leadStatus) {
             <?php endif; ?>
 
             <?php if ($data->leadStatus == Lead100::LEAD_STATUS_NABRAK): ?>
-            <p>
-                <?php echo CHtml::link('В брак', '#', array('class' => 'btn btn-warning btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead100::LEAD_STATUS_BRAK)); ?>
-            </p>
-            <p>
-                <?php echo CHtml::link('Возврат', '#', array('class' => 'btn btn-success btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead100::LEAD_STATUS_RETURN)); ?>
-            </p>	
-            <div id="lead-status-message-<?php echo $data->id; ?>"></div>
-        <?php endif; ?>
+                <p>
+                    <?php echo CHtml::link('В брак', '#', array('class' => 'btn btn-warning btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead100::LEAD_STATUS_BRAK)); ?>
+                </p>
+                <p>
+                    <?php echo CHtml::link('Возврат', '#', array('class' => 'btn btn-success btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead100::LEAD_STATUS_RETURN)); ?>
+                </p>	
+                <div id="lead-status-message-<?php echo $data->id; ?>"></div>
+            <?php endif; ?>
+                
+            <?php if ($data->leadStatus == Lead100::LEAD_STATUS_PREMODERATION): ?>
+                <p>
+                    <?php echo CHtml::link('В брак', '#', array('class' => 'btn btn-warning btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead100::LEAD_STATUS_BRAK)); ?>
+                </p>
+                <p>
+                    <?php echo CHtml::link('На продажу', '#', array('class' => 'btn btn-success btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead100::LEAD_STATUS_DEFAULT)); ?>
+                </p>	
+                <div id="lead-status-message-<?php echo $data->id; ?>"></div>
+            <?php endif; ?>
         </p>
     </div>
 </div>

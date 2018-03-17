@@ -33,7 +33,8 @@
 
 
                     <p class="navbar-text navbar-right">
-
+                        <?php echo CHtml::link('Добавить лид', Yii::app()->createUrl('/admin/lead/create/'), array('class' => 'btn btn-info btn-xs')); ?></li>
+                        &nbsp;&nbsp;
                         <?php
                         echo CHtml::ajaxLink("<span class='glyphicon glyphicon-refresh'></span>", Yii::app()->createUrl('site/clearCache'), array(
                             'success' => 'function(data, textStatus, jqXHR)
@@ -72,18 +73,15 @@
                                         <div class="collapse in" id="admin-collapse">  
                                             <div class="panel-body">
                                                 <ul id="left-menu">
-
-                                                    <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Лиды", Yii::app()->createUrl('/admin/lead/index')); ?>
-                                                        <?php echo CHtml::link('Добавить', Yii::app()->createUrl('/admin/lead/create/'), array('class' => 'btn btn-info btn-xs')); ?></li>
-                                                    <ul>
-                                                        <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Проданные", Yii::app()->createUrl('/admin/lead/index', array('status' => Lead100::LEAD_STATUS_SENT))); ?></li>
-                                                        <li>
-                                                            <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  На отбраковке", Yii::app()->createUrl('/admin/lead/index', array('status' => Lead100::LEAD_STATUS_NABRAK))); ?>  
-                                                            <span class="label label-default"><?php echo Lead100::getStatusCounter(Lead100::LEAD_STATUS_NABRAK); ?></span>
-                                                        </li>
-                                                        <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Брак", Yii::app()->createUrl('/admin/lead/index', array('status' => Lead100::LEAD_STATUS_BRAK))); ?></li>
-                                                        <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Возврат", Yii::app()->createUrl('/admin/lead/index', array('status' => Lead100::LEAD_STATUS_RETURN))); ?></li>
-                                                    </ul>
+                                                    <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  На модерации", Yii::app()->createUrl('/admin/lead/index', array('status' => Lead100::LEAD_STATUS_PREMODERATION))); ?>
+                                                    <span class="label label-danger"><?php echo Lead100::getStatusCounter(Lead100::LEAD_STATUS_PREMODERATION); ?></span>
+                                                    </li>
+                                                    <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Все лиды", Yii::app()->createUrl('/admin/lead/index')); ?>                                                    
+                                                    <li>
+                                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  На отбраковке", Yii::app()->createUrl('/admin/lead/index', array('status' => Lead100::LEAD_STATUS_NABRAK))); ?>  
+                                                        <span class="label label-default"><?php echo Lead100::getStatusCounter(Lead100::LEAD_STATUS_NABRAK); ?></span>
+                                                    </li>
+                                                    
                                                     <li><?php echo CHtml::link("<span class='glyphicon glyphicon-briefcase'></span>  Заказы документов", Yii::app()->createUrl('/admin/order')); ?>  <span class="badge badge-default"><?php echo Order::calculateNewOrders(); ?></span></li>                                                        
                                                     <li><?php echo CHtml::link("<span class='glyphicon glyphicon-briefcase'></span>  Кампании", Yii::app()->createUrl('/admin/campaign')); ?></li>
                                                     <?php if (!Yii::app()->user->role == User::ROLE_SECRETARY): ?>

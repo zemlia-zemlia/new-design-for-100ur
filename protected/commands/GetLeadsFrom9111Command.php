@@ -212,7 +212,12 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
                 $lead->sourceId = $this->folders[$folderAlias]['sourceId']; // id нужного источника лидов
                 $lead->buyPrice = $this->folders[$folderAlias]['buyPrice']; // цена покупки
                 $lead->townId = $this->folders[$folderAlias]['townId']; // id города
-                $lead->leadStatus = Lead100::LEAD_STATUS_DEFAULT;
+                
+                // найдем объект источника лидов для данной папки
+                $source = Leadsource100::model()->findByPk($lead->sourceId);
+                
+                // в зависимости от настроек источника лидов отправляем лид на модерацию или в неразобранные
+                $lead->leadStatus = ($source->moderation == 0) ? Lead100::LEAD_STATUS_DEFAULT : Lead100::LEAD_STATUS_PREMODERATION;
 
                 if (!$lead->save()) {
                     echo $lead->phone;

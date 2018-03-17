@@ -196,7 +196,7 @@ class LeadController extends Controller {
 
         if ($statusId !== false) {
             $criteria->addColumnCondition(array('t.leadStatus' => $statusId));
-            $criteria->addColumnCondition(array('campaignId!' => 'NULL'));
+            $criteria->addCondition('campaignId IS NOT NULL');
         }
 
         if (isset($_GET['Lead100'])) {
@@ -213,7 +213,6 @@ class LeadController extends Controller {
                 ),
             ));
         }
-
 
         $this->render('index', array(
             'dataProvider' => $dataProvider,

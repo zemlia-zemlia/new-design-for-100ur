@@ -56,7 +56,7 @@
         <?php
         echo CHtml::textField('town', $townName, array(
             'id' => 'town-selector',
-            'class' => 'form-control',
+            'class' => 'form-control input-sm',
         ));
         ?>
 <?php
@@ -68,7 +68,7 @@ echo $form->hiddenField($model, 'townId', array('id' => 'selected-town'));
         <?php echo $form->labelEx($model, 'regionId'); ?><br/>
 <?php
 echo $form->dropDownList($model, 'regionId', array(0 => 'Все') + Region::getAllRegions(), array(
-    'class' => 'form-control',
+    'class' => 'form-control input-sm',
 ));
 ?>
     </div>
@@ -77,7 +77,7 @@ echo $form->dropDownList($model, 'regionId', array(0 => 'Все') + Region::getA
 <?php echo $form->labelEx($model, 'sourceId'); ?><br/>
         <?php
         echo $form->dropDownList($model, 'sourceId', array('' => 'Все') + Leadsource100::getSourcesArray(true), array(
-            'class' => 'form-control',
+            'class' => 'form-control input-sm',
         ));
         ?>
     </div>
@@ -86,7 +86,16 @@ echo $form->dropDownList($model, 'regionId', array(0 => 'Все') + Region::getA
         <?php echo $form->labelEx($model, 'type'); ?><br/>
         <?php
         echo $form->dropDownList($model, 'type', array('' => 'Все') + Lead100::getLeadTypesArray(), array(
-            'class' => 'form-control',
+            'class' => 'form-control input-sm',
+        ));
+        ?>
+    </div>
+    
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'leadStatus'); ?><br/>
+        <?php
+        echo $form->dropDownList($model, 'leadStatus', array('' => 'Все') + Lead100::getLeadStatusesArray(), array(
+            'class' => 'form-control input-sm',
         ));
         ?>
     </div>

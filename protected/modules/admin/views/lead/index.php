@@ -15,6 +15,7 @@ $this->breadcrumbs=array(
 <div class="vert-margin30">
    <?php $this->renderPartial('_searchForm', array('model'=>$searchModel));?> 
 </div>
+<hr />
 
 <div  class="vert-margin30">
 <h1>Лиды
