@@ -5,8 +5,6 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-    <?php// echo $form->errorSummary($model, 'Исправьте ошибки'); ?>
-
     <div class="row">
         <div class="col-sm-9">
             <div class="form-group">

@@ -6,51 +6,59 @@
 
 <div class="form">
 
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'leadsource-form',
-	'enableAjaxValidation'=>false,
-)); ?>
+    <?php
+    $form = $this->beginWidget('CActiveForm', array(
+        'id' => 'leadsource-form',
+        'enableAjaxValidation' => false,
+    ));
+    ?>
 
-	<p class="note"><span class="required">*</span> - обязательные поля</p>
+    <p class="note"><span class="required">*</span> - обязательные поля</p>
 
-	<?php echo $form->errorSummary($model, "Исправьте ошибки"); ?>
-        
-        
-        <div class="form-group">
-		<?php echo $form->checkBox($model,'active',array()); ?>
-                <?php echo $model->getAttributeLabel('active');?>
-		<?php echo $form->error($model,'active'); ?>
-	</div>
-        
-	<div class="form-group">
-		<?php echo $form->labelEx($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('class'=>'form-control')); ?>
-		<?php echo $form->error($model,'name'); ?>
-	</div>
+<?php echo $form->errorSummary($model, "Исправьте ошибки"); ?>
 
-	<div class="form-group">
-		<?php echo $form->labelEx($model,'description'); ?>
-		<?php echo $form->textArea($model,'description',array('class'=>'form-control','rows'=>'3')); ?>
-		<?php echo $form->error($model,'description'); ?>
-	</div>
-        
-        
-        <div class="form-group">
-            <?php echo $form->labelEx($model, 'userId');?>
-            <?php echo $form->textField($model, 'userId',array('class'=>'form-control')); ?>
-            <?php echo $form->error($model, 'userId'); ?>
-            
-            <?php if($model->user):?>
-                Текущий пользователь: <?php echo CHtml::link(CHtml::encode($model->user->name . ' ' . $model->user->lastName), Yii::app()->createUrl('admin/user/view', array('id' => $model->user->id)));?>
-                (id: <?php echo $model->user->id;?>)
-            <?php endif;?>
-        </div> 
-        
-        
 
-	<div class="form-group">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-primary')); ?>
-	</div>
+    <div class="form-group">
+        <?php echo $form->checkBox($model, 'active', array()); ?>
+        <?php echo $model->getAttributeLabel('active'); ?>
+        <?php echo $form->error($model, 'active'); ?>
+    </div>
+    
+    <div class="form-group">
+        <?php echo $form->checkBox($model, 'moderation', array()); ?>
+        <?php echo $model->getAttributeLabel('moderation'); ?>
+        <?php echo $form->error($model, 'moderation'); ?>
+    </div>
+
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'name'); ?>
+        <?php echo $form->textField($model, 'name', array('class' => 'form-control')); ?>
+        <?php echo $form->error($model, 'name'); ?>
+    </div>
+
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'description'); ?>
+        <?php echo $form->textArea($model, 'description', array('class' => 'form-control', 'rows' => '3')); ?>
+        <?php echo $form->error($model, 'description'); ?>
+    </div>
+
+
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'userId'); ?>
+        <?php echo $form->textField($model, 'userId', array('class' => 'form-control')); ?>
+        <?php echo $form->error($model, 'userId'); ?>
+
+        <?php if ($model->user): ?>
+            Текущий пользователь: <?php echo CHtml::link(CHtml::encode($model->user->name . ' ' . $model->user->lastName), Yii::app()->createUrl('admin/user/view', array('id' => $model->user->id))); ?>
+            (id: <?php echo $model->user->id; ?>)
+        <?php endif; ?>
+    </div> 
+
+
+
+    <div class="form-group">
+    <?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class' => 'btn btn-primary')); ?>
+    </div>
 
 <?php $this->endWidget(); ?>
 

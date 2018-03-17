@@ -14,6 +14,7 @@
  * @property string $appId
  * @property string $secretKey
  * @property integer $userId
+ * @property integer $moderation
  */
 class Leadsource100 extends CActiveRecord {
 
@@ -45,7 +46,7 @@ class Leadsource100 extends CActiveRecord {
         return array(
             array('name', 'required', 'message' => 'Поле {attribute} не заполнено'),
             array('name, description', 'length', 'max' => 255),
-            array('officeId, noLead, active, userId, type', 'numerical', 'integerOnly' => true),
+            array('officeId, noLead, active, userId, type, moderation', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, name, description', 'safe', 'on' => 'search'),
@@ -78,6 +79,7 @@ class Leadsource100 extends CActiveRecord {
             'appId' => 'ID источника для API',
             'secretKey' => 'Секретный ключ для API',
             'userId' => 'ID пользователя',
+            'moderation' => 'Требуется премодерация лидов',
         );
     }
 
