@@ -42,22 +42,6 @@
                     </small>
                 </p>
                 
-                
-                <?php if(sizeof($user['categories'])):?>
-                
-               <!--  <p><small>
-                    <?php
-                        $directions = array();
-                        $directions = $user['categories'];
-
-                        
-
-                        foreach($user['categories'] as $cat) {
-                            echo "<span class='yurist-directions-item'>" . $cat . '</span> ';
-                        }
-                    ?>
-                    </small></p> -->
-                <?php endif;?>
             </div>
         </div> 
     </div>
