@@ -11,7 +11,7 @@ class ProfileNotifier extends CWidget {
         if (isset($_COOKIE['hide_profile_notifier'])) {
             return false;
         }
-
+        //  hello world
         $message = Yii::app()->user->getProfileNotification();
         
         if ($message) {
