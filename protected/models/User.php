@@ -1029,5 +1029,42 @@ class User extends CActiveRecord {
             }
         }
     }
+    
+    /**
+     * Возвращает текст сообщения для юриста с советом заполнить поле в профиле
+     * @return string Сообщение для пользователя
+     */
+    public function getProfileNotification()
+    {
+        if($this->role != self::ROLE_JURIST || !$this->settings) {
+            return false;
+        }
+        $editProfilePage = CHtml::link('Обновить профиль', Yii::app()->createUrl('user/update', ['id' => $this->id]), ['class' => 'yellow-button']);
+        
+        // если не загружен аватар
+        if (!$this->avatar) {
+            return 'Пожалуйста, загрузите свою фотографию. Юристы с фотографией вызывают больше доверия. ' . $editProfilePage;
+        }
+        
+        // если не заполнено приветствие
+        if (!$this->settings->hello) {
+            return 'Пожалуйста, заполните текст приветствия в своем профиле. ' . $editProfilePage;
+        }
+        
+        // если не заполнены контакты (должен быть либо телефон, либо мейл)
+        if (!$this->settings->phoneVisible && !$this->settings->emailVisible) {
+            return 'Пожалуйста, укажите телефон или Email в своем профиле. ' . $editProfilePage;
+        }
+        
+        // если не заполнены специализации
+        if (!sizeof($this->categories)) {
+            return 'Пожалуйста, укажите свои специализации в профиле. ' . $editProfilePage;
+        }
+        
+        // если не заполнены специализации
+        if (!$this->settings->description) {
+            return 'Пожалуйста, напишите немного о себе в своем профиле. ' . $editProfilePage;
+        }
+    }
 
 }
