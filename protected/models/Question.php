@@ -69,7 +69,7 @@ class Question extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('authorName', 'required', 'message' => 'Поле {attribute} не заполнено'),
+            array('questionText, authorName', 'required', 'message' => 'Поле {attribute} не заполнено'),
             array('phone', 'required', 'on' => 'create', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('townId', 'required', 'except' => array('preSave'), 'message' => 'Поле {attribute} должно быть заполнено'),
             array('number, status, publishedBy, authorId, price, payed', 'numerical', 'integerOnly' => true),
