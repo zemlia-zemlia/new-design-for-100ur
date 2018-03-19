@@ -116,7 +116,7 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
             foreach ($emails as $email_id) {
                 // Fetch the email's overview and show subject, from and date. 
                 $overview = imap_fetch_overview($mbox, $email_id, 0);
-                if($overview && $overview[0]->subject) {
+                if($overview && $overview[0] && isset($overview[0]->subject)) {
                     $emailSubject[$email_id] = imap_utf8($overview[0]->subject);
                 }
                 
