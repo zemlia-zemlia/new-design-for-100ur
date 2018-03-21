@@ -80,7 +80,7 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
 </div>
 
-<?php if(false):?>
+<?php if($model->hasErrors('townId')):?>
 <div class="form-group">
     <div class="row">
         <div class="col-md-12">
