@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /*
  * 
@@ -79,6 +79,12 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
             'townId' => 339,
             'sourceId' => 33,
             'buyPrice' => 25,
+        ),
+
+        '9111Orenburg' => array(
+            'townId' => 709,
+            'sourceId' => 33,
+            'buyPrice' => 40,
         ),
 		
     );
