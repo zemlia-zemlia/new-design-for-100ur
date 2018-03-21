@@ -83,9 +83,9 @@ class Lead100 extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, phone, sourceId, townId, town', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
+            array('name, phone, sourceId', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('sourceId, townId, newTownId, questionId, leadStatus, addedById, type, campaignId, brakReason', 'numerical', 'integerOnly' => true),
-            array('question', 'required', 'message' => 'Поле {attribute} не заполнено', 'except' => ['createCall']),
+            array('question, townId, town', 'required', 'message' => 'Поле {attribute} не заполнено', 'except' => ['createCall']),
             array('price, buyPrice, regionId, testMode', 'numerical'),
             array('deliveryTime, categoriesId', 'safe'),
             array('agree', 'compare', 'compareValue' => 1, 'on'=>array('create', 'createCall'), 'message' => 'Вы должны согласиться на обработку персональных данных'),

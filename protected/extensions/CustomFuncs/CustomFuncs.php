@@ -113,6 +113,32 @@ class CustomFuncs
         }
     }
     
+    /**
+     * Возвращает id города по номеру телефона
+     * @param string $phoneNumber Номер телефона
+     * @return integer ID города в базе. 0, если город в базе не найден
+     */
+    public static function detectTownIdByPhone($phoneNumber)
+    {
+        // приводим номер телефона к виду 7xxxxxxxxxx
+        $phoneNumber = Question::normalizePhone($phoneNumber);
+        $htmlwebApiResponse = file_get_contents('http://htmlweb.ru/geo/api.php?json&telcod=' . $phoneNumber . '&charset=utf-8&api_key=' . Yii::app()->params['htmlwebApiKey']);
+        // расшифровываем JSON-ответ от сервера в ассоциативный массив
+        $htmlwebApiResponseArray = json_decode($htmlwebApiResponse, true);
+        
+        //self::printr($htmlwebApiResponseArray);
+        $townName = $htmlwebApiResponseArray[0]['name'];
+        Yii::log('Получение города по номеру телефона ' . $phoneNumber . '. Город: ' . $townName);
+        
+        $town = Town::model()->find('name="' . CHtml::encode($townName) . '"');
+        
+        if($town) {
+            return $town->id;
+        } else {
+            return 0;
+        }
+    }
+
     // функция преобразует дату из формата 2012-09-01 12:30:00 в Пн 1 сен. 2012 12:30
     public static function niceDate($date,$showTime=true,$showWeekday=true)
     {
