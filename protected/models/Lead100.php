@@ -88,6 +88,7 @@ class Lead100 extends CActiveRecord {
             array('question, townId, town', 'required', 'message' => 'Поле {attribute} не заполнено', 'except' => ['createCall']),
             array('price, buyPrice, regionId, testMode', 'numerical'),
             array('deliveryTime, categoriesId', 'safe'),
+            array('question', 'safe', 'on' => ['createCall']),
             array('agree', 'compare', 'compareValue' => 1, 'on'=>array('create', 'createCall'), 'message' => 'Вы должны согласиться на обработку персональных данных'),
             array('name, phone, email, secretCode, brakComment', 'length', 'max' => 255),
             array('townId', 'match', 'not' => true, 'pattern' => '/^0$/', 'message' => 'Поле Город не заполнено'),
