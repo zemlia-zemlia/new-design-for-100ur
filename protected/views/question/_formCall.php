@@ -80,7 +80,6 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
 </div>
 
-<?php if($model->hasErrors('townId')):?>
 <div class="form-group">
     <div class="row">
         <div class="col-md-12">
@@ -103,7 +102,6 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
     </div>	
 </div>
-<?php endif;?>
 
 <div class="vert-margin20 center-align">
     <small class="text-muted">

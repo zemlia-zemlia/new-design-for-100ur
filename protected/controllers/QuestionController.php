@@ -653,12 +653,7 @@ class QuestionController extends Controller {
             if (in_array($lead->phone, $existingLeadsPhones)) {
                 $lead->addError('phone', "Похоже, вы пытаетесь задать свой вопрос повторно");
             } else {
-                // определяем город клиента по номеру телефона
-                $townIdByPhoneNumber = CustomFuncs::detectTownIdByPhone($lead->phone);
-                if($townIdByPhoneNumber) {
-                    $lead->townId = $townIdByPhoneNumber;
-                }
-                
+                                
                 if ($lead->validate()) {
                     $lead->question = CHtml::encode('Нужна консультация юриста. Перезвоните мне. ' . $lead->question);
 
