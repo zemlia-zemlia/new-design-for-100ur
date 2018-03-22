@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Сборник самописных методов, применяемых в проекте.
+ * @todo Отрефакторить, вынести методы в отдельные классы
+ */
 class CustomFuncs
 {
     public static function numForms($num, $form1, $form2, $form5)
