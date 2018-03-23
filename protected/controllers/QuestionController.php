@@ -638,6 +638,9 @@ class QuestionController extends Controller {
             $lead->sourceId = 3;
             $lead->type = Lead100::TYPE_CALL;
 
+            /** 
+             * @todo заменить следующую проверку вызовом метода Lead100::findDublicates()
+             */
             $existingLeads = Yii::app()->db->createCommand()
                     ->select('phone')
                     ->from('{{lead100}}')
