@@ -35,47 +35,47 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
             'sourceId' => 33,
             'buyPrice' => 50,
         ),
-		'9111Spb' => array(
+        '9111Spb' => array(
             'townId' => 822,
             'sourceId' => 33,
             'buyPrice' => 110,
         ),
-		'9111Msk' => array(
+        '9111Msk' => array(
             'townId' => 598,
             'sourceId' => 33,
             'buyPrice' => 160,
         ),
-		'9111Novosibirsk' => array(
+        '9111Novosibirsk' => array(
             'townId' => 666,
             'sourceId' => 33,
             'buyPrice' => 50,
         ),
-		'9111Krasnoyarsk' => array(
+        '9111Krasnoyarsk' => array(
             'townId' => 472,
             'sourceId' => 33,
             'buyPrice' => 50,
         ),
-		'9111Chelyabinsk' => array(
+        '9111Chelyabinsk' => array(
             'townId' => 1039,
             'sourceId' => 33,
             'buyPrice' => 50,
         ),
-		'9111Perm' => array(
+        '9111Perm' => array(
             'townId' => 737,
             'sourceId' => 33,
             'buyPrice' => 45,
         ),
-		'9111Yaroslavl' => array(
+        '9111Yaroslavl' => array(
             'townId' => 1106,
             'sourceId' => 33,
             'buyPrice' => 30,
         ),
-		'9111Kaluga' => array(
+        '9111Kaluga' => array(
             'townId' => 354,
             'sourceId' => 33,
             'buyPrice' => 25,
         ),
-		'9111Irkutsk' => array(
+        '9111Irkutsk' => array(
             'townId' => 339,
             'sourceId' => 33,
             'buyPrice' => 25,
@@ -142,11 +142,11 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
         foreach ($this->folders as $folder) {
             $leadSourceIds[] = $folder['sourceId'];
         }
-        
+
         $existingLeads = Lead100::model()->findAll(array(
             'condition' => 'question_date>NOW()- INTERVAL 2 DAY AND sourceId IN(' . implode(', ', $leadSourceIds) . ')',
         ));
-        
+
         // массив, в котором будут храниться телефоны лидов, которые добавлены в базу за последний день, чтобы не добавить одного лида несколько раз
         $existingLeadsPhones = array();
 
@@ -167,9 +167,9 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
 
                 //$bodyDecoded = imap_base64($email);
                 $bodyDecoded = $email;
-                
+
                 //echo $bodyDecoded;
-                
+
                 $name = '';
                 $phone = '';
                 $email = '';
@@ -178,21 +178,20 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
                 preg_match("/Имя:<\/b>(.+)<br>/iu", $bodyDecoded, $nameMatches);
                 preg_match("/(Телефон):(.+)<br>/iu", $bodyDecoded, $phoneMatches);
                 preg_match("/(Текст заявки<\/b>:)(.+)<br>/iu", $bodyDecoded, $messageMatches);
-                
-                if($nameMatches) {
+
+                if ($nameMatches) {
                     $name = trim($nameMatches[1]);
                     $name = str_replace("&nbsp;", " ", $name);
                     $name = trim($name);
                 }
-                if($phoneMatches) {
+                if ($phoneMatches) {
                     $phone = $phoneMatches[2];
                     $phone = Question::normalizePhone($phone);
                 }
-                if($messageMatches) {
+                if ($messageMatches) {
                     $question = trim($messageMatches[2]);
                 }
                 //echo $name . ': ' . $phone . ': '. $question . "\n\r";
-
                 //print_r($nameMatches);
                 //print_r($phoneMatches);
                 //print_r($message);
@@ -203,29 +202,28 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
                     continue;
                     // если лид с таким телефоном уже есть в базе, пропускаем его
                 }
-                
-                if(!$name || !$phone) {
+
+                if (!$name || !$phone) {
                     continue;
                 }
-                
+
                 //exit; // testing, not save
-                
+
                 $lead = new Lead100();
                 $lead->setScenario("parsing");
                 $lead->name = $name;
                 $lead->phone = $phone;
                 //$lead->email = $email;
                 $lead->question = trim($question);
-                if($lead->question == '') {
+                if ($lead->question == '') {
                     $lead->question = 'Текст вопроса потерян. Необходимо уточнить вопрос по телефону и проконсультировать';
-                }  
+                }
                 $lead->sourceId = $this->folders[$folderAlias]['sourceId']; // id нужного источника лидов
                 $lead->buyPrice = $this->folders[$folderAlias]['buyPrice']; // цена покупки
                 $lead->townId = $this->folders[$folderAlias]['townId']; // id города
-                
                 // найдем объект источника лидов для данной папки
                 $source = Leadsource100::model()->findByPk($lead->sourceId);
-                
+
                 // в зависимости от настроек источника лидов отправляем лид на модерацию или в неразобранные
                 $lead->leadStatus = ($source->moderation == 0) ? Lead100::LEAD_STATUS_DEFAULT : Lead100::LEAD_STATUS_PREMODERATION;
 
