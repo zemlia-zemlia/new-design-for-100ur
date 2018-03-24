@@ -415,5 +415,7 @@ _tmr.push({id: "2577054", type: "pageView", start: (new Date()).getTime()});
 
 <?php endif;?>
 
+<script type="text/javascript" src="//api.venyoo.ru/wnew.js?wc=venyoo/default/science&widget_id=5214416909631488"></script>
+
 </body>
 </html>
