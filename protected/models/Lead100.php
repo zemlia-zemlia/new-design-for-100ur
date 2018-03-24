@@ -60,8 +60,6 @@ class Lead100 extends CActiveRecord {
     const BRAK_REASON_BAD_REGION = 3; // не тот регион
     const BRAK_REASON_SPAM = 4; // спам
     
-    const PRICE_COEFF = 2.45; // во сколько раз цена продажи лида выше цены покупки
-
     /*
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -626,7 +624,7 @@ class Lead100 extends CActiveRecord {
             $townBuyPrice = $regionBuyPrice;
         }
         
-        $townSellPrice = $townBuyPrice * self::PRICE_COEFF;
+        $townSellPrice = $townBuyPrice * Yii::app()->params['priceCoeff'];
         
         
         return array(0 => $townBuyPrice, 1 => $townSellPrice);
