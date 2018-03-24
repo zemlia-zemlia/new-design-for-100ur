@@ -177,6 +177,9 @@ class Campaign extends CActiveRecord {
         if (!$lead) {
             return false;
         }
+        if (!$lead->town) {
+            return false;
+        }
 
         $campaigns = array();
 

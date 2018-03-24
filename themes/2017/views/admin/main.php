@@ -74,7 +74,7 @@
                                             <div class="panel-body">
                                                 <ul id="left-menu">
                                                     <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  На модерации", Yii::app()->createUrl('/admin/lead/index', array('status' => Lead100::LEAD_STATUS_PREMODERATION))); ?>
-                                                    <span class="label label-danger"><?php echo Lead100::getStatusCounter(Lead100::LEAD_STATUS_PREMODERATION); ?></span>
+                                                    <span class="label label-danger"><?php echo Lead100::getStatusCounter(Lead100::LEAD_STATUS_PREMODERATION, FALSE); ?></span>
                                                     </li>
                                                     <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Все лиды", Yii::app()->createUrl('/admin/lead/index')); ?>                                                    
                                                     <li>

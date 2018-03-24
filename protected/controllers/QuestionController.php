@@ -638,6 +638,9 @@ class QuestionController extends Controller {
             $lead->sourceId = 3;
             $lead->type = Lead100::TYPE_CALL;
 
+            /** 
+             * @todo заменить следующую проверку вызовом метода Lead100::findDublicates()
+             */
             $existingLeads = Yii::app()->db->createCommand()
                     ->select('phone')
                     ->from('{{lead100}}')
@@ -653,6 +656,7 @@ class QuestionController extends Controller {
             if (in_array($lead->phone, $existingLeadsPhones)) {
                 $lead->addError('phone', "Похоже, вы пытаетесь задать свой вопрос повторно");
             } else {
+                                
                 if ($lead->validate()) {
                     $lead->question = CHtml::encode('Нужна консультация юриста. Перезвоните мне. ' . $lead->question);
 
