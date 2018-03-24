@@ -52,6 +52,9 @@ switch ($data->leadStatus) {
                     <?php if ($data->campaign && $data->campaign->buyer): ?>
                         <?php echo CHtml::encode($data->campaign->buyer->name); ?> 
                     <?php endif; ?>
+                    <?php if($data->buyerId && $data->buyer):?>
+                        <?php echo $data->buyer->getShortName();?>
+                    <?php endif;?>
                 </span>
             </small>			
             &nbsp;

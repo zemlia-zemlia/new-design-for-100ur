@@ -40,10 +40,17 @@ class TransactionController extends Controller {
 
 
         $criteria = new CDbCriteria();
-        $criteria->addColumnCondition(array('partnerId' => Yii::app()->user->id, 'status' => PartnerTransaction::STATUS_COMPLETE));
+        if (Yii::app()->user->role == User::ROLE_PARTNER) {
+            $criteria->addColumnCondition(array('partnerId' => Yii::app()->user->id, 'status' => PartnerTransaction::STATUS_COMPLETE));
+            $transactionModelClass = 'PartnerTransaction';
+        } else {
+            $criteria->addColumnCondition(array('buyerId' => Yii::app()->user->id));
+            $transactionModelClass = 'TransactionCampaign';
+        }
+        
         $criteria->order = "id DESC";
 
-        $dataProvider = new CActiveDataProvider('PartnerTransaction', array(
+        $dataProvider = new CActiveDataProvider($transactionModelClass, array(
             'criteria' => $criteria,
             'pagination' => array(
                 'pageSize' => 50,

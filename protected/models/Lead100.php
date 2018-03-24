@@ -21,6 +21,7 @@
  * @property string $brakComment
  * @property string $secretCode
  * @property integer $buyPrice
+ * @property integer $buyerId
  * 
  * @author Michael Krutikov m@mkrutikov.pro
  */
@@ -58,6 +59,8 @@ class Lead100 extends CActiveRecord {
     const BRAK_REASON_BAD_NUMBER = 2; // неверный номер
     const BRAK_REASON_BAD_REGION = 3; // не тот регион
     const BRAK_REASON_SPAM = 4; // спам
+    
+    const PRICE_COEFF = 2.45; // во сколько раз цена продажи лида выше цены покупки
 
     /*
      * Returns the static model of the specified AR class.
@@ -84,7 +87,7 @@ class Lead100 extends CActiveRecord {
         // will receive user inputs.
         return array(
             array('name, phone, sourceId, townId, town', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
-            array('sourceId, townId, newTownId, questionId, leadStatus, addedById, type, campaignId, brakReason', 'numerical', 'integerOnly' => true),
+            array('sourceId, townId, newTownId, questionId, leadStatus, addedById, type, campaignId, brakReason, buyerId', 'numerical', 'integerOnly' => true),
             array('question', 'required', 'message' => 'Поле {attribute} не заполнено', 'except' => ['createCall']),
             array('price, buyPrice, regionId, testMode', 'numerical'),
             array('deliveryTime, categoriesId', 'safe'),
@@ -114,6 +117,7 @@ class Lead100 extends CActiveRecord {
             'campaign'          => array(self::BELONGS_TO, 'Campaign', 'campaignId'),
             'questionObject'    => array(self::BELONGS_TO, 'Question', 'questionId'),
             'categories'        => array(self::MANY_MANY, 'QuestionCategory', '{{lead2category}}(leadId, cId)'),
+            'buyer'             => array(self::BELONGS_TO, 'User', 'buyerId'),
         );
     }
 
@@ -130,7 +134,7 @@ class Lead100 extends CActiveRecord {
             'source'        => 'Источник',
             'sourceId'      => 'Источник',
             'question'      => 'Вопрос',
-            'question_date' => 'Дата первого обращения',
+            'question_date' => 'Дата',
             'townId'        => 'ID города',
             'town'          => 'Город',
             'regionId'      => 'Регион',
@@ -148,7 +152,8 @@ class Lead100 extends CActiveRecord {
             'date2'         => 'До',
             'testMode'      => 'Режим тестирования API',
             'categories'    => 'Категории права',
-            'agree'         =>  'Согласие на обработку персональных данных',
+            'agree'         => 'Согласие на обработку персональных данных',
+            'buyerId'       => 'id покупателя',
         );
     }
 
@@ -299,21 +304,8 @@ class Lead100 extends CActiveRecord {
                         //CustomFuncs::printr($transaction->errors);
                     }
                     
-                    if($this->source && $this->source->user && $this->buyPrice>0) {
-                        $sourceUser = $this->source->user;
-                        $priceCoeff = !is_null($sourceUser) ? $sourceUser->priceCoeff : 1; // коэффициент, на который умножается цена покупки лида
-
-                        // запишем транзакцию за лид
-                        $partnerTransaction = new PartnerTransaction;
-                        $partnerTransaction->sum = $this->buyPrice * $priceCoeff;
-                        $partnerTransaction->leadId = $this->id;
-                        $partnerTransaction->sourceId = $this->sourceId;
-                        $partnerTransaction->partnerId = $this->source->user->id;
-                        $partnerTransaction->comment = "Начисление за лид #" . $this->id;
-                        if(!$partnerTransaction->save()) {
-                            Yii::log("Не удалось сохранить транзакцию за покупку лида " . $this->id . ' ' . print_r($partnerTransaction->errors), 'error', 'system.web.CCommand');
-                        }
-                    }
+                    // Если лид был куплен у вебмастера, переведем ему деньги
+                    $this->payWebmaster();
 
                     return true;
                 } else {
@@ -326,6 +318,56 @@ class Lead100 extends CActiveRecord {
                 return false;
             }
         }
+    }
+    
+    /**
+     * Отправка лида покупателю-пользователю (например, юристу)
+     * @param integer $buyerId id покупателя
+     */
+    public function sendToBuyer($buyerId)
+    {
+        $buyer = User::model()->findByPk($buyerId);
+        if(!$buyer) {
+            return false;
+        }
+        
+        $leadPrice = (int)$this->calculatePrices()[1];
+        
+        if ($buyer->balance < $leadPrice) {
+            // на балансе покупателя недостаточно средств
+            return false;
+        } else {
+            // списываем деньги со счета покупателя
+            $buyer->balance -= $leadPrice;
+        }
+        
+        $transactionTime = date('Y-m-d H:i:s');
+        
+        $transaction = new TransactionCampaign();
+        $transaction->buyerId = $buyerId;
+        $transaction->sum = -$leadPrice;
+        $transaction->description = 'Покупка заявки #' . $this->id;
+        $transaction->time = $transactionTime;
+        
+        $this->leadStatus = self::LEAD_STATUS_SENT;
+        $this->buyerId = $buyerId;
+        $this->price = $leadPrice;
+        $this->deliveryTime = $transactionTime;
+        
+        if(!$this->save()) {
+            Yii::log("Не удалось сохранить лид " . $this->id, 'error', 'system.web.CCommand');
+            return false;
+        }
+        if (!$transaction->save()) {
+            Yii::log("Не удалось сохранить транзакцию за продажу лида " . $this->id, 'error', 'system.web.CCommand');
+            return false;
+        }
+        
+        $buyer->save();
+
+        // Если лид был куплен у вебмастера, переведем ему деньги
+        $this->payWebmaster();
+        return true;
     }
 
     /**
@@ -583,11 +625,37 @@ class Lead100 extends CActiveRecord {
         if($townBuyPrice == 0) {
             $townBuyPrice = $regionBuyPrice;
         }
-        if($townSellPrice == 0) {
-            $townSellPrice = $regionSellPrice;
-        }
+        
+        $townSellPrice = $townBuyPrice * self::PRICE_COEFF;
+        
         
         return array(0 => $townBuyPrice, 1 => $townSellPrice);
+    }
+    
+    /**
+     * Создает транзакцию оплаты вебмастеру, приславшему нам лид
+     * @return boolean
+     */
+    protected function payWebmaster()
+    {
+        if($this->source && $this->source->user && $this->buyPrice>0) {
+            $sourceUser = $this->source->user;
+            $priceCoeff = !is_null($sourceUser) ? $sourceUser->priceCoeff : 1; // коэффициент, на который умножается цена покупки лида
+
+            // запишем транзакцию за лид
+            $partnerTransaction = new PartnerTransaction;
+            $partnerTransaction->sum = $this->buyPrice * $priceCoeff;
+            $partnerTransaction->leadId = $this->id;
+            $partnerTransaction->sourceId = $this->sourceId;
+            $partnerTransaction->partnerId = $this->source->user->id;
+            $partnerTransaction->comment = "Начисление за лид #" . $this->id;
+            if(!$partnerTransaction->save()) {
+                Yii::log("Не удалось сохранить транзакцию за покупку лида " . $this->id . ' ' . print_r($partnerTransaction->errors), 'error', 'system.web.CCommand');
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

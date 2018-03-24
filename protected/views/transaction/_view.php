@@ -1,11 +1,21 @@
 <tr>
-    <td><small><?php echo md5($data->id);?></small></td>
+    <td><small><?php echo md5($data->id); ?></small></td>
     <td>
-        <?php echo CustomFuncs::niceDate($data->datetime);?>
-        <?php if($data->leadId != 0 && time()-strtotime($data->datetime)<86400*3):?>
-            <span class="label label-warning">холд</span>
-        <?php endif;?>
+        <?php if ($data instanceof PartnerTransaction): ?>
+            <?php echo CustomFuncs::niceDate($data->datetime); ?>
+            <?php if ($data->leadId != 0 && time() - strtotime($data->datetime) < 86400 * 3): ?>
+                <span class="label label-warning">холд</span>
+            <?php endif; ?>
+        <?php elseif ($data instanceof TransactionCampaign): ?>
+            <?php echo CustomFuncs::niceDate($data->time); ?>
+        <?php endif; ?>
     </td>
-    <td><?php echo $data->sum;?></td>
-    <td><?php echo $data->comment;?></td>
+    <td><?php echo $data->sum; ?></td>
+    <td>
+        <?php if ($data instanceof PartnerTransaction): ?>    
+            <?php echo $data->comment; ?>
+        <?php elseif ($data instanceof TransactionCampaign): ?>
+            <?php echo $data->description; ?>
+        <?php endif; ?>
+    </td>
 </tr>

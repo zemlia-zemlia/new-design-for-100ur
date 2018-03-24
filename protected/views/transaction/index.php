@@ -13,6 +13,7 @@
 </div>
 <?php endif;?>
 
+<?php if(Yii::app()->user->role != User::ROLE_JURIST):?>
 <table class="table">
     <tr>
         <td class="center-align">
@@ -36,6 +37,7 @@
 </table>
 
 <hr/>
+<?php endif;?>
 
 <?php if($requestsDataProvider->totalItemCount):?>
     <h2>Заявки на вывод средств</h2>

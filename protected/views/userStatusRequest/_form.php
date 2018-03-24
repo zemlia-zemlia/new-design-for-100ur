@@ -26,13 +26,16 @@ unset($statusesArray[0]);
         
         $("input[name='UserStatusRequest[status]']").on('change', function(){
             var yuristStatus = $(this).val();
-            console.log(yuristStatus);
+            
             $("#user-profile-advocat, #user-profile-yurist, #user-profile-judge").hide();
+            
+            $("#submitStatusRequest").removeAttr('disabled');
             
             switch(yuristStatus) {
                 case '1':
                     $("#user-profile-yurist").show();
                     $("#form-submit").show();
+                    
                     break;
                 case '2':
                     $("#user-profile-advocat").show();
@@ -66,8 +69,9 @@ unset($statusesArray[0]);
 
         }
         ?>').show();
-                            
-        $('#form-submit').show();
+        <?php if(sizeof($model->errors)):?>                    
+            $('#form-submit').show();
+        <?php endif;?>
     })
 </script>
                 
@@ -188,7 +192,15 @@ unset($statusesArray[0]);
             </div>   
 
 	<div id='form-submit' class="row buttons inside center-align">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Сохранить', array('id'=>'submitStatusRequest',  'class'=>'yellow-button')); ?>
+            <?php
+            
+            $submitButtonAttributes = ['id'=>'submitStatusRequest',  'class'=>'yellow-button'];
+            
+            if(!$model->errors) {
+                $submitButtonAttributes['disabled'] = 'disabled';
+            }
+            ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Сохранить', $submitButtonAttributes); ?>
 	</div>
 </div>
 <?php $this->endWidget(); ?>

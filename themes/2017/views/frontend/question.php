@@ -38,14 +38,6 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
             <?php endif; ?>
 
 
-            <?php if (Yii::app()->user->isGuest): ?>
-                <?php
-                // выводим виджет Назойливый
-                /*$this->widget('application.widgets.Annoying.AnnoyingWidget', array(
-                    'showAlways' => true,
-                ));*/
-                ?>
-            <?php endif; ?>
 
             <?php if (Yii::app()->user->role != User::ROLE_JURIST): ?>
                 <div data-spy="" data-offset-top="200" class="hidden-xs">
@@ -70,16 +62,6 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                             </p>
                         </div>
                     <?php endif; ?>
-                </div>
-            <?php endif; ?>
-
-            <?php if (!Yii::app()->user->isGuest): ?>
-                <div class="vert-margin30 blue-block inside">
-                    <h3 class="vert-margin20">Оплатим ваш мобильный!</h3>
-                    <p>
-                    <?php echo CHtml::link('Подробнее', Yii::app()->createUrl('site/referal'), ['class' => 'yellow-button btn-block text-center']); ?>
-                    </p>
-
                 </div>
             <?php endif; ?>
         </div>

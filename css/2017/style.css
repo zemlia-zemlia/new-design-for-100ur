@@ -1020,6 +1020,10 @@ ul.hor-list-menu a.yellow-button,
     margin-bottom: 20px;
 }
 
+.list-view .summary {
+    margin-bottom:20px;
+}
+
 @media(min-width:768px) {
     .category-hero {
         position:relative;
