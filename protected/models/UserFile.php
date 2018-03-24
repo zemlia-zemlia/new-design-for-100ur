@@ -53,7 +53,7 @@ class UserFile extends CActiveRecord
                 array('userId, name, type', 'required'),
                 array('userId, isVerified, type', 'numerical', 'integerOnly'=>true),
                 array('name, reason', 'length', 'max'=>255),
-                array('userFile', 'file', 'allowEmpty'=>true, 'types'=>'jpg,pdf,tiff,png', 'maxSize'=>2*1024*1024, 'message'=>'Файл должен быть в допустимом формате'),
+                array('userFile', 'file', 'allowEmpty'=>true, 'types'=>'jpg,pdf,tiff,png', 'maxSize'=>10000000, 'message'=>'Файл должен быть в допустимом формате'),
                 // The following rule is used by search().
                 // @todo Please remove those attributes that should not be searched.
                 array('id, userId, datetime, name, isVerified, comment, type, reason', 'safe', 'on'=>'search'),
@@ -86,7 +86,7 @@ class UserFile extends CActiveRecord
                 'comment'       => 'Комментарий автора',
                 'type'          => 'Тип',
                 'reason'        => 'Причина отказа',
-                'userFile'      => 'Скан диплома (формат jpg, pdf, tiff, png, до 2 МБ)',
+                'userFile'      => 'Скан или фото разворота диплома (формат jpg, pdf, tiff, png, до 10 МБ)',
             );
 	}
         

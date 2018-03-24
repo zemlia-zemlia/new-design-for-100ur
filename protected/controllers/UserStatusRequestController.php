@@ -117,7 +117,7 @@ class UserStatusRequestController extends Controller {
             
             // Если подтверждаем юриста, проверим, что он загрузил скан
             if($model->scenario == 'createYurist' && !$scan) {
-                $userFile->addError('userFile', 'Не загружен файл со сканом');
+                $userFile->addError('userFile', 'Не загружен файл со сканом/фото диплома');
                 $modelHasErrors = true;
             }
             

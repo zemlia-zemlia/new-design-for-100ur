@@ -1039,13 +1039,29 @@ class User extends CActiveRecord {
         if($this->role != self::ROLE_JURIST || !$this->settings) {
             return false;
         }
+        
+        // найдем последний запрос на смену статуса
+        $lastRequest = Yii::app()->db->createCommand()
+                ->select('*')
+                ->from("{{userStatusRequest}}")
+                ->where("yuristId=:id AND isVerified=0", array(':id' => $this->id))
+                ->order('id DESC')
+                ->limit(1)
+                ->queryAll();
+            
         $editProfilePage = CHtml::link('Обновить профиль', Yii::app()->createUrl('user/update', ['id' => $this->id]), ['class' => 'yellow-button']);
+        $editQualificationPage = CHtml::link('Подтвердить', Yii::app()->createUrl('userStatusRequest/create'), ['class' => 'yellow-button']);
+        
+        // если не подтверждена квалификация
+        if (!$this->settings->isVerified && sizeof($lastRequest) == 0) {
+            return 'Пожалуйста, подтвердите свою квалификацию. ' . $editQualificationPage;
+        }
         
         // если не загружен аватар
         if (!$this->avatar) {
             return 'Пожалуйста, загрузите свою фотографию. Юристы с фотографией вызывают больше доверия и учавствуют в рейтингах. ' . $editProfilePage;
         }
-        
+               
         // если не заполнено приветствие
         if (!$this->settings->hello) {
             return 'Пожалуйста, заполните текст приветствия в своем профиле. ' . $editProfilePage;

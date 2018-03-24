@@ -179,7 +179,11 @@
 
 
 <?php endif; ?>
-
+    
+<?php if(Yii::app()->user->isGuest == false && in_array(Yii::app()->user->role, [User::ROLE_JURIST])):?>
+    widget
+<?php endif; ?>
+    
 <?php if (Yii::app()->user->isGuest): ?>
     <script type="text/javascript">
         $(function () {
