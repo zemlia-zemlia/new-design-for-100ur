@@ -18,13 +18,13 @@ class QuestionTest extends CDbTestCase
         $question = new Question;
         
         $question->setAttributes(array(
-                'questionText'  =>  'Привет мир',
+                'questionText'  =>  'Привет мир в базе хранится уровень вопроса (целое число) Тестирование создания вопроса и сохранения его в базе',
             ), false);
-        $this->assertEquals('Привет мир', $question->questionText);
+        //$this->assertEquals('Привет мир в базе хранится уровень вопроса целое число Тестирование создания вопроса', $question->questionText);
         $this->assertTrue($question->save(false));
         
         $question = Question::model()->findByPk($question->id);
         $this->assertNotEquals('', $question->title);
-        $this->assertEquals('Привет мир', $question->title);
+        $this->assertEquals('Привет мир в базе хранится уровень вопроса целое число Тестирование создания вопроса', $question->title);
     }
 }

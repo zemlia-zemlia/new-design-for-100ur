@@ -7,3 +7,7 @@ modules:
     enabled:
         - Asserts
         - \Helper\Unit
+        - Yii1:
+            appPath: 'C:\xampp\htdocs\100yuristov\www\index.php'
+            url: 'http://100yuristov/index.php'
+        

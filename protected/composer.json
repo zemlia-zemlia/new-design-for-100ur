@@ -3,5 +3,7 @@
         "sendpulse/rest-api":"*"
     },
     "require-dev": {
+        "codeception/codeception":"*",
+        "phpunit/phpunit": "^7"
     }
 }
