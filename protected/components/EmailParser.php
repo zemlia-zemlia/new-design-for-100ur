@@ -10,8 +10,7 @@ abstract class EmailParser {
     protected $_debugMode = false;
     protected $_accessConfig;
     protected $_leadSourceIds = [];
-
-
+    protected $_messages = []; // каждый элемент массива - текст письма
 
     /**
      * Загружает настройки из конфиг файлов с параметрами доступа к ящику и списком папок для парсинга
@@ -21,16 +20,15 @@ abstract class EmailParser {
     public function __construct($configMailBoxName, $configFoldersName) {
         $this->loadAccessConfig($configMailBoxName);
         $this->loadFoldersSettings($configFoldersName);
-        $this->setExistingPhones();
     }
 
     /**
      * Загрузка настроек папок и источников из конфиг файла
      * @param type $configFoldersName
      */
-    public function loadFoldersSettings($configFoldersName) {
-        $this->_folderSettings = require(Yii::getPathOfAlias('application.config.parsers.folders.' . $configFoldersName));
-        if(!is_array($this->_folderSettings)) {
+    protected function loadFoldersSettings($configFoldersName) {
+        $this->_folderSettings = require(Yii::getPathOfAlias('application.config.parsers.folders.' . $configFoldersName) . '.php');
+        if (!is_array($this->_folderSettings)) {
             throw new CException('Invalid folders config file');
         }
     }
@@ -39,36 +37,78 @@ abstract class EmailParser {
      * Загрузка настроек подключения к почтовому ящику из конфиг файла
      * @param type $configFoldersName
      */
-    public function loadAccessConfig($configMailBoxName) {
-        $this->_accessConfig = require(Yii::getPathOfAlias('application.config.parsers.folders.' . $configMailBoxName));
-        if(!is_array($this->_accessConfig)) {
+    protected function loadAccessConfig($configMailBoxName) {
+        $this->_accessConfig = require(Yii::getPathOfAlias('application.config.parsers.servers.' . $configMailBoxName) . '.php');
+        if (!is_array($this->_accessConfig)) {
             throw new CException('Invalid access config file');
         }
     }
 
-    public function getMessagesFromFolder($folderName) {
+    /**
+     * Извлекаем массив текстов непрочитанных писем из указанной папки
+     * @param type $folderName
+     */
+    protected function getMessagesFromFolder($folderName) {
+        $host = $this->_accessConfig['server'];
+        $port = $this->_accessConfig['port'];
+        $login = $this->_accessConfig['login'];
+        $pass = $this->_accessConfig['password'];
+        $param = $this->_accessConfig['param'];
+        $folder = 'INBOX/' . $folderName;
         
+        $emailBodies = [];
+
+        // подключаемся к папке в почтовом ящике
+        if (!$mbox = imap_open("{" . "{$host}:{$port}{$param}" . "}$folder", $login, $pass)) {
+            throw new CException("Couldn't open the inbox");
+        };
+
+        // извлекаем письма из папки в ящике
+        $emails = imap_search($mbox, 'UNSEEN SINCE ' . date('d-M-Y', strtotime("-1 day")));
+        if ($emails == false && imap_errors()) {
+            throw new CException("Messages search wrong criteria");
+        }
+        
+        // Сообщений не найдено
+        if($emails === false) {
+            return $emailBodies;
+        }
+            
+        rsort($emails);
+
+        // извлекаем из писем тексты
+        foreach ($emails as $emailId) {
+            $emailBodies[$emailId] = imap_fetchbody($mbox, $emailId, 2);
+        }
+
+        imap_close($mbox);
+
+        return $emailBodies;
     }
 
-    public function echoDebug($message) {
+    /**
+     * Вывод сообщения, при условии, что парсер запущен в режиме отладки
+     * @param mixed $message Текст сообщения или значение
+     */
+    protected function echoDebug($message) {
         if ($this->_debugMode == true) {
             print_r($message . PHP_EOL);
         }
     }
 
     /**
-     * Классы наследники должны реализовать метод парсинга текста письма
+     * Классы-наследники должны реализовать метод парсинга текста письма
      */
-    abstract public function parseMessage();
+    abstract protected function parseMessage($message, Lead100 $lead, $folderSettings);
 
     /**
      * Поиск в базе телефонов существующих лидов
      * @param integer $period За сколько часов собирать лиды
      */
-    public function setExistingPhones($period = 48) {
-        
+    protected function setExistingPhones($period = 48) {
+
         $existingLeads = Lead100::model()->findAll(array(
-            'condition' => 'question_date>NOW()- INTERVAL ' . $period . 'HOUR AND sourceId IN(' . implode(', ', $this->_leadSourceIds) . ')',
+            'condition' => 'question_date>NOW()- INTERVAL ' . $period . ' HOUR AND sourceId IN(' . implode(', ', $this->_leadSourceIds) . ')',
         ));
 
         // массив, в котором будут храниться телефоны лидов, которые добавлены в базу за последний день, чтобы не добавить одного лида несколько раз
@@ -77,13 +117,14 @@ abstract class EmailParser {
         foreach ($existingLeads as $existingLead) {
             $this->_existingPhones[] = Question::normalizePhone($existingLead->phone);
         }
+        
+        $this->echoDebug($this->_existingPhones);
     }
-    
+
     /**
      * Записывает в свойство _leadSourceIds уникальные id источников лидов из конфига папок
      */
-    public function setLeadSourcesIds()
-    {
+    protected function setLeadSourcesIds() {
         foreach ($this->_folderSettings as $folder) {
             $this->_leadSourceIds[] = $folder['sourceId'];
         }
@@ -96,6 +137,27 @@ abstract class EmailParser {
      */
     public function run($debugMode = false) {
         
-    }
+        $this->setLeadSourcesIds();
+        $this->setExistingPhones();
+        $this->_debugMode = $debugMode;
 
+        foreach ($this->_folderSettings as $folderName => $folderSettings) {
+            $this->_messages = $this->getMessagesFromFolder($folderName);
+
+            foreach ($this->_messages as $message) {
+                $this->parseMessage($message, new Lead100, $folderSettings);
+            }
+        }
+    }
+    
+    protected function loadHtmlParser()
+    {
+        // подключаем библиотеку для парсинга текста письма
+        try{
+            require_once Yii::getPathOfAlias('application.commands.simplehtmldom_1_5/simple_html_dom');
+        } catch (CException $ex) {
+            throw new CException("Can't load HTML parsing library");
+        }
+    }
+    
 }

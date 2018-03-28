@@ -655,5 +655,17 @@ class Lead100 extends CActiveRecord {
         }
         return false;
     }
+    
+    public function leadRequiresModerationStatus()
+    {
+        // найдем объект источника лидов для данной папки
+        $source = $this->source;
+        if(!$source) {
+            return self::LEAD_STATUS_DEFAULT;
+        }
+        
+        return ($source->moderation == 0) ? self::LEAD_STATUS_DEFAULT : self::LEAD_STATUS_PREMODERATION;
+    }
+
 
 }
