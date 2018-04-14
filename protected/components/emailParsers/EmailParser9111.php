@@ -3,13 +3,16 @@
  * Реализация парсера заявок из писем от сервиса 9111
  */
 class EmailParser9111 extends EmailParser {
+    
+    protected function getFetchBodySection()
+    {
+        return 2;
+    }
 
-    public function parseMessage($message, Lead100 $lead, $folderSettings) {
+    public function parseMessage(ParsedEmail $message, Lead100 $lead, $folderSettings) {
         
-        $bodyDecoded = $message; // 9111 шлют письма незашифрованными
-
-        $this->echoDebug($bodyDecoded);
-
+        $bodyDecoded = $message->getBody();
+        
         $name = '';
         $phone = '';
         $email = '';
@@ -32,35 +35,49 @@ class EmailParser9111 extends EmailParser {
             $question = trim($messageMatches[2]);
         }
         $this->echoDebug($name . ': ' . $phone . ': '. $question);
+        
+        /*
+         * Если не удалось распарсить текст письма, возможно оно закодировано в quoted_printable
+         * Пытаемся распарсить раскодированную версию письма
+         */
+        if(!$name && !$phone && !$question) {
+            $message->setBody(quoted_printable_decode($bodyDecoded));
+            return $this->parseMessage($message, $lead, $folderSettings);
+        }
 
         // если лид с таким телефоном уже есть в базе, пропускаем его
         if (in_array($phone, $this->_existingPhones)) {
             return false; 
         }
 
-        if (!$name || !$phone) {
+        if (!$name && !$phone) {
             return false;
         }
 
         $lead->setScenario("parsing");
-        $lead->name = $name;
+        
+        if($message->getSubject() == 'Телефонный трафик (8-800)') {
+            // это письмо с отчетом о звонке
+            $lead->name = "Звонок";
+            $lead->type = Lead100::TYPE_INCOMING_CALL;
+        } else {
+            // это письмо с лидом
+            $lead->name = $name;
+            // в зависимости от настроек источника лидов отправляем лид на модерацию или в неразобранные
+            $lead->leadStatus = $lead->leadRequiresModerationStatus();
+        }
+        
+        $lead->townId = $folderSettings['townId']; // id города
         $lead->phone = $phone;
         $lead->question = trim($question);
         if ($lead->question == '') {
-            $lead->question = 'Текст вопроса потерян. Необходимо уточнить вопрос по телефону и проконсультировать';
+            $lead->question = 'Клиент звонил на горячую линию для получения консультации. Уточните вопрос по телефону.';
         }
         $lead->sourceId = $folderSettings['sourceId']; // id нужного источника лидов
         $lead->buyPrice = $folderSettings['buyPrice']; // цена покупки
-        $lead->townId = $folderSettings['townId']; // id города
         
-        
-
-        // в зависимости от настроек источника лидов отправляем лид на модерацию или в неразобранные
-        $lead->leadStatus = $lead->leadRequiresModerationStatus();
-
         if (!$lead->save()) {
             $this->echoDebug($lead->phone);
-            $this->echoDebug($lead->errors);
             Yii::log("Ошибка парсинга лида из почты 9111: " . $lead->name . ': ' . $lead->phone, 'error', 'system.web');
         }
         

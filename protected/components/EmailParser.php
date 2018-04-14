@@ -10,7 +10,7 @@ abstract class EmailParser {
     protected $_debugMode = false;
     protected $_accessConfig;
     protected $_leadSourceIds = [];
-    protected $_messages = []; // каждый элемент массива - текст письма
+    protected $_messages = []; // массив объектов ParsedEmail
 
     /**
      * Загружает настройки из конфиг файлов с параметрами доступа к ящику и списком папок для парсинга
@@ -47,6 +47,7 @@ abstract class EmailParser {
     /**
      * Извлекаем массив текстов непрочитанных писем из указанной папки
      * @param type $folderName
+     * @return array Массив объектов ParsedEmail
      */
     protected function getMessagesFromFolder($folderName) {
         $host = $this->_accessConfig['server'];
@@ -56,8 +57,8 @@ abstract class EmailParser {
         $param = $this->_accessConfig['param'];
         $folder = 'INBOX/' . $folderName;
         
-        $emailBodies = [];
-
+        $parsedMessages = [];
+        
         // подключаемся к папке в почтовом ящике
         if (!$mbox = imap_open("{" . "{$host}:{$port}{$param}" . "}$folder", $login, $pass)) {
             throw new CException("Couldn't open the inbox");
@@ -71,19 +72,23 @@ abstract class EmailParser {
         
         // Сообщений не найдено
         if($emails === false) {
-            return $emailBodies;
+            return $parsedMessages;
         }
             
         rsort($emails);
 
-        // извлекаем из писем тексты
+        // извлекаем из писем тексты и заголовки
         foreach ($emails as $emailId) {
-            $emailBodies[$emailId] = imap_fetchbody($mbox, $emailId, 2);
+            
+            $emailBody = imap_fetchbody($mbox, $emailId, $this->getFetchBodySection());
+            $emailSubject = iconv_mime_decode(imap_header($mbox, $emailId)->subject);
+            
+            $parsedMessages[] = new ParsedEmail($emailBody, $emailSubject);
         }
 
         imap_close($mbox);
 
-        return $emailBodies;
+        return $parsedMessages;
     }
 
     /**
@@ -99,7 +104,12 @@ abstract class EmailParser {
     /**
      * Классы-наследники должны реализовать метод парсинга текста письма
      */
-    abstract protected function parseMessage($message, Lead100 $lead, $folderSettings);
+    abstract protected function parseMessage(ParsedEmail $message, Lead100 $lead, $folderSettings);
+    
+    /**
+     * Возвращает, какую секцию письма считать телом (третий параметр функции imap_fetchbody)
+     */
+    abstract protected function getFetchBodySection();
 
     /**
      * Поиск в базе телефонов существующих лидов
@@ -142,6 +152,7 @@ abstract class EmailParser {
         $this->_debugMode = $debugMode;
 
         foreach ($this->_folderSettings as $folderName => $folderSettings) {
+            $this->echoDebug($folderName);
             $this->_messages = $this->getMessagesFromFolder($folderName);
 
             foreach ($this->_messages as $message) {

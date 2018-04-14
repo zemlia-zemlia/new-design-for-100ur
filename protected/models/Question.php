@@ -431,10 +431,12 @@ class Question extends CActiveRecord {
         }
         // удаляем из номера все кроме цифр
         $digitalNumber = preg_replace('/([^0-9])/i', '', $phone);
-        // берем первые 11 символов
-        $digitalNumber = mb_substr($digitalNumber, 0, 11, 'utf-8');
+        // берем последние 10 символов
+        $digitalNumber = mb_substr($digitalNumber, -10, 10, 'utf-8');
 
-        if (mb_substr($digitalNumber, 0, 1, 'utf-8') != '7') {
+        if(mb_strlen($digitalNumber, 'utf-8') < 11) {
+            $digitalNumber = '7' . $digitalNumber;
+        } elseif (mb_substr($digitalNumber, 0, 1, 'utf-8') != '7') {
             $digitalNumber = substr_replace($digitalNumber, '7', 0, 1);
         }
 
