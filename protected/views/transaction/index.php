@@ -29,7 +29,7 @@ $this->pageTitle = "Транзакции пользователя. " . Yii::app(
         <input type="hidden" name="targets" value="Пополнение баланса пользователя <?php echo Yii::app()->user->id; ?>">    
         <div class="form-group">
             <div class="input-group">
-                <input type="text" name="amount_due" value="500" data-type="number" class="form-control text-right">
+                <input type="text" name="sum" value="500" data-type="number" class="form-control text-right">
                 <div class="input-group-addon">руб.</div>
             </div>
         </div>
