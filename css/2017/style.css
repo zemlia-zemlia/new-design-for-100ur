@@ -1047,6 +1047,12 @@ ul.hor-list-menu a.yellow-button,
     text-align: left;
 }
 
+.balance-form {
+    max-width: 300px;
+    text-align: center;
+    margin:20px auto;
+}
+
 .post-preview {
     font-size:20px;
     line-height:1.4em;

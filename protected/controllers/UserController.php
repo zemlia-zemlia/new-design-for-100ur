@@ -744,15 +744,52 @@ class UserController extends Controller {
     
     /**
      * На этот адрес будут приходить запросы от Яндекса о пополнении кошелька
+     * https://100yuristov.com/user/balanceAddRequest
      */
     public function actionBalanceAddRequest()
     {
+        
         $request = Yii::app()->request;
         
         // разбираем данные, которые пришли от Яндекса
         $amount = $request->getPost('amount');
         $userId = $request->getPost('label');
+        $hash = $request->getPost('sha1_hash');
         
-        Yii::log('Пришло бабло от пользователя ' . $userId . ' (' . $amount . ' руб.)');
+        $secret = Yii::app()->params['yandexMoneySecret'];
+        
+        $requestString = $request->getPost('notification_type') . '&' . 
+                $request->getPost('operation_id') . '&' . 
+                $request->getPost('amount') . '&' . 
+                $request->getPost('currency') . '&' . 
+                $request->getPost('datetime') . '&' . 
+                $request->getPost('sender') . '&' . 
+                $request->getPost('codepro') . '&' . 
+                $secret . '&' . 
+                $request->getPost('label');
+        
+        $requestString = sha1($requestString);
+        
+        if($requestString == $hash) {
+            // данные от яндекса не подделаны, можно зачислять бабло
+            
+            $user = User::model()->findByPk($userId);
+            
+            if($user) {
+                $user->balance += $amount;
+                $transaction = new TransactionCampaign;
+                $transaction->buyerId = $user->id;
+                $transaction->sum = $amount;
+                $transaction->description = 'Пополнение баланса пользователя';
+                
+                if($transaction->save()) {
+                    $user->save();
+                }
+                
+                Yii::log('Пришло бабло от пользователя ' . $userId . ' (' . $amount . ' руб.)', 'info', 'system.web');
+            }
+        }
+        
+        
     }
 }
