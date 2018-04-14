@@ -36,7 +36,7 @@
                 'name' =>  $data->town->alias,
                 'countryAlias'  =>  $data->town->country->alias,
                 'regionAlias'   =>  $data->town->region->alias,    
-                    )), array('title'=>'Все вопросы юристам в городе ' . CHtml::encode($data->town->name)));?>
+                    )), array('title'=>'Юристы в ' . CHtml::encode($data->town->name)));?>
             &nbsp;&nbsp;
         <?php endif;?>
             

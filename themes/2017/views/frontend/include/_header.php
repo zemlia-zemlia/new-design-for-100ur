@@ -152,7 +152,7 @@
                             <?php else: ?>
 
                                 <li class="visible-xs-inline"><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/') ? CHtml::link('Каталог юристов', Yii::app()->createUrl('/yurist/')) : '<span class="active">Каталог юристов</span>'; ?></li>
-                                <li class="hidden-xs"><?php echo ($_SERVER['REQUEST_URI'] != '/question/call/') ? CHtml::link('Заказать звонок', Yii::app()->createUrl('/question/call/')) : '<span class="active">Заказать звонок</span>'; ?></li>
+                                <li class="hidden-xs"><?php echo ($_SERVER['REQUEST_URI'] != '/question/call/') ? CHtml::link('Консультация по телефону', Yii::app()->createUrl('/question/call/')) : '<span class="active">Консультация по телефону</span>'; ?></li>
                                 <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/docs/')) ? CHtml::link("Заказать документы", Yii::app()->createUrl('question/docs'), array('class' => '')) : '<span class="active">Заказать документы</span>'; ?></li>
                                 <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/services/')) ? CHtml::link("Заказать услуги", Yii::app()->createUrl('question/services'), array('class' => '')) : '<span class="active">Заказать услуги</span>'; ?></li>    
                                 <?php if (!stristr($_SERVER['REQUEST_URI'], '/question/create/')): ?>

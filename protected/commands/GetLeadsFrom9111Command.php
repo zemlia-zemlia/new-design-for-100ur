@@ -80,11 +80,15 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
             'sourceId' => 33,
             'buyPrice' => 25,
         ),
-
         '9111Orenburg' => array(
             'townId' => 709,
             'sourceId' => 33,
             'buyPrice' => 40,
+        ),
+		'9111Astrahan' => array(
+            'townId' => 50,
+            'sourceId' => 33,
+            'buyPrice' => 25,
         ),
 		
     );

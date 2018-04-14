@@ -15,7 +15,7 @@ Yii::app()->clientScript->registerLinkTag("canonical", NULL, Yii::app()->createU
 Yii::app()->clientScript->registerMetaTag(CHtml::encode(mb_substr($model->questionText, 0, 160, 'utf-8')), 'description');
 
 $this->breadcrumbs = array(
-    'Все вопросы' => array('index'),
+    'Вопросы' => array('index'),
     CHtml::encode($model->title),
 );
 ?>
