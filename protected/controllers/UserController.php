@@ -22,7 +22,7 @@ class UserController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view', 'create', 'confirm', 'confirmationSent', 'restorePassword', 'setNewPassword', 'captcha', 'unsubscribe'),
+                'actions' => array('index', 'view', 'create', 'confirm', 'balanceAddRequest', 'confirmationSent', 'restorePassword', 'setNewPassword', 'captcha', 'unsubscribe'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -740,5 +740,19 @@ class UserController extends Controller {
         $this->render('feed', [
             'feedDataProvider'  =>  $feedDataProvider,
             ]);
+    }
+    
+    /**
+     * На этот адрес будут приходить запросы от Яндекса о пополнении кошелька
+     */
+    public function actionBalanceAddRequest()
+    {
+        $request = Yii::app()->request;
+        
+        // разбираем данные, которые пришли от Яндекса
+        $amount = $request->getPost('amount');
+        $userId = $request->getPost('label');
+        
+        Yii::log('Пришло бабло от пользователя ' . $userId . ' (' . $amount . ' руб.)');
     }
 }
