@@ -102,7 +102,7 @@ Yii::app()->clientScript->registerScriptFile('/js/balance.js');
     </table>
 <?php endif; ?>
 
-<h2>Мои транзакции</h2>
+<h2>История изменения баланса</h2>
 <table class="table table-bordered table-hover table-striped">
     <thead>
         <tr>

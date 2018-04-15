@@ -51,28 +51,33 @@ class LeadController extends Controller {
         if (isset($_GET['Lead100'])) {
             // если используется форма поиска по контактам
             $searchModel->attributes = $_GET['Lead100'];
-            $dataProvider = $searchModel->search();
-        } else {
-            $criteria->order = 't.id DESC';
-            $criteria->addCondition('question_date < NOW() - INTERVAL 20 MINUTE');
-
-            if (isset($_GET['my'])) {
-                $showMy = true;
-                // ищем лиды, проданные текущему пользователю
-                $criteria->addColumnCondition(['leadStatus' => Lead100::LEAD_STATUS_SENT, 'buyerId' => Yii::app()->user->id]);
-                $criteria->order = 't.deliveryTime DESC';
-            } else {
-                // Найдем лиды, которые не разобраны (не проданы и не бракуются)
-                $criteria->addColumnCondition(['leadStatus' => Lead100::LEAD_STATUS_DEFAULT]);
+            foreach ($searchModel->attributes as $attrName => $attrValue) {
+                if ($attrValue) {
+                    $criteria->addColumnCondition([$attrName => $attrValue]);
+                }
             }
-
-            $dataProvider = new CActiveDataProvider('Lead100', array(
-                'criteria' => $criteria,
-                'pagination' => array(
-                    'pageSize' => 30,
-                ),
-            ));
         }
+        
+        $criteria->order = 't.id DESC';
+        $criteria->addCondition('question_date < NOW() - INTERVAL 20 MINUTE');
+
+        if (isset($_GET['my'])) {
+            $showMy = true;
+            // ищем лиды, проданные текущему пользователю
+            $criteria->addColumnCondition(['leadStatus' => Lead100::LEAD_STATUS_SENT, 'buyerId' => Yii::app()->user->id]);
+            $criteria->order = 't.deliveryTime DESC';
+        } else {
+            // Найдем лиды, которые не разобраны (не проданы и не бракуются)
+            $criteria->addColumnCondition(['leadStatus' => Lead100::LEAD_STATUS_DEFAULT]);
+        }
+
+        $dataProvider = new CActiveDataProvider('Lead100', array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 30,
+            ),
+        ));
+
 
         $this->render('index', array(
             'dataProvider' => $dataProvider,
