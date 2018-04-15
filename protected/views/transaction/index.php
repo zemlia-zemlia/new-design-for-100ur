@@ -1,5 +1,7 @@
 <?php
 $this->pageTitle = "Транзакции пользователя. " . Yii::app()->name;
+
+Yii::app()->clientScript->registerScriptFile('/js/balance.js');
 ?>
 
 <div  class="vert-margin30">
@@ -29,19 +31,30 @@ $this->pageTitle = "Транзакции пользователя. " . Yii::app(
         <input type="hidden" name="targets" value="Пополнение баланса пользователя <?php echo Yii::app()->user->id; ?>">    
         <div class="form-group">
             <div class="input-group">
-                <input type="text" name="sum" value="500" data-type="number" class="form-control text-right">
+                <input type="text" name="user-sum" value="500" data-type="number" class="form-control text-right">
                 <div class="input-group-addon">руб.</div>
             </div>
         </div>
+        <input type="hidden" name="sum" value="0" />
         <div class="radio">
-            <label><input type="radio" name="paymentType" value="PC">Яндекс.Деньгами</label>    
-            <label><input type="radio" name="paymentType" value="AC">Банковской картой</label> 
+            <label><input type="radio" name="paymentType" value="PC" checked>Яндекс.Деньгами <br />
+                <small>Комиссия 0.5%
+                </small>
+            </label>    
+            <label><input type="radio" name="paymentType" value="AC">Банковской картой<br />
+                <small>Комиссия 2%
+                </small>
+            </label> 
         </div>
+        
+        <p>
+            К оплате: <span id="sum-for-pay"></span> руб.
+        </p>
         <input type="submit" class="btn btn-primary" value="Пополнить баланс">
     </form>
 </div>
 
-<?php if (Yii::app()->user->role != User::ROLE_JURIST): ?>
+<?php if (Yii::app()->user->role == User::ROLE_PARTNER): ?>
     <table class="table">
         <tr>
             <td class="center-align">
