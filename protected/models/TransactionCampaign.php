@@ -30,7 +30,8 @@ class TransactionCampaign extends CActiveRecord
         // will receive user inputs.
         return array(
                 array('buyerId, sum, description', 'required'),
-                array('campaignId, sum, buyerId', 'numerical', 'integerOnly'=>true),
+                array('campaignId, buyerId', 'numerical', 'integerOnly'=>true),
+                array('sum', 'numerical'),
                 // The following rule is used by search().
                 // @todo Please remove those attributes that should not be searched.
                 array('id, campaignId, time, sum, description', 'safe', 'on'=>'search'),

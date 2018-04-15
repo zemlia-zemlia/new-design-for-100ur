@@ -30,9 +30,9 @@ class UserController extends Controller {
                 'users' => array('@'),
             ),
             array('allow',
-                'actions'       =>  ['feed'],
-                'users'         => array('@'),
-                'expression'    =>  'Yii::app()->user->role == User::ROLE_JURIST',
+                'actions' => ['feed'],
+                'users' => array('@'),
+                'expression' => 'Yii::app()->user->role == User::ROLE_JURIST',
             ),
             array('deny', // deny all users
                 'users' => array('*'),
@@ -61,17 +61,16 @@ class UserController extends Controller {
 
         $questionsCriteria->addCondition('t.status IN(' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')');
 
-                    
+
         if (Yii::app()->user->role == User::ROLE_CLIENT) {
             $questionsCriteria->addColumnCondition(array('t.authorId' => Yii::app()->user->id));
-        
+
             $ordersCriteria->addColumnCondition(array('t.userId' => Yii::app()->user->id));
             $ordersCriteria->order = 't.id DESC';
-            
+
             $ordersDataProvider = new CActiveDataProvider('Order', [
-                'criteria'  => $ordersCriteria,
+                'criteria' => $ordersCriteria,
             ]);
-            
         } else {
             $questionsCriteria->with = array(
                 'answers' => array(
@@ -91,7 +90,6 @@ class UserController extends Controller {
 //                'pageSize' => 20,
 //            ),
 //        ));
-
         // найдем последний запрос на смену статуса
         $lastRequest = Yii::app()->db->createCommand()
                 ->select('isVerified, status')
@@ -105,11 +103,11 @@ class UserController extends Controller {
 
 
         $this->render('profile', array(
-            'questionsDataProvider' =>  $questionsDataProvider,
-            'questions'             =>  $questions,
-            'user'                  =>  $user,
-            'lastRequest'           =>  $lastRequest,
-            'ordersDataProvider'    =>  $ordersDataProvider,
+            'questionsDataProvider' => $questionsDataProvider,
+            'questions' => $questions,
+            'user' => $user,
+            'lastRequest' => $lastRequest,
+            'ordersDataProvider' => $ordersDataProvider,
         ));
     }
 
@@ -388,7 +386,7 @@ class UserController extends Controller {
                     //$user->sendNewPassword($newPassword);
                     $user->sendChangePasswordLink();
                 }
-                
+
                 // добавим пользователя в список рассылки в Sendpulse
                 $user->addToSendpulse();
 
@@ -406,14 +404,13 @@ class UserController extends Controller {
                     $questionCriteria->limit = 1;
 
                     $question = Question::model()->find($questionCriteria);
-                    
+
 
                     if ($question) {
-                        if($publishedQuestionsNumber) {
+                        if ($publishedQuestionsNumber) {
                             $this->redirect(array('question/view', 'id' => $question->id, 'justPublished' => 1));
                         } else {
                             $this->redirect(array('question/view', 'id' => $question->id));
-                        
                         }
                     }
 
@@ -571,11 +568,11 @@ class UserController extends Controller {
 //                'pageSize' => 20,
 //            ),
 //        ));
-        
+
         $this->render('profile', array(
             'questionsDataProvider' => $questionsDataProvider,
-            'questions'             =>  $questions,
-            'user'                  => $user,
+            'questions' => $questions,
+            'user' => $user,
         ));
     }
 
@@ -722,74 +719,79 @@ class UserController extends Controller {
     /**
      * Лента новостей пользователя (юриста). Содержит уведомления типа комментариев к его ответам и т.д.
      */
-    public function actionFeed()
-    {
+    public function actionFeed() {
         $user = User::model()->findByPk(Yii::app()->user->id);
-        if(!$user) {
+        if (!$user) {
             throw new CHttpException(404, 'Ошибка: пользователь не найден');
         }
-        
+
         $feedArray = $user->getFeed();
-        
+
         $feedDataProvider = new CArrayDataProvider($feedArray, [
-            'pagination'    =>  [
-                'pageSize'  =>  20,
+            'pagination' => [
+                'pageSize' => 20,
             ]
         ]);
-        
+
         $this->render('feed', [
-            'feedDataProvider'  =>  $feedDataProvider,
-            ]);
+            'feedDataProvider' => $feedDataProvider,
+        ]);
     }
-    
+
     /**
      * На этот адрес будут приходить запросы от Яндекса о пополнении кошелька
      * https://100yuristov.com/user/balanceAddRequest
      */
-    public function actionBalanceAddRequest()
-    {
-        
+    public function actionBalanceAddRequest() {
+        Yii::log('Пришел запрос от Яндекса с уведомлением о пополнении баланса', 'info', 'system.web');
+        Yii::log('POST запрос: ' . print_r($_POST, true), 'info', 'system.web');
         $request = Yii::app()->request;
-        
+
         // разбираем данные, которые пришли от Яндекса
         $amount = $request->getPost('amount');
         $userId = $request->getPost('label');
         $hash = $request->getPost('sha1_hash');
-        
+
         $secret = Yii::app()->params['yandexMoneySecret'];
-        
-        $requestString = $request->getPost('notification_type') . '&' . 
-                $request->getPost('operation_id') . '&' . 
-                $request->getPost('amount') . '&' . 
-                $request->getPost('currency') . '&' . 
-                $request->getPost('datetime') . '&' . 
-                $request->getPost('sender') . '&' . 
-                $request->getPost('codepro') . '&' . 
-                $secret . '&' . 
+
+        $requestString = $request->getPost('notification_type') . '&' .
+                $request->getPost('operation_id') . '&' .
+                $request->getPost('amount') . '&' .
+                $request->getPost('currency') . '&' .
+                $request->getPost('datetime') . '&' .
+                $request->getPost('sender') . '&' .
+                $request->getPost('codepro') . '&' .
+                $secret . '&' .
                 $request->getPost('label');
-        
+
+        Yii::log('Собранная строка для проверки: ' . $requestString, 'info', 'system.web');
+
         $requestString = sha1($requestString);
-        
-        if($requestString == $hash) {
+
+        Yii::log('Зашифрованная строка для проверки: ' . $requestString, 'info', 'system.web');
+
+        if ($requestString == $hash) {
             // данные от яндекса не подделаны, можно зачислять бабло
-            
+
             $user = User::model()->findByPk($userId);
-            
-            if($user) {
+
+            if ($user) {
+
+                Yii::log('Пополняем баланс пользователя: ' . $user->getShortName(), 'info', 'system.web');
                 $user->balance += $amount;
                 $transaction = new TransactionCampaign;
                 $transaction->buyerId = $user->id;
                 $transaction->sum = $amount;
                 $transaction->description = 'Пополнение баланса пользователя';
-                
-                if($transaction->save()) {
+
+                if ($transaction->save()) {
+                    Yii::log('Транзакция сохранена, id: ' . $transaction->id, 'info', 'system.web');
                     $user->save();
                 }
-                
+
                 Yii::log('Пришло бабло от пользователя ' . $userId . ' (' . $amount . ' руб.)', 'info', 'system.web');
             }
         }
-        
-        
     }
+
 }
