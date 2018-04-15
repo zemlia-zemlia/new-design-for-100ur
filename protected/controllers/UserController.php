@@ -794,18 +794,18 @@ class UserController extends Controller {
                 $moneyTransaction->comment = 'Пополнение баланса пользователя ' . $user->id;
 
 
-                $transaction = $transaction->dbConnection->beginTransaction();
+                $saveTransaction = $transaction->dbConnection->beginTransaction();
                 try {
                     if($transaction->save() && $moneyTransaction->save() && $user->save()) {
-                        $transaction->commit();
+                        $saveTransaction->commit();
                         Yii::log('Транзакция сохранена, id: ' . $transaction->id, 'info', 'system.web');
                     } else {
-                        $transaction->rollback();
+                        $saveTransaction->rollback();
                     }
                 } catch (Exception $e) {
-                    $transaction->rollback();
+                    $saveTransaction->rollback();
                     Yii::log('Ошибка при пополнении баланса пользователя ' . $userId . ' (' . $amount . ' руб.)', 'error', 'system.web');
-                
+                    
                     throw new CHttpException(500, 'Не удалось пополнить баланс пользователя');
                 }
 
