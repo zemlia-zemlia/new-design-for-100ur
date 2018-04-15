@@ -40,7 +40,7 @@
     <body>
         <?php
         // выводим виджет с подсказкой юристу
-            $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
+        $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
         ?>
         <div id="header">
             <div class="container">
@@ -146,9 +146,7 @@
                                 </li>
                                 <li><?php echo CHtml::link('Поиск вопросов', Yii::app()->createUrl('question/search')); ?></li>
                                 <li><?php echo CHtml::link('Заказы документов ' . '<strong class="red">(' . Order::calculateNewOrders() . ')</strong>', Yii::app()->createUrl('order/index')); ?></li>
-                                <?php if(YII_DEBUG == true):?>
-                                    <li><?php echo CHtml::link('Заявки', Yii::app()->createUrl('lead/index')); ?></li>
-                                <?php endif;?>
+                                <li><?php echo CHtml::link('Заявки', Yii::app()->createUrl('lead/index')); ?> <span class="label label-danger">new</span></li>
                             <?php else: ?>
 
                                 <li class="visible-xs-inline"><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/') ? CHtml::link('Каталог юристов', Yii::app()->createUrl('/yurist/')) : '<span class="active">Каталог юристов</span>'; ?></li>

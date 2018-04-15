@@ -6,8 +6,14 @@ $this->setPageTitle(CHtml::encode($model->name) . ". Просмотр заявк
 
 $this->breadcrumbs = array(
     'Заявки' => ['lead/index'],
-    CHtml::encode($model->name),
 );
+
+if ($model->buyerId == Yii::app()->user->id) {
+    $this->breadcrumbs['Мои заявки'] = ['lead/index', 'my' => 1];
+}
+
+$this->breadcrumbs[] = CHtml::encode($model->name);
+
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
     'homeLink' => CHtml::link('Кабинет юриста', "/user/feed"),
@@ -18,11 +24,12 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <h1><?php echo CHtml::encode($model->name); ?></h1>
 
-<?php if($model->buyerId == Yii::app()->user->id):?>
-<div class="alert alert-info">
-    Вы купили эту заявку <?php echo CustomFuncs::niceDate($model->deliveryTime, true, false);?> 
-</div>
-<?php endif;?>
+<?php if ($model->buyerId == Yii::app()->user->id): ?>
+    <div class="alert alert-info">
+        Вы купили эту заявку <?php echo CustomFuncs::niceDate($model->deliveryTime, true, false); ?> 
+        за <?php echo $model->price; ?> руб.
+    </div>
+<?php endif; ?>
 
 <table class="table table-bordered">
     <tr>

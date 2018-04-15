@@ -177,10 +177,6 @@
 
 <?php endif; ?>
     
-<?php if(YII_DEBUG == false && Yii::app()->user->isGuest == false && in_array(Yii::app()->user->role, [User::ROLE_JURIST])):?>
-    <script type="text/javascript" src="//api.venyoo.ru/wnew.js?wc=venyoo/default/science&widget_id=5214416909631488"></script>
-<?php endif; ?>
-    
 <?php if (Yii::app()->user->isGuest): ?>
     <script type="text/javascript">
         $(function () {

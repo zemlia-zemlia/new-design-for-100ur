@@ -48,7 +48,7 @@
                 <?php echo CHtml::link('Купить', Yii::app()->createUrl('lead/buy', ['id' => $data->id]), $buyLinkAttributes); ?>
 
                 <?php if ($sellPrice > Yii::app()->user->balance): ?>
-                    <div><small>Пополните баланс</small></div>
+                    <div><small><?php echo CHtml::link('Пополните баланс', Yii::app()->createUrl('transaction/index'));?></small></div>
                 <?php endif; ?>
             <?php endif; ?>
         <?php endif; ?>
