@@ -7,7 +7,7 @@ $this->pageTitle = "Транзакции пользователя. " . Yii::app(
 </div>
 
 <div class="vert-margin30 text-center">
-    <p class="lead">Ваш баланс: <strong><?php echo (int) Yii::app()->user->getBalance(true); ?> руб.</strong>
+    <p class="lead">Ваш баланс: <strong><?php echo round((float)Yii::app()->user->getBalance(true), 2); ?> руб.</strong>
         <a data-toggle="collapse" href="#collapse-add-balance" aria-expanded="false" aria-controls="collapse-add-balance">пополнить</a>
     </p>
 </div>
