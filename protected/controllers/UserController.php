@@ -777,6 +777,7 @@ class UserController extends Controller {
 
             if ($user) {
 
+                //@todo Отрефакторить, выделив в отдельный метод. Дублирует код из CampaignController
                 Yii::log('Пополняем баланс пользователя: ' . $user->getShortName(), 'info', 'system.web');
                 $user->balance += $amount;
                 $transaction = new TransactionCampaign;
@@ -784,9 +785,28 @@ class UserController extends Controller {
                 $transaction->sum = $amount;
                 $transaction->description = 'Пополнение баланса пользователя';
 
-                if ($transaction->save()) {
-                    Yii::log('Транзакция сохранена, id: ' . $transaction->id, 'info', 'system.web');
-                    $user->save();
+                $moneyTransaction = new Money();
+                $moneyTransaction->accountId = 0; // Яндекс деньги
+                $moneyTransaction->value = $amount;
+                $moneyTransaction->type = Money::TYPE_INCOME;
+                $moneyTransaction->direction = 501;
+                $moneyTransaction->datetime = date('Y-m-d');
+                $moneyTransaction->comment = 'Пополнение баланса пользователя ' . $user->id;
+
+
+                $transaction = $transaction->dbConnection->beginTransaction();
+                try {
+                    if($transaction->save() && $moneyTransaction->save() && $user->save()) {
+                        $transaction->commit();
+                        Yii::log('Транзакция сохранена, id: ' . $transaction->id, 'info', 'system.web');
+                    } else {
+                        $transaction->rollback();
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollback();
+                    Yii::log('Ошибка при пополнении баланса пользователя ' . $userId . ' (' . $amount . ' руб.)', 'error', 'system.web');
+                
+                    throw new CHttpException(500, 'Не удалось пополнить баланс пользователя');
                 }
 
                 Yii::log('Пришло бабло от пользователя ' . $userId . ' (' . $amount . ' руб.)', 'info', 'system.web');
