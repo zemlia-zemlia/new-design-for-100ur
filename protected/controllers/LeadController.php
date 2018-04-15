@@ -47,17 +47,16 @@ class LeadController extends Controller {
         if (isset($_GET['auto'])) {
             $showAuto = true;
         }
-
+                
         if (isset($_GET['Lead100'])) {
-            // если используется форма поиска по контактам
+            // если используется форма поиска по лидам
             $searchModel->attributes = $_GET['Lead100'];
-            foreach ($searchModel->attributes as $attrName => $attrValue) {
-                if ($attrValue) {
-                    $criteria->addColumnCondition([$attrName => $attrValue]);
-                }
+            $regionId = (int)$_GET['Lead100']['regionId'];
+            if ($regionId) {
+                $criteria->with = array('town' => array('condition' => 'town.regionId=' . $regionId), 'town.region');
             }
         }
-        
+
         $criteria->order = 't.id DESC';
         $criteria->addCondition('question_date < NOW() - INTERVAL 20 MINUTE');
 
