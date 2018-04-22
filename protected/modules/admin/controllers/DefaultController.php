@@ -164,5 +164,37 @@ class DefaultController extends Controller {
             'yuristActivityStats'       => $yuristActivityStats,
         ));
     }
+    
+    /**
+     * Тестирование отправки писем через SMTP и через встроенную функцию mail()
+     */
+    public function actionTestMail()
+    {
+        echo 'Тестируем отправку письма';
+        
+        // первое письмо отправим через встроенную функцию
+        $testMail = new GTMail(false);
+        $testMail->subject = 'Проверка работы почты';
+        $testMail->email = 'misha-sunsetboy@yandex.ru';
+        $testMail->message = 'Проверка отправки почты';
+        
+        if($testMail->sendMail()) {
+            echo 'Письмо через встроенную функцию отправлено';
+        } else {
+            echo 'Письмо через встроенную функцию НЕ отправлено';
+        }
+        
+        // первое письмо отправим через встроенную функцию
+        $testMail = new GTMail(true);
+        $testMail->subject = 'Проверка работы почты';
+        $testMail->email = 'misha-sunsetboy@yandex.ru';
+        $testMail->message = 'Проверка отправки почты через SMTP';
+        
+        if($testMail->sendMail()) {
+            echo 'Письмо через SMTP отправлено';
+        } else {
+            echo 'Письмо через SMTP НЕ отправлено';
+        }
+    }
 
 }
