@@ -44,6 +44,9 @@ class Controller extends CController {
             return false;
         }
 
+        // если передан GET параметр autologin, попытаемся залогинить пользователя
+        User::autologin($_GET);
+        
         // если при заходе на сайт в ссылке присутствует параметр partnerAppId, запишем его в сессию
         if (isset($_GET['partnerAppId']) && !Yii::app()->user->getState('sourceId')) {
             $source = Yii::app()->db->createCommand()

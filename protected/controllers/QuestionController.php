@@ -63,9 +63,6 @@ class QuestionController extends Controller {
             throw new CHttpException(404, 'Вопрос не найден');
         }
 
-        // если передан GET параметр autologin, попытаемся залогинить пользователя
-        User::autologin($_GET);
-
         $commentModel = new Comment;
 
         $justPublished = ($_GET['justPublished']) ? true : false;

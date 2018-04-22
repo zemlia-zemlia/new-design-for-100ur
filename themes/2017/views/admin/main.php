@@ -74,17 +74,17 @@
                                             <div class="panel-body">
                                                 <ul id="left-menu">
                                                     <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  На модерации", Yii::app()->createUrl('/admin/lead/index', array('status' => Lead100::LEAD_STATUS_PREMODERATION))); ?>
-                                                    <span class="label label-danger"><?php echo Lead100::getStatusCounter(Lead100::LEAD_STATUS_PREMODERATION, FALSE); ?></span>
+                                                        <span class="label label-danger"><?php echo Lead100::getStatusCounter(Lead100::LEAD_STATUS_PREMODERATION, FALSE); ?></span>
                                                     </li>
                                                     <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Все лиды", Yii::app()->createUrl('/admin/lead/index')); ?>                                                    
                                                     <li>
                                                         <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  На отбраковке", Yii::app()->createUrl('/admin/lead/index', array('status' => Lead100::LEAD_STATUS_NABRAK))); ?>  
                                                         <span class="label label-default"><?php echo Lead100::getStatusCounter(Lead100::LEAD_STATUS_NABRAK); ?></span>
                                                     </li>
-                                                    
+
                                                     <li><?php echo CHtml::link("<span class='glyphicon glyphicon-briefcase'></span>  Заказы документов", Yii::app()->createUrl('/admin/order')); ?>  <span class="badge badge-default"><?php echo Order::calculateNewOrders(); ?></span></li>                                                        
                                                     <li><?php echo CHtml::link("<span class='glyphicon glyphicon-briefcase'></span>  Кампании", Yii::app()->createUrl('/admin/campaign')); ?></li>
-													
+
                                                     <?php if (!Yii::app()->user->role == User::ROLE_SECRETARY): ?>
                                                         <li><?php echo CHtml::link("<span class='glyphicon glyphicon-signal'></span>  Статистика", Yii::app()->createUrl('/admin/lead/stats')); ?></li>
                                                         <li><?php echo CHtml::link("<span class='glyphicon glyphicon-share-alt'></span>  Источники", Yii::app()->createUrl('/admin/leadsource')); ?></li>                        
@@ -222,6 +222,9 @@
 
                                                         <li><?php echo CHtml::link("<span class='glyphicon glyphicon-pencil'></span>  Блог", Yii::app()->createUrl('/admin/blog')); ?></li> 
                                                         <li><?php echo CHtml::link("<span class='glyphicon glyphicon-globe'></span>  Регионы", Yii::app()->createUrl('/admin/region')); ?></li> 
+                                                        <li><?php echo CHtml::link("<span class='glyphicon glyphicon-envelope'></span>  Рассылки", Yii::app()->createUrl('/admin/mail/create')); ?></li> 
+
+
                                                     <?php endif; ?> 
 
 
