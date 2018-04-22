@@ -860,6 +860,11 @@ ul.hor-list-menu a {
     font-size:13px;
 }
 
+ul.hor-list-menu a.btn {
+    text-decoration: none;
+    padding:2px 5px;
+}
+
 ul.hor-list-menu span.active {
     display: inline-block;
     padding:10px;
