@@ -27,7 +27,7 @@ class LeadController extends Controller {
             array('allow', // allow all users 
                 'actions' => array('index', 'view', 'buy'),
                 'users' => array('@'),
-                'expression' => "Yii::app()->user->checkAccess(User::ROLE_JURIST)",
+                'expression' => "Yii::app()->user->checkAccess(User::ROLE_JURIST) || Yii::app()->user->checkAccess(User::ROLE_BUYER)",
             ),
             array('deny', // deny all users
                 'users' => array('*'),
@@ -39,6 +39,9 @@ class LeadController extends Controller {
      * Просмотр списка лидов
      */
     public function actionIndex() {
+
+        $this->layout = (Yii::app()->user->role == User::ROLE_BUYER) ? '//frontend/cabinet' : '//frontend/question';
+
         $criteria = new CDbCriteria;
         $showMy = false;
         $showAuto = false;
@@ -47,11 +50,11 @@ class LeadController extends Controller {
         if (isset($_GET['auto'])) {
             $showAuto = true;
         }
-                
+
         if (isset($_GET['Lead100'])) {
             // если используется форма поиска по лидам
             $searchModel->attributes = $_GET['Lead100'];
-            $regionId = (int)$_GET['Lead100']['regionId'];
+            $regionId = (int) $_GET['Lead100']['regionId'];
             if ($regionId) {
                 $criteria->with = array('town' => array('condition' => 'town.regionId=' . $regionId), 'town.region');
             }
@@ -90,6 +93,9 @@ class LeadController extends Controller {
      * Просмотр лида
      */
     public function actionView($id) {
+
+        $this->layout = (Yii::app()->user->role == User::ROLE_BUYER) ? '//frontend/cabinet' : '//frontend/question';
+
         // если передан GET параметр autologin, попытаемся залогинить пользователя
         User::autologin($_GET);
 

@@ -16,7 +16,7 @@ $this->breadcrumbs[] = CHtml::encode($model->name);
 
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('Кабинет юриста', "/user/feed"),
+    'homeLink' => CHtml::link('Кабинет', (Yii::app()->user->role == User::ROLE_JURIST) ? "/user/feed" : '/cabinet/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
 ));

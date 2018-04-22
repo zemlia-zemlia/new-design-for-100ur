@@ -42,6 +42,7 @@ class CabinetController extends Controller {
         $criteria = new CDbCriteria;
 
         $criteria->addInCondition('campaignId', $myCampaignIds);
+        $criteria->addColumnCondition(['buyerId' => Yii::app()->user->id], 'AND', 'OR');
         $criteria->order = 'deliveryTime DESC';
 
         $showInactive = true;
@@ -71,12 +72,8 @@ class CabinetController extends Controller {
         $campaignId = (isset($_GET['campaign'])) ? $_GET['campaign'] : 0;
         $status = (isset($_GET['status'])) ? $_GET['status'] : false;
 
-        if (!$campaignId) {
-            throw new CHttpException(400, 'Не указана кампания');
-        }
-
         $campaign = Campaign::model()->findByPk($campaignId);
-        if (!$campaign || $campaign->buyerId != Yii::app()->user->id) {
+        if ($campaign && $campaign->buyerId != Yii::app()->user->id) {
             throw new CHttpException(403, 'Вы не можете просматривать лиды данной кампании');
         }
 
@@ -84,10 +81,14 @@ class CabinetController extends Controller {
 
         // найдем лидов, проданных текущему пользователю
         $criteria->order = 'id DESC';
+
         $criteria->addColumnCondition(array('campaignId' => $campaignId));
 
         if ($status !== false) {
             $criteria->addColumnCondition(array('leadStatus' => (int) $status));
+        }
+        if ($campaignId == 0) {
+            $criteria->addColumnCondition(['buyerId' => Yii::app()->user->id]);
         }
 
         $dataProvider = new CActiveDataProvider('Lead100', array(
@@ -180,7 +181,7 @@ class CabinetController extends Controller {
             echo json_encode(array('code' => 403, 'message' => 'Вы не можете редактировать этого лида'));
             exit;
         }
-        
+
         if (!(!is_null($lead->deliveryTime) && (time() - strtotime($lead->deliveryTime) < 86400 * Yii::app()->params['leadHoldPeriodDays']))) {
             echo json_encode(array('code' => 403, 'message' => 'Нельзя отправить на отбраковку лид, отправленный покупателю более 3 суток назад'));
             exit;
@@ -198,15 +199,13 @@ class CabinetController extends Controller {
             exit;
         }
     }
-    
-    public function actionApi()
-    {
+
+    public function actionApi() {
         $this->render('api');
     }
-    
+
     public function actionFaq() {
         $this->render('faq');
     }
-
 
 }
