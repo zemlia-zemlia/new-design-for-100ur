@@ -333,7 +333,7 @@ class User extends CActiveRecord {
      */
     public function sendConfirmation($newPassword = null) {
 
-        $mailer = new GTMail;
+        $mailer = new GTMail(true); // отправляем через SMTP сервер
 
         $confirmLink = CHtml::decode(Yii::app()->createUrl('user/confirm', array(
                             'email' => $this->email,
@@ -384,11 +384,7 @@ class User extends CActiveRecord {
         }
         $mailer->email = $this->email;
 
-        if ($mailer->sendMail()) {
-            return true;
-        } else {
-            return false;
-        }
+        return $mailer->sendMail();
     }
 
     /**
@@ -460,7 +456,7 @@ class User extends CActiveRecord {
             }
         }
         $changePasswordLink = Yii::app()->createUrl("user/setNewPassword", array('email' => $this->email, 'code' => $this->confirm_code));
-        $mailer = new GTMail;
+        $mailer = new GTMail(true);
         $mailer->subject = "Смена пароля пользователя";
         $mailer->message = "Здравствуйте!<br />
             Ваша ссылка для смены пароля на портале 100 Юристов:<br />" .
