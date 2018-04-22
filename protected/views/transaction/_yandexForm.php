@@ -6,7 +6,7 @@ Yii::app()->clientScript->registerScriptFile('/js/balance.js');
     <input type="hidden" name="receiver" value="410012948838662">      
     <input type="hidden" name="label" value="<?php echo Yii::app()->user->id; ?>">    
     <input type="hidden" name="quickpay-form" value="shop">    
-    <input type="hidden" name="successURL" value="<?php echo Yii::app()->createUrl('transaction/index'); ?>">    
+    <input type="hidden" name="successURL" value="<?php echo Yii::app()->urlManager->baseUrl .  Yii::app()->request->requestUri; ?>">    
     <input type="hidden" name="targets" value="Пополнение баланса пользователя <?php echo Yii::app()->user->id; ?>">    
     <div class="form-group">
         <div class="input-group">
