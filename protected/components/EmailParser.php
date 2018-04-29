@@ -83,8 +83,11 @@ abstract class EmailParser {
         foreach ($emails as $emailId) {
             
             $emailBody = imap_fetchbody($mbox, $emailId, $this->getFetchBodySection());
-            $emailSubject = iconv_mime_decode(imap_header($mbox, $emailId)->subject);
-            
+            if(isset(imap_header($mbox, $emailId)->subject)) {
+                $emailSubject = iconv_mime_decode(imap_header($mbox, $emailId)->subject);
+            } else {
+                $emailSubject = '';
+            }
             $parsedMessages[] = new ParsedEmail($emailBody, $emailSubject);
         }
 
