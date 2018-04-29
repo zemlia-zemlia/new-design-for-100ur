@@ -30,16 +30,19 @@ class ComposerStaticInit8f2502523c86e485ee3dbc04b72af6e2
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\Process\\' => 26,
             'Symfony\\Component\\Finder\\' => 25,
+            'Symfony\\Component\\Filesystem\\' => 29,
             'Symfony\\Component\\EventDispatcher\\' => 34,
             'Symfony\\Component\\DomCrawler\\' => 29,
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
+            'Symfony\\Component\\Config\\' => 25,
             'Symfony\\Component\\BrowserKit\\' => 29,
             'Sendpulse\\RestApi\\' => 18,
         ),
         'P' => 
         array (
             'Psr\\Http\\Message\\' => 17,
+            'Phinx\\' => 6,
         ),
         'G' => 
         array (
@@ -95,6 +98,10 @@ class ComposerStaticInit8f2502523c86e485ee3dbc04b72af6e2
         array (
             0 => __DIR__ . '/..' . '/symfony/finder',
         ),
+        'Symfony\\Component\\Filesystem\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/filesystem',
+        ),
         'Symfony\\Component\\EventDispatcher\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/event-dispatcher',
@@ -111,6 +118,10 @@ class ComposerStaticInit8f2502523c86e485ee3dbc04b72af6e2
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
+        'Symfony\\Component\\Config\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/config',
+        ),
         'Symfony\\Component\\BrowserKit\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/browser-kit',
@@ -122,6 +133,10 @@ class ComposerStaticInit8f2502523c86e485ee3dbc04b72af6e2
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Phinx\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/robmorgan/phinx/src/Phinx',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
