@@ -17,13 +17,13 @@ $this->pageTitle = "Заявки. " . Yii::app()->name;
 
 <ul class="nav nav-tabs vert-margin40">
     <li role="presentation" class="<?php echo ($showMy == true || $showAuto == true) ? '' : 'active'; ?>">
-        <?php echo CHtml::link('Новые', Yii::app()->createUrl('/lead/index')); ?>
+        <?php echo CHtml::link('Доступные', Yii::app()->createUrl('/lead/index')); ?>
     </li>
     <li role="presentation" class="<?php echo ($showAuto == true) ? 'active' : ''; ?>">
         <?php echo CHtml::link('Автовыкуп', Yii::app()->createUrl('/lead/index', ['auto' => 1])); ?>
     </li>
     <li role="presentation" class="<?php echo ($showMy == true) ? 'active' : ''; ?>">
-        <?php echo CHtml::link('Мои заявки', Yii::app()->createUrl('/lead/index', ['my' => 1])); ?>
+        <?php echo CHtml::link('Выкупленные', Yii::app()->createUrl('/lead/index', ['my' => 1])); ?>
     </li>
 </ul>
 
