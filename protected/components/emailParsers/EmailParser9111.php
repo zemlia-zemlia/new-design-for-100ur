@@ -56,6 +56,9 @@ class EmailParser9111 extends EmailParser {
 
         $lead->setScenario("parsing");
         
+        $lead->sourceId = $folderSettings['sourceId']; // id нужного источника лидов
+        $lead->buyPrice = $folderSettings['buyPrice']; // цена покупки
+        
         if($message->getSubject() == 'Телефонный трафик (8-800)') {
             // это письмо с отчетом о звонке
             $lead->name = "Звонок";
@@ -73,8 +76,6 @@ class EmailParser9111 extends EmailParser {
         if ($lead->question == '') {
             $lead->question = 'Клиент звонил на горячую линию для получения консультации. Уточните вопрос по телефону.';
         }
-        $lead->sourceId = $folderSettings['sourceId']; // id нужного источника лидов
-        $lead->buyPrice = $folderSettings['buyPrice']; // цена покупки
         
         if (!$lead->save()) {
             $this->echoDebug($lead->phone);
