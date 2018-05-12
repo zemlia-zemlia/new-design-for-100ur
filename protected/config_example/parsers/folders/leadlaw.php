@@ -104,4 +104,9 @@ return array(
         'sourceId' => 24,
         'buyPrice' => 25,
     ),
+	'LeadLawUlyanovsk' => array(
+        'townId' => 989,
+        'sourceId' => 24,
+        'buyPrice' => 25,
+    ),
 );

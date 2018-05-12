@@ -14,7 +14,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="form-group">
             <?php echo $form->labelEx($model, 'name', ['class' => 'col-sm-4 control-label']); ?>
             <div class="col-sm-4">
-                <?php echo $form->textField($model, 'name', array('class' => 'form-control', 'placeholder' => 'Иванов Иван')); ?>
+                <?php echo $form->textField($model, 'name', array('class' => 'form-control', 'placeholder' => 'Ваше имя')); ?>
                 <?php echo $form->error($model, 'name'); ?>
             </div>
         </div>
@@ -75,7 +75,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="form-group">
     <label class='col-sm-4 control-label'>Тема:</label>
     <div class="col-sm-7">
-        <?php echo $form->textArea($model, 'question', array('class' => 'form-control', 'rows' => 6, 'placeholder' => 'В двух словах о чем у вас вопрос.')); ?>
+        <?php echo $form->textArea($model, 'question', array('class' => 'form-control', 'rows' => 6, 'placeholder' => 'В двух словах, о чем ваш вопрос?')); ?>
         <?php echo $form->error($model, 'question'); ?>
     </div>
 </div>

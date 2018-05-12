@@ -1,10 +1,10 @@
 <?php
-$this->setPageTitle("Заказать звонок ". Yii::app()->name);
+$this->setPageTitle("Консультация по телефону ". Yii::app()->name);
 Yii::app()->clientScript->registerMetaTag("Заказать звонок юриста, получить консультацию по телефону", 'description');
 ?>
 
 
-<h1 class="header-block header-block-light-grey">Заказать звонок</h1>
+<h1 class="header-block header-block-light-grey">Запрос на консультацию по телефону</h1>
 
 
 <div class='flat-panel'>
