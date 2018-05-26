@@ -134,10 +134,11 @@ class LeadController extends Controller {
             throw new CHttpException(400, 'У вас недостаточно средств для покупки этой заявки');
         }
 
-        if ($model->sendToBuyer(Yii::app()->user->id)) {
+        $sellLeadResult = $model->sendToBuyer(Yii::app()->user->id);
+        if ($sellLeadResult === true) {
             return $this->redirect(['/lead/view', 'id' => $model->id, 'leadSold' => 1]);
         } else {
-            throw new CHttpException(500, 'В процессе покупки заявки произошла ошибка. Пожалуйста, обратитесь в техподдержку.');
+            return $this->render('leadSellError', ['errors'    =>  $sellLeadResult]);
         }
     }
 

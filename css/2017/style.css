@@ -89,6 +89,12 @@ hr {
 .green {
     color:#51b68a;
 }
+
+div.errorSummary {
+    padding:20px 10px;
+    background-color:#fcf8e3;
+}
+
 #header {
     padding:10px 0 5px 0;
 }

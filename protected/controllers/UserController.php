@@ -286,9 +286,9 @@ class UserController extends Controller {
                     $this->redirect(array('profile'));
                 }
             } else {
-                CustomFuncs::printr($model->errors);
-                CustomFuncs::printr($yuristSettings->errors);
-                throw new CHttpException(500, 'Что-то пошло не так. Не удалось сохранить данные профиля.');
+//                CustomFuncs::printr($model->errors);
+//                CustomFuncs::printr($yuristSettings->errors);
+//                throw new CHttpException(500, 'Что-то пошло не так. Не удалось сохранить данные профиля.');
             }
         } else {
             $model->password = '';

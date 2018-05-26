@@ -90,7 +90,7 @@ class User extends CActiveRecord
         return array(
             array('name, email', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('name2, lastName', 'required', 'message' => 'Поле {attribute} должно быть заполнено', 'on' => 'createJurist, updateJurist'),
-            array('phone', 'required', 'message' => 'Поле {attribute} должно быть заполнено', 'on' => 'register, update'),
+            array('phone', 'required', 'message' => 'Поле {attribute} должно быть заполнено', 'on' => 'register, update, createJurist, updateJurist'),
             array('email', 'unique', 'message' => 'Пользователь с таким Email уже зарегистрирован'),
             array('townId', 'required', 'except' => 'unsubscribe, confirm', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('role, active100, townId, karma, refId', 'numerical', 'integerOnly' => true),

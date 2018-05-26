@@ -26,7 +26,7 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js', CClientScript::POS_E
         ));
         ?>
 
-
+        
         <?php echo $form->errorSummary($model, "Исправьте ошибки"); ?>
         <?php echo $form->errorSummary($yuristSettings, "Исправьте ошибки"); ?>
 
@@ -81,6 +81,19 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js', CClientScript::POS_E
                                 <label>Приветствие</label>
                                 <?php echo $form->textArea($yuristSettings, 'hello', array('class' => 'form-control', 'rows' => 8)); ?>
                                 <?php echo $form->error($yuristSettings, 'hello'); ?>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <?php echo $form->labelEx($model, 'phone'); ?>
+                                        <?php echo $form->textField($model, 'phone', array('class' => 'form-control')); ?>
+                                        <?php echo $form->error($model, 'phone'); ?>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><br /><small>Этот номер не будет отображаться на сайте</small></p>
+                                </div>
                             </div>
 
 
