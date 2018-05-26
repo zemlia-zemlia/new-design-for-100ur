@@ -352,6 +352,8 @@ class Lead100 extends CActiveRecord {
         $this->price = $leadPrice;
         $this->deliveryTime = $transactionTime;
         
+        // @todo Реализовать сохранение через транзакцию
+        
         if(!$this->save()) {
             Yii::log("Не удалось сохранить лид " . $this->id, 'error', 'system.web.CCommand');
             return false;

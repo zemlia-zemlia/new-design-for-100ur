@@ -30,7 +30,8 @@ use Sendpulse\RestApi\Storage\FileStorage;
  * @property integer $lastAnswer
  * @property integer $refId
  */
-class User extends CActiveRecord {
+class User extends CActiveRecord
+{
 
     public $password2; // поле подтверждения пароля для формы создания пользователя и смены пароля
     public $verifyCode; // код капчи
@@ -66,21 +67,24 @@ class User extends CActiveRecord {
      * @param string $className active record class name.
      * @return User the static model class
      */
-    public static function model($className = __CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return '{{user}}';
     }
 
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
@@ -93,7 +97,7 @@ class User extends CActiveRecord {
             array('balance, priceCoeff', 'numerical'),
             array('name, email, phone', 'length', 'max' => 255),
             array('name2, lastName, birthday', 'safe'),
-            array('agree', 'compare', 'compareValue' => 1, 'on'=>array('register', 'createJurist'), 'message' => 'Вы должны согласиться на обработку персональных данных'),
+            array('agree', 'compare', 'compareValue' => 1, 'on' => array('register', 'createJurist'), 'message' => 'Вы должны согласиться на обработку персональных данных'),
             array('townId', 'match', 'not' => true, 'except' => 'unsubscribe, confirm, changePassword, restorePassword', 'pattern' => '/^0$/', 'message' => 'Поле Город не заполнено'),
             array('password', 'length', 'min' => 5, 'max' => 128, 'tooShort' => 'Минимальная длина пароля 5 символов', 'allowEmpty' => ($this->scenario == 'update' || $this->scenario == 'register')),
             array('password2', 'compare', 'compareAttribute' => 'password', 'except' => 'confirm, create, register, update, updateJurist, unsubscribe, balance', 'message' => 'Пароли должны совпадать', 'allowEmpty' => ($this->scenario == 'update' || $this->scenario == 'register')),
@@ -109,7 +113,8 @@ class User extends CActiveRecord {
      * 
      * @return array массив ролей пользователей (код => название)
      */
-    static public function getRoleNamesArray() {
+    static public function getRoleNamesArray()
+    {
         return array(
             self::ROLE_SECRETARY => 'секретарь',
             self::ROLE_OPERATOR => 'оператор call-центра',
@@ -128,7 +133,8 @@ class User extends CActiveRecord {
      * 
      * @return string роль пользователя
      */
-    public function getRoleName() {
+    public function getRoleName()
+    {
         $rolesNames = self::getRoleNamesArray();
         $roleName = $rolesNames[(int) $this->role];
         return $roleName;
@@ -139,7 +145,8 @@ class User extends CActiveRecord {
      * 
      * @return array массив активных объектов класса User
      */
-    static public function getManagers() {
+    static public function getManagers()
+    {
         $managers = self::model()->findAllByAttributes(array(
             'role' => self::ROLE_MANAGER,
             'active100' => 1,
@@ -153,7 +160,8 @@ class User extends CActiveRecord {
      * 
      * @return array массив менеджеров (id => name)
      */
-    static public function getManagersNames() {
+    static public function getManagersNames()
+    {
         $managers = self::getManagers();
         $managersNames = array('0' => 'нет руководителя');
         foreach ($managers as $manager) {
@@ -167,7 +175,8 @@ class User extends CActiveRecord {
      * 
      * @return array Массив активных юристов (id => name) 
      */
-    public static function getAllJuristsIdsNames() {
+    public static function getAllJuristsIdsNames()
+    {
         $allJurists = array();
         $jurists = User::model()->findAllByAttributes(array(
             'role' => self::ROLE_JURIST,
@@ -185,7 +194,8 @@ class User extends CActiveRecord {
      * 
      * @return array Массив активных покупателей (id => name)
      */
-    public static function getAllBuyersIdsNames() {
+    public static function getAllBuyersIdsNames()
+    {
         $allBuyers = array();
         $buyers = User::model()->findAllByAttributes(array(
             'role' => self::ROLE_BUYER,
@@ -200,7 +210,8 @@ class User extends CActiveRecord {
     /**
      *  активация пользователя
      */
-    public function activate() {
+    public function activate()
+    {
         $this->active100 = 1;
     }
 
@@ -209,7 +220,8 @@ class User extends CActiveRecord {
      * 
      * @return array массив отношений
      */
-    public function relations() {
+    public function relations()
+    {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
@@ -236,7 +248,8 @@ class User extends CActiveRecord {
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
             'id' => 'ID',
             'name' => 'Имя',
@@ -261,7 +274,7 @@ class User extends CActiveRecord {
             'priceCoeff' => 'Коэффициент цены лида у вебмастера',
             'lastAnswer' => 'Время последнего ответа',
             'refId' => 'ID пригласившего пользователя',
-            'agree'         =>  'Согласие на обработку персональных данных',
+            'agree' => 'Согласие на обработку персональных данных',
         );
     }
 
@@ -269,7 +282,8 @@ class User extends CActiveRecord {
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search() {
+    public function search()
+    {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
@@ -296,7 +310,8 @@ class User extends CActiveRecord {
      * 
      * @return boolean
      */
-    protected function beforeSave() {
+    protected function beforeSave()
+    {
         if (parent::beforeSave()) {
             // записываем название города, чтобы не дергать его джойном лишний раз
             if ($this->townId) {
@@ -309,11 +324,7 @@ class User extends CActiveRecord {
                 $townName = $townNameRow['name'];
                 $this->townName = $townName;
             }
-            if ($this->isNewRecord || (strlen($this->password) < 128)) {
-                // при регистрации пользователя и смене пароля перед сохранением пароль необходимо зашифровать
-                $this->password = self::hashPassword($this->password);
-            }
-
+            
             // если при создании пользователя в сессии есть id пригласившего, запишем его
             if ($this->isNewRecord && Yii::app()->user->getState('ref') > 0) {
                 $this->refId = Yii::app()->user->getState('ref');
@@ -331,7 +342,8 @@ class User extends CActiveRecord {
      * @param string $newPassword Новый пароль, который необходимо отправить в письме
      * @return boolean true - письмо отправлено, false - не отправлено
      */
-    public function sendConfirmation($newPassword = null) {
+    public function sendConfirmation($newPassword = null)
+    {
 
         $mailer = new GTMail(true); // отправляем через SMTP сервер
 
@@ -393,7 +405,8 @@ class User extends CActiveRecord {
      * 
      * @param string $newPassword Новый пароль
      */
-    public function changePassword($newPassword) {
+    public function changePassword($newPassword)
+    {
         if (empty($newPassword)) {
             $newPassword = self::generatePassword(6);
         }
@@ -422,7 +435,8 @@ class User extends CActiveRecord {
      * @param string $newPassword новый пароль
      * @return boolean true - удалось отправить письмо, false - не удалось
      */
-    public function sendNewPassword($newPassword) {
+    public function sendNewPassword($newPassword)
+    {
         $mailer = new GTMail;
         $mailer->subject = CHtml::encode($this->name) . ", Ваш пароль для личного кабинета 100 юристов";
         $mailer->message = "Здравствуйте!<br />
@@ -446,7 +460,8 @@ class User extends CActiveRecord {
      * 
      * @return boolean true - удалось отправить письмо, false - не удалось
      */
-    public function sendChangePasswordLink() {
+    public function sendChangePasswordLink()
+    {
         $this->scenario = 'confirm';
         if ($this->confirm_code == '') {
             $this->confirm_code = $this->generateAutologinString();
@@ -479,7 +494,8 @@ class User extends CActiveRecord {
      * @param string $newPassword Новый пароль
      * @return boolean true - удалось отправить письмо, false - не удалось
      */
-    public function sendChangedPassword($newPassword) {
+    public function sendChangedPassword($newPassword)
+    {
         $mailer = new GTMail;
         $mailer->subject = "Смена пароля пользователя";
         $mailer->message = "Здравствуйте!<br />
@@ -503,7 +519,8 @@ class User extends CActiveRecord {
      * @param int $len Длина пароля
      * @return string Сгенерированный пароль
      */
-    public static function generatePassword($len = 6) {
+    public static function generatePassword($len = 6)
+    {
         return mb_substr(md5(mt_rand() . mt_rand()), mt_rand(1, 15), $len, 'utf-8');
     }
 
@@ -513,12 +530,9 @@ class User extends CActiveRecord {
      * @param string $password Незашифрованный пароль
      * @return string Зашифрованный пароль
      */
-    public static function hashPassword($password) {
-        $salt = bin2hex(mcrypt_create_iv(32)); //get 256 random bits in hex
-        $hash = hash("sha256", $salt . $password); //prepend the salt, then hash
-        //store the salt and hash in the same string, so only 1 DB column is needed
-        $final = $salt . $hash;
-        return $final;
+    public static function hashPassword($password)
+    {
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 
     /**
@@ -527,13 +541,9 @@ class User extends CActiveRecord {
      * @param string $password Введенный пользователем незашифрованный пароль
      * @return boolean true - пароль верный, false - неверный 
      */
-    public function validatePassword($password) {
-        $salt = substr($this->password, 0, 64); //get the salt from the front of the hash
-        $validHash = substr($this->password, 64, 64); //the SHA256
-
-        $testHash = hash("sha256", $salt . $password); //hash the password being tested
-        //if the hashes are exactly the same, the password is valid
-        return $testHash === $validHash;
+    public function validatePassword($password)
+    {
+        return password_verify($password, $this->password);
     }
 
     /**
@@ -541,7 +551,8 @@ class User extends CActiveRecord {
      * 
      * @return array Массив пользователей 
      */
-    public function myEmployees() {
+    public function myEmployees()
+    {
         $myEmployeesArray = User::model()->findAllByAttributes(array('active' => 1, 'managerId' => $this->id));
         return $myEmployeesArray;
     }
@@ -551,7 +562,8 @@ class User extends CActiveRecord {
      * 
      * @return type 
      */
-    public function myEmployeesIds() {
+    public function myEmployeesIds()
+    {
         $myEmployees = array();
         $myEmployeesArray = $this->myEmployees();
         foreach ($myEmployeesArray as $myEmployee) {
@@ -567,7 +579,8 @@ class User extends CActiveRecord {
      * @param string $size размер картинки: по умолчанию thumb - маленькая, по умолчанию - большая
      * @return type 
      */
-    public function getAvatarUrl($size = 'thumb') {
+    public function getAvatarUrl($size = 'thumb')
+    {
         if (!$this->avatar) {
             return self::DEFAULT_AVATAR_FILE;
         }
@@ -584,7 +597,8 @@ class User extends CActiveRecord {
      * 
      * @return string фамилия и инициалы
      */
-    public function getShortName() {
+    public function getShortName()
+    {
         return $this->lastName . '&nbsp;' . mb_substr($this->name, 0, 1, 'utf-8') . '.' . mb_substr($this->name2, 0, 1, 'utf-8') . '.';
     }
 
@@ -594,7 +608,8 @@ class User extends CActiveRecord {
      * При этом, если у вопроса указан источник, создаем транзакции вебмастера
      * @return integer Количество опубликованных вопросов
      */
-    public function publishNewQuestions() {
+    public function publishNewQuestions()
+    {
 
         $questionCriteria = new CDbCriteria();
         $questionCriteria->limit = 1;
@@ -637,7 +652,8 @@ class User extends CActiveRecord {
      * @param Answer $answer Ответ
      * @return boolean Результат отправки: true - успешно, false - ошибка
      */
-    public function sendAnswerNotification($question, $answer) {
+    public function sendAnswerNotification($question, $answer)
+    {
         if ($this->active100 == 0) {
             return false;
         }
@@ -703,7 +719,8 @@ class User extends CActiveRecord {
      * @param boolean $isChildComment Является ли комментарий дочерним для другого
      * @return boolean Результат отправки: true - успешно, false - ошибка
      */
-    public function sendCommentNotification(Question $question, Comment $comment, $isChildComment = false) {
+    public function sendCommentNotification(Question $question, Comment $comment, $isChildComment = false)
+    {
         if ($this->active100 == 0) {
             return false;
         }
@@ -770,7 +787,8 @@ class User extends CActiveRecord {
      * @param string $email Email из ссылки "отписаться"
      * @return boolean true, если код верный, false - если неверный
      */
-    public static function verifyUnsubscribeCode($code, $email) {
+    public static function verifyUnsubscribeCode($code, $email)
+    {
         if ($code === md5(self::UNSUBSCRIBE_SALT . $email)) {
             return true;
         } else {
@@ -783,7 +801,8 @@ class User extends CActiveRecord {
      * 
      * @return string Строка для автологина 
      */
-    public function generateAutologinString() {
+    public function generateAutologinString()
+    {
         $this->autologin = md5($this->id . $this->email . self::UNSUBSCRIBE_SALT);
 
         return $this->autologin;
@@ -795,7 +814,8 @@ class User extends CActiveRecord {
      * @param array $params Массив параметров
      * @return boolean Результат: true - успех, false - ошибка
      */
-    public static function autologin($params = array()) {
+    public static function autologin($params = array())
+    {
         if (!isset($params['autologin'])) {
             return false;
         }
@@ -822,7 +842,8 @@ class User extends CActiveRecord {
      * 
      * @param Campaign $campaign кампания, к которой относится уведомление
      */
-    public function sendBuyerNotification($eventType, $campaign = NULL) {
+    public function sendBuyerNotification($eventType, $campaign = NULL)
+    {
         $mailer = new GTMail;
         $cabinetLink = Yii::app()->createUrl('/cabinet');
 
@@ -875,7 +896,8 @@ class User extends CActiveRecord {
     /**
      * Вычисление баланса вебмастера
      */
-    public function calculateWebmasterBalance() {
+    public function calculateWebmasterBalance()
+    {
         // если пользователь не вебмастер, сразу возвращаем его баланс
 //        if ($this->role != self::ROLE_PARTNER) {
 //            return $this->balance;
@@ -893,7 +915,8 @@ class User extends CActiveRecord {
     /**
      * Вычисление холд вебмастера
      */
-    public function calculateWebmasterHold() {
+    public function calculateWebmasterHold()
+    {
         // если пользователь не вебмастер, сразу возвращаем его баланс
         if ($this->role != self::ROLE_PARTNER) {
             return 0;
@@ -911,7 +934,8 @@ class User extends CActiveRecord {
     /**
      * Отмечает все новые заказы пользователя как подтвержденные
      */
-    public function confirmOrders() {
+    public function confirmOrders()
+    {
         Yii::app()->db->createCommand()
                 ->update('{{order}}', ['status' => Order::STATUS_CONFIRMED], 'status=' . Order::STATUS_NEW . ' AND userId=' . $this->id);
     }
@@ -919,7 +943,8 @@ class User extends CActiveRecord {
     /**
      * Добавление пользователя в список рассылки Sendpulse через API
      */
-    public function addToSendpulse() {
+    public function addToSendpulse()
+    {
         // на локальной версии не отправляем пользователей в Sendpulse
         if (YII_DEBUG === true) {
             return false;
@@ -957,7 +982,8 @@ class User extends CActiveRecord {
      * @param boolean $returnCount Вернуть количество элементов
      * @return array Массив с комментариями
      */
-    public function getFeed($days = 30, $returnCount = false) {
+    public function getFeed($days = 30, $returnCount = false)
+    {
 //        SELECT q.title, c.text, u.name
 //        FROM `100_question` q
 //        LEFT JOIN `100_answer` a ON a.questionId = q.id
@@ -1001,7 +1027,8 @@ class User extends CActiveRecord {
     /**
      * Возвращает сумму бонуса, которая причитается за приглашенного пользователя
      */
-    public function referalOk() {
+    public function referalOk()
+    {
         // Если пользователя никто не пригласил, бонуса нет
         if (!$this->refId) {
             return 0;
@@ -1009,33 +1036,33 @@ class User extends CActiveRecord {
 
         // для разных ролей действуют разные правила расчета бонусов
         if ($this->role == User::ROLE_JURIST) {
-            
+
             $answersCount = $this->answersCount;
             $isVerified = $this->settings->isVerified;
-            
-            if($isVerified == 1 && $answersCount>=25) {
+
+            if ($isVerified == 1 && $answersCount >= 25) {
                 return Yii::app()->params['bonuses'][User::ROLE_JURIST];
             }
         }
 
         if ($this->role == User::ROLE_CLIENT) {
             $questionsCount = $this->questionsCount;
-            if($this->active100 == 1 && $questionsCount >0) {
+            if ($this->active100 == 1 && $questionsCount > 0) {
                 return Yii::app()->params['bonuses'][User::ROLE_CLIENT];
             }
         }
     }
-    
+
     /**
      * Возвращает текст сообщения для юриста с советом заполнить поле в профиле
      * @return string Сообщение для пользователя
      */
     public function getProfileNotification()
     {
-        if($this->role != self::ROLE_JURIST || !$this->settings) {
+        if ($this->role != self::ROLE_JURIST || !$this->settings) {
             return false;
         }
-        
+
         // найдем последний запрос на смену статуса
         $lastRequest = Yii::app()->db->createCommand()
                 ->select('*')
@@ -1044,35 +1071,35 @@ class User extends CActiveRecord {
                 ->order('id DESC')
                 ->limit(1)
                 ->queryAll();
-            
+
         $editProfilePage = CHtml::link('Обновить профиль', Yii::app()->createUrl('user/update', ['id' => $this->id]), ['class' => 'yellow-button']);
         $editQualificationPage = CHtml::link('Подтвердить', Yii::app()->createUrl('userStatusRequest/create'), ['class' => 'yellow-button']);
-        
+
         // если не подтверждена квалификация
         if (!$this->settings->isVerified && sizeof($lastRequest) == 0) {
             return 'Пожалуйста, подтвердите свою квалификацию. ' . $editQualificationPage;
         }
-        
+
         // если не загружен аватар
         if (!$this->avatar) {
             return 'Пожалуйста, загрузите свою фотографию. Юристы с фотографией вызывают больше доверия и учавствуют в рейтингах. ' . $editProfilePage;
         }
-               
+
         // если не заполнено приветствие
         if (!$this->settings->hello) {
             return 'Пожалуйста, заполните текст приветствия в своем профиле. ' . $editProfilePage;
         }
-        
+
         // если не заполнены контакты (должен быть либо телефон, либо мейл)
         if (!$this->settings->phoneVisible && !$this->settings->emailVisible) {
             return 'Пожалуйста, укажите телефон или Email в своем профиле чтобы клиенты могли с вами связаться. ' . $editProfilePage;
         }
-        
+
         // если не заполнены специализации
         if (!sizeof($this->categories)) {
             return 'Пожалуйста, укажите свои специализации в профиле. ' . $editProfilePage;
         }
-        
+
         // если не заполнены специализации
         if (!$this->settings->description) {
             return 'Пожалуйста, напишите немного о себе в своем профиле, это увеличит доверие со стороны клиента. ' . $editProfilePage;

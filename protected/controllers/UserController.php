@@ -374,7 +374,8 @@ class UserController extends Controller {
                 // при активации пользователя заменяем у него confirm_code, чтобы он смог сменить пароль, перейдя по ссылке в письме
                 $user->confirm_code = $user->generateAutologinString();
                 // задаем пользователю некий произвольный пароль, который на следующем шаге попросим сменить. Пароль в открытом виде не отсылаем пользователю
-                $newPassword = $user->password = $user->password2 = $user->generatePassword(10);
+                $newPassword = $user->generatePassword(10);
+                $user->password = $user->password2 = User::hashPassword($newPassword);
                 // публикуем вопросы и заказы пользователя
                 $publishedQuestionsNumber = $user->publishNewQuestions();
                 $user->confirmOrders();
@@ -383,7 +384,6 @@ class UserController extends Controller {
             if ($user->save()) {
                 // после активации и сохранения пользователя, отправим ему на почту ссылку на смену временного пароля
                 if ($newPassword) {
-                    //$user->sendNewPassword($newPassword);
                     $user->sendChangePasswordLink();
                 }
 
@@ -527,7 +527,7 @@ class UserController extends Controller {
                 $user->confirm_code = '';
 
                 if ($user->save()) {
-                    $this->redirect(array('site/login'));
+                    $this->redirect(array('site/passwordChanged'));
                 } else {
                     //CustomFuncs::printr($user->errors);
                     throw new CHttpException(500, 'Ошибка, не удалось изменить пароль');

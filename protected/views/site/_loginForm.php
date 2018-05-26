@@ -20,6 +20,12 @@
     <div class="col-sm-12">    
         <?php endif;?>
         
+        <p class="text-danger">
+            <strong>Внимание!</strong><br />
+            26.05.2018 мы перешли на более современное шифрование паролей. Для этого нам пришлось автоматически
+            сменить пароли всем пользователям. Воспользуйтесь <?php echo CHtml::link('функцией восстановления пароля', Yii::app()->createUrl('user/restorePassword'));?>, чтобы войти на сайт.<br />
+            При возникновении затруднений пишите в техподдержку: admin@100yuristov.com
+        </p>
         <div class="form-group">
             <?php echo $form->labelEx($model,'email'); ?>
 
