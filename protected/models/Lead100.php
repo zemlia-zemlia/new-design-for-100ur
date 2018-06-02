@@ -25,8 +25,7 @@
  * 
  * @author Michael Krutikov m@mkrutikov.pro
  */
-class Lead100 extends CActiveRecord
-{
+class Lead100 extends CActiveRecord {
 
     public $date1, $date2; // диапазон дат, используемый при поиске
     public $newTownId; // для случая смены города при отбраковке
@@ -65,24 +64,21 @@ class Lead100 extends CActiveRecord
      * @return Lead100 the static model class
      */
 
-    public static function model($className = __CLASS__)
-    {
+    public static function model($className = __CLASS__) {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName()
-    {
+    public function tableName() {
         return '{{lead100}}';
     }
 
     /**
      * @return array Правила валидации
      */
-    public function rules()
-    {
+    public function rules() {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
@@ -108,8 +104,7 @@ class Lead100 extends CActiveRecord
     /**
      * @return array Связи с другими моделями
      */
-    public function relations()
-    {
+    public function relations() {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
@@ -125,8 +120,7 @@ class Lead100 extends CActiveRecord
     /**
      * @return array Наименования атрибутов (name=>label)
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return array(
             'id' => 'ID',
             'name' => 'Имя',
@@ -164,8 +158,7 @@ class Lead100 extends CActiveRecord
      * 
      * @return array Массив статусов (код статуса => название)
      */
-    static public function getLeadStatusesArray()
-    {
+    static public function getLeadStatusesArray() {
         return array(
             self::LEAD_STATUS_DEFAULT => 'не обработан',
             self::LEAD_STATUS_SENT_CRM => 'в CRM',
@@ -184,8 +177,7 @@ class Lead100 extends CActiveRecord
      * 
      * @return string статус объекта
      */
-    public function getLeadStatusName()
-    {
+    public function getLeadStatusName() {
         $statusesArray = self::getLeadStatusesArray();
         $statusName = $statusesArray[$this->leadStatus];
         return $statusName;
@@ -196,8 +188,7 @@ class Lead100 extends CActiveRecord
      * 
      * @return array Массив типов лидов (код => название)
      */
-    static public function getLeadTypesArray()
-    {
+    static public function getLeadTypesArray() {
         return array(
             self::TYPE_QUESTION => 'вопрос',
             self::TYPE_CALL => 'запрос звонка',
@@ -213,8 +204,7 @@ class Lead100 extends CActiveRecord
      * 
      * @return string тип лида
      */
-    public function getLeadTypeName()
-    {
+    public function getLeadTypeName() {
         $typesArray = self::getLeadTypesArray();
         $typeName = $typesArray[$this->type];
         return $typeName;
@@ -225,8 +215,7 @@ class Lead100 extends CActiveRecord
      * 
      * @return array массив причин отбраковки (код => наименование)
      */
-    static public function getBrakReasonsArray()
-    {
+    static public function getBrakReasonsArray() {
         return array(
             self::BRAK_REASON_BAD_QUESTION => 'не юридический вопрос',
             self::BRAK_REASON_BAD_NUMBER => 'неверный номер',
@@ -240,21 +229,125 @@ class Lead100 extends CActiveRecord
      * 
      * @return string Причина отбраковки
      */
-    public function getReasonName()
-    {
+    public function getReasonName() {
         $reasonsArray = self::getBrakReasonsArray();
         $reasonName = $reasonsArray[$this->brakReason];
         return $reasonName;
     }
 
     /**
+     * Продажа лида покупателю
+     * @param integer $buyerId id покупателя
+     * @param integer $campaignId id кампании
+     * @return boolean результат
+     */
+    public function sellLead($buyerId = 0, $campaignId = 0) {
+        
+        if ($buyerId == 0 && $campaignId == 0) {
+            return false;
+        }
+
+        $campaign = Campaign::model()->findByPk($campaignId);
+
+        if ($campaignId != 0 && is_null($campaign)) {
+            return false;
+        }
+
+        // если указана кампания, но не указан покупатель, берем покупателя из кампании
+        if ($buyerId == 0) {
+            $buyerId = $campaign->buyerId;
+        }
+        $buyer = User::model()->findByPk($buyerId);
+        
+        if (!$buyer) {
+            return false;
+        }
+
+        $leadPrice = ($campaignId && $campaign && $campaign->price) ? $campaign->price : (int) $this->calculatePrices()[1];
+
+        if ($buyer->balance < $leadPrice) {
+            // на балансе покупателя недостаточно средств
+            return false;
+        } else {
+            // списываем деньги со счета покупателя
+            $buyer->balance -= $leadPrice;
+        }
+
+        $transactionTime = date('Y-m-d H:i:s');
+
+        $transaction = new TransactionCampaign();
+        $transaction->buyerId = $buyerId;
+        $transaction->campaignId = $campaignId;
+        $transaction->sum = -$leadPrice;
+        $transaction->description = 'Покупка заявки #' . $this->id;
+        $transaction->time = $transactionTime;
+
+        $this->leadStatus = self::LEAD_STATUS_SENT;
+        $this->buyerId = $buyerId;
+        $this->price = $leadPrice;
+        $this->deliveryTime = $transactionTime;
+        // записываем в лид кампанию
+        $this->campaignId = $campaignId;
+
+
+        // Сохранение через транзакцию: если хоть один из компонентов не сохранился, отменяем операцию
+
+        $dbTransaction = $this->dbConnection->beginTransaction();
+        try {
+            // сохранение лида
+            if (!$this->save()) {
+                $leadSaved = false;
+                Yii::log("Не удалось сохранить лид " . $this->id, 'error', 'system.web.CCommand');
+            } else {
+                $leadSaved = true;
+            }
+
+            // сохранение транзакции за лид
+            if (!$transaction->save()) {
+                $transactionSaved = false;
+                Yii::log("Не удалось сохранить транзакцию за продажу лида " . $this->id, 'error', 'system.web.CCommand');
+            } else {
+                $transactionSaved = true;
+            }
+
+            // сохранение покупателя
+            if (!$buyer->save(false)) {
+                $buyerSaved = false;
+                Yii::log("Не удалось сохранить покупателя при продаже лида " . $buyer->id, 'error', 'system.web.CCommand');
+            } else {
+                $buyerSaved = true;
+            }
+            
+            if ($buyerSaved != false && $leadSaved != false && $transactionSaved != false) {
+                $dbTransaction->commit();
+                // записываем в кампанию время отправки последнего лида
+                Yii::app()->db->createCommand()->update('{{campaign}}', array('lastLeadTime' => date('Y-m-d H:i:s')), 'id=:id', array(':id' => $campaign->id));
+
+                // Если определена кампания и в ней стоит настройка Отправлять лиды на почту
+                if ($campaign && $campaign->sendEmail) {
+                    $this->sendByEmail($campaign->id);
+                }
+            } else {
+                $dbTransaction->rollback();
+                return array_merge($this->getErrors(), $transaction->getErrors(), $buyer->getErrors());
+            }
+        } catch (Exception $e) {
+            $dbTransaction->rollback();
+            throw $e;
+        }
+
+        // Если лид был куплен у вебмастера, переведем ему деньги
+        $this->payWebmaster();
+        return true;
+    }
+
+    /**
      * Отправляет лид в кампанию с заданным id
-     * 
+     * @deprecated
      * @param int $campaignId id кампании
      * @return boolean true - удалось отправить лид, false - не удалось
      */
-    public function sendToCampaign($campaignId)
-    {
+    public function sendToCampaign($campaignId) {
         $campaign = Campaign::model()->findByPk($campaignId);
 
         if (!$campaign) {
@@ -334,9 +427,9 @@ class Lead100 extends CActiveRecord
      * @param integer $buyerId id покупателя
      * @return true | array True при успехе, массив ошибок при неудаче
      * @throws Exception
+     * @deprecated
      */
-    public function sendToBuyer($buyerId)
-    {
+    public function sendToBuyer($buyerId) {
         $buyer = User::model()->findByPk($buyerId);
         if (!$buyer) {
             return false;
@@ -403,8 +496,7 @@ class Lead100 extends CActiveRecord
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search()
-    {
+    public function search() {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
@@ -445,8 +537,7 @@ class Lead100 extends CActiveRecord
      * @param int $campaignId id кампании
      * @return boolean
      */
-    public function sendByEmail($campaignId = 0)
-    {
+    public function sendByEmail($campaignId = 0) {
         if ($campaignId) {
             $campaign = Campaign::model()->with('buyer')->findByPk($campaignId);
         }
@@ -483,8 +574,7 @@ class Lead100 extends CActiveRecord
      * @param boolean $noCampaign считать ли лиды без кампании
      * @return int количество лидов
      */
-    public static function getStatusCounter($status, $noCampaign = true)
-    {
+    public static function getStatusCounter($status, $noCampaign = true) {
         if ($noCampaign) {
             $condition = "leadStatus=:status AND campaignId!=0";
         } else {
@@ -505,8 +595,7 @@ class Lead100 extends CActiveRecord
      * @param int $timeframe временной интеркал (сек.)
      * @return int количество лидов 
      */
-    public function findDublicates($timeframe = 600)
-    {
+    public function findDublicates($timeframe = 600) {
         $dublicatesRow = Yii::app()->db->createCommand()
                 ->select("COUNT(*) counter")
                 ->from("{{lead100}}")
@@ -523,8 +612,7 @@ class Lead100 extends CActiveRecord
      * 
      * @return boolean 
      */
-    protected function beforeSave()
-    {
+    protected function beforeSave() {
         // удаляем из номера телефона все нецифровые символы
         $this->phone = Question::normalizePhone($this->phone);
 
@@ -565,8 +653,7 @@ class Lead100 extends CActiveRecord
     /**
      * Метод, автоматически вызываемый после сохранения лида
      */
-    protected function afterSave()
-    {
+    protected function afterSave() {
         parent::afterSave();
 
         if (!$this->isNewRecord) {
@@ -583,15 +670,14 @@ class Lead100 extends CActiveRecord
         if ($campaignId) {
             // установим свойство isNewRecord = false, чтобы обновить, а не создать копию лида при продаже 
             $this->setIsNewRecord(false);
-            $this->sendToCampaign($campaignId);
+            $this->sellLead(0, $campaignId);
         }
     }
 
     /**
      * Возвращает статистику проданных лидов для покупателя или кампании
      */
-    public static function getStatsByPeriod($dateFrom, $dateTo, $buyerId = 0, $campaignId = 0)
-    {
+    public static function getStatsByPeriod($dateFrom, $dateTo, $buyerId = 0, $campaignId = 0) {
         // Нужно обязательно указать либо покупателя, либо кампанию
         if ($buyerId === 0 && $campaignId === 0) {
             return false;
@@ -636,8 +722,7 @@ class Lead100 extends CActiveRecord
      * 
      * @return array Массив с двумя ценами [0 => цена покупки, 1 => цена продажи]
      */
-    public function calculatePrices()
-    {
+    public function calculatePrices() {
         $regionBuyPrice = 20;
         $regionSellPrice = 50;
         $townBuyPrice = 0;
@@ -671,8 +756,7 @@ class Lead100 extends CActiveRecord
      * Создает транзакцию оплаты вебмастеру, приславшему нам лид
      * @return boolean
      */
-    protected function payWebmaster()
-    {
+    protected function payWebmaster() {
         if ($this->source && $this->source->user && $this->buyPrice > 0) {
             $sourceUser = $this->source->user;
             $priceCoeff = !is_null($sourceUser) ? $sourceUser->priceCoeff : 1; // коэффициент, на который умножается цена покупки лида
@@ -692,8 +776,7 @@ class Lead100 extends CActiveRecord
         return false;
     }
 
-    public function leadRequiresModerationStatus()
-    {
+    public function leadRequiresModerationStatus() {
         // найдем объект источника лидов для данной папки
         $source = $this->source;
         if (!$source) {

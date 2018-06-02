@@ -244,7 +244,9 @@ class LeadController extends Controller {
         }
     }
 
-    // распределяет лиды: в CRM или в лид-сервисы
+    /**
+     *  распределяет лиды по кнопке
+     */
     public function actionSendLeads() {
 
         $criteria = new CDbCriteria;
@@ -255,18 +257,19 @@ class LeadController extends Controller {
 
         // сколько лидов обрабатывать за раз
         //$criteria->limit = 100;
-        $criteria->limit = 10;
+        $criteria->limit = 100;
 
         $leads = Lead100::model()->findAll($criteria);
 
+        echo "<h2>Разбираем лиды..</h2>";
         foreach ($leads as $lead) {
             $campaignId = Campaign::getCampaignsForLead($lead->id);
-            //echo $lead->id . ' - ' . $campaignId . PHP_EOL;
+            echo $lead->id . ' - ' . $campaignId . "<br />";
             if (!$campaignId) {
                 continue;
             }
 
-            $lead->sendToCampaign($campaignId);
+            $lead->sellLead(0, $campaignId);
         }
 
         //$this->redirect(array('/admin/lead/index', 'leadsSent'=>1));
@@ -334,7 +337,7 @@ class LeadController extends Controller {
                 continue;
             }
 
-            if ($lead->sendToCampaign($campaignId)) {
+            if ($lead->sellLead(0, $campaignId)) {
                 echo "Лид отправлен в кампанию";
             } else {
                 echo "С этим лидом что-то пошло не так";
@@ -551,7 +554,7 @@ class LeadController extends Controller {
             exit;
         }
         
-        if($lead->sendToCampaign($campaign->id)) {
+        if($lead->sellLead(0, $campaign->id) === true) {
             echo json_encode(array('code' => 0, 'message' => 'Лид продан')); 
             exit;
         } else {
