@@ -20,24 +20,24 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <h3 class="text-uppercase">Пополнение баланса</h3>
     
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-6 text-center">
             <h3>Вариант 1</h3>
-            <ul>
-                <li> Карта Сбербанка. Номер: 4276 3800 1972 5212, получатель Виталий Николаевич Т.<br />
-                    (комиссия 0% для карт Московского региона)
-                </li>
-                <li>На рассчетный счет организации (с заключением договора, платеж от 10 000 руб.)</li>
-            </ul>
+					 Карта Сбербанка. Номер: 4276 3800 1972 5212 <br/> 
+					 получатель: Виталий Николаевич Т.<br /><br />
+                    <strong>(комиссия 0% для карт Московского региона) <br/>
+                    зачисление на баланс в течении 30 минут</strong><br /><br />
+
 
             <div class="alert alert-danger">
                 <p>
-                    <strong>ВНИМАНИЕ!</strong><br/> При оплате на карту в сообщении к платежу укажите <strong>"Пополнение баланса пользователя <?php echo Yii::app()->user->id; ?>"</strong>
+                    <strong>ВНИМАНИЕ!</strong><br/> При оплате на карту в сообщении к платежу укажите <strong>"Пользователь ID <?php echo Yii::app()->user->id; ?>"</strong>
                 </p>
             </div>
         </div>
         <div class="col-sm-6">
             <h3>Вариант 2</h3>
-            <p class="text-center">Оплата онлайн</p>
+            <p class="text-center">Оплата онлайн <br/>
+    			зачисление - мгновенно</p>
             <?php echo $this->renderPartial('application.views.transaction._yandexForm'); ?>
         </div>
     </div>
