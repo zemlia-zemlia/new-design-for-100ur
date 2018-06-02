@@ -29,5 +29,5 @@ Yii::app()->clientScript->registerScriptFile('/js/balance.js');
     <p>
         К оплате: <span id="sum-for-pay"></span> руб.
     </p>
-    <input type="submit" class="btn btn-primary" value="Пополнить баланс">
+    <input type="submit" class="btn btn-default" value="Пополнить баланс">
 </form>
