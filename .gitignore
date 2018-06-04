@@ -10,7 +10,7 @@
 /sitemap.xml
 /index.html
 /.htaccess
-/index.php
+#/index.php
 /protected/tests/acceptance.suite.yml
 /protected/commands/direct_stat/
 /robots.txt
