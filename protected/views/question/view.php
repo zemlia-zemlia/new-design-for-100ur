@@ -108,20 +108,8 @@ $this->breadcrumbs = array(
         </em>
     </p>
 
-<?php if (Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_CLIENT): ?>        
-        <div class="vert-margin30 blue-block inside">
-            <div class="row">
-                <div class="col-sm-8 center-align">
-                    <h3>Ваш вопрос требует составления документа?</h3>
-                    <p>Иски, заявления, претензии, жалобы, договоры - заказать онлайн</p>
-                </div>
-                <div class="col-sm-4 center-align">
-                    <p></p>
-    <?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/docs'), ['class' => 'yellow-button']); ?>
-                </div>
-            </div>
-        </div>
-<?php endif; ?>
+
+
 
 
 
@@ -182,6 +170,21 @@ $this->breadcrumbs = array(
 </div> <!-- Question --> 
 
 <br/>
+<?php if (Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_CLIENT): ?>        
+    <div class="flat-panel inside">     
+            <div class="center-align">
+            <?php
+                // выводим виджет с номером 8800
+                $this->widget('application.widgets.Hotline.HotlineWidget', array(
+                    'showAlways'    =>  true,
+                ));
+            ?>      
+            </div>
+    </div>
+
+<?php endif; ?>
+<br/>
+
 
 <?php if (Yii::app()->user->role != User::ROLE_JURIST): ?>
     <h3 class="header-block-light-grey vert-margin20">На ваши вопросы отвечают:</h3>

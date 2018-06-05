@@ -84,6 +84,18 @@ if($model->seoH1) {
     </div>
 <?php endif;?>
 
+	<div class="flat-panel inside">		
+            <div class="center-align">
+            <?php
+                // выводим виджет с номером 8800
+                $this->widget('application.widgets.Hotline.HotlineWidget', array(
+                    'showAlways'    =>  true,
+                ));
+            ?>		
+            </div>
+	</div>
+<br/>
+
 <div class="">
 
 <?php if(sizeof($children)):?>
