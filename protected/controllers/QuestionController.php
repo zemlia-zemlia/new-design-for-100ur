@@ -494,6 +494,7 @@ class QuestionController extends Controller {
 
     // generates RSS 2.0 feed with active trips
     public function actionRss() {
+        //@todo переписать на DAO (кешировать 200 объектов AR тяжело)
         $criteria = new CDbCriteria;
         $criteria->addInCondition('t.status', array(Question::STATUS_PUBLISHED, Question::STATUS_CHECK));
         $criteria->order = "t.id DESC";
