@@ -3,7 +3,7 @@
 // параметры доступа к БД
 if (YII_DEV == true) {
     return [
-        'connectionString' => 'mysql:host=localhost;dbname=100yuristov',
+        'connectionString' => 'mysql:host=localhost;dbname=100yuristov_etalon',
         'emulatePrepare' => true,
         'username' => '100yuristov',
         'password' => 'crm_local',
