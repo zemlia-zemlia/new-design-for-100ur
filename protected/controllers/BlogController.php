@@ -219,6 +219,7 @@ class BlogController extends Controller {
 
     // generates RSS 2.0 feed with active posts
     public function actionRss() {
+        //@todo перейти на DAO, т.к. AR с кешированием создают большие файлы на диске (избыточные данные)
         $criteria = new CDbCriteria;
         $criteria->order = "t.datePublication DESC";
         $criteria->condition = "t.datePublication<NOW()";

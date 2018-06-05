@@ -632,6 +632,8 @@ class User extends CActiveRecord
                 Yii::app()->user->setState('justPublished', 1);
 
                 $publishedQuestionsNumber++;
+
+                //@todo этот код можно вынести в класс Question
                 $webmasterTransaction = new PartnerTransaction();
                 $webmasterTransaction->sum = $question->buyPrice;
                 $webmasterTransaction->sourceId = $question->sourceId;
