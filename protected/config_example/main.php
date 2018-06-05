@@ -93,17 +93,7 @@ return array(
             'class' => 'CImageHandler',
         ),
         // uncomment the following to use a MySQL database
-        'db' => array(
-            'connectionString' => 'mysql:host=localhost;dbname=100yuristov',
-            'emulatePrepare' => true,
-            'username' => '100yuristov',
-            'password' => 'crm_local',
-            'charset' => 'utf8',
-            'tablePrefix' => '100_',
-            'enableProfiling' => true,
-            'schemaCachingDuration' => 3000,
-            'queryCacheID' => 'cache',
-        ),
+        'db' => require(dirname(__FILE__) . '/db.php'),
         'errorHandler' => array(
             // use 'site/error' action to display errors
             'errorAction' => 'site/error',
