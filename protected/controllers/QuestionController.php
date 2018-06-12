@@ -494,14 +494,17 @@ class QuestionController extends Controller {
 
     // generates RSS 2.0 feed with active trips
     public function actionRss() {
-        //@todo переписать на DAO (кешировать 200 объектов AR тяжело)
-        $criteria = new CDbCriteria;
-        $criteria->addInCondition('t.status', array(Question::STATUS_PUBLISHED, Question::STATUS_CHECK));
-        $criteria->order = "t.id DESC";
-        $criteria->with = array('answersCount');
-        $criteria->limit = 200;
-        $questions = Question::model()->cache(600)->findAll($criteria);
-
+       
+        $questions = Yii::app()->db->cache(600)->createCommand()
+                ->select('q.id, q.title, q.createDate, q.publishDate, SUBSTR(q.questionText, 1, 200) questionText, COUNT(*) answersCount')
+                ->from('{{question}} q')
+                ->leftJoin('{{answer}} a', 'q.id=a.questionId')
+                ->where(['in', 'q.status', [Question::STATUS_PUBLISHED, Question::STATUS_CHECK]])
+                ->order('q.id DESC')
+                ->group('q.id')
+                ->limit(200)
+                ->queryAll();
+        
         Yii::import('ext.feed.*');
         // RSS 2.0 is the default type
         $feed = new EFeed();
@@ -512,24 +515,22 @@ class QuestionController extends Controller {
 
         $feed->addChannelTag('language', 'ru-ru');
         $feed->addChannelTag('pubDate', date(DATE_RSS, time()));
-        $feed->addChannelTag('link', 'https://100yuristov.com/question/rss');
-
-
+        $feed->addChannelTag('link', Yii::app()->urlManager->baseUrl . '/question/rss');
 
         foreach ($questions as $question) {
             $item = $feed->createNewItem();
 
 
             if ($question->answersCount) {
-                $item->title = CHtml::encode($question->title) . ' (' . $question->answersCount . ' ' . CustomFuncs::numForms($question->answersCount, 'ответ', "ответа", "ответов") . ")";
+                $item->title = CHtml::encode($question['title']) . ' (' . $question['answersCount'] . ' ' . CustomFuncs::numForms($question['answersCount'], 'ответ', "ответа", "ответов") . ")";
             } else {
-                $item->title = CHtml::encode($question->title);
+                $item->title = CHtml::encode($question['title']);
             }
 
-            $item->link = Yii::app()->createUrl('question/view', array('id' => $question->id));
-            $item->date = ($question->publishDate) ? date(DATE_RSS, strtotime($question->publishDate)) : date(DATE_RSS, strtotime($question->createDate));
+            $item->link = Yii::app()->createUrl('question/view', array('id' => $question['id']));
+            $item->date = ($question['publishDate']) ? date(DATE_RSS, strtotime($question['publishDate'])) : date(DATE_RSS, strtotime($question['createDate']));
 
-            $item->description = CHtml::encode($question->questionText);
+            $item->description = CHtml::encode($question['questionText']);
 
             $feed->addItem($item);
         }
