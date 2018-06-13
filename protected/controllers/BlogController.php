@@ -1,6 +1,7 @@
 <?php
 
-class BlogController extends Controller {
+class BlogController extends Controller
+{
 
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -11,7 +12,8 @@ class BlogController extends Controller {
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
@@ -23,7 +25,8 @@ class BlogController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // разрешаем всем пользователям просматривать категории
                 'actions' => array('index', 'view', 'rss'),
@@ -47,7 +50,8 @@ class BlogController extends Controller {
      * Отображает категорию публикаций
      * @deprecated since version number
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         //define(YII_DEBUG,true);
 
         $dependency = new CDbCacheDependency('SELECT MAX(datetime) FROM {{post}}');
@@ -73,7 +77,8 @@ class BlogController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $model = new Postcategory;
 
         // Uncomment the following line if AJAX validation is needed
@@ -95,7 +100,8 @@ class BlogController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $model = $this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
@@ -117,7 +123,8 @@ class BlogController extends Controller {
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
@@ -128,16 +135,17 @@ class BlogController extends Controller {
     /**
      * Lists all models.
      */
-    public function actionIndex() {
-        
+    public function actionIndex()
+    {
+
 //        $posts = Post::model()->findAll();
 //        foreach($posts as $post) {
 //            $post->alias = mb_substr(CustomFuncs::translit($post->title), 0, 200, 'utf-8');
 //            $post->alias = preg_replace("/[^a-zA-Z0-9\-]/ui", '', $post->alias);
 //            $post->save();
 //        }
-        
-        
+
+
         $dataProvider = new CActiveDataProvider('Post', array(
             'criteria' => array(
                 'with' => array('commentsCount', 'author', 'viewsCount'),
@@ -155,7 +163,8 @@ class BlogController extends Controller {
     /**
      * Manages all models.
      */
-    public function actionAdmin() {
+    public function actionAdmin()
+    {
         $model = new Postcategory('search');
         $model->unsetAttributes();  // clear any default values
         if (isset($_GET['Postcategory']))
@@ -173,7 +182,8 @@ class BlogController extends Controller {
      * @return Postcategory the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id)
+    {
         $model = Postcategory::model()->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
@@ -184,7 +194,8 @@ class BlogController extends Controller {
      * Performs the AJAX validation.
      * @param Postcategory $model the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'postcategory-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -192,7 +203,8 @@ class BlogController extends Controller {
     }
 
     // подписка/отписка от категории
-    public function actionFollow($id) {
+    public function actionFollow($id)
+    {
         // проверка на существование категории
         $category = Postcategory::model()->findByPk($id);
         if (!$category) {
@@ -218,12 +230,15 @@ class BlogController extends Controller {
     }
 
     // generates RSS 2.0 feed with active posts
-    public function actionRss() {
-        //@todo перейти на DAO, т.к. AR с кешированием создают большие файлы на диске (избыточные данные)
-        $criteria = new CDbCriteria;
-        $criteria->order = "t.datePublication DESC";
-        $criteria->condition = "t.datePublication<NOW()";
-        $posts = Post::model()->cache(600)->findAll($criteria);
+    public function actionRss()
+    {
+
+        $posts = Yii::app()->db->cache(600)->createCommand()
+                ->select('id, datePublication, title, preview')
+                ->from('{{post}}')
+                ->where('datePublication<NOW()')
+                ->order('datePublication DESC')
+                ->queryAll();
 
         Yii::import('ext.feed.*');
         // RSS 2.0 is the default type
@@ -232,50 +247,19 @@ class BlogController extends Controller {
         $feed->title = Yii::app()->name;
         $feed->description = 'Юридические статьи';
 
-
         $feed->addChannelTag('language', 'ru-ru');
         $feed->addChannelTag('pubDate', date(DATE_RSS, time()));
-        $feed->addChannelTag('link', 'https://100yuristov.com/blog/rss');
-
-        // * self reference
-        //$feed->addChannelTag('atom:link','http://www.100yuristov.com/question/rss');
+        $feed->addChannelTag('link', Yii::app()->urlManager->baseUrl . '/blog/rss');
 
         foreach ($posts as $post) {
             $item = $feed->createNewItem();
-
-
-            $item->title = CHtml::encode($post->title);
-
-
-            $item->link = Yii::app()->createUrl('post/view', array('id' => $post->id));
-            //$item->date = time();
-            $item->date = strtotime($post->datePublication);
-            $item->description = Yii::app()->createUrl('post/view', array('id' => $post->id)) . " " . CHtml::encode($post->preview);
+            $item->title = CHtml::encode($post['title']);
+            $item->link = Yii::app()->createUrl('post/view', array('id' => $post['id']));
+            $item->date = strtotime($post['datePublication']);
+            $item->description = Yii::app()->createUrl('post/view', ['id' => $post['id']]) . " " . CHtml::encode($post['preview']);
 
             $feed->addItem($item);
         }
-        /*
-          $questionsCriteria = new CDbCriteria();
-          $questionsCriteria->condition = 'status=' . Question::STATUS_PUBLISHED;
-          $questionsCriteria->order = 'id desc';
-          $questionsCriteria->limit = 50;
-          $questions = Question::model()->cache(600)->findAll($questionsCriteria);
-          foreach($questions as $question)
-          {
-          $item = $feed->createNewItem();
-
-
-          $item->title = CHtml::encode($question->title);
-
-
-          $item->link = Yii::app()->createUrl('question/view',array('id'=>$question->id));
-          //$item->date = time();
-          $item->date = strtotime($question->publishDate);
-          $item->description = mb_substr($question->questionText,0,300,'utf-8');
-
-          $feed->addItem($item);
-          }
-         */
         $feed->generateFeed();
         Yii::app()->end();
     }
