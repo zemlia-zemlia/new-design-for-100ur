@@ -105,7 +105,7 @@ class TransactionCampaign extends CActiveRecord
     }
     
     /**
-     * После сохранения транзакции записываем ее время в кампанию
+     * После сохранения транзакции записываем ее время пользователю
      */
     protected function afterSave()
     {        

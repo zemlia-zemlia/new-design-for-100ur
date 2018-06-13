@@ -302,6 +302,14 @@ class Lead100 extends CActiveRecord {
                 $leadSaved = true;
             }
 
+            // сохранение покупателя. Важно сохранить его ДО сохранения транзакции, чтобы записалось время последней транзакции в пользователе
+            if (!$buyer->save(false)) {
+                $buyerSaved = false;
+                Yii::log("Не удалось сохранить покупателя при продаже лида " . $buyer->id, 'error', 'system.web.CCommand');
+            } else {
+                $buyerSaved = true;
+            }
+
             // сохранение транзакции за лид
             if (!$transaction->save()) {
                 $transactionSaved = false;
@@ -310,13 +318,7 @@ class Lead100 extends CActiveRecord {
                 $transactionSaved = true;
             }
 
-            // сохранение покупателя
-            if (!$buyer->save(false)) {
-                $buyerSaved = false;
-                Yii::log("Не удалось сохранить покупателя при продаже лида " . $buyer->id, 'error', 'system.web.CCommand');
-            } else {
-                $buyerSaved = true;
-            }
+            
             
             if ($buyerSaved != false && $leadSaved != false && $transactionSaved != false) {
                 $dbTransaction->commit();

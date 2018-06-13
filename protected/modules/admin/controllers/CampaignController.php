@@ -193,16 +193,17 @@ class CampaignController extends Controller {
          * 4) На модерации (active=2)
          * 5) Одобренные (active=1, lastLeadTime = NULL)
          */
-//            SELECT c.id, c.townId, t.name townName, c.regionId, r.name regionName, COUNT(l.id), u.name, u.balance, u.lastTransactionTime 
-//            FROM `100_campaign` c
-//            LEFT JOIN `100_user` u ON u.id = c.buyerId
-//            LEFT JOIN `100_lead100` l ON l.campaignId = c.id AND l.leadStatus=6
-//            LEFT JOIN `100_town` t ON t.id = c.townId
-//            LEFT JOIN `100_region` r ON r.id = c.regionId
-//            WHERE c.active=1 AND u.lastTransactionTime<NOW()-INTERVAL 10 DAY OR u.lastTransactionTime IS NULL
-//            GROUP BY c.id
-//            ORDER BY u.name
-
+/*           SELECT c.id, c.townId, t.name townName, c.regionId, r.name regionName, COUNT(l.id), u.name, u.balance, u.lastTransactionTime 
+            FROM `100_campaign` c
+            LEFT JOIN `100_user` u ON u.id = c.buyerId
+            LEFT JOIN `100_lead100` l ON l.campaignId = c.id AND l.leadStatus=6
+            LEFT JOIN `100_town` t ON t.id = c.townId
+            LEFT JOIN `100_region` r ON r.id = c.regionId
+            WHERE c.active=1 AND u.lastTransactionTime<NOW()-INTERVAL 10 DAY OR u.lastTransactionTime IS NULL
+            GROUP BY c.id
+            ORDER BY u.name
+*/
+            
         $campaignsCommand = Yii::app()->db->createCommand()
                 ->select("c.id, c.townId, c.days, t.name townName, c.regionId, r.name regionName, c.leadsDayLimit, c.realLimit, c.brakPercent, c.timeFrom, c.timeTo, c.price, COUNT(l.id) leadsSent, u.id userId, u.name, u.balance, u.lastTransactionTime")
                 ->from("{{campaign}} c")

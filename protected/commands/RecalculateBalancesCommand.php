@@ -7,6 +7,17 @@
 class RecalculateBalancesCommand extends CConsoleCommand
 {
 
+/*
+Запрос для поиска расхождений баланса и суммы транзакций:
+
+SELECT u.id, u.name, u.lastName, u.balance, SUM(t.sum) transactionSum
+FROM 100_transactionCampaign t
+LEFT JOIN 100_user u ON u.id = t.buyerId
+WHERE u.role IN (6, 10)
+GROUP BY u.id
+HAVING (u.balance - transactionSum) > 0
+*/
+
     public function actionIndex()
     {
         $balances = Yii::app()->db->createCommand()
