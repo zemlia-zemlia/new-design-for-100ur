@@ -242,6 +242,17 @@ class Question extends CActiveRecord {
 
         return true;
     }
+    
+    /**
+     * Метод, вызываемый после сохранения вопроса
+     */
+    protected function afterSave()
+    {
+        if($this->status == self::STATUS_CHECK || $this->status == self::STATUS_PUBLISHED) {
+            LoggerFactory::getLogger('db')->log('Сохранен опубликованный вопрос #' . $this->id, 'Question', $this->id);
+        }
+        parent::afterSave();
+    }
 
     /**
      * Присваивает полю title первые $wordsCount слов из текста вопроса, отфильтровывая стоп-слова
