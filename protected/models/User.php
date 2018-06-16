@@ -599,7 +599,19 @@ class User extends CActiveRecord
      */
     public function getShortName()
     {
-        return $this->lastName . '&nbsp;' . mb_substr($this->name, 0, 1, 'utf-8') . '.' . mb_substr($this->name2, 0, 1, 'utf-8') . '.';
+        // Если не указана фамилия, вернем имя
+        if($this->lastName == '' && $this->name != '') {
+            return $this->name;
+        }
+        
+        $shortName = $this->lastName . ' ';
+        if($this->name != '') {
+            $shortName .= mb_substr($this->name, 0, 1, 'utf-8') . '.';
+        }
+        if($this->name2 != '') {
+            $shortName .= mb_substr($this->name2, 0, 1, 'utf-8') . '.';
+        }
+        return $shortName;
     }
 
     /**
@@ -665,7 +677,7 @@ class User extends CActiveRecord
         }
 
         // в письмо вставляем ссылку на вопрос + метки для отслеживания переходов
-        $questionLink = "https://100yuristov.com/q/" . $question->id . "/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_notification&utm_term=" . $question->id;
+        $questionLink = Yii::app()->urlManager->baseUrl . "/q/" . $question->id . "/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_notification&utm_term=" . $question->id;
 
 
         /*  проверим, есть ли у пользователя заполненное поле autologin, если нет,

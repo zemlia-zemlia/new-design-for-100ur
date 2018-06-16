@@ -60,5 +60,5 @@ return array(
         'smtpLogin'             =>  'admin@100yuristov.com',
         'smtpPassword'          =>  'R9JjqWtq3fn',
         'smtpSenderEmail'       =>  'admin@100yuristov.com',
+        'logTable'  =>  '{{log}}',
 );
-?>

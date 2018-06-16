@@ -277,6 +277,7 @@ class UserController extends Controller {
             }
 
             if ($model->save()) {
+                LoggerFactory::getLogger('db')->log('Пользователь ' . $model->getShortName() . ' обновил свой профиль', 'User', $model->id);
                 if ($model->role == User::ROLE_JURIST && $yuristSettings->hasErrors() == false) {
                     $this->redirect(array('profile'));
                 }

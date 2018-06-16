@@ -143,6 +143,9 @@ class Answer extends CActiveRecord {
      * Вызывается после сохранения объекта в базу
      */
     protected function afterSave() {
+        
+        LoggerFactory::getLogger('db')->log('Юрист ' . $this->author->getShortName() . ' ответил на вопрос #' . $this->questionId, 'User', $this->authorId);
+
         $question = $this->question;
 
         $questionAuthor = $this->question->author;
