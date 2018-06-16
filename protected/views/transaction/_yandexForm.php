@@ -1,5 +1,5 @@
 <?php
-Yii::app()->clientScript->registerScriptFile('/js/balance.js');
+//Yii::app()->clientScript->registerScriptFile('/js/balance.js');
 ?>
 
 <form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml" class="balance-form">    
@@ -10,11 +10,10 @@ Yii::app()->clientScript->registerScriptFile('/js/balance.js');
     <input type="hidden" name="targets" value="Пополнение баланса пользователя <?php echo Yii::app()->user->id; ?>">    
     <div class="form-group">
         <div class="input-group">
-            <input type="text" name="user-sum" value="500" data-type="number" class="form-control text-right">
+            <input type="text" name="sum" value="500" data-type="number" class="form-control text-right">
             <div class="input-group-addon">руб.</div>
         </div>
     </div>
-    <input type="hidden" name="sum" value="0" />
     <div class="radio">
         <label><input type="radio" name="paymentType" value="PC" checked>Яндекс.Деньгами <br />
             <small>Комиссия 0.5%
@@ -26,8 +25,5 @@ Yii::app()->clientScript->registerScriptFile('/js/balance.js');
         </label> 
     </div>
 
-    <p>
-        К оплате: <span id="sum-for-pay"></span> руб.
-    </p>
     <input type="submit" class="btn btn-default" value="Пополнить баланс">
 </form>

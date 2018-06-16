@@ -138,6 +138,7 @@ class TransactionController extends Controller {
      * Страница успешной отправки запроса на вывод средств
      */
     public function actionCreateSuccess() {
+        LoggerFactory::getLogger('db')->log('Пользователь #' . Yii::app()->user->id . ' пополнил баланс', 'User', Yii::app()->user->id);
         echo $this->render('createSuccess');
     }
 
