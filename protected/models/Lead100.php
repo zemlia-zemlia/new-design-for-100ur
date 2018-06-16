@@ -351,6 +351,15 @@ class Lead100 extends CActiveRecord
 
         // Если лид был куплен у вебмастера, переведем ему деньги
         $this->payWebmaster();
+        
+        $logMessage = 'Лид #' . $this->id . ' продан ';
+        if($campaign) {
+            $logMessage .= 'в кампанию #' . $campaign->id;
+        } else if($buyer != 0 && $buyer) {
+            $logMessage .= 'покупателю #' . $buyerId;
+        }
+        LoggerFactory::getLogger('db')->log($logMessage, 'Lead', $this->id);
+        
         return true;
     }
 
@@ -531,6 +540,8 @@ class Lead100 extends CActiveRecord
         if ($this->leadStatus != Lead100::LEAD_STATUS_DEFAULT) {
             return;
         }
+        
+        LoggerFactory::getLogger('db')->log('Создан лид #' . $this->id, 'Lead', $this->id);
 
         // после сохранения лида ищем для него кампанию
         $campaignId = Campaign::getCampaignsForLead($this->id);

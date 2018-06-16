@@ -2,7 +2,7 @@
     "require":{
         "sendpulse/rest-api":"*",
         "swiftmailer/swiftmailer":"^6.0",
-        "robmorgan/phinx":"*"
+        "robmorgan/phinx":"0.5"
     },
     "require-dev": {
         "codeception/codeception":"*",
