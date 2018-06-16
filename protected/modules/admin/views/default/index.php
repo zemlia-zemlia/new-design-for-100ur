@@ -103,12 +103,12 @@ $endYear = 2017;
             <h3>Опубликованные вопросы</h3>
             <table class="table">
                 <tr>
-    <?php foreach ($publishedQuestionsCount as $date => $counter): ?>
+                    <?php foreach ($publishedQuestionsCount as $date => $counter): ?>
                         <td class="center-align"><small><?php echo date('d.m', strtotime($date)); ?></small></td>
                     <?php endforeach; ?>
                 </tr>
                 <tr>
-    <?php foreach ($publishedQuestionsCount as $date => $counter): ?>
+                    <?php foreach ($publishedQuestionsCount as $date => $counter): ?>
                         <td class="center-align"><?php echo $counter; ?></td>
                     <?php endforeach; ?>
                 </tr>
@@ -154,9 +154,9 @@ $endYear = 2017;
         });
         });</script>
 
-    
+
     <div id="chart_yurist_activity" style="width:100%; height:300px;"></div>
-    
+
     <script type="text/javascript">
         $(function () {
         $('#chart_yurist_activity').highcharts({
@@ -168,9 +168,9 @@ $endYear = 2017;
                 },
                 xAxis: {
                 categories: [
-                    <?php foreach ($yuristActivityStats as $date=>$counter):?>
-                            '<?php echo $date;?>',            
-                    <?php endforeach; ?>                
+    <?php foreach ($yuristActivityStats as $date => $counter): ?>
+                    '<?php echo $date; ?>',
+    <?php endforeach; ?>
                 ],
                         crosshair: true
                 },
@@ -189,14 +189,20 @@ $endYear = 2017;
                 series: [{
                 name: 'Последний раз в этот день заходило юристов',
                         data: [
-                            <?php foreach ($yuristActivityStats as $date=>$counter):?>
-                            <?php echo $counter;?>,            
-                            <?php endforeach; ?>      
+    <?php foreach ($yuristActivityStats as $date => $counter): ?>
+        <?php echo $counter; ?>,
+    <?php endforeach; ?>
                         ]
 
                 }]
-                });
+        });
         });
     </script>
+
+    <h2>Последние записи лога</h2>
+    <?php
+        // выводим виджет с последними записями лога
+        $this->widget('application.widgets.LogReader.LogReaderWidget');
+    ?>		
 
 <?php endif; ?>
