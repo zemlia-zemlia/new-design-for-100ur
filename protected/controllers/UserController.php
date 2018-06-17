@@ -811,6 +811,8 @@ class UserController extends Controller {
                 }
 
                 Yii::log('Пришло бабло от пользователя ' . $userId . ' (' . $amount . ' руб.)', 'info', 'system.web');
+                LoggerFactory::getLogger('db')->log('Пополнение баланса пользователя #' . $user->id . '(' . $user->getShortName() . ') на ' . $amount . ' руб.', 'User', $user->id);
+
             }
         }
     }
