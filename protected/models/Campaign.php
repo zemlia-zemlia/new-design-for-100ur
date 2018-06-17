@@ -290,13 +290,12 @@ class Campaign extends CActiveRecord {
      * @param int $id id кампании
      * @return string имя кампании
      */
-    public static function getCampaignNameById($id) {
-        $campaigns = self::model()->cache(600)->with('town', 'region')->findAll();
-
-        foreach ($campaigns as $campaign) {
-            if ($campaign->id == $id) {
-                return $campaign->town->name . '' . $campaign->region->name;
-            }
+    public static function getCampaignNameById($id) 
+    {
+        $campaign = self::model()->cache(600)->with('town', 'region')->findByPk($id);
+        
+        if(!is_null($campaign)) {
+            return $campaign->town->name . '' . $campaign->region->name;
         }
     }
 

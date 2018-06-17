@@ -354,9 +354,9 @@ class Lead100 extends CActiveRecord
         
         $logMessage = 'Лид #' . $this->id . ' продан ';
         if($campaign) {
-            $logMessage .= 'в кампанию #' . $campaign->id;
+            $logMessage .= 'в кампанию #' . $campaign->id . '(' . Campaign::getCampaignNameById($campaign->id). ')';
         } else if($buyer != 0 && $buyer) {
-            $logMessage .= 'покупателю #' . $buyerId;
+            $logMessage .= 'покупателю #' . $buyerId . ' (' . $buyer->getShortName() . ')';
         }
         LoggerFactory::getLogger('db')->log($logMessage, 'Lead', $this->id);
         

@@ -18,6 +18,7 @@ return array(
 		'application.extensions.XWebDebugRouter.*',
                 'application.extensions.CustomFuncs.*',
                 'application.extensions.cleditor.ECLEditor',
+                'application.extensions.Logger.*',
 	),
 
 	// application components
