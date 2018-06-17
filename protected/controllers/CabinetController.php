@@ -56,7 +56,7 @@ class CabinetController extends Controller {
           $showInactive = true;
           } */
 
-        $dataProvider = new CActiveDataProvider('Lead100', array(
+        $dataProvider = new CActiveDataProvider('Lead', array(
             'criteria' => $criteria,
         ));
 
@@ -91,7 +91,7 @@ class CabinetController extends Controller {
             $criteria->addColumnCondition(['buyerId' => Yii::app()->user->id]);
         }
 
-        $dataProvider = new CActiveDataProvider('Lead100', array(
+        $dataProvider = new CActiveDataProvider('Lead', array(
             'criteria' => $criteria,
             'pagination' => array(
                 'pageSize' => 50,
@@ -105,7 +105,7 @@ class CabinetController extends Controller {
     }
 
     public function actionViewLead($id) {
-        $model = Lead100::model()->with('campaign')->findByPk($id);
+        $model = Lead::model()->with('campaign')->findByPk($id);
 
         if ($model->campaign->buyerId != Yii::app()->user->id) {
             throw new CHttpException(403, 'Вы не можете просматривать этого лида');
@@ -170,7 +170,7 @@ class CabinetController extends Controller {
             exit;
         }
 
-        $lead = Lead100::model()->findByPk($leadId);
+        $lead = Lead::model()->findByPk($leadId);
 
         if (!$lead) {
             echo json_encode(array('code' => 404, 'message' => 'Лид не найден'));
@@ -187,7 +187,7 @@ class CabinetController extends Controller {
             exit;
         }
 
-        $lead->leadStatus = Lead100::LEAD_STATUS_NABRAK;
+        $lead->leadStatus = Lead::LEAD_STATUS_NABRAK;
         $lead->brakReason = (int) $reason;
         $lead->brakComment = $reasonComment;
 

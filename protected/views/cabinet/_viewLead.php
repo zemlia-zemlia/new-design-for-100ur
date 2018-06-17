@@ -3,22 +3,22 @@
 /* @var $data Contact */
 
 switch ($data->leadStatus) {
-    case Lead100::LEAD_STATUS_DEFAULT:
+    case Lead::LEAD_STATUS_DEFAULT:
         $statusClass = 'label-default';
         break;
-    case Lead100::LEAD_STATUS_SENT_CRM:
+    case Lead::LEAD_STATUS_SENT_CRM:
         $statusClass = 'label-primary';
         break;
-    case Lead100::LEAD_STATUS_NABRAK:
+    case Lead::LEAD_STATUS_NABRAK:
         $statusClass = 'label-warning';
         break;
-    case Lead100::LEAD_STATUS_BRAK:
+    case Lead::LEAD_STATUS_BRAK:
         $statusClass = 'label-warning';
         break;
-    case Lead100::LEAD_STATUS_RETURN:
+    case Lead::LEAD_STATUS_RETURN:
         $statusClass = 'label-info';
         break;
-    case Lead100::LEAD_STATUS_SENT:
+    case Lead::LEAD_STATUS_SENT:
         $statusClass = 'label-success';
         break;
     
@@ -66,7 +66,7 @@ switch ($data->leadStatus) {
 			<span class="label <?php echo $statusClass;?>">    
 			<?php echo $data->getLeadStatusName();?></span>
             
-            <?php if($data->leadStatus == Lead100::LEAD_STATUS_NABRAK && $data->brakComment):?>
+            <?php if($data->leadStatus == Lead::LEAD_STATUS_NABRAK && $data->brakComment):?>
             <p>
                 <strong>Комментарий отбраковки:</strong>
                 <?php echo CHtml::encode($data->brakComment);?>
@@ -84,7 +84,7 @@ switch ($data->leadStatus) {
             $now = time();
         ?>
         
-        <?php if(($data->leadStatus == Lead100::LEAD_STATUS_SENT || $data->leadStatus == Lead100::LEAD_STATUS_SENT_CRM) && ($now - $leadTimestamp)<86400*4 && $data->campaign->brakPercent > 0 && $data->campaign->checkCanBrak()):?>
+        <?php if(($data->leadStatus == Lead::LEAD_STATUS_SENT || $data->leadStatus == Lead::LEAD_STATUS_SENT_CRM) && ($now - $leadTimestamp)<86400*4 && $data->campaign->brakPercent > 0 && $data->campaign->checkCanBrak()):?>
             <?php echo CHtml::link('На отбраковку', Yii::app()->createUrl('site/brakLead',array('code'=>$data->secretCode)), array('class'=>'btn btn-block btn-default btn-sm', 'target'=>'_blank', 'data-id'=>$data->id));?>
 
         <?php endif;?>

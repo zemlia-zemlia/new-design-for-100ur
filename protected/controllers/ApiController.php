@@ -130,7 +130,7 @@ class ApiController extends Controller {
 
         $townId = $town['id'];
 
-        $model = new Lead100;
+        $model = new Lead;
         $purifier = new CHtmlPurifier();
 
         $model->name = CHtml::encode($leadName);
@@ -195,7 +195,7 @@ class ApiController extends Controller {
     public function actionStatusLead()
     {
         $availableStatuses = array(
-            Lead100::LEAD_STATUS_NABRAK,
+            Lead::LEAD_STATUS_NABRAK,
         );
         
         $request = Yii::app()->request;
@@ -220,7 +220,7 @@ class ApiController extends Controller {
             exit;
         }
 
-        $lead = Lead100::model()->findByAttributes(array('secretCode' => $code));
+        $lead = Lead::model()->findByAttributes(array('secretCode' => $code));
 
         if (!$lead) {
             echo json_encode(array('code' => 400, 'message' => 'Lead not found'));
@@ -228,7 +228,7 @@ class ApiController extends Controller {
         }
 
         
-        if ($newStatus === Lead100::LEAD_STATUS_NABRAK &&  !(!is_null($lead->deliveryTime) && (time() - strtotime($lead->deliveryTime) < 86400 * Yii::app()->params['leadHoldPeriodDays']))) {
+        if ($newStatus === Lead::LEAD_STATUS_NABRAK &&  !(!is_null($lead->deliveryTime) && (time() - strtotime($lead->deliveryTime) < 86400 * Yii::app()->params['leadHoldPeriodDays']))) {
             echo json_encode(array('code' => 400, 'message' => 'Lead could not be sent to brak because it was created more than '. Yii::app()->params['leadHoldPeriodDays'] . ' days ago'));
             exit;
         }
@@ -236,11 +236,11 @@ class ApiController extends Controller {
         $lead->brakReason = $brakReason;
         $lead->brakComment = $brakComment;
 
-        if ($newStatus === Lead100::LEAD_STATUS_NABRAK &&  !$lead->brakReason) {
+        if ($newStatus === Lead::LEAD_STATUS_NABRAK &&  !$lead->brakReason) {
             $lead->addError('brakReason', 'Please specify a reason');
         }
 
-        if ($newStatus === Lead100::LEAD_STATUS_NABRAK &&  !$lead->brakComment) {
+        if ($newStatus === Lead::LEAD_STATUS_NABRAK &&  !$lead->brakComment) {
             $lead->addError('brakComment', 'Please specify a comment');
         }
 

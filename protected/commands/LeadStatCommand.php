@@ -15,8 +15,8 @@ class LeadStatCommand extends CConsoleCommand
             
             $leadsRows = Yii::app()->db->createCommand()
                     ->select('SUM(l.price) summa, DATE(l.question_date) lead_date')
-                    ->from('{{lead100}} l')
-                    ->where('l.price != 0 AND leadStatus =' . Lead100::LEAD_STATUS_SENT.' AND l.question_date>NOW()-INTERVAL '.($this->daysInterval +1 ).' DAY')
+                    ->from('{{lead}} l')
+                    ->where('l.price != 0 AND leadStatus =' . Lead::LEAD_STATUS_SENT.' AND l.question_date>NOW()-INTERVAL '.($this->daysInterval +1 ).' DAY')
                     ->group("lead_date")
                     ->order('lead_date DESC')
                     ->queryAll();

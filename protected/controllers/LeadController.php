@@ -45,16 +45,16 @@ class LeadController extends Controller {
         $criteria = new CDbCriteria;
         $showMy = false;
         $showAuto = false;
-        $searchModel = new Lead100;
+        $searchModel = new Lead;
 
         if (isset($_GET['auto'])) {
             $showAuto = true;
         }
 
-        if (isset($_GET['Lead100'])) {
+        if (isset($_GET['Lead'])) {
             // если используется форма поиска по лидам
-            $searchModel->attributes = $_GET['Lead100'];
-            $regionId = (int) $_GET['Lead100']['regionId'];
+            $searchModel->attributes = $_GET['Lead'];
+            $regionId = (int) $_GET['Lead']['regionId'];
             if ($regionId) {
                 $criteria->with = array('town' => array('condition' => 'town.regionId=' . $regionId), 'town.region');
             }
@@ -66,14 +66,14 @@ class LeadController extends Controller {
         if (isset($_GET['my'])) {
             $showMy = true;
             // ищем лиды, проданные текущему пользователю
-            $criteria->addColumnCondition(['leadStatus' => Lead100::LEAD_STATUS_SENT, 'buyerId' => Yii::app()->user->id]);
+            $criteria->addColumnCondition(['leadStatus' => Lead::LEAD_STATUS_SENT, 'buyerId' => Yii::app()->user->id]);
             $criteria->order = 't.deliveryTime DESC';
         } else {
             // Найдем лиды, которые не разобраны (не проданы и не бракуются)
-            $criteria->addColumnCondition(['leadStatus' => Lead100::LEAD_STATUS_DEFAULT]);
+            $criteria->addColumnCondition(['leadStatus' => Lead::LEAD_STATUS_DEFAULT]);
         }
 
-        $dataProvider = new CActiveDataProvider('Lead100', array(
+        $dataProvider = new CActiveDataProvider('Lead', array(
             'criteria' => $criteria,
             'pagination' => array(
                 'pageSize' => 30,
@@ -99,9 +99,9 @@ class LeadController extends Controller {
         // если передан GET параметр autologin, попытаемся залогинить пользователя
         User::autologin($_GET);
 
-        $model = Lead100::model()->findByPk($id);
+        $model = Lead::model()->findByPk($id);
 
-        if (!($model->leadStatus == Lead100::LEAD_STATUS_DEFAULT || ($model->leadStatus == Lead100::LEAD_STATUS_SENT && $model->buyerId == Yii::app()->user->id))) {
+        if (!($model->leadStatus == Lead::LEAD_STATUS_DEFAULT || ($model->leadStatus == Lead::LEAD_STATUS_SENT && $model->buyerId == Yii::app()->user->id))) {
             throw new CHttpException(403, 'У вас нет прав на просмотр данной заявки');
         }
 
@@ -119,13 +119,13 @@ class LeadController extends Controller {
      * @param integer $id id лида
      */
     public function actionBuy($id) {
-        $model = Lead100::model()->findByPk($id);
+        $model = Lead::model()->findByPk($id);
 
         if (!$model) {
             throw new CHttpException(404, 'Заявка не найдена');
         }
 
-        if ($model->leadStatus != Lead100::LEAD_STATUS_DEFAULT) {
+        if ($model->leadStatus != Lead::LEAD_STATUS_DEFAULT) {
             throw new CHttpException(403, 'Эта заявка уже продана другому пользователю');
         }
 

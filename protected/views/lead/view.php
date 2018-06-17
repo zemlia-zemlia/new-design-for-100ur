@@ -46,7 +46,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <td><?php echo nl2br(CHtml::encode($model->question)); ?></td>
     </tr>
 
-    <?php if ($model->leadStatus == Lead100::LEAD_STATUS_DEFAULT): ?>
+    <?php if ($model->leadStatus == Lead::LEAD_STATUS_DEFAULT): ?>
         <?php $sellPrice = (int) $model->calculatePrices()[1]; ?>
         <?php if ($sellPrice > 0): ?>
             <tr>
@@ -74,7 +74,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <tr>
         <td><strong><?php echo $model->getAttributeLabel('phone'); ?></strong></td>
         <td>
-            <?php if ($model->leadStatus == Lead100::LEAD_STATUS_SENT && $model->buyerId == Yii::app()->user->id): ?>
+            <?php if ($model->leadStatus == Lead::LEAD_STATUS_SENT && $model->buyerId == Yii::app()->user->id): ?>
                 <?php echo $model->phone; ?>
             <?php else: ?>
                 <span class="text-danger">Купите эту заявку, чтобы получить доступ к контактной информации клиента</span>
@@ -85,7 +85,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <tr>
         <td><strong><?php echo $model->getAttributeLabel('email'); ?></strong></td>
         <td>
-            <?php if ($model->leadStatus == Lead100::LEAD_STATUS_SENT && $model->buyerId == Yii::app()->user->id): ?>
+            <?php if ($model->leadStatus == Lead::LEAD_STATUS_SENT && $model->buyerId == Yii::app()->user->id): ?>
                 <?php echo $model->email; ?>
             <?php else: ?>
                 <span class="text-danger">Купите эту заявку, чтобы получить доступ к контактной информации клиента</span>

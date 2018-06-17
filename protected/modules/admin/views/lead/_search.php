@@ -1,6 +1,6 @@
 <?php
 /* @var $this LeadController */
-/* @var $model Lead100 */
+/* @var $model Lead */
 /* @var $form CActiveForm */
 ?>
 

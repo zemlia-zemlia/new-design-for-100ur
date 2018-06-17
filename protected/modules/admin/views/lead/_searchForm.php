@@ -18,7 +18,7 @@
         <?php echo $form->labelEx($model, 'date1'); ?> <br/>
         <?php
         $this->widget('zii.widgets.jui.CJuiDatePicker', array(
-            'name' => "Lead100[date1]",
+            'name' => "Lead[date1]",
             'value' => $model['date1'],
             'language' => 'ru',
             'options' => array('dateFormat' => 'dd-mm-yy',
@@ -37,7 +37,7 @@
         <?php echo $form->labelEx($model, 'date2'); ?><br/>
         <?php
         $this->widget('zii.widgets.jui.CJuiDatePicker', array(
-            'name' => "Lead100[date2]",
+            'name' => "Lead[date2]",
             'value' => $model['date2'],
             'language' => 'ru',
             'options' => array('dateFormat' => 'dd-mm-yy',
@@ -85,7 +85,7 @@ echo $form->dropDownList($model, 'regionId', array(0 => 'Все') + Region::getA
     <div class="form-group">
         <?php echo $form->labelEx($model, 'type'); ?><br/>
         <?php
-        echo $form->dropDownList($model, 'type', array('' => 'Все') + Lead100::getLeadTypesArray(), array(
+        echo $form->dropDownList($model, 'type', array('' => 'Все') + Lead::getLeadTypesArray(), array(
             'class' => 'form-control input-sm',
         ));
         ?>
@@ -94,7 +94,7 @@ echo $form->dropDownList($model, 'regionId', array(0 => 'Все') + Region::getA
     <div class="form-group">
         <?php echo $form->labelEx($model, 'leadStatus'); ?><br/>
         <?php
-        echo $form->dropDownList($model, 'leadStatus', array('' => 'Все') + Lead100::getLeadStatusesArray(), array(
+        echo $form->dropDownList($model, 'leadStatus', array('' => 'Все') + Lead::getLeadStatusesArray(), array(
             'class' => 'form-control input-sm',
         ));
         ?>

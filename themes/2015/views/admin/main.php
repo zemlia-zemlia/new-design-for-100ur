@@ -115,10 +115,10 @@
                                 <ul>
                                     <li>
                                         <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  На отбраковке", Yii::app()->createUrl('/admin/lead/index', array('status'=>  Lead::LEAD_STATUS_NABRAK)));?>  
-                                        <span class="label label-default"><?php echo Lead100::getStatusCounter(Lead100::LEAD_STATUS_NABRAK);?></span>
+                                        <span class="label label-default"><?php echo Lead::getStatusCounter(Lead::LEAD_STATUS_NABRAK);?></span>
                                     </li>
-                                    <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Брак", Yii::app()->createUrl('/admin/lead/index', array('status'=>  Lead100::LEAD_STATUS_BRAK)));?></li>
-                                    <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Возврат", Yii::app()->createUrl('/admin/lead/index', array('status'=>  Lead100::LEAD_STATUS_RETURN)));?></li>
+                                    <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Брак", Yii::app()->createUrl('/admin/lead/index', array('status'=>  Lead::LEAD_STATUS_BRAK)));?></li>
+                                    <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Возврат", Yii::app()->createUrl('/admin/lead/index', array('status'=>  Lead::LEAD_STATUS_RETURN)));?></li>
                                 </ul>
                            
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-signal'></span>  Статистика", Yii::app()->createUrl('/admin/lead/stats'));?></li>

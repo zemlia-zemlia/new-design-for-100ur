@@ -29,7 +29,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <td><strong><?php echo $model->getAttributeLabel('leadStatus'); ?></strong></td>
         <td>
             <?php echo $model->getLeadStatusName(); ?>
-            <?php if($model->leadStatus == Lead100::LEAD_STATUS_NABRAK):?>
+            <?php if($model->leadStatus == Lead::LEAD_STATUS_NABRAK):?>
             <p>Причина: <?php echo $model->getReasonName();?></p>
             <?php endif;?>
         </td>

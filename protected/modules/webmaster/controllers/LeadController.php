@@ -24,7 +24,7 @@ class LeadController extends Controller {
         $criteria->order = 't.id DESC';
         $criteria->addInCondition('sourceId', $mySourcesIds);
         
-        $dataProvider = new CActiveDataProvider('Lead100', array(
+        $dataProvider = new CActiveDataProvider('Lead', array(
             'criteria' => $criteria,
             'pagination' => array(
                 'pageSize' => 50,
@@ -38,7 +38,7 @@ class LeadController extends Controller {
     
     public function actionView($id)
     {
-        $model = Lead100::model()->findByPk($id);
+        $model = Lead::model()->findByPk($id);
         
         if(!$model) {
             throw new CHttpException(404, 'Лид не найден');
@@ -57,7 +57,7 @@ class LeadController extends Controller {
      * Добавление лида вебмастером
      */
     public function actionCreate() {
-        $model = new Lead100;
+        $model = new Lead;
 
         // Проверим, есть ли источники у текущего пользователя. Если нет, перенаправим на создание источника
         $mySources = Leadsource::getSourcesArrayByUser(Yii::app()->user->id);
@@ -69,8 +69,8 @@ class LeadController extends Controller {
             $model->sourceId = (int)$_GET['sourceId'];
         }
         
-        if (isset($_POST['Lead100'])) {
-            $model->attributes = $_POST['Lead100'];
+        if (isset($_POST['Lead'])) {
+            $model->attributes = $_POST['Lead'];
             $model->phone = Question::normalizePhone($model->phone);
             
             // посчитаем цену покупки лида, исходя из города и региона

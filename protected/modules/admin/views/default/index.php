@@ -142,7 +142,7 @@ $endYear = 2017;
                 series: [
     <?php foreach ($leadsByTypes as $type => $leadsByDates): ?>
                     {
-                    name: '<?php echo Lead100::getLeadTypesArray()[$type]; ?>',
+                    name: '<?php echo Lead::getLeadTypesArray()[$type]; ?>',
                             data: [
         <?php foreach ($uniqueLeadDates as $date): ?>
             <?php echo '["' . date('d.m', strtotime($date)) . '",' . (int) $leadsByTypes[$type][$date] . '],'; ?>

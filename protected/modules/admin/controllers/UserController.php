@@ -72,18 +72,18 @@ class UserController extends Controller {
 
         $leadsStats = NULL;
 
-        $leadSearchModel = new Lead100;
+        $leadSearchModel = new Lead;
         $leadSearchModel->scenario = 'search';
 
         $commentModel = new Comment;
 
         if ($model->role == User::ROLE_BUYER) {
-            $leadSearchModel->attributes = $_GET['Lead100'];
+            $leadSearchModel->attributes = $_GET['Lead'];
 
             // по умолчанию собираем статистику по проданным лидам за последние 30 дней
             $dateTo = ($leadSearchModel->date2 != '') ? CustomFuncs::invertDate($leadSearchModel->date2) : date("Y-m-d");
             $dateFrom = ($leadSearchModel->date1 != '') ? CustomFuncs::invertDate($leadSearchModel->date1) : date("Y-m-d", time() - 86400 * 30);
-            $leadsStats = Lead100::getStatsByPeriod($dateFrom, $dateTo, $model->id);
+            $leadsStats = Lead::getStatsByPeriod($dateFrom, $dateTo, $model->id);
         }
         
         if ($model->role == User::ROLE_PARTNER) {
@@ -107,7 +107,7 @@ class UserController extends Controller {
             $leadsCriteria = new CDbCriteria();
             $leadsCriteria->order = 'id DESC';
             $leadsCriteria->addInCondition('sourceId', $mySourcesIds);
-            $leadsDataProvider = new CActiveDataProvider('Lead100', array(
+            $leadsDataProvider = new CActiveDataProvider('Lead', array(
                 'criteria' => $leadsCriteria,
                 'pagination' => array(
                     'pageSize' => 20,

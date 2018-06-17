@@ -7,7 +7,7 @@ class DefaultController extends Controller {
     public function actionIndex() {
         $leadsRows = Yii::app()->db->createCommand()
                 ->select('l.price summa, YEAR(l.question_date) year, MONTH(l.question_date) month, l.buyPrice, l.leadStatus')
-                ->from('{{lead100}} l')
+                ->from('{{lead}} l')
                 ->where('l.price != 0')
                 ->order('id ASC')
                 ->queryAll();
@@ -20,7 +20,7 @@ class DefaultController extends Controller {
         $vipArray = array(); // доходы с vip вопросов
 
         foreach ($leadsRows as $row) {
-            if ($row['leadStatus'] == Lead100::LEAD_STATUS_SENT) {
+            if ($row['leadStatus'] == Lead::LEAD_STATUS_SENT) {
                 $sumArray[$row['year']][$row['month']] += $row['summa'];
                 $kolichArray[$row['year']][$row['month']] ++;
             }
@@ -105,7 +105,7 @@ class DefaultController extends Controller {
 
         $leadsByTypesRows = Yii::app()->db->createCommand()
                 ->select("COUNT(*) counter, type, DATE(question_date) date1")
-                ->from('{{lead100}}')
+                ->from('{{lead}}')
                 ->where('question_date>NOW()-INTERVAL 30 DAY AND sourceId=:sourceId', array(':sourceId' => 3))
                 ->group('date1, type')
                 ->queryAll();

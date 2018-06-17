@@ -174,7 +174,7 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
         foreach ($this->folders as $folder) {
             $leadSourceIds[] = $folder['sourceId'];
         }
-        $existingLeads = Lead100::model()->findAll(array(
+        $existingLeads = Lead::model()->findAll(array(
             'condition' =>  'question_date>NOW()- INTERVAL 7 DAY AND sourceId IN(' . implode(', ', $leadSourceIds) . ')',
         ));
         // массив, в котором будут храниться телефоны лидов, которые добавлены в базу за последний день, чтобы не добавить одного лида несколько раз
@@ -236,7 +236,7 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
                     continue;
                     // если лид с таким телефоном уже есть в базе, пропускаем его
                 }
-                $lead = new Lead100();
+                $lead = new Lead();
                 $lead->setScenario("parsing");
                 $lead->name = $name;
                 $lead->phone = $phone;
@@ -245,7 +245,7 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
                 $lead->sourceId = $this->folders[$folderAlias]['sourceId']; // id нужного источника лидов
                 $lead->buyPrice = $this->folders[$folderAlias]['buyPrice']; // цена покупки
                 $lead->townId = $this->folders[$folderAlias]['townId']; // id города
-                $lead->leadStatus = Lead100::LEAD_STATUS_DEFAULT;
+                $lead->leadStatus = Lead::LEAD_STATUS_DEFAULT;
 
                 if(!$lead->save()) {
                     //echo $lead->phone;

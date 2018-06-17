@@ -7,7 +7,7 @@ class EmailParserleadlaw extends EmailParser {
         return 1;
     }
 
-    public function parseMessage(ParsedEmail $message, Lead100 $lead, $folderSettings) {
+    public function parseMessage(ParsedEmail $message, Lead $lead, $folderSettings) {
         $bodyDecoded = quoted_printable_decode($message->getBody());
         
         $this->echoDebug($bodyDecoded);
@@ -46,7 +46,7 @@ class EmailParserleadlaw extends EmailParser {
         $lead->sourceId = $folderSettings['sourceId']; // id нужного источника лидов
         $lead->buyPrice = $folderSettings['buyPrice']; // цена покупки
         $lead->townId = $folderSettings['townId']; // id города
-        $lead->leadStatus = Lead100::LEAD_STATUS_DEFAULT;
+        $lead->leadStatus = Lead::LEAD_STATUS_DEFAULT;
 
         if (!$lead->save()) {
             $this->echoDebug($lead->phone);

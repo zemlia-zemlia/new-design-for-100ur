@@ -147,7 +147,7 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
             $leadSourceIds[] = $folder['sourceId'];
         }
 
-        $existingLeads = Lead100::model()->findAll(array(
+        $existingLeads = Lead::model()->findAll(array(
             'condition' => 'question_date>NOW()- INTERVAL 2 DAY AND sourceId IN(' . implode(', ', $leadSourceIds) . ')',
         ));
 
@@ -213,7 +213,7 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
 
                 //exit; // testing, not save
 
-                $lead = new Lead100();
+                $lead = new Lead();
                 $lead->setScenario("parsing");
                 $lead->name = $name;
                 $lead->phone = $phone;
@@ -229,7 +229,7 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
                 $source = Leadsource::model()->findByPk($lead->sourceId);
 
                 // в зависимости от настроек источника лидов отправляем лид на модерацию или в неразобранные
-                $lead->leadStatus = ($source->moderation == 0) ? Lead100::LEAD_STATUS_DEFAULT : Lead100::LEAD_STATUS_PREMODERATION;
+                $lead->leadStatus = ($source->moderation == 0) ? Lead::LEAD_STATUS_DEFAULT : Lead::LEAD_STATUS_PREMODERATION;
 
                 if (!$lead->save()) {
                     echo $lead->phone;

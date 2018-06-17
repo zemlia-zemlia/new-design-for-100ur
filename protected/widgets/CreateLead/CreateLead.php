@@ -6,7 +6,7 @@ class CreateLead extends CWidget
     public function run()
     {
         
-        $model = new Lead100;
+        $model = new Lead;
         
         $this->render($this->template, array('model'=>$model));
     }

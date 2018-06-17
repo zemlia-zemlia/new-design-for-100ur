@@ -9,7 +9,7 @@ class EmailParser9111 extends EmailParser {
         return 2;
     }
 
-    public function parseMessage(ParsedEmail $message, Lead100 $lead, $folderSettings) {
+    public function parseMessage(ParsedEmail $message, Lead $lead, $folderSettings) {
         
         $bodyDecoded = $message->getBody();
         
@@ -62,7 +62,7 @@ class EmailParser9111 extends EmailParser {
         if($message->getSubject() == 'Телефонный трафик (8-800)') {
             // это письмо с отчетом о звонке
             $lead->name = "Звонок";
-            $lead->type = Lead100::TYPE_INCOMING_CALL;
+            $lead->type = Lead::TYPE_INCOMING_CALL;
         } else {
             // это письмо с лидом
             $lead->name = $name;

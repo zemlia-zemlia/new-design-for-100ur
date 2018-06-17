@@ -53,22 +53,22 @@ class CampaignController extends Controller {
 
         $leadsStats = NULL;
 
-        $leadSearchModel = new Lead100;
+        $leadSearchModel = new Lead;
         $leadSearchModel->scenario = 'search';
 
 
-        $leadSearchModel->attributes = $_GET['Lead100'];
+        $leadSearchModel->attributes = $_GET['Lead'];
 
         // по умолчанию собираем статистику по проданным лидам за последние 30 дней
         $dateTo = ($leadSearchModel->date2 != '') ? CustomFuncs::invertDate($leadSearchModel->date2) : date("Y-m-d");
         $dateFrom = ($leadSearchModel->date1 != '') ? CustomFuncs::invertDate($leadSearchModel->date1) : date("Y-m-d", time() - 86400 * 30);
-        $leadsStats = Lead100::getStatsByPeriod($dateFrom, $dateTo, null, $model->id);
+        $leadsStats = Lead::getStatsByPeriod($dateFrom, $dateTo, null, $model->id);
         
         // найдем лиды, отправленные в данную кампанию
         $leadsCriteria = new CDbCriteria();
         $leadsCriteria->addColumnCondition(['campaignId' => $model->id]);
         $leadsCriteria->order = 'id DESC';
-        $leadsDataProvider = new CActiveDataProvider('Lead100', [
+        $leadsDataProvider = new CActiveDataProvider('Lead', [
             'criteria' => $leadsCriteria,
             ]
         );
@@ -210,7 +210,7 @@ class CampaignController extends Controller {
                 ->leftJoin("{{user}} u", "u.id = c.buyerId")
                 ->leftJoin("{{town}} t", "t.id = c.townId")
                 ->leftJoin("{{region}} r", "r.id = c.regionId")
-                ->leftJoin("{{lead100}} l", "l.campaignId = c.id AND l.leadStatus!=" . Lead100::LEAD_STATUS_BRAK)
+                ->leftJoin("{{lead}} l", "l.campaignId = c.id AND l.leadStatus!=" . Lead::LEAD_STATUS_BRAK)
                 ->group("c.id")
                 ->order("u.id, townName, regionName");
 
@@ -263,7 +263,7 @@ class CampaignController extends Controller {
         $todayLeadsRows = Yii::app()->db->createCommand()
                 ->select("c.id, COUNT(l.id) counter")
                 ->from("{{campaign}} c")
-                ->leftJoin("{{lead100}} l", "l.campaignId = c.id AND l.leadStatus!=" . Lead100::LEAD_STATUS_BRAK)
+                ->leftJoin("{{lead}} l", "l.campaignId = c.id AND l.leadStatus!=" . Lead::LEAD_STATUS_BRAK)
                 ->where("c.active=:active AND DATE(l.deliveryTime) = DATE(NOW())", array(':active' => $active))
                 ->group("c.id")
                 ->queryAll();
@@ -316,7 +316,7 @@ class CampaignController extends Controller {
         $leadsByStatusArray = [];
         $leadsByStatusRows = Yii::app()->db->cache(600)->createCommand()
                 ->select("campaignId, leadStatus, SUM(buyPrice) sumBuy, SUM(price) sumSell")
-                ->from("{{lead100}}")
+                ->from("{{lead}}")
                 ->where("deliveryTime > NOW()-INTERVAL 5 DAY")
                 ->group("campaignId, leadStatus")
                 ->queryAll();
@@ -324,7 +324,7 @@ class CampaignController extends Controller {
         
         foreach ($leadsByStatusRows as $row) {
             $leadsByStatusArray[$row['campaignId']]['expences'] += $row['sumBuy']; // суммируем цены покупки для всех статусов в расход по кампании
-            if($row['leadStatus'] == Lead100::LEAD_STATUS_SENT || $row['leadStatus'] == Lead100::LEAD_STATUS_RETURN) {
+            if($row['leadStatus'] == Lead::LEAD_STATUS_SENT || $row['leadStatus'] == Lead::LEAD_STATUS_RETURN) {
                 $leadsByStatusArray[$row['campaignId']]['revenue'] += $row['sumSell']; // суммируем цены продажи для проданных лидов в доход по кампании
             }
         }

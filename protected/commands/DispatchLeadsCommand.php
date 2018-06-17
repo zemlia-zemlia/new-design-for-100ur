@@ -6,14 +6,14 @@ class DispatchLeadsCommand extends CConsoleCommand
     {
         $criteria = new CDbCriteria;
             
-        $criteria->addColumnCondition(array('leadStatus'=>Lead100::LEAD_STATUS_DEFAULT));
+        $criteria->addColumnCondition(array('leadStatus'=>Lead::LEAD_STATUS_DEFAULT));
         $criteria->addCondition('question_date>NOW()-INTERVAL 24 HOUR');
         $criteria->with = array('town', 'town.region');
 
         // сколько лидов обрабатывать за раз
         $criteria->limit = 100;
 
-        $leads = Lead100::model()->findAll($criteria);
+        $leads = Lead::model()->findAll($criteria);
 
         foreach($leads as $lead) {
             $campaignId = Campaign::getCampaignsForLead($lead->id);

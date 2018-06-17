@@ -3,25 +3,25 @@
 /* @var $data Contact */
 
 switch ($data->leadStatus) {
-    case Lead100::LEAD_STATUS_DEFAULT:
+    case Lead::LEAD_STATUS_DEFAULT:
         $statusClass = 'label-default';
         break;
-    case Lead100::LEAD_STATUS_SENT_CRM:
+    case Lead::LEAD_STATUS_SENT_CRM:
         $statusClass = 'label-primary';
         break;
-    case Lead100::LEAD_STATUS_NABRAK:
+    case Lead::LEAD_STATUS_NABRAK:
         $statusClass = 'label-warning';
         break;
-    case Lead100::LEAD_STATUS_BRAK:
+    case Lead::LEAD_STATUS_BRAK:
         $statusClass = 'label-warning';
         break;
-    case Lead100::LEAD_STATUS_RETURN:
+    case Lead::LEAD_STATUS_RETURN:
         $statusClass = 'label-info';
         break;
-    case Lead100::LEAD_STATUS_SENT:
+    case Lead::LEAD_STATUS_SENT:
         $statusClass = 'label-success';
         break;
-    case Lead100::LEAD_STATUS_DUPLICATE:
+    case Lead::LEAD_STATUS_DUPLICATE:
         $statusClass = 'label-warning';
         break;
     default :
@@ -127,22 +127,22 @@ switch ($data->leadStatus) {
                 <?php endif; ?>
             <?php endif; ?>
 
-            <?php if ($data->leadStatus == Lead100::LEAD_STATUS_NABRAK): ?>
+            <?php if ($data->leadStatus == Lead::LEAD_STATUS_NABRAK): ?>
             <p>
-                <?php echo CHtml::link('В брак', '#', array('class' => 'btn btn-warning btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead100::LEAD_STATUS_BRAK)); ?>
+                <?php echo CHtml::link('В брак', '#', array('class' => 'btn btn-warning btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_BRAK)); ?>
             </p>
             <p>
-                <?php echo CHtml::link('Возврат', '#', array('class' => 'btn btn-success btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead100::LEAD_STATUS_RETURN)); ?>
+                <?php echo CHtml::link('Возврат', '#', array('class' => 'btn btn-success btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_RETURN)); ?>
             </p>	
             <div id="lead-status-message-<?php echo $data->id; ?>"></div>
         <?php endif; ?>
 
-        <?php if ($data->leadStatus == Lead100::LEAD_STATUS_PREMODERATION): ?>
+        <?php if ($data->leadStatus == Lead::LEAD_STATUS_PREMODERATION): ?>
             <p>
-                <?php echo CHtml::link('В брак', '#', array('class' => 'btn btn-warning btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead100::LEAD_STATUS_BRAK)); ?>
+                <?php echo CHtml::link('В брак', '#', array('class' => 'btn btn-warning btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_BRAK)); ?>
             </p>
             <p>
-                <?php echo CHtml::link('На продажу', '#', array('class' => 'btn btn-success btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead100::LEAD_STATUS_DEFAULT)); ?>
+                <?php echo CHtml::link('На продажу', '#', array('class' => 'btn btn-success btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_DEFAULT)); ?>
             </p>	
             <div id="lead-status-message-<?php echo $data->id; ?>"></div>
         <?php endif; ?>

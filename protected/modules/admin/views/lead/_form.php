@@ -1,6 +1,6 @@
 <?php
 /* @var $this LeadController */
-/* @var $model Lead100 */
+/* @var $model Lead */
 /* @var $form CActiveForm */
 ?>
 
@@ -74,21 +74,21 @@
                 <?php if (!$model->isNewRecord): ?>
                 <div class="form-group">
                 <?php echo $form->labelEx($model, 'leadStatus'); ?>
-                <?php echo $form->dropDownList($model, 'leadStatus', Lead100::getLeadStatusesArray(), array('class' => 'form-control')); ?>
+                <?php echo $form->dropDownList($model, 'leadStatus', Lead::getLeadStatusesArray(), array('class' => 'form-control')); ?>
                 <?php echo $form->error($model, 'leadStatus'); ?>
                 </div>
             <?php else: ?>
-                    <?php echo $form->hiddenField($model, 'leadStatus', array('value' => Lead100::LEAD_STATUS_DEFAULT)); ?>            
+                    <?php echo $form->hiddenField($model, 'leadStatus', array('value' => Lead::LEAD_STATUS_DEFAULT)); ?>            
                 <?php endif; ?>
 
                 <?php if (!$model->isNewRecord): ?>
                 <div class="form-group">
                 <?php echo $form->labelEx($model, 'type'); ?>
-                <?php echo $form->dropDownList($model, 'type', Lead100::getLeadTypesArray(), array('class' => 'form-control')); ?>
+                <?php echo $form->dropDownList($model, 'type', Lead::getLeadTypesArray(), array('class' => 'form-control')); ?>
                 <?php echo $form->error($model, 'type'); ?>
                 </div>
             <?php else: ?>
-                    <?php echo $form->hiddenField($model, 'type', array('value' => Lead100::TYPE_INCOMING_CALL)); ?>            
+                    <?php echo $form->hiddenField($model, 'type', array('value' => Lead::TYPE_INCOMING_CALL)); ?>            
                 <?php endif; ?>
 
 <?php if ($model->isNewRecord && Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>

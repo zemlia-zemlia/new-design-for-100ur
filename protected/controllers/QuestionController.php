@@ -184,7 +184,7 @@ class QuestionController extends Controller {
     public function actionCreate() {
         $this->layout = "//frontend/smart";
 
-        $lead = new Lead100();
+        $lead = new Lead();
         $question = new Question();
         $question->setScenario('create');
 
@@ -262,7 +262,7 @@ class QuestionController extends Controller {
                     $lead->sourceId = 3; // 100 юристов
                 }
                 
-                $lead->leadStatus = Lead100::LEAD_STATUS_DEFAULT; // по умолчанию лид никуда не отправляем
+                $lead->leadStatus = Lead::LEAD_STATUS_DEFAULT; // по умолчанию лид никуда не отправляем
                 //CustomFuncs::printr($lead);exit;
 
                 $duplicates = $lead->findDublicates(86400);
@@ -625,24 +625,24 @@ class QuestionController extends Controller {
 
     public function actionCall() {
         $this->layout = "//frontend/smart";
-        $lead = new Lead100();
+        $lead = new Lead();
         $lead->setScenario('createCall');
         
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
 
-        if (isset($_POST['Lead100'])) {
-            $lead->attributes = $_POST['Lead100'];
+        if (isset($_POST['Lead'])) {
+            $lead->attributes = $_POST['Lead'];
             $lead->phone = Question::normalizePhone($lead->phone);
             $lead->sourceId = 3;
-            $lead->type = Lead100::TYPE_CALL;
+            $lead->type = Lead::TYPE_CALL;
 
             /** 
-             * @todo заменить следующую проверку вызовом метода Lead100::findDublicates()
+             * @todo заменить следующую проверку вызовом метода Lead::findDublicates()
              */
             $existingLeads = Yii::app()->db->createCommand()
                     ->select('phone')
-                    ->from('{{lead100}}')
+                    ->from('{{lead}}')
                     ->where('question_date>NOW()- INTERVAL 12 HOUR')
                     ->queryAll();
             // массив, в котором будут храниться телефоны лидов, которые добавлены в базу за последний день, чтобы не добавить одного лида несколько раз
@@ -661,11 +661,11 @@ class QuestionController extends Controller {
 
                     if ($lead->save()) {
                         // сохраним категории, к которым относится вопрос, если категория указана
-                        if (isset($_POST['Lead100']['categories']) && $_POST['Lead100']['categories'] != 0) {
+                        if (isset($_POST['Lead']['categories']) && $_POST['Lead']['categories'] != 0) {
                             
                             $lead2category = new Lead2Category;
                             $lead2category->leadId = $lead->id;
-                            $leadCategory = (int)$_POST['Lead100']['categories'];
+                            $leadCategory = (int)$_POST['Lead']['categories'];
                             $lead2category->cId = $leadCategory;
                             
                             if ($lead2category->save()) {
@@ -707,11 +707,11 @@ class QuestionController extends Controller {
     {
         $this->layout = "//frontend/smart";
         
-        $lead = new Lead100();
+        $lead = new Lead();
         $question = new Question;
         
-        if (isset($_POST['Lead100'])) {
-            $lead->attributes = $_POST['Lead100'];
+        if (isset($_POST['Lead'])) {
+            $lead->attributes = $_POST['Lead'];
             $question->townId = $lead->townId;
             $currentTownId = $lead->townId;
             
@@ -838,15 +838,15 @@ class QuestionController extends Controller {
 
     public function actionServices() {
         $this->layout = "//frontend/smart";
-        $lead = new Lead100();
+        $lead = new Lead();
         $lead->setScenario('create');
         
 
-        if (isset($_POST['Lead100'])) {
-            $lead->attributes = $_POST['Lead100'];
+        if (isset($_POST['Lead'])) {
+            $lead->attributes = $_POST['Lead'];
             $lead->phone = preg_replace('/([^0-9])/i', '', $lead->phone);
             $lead->sourceId = 3;
-            $lead->type = Lead100::TYPE_SERVICES;
+            $lead->type = Lead::TYPE_SERVICES;
 
             if ($lead->validate()) {
                 $lead->question = CHtml::encode('Нужны услуги юриста. ' . $lead->question);
@@ -961,7 +961,7 @@ class QuestionController extends Controller {
             echo json_encode(array('code' => 400, 'message' => 'No input data'));
             exit;
         }
-        $model = new Lead100;
+        $model = new Lead;
         //$leadAppId = 'yurCrm';
         /*
          * захардкодим возможные приложения для поставки лидов, потом будем хранить их в базе
@@ -991,7 +991,7 @@ class QuestionController extends Controller {
 
         $model->attributes = $_POST;
         $model->sourceId = $activeApp['sourceId'];
-        $model->type = Lead100::TYPE_INCOMING_CALL;
+        $model->type = Lead::TYPE_INCOMING_CALL;
         $model->phone = Question::normalizePhone($model->phone);
 
         $appSecret = $activeApp['secretKey'];

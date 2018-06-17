@@ -3,25 +3,25 @@
 /* @var $data Contact */
 
 switch ($data->leadStatus) {
-    case Lead100::LEAD_STATUS_DEFAULT:
+    case Lead::LEAD_STATUS_DEFAULT:
         $statusClass = 'label-default';
         break;
-    case Lead100::LEAD_STATUS_SENT_CRM:
+    case Lead::LEAD_STATUS_SENT_CRM:
         $statusClass = 'label-primary';
         break;
-    case Lead100::LEAD_STATUS_NABRAK:
+    case Lead::LEAD_STATUS_NABRAK:
         $statusClass = 'label-warning';
         break;
-    case Lead100::LEAD_STATUS_BRAK:
+    case Lead::LEAD_STATUS_BRAK:
         $statusClass = 'label-warning';
         break;
-    case Lead100::LEAD_STATUS_RETURN:
+    case Lead::LEAD_STATUS_RETURN:
         $statusClass = 'label-info';
         break;
-    case Lead100::LEAD_STATUS_SENT:
+    case Lead::LEAD_STATUS_SENT:
         $statusClass = 'label-success';
         break;
-    case Lead100::LEAD_STATUS_DUPLICATE:
+    case Lead::LEAD_STATUS_DUPLICATE:
         $statusClass = 'label-warning';
         break;
     default :
@@ -42,7 +42,7 @@ switch ($data->leadStatus) {
                 <?php echo $data->getLeadStatusName();?>
             </span>
             &nbsp;
-            <?php if($data->buyPrice>0 && $data->leadStatus != Lead100::LEAD_STATUS_BRAK):?>
+            <?php if($data->buyPrice>0 && $data->leadStatus != Lead::LEAD_STATUS_BRAK):?>
                 <?php echo $data->buyPrice;?> руб.
             <?php endif;?>
         </small>

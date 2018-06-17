@@ -25,7 +25,7 @@ class DefaultController extends Controller {
         $criteria->addInCondition('sourceId', $mySourcesIds);
         $criteria->limit = 10;
         
-        $leadsDataProvider = new CActiveDataProvider('Lead100', array(
+        $leadsDataProvider = new CActiveDataProvider('Lead', array(
             'criteria' => $criteria,
             'pagination' => false,
         ));

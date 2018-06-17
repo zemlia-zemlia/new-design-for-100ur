@@ -109,7 +109,7 @@ abstract class EmailParser {
     /**
      * Классы-наследники должны реализовать метод парсинга текста письма
      */
-    abstract protected function parseMessage(ParsedEmail $message, Lead100 $lead, $folderSettings);
+    abstract protected function parseMessage(ParsedEmail $message, Lead $lead, $folderSettings);
     
     /**
      * Возвращает, какую секцию письма считать телом (третий параметр функции imap_fetchbody)
@@ -122,7 +122,7 @@ abstract class EmailParser {
      */
     protected function setExistingPhones($period = 2) {
 
-        $existingLeads = Lead100::model()->findAll(array(
+        $existingLeads = Lead::model()->findAll(array(
             'condition' => 'question_date>NOW()- INTERVAL ' . $period . ' DAY AND sourceId IN(' . implode(', ', $this->_leadSourceIds) . ')',
         ));
 
@@ -162,7 +162,7 @@ abstract class EmailParser {
             $this->_messages = $this->getMessagesFromFolder($folderName, $period);
 
             foreach ($this->_messages as $message) {
-                $this->parseMessage($message, new Lead100, $folderSettings);
+                $this->parseMessage($message, new Lead, $folderSettings);
             }
         }
     }

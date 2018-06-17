@@ -3,7 +3,7 @@
 /**
  * Модель для работы с лидами 100 юристов
  *
- * Поля из таблицы '{{lead100}}':
+ * Поля из таблицы '{{lead}}':
  * @property integer $id
  * @property string $name
  * @property string $phone
@@ -25,7 +25,7 @@
  * 
  * @author Michael Krutikov m@mkrutikov.pro
  */
-class Lead100 extends CActiveRecord
+class Lead extends CActiveRecord
 {
 
     public $date1, $date2; // диапазон дат, используемый при поиске
@@ -62,7 +62,7 @@ class Lead100 extends CActiveRecord
     /*
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
-     * @return Lead100 the static model class
+     * @return Lead the static model class
      */
 
     public static function model($className = __CLASS__)
@@ -75,7 +75,7 @@ class Lead100 extends CActiveRecord
      */
     public function tableName()
     {
-        return '{{lead100}}';
+        return '{{lead}}';
     }
 
     /**
@@ -456,7 +456,7 @@ class Lead100 extends CActiveRecord
         }
         $counterRow = Yii::app()->db->cache(60)->createCommand()
                 ->select('COUNT(*) counter')
-                ->from("{{lead100}}")
+                ->from("{{lead}}")
                 ->where($condition, array(":status" => (int) $status))
                 ->queryRow();
         $counter = $counterRow['counter'];
@@ -473,7 +473,7 @@ class Lead100 extends CActiveRecord
     {
         $dublicatesRow = Yii::app()->db->createCommand()
                 ->select("COUNT(*) counter")
-                ->from("{{lead100}}")
+                ->from("{{lead}}")
                 ->where("phone=:phone AND townId=:townId AND question_date>=NOW()-INTERVAL :timeframe SECOND", array(":phone" => $this->phone, ":townId" => $this->townId, ":timeframe" => $timeframe))
                 ->queryRow();
 
@@ -510,7 +510,7 @@ class Lead100 extends CActiveRecord
         if ($this->leadStatus == self::LEAD_STATUS_BRAK) {
             $oldStatusRow = Yii::app()->db->createCommand()
                     ->select('leadStatus')
-                    ->from('{{lead100}}')
+                    ->from('{{lead}}')
                     ->where('id=:id', array(':id' => $this->id))
                     ->queryRow();
             // старый статус
@@ -537,7 +537,7 @@ class Lead100 extends CActiveRecord
             return;
         }
 
-        if ($this->leadStatus != Lead100::LEAD_STATUS_DEFAULT) {
+        if ($this->leadStatus != Lead::LEAD_STATUS_DEFAULT) {
             return;
         }
         
@@ -565,7 +565,7 @@ class Lead100 extends CActiveRecord
 
         $leadsCommand = Yii::app()->db->createCommand()
                 ->select('id, price, DATE(deliveryTime) date')
-                ->from("{{lead100}}")
+                ->from("{{lead}}")
                 ->order("date")
                 ->where("DATE(deliveryTime) >= :dateFrom AND DATE(deliveryTime) <= :dateTo AND leadStatus IN (:status1, :status2, :status3)", array(':dateFrom' => $dateFrom, ':dateTo' => $dateTo, ':status1' => self::LEAD_STATUS_SENT, ':status2' => self::LEAD_STATUS_RETURN, ':status3' => self::LEAD_STATUS_NABRAK));
 

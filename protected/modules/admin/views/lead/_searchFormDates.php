@@ -11,7 +11,7 @@
                 <?php echo $form->labelEx($model,'date1'); ?>
                 <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
                         array(
-                        'name'=>"Lead100[date1]",
+                        'name'=>"Lead[date1]",
                         'value'=>$model['date1'],
                         'language'=>'ru',
                         'options' => array('dateFormat'=>'dd-mm-yy',
@@ -30,7 +30,7 @@
                 <?php echo $form->labelEx($model,'date2'); ?>
                 <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
                         array(
-                        'name'=>"Lead100[date2]",
+                        'name'=>"Lead[date2]",
                         'value'=>$model['date2'],
                         'language'=>'ru',
                         'options' => array('dateFormat'=>'dd-mm-yy',

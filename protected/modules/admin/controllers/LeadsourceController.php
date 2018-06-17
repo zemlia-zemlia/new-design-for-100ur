@@ -48,7 +48,7 @@ class LeadsourceController extends Controller {
         $yearsArray = array();
         $yearsRows = Yii::app()->db->createCommand()
                 ->select('DISTINCT(YEAR(question_date))')
-                ->from('{{lead100}} l')
+                ->from('{{lead}} l')
                 ->where('l.sourceId=:sourceId', array(
                     ':sourceId' => $model->id,
                 ))
@@ -62,7 +62,7 @@ class LeadsourceController extends Controller {
         $leadsStats = array();
         $leadsRows = Yii::app()->db->createCommand()
                 ->select('l.id, l.buyPrice, l.price, l.leadStatus, t.name townName')
-                ->from('{{lead100}} l')
+                ->from('{{lead}} l')
                 ->leftJoin('{{town}} t', 'l.townId=t.id')
                 ->where('l.sourceId=:sourceId AND YEAR(l.question_date)=:year AND MONTH(l.question_date)=:month', array(
                     ':sourceId' => $model->id,
@@ -75,7 +75,7 @@ class LeadsourceController extends Controller {
             $leadsStats[$row['townName']]['total']++;
             $leadsStats[$row['townName']]['expences']+=$row['buyPrice'];
             
-            if($row['leadStatus'] == Lead100::LEAD_STATUS_BRAK) {
+            if($row['leadStatus'] == Lead::LEAD_STATUS_BRAK) {
                 $leadsStats[$row['townName']]['brak']++;
             } else {
                 $leadsStats[$row['townName']]['sold']++;

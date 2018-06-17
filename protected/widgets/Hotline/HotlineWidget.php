@@ -15,7 +15,7 @@ class HotlineWidget extends CWidget
     {
         
         if($this->showPhone === false) {
-            $model = new Lead100;
+            $model = new Lead;
             return $this->render('callBack', array(
                 'model' => $model,
                 ));

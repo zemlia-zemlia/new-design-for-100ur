@@ -66,15 +66,15 @@ class Campaign extends CActiveRecord {
             'buyer' => array(self::BELONGS_TO, 'User', 'buyerId'),
             'region' => array(self::BELONGS_TO, 'Region', 'regionId'),
             'town' => array(self::BELONGS_TO, 'Town', 'townId'),
-            'leads' => array(self::HAS_MANY, 'Lead100', 'campaignId'),
-            'leadsToday' => array(self::HAS_MANY, 'Lead100', 'campaignId',
+            'leads' => array(self::HAS_MANY, 'Lead', 'campaignId'),
+            'leadsToday' => array(self::HAS_MANY, 'Lead', 'campaignId',
                 'condition' => 'DATE(leadsToday.deliveryTime)="' . date('Y-m-d') . '"',
             ),
-            'leadsCount' => array(self::STAT, 'Lead100', 'campaignId'),
-            'leadsTodayCount' => array(self::STAT, 'Lead100', 'campaignId',
+            'leadsCount' => array(self::STAT, 'Lead', 'campaignId'),
+            'leadsTodayCount' => array(self::STAT, 'Lead', 'campaignId',
                 'condition' => 'DATE(t.deliveryTime)="' . date('Y-m-d') .
-                '" AND leadStatus IN(' . Lead100::LEAD_STATUS_SENT . ', ' .
-                Lead100::LEAD_STATUS_NABRAK . ', ' . Lead100::LEAD_STATUS_RETURN . ')',
+                '" AND leadStatus IN(' . Lead::LEAD_STATUS_SENT . ', ' .
+                Lead::LEAD_STATUS_NABRAK . ', ' . Lead::LEAD_STATUS_RETURN . ')',
             ),
             'transactions' => array(self::HAS_MANY, 'TransactionCampaign', 'campaignId', 'order' => 'transactions.id DESC'),
         );
@@ -172,7 +172,7 @@ class Campaign extends CActiveRecord {
         // ограничим число кампаний, которые ищем
         $limit = 10;
 
-        $lead = Lead100::model()->findByPk($leadId);
+        $lead = Lead::model()->findByPk($leadId);
 
         if (!$lead) {
             return false;
@@ -217,13 +217,13 @@ class Campaign extends CActiveRecord {
             // находим, сколько лидов сегодня уже отправлено в кампанию
             $campaignTodayLeads = Yii::app()->db->createCommand()
                     ->select('COUNT(*) counter')
-                    ->from("{{lead100}} l")
+                    ->from("{{lead}} l")
                     ->where("DATE(deliveryTime)=:todayDate AND campaignId=:campaignId AND leadStatus IN(:status1, :status2, :status3)", array(
                         ':todayDate' => date('Y-m-d'),
                         ':campaignId' => $campaign['id'],
-                        ':status1' => Lead100::LEAD_STATUS_SENT,
-                        ':status2' => Lead100::LEAD_STATUS_NABRAK,
-                        ':status3' => Lead100::LEAD_STATUS_RETURN,
+                        ':status1' => Lead::LEAD_STATUS_SENT,
+                        ':status2' => Lead::LEAD_STATUS_NABRAK,
+                        ':status3' => Lead::LEAD_STATUS_RETURN,
                     ))
                     ->queryRow();
 
@@ -392,7 +392,7 @@ class Campaign extends CActiveRecord {
         
         $campaign24hoursLeadsRows = Yii::app()->db->createCommand()
                     ->select('leadStatus, COUNT(*) counter')
-                    ->from('{{lead100}}')
+                    ->from('{{lead}}')
                     ->where('campaignId = ' . $this->id . ' AND DATE(deliveryTime)="'. $date . '"')
                     ->group('leadStatus')
                     ->queryAll();
@@ -401,7 +401,7 @@ class Campaign extends CActiveRecord {
         $totalLeads = 0;
         $brakLeads = 0;
         foreach($campaign24hoursLeadsRows as $row) {
-            if($row['leadStatus'] == Lead100::LEAD_STATUS_BRAK || $row['leadStatus'] == Lead100::LEAD_STATUS_NABRAK) {
+            if($row['leadStatus'] == Lead::LEAD_STATUS_BRAK || $row['leadStatus'] == Lead::LEAD_STATUS_NABRAK) {
                 $brakLeads += $row['counter'];
             }
             $totalLeads += $row['counter'];

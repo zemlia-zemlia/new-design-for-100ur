@@ -6,14 +6,14 @@
 <script type="text/javascript">
     $(function(){
         
-        if($("input[name='Lead100[brakReason]']:checked").val() == <?php echo Lead100::BRAK_REASON_BAD_REGION;?>) {
+        if($("input[name='Lead[brakReason]']:checked").val() == <?php echo Lead::BRAK_REASON_BAD_REGION;?>) {
             $('#lead-region').show();
         }
         
-        $("input[name='Lead100[brakReason]']").on('click', function(){
+        $("input[name='Lead[brakReason]']").on('click', function(){
             $('#lead-region').hide();
             var selected_reason = $(this).val();
-            if(selected_reason == <?php echo Lead100::BRAK_REASON_BAD_REGION;?>) {
+            if(selected_reason == <?php echo Lead::BRAK_REASON_BAD_REGION;?>) {
                 $('#lead-region').show();
             }
         })
@@ -23,13 +23,13 @@
 
 <div class="form-group">
     <?php echo $form->labelEx($lead,'brakReason'); ?><br />
-    <?php echo $form->radioButtonList($lead,'brakReason', Lead100::getBrakReasonsArray(), array(
+    <?php echo $form->radioButtonList($lead,'brakReason', Lead::getBrakReasonsArray(), array(
             'class' =>  '', 
     )); ?>
     <?php echo $form->error($lead,'brakReason'); ?>
 </div>
 
-<div class="form-group" id="lead-region" <?php if($model->brakReason != Lead100::BRAK_REASON_BAD_REGION):?> style="display:none"<?php endif;?>>
+<div class="form-group" id="lead-region" <?php if($model->brakReason != Lead::BRAK_REASON_BAD_REGION):?> style="display:none"<?php endif;?>>
     <?php echo $form->labelEx($lead,'Укажите реальный город клиента'); ?>
     <?php echo CHtml::textField('town', '', array(
                     'id'            =>  'town-selector', 

@@ -67,15 +67,15 @@ class LeadController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
     public function actionCreate() {
-        $model = new Lead100;
+        $model = new Lead;
         $apiResult = null;  
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Lead100'])) {
-            $model->attributes = $_POST['Lead100'];
+        if (isset($_POST['Lead'])) {
+            $model->attributes = $_POST['Lead'];
             $model->phone = Question::normalizePhone($model->phone);
             
             if($model->testMode) {
@@ -138,8 +138,8 @@ class LeadController extends Controller {
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Lead100'])) {
-            $model->attributes = $_POST['Lead100'];
+        if (isset($_POST['Lead'])) {
+            $model->attributes = $_POST['Lead'];
             $model->phone = Question::normalizePhone($model->phone);
             //CustomFuncs::printr($model);exit;
             if ($model->save()) {
@@ -185,7 +185,7 @@ class LeadController extends Controller {
      */
     public function actionIndex() {
 
-        $searchModel = new Lead100;
+        $searchModel = new Lead;
         $searchModel->type='';
 
         $criteria = new CDbCriteria;
@@ -199,17 +199,17 @@ class LeadController extends Controller {
             $criteria->addCondition('campaignId IS NOT NULL');
         }
 
-        if (isset($_GET['Lead100'])) {
+        if (isset($_GET['Lead'])) {
             // если используется форма поиска по контактам
-            $searchModel->attributes = $_GET['Lead100'];
+            $searchModel->attributes = $_GET['Lead'];
             $dataProvider = $searchModel->search();
         } else {
             // если форма не использовалась
-            $dataProvider = new CActiveDataProvider('Lead100', array(
+            $dataProvider = new CActiveDataProvider('Lead', array(
                 'criteria' => $criteria,
                 'pagination' => array(
                     'pageSize' => 50,
-                    'params' => $_GET['Lead100'],
+                    'params' => $_GET['Lead'],
                 ),
             ));
         }
@@ -251,7 +251,7 @@ class LeadController extends Controller {
 
         $criteria = new CDbCriteria;
 
-        $criteria->addColumnCondition(array('leadStatus' => Lead100::LEAD_STATUS_DEFAULT));
+        $criteria->addColumnCondition(array('leadStatus' => Lead::LEAD_STATUS_DEFAULT));
         $criteria->addColumnCondition(array('question_date>' => date('Y-m-d')));
         $criteria->with = array('town', 'town.region');
 
@@ -259,7 +259,7 @@ class LeadController extends Controller {
         //$criteria->limit = 100;
         $criteria->limit = 100;
 
-        $leads = Lead100::model()->findAll($criteria);
+        $leads = Lead::model()->findAll($criteria);
 
         echo "<h2>Разбираем лиды..</h2>";
         foreach ($leads as $lead) {
@@ -281,12 +281,12 @@ class LeadController extends Controller {
         $towns = array(598);
         $sourceId = 3;
         $question = 'Тестовый текст вопроса';
-        $status = Lead100::LEAD_STATUS_DEFAULT;
-        $type = Lead100::TYPE_QUESTION;
+        $status = Lead::LEAD_STATUS_DEFAULT;
+        $type = Lead::TYPE_QUESTION;
         $names = array('Август', 'Августин', 'Аврор', 'Агап', 'Адам', 'Аксён', 'Алевтин', 'Александр', 'Алексей', 'Алексий', 'Альберт', 'Анастасий', 'Анатолий', 'Анвар', 'Андрей', 'Андрон', 'Анисим', 'Антип', 'Антон', 'Антонин', 'Аристарх', 'Аркадий', 'Арсений', 'Артамон', 'Артём', 'Артемий', 'Артур', 'Архип', 'Аскольд', 'Афанасий', 'Афиноген');
 
         for ($i = 0; $i < $limit; $i++) {
-            $lead = new Lead100;
+            $lead = new Lead;
 
             $properties = array(
                 'sourceId' => $sourceId,
@@ -318,14 +318,14 @@ class LeadController extends Controller {
     public function actionDispatch() {
         $criteria = new CDbCriteria;
 
-        $criteria->addColumnCondition(array('leadStatus' => Lead100::LEAD_STATUS_DEFAULT));
+        $criteria->addColumnCondition(array('leadStatus' => Lead::LEAD_STATUS_DEFAULT));
         $criteria->addColumnCondition(array('question_date>' => date('Y-m-d')));
         $criteria->with = array('town', 'town.region');
 
         // сколько лидов обрабатывать за раз
         $criteria->limit = 50;
 
-        $leads = Lead100::model()->findAll($criteria);
+        $leads = Lead::model()->findAll($criteria);
 
         foreach ($leads as $lead) {
             echo $lead->id . " " . $lead->name . ', город: ' . $lead->town->name . ', регион:' . $lead->town->region->name;
@@ -355,10 +355,10 @@ class LeadController extends Controller {
             exit;
         }
 
-        $lead = Lead100::model()->findByPk($leadId);
+        $lead = Lead::model()->findByPk($leadId);
 
         if (!$lead) {
-            echo json_encode(array('code' => 404, 'message' => 'Lead100 not found'));
+            echo json_encode(array('code' => 404, 'message' => 'Lead not found'));
             exit;
         }
 
@@ -367,7 +367,7 @@ class LeadController extends Controller {
         // найдем кампанию, в которую отправлен лид
         // если новый статус - Брак, вернем деньги за лида на баланс пользователя
         $campaign = $lead->campaign;
-        if ($lead->campaign && $lead->leadStatus == Lead100::LEAD_STATUS_BRAK) {
+        if ($lead->campaign && $lead->leadStatus == Lead::LEAD_STATUS_BRAK) {
             $buyer = $campaign->buyer;
             $buyer->setScenario('balance');
             $buyer->balance += $lead->price;
@@ -410,7 +410,7 @@ class LeadController extends Controller {
         // найдем все годы, в которые есть контакты
         $yearsRows = Yii::app()->db->cache(600)->createCommand()
                 ->select('DISTINCT(YEAR(question_date)) y')
-                ->from('{{lead100}}')
+                ->from('{{lead}}')
                 ->where('price != 0 AND YEAR(question_date)!=0')
                 ->queryColumn();
         $yearsArray = array();
@@ -427,7 +427,7 @@ class LeadController extends Controller {
 
         $leadsRows = Yii::app()->db->createCommand()
                 ->select('l.price summa, DATE(l.question_date) lead_date, l.campaignId campaignId, l.buyPrice, l.leadStatus')
-                ->from('{{lead100}} l')
+                ->from('{{lead}} l')
                 ->where('l.price != 0 AND MONTH(l.question_date)="' . $month . '" AND YEAR(l.question_date)="' . $year . '"')
                 ->order('lead_date DESC')
                 ->queryAll();
@@ -441,7 +441,7 @@ class LeadController extends Controller {
 
         if ($type == 'dates') {
             foreach ($leadsRows as $row) {
-                if ($row['leadStatus'] != Lead100::LEAD_STATUS_BRAK) {
+                if ($row['leadStatus'] != Lead::LEAD_STATUS_BRAK) {
                     $sumArray[$row['lead_date']] += $row['summa'];
                     $kolichArray[$row['lead_date']] ++;
                     $buySumArray[$row['lead_date']] += $row['buyPrice'];
@@ -451,7 +451,7 @@ class LeadController extends Controller {
 
         if ($type == 'campaigns') {
             foreach ($leadsRows as $row) {
-                if ($row['leadStatus'] == Lead100::LEAD_STATUS_SENT) {
+                if ($row['leadStatus'] == Lead::LEAD_STATUS_SENT) {
                     $sumArray[$row['campaignId']] += $row['summa'];
                     $kolichArray[$row['campaignId']] ++;
                 }
@@ -517,11 +517,11 @@ class LeadController extends Controller {
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
      * @param integer $id the ID of the model to be loaded
-     * @return Lead100 the loaded model
+     * @return Lead the loaded model
      * @throws CHttpException
      */
     public function loadModel($id) {
-        $model = Lead100::model()->findByPk($id);
+        $model = Lead::model()->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
@@ -529,7 +529,7 @@ class LeadController extends Controller {
 
     /**
      * Performs the AJAX validation.
-     * @param Lead100 $model the model to be validated
+     * @param Lead $model the model to be validated
      */
     protected function performAjaxValidation($model) {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'lead-form') {
@@ -546,7 +546,7 @@ class LeadController extends Controller {
         $leadId = (int)$_POST['leadId'];
         $campaignId = (int)$_POST['campaignId'];
         
-        $lead = Lead100::model()->findByPk($leadId);
+        $lead = Lead::model()->findByPk($leadId);
         $campaign = Campaign::model()->findByPk($campaignId);
         
         if(!$lead || !$campaign) {
