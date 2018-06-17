@@ -17,7 +17,7 @@ class SourceController extends Controller {
         $criteria = new CDbCriteria;
         $criteria->addColumnCondition(array('userId' => Yii::app()->user->id));
         
-        $dataProvider = new CActiveDataProvider('Leadsource100', array(
+        $dataProvider = new CActiveDataProvider('Leadsource', array(
             'criteria' => $criteria,
             'pagination' => array(
                 'pageSize' => 20,
@@ -34,7 +34,7 @@ class SourceController extends Controller {
      */
     public function actionView($id) {
         
-        $model = Leadsource100::model()->findByPk($id);
+        $model = Leadsource::model()->findByPk($id);
         
         if(!$model) {
             throw new CHttpException(404, 'Источник не найден');
@@ -53,10 +53,10 @@ class SourceController extends Controller {
      * Добавление источника
      */
     public function actionCreate() {
-        $model = new Leadsource100;
+        $model = new Leadsource;
 
-        if (isset($_POST['Leadsource100'])) {
-            $model->attributes = $_POST['Leadsource100'];
+        if (isset($_POST['Leadsource'])) {
+            $model->attributes = $_POST['Leadsource'];
             
             // при создании источника генерируем его параметры для API
             $model->generateAppId();
@@ -81,7 +81,7 @@ class SourceController extends Controller {
      */
     public function actionUpdate($id) {
         
-        $model = Leadsource100::model()->findByPk($id);
+        $model = Leadsource::model()->findByPk($id);
         
         if(!$model) {
             throw new CHttpException(404, 'Источник не найден');
@@ -91,8 +91,8 @@ class SourceController extends Controller {
             throw new CHttpException(403, 'Вы не можете просматривать чужие источники');
         }
 
-        if (isset($_POST['Leadsource100'])) {
-            $model->attributes = $_POST['Leadsource100'];
+        if (isset($_POST['Leadsource'])) {
+            $model->attributes = $_POST['Leadsource'];
             
             if (!$model->appId) {
                 $model->generateAppId();

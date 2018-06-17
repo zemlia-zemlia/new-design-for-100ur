@@ -18,7 +18,7 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <?php echo $form->labelEx($model,'type'); ?>
-                    <?php echo $form->dropDownList($model,'type', Leadsource100::getTypes(), array('class'=>'form-control')); ?>
+                    <?php echo $form->dropDownList($model,'type', Leadsource::getTypes(), array('class'=>'form-control')); ?>
                     <?php echo $form->error($model,'type'); ?>
                 </div>
             </div>

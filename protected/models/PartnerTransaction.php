@@ -59,7 +59,7 @@ class PartnerTransaction extends CActiveRecord {
         // class name for the relations automatically generated below.
         return array(
             'partner' => array(self::BELONGS_TO, 'User', 'partnerId'),
-            'source' => array(self::BELONGS_TO, 'Leadsource100', 'sourceId'),
+            'source' => array(self::BELONGS_TO, 'Leadsource', 'sourceId'),
             'lead' => array(self::BELONGS_TO, 'Lead100', 'leadId'),
         );
     }

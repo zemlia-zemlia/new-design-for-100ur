@@ -94,7 +94,7 @@ class Question extends CActiveRecord {
         return array(
             'town' => array(self::BELONGS_TO, 'Town', 'townId'),
             'townByIP' => array(self::BELONGS_TO, 'Town', 'townIdByIP'),
-            'source' => array(self::BELONGS_TO, 'Leadsource100', 'sourceId'),
+            'source' => array(self::BELONGS_TO, 'Leadsource', 'sourceId'),
             'answers' => array(self::HAS_MANY, 'Answer', 'questionId'),
             'answersCount' => array(self::STAT, 'Answer', 'questionId'),
             'bublishUser' => array(self::BELONGS_TO, 'User', 'publishedBy'),

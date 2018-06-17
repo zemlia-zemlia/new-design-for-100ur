@@ -13,7 +13,7 @@ class LeadController extends Controller {
         $mySourcesIds = array();
         $mySourcesIdsRows = Yii::app()->db->createCommand()
                 ->select('id')
-                ->from('{{leadsource100}}')
+                ->from('{{leadsource}}')
                 ->where('userId = :userId', array(':userId' => Yii::app()->user->id))
                 ->queryAll();
         foreach ($mySourcesIdsRows as $row) {
@@ -60,7 +60,7 @@ class LeadController extends Controller {
         $model = new Lead100;
 
         // Проверим, есть ли источники у текущего пользователя. Если нет, перенаправим на создание источника
-        $mySources = Leadsource100::getSourcesArrayByUser(Yii::app()->user->id);
+        $mySources = Leadsource::getSourcesArrayByUser(Yii::app()->user->id);
         if(sizeof($mySources) == 0) {
             $this->redirect(['source/create']);
         }

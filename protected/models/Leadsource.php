@@ -16,7 +16,7 @@
  * @property integer $userId
  * @property integer $moderation
  */
-class Leadsource100 extends CActiveRecord {
+class Leadsource extends CActiveRecord {
 
     const TYPE_LEAD = 1; // источник для привлечения лидов
     const TYPE_QUESTION = 2; // источник для привлечения вопросов
@@ -34,7 +34,7 @@ class Leadsource100 extends CActiveRecord {
      * @return string the associated database table name
      */
     public function tableName() {
-        return '{{leadsource100}}';
+        return '{{leadsource}}';
     }
 
     /**

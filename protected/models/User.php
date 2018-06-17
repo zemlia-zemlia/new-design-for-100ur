@@ -241,7 +241,7 @@ class User extends CActiveRecord
             'transactions' => array(self::HAS_MANY, 'TransactionCampaign', 'buyerId', 'order' => 'transactions.id DESC'),
             'comments' => array(self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_USER, 'order' => 'comments.id DESC, comments.root, comments.lft'),
             'commentsCount' => array(self::STAT, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_USER),
-            'sources' => array(self::HAS_MANY, 'Leadsource100', 'userId'),
+            'sources' => array(self::HAS_MANY, 'Leadsource', 'userId'),
         );
     }
 

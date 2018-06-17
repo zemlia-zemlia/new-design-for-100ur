@@ -99,13 +99,13 @@ class LeadsourceController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
     public function actionCreate() {
-        $model = new Leadsource100;
+        $model = new Leadsource;
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Leadsource100'])) {
-            $model->attributes = $_POST['Leadsource100'];
+        if (isset($_POST['Leadsource'])) {
+            $model->attributes = $_POST['Leadsource'];
             if (Yii::app()->user->role == User::ROLE_MANAGER) {
                 $model->officeId = Yii::app()->user->officeId;
             }
@@ -134,8 +134,8 @@ class LeadsourceController extends Controller {
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Leadsource100'])) {
-            $model->attributes = $_POST['Leadsource100'];
+        if (isset($_POST['Leadsource'])) {
+            $model->attributes = $_POST['Leadsource'];
             
             if (!$model->appId) {
                 $model->generateAppId();
@@ -186,7 +186,7 @@ class LeadsourceController extends Controller {
         }
 
 
-        $dataProvider = new CActiveDataProvider('Leadsource100', array(
+        $dataProvider = new CActiveDataProvider('Leadsource', array(
             'criteria' => $criteria,
             'pagination' => array(
                 'pageSize' => 50,
@@ -201,10 +201,10 @@ class LeadsourceController extends Controller {
      * Manages all models.
      */
     public function actionAdmin() {
-        $model = new Leadsource100('search');
+        $model = new Leadsource('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Leadsource100']))
-            $model->attributes = $_GET['Leadsource100'];
+        if (isset($_GET['Leadsource']))
+            $model->attributes = $_GET['Leadsource'];
 
         $this->render('admin', array(
             'model' => $model,
@@ -215,11 +215,11 @@ class LeadsourceController extends Controller {
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
      * @param integer $id the ID of the model to be loaded
-     * @return Leadsource100 the loaded model
+     * @return Leadsource the loaded model
      * @throws CHttpException
      */
     public function loadModel($id) {
-        $model = Leadsource100::model()->findByPk($id);
+        $model = Leadsource::model()->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
@@ -227,7 +227,7 @@ class LeadsourceController extends Controller {
 
     /**
      * Performs the AJAX validation.
-     * @param Leadsource100 $model the model to be validated
+     * @param Leadsource $model the model to be validated
      */
     protected function performAjaxValidation($model) {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'leadsource-form') {

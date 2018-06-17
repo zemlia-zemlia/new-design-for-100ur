@@ -77,7 +77,7 @@ class ApiController extends Controller {
         // ищем источник по параметру appId
         $source = Yii::app()->db->createCommand()
                 ->select("*")
-                ->from("{{leadsource100}}")
+                ->from("{{leadsource}}")
                 ->where("appId=:appId AND active=1", array(":appId" => $appId))
                 ->queryRow();
 
@@ -88,7 +88,7 @@ class ApiController extends Controller {
         }
         
         // находим источник в виде объекта, в будущем он будет нужен для расчета коэффициента цены
-        $sourceObject = Leadsource100::model()->findByPk($source['id']);
+        $sourceObject = Leadsource::model()->findByPk($source['id']);
 
         $sourceId = $source['id'];
         $secretKey = $source['secretKey'];

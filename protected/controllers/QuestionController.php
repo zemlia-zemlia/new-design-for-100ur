@@ -204,8 +204,8 @@ class QuestionController extends Controller {
             
             // если пользователь пришел по партнерской ссылке, запишем в вопрос id источника
             if(Yii::app()->user->getState('sourceId')) {
-                $source = Leadsource100::model()->findByPk(Yii::app()->user->getState('sourceId'));
-                if($source->type == Leadsource100::TYPE_QUESTION) {
+                $source = Leadsource::model()->findByPk(Yii::app()->user->getState('sourceId'));
+                if($source->type == Leadsource::TYPE_QUESTION) {
                     $question->sourceId = Yii::app()->user->getState('sourceId');
                     $question->buyPrice = Yii::app()->params['questionPrice'];
                 }
@@ -249,7 +249,7 @@ class QuestionController extends Controller {
                 $lead->townId = $question->townId;
                 
                 
-                if($source && $source->type == Leadsource100::TYPE_LEAD) {
+                if($source && $source->type == Leadsource::TYPE_LEAD) {
                     $lead->sourceId = $source->id;
                     // посчитаем цену покупки лида, исходя из города и региона
                     $prices = $lead->calculatePrices();

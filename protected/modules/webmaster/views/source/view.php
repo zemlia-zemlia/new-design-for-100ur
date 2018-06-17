@@ -52,7 +52,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <?php echo CHtml::encode($model->description);?>
         </td>
     </tr>
-    <?php if($model->type == Leadsource100::TYPE_LEAD):?>
+    <?php if($model->type == Leadsource::TYPE_LEAD):?>
     <tr>
         <td>
             <?php echo $model->getAttributeLabel('appId');?>

@@ -76,7 +76,7 @@ echo $form->dropDownList($model, 'regionId', array(0 => 'Все') + Region::getA
     <div class="form-group">
 <?php echo $form->labelEx($model, 'sourceId'); ?><br/>
         <?php
-        echo $form->dropDownList($model, 'sourceId', array('' => 'Все') + Leadsource100::getSourcesArray(true), array(
+        echo $form->dropDownList($model, 'sourceId', array('' => 'Все') + Leadsource::getSourcesArray(true), array(
             'class' => 'form-control input-sm',
         ));
         ?>

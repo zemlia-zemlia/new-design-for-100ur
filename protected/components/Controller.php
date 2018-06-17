@@ -51,7 +51,7 @@ class Controller extends CController {
         if (isset($_GET['partnerAppId']) && !Yii::app()->user->getState('sourceId')) {
             $source = Yii::app()->db->createCommand()
                     ->select('id')
-                    ->from('{{leadsource100}}')
+                    ->from('{{leadsource}}')
                     ->where('appId = :appId', array(':appId' => (int) $_GET['partnerAppId']))
                     ->queryRow();
 

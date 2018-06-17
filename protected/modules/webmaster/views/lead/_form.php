@@ -31,7 +31,7 @@
         <?php else:?>
             <div class="form-group">
                 <?php echo $form->labelEx($model,'sourceId'); ?>
-                <?php echo $form->dropDownList($model,'sourceId', Leadsource100::getSourcesArrayByUser(Yii::app()->user->id), array('class'=>'form-control')); ?>
+                <?php echo $form->dropDownList($model,'sourceId', Leadsource::getSourcesArrayByUser(Yii::app()->user->id), array('class'=>'form-control')); ?>
                 <?php echo $form->error($model,'sourceId'); ?>
             </div>
         <?php endif;?>

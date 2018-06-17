@@ -113,7 +113,7 @@ class Lead100 extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'source' => array(self::BELONGS_TO, 'Leadsource100', 'sourceId'),
+            'source' => array(self::BELONGS_TO, 'Leadsource', 'sourceId'),
             'town' => array(self::BELONGS_TO, 'Town', 'townId'),
             'campaign' => array(self::BELONGS_TO, 'Campaign', 'campaignId'),
             'questionObject' => array(self::BELONGS_TO, 'Question', 'questionId'),

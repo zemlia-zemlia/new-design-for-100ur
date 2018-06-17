@@ -16,7 +16,7 @@ class QuestionController extends Controller {
         $mySourcesIds = array();
         $mySourcesIdsRows = Yii::app()->db->createCommand()
                 ->select('id')
-                ->from('{{leadsource100}}')
+                ->from('{{leadsource}}')
                 ->where('userId = :userId', array(':userId' => Yii::app()->user->id))
                 ->queryAll();
         foreach ($mySourcesIdsRows as $row) {
@@ -56,7 +56,7 @@ class QuestionController extends Controller {
         $mySourcesIds = array();
         $mySourcesIdsRows = Yii::app()->db->createCommand()
                 ->select('id')
-                ->from('{{leadsource100}}')
+                ->from('{{leadsource}}')
                 ->where('userId = :userId', array(':userId' => Yii::app()->user->id))
                 ->queryAll();
         foreach ($mySourcesIdsRows as $row) {

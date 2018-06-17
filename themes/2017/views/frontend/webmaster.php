@@ -95,7 +95,7 @@
 
 
                     <div class="col-md-3 col-sm-4 inside">
-                        <?php $sources = Leadsource100::getSourcesByUser(Yii::app()->user->id);?>
+                        <?php $sources = Leadsource::getSourcesByUser(Yii::app()->user->id);?>
                         
                             <div class="">
                                 <h1>Мои источники</h1>
@@ -115,7 +115,7 @@
                                     </h4>
                                     <p class="text-center">
                                         <small>Привлекаем <?php echo $source->getTypeName();?>
-                                            <?php if($source->type == Leadsource100::TYPE_LEAD):?>
+                                            <?php if($source->type == Leadsource::TYPE_LEAD):?>
                                                 <?php echo CHtml::link('Добавить вручную', Yii::app()->createUrl('/webmaster/lead/create', array('sourceId' => $source->id)));?>
                                             <?php endif;?>
                                         </small></p>
