@@ -797,7 +797,7 @@ class UserController extends Controller {
 
                 $saveTransaction = $transaction->dbConnection->beginTransaction();
                 try {
-                    if($transaction->save() && $moneyTransaction->save() && $user->save()) {
+                    if($transaction->save() && $moneyTransaction->save() && $user->save(false)) {
                         $saveTransaction->commit();
                         Yii::log('Транзакция сохранена, id: ' . $transaction->id, 'info', 'system.web');
                     } else {
