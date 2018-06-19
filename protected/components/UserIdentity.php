@@ -72,7 +72,7 @@ class UserIdentity extends CUserIdentity
         // после логина удаляем у пользователя поле autologin, чтобы не дать залогиниться по этому коду еще раз
         User::model()->updateByPk($user->id, array('autologin' => ''));
 
-        LoggerFactory::getLogger('db')->log('Автологин пользователя #' . $user->id . '(' . $user->getShortName() . ')', 'User', $user->id);
+        LoggerFactory::getLogger('db')->log('Автологин пользователя ' . $user->getRoleName() . ' #' . $user->id . ' (' . $user->getShortName() . ')', 'User', $user->id);
 
         return $this->errorCode == self::ERROR_NONE;
     }
