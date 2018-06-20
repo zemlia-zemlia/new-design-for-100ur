@@ -433,6 +433,7 @@ class Question extends CActiveRecord {
 
     /**
      * Преобразует телефонные номера в стандартный формат 70000000000
+     * @todo заменить вызовом PhoneHelper::normalizePhone()
      * @param type $phone
      * @return type
      */
