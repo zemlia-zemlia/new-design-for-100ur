@@ -48,15 +48,15 @@ class ApiLexprofit implements ApiClassInterface
     private function checkResponse($apiResponse, $lead)
     {
         
-        if(is_array($apiResponse) && $apiResponse['success']) {
+        if(is_array($apiResponse) && isset($apiResponse['success'])) {
             LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Lexprofit', 'Lead', $lead->id);
             return true;
         } else {
-            if($apiResponse['warning'] && $apiResponse['warning']['msg']) {
+            if(isset($apiResponse['warning']) && isset($apiResponse['warning']['msg'])) {
                 $errorMessage = $apiResponse['warning']['msg'];
             }
             
-            if($apiResponse['error'] && $apiResponse['error']['msg']) {
+            if(isset($apiResponse['error']) && isset($apiResponse['error']['msg'])) {
                 $errorMessage = $apiResponse['error']['msg'];
             }
             if(!$errorMessage) {
