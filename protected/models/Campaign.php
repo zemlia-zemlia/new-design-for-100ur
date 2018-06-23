@@ -17,38 +17,48 @@
  * @property integer $sendEmail
  * @property string $lastTransactionTime
  * @property string $days
+ * @property integer $sendToApi
+ * @property string $apiClass
+ * @property integer $type
  * 
  * @author Michael Krutikov m@mkrutikov.pro
  */
-class Campaign extends CActiveRecord {
+class Campaign extends CActiveRecord
+{
 
     // Статусы активности кампании
     const ACTIVE_NO = 0;
     const ACTIVE_YES = 1;
     const ACTIVE_MODERATION = 2;
     const ACTIVE_ARCHIVE = 3;
-    
+    const TYPE_BUYERS = 0; // кампании покупателей (за лиды списываем деньги с баланса)
+    const TYPE_PARTNERS = 1; // кампании партнерских программ (отправляем лиды, с баланса деньги не списываем)
+
     public $workDays;
 
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return '{{campaign}}';
     }
 
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('price, leadsDayLimit, brakPercent, buyerId, active', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
-            array('regionId, townId, price, sendEmail, leadsDayLimit, realLimit, brakPercent, buyerId, active, timeFrom, timeTo', 'numerical', 'integerOnly' => true),
-            array('days', 'length', 'max' => 255),
-            array('leadsDayLimit', 'compare', 'compareValue'=>10, 'operator' => '>=', 'message' => 'Лимит лидов должен быть не меньше 10'),
-            array('workDays', 'type', 'type'=>'array'),
+            array('leadsDayLimit, brakPercent, buyerId, active', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
+            array('regionId, townId, price, sendEmail, leadsDayLimit, realLimit, brakPercent, buyerId, active, timeFrom, timeTo, sendToApi, type', 'numerical', 'integerOnly' => true),
+            array('price', 'validatePrice'),
+            array('apiClass', 'validateApiClass'),
+            array('days, apiClass', 'length', 'max' => 255),
+            array('leadsDayLimit', 'compare', 'compareValue' => 10, 'operator' => '>=', 'message' => 'Лимит лидов должен быть не меньше 10'),
+            array('workDays', 'type', 'type' => 'array'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, regionId, price, '
@@ -57,9 +67,34 @@ class Campaign extends CActiveRecord {
     }
 
     /**
+     * Валидатор поля цена лида
+     * @param type $attribute
+     * @param type $params
+     */
+    public function validatePrice($attribute, $params)
+    {
+        if ($this->type == self::TYPE_BUYERS && $this->$attribute == 0) {
+            $this->addError($attribute, 'Цена продажи в кампании покупателей должна быть больше нуля');
+        }
+    }
+
+    /**
+     * Валидатор поля Класс API
+     * @param type $attribute
+     * @param type $params
+     */
+    public function validateApiClass($attribute, $params)
+    {
+        if ($this->$attribute != '' && !@class_exists($this->$attribute)) {
+            $this->addError($attribute, 'Класс для работы с API не найден');
+        }
+    }
+
+    /**
      * @return array relational rules.
      */
-    public function relations() {
+    public function relations()
+    {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
@@ -83,27 +118,52 @@ class Campaign extends CActiveRecord {
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
-            'id'                    => 'ID',
-            'regionId'              => 'ID региона',
-            'townId'                => 'ID города',
-            'region'                => 'Регион',
-            'town'                  => 'Город',
-            'timeFrom'              => 'Время работы от',
-            'timeTo'                => 'Время работы до',
-            'price'                 => 'Цена лида',
-            'balance'               => 'Баланс',
-            'leadsDayLimit'         => 'Дневной лимит лидов',
-            'realLimit'             => 'Реальный лимит лидов',
-            'brakPercent'           => 'Процент брака',
-            'buyerId'               => 'ID покупателя',
-            'active'                => 'Активность',
-            'sendEmail'             => 'Отправлять лиды на Email',
-            'lastTransactionTime'   => 'Время последней транзакции',
-            'days'                  => 'Рабочие дни',
-            'workDays'              => 'Рабочие дни',
+            'id' => 'ID',
+            'regionId' => 'ID региона',
+            'townId' => 'ID города',
+            'region' => 'Регион',
+            'town' => 'Город',
+            'timeFrom' => 'Время работы от',
+            'timeTo' => 'Время работы до',
+            'price' => 'Цена лида',
+            'balance' => 'Баланс',
+            'leadsDayLimit' => 'Дневной лимит лидов',
+            'realLimit' => 'Реальный лимит лидов',
+            'brakPercent' => 'Процент брака',
+            'buyerId' => 'ID покупателя',
+            'active' => 'Активность',
+            'sendEmail' => 'Отправлять лиды на Email',
+            'lastTransactionTime' => 'Время последней транзакции',
+            'days' => 'Рабочие дни',
+            'workDays' => 'Рабочие дни',
+            'sendToApi' => 'Отправлять через API',
+            'apiClass' => 'Класс для работы с API',
+            'type' => 'Тип',
         );
+    }
+
+    /**
+     * Возвращает массив типов кампаний
+     * @return type
+     */
+    public static function getTypes()
+    {
+        return [
+            self::TYPE_BUYERS => 'Кампании покупателей',
+            self::TYPE_PARTNERS => 'Кампании партнерских программ',
+        ];
+    }
+
+    /**
+     * Возвращает название типа кампании
+     * @return type
+     */
+    public function getTypeName()
+    {
+        return self::getTypes()[$this->type];
     }
 
     /**
@@ -118,7 +178,8 @@ class Campaign extends CActiveRecord {
      * @return CActiveDataProvider the data provider that can return the models
      * based on the search/filter conditions.
      */
-    public function search() {
+    public function search()
+    {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria;
@@ -138,16 +199,18 @@ class Campaign extends CActiveRecord {
         ));
     }
 
-    public static function getActivityStatuses() {
+    public static function getActivityStatuses()
+    {
         return array(
-            self::ACTIVE_NO         => 'Неактивна',
-            self::ACTIVE_YES        => 'Активна',
+            self::ACTIVE_NO => 'Неактивна',
+            self::ACTIVE_YES => 'Активна',
             self::ACTIVE_MODERATION => 'На проверке',
-            self::ACTIVE_ARCHIVE    => 'В архиве',
+            self::ACTIVE_ARCHIVE => 'В архиве',
         );
     }
 
-    public function getActiveStatusName() {
+    public function getActiveStatusName()
+    {
         $statuses = self::getActivityStatuses();
         return $statuses[$this->active];
     }
@@ -158,7 +221,8 @@ class Campaign extends CActiveRecord {
      * @param string $className active record class name.
      * @return Campaign the static model class
      */
-    public static function model($className = __CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
@@ -168,7 +232,8 @@ class Campaign extends CActiveRecord {
      * @param int $leadId ID лида
      * @return int ID кампании для отправки лида 
      */
-    public static function getCampaignsForLead($leadId, $returnArray = false) {
+    public static function getCampaignsForLead($leadId, $returnArray = false)
+    {
         // ограничим число кампаний, которые ищем
         $limit = 10;
 
@@ -193,11 +258,12 @@ class Campaign extends CActiveRecord {
                 ->select('c.*, u.balance')
                 ->from("{{campaign}} c")
                 ->leftJoin("{{user}} u", "u.id = c.buyerId")
-                ->where("(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1 AND u.balance>=c.price AND c.price>=:buyPrice", array(
+                ->where("(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1 AND u.balance>=c.price AND c.price>=:buyPrice AND c.type=:typeBuyer", array(
                     ':townId' => $lead->town->id,
                     ':regionId' => $lead->town->regionId,
                     ':hour' => (int) date('H'),
                     ':buyPrice' => (int) $lead->buyPrice,
+                    ':typeBuyer' => self::TYPE_BUYERS,
                 ))
                 ->order('c.lastLeadTime ASC')
                 ->limit($limit)
@@ -207,12 +273,12 @@ class Campaign extends CActiveRecord {
 
             // Проверка, работает ли кампания в данный день недели
             $workDaysArray = explode(',', $campaign['days']);
-            if(!in_array(date('N'), $workDaysArray)) {
+            if (!in_array(date('N'), $workDaysArray)) {
                 continue;
             }
-            
+
             // находим дневной лимит кампании
-            $dayLimit = ($campaign['realLimit']!=0)?$campaign['realLimit']:$campaign['leadsDayLimit'];
+            $dayLimit = ($campaign['realLimit'] != 0) ? $campaign['realLimit'] : $campaign['leadsDayLimit'];
 
             // находим, сколько лидов сегодня уже отправлено в кампанию
             $campaignTodayLeads = Yii::app()->db->createCommand()
@@ -237,11 +303,11 @@ class Campaign extends CActiveRecord {
         //CustomFuncs::printr($campaigns);
 
         if (sizeof($campaigns)) {
-            
+
             /*
              * Если нужно вернуть массив id кампаний, возвращаем его
              */
-            if($returnArray === true) {
+            if ($returnArray === true) {
                 $campIds = array();
                 foreach ($campaigns as $camp) {
                     //CustomFuncs::printr($camp['id']);
@@ -249,7 +315,7 @@ class Campaign extends CActiveRecord {
                 }
                 return $campIds;
             }
-            
+
             /**
              * получили список кампаний, подходящих данному лиду
              * теперь нужно выбрать ту единственную, которая ему подходит
@@ -257,11 +323,25 @@ class Campaign extends CActiveRecord {
              * 
              * 
              */
-            return $campaigns[0]['id'];
+                return $campaigns[0]['id'];
             
+        }
 
-        } else {
-            return false;
+        // Если не нашлось ни одной кампании, ищем кампанию партнерских программ для данного региона
+
+        $partnerCampaignsRow = Yii::app()->db->createCommand()
+                ->select('c.*')
+                ->from("{{campaign}} c")
+                ->where("(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1", array(
+                    ':townId' => $lead->town->id,
+                    ':regionId' => $lead->town->regionId,
+                    ':hour' => (int) date('H'),
+                ))
+                ->order('c.lastLeadTime ASC')
+                ->queryRow();
+        
+        if ($partnerCampaignsRow) {
+            return ($returnArray === true) ? [$partnerCampaignsRow['id']] : $partnerCampaignsRow['id'];
         }
     }
 
@@ -271,7 +351,8 @@ class Campaign extends CActiveRecord {
      * @param type $buyerId id покупателя
      * @return array массив кампаний
      */
-    public static function getCampaignsForBuyer($buyerId) {
+    public static function getCampaignsForBuyer($buyerId)
+    {
         $criteria = new CDbCriteria;
         $criteria->order = "active DESC";
         $criteria->addColumnCondition(array('buyerId' => (int) $buyerId));
@@ -290,11 +371,11 @@ class Campaign extends CActiveRecord {
      * @param int $id id кампании
      * @return string имя кампании
      */
-    public static function getCampaignNameById($id) 
+    public static function getCampaignNameById($id)
     {
         $campaign = self::model()->cache(600)->with('town', 'region')->findByPk($id);
-        
-        if(!is_null($campaign)) {
+
+        if (!is_null($campaign)) {
             return $campaign->town->name . '' . $campaign->region->name;
         }
     }
@@ -313,7 +394,8 @@ class Campaign extends CActiveRecord {
      * )
      * )
      */
-    public static function getPayedTownsRegions($cacheTime = 600) {
+    public static function getPayedTownsRegions($cacheTime = 600)
+    {
         $payedRegions = array();
         $payedTowns = array();
 
@@ -344,7 +426,8 @@ class Campaign extends CActiveRecord {
      * 
      * @return boolean Пройдена ли проверка
      */
-    protected function beforeSave() {
+    protected function beforeSave()
+    {
         if (false === parent::beforeSave()) {
             return false;
         }
@@ -369,7 +452,8 @@ class Campaign extends CActiveRecord {
      * 
      * @return integer число кампаний
      */
-    public static function getModerationCount() {
+    public static function getModerationCount()
+    {
         $campaignsRow = Yii::app()->db->createCommand()
                 ->select('COUNT(*) counter')
                 ->from('{{campaign}}')
@@ -378,7 +462,7 @@ class Campaign extends CActiveRecord {
 
         return $campaignsRow['counter'];
     }
-    
+
     /**
      * Подсчитывает текущий процент брака определенную дату
      * @param string $date Дата, за которую нужна статистика, формат yyyy-mm-dd
@@ -386,22 +470,22 @@ class Campaign extends CActiveRecord {
      */
     public function calculateCurrentBrakPercent($date = NULL)
     {
-        if(is_null($date)) {
+        if (is_null($date)) {
             $date = date('Y-m-d');
         }
-        
+
         $campaign24hoursLeadsRows = Yii::app()->db->createCommand()
-                    ->select('leadStatus, COUNT(*) counter')
-                    ->from('{{lead}}')
-                    ->where('campaignId = ' . $this->id . ' AND DATE(deliveryTime)="'. $date . '"')
-                    ->group('leadStatus')
-                    ->queryAll();
+                ->select('leadStatus, COUNT(*) counter')
+                ->from('{{lead}}')
+                ->where('campaignId = ' . $this->id . ' AND DATE(deliveryTime)="' . $date . '"')
+                ->group('leadStatus')
+                ->queryAll();
         //CustomFuncs::printr($campaign24hoursLeadsRows);
 
         $totalLeads = 0;
         $brakLeads = 0;
-        foreach($campaign24hoursLeadsRows as $row) {
-            if($row['leadStatus'] == Lead::LEAD_STATUS_BRAK || $row['leadStatus'] == Lead::LEAD_STATUS_NABRAK) {
+        foreach ($campaign24hoursLeadsRows as $row) {
+            if ($row['leadStatus'] == Lead::LEAD_STATUS_BRAK || $row['leadStatus'] == Lead::LEAD_STATUS_NABRAK) {
                 $brakLeads += $row['counter'];
             }
             $totalLeads += $row['counter'];
@@ -409,14 +493,13 @@ class Campaign extends CActiveRecord {
 
         //echo "Всего лидов за сутки: " . $totalLeads . '<br />';
         //echo "Брак + на отбраковке: " . $brakLeads . '<br />';
-        if($totalLeads>0) {
-            $brakPercent = round(($brakLeads/$totalLeads)*100);
+        if ($totalLeads > 0) {
+            $brakPercent = round(($brakLeads / $totalLeads) * 100);
         } else {
             $brakPercent = 0;
         }
         return $brakPercent;
     }
-
 
     /**
      * Проверка, можно ли забраковать лид данной кампании в данный момент
@@ -429,7 +512,7 @@ class Campaign extends CActiveRecord {
         //echo 'Процент брака: ' . $brakPercent . '<br />';
         //echo 'Допустимый процент брака: ' . $campaign->brakPercent . '<br />';
 
-        if($brakPercent >= $this->brakPercent) {
+        if ($brakPercent >= $this->brakPercent) {
             return false;
         }
         return true;

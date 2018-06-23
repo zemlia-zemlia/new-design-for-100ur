@@ -24,6 +24,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <table class="table table-bordered">
     <tr>
         <td>
+            Тип кампании
+        </td>
+        <td>
+            <?php echo $model->getTypeName();?>
+        </td>
+    </tr>
+    <tr>
+        <td>
             Покупатель
         </td>
         <td>
@@ -45,6 +53,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         </td>
         <td>
             <?php echo $model->sendEmail?'Да':'Нет';?>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Отправлять лиды по API
+        </td>
+        <td>
+            <?php echo $model->sendToApi?'Да':'Нет';?>
         </td>
     </tr>
     <tr>

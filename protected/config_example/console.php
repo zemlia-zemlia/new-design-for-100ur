@@ -14,6 +14,7 @@ return array(
 		'application.models.*',
 		'application.components.*',
                 'application.components.emailParsers.*',
+                'application.components.apiClasses.*',
                 'application.extensions.*',
 		'application.extensions.XWebDebugRouter.*',
                 'application.extensions.CustomFuncs.*',

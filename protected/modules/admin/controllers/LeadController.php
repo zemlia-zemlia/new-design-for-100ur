@@ -56,6 +56,7 @@ class LeadController extends Controller {
         if(is_array($campaignIds) && sizeof($campaignIds)) {
             $campaigns = Campaign::model()->findAll('id IN(' . implode(', ', $campaignIds). ')');
         }
+        
         $this->render('view', array(
             'model'         => $model,
             'campaigns'   =>  $campaigns,
