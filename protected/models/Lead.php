@@ -569,7 +569,7 @@ class Lead extends CActiveRecord
             return;
         }
 
-        LoggerFactory::getLogger('db')->log('Создан лид #' . $this->id, 'Lead', $this->id);
+        LoggerFactory::getLogger('db')->log('Создан лид #' . $this->id . ', ' . $this->town->name, 'Lead', $this->id);
 
         // после сохранения лида ищем для него кампанию
         $campaignId = Campaign::getCampaignsForLead($this->id);
