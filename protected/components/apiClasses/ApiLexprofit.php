@@ -43,6 +43,7 @@ class ApiLexprofit implements ApiClassInterface
     
     private function checkResponse($apiResponse, $lead)
     {
+        Yii::log('Ответ API Lexprofit: ' . json_encode($apiResponse), 'info', 'components.api');
         if(is_array($apiResponse) && $apiResponse['success']) {
             LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Lexprofit', 'Lead', $lead->id);
             return true;
