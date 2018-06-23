@@ -43,7 +43,7 @@ class ApiLexprofit implements ApiClassInterface
     
     private function checkResponse($apiResponse, $lead)
     {
-        if($apiResponse['success']) {
+        if(is_array($apiResponse) && $apiResponse['success']) {
             LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Lexprofit', 'Lead', $lead->id);
             return true;
         } else {
