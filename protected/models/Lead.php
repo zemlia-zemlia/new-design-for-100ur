@@ -383,6 +383,9 @@ class Lead extends CActiveRecord
         $logMessage = 'Лид #' . $this->id . ' продан ';
         if ($campaign) {
             $logMessage .= 'в кампанию #' . $campaign->id . '(' . Campaign::getCampaignNameById($campaign->id) . ')';
+            if($buyer) {
+                $logMessage .= ': ' . $buyer->name;
+            }
         } else if ($buyer != 0 && $buyer) {
             $logMessage .= 'покупателю #' . $buyerId . ' (' . $buyer->getShortName() . ')';
         }
