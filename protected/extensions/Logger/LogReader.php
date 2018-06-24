@@ -14,10 +14,10 @@ class LogReader
                 ->limit($limit);
         
         if($class) {
-            $command->andWhere(['class' => $class]);
+            $command->andWhere('class=:class', [':class' => $class]);
         }
         if($subjectId) {
-            $command->andWhere(['subjectId' => $subjectId]);
+            $command->andWhere('subjectId=:subjectId', [':subjectId' => $subjectId]);
         }
         
         $rows = $command->queryAll();
