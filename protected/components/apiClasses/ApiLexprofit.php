@@ -29,7 +29,7 @@ class ApiLexprofit implements ApiClassInterface
             'wm_id' => $this->key,
             'name' => $lead->name,
             'phone' => $lead->phone,
-            'location' => $lead->town,
+            'location' => $lead->town->name,
             'question' => $lead->question,
         ];
 
