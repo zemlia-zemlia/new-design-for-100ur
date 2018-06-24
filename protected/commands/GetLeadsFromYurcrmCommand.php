@@ -136,7 +136,7 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
         $emails = imap_search($mbox, 'ALL SINCE '. date('d-M-Y',strtotime("-4 day")));
         if($emails == false && imap_errors()) {
             echo "Messages search wrong criteria";
-            exit;
+            Yii::app()->end();
         }
         
         if (!count($emails) || $emails == false){

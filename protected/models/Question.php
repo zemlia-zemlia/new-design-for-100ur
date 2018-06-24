@@ -357,7 +357,7 @@ class Question extends CActiveRecord {
                 ->from("{{user}}")
                 ->where("LOWER(email)=:email AND email!=''", array(":email" => strtolower($this->email)))
                 ->queryRow();
-        //CustomFuncs::printr($findUserResult);exit;
+        //CustomFuncs::printr($findUserResult);Yii::app()->end();
         if ($findUserResult) {
             // если есть, то запишем id этого пользователя в авторы вопроса
             $this->authorId = $findUserResult['id'];

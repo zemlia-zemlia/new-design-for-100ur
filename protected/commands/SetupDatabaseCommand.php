@@ -12,7 +12,7 @@ class SetupDatabaseCommand extends CConsoleCommand
         $dbname = $currentDSN[2];
         echo $dbname . PHP_EOL;
         echo dirname(__FILE__) . '/../db/100yuristov_etalon.sql' . PHP_EOL;
-        exit;
+        Yii::app()->end();
         try {
             exec('mysql -u ' . Yii::app()->db->username . ' -p ' . Yii::app()->db->password . ' ' . $dbname . ' < ' . dirname(__FILE__) . '/../db/100yuristov_etalon.sql');
         } catch (Exception $ex) {

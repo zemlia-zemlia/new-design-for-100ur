@@ -114,7 +114,7 @@ class Controller extends CController {
             $IfModifiedSince = strtotime(substr($_SERVER['HTTP_IF_MODIFIED_SINCE'], 5));
         if ($IfModifiedSince && $IfModifiedSince >= $LastModified_unix) {
             header($_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified');
-            exit;
+            Yii::app()->end();
         }
         header('Last-Modified: ' . $LastModified);
     }

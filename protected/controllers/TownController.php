@@ -228,7 +228,6 @@ class TownController extends Controller {
                 ->where("t.name LIKE '" . $term . "%'")
                 ->limit(5)
                 ->queryAll();
-        //CustomFuncs::printr($townsRows);exit;        
 
         foreach ($townsRows as $town) {
             $arr[] = array(

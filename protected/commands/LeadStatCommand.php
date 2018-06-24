@@ -20,8 +20,6 @@ class LeadStatCommand extends CConsoleCommand
                     ->group("lead_date")
                     ->order('lead_date DESC')
                     ->queryAll();
-            //print_r($leadsRows);
-            //exit;
             
             $mailer->subject = "Отчет по продажам лидов сервисом 100 юристов";
             

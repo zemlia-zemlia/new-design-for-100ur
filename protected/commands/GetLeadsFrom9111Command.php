@@ -111,7 +111,7 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
         $emails = imap_search($mbox, 'UNSEEN SINCE ' . date('d-M-Y', strtotime("-1 day")));
         if ($emails == false && imap_errors()) {
             echo "Messages search wrong criteria";
-            exit;
+            Yii::app()->end();
         }
 
         if (!count($emails) || $emails == false) {
@@ -195,11 +195,7 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
                 if ($messageMatches) {
                     $question = trim($messageMatches[2]);
                 }
-                //echo $name . ': ' . $phone . ': '. $question . "\n\r";
-                //print_r($nameMatches);
-                //print_r($phoneMatches);
-                //print_r($message);
-                //continue;
+
 
                 if (in_array($phone, $existingLeadsPhones)) {
                     //echo 'duplicate! skipping' . PHP_EOL;
@@ -210,8 +206,6 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
                 if (!$name || !$phone) {
                     continue;
                 }
-
-                //exit; // testing, not save
 
                 $lead = new Lead();
                 $lead->setScenario("parsing");

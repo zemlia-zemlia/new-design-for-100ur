@@ -262,7 +262,7 @@ class UserController extends Controller {
                             ->load($scan->tempName)
                             ->save(Yii::getPathOfAlias('webroot') . UserFile::USER_FILES_FOLDER . '/' . $scanFileName);
                     // CustomFuncs::printr($scan);
-                    // exit;
+                    // Yii::app()->end();
 
                     $userFile->userId = Yii::app()->user->id;
                     $userFile->name = $scanFileName;
@@ -271,7 +271,7 @@ class UserController extends Controller {
                     if (!$userFile->save()) {
                         echo "Не удалось сохранить скан";
                         CustomFuncs::printr($userFile->errors);
-                        exit;
+                        Yii::app()->end();
                     }
                 }
             }
@@ -322,7 +322,7 @@ class UserController extends Controller {
         // если была заполнена форма
         if ($_POST['User']) {
             $model->attributes = $_POST['User'];
-//                CustomFuncs::printr($model);exit;
+//                CustomFuncs::printr($model);Yii::app()->end();
             if ($model->validate()) {
                 // если данные пользователя прошли проверку (пароль не слишком короткий)
                 // шифруем пароль перед сохранением в базу
@@ -519,7 +519,7 @@ class UserController extends Controller {
         // если была заполнена форма
         if ($_POST['User']) {
             $user->attributes = $_POST['User'];
-//                CustomFuncs::printr($model);exit;
+//                CustomFuncs::printr($model);Yii::app()->end();
             if ($user->validate()) {
                 // если данные пользователя прошли проверку (пароль не слишком короткий)
                 // шифруем пароль перед сохранением в базу
@@ -631,7 +631,7 @@ class UserController extends Controller {
                 ->where("answerId=:answerId AND authorId=:authorId", array(':answerId' => $answerId, ':authorId' => Yii::app()->user->id))
                 ->queryRow();
 
-        //print_r($existingPluses);exit;
+        //print_r($existingPluses);Yii::app()->end();
 
         if ($existingPluses['counter'] != 0) {
             throw new CHttpException(400, 'You have already voted for this user');
@@ -661,7 +661,7 @@ class UserController extends Controller {
             ':id' => $answerId,
         ));
         //print_r($answerKarmaUpdateResult);
-        //exit;
+        //Yii::app()->end();
         if ($karmaInsertResult && $answerKarmaUpdateResult && $userKarmaUpdateResult) {
             echo CJSON::encode(array('answerId' => $answerId, 'status' => 1));
         } else {

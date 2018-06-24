@@ -142,19 +142,19 @@ class UserStatusRequestController extends Controller {
 
         if (!$requestId || !$requestVerified) {
             echo json_encode(array('code' => 400, 'message' => 'Wrong data'));
-            exit;
+            Yii::app()->end();
         }
 
         if ($requestVerified == UserStatusRequest::STATUS_DECLINED && !$requestComment) {
             echo json_encode(array('code' => 400, 'message' => 'Comment not provided'));
-            exit;
+            Yii::app()->end();
         }
 
         $request = UserStatusRequest::model()->with('user')->findByPk($requestId);
 
         if (!$request || !$request->user) {
             echo json_encode(array('code' => 400, 'message' => 'Request or user not found'));
-            exit;
+            Yii::app()->end();
         }
 
         // обновляем запрос
@@ -167,7 +167,7 @@ class UserStatusRequestController extends Controller {
                 $yuristSettings = $request->user->settings;
                 if (!$yuristSettings) {
                     echo json_encode(array('code' => 400, 'id' => $request->id, 'message' => 'user settings not found'));
-                    exit;
+                    Yii::app()->end();
                 }
 
                 // присваиваем пользователю новый статус, помечаем его как верифицированный
@@ -182,19 +182,19 @@ class UserStatusRequestController extends Controller {
                 if ($yuristSettings->save()) {
                     $request->sendNotification();
                     echo json_encode(array('code' => 0, 'id' => $request->id, 'message' => 'OK'));
-                    exit;
+                    Yii::app()->end();
                 } else {
                     echo json_encode(array('code' => 500, 'id' => $request->id, 'message' => 'Could not save yurist settings'));
-                    exit;
+                    Yii::app()->end();
                 }
             } else {
                 $request->sendNotification();
                 echo json_encode(array('code' => 0, 'id' => $request->id, 'message' => 'OK'));
-                exit;
+                Yii::app()->end();
             }
         } else {
             echo json_encode(array('code' => 500, 'message' => 'Could not save request'));
-            exit;
+            Yii::app()->end();
         }
 
 

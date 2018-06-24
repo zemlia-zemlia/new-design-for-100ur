@@ -108,7 +108,7 @@ class QuestionController extends Controller {
                 // не является, сохраним его как комментарий верхнего уровня
             }
 //                CustomFuncs::printr($commentModel->attributes);
-//                exit;
+//                Yii::app()->end();
             // сохраняем комментарий с учетом его иерархии
             if ($commentModel->saveNode()) {
                 $this->redirect(array('/question/view', 'id' => $model->id));
@@ -263,10 +263,10 @@ class QuestionController extends Controller {
                 }
                 
                 $lead->leadStatus = Lead::LEAD_STATUS_DEFAULT; // по умолчанию лид никуда не отправляем
-                //CustomFuncs::printr($lead);exit;
+                //CustomFuncs::printr($lead);Yii::app()->end();
 
                 $duplicates = $lead->findDublicates(86400);
-                //CustomFuncs::printr($duplicates);exit;
+                //CustomFuncs::printr($duplicates);Yii::app()->end();
                 if ($duplicates) {
                     throw new CHttpException(400, 'Похоже, Вы пытаетесь отправить заявку несколько раз. Ваша заявка уже сохранена.');
                 }
@@ -550,7 +550,7 @@ class QuestionController extends Controller {
                 ->order("q.publishDate DESC, q.id DESC")
                 ->limit(200)
                 ->queryAll();
-        //CustomFuncs::printr($questions);exit;
+        //CustomFuncs::printr($questions);Yii::app()->end();
 
 
         Yii::import('ext.feed.*');
@@ -606,7 +606,7 @@ class QuestionController extends Controller {
             $searchModel->townName = Town::getName($searchModel->townId);
         }
 
-//            CustomFuncs::printr($searchModel);exit;
+//            CustomFuncs::printr($searchModel);Yii::app()->end();
         $questions = $searchModel->search();
         $questionDataProvider = new CArrayDataProvider($questions, array(
             'pagination' => array(
@@ -959,7 +959,7 @@ class QuestionController extends Controller {
 
         if (!isset($_POST)) {
             echo json_encode(array('code' => 400, 'message' => 'No input data'));
-            exit;
+            Yii::app()->end();
         }
         $model = new Lead;
         //$leadAppId = 'yurCrm';
@@ -984,7 +984,7 @@ class QuestionController extends Controller {
         // проверим параметр appId, есть ли он в списке известных приложений
         if (!array_key_exists($_POST['appId'], $leadApps)) {
             echo json_encode(array('code' => 400, 'message' => 'Unknown sender. Check App ID parameter'));
-            exit;
+            Yii::app()->end();
         }
 
         $activeApp = $leadApps[$_POST['appId']];
@@ -1001,24 +1001,24 @@ class QuestionController extends Controller {
         // проверим подпись
         if ($signature !== $_POST['signature']) {
             echo json_encode(array('code' => 403, 'message' => 'Signature wrong'));
-            exit;
+            Yii::app()->end();
         }
 
 
-//            echo json_encode($model->name);exit;
+//            echo json_encode($model->name);Yii::app()->end();
 
         if ($model->findDublicates()) {
             die(json_encode(array('code' => 400, 'message' => 'Dublicates found')));
-            exit;
+            Yii::app()->end();
         }
 
         if ($model->save()) {
             echo json_encode(array('code' => 200, 'message' => 'OK'));
 //                echo json_encode($model->id);
-            exit;
+            Yii::app()->end();
         } else {
             echo json_encode(array('code' => 500, 'message' => 'Lead not saved.', 'errors' => $model->errors));
-            exit;
+            Yii::app()->end();
         }
     }
 
@@ -1081,10 +1081,10 @@ class QuestionController extends Controller {
         
         if ($question->checkCommentsAsRead($userId)) {
             echo json_encode(array('code' => 200, 'message' => '', 'id' => $question->id));
-            exit;
+            Yii::app()->end();
         } else {
             echo json_encode(array('code' => 500, 'message' => 'Не удалось отметить комментарии прочитанными', 'id' => $question->id));
-            exit;
+            Yii::app()->end();
         }
         
         

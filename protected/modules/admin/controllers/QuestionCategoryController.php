@@ -415,17 +415,17 @@ class QuestionCategoryController extends Controller
             
             if(!$direction || !($parent || $parentId==0)) {
                 echo json_encode(['code' => 404, 'message' => 'Направление или новый родитель не найдены']);
-                exit;
+                Yii::app()->end();
             }
             
             if(!$direction->isDirection || !($parent->isDirection || $parentId==0)) {
                 echo json_encode(['code' => 404, 'message' => 'Категория или новый родитель не являются направлением']);
-                exit;
+                Yii::app()->end();
             }
             
             if(Yii::app()->db->createCommand()->update('{{questionCategory}}', ['parentDirectionId' => $parentId], 'id='.$directionId)) {
                 echo json_encode(['code' => 0, 'message' => 'Категория обновлена. Перезагрузите страницу']);
-                exit;
+                Yii::app()->end();
             }
 
             $campaign = Campaign::model()->findByPk($campaignId);

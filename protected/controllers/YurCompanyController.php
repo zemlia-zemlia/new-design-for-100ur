@@ -92,7 +92,7 @@ class YurCompanyController extends Controller {
             }
             /* CustomFuncs::printr($_POST);
               CustomFuncs::printr($rootComment->attributes);
-              CustomFuncs::printr($comment->attributes);exit; */
+              CustomFuncs::printr($comment->attributes);Yii::app()->end(); */
 
             if ($comment->saveNode()) {
                 $this->redirect(array('yurCompany/view', 'id' => $company->id, 'commentSaved' => 1));

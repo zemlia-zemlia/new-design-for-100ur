@@ -82,14 +82,14 @@ class PartnerTransactionController extends Controller {
 
         if (!$requestId || !$requestVerified) {
             echo json_encode(array('code' => 400, 'message' => 'Wrong data'));
-            exit;
+            Yii::app()->end();
         }
 
         $request = PartnerTransaction::model()->findByPk($requestId);
 
         if (!$request) {
             echo json_encode(array('code' => 400, 'message' => 'Request not found'));
-            exit;
+            Yii::app()->end();
         }
 
         // обновляем запрос на вывод средств
@@ -115,11 +115,11 @@ class PartnerTransactionController extends Controller {
             } 
             
             echo json_encode(array('code' => 0, 'id' => $request->id, 'message' => 'OK'));
-            exit;
+            Yii::app()->end();
             
         } else {
             echo json_encode(array('code' => 500, 'message' => 'Could not save request' . print_r($request->errors)));
-            exit;
+            Yii::app()->end();
         }
 
     }

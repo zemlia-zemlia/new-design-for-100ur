@@ -141,7 +141,7 @@ class CampaignController extends Controller {
             $model->days = implode(',', $model->workDays);
 //            CustomFuncs::printr($model->workDays);
 //            CustomFuncs::printr($model->days);
-//            exit;           
+//            Yii::app()->end();           
             
             if ($model->save()) {
 
@@ -303,7 +303,7 @@ class CampaignController extends Controller {
 
         //CustomFuncs::printr($campaignsRows);
         //CustomFuncs::printr($campaignsArray);
-        //exit;
+        //Yii::app()->end();
         
         /* теперь нужно вытащить данные по маржинальности кампаний за последние 5 дней.
          * найдем лиды, отправленные в найденные кампании за последние 5 дней, вытащим суммы их цен покупки и продажи
@@ -383,7 +383,7 @@ class CampaignController extends Controller {
 
         if ($sum <= 0 || !$buyerId) {
             echo json_encode(array('code' => 400, 'message' => 'Error, not enough data'));
-            exit;
+            Yii::app()->end();
         }
 
         $buyer = User::model()->findByPk($buyerId);
@@ -391,7 +391,7 @@ class CampaignController extends Controller {
 
         if (!$buyer) {
             echo json_encode(array('code' => 400, 'message' => 'Error, buyer not found'));
-            exit;
+            Yii::app()->end();
         }
 
         $transaction = new TransactionCampaign;

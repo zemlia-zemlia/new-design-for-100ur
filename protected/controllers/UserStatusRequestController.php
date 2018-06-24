@@ -80,7 +80,7 @@ class UserStatusRequestController extends Controller {
 
             //$model->validateRequest();
             $model->validate();
-//                    CustomFuncs::printr($model->errors);exit;
+//                    CustomFuncs::printr($model->errors);Yii::app()->end();
             // загрузка скана
             if (!empty($_FILES) && !$model->errors && $model->scenario == 'createYurist') {
                 //echo 'files are loaded..';
@@ -94,7 +94,7 @@ class UserStatusRequestController extends Controller {
 //                            ->save(Yii::getPathOfAlias('webroot') . UserFile::USER_FILES_FOLDER . '/' . $scanFileName);
                     $scan->saveAs(Yii::getPathOfAlias('webroot') . UserFile::USER_FILES_FOLDER . '/' . $scanFileName);
                     // CustomFuncs::printr($scan);
-                    // exit;
+                    // Yii::app()->end();
 
                     $userFile->userId = Yii::app()->user->id;
                     $userFile->name = $scanFileName;
@@ -103,7 +103,7 @@ class UserStatusRequestController extends Controller {
                     if (!$userFile->save()) {
                         echo "Не удалось сохранить скан";
                         CustomFuncs::printr($userFile->errors);
-                        exit;
+                        Yii::app()->end();
                     } else {
                         // после сохранения файла сохраним ссылку на него в объекте запроса
                         $model->fileId = $userFile->id;

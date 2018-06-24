@@ -24,7 +24,7 @@ class NewsletterCommand extends CConsoleCommand
         if(!sizeof($posts)) {
             // если за последние сутки не было опубликовано ни одного поста, выходим
             echo "No fresh publications found";
-            exit;
+            Yii::app()->end();
         }
         
         foreach($users as $user) {

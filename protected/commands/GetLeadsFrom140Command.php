@@ -36,7 +36,7 @@ class GetLeadsFrom140Command extends CConsoleCommand
         //var_dump($emails);
         if($emails == false && imap_errors()) {
             echo "Messages search wrong criteria";
-            exit;
+            Yii::app()->end();
         }
         
         if (!count($emails) || $emails == false){

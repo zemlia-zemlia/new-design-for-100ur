@@ -43,7 +43,7 @@ class ApiHandler {
         $response['duration'] = $this->getDuration();
         echo json_encode($response);
         $this->log(self::MODE_DB);
-        exit;
+        Yii::app()->end();
     }
 
     /**

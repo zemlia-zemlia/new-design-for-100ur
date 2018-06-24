@@ -64,14 +64,14 @@ class ApiController extends Controller {
 
         if (!$request->isPostRequest) {
             echo json_encode(array('code' => 400, 'message' => 'No input data'));
-            exit;
+            Yii::app()->end();
         }
 
         // проверяем обязательный целочисленный параметр appId
         $appId = (int) $request->getPost('appId');
         if (!$appId) {
             echo json_encode(array('code' => 400, 'message' => 'Unknown sender. Check appId parameter'));
-            exit;
+            Yii::app()->end();
         }
 
         // ищем источник по параметру appId
@@ -84,7 +84,7 @@ class ApiController extends Controller {
         // если источник не найден
         if (!$source) {
             echo json_encode(array('code' => 404, 'message' => 'Unknown or blocked sender. Check appId parameter'));
-            exit;
+            Yii::app()->end();
         }
         
         // находим источник в виде объекта, в будущем он будет нужен для расчета коэффициента цены
@@ -93,7 +93,7 @@ class ApiController extends Controller {
         $sourceId = $source['id'];
         $secretKey = $source['secretKey'];
         //echo json_encode($sourceId);
-        //exit;
+        //Yii::app()->end();
         $leadName = $request->getPost('name');
         $leadPhone = $request->getPost('phone');
         $leadTown = $request->getPost('town');
@@ -112,7 +112,7 @@ class ApiController extends Controller {
         //echo json_encode($correctSignature);
         if ($correctSignature !== $signature || $signature == '') {
             echo json_encode(array('code' => 400, 'message' => 'Signature is wrong'));
-            exit;
+            Yii::app()->end();
         }
 
         // После проверки входных данных проверим город на существование в базе
@@ -125,7 +125,7 @@ class ApiController extends Controller {
         // если источник не найден
         if (!$town) {
             echo json_encode(array('code' => 404, 'message' => 'Unknown town. Provide correct town name in Russian language'));
-            exit;
+            Yii::app()->end();
         }
 
         $townId = $town['id'];
@@ -146,7 +146,7 @@ class ApiController extends Controller {
         // проверка на дубликаты за последние 12 часов
         if ($model->findDublicates(12 * 3600)) {
             die(json_encode(array('code' => 400, 'message' => 'Dublicates found')));
-            exit;
+            Yii::app()->end();
         }
         
         // посчитаем цену покупки лида, исходя из города и региона
@@ -167,20 +167,20 @@ class ApiController extends Controller {
         if($testMode != 0) {
             if($model->validate()) {
                 echo json_encode(array('code' => 200, 'buyPrice' => $model->buyPrice, 'message' => 'OK. You are in the test mode. Lead accepted but not saved.'));
-                exit;
+                Yii::app()->end();
             } else {
                 echo json_encode(array('code' => 500, 'message' => 'Lead not saved.', 'errors' => $model->errors));
-                exit;
+                Yii::app()->end();
             }
         }
 
         if ($model->save()) {
             echo json_encode(array('code' => 200, 'buyPrice' => $model->buyPrice, 'message' => 'OK'));
             
-            exit;
+            Yii::app()->end();
         } else {
             echo json_encode(array('code' => 500, 'message' => 'Lead not saved.', 'errors' => $model->errors));
-            exit;
+            Yii::app()->end();
         }
     }
     
@@ -202,7 +202,7 @@ class ApiController extends Controller {
 
         if (!$request->isPostRequest) {
             echo json_encode(array('code' => 400, 'message' => 'No input data'));
-            exit;
+            Yii::app()->end();
         }
                 
         $code = CHtml::encode($_POST['code']);
@@ -212,25 +212,25 @@ class ApiController extends Controller {
 
         if(!in_array($newStatus, $availableStatuses)) {
             echo json_encode(array('code' => 400, 'message' => 'You cannot set this status for this lead'));
-            exit;
+            Yii::app()->end();
         }
         
         if ($code == '') {
             echo json_encode(array('code' => 400, 'message' => 'Please specify lead secret code'));
-            exit;
+            Yii::app()->end();
         }
 
         $lead = Lead::model()->findByAttributes(array('secretCode' => $code));
 
         if (!$lead) {
             echo json_encode(array('code' => 400, 'message' => 'Lead not found'));
-            exit;
+            Yii::app()->end();
         }
 
         
         if ($newStatus === Lead::LEAD_STATUS_NABRAK &&  !(!is_null($lead->deliveryTime) && (time() - strtotime($lead->deliveryTime) < 86400 * Yii::app()->params['leadHoldPeriodDays']))) {
             echo json_encode(array('code' => 400, 'message' => 'Lead could not be sent to brak because it was created more than '. Yii::app()->params['leadHoldPeriodDays'] . ' days ago'));
-            exit;
+            Yii::app()->end();
         }
         
         $lead->brakReason = $brakReason;
@@ -248,10 +248,10 @@ class ApiController extends Controller {
         
         if (!$lead->hasErrors() && $lead->save()) {
             echo json_encode(array('code' => 200, 'message' => 'OK'));
-            exit;
+            Yii::app()->end();
         } else {
             echo json_encode(array('code' => 400, 'message' => 'Lead not saved.', 'errors' => $lead->errors));
-            exit;
+            Yii::app()->end();
         }
     }
 

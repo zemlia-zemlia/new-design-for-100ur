@@ -167,24 +167,24 @@ class CabinetController extends Controller {
 
         if (!$leadId || !$reason || !$reasonComment) {
             echo json_encode(array('code' => 400, 'message' => 'Ошибка, не заполнены все поля формы'));
-            exit;
+            Yii::app()->end();;
         }
 
         $lead = Lead::model()->findByPk($leadId);
 
         if (!$lead) {
             echo json_encode(array('code' => 404, 'message' => 'Лид не найден'));
-            exit;
+            Yii::app()->end();;
         }
 
         if (!$lead->campaign || $lead->campaign->buyerId != Yii::app()->user->id) {
             echo json_encode(array('code' => 403, 'message' => 'Вы не можете редактировать этого лида'));
-            exit;
+            Yii::app()->end();;
         }
 
         if (!(!is_null($lead->deliveryTime) && (time() - strtotime($lead->deliveryTime) < 86400 * Yii::app()->params['leadHoldPeriodDays']))) {
             echo json_encode(array('code' => 403, 'message' => 'Нельзя отправить на отбраковку лид, отправленный покупателю более 3 суток назад'));
-            exit;
+            Yii::app()->end();;
         }
 
         $lead->leadStatus = Lead::LEAD_STATUS_NABRAK;
@@ -193,10 +193,10 @@ class CabinetController extends Controller {
 
         if ($lead->save()) {
             echo json_encode(array('code' => 0, 'id' => $leadId, 'message' => 'Лид отправлен на отбраковку'));
-            exit;
+            Yii::app()->end();;
         } else {
             echo json_encode(array('code' => 400, 'id' => $leadId, 'message' => 'Ошибка: не удалось отправить лид на отбраковку'));
-            exit;
+            Yii::app()->end();;
         }
     }
 

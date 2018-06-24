@@ -105,13 +105,13 @@ class LeadController extends Controller {
                     if ($model->save()) {
                         if (Yii::app()->request->isAjaxRequest) {
                             echo 'ok';
-                            exit;
+                            Yii::app()->end();
                         }
                         $this->redirect(array('view', 'id' => $model->id));
                     } else {
                         if (Yii::app()->request->isAjaxRequest) {
                             echo 'error';
-                            exit;
+                            Yii::app()->end();
                         }
                     }
                 }
@@ -142,7 +142,7 @@ class LeadController extends Controller {
         if (isset($_POST['Lead'])) {
             $model->attributes = $_POST['Lead'];
             $model->phone = Question::normalizePhone($model->phone);
-            //CustomFuncs::printr($model);exit;
+            //CustomFuncs::printr($model);Yii::app()->end();
             if ($model->save()) {
                 
                 Lead2Category::model()->deleteAll('leadId='.$model->id);
@@ -353,14 +353,14 @@ class LeadController extends Controller {
 
         if ($leadId === false || $status === false) {
             echo json_encode(array('code' => 400, 'message' => 'Error, not enough data'));
-            exit;
+            Yii::app()->end();
         }
 
         $lead = Lead::model()->findByPk($leadId);
 
         if (!$lead) {
             echo json_encode(array('code' => 404, 'message' => 'Lead not found'));
-            exit;
+            Yii::app()->end();
         }
 
         $lead->leadStatus = $status;
@@ -382,21 +382,21 @@ class LeadController extends Controller {
             if (!$transaction->save()) {
                 CustomFuncs::printr($transaction->errors);
                 echo json_encode(array('code' => 500, 'id' => $lead->id, 'message' => 'Не удалось сохранить транзакцию'));
-                exit;
+                Yii::app()->end();
             }
 
             if (!$buyer->save()) {
                 echo json_encode(array('code' => 500, 'id' => $lead->id, 'message' => 'Не удалось обновить баланс пользователя'));
-                exit;
+                Yii::app()->end();
             }
         }
 
         if ($lead->save()) {
             echo json_encode(array('code' => 0, 'id' => $lead->id, 'message' => 'Статус изменен'));
-            exit;
+            Yii::app()->end();
         } else {
             echo json_encode(array('code' => 500, 'id' => $lead->id, 'message' => 'Статус не изменен'));
-            exit;
+            Yii::app()->end();
         }
     }
 
@@ -552,15 +552,15 @@ class LeadController extends Controller {
         
         if(!$lead || !$campaign) {
             echo json_encode(array('code' => 404, 'message' => 'Лид или кампания не найдены')); 
-            exit;
+            Yii::app()->end();
         }
         
         if($lead->sellLead(0, $campaign->id) === true) {
             echo json_encode(array('code' => 0, 'message' => 'Лид продан')); 
-            exit;
+            Yii::app()->end();
         } else {
             echo json_encode(array('code' => 500, 'message' => 'Лид не продан из-за ошибки на сервере')); 
-            exit;
+            Yii::app()->end();
         }
     }
     
