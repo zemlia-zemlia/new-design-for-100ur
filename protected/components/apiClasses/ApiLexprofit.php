@@ -40,30 +40,41 @@ class ApiLexprofit implements ApiClassInterface
         Yii::log('Ответ API Lexprofit: ' . $apiResponse, 'info', 'system.web');
         
         $apiResponseJSON = json_decode($apiResponse, true);
+
         curl_close($this->curl);
         
         return $this->checkResponse($apiResponseJSON, $lead);
     }
     
+    /**
+     * Разбор ответа API
+     * @param type $apiResponse
+     * @param type $lead
+     * @return boolean
+     */
     private function checkResponse($apiResponse, $lead)
     {
+        if(sizeof($apiResponse) == 0) {
+            return false;
+        }
         
         if(is_array($apiResponse) && isset($apiResponse['success'])) {
             LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Lexprofit', 'Lead', $lead->id);
             return true;
-        } else {
-            if(isset($apiResponse['warning']) && isset($apiResponse['warning']['msg'])) {
-                $errorMessage = $apiResponse['warning']['msg'];
-            }
-            
-            if(isset($apiResponse['error']) && isset($apiResponse['error']['msg'])) {
-                $errorMessage = $apiResponse['error']['msg'];
-            }
-            if(!$errorMessage) {
-                $errorMessage = 'Неизвестная ошибка';
-            }
-            LoggerFactory::getLogger()->log('Ошибка при отправке лида #' . $lead->id . ' в партнерку Lexprofit: ' . $errorMessage, 'Lead', $lead->id);
-            return false;
         } 
+        
+        if(isset($apiResponse['warning']) && isset($apiResponse['warning']['msg'])) {
+            $errorMessage = $apiResponse['warning']['msg'];
+        }
+
+        if(isset($apiResponse['error']) && isset($apiResponse['error']['msg'])) {
+            $errorMessage = $apiResponse['error']['msg'];
+        }
+        if(!$errorMessage) {
+            $errorMessage = 'Неизвестная ошибка';
+        }
+        LoggerFactory::getLogger()->log('Ошибка при отправке лида #' . $lead->id . ' в партнерку Lexprofit: ' . $errorMessage, 'Lead', $lead->id);
+        return false;
+         
     }
 }

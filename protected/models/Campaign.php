@@ -300,8 +300,6 @@ class Campaign extends CActiveRecord
             }
         }
 
-        //CustomFuncs::printr($campaigns);
-
         if (sizeof($campaigns)) {
 
             /*
@@ -310,21 +308,15 @@ class Campaign extends CActiveRecord
             if ($returnArray === true) {
                 $campIds = array();
                 foreach ($campaigns as $camp) {
-                    //CustomFuncs::printr($camp['id']);
                     $campIds[] = $camp['id'];
                 }
                 return $campIds;
-            }
-
-            /**
-             * получили список кампаний, подходящих данному лиду
-             * теперь нужно выбрать ту единственную, которая ему подходит
-             * просто берем первый элемент массива (кампания, в которую дольше всего не отправляли лиды)
-             * 
-             * 
-             */
+            } else {
+                /**
+                 * Если нужен не массив, возвращаем id первой кампании
+                 */
                 return $campaigns[0]['id'];
-            
+            }
         }
 
         // Если не нашлось ни одной кампании, ищем кампанию партнерских программ для данного региона
@@ -332,14 +324,15 @@ class Campaign extends CActiveRecord
         $partnerCampaignsRow = Yii::app()->db->createCommand()
                 ->select('c.*')
                 ->from("{{campaign}} c")
-                ->where("(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1", array(
+                ->where("(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1 AND c.type=:typePartner", array(
                     ':townId' => $lead->town->id,
                     ':regionId' => $lead->town->regionId,
                     ':hour' => (int) date('H'),
+                    ':typePartner' => self::TYPE_PARTNERS,
                 ))
                 ->order('c.lastLeadTime ASC')
                 ->queryRow();
-        
+
         if ($partnerCampaignsRow) {
             return ($returnArray === true) ? [$partnerCampaignsRow['id']] : $partnerCampaignsRow['id'];
         }
