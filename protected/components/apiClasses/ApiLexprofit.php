@@ -37,8 +37,9 @@ class ApiLexprofit implements ApiClassInterface
         
         $apiResponse = curl_exec($this->curl);
         
-        Yii::log('Ответ API Lexprofit: ' . $apiResponse, 'info', 'system.web');
-        
+        LoggerFactory::getLogger()->log('Отправляем лид #' . $lead->id . ' в партнерку Lexprofit: ' . json_encode($data), 'Lead', $lead->id);
+        LoggerFactory::getLogger()->log('Ответ API Lexprofit: ' . $apiResponse, 'Lead', $lead->id);
+                
         $apiResponseJSON = json_decode($apiResponse, true);
 
         curl_close($this->curl);
