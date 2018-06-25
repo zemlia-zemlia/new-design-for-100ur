@@ -10,7 +10,8 @@ class ApiClassFactory
         switch ($className) {
             case 'ApiLexprofit':
                 return new ApiLexProfit();
-                
+            case 'ApiLeadia':
+                return new ApiLeadia();    
         }
     }
 }

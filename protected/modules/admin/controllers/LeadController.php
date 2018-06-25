@@ -1,6 +1,7 @@
 <?php
 
-class LeadController extends Controller {
+class LeadController extends Controller
+{
 
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -11,7 +12,8 @@ class LeadController extends Controller {
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
         );
@@ -22,7 +24,8 @@ class LeadController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // 
                 'actions' => array('index', 'view', 'create', 'stats'),
@@ -49,17 +52,18 @@ class LeadController extends Controller {
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         $model = $this->loadModel($id);
         $campaignIds = Campaign::getCampaignsForLead($model->id, true);
         $campaigns = array();
-        if(is_array($campaignIds) && sizeof($campaignIds)) {
-            $campaigns = Campaign::model()->findAll('id IN(' . implode(', ', $campaignIds). ')');
+        if (is_array($campaignIds) && sizeof($campaignIds)) {
+            $campaigns = Campaign::model()->findAll('id IN(' . implode(', ', $campaignIds) . ')');
         }
-        
+
         $this->render('view', array(
-            'model'         => $model,
-            'campaigns'   =>  $campaigns,
+            'model' => $model,
+            'campaigns' => $campaigns,
         ));
     }
 
@@ -67,9 +71,10 @@ class LeadController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $model = new Lead;
-        $apiResult = null;  
+        $apiResult = null;
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
         // Uncomment the following line if AJAX validation is needed
@@ -78,23 +83,22 @@ class LeadController extends Controller {
         if (isset($_POST['Lead'])) {
             $model->attributes = $_POST['Lead'];
             $model->phone = Question::normalizePhone($model->phone);
-            
-            if($model->testMode) {
+
+            if ($model->testMode) {
                 // тестовый режим. найдем по источнику его данные
                 $source = $model->source;
-                if($source) {
+                if ($source) {
                     $apiClient = new StoYuristovClient($source->appId, $source->secretKey, 1);
-                    
+
                     $apiClient->name = $model->name;
                     $apiClient->phone = $model->phone;
                     $apiClient->town = $model->town->name;
                     $apiClient->question = $model->question;
-                    
+
                     $apiResult = $apiClient->send();
                     //CustomFuncs::printr($apiClient);
                     //CustomFuncs::printr($apiResult);
                 }
-                
             } else {
 
                 // проверим, нет ли лида с таким телефоном за последние 12 часов
@@ -119,9 +123,9 @@ class LeadController extends Controller {
         }
 
         $this->render('create', array(
-            'model'         => $model,
+            'model' => $model,
             'allDirections' => $allDirections,
-            'apiResult'     => $apiResult,
+            'apiResult' => $apiResult,
         ));
     }
 
@@ -130,9 +134,10 @@ class LeadController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $model = $this->loadModel($id);
-        
+
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
 
@@ -144,29 +149,29 @@ class LeadController extends Controller {
             $model->phone = Question::normalizePhone($model->phone);
             //CustomFuncs::printr($model);Yii::app()->end();
             if ($model->save()) {
-                
-                Lead2Category::model()->deleteAll('leadId='.$model->id);
-                if(is_array($model->categoriesId) && sizeof($model->categoriesId)){
-                    foreach($model->categoriesId as $catId) {
+
+                Lead2Category::model()->deleteAll('leadId=' . $model->id);
+                if (is_array($model->categoriesId) && sizeof($model->categoriesId)) {
+                    foreach ($model->categoriesId as $catId) {
                         $lead2category = new Lead2Category;
                         $lead2category->leadId = $model->id;
                         $lead2category->cId = $catId;
                         $lead2category->save();
                     }
                 }
-                
+
                 $this->redirect(array('view', 'id' => $model->id));
             }
         }
-        
+
         $model->categoriesId = [];
-        foreach($model->categories as $cat) {
+        foreach ($model->categories as $cat) {
             $model->categoriesId[] = $cat->id;
         }
 
         $this->render('update', array(
-            'model'         =>  $model,
-            'allDirections' =>  $allDirections,
+            'model' => $model,
+            'allDirections' => $allDirections,
         ));
     }
 
@@ -175,7 +180,8 @@ class LeadController extends Controller {
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $this->loadModel($id)->delete();
 
         $this->redirect(array('index'));
@@ -184,10 +190,11 @@ class LeadController extends Controller {
     /**
      * Lists all models.
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
 
         $searchModel = new Lead;
-        $searchModel->type='';
+        $searchModel->type = '';
 
         $criteria = new CDbCriteria;
 
@@ -221,7 +228,8 @@ class LeadController extends Controller {
         ));
     }
 
-    public function actionToQuestion($id) {
+    public function actionToQuestion($id)
+    {
         $contact = $this->loadModel($id);
 
         $question = new Question();
@@ -248,7 +256,8 @@ class LeadController extends Controller {
     /**
      *  распределяет лиды по кнопке
      */
-    public function actionSendLeads() {
+    public function actionSendLeads()
+    {
 
         $criteria = new CDbCriteria;
 
@@ -277,7 +286,8 @@ class LeadController extends Controller {
     }
 
     // генерирует демо лиды
-    public function actionGenerate() {
+    public function actionGenerate()
+    {
         $limit = 10;
         $towns = array(598);
         $sourceId = 3;
@@ -316,7 +326,8 @@ class LeadController extends Controller {
      * распределяет лидов по покупателям
      */
 
-    public function actionDispatch() {
+    public function actionDispatch()
+    {
         $criteria = new CDbCriteria;
 
         $criteria->addColumnCondition(array('leadStatus' => Lead::LEAD_STATUS_DEFAULT));
@@ -347,7 +358,8 @@ class LeadController extends Controller {
         }
     }
 
-    public function actionChangeStatus() {
+    public function actionChangeStatus()
+    {
         $leadId = (isset($_POST['id'])) ? (int) $_POST['id'] : false;
         $status = (isset($_POST['status'])) ? (int) $_POST['status'] : false;
 
@@ -406,7 +418,8 @@ class LeadController extends Controller {
      * type (dates|campaigns) - разбивка по датам или кампаниям
      */
 
-    public function actionStats() {
+    public function actionStats()
+    {
 
         // найдем все годы, в которые есть контакты
         $yearsRows = Yii::app()->db->cache(600)->createCommand()
@@ -446,7 +459,7 @@ class LeadController extends Controller {
                     $sumArray[$row['lead_date']] += $row['summa'];
                     $kolichArray[$row['lead_date']] ++;
                     $buySumArray[$row['lead_date']] += $row['buyPrice'];
-                }   
+                }
             }
         }
 
@@ -471,11 +484,11 @@ class LeadController extends Controller {
                 ->order('date DESC')
                 ->queryAll();
 
-        foreach ($expencesRows as $index=>$row) {
-            if($row['type'] == Expence::TYPE_DIRECT) {
+        foreach ($expencesRows as $index => $row) {
+            if ($row['type'] == Expence::TYPE_DIRECT) {
                 $expencesDirectArray[$row['date']]['expence'] = $row['expences'];
             }
-            if($row['type'] == Expence::TYPE_CALLS) {
+            if ($row['type'] == Expence::TYPE_CALLS) {
                 $expencesCallsArray[$row['date']]['expence'] += $row['expences'];
             }
         }
@@ -501,16 +514,16 @@ class LeadController extends Controller {
         }
 
         $this->render('stats', array(
-            'type'                  => $type,
-            'yearsArray'            => $yearsArray,
-            'month'                 => $month,
-            'year'                  => $year,
-            'sumArray'              => $sumArray,
-            'kolichArray'           => $kolichArray,
-            'buySumArray'           => $buySumArray,
-            'expencesDirectArray'   => $expencesDirectArray,
-            'expencesCallsArray'    => $expencesCallsArray,
-            'vipStats'              => $vipStats,
+            'type' => $type,
+            'yearsArray' => $yearsArray,
+            'month' => $month,
+            'year' => $year,
+            'sumArray' => $sumArray,
+            'kolichArray' => $kolichArray,
+            'buySumArray' => $buySumArray,
+            'expencesDirectArray' => $expencesDirectArray,
+            'expencesCallsArray' => $expencesCallsArray,
+            'vipStats' => $vipStats,
         ));
     }
 
@@ -521,7 +534,8 @@ class LeadController extends Controller {
      * @return Lead the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id)
+    {
         $model = Lead::model()->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
@@ -532,36 +546,37 @@ class LeadController extends Controller {
      * Performs the AJAX validation.
      * @param Lead $model the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'lead-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
     }
-    
+
     /**
      * Принудительная продажа лида в кампанию
      */
     public function actionForceSell()
     {
-        $leadId = (int)$_POST['leadId'];
-        $campaignId = (int)$_POST['campaignId'];
-        
+        $leadId = (int) $_POST['leadId'];
+        $campaignId = (int) $_POST['campaignId'];
+
         $lead = Lead::model()->findByPk($leadId);
         $campaign = Campaign::model()->findByPk($campaignId);
-        
-        if(!$lead || !$campaign) {
-            echo json_encode(array('code' => 404, 'message' => 'Лид или кампания не найдены')); 
+
+        if (is_null($lead) || is_null($campaign)) {
+            echo json_encode(array('code' => 404, 'message' => 'Лид или кампания не найдены'));
             Yii::app()->end();
         }
-        
-        if($lead->sellLead(0, $campaign->id) === true) {
-            echo json_encode(array('code' => 0, 'message' => 'Лид продан')); 
+
+        if ($lead->sellLead(0, $campaign->id) === true) {
+            echo json_encode(array('code' => 0, 'message' => 'Лид продан'));
             Yii::app()->end();
         } else {
-            echo json_encode(array('code' => 500, 'message' => 'Лид не продан из-за ошибки на сервере')); 
+            echo json_encode(array('code' => 500, 'message' => 'Лид не продан из-за ошибки на сервере'));
             Yii::app()->end();
         }
     }
-    
+
 }
