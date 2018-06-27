@@ -37,7 +37,7 @@ class ApiLeadia implements ApiClassInterface
             'product' => 'lawyer',
             'template' => 'default',
             'key' => '',
-            'first_last_name' => ($this->testMode == false) ? CHtml::encode($this->name) : "тест",
+            'first_last_name' => ($this->testMode == false) ? CHtml::encode($lead->name) : "тест",
             'phone' => $lead->phone,
             'email' => $lead->email,
             'region' => $lead->town->name,
