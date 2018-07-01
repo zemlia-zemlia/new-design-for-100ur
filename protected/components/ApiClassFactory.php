@@ -12,6 +12,8 @@ class ApiClassFactory
                 return new ApiLexProfit();
             case 'ApiLeadia':
                 return new ApiLeadia();    
+            case 'Api8088':
+                return new Api8088();    
         }
     }
 }
