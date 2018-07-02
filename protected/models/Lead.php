@@ -58,6 +58,11 @@ class Lead extends CActiveRecord
     const BRAK_REASON_BAD_NUMBER = 2; // неверный номер
     const BRAK_REASON_BAD_REGION = 3; // не тот регион
     const BRAK_REASON_SPAM = 4; // спам
+    
+    // коды результатов сохранения лида при продаже
+    const SAVE_RESULT_CODE_OK = 0; // лид продан и сохранен
+    const SAVE_RESULT_CODE_PARTNER_REJECT = 10; // партнерское апи не приняло заявку
+    const SAVE_RESULT_CODE_ERROR = 500; // другая ошибка продажи
 
     /*
      * Returns the static model of the specified AR class.
@@ -248,14 +253,13 @@ class Lead extends CActiveRecord
     }
 
     /**
-     * Продажа лида покупателю
-     * @param integer $buyerId id покупателя
-     * @param integer $campaignId id кампании
-     * @return boolean результат
+     * Проверяет на существование покупателя и кампанию
+     * @param type $buyerId id покупателя
+     * @param type $campaignId id кампании
+     * @return boolean | array Массив (User, Campaign) или false если оба объекта не найдены
      */
-    public function sellLead($buyerId = 0, $campaignId = 0)
+    private function checkBuyerAndCampaign($buyerId, $campaignId)
     {
-
         if ($buyerId == 0 && $campaignId == 0) {
             return false;
         }
@@ -276,6 +280,92 @@ class Lead extends CActiveRecord
             return false;
         }
 
+        return [
+            'buyer' => $buyer,
+            'campaign' => $campaign,
+        ];
+    }
+
+    /**
+     * Сохранение проданного лида и связанных данных
+     * @param type $buyer
+     * @param type $transaction
+     * @param type $campaign
+     * @return integer Код результата сохранения
+     */
+    private function saveSoldLead($buyer, $transaction, $campaign)
+    {
+        if (!$this->save()) {
+            $leadSaved = false;
+            Yii::log("Не удалось сохранить лид " . $this->id, 'error', 'system.web.CCommand');
+        } else {
+            $leadSaved = true;
+        }
+
+        // сохранение покупателя. Важно сохранить его ДО сохранения транзакции, чтобы записалось время последней транзакции в пользователе
+        if (!$buyer->save(false)) {
+            $buyerSaved = false;
+            Yii::log("Не удалось сохранить покупателя при продаже лида " . $buyer->id, 'error', 'system.web.CCommand');
+        } else {
+            $buyerSaved = true;
+        }
+
+        // сохранение транзакции за лид
+        if (isset($transaction) && !$transaction->save()) {
+            $transactionSaved = false;
+            Yii::log("Не удалось сохранить транзакцию за продажу лида " . $this->id, 'error', 'system.web.CCommand');
+        } else {
+            $transactionSaved = true;
+        }
+
+        if ($campaign && $campaign->type == Campaign::TYPE_PARTNERS && $campaign->sendToApi == 1 && class_exists($campaign->apiClass)) {
+            $apiClass = ApiClassFactory::getApiClass($campaign->apiClass);
+            $leadSentToPartner = $apiClass->send($this);
+        }
+
+        if ($buyerSaved != false && $leadSaved != false && $transactionSaved != false && $leadSentToPartner !== false) {
+            return self::SAVE_RESULT_CODE_OK;
+        } 
+        
+        if($leadSentToPartner === false) {
+            // если партнерское апи не приняло лид
+            return self::SAVE_RESULT_CODE_PARTNER_REJECT;
+        }
+        
+        return self::SAVE_RESULT_CODE_ERROR; // код ошибки по умолчанию
+    }
+
+    /**
+     * Отправка лида в кампанию по почте
+     * @param type $campaign
+     * @return boolean
+     */
+    private function sendToCampaignByMail(Campaign $campaign)
+    {
+        // Если определена кампания и в ней стоит настройка Отправлять лиды на почту
+        if ($campaign && $campaign->sendEmail) {
+            return $this->sendByEmail($campaign->id);
+        }
+        return false;
+    }
+
+    /**
+     * Продажа лида покупателю
+     * @param integer $buyerId id покупателя
+     * @param integer $campaignId id кампании
+     * @return boolean результат
+     */
+    public function sellLead($buyerId = 0, $campaignId = 0)
+    {
+        // получаем объекты покупателя и кампании
+        $buyerAndCampaignResult = $this->checkBuyerAndCampaign($buyerId, $campaignId);
+        if ($buyerAndCampaignResult === false) {
+            return false;
+        }
+
+        $campaign = $buyerAndCampaignResult['campaign'];
+        $buyer = $buyerAndCampaignResult['buyer'];
+
         $leadPrice = ($campaignId && $campaign && $campaign->price) ? $campaign->price : (int) $this->calculatePrices()[1];
 
         if ($campaign && $campaign->type == Campaign::TYPE_PARTNERS) {
@@ -283,7 +373,6 @@ class Lead extends CActiveRecord
             $leadPrice = 0;
         }
 
-        
         if ($buyer->balance < $leadPrice) {
             // на балансе покупателя недостаточно средств
             return false;
@@ -294,7 +383,7 @@ class Lead extends CActiveRecord
 
         $transactionTime = date('Y-m-d H:i:s');
 
-        if($leadPrice > 0) {
+        if ($leadPrice > 0) {
             $transaction = new TransactionCampaign();
             $transaction->buyerId = $buyerId;
             $transaction->campaignId = $campaignId;
@@ -304,7 +393,7 @@ class Lead extends CActiveRecord
         } else {
             $buyer->lastTransactionTime = $transactionTime;
         }
-        
+
         $this->leadStatus = self::LEAD_STATUS_SENT;
         $this->buyerId = $buyerId;
         $this->price = $leadPrice;
@@ -317,60 +406,23 @@ class Lead extends CActiveRecord
         $dbTransaction = $this->dbConnection->beginTransaction();
         try {
             // сохранение лида
-            if (!$this->save()) {
-                $leadSaved = false;
-                Yii::log("Не удалось сохранить лид " . $this->id, 'error', 'system.web.CCommand');
-            } else {
-                $leadSaved = true;
-            }
-
-            // сохранение покупателя. Важно сохранить его ДО сохранения транзакции, чтобы записалось время последней транзакции в пользователе
-            if (!$buyer->save(false)) {
-                $buyerSaved = false;
-                Yii::log("Не удалось сохранить покупателя при продаже лида " . $buyer->id, 'error', 'system.web.CCommand');
-            } else {
-                $buyerSaved = true;
-            }
-
-            // сохранение транзакции за лид
-            if (isset($transaction) && !$transaction->save()) {
-                $transactionSaved = false;
-                Yii::log("Не удалось сохранить транзакцию за продажу лида " . $this->id, 'error', 'system.web.CCommand');
-            } else {
-                $transactionSaved = true;
-            }
-                      
-            if($campaign && $campaign->type == Campaign::TYPE_PARTNERS && $campaign->sendToApi == 1 && class_exists($campaign->apiClass))  {
-                $apiClass = ApiClassFactory::getApiClass($campaign->apiClass);
-                $leadSentToPartner = $apiClass->send($this); 
-            }
+            $soldLeadReultCode = $this->saveSoldLead($buyer, $transaction, $campaign);
             
-            if ($buyerSaved != false && $leadSaved != false && $transactionSaved != false && $leadSentToPartner !== false) {
+            if ($soldLeadReultCode === self::SAVE_RESULT_CODE_OK) {
                 $dbTransaction->commit();
                 // записываем в кампанию время отправки последнего лида
                 Yii::app()->db->createCommand()->update('{{campaign}}', array('lastLeadTime' => date('Y-m-d H:i:s')), 'id=:id', array(':id' => $campaign->id));
 
-                // Если определена кампания и в ней стоит настройка Отправлять лиды на почту
-                if ($campaign && $campaign->sendEmail) {
-                    $this->sendByEmail($campaign->id);
-                }
+                $this->sendToCampaignByMail($campaign);
             } else {
+                // если что-то не сохранилось, откатываем транзакцию
                 $dbTransaction->rollback();
-                $errorDescription = [];
-                if($transaction instanceof TransactionCampaign) {
-                    $errorDescription[] = $transaction->getErrors();
-                }
-                if($buyer instanceof User) {
-                    $errorDescription[] = $buyer->getErrors();
-                }
-                
-                // Если при отправке лида в партнерское API вернулась ошибка, помечаем лид как дубль
-                if($campaign && $campaign->type == Campaign::TYPE_PARTNERS && $campaign->sendToApi == 1 && $leadSentToPartner === false) {
-                    $this->leadStatus = self::LEAD_STATUS_DUPLICATE;
-                    $this->save();
-                }
-                
-                return array_merge($this->getErrors(), $errorDescription);
+            }
+
+            // Если при отправке лида в партнерское API вернулась ошибка, помечаем лид как дубль
+            if ($soldLeadReultCode == self::SAVE_RESULT_CODE_PARTNER_REJECT) {
+                $this->leadStatus = self::LEAD_STATUS_DUPLICATE;
+                $this->save();
             }
         } catch (Exception $e) {
             $dbTransaction->rollback();
@@ -379,21 +431,28 @@ class Lead extends CActiveRecord
 
         // Если лид был куплен у вебмастера, переведем ему деньги
         $this->payWebmaster();
+        $this->logSoldLead($buyer, $campaign);
+        return true;
+    }
 
+    /**
+     * Запись в лог информации о проданном лиде
+     * @param type $buyer
+     * @param type $campaign
+     */
+    private function logSoldLead(User $buyer, Campaign $campaign)
+    {
         $logMessage = 'Лид #' . $this->id . ' продан ';
         if ($campaign) {
             $logMessage .= 'в кампанию #' . $campaign->id . '(' . Campaign::getCampaignNameById($campaign->id) . ')';
-            if($buyer) {
+            if ($buyer) {
                 $logMessage .= ': ' . $buyer->name;
             }
         } else if ($buyer != 0 && $buyer) {
             $logMessage .= 'покупателю #' . $buyerId . ' (' . $buyer->getShortName() . ')';
         }
         LoggerFactory::getLogger('db')->log($logMessage, 'Lead', $this->id);
-
-        return true;
     }
-
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
@@ -444,6 +503,10 @@ class Lead extends CActiveRecord
     {
         if ($campaignId) {
             $campaign = Campaign::model()->with('buyer')->findByPk($campaignId);
+        } 
+        
+        if($campaignId == 0 || is_null($campaign)){
+            return false;
         }
 
         $mailer = new GTMail();
