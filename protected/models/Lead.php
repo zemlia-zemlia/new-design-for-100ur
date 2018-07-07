@@ -58,7 +58,6 @@ class Lead extends CActiveRecord
     const BRAK_REASON_BAD_NUMBER = 2; // неверный номер
     const BRAK_REASON_BAD_REGION = 3; // не тот регион
     const BRAK_REASON_SPAM = 4; // спам
-    
     // коды результатов сохранения лида при продаже
     const SAVE_RESULT_CODE_OK = 0; // лид продан и сохранен
     const SAVE_RESULT_CODE_PARTNER_REJECT = 10; // партнерское апи не приняло заявку
@@ -325,13 +324,13 @@ class Lead extends CActiveRecord
 
         if ($buyerSaved != false && $leadSaved != false && $transactionSaved != false && $leadSentToPartner !== false) {
             return self::SAVE_RESULT_CODE_OK;
-        } 
-        
-        if($leadSentToPartner === false) {
+        }
+
+        if ($leadSentToPartner === false) {
             // если партнерское апи не приняло лид
             return self::SAVE_RESULT_CODE_PARTNER_REJECT;
         }
-        
+
         return self::SAVE_RESULT_CODE_ERROR; // код ошибки по умолчанию
     }
 
@@ -406,9 +405,9 @@ class Lead extends CActiveRecord
         $dbTransaction = $this->dbConnection->beginTransaction();
         try {
             // сохранение лида
-            $soldLeadReultCode = $this->saveSoldLead($buyer, $transaction, $campaign);
-            
-            if ($soldLeadReultCode === self::SAVE_RESULT_CODE_OK) {
+            $soldLeadResultCode = $this->saveSoldLead($buyer, $transaction, $campaign);
+
+            if ($soldLeadResultCode === self::SAVE_RESULT_CODE_OK) {
                 $dbTransaction->commit();
                 // записываем в кампанию время отправки последнего лида
                 Yii::app()->db->createCommand()->update('{{campaign}}', array('lastLeadTime' => date('Y-m-d H:i:s')), 'id=:id', array(':id' => $campaign->id));
@@ -420,9 +419,10 @@ class Lead extends CActiveRecord
             }
 
             // Если при отправке лида в партнерское API вернулась ошибка, помечаем лид как дубль
-            if ($soldLeadReultCode == self::SAVE_RESULT_CODE_PARTNER_REJECT) {
+            if ($soldLeadResultCode == self::SAVE_RESULT_CODE_PARTNER_REJECT) {
                 $this->leadStatus = self::LEAD_STATUS_DUPLICATE;
                 $this->save();
+                return false;
             }
         } catch (Exception $e) {
             $dbTransaction->rollback();
@@ -439,6 +439,8 @@ class Lead extends CActiveRecord
      * Запись в лог информации о проданном лиде
      * @param type $buyer
      * @param type $campaign
+     * @param integer $saveResult код результата сохранения лида
+     * 
      */
     private function logSoldLead(User $buyer, Campaign $campaign)
     {
@@ -451,8 +453,10 @@ class Lead extends CActiveRecord
         } else if ($buyer != 0 && $buyer) {
             $logMessage .= 'покупателю #' . $buyerId . ' (' . $buyer->getShortName() . ')';
         }
+
         LoggerFactory::getLogger('db')->log($logMessage, 'Lead', $this->id);
     }
+
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
@@ -503,9 +507,9 @@ class Lead extends CActiveRecord
     {
         if ($campaignId) {
             $campaign = Campaign::model()->with('buyer')->findByPk($campaignId);
-        } 
-        
-        if($campaignId == 0 || is_null($campaign)){
+        }
+
+        if ($campaignId == 0 || is_null($campaign)) {
             return false;
         }
 

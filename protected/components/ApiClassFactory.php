@@ -13,7 +13,9 @@ class ApiClassFactory
             case 'ApiLeadia':
                 return new ApiLeadia();    
             case 'Api8088':
-                return new Api8088();    
+                return new Api8088(); 
+            case 'ApiPravoved':
+                return new ApiPravoved();    
         }
     }
 }
