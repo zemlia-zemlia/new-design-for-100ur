@@ -317,8 +317,10 @@ class Comment extends CActiveRecord
             }
         }
 
-        // логируем событие в лог
-        LoggerFactory::getLogger('db')->log('Пользователь ' . $this->author->getShortName() . ' прокомментировал ' . self::getTypeName($this->type) . ' #' . $this->objectId, 'User', $this->authorId);
+        if($this->authorId) {
+            // логируем событие в лог
+            LoggerFactory::getLogger('db')->log('Пользователь ' . $commentAuthor->name . ' прокомментировал ' . self::getTypeName($this->type) . ' #' . $this->objectId, 'User', $this->authorId);
+        }
 
         parent::afterSave();
     }
