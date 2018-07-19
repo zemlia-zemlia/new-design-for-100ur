@@ -384,7 +384,7 @@ class Lead extends CActiveRecord
 
         if ($leadPrice > 0) {
             $transaction = new TransactionCampaign();
-            $transaction->buyerId = $buyerId;
+            $transaction->buyerId = $buyer->id;
             $transaction->campaignId = $campaignId;
             $transaction->sum = -$leadPrice;
             $transaction->description = 'Покупка заявки #' . $this->id;
@@ -394,7 +394,7 @@ class Lead extends CActiveRecord
         }
 
         $this->leadStatus = self::LEAD_STATUS_SENT;
-        $this->buyerId = $buyerId;
+        $this->buyerId = $buyer->id;
         $this->price = $leadPrice;
         $this->deliveryTime = $transactionTime;
         // записываем в лид кампанию
