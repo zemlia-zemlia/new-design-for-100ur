@@ -24,6 +24,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <thead>
     <tr>
         <th>Вопрос</th>
+		<th style="min-width: 700px;">Указать категорию вопроса</th>
     </tr>
     </thead>
 
@@ -87,7 +88,12 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     
     
 
-            <?php foreach($allDirections as $directionId=>$direction):?>
+
+
+    </td>
+	
+	<td>
+	            <?php foreach($allDirections as $directionId=>$direction):?>
                 <?php echo CHtml::link($direction['name'], '#', array('class'=>'set-category-link label label-primary', 'data-category'=>$directionId, 'data-question'=>$data['id']));?>
                 
                     <?php if($direction['children']):?>
@@ -97,8 +103,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     <?php endif;?>
                     <br />        
             <?php endforeach;?>
-
-    </td>
+	</td>
+	
+	
     <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>    
     
 	
