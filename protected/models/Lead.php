@@ -515,12 +515,13 @@ class Lead extends CActiveRecord
 
         $mailer = new GTMail();
         $mailer->subject = "Заявка город " . $this->town->name . " (" . $this->town->region->name . ")";
-        $mailer->message = "<h3>Заявка на консультацию</h3>";
+        $mailer->message = "<h2>Заявка на консультацию</h2>";
         $mailer->message .= "<p>Имя: " . CHtml::encode($this->name) . ",</p>";
         $mailer->message .= "<p>Город: " . CHtml::encode($this->town->name) . " (" . $this->town->region->name . ")" . "</p>";
         $mailer->message .= "<p>Телефон: " . $this->phone . "</p>";
+        $mailer->message .= "<p>Сообщение:<br />" . CHtml::encode($this->question) . "</p><br /><br />";
         $mailer->message .= "<p>Уникальный код заявки: " . $this->secretCode . "</p>";
-        $mailer->message .= "<p>Сообщение:<br />" . CHtml::encode($this->question) . "</p>";
+		$mailer->message .= "<p>CRM Для юристов: <a href='http://www.yurcrm.ru'>YurCRM</a></p>";
 
         // Вставляем ссылку на отбраковку только если у кампании процент брака больше нуля
         if ($campaign->brakPercent > 0) {
@@ -743,10 +744,10 @@ class Lead extends CActiveRecord
     {
         if ($this->source && $this->source->user && $this->buyPrice > 0) {
             $sourceUser = $this->source->user;
-            $priceCoeff = !is_null($sourceUser) ? $sourceUser->priceCoeff : 1; // коэффициент, на который умножается цена покупки лида
+            
             // запишем транзакцию за лид
             $partnerTransaction = new PartnerTransaction;
-            $partnerTransaction->sum = $this->buyPrice * $priceCoeff;
+            $partnerTransaction->sum = $this->buyPrice;
             $partnerTransaction->leadId = $this->id;
             $partnerTransaction->sourceId = $this->sourceId;
             $partnerTransaction->partnerId = $this->source->user->id;

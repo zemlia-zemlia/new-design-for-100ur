@@ -73,15 +73,23 @@
                                         <div class="collapse in" id="admin-collapse">  
                                             <div class="panel-body">
                                                 <ul id="left-menu">
+												
+													<li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Все лиды", Yii::app()->createUrl('/admin/lead/index')); ?>     
+													<ul>                                               
                                                     <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  На модерации", Yii::app()->createUrl('/admin/lead/index', array('status' => Lead::LEAD_STATUS_PREMODERATION))); ?>
                                                         <span class="label label-danger"><?php echo Lead::getStatusCounter(Lead::LEAD_STATUS_PREMODERATION, FALSE); ?></span>
                                                     </li>
-                                                    <li><?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  Все лиды", Yii::app()->createUrl('/admin/lead/index')); ?>                                                    
                                                     <li>
                                                         <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span>  На отбраковке", Yii::app()->createUrl('/admin/lead/index', array('status' => Lead::LEAD_STATUS_NABRAK))); ?>  
                                                         <span class="label label-default"><?php echo Lead::getStatusCounter(Lead::LEAD_STATUS_NABRAK); ?></span>
                                                     </li>
-
+													</ul>
+													</li>
+													
+													<ul>
+													<li>
+													
+														
                                                     <li><?php echo CHtml::link("<span class='glyphicon glyphicon-briefcase'></span>  Заказы документов", Yii::app()->createUrl('/admin/order')); ?>  <span class="badge badge-default"><?php echo Order::calculateNewOrders(); ?></span></li>                                                        
                                                     <li><?php echo CHtml::link("<span class='glyphicon glyphicon-briefcase'></span>  Кампании", Yii::app()->createUrl('/admin/campaign')); ?></li>
 
@@ -95,6 +103,10 @@
                                                         <li><?php echo CHtml::link("<span class='glyphicon glyphicon-eye-close'></span>  Заявки на вывод средств ", Yii::app()->createUrl('/admin/partnerTransaction')); ?> <span class="badge badge-default"><?php echo PartnerTransaction::getNewRequestsCount(); ?></span></li>
                                                     <?php endif; ?>
                                                     <li><?php echo CHtml::link("<span class='glyphicon glyphicon-eye-close'></span>  Запросы на смену статуса ", Yii::app()->createUrl('/admin/userStatusRequest')); ?> <span class="badge badge-default"><?php echo UserStatusRequest::getNewRequestsCount(); ?></span></li>
+													
+														
+													
+													</li></ul>
                                                 </ul>
                                             </div>
                                         </div>

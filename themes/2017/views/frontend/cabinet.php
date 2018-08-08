@@ -18,6 +18,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                 <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/transactions/')?CHtml::link('Баланс', Yii::app()->createUrl('/cabinet/transactions/')):'<span class="active">Баланс</span>';?></li>
                 <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/api/')?CHtml::link('API', Yii::app()->createUrl('/cabinet/api/')):'<span class="active">API</span>';?></li>
                 <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/faq/')?CHtml::link('FAQ', Yii::app()->createUrl('/cabinet/faq/')):'<span class="active">FAQ</span>';?></li>
+				<li><a href="http://www.yurcrm.ru/" target="_blank" rel="nofollow">CRM для юристов</a></li>
             </ul>
             </div>
         </div>
