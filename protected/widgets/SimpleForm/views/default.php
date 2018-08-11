@@ -6,7 +6,7 @@
         </div>
         <div class="col-md-6">
             <div class="form-container">
-                <h2 class="center-align">Обратиться к юристу. Это бесплатно.</h2>
+                <h2 class="center-align">Задать вопрос юристу онлайн бесплатно</h2>
                                                 
                 <?php $form=$this->beginWidget('CActiveForm', array(
                         'id'                    =>  'question-form',
