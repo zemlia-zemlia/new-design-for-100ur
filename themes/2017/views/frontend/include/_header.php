@@ -137,7 +137,7 @@
                         <ul class="hor-list-menu">
                             <?php if(Yii::app()->user->role != User::ROLE_BUYER):?>
                             <li class="hidden-xs">
-                                <?php echo ($_SERVER['REQUEST_URI'] != '/cat/') ? CHtml::link('Темы вопросов', Yii::app()->createUrl('/cat/'), array('class' => 'black-button')) : '<span class="black-button">Темы вопросов</span>'; ?> 			
+                                <?php echo ($_SERVER['REQUEST_URI'] != '/cat/') ? CHtml::link('Темы', Yii::app()->createUrl('/cat/'), array('class' => 'black-button')) : '<span class="black-button">Темы вопросов</span>'; ?>
                             </li>
                             <?php endif;?>
                             
@@ -160,7 +160,7 @@
                                         <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/login/') ? CHtml::link('Вход на сайт', Yii::app()->createUrl('/site/login/')) : '<span class="active">Вход на сайт</span>'; ?></li> 
                                     <?php endif; ?>
                                 <?php endif; ?>
-                                <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/')) ? CHtml::link('Задать бесплатный вопрос юристу', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' . Yii::app()->controller->id, array('class' => 'yellow-button arrow')) : ''; ?></li>
+                                <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/')) ? CHtml::link('Бесплатная консультация', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' . Yii::app()->controller->id, array('class' => 'yellow-button arrow')) : ''; ?></li>
                             <?php endif; ?>
                                 
                             <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>

@@ -1,9 +1,6 @@
 <div class="sidebar-form">
 <div class="form-container">
         <h2 class="center-align">Не нашли свой ответ?</h2>
-        <p class="center-align">
-            Задайте вопрос. Это бесплатно.
-        </p>
 
         <?php $form=$this->beginWidget('CActiveForm', array(
                 'id'                    =>  'question-form-sidebar',
@@ -25,7 +22,7 @@
                     <?php echo $form->error($model,'authorName'); ?>
                 </div>
                 <div class="form-group" id="form-submit-wrapper">
-                        <?php echo CHtml::submitButton($model->isNewRecord ? 'Задать вопрос юристу' : 'Сохранить', array('class'=>'yellow-button btn-block', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
+                        <?php echo CHtml::submitButton($model->isNewRecord ? 'Получить ответ' : 'Сохранить', array('class'=>'yellow-button btn-block', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
                 </div>
                     
 

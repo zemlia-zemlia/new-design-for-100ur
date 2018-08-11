@@ -6,7 +6,7 @@
         </div>
         <div class="col-md-6">
             <div class="form-container">
-                <h2 class="center-align">Задайте вопрос юристу. Это бесплатно.</h2>
+                <h2 class="center-align">Обратиться к юристу. Это бесплатно.</h2>
                                                 
                 <?php $form=$this->beginWidget('CActiveForm', array(
                         'id'                    =>  'question-form',
@@ -33,7 +33,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group" id="form-submit-wrapper">
-                                        <?php echo CHtml::submitButton($model->isNewRecord ? 'Получить ответ на вопрос' : 'Сохранить', array('class'=>'yellow-button', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
+                                        <?php echo CHtml::submitButton($model->isNewRecord ? 'Получить ответ' : 'Сохранить', array('class'=>'yellow-button', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
                                 </div>
                             </div>
                         </div>
