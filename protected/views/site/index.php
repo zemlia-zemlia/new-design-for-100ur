@@ -27,7 +27,7 @@ Yii::app()->clientScript->registerLinkTag("canonical", NULL, "https://" . $_SERV
     // выводим виджет с последними ответами
     $this->widget('application.widgets.RecentAnswers.RecentAnswers', array(
         'template' => 'page',
-        'limit' => 6,
+        'limit' => 4,
         'cacheTime' => 3600,
     ));
     ?>
@@ -64,7 +64,7 @@ Yii::app()->clientScript->registerLinkTag("canonical", NULL, "https://" . $_SERV
     // выводим виджет с топовыми юристами
     $this->widget('application.widgets.TopYurists.TopYurists', array(
         'cacheTime' => 300,
-        'limit' => 6,
+        'limit' => 4,
     ));
     ?>
 
