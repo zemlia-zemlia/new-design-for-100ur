@@ -1,6 +1,7 @@
 <?php
 $this->setPageTitle("Бесплатная юридическая консультация онлайн и по телефону круглосуточно" . Yii::app()->name);
 Yii::app()->clientScript->registerMetaTag("На нашем сайте вы можете получить бесплатную правовую помощь без регистрации.  Вы можете задать любой вопрос юристу или самостоятельно найти ответ в нашей правовой базе.", 'description');
+Yii::app()->clientScript->registerMetaTag("Бесплатная юридическая консультация онлайн", 'keywords');
 Yii::app()->clientScript->registerLinkTag("canonical", NULL, "https://" . $_SERVER['SERVER_NAME']);
 ?>
 <h1>Бесплатная юридическая консультация</h1>
