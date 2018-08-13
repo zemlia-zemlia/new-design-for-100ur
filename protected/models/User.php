@@ -909,15 +909,12 @@ class User extends CActiveRecord
 
     /**
      * Вычисление баланса вебмастера
+     * @param integer $cacheTime время кеширования
+     * @return float Баланс
      */
-    public function calculateWebmasterBalance()
+    public function calculateWebmasterBalance($cacheTime = 0)
     {
-        // если пользователь не вебмастер, сразу возвращаем его баланс
-//        if ($this->role != self::ROLE_PARTNER) {
-//            return $this->balance;
-//        }
-
-        $transactionsSumRow = Yii::app()->db->createCommand()
+        $transactionsSumRow = Yii::app()->db->cache($cacheTime)->createCommand()
                 ->select("SUM(t.`sum`) balance")
                 ->from("{{partnerTransaction}} t")
                 ->where("t.partnerId=:userId AND t.status=:status", array(':userId' => $this->id, ':status' => PartnerTransaction::STATUS_COMPLETE))
@@ -928,15 +925,17 @@ class User extends CActiveRecord
 
     /**
      * Вычисление холд вебмастера
+     * @param integer $cacheTime время кеширования
+     * @return float Баланс
      */
-    public function calculateWebmasterHold()
+    public function calculateWebmasterHold($cacheTime = 0)
     {
         // если пользователь не вебмастер, сразу возвращаем его баланс
         if ($this->role != self::ROLE_PARTNER) {
             return 0;
         }
 
-        $transactionsSumRow = Yii::app()->db->createCommand()
+        $transactionsSumRow = Yii::app()->db->cache($cacheTime)->createCommand()
                 ->select("SUM(t.`sum`) hold")
                 ->from("{{partnerTransaction}} t")
                 ->where("t.partnerId=:userId AND t.leadId!=0 AND t.datetime>=NOW()-INTERVAL :interval DAY", array(':userId' => $this->id, ':interval' => Yii::app()->params['leadHoldPeriodDays']))

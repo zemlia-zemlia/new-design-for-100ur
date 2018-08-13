@@ -98,12 +98,7 @@
                                             $transactionPage = '/cabinet/transactions';
                                         } else {
                                             // если это вебмастер, кешируем баланс, рассчитанный из транзакций вебмастера
-                                            if($cachedBalance = Yii::app()->cache->get('webmaster_' . Yii::app()->user->id . '_balance')) {
-                                                $balance = $cachedBalance;
-                                            } else {
-                                                $balance = $currentUser->calculateWebmasterBalance();
-                                                Yii::app()->cache->set('webmaster_' . Yii::app()->user->id . '_balance', $balance, 3600);
-                                            }
+                                            $balance = $currentUser->calculateWebmasterBalance(30);
                                             $transactionPage = '/webmaster/transaction/index';
                                         }
                                     ?>

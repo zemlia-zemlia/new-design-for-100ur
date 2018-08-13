@@ -41,13 +41,8 @@ class TransactionController extends Controller {
         $currentUser = User::model()->findByPk(Yii::app()->user->id);
         
         // если это вебмастер, кешируем баланс, рассчитанный из транзакций вебмастера
-        if($cachedBalance = Yii::app()->cache->get('webmaster_' . Yii::app()->user->id . '_balance')) {
-            $balance = $cachedBalance;
-        } else {
-            $balance = $currentUser->calculateWebmasterBalance();
-            Yii::app()->cache->set('webmaster_' . Yii::app()->user->id . '_balance', $balance, 60);
-        }
-        $hold = $currentUser->calculateWebmasterHold();
+        $balance = $currentUser->calculateWebmasterBalance(30);
+        $hold = $currentUser->calculateWebmasterHold(30);
         
         
         if (isset($_POST['PartnerTransaction'])) {
