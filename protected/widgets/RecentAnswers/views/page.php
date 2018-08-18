@@ -22,7 +22,7 @@
 
                 <div class="col-md-6">
                     <p>
-                        <?php echo CHtml::link(CHtml::encode($answer['questionTitle']), Yii::app()->createUrl('question/view', array('id' => $answer['questionId']))); ?>
+                        <?php echo CHtml::link(CHtml::encode(CustomFuncs::mb_ucfirst($answer['questionTitle'], 'utf-8')), Yii::app()->createUrl('question/view', array('id' => $answer['questionId']))); ?>
 
                     </p>
 

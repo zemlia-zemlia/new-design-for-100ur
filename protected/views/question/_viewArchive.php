@@ -5,7 +5,7 @@
                 echo "<span class='label label-primary'><abbr title='Вопрос с гарантией получения ответов'>VIP</abbr></span>";
             }
             ?>
-            <?php echo CHtml::link($data->title, Yii::app()->createUrl('question/view', array('id'=>$data->id)));?>
+            <?php echo CHtml::link(CHtml::encode(CustomFuncs::mb_ucfirst($data->title, 'utf-8')), Yii::app()->createUrl('question/view', array('id'=>$data->id)));?>
         </p>
     </div>
 

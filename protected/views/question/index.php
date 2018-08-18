@@ -24,7 +24,7 @@ Yii::app()->clientScript->registerMetaTag("Советы юристов по вс
                             echo "<span class='label label-warning'><abbr title='Вопрос с гарантией получения ответов'><span class='glyphicon glyphicon-ruble'></span></abbr></span>";
                         }
                         ?>
-                        <?php echo CHtml::link($question->title, Yii::app()->createUrl('question/view', array('id'=>$question->id)));?>
+                        <?php echo CHtml::link(CustomFuncs::mb_ucfirst($question->title, 'utf-8'), Yii::app()->createUrl('question/view', array('id'=>$question->id)));?>
                     </p>
                 </div>
                 

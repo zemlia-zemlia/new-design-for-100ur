@@ -112,7 +112,7 @@ if($model->seoH1) {
             <?php endif;?>
             <small>
                 <p>
-                <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span>&nbsp; ' . $child->name, Yii::app()->createUrl('questionCategory/alias', $child->getUrl()));?>
+                <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span>&nbsp; ' . CustomFuncs::mb_ucfirst($child->name), Yii::app()->createUrl('questionCategory/alias', $child->getUrl()));?>
                 </p>
             </small>
 
@@ -134,7 +134,7 @@ if($model->seoH1) {
         
         <small>
             <p>
-                <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span> &nbsp;' . $neighbour->name, Yii::app()->createUrl('questionCategory/alias', $neighbour->getUrl()));?>
+                <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span> &nbsp;' . CustomFuncs::mb_ucfirst($neighbour->name), Yii::app()->createUrl('questionCategory/alias', $neighbour->getUrl()));?>
             </p>
         </small>
           
@@ -148,7 +148,7 @@ if($model->seoH1) {
         
         <small>
             <p>
-                <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span> &nbsp;' . $neighbour->name, Yii::app()->createUrl('questionCategory/alias', $neighbour->getUrl()));?>
+                <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span> &nbsp;' . CustomFuncs::mb_ucfirst($neighbour->name), Yii::app()->createUrl('questionCategory/alias', $neighbour->getUrl()));?>
             </p>
         </small>
           

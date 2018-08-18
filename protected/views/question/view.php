@@ -2,9 +2,8 @@
 /* @var $this QuestionController */
 /* @var $model Question */
 
-//$pageTitle = (mb_strlen($model->title, 'utf-8')<50) ? CHtml::encode($model->title) . '. Консультация юриста' : CHtml::encode(mb_substr($model->title, 0, 85, 'utf-8'));
-
 $pageTitle = CHtml::encode(CustomFuncs::cutString($model->title, 70));
+$pageTitle = CustomFuncs::mb_ucfirst($pageTitle, 'utf-8');
 
 $this->setPageTitle($pageTitle);
 
@@ -16,7 +15,7 @@ Yii::app()->clientScript->registerMetaTag(CHtml::encode(mb_substr($model->questi
 
 $this->breadcrumbs = array(
     'Вопросы' => array('index'),
-    CHtml::encode($model->title),
+    CustomFuncs::mb_ucfirst(CHtml::encode($model->title), 'utf-8'),
 );
 ?>
 
@@ -24,8 +23,10 @@ $this->breadcrumbs = array(
     <div class="alert alert-warning gray-panel" role="alert">
         <h4>Спасибо, <?php echo CHtml::encode(Yii::app()->user->name); ?>!</h4>
         <p class="text-success">
-            <strong><span class="glyphicon glyphicon-ok"></span> Ваш вопрос опубликован</strong>. Теперь юристы смогут дать Вам ответ. <br />
-            <strong><span class="glyphicon glyphicon-ok"></span> Ваш Email подтвержден</strong>. На него Вы будете получать уведомления о новых ответах. <br />
+            <strong><span class="glyphicon glyphicon-ok"></span> Ваш вопрос опубликован</strong>. Теперь юристы смогут
+            дать Вам ответ. <br/>
+            <strong><span class="glyphicon glyphicon-ok"></span> Ваш Email подтвержден</strong>. На него Вы будете
+            получать уведомления о новых ответах. <br/>
 
         </p>
     </div>
@@ -54,7 +55,9 @@ $this->breadcrumbs = array(
 
                     <small>
                         <?php if ($model->publishDate): ?>
-                            <span class="glyphicon glyphicon-calendar"></span>&nbsp;<time itemprop="dateCreated" datetime="<?php echo $model->publishDate; ?>"><?php echo CustomFuncs::niceDate($model->publishDate, false); ?></time> &nbsp;&nbsp;
+                            <span class="glyphicon glyphicon-calendar"></span>&nbsp;
+                            <time itemprop="dateCreated"
+                                  datetime="<?php echo $model->publishDate; ?>"><?php echo CustomFuncs::niceDate($model->publishDate, false); ?></time> &nbsp;&nbsp;
                         <?php endif; ?>
 
                         <?php if ($model->categories): ?>
@@ -79,7 +82,7 @@ $this->breadcrumbs = array(
     </div>
 
 
-    <div itemprop="text" class="inside" >
+    <div itemprop="text" class="inside">
         <?php echo nl2br(CHtml::encode($model->questionText)); ?>
     </div>
 
@@ -87,62 +90,58 @@ $this->breadcrumbs = array(
         <em>
 
             <?php if ($model->authorName): ?>
-                <span  itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span itemprop="author" itemscope itemtype="http://schema.org/Person">
 
-                    <span class="glyphicon glyphicon-user"></span>&nbsp;<span itemprop="name"><?php echo CHtml::encode($model->authorName); ?></span> &nbsp;&nbsp;
+                    <span class="glyphicon glyphicon-user"></span>&nbsp;<span
+                            itemprop="name"><?php echo CHtml::encode($model->authorName); ?></span> &nbsp;&nbsp;
                 </span>
             <?php endif; ?>
             <?php if ($model->town): ?>
                 <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php
                 echo CHtml::link(CHtml::encode($model->town->name), Yii::app()->createUrl('town/alias', array(
-                            'name' => $model->town->alias,
-                            'countryAlias' => $model->town->country->alias,
-                            'regionAlias' => $model->town->region->alias,
+                    'name' => $model->town->alias,
+                    'countryAlias' => $model->town->country->alias,
+                    'regionAlias' => $model->town->region->alias,
                 )));
                 ?> &nbsp;
                 <?php if (!$model->town->isCapital): ?>
                     <span class="text-muted">(<?php echo $model->town->region->name; ?>)</span>
                 <?php endif; ?>
                 &nbsp;&nbsp;
-<?php endif; ?>
+            <?php endif; ?>
         </em>
     </p>
 
 
-
-
-
-
     <?php if (in_array(Yii::app()->user->role, array(User::ROLE_JURIST, User::ROLE_ROOT)) && !in_array(Yii::app()->user->id, $answersAuthors)): ?>
 
-    <?php if (Yii::app()->user->isVerified || Yii::app()->user->role == User::ROLE_ROOT): ?>
+        <?php if (Yii::app()->user->isVerified || Yii::app()->user->role == User::ROLE_ROOT): ?>
 
 
             <div class='flat-panel inside vert-margin30'>
-                <h2 class="" >Ваш ответ на вопрос клиента:</h2>
-        <?php $this->renderPartial('application.views.answer._form', array('model' => $answerModel)); ?>
+                <h2 class="">Ваш ответ на вопрос клиента:</h2>
+                <?php $this->renderPartial('application.views.answer._form', array('model' => $answerModel)); ?>
 
             </div>
         <?php else: ?>
-        <?php if (sizeof($lastRequest)): ?>
+            <?php if (sizeof($lastRequest)): ?>
                 <div class="alert alert-danger">
                     <p>
                         Вы не можете отвечать на вопросы.
-                        Ваша заявка на подтверждение квалификации находится на проверке модератором. 
+                        Ваша заявка на подтверждение квалификации находится на проверке модератором.
                         Пожалуйста, дождитесь модерации.
                     </p>
                 </div>
 
-        <?php elseif (sizeof($lastRequest) == 0): ?>
+            <?php elseif (sizeof($lastRequest) == 0): ?>
                 <div class="alert alert-danger">
                     <p>
-                        Вы не можете отвечать на вопросы, пока не подтвердили свою квалификацию. 
-                    </p><br />
-                <?php echo CHtml::link('Подтвердить квалификацию', Yii::app()->createUrl('userStatusRequest/create'), array('class' => 'btn btn-default')); ?>
+                        Вы не можете отвечать на вопросы, пока не подтвердили свою квалификацию.
+                    </p><br/>
+                    <?php echo CHtml::link('Подтвердить квалификацию', Yii::app()->createUrl('userStatusRequest/create'), array('class' => 'btn btn-default')); ?>
                 </div>
             <?php endif; ?>
-    <?php endif; ?>
-
+        <?php endif; ?>
 
 
     <?php endif; ?>
@@ -165,21 +164,21 @@ $this->breadcrumbs = array(
             'commentModel' => $commentModel,
         ),
     ));
-    ?>    
+    ?>
 
-</div> <!-- Question --> 
+</div> <!-- Question -->
 
 <br/>
-<?php if (Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_CLIENT): ?>        
-    <div class="flat-panel inside">     
-            <div class="center-align">
+<?php if (Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_CLIENT): ?>
+    <div class="flat-panel inside">
+        <div class="center-align">
             <?php
-                // выводим виджет с номером 8800
-                $this->widget('application.widgets.Hotline.HotlineWidget', array(
-                    'showAlways'    =>  true,
-                ));
-            ?>      
-            </div>
+            // выводим виджет с номером 8800
+            $this->widget('application.widgets.Hotline.HotlineWidget', array(
+                'showAlways' => true,
+            ));
+            ?>
+        </div>
     </div>
 
 <?php endif; ?>
@@ -188,7 +187,7 @@ $this->breadcrumbs = array(
 
 <?php if (Yii::app()->user->role != User::ROLE_JURIST): ?>
     <h3 class="header-block-light-grey vert-margin20">На ваши вопросы отвечают:</h3>
-    <div class='vert-margin20' >
+    <div class='vert-margin20'>
 
         <div class="row">
 

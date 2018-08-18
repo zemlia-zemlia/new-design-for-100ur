@@ -292,7 +292,7 @@ if (Yii::app()->user->id != $user->id) {
             <div class="col-sm-12">
                 <p style="font-size:1.1em;">
                     <small>
-                        <?php echo CHtml::link($question['title'], Yii::app()->createUrl('question/view', array('id' => $question['id']))); ?>
+                        <?php echo CHtml::link(CHtml::encode(CustomFuncs::mb_ucfirst($question['title'])), Yii::app()->createUrl('question/view', array('id' => $question['id']))); ?>
                     </small>
                 </p>
             </div>

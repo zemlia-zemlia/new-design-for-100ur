@@ -95,7 +95,7 @@ class OrderResponse extends Comment {
             }
         }
         
-        $questionLink .= "&autologin=" . $autologinString;
+        $questionLink .= "?autologin=" . $autologinString;
 
 
         $mailer = new GTMail;

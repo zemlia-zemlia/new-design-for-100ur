@@ -19,7 +19,7 @@ if(empty($answers) || sizeof($answers)==0) {
     <?php if($answer['questionPrice']!=0 && $answer['questionPayed'] == 1):?>
             <span class="label label-warning"><span class='glyphicon glyphicon-ruble'></span></span>
         <?php endif;?>
-    <?php echo CHtml::link(CHtml::encode($answer['questionTitle']), Yii::app()->createUrl('question/view',array('id'=>$answer['questionId'])));?>
+    <?php echo CHtml::link(CHtml::encode(CustomFuncs::mb_ucfirst($answer['questionTitle'], 'utf-8')), Yii::app()->createUrl('question/view',array('id'=>$answer['questionId'])));?>
         
 </p>
 
