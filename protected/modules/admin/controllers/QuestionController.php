@@ -27,7 +27,7 @@ class QuestionController extends Controller {
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_JURIST . ') || Yii::app()->user->checkAccess(' . User::ROLE_SECRETARY . ')',
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('update', 'view', 'index', 'byPublisher', 'toSpam', 'setCategory', 'setTitle'),
+                'actions' => array('update', 'view', 'index', 'byPublisher', 'toSpam', 'setCategory', 'setTitle', 'duplicates'),
                 'users' => array('@'),
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
             ),
