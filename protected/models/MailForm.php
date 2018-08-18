@@ -46,9 +46,9 @@ class MailForm extends CFormModel
     {
         // разрешим скрипту работать долго
         ini_set('max_execution_time', 600);
-        
+
         $this->message = nl2br($this->message);
-                
+
         if ($this->recipientEmail != '') {
             // отправляем одному получателю
             $mailer = new GTMail($useSMTP);
@@ -61,24 +61,24 @@ class MailForm extends CFormModel
             // отправляем группе
             $mailsSent = 0;
             $users = Yii::app()->db->createCommand()
-                    ->select('email, autologin')
-                    ->from('{{user}}')
-                    ->where('active100=1 AND isSubscribed=1 AND role=:role AND email!=""', [':role' => $this->roleId])
-                    ->queryAll();
+                ->select('email, autologin')
+                ->from('{{user}}')
+                ->where('active100=1 AND isSubscribed=1 AND role=:role AND email!=""', [':role' => $this->roleId])
+                ->queryAll();
 
             foreach ($users as $user) {
                 $mailer = new GTMail($useSMTP);
 
                 $mailer->subject = $this->subject;
                 $mailer->message = $this->message;
-                
-                if($user['autologin'] != '') {
+
+                if ($user['autologin'] != '') {
                     $autologinLink = Yii::app()->createUrl('/site/index', ['autologin' => $user['autologin']]);
-                    $mailer->message .= '<p>Ваша ссылка для входа на сайт без ввода пароля (ссылка действительна один раз):' . 
-                            CHtml::link($autologinLink, $autologinLink)
-                            . '</p>';
+                    $mailer->message .= '<p>Ваша ссылка для входа на сайт без ввода пароля (ссылка действительна один раз):' .
+                        CHtml::link($autologinLink, $autologinLink)
+                        . '</p>';
                 }
-                
+
                 $mailer->email = $user['email'];
                 if ($mailer->sendMail()) {
                     $mailsSent++;
@@ -87,6 +87,45 @@ class MailForm extends CFormModel
 
             return $mailsSent;
         }
+    }
+
+    /**
+     * Создание заданий на отправку писем для рассылки
+     * @param Mail $mail Рассылка
+     * @return integer Количество отправленных писем
+     */
+    public function createTasks(Mail $mail)
+    {
+
+        $createTasksCount = 0;
+
+        if ($this->recipientEmail != '') {
+            // отправляем одному получателю
+            $createTasksCount = Yii::app()->db->createCommand()
+                ->insert('{{mailtask}}', [
+                    'mailId' => $mail->id,
+                    'email' => $this->recipientEmail,
+                    'startDate' => date('Y-m-d'),
+                ]);
+        } elseif ($this->roleId != '') {
+            // отправляем группе
+            $users = Yii::app()->db->createCommand()
+                ->select('email, id')
+                ->from('{{user}}')
+                ->where('active100=1 AND isSubscribed=1 AND role=:role AND email!=""', [':role' => $this->roleId])
+                ->queryAll();
+
+            foreach ($users as $user) {
+                $createTasksCount += Yii::app()->db->createCommand()
+                    ->insert('{{mailtask}}', [
+                        'mailId' => $mail->id,
+                        'email' => $user['email'],
+                        'userId' => $user['id'],
+                        'startDate' => date('Y-m-d'),
+                    ]);
+            }
+        }
+        return $createTasksCount;
     }
 
 }

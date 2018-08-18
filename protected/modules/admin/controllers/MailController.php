@@ -37,7 +37,7 @@ class MailController extends Controller
     }
 
     /**
-     * Создание и отправка рассылки
+     * Создание рассылки
      */
     public function actionCreate()
     {
@@ -45,20 +45,27 @@ class MailController extends Controller
 
         if (isset($_POST['MailForm'])) {
             $mailFormModel->attributes = $_POST['MailForm'];
-            
+
             $mailFormModel->validate();
             if ($mailFormModel->recipientEmail == '' && $mailFormModel->roleId == '') {
                 $mailFormModel->addError('roleId', 'Необходимо указать получателя или роль');
             }
 
             if (!$mailFormModel->hasErrors()) {
-                // отправка почты
-                $mailsSent = $mailFormModel->send(!YII_DEV);
-                if($mailsSent > 0) {
-                    $this->redirect(['mail/success', 'sent' => $mailsSent]);
-                } else {
-                    throw new CHttpException(400, 'Что-то пошло не так. Не удалось отправить рассылку');
+
+                // создаем новую рассылку и задания по отправке
+                $mail = new Mail();
+                $mail->subject = $mailFormModel->subject;
+                $mail->message = $mailFormModel->message;
+                if ($mail->save()) {
+                    $mailTasksCreated = $mailFormModel->createTasks($mail);
                 }
+
+                if ($mailTasksCreated > 0) {
+                    $this->redirect(['mail/success', 'mailTasksCreated' => $mailTasksCreated]);
+                }
+
+                throw new CHttpException(400, 'Что-то пошло не так. Не удалось отправить рассылку');
             }
         }
 
@@ -68,8 +75,8 @@ class MailController extends Controller
     /**
      * Страница успешной отправки рассылки
      */
-    public function actionSuccess($sent)
+    public function actionSuccess($mailTasksCreated)
     {
-        $this->render('success', ['sent' => (int)$sent]);
+        $this->render('success', ['created' => (int)$mailTasksCreated]);
     }
 }
