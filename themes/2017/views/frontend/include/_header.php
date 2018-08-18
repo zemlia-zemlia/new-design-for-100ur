@@ -137,7 +137,7 @@
                         <ul class="hor-list-menu">
                             <?php if(Yii::app()->user->role != User::ROLE_BUYER):?>
                             <li class="hidden-xs">
-                                <?php echo ($_SERVER['REQUEST_URI'] != '/cat/') ? CHtml::link('Темы', Yii::app()->createUrl('/cat/'), array('class' => 'black-button')) : '<span class="black-button">Темы вопросов</span>'; ?>
+                                <?php echo ($_SERVER['REQUEST_URI'] != '/cat/') ? CHtml::link('Темы', Yii::app()->createUrl('/cat/'), array('class' => 'black-button')) : '<span class="black-button">Темы</span>'; ?>
                             </li>
                             <?php endif;?>
                             

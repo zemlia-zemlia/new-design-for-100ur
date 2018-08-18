@@ -174,42 +174,6 @@ if($model->seoH1) {
     </div>
 <?php endif;?>
 
-			
-			
-        <div class="vert-margin30">
-        <h2 class="">Последние вопросы юристам</h2>
-        
-        <div class="inside">
-        <?php foreach($questions as $question):?>
-            
-            
-            <div class="row question-list-item  <?php if($question['payed'] == 1):?> vip-question<?endif;?>">
-                <div class="col-sm-10 col-xs-8">
-                    <p style="font-size:0.9em;">
-                        <?php if($question['payed'] == 1){
-                            echo "<span class='label label-warning'><abbr title='Вопрос с гарантией получения ответов'><span class='glyphicon glyphicon-ruble'></span></abbr></span>";
-                        }
-                        ?>
-                        <?php echo CHtml::link($question['title'], Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?>
-                    </p>
-                </div>
-                
-                <div class="col-sm-2 col-xs-4 text-center">
-                    <small>
-                    <?php if($question['counter'] == 1) {
-                        echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> Есть ответ</span>";
-                    } elseif($question['counter']>1) {
-                        echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
-                    } elseif($question['counter'] == 0) {
-                        echo "<span class='text-muted'>Нет ответа</span>";
-                    }
-                    ?>
-                    </small>
-                </div>
-            </div>
-        <?php endforeach;?>         
-        </div>
-        </div>
 
 <?php if($model->description2):?>
 

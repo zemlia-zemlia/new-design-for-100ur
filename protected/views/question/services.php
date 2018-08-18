@@ -1,5 +1,7 @@
 <?php
 $this->setPageTitle("Заказать юридические услуги ". Yii::app()->name);
+Yii::app()->clientScript->registerMetaTag("Заказ юридических услуг онлайн, выбирайте из нескольких профессионалов.", 'description');
+
 ?>
 
 

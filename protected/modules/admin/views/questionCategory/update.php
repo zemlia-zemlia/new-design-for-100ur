@@ -20,15 +20,18 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 ?>
 
-<h1>Редактирование категории вопросов</h1>
+<h1>Редактирование категории вопросов 
 
 <?php 
     if(Yii::app()->user->role == User::ROLE_ROOT) {
-        echo "<div class='right-align'>";
+        echo " ";
         echo CHtml::link("Удалить категорию", Yii::app()->createUrl('/admin/questionCategory/delete', array('id'=>$model->id)),array('class'=>'btn btn-danger', 'onclick'=>'if(!confirm("Вы уверены?")) {return false;}else{return true;}'));
-        echo "</div>";
+        echo " ";
     }
 ?>
+</h1>
+
+
 
 <?php echo $this->renderPartial('_form', array(
         'model'=>$model,
