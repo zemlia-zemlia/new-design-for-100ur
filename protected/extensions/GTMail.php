@@ -17,7 +17,7 @@ class GTMail {
     public function __construct($useLibrary = false) {
         
         // при отправке писем с локальной машины при разработке не используем SMTP сервер
-        if(YII_DEV === true) {
+        if(YII_DEV === true || USE_SMTP == false) {
             $useLibrary = false;
         }
         /*
