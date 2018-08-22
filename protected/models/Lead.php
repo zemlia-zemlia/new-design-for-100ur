@@ -297,6 +297,9 @@ class Lead extends CActiveRecord
         if (!$this->save()) {
             $leadSaved = false;
             Yii::log("Не удалось сохранить лид " . $this->id, 'error', 'system.web.CCommand');
+            if(YII_DEBUG === true) {
+                CustomFuncs::printr($this->errors);
+            }
         } else {
             $leadSaved = true;
         }
@@ -429,10 +432,15 @@ class Lead extends CActiveRecord
             throw $e;
         }
 
-        // Если лид был куплен у вебмастера, переведем ему деньги
-        $this->payWebmaster();
-        $this->logSoldLead($buyer, $campaign);
-        return true;
+        if ($soldLeadResultCode === self::SAVE_RESULT_CODE_OK) {
+            // Если лид был куплен у вебмастера, переведем ему деньги
+            $this->payWebmaster();
+            $this->logSoldLead($buyer, $campaign);
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     /**
