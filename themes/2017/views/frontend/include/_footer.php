@@ -32,9 +32,8 @@
             <div class="col-sm-3">
                 <h3 class="left-align">Юристам</h3>
                 <p>
-					<a href="http://www.yurcrm.ru/" target="_blank" rel="nofollow">CRM для юристов</a><br />
-                   <!--  <?php echo ($_SERVER['REQUEST_URI'] != '/site/crm/') ? CHtml::link('CRM Для юридических фирм', Yii::app()->createUrl('http://www.yurcrm.ru/')) : '<span class="active">CRM Для юридических фирм</span>'; ?>-->
-                    <?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/') ? CHtml::link('Юридические заявки (лиды)', Yii::app()->createUrl('/site/lead/')) : '<span class="active">Юридические заявки (лиды)</span>'; ?><br />
+                  <?php echo ($_SERVER['REQUEST_URI'] != '/site/crm/') ? CHtml::link('CRM для юристов', Yii::app()->createUrl('/site/crm/')) : '<span class="active">CRM для юристов</span>'; ?> <br />
+                  <?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/') ? CHtml::link('Юридические заявки (лиды)', Yii::app()->createUrl('/site/lead/')) : '<span class="active">Юридические заявки (лиды)</span>'; ?><br />
                 </p>
                 <h3 class="left-align">Партнерам</h3>
                 <p>

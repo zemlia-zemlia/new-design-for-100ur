@@ -14,7 +14,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
 
 <style>
     .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
-        padding:3px;
+        padding:0px;
     }
 </style>
 

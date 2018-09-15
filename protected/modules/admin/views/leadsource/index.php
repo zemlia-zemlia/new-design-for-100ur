@@ -16,14 +16,17 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
  ));
 
 ?>
+<style>
+    .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+        padding:1px;
+    }
+</style>
+
 
 <h1>Источники лидов.
 <?php echo CHtml::encode($office->name); ?>
+<?php echo CHtml::link("Добавить новый", Yii::app()->createUrl('admin/leadsource/create'), array('class'=>'btn btn-primary'));?>
 </h1>
-
-<div class="right-align">
-    <?php echo CHtml::link("Добавить новый", Yii::app()->createUrl('admin/leadsource/create'), array('class'=>'btn btn-primary'));?>
-</div>
 
 <table class="table table-bordered table-hover table-striped">
     <thead>

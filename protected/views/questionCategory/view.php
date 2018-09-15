@@ -128,7 +128,8 @@ if($model->seoH1) {
 
 <div class="row vert-margin30 ">
 <?php if(sizeof($neighboursPrev)):?>
-      
+          <h2 class="vert-margin20">Полезные материалы по теме:</h2>
+
     <div class="col-md-6">
     <?php foreach($neighboursPrev as $neighbour):?>
         

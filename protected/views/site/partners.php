@@ -14,7 +14,7 @@
 </div>
 
 
-<h2 class="vert-margin20 header-block-light-grey">Описание CPA</h2>
+<h2 class="vert-margin20 header-block-light-grey">Юридическая партнерская программа - CPA</h2>
 <p>
 	Для владельцев источников трафика есть возможность его монетизации по следующему принципу: После регистрации вам будет доступна индивидуальная реферальная ссылка которую вы размещаете на своих сайтах, пабликах, группах и т.д. При переходе по вашей ссылке в нашу партнерскую программу передается информация о источнике конкретного пользователя.<br/> Начисление оплаты на ваш счет происходит за каждый опубликованный на сайте партнерской программы вопрос содержащий в себе вопрос юридического характера, оплачивается только один (первый) вопрос от каждого уникального пользователя. Сумма начисления фиксированная и не зависит от региона пользователя который задал свой вопрос.
 	<div class="alert alert-info">
@@ -32,7 +32,7 @@
     <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('user/create', array('role' => User::ROLE_PARTNER)), array('class' => 'yellow-button'));?>
 </div>
 
-<h2 class="vert-margin20 header-block-light-grey">Описание CPL</h2>
+<h2 class="vert-margin20 header-block-light-grey">Юридическая партнерская программа - CPL</h2>
 <p>В отличии от первого варианта партнерки в этом случае оплачиваются только активные в данный момент времени регионы. Активные регионы могут добавляться и удаляться.</p>
 
 <div class="alert alert-success">
@@ -64,19 +64,6 @@
 	<li>Банкротство физлиц;</li>
 </ul>
 
-<div class="panel panel-info">
-        <div class="panel-heading">
-            <h3 class="panel-title">Активные регионы</h3>
-        </div>
-        <div class="panel-body">
-            В таблице ниже отображаются выкупаемые регионы в режиме реального времени. В зависимости от текущего времени, дня недели и других факторов перечень регионов и их стоимость могут полностью меняться.
-        </div>
-        <?php
-        // выводим виджет с ценами по регионам
-            $this->widget('application.widgets.RegionPrices.RegionPrices', array());
-        ?> 
-</div>
-	
 <div class="vert-margin30 text-center">
-    <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('user/create', array('role' => User::ROLE_PARTNER)), array('class' => 'yellow-button'));?>
+    <?php echo CHtml::link('Пройдите регистрацию чтобы узнать выкупаемые регионы и цены', Yii::app()->createUrl('user/create', array('role' => User::ROLE_PARTNER)), array('class' => 'yellow-button'));?>
 </div>	

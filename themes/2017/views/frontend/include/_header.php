@@ -147,7 +147,7 @@
                                 </li>
                                 <li><?php echo CHtml::link('Поиск вопросов', Yii::app()->createUrl('question/search')); ?></li>
                                 <li><?php echo CHtml::link('Заказы документов ' . '<strong class="red">(' . Order::calculateNewOrders() . ')</strong>', Yii::app()->createUrl('order/index')); ?></li>
-                                <li><?php echo CHtml::link('Заявки', Yii::app()->createUrl('lead/index')); ?></li>
+                                <!-- <li><?php echo CHtml::link('Заявки', Yii::app()->createUrl('lead/index')); ?></li> -->
                                 <li><?php echo CHtml::link('CRM', "http://www.yurcrm.ru", ['target' => '_blank']); ?> <span class="label label-danger">new</span></li>
                             <?php elseif(Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->isGuest): ?>
 
@@ -160,7 +160,7 @@
                                         <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/login/') ? CHtml::link('Вход на сайт', Yii::app()->createUrl('/site/login/')) : '<span class="active">Вход на сайт</span>'; ?></li> 
                                     <?php endif; ?>
                                 <?php endif; ?>
-                                <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/')) ? CHtml::link('Бесплатная консультация', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' . Yii::app()->controller->id, array('class' => 'yellow-button arrow')) : ''; ?></li>
+                                <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/')) ? CHtml::link('Бесплатная консультация на сайте', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' . Yii::app()->controller->id, array('class' => 'yellow-button arrow')) : ''; ?></li>
                             <?php endif; ?>
                                 
                             <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>

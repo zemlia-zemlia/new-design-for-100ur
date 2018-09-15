@@ -20,10 +20,10 @@
     <div class="col-sm-12">    
         <?php endif;?>
         
-        <p class="text-danger">
+        <p class="text-danger small">
             <strong>Внимание!</strong><br />
             26.05.2018 мы перешли на более современное шифрование паролей. Для этого нам пришлось автоматически
-            сменить пароли всем пользователям. Воспользуйтесь <?php echo CHtml::link('функцией восстановления пароля', Yii::app()->createUrl('user/restorePassword'));?>, чтобы войти на сайт.<br />
+            сменить пароли всем пользователям.<br/> Воспользуйтесь <?php echo CHtml::link('восстановлением пароля', Yii::app()->createUrl('user/restorePassword'));?>, чтобы войти на сайт.<br />
             При возникновении затруднений пишите в техподдержку: admin@100yuristov.com
         </p>
         <div class="form-group">
@@ -69,10 +69,10 @@
     <div class="col-sm-4 center-align">
         <br />
 		<p>Если забыли пароль<br />
-        <?php echo CHtml::link('Напомнить', Yii::app()->createUrl('user/restorePassword'), array('class'=>'btn btn-default btn-block'));?>
+        <?php echo CHtml::link('Восстановить', Yii::app()->createUrl('user/restorePassword'), array('class'=>'btn btn-default btn-block'));?>
         </p>
         <p>Если Вы у нас впервые<br />
-        <?php echo CHtml::link('Регистрация', Yii::app()->createUrl('user/create'), array('class'=>'btn btn-default btn-block'));?>
+        <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('user/create'), array('class'=>'btn btn-default btn-block'));?>
         </p>
 
     </div>

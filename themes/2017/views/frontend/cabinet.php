@@ -14,11 +14,13 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
             <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/')?CHtml::link('Главная', '/cabinet/'):'<span class="active">Главная</span>';?></li>
-                <li><?php echo ($_SERVER['REQUEST_URI'] != '/lead/')?CHtml::link('Каталог лидов', '/lead/'):'<span class="active">Каталог лидов</span>';?></li>
+                <!-- <li><?php echo ($_SERVER['REQUEST_URI'] != '/lead/')?CHtml::link('Каталог лидов', '/lead/'):'<span class="active">Каталог лидов</span>';?></li> -->
                 <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/transactions/')?CHtml::link('Баланс', Yii::app()->createUrl('/cabinet/transactions/')):'<span class="active">Баланс</span>';?></li>
                 <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/api/')?CHtml::link('API', Yii::app()->createUrl('/cabinet/api/')):'<span class="active">API</span>';?></li>
                 <li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/faq/')?CHtml::link('FAQ', Yii::app()->createUrl('/cabinet/faq/')):'<span class="active">FAQ</span>';?></li>
 				<li><a href="http://www.yurcrm.ru/" target="_blank" rel="nofollow">CRM для юристов</a></li>
+				<li><?php echo ($_SERVER['REQUEST_URI'] != '/cabinet/help/')?CHtml::link('Техподдержка', Yii::app()->createUrl('/cabinet/help/')):'<span class="active">Техподдержка</span>';?></li>
+
             </ul>
             </div>
         </div>
