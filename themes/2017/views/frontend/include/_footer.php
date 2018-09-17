@@ -24,7 +24,6 @@
             <div class="col-sm-3">
                 <h3 class="left-align">Клиентам</h3>
                 <?php echo ($_SERVER['REQUEST_URI'] != '/q/') ? CHtml::link('Новые вопросы', Yii::app()->createUrl('/question/index')) : '<span class="active">Новые вопросы</span>'; ?> <br />			
-                <?php echo ($_SERVER['REQUEST_URI'] != '/company/') ? CHtml::link('Каталог компаний России', Yii::app()->createUrl('/company/')) : '<span class="active">Каталог компаний</span>'; ?><br />
                 <?php echo ($_SERVER['REQUEST_URI'] != '/site/goryachaya_liniya/') ? CHtml::link('Горячая линия', Yii::app()->createUrl('/site/goryachaya_liniya/')) : '<span class="active">Горячая линия</span>'; ?><br />
                 <?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/') ? CHtml::link('Наши филиалы', Yii::app()->createUrl('/site/contacts')) : '<span class="active">Наши филиалы</span>'; ?><br />
                 <?php echo ($_SERVER['REQUEST_URI'] != '/blog/') ? CHtml::link('Советы юристов', Yii::app()->createUrl('/blog')) : '<span class="active">Советы юристов</span>'; ?>

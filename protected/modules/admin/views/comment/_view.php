@@ -51,10 +51,6 @@
                     $answer = Answer::model()->with('question')->findByPk($data->objectId);
                     echo CHtml::link(CHtml::encode($answer->question->title), Yii::app()->createUrl('question/view', array('id'=>$answer->questionId)), array('target'=>'_blank'));
                     break;
-                case Comment::TYPE_COMPANY:
-                    echo "Компания <br />";
-                    echo CHtml::link('Ссылка', Yii::app()->createUrl('yurCompany/view', array('id'=>$data->objectId)));
-                    break;
             }
         ?>
     </td>

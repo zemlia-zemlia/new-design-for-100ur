@@ -111,39 +111,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <hr />
 
 
-        <?php if (sizeof($model->companies)): ?>
-
-            <h3 class="vert-margin20">Юридические компании города</h3>
-            <div class="container-fluid">
-                <div class="row">
-                    <?php
-                    $companyCounter = 0;
-                    $companyLimit = 6;
-                    ?>
-                    <?php foreach ($model->companies as $company): ?>
-                        <?php
-                        $companyCounter++;
-                        if ($companyCounter > $companyLimit)
-                            break;
-                        ?>
-                        <?php if ($companyCounter % 2 == 1) echo "<div class='row'>"; ?>
-
-                        <div class="col-md-2">
-                            <img src="<?php echo $company->getPhotoUrl('thumb'); ?>" alt="<?php echo CHtml::encode($company->name); ?>" class="img-responsive" />
-                        </div>
-                        <div class="col-md-4">
-                            <?php echo CHtml::link(CHtml::encode($company->name), Yii::app()->createUrl('yurCompany/view', array('id' => $company->id))); ?>
-                        </div>
-                        <?php if ($companyCounter % 2 == 0) echo "</div>"; ?>
-                    <?php endforeach; ?>
-                    <?php if ($companyCounter % 2 == 1 && $companyCounter != $companyLimit + 1) echo "</div>"; ?>
-                </div>
-            </div>
-            <hr />
-        <?php endif; ?>
-
-
-
         <?php if ($model->description1): ?>
             <div class="vert-margin30">
                 <?php echo $model->description1; ?>

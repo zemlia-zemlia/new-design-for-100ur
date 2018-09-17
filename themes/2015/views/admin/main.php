@@ -219,9 +219,6 @@
                                 <li><?php echo CHtml::link("<span class='glyphicon glyphicon-pencil'></span>  Блог", Yii::app()->createUrl('/admin/blog'));?></li> 
                                 <li><?php echo CHtml::link("<span class='glyphicon glyphicon-globe'></span>  Города", Yii::app()->createUrl('/admin/town'));?></li> 
                                 <?php endif;?> 
-                                <li><?php echo CHtml::link("<span class='glyphicon glyphicon-paperclip'></span>  Юр. компании", Yii::app()->createUrl('/admin/yurCompany'));?>
-                                <?php echo CHtml::link('+', Yii::app()->createUrl('/admin/yurCompany/create'), array('class'=>'btn btn-info btn-xs'));?>
-                                </li> 
                             </ul>
                         </div>
                     </div>

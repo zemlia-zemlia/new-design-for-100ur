@@ -75,7 +75,6 @@ class Town extends CActiveRecord
         return array(
             'questions'           =>  array(self::HAS_MANY, 'Question', 'townId'),
             'questionsCount'      =>  array(self::STAT, 'Question', 'townId'),
-            'companies'           =>  array(self::HAS_MANY, 'YurCompany', 'townId'),
             'yurists'             =>  array(self::HAS_MANY, 'User', 'townId', 'condition' => 'role='.User::ROLE_JURIST),
             'region'              =>  array(self::BELONGS_TO, 'Region', 'regionId'),
             'country'             =>  array(self::BELONGS_TO, 'Country', 'countryId'),

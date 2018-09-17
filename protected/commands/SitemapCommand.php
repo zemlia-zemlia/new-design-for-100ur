@@ -85,19 +85,6 @@ class SitemapCommand extends CConsoleCommand
            </url>';
         }
         
-        $yurCompanies = Yii::app()->db->createCommand()
-                ->select('id')
-                ->from('{{yurCompany}}')
-                ->queryAll();
-        foreach($yurCompanies as $yurCompany) {
-            $siteMap .= '<url>
-              <loc>' .  Yii::app()->createUrl('yurCompany/view', ['id' => $yurCompany['id']])  .  '</loc>
-              <lastmod>' . date('Y-m-d') . '</lastmod>
-              <changefreq>weekly</changefreq>
-              <priority>0.5</priority>
-           </url>';
-        }
-        
         $siteMap .= '</urlset>';
         
         $siteMapFilePath = YiiBase::getPathOfAlias('application') . '/../sitemap.xml';

@@ -213,22 +213,6 @@
 
                                                     <hr style="margin-top: 1px; margin-bottom: 1px;">
 
-                                                    <li><?php echo CHtml::link("<span class='glyphicon glyphicon-paperclip'></span>  Каталог фирм", Yii::app()->createUrl('/admin/yurCompany')); ?>
-                                                        <?php echo CHtml::link('Добавить', Yii::app()->createUrl('/admin/yurCompany/create'), array('class' => 'btn btn-info btn-xs')); ?>
-
-                                                        <ul id="left-menu">
-                                                            <li>
-                                                                <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Новые отзывы', Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_COMPANY, 'status' => Comment::STATUS_NEW))); ?> <span class="badge badge-default"><?php echo Comment::newCommentsCount(Comment::TYPE_COMPANY, 300); ?></span>
-                                                            </li>
-                                                            <li>
-                                                                <?php echo CHtml::link("<span class='glyphicon glyphicon-ok'></span> " . 'Одобренные', Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_COMPANY, 'status' => Comment::STATUS_CHECKED))); ?>
-                                                            </li>
-                                                            <li>
-                                                                <?php echo CHtml::link("<span class='glyphicon glyphicon-fire'></span> " . 'Спам', Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_COMPANY, 'status' => Comment::STATUS_SPAM))); ?>
-                                                            </li>
-                                                        </ul>
-                                                    </li>	
-
                                                     <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
                                                         <hr style="margin-top: 1px; margin-bottom: 1px;">
 
