@@ -122,7 +122,7 @@
                                                 <h4>Управление контентом</h4>
                                             </a>
                                         </div>
-                                        <div class="collapse" id="content-collapse">
+                                        <div class="" id="content-collapse">
                                             <div class="panel-body">  
 
 
@@ -210,8 +210,6 @@
                                                             </ul>
                                                         <?php endif; ?>    
                                                     </li>
-
-                                                    <hr style="margin-top: 1px; margin-bottom: 1px;">
 
                                                     <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
                                                         <hr style="margin-top: 1px; margin-bottom: 1px;">

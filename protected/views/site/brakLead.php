@@ -37,7 +37,9 @@
     </tr>
 </table>
 
-
+<div class="alert alert-danger" role="alert">
+  <strong>Внимание!</strong> Отбраковка модерируется в ручном режиме, пожалуйста указывайте реальную причину и уточняйте в комментарии. 
+</div>
 
 <?php $this->renderPartial('_brakLeadForm', array(
     'lead'  =>  $lead,
