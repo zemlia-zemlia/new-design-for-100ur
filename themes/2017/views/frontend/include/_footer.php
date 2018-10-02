@@ -4,10 +4,11 @@
 
             <div class="col-sm-3">
                 <h3 class="left-align">100 Юристов</h3>  
-                <div class="vert-margin20">
+                <div class="vert-margin20 small">
                     <?php echo ($_SERVER['REQUEST_URI'] != '/site/about/') ? CHtml::link('О проекте', Yii::app()->createUrl('/site/about/')) : '<span class="active">О проекте</span>'; ?><br />
                     <?php echo ($_SERVER['REQUEST_URI'] != '/site/offer/') ? CHtml::link('Пользовательское соглашение', Yii::app()->createUrl('/site/offer/')) : '<span class="active">Пользовательское соглашение</span>'; ?><br />
-                    <?php echo ($_SERVER['REQUEST_URI'] != '/region/') ? CHtml::link('Каталог юристов', Yii::app()->createUrl('/region/country', ['countryAlias' => 'russia'])) : '<span class="active">География</span>'; ?><br />
+					<?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/') ? CHtml::link('Наши филиалы', Yii::app()->createUrl('/site/contacts')) : '<span class="active">Наши филиалы</span>'; ?><br />
+
                 </div>
 
                 <div id="social-icons-container">
@@ -23,10 +24,11 @@
             </div>
             <div class="col-sm-3">
                 <h3 class="left-align">Клиентам</h3>
-                <?php echo ($_SERVER['REQUEST_URI'] != '/q/') ? CHtml::link('Новые вопросы', Yii::app()->createUrl('/question/index')) : '<span class="active">Новые вопросы</span>'; ?> <br />			
+                <?php echo ($_SERVER['REQUEST_URI'] != '/q/') ? CHtml::link('Вопросы юристам', Yii::app()->createUrl('/question/index')) : '<span class="active">Вопросы юристам</span>'; ?> <br />			
                 <?php echo ($_SERVER['REQUEST_URI'] != '/site/goryachaya_liniya/') ? CHtml::link('Горячая линия', Yii::app()->createUrl('/site/goryachaya_liniya/')) : '<span class="active">Горячая линия</span>'; ?><br />
-                <?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/') ? CHtml::link('Наши филиалы', Yii::app()->createUrl('/site/contacts')) : '<span class="active">Наши филиалы</span>'; ?><br />
-                <?php echo ($_SERVER['REQUEST_URI'] != '/blog/') ? CHtml::link('Советы юристов', Yii::app()->createUrl('/blog')) : '<span class="active">Советы юристов</span>'; ?>
+                <?php echo ($_SERVER['REQUEST_URI'] != '/blog/') ? CHtml::link('Советы юристов', Yii::app()->createUrl('/blog')) : '<span class="active">Советы юристов</span>'; ?><br />
+				<?php echo ($_SERVER['REQUEST_URI'] != '/region/') ? CHtml::link('Каталог юристов', Yii::app()->createUrl('/region/country', ['countryAlias' => 'russia'])) : '<span class="active">География</span>'; ?><br />
+
             </div>
             <div class="col-sm-3">
                 <h3 class="left-align">Юристам</h3>

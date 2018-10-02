@@ -6,7 +6,7 @@
 class ApiLeadia implements ApiClassInterface
 {
 
-    protected $url = "http://cloud1.leadia.ru/lead.php";
+    protected $url = "http://cloud1.leadia.org/lead.php";
     protected $key = 13550; // наш id в партнерской системе
     protected $curl;
     protected $lead;

@@ -30,6 +30,10 @@
             <?php echo $this->renderPartial('_form', array(
                 'model' => $transaction,
             ));?>
+			<div class="text-center">
+				<small><strong>Заявки на вывод средств обрабатываются в течении 3 (трёх) рабочих дней.</strong></small>
+				</div>
+
         </td>
         
     </tr>

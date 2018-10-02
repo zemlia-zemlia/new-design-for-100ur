@@ -19,6 +19,12 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 ?>
 
+<style>
+    .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+        padding:2px;
+    }
+</style>
+
 <h1>Кампания #<?php echo $model->id; ?></h1>
 
 <table class="table table-bordered">
