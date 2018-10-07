@@ -1,7 +1,14 @@
 <?php
 CController::renderPartial('webroot.themes.2017.views.frontend.include._header');
 ?>
-
+			<? 
+				/**
+					 Этот шаблон используется в разделах:
+					 /cat/
+					 /q/
+					 /site/
+ 				**/
+			?>
 <div class="container">
     <div class="top-form-replace">
         <hr/>
@@ -64,6 +71,18 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                     <?php endif; ?>
                 </div>
             <?php endif; ?>
+			
+			<?php if (Yii::app()->user->isGuest): ?>
+			<? 
+				/**
+					 Задел под баннер который будем показывать только гостям 
+				**/
+			?>
+				<div>
+					
+				</div>
+			<?php endif; ?>
+
         </div>
     </div>
 </div>

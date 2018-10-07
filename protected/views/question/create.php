@@ -29,7 +29,7 @@ $this->breadcrumbs=array(
             $yuristsCount = round($yuristsCountRow['counter']*5.314);
         ?>
      
-        <div class="counters-wrapper counters-wrapper-border vert-margin20">
+        <div class="counters-wrapper counters-wrapper-border vert-margin20 hidden-xs">
             <div class="row">
                 <div class="col-sm-3 col-xs-6 center-align counter-green">
                     <div class="counter-number">

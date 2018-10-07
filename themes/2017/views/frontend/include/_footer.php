@@ -79,7 +79,7 @@
                     <p>
                         <span itemprop="name">100 Юристов</span>: 
 
-                        <span itemprop="telephone">8-800-500-61-85</span>
+                        <span itemprop="telephone">88005006185</span>
                     </p>
                 </div>
 

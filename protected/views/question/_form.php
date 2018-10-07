@@ -20,7 +20,7 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
 ?>
 
   
-<div class="form-group">
+<div class="form-group hidden-xs">
     <?php echo $form->labelEx($model,'title', ['class' =>  'col-sm-4 control-label']); ?>
     <div class="col-sm-8">
         <?php echo $form->textField($model,'title', array('class'=>'form-control', 'placeholder'=>'Например, Как оспорить наследство?')); ?>
@@ -38,7 +38,7 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
     
 </div>
 
-<div class="row">
+<div class="row hidden-xs">
     <div class="col-md-12">
         <div class="form-group">
             <label class="col-sm-4 control-label">Категория права</label>
