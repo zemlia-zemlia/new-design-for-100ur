@@ -8,6 +8,9 @@
 <?php $form = $this->beginWidget('CActiveForm', array(
     'id' => 'question-category-form',
     'enableAjaxValidation' => false,
+    'htmlOptions' => [
+        'enctype' => 'multipart/form-data',
+    ],
 )); ?>
 
 <div class="row">
@@ -38,6 +41,38 @@
     </div>
 
     <div class="col-md-4">
+
+        <div class="vert-margin30">
+            <?php echo $form->labelEx($model, 'imageFile'); ?>
+
+            <?php if($model->image):?>
+                <?php echo CHtml::image($model->getImagePath(), '', ['class' => 'img-responsive']);?>
+            <?php endif;?>
+
+            <?php echo $form->fileField($model, 'imageFile', array('class' => 'form-control')); ?>
+            <div class="length-counter"></div>
+            <?php echo $form->error($model, 'imageFile'); ?>
+        </div>
+
+        <div class="form-group">
+            <?php echo $form->labelEx($model,'publish_date'); ?>
+            <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
+                array(
+                    'name'=>"QuestionCategory[publish_date]",
+                    'value'=>$model['publish_date'],
+                    'language'=>'ru',
+                    'options' => array('dateFormat'=>'dd-mm-yy',
+                    ),
+                    'htmlOptions' => array(
+                        'style'=>'text-align:right;',
+                        'class'=>'form-control'
+                    )
+                )
+            );
+            ?>
+            <?php echo $form->error($model,'publish_date'); ?>
+        </div>
+
         <div class="form-group">
             <?php echo $form->labelEx($model, 'seoTitle'); ?>
             <?php echo $form->textField($model, 'seoTitle', array('class' => 'form-control strlen-count')); ?>

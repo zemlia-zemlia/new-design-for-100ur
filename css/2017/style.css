@@ -1052,12 +1052,7 @@ ul.hor-list-menu a.yellow-button,
 
     .category-hero h1 {
         font-weight: 600;
-        text-shadow: 1px 1px 2px #666;
-        color: #fff;
         font-size:30px;
-        position:absolute;
-        top:50px;
-        width:100%;
     }
 }
 
@@ -1084,7 +1079,7 @@ ul.hor-list-menu a.yellow-button,
 @media(min-width:768px) {
     .post-hero {
         position:relative;
-        min-height:300px;
+        min-height:200px;
     }
     
     .text-over-hero {

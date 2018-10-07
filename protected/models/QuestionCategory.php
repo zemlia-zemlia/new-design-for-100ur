@@ -19,12 +19,15 @@
  * @property integer $rgt
  * @property integer $level
  * @property string $path
+ * @property string $publish_date
  */
 class QuestionCategory extends CActiveRecord
 {
     const NO_CATEGORY = 0; // 0 - нет категории
 
     const IMAGES_DIRECTORY = '/upload/categories/';
+
+    public $imageFile; // для загрузки через форму
 
     /**
      * Returns the static model of the specified AR class.
@@ -71,8 +74,9 @@ class QuestionCategory extends CActiveRecord
         return array(
             array('name', 'required'),
             array('parentId, isDirection', 'numerical', 'integerOnly' => true),
-            array('name', 'length', 'max' => 255),
+            array('name, publish_date', 'length', 'max' => 255),
             array('alias', 'match', 'pattern' => '/^([a-z0-9\-])+$/'),
+            //array('imageFile', 'file', 'pattern' => '/^([a-z0-9\-])+$/'),
             array('description1, description2, seoTitle, seoDescription, seoKeywords, seoH1', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
@@ -111,6 +115,9 @@ class QuestionCategory extends CActiveRecord
             'seoKeywords' => 'SEO keywords',
             'seoH1' => 'Заголовок H1',
             'isDirection' => 'Является направлением',
+            'image' => 'Изображение',
+            'imageFile' => 'Изображение категории',
+            'publish_date' => 'Дата публикации',
         );
     }
 
@@ -440,6 +447,30 @@ class QuestionCategory extends CActiveRecord
         }
 
         return $categoriesArray;
+    }
+
+    /**
+     * Возвращает путь на сервере к изображению категории
+     * @return string
+     */
+    public function getImagePath()
+    {
+        return ($this->image != '') ? self::IMAGES_DIRECTORY . $this->image : '';
+    }
+
+
+    /**
+     * Возвращает массив категорий, отсортированный по убыванию даты публикации и id
+     * @param int $limit Лимит выборки
+     * @return QuestionCategory[]
+     */
+    public static function getRecentCategories($limit = 3)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->order = 'publish_date DESC, id DESC';
+        $criteria->limit = $limit;
+        $categories = QuestionCategory::model()->findAll($criteria);
+        return $categories;
     }
 
 }

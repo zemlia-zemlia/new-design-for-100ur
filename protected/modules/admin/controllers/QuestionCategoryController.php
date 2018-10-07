@@ -123,13 +123,15 @@ class QuestionCategoryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
-
+        $oldImagePath = $model->getImagePath();
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
         if (isset($_POST['QuestionCategory'])) {
             $model->attributes = $_POST['QuestionCategory'];
+            $now = new DateTime();
+            $model->publish_date = (new DateTime($model->publish_date))->setTime($now->format('H'), $now->format('i'), $now->format('s'))->format('Y-m-d H:i:s');
 
             if ($model->parentId) {
                 $parent = QuestionCategory::model()->findByPk($model->parentId);
@@ -140,9 +142,23 @@ class QuestionCategoryController extends Controller
                 $model->moveAsLast($parent);
             }
 
+            $imageFile = CUploadedFile::getInstance($model, 'imageFile');
+
+            if ($imageFile && $imageFile->getError() == 0) { // если файл нормально загрузился
+                // определяем имя файла для хранения на сервере
+                $newFileName = md5($imageFile->getName() . $imageFile->getSize()) . "." . $imageFile->getExtensionName();
+                Yii::app()->ih
+                    ->load($imageFile->tempName)
+                    ->resize(1200, 500, true)
+                    ->save(Yii::getPathOfAlias('webroot') . QuestionCategory::IMAGES_DIRECTORY . '/' . $newFileName);
+                $model->image = $newFileName;
+            }
 
             if ($model->saveNode()) {
-
+                // Если загрузили новую картинку вместо старой, удалим старую
+                if($oldImagePath && $newFileName) {
+                    @unlink(Yii::getPathOfAlias('webroot') . $oldImagePath);
+                }
                 // при изменении категории, заново найдем путь до нее
                 $model->getUrl(true);
 
@@ -155,6 +171,8 @@ class QuestionCategoryController extends Controller
         $scriptMap['jquery.js'] = '/js/jquery-1.8.3.min.js';
         $scriptMap['jquery.min.js'] = '/js/jquery-1.8.3.min.js';
         Yii::app()->clientScript->scriptMap = $scriptMap;
+
+        $model->publish_date = CustomFuncs::invertDate((new DateTime($model->publish_date))->format('Y-m-d'));
 
         $this->render('update', array(
             'model' => $model,
