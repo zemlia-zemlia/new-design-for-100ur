@@ -87,19 +87,19 @@ class Leadsource extends CActiveRecord {
      *  возвращает массив источников лидов, ключами которого являются ID, а значениями - названия
      * 
      * @param boolean $showInactive показывать неактивные источники
-     * @return Array массив источников лидов (id => name)
+     * @param integer $cacheTime на сколько секунд кешировать
+     * @return array массив источников лидов (id => name)
      */
-    static public function getSourcesArray($showInactive = true) {
+    static public function getSourcesArray($showInactive = true, $cacheTime = 60) {
         $attributes = array();
 
         if ($showInactive == false) {
             $attributes['active'] = 1;
         }
 
-        //CustomFuncs::printr($attributes);
-        $sources = self::model()->cache(3600)->findAllByAttributes($attributes);
+        $sources = self::model()->cache($cacheTime)->findAllByAttributes($attributes);
 
-        $sourcesArray = array(0 => 'Нет');
+        $sourcesArray = [0 => 'Нет'];
         foreach ($sources as $source) {
             $sourcesArray[$source->id] = $source->name;
         }
@@ -149,9 +149,9 @@ class Leadsource extends CActiveRecord {
 
     /**
      * Генерирует appId
-     * @return integer appId
      */
-    public function generateAppId() {
+    public function generateAppId()
+    {
         $this->appId = mt_rand(1000000, 9999999);
     }
 
@@ -159,7 +159,8 @@ class Leadsource extends CActiveRecord {
      * Генерирует secretKey
      * @return string secretKey
      */
-    public function generateSecretKey() {
+    public function generateSecretKey()
+    {
         $this->secretKey = md5($this->id . mt_rand(1000000, 9999999) . time());
     }
     
@@ -189,6 +190,4 @@ class Leadsource extends CActiveRecord {
         }
         return $sourcesArray;
     }
-    
-    
 }
