@@ -28,6 +28,8 @@ class Controller extends CController {
      * @return boolean
      */
     public function init() {
+        Yii::setPathOfAlias('YurcrmClient', Yii::getPathOfAlias('application.vendor.yurcrm.yurcrm-client.src'));
+
         // если пользователь неактивен, разлогиниваем его
         if (!Yii::app()->user->isGuest && Yii::app()->user->active100 == 0) {
             Yii::app()->user->logout();

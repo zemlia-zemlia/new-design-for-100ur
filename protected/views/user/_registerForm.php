@@ -45,7 +45,16 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
     
     <?php echo $form->hiddenField($model,'role'); ?>
     <?php
-        $formView = ($model->role == User::ROLE_JURIST) ? "_registerFormJurist" : "_registerFormClient";
+        switch ($model->role) {
+            case User::ROLE_JURIST:
+                $formView = "_registerFormJurist";
+                break;
+            case User::ROLE_BUYER:
+                $formView = "_registerFormBuyer";
+                break;
+            default:
+                $formView = "_registerFormClient";
+        }
     ?>
     
     <?php echo $this->renderPartial($formView, array('form' => $form,  'model' => $model));?>

@@ -1,5 +1,7 @@
 <?php
 
+use YurcrmClient\YurcrmClient;
+
 class UserController extends Controller {
 
     public $layout = '//frontend/question';
@@ -124,6 +126,9 @@ class UserController extends Controller {
         // при регистрации юриста действуют отдельные правила проверки полей
         if ($model->role == User::ROLE_JURIST) {
             $model->setScenario('createJurist');
+        }
+        if ($model->role == User::ROLE_BUYER) {
+            $model->setScenario('createBuyer');
         }
 
         $rolesNames = array(
@@ -383,13 +388,19 @@ class UserController extends Controller {
             }
 
             if ($user->save()) {
-                // после активации и сохранения пользователя, отправим ему на почту ссылку на смену временного пароля
-                if ($newPassword) {
-                    $user->sendChangePasswordLink();
-                }
-
                 // добавим пользователя в список рассылки в Sendpulse
                 $user->addToSendpulse();
+
+                if (in_array($user->role, [User::ROLE_BUYER, User::ROLE_JURIST])) {
+                    // покупателя и юриста перекинем на страницу установки пароля
+                    $changePasswordLink = $user->getChangePasswordLink();
+                    return $this->redirect($changePasswordLink);
+                } else {
+                    // после активации и сохранения пользователя, отправим ему на почту ссылку на смену временного пароля
+                    if ($newPassword) {
+                        $user->sendChangePasswordLink();
+                    }
+                }
 
                 // логиним пользователя
                 $loginModel = new LoginForm;
@@ -523,14 +534,24 @@ class UserController extends Controller {
             if ($user->validate()) {
                 // если данные пользователя прошли проверку (пароль не слишком короткий)
                 // шифруем пароль перед сохранением в базу
+
+                $passwordRaw = $user->password;
+
                 $user->password = User::hashPassword($user->password);
                 $user->password2 = $user->password;
                 $user->confirm_code = '';
 
+                if ($user->role == User::ROLE_BUYER && is_null($user->yurcrmToken)) {
+                    // покупателя лидов добавляем в CRM
+                    $crmResponse = $user->createUserInYurcrm($passwordRaw);
+                    LoggerFactory::getLogger('db')->log('Создание пользователя в YurCRM. Ответ от API:' . $crmResponse['response'], 'User', $user->id);
+
+                    $user->getYurcrmDataFromResponse($crmResponse);
+                }
+
                 if ($user->save()) {
                     $this->redirect(array('site/passwordChanged'));
                 } else {
-                    //CustomFuncs::printr($user->errors);
                     throw new CHttpException(500, 'Ошибка, не удалось изменить пароль');
                 }
             }

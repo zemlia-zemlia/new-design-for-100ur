@@ -1,5 +1,7 @@
 <?php
 
+use YurcrmClient\YurcrmClient;
+
 class UserController extends Controller {
 
     /**
@@ -27,7 +29,7 @@ class UserController extends Controller {
     public function accessRules() {
         return array(
             array('allow',
-                'actions' => array('restorePassword', 'captcha', 'confirm'),
+                'actions' => array('restorePassword', 'captcha', 'confirm', 'registerInCrm'),
                 'users' => array('*'),
             ),
             array('allow', // действия, разрешенные для всех авторизованных пользователей
@@ -671,6 +673,37 @@ class UserController extends Controller {
         $this->render('requests', array(
             'users' => $users,
         ));
+    }
+
+    /**
+     * Регистрация пользователя в CRM через API клиент
+     */
+    public function actionRegisterInCrm()
+    {
+        $testApiUrl = 'http://crm2/api/';
+
+        $user = new User();
+        $yurcrmClient = new YurcrmClient('user/create', 'POST', Yii::app()->params['yurcrmToken'], $testApiUrl);
+        $yurcrmClientGet = new YurcrmClient('user/one', 'GET', '8d4d48c4dc8a76882568787a7e035d6b', $testApiUrl);
+
+        $tariff = 5;
+
+        $yurcrmClient->setData([
+            'tariff' => $tariff,
+            'user[name]' => $user->name,
+            'user[lastName]' => $user->lastName,
+            'user[email]' => $user->email,
+            'user[phone]' => $user->phone,
+            'user[password1]' => $user->password,
+            'user[password2]' => $user->password2,
+        ]);
+        CustomFuncs::printr($yurcrmClient);
+
+        $yurcrmClientGet->setData(['id' => 1095]);
+
+        $getUserResult = $yurcrmClientGet->send();
+        $createUserResult = $yurcrmClient->send();
+        CustomFuncs::printr($createUserResult);
     }
 
 }

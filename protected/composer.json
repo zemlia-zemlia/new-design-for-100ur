@@ -1,8 +1,10 @@
 {
+    "minimum-stability": "dev",
     "require":{
         "sendpulse/rest-api":"*",
         "swiftmailer/swiftmailer":"^6.0",
-        "robmorgan/phinx":"0.5"
+        "robmorgan/phinx":"0.5",
+        "yurcrm/yurcrm-client":"*"
     },
     "require-dev": {
         "codeception/codeception":"*",
