@@ -473,4 +473,20 @@ class QuestionCategory extends CActiveRecord
         return $categories;
     }
 
+    /**
+     * Возвращает массив метатегов для страницы категории
+     */
+    public function getAdditionalMetaTags()
+    {
+        $tags = [
+            'og:title' => CHtml::encode($this->seoTitle),
+            'og:type' => "article",
+            'og:image' => Yii::app()->urlManager->baseUrl . $this->getImagePath(),
+            'og:url' => Yii::app()->createUrl('/questionCategory/alias', $this->getUrl()),
+            'og:description' => CHtml::encode($this->seoDescription),
+        ];
+
+        return $tags;
+    }
+
 }
