@@ -17,7 +17,7 @@ environments:
     development:
         adapter: mysql
         host: localhost
-        name: 100yuristov
+        name: 100yuristov_etalon
         user: 100yuristov
         pass: 'crm_local'
         port: 3306
