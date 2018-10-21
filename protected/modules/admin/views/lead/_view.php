@@ -129,7 +129,7 @@ switch ($data->leadStatus) {
 
             <?php if ($data->leadStatus == Lead::LEAD_STATUS_NABRAK): ?>
             <p>
-                <?php echo CHtml::link('В брак', '#', array('class' => 'btn btn-warning btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_BRAK)); ?>
+                <?php echo CHtml::link('В брак', '#', array('class' => 'btn btn-warning btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_BRAK, 'data-refund' => 1)); ?>
             </p>
             <p>
                 <?php echo CHtml::link('Возврат', '#', array('class' => 'btn btn-success btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_RETURN)); ?>
@@ -139,7 +139,7 @@ switch ($data->leadStatus) {
 
         <?php if ($data->leadStatus == Lead::LEAD_STATUS_PREMODERATION): ?>
             <p>
-                <?php echo CHtml::link('В брак', '#', array('class' => 'btn btn-warning btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_BRAK)); ?>
+                <?php echo CHtml::link('В брак', '#', array('class' => 'btn btn-warning btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_BRAK, 'data-refund' => 1)); ?>
             </p>
             <p>
                 <?php echo CHtml::link('На продажу', '#', array('class' => 'btn btn-success btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_DEFAULT)); ?>

@@ -32,7 +32,6 @@
             <?php echo $form->hiddenField($model, 'sourceId', array('value' => ($model->isNewRecord) ? Yii::app()->params['100yuristovSourceId'] : $model->sourceId)); ?>
             </div>
 
-<?php // if(!$model->isNewRecord): ?>
             <div class='row'>
                 <div class='col-md-6'>
                     <div class="form-group">
@@ -49,7 +48,6 @@
                     </div>
                 </div>
             </div>
-                <?php // endif; ?>
 
             <div class="form-group">
                 <?php echo $form->labelEx($model, 'question'); ?>

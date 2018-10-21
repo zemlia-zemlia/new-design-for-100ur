@@ -3,13 +3,14 @@ $(function(){
         e.preventDefault();
         var leadId = $(this).attr('data-id');
         var newStatus = $(this).attr('data-status');
-        
+        var refund = $(this).attr('data-refund');
+
         //console.log(leadId + ': ' + newStatus);
         
         $.ajax('/admin/lead/changeStatus/',
             {
                 method:'POST',
-                data:{id:leadId,status:newStatus},
+                data:{id:leadId, status:newStatus, refund:refund},
                 success:onChangeLeadStatus,
             }
         );

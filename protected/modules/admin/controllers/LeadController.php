@@ -358,10 +358,15 @@ class LeadController extends Controller
         }
     }
 
+    /**
+     * Изменение статуса лида через POST запрос
+     */
     public function actionChangeStatus()
     {
         $leadId = (isset($_POST['id'])) ? (int) $_POST['id'] : false;
         $status = (isset($_POST['status'])) ? (int) $_POST['status'] : false;
+        // возвращать ли деньги покупателю при отбраковке лида
+        $refund = (isset($_POST['refund'])) ? (int) $_POST['refund'] : 1;
 
         if ($leadId === false || $status === false) {
             echo json_encode(array('code' => 400, 'message' => 'Error, not enough data'));
@@ -379,8 +384,9 @@ class LeadController extends Controller
 
         // найдем кампанию, в которую отправлен лид
         // если новый статус - Брак, вернем деньги за лида на баланс пользователя
+        // При условии, что не передан параметр, отменяющий возврат денег покупателю
         $campaign = $lead->campaign;
-        if ($lead->campaign && $lead->leadStatus == Lead::LEAD_STATUS_BRAK) {
+        if ($lead->campaign && $lead->leadStatus == Lead::LEAD_STATUS_BRAK && $refund !== 0) {
             $buyer = $campaign->buyer;
             $buyer->setScenario('balance');
             $buyer->balance += $lead->price;
