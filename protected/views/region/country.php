@@ -71,9 +71,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <?php endif; ?>
 
             </div>
-
+			<div class="col-sm-4">
             <?php if (Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_ROOT): ?>
-                <div class="col-sm-4">
+                
                     <div class="grey-panel inside">
                         <h4>Вы специалист в области права?</h4>
                         <p>
@@ -83,8 +83,17 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', array('role' => User::ROLE_JURIST))); ?>
                         </p>
                     </div>
-                </div>
+                
             <?php endif; ?>
+			<h4>Новые материалы:</h4>
+			<div class="inside">
+                <?php
+                    $this->widget('application.widgets.RecentCategories.RecentCategories', [
+                        'number' => 4,
+                    ]);
+                ?>
+            </div>
+        </div>
         </div>
     </div>
 </div>
