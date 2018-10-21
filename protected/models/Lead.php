@@ -755,10 +755,10 @@ class Lead extends CActiveRecord
             
             // запишем транзакцию за лид
             $partnerTransaction = new PartnerTransaction;
-            $partnerTransaction->sum = $this->buyPrice;
+            $partnerTransaction->sum = $this->buyPrice * $sourceUser->priceCoeff;
             $partnerTransaction->leadId = $this->id;
             $partnerTransaction->sourceId = $this->sourceId;
-            $partnerTransaction->partnerId = $this->source->user->id;
+            $partnerTransaction->partnerId = $sourceUser->id;
             $partnerTransaction->comment = "Начисление за лид #" . $this->id;
             if (!$partnerTransaction->save()) {
                 Yii::log("Не удалось сохранить транзакцию за покупку лида " . $this->id . ' ' . print_r($partnerTransaction->errors), 'error', 'system.web.CCommand');
