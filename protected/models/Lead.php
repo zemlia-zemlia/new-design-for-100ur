@@ -755,7 +755,7 @@ class Lead extends CActiveRecord
             
             // запишем транзакцию за лид
             $partnerTransaction = new PartnerTransaction;
-            $partnerTransaction->sum = $this->buyPrice * $sourceUser->priceCoeff;
+            $partnerTransaction->sum = $this->buyPrice;
             $partnerTransaction->leadId = $this->id;
             $partnerTransaction->sourceId = $this->sourceId;
             $partnerTransaction->partnerId = $sourceUser->id;
