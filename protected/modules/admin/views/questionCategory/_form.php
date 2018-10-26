@@ -26,7 +26,7 @@
                 'attribute' => 'description1', //Model attribute name.
                 'options' => array(
                     'width' => 'auto',
-                    'height' => 1000,
+                    'height' => 800,
                     'useCSS' => true,
                 ),
                 'value' => $model->description1,
@@ -38,6 +38,10 @@
             ?>
             <?php echo $form->error($model, 'description1'); ?>
         </div>
+		<hr/>
+		<h2>Теги для редактирования текста статей:</h2>
+		<h4>blockquote</h4>
+		
     </div>
 
     <div class="col-md-4">

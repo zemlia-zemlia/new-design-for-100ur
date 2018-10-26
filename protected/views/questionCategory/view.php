@@ -28,11 +28,11 @@ if ($model->seoKeywords) {
 
 Yii::app()->clientScript->registerLinkTag("canonical", NULL, Yii::app()->createUrl('/questionCategory/alias', $model->getUrl()));
 
-// нашел какой-то метатег чтобы он подгружал картинку когда вставляешь сссылку в группе
-// <meta property="og:image" content="https://100yuristov.com/pics/2017/100_yuristov_logo.svg">
-
-// временно отключаем запрет индексации недозаполненных категорий
-//Yii::app()->clientScript->registerMetaTag(($model->isIndexingAllowed())?'all':'noindex', "robots");
+$additionalTags = $model->getAdditionalMetaTags();
+//CustomFuncs::printr($additionalTags);exit;
+foreach ($additionalTags as $property => $content) {
+    Yii::app()->clientScript->registerMetaTag($content, $property);
+}
 
 $this->breadcrumbs = array('Темы вопросов' => array('/cat'));
 
@@ -55,14 +55,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 if ($model->seoH1) {
     $pageTitle = CHtml::encode($model->seoH1);
 } else {
-    $pageTitle = CHtml::encode($model->name) . ', ' . 'консультации юриста и адвоката';
+    $pageTitle = CHtml::encode($model->name);
 }
 ?>
 
 <div class="category-hero post-hero">
     <?php if ($model->image): ?>
         <img src="<?php echo $model->getImagePath(); ?>" alt="<?php echo $pageTitle; ?>"
-             title="<?php echo $pageTitle; ?>" class="img-responsive hidden-xs"/>
+             title="<?php echo $pageTitle; ?>" class="img-responsive"/>
     <?php endif; ?>
     <div class="text-over-hero">
         <h1>
@@ -84,21 +84,49 @@ if ($model->seoH1) {
         <?php echo $model->description1; ?>
     </div>
 <?php endif; ?>
-
-<div class="flat-panel inside">
-    <div class="center-align">
-        <?php
-        // выводим виджет с номером 8800
-        $this->widget('application.widgets.Hotline.HotlineWidget', array(
-            'showAlways' => true,
-        ));
-        ?>
-    </div>
+<div class="row vert-margin30">
+	<div class="col-sm-7 right-align">
+		<strong>Отправить ссылку на статью:</strong>
+	</div>
+	<div class="col-sm-5">
+		<script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+    <script src="//yastatic.net/share2/share.js"></script>
+    <div class="ya-share2" data-services="collections,vkontakte,facebook,odnoklassniki,moimir,twitter,viber,whatsapp,skype,telegram"></div>
+	</div>
 </div>
+
+
+<?php if (Yii::app()->user->isGuest): ?>
+	<div class="flat-panel inside">
+		<div class="center-align">
+			<?php
+			// выводим виджет с номером 8800
+			$this->widget('application.widgets.Hotline.HotlineWidget', array(
+				'showAlways' => true,
+			));
+			?>
+		</div>
+	</div>
+<?php endif; ?>
+
 <br/>
 
-<div class="">
+<?php if (Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_CLIENT): ?>
+    <div class="vert-margin30 blue-block inside">
+        <div class="row">
+            <div class="col-sm-8 center-align">
+                <h3>Ваш вопрос требует составления документа?</h3>
+                <p>Доверьте это опытным юристам, закажите документ прямо на сайте в режиме онлайн.</p>
+            </div>
+            <div class="col-sm-4 center-align">
+                <p></p>
+                <?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/docs'), ['class' => 'yellow-button']); ?>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
 
+<div class="hidden-xs">
     <?php if (sizeof($children)): ?>
 
         <h2 class="vert-margin20">Смотрите также темы:</h2>
@@ -126,10 +154,9 @@ if ($model->seoH1) {
     <?php endif; ?>
 </div>
 
-
-<div class="row vert-margin30 ">
+<div class="row vert-margin30 hidden-xs">
     <?php if (sizeof($neighboursPrev)): ?>
-        <h2 class="vert-margin20">Полезные материалы по теме:</h2>
+        <h2 class="vert-margin20">Смотрите также темы:</h2>
 
         <div class="col-md-6">
             <?php foreach ($neighboursPrev as $neighbour): ?>
@@ -160,20 +187,7 @@ if ($model->seoH1) {
 </div>
 
 
-<?php if (Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_CLIENT): ?>
-    <div class="vert-margin30 blue-block inside">
-        <div class="row">
-            <div class="col-sm-8 center-align">
-                <h3>Ваш вопрос требует составления документа?</h3>
-                <p>Доверьте это опытным юристам</p>
-            </div>
-            <div class="col-sm-4 center-align">
-                <p></p>
-                <?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/docs'), ['class' => 'yellow-button']); ?>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
+
 
 
 <?php if ($model->description2): ?>

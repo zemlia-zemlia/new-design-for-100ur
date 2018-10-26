@@ -95,6 +95,16 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', array('role' => User::ROLE_JURIST))); ?>
                     </p>
                 </div>
+
+				<h4>Новые материалы:</h4>
+                <div class="inside">
+                <?php
+                    $this->widget('application.widgets.RecentCategories.RecentCategories', [
+                        'number' => 4,
+                    ]);
+                ?>
+                </div>
+
             </div>
             <?php endif; ?>
         </div>

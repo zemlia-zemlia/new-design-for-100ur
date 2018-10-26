@@ -474,7 +474,7 @@ class User extends CActiveRecord
             }
         }
         $changePasswordLink = $this->getChangePasswordLink();
-        $mailer = new GTMail(true);
+        $mailer = new GTMail();
         $mailer->subject = "Смена пароля пользователя";
         $mailer->message = "Здравствуйте!<br />
             Ваша ссылка для смены пароля на портале 100 Юристов:<br />" .
@@ -1139,6 +1139,10 @@ class User extends CActiveRecord
      */
     public function createUserInYurcrm($passwordRaw)
     {
+        if (!in_array($this->role, [self::ROLE_BUYER, self::ROLE_JURIST])) {
+            return null;
+        }
+
         $yurcrmClient = new YurcrmClient('user/create', 'POST', Yii::app()->params['yurcrmToken'], Yii::app()->params['yurcrmApiUrl']);
         $tariff = Yii::app()->params['yurcrmDefaultTariff'];
 

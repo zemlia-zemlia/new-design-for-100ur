@@ -28,7 +28,8 @@ class TransactionController extends Controller {
         ));
         
         $requestsCriteria = new CDbCriteria();
-        $requestsCriteria->addColumnCondition(array('partnerId' => Yii::app()->user->id, 'sum<'=>0));
+        $requestsCriteria->addColumnCondition(['partnerId' => Yii::app()->user->id]);
+        $requestsCriteria->addCondition('sum<0');
         $requestsCriteria->order = "id DESC";
         
         $requestsDataProvider = new CActiveDataProvider('PartnerTransaction', array(

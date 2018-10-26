@@ -17,7 +17,7 @@ class RegionPrices extends CWidget
                 ->leftJoin("{{region}} r", "r.id = c.regionId")
                 ->leftJoin("{{region}} r_town", "r_town.id = t.regionId")
                 ->leftJoin("{{lead}} l", "l.campaignId = c.id AND l.leadStatus!=" . Lead::LEAD_STATUS_BRAK)
-                ->andWhere("c.active=:active AND u.lastTransactionTime>NOW()-INTERVAL 10 DAY", array(':active' => Campaign::ACTIVE_YES))
+                ->andWhere("c.active=:active AND c.type=:type AND u.lastTransactionTime>NOW()-INTERVAL 10 DAY", array(':active' => Campaign::ACTIVE_YES, ':type' => Campaign::TYPE_BUYERS))
                 ->group("c.id")
                 ->order("townPrice DESC, regionPrice DESC");
         

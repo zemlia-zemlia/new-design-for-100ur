@@ -17,10 +17,11 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 ));
 ?>
 
-<h1><?php echo CHtml::encode($model->name); ?></h1>
 
 <div class='row'>
     <div class='col-md-8'>
+	<h1><?php echo CHtml::encode($model->name); ?></h1>
+
         <table class="table table-bordered">
             <tr>
                 <td><strong><?php echo $model->getAttributeLabel('id'); ?></strong></td>
@@ -96,21 +97,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             </tr>
         </table>    
 
-        <div class="vert-margin30">
-            <?php if (Yii::app()->user->checkAccess(User::ROLE_SECRETARY)): ?>
-                <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/lead/update', array('id' => $model->id)), array('class' => 'btn btn-primary')); ?>
-            <?php endif; ?>
 
-            <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
-                <?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/lead/delete', array('id' => $model->id)), array('class' => 'btn btn-danger')); ?>
-
-                <?php if ($model->leadStatus != Lead::LEAD_STATUS_BRAK): ?>
-                    <span id="lead-<?php echo $model->id; ?>">
-                <?php echo CHtml::link('В брак без возврата денег покупателю', '#', array('class' => 'btn btn-danger lead-change-status', 'data-id' => $model->id, 'data-status' => Lead::LEAD_STATUS_BRAK, 'data-refund' => 0)); ?>
-                </span>
-                <?php endif; ?>
-            <?php endif; ?>
-        </div>
 
         <h4>Записи из лога</h4>
         <?php
@@ -122,9 +109,26 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         ?>		
     </div>
     <div class='col-md-4'>
+	
+		<div class="vert-margin30">
+            <?php if (Yii::app()->user->checkAccess(User::ROLE_SECRETARY)): ?>
+                <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/lead/update', array('id' => $model->id)), array('class' => 'btn btn-block btn-primary')); ?>
+            <?php endif; ?>
+				<br/>
+            <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
+                <?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/lead/delete', array('id' => $model->id)), array('class' => 'btn btn-block btn-danger')); ?>
+				<br/>
 
+                <?php if ($model->leadStatus != Lead::LEAD_STATUS_BRAK): ?>
+                    <span id="lead-<?php echo $model->id; ?>">
+                <?php echo CHtml::link('В брак без возврата денег покупателю', '#', array('class' => 'btn btn-block btn-default lead-change-status', 'data-id' => $model->id, 'data-status' => Lead::LEAD_STATUS_BRAK, 'data-refund' => 0)); ?>
+                </span>
+                <?php endif; ?>
+            <?php endif; ?>
+        </div>
+	
         <?php if ($model->leadStatus == Lead::LEAD_STATUS_DEFAULT): ?>
-            <h4 class="vert-margin20">Отправка лида в кампанию</h4>
+            <h4 class="vert-margin20">Ручная отправка лида в кампанию</h4>
             <div id='force-sell'>
                 <?php foreach ($campaigns as $campaing): ?>
                     <p>
@@ -137,6 +141,4 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <?php endif; ?>
     </div>
 </div>
-
-
 

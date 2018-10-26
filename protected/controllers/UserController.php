@@ -146,7 +146,7 @@ class UserController extends Controller {
             }
 
             $model->confirm_code = md5($model->email . mt_rand(100000, 999999));
-            $model->password = $model->password2 = User::generatePassword(6);
+            $model->password = $model->password2 = User::hashPassword(User::generatePassword(6));
 
             if ($model->save()) {
                 // после сохранения юриста сохраним запись о его настройках
@@ -477,7 +477,7 @@ class UserController extends Controller {
             $email = trim(strtolower(CHtml::encode($model->email)));
             // ищем пользователя по введенному Email, если не найден, получим NULL
             $user = User::model()->find('LOWER(email)=?', array($email));
-            //$user = User::model()->find(array('LOWER(email)'=>$email));
+
             if ($user) {
                 // если пользователь существует, отправим ему ссылку на смену пароля
                 //$newPassword = User::generatePassword(6);
@@ -550,7 +550,12 @@ class UserController extends Controller {
                 }
 
                 if ($user->save()) {
-                    $this->redirect(array('site/passwordChanged'));
+                    if($user->yurcrmToken != '') {
+                        $this->redirect(['site/passwordChanged', 'yurcrm' => 1]);
+                    } else {
+                        $this->redirect(['site/passwordChanged']);
+                    }
+
                 } else {
                     throw new CHttpException(500, 'Ошибка, не удалось изменить пароль');
                 }
