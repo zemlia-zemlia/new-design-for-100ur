@@ -1,5 +1,7 @@
 <?php
 
+use YurcrmClient\YurcrmClient;
+
 class UserController extends Controller {
 
     /**
@@ -27,7 +29,7 @@ class UserController extends Controller {
     public function accessRules() {
         return array(
             array('allow',
-                'actions' => array('restorePassword', 'captcha', 'confirm'),
+                'actions' => array('restorePassword', 'captcha', 'confirm', 'registerInCrm'),
                 'users' => array('*'),
             ),
             array('allow', // действия, разрешенные для всех авторизованных пользователей
@@ -671,6 +673,33 @@ class UserController extends Controller {
         $this->render('requests', array(
             'users' => $users,
         ));
+    }
+
+    /**
+     * Регистрация пользователя в CRM через API клиент
+     * @param integer $id
+     * @throws CHttpException
+     * @return string JSON ответ
+     */
+    public function actionRegisterInCrm($id)
+    {
+        header('Content-type: application/json');
+        $user = User::model()->findByPk($id);
+
+        if (!$user) {
+            throw new CHttpException(404, 'Пользователь не найден');
+        }
+
+        $crmResponse = $user->createUserInYurcrm(User::generatePassword(10));
+        $user->getYurcrmDataFromResponse($crmResponse);
+
+        $crmResponseDecoded = json_decode($crmResponse['response'], true);
+        if ((int)$crmResponseDecoded['status'] == 200) {
+            $user->save();
+        }
+
+        echo json_encode($crmResponse);
+        Yii::app()->end();
     }
 
 }

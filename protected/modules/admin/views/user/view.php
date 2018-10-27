@@ -3,6 +3,8 @@
 /* @var $model User */
 $this->pageTitle = 'Профиль пользователя ' . CHtml::encode($model->name) . '. ' . Yii::app()->name;
 
+Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
+
 $this->breadcrumbs = array(
     'Пользователи' => array('index'),
     CHtml::encode($model->name . ' ' . $model->lastName),
@@ -14,12 +16,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     'links' => $this->breadcrumbs,
 ));
 ?>
-
-<style>
-    .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
-        padding:3px;
-    }
-</style>
 
 <div class="row">
     <div class="col-md-8">
@@ -107,6 +103,20 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         <td>Баланс</td>
                         <td><?php echo ($model->role == User::ROLE_PARTNER) ? round($model->calculateWebmasterBalance(), 2) : $model->balance; ?> руб.</td>
                     </tr>
+
+                    <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) && in_array($model->role, [User::ROLE_JURIST, User::ROLE_BUYER])):?>
+                        <td>Регистрация в YurCRM</td>
+                        <td>
+                            <?php if($model->yurcrmSource > 0):?>
+                                Есть
+                            <?php else:?>
+                                <div id="yurcrm-register-result">
+                                Нет
+                                <?php echo CHtml::ajaxLink('создать аккаунт', Yii::app()->createUrl('/admin/user/registerInCrm', ['id' => $model->id]), ['success' => 'onRegisterUserInCRM']);?>
+                                </div>
+                            <?php endif;?>
+                        </td>
+                    <?php endif;?>
                 </table>
 
                 <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>

@@ -3,6 +3,7 @@
 // Загрузка библиотек для работы с API Sendpulse
 use Sendpulse\RestApi\ApiClient;
 use Sendpulse\RestApi\Storage\FileStorage;
+use YurcrmClient\YurcrmClient;
 
 /**
  * Модель для работы с пользователями
@@ -29,6 +30,8 @@ use Sendpulse\RestApi\Storage\FileStorage;
  * @property float $priceCoeff
  * @property integer $lastAnswer
  * @property integer $refId
+ * @property string $yurcrmToken
+ * @property integer $yurcrmSource
  */
 class User extends CActiveRecord
 {
@@ -90,6 +93,7 @@ class User extends CActiveRecord
         return array(
             array('name, email', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
             array('name2, lastName', 'required', 'message' => 'Поле {attribute} должно быть заполнено', 'on' => 'createJurist, updateJurist'),
+            array('lastName', 'required', 'message' => 'Поле {attribute} должно быть заполнено', 'on' => 'createBuyer'),
             array('phone', 'required', 'message' => 'Поле {attribute} должно быть заполнено', 'on' => 'register, update, createJurist, updateJurist'),
             array('email', 'unique', 'message' => 'Пользователь с таким Email уже зарегистрирован'),
             array('townId', 'required', 'except' => 'unsubscribe, confirm', 'message' => 'Поле {attribute} должно быть заполнено'),
@@ -99,7 +103,7 @@ class User extends CActiveRecord
             array('name2, lastName, birthday', 'safe'),
             array('agree', 'compare', 'compareValue' => 1, 'on' => array('register', 'createJurist'), 'message' => 'Вы должны согласиться на обработку персональных данных'),
             array('townId', 'match', 'not' => true, 'except' => 'unsubscribe, confirm, changePassword, restorePassword', 'pattern' => '/^0$/', 'message' => 'Поле Город не заполнено'),
-            array('password', 'length', 'min' => 5, 'max' => 128, 'tooShort' => 'Минимальная длина пароля 5 символов', 'allowEmpty' => ($this->scenario == 'update' || $this->scenario == 'register')),
+            array('password', 'length', 'min' => 6, 'max' => 128, 'tooShort' => 'Минимальная длина пароля 6 символов', 'allowEmpty' => ($this->scenario == 'update' || $this->scenario == 'register')),
             array('password2', 'compare', 'compareAttribute' => 'password', 'except' => 'confirm, create, register, update, updateJurist, unsubscribe, balance', 'message' => 'Пароли должны совпадать', 'allowEmpty' => ($this->scenario == 'update' || $this->scenario == 'register')),
             array('email', 'email', 'message' => 'В Email допускаются латинские символы, цифры, точка и дефис'),
             // The following rule is used by search().
@@ -466,12 +470,11 @@ class User extends CActiveRecord
         if ($this->confirm_code == '') {
             $this->confirm_code = $this->generateAutologinString();
             if (!$this->save()) {
-                //CustomFuncs::printr($this->errors);
                 throw new CHttpException(400, "Не удалось отправить ссылку на смену пароля");
             }
         }
-        $changePasswordLink = Yii::app()->createUrl("user/setNewPassword", array('email' => $this->email, 'code' => $this->confirm_code));
-        $mailer = new GTMail(true);
+        $changePasswordLink = $this->getChangePasswordLink();
+        $mailer = new GTMail();
         $mailer->subject = "Смена пароля пользователя";
         $mailer->message = "Здравствуйте!<br />
             Ваша ссылка для смены пароля на портале 100 Юристов:<br />" .
@@ -1116,6 +1119,59 @@ class User extends CActiveRecord
         // если не заполнены специализации
         if (!$this->settings->description) {
             return 'Пожалуйста, напишите немного о себе в своем профиле, это увеличит доверие со стороны клиента. ' . $editProfilePage;
+        }
+    }
+
+    /**
+     * Возвращает ссылку на смену пароля пользователя
+     * @return mixed
+     */
+    public function getChangePasswordLink()
+    {
+        $changePasswordLink = Yii::app()->createUrl("user/setNewPassword", array('email' => $this->email, 'code' => $this->confirm_code));
+        return $changePasswordLink;
+    }
+
+    /**
+     * Создает пользователя в Yurcrm через запрос к API
+     * @param string $passwordRaw Нешифрованный пароль
+     * @return array [curlInfo, response]
+     */
+    public function createUserInYurcrm($passwordRaw)
+    {
+        if (!in_array($this->role, [self::ROLE_BUYER, self::ROLE_JURIST])) {
+            return null;
+        }
+
+        $yurcrmClient = new YurcrmClient('user/create', 'POST', Yii::app()->params['yurcrmToken'], Yii::app()->params['yurcrmApiUrl']);
+        $tariff = Yii::app()->params['yurcrmDefaultTariff'];
+
+        $yurcrmClient->setData([
+            'tariff' => $tariff,
+            'user[name]' => $this->name,
+            'user[lastName]' => $this->lastName,
+            'user[email]' => $this->email,
+            'user[phone]' => $this->phone,
+            'user[password1]' => $passwordRaw,
+            'user[password2]' => $passwordRaw,
+        ]);
+        $createUserResult = $yurcrmClient->send();
+        return $createUserResult;
+    }
+
+    /**
+     * @param $crmResponse
+     */
+    public function getYurcrmDataFromResponse($crmResponse)
+    {
+        if ($crmResponse['response']) {
+            $crmResponseDecoded = json_decode($crmResponse['response'], true);
+            if ($crmResponseDecoded['data'] && $crmResponseDecoded['data']['company'] && $crmResponseDecoded['data']['company']['token']) {
+                $this->yurcrmToken = $crmResponseDecoded['data']['company']['token'];
+            }
+            if ($crmResponseDecoded['data'] && $crmResponseDecoded['data']['source100yuristov']) {
+                $this->yurcrmSource = $crmResponseDecoded['data']['source100yuristov'];
+            }
         }
     }
 

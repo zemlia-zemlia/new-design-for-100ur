@@ -57,3 +57,21 @@ function onFileVerified(data, status, xhr)
     
 }
 
+// обработка ответа при ajax запросе создания аккаунта в Yurcrm
+function onRegisterUserInCRM(data, status, xhr) {
+    console.log(status);
+    console.log(data.response);
+    if(status != 'success') {
+        // обработка ошибки при создании аккаунта
+        $("#yurcrm-register-result").html('<p class="text-danger">Что-то пошло не так. Не удалось создать аккаунт</p>');
+        return;
+    }
+    var response = JSON.parse(data.response);
+
+    if(parseInt(response.status) == 200) {
+        $("#yurcrm-register-result").html('<p class="text-success">Аккаунт создан. Перезагрузите страницу.</p>');
+    } else {
+        $("#yurcrm-register-result").html('<p class="text-danger">Не удалось создать аккаунт</p>');
+    }
+}
+
