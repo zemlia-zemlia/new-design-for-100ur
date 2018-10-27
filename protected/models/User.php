@@ -97,9 +97,10 @@ class User extends CActiveRecord
             array('phone', 'required', 'message' => 'Поле {attribute} должно быть заполнено', 'on' => 'register, update, createJurist, updateJurist'),
             array('email', 'unique', 'message' => 'Пользователь с таким Email уже зарегистрирован'),
             array('townId', 'required', 'except' => 'unsubscribe, confirm', 'message' => 'Поле {attribute} должно быть заполнено'),
-            array('role, active100, townId, karma, refId', 'numerical', 'integerOnly' => true),
+            array('role, active100, townId, karma, refId, yurcrmSource', 'numerical', 'integerOnly' => true),
             array('balance, priceCoeff', 'numerical'),
             array('name, email, phone', 'length', 'max' => 255),
+            array('yurcrmToken', 'length', 'max' => 32),
             array('name2, lastName, birthday', 'safe'),
             array('agree', 'compare', 'compareValue' => 1, 'on' => array('register', 'createJurist'), 'message' => 'Вы должны согласиться на обработку персональных данных'),
             array('townId', 'match', 'not' => true, 'except' => 'unsubscribe, confirm, changePassword, restorePassword', 'pattern' => '/^0$/', 'message' => 'Поле Город не заполнено'),
@@ -279,6 +280,9 @@ class User extends CActiveRecord
             'lastAnswer' => 'Время последнего ответа',
             'refId' => 'ID пригласившего пользователя',
             'agree' => 'Согласие на обработку персональных данных',
+            'yurcrmToken' => 'Токен для YurCRM',
+            'yurcrmSource' => 'id источника YurCRM',
+
         );
     }
 
