@@ -24,13 +24,17 @@ class UserController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view', 'create', 'confirm', 'balanceAddRequest', 'confirmationSent', 'restorePassword', 'setNewPassword', 'captcha', 'unsubscribe'),
+                'actions' => array('index', 'view', 'create', 'balanceAddRequest', 'confirmationSent', 'restorePassword', 'setNewPassword', 'captcha', 'unsubscribe'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('update', 'profile', 'changePassword', 'updateAvatar', 'invites', 'deleteAvatar', 'clearInfo', 'requestConfirmation', 'karmaPlus', 'stats', 'sendAnswerNotification'),
                 'users' => array('@'),
             ),
+            ['allow',
+                'actions' => ['confirm'],
+                'users' => array('?'),
+            ],
             array('allow',
                 'actions' => ['feed'],
                 'users' => array('@'),
