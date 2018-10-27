@@ -64,4 +64,5 @@ return array(
         'yurcrmToken' => 'd5e599d3c15e6ce0ce9d3c5a17ca624b', // токен, по которому создаются пользователи в yurcrm
         'yurcrmDefaultTariff' => 5, // тариф по умолчанию для создаваемых пользователей в CRM
         'yurcrmApiUrl' => 'http://crm2/api/', // адрес API CRM
+        'yurcrmDomain' => 'http://crm2', // адрес YurCRM
 );

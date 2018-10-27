@@ -1,5 +1,7 @@
 <?php
 
+use YurcrmClient\YurcrmClient;
+
 /**
  * Модель для работы с лидами 100 юристов
  *
@@ -253,8 +255,8 @@ class Lead extends CActiveRecord
 
     /**
      * Проверяет на существование покупателя и кампанию
-     * @param type $buyerId id покупателя
-     * @param type $campaignId id кампании
+     * @param integer $buyerId id покупателя
+     * @param integer $campaignId id кампании
      * @return boolean | array Массив (User, Campaign) или false если оба объекта не найдены
      */
     private function checkBuyerAndCampaign($buyerId, $campaignId)
@@ -415,7 +417,6 @@ class Lead extends CActiveRecord
                 // записываем в кампанию время отправки последнего лида
                 Yii::app()->db->createCommand()->update('{{campaign}}', array('lastLeadTime' => date('Y-m-d H:i:s')), 'id=:id', array(':id' => $campaign->id));
 
-                $this->sendToCampaignByMail($campaign);
             } else {
                 // если что-то не сохранилось, откатываем транзакцию
                 $dbTransaction->rollback();
@@ -432,7 +433,20 @@ class Lead extends CActiveRecord
             throw $e;
         }
 
+        $yurcrmResult = $this->sendToYurCRM($buyer);
+
         if ($soldLeadResultCode === self::SAVE_RESULT_CODE_OK) {
+
+            if (!is_null($yurcrmResult)) {
+                // Если успешно отправили лид в Yurcrm, уведомляем об этом покупателя
+                $yurcrmResultDecoded = json_decode($yurcrmResult['response'], true);
+                $crmLeadId = (int)$yurcrmResultDecoded['data']['id'];
+                if ((int)$yurcrmResultDecoded['status'] == 200 && $crmLeadId > 0) {
+                    $this->sendYurcrmNotification($buyer, $crmLeadId);
+                }
+            } else {
+                $this->sendToCampaignByMail($campaign);
+            }
             // Если лид был куплен у вебмастера, переведем ему деньги
             $this->payWebmaster();
             $this->logSoldLead($buyer, $campaign);
@@ -445,8 +459,8 @@ class Lead extends CActiveRecord
 
     /**
      * Запись в лог информации о проданном лиде
-     * @param type $buyer
-     * @param type $campaign
+     * @param User $buyer
+     * @param Campaign $campaign
      * @param integer $saveResult код результата сохранения лида
      * 
      */
@@ -780,4 +794,53 @@ class Lead extends CActiveRecord
         return ($source->moderation == 0) ? self::LEAD_STATUS_DEFAULT : self::LEAD_STATUS_PREMODERATION;
     }
 
+    /**
+     * Отправка лида в Yurcrm
+     * @param User $buyer покупатель
+     * @return array|null  Ответ от CRM
+     */
+    private function sendToYurCRM($buyer)
+    {
+        if ($buyer->yurcrmToken == '' || $buyer->yurcrmSource == 0) {
+            return null;
+        }
+
+        $yurcrmClient = new YurcrmClient('contact/create', 'POST', $buyer->yurcrmToken, Yii::app()->params['yurcrmApiUrl']);
+        $yurcrmClient->setData([
+            'contact[name]' => $this->name,
+            'contact[sourceId]' => $buyer->yurcrmSource,
+            'contact[phone]' => $this->phone,
+            'contact[question]' => $this->question,
+            'contact[email]' => $this->email,
+            'contact[townId]' => $this->townId,
+            'contact[externalId]' => $this->id,
+        ]);
+
+        $createLeadResult = $yurcrmClient->send();
+
+        return $createLeadResult;
+    }
+
+    /**
+     * Отправка покупателю уведомления о том, что его лид отправлен в Yurcrm
+     * @param User $buyer
+     */
+    private function sendYurcrmNotification($buyer, $crmLeadId)
+    {
+        $mailer = new GTMail();
+        $mailer->subject = "Заявка на консультацию из города " . $this->town->name . " (" . $this->town->region->name . ")";
+        $mailer->message = "<h2>Заявка на консультацию</h2>";
+        $mailer->message .= "<p>Имя: " . CHtml::encode($this->name) . ",</p>";
+        $mailer->message .= "<p>Город: " . CHtml::encode($this->town->name) . " (" . $this->town->region->name . ")" . "</p>";
+
+        $mailer->message .= "<p>Просмотреть заявку в <a href='" . Yii::app()->params['yurcrmDomain'] . "/contact/view?id=" . $crmLeadId . "'>YurCRM</a></p>";
+
+        $mailer->email = $buyer->email;
+
+        if ($mailer->sendMail()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
