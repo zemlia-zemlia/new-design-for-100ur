@@ -1135,7 +1135,7 @@ class User extends CActiveRecord
     /**
      * Создает пользователя в Yurcrm через запрос к API
      * @param string $passwordRaw Нешифрованный пароль
-     * @return array
+     * @return array [curlInfo, response]
      */
     public function createUserInYurcrm($passwordRaw)
     {
@@ -1159,6 +1159,9 @@ class User extends CActiveRecord
         return $createUserResult;
     }
 
+    /**
+     * @param $crmResponse
+     */
     public function getYurcrmDataFromResponse($crmResponse)
     {
         if ($crmResponse['response']) {

@@ -12,12 +12,6 @@ $this->breadcrumbs=array(
 
 ?>
 
-<style>
-    .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
-        padding:3px;
-    }
-</style>
-
 <div  class="vert-margin30">
     <h1>Пользователи: <?php echo $roleName;?></h1>
 </div>

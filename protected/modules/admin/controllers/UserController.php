@@ -677,33 +677,29 @@ class UserController extends Controller {
 
     /**
      * Регистрация пользователя в CRM через API клиент
+     * @param integer $id
+     * @throws CHttpException
+     * @return string JSON ответ
      */
-    public function actionRegisterInCrm()
+    public function actionRegisterInCrm($id)
     {
-        $testApiUrl = 'http://crm2/api/';
+        header('Content-type: application/json');
+        $user = User::model()->findByPk($id);
 
-        $user = new User();
-        $yurcrmClient = new YurcrmClient('user/create', 'POST', Yii::app()->params['yurcrmToken'], $testApiUrl);
-        $yurcrmClientGet = new YurcrmClient('user/one', 'GET', '8d4d48c4dc8a76882568787a7e035d6b', $testApiUrl);
+        if (!$user) {
+            throw new CHttpException(404, 'Пользователь не найден');
+        }
 
-        $tariff = 5;
+        $crmResponse = $user->createUserInYurcrm(User::generatePassword(10));
+        $user->getYurcrmDataFromResponse($crmResponse);
 
-        $yurcrmClient->setData([
-            'tariff' => $tariff,
-            'user[name]' => $user->name,
-            'user[lastName]' => $user->lastName,
-            'user[email]' => $user->email,
-            'user[phone]' => $user->phone,
-            'user[password1]' => $user->password,
-            'user[password2]' => $user->password2,
-        ]);
-        CustomFuncs::printr($yurcrmClient);
+        $crmResponseDecoded = json_decode($crmResponse['response'], true);
+        if ((int)$crmResponseDecoded['status'] == 200) {
+            $user->save();
+        }
 
-        $yurcrmClientGet->setData(['id' => 1095]);
-
-        $getUserResult = $yurcrmClientGet->send();
-        $createUserResult = $yurcrmClient->send();
-        CustomFuncs::printr($createUserResult);
+        echo json_encode($crmResponse);
+        Yii::app()->end();
     }
 
 }

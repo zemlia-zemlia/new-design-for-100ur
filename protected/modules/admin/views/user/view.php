@@ -3,6 +3,8 @@
 /* @var $model User */
 $this->pageTitle = 'Профиль пользователя ' . CHtml::encode($model->name) . '. ' . Yii::app()->name;
 
+Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
+
 $this->breadcrumbs = array(
     'Пользователи' => array('index'),
     CHtml::encode($model->name . ' ' . $model->lastName),
@@ -108,8 +110,10 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             <?php if($model->yurcrmSource > 0):?>
                                 Есть
                             <?php else:?>
+                                <div id="yurcrm-register-result">
                                 Нет
-                                <?php echo CHtml::ajaxLink('создать аккаунт', Yii::app()->createUrl('/admin/user/registerInCrm', ['id' => $model->id]));?>
+                                <?php echo CHtml::ajaxLink('создать аккаунт', Yii::app()->createUrl('/admin/user/registerInCrm', ['id' => $model->id]), ['success' => 'onRegisterUserInCRM']);?>
+                                </div>
                             <?php endif;?>
                         </td>
                     <?php endif;?>
