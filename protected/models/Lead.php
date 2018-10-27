@@ -824,6 +824,7 @@ class Lead extends CActiveRecord
     /**
      * Отправка покупателю уведомления о том, что его лид отправлен в Yurcrm
      * @param User $buyer
+     * @return bool
      */
     private function sendYurcrmNotification($buyer, $crmLeadId)
     {
@@ -834,7 +835,7 @@ class Lead extends CActiveRecord
         $mailer->message .= "<p>Город: " . CHtml::encode($this->town->name) . " (" . $this->town->region->name . ")" . "</p>";
 
         $mailer->message .= "<p>Просмотреть заявку в <a href='" . Yii::app()->params['yurcrmDomain'] . "/contact/view?id=" . $crmLeadId . "'>YurCRM</a></p>";
-
+        $mailer->message .= "<p>При первом входе в CRM вам нужно будет воспользоваться функцией восстановления пароля.  В качестве Email используйте адрес, под которым вы зарегистрированы в 100 Юристах</p>";
         $mailer->email = $buyer->email;
 
         if ($mailer->sendMail()) {
