@@ -133,7 +133,7 @@
 							
                              
                             <?php if(Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT):?>
-                                <a href="#" class='btn btn-xs btn-default donate-yurist-link'><span class="glyphicon glyphicon-ruble"></span> Отблагодарить юриста</a>
+                                <a href="#" class='btn btn-xs btn-default donate-yurist-link'><span class="glyphicon glyphicon-ruble"></span> Отблагодарить</a>
                             <?php endif;?>
                                
                             <?php if(Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT):?>
@@ -152,20 +152,17 @@
                 <?php endif;?>
                 
                 <?php foreach($data->comments as $comment):?>
-                    <?php //CustomFuncs::printr($comment->attributes); continue;?>
                     <?php if($comment->status != Comment::STATUS_SPAM):?>
-                        <div class="answer-comment" style="margin-left:<?php echo ($comment->level - 1)*20;?>px;">
+
+                        <?php $commentBlockClass = ($data->question->authorId == $comment->authorId) ? 'comment-author' : 'comment-yurist'; ?>
+
+                        <div class="answer-comment <?php echo $commentBlockClass;?>">
                             <p> <strong><span class="glyphicon glyphicon-comment"></span> 
                                 <?php if($data->question->authorId == $comment->authorId) {
-                                          echo CHtml::encode($data->question->authorName) . " <em class='text-muted'>(Автор вопроса)</em>";
+                                          echo CHtml::encode($data->question->authorName);
                                       } elseif($data->authorId == $comment->authorId) {
                                       ?>    
-                                            <?php echo CHtml::encode($data->author->name . ' ' . $data->author->name2 . ' ' . $data->author->lastName);?>
-                                            <?php if($data->author->settings->isVerified):?>
-                                            
-                                                <em class='text-muted'><?php echo $data->author->settings->getStatusName();?></em>
-                                            
-                                            <?php endif;?>
+                                            <?php echo CHtml::encode($data->author->getShortName());?>
                                       <?php    
                                       }
                                 ?>
