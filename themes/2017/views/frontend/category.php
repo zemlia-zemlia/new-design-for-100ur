@@ -1,19 +1,16 @@
 <?php
 CController::renderPartial('webroot.themes.2017.views.frontend.include._header');
 ?>
-<?
-/**
- * Этот шаблон используется в разделах:
- * /cat/
- * /q/
- * /site/
- **/
-?>
-    <div class="container">
-        <div class="top-form-replace">
-            <hr/>
-        </div>
-    </div>
+
+    <?php if((Yii::app()->user->isGuest && !(Yii::app()->controller->id=='question' && Yii::app()->controller->action->id=='create'))):?>
+        <?php
+        // выводим виджет с формой
+            $this->widget('application.widgets.SimpleForm.SimpleForm', array());
+        ?> 
+    
+    <?php else:?>
+        <div class="top-form-replace"></div>
+    <?php endif;?>
 
     <div class="container">
         <div class="row">
@@ -45,15 +42,21 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
 
 
                 <?php if (Yii::app()->user->role != User::ROLE_JURIST): ?>
-                    <div data-spy="" data-offset-top="200">
-                        <div class="vert-margin20">
-                            <?php
-                            // выводим виджет с формой
-                            $this->widget('application.widgets.SimpleForm.SimpleForm', array(
-                                'template' => 'sidebar',
-                            ));
-                            ?>
-                        </div>
+                    <div data-spy="" data-offset-top="200" class="hidden-xs">
+                        <? /*
+                         //вывели большую главную форму на страницы категорий и пока скрыли эту маленькую
+                            <div class="vert-margin20"> 
+                                 
+                                <?php 
+                                // выводим виджет с формой
+                                $this->widget('application.widgets.SimpleForm.SimpleForm', array(
+                                    'template' => 'sidebar',
+                                ));
+                                ?> 
+                            </div>
+                        */ ?>
+
+                      
 
                         <?php if (Yii::app()->user->isGuest): ?>
                             <div class="grey-panel inside">
@@ -70,6 +73,15 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                     </div>
                 <?php endif; ?>
 
+
+                <h4>Новые материалы:</h4>
+                <div class="inside">
+                <?php
+                    $this->widget('application.widgets.RecentCategories.RecentCategories', [
+                        'number' => 4,
+                    ]);
+                ?>
+                </div>
 
                 <?php if (Yii::app()->user->isGuest): ?>
                     <?

@@ -25,9 +25,6 @@
                 </div>
                 
                 <div>
-                    <small class="text-muted">
-                    <?php echo YuristSettings::getStatusNameByCode($user['yuristStatus']);?>
-                    </small>
                 </div>
                 
                 <?php if(floor((time() - strtotime($user['lastActivity']))/60)<60):?>

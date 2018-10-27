@@ -2,7 +2,7 @@
 
 class QuestionCategoryController extends Controller {
 
-    public $layout = '//frontend/question';
+    public $layout = '//frontend/category';
 
     /**
      * @return array action filters

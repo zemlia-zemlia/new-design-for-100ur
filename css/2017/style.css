@@ -1105,3 +1105,23 @@ ul.hor-list-menu a.yellow-button,
         text-align: center;
     }
 }
+
+
+#law-block {
+    padding-top: 277px;
+    padding-left: 183px;
+    font-weight: bold;
+}
+#law-block a {
+    color: #463c3c;
+    text-decoration: underline;
+}
+.law-name {
+    font-size: 18px;
+}
+
+.form-title h2 {
+    color: #000000;
+    text-shadow: 0px 0px 8px white;
+    font-weight: bold;
+}

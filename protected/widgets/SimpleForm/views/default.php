@@ -1,13 +1,19 @@
 <div id="hero">
     <div  class="container">
     <div class="row">
-        <div class="col-md-6">
-        
+        <div class="col-md-6 hidden-xs">
+            <div id="law-block">
+                <div class="law-name"><a href="/user/8/?from=index-form" rel="nofollow">Тарасова Марина</a></div>
+                <small>юрист проекта</small>
+            </div>
         </div>
         <div class="col-md-6">
             <div class="form-container">
-                <h2 class="center-align">Задать вопрос юристу онлайн бесплатно</h2>
-                                                
+                                     
+                <div class="form-title">
+                    <h2 class="center-align">Задать вопрос юристу онлайн бесплатно</h2>                            
+                </div> 
+
                 <?php $form=$this->beginWidget('CActiveForm', array(
                         'id'                    =>  'question-form',
                         'enableAjaxValidation'  =>  false,
@@ -19,7 +25,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                                <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>6, 'placeholder'=>'Меня хотят выписать из квартиры в которой не проживаю больше двух лет, как мне действовать чтобы сохранить прописку?')); ?>
+                                <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>6, 'placeholder'=>'Опишите свою ситуацию максимально подробно чтобы юрист смог сориентироваться и дать максимально развернутый ответ')); ?>
                                 <?php echo $form->error($model,'questionText'); ?>
                         </div>
                         
@@ -27,7 +33,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Ваше имя *</label>
-                                    <?php echo $form->textField($model,'authorName', array('class'=>'form-control', 'placeholder'=>'Владимир')); ?>
+                                    <?php echo $form->textField($model,'authorName', array('class'=>'form-control', 'placeholder'=>'Представьтесь')); ?>
                                     <?php echo $form->error($model,'authorName'); ?>
                     </div> 
                             </div>

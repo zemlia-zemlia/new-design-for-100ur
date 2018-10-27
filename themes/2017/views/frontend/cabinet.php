@@ -39,13 +39,13 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                 <?php $campaigns = Campaign::getCampaignsForBuyer(Yii::app()->user->id);?>
                 
                 <?php echo CHtml::link('Создать кампанию', Yii::app()->createUrl('campaign/create'), array('class' => 'btn btn-primary btn-block'));?>
-                
+                <!-- 
                 <div class="flat-panel" >
                     <div class="inside">
                         <?php echo CHtml::link('Купленные вручную', Yii::app()->createUrl('cabinet/leads'));?>
                     </div>
                 </div>
-                                
+                 -->               
                 <?php foreach($campaigns as $campaign):?>
 				</p>
                 <div class="flat-panel" >

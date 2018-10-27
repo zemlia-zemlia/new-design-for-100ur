@@ -7,6 +7,12 @@ $sumBalance = 0;
 
 ?>
 
+<style>
+    .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+        padding:3px;
+    }
+</style>
+
 <h1 class="vert-margin20">Касса  
     <?php echo CHtml::link("Добавить запись", Yii::app()->createUrl("/admin/money/create"), array('class'=>'btn btn-primary'));?>
     <?php echo CHtml::link("Отчет", Yii::app()->createUrl("/admin/money/report"), array('class'=>'btn btn-default'));?>
@@ -44,7 +50,7 @@ $sumBalance = 0;
 <div class="vert-margin30">
    <?php $this->renderPartial('_search', array('model'=>$searchModel));?> 
 </div>
-
+<small>
 <table class="table table-bordered">
     
     <tr>
@@ -53,7 +59,7 @@ $sumBalance = 0;
         <th>Статья</th>
         <th>Счет</th>
         <th>Сумма</th>
-        <th>Комментарий</th>
+        <th style="width: 550px;">Комментарий</th>
     </tr>
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'  =>  $dataProvider,
@@ -63,3 +69,4 @@ $sumBalance = 0;
         'pager'         =>  array('class'=>'GTLinkPager'), //we use own pager with russian words
 )); ?>
 </table>
+</small>

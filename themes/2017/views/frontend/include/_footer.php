@@ -24,10 +24,11 @@
             </div>
             <div class="col-sm-3">
                 <h3 class="left-align">Клиентам</h3>
-                <?php echo ($_SERVER['REQUEST_URI'] != '/q/') ? CHtml::link('Вопросы юристам', Yii::app()->createUrl('/question/index')) : '<span class="active">Вопросы юристам</span>'; ?> <br />			
+                <?php echo ($_SERVER['REQUEST_URI'] != '/region/') ? CHtml::link('Каталог юристов', Yii::app()->createUrl('/region/country', ['countryAlias' => 'russia'])) : '<span class="active">География</span>'; ?><br />
+                <?php echo ($_SERVER['REQUEST_URI'] != '/q/') ? CHtml::link('Архив вопросов', Yii::app()->createUrl('/question/index')) : '<span class="active">Архив вопросов</span>'; ?> <br />			
                 <?php echo ($_SERVER['REQUEST_URI'] != '/site/goryachaya_liniya/') ? CHtml::link('Горячая линия', Yii::app()->createUrl('/site/goryachaya_liniya/')) : '<span class="active">Горячая линия</span>'; ?><br />
-                <?php echo ($_SERVER['REQUEST_URI'] != '/blog/') ? CHtml::link('Советы юристов', Yii::app()->createUrl('/blog')) : '<span class="active">Советы юристов</span>'; ?><br />
-				<?php echo ($_SERVER['REQUEST_URI'] != '/region/') ? CHtml::link('Каталог юристов', Yii::app()->createUrl('/region/country', ['countryAlias' => 'russia'])) : '<span class="active">География</span>'; ?><br />
+                <?php echo ($_SERVER['REQUEST_URI'] != '/blog/') ? CHtml::link('Блог проекта', Yii::app()->createUrl('/blog')) : '<span class="active">Блог проекта</span>'; ?><br />
+
 
             </div>
             <div class="col-sm-3">

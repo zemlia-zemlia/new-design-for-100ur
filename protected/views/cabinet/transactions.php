@@ -13,6 +13,12 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 ));
 ?>
 
+<style>
+    .comments-item, .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        padding: 1px 1px;
+    }
+</style>
+
 <h1 class="vert-margin20">Баланс: <?php echo Yii::app()->user->balance; ?> руб.</h1>
 
 <p>
@@ -24,7 +30,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <h3>Вариант 1</h3>
 					 Карта Сбербанка. Номер: 4276 3800 1972 5212 <br/> 
 					 получатель: Виталий Николаевич Т.<br /><br />
-                    <strong>(комиссия 0% для карт Московского региона) <br/>
+                    <strong>(комиссия 0% для карт Московского региона)<br/>
+                    для карт других регионов от 1% <br/> (у каждого банка индивидуально)<br/>
                     зачисление на баланс в течении 30 минут</strong><br /><br />
 
 
@@ -48,7 +55,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 </p>
 
 <h2>История изменения баланса</h2>
-
+<small>
 <table class="table table-bordered">
     <tr>
         <th>Время</th>
@@ -67,4 +74,4 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     ));
     ?>
 </table>
-
+</small>
