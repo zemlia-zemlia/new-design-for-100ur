@@ -205,7 +205,7 @@ class CampaignController extends Controller {
 */
             
         $campaignsCommand = Yii::app()->db->createCommand()
-                ->select("c.id, c.townId, c.days, t.name townName, c.regionId, r.name regionName, c.leadsDayLimit, c.realLimit, c.brakPercent, c.timeFrom, c.timeTo, c.price, COUNT(l.id) leadsSent, u.id userId, u.name, u.balance, u.lastTransactionTime")
+                ->select("c.id, c.townId, c.days, t.name townName, c.regionId, r.name regionName, c.leadsDayLimit, c.realLimit, c.brakPercent, c.timeFrom, c.timeTo, c.price, COUNT(l.id) leadsSent, u.id userId, u.name, u.balance, u.lastTransactionTime, u.yurcrmToken")
                 ->from("{{campaign}} c")
                 ->leftJoin("{{user}} u", "u.id = c.buyerId")
                 ->leftJoin("{{town}} t", "t.id = c.townId")
@@ -281,6 +281,7 @@ class CampaignController extends Controller {
 
         foreach ($campaignsRows as $row) {
             $campaignsArray[$row['userId']]['name'] = $row['name'];
+            $campaignsArray[$row['userId']]['yurcrmToken'] = $row['yurcrmToken'];
             $campaignsArray[$row['userId']]['id'] = $row['userId'];
             $campaignsArray[$row['userId']]['balance'] = $row['balance'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['id'] = $row['id'];
@@ -300,10 +301,7 @@ class CampaignController extends Controller {
             
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['object'] = Campaign::model()->findByPk($row['id']);
         }
-
-        //CustomFuncs::printr($campaignsRows);
-        //CustomFuncs::printr($campaignsArray);
-        //Yii::app()->end();
+        
         
         /* теперь нужно вытащить данные по маржинальности кампаний за последние 5 дней.
          * найдем лиды, отправленные в найденные кампании за последние 5 дней, вытащим суммы их цен покупки и продажи

@@ -56,6 +56,9 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
             <td colspan="">
                 id: <?php echo $user['id'];?>
                 <?php echo CHtml::link(CHtml::encode($user['name']), Yii::app()->createUrl('/admin/user/view', array('id'=>$user['id'])));?> 
+                <?php if($user['yurcrmToken'] != ''):?>
+                <span class="label label-default">CRM</span>
+                <?php endif;?>
             </td>
             <td colspan="8">
                     <span class="label label-default balance-<?php echo $user['id'];?>">

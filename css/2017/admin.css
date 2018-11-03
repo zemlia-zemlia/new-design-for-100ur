@@ -416,3 +416,7 @@ tr:hover .table-links-hovered-container {
     border-bottom:#ddd 1px solid;
 }
 
+#lead-search-form > div {
+    padding-left: 5px;
+    padding-right: 5px;
+}
