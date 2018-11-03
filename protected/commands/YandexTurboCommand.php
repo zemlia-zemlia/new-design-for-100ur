@@ -29,7 +29,7 @@ class YandexTurboCommand extends CConsoleCommand
      */
     public function actionTestGetTasks()
     {
-        $tasks = $this->getTasks();
+        $tasks = $this->getTasks(10000);
 
         foreach ($tasks as $taskNumber => $task) {
             file_put_contents(__DIR__ . '/output/' . $taskNumber . '.xml', $task);
