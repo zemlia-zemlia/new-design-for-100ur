@@ -20,6 +20,7 @@ return array(
                 'application.extensions.CustomFuncs.*',
                 'application.extensions.cleditor.ECLEditor',
                 'application.extensions.Logger.*',
+        'application.extensions.TurboApi.*',
 	),
 
 	// application components
