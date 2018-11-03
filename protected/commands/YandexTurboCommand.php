@@ -9,7 +9,7 @@ class YandexTurboCommand extends CConsoleCommand
 
     public function actionIndex()
     {
-        $turboApi = new TurboApi('AQAAAAAC0uqLAAUEeoJmgnrmUkc3sEaMzC4JonQ', 'DEBUG');
+        $turboApi = new TurboApi('AQAAAAAC0uqLAAUEeoJmgnrmUkc3sEaMzC4JonQ', (YII_DEV == true)?'DEBUG':'PRODUCTION');
         $userId = $turboApi->requestUserId();
         $host = $turboApi->requestHost();
         $turboApi->requestUploadAddress();
