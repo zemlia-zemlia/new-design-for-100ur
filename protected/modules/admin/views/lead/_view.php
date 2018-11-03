@@ -81,14 +81,14 @@ switch ($data->leadStatus) {
                 <?php echo CHtml::encode($data->brakComment); ?>
             </p>
         <?php endif; ?>
+        
 
         <?php if (sizeof($data->categories)): ?>  
             Категории:             
             <?php foreach ($data->categories as $cat): ?>
                 <?php echo $cat->name; ?>&nbsp; 
             <?php endforeach; ?>
-        <?php endif; ?>	
-
+        <?php endif; ?>
 
     </div>
 
@@ -101,11 +101,11 @@ switch ($data->leadStatus) {
         <small class="muted" > 
 
 
-            <span>id:&nbsp;<?php echo $data->id; ?></span> &nbsp;<br/>
+            <span>id:&nbsp;<?php echo $data->id; ?></span> &nbsp; <span class="label label-default"><?php echo $data->getLeadTypeName(); ?></span> <br/>
 
             <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo CustomFuncs::niceDate($data->question_date, false, false); ?>&nbsp;<br/>
 
-            <span class="label label-default"><?php echo $data->getLeadTypeName(); ?></span> <br/>
+            
 
             <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
                 <?php if ($data->questionObject->ip): ?>
@@ -148,4 +148,5 @@ switch ($data->leadStatus) {
         <?php endif; ?>
         </p>
     </div>
+
 </div>

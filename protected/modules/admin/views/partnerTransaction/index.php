@@ -19,11 +19,11 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/partnerTransaction.js');
 
 <table class="table table-bordered">
     <tr>
-        <th>Имя</th>
-        <th>Баланс</th>
-        <th>Сумма</th>
-        <th>Комментарий</th>
-        <th></th>
+        <th>Пользователь</th>
+        <th>Текущий баланс</th>
+        <th>Сумма вывода</th>
+        <th>куда вывести</th>
+        <th>Управление</th>
     </tr>
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,

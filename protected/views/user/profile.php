@@ -219,8 +219,10 @@ if (Yii::app()->user->id != $user->id) {
     <?php if ($user->role == User::ROLE_JURIST): ?>
 
         <?php if ($user->settings->description): ?>
-            <h3 class="left-align">О себе</h3>
-            <p><?php echo CHtml::encode($user->settings->description); ?></p>
+            <blockquote>
+                    <h3 class="left-align">О себе:</h3>
+                    <p><?php echo CHtml::encode($user->settings->description); ?></p>
+            </blockquote>
             <hr />
         <?php endif; ?>
 

@@ -12,15 +12,19 @@ $this->breadcrumbs=array(
 
 ?>
 
+<style>
+    .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+        padding:1px;
+    }
+</style>
+
 <div  class="vert-margin30">
-    <h1>Пользователи: <?php echo $roleName;?></h1>
+    <h1>Пользователи: <?php echo $roleName;?> <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+    <?php echo CHtml::link('Добавить', Yii::app()->createUrl('/admin/user/create'), array('class'=>'btn btn-success'));?>
+ <?php endif;?>
+</h1>
 </div>
 
-<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
-<div class="right-align vert-margin30">
-    <?php echo CHtml::link('Добавить пользователя', Yii::app()->createUrl('/admin/user/create'), array('class'=>'btn btn-success'));?>
-</div>
-<?php endif;?>
 
 <div class="vert-margin30">
     <?php echo CHtml::link('Пользователи (клиенты)', Yii::app()->createUrl('admin/user/index',array('role'=>User::ROLE_CLIENT)));?> &nbsp;&nbsp;

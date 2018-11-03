@@ -2,15 +2,7 @@
 CController::renderPartial('webroot.themes.2017.views.frontend.include._header');
 ?>
 
-    <?php if((Yii::app()->user->isGuest && !(Yii::app()->controller->id=='question' && Yii::app()->controller->action->id=='create'))):?>
-        <?php
-        // выводим виджет с формой
-            $this->widget('application.widgets.SimpleForm.SimpleForm', array());
-        ?> 
-    
-    <?php else:?>
-        <div class="top-form-replace"></div>
-    <?php endif;?>
+    <div class="top-form-replace"></div>
 
     <div class="container">
         <div class="row">
@@ -43,8 +35,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
 
                 <?php if (Yii::app()->user->role != User::ROLE_JURIST): ?>
                     <div data-spy="" data-offset-top="200" class="hidden-xs">
-                        <? /*
-                         //вывели большую главную форму на страницы категорий и пока скрыли эту маленькую
+                          
                             <div class="vert-margin20"> 
                                  
                                 <?php 
@@ -54,11 +45,12 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                                 ));
                                 ?> 
                             </div>
-                        */ ?>
+                          
 
                       
 
                         <?php if (Yii::app()->user->isGuest): ?>
+                            <!-- 
                             <div class="grey-panel inside">
                                 <h4>Вы специалист в области права?</h4>
                                 <p>
@@ -68,14 +60,14 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                                 <p class="right-align">
                                     <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', array('role' => User::ROLE_JURIST))); ?>
                                 </p>
-                            </div>
+                            </div> -->
                         <?php endif; ?>
                     </div>
                 <?php endif; ?>
 
-
+                <div class="inside article-preview">
                 <h4>Новые материалы:</h4>
-                <div class="inside">
+
                 <?php
                     $this->widget('application.widgets.RecentCategories.RecentCategories', [
                         'number' => 4,
@@ -83,16 +75,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                 ?>
                 </div>
 
-                <?php if (Yii::app()->user->isGuest): ?>
-                    <?
-                    /**
-                     * Задел под баннер который будем показывать только гостям
-                     **/
-                    ?>
-                    <div>
 
-                    </div>
-                <?php endif; ?>
 
             </div>
         </div>

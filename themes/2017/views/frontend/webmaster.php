@@ -25,14 +25,16 @@
         <div class="row">
             <div class="col-md-3 col-sm-3 center-align">
                 <div class="logo-wrapper">
+                     <h3>Кабинет вебмастера</h3>
                     <?php if ($_SERVER['REQUEST_URI'] != '/'): ?>
-                        <a href="/">
+                        <a href="/webmaster/">
                             <img src="/pics/2017/logo_white.png" alt="100 Юристов и Адвокатов"
                                  title="Юридический портал"/>
                         </a>
                     <?php else: ?>
                         <img src="/pics/2017/logo_white.png" alt="100 Юристов и Адвокатов" title="Юридический портал"/>
                     <?php endif; ?>
+
                 </div>
 
             </div>

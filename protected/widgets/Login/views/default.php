@@ -71,11 +71,10 @@
     <div class="profile-block">
         <div class="profile-block-container flat-panel inside">
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-4 col-xs-6">
                     <img src="<?php echo Yii::app()->user->getAvatarUrl();?>" alt="Аватар" class="img-bordered" />
                 </div>
-                <div class="col-sm-8">
-                    <div class="inside">
+                <div class="col-sm-8 col-xs-6">
                         <div>
                         <?php echo CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER)? '/cabinet':'/user'));?>
                         <?php echo CHtml::link('<span class="glyphicon glyphicon-log-out"></span>', Yii::app()->createUrl('site/logout'), array());?>
@@ -83,10 +82,10 @@
                         
                                                 
                         <?php if(Yii::app()->user->role == User::ROLE_PARTNER):?>
-                            <?php echo CHtml::link('Кабинет', Yii::app()->createUrl('/webmaster'), array('class'=>'btn btn-xs btn-default'));?>
+                            <?php echo CHtml::link('Кабинет вебмастера', Yii::app()->createUrl('/webmaster'), array('class'=>'btn btn-xs btn-default'));?>
                         <?php endif;?>
 
-                        <?php echo CHtml::link('Настройки', Yii::app()->createUrl('user/update', array('id'=>Yii::app()->user->id)), array('class'=>'btn btn-xs btn-default'));?>
+                        <?php echo CHtml::link('Настройки профиля', Yii::app()->createUrl('user/update', array('id'=>Yii::app()->user->id)), array('class'=>'btn btn-xs btn-default'));?>
 
                         <?php if(Yii::app()->user->role == User::ROLE_BUYER || Yii::app()->user->role == User::ROLE_PARTNER):?>
                             <small>
@@ -108,7 +107,6 @@
                                 </div>
                             </small>
                         <?php endif;?>
-                    </div>
                 </div>
             </div>
 

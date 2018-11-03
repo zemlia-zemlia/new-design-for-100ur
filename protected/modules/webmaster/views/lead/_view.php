@@ -41,7 +41,7 @@ switch ($data->leadStatus) {
             <span class="label <?php echo $statusClass;?>">    
                 <?php echo $data->getLeadStatusName();?>
             </span>
-            &nbsp;
+            <br/>
             <?php if($data->buyPrice>0 && $data->leadStatus != Lead::LEAD_STATUS_BRAK):?>
                 <?php echo $data->buyPrice;?> руб.
             <?php endif;?>

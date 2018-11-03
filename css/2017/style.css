@@ -1138,3 +1138,7 @@ ul.hor-list-menu a.yellow-button,
     text-shadow: 0px 0px 8px white;
     font-weight: bold;
 }
+
+.article-preview {
+    padding: 30px;
+}

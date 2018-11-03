@@ -6,7 +6,6 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
 
 
 ?>
-<h1>Кабинет вебмастера</h1>
 
 <div class="vert-margin40">
     <h2>Мои лиды</h2>
@@ -21,6 +20,8 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
     </table>
 </div>
 
+
+<!-- 
 <div class="vert-margin40">
     <h2>Мои вопросы</h2>
     <table class="table table-bordered table-hover table-striped">
@@ -33,3 +34,5 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
     )); ?>
     </table>
 </div>
+
+-->
