@@ -6,7 +6,13 @@
  */
 ?>
 <ul id="left-menu-categories">
-    <?php if (sizeof($neighbours) > 1): ?>
+    <?php if (sizeof($children) > 0): ?>
+        <?php foreach ($children as $child): ?>
+            <li>
+                <?php echo CHtml::link($child->name, Yii::app()->createUrl('questionCategory/alias', $child->getUrl())); ?>
+            </li>
+        <?php endforeach; ?>
+    <?php elseif(sizeof($neighbours) > 0): ?>
         <?php foreach ($neighbours as $neighbour): ?>
             <li>
                 <?php if ($neighbour->id != $category->id): ?>
@@ -21,12 +27,6 @@
                         <?php endforeach; ?>
                     </ul>
                 <?php endif; ?>
-            </li>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <?php foreach ($children as $child): ?>
-            <li>
-                <?php echo CHtml::link($child->name, Yii::app()->createUrl('questionCategory/alias', $child->getUrl())); ?>
             </li>
         <?php endforeach; ?>
     <?php endif; ?>
