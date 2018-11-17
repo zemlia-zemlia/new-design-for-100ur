@@ -2,7 +2,7 @@
 /* @var $this QuestionCategoryController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->setPageTitle("Темы вопросов. ". Yii::app()->name);
+$this->setPageTitle("Темы вопросов". Yii::app()->name);
 Yii::app()->clientScript->registerMetaTag("Выберите интересующую вас категорию вопроса или задайте свой через специальную форму", 'description');
 
 $this->breadcrumbs=array(

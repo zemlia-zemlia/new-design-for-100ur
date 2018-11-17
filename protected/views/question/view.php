@@ -184,21 +184,6 @@ $this->breadcrumbs = array(
 <?php endif; ?>
 <br/>
 
-
-<?php if (Yii::app()->user->role != User::ROLE_JURIST): ?>
-<h3 class="header-block-light-grey vert-margin20">На ваши вопросы отвечают:</h3>
-	<div class='vert-margin20'>
-        <div class="row">
-            <?php
-	            // выводим виджет с топовыми юристами
-	            $this->widget('application.widgets.TopYurists.TopYurists', array(
-	                'cacheTime' => 0,
-	            ));
-            ?>
-        </div>
-    </div>
-<?php endif; ?>
-
 <?php
 // если перед этим опубликовали вопрос, отправим цель в метрику
 if (Yii::app()->user->getState('justPublished') == 1):
