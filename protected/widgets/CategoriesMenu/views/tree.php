@@ -6,7 +6,7 @@
  */
 ?>
 <ul id="left-menu-categories">
-    <?php if (sizeof($neighbours) > 0): ?>
+    <?php if (sizeof($neighbours) > 1): ?>
         <?php foreach ($neighbours as $neighbour): ?>
             <li>
                 <?php if ($neighbour->id != $category->id): ?>
