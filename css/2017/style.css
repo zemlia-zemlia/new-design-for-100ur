@@ -453,6 +453,10 @@ div.errorSummary {
     padding: 0;
 }
 
+#left-menu ul {
+    padding-left:10px;
+}
+
 #left-menu li {
     display:block;
     padding:1px;
@@ -471,6 +475,27 @@ div.errorSummary {
     color:#fff;
     background: #51b68a;
     text-decoration: none;
+}
+
+#left-menu-categories {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#left-menu-categories ul {
+    padding-left:10px;
+    list-style: none;
+}
+
+#left-menu-categories li {
+    padding:5px 2px;
+}
+
+#left-menu-categories li a {
+    color:#999;
+    display: block;
+    font-size:0.9em;
 }
 
 .header-bordered {

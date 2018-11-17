@@ -8,11 +8,11 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
         <div class="row">
             <div id="left-panel"></div>
 
-            <div class="col-sm-8" id="center-panel">
+            <div class="col-sm-9" id="center-panel">
                 <?php echo $content; ?>
             </div>
 
-            <div class="col-sm-4" id="right-panel">
+            <div class="col-sm-3" id="right-panel">
                 <?php if (Yii::app()->user->role == User::ROLE_JURIST): ?>
 
 
@@ -35,19 +35,17 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
 
                 <?php if (Yii::app()->user->role != User::ROLE_JURIST): ?>
                     <div data-spy="" data-offset-top="200" class="hidden-xs">
-                          
-                            <div class="vert-margin20"> 
-                                 
-                                <?php 
-                                // выводим виджет с формой
-                                $this->widget('application.widgets.SimpleForm.SimpleForm', array(
-                                    'template' => 'sidebar',
-                                ));
-                                ?> 
-                            </div>
-                          
 
-                      
+                        <div class="vert-margin20">
+
+                            <?php
+                            // выводим виджет с формой
+                            $this->widget('application.widgets.SimpleForm.SimpleForm', array(
+                                'template' => 'sidebar',
+                            ));
+                            ?>
+                        </div>
+
 
                         <?php if (Yii::app()->user->isGuest): ?>
                             <!-- 
@@ -66,15 +64,14 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                 <?php endif; ?>
 
                 <div class="inside article-preview">
-                <h4>Новые материалы:</h4>
+                    <h4>Новые материалы:</h4>
 
-                <?php
+                    <?php
                     $this->widget('application.widgets.RecentCategories.RecentCategories', [
                         'number' => 4,
                     ]);
-                ?>
+                    ?>
                 </div>
-
 
 
             </div>

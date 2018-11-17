@@ -59,140 +59,95 @@ if ($model->seoH1) {
 }
 ?>
 
-<div class="category-hero post-hero">
-    <?php if ($model->image): ?>
-        <img src="<?php echo $model->getImagePath(); ?>" alt="<?php echo $pageTitle; ?>"
-             title="<?php echo $pageTitle; ?>" class="img-responsive"/>
-    <?php endif; ?>
-    <div class="text-over-hero">
-        <h1>
-            <?php
-            echo $pageTitle;
-            ?>
-
-            <?php
-            if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)) {
-                echo CHtml::link("<span class='glyphicon glyphicon-pencil'><span>", Yii::app()->createUrl('/admin/questionCategory/update', array('id' => $model->id)), array('target' => '_blank'));
-            }
-            ?>
-        </h1>
+<div class="row">
+    <div class="col-sm-3">
+        <?php
+        $this->widget('application.widgets.CategoriesMenu.CategoriesMenu', [
+            'category' => $model,
+        ]);
+        ?>
     </div>
-</div>
+    <div class="col-sm-9">
+        <div itemscope itemtype="http://schema.org/Article">
 
-<?php if ($model->description1): ?>
-    <div class="vert-margin30">
-        <?php echo $model->description1; ?>
-    </div>
-<?php endif; ?>
-<div class="row vert-margin30">
-	<div class="col-sm-7 right-align">
-		<strong>Отправить ссылку на статью:</strong>
-	</div>
-	<div class="col-sm-5">
-		<script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
-    <script src="//yastatic.net/share2/share.js"></script>
-    <div class="ya-share2" data-services="collections,vkontakte,facebook,odnoklassniki,moimir,twitter,viber,whatsapp,skype,telegram"></div>
-	</div>
-</div>
-
-
-<?php if (Yii::app()->user->isGuest): ?>
-	<div class="flat-panel inside">
-		<div class="center-align">
-			<?php
-			// выводим виджет с номером 8800
-			$this->widget('application.widgets.Hotline.HotlineWidget', array(
-				'showAlways' => true,
-			));
-			?>
-		</div>
-	</div>
-<?php endif; ?>
-
-<br/>
-
-<?php if (Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_CLIENT): ?>
-    <div class="vert-margin30 blue-block inside">
-        <div class="row">
-            <div class="col-sm-8 center-align">
-                <h3>Ваш вопрос требует составления документа?</h3>
-                <p>Доверьте это опытным юристам, закажите документ прямо на сайте в режиме онлайн.</p>
-            </div>
-            <div class="col-sm-4 center-align">
-                <p></p>
-                <?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/docs'), ['class' => 'yellow-button']); ?>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
-
-<div class="hidden-xs">
-    <?php if (sizeof($children)): ?>
-
-        <h2 class="vert-margin20">Смотрите также темы:</h2>
-
-        <?php $itemsCount = sizeof($children); ?>
-
-        <div class="row">
-            <?php foreach ($children as $index => $child): ?>
-
-                <?php if ($index == 0 || $index == floor($itemsCount / 3) || $index == floor(2 * $itemsCount / 3)): ?>
-                    <div class="col-md-4">
+            <div class="category-hero post-hero">
+                <?php if ($model->image): ?>
+                    <img src="<?php echo $model->getImagePath(); ?>" alt="<?php echo $pageTitle; ?>"
+                         title="<?php echo $pageTitle; ?>" class="img-responsive"/>
                 <?php endif; ?>
-                <small>
-                    <p>
-                        <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span>&nbsp; ' . CustomFuncs::mb_ucfirst($child->name), Yii::app()->createUrl('questionCategory/alias', $child->getUrl())); ?>
-                    </p>
-                </small>
+                <div class="text-over-hero">
+                    <h1>
+                        <span itemprop="name">
+                        <?php
+                        echo $pageTitle;
+                        ?>
 
-                <?php if ($index == $itemsCount - 1 || $index == floor($itemsCount / 3) - 1 || $index == floor(2 * $itemsCount / 3) - 1): ?>
+                        <?php
+                        if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)) {
+                            echo CHtml::link("<span class='glyphicon glyphicon-pencil'><span>", Yii::app()->createUrl('/admin/questionCategory/update', array('id' => $model->id)), array('target' => '_blank'));
+                        }
+                        ?>
+                        </span>
+                    </h1>
+                </div>
+            </div>
+
+            <?php if ($model->description1): ?>
+                <article>
+                    <div class="vert-margin30" itemprop="articleBody">
+                        <?php echo $model->description1; ?>
                     </div>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </div>
+                </article>
+            <?php endif; ?>
+            <div class="row vert-margin30">
+                <div class="col-sm-7 right-align">
+                    <strong>Отправить ссылку на статью:</strong>
+                </div>
+                <div class="col-sm-5">
+                    <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+                    <script src="//yastatic.net/share2/share.js"></script>
+                    <div class="ya-share2"
+                         data-services="collections,vkontakte,facebook,odnoklassniki,moimir,twitter,viber,whatsapp,skype,telegram"></div>
+                </div>
+            </div>
 
-    <?php endif; ?>
+
+            <?php if (Yii::app()->user->isGuest): ?>
+                <div class="flat-panel inside">
+                    <div class="center-align">
+                        <?php
+                        // выводим виджет с номером 8800
+                        $this->widget('application.widgets.Hotline.HotlineWidget', array(
+                            'showAlways' => true,
+                        ));
+                        ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <br/>
+
+            <?php if (Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_CLIENT): ?>
+                <div class="vert-margin30 blue-block inside">
+                    <div class="row">
+                        <div class="col-sm-8 center-align">
+                            <h3>Ваш вопрос требует составления документа?</h3>
+                            <p>Доверьте это опытным юристам, закажите документ прямо на сайте в режиме онлайн.</p>
+                        </div>
+                        <div class="col-sm-4 center-align">
+                            <p></p>
+                            <?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/docs'), ['class' => 'yellow-button']); ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($model->description2): ?>
+
+                <?php echo $model->description2; ?>
+
+            <?php endif; ?>
+
+        </div>
+    </div>
 </div>
-
-<div class="row vert-margin30 hidden-xs">
-    <?php if (sizeof($neighboursPrev)): ?>
-        <h2 class="vert-margin20">Смотрите также темы:</h2>
-
-        <div class="col-md-6">
-            <?php foreach ($neighboursPrev as $neighbour): ?>
-
-                <small>
-                    <p>
-                        <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span> &nbsp;' . CustomFuncs::mb_ucfirst($neighbour->name), Yii::app()->createUrl('questionCategory/alias', $neighbour->getUrl())); ?>
-                    </p>
-                </small>
-
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
-
-    <?php if (sizeof($neighboursNext)): ?>
-        <div class="col-md-6">
-            <?php foreach ($neighboursNext as $neighbour): ?>
-
-                <small>
-                    <p>
-                        <?php echo CHtml::link('<span class="glyphicon glyphicon-folder-open"></span> &nbsp;' . CustomFuncs::mb_ucfirst($neighbour->name), Yii::app()->createUrl('questionCategory/alias', $neighbour->getUrl())); ?>
-                    </p>
-                </small>
-
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
-</div>
-
-
-
-
-
-<?php if ($model->description2): ?>
-
-    <?php echo $model->description2; ?>
-
-<?php endif; ?>
-

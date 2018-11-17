@@ -1,17 +1,12 @@
 <?php
 /**
  * Класс для работы с URL категорий вопросов
+ *
+ * Класс устарел и не используется!
  */
 class QuestionCategoryRule extends CBaseUrlRule
 {
     protected $_prefix = 'cat/';
-
-    /*
-     *      Возможные виды URL категорий:
-     *      /cat/алиас - категории верхнего уровня
-     *      /cat/алиас_корневой_категории/алиас_категории - категории нижних уровней
-     */
-
     /**
      * Метод создания URL из параметров
      * @param type $manager
@@ -23,36 +18,37 @@ class QuestionCategoryRule extends CBaseUrlRule
     public function createUrl($manager, $route, $params, $ampersand)
     {
         if ($route === 'questionCategory/alias') {
-            if (isset($params['root'], $params['name'])) {
-                return $this->_prefix . $params['root'] . '/' . $params['name'] . Yii::app()->urlManager->urlSuffix;
+            if (isset($params['name'], $params['level2'], $params['level3'])){
+                return $this->_prefix . $params['level2'] . '/' . $params['level3'] . '/' . $params['name'] . Yii::app()->urlManager->urlSuffix;
+            } else if (isset($params['name'], $params['level2'])){
+                return $this->_prefix . $params['level2'] . '/' . $params['name'] . Yii::app()->urlManager->urlSuffix;
             } else if (isset($params['name'])) {
                 return $this->_prefix . $params['name'] . Yii::app()->urlManager->urlSuffix;
             }
         }
         return false;  // не применяем данное правило
     }
-
-    /**
-     * Парсинг URL категории
-     * @param CUrlManager $manager
-     * @param CHttpRequest $request
-     * @param string $pathInfo
-     * @param string $rawPathInfo
-     * @return bool|mixed|string
-     */
+ 
     public function parseUrl($manager, $request, $pathInfo, $rawPathInfo)
     {
-        $urlPattern = '/^cat(\/[a-z0-9-]+)(\/[a-z0-9-]+)?$/i';
+
+        $urlPattern = '/^cat(\/[a-z0-9-]+)(\/[a-z0-9-]+)?(\/[a-z0-9-]+)?$/i';
         
         if (preg_match($urlPattern, $pathInfo, $matches))
         {
             $matches = array_reverse($matches);
             array_pop($matches);
-
+            
             if($matches[0]) {
                 $_GET['name'] = str_replace('/', '', $matches[0]);
             }
-
+            if($matches[1]) {
+                $_GET['level2'] = str_replace('/', '', $matches[1]);
+            }
+            if($matches[2]) {
+                $_GET['level3'] = str_replace('/', '', $matches[2]);
+            }
+            
             return 'questionCategory/alias';
         }
         return false;  // не применяем данное правило

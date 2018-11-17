@@ -344,35 +344,32 @@ class QuestionCategory extends CActiveRecord
      * примеры:
      * /cat/ugolovnoe-pravo - ['name' => 'ugolovnoe-pravo']
      * /cat/ugolovnoe-pravo/krazha - ['name' => 'krazha', 'level2' => 'ugolovnoe-pravo']
-     * @todo переписать запрос с ActiveRecord на DAO (во много раз сократит объем потребляемой памяти)
      */
     public function getUrl($rewritePath = false)
     {
 
-        //$ancestors = $this->cache(3600)->ancestors()->findAll();
-        $urlArray = array();
+        $urlArray = [];
 
-        // если в свойстве path хранится путь к странице категории, вытащим его оттуда, не делая лишнего запроса к БД
+        // если в свойстве path хранится путь к странице категории, вытащим его оттуда,
+        // не делая лишнего запроса к БД
         if ($this->path) {
             $ancestors = explode("/", $this->path);
+            $urlArray['root'] = $ancestors[0];
         } else {
             $ancestors = Yii::app()->db->cache(0)->createCommand()
                 ->select('alias')
                 ->from('{{questionCategory}}')
-                ->where('lft<:lft AND rgt>:rgt AND root=:root', array(':lft' => $this->lft, ':rgt' => $this->rgt, ':root' => $this->root))
+                ->where('lft<:lft AND rgt>:rgt AND root=:root', [
+                    ':lft' => $this->lft,
+                    ':rgt' => $this->rgt,
+                    ':root' => $this->root,
+                ])
                 ->order('lft')
                 ->queryAll();
         }
 
-
-        foreach ($ancestors as $level => $ancestor) {
-            if ($level == 0) {
-                $key = 'level2';
-            }
-            if ($level == 1) {
-                $key = 'level3';
-            }
-            $urlArray[$key] = ($this->path) ? $ancestor : $ancestor['alias'];
+        if (isset($ancestors[0]['alias'])) {
+            $urlArray['root'] = $ancestors[0]['alias'];
         }
 
         $urlArray['name'] = $this->alias;

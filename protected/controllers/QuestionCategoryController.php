@@ -84,7 +84,6 @@ class QuestionCategoryController extends Controller {
             $this->redirect(array('questionCategory/alias', 'name' => strtolower($name)), true, 301);
         }
 
-//            $model = QuestionCategory::model()->with('parent','children')->findByAttributes(array('alias'=>CHtml::encode($name)));
         $model = QuestionCategory::model()->findByAttributes(array('alias' => CHtml::encode($name)));
 
         if (!$model) {
@@ -100,15 +99,6 @@ class QuestionCategoryController extends Controller {
         if ($pageRightUrl != $pageRealUrl) {
             $this->redirect($pageRightUrl, true, 301);
         }
-
-        /* если к категории не первого уровня обратились по имени, 
-         * надо сделать редирект на полный адрес
-         */
-        if ($model->level > 1 && !$_GET['level2']) {
-            //CustomFuncs::printr($model->getUrl());
-            $this->redirect(Yii::app()->createUrl('questionCategory/alias', $model->getUrl()), true, 301);
-        }
-
 
         // все предки категории
         $ancestors = $model->ancestors()->findAll();
