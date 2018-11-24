@@ -5,12 +5,11 @@
 $this->setPageTitle("Редактирование категории вопросов " . $model->id . ". " . Yii::app()->name);
 
 
-$this->breadcrumbs = array(
-    'Вопросы и ответы' => array('/admin/question'),
-    'Категории вопросов' => array('index'),
-    $model->name => array('view', 'id' => $model->id),
-    'Редактирование',
-);
+$ancestors = $model->ancestors()->findAll();
+foreach ($ancestors as $ancestor) {
+    $this->breadcrumbs[$ancestor->name] = Yii::app()->createUrl('admin/questionCategory/view', ['id' => $ancestor->id]);
+}
+$this->breadcrumbs[] = CHtml::encode($model->name);
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
     'homeLink' => CHtml::link('100 Юристов', "/"),

@@ -42,6 +42,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
     <div class="col-md-3">
         <?php echo CHtml::link('Редактировать категорию', Yii::app()->createUrl('/admin/questionCategory/update', array('id' => $model->id)), array('class' => 'btn btn-block btn-primary')); ?>
+        <?php echo CHtml::link('Создать подкатегорию', Yii::app()->createUrl('/admin/questionCategory/create', array('parentId' => $model->id)), array('class' => 'btn btn-block btn-primary')); ?>
         <?php echo CHtml::link('Открыть на сайте', Yii::app()->createUrl('/questionCategory/alias', array('name' => $model->alias)), array('class' => 'btn btn-block btn-default', 'target' => '_blank')); ?>
         <br/>
         <p>Заглавная картинка категории:</p>
