@@ -10,7 +10,7 @@ $this->breadcrumbs = [
 
 $ancestors = $model->ancestors()->findAll();
 foreach ($ancestors as $ancestor) {
-    $this->breadcrumbs[$ancestor->name] = Yii::app()->createUrl('questionCategory/alias', $ancestor->getUrl());
+    $this->breadcrumbs[$ancestor->name] = Yii::app()->createUrl('admin/questionCategory/view', ['id' => $ancestor->id]);
 }
 $this->breadcrumbs[] = CHtml::encode($model->name);
 
