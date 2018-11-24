@@ -1123,6 +1123,7 @@ ul.hor-list-menu a.yellow-button,
     .text-over-hero {
         position:absolute;
         bottom:20px;
+        top:0;
         padding:40px 20px;
         background-color:rgba(255,255,255,0.7);
         font-size:1.3em;
