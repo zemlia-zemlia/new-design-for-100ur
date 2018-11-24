@@ -19,25 +19,30 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 
 <div class="row">
-	<div class="col-md-9 small">
+	<div class="col-md-9">
 	<br/>
 	<h1 class="vert-margin30"><?php echo CHtml::encode($model->name);?></h1>
+
+	
+	<h3>Вложенные категории:</h3>
+
+<?php $this->renderPartial('_table', ['categoriesArray' => $subCategoriesArray]);?>
+
 	<br/>
+	<!-- 
 	<?php if ($model->description1): ?>
 		<div class="vert-margin30">
 			<?php echo $model->description1; ?>
 		</div>
 	<?php endif; ?>
-	
-	<h3>Вложенные категории:</h3>
+	-->
 
-<?php $this->renderPartial('_table', ['categoriesArray' => $subCategoriesArray]);?>
 	</div>
 
 
 <div class="col-md-3">
     <?php echo CHtml::link('Редактировать категорию', Yii::app()->createUrl('/admin/questionCategory/update', array('id'=>$model->id)), array('class'=>'btn btn-block btn-primary'));?>
-	<?php echo CHtml::link('Открыть на сайте', Yii::app()->createUrl('/questionCategory/alias', array('name'=>$model->alias)), array('class'=>'btn btn-block btn-default', 'target' => '_blank'));?>
+	<?php echo CHtml::link('Открыть на сайте', Yii::app()->createUrl('/questionCategory/alias', array('name'=>$model->alias)), array('class'=>'btn btn-block btn-default', 'target' => '_blank'));?>  
 	<br/>
 	<p>Заглавная картинка категории:</p>
 	<?php if($model->image):?>

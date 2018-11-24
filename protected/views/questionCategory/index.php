@@ -7,7 +7,7 @@ Yii::app()->clientScript->registerMetaTag("Выберите интересующ
 
 $this->breadcrumbs=array(
         'Вопросы и ответы'=>array('/question'),
-	'Темы вопросов',
+	'Темы',
 );
 
 ?>
