@@ -444,6 +444,9 @@ class Lead extends CActiveRecord
                 if ((int)$yurcrmResultDecoded['status'] == 200 && $crmLeadId > 0) {
                     $this->sendYurcrmNotification($buyer, $crmLeadId);
                 }
+
+                LoggerFactory::getLogger('db')->log('Лид отправлен в Yurcrm. Ответ: ' . $yurcrmResult['response'], 'Lead', $this->id);
+
             } else {
                 $this->sendToCampaignByMail($campaign);
             }
