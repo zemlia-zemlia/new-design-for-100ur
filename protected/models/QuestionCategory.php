@@ -7,6 +7,7 @@
  * @property integer $id
  * @property string $name
  * @property integer $parentId
+ * @property string $alias
  * @property integer $isDirection
  * @property string $description1
  * @property string $description2
@@ -19,6 +20,7 @@
  * @property integer $rgt
  * @property integer $level
  * @property string $path
+ * @property string $image
  * @property string $publish_date
  */
 class QuestionCategory extends CActiveRecord
@@ -94,7 +96,7 @@ class QuestionCategory extends CActiveRecord
         return array(
             'questions' => array(self::MANY_MANY, 'Question', '{{question2category}}(cId, qId)'),
             'parent' => array(self::BELONGS_TO, 'QuestionCategory', 'parentId'),
-            'children' => array(self::HAS_MANY, 'QuestionCategory', 'parentId'),
+            'children' => array(self::HAS_MANY, 'QuestionCategory', 'parentId', 'order' => 'children.name ASC'),
         );
     }
 
