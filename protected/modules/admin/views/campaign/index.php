@@ -74,9 +74,10 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                 <div class="form-group">
                     <?php echo CHtml::dropDownList('account', 1, Money::getAccountsArray(), array('class' => 'form-control input-sm'));?>
                 </div>
-                <a href="#" class="btn  btn-primary btn-sm submit-topup">+</a>
                 <br />
-                <a href="#" class="buyer-topup-close">Отмена</a>
+                <a href="#" class="btn btn-block btn-primary btn-sm submit-topup">Зачислить</a>
+                <br />
+                <a href="#" class="btn btn-block  btn-danger btn-xs buyer-topup-close">Отмена</a>
             </form>
             </td>
         </tr>
@@ -84,7 +85,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
         <?php foreach($user['campaigns'] as $campaign):?>
             
             <tr>
-                <td style="width:200px;">
+                <td style="width:230px;">
                 </td>
                 <td>        
                     <?php echo CHtml::link(CHtml::encode($campaign['regionName'] . ' ' . $campaign['townName']), Yii::app()->createUrl('/admin/campaign/view', array('id'=>$campaign['id'])));?>

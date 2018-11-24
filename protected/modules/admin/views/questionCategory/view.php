@@ -27,12 +27,13 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <br/>
         <h1 class="vert-margin30"><?php echo CHtml::encode($model->name); ?></h1>
         <br/>
+        <!--
         <?php if ($model->description1): ?>
             <div class="vert-margin30">
                 <?php echo $model->description1; ?>
             </div>
         <?php endif; ?>
-
+        -->
         <h3>Вложенные категории:</h3>
 
         <?php $this->renderPartial('_table', ['categoriesArray' => $subCategoriesArray]); ?>

@@ -34,7 +34,7 @@ foreach ($additionalTags as $property => $content) {
     Yii::app()->clientScript->registerMetaTag($content, $property);
 }
 
-$this->breadcrumbs = array('Темы вопросов' => array('/cat'));
+$this->breadcrumbs = array('Темы' => array('/cat'));
 
 foreach ($ancestors as $ancestor) {
     $this->breadcrumbs[$ancestor->name] = Yii::app()->createUrl('questionCategory/alias', $ancestor->getUrl());
@@ -45,7 +45,7 @@ $this->breadcrumbs[] = $model->name;
 
 <?php
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('Юридическая консультация', "/"),
+    'homeLink' => CHtml::link('Главная', "/"),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
 ));
@@ -100,10 +100,10 @@ if ($model->seoH1) {
                 </article>
             <?php endif; ?>
             <div class="row vert-margin30">
-                <div class="col-sm-7 right-align">
-                    <strong>Отправить ссылку на статью:</strong>
+                <div class="col-sm-6 right-align hidden-xs">
+                    <strong>Отправить статью:</strong>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-6 right-align">
                     <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
                     <script src="//yastatic.net/share2/share.js"></script>
                     <div class="ya-share2"

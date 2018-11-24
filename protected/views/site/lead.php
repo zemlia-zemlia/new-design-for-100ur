@@ -16,7 +16,7 @@
 
 		<div class="col-md-4">
 				<p class="text-center">
-			<?php echo CHtml::link('<br/> Зарегистрироваться и начать получать клиентов<br/> <br/>', Yii::app()->createUrl('user/create', array('role' => User::ROLE_BUYER)), array('class' => 'yellow-button btn-lg'));?>
+			<?php echo CHtml::link('<br/> Зарегистрироваться как покупатель лидов (заявок) <br/> <br/>', Yii::app()->createUrl('user/create', array('role' => User::ROLE_BUYER)), array('class' => 'yellow-button btn-lg'));?>
 		</p>
 
 		</div>
