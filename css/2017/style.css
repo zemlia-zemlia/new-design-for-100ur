@@ -1169,3 +1169,8 @@ ul.hor-list-menu a.yellow-button,
 .article-preview {
     padding: 10px;
 }
+
+article img {
+    margin:30px auto;
+    display:inline-block;
+}

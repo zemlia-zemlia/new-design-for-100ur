@@ -161,17 +161,20 @@ class QuestionCategoryController extends Controller
 
             $attachment = CUploadedFile::getInstance($model, 'attachments');
 
-            $attachmentFile = new File;
-            $attachmentFile->objectType = File::ITEM_TYPE_OBJECT_CATEGORY;
-            $attachmentFile->objectId = $model->id;
-            $attachmentFile->name = $attachment->name;
-            $attachmentFile->filename = $attachmentFile->createFileName($attachment);
-            $attachmentFileFolder = $attachmentFile->createFolderFromFileName();
+            if ($attachment && $attachment->getHasError() == false) {
+                $attachmentFile = new File;
+                $attachmentFile->objectType = File::ITEM_TYPE_OBJECT_CATEGORY;
+                $attachmentFile->objectId = $model->id;
+                $attachmentFile->name = $attachment->name;
+                $attachmentFile->filename = $attachmentFile->createFileName($attachment);
+                $attachmentFileFolder = $attachmentFile->createFolderFromFileName();
 
-            if(mkdir(Yii::getPathOfAlias('webroot') . $attachmentFileFolder, 0777, true)) {
-                if ($attachment->saveAs(Yii::getPathOfAlias('webroot') . $attachmentFileFolder . '/' . $attachmentFile->filename)) {
-                    $attachmentFile->save();
+                if (mkdir(Yii::getPathOfAlias('webroot') . $attachmentFileFolder, 0777, true)) {
+                    if ($attachment->saveAs(Yii::getPathOfAlias('webroot') . $attachmentFileFolder . '/' . $attachmentFile->filename)) {
+                        $attachmentFile->save();
+                    }
                 }
+
             }
 
             if ($model->saveNode()) {
