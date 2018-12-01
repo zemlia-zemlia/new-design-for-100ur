@@ -94,9 +94,10 @@ class QuestionCategory extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'questions' => array(self::MANY_MANY, 'Question', '{{question2category}}(cId, qId)'),
-            'parent' => array(self::BELONGS_TO, 'QuestionCategory', 'parentId'),
-            'children' => array(self::HAS_MANY, 'QuestionCategory', 'parentId', 'order' => 'children.name ASC'),
+            'questions' => [self::MANY_MANY, 'Question', '{{question2category}}(cId, qId)'],
+            'parent' => [self::BELONGS_TO, 'QuestionCategory', 'parentId'],
+            'children' => [self::HAS_MANY, 'QuestionCategory', 'parentId', 'order' => 'children.name ASC'],
+            'files' => [self::HAS_MANY, 'File', 'objectId', 'condition' => 'files.objectType = ' . File::ITEM_TYPE_OBJECT_CATEGORY],
         );
     }
 

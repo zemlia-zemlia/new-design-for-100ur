@@ -2,7 +2,7 @@
 
 // change the following paths if necessary
 $composer = dirname(__FILE__) . '/protected/vendor/autoload.php';
-$yii=dirname(__FILE__).'/../../framework/yii.php';
+$yii=dirname(__FILE__).'/../../framework/yiilite.php';
 $config=dirname(__FILE__).'/protected/config/main.php';
 $settings=dirname(__FILE__).'/protected/config/settings.php';
 
