@@ -116,6 +116,50 @@ $endYear = 2017;
         </div>
     </div>
 
+    <div id="chart_leads_100" style="width:100%; height:500px;"></div>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#chart_leads_100').highcharts({
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Лиды с источником 100 Юристов'
+                },
+                xAxis: {
+                    categories: [
+                        <?php foreach ($stat100yuristov as $date => $counter): ?>
+                        '<?php echo $date; ?>',
+                        <?php endforeach; ?>
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: ''
+                    }
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Лиды с источником 100 Юристов',
+                    data: [
+                        <?php foreach ($stat100yuristov as $date => $counter): ?>
+                        <?php echo $counter; ?>,
+                        <?php endforeach; ?>
+                    ]
+
+                }]
+            });
+        });
+    </script>
+
     <div id="chart_leads" style="width:100%; height:500px;"></div>
 
     <script type="text/javascript">

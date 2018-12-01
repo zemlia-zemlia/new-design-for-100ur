@@ -136,6 +136,23 @@ class DefaultController extends Controller {
         
         //CustomFuncs::printr($yuristActivityStats);
 
+        /*
+         * Получение статистики по лидам источника 100 Юристов
+         */
+        $stat100yuristovRows = Yii::app()->db->createCommand()
+            ->select("DATE(l.question_date) lead_date, COUNT(*) counter")
+            ->from("{{lead}} l")
+            ->where("l.question_date > NOW() - INTERVAL 30 DAY AND l.sourceId = 3")
+            ->group("lead_date")
+            ->order("lead_date")
+            ->queryAll();
+        $stat100yuristov = [];
+
+        foreach ($stat100yuristovRows as $row) {
+            $stat100yuristov[$row['lead_date']] = $row['counter'];
+        }
+
+
         $this->render('index', array(
             'sumArray'                  => $sumArray,
             'kolichArray'               => $kolichArray,
@@ -148,6 +165,7 @@ class DefaultController extends Controller {
             'leadsByTypes'              => $leadsByTypes,
             'uniqueLeadDates'           => $uniqueLeadDates,
             'yuristActivityStats'       => $yuristActivityStats,
+            'stat100yuristov'           => $stat100yuristov,
         ));
     }
     
