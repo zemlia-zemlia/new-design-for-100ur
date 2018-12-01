@@ -81,6 +81,8 @@ class QuestionCategoryController extends Controller
     {
         $model = new QuestionCategory;
 
+        $model->publish_date = date('Y-m-d');
+
         if (isset($_GET['parentId']) && $_GET['parentId']) {
             $model->parentId = (int)$_GET['parentId'];
         }
@@ -99,6 +101,7 @@ class QuestionCategoryController extends Controller
                 // прикрепим категорию к родительской (в иерархии)
                 $model->appendTo($parent);
             }
+            $model->publish_date = CustomFuncs::invertDate($model->publish_date);
             if ($model->saveNode()) {
                 $this->redirect(array('view', 'id' => $model->id));
             }
@@ -109,6 +112,8 @@ class QuestionCategoryController extends Controller
         $scriptMap['jquery.js'] = '/js/jquery-1.8.3.min.js';
         $scriptMap['jquery.min.js'] = '/js/jquery-1.8.3.min.js';
         Yii::app()->clientScript->scriptMap = $scriptMap;
+
+        $model->publish_date = CustomFuncs::invertDate($model->publish_date);
 
         $this->render('create', array(
             'model' => $model,
@@ -154,9 +159,24 @@ class QuestionCategoryController extends Controller
                 $model->image = $newFileName;
             }
 
+            $attachment = CUploadedFile::getInstance($model, 'attachments');
+
+            $attachmentFile = new File;
+            $attachmentFile->objectType = File::ITEM_TYPE_OBJECT_CATEGORY;
+            $attachmentFile->objectId = $model->id;
+            $attachmentFile->name = $attachment->name;
+            $attachmentFile->filename = $attachmentFile->createFileName($attachment);
+            $attachmentFileFolder = $attachmentFile->createFolderFromFileName();
+
+            if(mkdir(Yii::getPathOfAlias('webroot') . $attachmentFileFolder, 0777, true)) {
+                if ($attachment->saveAs(Yii::getPathOfAlias('webroot') . $attachmentFileFolder . '/' . $attachmentFile->filename)) {
+                    $attachmentFile->save();
+                }
+            }
+
             if ($model->saveNode()) {
                 // Если загрузили новую картинку вместо старой, удалим старую
-                if($oldImagePath && $newFileName) {
+                if ($oldImagePath && $newFileName) {
                     @unlink(Yii::getPathOfAlias('webroot') . $oldImagePath);
                 }
                 // при изменении категории, заново найдем путь до нее

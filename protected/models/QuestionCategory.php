@@ -31,6 +31,8 @@ class QuestionCategory extends CActiveRecord
 
     public $imageFile; // для загрузки через форму
 
+    public $attachments = []; // прикрепленные файлы
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -78,7 +80,6 @@ class QuestionCategory extends CActiveRecord
             array('parentId, isDirection', 'numerical', 'integerOnly' => true),
             array('name, publish_date', 'length', 'max' => 255),
             array('alias', 'match', 'pattern' => '/^([a-z0-9\-])+$/'),
-            //array('imageFile', 'file', 'pattern' => '/^([a-z0-9\-])+$/'),
             array('description1, description2, seoTitle, seoDescription, seoKeywords, seoH1', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
@@ -121,6 +122,7 @@ class QuestionCategory extends CActiveRecord
             'image' => 'Изображение',
             'imageFile' => 'Изображение категории',
             'publish_date' => 'Дата публикации',
+            'attachments' => 'Прикрепленные файлы',
         );
     }
 

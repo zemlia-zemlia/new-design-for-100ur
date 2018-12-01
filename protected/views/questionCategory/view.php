@@ -99,6 +99,26 @@ if ($model->seoH1) {
                     </div>
                 </article>
             <?php endif; ?>
+
+            <?php if ($model->files): ?>
+                <div class="vert-margin40">
+                    <h2>Образцы документов для скачивания</h2>
+                    <ol>
+                        <?php foreach ($model->files as $file): ?>
+                            <?php if (is_file(Yii::getPathOfAlias('webroot') . $file->getRelativePath())): ?>
+                                <li>
+                                    <?php echo CHtml::link($file->name, Yii::app()->urlManager->baseUrl . $file->getRelativePath(), ['target' => '_blank']); ?>
+                                    <em class="text-muted">
+                                        (<?php echo round(filesize(Yii::getPathOfAlias('webroot') . $file->getRelativePath()) / 1024); ?>
+                                        КБ)
+                                    </em>
+                                </li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </ol>
+                </div>
+            <?php endif; ?>
+
             <div class="row vert-margin30">
                 <div class="col-sm-6 right-align hidden-xs">
                     <strong>Отправить статью:</strong>

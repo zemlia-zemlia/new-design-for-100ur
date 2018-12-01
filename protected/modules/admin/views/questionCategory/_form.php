@@ -38,11 +38,11 @@
             ?>
             <?php echo $form->error($model, 'description1'); ?>
         </div>
-		<hr/>
-		<h2>Теги для редактирования текста статей:</h2>
-		<h4>blockquote</h4>
-		<h4> abbr title="Дорожно-патрульная служба" ДПС abbr </h4>
-		<h4> <?php echo '<img src="/pics/00000001.jpg" alt="Описание">' ?></h4>
+        <hr/>
+        <h2>Теги для редактирования текста статей:</h2>
+        <h4>blockquote</h4>
+        <h4> abbr title="Дорожно-патрульная служба" ДПС abbr </h4>
+        <code><?php echo htmlspecialchars('<img src="/pics/00000001.jpg" alt="Описание">'); ?></code>
 
     </div>
 
@@ -51,9 +51,9 @@
         <div class="vert-margin30">
             <?php echo $form->labelEx($model, 'imageFile'); ?>
 
-            <?php if($model->image):?>
-                <?php echo CHtml::image($model->getImagePath(), '', ['class' => 'img-responsive']);?>
-            <?php endif;?>
+            <?php if ($model->image): ?>
+                <?php echo CHtml::image($model->getImagePath(), '', ['class' => 'img-responsive']); ?>
+            <?php endif; ?>
 
             <?php echo $form->fileField($model, 'imageFile', array('class' => 'form-control')); ?>
             <div class="length-counter"></div>
@@ -61,22 +61,22 @@
         </div>
 
         <div class="form-group">
-            <?php echo $form->labelEx($model,'publish_date'); ?>
+            <?php echo $form->labelEx($model, 'publish_date'); ?>
             <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
                 array(
-                    'name'=>"QuestionCategory[publish_date]",
-                    'value'=>$model['publish_date'],
-                    'language'=>'ru',
-                    'options' => array('dateFormat'=>'dd-mm-yy',
+                    'name' => "QuestionCategory[publish_date]",
+                    'value' => $model['publish_date'],
+                    'language' => 'ru',
+                    'options' => array('dateFormat' => 'dd-mm-yy',
                     ),
                     'htmlOptions' => array(
-                        'style'=>'text-align:right;',
-                        'class'=>'form-control'
+                        'style' => 'text-align:right;',
+                        'class' => 'form-control'
                     )
                 )
             );
             ?>
-            <?php echo $form->error($model,'publish_date'); ?>
+            <?php echo $form->error($model, 'publish_date'); ?>
         </div>
 
         <div class="form-group">
@@ -124,6 +124,24 @@
                 <?php echo $model->getAttributeLabel('isDirection'); ?>
             </label>
             <?php echo $form->error($model, 'parentId'); ?>
+        </div>
+
+        <h4>Прикрепленные файлы</h4>
+        <div class="vert-margin30">
+
+            <?php if ($model->files): ?>
+                <p>
+                    <?php $attachmentFiles = $model->files; ?>
+                    <?php foreach ($attachmentFiles as $file): ?>
+                        <?php echo CHtml::link($file->name, Yii::app()->urlManager->baseUrl . $file->getRelativePath(), ['target' => '_blank']); ?>
+                        <?php// echo CHtml::link('удалить', '#', ['class' => 'text-danger delete-attachment-link', 'data-id' => $file->id]); ?>
+                        <br/>
+                    <?php endforeach; ?>
+                </p>
+            <?php endif; ?>
+
+            <?php echo $form->fileField($model, 'attachments', array('class' => 'form-control')); ?>
+            <?php echo $form->error($model, 'attachments'); ?>
         </div>
 
         <div class="buttons">

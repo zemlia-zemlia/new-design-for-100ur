@@ -3,7 +3,7 @@
 /* @var $model QuestionCategory */
 
 $this->setPageTitle("Редактирование категории вопросов " . $model->id . ". " . Yii::app()->name);
-
+Yii::app()->clientScript->registerScriptFile('/js/admin/category.js');
 
 $ancestors = $model->ancestors()->findAll();
 foreach ($ancestors as $ancestor) {

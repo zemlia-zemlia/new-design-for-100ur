@@ -13,7 +13,7 @@ class File extends CActiveRecord
 {
 
     // путь к папке с файлами относительно корня сайта (Document root)
-    const ATTACHMENTS_FOLDER = 'uploads/files';
+    const ATTACHMENTS_FOLDER = 'upload/files';
 
     // типы объектов, к которым привязываются файлы
     const ITEM_TYPE_OBJECT_CATEGORY = 1;
@@ -37,8 +37,8 @@ class File extends CActiveRecord
     {
         return [
             [['name', 'filename', 'objectId', 'objectType'], 'required'],
-            [['objectId', 'objectType', 'type'], 'integer'],
-            [['name', 'filename'], 'string', 'max' => 255],
+            [['objectId', 'objectType', 'type'], 'numerical', 'integerOnly'=>true],
+            [['name', 'filename'], 'length', 'max' => 255],
         ];
     }
 
@@ -60,12 +60,12 @@ class File extends CActiveRecord
     /**
      * Создает имя файла для хранения на сервере
      *
-     * @param $file
+     * @param CUploadedFile $file
      * @return string
      */
     public function createFileName($file)
     {
-        return md5($file->baseName . $file->extension . time() . mt_rand(10000,100000)) . '.' . $file->extension;
+        return uniqid() . '_' .  CustomFuncs::translit($file->getName());
     }
 
     /**
@@ -80,6 +80,15 @@ class File extends CActiveRecord
         $extension = $fileInfo['extension'];
 
         return md5($baseName . $extension . time() . mt_rand(10000,100000)) . '.' . $extension;
+    }
+
+    /**
+     * Относительный путь к файлу от корня веб сервера
+     * @return string
+     */
+    public function getRelativePath()
+    {
+        return $this->createFolderFromFileName() . '/' . $this->filename;
     }
 
 
