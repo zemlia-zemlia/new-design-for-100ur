@@ -201,4 +201,8 @@ class DefaultController extends Controller {
         }
     }
 
+    public function actionInfo()
+    {
+        phpinfo();
+    }
 }

@@ -127,6 +127,7 @@ class QuestionCategoryController extends Controller
      */
     public function actionUpdate($id)
     {
+        CustomFuncs::printr($_SESSION);
         $model = $this->loadModel($id);
         $oldImagePath = $model->getImagePath();
 
@@ -193,10 +194,10 @@ class QuestionCategoryController extends Controller
         }
 
         // для работы визуального редактора подключим необходимую версию JQuery
-        $scriptMap = Yii::app()->clientScript->scriptMap;
-        $scriptMap['jquery.js'] = '/js/jquery-1.8.3.min.js';
-        $scriptMap['jquery.min.js'] = '/js/jquery-1.8.3.min.js';
-        Yii::app()->clientScript->scriptMap = $scriptMap;
+//        $scriptMap = Yii::app()->clientScript->scriptMap;
+//        $scriptMap['jquery.js'] = '/js/jquery-1.8.3.min.js';
+//        $scriptMap['jquery.min.js'] = '/js/jquery-1.8.3.min.js';
+//        Yii::app()->clientScript->scriptMap = $scriptMap;
 
         $model->publish_date = CustomFuncs::invertDate((new DateTime($model->publish_date))->format('Y-m-d'));
 

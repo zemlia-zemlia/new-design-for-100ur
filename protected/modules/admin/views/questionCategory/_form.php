@@ -2,8 +2,9 @@
 /* @var $this QuestionCategoryController */
 /* @var $model QuestionCategory */
 /* @var $form CActiveForm */
-?>
 
+Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
+?>
 
 <?php $form = $this->beginWidget('CActiveForm', array(
     'id' => 'question-category-form',
@@ -20,20 +21,26 @@
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'description1'); ?>
+
+            <?php echo $form->textArea($model, 'description1', [
+                'class' => 'form-control',
+                'id' => 'ckeditor',
+                'rows' => 30,
+            ]); ?>
             <?php
-            $this->widget('application.extensions.cleditor.ECLEditor', array(
-                'model' => $model,
-                'attribute' => 'description1', //Model attribute name.
-                'options' => array(
-                    'width' => 'auto',
-                    'height' => 800,
-                    'useCSS' => true,
-                ),
-                'value' => $model->description1,
-                'htmlOptions' => array(
-                    'class' => 'form-control',
-                ),
-            ));
+            //            $this->widget('application.extensions.cleditor.ECLEditor', array(
+            //                'model' => $model,
+            //                'attribute' => 'description1', //Model attribute name.
+            //                'options' => array(
+            //                    'width' => 'auto',
+            //                    'height' => 800,
+            //                    'useCSS' => true,
+            //                ),
+            //                'value' => $model->description1,
+            //                'htmlOptions' => array(
+            //                    'class' => 'form-control',
+            //                ),
+            //            ));
 
             ?>
             <?php echo $form->error($model, 'description1'); ?>
@@ -41,10 +48,13 @@
 
         <h2>Теги для редактирования текста статей:</h2>
         <h4>
-        Рашифровка оббривиатур - <code><?php echo htmlspecialchars('<abbr title="Дорожно-патрульная служба"> ДПС </abbr> '); ?></code> <br/>
-        Тег для цитат и выделения ключевых блоков - <code><?php echo htmlspecialchars('<blockquote></blockquote>'); ?></code><br/>
-        Вставка картинок - <code><?php echo htmlspecialchars('<img src="/upload/categories/0000.jpg" alt="Описание">'); ?></code>
-    </h4>
+            Рашифровка оббривиатур -
+            <code><?php echo htmlspecialchars('<abbr title="Дорожно-патрульная служба"> ДПС </abbr> '); ?></code> <br/>
+            Тег для цитат и выделения ключевых блоков -
+            <code><?php echo htmlspecialchars('<blockquote></blockquote>'); ?></code><br/>
+            Вставка картинок -
+            <code><?php echo htmlspecialchars('<img src="/upload/categories/0000.jpg" alt="Описание">'); ?></code>
+        </h4>
     </div>
 
     <div class="col-md-4">
@@ -55,43 +65,43 @@
             <?php echo $form->error($model, 'name'); ?>
         </div>
 
-<div class="row">
-	<div class="col-md-8">
-        <div class="vert-margin30">
-            <?php echo $form->labelEx($model, 'imageFile'); ?>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="vert-margin30">
+                    <?php echo $form->labelEx($model, 'imageFile'); ?>
 
-            <?php if ($model->image): ?>
-                <?php echo CHtml::image($model->getImagePath(), '', ['class' => 'img-responsive']); ?>
-            <?php endif; ?>
+                    <?php if ($model->image): ?>
+                        <?php echo CHtml::image($model->getImagePath(), '', ['class' => 'img-responsive']); ?>
+                    <?php endif; ?>
 
-            <?php echo $form->fileField($model, 'imageFile', array('class' => 'form-control')); ?>
-            <div class="length-counter"></div>
-            <?php echo $form->error($model, 'imageFile'); ?>
-        </div>
- </div>
- 	<div class="col-md-4">
-
-        <div class="form-group">
-            <?php echo $form->labelEx($model, 'publish_date'); ?>
-            <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
-                array(
-                    'name' => "QuestionCategory[publish_date]",
-                    'value' => $model['publish_date'],
-                    'language' => 'ru',
-                    'options' => array('dateFormat' => 'dd-mm-yy',
-                    ),
-                    'htmlOptions' => array(
-                        'style' => 'text-align:right;',
-                        'class' => 'form-control'
-                    )
-                )
-            );
-            ?>
-            <?php echo $form->error($model, 'publish_date'); ?>
-        </div>
+                    <?php echo $form->fileField($model, 'imageFile', array('class' => 'form-control')); ?>
+                    <div class="length-counter"></div>
+                    <?php echo $form->error($model, 'imageFile'); ?>
                 </div>
+            </div>
+            <div class="col-md-4">
 
-</div>
+                <div class="form-group">
+                    <?php echo $form->labelEx($model, 'publish_date'); ?>
+                    <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
+                        array(
+                            'name' => "QuestionCategory[publish_date]",
+                            'value' => $model['publish_date'],
+                            'language' => 'ru',
+                            'options' => array('dateFormat' => 'dd-mm-yy',
+                            ),
+                            'htmlOptions' => array(
+                                'style' => 'text-align:right;',
+                                'class' => 'form-control'
+                            )
+                        )
+                    );
+                    ?>
+                    <?php echo $form->error($model, 'publish_date'); ?>
+                </div>
+            </div>
+
+        </div>
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'seoTitle'); ?>
@@ -113,7 +123,7 @@
             <?php echo $form->error($model, 'seoH1'); ?>
         </div>
 
-                <h4>Прикрепленные файлы</h4>
+        <h4>Прикрепленные файлы</h4>
         <div class="vert-margin30">
 
             <?php if ($model->files): ?>
@@ -121,7 +131,7 @@
                     <?php $attachmentFiles = $model->files; ?>
                     <?php foreach ($attachmentFiles as $file): ?>
                         <?php echo CHtml::link($file->name, Yii::app()->urlManager->baseUrl . $file->getRelativePath(), ['target' => '_blank']); ?>
-                        <?php// echo CHtml::link('удалить', '#', ['class' => 'text-danger delete-attachment-link', 'data-id' => $file->id]); ?>
+                        <?php // echo CHtml::link('удалить', '#', ['class' => 'text-danger delete-attachment-link', 'data-id' => $file->id]); ?>
                         <br/>
                     <?php endforeach; ?>
                 </p>
@@ -133,7 +143,7 @@
 
         <hr/>
 
-<!--
+        <!--
         <div class="form-group">
             <?php echo $form->labelEx($model, 'seoKeywords'); ?>
             <?php echo $form->textArea($model, 'seoKeywords', array('class' => 'form-control', 'rows' => 4)); ?>
@@ -155,7 +165,6 @@
         </div>
 
 
-
         <div class="buttons">
             <?php echo CHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('class' => 'btn btn-block btn-primary')); ?>
         </div>
@@ -165,3 +174,12 @@
 
 
 <?php $this->endWidget(); ?>
+
+<script type="text/javascript">
+    CKEDITOR.replace('ckeditor', {
+        language:'ru',
+        height:  700,
+        filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
+        filebrowserUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
+    });
+</script>

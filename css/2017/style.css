@@ -1194,4 +1194,6 @@ ul.hor-list-menu a.yellow-button,
 article img {
     margin:30px auto;
     display:block;
+    max-width: 100%;
+    height:auto;
 }
