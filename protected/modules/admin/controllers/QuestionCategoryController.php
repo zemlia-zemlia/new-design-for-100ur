@@ -127,7 +127,6 @@ class QuestionCategoryController extends Controller
      */
     public function actionUpdate($id)
     {
-        CustomFuncs::printr($_SESSION);
         $model = $this->loadModel($id);
         $oldImagePath = $model->getImagePath();
 
