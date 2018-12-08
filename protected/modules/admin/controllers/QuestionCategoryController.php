@@ -169,7 +169,7 @@ class QuestionCategoryController extends Controller
                 $attachmentFile->filename = $attachmentFile->createFileName($attachment);
                 $attachmentFileFolder = $attachmentFile->createFolderFromFileName();
 
-                if (mkdir(Yii::getPathOfAlias('webroot') . $attachmentFileFolder, 0777, true)) {
+                if (@mkdir(Yii::getPathOfAlias('webroot') . $attachmentFileFolder, 0777, true)) {
                     if ($attachment->saveAs(Yii::getPathOfAlias('webroot') . $attachmentFileFolder . '/' . $attachmentFile->filename)) {
                         $attachmentFile->save();
                     }

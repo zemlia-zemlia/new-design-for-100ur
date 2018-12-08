@@ -1,7 +1,7 @@
 
 $(function(){
 	
-        $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"]').tooltip();
          
 	$("#Question_phone, #User_phone, .phone-mask").mask("+7 (999) 999-9999");
         
@@ -113,6 +113,15 @@ $(function(){
         $(document).on('paste', 'textarea', function(){
             console.log('text pasted');
         })
+
+    $(window).on('scroll', function(){
+        var scroll = window.scrollY;
+        if(scroll > 1000) {
+            $("#go-top").show();
+        } else {
+            $("#go-top").hide();
+        }
+    })
 
 });
 

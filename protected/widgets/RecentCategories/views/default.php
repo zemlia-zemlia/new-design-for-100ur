@@ -10,7 +10,7 @@ if (empty($recentCategories) || sizeof($recentCategories) == 0) {
         <p>
             <strong>
                 <?php echo CHtml::link('<img src="' . $recentCategory->getImagePath() . '"
-             alt="' . CHtml::encode($recentCategory->seoTitle) . '" class="img-responsive"/>' . CHtml::encode($recentCategory->seoTitle), Yii::app()->createUrl('questionCategory/alias', array('name' => $recentCategory->alias))); ?>
+             alt="' . CHtml::encode($recentCategory->seoTitle) . '" class="img-responsive"/>' . CHtml::encode($recentCategory->seoTitle), Yii::app()->createUrl('questionCategory/alias', $recentCategory->getUrl())); ?>
             </strong>
         </p>
     </div>

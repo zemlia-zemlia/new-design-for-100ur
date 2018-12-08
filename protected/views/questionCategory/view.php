@@ -92,6 +92,17 @@ if ($model->seoH1) {
                 </div>
             </div>
 
+            <div class="row vert-margin30">
+                <div class="col-sm-6"></div>
+                <div class="col-sm-6 text-right">
+                    <?php if($model->files):?>
+                        <a href="#downloads" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-download-alt"></span> К образцам документов для скачивания</a>
+                    <?php endif;?>
+                </div>
+
+            </div>
+
+
             <?php if ($model->description1): ?>
                 <article>
                     <div class="vert-margin30" itemprop="articleBody">
@@ -101,51 +112,39 @@ if ($model->seoH1) {
             <?php endif; ?>
 
             <?php if ($model->files): ?>
-                <div class="vert-margin40">
-                    <h2>Образцы документов для скачивания</h2>
-                    <ol>
-                        <?php foreach ($model->files as $file): ?>
-                            <?php if (is_file(Yii::getPathOfAlias('webroot') . $file->getRelativePath())): ?>
-                                <li>
-                                    <?php echo CHtml::link($file->name, Yii::app()->urlManager->baseUrl . $file->getRelativePath(), ['target' => '_blank']); ?>
-                                    <em class="text-muted">
-                                        (<?php echo round(filesize(Yii::getPathOfAlias('webroot') . $file->getRelativePath()) / 1024); ?>
-                                        КБ)
-                                    </em>
-                                </li>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </ol>
+                <div class="vert-margin40 blue-block inside" id="downloads">
+                    <div class="row">
+                        <div class="col-xs-3 text-center">
+                            <span style="font-size:40px; padding-top:30px;" class="glyphicon glyphicon-download-alt"></span>
+                        </div>
+                        <div class="col-xs-9">
+                            <h2>Образцы документов для скачивания</h2>
+                            <ol>
+                                <?php foreach ($model->files as $file): ?>
+                                    <?php if (is_file(Yii::getPathOfAlias('webroot') . $file->getRelativePath())): ?>
+                                        <li>
+                                            <?php echo CHtml::link($file->name, Yii::app()->urlManager->baseUrl . $file->getRelativePath(), ['target' => '_blank']); ?>
+                                            <em class="text-muted">
+                                                (<?php echo round(filesize(Yii::getPathOfAlias('webroot') . $file->getRelativePath()) / 1024); ?>
+                                                КБ)
+                                            </em>
+                                        </li>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </ol>
+                        </div>
+                    </div>
                 </div>
             <?php endif; ?>
 
             <div class="row vert-margin30">
-                <div class="col-sm-6 right-align hidden-xs">
-                    <strong>Отправить статью:</strong>
-                </div>
-                <div class="col-sm-6 right-align">
+                <div class="col-sm-12 right-align">
                     <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
                     <script src="//yastatic.net/share2/share.js"></script>
                     <div class="ya-share2"
                          data-services="collections,vkontakte,facebook,odnoklassniki,moimir,twitter,viber,whatsapp,skype,telegram"></div>
                 </div>
             </div>
-
-
-            <?php if (Yii::app()->user->isGuest): ?>
-                <div class="flat-panel inside">
-                    <div class="center-align">
-                        <?php
-                        // выводим виджет с номером 8800
-                        $this->widget('application.widgets.Hotline.HotlineWidget', array(
-                            'showAlways' => true,
-                        ));
-                        ?>
-                    </div>
-                </div>
-            <?php endif; ?>
-
-            <br/>
 
             <?php if (Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_CLIENT): ?>
                 <div class="vert-margin30 blue-block inside">

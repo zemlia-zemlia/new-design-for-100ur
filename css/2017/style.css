@@ -973,7 +973,8 @@ ul.hor-list-menu .black-button {
 }
 
 ul.hor-list-menu a.yellow-button, 
-.yellow-button {
+.yellow-button,
+.blue-block a.yellow-button {
     display: inline-block;
     color:#333;
     background-color:#ffc900;
@@ -1062,6 +1063,15 @@ ul.hor-list-menu a.yellow-button,
     color:#fff;
 }
 
+.blue-block a {
+    color:#fff;
+    text-decoration: underline;
+}
+
+.blue-block ol {
+    padding-left:0;
+}
+
 .order-price-tag {
     font-size:18px;
 }
@@ -1080,6 +1090,17 @@ ul.hor-list-menu a.yellow-button,
 
 .list-view .summary {
     margin-bottom:20px;
+}
+
+#go-top {
+    position:fixed;
+    left:0;
+    bottom:100px;
+    display:none;
+}
+
+#go-top > a {
+
 }
 
 @media(min-width:768px) {
