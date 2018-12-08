@@ -38,6 +38,7 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
     
 </div>
 
+<!--
 <div class="row hidden-xs">
     <div class="col-md-12">
         <div class="form-group">
@@ -54,7 +55,8 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
             
 	</div>
     </div>
-</div>
+</div> 
+-->
 
 <hr />
 
@@ -62,8 +64,8 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
     <div class="col-md-12">
         <div class="form-group">
             <?php echo $form->labelEx($model,'authorName', ['class' =>  'col-sm-4 control-label']); ?>
-            <div class="col-sm-8">
-		<?php echo $form->textField($model,'authorName', array('class'=>'form-control', 'placeholder'=>'Представьтесь')); ?>
+            <div class="col-sm-5">
+		<?php echo $form->textField($model,'authorName', array('class'=>'form-control', 'placeholder'=>'Ваше имя')); ?>
                 <?php echo $form->error($model,'authorName'); ?>
             </div>
             
@@ -75,19 +77,18 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
     <div class="col-md-12">
         <div class="form-group">
 		<?php echo $form->labelEx($model,'phone', ['class' =>  'col-sm-4 control-label']); ?>
-            <div class="col-sm-8">
+            <div class="col-sm-5">
 		<?php echo $form->textField($model,'phone', array(
                     'class'         =>  'form-control icon-input', 
                     'style'         =>  'background-image:url(/pics/2017/phone_icon.png)',
                     'data-toggle'   =>  "tooltip",
                     'data-placement'=>  "bottom",
-                    'title'         =>  "Номер телефона необходим, чтобы юрист смог с Вами связаться. Нигде не публикуется.",
+                    // 'title'         =>  "Номер телефона необходим, чтобы юрист смог с Вами связаться. Нигде не публикуется.",
                     )); ?>
                 <small>
                 <img src="/pics/2017/red_lock.png" alt="ваши данные в безопасности" style="float:left;margin-top:10px;" />
                 <p class="text-muted" style="padding-top:10px;margin-left:35px;">
-
-                    Ваши данные в безопасности. Ваш телефон <strong>НИГДЕ и НИКОГДА</strong> не публикуется и доступен только юристу-консультанту
+                    Ваши данные в безопасности. Ваш телефон <strong>НИГДЕ и НИКОГДА</strong> не публикуется и доступен только юристу-консультанту для уточнения деталей. Для вас звонок бесплатный.
                 </p>
                 </small>
 		<?php echo $form->error($model,'phone'); ?>
@@ -118,7 +119,7 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
             
             <?php if($currenTownId == 0):?>
                 <?php echo $form->labelEx($model,'town', ['class' =>  'col-sm-4 control-label']); ?>
-                <div class="col-sm-8">
+                <div class="col-sm-5">
                     <?php echo CHtml::textField('town', $currenTownName, array(
                         'id'            =>  'town-selector', 
                         'class'         =>  'form-control icon-input', 

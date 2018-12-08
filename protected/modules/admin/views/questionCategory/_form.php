@@ -38,16 +38,25 @@
             ?>
             <?php echo $form->error($model, 'description1'); ?>
         </div>
-        <hr/>
-        <h2>Теги для редактирования текста статей:</h2>
-        <h4>blockquote</h4>
-        <h4> abbr title="Дорожно-патрульная служба" ДПС abbr </h4>
-        <code><?php echo htmlspecialchars('<img src="/pics/00000001.jpg" alt="Описание">'); ?></code>
 
+        <h2>Теги для редактирования текста статей:</h2>
+        <h4>
+        Рашифровка оббривиатур - <code><?php echo htmlspecialchars('<abbr title="Дорожно-патрульная служба"> ДПС </abbr> '); ?></code> <br/>
+        Тег для цитат и выделения ключевых блоков - <code><?php echo htmlspecialchars('<blockquote></blockquote>'); ?></code><br/>
+        Вставка картинок - <code><?php echo htmlspecialchars('<img src="/upload/categories/0000.jpg" alt="Описание">'); ?></code>
+    </h4>
     </div>
 
     <div class="col-md-4">
 
+        <div class="form-group">
+            <?php echo $form->labelEx($model, 'name'); ?>
+            <?php echo $form->textField($model, 'name', array('class' => 'form-control')); ?>
+            <?php echo $form->error($model, 'name'); ?>
+        </div>
+
+<div class="row">
+	<div class="col-md-8">
         <div class="vert-margin30">
             <?php echo $form->labelEx($model, 'imageFile'); ?>
 
@@ -59,6 +68,8 @@
             <div class="length-counter"></div>
             <?php echo $form->error($model, 'imageFile'); ?>
         </div>
+ </div>
+ 	<div class="col-md-4">
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'publish_date'); ?>
@@ -78,6 +89,9 @@
             ?>
             <?php echo $form->error($model, 'publish_date'); ?>
         </div>
+                </div>
+
+</div>
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'seoTitle'); ?>
@@ -99,34 +113,7 @@
             <?php echo $form->error($model, 'seoH1'); ?>
         </div>
 
-        <hr/>
-        <div class="form-group">
-            <?php echo $form->labelEx($model, 'name'); ?>
-            <?php echo $form->textField($model, 'name', array('class' => 'form-control')); ?>
-            <?php echo $form->error($model, 'name'); ?>
-        </div>
-
-        <div class="form-group">
-            <?php echo $form->labelEx($model, 'seoKeywords'); ?>
-            <?php echo $form->textArea($model, 'seoKeywords', array('class' => 'form-control', 'rows' => 4)); ?>
-            <?php echo $form->error($model, 'seoKeywords'); ?>
-        </div>
-
-        <div class="form-group">
-            <?php echo $form->labelEx($model, 'parentId'); ?>
-            <?php echo $form->dropDownList($model, 'parentId', QuestionCategory::getCategoriesIdsNames(), array('class' => 'form-control')); ?>
-            <?php echo $form->error($model, 'parentId'); ?>
-        </div>
-
-        <div class="form-group checkbox">
-            <label>
-                <?php echo $form->checkBox($model, 'isDirection'); ?>
-                <?php echo $model->getAttributeLabel('isDirection'); ?>
-            </label>
-            <?php echo $form->error($model, 'parentId'); ?>
-        </div>
-
-        <h4>Прикрепленные файлы</h4>
+                <h4>Прикрепленные файлы</h4>
         <div class="vert-margin30">
 
             <?php if ($model->files): ?>
@@ -143,6 +130,31 @@
             <?php echo $form->fileField($model, 'attachments', array('class' => 'form-control')); ?>
             <?php echo $form->error($model, 'attachments'); ?>
         </div>
+
+        <hr/>
+
+<!--
+        <div class="form-group">
+            <?php echo $form->labelEx($model, 'seoKeywords'); ?>
+            <?php echo $form->textArea($model, 'seoKeywords', array('class' => 'form-control', 'rows' => 4)); ?>
+            <?php echo $form->error($model, 'seoKeywords'); ?>
+        </div> -->
+
+        <div class="form-group">
+            <?php echo $form->labelEx($model, 'parentId'); ?>
+            <?php echo $form->dropDownList($model, 'parentId', QuestionCategory::getCategoriesIdsNames(), array('class' => 'form-control')); ?>
+            <?php echo $form->error($model, 'parentId'); ?>
+        </div>
+
+        <div class="form-group checkbox">
+            <label>
+                <?php echo $form->checkBox($model, 'isDirection'); ?>
+                <?php echo $model->getAttributeLabel('isDirection'); ?>
+            </label>
+            <?php echo $form->error($model, 'parentId'); ?>
+        </div>
+
+
 
         <div class="buttons">
             <?php echo CHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('class' => 'btn btn-block btn-primary')); ?>

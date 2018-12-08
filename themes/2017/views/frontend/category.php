@@ -48,7 +48,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
 
 
                         <?php if (Yii::app()->user->isGuest): ?>
-                            <!-- 
+                             
                             <div class="grey-panel inside">
                                 <h4>Вы специалист в области права?</h4>
                                 <p>
@@ -58,7 +58,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                                 <p class="right-align">
                                     <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', array('role' => User::ROLE_JURIST))); ?>
                                 </p>
-                            </div> -->
+                            </div>  
                         <?php endif; ?>
                     </div>
                 <?php endif; ?>
@@ -68,7 +68,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
 
                     <?php
                     $this->widget('application.widgets.RecentCategories.RecentCategories', [
-                        'number' => 4,
+                        'number' => 5,
                     ]);
                     ?>
                 </div>

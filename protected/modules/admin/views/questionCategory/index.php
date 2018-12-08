@@ -22,6 +22,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <div class="vert-margin30">
     <h1>Категории вопросов
         <?php echo CHtml::link('Добавить категорию', Yii::app()->createUrl('/admin/questionCategory/create'), array('class' => 'btn btn-primary')); ?>
+        <?php echo CHtml::link('Ссылки на активные категории', Yii::app()->createUrl('/admin/questionCategory/showActiveUrls/'), array('class' => 'btn btn-default')); ?>
+        <?php echo CHtml::link('Иерархия всего раздела категорий', Yii::app()->createUrl('/admin/questionCategory/indexHierarchy/'), array('class' => 'btn btn-default')); ?>
+
     </h1>
 </div>
 

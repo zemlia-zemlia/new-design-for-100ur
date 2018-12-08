@@ -58,16 +58,13 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                     ));
             ?> 
             </div>
-            
-            <div class="grey-panel inside">
-                <h4>Вы специалист в области права?</h4>
-                <p>
-                Вы можете консультировать наших пользователей онлайн, пройдя нехитрую процедуру 
-                регистрации и подтверждения вашей квалификации.
-                </p>
-                <p class="right-align">
-                    <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', array('role' => User::ROLE_JURIST)));?>
-                </p>
+
+            <div class="inside article-preview">
+                <?php
+                $this->widget('application.widgets.RecentCategories.RecentCategories', [
+                    'number' => 3,
+                ]);
+                ?>
             </div>
             
         </div>
