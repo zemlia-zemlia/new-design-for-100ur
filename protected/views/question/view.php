@@ -112,6 +112,11 @@ $this->breadcrumbs = array(
         </em>
     </p>
 
+    <?php if (Yii::app()->user->role == User::ROLE_JURIST && $nextQuestionId): ?>
+        <p class="text-right">
+            <?php echo CHtml::link('Следующий вопрос без вашего ответа &rarr;', Yii::app()->createUrl('question/view', ['id' => $nextQuestionId]), ['class' => 'btn btn-default']); ?>
+        </p>
+    <?php endif; ?>
 
     <?php if (in_array(Yii::app()->user->role, array(User::ROLE_JURIST, User::ROLE_ROOT)) && !in_array(Yii::app()->user->id, $answersAuthors)): ?>
 
