@@ -188,7 +188,7 @@
 <?php endif; ?>
 
 <div id="go-top">
-    <a href="#" class="btn btn-info btn-xs">Наверх</a>
+    <a href="#" class="btn btn-info">Наверх</a>
 </div>
 </body>
 </html>

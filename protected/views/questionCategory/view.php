@@ -96,7 +96,7 @@ if ($model->seoH1) {
                 <div class="col-sm-6"></div>
                 <div class="col-sm-6 text-right">
                     <?php if($model->files):?>
-                        <a href="#downloads" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-download-alt"></span> К образцам документов для скачивания</a>
+                        <a href="#downloads" class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span> К образцам документов для скачивания</a>
                     <?php endif;?>
                 </div>
 
@@ -114,15 +114,15 @@ if ($model->seoH1) {
             <?php if ($model->files): ?>
                 <div class="vert-margin40 blue-block inside" id="downloads">
                     <div class="row">
-                        <div class="col-xs-3 text-center">
+                        <div class="col-xs-2 text-center">
                             <span style="font-size:40px; padding-top:30px;" class="glyphicon glyphicon-download-alt"></span>
                         </div>
-                        <div class="col-xs-9">
+                        <div class="col-xs-10">
                             <h2>Образцы документов для скачивания</h2>
                             <ol>
                                 <?php foreach ($model->files as $file): ?>
                                     <?php if (is_file(Yii::getPathOfAlias('webroot') . $file->getRelativePath())): ?>
-                                        <li>
+                                        <li style="font-size: 17px;">
                                             <?php echo CHtml::link($file->name, Yii::app()->urlManager->baseUrl . $file->getRelativePath(), ['target' => '_blank']); ?>
                                             <em class="text-muted">
                                                 (<?php echo round(filesize(Yii::getPathOfAlias('webroot') . $file->getRelativePath()) / 1024); ?>
