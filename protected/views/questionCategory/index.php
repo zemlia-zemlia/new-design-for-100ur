@@ -27,11 +27,11 @@ $this->breadcrumbs = array(
     </div>
 </div>
 
-<hr/>
+<h2 class="vert-margin30">Последние публикации</h2>
 
 <div>
     <?php
     $this->widget('application.widgets.RecentCategories.RecentCategories', [
-        'number' => 16, 'template' => 'default1']);
+        'number' => 26, 'template' => 'default1']);
     ?>
 </div>

@@ -27,7 +27,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <h1>Кампания #<?php echo $model->id; ?></h1>
 
-<table class="table table-bordered">
+<div class="row vert-margin30">
+<div class="col-sm-12 ">
+	<table class="table table-bordered">
     <tr>
         <td>
             Тип кампании
@@ -142,8 +144,15 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 </table>
 
 <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/campaign/update', array('id'=>$model->id)), array('class'=>'btn btn-primary'));?>
+</div>
+</div>
 
-<h2>Лиды</h2>
+
+<div class="row">
+
+
+<div class="col-sm-6">
+	<h2>Лиды</h2>
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'  =>  $leadsDataProvider,
 	'itemView'      =>  'application.modules.admin.views.lead._view',
@@ -153,8 +162,10 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
 )); ?>
 
+</div>
 
-<h2>Статистика продаж лидов по дням</h2>
+<div class="col-sm-6">
+	<h2>Статистика продаж лидов по дням</h2>
     <div class="vert-margin30">
        <?php $this->renderPartial('application.modules.admin.views.lead._searchFormDates', array(
            'model'=>$searchModel,
@@ -183,3 +194,10 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             </tr>
         </table>
     <?php endif;?>
+</div>
+
+
+
+
+
+    </div>
