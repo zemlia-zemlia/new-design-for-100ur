@@ -152,7 +152,13 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'parentId'); ?>
-            <?php echo $form->dropDownList($model, 'parentId', QuestionCategory::getCategoriesIdsNames(), array('class' => 'form-control')); ?>
+            <?php if ($model->parent->level < 3): ?>
+                <?php echo $form->dropDownList($model, 'parentId', QuestionCategory::getCategoriesIdsNames(), array('class' => 'form-control')); ?>
+            <?php else: ?>
+                <p>
+                    <?php echo $model->parent->name; ?>
+                </p>
+            <?php endif; ?>
             <?php echo $form->error($model, 'parentId'); ?>
         </div>
 
@@ -177,8 +183,8 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
 
 <script type="text/javascript">
     CKEDITOR.replace('ckeditor', {
-        language:'ru',
-        height:  700,
+        language: 'ru',
+        height: 700,
         filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
         filebrowserUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
     });
