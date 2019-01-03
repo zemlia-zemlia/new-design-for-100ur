@@ -19,7 +19,7 @@
                     <?php echo CHtml::link(CustomFuncs::mb_ucfirst($neighbour->name), Yii::app()->createUrl('questionCategory/alias', $neighbour->getUrl())); ?>
                 <?php else: ?>
                     <span>
-                    <?php echo $neighbour->name; ?>
+                    <?php echo CustomFuncs::mb_ucfirst($neighbour->name); ?>
                     </span>
                     <ul>
                         <?php foreach ($children as $child): ?>
