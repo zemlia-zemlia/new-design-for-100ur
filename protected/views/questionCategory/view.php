@@ -92,7 +92,7 @@ if ($model->seoH1) {
                 </div>
             </div>
 
-            <div class="row vert-margin30">
+            <div class="row vert-margin10">
                 <div class="col-sm-6"></div>
                 <div class="col-sm-6 text-right">
                     <?php if($model->files):?>
@@ -112,29 +112,22 @@ if ($model->seoH1) {
             <?php endif; ?>
 
             <?php if ($model->files): ?>
-                <div class="vert-margin40 blue-block inside" id="downloads">
-                    <div class="row">
-                        <div class="col-xs-2 text-center">
-                            <span style="font-size:40px; padding-top:30px;" class="glyphicon glyphicon-download-alt"></span>
-                        </div>
-                        <div class="col-xs-10">
-                            <h2>Образцы документов для скачивания</h2>
-                            <ol>
-                                <?php foreach ($model->files as $file): ?>
-                                    <?php if (is_file(Yii::getPathOfAlias('webroot') . $file->getRelativePath())): ?>
-                                        <li style="font-size: 17px;">
-                                            <?php echo CHtml::link($file->name, Yii::app()->urlManager->baseUrl . $file->getRelativePath(), ['target' => '_blank']); ?>
-                                            <em class="text-muted">
-                                                (<?php echo round(filesize(Yii::getPathOfAlias('webroot') . $file->getRelativePath()) / 1024); ?>
-                                                КБ)
-                                            </em>
-                                        </li>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
+                <div class="vert-margin40 blue-block inside25" id="downloads">
+                    <h2><span class="glyphicon glyphicon-download-alt"></span> Образцы документов для скачивания <span class="glyphicon glyphicon-download-alt"></span></h2>
+                    <ol>
+                        <?php foreach ($model->files as $file): ?>
+                            <?php if (is_file(Yii::getPathOfAlias('webroot') . $file->getRelativePath())): ?>
+                                <li style="font-size: 17px;">
+                                    <?php echo CHtml::link($file->name, Yii::app()->urlManager->baseUrl . $file->getRelativePath(), ['target' => '_blank']); ?>
+                                    <em class="text-muted" style="font-size: 14px;">
+                                        (<?php echo round(filesize(Yii::getPathOfAlias('webroot') . $file->getRelativePath()) / 1024); ?>
+                                        КБ)
+                                    </em>
+                                </li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </ol>
+        		</div>
             <?php endif; ?>
 
             <div class="row vert-margin30">

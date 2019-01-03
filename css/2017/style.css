@@ -52,15 +52,19 @@ blockquote {
     margin: 0px 0 21px;
     font-size: 17.5px;
     border-left: 30px solid #68be99;
-    background-color: seashell;
+    background-color: #eeffff;;
 }
 
 .inside {
     padding:10px;
 }
+.inside25 {
+    padding:25px;
+}
 
 .breadcrumbs {
     margin-bottom: 10px;
+    padding: 3px;
 }
 
 .right-align {
@@ -73,6 +77,10 @@ blockquote {
 
 .center-align {
     text-align: center;
+}
+
+.vert-margin10 {
+    margin-bottom: 10px !important;
 }
 
 .vert-margin20 {
@@ -329,7 +337,7 @@ div.errorSummary {
 */
 
 .flat-panel {
-    background-color:#f6f8f9;
+    background-color:#f0f8ff;
     box-shadow:0 0 2px #ccc;
 }
 
@@ -491,12 +499,20 @@ div.errorSummary {
 
 #left-menu-categories li {
     padding:5px 2px;
+    font-size: 14px;
 }
 
 #left-menu-categories li a {
-    color:#999;
+    color:#000;
     display: block;
     font-size:0.9em;
+}
+
+#left-menu-categories a.active {
+    color:#000;
+    display: block;
+    font-size:0.9em;
+    background-color: aliceblue;
 }
 
 .header-bordered {
@@ -574,7 +590,7 @@ div.errorSummary {
 
 .answer-item-author-block {
     background:linear-gradient(to right, #eee, #fff);
-    padding:8px;
+    padding:4px;
 }
 
 #footer {
@@ -716,6 +732,7 @@ div.errorSummary {
     /*border-bottom:#999 1px dashed;*/
     padding:3px 0;
     text-align: right;
+    background: linear-gradient(to left, #eee, #fff);
 }
 
 .donate-block {
@@ -910,7 +927,7 @@ ul.hor-list-menu a {
     color:#333;
     text-decoration: underline;
     padding:10px;
-    font-size:13px;
+    font-size:14px;
 }
 
 ul.hor-list-menu a.btn {
@@ -921,7 +938,7 @@ ul.hor-list-menu a.btn {
 ul.hor-list-menu span.active {
     display: inline-block;
     padding:10px;
-    font-size:13px;
+    font-size:14px;
 }
 
 .affix {
@@ -1106,7 +1123,7 @@ ul.hor-list-menu a.yellow-button,
 @media(min-width:768px) {
     .category-hero {
         position:relative;
-        margin-bottom:30px;
+        margin-bottom:15px;
         min-height:200px;
     }
 

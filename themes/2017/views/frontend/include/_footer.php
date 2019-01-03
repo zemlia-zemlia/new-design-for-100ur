@@ -4,7 +4,7 @@
 
             <div class="col-sm-3">
                 <h3 class="left-align">100 Юристов</h3>  
-                <div class="vert-margin20 small">
+                <div class="vert-margin10">
                     <?php echo ($_SERVER['REQUEST_URI'] != '/site/about/') ? CHtml::link('О проекте', Yii::app()->createUrl('/site/about/')) : '<span class="active">О проекте</span>'; ?><br />
                     <?php echo ($_SERVER['REQUEST_URI'] != '/site/offer/') ? CHtml::link('Пользовательское соглашение', Yii::app()->createUrl('/site/offer/')) : '<span class="active">Пользовательское соглашение</span>'; ?><br />
 					<?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/') ? CHtml::link('Наши филиалы', Yii::app()->createUrl('/site/contacts')) : '<span class="active">Наши филиалы</span>'; ?><br />
@@ -21,8 +21,9 @@
                         <a href="https://twitter.com/stoyuristov" target="_blank" rel="nofollow"><img src="/pics/2017/tw_icon.png" alt="Twitter" /></a>
                     </noindex>
                 </div>
+                <small>&copy;2014 «100 Юристов» </small>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <h3 class="left-align">Клиентам</h3>
                 <?php echo ($_SERVER['REQUEST_URI'] != '/region/') ? CHtml::link('Каталог юристов', Yii::app()->createUrl('/region/country', ['countryAlias' => 'russia'])) : '<span class="active">География</span>'; ?><br />
                 <?php echo ($_SERVER['REQUEST_URI'] != '/q/') ? CHtml::link('Архив вопросов', Yii::app()->createUrl('/question/index')) : '<span class="active">Архив вопросов</span>'; ?> <br />			
@@ -31,73 +32,48 @@
 
 
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <h3 class="left-align">Юристам</h3>
                 <p>
                   <?php echo ($_SERVER['REQUEST_URI'] != '/site/crm/') ? CHtml::link('CRM для юристов', Yii::app()->createUrl('/site/crm/')) : '<span class="active">CRM для юристов</span>'; ?> <br />
-                  <?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/') ? CHtml::link('Юридические заявки (лиды)', Yii::app()->createUrl('/site/lead/')) : '<span class="active">Юридические заявки (лиды)</span>'; ?><br />
+                  <?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/') ? CHtml::link('Юридические заявки', Yii::app()->createUrl('/site/lead/')) : '<span class="active">Юридические заявки</span>'; ?><br />
                 </p>
+
+            </div>
+            <div class="col-sm-2">
                 <h3 class="left-align">Партнерам</h3>
                 <p>
                     <?php echo ($_SERVER['REQUEST_URI'] != '/site/referal/') ? CHtml::link('Реферальная программа', Yii::app()->createUrl('/site/referal/')) : '<span class="active">Реферальная программа</span>'; ?><br />
                     <?php echo ($_SERVER['REQUEST_URI'] != '/site/partners/') ? CHtml::link('Вебмастерам', Yii::app()->createUrl('/site/partners/')) : '<span class="active">Вебмастерам</span>'; ?><br />
                 </p>
             </div>
-
             <div class="col-sm-3">
-
                 <div itemscope itemtype="http://schema.org/Organization" class="vert-margin20 small"> 
                     <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                        <p>
                             <span itemprop="addressLocality">Москва</span> <span itemprop="streetAddress">Шлюзовая набережная д.6 стр.4</span>
-                        </p>
                     </div>
                     <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                        <p>
                             <span itemprop="addressLocality">Санкт-Петербург</span> <span itemprop="streetAddress">Ул. Достоевского д.25</span>
-                        </p>
                     </div>
                     <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                        <p>
                             <span itemprop="addressLocality">Нижний Новгород</span> <span itemprop="streetAddress">Ул. Новая, д. 28</span>
-                        </p>
                     </div>
                     <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                        <p>
                             <span itemprop="addressLocality">Екатеринбург</span> <span itemprop="streetAddress">Ул. 8 Марта, д. 142</span>
-                        </p>
                     </div>
                     <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                        <p>
                             <span itemprop="addressLocality">Ростов-на-Дону</span> <span itemprop="streetAddress">Ул. Красноармейская, д. 142/50</span>
-                        </p>
                     </div>
                     <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                        <p>
                             <span itemprop="addressLocality">Краснодар</span> <span itemprop="streetAddress">Ул. Московская, 148</span>
-                        </p>
                     </div> 
-                    <p>
                         <span itemprop="name">100 Юристов</span>: 
-
                         <span itemprop="telephone">88005006185</span>
-                    </p>
                 </div>
-
-
+                    
             </div>
+
         </div>     
-        <div class='row'>
-            <div class='col-md-12 col-sm-12'>
-                <p style="text-align: justify;"> 
-                    <small>
-                        <noindex>
-                            &copy; Правовой портал «100 Юристов» 2014. Сайт предназначен для лиц старше 18 лет.	Все права, на любые материалы, размещенные на сайте, защищены в соответствии с российским и международным законодательством об авторском праве и смежных правах. При любом использовании текстовых, аудио-, видео- и фотоматериалов ссылка на www.100yuristov.com обязательна. Редакция сайта не несет ответственности за достоверность информации, опубликованной на сайте.  Email для связи с администрацией портала admin@100yuristov.com
-                        </noindex>
-                    </small>
-                </p>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -188,7 +164,133 @@
 <?php endif; ?>
 
 <div id="go-top">
-    <a href="#" class="btn btn-info">Наверх</a>
+    <a href="#" class="btn btn-info">Наверх <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
 </div>
+
+<!-- 
+
+<script>
+    var obj = [
+        {step1: {item: "Здравствуйте. Я администратор портала 100 Юристов. Я помогу Вам сформулировать вопрос юристам."}},
+        {step2: {item: "Какой у Вас вопрос?"}},
+        {step3: {item: 'Если вам сложно сформулировать вопрос юрист может сам вам перезвонить, звонок для вас бесплатный. <br/>' +
+                    ' <a class="" href="/question/call/">Заказать звонок юриста</a>'}
+        }];
+
+    function slideRobotChat() {
+        $("#robot_chat__contentMess").html(""),
+            $("#robot_chat__contentMess").empty(),
+            !0 === $("#robot_chat").hasClass("show") ? ($("#robot_chat").removeClass("show"),
+                $("#robot_chat__wrap").hide(), $("#robot_chat__header1 .addq__small-info-bl1").show(),
+                $("#robot_chat__header1 .robot_chat__header__close").hide(),
+                stat_ya("CLF2"), addMess(!0)) : ($("#robot_chat").addClass("show"),
+                $("#robot_chat__wrap").show(),
+                $("#question_komm_bottom").focus(),
+                $("#robot_chat__header1 .addq__small-info-bl1").hide(),
+                $("#robot_chat__header1 .robot_chat__header__close").show(),
+                $("#robot_chat_printed").show(), setTimeout(function () {
+                addMess()
+            }, 1500))
+    }
+
+    function addMess(s) {
+        var a = 0;
+        $("#robot_chat__contentMess").empty(), f = function () {
+            if (s) return stopAllTimeouts(), !1;
+            var t = obj[a]["step" + parseInt(a + 1)].time = robotGetTime(), o = obj[a]["step" + parseInt(a + 1)].item;
+            $("#robot_chat_printed").hide();
+            var e = '<div class="robot_chat_item"><div class="robot_chat_item__content">' + o + '</div><div class="robot_chat_item__date">' + t + "</div></div>";
+            $("#robot_chat__contentMess").append(e), (a += 1) < 3 && (setTimeout(f, "3000"), $("#robot_chat_printed").fadeIn())
+        }, f()
+    }
+
+    function robotGetTime() {
+        var t = new Date, o = t.getHours(), e = t.getMinutes();
+        return o < 10 && (o = "0" + o.toLocaleString()), e < 10 && (e = "0" + e.toLocaleString()), o + ":" + e
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        if (site_vars.current_user.id == 0 && site_vars.current_user.id !== undefined) {
+            $(window).scroll(function form_bottom_show() {
+                if (window.pageYOffset >= 900) {
+                    slideRobotChat();
+                    $("#question_komm_bottom").focus();
+                    $(window).unbind('scroll', form_bottom_show);
+                }
+            });
+        }
+    });
+</script>
+
+<div id="robot_chat" class="noprint">
+    <div class="robot_chat__header" id="robot_chat__header1" title="Свернуть" onclick="slideRobotChat(); return false;">
+        <span class="robot_chat__header__close" style=" display: none"></span>
+        <div class="robot_chat__header__img"><img src="/pics/15.png" alt="Консультация юристов и адвокатов"></div>
+        <div class="addq__small-info-bl1">
+            <span>
+                спросить
+            </span>
+        </div>
+        <div class="addq__small-info-bl">
+            Спросить юриста быстрее
+            <span class="addq__small-info-bl-small">
+                <span class="addq__small-info-bl-small-txt small-txt-l">Ответ через 15 минут</span>
+            </span>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="robot_chat__header" id="robot_chat__header2" style="display: none" title="Свернуть"
+         onclick="slideRobotChat(); return false;">
+        <span class="robot_chat__header__close"></span>
+        <div class="robot_chat__header__img"><img src="/pics/15.png" alt="Консультация юристов и адвокатов"></div>
+        <div class="robot_chat__header__text">Задайте бесплатный<br>вопрос юристам</div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div id="robot_chat__wrap" style="" class="clearFix">
+        <div id="robot_chat__body" class="clearFix">
+            <div id="robot_chat__content">
+                <div id="robot_chat__contentMess"></div>
+                <div id="robot_chat_printed">Администратор печатает сообщение <img src="/pics/pen.gif" alt=""></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <form class="addq__quest_form" id="addq_form" action="/question/create/?utm_source=100yuristov&utm_medium=robot&utm_campaign=site" method="post">
+            <div class="input_robot_chat clearFix">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input_robot_chat_txt">
+
+                        <textarea required="" onclick="$('').css('margin-bottom', '0');"
+                                      id="question_komm_bottom" class="addq__quest_form_text" name="komm" rows="4"
+                                      placeholder="Текст вашего вопроса юристу"></textarea>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="robot_button">
+                            <input type="submit" name="asc_question"
+                                   id="form-button_addq" class="btn yellow-button" value="Спросить">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <input type="hidden" name="hidden_type_form" value="88">
+            <input type="hidden" name="hidden_type_form_referer" value="">
+            <input type="hidden" name="name" value="">
+        </form>
+
+    </div>
+</div>
+
+-->
+
 </body>
 </html>

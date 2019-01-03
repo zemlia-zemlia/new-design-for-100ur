@@ -19,6 +19,8 @@
         Yii::app()->clientScript->registerCssFile('/css/2017/jquery-ui.css');
         Yii::app()->clientScript->registerScriptFile('/js/jquery-ui.min.js', CClientScript::POS_END);
 
+        Yii::app()->clientScript->registerCssFile("/css/robot_css.css");
+
         Yii::app()->clientScript->registerScriptFile("/js/scripts.js");
         Yii::app()->clientScript->registerScriptFile("/js/jquery.placeholder.min.js", CClientScript::POS_END);
         ?>
@@ -132,32 +134,46 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <ul class="hor-list-menu">
-                            <?php if(Yii::app()->user->role != User::ROLE_BUYER):?>
-                            <li class="hidden-xs">
-                                <?php echo ($_SERVER['REQUEST_URI'] != '/cat/') ? CHtml::link('Темы', Yii::app()->createUrl('/cat/'), array('class' => 'black-button')) : '<span class="black-button">Темы</span>'; ?>
-                            </li>
-                            <?php endif;?>
+
                             
                             <?php if (Yii::app()->user->role == User::ROLE_JURIST): ?>
+
+                                <li><?php echo CHtml::link('Поиск вопросов', Yii::app()->createUrl('question/search')); ?></li>
+
                                 <li><?php echo CHtml::link('Обновления для меня ' . '<strong class="red">(' . Yii::app()->user->newEventsCount . ')</strong>', Yii::app()->createUrl('user/feed')); ?>
 
                                 </li>
-                                <li><?php echo CHtml::link('Поиск вопросов', Yii::app()->createUrl('question/search')); ?></li>
-                                <li><?php echo CHtml::link('Заказы документов ' . '<strong class="red">(' . Order::calculateNewOrders() . ')</strong>', Yii::app()->createUrl('order/index')); ?></li>
-                                <!-- <li><?php echo CHtml::link('Заявки', Yii::app()->createUrl('lead/index')); ?></li> -->
-                                <li><?php echo CHtml::link('CRM', "http://www.yurcrm.ru", ['target' => '_blank']); ?> <span class="label label-danger">new</span></li>
-                            <?php elseif(Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->isGuest): ?>
 
-                                <li class="visible-xs-inline"><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/') ? CHtml::link('Каталог юристов', Yii::app()->createUrl('/yurist/')) : '<span class="active">Каталог юристов</span>'; ?></li>
-                                <li class="hidden-xs"><?php echo ($_SERVER['REQUEST_URI'] != '/question/call/') ? CHtml::link('Консультация по телефону', Yii::app()->createUrl('/question/call/')) : '<span class="active">Консультация по телефону</span>'; ?></li>
-                                <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/docs/')) ? CHtml::link("Заказать документы", Yii::app()->createUrl('question/docs'), array('class' => '')) : '<span class="active">Заказать документы</span>'; ?></li>
-                                <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/services/')) ? CHtml::link("Заказать услуги", Yii::app()->createUrl('question/services'), array('class' => '')) : '<span class="active">Заказать услуги</span>'; ?></li>    
+                                <li><?php echo CHtml::link('Заказы документов ' . '<strong class="red">(' . Order::calculateNewOrders() . ')</strong>', Yii::app()->createUrl('order/index')); ?></li>
+
+                            <!--<li><?php echo CHtml::link('Заявки', Yii::app()->createUrl('lead/index')); ?></li> -->
+                            <!--<li><?php echo CHtml::link('CRM для юристов', "http://www.yurcrm.ru", ['target' => '_blank']); ?></li>-->
+                            
+                            	<?php elseif(Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->isGuest): ?>
+
                                 <?php if (!stristr($_SERVER['REQUEST_URI'], '/question/create/')): ?>
+	
+                                <li class=""><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/russia/') ? CHtml::link('Каталог юристов', Yii::app()->createUrl('/yurist/russia/')) : '<span class="active">Каталог юристов</span>'; ?></li>
+                                <?php endif; ?>
+
+                                <li class="hidden-xs"><?php echo ($_SERVER['REQUEST_URI'] != '/question/call/') ? CHtml::link('Консультация по телефону', Yii::app()->createUrl('/question/call/')) : '<span class="active">Консультация по телефону</span>'; ?></li>
+
+                                <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/docs/')) ? CHtml::link("Заказать документы", Yii::app()->createUrl('question/docs'), array('class' => '')) : '<span class="active">Заказать документы</span>'; ?></li>
+
+                                <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/services/')) ? CHtml::link("Заказать услуги", Yii::app()->createUrl('question/services'), array('class' => '')) : '<span class="active">Заказать услуги</span>'; ?></li>   
+
+                                <?php if (!stristr($_SERVER['REQUEST_URI'], '/question/create/')): ?>
+
                                     <?php if (Yii::app()->user->isGuest): ?>
                                         <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/login/') ? CHtml::link('Вход на сайт', Yii::app()->createUrl('/site/login/')) : '<span class="active">Вход на сайт</span>'; ?></li> 
                                     <?php endif; ?>
+                                    
                                 <?php endif; ?>
-                                <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/')) ? CHtml::link('Бесплатная консультация на сайте', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' . Yii::app()->controller->id, array('class' => 'yellow-button arrow')) : ''; ?></li>
+                                
+                                <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/')) ? CHtml::link('Бесплатная online консультация на сайте', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' . Yii::app()->controller->id, array('class' => 'yellow-button arrow')) : ''; ?></li>
+
+
+
                             <?php endif; ?>
                                 
                             <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>

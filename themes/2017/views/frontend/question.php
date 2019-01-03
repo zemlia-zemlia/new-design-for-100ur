@@ -42,7 +42,18 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                     </div>
                 <?php endif; ?>
 
-
+                <?php if (Yii::app()->user->role == User::ROLE_JURIST): ?>
+                	<div class="flat-panel inside">
+                		<div class="row">
+                			<div class="col-sm-3 center-align">
+                				<img src="/pics/telegram-logo.jpg">
+                			</div>
+                			<div class="col-sm-9 small">
+		                		<a href="https://t.me/joinchat/BHmZ1xNtdqMPkqxDX_dVvw" target="blank">Группа в телеграм для профессионального общения специалистов в отрасли права (ссылка)</a>
+                			</div>
+                		</div>
+                	</div>
+        	 	<?php endif; ?>
 
                 <?php if (Yii::app()->user->role != User::ROLE_JURIST): ?>
                     <div data-spy="" data-offset-top="200">

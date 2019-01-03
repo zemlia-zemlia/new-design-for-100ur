@@ -16,14 +16,13 @@
 
 
     <p class="text-muted small center-align">
-        <strong>Внимание!</strong>
-        Размещение в тексте ответа или коментария рекламы, Email, телефонов ЗАПРЕЩЕНО!<br/> Также запрещается полное или частичное копирование текста ответов с других ресурсов.<br/> Свои контактные данные указывайте в профиле и ссылайтесь на них в своих ответах.
+        <strong>ЗАПРЕЩЕНО!</strong> Размещение в тексте ответа или коментария рекламы, email, телефонов и т.д., а также, запрещается полное или частичное копирование текста ответов с других ресурсов.
     </p>
         <?php // echo $form->errorSummary($model, "Исправьте ошибки"); ?>
     <div class="form-group">
 <?php echo $form->textArea($model, 'answerText', array('rows' => 7, 'class' => 'form-control')); ?>
     <?php echo $form->error($model, 'answerText'); ?>
-
+     <p class="text-muted small center-align"> <strong>ДОПУСТИМО!</strong> Ссылаться в ответах, на контактные данные указанные в вашем профиле.</p>
     </div>
     <?
     /*

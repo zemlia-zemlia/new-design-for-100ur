@@ -40,7 +40,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <img src="/pics/2017/red_lock.png" alt="ваши данные в безопасности" style="float:left;margin-top:10px;" />
                     <p class="text-muted" style="padding-top:10px;margin-left:35px;">
 
-                        Ваши данные в безопасности. Телефон <strong>НИГДЕ и НИКОГДА</strong> не публикуется и доступен только юристу-консультанту
+                        Ваши данные в безопасности. Телефон <strong>НИГДЕ и НИКОГДА</strong> не публикуется и доступен только юристу-консультанту. Звонок для вас БЕСПЛАТНЫЙ!
                     </p>
                 </small>
                 <?php echo $form->error($model, 'phone'); ?>

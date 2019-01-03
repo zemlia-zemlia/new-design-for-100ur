@@ -11,19 +11,23 @@
         'htmlOptions'           =>  array('class'=>'form-inline'),
 	'enableAjaxValidation'  =>  false,
 )); ?>
-
-	<div class="form-group">
-		<?php echo $form->label($model,'accountId'); ?>
-		<?php echo $form->dropDownList($model,'accountId', array(''=>'Все') + Money::getAccountsArray(), array('class' => 'form-control')); ?>
+<div class="row">
+	<div class="col-sm-1 col-xs-4">
+		<div class="form-group">
+			<?php echo $form->dropDownList($model,'accountId', array(''=>'Все счета') + Money::getAccountsArray(), array('class' => 'form-control')); ?>
+		</div>
+	</div>
+	<div class="col-sm-3 col-xs-4">
+		<div class="form-group">
+			<?php echo $form->dropDownList($model,'direction', array(''=>'Все статьи') + Money::getDirectionsArray(), array('class' => 'form-control')); ?>
+		</div>
 	</div>
 
-	<div class="form-group">
-		<?php echo $form->label($model,'direction'); ?>
-		<?php echo $form->dropDownList($model,'direction', array(''=>'Все') + Money::getDirectionsArray(), array('class' => 'form-control')); ?>
+	<div class="col-sm-2 col-xs-4">
+		<div class="form-group buttons left-align">
+			<?php echo CHtml::submitButton('Найти', array('class' => 'btn btn-block btn-primary')); ?>
+		</div>
 	</div>
-
-	<div class="form-group buttons left-align">
-		<?php echo CHtml::submitButton('Найти', array('class' => 'btn btn-primary')); ?>
-	</div>
+</div>
 
 <?php $this->endWidget(); ?>

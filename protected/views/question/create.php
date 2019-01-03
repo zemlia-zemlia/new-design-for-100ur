@@ -70,6 +70,8 @@ $this->breadcrumbs=array(
     <div class='inside'>
         <h1 class="">Задать вопрос юристу</h1>
 
+
+
         <?php echo $this->renderPartial('_form', array(
             'model'         =>  $model,
             'allDirections' =>  $allDirections,

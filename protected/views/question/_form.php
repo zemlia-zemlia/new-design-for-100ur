@@ -3,6 +3,16 @@
 /* @var $model Question */
 /* @var $form CActiveForm */
 ?>
+
+<?php
+    if(isset($_POST['komm'])){
+        $vopr=$_POST['komm'];
+    }
+    else{
+         $vopr='';
+    }
+?>
+
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'                    =>  'question-form',
 	'enableAjaxValidation'  =>  false,
@@ -10,15 +20,12 @@
         'htmlOptions'               =>  ['class'=>'form-horizontal'],
 )); ?>
 
-	
-
 <?php //echo $form->errorSummary($model, "Для отправки вопроса укажите данные"); ?>
 <?php //CustomFuncs::printr($model->attributes);?>
     
 <?php
 $allDirections = array(0=>'Не выбрано') + $allDirections;
 ?>
-
   
 <div class="form-group hidden-xs">
     <?php echo $form->labelEx($model,'title', ['class' =>  'col-sm-4 control-label']); ?>

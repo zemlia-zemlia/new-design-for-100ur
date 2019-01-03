@@ -38,7 +38,7 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
         '9111Spb' => array(
             'townId' => 822,
             'sourceId' => 33,
-            'buyPrice' => 110,
+            'buyPrice' => 80,
         ),
         '9111Msk' => array(
             'townId' => 598,

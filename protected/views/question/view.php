@@ -32,7 +32,7 @@ $this->breadcrumbs = array(
     </div>
 <?php endif; ?>
 
-<div class="small">
+<div>
     <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
         'homeLink' => CHtml::link('Вопрос юристу', "/"),
@@ -44,7 +44,7 @@ $this->breadcrumbs = array(
 
 <div itemscope itemtype="http://schema.org/Question">
 
-    <div id="question-hero" class="">
+    <div id="question-hero">
 
         <div class="row">
             <div class="col-sm-9">
@@ -53,7 +53,6 @@ $this->breadcrumbs = array(
                         <span class="label label-warning"><span class='glyphicon glyphicon-ruble'></span></span>
                     <?php endif; ?>
 
-                    <small>
                         <?php if ($model->publishDate): ?>
                             <span class="glyphicon glyphicon-calendar"></span>&nbsp;
                             <time itemprop="dateCreated"
@@ -65,7 +64,6 @@ $this->breadcrumbs = array(
                                 <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($category->name), Yii::app()->createUrl('questionCategory/alias', $category->getUrl())); ?> &nbsp;&nbsp;
                             <?php endforeach; ?>
                         <?php endif; ?>
-                    </small>
                 </p>
             </div>
             <div class="col-sm-3">
@@ -86,9 +84,9 @@ $this->breadcrumbs = array(
         <?php echo nl2br(CHtml::encode($model->questionText)); ?>
     </div>
 
-    <p class="vert-margin30 right-align">
-        <em>
-
+<div class="row vert-margin30">
+	<div class="col-sm-7">
+        <div class="inside">
             <?php if ($model->authorName): ?>
                 <span itemprop="author" itemscope itemtype="http://schema.org/Person">
 
@@ -96,28 +94,32 @@ $this->breadcrumbs = array(
                             itemprop="name"><?php echo CHtml::encode($model->authorName); ?></span> &nbsp;&nbsp;
                 </span>
             <?php endif; ?>
-            <?php if ($model->town): ?>
-                <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php
-                echo CHtml::link(CHtml::encode($model->town->name), Yii::app()->createUrl('town/alias', array(
-                    'name' => $model->town->alias,
-                    'countryAlias' => $model->town->country->alias,
-                    'regionAlias' => $model->town->region->alias,
-                )));
-                ?> &nbsp;
-                <?php if (!$model->town->isCapital): ?>
-                    <span class="text-muted">(<?php echo $model->town->region->name; ?>)</span>
-                <?php endif; ?>
-                &nbsp;&nbsp;
-            <?php endif; ?>
-        </em>
-    </p>
+            <em>
+	            <?php if ($model->town): ?>
+	                <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php
+	                echo CHtml::link(CHtml::encode($model->town->name), Yii::app()->createUrl('town/alias', array(
+	                    'name' => $model->town->alias,
+	                    'countryAlias' => $model->town->country->alias,
+	                    'regionAlias' => $model->town->region->alias,
+	                )));
+	                ?> &nbsp;
+	                <?php if (!$model->town->isCapital): ?>
+	                    <span class="text-muted">(<?php echo $model->town->region->name; ?>)</span>
+	                <?php endif; ?>
+	                &nbsp;&nbsp;
+	            <?php endif; ?>
+        	</em>
+        </div>
+	</div>
+	<div class="col-sm-5">
+		    <?php if (Yii::app()->user->role == User::ROLE_JURIST && $nextQuestionId): ?>
+		        <p class="text-right">
+		            <?php echo CHtml::link('Следующий вопрос <span class="glyphicon glyphicon glyphicon-arrow-right"></span>', Yii::app()->createUrl('question/view', ['id' => $nextQuestionId]), ['class' => 'btn btn-default btn-block']); ?>
+		        </p>
+		    <?php endif; ?>
+	</div>
 
-    <?php if (Yii::app()->user->role == User::ROLE_JURIST && $nextQuestionId): ?>
-        <p class="text-right">
-            <?php echo CHtml::link('Следующий вопрос без вашего ответа &rarr;', Yii::app()->createUrl('question/view', ['id' => $nextQuestionId]), ['class' => 'btn btn-default']); ?>
-        </p>
-    <?php endif; ?>
-
+</div>
     <?php if (in_array(Yii::app()->user->role, array(User::ROLE_JURIST, User::ROLE_ROOT)) && !in_array(Yii::app()->user->id, $answersAuthors)): ?>
 
         <?php if (Yii::app()->user->isVerified || Yii::app()->user->role == User::ROLE_ROOT): ?>

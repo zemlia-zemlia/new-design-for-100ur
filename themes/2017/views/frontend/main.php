@@ -18,7 +18,8 @@
     Yii::app()->clientScript->registerScriptFile("/js/jquery.maskedinput.min.js",CClientScript::POS_END);
     Yii::app()->clientScript->registerCssFile('/css/2017/jquery-ui.css');
     Yii::app()->clientScript->registerScriptFile('/js/jquery-ui.min.js');
-    
+
+
     Yii::app()->clientScript->registerScriptFile("/js/scripts.js");
     Yii::app()->clientScript->registerScriptFile("/js/jquery.placeholder.min.js",CClientScript::POS_END);
 
@@ -286,6 +287,10 @@
         ?> 
     </div>
         
+
+
+
+
     <div id="footer">
         <div class='container'>
             <div class='row'>
@@ -409,6 +414,8 @@ _tmr.push({id: "2577054", type: "pageView", start: (new Date()).getTime()});
 
 
 <?php endif;?>
+
+
 
 </body>
 </html>

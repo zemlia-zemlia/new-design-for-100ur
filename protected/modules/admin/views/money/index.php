@@ -26,7 +26,7 @@ $sumBalance = 0;
 
 <div class="row">
     <?php foreach($accounts as $acId=>$account):?>
-        <div class="col-sm-2 center-align">
+        <div class="col-sm-2 col-xs-4 center-align">
             <div class="panel panel-warning">
                 <div class="panel-heading"><?php echo $account;?></div>
                 <div class="panel-body">
@@ -36,7 +36,7 @@ $sumBalance = 0;
         </div>
         <?php $sumBalance += $balances[$acId];?>
     <?php endforeach;?>
-    <div class="col-sm-2 center-align">
+    <div class="col-sm-2 col-xs-4 center-align">
         <div class="panel panel-success">
             <div class="panel-heading">Всего</div>
             <div class="panel-body">

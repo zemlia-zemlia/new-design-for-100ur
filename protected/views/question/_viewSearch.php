@@ -1,8 +1,8 @@
 <div class="question-search-item"> 
-    <div class="vert-margin20">
+    <div class="vert-margin10">
         
-        <div class="container-fluid">
-            <div class="row">
+        <div style="background-color: #f0f8ff;">
+            <div class="row inside">
                 <div class="col-md-10">
                     <p>
                     <?php if($data['title']):?>
@@ -10,12 +10,10 @@
                     <?php endif;?>
 					</p>
 
-                    <p >
+                    
                     <small>
-
-						
                     <?php if($data['townName']):?>
-                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;
+                        <span class="glyphicon glyphicon-map-marker text-muted"></span>&nbsp;
                         <?php echo CHtml::encode($data['townName']);?>
                         &nbsp;&nbsp;
                     <?php endif;?>
@@ -25,10 +23,9 @@
                     <?php endif;?>   
                     </small>
                     
-                    </p>
                 </div>
                 <div class="col-md-2">
-                    <?php echo CHtml::link('Ответить', Yii::app()->createUrl('question/view', array('id'=>$data['id'])), array('class'=>'btn btn-xs btn-default btn-block')); ?>
+                    <?php echo CHtml::link('Открыть', Yii::app()->createUrl('question/view', array('id'=>$data['id'])), array('class'=>'btn btn-xs btn-default btn-block')); ?>
                 </div>
             </div>
         </div>

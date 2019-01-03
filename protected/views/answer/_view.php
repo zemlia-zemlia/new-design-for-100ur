@@ -37,7 +37,7 @@
                 <?php else:?>
                 <div class="answer-item-author-block vert-margin20">
                     <div class="">
-                    <small>
+
                     <div itemprop="author" class='answer-item-author' itemscope itemtype="http://schema.org/Person">
                         
                         <span class="glyphicon glyphicon-user"></span>
@@ -58,14 +58,16 @@
                         <?php if($data->datetime):?>
                             <span class="glyphicon glyphicon-calendar"></span> <?php echo CustomFuncs::niceDate($data->datetime, false);?>
                         <?php endif;?>
-						
-						<br/>
-						
+
+                        &nbsp;|&nbsp;
+
 						<span class="glyphicon glyphicon-signal"></span>&nbsp;<?php echo $data->author->answersCount . ' ' . CustomFuncs::numForms($data->author->answersCount, 'ответ', "ответа", "ответов");?>     
                         &nbsp;|&nbsp;
                         <span class='glyphicon glyphicon-thumbs-up'></span>&nbsp;<?php echo $data->author->karma;?> 
+
                     </div>
-                    </small>
+
+
                     </div>
                 </div>
                 
@@ -91,7 +93,6 @@
             <div class="col-xs-12 col-sm-10 col-sm-offset-2">
                 <div class="visible-xs-block">
                     <div itemprop="suggestedAnswer acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
-
                         <div itemprop="text">
                             <p>
                                 <?php echo CHtml::encode($data->answerText); ?>
@@ -127,24 +128,25 @@
                                 
                             <?php if($showKarmaLink === true):?>   
                             <span id="answer-karma-<?php echo $data->id;?>">    
-                                <?php echo CHtml::link("<span class='glyphicon glyphicon-thumbs-up'></span> Полезный ответ", Yii::app()->createUrl('user/karmaPlus'), array('class'=>'link-karma-plus btn btn-warning btn-xs', 'data-id'=>$data->id));?>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-thumbs-up'></span> Спасибо за ответ", Yii::app()->createUrl('user/karmaPlus'), array('class'=>'link-karma-plus btn btn-warning btn-xs', 'data-id'=>$data->id));?>
                             </span>
                             <?php endif;?>
 							
-                             
+							<a href="<?php echo Yii::app()->createUrl('user/view', array('id'=>$data->authorId));?>" rel="nofollow" class='btn btn-xs btn-default'><span class='glyphicon glyphicon-user'></span> Перейти в профиль юриста</a>
+                             <!--
                             <?php if(Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT):?>
                                 <a href="#" class='btn btn-xs btn-default donate-yurist-link'><span class="glyphicon glyphicon-ruble"></span> Отблагодарить</a>
                             <?php endif;?>
                                
                             <?php if(Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT):?>
-                            <div class='donate-block'>
-                                <?php $this->renderPartial("application.views.question._donateForm", array(
-                                    'target'        =>  'Благодарность юристу ' . CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->lastName),
-                                    'successUrl'    =>  Yii::app()->createUrl('question/view', array('id'=>$data->questionId, 'answer_payed_id'=>$data->id)),
-                                ));?>
-                            </div>
+	                             <div class='donate-block'>
+	                                <?php $this->renderPartial("application.views.question._donateForm", array(
+	                                    'target'        =>  'Благодарность юристу ' . CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->lastName),
+	                                    'successUrl'    =>  Yii::app()->createUrl('question/view', array('id'=>$data->questionId, 'answer_payed_id'=>$data->id)),
+	                                ));?>
+	                            </div> 
                             <?php endif;?>  
-							
+							--> 
 							
                         </div>
                     
