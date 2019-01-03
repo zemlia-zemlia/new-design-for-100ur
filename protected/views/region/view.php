@@ -29,13 +29,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <?php if (is_array($model->towns) && sizeof($model->towns)): ?>
 
             <div class="row">
+                <ul id="left-menu-categories">
                 <?php
                 $townsCounter = 0;
                 $townsNumber = sizeof($model->towns);
                 ?>
                 <?php foreach ($model->towns as $town): ?>
 
-                    <div>
+                    <li>
                         <?php
                         echo CHtml::link($town->name, Yii::app()->createUrl('town/alias', array(
                                     'name' => $town->alias,
@@ -43,8 +44,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                     'regionAlias' => $town->region->alias,
                         )));
                         ?>
-                    </div>
+                    </li>
                 <?php endforeach; ?>
+                </ul>
             </div>
         <?php endif; ?>
     </div>

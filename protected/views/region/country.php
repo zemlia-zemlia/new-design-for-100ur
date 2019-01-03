@@ -19,23 +19,22 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <div class="row">
     <div class="col-sm-3">
         <h2>Выберите регион</h2>
+
+        <ul id="left-menu-categories">
         <?php
         $regionCounter = 0;
         $regionsNumber = sizeof($regions);
 
         foreach ($regions as $region) {
-
-
-
-
-            echo " ";
+            echo "<li>";
             echo CHtml::link($region['regionName'], Yii::app()->createUrl('region/view', array(
                         'regionAlias' => $region['regionAlias'],
                         'countryAlias' => $region['countryAlias'],
             )));
-            echo " <br />";
+            echo "</li>";
         }
         ?>
+        </ul>
     </div>
     <div class="col-sm-9">
         <h1 class="vert-margin30">Рейтинг юристов и адвокатов, <?php echo CHtml::encode($country->name); ?></h1>

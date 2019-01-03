@@ -214,6 +214,11 @@ class QuestionController extends Controller
         // параметр, определяющий, будет ли в форме блок выбора цены (форма платного вопроса)
         $pay = (isset($_GET['pay'])) ? true : false;
 
+        // Если перешли из виджета задай вопрос юристу
+        if(isset($_POST['komm'])) {
+            $question->questionText = CHtml::encode($_POST['komm']);
+        }
+
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
 
