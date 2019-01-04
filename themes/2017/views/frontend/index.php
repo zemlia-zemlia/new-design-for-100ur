@@ -42,7 +42,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
 
 
             <div id="left-bar" class="vert-margin20">
-                <h3 id="left-menu-switch" class="">Выберите тему</h3>
+                <h3 id="left-menu-switch" class="">Темы вопросов</h3>
                 <?php
                 // выводим виджет с деревом категорий
                         $this->widget('application.widgets.CategoriesTree.CategoriesTree', array());
