@@ -350,6 +350,32 @@ class CustomFuncs
         return mb_strtoupper($firstChar, $encoding) . $then;
     }
 
+    /**
+     * Заполняет массив, ключами которого являются даты, недостающими датами и значениями по умолчанию
+     * @param array $datesArray
+     * @param mixed $defaultValue
+     * @param string $interval Интервал между соседними датами в формате P1D
+     * @return array
+     * @throws \Exception
+     */
+    public static function fillEmptyDatesArrayByDefaultValues($datesArray, $defaultValue = 0, $interval = 'P1D')
+    {
+        $dateStart = min(array_keys($datesArray));
+        $dateEnd = max(array_keys($datesArray));
+        $dateTimeEnd = new DateTime($dateEnd);
+
+        $currentDate = (new DateTime($dateStart))->add(new DateInterval('P1D'));
+
+        while($currentDate < $dateTimeEnd) {
+            if(!isset($datesArray[$currentDate->format('Y-m-d')])) {
+                $datesArray[$currentDate->format('Y-m-d')] = $defaultValue;
+            }
+            $currentDate->add(new DateInterval('P1D'));
+        }
+
+        return $datesArray;
+    }
+
 }
 
 ?>

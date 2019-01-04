@@ -133,8 +133,10 @@ class DefaultController extends Controller {
         foreach ($yuristActivityStatsRows as $row) {
             $yuristActivityStats[$row['lastDate']] = $row['counter'];
         }
-        
-        //CustomFuncs::printr($yuristActivityStats);
+
+        $yuristActivityStats = CustomFuncs::fillEmptyDatesArrayByDefaultValues($yuristActivityStats);
+
+        ksort($yuristActivityStats);
 
         /*
          * Получение статистики по лидам источника 100 Юристов
@@ -151,6 +153,10 @@ class DefaultController extends Controller {
         foreach ($stat100yuristovRows as $row) {
             $stat100yuristov[$row['lead_date']] = $row['counter'];
         }
+
+        $stat100yuristov = CustomFuncs::fillEmptyDatesArrayByDefaultValues($stat100yuristov);
+
+        ksort($stat100yuristov);
 
 
         $this->render('index', array(
