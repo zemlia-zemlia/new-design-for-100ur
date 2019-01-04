@@ -80,11 +80,12 @@ switch ($data->leadStatus) {
         <?php echo CHtml::link("Просмотр", array('viewLead', 'id'=>$data->id), array('class'=>'btn btn-block btn-primary btn-sm')); ?>
         
         <?php 
-            $leadTimestamp = strtotime($data->question_date);
+            $leadTimestamp = strtotime($data->deliveryTime);
             $now = time();
+            $holdPeriod = isset(Yii::app()->params['leadHoldPeriodDays']) ? Yii::app()->params['leadHoldPeriodDays'] : 2;
         ?>
         
-        <?php if(($data->leadStatus == Lead::LEAD_STATUS_SENT || $data->leadStatus == Lead::LEAD_STATUS_SENT_CRM) && ($now - $leadTimestamp)<86400*4 && $data->campaign->brakPercent > 0 && $data->campaign->checkCanBrak()):?>
+        <?php if(($data->leadStatus == Lead::LEAD_STATUS_SENT || $data->leadStatus == Lead::LEAD_STATUS_SENT_CRM) && ($now - $leadTimestamp)<86400*$holdPeriod && $data->campaign->brakPercent > 0 && $data->campaign->checkCanBrak()):?>
             <?php echo CHtml::link('На отбраковку', Yii::app()->createUrl('site/brakLead',array('code'=>$data->secretCode)), array('class'=>'btn btn-block btn-default btn-sm', 'target'=>'_blank', 'data-id'=>$data->id));?>
 
         <?php endif;?>
