@@ -48,6 +48,8 @@
             <div class="col-sm-2">
                 <h3 class="left-align">Юристам</h3>
                 <p>
+                    <?php echo ($_SERVER['REQUEST_URI'] != '/user/create/role/10/') ? CHtml::link('Регистрация на сайте', Yii::app()->createUrl('/user/create/role/10/')) : '<span class="active">Регистрация на сайте</span>'; ?>
+                    <br/>
                     <?php echo ($_SERVER['REQUEST_URI'] != '/site/crm/') ? CHtml::link('CRM для юристов', Yii::app()->createUrl('/site/crm/')) : '<span class="active">CRM для юристов</span>'; ?>
                     <br/>
                     <?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/') ? CHtml::link('Юридические заявки', Yii::app()->createUrl('/site/lead/')) : '<span class="active">Юридические заявки</span>'; ?>
@@ -114,24 +116,29 @@
     </script>
 
 
-
     <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-            m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    <script type="text/javascript">
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })
         (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
         ym(26550786, "init", {
-            id:26550786,
-            clickmap:true,
-            trackLinks:true,
-            accurateTrackBounce:true,
-            webvisor:true
+            id: 26550786,
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true
         });
     </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/26550786" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/26550786" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
     <!-- /Yandex.Metrika counter -->
-
 
 
     <!-- Rating@Mail.ru counter -->
