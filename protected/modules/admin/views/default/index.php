@@ -11,11 +11,9 @@ Yii::app()->clientScript->registerScriptFile('/js/highcharts/js/modules/funnel.j
 // массив направлений доходов и расходов
 $moneyDirections = Money::getDirectionsArray();
 $startYear = 2016;
-$endYear = 2017;
+$endYear = 2019;
 ?>
-<h1>Добро пожаловать в админку!</h1>
-
-
+    <h1>Добро пожаловать в админку!</h1>
 
 
 <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
@@ -25,70 +23,60 @@ $endYear = 2017;
 
         <script type="text/javascript">
             $(function () {
-            $('#chart_summa').highcharts({
-            chart: {
-            type: 'line'
-            },
+                $('#chart_summa').highcharts({
+                    chart: {
+                        type: 'line'
+                    },
                     title: {
-                    text: 'Доходы и расходы'
+                        text: 'Доходы и расходы'
                     },
                     xAxis: {
-                    categories: [
-    <?php for ($y = $startYear; $y <= $endYear; $y++): ?>
-        <?php for ($m = 1; $m <= 12; $m++): ?>
-            <?php echo '"' . $m . '.' . $y . '"' . ','; ?>
-        <?php endfor; ?>
-    <?php endfor; ?>
-                    ]
+                        categories: [
+                            <?php for ($y = $startYear; $y <= $endYear; $y++): ?>
+                            <?php for ($m = 1; $m <= 12; $m++): ?>
+                            <?php echo '"' . $m . '.' . $y . '"' . ','; ?>
+                            <?php endfor; ?>
+                            <?php endfor; ?>
+                        ]
                     },
                     yAxis: {
-                    title: {
-                    text: 'Доходы и расходы'
-                    }
+                        title: {
+                            text: 'Доходы и расходы'
+                        }
                     },
                     series: [{
-                    name: 'Выручка (с VIP вопросами)',
-                            data: [
-    <?php foreach ($sumArray as $year => $summByMonth): ?>
-        <?php foreach ($summByMonth as $month => $summa): ?>
-            <?php echo '["' . $month . '.' . $year . '",' . floor($summa + $vipArray[$year][$month]) . '],'; ?>
-        <?php endforeach; ?>
-    <?php endforeach; ?>
-                            ]
+                        name: 'Выручка (с VIP вопросами)',
+                        data: [
+                            <?php foreach ($sumArray as $year => $summByMonth): ?>
+                            <?php for ($month = 1; $month <= 12; $month++): ?>
+                            <?php echo '["' . $month . '.' . $year . '",' . floor($summByMonth[$month] + $vipArray[$year][$month]) . '],'; ?>
+                            <?php endfor; ?>
+                            <?php endforeach; ?>
+                        ]
                     }, {
-                    name: 'Покупка лидов',
-                            data: [
-    <?php foreach ($buySumArray as $year => $summByMonth): ?>
-        <?php foreach ($summByMonth as $month => $summa): ?>
-            <?php echo '["' . $month . '.' . $year . '",' . $summa . '],'; ?>
-        <?php endforeach; ?>
-    <?php endforeach; ?>
-                            ]
+                        name: 'Покупка лидов',
+                        data: [
+                            <?php foreach ($buySumArray as $year => $summByMonth): ?>
+                            <?php for ($month = 1; $month <= 12; $month++): ?>
+                            <?php echo '["' . $month . '.' . $year . '",' . floor($summByMonth[$month]) . '],'; ?>
+                            <?php endfor; ?>
+                            <?php endforeach; ?>
+                        ]
                     },
-    <?php foreach ($moneyFlow as $directionId => $flow): ?>
+                        <?php foreach ($moneyFlow as $directionId => $flow): ?>
                         {
-                        name: '<?php echo $moneyDirections[$directionId]; ?>',
-                                data: [
-        <?php foreach ($flow as $year => $summByMonth): ?>
-            <?php foreach ($summByMonth as $month => $summa): ?>
-                <?php echo '["' . $month . '.' . $year . '",' . abs($summa) . '],'; ?>
-            <?php endforeach; ?>
-        <?php endforeach; ?>
-                                ]
-                        },
-    <?php endforeach; ?>
-                    {
-                    name: 'Сумма расходов',
+                            name: '<?php echo $moneyDirections[$directionId]; ?>',
                             data: [
-    <?php foreach ($totalExpences as $year => $summByMonth): ?>
-        <?php foreach ($summByMonth as $month => $summa): ?>
-            <?php echo '["' . $month . '.' . $year . '",' . $summa . '],'; ?>
-        <?php endforeach; ?>
-    <?php endforeach; ?>
+                                <?php foreach ($flow as $year => $summByMonth): ?>
+                                <?php for ($month = 1; $month <= 12; $month++): ?>
+                                <?php echo '["' . $month . '.' . $year . '",' . abs($summByMonth[$month]) . '],'; ?>
+                                <?php endfor; ?>
+                                <?php endforeach; ?>
                             ]
-                    },
+                        },
+                        <?php endforeach; ?>
                     ]
-            });
+                });
             });
         </script>
     </div>
@@ -96,7 +84,8 @@ $endYear = 2017;
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-default">
-                <h3>Процент вопросов, на которые ответ был дан в течение 4 часов (за последние 30 дней): <span class="label label-info"><?php echo $fastQuestionsRatio; ?>%</span></h3>
+                <h3>Процент вопросов, на которые ответ был дан в течение 4 часов (за последние 30 дней): <span
+                            class="label label-info"><?php echo $fastQuestionsRatio; ?>%</span></h3>
             </div>
         </div>
         <div class="col-md-6">
@@ -104,7 +93,9 @@ $endYear = 2017;
             <table class="table">
                 <tr>
                     <?php foreach ($publishedQuestionsCount as $date => $counter): ?>
-                        <td class="center-align"><small><?php echo date('d.m', strtotime($date)); ?></small></td>
+                        <td class="center-align">
+                            <small><?php echo date('d.m', strtotime($date)); ?></small>
+                        </td>
                     <?php endforeach; ?>
                 </tr>
                 <tr>
@@ -164,38 +155,38 @@ $endYear = 2017;
 
     <script type="text/javascript">
         $(function () {
-        $('#chart_leads').highcharts({
-        chart: {
-        type: 'line'
-        },
+            $('#chart_leads').highcharts({
+                chart: {
+                    type: 'line'
+                },
                 title: {
-                text: 'Лиды по типам'
+                    text: 'Лиды по типам'
                 },
                 xAxis: {
-                categories: [
-    <?php foreach ($uniqueLeadDates as $leadDate): ?>
-                    '<?php echo date('d.m', strtotime($leadDate)); ?>',
-    <?php endforeach; ?>
-                ]
+                    categories: [
+                        <?php foreach ($uniqueLeadDates as $leadDate): ?>
+                        '<?php echo date('d.m', strtotime($leadDate)); ?>',
+                        <?php endforeach; ?>
+                    ]
                 },
                 yAxis: {
-                title: {
-                text: 'Лиды'
-                }
+                    title: {
+                        text: 'Лиды'
+                    }
                 },
                 series: [
-    <?php foreach ($leadsByTypes as $type => $leadsByDates): ?>
+                    <?php foreach ($leadsByTypes as $type => $leadsByDates): ?>
                     {
-                    name: '<?php echo Lead::getLeadTypesArray()[$type]; ?>',
-                            data: [
-        <?php foreach ($uniqueLeadDates as $date): ?>
-            <?php echo '["' . date('d.m', strtotime($date)) . '",' . (int) $leadsByTypes[$type][$date] . '],'; ?>
-        <?php endforeach; ?>
-                            ]
+                        name: '<?php echo Lead::getLeadTypesArray()[$type]; ?>',
+                        data: [
+                            <?php foreach ($uniqueLeadDates as $date): ?>
+                            <?php echo '["' . date('d.m', strtotime($date)) . '",' . (int)$leadsByTypes[$type][$date] . '],'; ?>
+                            <?php endforeach; ?>
+                        ]
                     },
-    <?php endforeach; ?>
+                    <?php endforeach; ?>
                 ]
-        });
+            });
         });</script>
 
 
@@ -203,50 +194,50 @@ $endYear = 2017;
 
     <script type="text/javascript">
         $(function () {
-        $('#chart_yurist_activity').highcharts({
-        chart: {
-        type: 'column'
-        },
+            $('#chart_yurist_activity').highcharts({
+                chart: {
+                    type: 'column'
+                },
                 title: {
-                text: 'Последняя активность юристов по дням'
+                    text: 'Последняя активность юристов по дням'
                 },
                 xAxis: {
-                categories: [
-    <?php foreach ($yuristActivityStats as $date => $counter): ?>
-                    '<?php echo $date; ?>',
-    <?php endforeach; ?>
-                ],
-                        crosshair: true
+                    categories: [
+                        <?php foreach ($yuristActivityStats as $date => $counter): ?>
+                        '<?php echo $date; ?>',
+                        <?php endforeach; ?>
+                    ],
+                    crosshair: true
                 },
                 yAxis: {
-                min: 0,
-                        title: {
+                    min: 0,
+                    title: {
                         text: ''
-                        }
+                    }
                 },
                 plotOptions: {
-                column: {
-                pointPadding: 0.2,
+                    column: {
+                        pointPadding: 0.2,
                         borderWidth: 0
-                }
+                    }
                 },
                 series: [{
-                name: 'Последний раз в этот день заходило юристов',
-                        data: [
-    <?php foreach ($yuristActivityStats as $date => $counter): ?>
-        <?php echo $counter; ?>,
-    <?php endforeach; ?>
-                        ]
+                    name: 'Последний раз в этот день заходило юристов',
+                    data: [
+                        <?php foreach ($yuristActivityStats as $date => $counter): ?>
+                        <?php echo $counter; ?>,
+                        <?php endforeach; ?>
+                    ]
 
                 }]
-        });
+            });
         });
     </script>
 
     <h2>Последние записи лога</h2>
     <?php
-        // выводим виджет с последними записями лога
-        $this->widget('application.widgets.LogReader.LogReaderWidget');
-    ?>		
+    // выводим виджет с последними записями лога
+    $this->widget('application.widgets.LogReader.LogReaderWidget');
+    ?>
 
 <?php endif; ?>
