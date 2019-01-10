@@ -507,6 +507,17 @@ div.errorSummary {
     display: block;
 }
 
+#left-menu-categories li:hover{
+    color:#eee;
+    background: #4c9676;
+    text-decoration: none;
+}
+
+#left-menu-categories li a:hover {
+    color:#eee;
+    display: block;
+}
+
 #left-menu-categories a.active {
     color:#000;
     display: block;
