@@ -5,7 +5,7 @@
  * @var QuestionCategory $category
  */
 ?>
-<ul id="left-menu-categories">
+<ul id="left-menu">
     <?php if (sizeof($children) > 0): ?>
         <?php foreach ($children as $child): ?>
             <li>

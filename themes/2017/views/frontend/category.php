@@ -57,7 +57,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                         </div>
                     </div>  -->
                 <?php endif; ?>
-
+                <hr/>
                 <div class="inside article-preview">
                     <?php
                     $this->widget('application.widgets.RecentCategories.RecentCategories', [
