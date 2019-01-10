@@ -34,7 +34,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
 
 
                 <?php if (Yii::app()->user->role != User::ROLE_JURIST): ?>
-
+                    <!--
                     <div data-spy="" data-offset-top="200" class="hidden-xs">
                         <div class="consult-phone-widget vert-margin20">
                             <h4><span class="glyphicon glyphicon-earphone"></span> Горячая линия юридических консультаций</h4>
@@ -55,7 +55,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                             <?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/docs/')) ? CHtml::link("Заказать документ", Yii::app()->createUrl('question/docs'), array('class' => 'button button-green-border')) : '<span class="active">Заказать документы</span>'; ?>
 
                         </div>
-                    </div>  
+                    </div>  -->
                 <?php endif; ?>
 
                 <div class="inside article-preview">
