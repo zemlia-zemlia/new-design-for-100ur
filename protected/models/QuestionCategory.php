@@ -464,13 +464,24 @@ class QuestionCategory extends CActiveRecord
     /**
      * Возвращает массив категорий, отсортированный по убыванию даты публикации и id
      * @param int $limit Лимит выборки
+     * @param boolean $hasPicture найти только категории с заглавной картинкой
+     * @param int $rootId id раздела, в котором нужно выбрать категории
      * @return QuestionCategory[]
      */
-    public static function getRecentCategories($limit = 3)
+    public static function getRecentCategories($limit = 3, $hasPicture = true, $rootId = null)
     {
         $criteria = new CDbCriteria();
         $criteria->order = 'publish_date DESC, id DESC';
         $criteria->limit = $limit;
+
+        $criteria->addColumnCondition(['seoTitle!' => '']);
+        
+        if ($hasPicture) {
+            $criteria->addColumnCondition(['image!' => '']);
+        }
+        if ((int)$rootId > 0) {
+            $criteria->addColumnCondition(['root' => $rootId]);
+        }
         $categories = QuestionCategory::model()->findAll($criteria);
         return $categories;
     }

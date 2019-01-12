@@ -95,9 +95,11 @@ if ($model->seoH1) {
             <div class="row vert-margin10">
                 <div class="col-sm-6"></div>
                 <div class="col-sm-6 text-right">
-                    <?php if($model->files):?>
-                        <a href="#downloads" class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span> К образцам документов для скачивания</a>
-                    <?php endif;?>
+                    <?php if ($model->files): ?>
+                        <a href="#downloads" class="btn btn-default"><span
+                                    class="glyphicon glyphicon-download-alt"></span> К образцам документов для
+                            скачивания</a>
+                    <?php endif; ?>
                 </div>
 
             </div>
@@ -113,7 +115,8 @@ if ($model->seoH1) {
 
             <?php if ($model->files): ?>
                 <div class="vert-margin40 blue-block inside25" id="downloads">
-                    <h2><span class="glyphicon glyphicon-download-alt"></span> Образцы документов для скачивания <span class="glyphicon glyphicon-download-alt"></span></h2>
+                    <h2><span class="glyphicon glyphicon-download-alt"></span> Образцы документов для скачивания <span
+                                class="glyphicon glyphicon-download-alt"></span></h2>
                     <ol>
                         <?php foreach ($model->files as $file): ?>
                             <?php if (is_file(Yii::getPathOfAlias('webroot') . $file->getRelativePath())): ?>
@@ -127,7 +130,7 @@ if ($model->seoH1) {
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </ol>
-        		</div>
+                </div>
             <?php endif; ?>
 
             <div class="row vert-margin30">
@@ -139,26 +142,14 @@ if ($model->seoH1) {
                 </div>
             </div>
 
-            <?php if (Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_CLIENT): ?>
-                <div class="vert-margin30 blue-block inside">
-                    <div class="row">
-                        <div class="col-sm-8 center-align">
-                            <h3>Ваш вопрос требует составления документа?</h3>
-                            <p>Доверьте это опытным юристам, закажите документ прямо на сайте в режиме онлайн.</p>
-                        </div>
-                        <div class="col-sm-4 center-align">
-                            <p></p>
-                            <?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/docs'), ['class' => 'yellow-button']); ?>
-                        </div>
-                    </div>
-                </div>
-            <?php endif; ?>
-
-            <?php if ($model->description2): ?>
-
-                <?php echo $model->description2; ?>
-
-            <?php endif; ?>
+            <?php
+            $this->widget('application.widgets.RecentCategories.RecentCategories', [
+                'number' => 4,
+                'template' => 'default1',
+                'rootId' => $model->root,
+                'title' => '<h2>Похожие статьи</h2>',
+            ]);
+            ?>
 
         </div>
     </div>

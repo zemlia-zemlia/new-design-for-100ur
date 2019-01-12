@@ -5,6 +5,13 @@ if (empty($recentCategories) || sizeof($recentCategories) == 0) {
 }
 ?>
 
+<?php
+if($title) {
+    echo $title;
+}
+?>
+
+
 <?php foreach ($recentCategories as $counter => $recentCategory): ?>
     <?php if ($counter % 2 == 0): ?>
         <div class="row">

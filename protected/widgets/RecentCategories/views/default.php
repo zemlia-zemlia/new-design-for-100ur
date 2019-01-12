@@ -5,6 +5,12 @@ if (empty($recentCategories) || sizeof($recentCategories) == 0) {
 }
 ?>
 
+<?php
+if ($title) {
+    echo $title;
+}
+?>
+
 <?php foreach ($recentCategories as $recentCategory): ?>
     <div class="vert-margin30">
         <p>
