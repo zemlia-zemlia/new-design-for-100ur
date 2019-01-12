@@ -28,7 +28,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <h2>Выберите город</h2>
         <?php if (is_array($model->towns) && sizeof($model->towns)): ?>
 
-            <div class="row">
                 <ul id="left-menu">
                 <?php
                 $townsCounter = 0;
@@ -47,7 +46,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     </li>
                 <?php endforeach; ?>
                 </ul>
-            </div>
         <?php endif; ?>
     </div>
 
