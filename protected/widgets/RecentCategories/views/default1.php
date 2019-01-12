@@ -20,13 +20,13 @@
         <?php endif; ?>
 
         <div class="col-md-<?php echo $columnWidth; ?> vert-margin30">
-            <div>
+            <div class="category-preview-wrapper">
                 <a href="<?php echo Yii::app()->createUrl('questionCategory/alias', $recentCategory->getUrl()); ?>">
                     <?php echo('<img src="' . $recentCategory->getImagePath() . '" alt="' . CHtml::encode($recentCategory->seoH1) . '" class="img-responsive"/>'); ?>
                 </a>
-            </div>
-            <div>
-                <?php echo CHtml::link(CHtml::encode($recentCategory->seoH1), Yii::app()->createUrl('questionCategory/alias', $recentCategory->getUrl())); ?>
+                <div class="category-preview-title">
+                    <?php echo CHtml::link(CHtml::encode($recentCategory->seoH1), Yii::app()->createUrl('questionCategory/alias', $recentCategory->getUrl())); ?>
+                </div>
             </div>
         </div>
 

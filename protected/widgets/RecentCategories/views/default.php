@@ -13,15 +13,18 @@ if ($title) {
 
 <div class="recent-categories">
 
-<?php foreach ($recentCategories as $recentCategory): ?>
-    <div class="vert-margin30">
-        <p>
-            <strong>
-                <?php echo CHtml::link('<img src="' . $recentCategory->getImagePath() . '"
-             alt="' . CHtml::encode($recentCategory->seoH1) . '" class="img-responsive"/>' . CHtml::encode($recentCategory->seoH1), Yii::app()->createUrl('questionCategory/alias', $recentCategory->getUrl())); ?>
-            </strong>
-        </p>
-    </div>
-<?php endforeach; ?>
+    <?php foreach ($recentCategories as $recentCategory): ?>
+        <div class="vert-margin30">
+            <div class="category-preview-wrapper">
+                <img src="<?php echo $recentCategory->getImagePath(); ?>"
+                     alt="<?php echo CHtml::encode($recentCategory->seoH1); ?>" class="img-responsive"/>
+                <div class="category-preview-title">
+                    <strong>
+                        <?php echo CHtml::link(CHtml::encode($recentCategory->seoH1), Yii::app()->createUrl('questionCategory/alias', $recentCategory->getUrl())); ?>
+                    </strong>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
 
 </div>
