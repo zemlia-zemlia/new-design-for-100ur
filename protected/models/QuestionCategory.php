@@ -29,6 +29,8 @@ class QuestionCategory extends CActiveRecord
 
     const IMAGES_DIRECTORY = '/upload/categories/';
 
+    const DEFAULT_IMAGE = '/pics/2017/head_default.jpg';
+
     public $imageFile; // для загрузки через форму
 
     public $attachments = []; // прикрепленные файлы
@@ -457,7 +459,15 @@ class QuestionCategory extends CActiveRecord
      */
     public function getImagePath()
     {
-        return ($this->image != '') ? self::IMAGES_DIRECTORY . $this->image : '';
+        if($this->image != '' && is_file(self::IMAGES_DIRECTORY . $this->image)) {
+            return self::IMAGES_DIRECTORY . $this->image;
+        } elseif (!is_file(self::IMAGES_DIRECTORY . $this->image)) {
+            $this->image = '';
+            $this->saveNode();
+            return self::DEFAULT_IMAGE;
+        } else {
+            return self::DEFAULT_IMAGE;
+        }
     }
 
 

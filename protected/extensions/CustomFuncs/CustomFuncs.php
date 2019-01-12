@@ -360,6 +360,10 @@ class CustomFuncs
      */
     public static function fillEmptyDatesArrayByDefaultValues($datesArray, $defaultValue = 0, $interval = 'P1D')
     {
+        if(sizeof($datesArray) == 0) {
+            return $datesArray;
+        }
+        
         $dateStart = min(array_keys($datesArray));
         $dateEnd = max(array_keys($datesArray));
         $dateTimeEnd = new DateTime($dateEnd);

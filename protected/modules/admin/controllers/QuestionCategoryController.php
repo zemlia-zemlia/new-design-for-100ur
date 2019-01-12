@@ -154,7 +154,7 @@ class QuestionCategoryController extends Controller
                 $newFileName = md5($imageFile->getName() . $imageFile->getSize()) . "." . $imageFile->getExtensionName();
                 Yii::app()->ih
                     ->load($imageFile->tempName)
-                    ->resize(1200, 500, true)
+                    ->adaptiveThumb(850, 570)
                     ->save(Yii::getPathOfAlias('webroot') . QuestionCategory::IMAGES_DIRECTORY . '/' . $newFileName);
                 $model->image = $newFileName;
             }

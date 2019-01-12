@@ -71,10 +71,8 @@ if ($model->seoH1) {
         <div itemscope itemtype="http://schema.org/Article">
 
             <div class="category-hero post-hero">
-                <?php if ($model->image): ?>
                     <img src="<?php echo $model->getImagePath(); ?>" alt="<?php echo $pageTitle; ?>"
                          title="<?php echo $pageTitle; ?>" class="img-responsive"/>
-                <?php endif; ?>
                 <div class="text-over-hero">
                     <h1>
                         <span itemprop="name">
