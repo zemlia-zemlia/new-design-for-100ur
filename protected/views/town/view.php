@@ -45,7 +45,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <div class="col-sm-3">
         <?php if (is_array($closeTowns) && sizeof($closeTowns)): ?>
             <h2>Соседние города</h2>
-            <ul id="left-menu-categories">
+            <ul id="left-menu">
                 <?php foreach ($closeTowns as $town): ?>
                     <li>
                         <?php

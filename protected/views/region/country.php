@@ -20,7 +20,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <div class="col-sm-3">
         <h2>Выберите регион</h2>
 
-        <ul id="left-menu-categories">
+        <ul id="left-menu">
         <?php
         $regionCounter = 0;
         $regionsNumber = sizeof($regions);

@@ -29,7 +29,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <?php if (is_array($model->towns) && sizeof($model->towns)): ?>
 
             <div class="row">
-                <ul id="left-menu-categories">
+                <ul id="left-menu">
                 <?php
                 $townsCounter = 0;
                 $townsNumber = sizeof($model->towns);
