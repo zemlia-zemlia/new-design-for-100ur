@@ -6,32 +6,37 @@ if (empty($recentCategories) || sizeof($recentCategories) == 0) {
 ?>
 
 <?php
-if($title) {
+if ($title) {
     echo $title;
 }
 ?>
 
+<?php $columnWidth = 12 / $columns; ?>
 
-<?php foreach ($recentCategories as $counter => $recentCategory): ?>
-    <?php if ($counter % 2 == 0): ?>
-        <div class="row">
-    <?php endif; ?>
+<div class="recent-categories">
 
-    <div class="col-md-6 vert-margin30">
-        <div class="row">
-            <div class="col-md-3">
-                <?php echo('<img src="' . $recentCategory->getImagePath() . '" alt="' . CHtml::encode($recentCategory->seoTitle) . '" class="img-responsive"/>'); ?>
+    <?php foreach ($recentCategories as $counter => $recentCategory): ?>
+        <?php if ($counter % $columns == 0): ?>
+            <div class="row">
+        <?php endif; ?>
+
+        <div class="col-md-<?php echo $columnWidth; ?> vert-margin30">
+            <div>
+                <a href="<?php echo Yii::app()->createUrl('questionCategory/alias', $recentCategory->getUrl()); ?>">
+                    <?php echo('<img src="' . $recentCategory->getImagePath() . '" alt="' . CHtml::encode($recentCategory->seoH1) . '" class="img-responsive"/>'); ?>
+                </a>
             </div>
-            <div class="col-md-9">
-                <?php echo CHtml::link(CHtml::encode($recentCategory->seoTitle), Yii::app()->createUrl('questionCategory/alias', $recentCategory->getUrl())); ?>
+            <div>
+                <?php echo CHtml::link(CHtml::encode($recentCategory->seoH1), Yii::app()->createUrl('questionCategory/alias', $recentCategory->getUrl())); ?>
             </div>
         </div>
-    </div>
 
-    <?php if ($counter % 2 == 1): ?>
+        <?php if ($counter % $columns == $columns - 1): ?>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+
+    <?php if ($counter % $columns == 0): ?>
         </div>
     <?php endif; ?>
-<?php endforeach; ?>
-<?php if ($counter % 2 == 0): ?>
-    </div>
-<?php endif; ?>
+</div>

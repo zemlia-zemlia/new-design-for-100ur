@@ -32,6 +32,9 @@ $this->breadcrumbs = array(
 <div>
     <?php
     $this->widget('application.widgets.RecentCategories.RecentCategories', [
-        'number' => 26, 'template' => 'default1']);
+        'number' => 26,
+        'template' => 'default1',
+        'columns' => 3,
+        ]);
     ?>
 </div>

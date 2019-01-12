@@ -725,6 +725,10 @@ div.errorSummary {
     font-size: 12px;
 }
 
+.recent-categories a {
+    color:#555;
+}
+
 /*-------------- yurist profile ----------------------*/
 #user-profile-advocat, #user-profile-yurist, #user-profile-judge, #form-submit {
     display: none;

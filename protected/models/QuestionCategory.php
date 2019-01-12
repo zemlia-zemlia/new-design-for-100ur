@@ -474,8 +474,8 @@ class QuestionCategory extends CActiveRecord
         $criteria->order = 'publish_date DESC, id DESC';
         $criteria->limit = $limit;
 
-        $criteria->addColumnCondition(['seoTitle!' => '']);
-        
+        $criteria->addColumnCondition(['seoH1!' => '']);
+
         if ($hasPicture) {
             $criteria->addColumnCondition(['image!' => '']);
         }
