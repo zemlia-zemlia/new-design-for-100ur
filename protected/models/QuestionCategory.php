@@ -461,7 +461,7 @@ class QuestionCategory extends CActiveRecord
     {
         if($this->image != '' && is_file(Yii::getPathOfAlias('webroot') . self::IMAGES_DIRECTORY . $this->image)) {
             return self::IMAGES_DIRECTORY . $this->image;
-        } elseif (!is_file(Yii::getPathOfAlias('webroot') . self::IMAGES_DIRECTORY . $this->image)) {
+        } elseif ($this->image != '' && !is_file(Yii::getPathOfAlias('webroot') . self::IMAGES_DIRECTORY . $this->image)) {
             $this->image = '';
             $this->saveNode();
             return self::DEFAULT_IMAGE;
