@@ -1,19 +1,18 @@
 <?php
 /** @var QuestionCategory $recentCategory */
-if (empty($recentCategories) || sizeof($recentCategories) == 0) {
-    echo "Не найдено ни одной категории";
-}
 ?>
 
-<?php
-if ($title) {
-    echo $title;
-}
-?>
+<?php if (sizeof($recentCategories) > 0): ?>
 
-<?php $columnWidth = 12 / $columns; ?>
+    <?php
+    if ($title) {
+        echo $title;
+    }
+    ?>
 
-<div class="recent-categories">
+    <?php $columnWidth = 12 / $columns; ?>
+
+    <div class="recent-categories">
 
     <?php foreach ($recentCategories as $counter => $recentCategory): ?>
         <?php if ($counter % $columns == 0): ?>
@@ -36,7 +35,8 @@ if ($title) {
         <?php endif; ?>
     <?php endforeach; ?>
 
-    <?php if (($counter+1) % $columns != 0): ?>
+    <?php if (($counter + 1) % $columns != 0): ?>
         </div>
     <?php endif; ?>
-</div>
+    </div>
+<?php endif; ?>
