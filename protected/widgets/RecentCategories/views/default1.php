@@ -36,7 +36,7 @@ if ($title) {
         <?php endif; ?>
     <?php endforeach; ?>
 
-    <?php if ($counter % $columns != 0): ?>
+    <?php if (($counter+1) % $columns != 0): ?>
         </div>
     <?php endif; ?>
 </div>
