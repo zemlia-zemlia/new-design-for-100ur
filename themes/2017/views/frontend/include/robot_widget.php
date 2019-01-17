@@ -1,7 +1,7 @@
 <script>
     var obj = [
-        {step1: {item: "Здравствуйте. Я дежурный юрист, я постараюсь вам помочь."}},
-        {step2: {item: "Какой у Вас вопрос?"}},
+        {step1: {item: "Здравствуйте! Я юрист-консультант сайта. Чем я могу вам помочь?"}},
+        {step2: {item: "Моя консультация бесплатна. Какой у Вас вопрос?"}},
         {step3: {item: 'Если вам сложно сформулировать вопрос вы можете ' +
                     ' <a class="" href="<?php echo Yii::app()->createUrl('/question/call/');?>">Заказать обратный звонок. </a> Звонок для вас бесплатный. <br/>'}}
                     ];
@@ -51,7 +51,7 @@
         <div class="addq__small-info-bl">
             Спросить юриста быстрее
             <span class="addq__small-info-bl-small">
-                <span class="addq__small-info-bl-small-txt small-txt-l">Ответ через 15 минут</span>
+                <span class="addq__small-info-bl-small-txt small-txt-l">Более <strong>700</strong> юристов готовы помочь</span>
             </span>
         </div>
         <div class="clear"></div>
