@@ -135,7 +135,7 @@ if (Yii::app()->user->id != $user->id) {
                 <?php endif; ?>
 
                 <?php if (Yii::app()->user->isGuest): ?>
-                    <?php echo CHtml::link('Задать вопрос юристу', Yii::app()->createUrl('/question/create/'), ['class' => 'btn btn-default btn-block']); ?>
+                    <?php echo CHtml::link('Задать вопрос юристу', Yii::app()->createUrl('/question/create/'), ['class' => 'btn btn-primary btn-block']); ?>
                 <?php endif; ?>
 
             </div>
@@ -255,7 +255,7 @@ if (Yii::app()->user->id != $user->id) {
                                 <div class='vert-margin20'>
                                     <h3 class="left-align">Образование
                                         <?php if ($user->settings && $user->settings->isVerified): ?>
-                                            <span class="text-success glyphicon glyphicon-ok-sign"></span>
+                                            <span class="text-success glyphicon glyphicon-ok-sign">Подтверждено</span>
                                         <?php endif; ?>
                                     </h3>
                                     <p>
