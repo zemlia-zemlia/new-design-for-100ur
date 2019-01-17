@@ -36,6 +36,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                 <?php if (Yii::app()->user->role != User::ROLE_JURIST): ?>
 
                     <div data-spy="" data-offset-top="200" class="hidden-xs">
+                        <!--
                         <div class="consult-phone-widget vert-margin20">
                             <h4><span class="glyphicon glyphicon-earphone"></span> Горячая линия юридических консультаций</h4>
                             <h3>для Москвы и МО:</h3>
@@ -45,6 +46,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                             <h3>для других регионов:</h3>
                             <?php echo CHtml::link('Запрос на обратный звонок ', Yii::app()->createUrl('question/call'), array('class' => 'button button-green-border')); ?>
                         </div>
+                        -->
 
                         <div class="question-docs-block vert-margin20">
                             <h3>Вы так-же можете задать свой вопрос и получить ответ прямо на сайте</h3>
