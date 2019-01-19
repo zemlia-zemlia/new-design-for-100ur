@@ -476,7 +476,7 @@ div.errorSummary {
 #left-menu li a {
     display: block;
     background: #e9ecef;
-    color: #4e5d65;
+    color: #000;
     padding: 2px;
     border-radius: 2px;
     font-size: 14px;
@@ -726,7 +726,7 @@ div.errorSummary {
 }
 
 .recent-categories a {
-    color:#555;
+    color:#000;
 }
 
 .category-preview-wrapper {
@@ -738,7 +738,8 @@ div.errorSummary {
     bottom: 0;
     width:100%;
     background-color: rgba(255,255,255, 0.8);
-    padding:3px;
+    padding: 10px;
+    margin-bottom: 25px;
 }
 
 /*-------------- yurist profile ----------------------*/

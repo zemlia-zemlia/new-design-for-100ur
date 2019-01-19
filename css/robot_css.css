@@ -2,7 +2,7 @@
 	height: auto;
 	bottom: 0;
 	border-radius: 4px 4px 0 0;
-	border: 1px solid #848484;
+	/* border: 1px solid #848484; */
 	border-bottom: none;
 	display: block;
 	overflow: hidden;
@@ -42,7 +42,7 @@
 }
 
 .robot_chat__header {
-	background-color: #4c9676;
+	background-color: #0178a3;
 	position: absolute;
 	top: 0;
 	width: 100%;
@@ -274,7 +274,7 @@
 }
 
 .addq__small-info-bl1 span {
-	background: #ffc900;
+	background: #67be99;
 	border: none;
 	font: bold 12px Arial, sans-serif;
 	text-transform: uppercase;
@@ -417,7 +417,7 @@
 	color: #fff;
 	cursor: pointer;
 	float: right;
-	background: #ffc900;
+	background: #67be99;
 	display: block;
 	position: relative;
 	right: 0;

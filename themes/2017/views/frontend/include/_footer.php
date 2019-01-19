@@ -183,7 +183,7 @@
 <?php endif; ?>
 
 <div id="go-top">
-    <a href="#" class="btn btn-info">Наверх <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
+    <a href="#" class="btn btn-primary">Наверх <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
 </div>
 
 <?php if (Yii::app()->user->isGuest): ?>

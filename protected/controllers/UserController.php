@@ -58,7 +58,7 @@ class UserController extends Controller {
     }
 
     public function actionProfile() {
-        $this->layout = '//frontend/question';
+        $this->layout = '//frontend/lp';
 
         $user = User::model()->findByPk(Yii::app()->user->id);
 
@@ -577,7 +577,7 @@ class UserController extends Controller {
      * @throws CHttpException
      */
     public function actionView($id) {
-        $this->layout = '//frontend/question';
+        $this->layout = '//frontend/lp';
 
         $user = User::model()->with('settings')->findByPk($id);
 
