@@ -7,9 +7,9 @@
                 <div class="vert-margin10">
                     <?php echo ($_SERVER['REQUEST_URI'] != '/site/about/') ? CHtml::link('О проекте', Yii::app()->createUrl('/site/about/')) : '<span class="active">О проекте</span>'; ?>
                     <br/>
-                    <?php echo ($_SERVER['REQUEST_URI'] != '/site/offer/') ? CHtml::link('Пользовательское соглашение', Yii::app()->createUrl('/site/offer/')) : '<span class="active">Пользовательское соглашение</span>'; ?>
+                    <?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/') ? CHtml::link('Контакты', Yii::app()->createUrl('/site/contacts')) : '<span class="active">Контакты</span>'; ?>
                     <br/>
-                    <?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/') ? CHtml::link('Наши филиалы', Yii::app()->createUrl('/site/contacts')) : '<span class="active">Наши филиалы</span>'; ?>
+                    <?php echo ($_SERVER['REQUEST_URI'] != '/site/offer/') ? CHtml::link('Пользовательское соглашение', Yii::app()->createUrl('/site/offer/')) : '<span class="active">Пользовательское соглашение</span>'; ?>
                     <br/>
 
                 </div>
