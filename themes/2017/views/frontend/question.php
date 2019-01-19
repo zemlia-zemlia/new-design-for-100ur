@@ -42,18 +42,32 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                     </div>
                 <?php endif; ?>
 
+
                 <?php if (Yii::app()->user->role == User::ROLE_JURIST): ?>
-                	<div class="flat-panel inside">
-                		<div class="row">
-                			<div class="col-sm-3 center-align">
-                				<img src="/pics/telegram-logo.jpg">
-                			</div>
-                			<div class="col-sm-9 small">
-		                		<a href="https://t.me/joinchat/BHmZ1xNtdqMPkqxDX_dVvw" target="blank">Группа в телеграм для профессионального общения специалистов в отрасли права (ссылка)</a>
-                			</div>
-                		</div>
-                	</div>
-        	 	<?php endif; ?>
+                    <div class="vert-margin30">
+                        <div class="flat-panel inside">
+                            <p class="lead text-center">
+                                <?php echo CHtml::link('<strong>Зачем юристу отвечать на вопросы + конкурс</strong>', Yii::app()->createUrl('site/yuristam')); ?>
+                            </p>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+
+                <div class="vert-margin30">
+                    <h3>Топ юристов</h3>
+                    <p class="text-center">Рейтинг юристов по количеству консультаций за последние 30 дней</p>
+
+                    <?php
+                    // выводим виджет с топовыми юристами
+                    $this->widget('application.widgets.TopYurists.TopYurists', array(
+                        'cacheTime' => 30,
+                        'limit' => 3,
+                        'fetchType' => TopYurists::FETCH_RANKED,
+                        'template' => 'shortList',
+                    ));
+                    ?>
+                </div>
 
                 <?php if (Yii::app()->user->role != User::ROLE_JURIST): ?>
                     <div data-spy="" data-offset-top="200">
@@ -84,28 +98,28 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
 
                 <?php if (Yii::app()->user->isGuest): ?>
 
-        		<div class="inside">
-					<!-- Yandex.RTB R-A-279595-2 -->
-					<div id="yandex_rtb_R-A-279595-2"></div>
-					<script type="text/javascript">
-					    (function(w, d, n, s, t) {
-					        w[n] = w[n] || [];
-					        w[n].push(function() {
-					            Ya.Context.AdvManager.render({
-					                blockId: "R-A-279595-2",
-					                renderTo: "yandex_rtb_R-A-279595-2",
-					                async: true
-					            });
-					        });
-					        t = d.getElementsByTagName("script")[0];
-					        s = d.createElement("script");
-					        s.type = "text/javascript";
-					        s.src = "//an.yandex.ru/system/context.js";
-					        s.async = true;
-					        t.parentNode.insertBefore(s, t);
-					    })(this, this.document, "yandexContextAsyncCallbacks");
-					</script>
-					</div>
+                    <div class="inside">
+                        <!-- Yandex.RTB R-A-279595-2 -->
+                        <div id="yandex_rtb_R-A-279595-2"></div>
+                        <script type="text/javascript">
+                            (function (w, d, n, s, t) {
+                                w[n] = w[n] || [];
+                                w[n].push(function () {
+                                    Ya.Context.AdvManager.render({
+                                        blockId: "R-A-279595-2",
+                                        renderTo: "yandex_rtb_R-A-279595-2",
+                                        async: true
+                                    });
+                                });
+                                t = d.getElementsByTagName("script")[0];
+                                s = d.createElement("script");
+                                s.type = "text/javascript";
+                                s.src = "//an.yandex.ru/system/context.js";
+                                s.async = true;
+                                t.parentNode.insertBefore(s, t);
+                            })(this, this.document, "yandexContextAsyncCallbacks");
+                        </script>
+                    </div>
 
                 <?php endif; ?>
 
