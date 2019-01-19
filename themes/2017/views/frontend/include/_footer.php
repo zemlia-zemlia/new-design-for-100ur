@@ -54,6 +54,8 @@
                     <br/>
                     <?php echo ($_SERVER['REQUEST_URI'] != '/site/lead/') ? CHtml::link('Юридические заявки', Yii::app()->createUrl('/site/lead/')) : '<span class="active">Юридические заявки</span>'; ?>
                     <br/>
+                    <?php echo ($_SERVER['REQUEST_URI'] != '/site/yuristam/') ? CHtml::link('Зачем отвечать на вопросы', Yii::app()->createUrl('/site/yuristam/')) : '<span class="active">Зачем отвечать на вопросы</span>'; ?>
+                    <br/>
                 </p>
 
             </div>
