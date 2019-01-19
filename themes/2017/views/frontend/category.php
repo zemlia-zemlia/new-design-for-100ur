@@ -49,8 +49,8 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                         -->
 
                         <div class="question-docs-block vert-margin20">
-                            <h3>Вы так-же можете задать свой вопрос и получить ответ прямо на сайте</h3>
-                            <?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/')) ? CHtml::link('Задать вопрос online', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=question-docs-block&utm_campaign=' . Yii::app()->controller->id, array('class' => 'button button-green-border btn-block')) : ''; ?>
+                            <h3>Вы также можете задать свой вопрос и получить ответ прямо на сайте</h3>
+                            <?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/')) ? CHtml::link('Задать вопрос online', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=question-docs-block&utm_campaign=' . Yii::app()->controller->id, array('class' => 'button button-green-border')) : ''; ?>
                             <br/>
                             <br/>
                             <h3>Заказать юридический документ у профессиональных юристов</h3>
