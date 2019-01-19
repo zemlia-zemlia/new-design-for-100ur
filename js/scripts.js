@@ -123,6 +123,13 @@ $(function(){
         }
     })
 
+    $(document).on('keyup', '.limited-text', function () {
+        var textLength = $(this).val().length;
+        var textLimitMax = $(this).attr('maxlength');
+        var textLimitMin = $(this).attr('minlength');
+        $(this).closest('div').find('.chars-counter').text('Введено символов: ' + textLength);
+    });
+
 });
 
 function addLink() {

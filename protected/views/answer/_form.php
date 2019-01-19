@@ -14,15 +14,16 @@
     ?>
 
 
-
     <p class="text-muted small center-align">
-        <strong>ЗАПРЕЩЕНО!</strong> Размещение в тексте ответа или коментария рекламы, email, телефонов и т.д., а также, запрещается полное или частичное копирование текста ответов с других ресурсов.
+        <strong>ЗАПРЕЩЕНО!</strong> Размещение в тексте ответа или коментария рекламы, email, телефонов и т.д., а также,
+        запрещается полное или частичное копирование текста ответов с других ресурсов.
     </p>
-        <?php // echo $form->errorSummary($model, "Исправьте ошибки"); ?>
     <div class="form-group">
-<?php echo $form->textArea($model, 'answerText', array('rows' => 7, 'class' => 'form-control')); ?>
-    <?php echo $form->error($model, 'answerText'); ?>
-     <p class="text-muted small center-align"> <strong>ДОПУСТИМО!</strong> Ссылаться в ответах, на контактные данные указанные в вашем профиле.</p>
+        <?php echo $form->textArea($model, 'answerText', array('rows' => 7, 'class' => 'form-control limited-text')); ?>
+        <div class="chars-counter text-right"></div>
+        <?php echo $form->error($model, 'answerText'); ?>
+        <p class="text-muted small center-align"><strong>ДОПУСТИМО!</strong> Ссылаться в ответах, на контактные данные
+            указанные в вашем профиле.</p>
     </div>
     <?
     /*
@@ -40,12 +41,12 @@
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="form-group">
-<?php echo CHtml::submitButton($model->isNewRecord ? 'Опубликовать ответ' : 'Сохранить', array('class' => 'yellow-button center-block btn-lg')); ?>
+                <?php echo CHtml::submitButton($model->isNewRecord ? 'Опубликовать ответ' : 'Сохранить', array('class' => 'yellow-button center-block btn-lg')); ?>
             </div>
         </div>
     </div>
 
 
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
 
 </div><!-- form -->
