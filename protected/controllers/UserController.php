@@ -57,20 +57,18 @@ class UserController extends Controller {
         );
     }
 
-    public function actionProfile() {
+    public function actionProfile()
+    {
         $this->layout = '//frontend/lp';
 
         $user = User::model()->findByPk(Yii::app()->user->id);
+        $questionRepository = new QuestionRepository();
+        $questionRepository->setCacheTime(600)->setLimit(10);
 
-        $questionsCriteria = new CDbCriteria;
         $ordersCriteria = new CDbCriteria; // мои заказы документов
 
-        $questionsCriteria->addCondition('t.status IN(' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')');
-
-
         if (Yii::app()->user->role == User::ROLE_CLIENT) {
-            $questionsCriteria->addColumnCondition(array('t.authorId' => Yii::app()->user->id));
-
+            $questions = $questionRepository->findRecentQuestionsByClient($user);
             $ordersCriteria->addColumnCondition(array('t.userId' => Yii::app()->user->id));
             $ordersCriteria->order = 't.id DESC';
 
@@ -78,24 +76,10 @@ class UserController extends Controller {
                 'criteria' => $ordersCriteria,
             ]);
         } else {
-            $questionsCriteria->with = array(
-                'answers' => array(
-                    'condition' => 'answers.authorId = ' . Yii::app()->user->id,
-            ));
+            $questions = $questionRepository->findRecentQuestionsByJuristAnswers($user);
             $ordersDataProvider = null;
         }
 
-        $questionsCriteria->order = 't.id DESC';
-        $questionsCriteria->limit = 10;
-
-        $questions = Question::model()->findAll($questionsCriteria);
-
-
-//        $questionsDataProvider = new CArrayDataProvider($questions, array(
-//            'pagination' => array(
-//                'pageSize' => 20,
-//            ),
-//        ));
         // найдем последний запрос на смену статуса
         $lastRequest = Yii::app()->db->createCommand()
                 ->select('isVerified, status')
@@ -105,11 +89,7 @@ class UserController extends Controller {
                 ->limit(1)
                 ->queryRow();
 
-        //CustomFuncs::printr($lastRequest);
-
-
         $this->render('profile', array(
-            'questionsDataProvider' => $questionsDataProvider,
             'questions' => $questions,
             'user' => $user,
             'lastRequest' => $lastRequest,
@@ -585,23 +565,9 @@ class UserController extends Controller {
             throw new CHttpException(404, 'Пользователь не найден');
         }
 
-        $questions = Yii::app()->db->cache(600)->createCommand()
-                ->select('q.id id, q.publishDate date, q.title title')
-                ->from('{{question}} q')
-                ->leftJoin('{{answer}} a', 'q.id=a.questionId')
-                ->where('a.id IS NOT NULL AND q.status IN (:status1, :status2) AND a.authorId = :authorId', array(':status1' => Question::STATUS_PUBLISHED, ':status2' => Question::STATUS_CHECK, ':authorId' => $user->id))
-                ->limit(10)
-                ->order('a.datetime DESC')
-                ->queryAll();
-
-//        $questionsDataProvider = new CArrayDataProvider($questions, array(
-//            'pagination' => array(
-//                'pageSize' => 20,
-//            ),
-//        ));
+        $questions = (new QuestionRepository)->findRecentQuestionsByJuristAnswers($user);
 
         $this->render('profile', array(
-            'questionsDataProvider' => $questionsDataProvider,
             'questions' => $questions,
             'user' => $user,
         ));
