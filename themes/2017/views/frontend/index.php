@@ -41,7 +41,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
 
                 <div id="left-bar" class="vert-margin20">
 
-                    <div class="vert-margin30 flat-panel inside">
+                    <div class="vert-margin30 inside">
                         <h3>Топ юристов</h3>
                         <p class="text-center small">Рейтинг юристов по количеству консультаций за последние 30 дней</p>
                         <?php
