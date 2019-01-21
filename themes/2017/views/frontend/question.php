@@ -54,23 +54,10 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                 <?php endif; ?>
 
 
-                <div class="vert-margin30">
-                    <h3>Топ юристов</h3>
-                    <p class="text-center">Рейтинг юристов по количеству консультаций за последние 30 дней</p>
 
-                    <?php
-                    // выводим виджет с топовыми юристами
-                    $this->widget('application.widgets.TopYurists.TopYurists', array(
-                        'cacheTime' => 30,
-                        'limit' => 3,
-                        'fetchType' => TopYurists::FETCH_RANKED,
-                        'template' => 'shortList',
-                    ));
-                    ?>
-                </div>
 
                 <?php if (Yii::app()->user->role != User::ROLE_JURIST): ?>
-                    <div data-spy="" data-offset-top="200">
+                    <div data-spy="" data-offset-top="200" class="vert-margin20">
                         <div class="vert-margin20">
                             <?php
                             // выводим виджет с формой
@@ -95,6 +82,20 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                     </div>
                 <?php endif; ?>
 
+                <div class="vert-margin30 flat-panel inside">
+                    <h3>Топ юристов</h3>
+                    <p class="text-center">Рейтинг юристов по количеству консультаций за последние 30 дней</p>
+
+                    <?php
+                    // выводим виджет с топовыми юристами
+                    $this->widget('application.widgets.TopYurists.TopYurists', array(
+                        'cacheTime' => 30,
+                        'limit' => 3,
+                        'fetchType' => TopYurists::FETCH_RANKED,
+                        'template' => 'shortList',
+                    ));
+                    ?>
+                </div>
 
                 <?php if (Yii::app()->user->isGuest): ?>
 

@@ -7,6 +7,9 @@ $usersCount = 0;
         <?php $usersCount++; ?>
 
         <div class="row row-yurist yurist-list-item">
+            <div class="col-xs-1">
+                <span class="badge"><?php echo $usersCount; ?></span>
+            </div>
 
             <div class="col-xs-3 text-center">
                 <div>
@@ -17,10 +20,9 @@ $usersCount = 0;
                              class="img-responsive center-block gray-panel"/>
                     </a>
                 </div>
-                <span class="badge"><?php echo $usersCount; ?></span>
 
             </div>
-            <div class="col-xs-9">
+            <div class="col-xs-8">
                 <div>
                     <a href="<?php echo Yii::app()->createUrl('user/view', array('id' => $user['id'])); ?>?from=top_yurist_widget"
                        rel="nofollow">

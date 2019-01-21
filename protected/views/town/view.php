@@ -93,6 +93,35 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         ?>
                     </div>
                 <?php endif; ?>
+                <div class="hidden-xs">
+                <hr/>
+
+                <?php if ($model->description1): ?>
+                    <div class="vert-margin30">
+                        <?php echo $model->description1; ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if ($model->description2): ?>
+                    <div class="vert-margin30">
+                        <?php echo $model->description2; ?>
+                    </div>
+                <?php endif; ?>
+                </div>
+                <?php if (Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_CLIENT): ?>
+                    <div class="vert-margin30 blue-block inside">
+                        <div class="row">
+                            <div class="col-sm-8 center-align">
+                                <h3>Ваш вопрос требует составления документа?</h3>
+                                <p>Доверьте это опытным юристам</p>
+                            </div>
+                            <div class="col-sm-4 center-align">
+                                <p></p>
+                                <?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/docs'), ['class' => 'yellow-button']); ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
 
             </div>
             <div class="col-sm-4">
@@ -122,40 +151,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             </div>
 
         </div>
-
-        <hr/>
-
-
-        <?php if ($model->description1): ?>
-            <div class="vert-margin30">
-                <?php echo $model->description1; ?>
-            </div>
-        <?php endif; ?>
-
-
-
-
-
-        <?php if ($model->description2): ?>
-            <div class="vert-margin30">
-                <?php echo $model->description2; ?>
-            </div>
-        <?php endif; ?>
-
-        <?php if (Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_CLIENT): ?>
-            <div class="vert-margin30 blue-block inside">
-                <div class="row">
-                    <div class="col-sm-8 center-align">
-                        <h3>Ваш вопрос требует составления документа?</h3>
-                        <p>Доверьте это опытным юристам</p>
-                    </div>
-                    <div class="col-sm-4 center-align">
-                        <p></p>
-                        <?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/docs'), ['class' => 'yellow-button']); ?>
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
 
     </div>
 </div>

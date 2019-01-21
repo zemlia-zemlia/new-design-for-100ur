@@ -73,7 +73,7 @@
         
         <div class="counters-wrapper">
             <div class="row">
-                <div class="col-sm-3 center-align counter-green">
+                <div class="col-sm-3 col-xs-6 center-align counter-green">
                     <div class="counter-number">
                         <span class="glyphicon glyphicon-bullhorn"></span> <?php echo $questionsCountInt;?>
                     </div>
@@ -81,7 +81,7 @@
                         вопросов задано
                     </div>
                 </div>
-                <div class="col-sm-3 center-align counter-yellow">
+                <div class="col-sm-3 col-xs-6 center-align counter-yellow">
                     <div class="counter-number">
                         <span class="glyphicon glyphicon-comment"></span> <?php echo $answersCount;?>
                     </div>
@@ -89,7 +89,7 @@
                         ответов получено
                     </div>
                 </div>
-                <div class="col-sm-3 center-align counter-green">
+                <div class="col-sm-3 col-xs-6 center-align counter-green">
                     <div class="counter-number">
                         <span class="glyphicon glyphicon-education"></span> <?php echo $yuristsCount;?>
                     </div>
@@ -97,7 +97,7 @@
                         юристов на сайте
                     </div>
                 </div>
-                <div class="col-sm-3 center-align counter-yellow">
+                <div class="col-sm-3 col-xs-6 center-align counter-yellow">
                     <div class="counter-number">
                         <span class="glyphicon glyphicon-thumbs-up"></span>
                     </div>

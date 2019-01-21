@@ -25,7 +25,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                 <?php echo $content; ?>
             </div>
 
-            <div class="col-sm-3 col-sm-pull-9 col-md-3 col-md-pull-9" id="left-panel">
+            <div class="col-sm-3 col-sm-pull-9 col-md-3 col-md-pull-9 hidden-xs" id="left-panel">
 
                 <?php if (Yii::app()->user->isGuest): ?>
                     <?php
@@ -41,9 +41,9 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
 
                 <div id="left-bar" class="vert-margin20">
 
-                    <div class="vert-margin30">
+                    <div class="vert-margin30 flat-panel inside">
                         <h3>Топ юристов</h3>
-                        <p class="text-center">Рейтинг юристов по количеству консультаций за последние 30 дней</p>
+                        <p class="text-center small">Рейтинг юристов по количеству консультаций за последние 30 дней</p>
                         <?php
                         // выводим виджет с топовыми юристами
                         $this->widget('application.widgets.TopYurists.TopYurists', array(
