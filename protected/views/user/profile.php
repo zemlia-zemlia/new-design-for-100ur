@@ -138,6 +138,12 @@ if (Yii::app()->user->id != $user->id) {
                     <?php echo CHtml::link('Задать вопрос юристу', Yii::app()->createUrl('/question/create/'), ['class' => 'btn btn-primary btn-block']); ?>
                 <?php endif; ?>
 
+                <?php
+                if (Yii::app()->user->role == User::ROLE_ROOT) {
+                    echo CHtml::link('Смотреть статистику ответов по месяцам', Yii::app()->createUrl('user/stats', array('userId' => $user->id)), array('class' => 'btn btn-block btn-default'));
+                }
+                ?>
+
             </div>
             <div class="col-sm-8">
 
@@ -353,9 +359,5 @@ if (Yii::app()->user->id != $user->id) {
     </table>
 <?php endif; ?>
 
-<?php
-if (Yii::app()->user->role == User::ROLE_ROOT) {
-    echo CHtml::link('Смотреть статистику ответов по месяцам', Yii::app()->createUrl('user/stats', array('userId' => $user->id)), array('class' => 'btn btn-xs btn-default'));
-}
-?>
+
 

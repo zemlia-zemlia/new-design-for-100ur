@@ -15,7 +15,7 @@
 
 
 <div class="flat-panel inside">
-	<h4>Фильтр для поиска вопросов:</h4>
+	<h4>Фильтр вопросов:</h4>
     <div class="row">
         <div class="col-xs-4">
             <h4 class="widget-search-header">
@@ -27,7 +27,7 @@
         <div class="col-xs-8">
             <?php echo CHtml::link(CustomFuncs::numForms($counterNoAnswers, 'вопрос', "вопроса", "вопросов") . ' без ответов', Yii::app()->createUrl('/question/search') ); ?>
             <br />
-            <?php echo CHtml::link("показать вопросы", Yii::app()->createUrl('/question/search'), ['class'=>'yellow-button arrow']); ?>
+            <?php echo CHtml::link("показать", Yii::app()->createUrl('/question/search'), ['class'=>'yellow-button arrow']); ?>
         </div>
     </div>
     <hr />
