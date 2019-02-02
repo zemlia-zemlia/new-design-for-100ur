@@ -70,9 +70,7 @@
             </div>
             <div class="col-sm-3">
                 <div itemscope itemtype="http://schema.org/Organization" class="vert-margin20 small">
-                    <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                        <span itemprop="addressLocality">Москва</span> <span itemprop="streetAddress">Шлюзовая набережная д.6 стр.4</span>
-                    </div>
+					Филиалы:
                     <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                         <span itemprop="addressLocality">Санкт-Петербург</span> <span itemprop="streetAddress">Ул. Достоевского д.25</span>
                     </div>
@@ -88,8 +86,13 @@
                     <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                         <span itemprop="addressLocality">Краснодар</span> <span itemprop="streetAddress">Ул. Московская, 148</span>
                     </div>
-                    <span itemprop="name">100 Юристов</span>:
-                    <span itemprop="telephone">88005006185</span>
+                    <br/>
+                    Головной офис: 
+                 	<span itemprop="name">100 Юристов</span>
+                    <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                        <span itemprop="addressLocality">Москва</span> <span itemprop="streetAddress">Шлюзовая набережная д.6 стр.4</span>
+                    </div>
+                    <span itemprop="telephone">8 (499) 288-22-40</span>
                 </div>
 
             </div>
