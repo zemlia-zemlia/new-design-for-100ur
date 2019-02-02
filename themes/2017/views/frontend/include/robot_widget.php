@@ -1,10 +1,26 @@
 <script>
+
+    $(function () {
+        var robotWidgetCookie = get_cookie('hideRobotwidget');
+        console.log(robotWidgetCookie);
+        if (robotWidgetCookie != 1) {
+            // автоматически показываем чат через 10 секунд после загрузки страницы,
+            // если пользователь перед этим не закрывал виджет принудительно
+            setTimeout(slideRobotChat, 10000);
+        }
+
+    })
+
     var obj = [
         {step1: {item: "Здравствуйте! Я юрист-консультант сайта. Чем я могу вам помочь?"}},
         {step2: {item: "Моя консультация бесплатна. Какой у Вас вопрос?"}},
-        {step3: {item: 'Если вам сложно сформулировать вопрос вы можете ' +
-                    ' <a class="" href="<?php echo Yii::app()->createUrl('/question/call/');?>">Заказать обратный звонок. </a> Звонок для вас бесплатный. <br/>'}}
-                    ];
+        {
+            step3: {
+                item: 'Если вам сложно сформулировать вопрос вы можете ' +
+                    ' <a class="" href="<?php echo Yii::app()->createUrl('/question/call/');?>">Заказать обратный звонок. </a> Звонок для вас бесплатный. <br/>'
+            }
+        }
+    ];
 
     function slideRobotChat() {
         $("#robot_chat__contentMess").html(""),
@@ -12,6 +28,7 @@
             !0 === $("#robot_chat").hasClass("show") ? ($("#robot_chat").removeClass("show"),
                 $("#robot_chat__wrap").hide(), $("#robot_chat__header1 .addq__small-info-bl1").show(),
                 $("#robot_chat__header1 .robot_chat__header__close").hide(),
+                document.cookie = "hideRobotwidget=1",
                 addMess(!0)) : ($("#robot_chat").addClass("show"),
                 $("#robot_chat__wrap").show(),
                 $("#question_komm_bottom").focus(),
