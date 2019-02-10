@@ -1,19 +1,19 @@
 <?php
-$this->pageTitle=Yii::app()->name . ' - Ошибка '.$code;
-$this->breadcrumbs=array(
-	'Error',
+$this->pageTitle = Yii::app()->name . ' - Ошибка ' . $code;
+$this->breadcrumbs = array(
+    'Error',
 );
 ?>
 <div class="panel panel-warning">
     <div class="panel-body error-message">
-    <h1>Ой, вот ведь незадача!</h1>
-    <h2>ошибка № <?php echo $code; ?></h2>
+        <h1 class="vert-margin30">Ой, вот ведь незадача, ошибка <?php echo $code; ?>!</h1>
+        <h3><?php echo CHtml::encode($message); ?></h3>
 
-    <div class="description error">
-            <?php echo CHtml::encode($message); ?>
-    </div>    
-        <p>
-            Все ошибки сохраняются и просматриваются администратором сайта.<br />
+        <p class="text-center vert-margin30">
+            <?php echo CHtml::link('Перейти на главную страницу', '/', ['class' => 'btn btn-primary']); ?>
+        </p>
+        <p class="text-muted">
+            Все ошибки сохраняются и просматриваются администратором сайта.<br/>
             Если вы считаете необходимым рассказать об этой ошибке разработчикам сайта,
             отправьте письмо с описанием ошибки на адрес <?php echo Yii::app()->params['adminEmail']; ?>.
         </p>

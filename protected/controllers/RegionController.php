@@ -121,6 +121,10 @@ class RegionController extends Controller {
         
         $country = Country::model()->findByAttributes(array('alias' => $countryAlias));
 
+        if(!($country instanceof Country)) {
+            throw new CHttpException(404, 'Страна не найдена');
+        }
+
         $regionsRows = Yii::app()->db->cache(0)->createCommand()
                 ->select("r.id, r.name regionName, r.alias regionAlias, c.id countryId, c.name countryName, c.alias countryAlias")
                 ->from("{{region}} r")
