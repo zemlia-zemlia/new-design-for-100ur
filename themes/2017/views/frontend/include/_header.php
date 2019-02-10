@@ -55,10 +55,10 @@
                         <div class="logo-wrapper">
                             <?php if ($_SERVER['REQUEST_URI'] != '/'): ?>
                                 <a href="/">
-                                    <img src="/pics/2017/100_yuristov_logo.jpg" alt="100 Юристов и Адвокатов" title="Юридический портал"/>
+                                    <img src="/pics/2017/100_yuristov_logo.png" alt="100 Юристов и Адвокатов" title="Юридический портал"/>
                                 </a>
                             <?php else: ?>
-                                <img src="/pics/2017/100_yuristov_logo.jpg" alt="100 Юристов и Адвокатов" title="Юридический портал"/>
+                                <img src="/pics/2017/100_yuristov_logo.png" alt="100 Юристов и Адвокатов" title="Юридический портал"/>
                             <?php endif; ?>      
                         </div>			
                     </div>
