@@ -1143,6 +1143,10 @@ ul.hor-list-menu a.yellow-button,
     font-style: italic;
 }
 
+.horizontal-post-preview {
+    line-height:1.2em;
+}
+
 .post-widget-item {
     margin-bottom: 15px;
     margin-top: 15px;

@@ -93,7 +93,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </div>
 <?php endif; ?>
     
-<div class="post-comments-list">
+<div class="post-comments-list vert-margin40">
     <h2>Комментарии</h2>
     <?php if ($commentsDataProvider): ?>
         <?php
@@ -109,5 +109,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         ));
         ?>
     <?php endif; ?>
-</div>                     
+</div>
+
+<?php
+$this->widget('application.widgets.RecentPosts.RecentPosts', [
+    'number' => 3,
+    'order' => 'views',
+    'intervalDays' => 300,
+    'template' => 'horizontal',
+]);
+?>
 
