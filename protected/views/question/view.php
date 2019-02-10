@@ -176,7 +176,7 @@ $this->breadcrumbs = array(
 </div> <!-- Question -->
 
 <br/>
-<?php if (Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_CLIENT): ?>
+<?php if (Yii::app()->user->isGuest): ?>
     <div class="flat-panel inside">
         <div class="center-align">
             <?php
@@ -190,6 +190,16 @@ $this->breadcrumbs = array(
 
 <?php endif; ?>
 <br/>
+
+<h3 class="vert-margin30">Самые популярные статьи</h3>
+<?php
+$this->widget('application.widgets.RecentPosts.RecentPosts', [
+    'number' => 3,
+    'order' => 'views',
+    'intervalDays' => 800,
+    'template' => 'horizontal',
+]);
+?>
 
 <?php
 // если перед этим опубликовали вопрос, отправим цель в метрику
