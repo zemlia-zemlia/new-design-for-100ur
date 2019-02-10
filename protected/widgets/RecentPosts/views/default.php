@@ -12,7 +12,7 @@ if (empty($recentPosts) || sizeof($recentPosts) == 0) {
     <div class="post-widget-item">
         <h5 class="text-left">
             <strong>
-                <?php echo CHtml::link(CHtml::encode($recentPost['title']), Yii::app()->createUrl('post/view', array('id' => $recentPost['id']))); ?>
+                <?php echo CHtml::link(CHtml::encode($recentPost['title']), Yii::app()->createUrl('post/view', array('id' => $recentPost['id'], 'alias' => $recentPost['alias']))); ?>
             </strong>
         </h5>
         <p>

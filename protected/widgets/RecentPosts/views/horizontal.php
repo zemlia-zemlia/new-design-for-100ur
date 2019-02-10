@@ -18,13 +18,13 @@ $purifier = new CHtmlPurifier();
                         $postObject = new Post();
                         $postObject->attributes = $recentPost;
                     ?>
-                        <?php echo CHtml::link("<img src='" . $postObject->getPhotoUrl('thumb'). "' alt='" . CHtml::encode($recentPost['title']) . "'/>", Yii::app()->createUrl('post/view',array('id'=>$recentPost['id'])));?>
+                        <?php echo CHtml::link("<img src='" . $postObject->getPhotoUrl('thumb'). "' alt='" . CHtml::encode($recentPost['title']) . "'/>", Yii::app()->createUrl('post/view',array('id'=>$recentPost['id'], 'alias' => $recentPost['alias'])));?>
                     <?php endif; ?>
                 </div>
                 <div class="col-md-8">
 
                     <p class="center-mobile">
-                        <?php echo CHtml::link(CHtml::encode($recentPost['title']), Yii::app()->createUrl('post/view', array('id' => $recentPost['id']))); ?>
+                        <?php echo CHtml::link(CHtml::encode($recentPost['title']), Yii::app()->createUrl('post/view', array('id' => $recentPost['id'], 'alias' => $recentPost['alias']))); ?>
                         <br/>
                     </p>
                     <p>
