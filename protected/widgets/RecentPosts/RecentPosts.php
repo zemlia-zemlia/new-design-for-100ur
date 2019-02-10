@@ -7,13 +7,13 @@ class RecentPosts extends CWidget
     public $template = 'default'; // представление виджета по умолчанию
     public $category = NULL;
     public $number = 4; // число постов
-    
+    public $order = 'views'; // порядок выборки (comments | views)
+    public $intervalDays = 30; // за какое число дней искать свежие посты
+
     public function run()
     {
-        $recentPosts = Post::getRecentPosts($this->category, $this->number);
-        
-        //CustomFuncs::printr($recentPosts);
-        
+        $recentPosts = Post::getRecentPosts($this->category, $this->number, $this->order, $this->intervalDays);
+
         $this->render($this->template, array(
             'recentPosts'  =>  $recentPosts,
         ));

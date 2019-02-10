@@ -27,22 +27,6 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
                 'id' => 'ckeditor',
                 'rows' => 30,
             ]); ?>
-            <?php
-            //            $this->widget('application.extensions.cleditor.ECLEditor', array(
-            //                'model' => $model,
-            //                'attribute' => 'description1', //Model attribute name.
-            //                'options' => array(
-            //                    'width' => 'auto',
-            //                    'height' => 800,
-            //                    'useCSS' => true,
-            //                ),
-            //                'value' => $model->description1,
-            //                'htmlOptions' => array(
-            //                    'class' => 'form-control',
-            //                ),
-            //            ));
-
-            ?>
             <?php echo $form->error($model, 'description1'); ?>
         </div>
 

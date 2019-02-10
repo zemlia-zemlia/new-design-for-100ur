@@ -16,7 +16,8 @@
  * @property string $photo
  * @property string $description
  */
-class Post extends CActiveRecord {
+class Post extends CActiveRecord
+{
 
     public $photoFile;
 
@@ -28,21 +29,24 @@ class Post extends CActiveRecord {
      * @param string $className active record class name.
      * @return Post the static model class
      */
-    public static function model($className = __CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return '{{post}}';
     }
 
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
@@ -60,12 +64,13 @@ class Post extends CActiveRecord {
     /**
      * @return array relational rules.
      */
-    public function relations() {
+    public function relations()
+    {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
             'comments' => array(self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_POST, 'order' => 'comments.root, comments.lft'),
-            'commentsCount' => array(self::STAT, 'Comment', 'objectId', 'condition' => 'type=' . Comment::TYPE_POST),
+            'commentsCount' => array(self::STAT, 'Comment', 'objectId', 'condition' => 'type=' . Comment::TYPE_POST . ' AND status!=' . Comment::STATUS_SPAM),
             'author' => array(self::BELONGS_TO, 'User', 'authorId'),
             'ratingHistory' => array(self::HAS_MANY, 'PostRatingHistory', 'postId'),
             'viewsCount' => array(self::HAS_ONE, 'Postviews', 'postId'),
@@ -76,20 +81,21 @@ class Post extends CActiveRecord {
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
-            'id'            => 'ID',
-            'authorId'      => 'ID автора',
-            'title'         => 'Заголовок',
-            'alias'         => 'Псевдоним',
-            'text'          => 'Текст',
-            'preview'       => 'Вступление',
-            'datetime'      => 'Время создания',
-            'rating'        => 'Рейтинг',
+            'id' => 'ID',
+            'authorId' => 'ID автора',
+            'title' => 'Заголовок',
+            'alias' => 'Псевдоним',
+            'text' => 'Текст',
+            'preview' => 'Вступление',
+            'datetime' => 'Время создания',
+            'rating' => 'Рейтинг',
             'datePublication' => 'Дата публикации',
-            'description'   => 'SEO description',
-            'photo'         => 'Фотография',
-            'photoFile'     => 'Файл с фотографией (минимум 1000х700 пикселей)',
+            'description' => 'SEO description',
+            'photo' => 'Фотография',
+            'photoFile' => 'Файл с фотографией (минимум 1000х700 пикселей)',
         );
     }
 
@@ -97,7 +103,8 @@ class Post extends CActiveRecord {
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search() {
+    public function search()
+    {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
@@ -119,7 +126,8 @@ class Post extends CActiveRecord {
      * Метод, вызываемый после сохранения записи
      * @throws CHttpException
      */
-    protected function afterSave() {
+    protected function afterSave()
+    {
         parent::afterSave();
         if ($this->isNewRecord) {
             $connection = Yii::app()->db;
@@ -133,7 +141,8 @@ class Post extends CActiveRecord {
     /**
      *  увеличивает число просмотров поста на 1
      */
-    public function incrementCounter() {
+    public function incrementCounter()
+    {
         $connection = Yii::app()->db;
 
         $sqlUpdate = "UPDATE {{postviews}} SET views=views+1 where postId='" . $this->id . "'";
@@ -146,7 +155,8 @@ class Post extends CActiveRecord {
      * @todo необходимо продумать алгоритм и реализацию выборки
      * @return array массив похожих постов
      */
-    public function getRelatedPosts() {
+    public function getRelatedPosts()
+    {
         $relatedPostsCriteria = new CDbCriteria();
         $postCategories = $this->categories;
 
@@ -158,13 +168,13 @@ class Post extends CActiveRecord {
 
         //$relatedPostsSql = "SELECT * FROM {{post}} p LEFT JOIN {{post2cat}} p2c ON p.id = p2c.postId ORDER BY p.rating DESC LIMIT 5";
         $relatedPostsCommand = Yii::app()->db->createCommand()
-                ->select('id, title')
-                ->from('{{post}} p')
-                ->join('{{post2cat}} p2c', 'p.id = p2c.postId')
-                ->where(array('and', 'p.id!=' . $this->id, array('in', 'p2c.catId', $categoriesIds)))
-                ->group('p.id')
-                ->order('p.rating DESC')
-                ->limit(5);
+            ->select('id, title')
+            ->from('{{post}} p')
+            ->join('{{post2cat}} p2c', 'p.id = p2c.postId')
+            ->where(array('and', 'p.id!=' . $this->id, array('in', 'p2c.catId', $categoriesIds)))
+            ->group('p.id')
+            ->order('p.rating DESC')
+            ->limit(5);
         $relatedPostsRaw = $relatedPostsCommand->queryAll();
         // получили ассоциативный массив $relatedPostsRaw с информацией о постах
         // в массиве $relatedPosts будем хранить эту информацию в виде объектов класса Post
@@ -181,21 +191,22 @@ class Post extends CActiveRecord {
     /**
      * статический метод, возвращающий массив самых популярных постов (объекты класса Post)
      * если указана категория $categoryId, поиск ведется в ней
-     * 
+     *
      * @param int $categoryId id категории
      * @return array массив самых популярных постов
      */
-    public static function getPopularPosts($categoryId = NULL) {
+    public static function getPopularPosts($categoryId = NULL)
+    {
         //$popularPostsSql = "SELECT * FROM {{post}} p LEFT JOIN {{post2cat}} p2c ON p.id = p2c.postId ORDER BY p.rating DESC LIMIT 5";
         $popularPostsCommand = Yii::app()->db->createCommand()
-                ->select('id, title')
-                ->from('{{post}} p')
-                ->join('{{post2cat}} p2c', 'p.id = p2c.postId')
-                ->group('p.id')
-                ->order('p.rating DESC')
-                ->limit(10);
+            ->select('id, title')
+            ->from('{{post}} p')
+            ->join('{{post2cat}} p2c', 'p.id = p2c.postId')
+            ->group('p.id')
+            ->order('p.rating DESC')
+            ->limit(10);
         if ($categoryId !== NULL) {
-            $popularPostsCommand->where('p2c.catId = :catId', array(':catId' => (int) $categoryId));
+            $popularPostsCommand->where('p2c.catId = :catId', array(':catId' => (int)$categoryId));
         }
         $popularPostsRaw = $popularPostsCommand->queryAll();
 
@@ -213,49 +224,62 @@ class Post extends CActiveRecord {
     /**
      * статический метод, возвращающий массив последних постов (объекты класса Post)
      * если указана категория $categoryId, поиск ведется в ней
-     * 
+     *
      * @param int $categoryId id категории
      * @param int $number лимит выборки
+     * @param string $order порядок выборки
+     * @param int $intervalDays за какое количество дней в прошлом искать
      * @return array массив последних постов
      */
-    public static function getRecentPosts($categoryId = NULL, $number = 4) {
+    public static function getRecentPosts($categoryId = NULL, $number = 4, $order = 'views', $intervalDays = 30)
+    {
         $recentPostsCommand = Yii::app()->db->createCommand()
-                ->select('id, title, preview, datePublication, photo')
-                ->from('{{post}} p')
-                ->group('p.id')
-                ->order('p.datePublication DESC')
-                ->where('p.datePublication<NOW()')
-                ->limit($number);
+            ->select('p.id, title, preview, datePublication, photo, v.views viewsCount, COUNT(c.id) comments ')
+            ->from('{{post}} p')
+            ->leftJoin('{{postviews}} v', 'v.postId=p.id')
+            ->leftJoin('{{comment}} c', 'c.objectId = p.id AND c.type=' . Comment::TYPE_POST)
+            ->group('p.id')
+            ->where('p.datePublication<NOW() AND p.datePublication > NOW() - INTERVAL :days DAY AND (c.status IS NULL OR c.status!=:spam)', [
+                ':days' => $intervalDays,
+                ':spam' => Comment::STATUS_SPAM,
+            ])
+            ->limit($number);
+
+        switch ($order) {
+            case 'views':
+                $recentPostsCommand->order('viewsCount DESC');
+                break;
+            case 'comments':
+                $recentPostsCommand->order('comments DESC');
+                break;
+            default:
+                $recentPostsCommand->order('p.datePublication DESC');
+                break;
+        }
+
         if ($categoryId !== NULL) {
             $recentPostsCommand->join('{{post2cat}} p2c', 'p.id = p2c.postId');
-            $recentPostsCommand->where('p2c.catId = :catId', array(':catId' => (int) $categoryId));
+            $recentPostsCommand->where('p2c.catId = :catId', array(':catId' => (int)$categoryId));
         }
         $recentPostsRaw = $recentPostsCommand->queryAll();
 
-        // в массиве $popularPosts будем хранить эту информацию в виде объектов класса Post
-        $recentPosts = array();
-        foreach ($recentPostsRaw as $postRaw) {
-            $recentPost = new Post();
-            $recentPost->id = $postRaw['id']; // id не присваивается массово
-            $recentPost->attributes = $postRaw;
-            $recentPosts[] = $recentPost;
-        }
-        return $recentPosts;
+        return $recentPostsRaw;
     }
 
     /**
      *  изменение рейтинга поста на величину $delta с записью в таблицу истории изменений рейтингов постов
      * в случае успеха возвращает новый рейтинг, в противном случае - NULL
-     * 
+     *
      * @param int $delta На какую величину изменить рейтинг
      * @return int|NULL новый рейтинг
      */
-    public function changeRating($delta = 0) {
+    public function changeRating($delta = 0)
+    {
         $this->rating += $delta;
 
         $ratingLog = new PostRatingHistory();
         $ratingLog->postId = $this->id;
-        $ratingLog->delta = (int) $delta;
+        $ratingLog->delta = (int)$delta;
         $ratingLog->userId = Yii::app()->user->id;
 
         if ($ratingLog->save()) {
@@ -267,28 +291,30 @@ class Post extends CActiveRecord {
 
     /**
      * Метод, вызываемый перед сохранением поста
-     * 
+     *
      * @return boolean
      */
-    protected function beforeSave() {
+    protected function beforeSave()
+    {
         $this->update_timestamp = date('Y-m-d H:i:s');
-        
+
         // при создании поста генерируем алиас из заголовка и id
-        if($this->isNewRecord) {
+        if ($this->isNewRecord) {
             $this->alias = mb_substr(CustomFuncs::translit($this->title), 0, 200, 'utf-8');
             $this->alias = preg_replace("/[^a-zA-Z0-9\-]/ui", '', $this->alias);
         }
-        
+
         return parent::beforeSave();
     }
 
     /**
      * возвращает URL фотографии поста относительно корня сайта
-     * 
+     *
      * @param string $size Размер картинки full - большая, thumb - превью
      * @return string URL фотографии
      */
-    public function getPhotoUrl($size = 'full') {
+    public function getPhotoUrl($size = 'full')
+    {
         $photoUrl = '';
 
         if ($size == 'full') {

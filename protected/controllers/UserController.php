@@ -372,8 +372,6 @@ class UserController extends Controller {
             }
 
             if ($user->save()) {
-                // добавим пользователя в список рассылки в Sendpulse
-                $user->addToSendpulse();
 
                 if (in_array($user->role, [User::ROLE_BUYER, User::ROLE_JURIST])) {
                     // покупателя и юриста перекинем на страницу установки пароля

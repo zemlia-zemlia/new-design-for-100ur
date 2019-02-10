@@ -1,6 +1,7 @@
 <?php
 
-class PostController extends Controller {
+class PostController extends Controller
+{
 
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -11,7 +12,8 @@ class PostController extends Controller {
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
         );
@@ -22,24 +24,33 @@ class PostController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'postingDenied', 'create', 'update', 'vote', 'admin', 'delete'),
-                'users' => array('@'),
+    public function accessRules()
+    {
+        return [
+            [
+                'allow',
+                'actions' => ['index', 'view', 'postingDenied', 'create', 'update', 'vote'],
+                'users' => ['@'],
+                'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
+            ],
+            [
+                'allow',
+                'actions' => ['admin', 'delete'],
+                'users' => ['@'],
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+            ],
+            [
+                'deny', // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
      * вывод отдельного поста
      */
-    public function actionView($id) {
-
+    public function actionView($id)
+    {
 
         $model = Post::model()->findByPk($id);
 
@@ -49,17 +60,21 @@ class PostController extends Controller {
 
         $commentsDataProvider = new CArrayDataProvider($model->comments);
 
-        $postCommentModel = new PostComment; // модель комментария поста
-        if (isset($_POST['PostComment'])) {
-            $postCommentModel->attributes = $_POST['PostComment'];
+        $postCommentModel = new Comment; // модель комментария поста
+        if (isset($_POST['Comment'])) {
+            $postCommentModel->attributes = $_POST['Comment'];
             $postCommentModel->authorId = Yii::app()->user->id;
-            $postCommentModel->postId = $model->id;
-            if ($postCommentModel->save()) {
+            $postCommentModel->objectId = $model->id;
+            $postCommentModel->type = Comment::TYPE_POST;
+
+            if ($postCommentModel->saveNode()) {
                 /* если комментарий добавлен, делаем редирект на страницу поста
                  * просто отрендерить представление нельзя, в этом случае новый комментарий не отобразится,
                  * так как комментарии были извлечены в коде выше
                  */
                 $this->redirect(array('view', 'id' => $model->id));
+            } else {
+                CustomFuncs::printr($postCommentModel->errors());
             }
         }
 
@@ -77,7 +92,8 @@ class PostController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         // проверка, подтвердил ли текущий пользователь свой email
         $currentUser = User::model()->findByPk(Yii::app()->user->id);
         if (!$currentUser || $currentUser->active100 == 0) {
@@ -113,12 +129,12 @@ class PostController extends Controller {
                     // определяем имя файла для хранения на сервере
                     $newFileName = md5($file->getName() . $file->getSize() . mt_rand(10000, 100000)) . "." . $file->getExtensionName();
                     Yii::app()->ih
-                            ->load($file->tempName)
-                            ->resize(1000, 700, true)
-                            ->save(Yii::getPathOfAlias('webroot') . Post::PHOTO_PATH . '/' . $newFileName)
-                            ->reload()
-                            ->adaptiveThumb(200, 200, array(255, 255, 255))
-                            ->save(Yii::getPathOfAlias('webroot') . Post::PHOTO_PATH . Post::PHOTO_THUMB_FOLDER . '/' . $newFileName);
+                        ->load($file->tempName)
+                        ->resize(1000, 700, true)
+                        ->save(Yii::getPathOfAlias('webroot') . Post::PHOTO_PATH . '/' . $newFileName)
+                        ->reload()
+                        ->adaptiveThumb(200, 200, array(255, 255, 255))
+                        ->save(Yii::getPathOfAlias('webroot') . Post::PHOTO_PATH . Post::PHOTO_THUMB_FOLDER . '/' . $newFileName);
 
                     $model->photo = $newFileName;
                 }
@@ -131,13 +147,6 @@ class PostController extends Controller {
             $model->datePublication = CustomFuncs::invertDate($model->datePublication);
         }
 
-        // для работы визуального редактора подключим необходимую версию JQuery
-        $scriptMap = Yii::app()->clientScript->scriptMap;
-        $scriptMap['jquery.js'] = '/js/jquery-1.8.3.min.js';
-        $scriptMap['jquery.min.js'] = '/js/jquery-1.8.3.min.js';
-        Yii::app()->clientScript->scriptMap = $scriptMap;
-
-
         $this->render('create', array(
             'model' => $model,
             'categoriesArray' => $categoriesArray,
@@ -149,7 +158,8 @@ class PostController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $model = $this->loadModel($id);
 
         if ($model->authorId !== Yii::app()->user->id && !Yii::app()->user->checkAccess(User::ROLE_ROOT)) {
@@ -180,12 +190,12 @@ class PostController extends Controller {
                     // определяем имя файла для хранения на сервере
                     $newFileName = md5($file->getName() . $file->getSize() . mt_rand(10000, 100000)) . "." . $file->getExtensionName();
                     Yii::app()->ih
-                            ->load($file->tempName)
-                            ->resize(1000, 700, true)
-                            ->save(Yii::getPathOfAlias('webroot') . Post::PHOTO_PATH . '/' . $newFileName)
-                            ->reload()
-                            ->adaptiveThumb(200, 200, array(255, 255, 255))
-                            ->save(Yii::getPathOfAlias('webroot') . Post::PHOTO_PATH . Post::PHOTO_THUMB_FOLDER . '/' . $newFileName);
+                        ->load($file->tempName)
+                        ->resize(1000, 700, true)
+                        ->save(Yii::getPathOfAlias('webroot') . Post::PHOTO_PATH . '/' . $newFileName)
+                        ->reload()
+                        ->adaptiveThumb(200, 200, array(255, 255, 255))
+                        ->save(Yii::getPathOfAlias('webroot') . Post::PHOTO_PATH . Post::PHOTO_THUMB_FOLDER . '/' . $newFileName);
 
                     $model->photo = $newFileName;
                 }
@@ -199,12 +209,6 @@ class PostController extends Controller {
 
         $model->datePublication = CustomFuncs::invertDate($model->datePublication);
 
-        // для работы визуального редактора подключим необходимую версию JQuery
-        $scriptMap = Yii::app()->clientScript->scriptMap;
-        $scriptMap['jquery.js'] = '/js/jquery-1.8.3.min.js';
-        $scriptMap['jquery.min.js'] = '/js/jquery-1.8.3.min.js';
-        Yii::app()->clientScript->scriptMap = $scriptMap;
-
         $this->render('update', array(
             'model' => $model,
             'categoriesArray' => $categoriesArray,
@@ -216,7 +220,8 @@ class PostController extends Controller {
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
@@ -227,14 +232,16 @@ class PostController extends Controller {
     /**
      * Lists all models.
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $this->redirect(array('/category'), true, 301);
     }
 
     /**
      * Manages all models.
      */
-    public function actionAdmin() {
+    public function actionAdmin()
+    {
         $model = new Post('search');
         $model->unsetAttributes();  // clear any default values
         if (isset($_GET['Post']))
@@ -252,7 +259,8 @@ class PostController extends Controller {
      * @return Post the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id)
+    {
         $model = Post::model()->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
@@ -263,7 +271,8 @@ class PostController extends Controller {
      * Performs the AJAX validation.
      * @param Post $model the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'post-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -276,7 +285,8 @@ class PostController extends Controller {
      * если не лайкнул, повышаем рейтинг (+1)
      */
 
-    public function actionVote($id) {
+    public function actionVote($id)
+    {
 
         if (!Yii::app()->user->id) {
             throw new CHttpException(403, 'Голосовать за рейтинг могут только зарегистрированные пользователи');
@@ -314,7 +324,8 @@ class PostController extends Controller {
         }
     }
 
-    public function actionPostingDenied() {
+    public function actionPostingDenied()
+    {
         $this->render('postingDenied');
     }
 

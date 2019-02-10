@@ -57,6 +57,8 @@ switch ($index) {
                         </div>
                         <div class='col-xs-6 right-align'>
                             <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span class='muted'><?php echo $data->viewsCount->views; ?> </span>
+                            &nbsp;&nbsp;
+                            <span class="glyphicon glyphicon glyphicon-comment"></span>&nbsp;<span class='muted'><?php echo $data->commentsCount; ?> </span>
                         </div>
                     </div>
 

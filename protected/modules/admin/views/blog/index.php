@@ -21,7 +21,7 @@ $this->breadcrumbs=array(
 <h1>Блог</h1>
 
 <div class="right-align">
-    <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+    <?php if(Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>
         <?php echo CHtml::link('Создать пост', Yii::app()->createUrl('/admin/post/create'), array('class'=>'btn btn-primary')); ?>
     <?php endif;?>
 </div>
