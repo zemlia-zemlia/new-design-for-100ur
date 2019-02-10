@@ -31,7 +31,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                     $this->widget('application.widgets.RecentPosts.RecentPosts', [
                         'number' => 5,
                         'order' => 'views',
-                        'intervalDays' => 60,
+                        'intervalDays' => 800,
                     ]);
                     ?>
                 </div>
