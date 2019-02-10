@@ -23,38 +23,42 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <?php endif;?>
 </div>
 
-<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?> 
-<p>
-    <strong><?php echo $model->getAttributeLabel('category');?>:</strong>
-    <?php foreach($model->categories as $category):?>
-    <span class="label label-warning"><?php echo CHtml::link($category->name, Yii::app()->createUrl('/admin/questionCategory/view',array('id'=>$category->id)));?></span> 
-    <?php endforeach;?>
-</p>
-<?php endif;?>
+<div class="row">
+	<div class="col-sm-8">
+		<p>
+			<?php echo nl2br(CHtml::encode($model->questionText));?>
+		</p>
+	</div>
+	<div class="col-sm-4">
+		<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?> 
+		<div class="vert-margin30">
+			<p>
+			    <strong><?php echo $model->getAttributeLabel('category');?>:</strong>
+			    <?php foreach($model->categories as $category):?>
+			    <span class="label label-warning"><?php echo CHtml::link($category->name, Yii::app()->createUrl('/admin/questionCategory/view',array('id'=>$category->id)));?></span> 
+			    <?php endforeach;?>
+			</p>
+		    <p><strong>Статус:</strong> <?php echo CHtml::encode($model->getQuestionStatusName()); ?>
+		        <span class="muted"><?php echo CustomFuncs::niceDate($model->publishDate) . ' ' . CHtml::encode($model->bublishUser->name . ' ' .$model->bublishUser->lastName);?></span>
+		    </p>
+		    
+		    <p><strong>Автор вопроса:</strong> <?php echo CHtml::encode($model->authorName); ?></p>
+		    <p><strong>Email автора:</strong> <?php echo CHtml::encode($model->email); ?></p>
 
-<div class="vert-margin30">
-<p>
-    <?php echo nl2br(CHtml::encode($model->questionText));?>
-</p>
+		    <?php if($model->town):?>
+		        <p><strong>Город:</strong> <?php echo CHtml::encode($model->town->name); ?></p>
+		    <?php endif;?>
+		</div>
+
+		<?php echo CHtml::link('Редактировать вопрос', Yii::app()->createUrl('/admin/question/update',array('id'=>$model->id)), array('class'=>'btn btn-primary'));?>
+
+		<?php echo CHtml::link('Смотреть на сайте', Yii::app()->createUrl('/question/view',array('id'=>$model->id)), array('class'=>'btn btn-info', 'target' => '_blank'));?>
+
+		<?php endif;?>
+	</div>
+
 </div>
 
-<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?> 
-<div class="vert-margin30">
-    <p><strong>Статус:</strong> <?php echo CHtml::encode($model->getQuestionStatusName()); ?>
-        <span class="muted"><?php echo CustomFuncs::niceDate($model->publishDate) . ' ' . CHtml::encode($model->bublishUser->name . ' ' .$model->bublishUser->lastName);?></span>
-    </p>
-    
-    <p><strong>Автор вопроса:</strong> <?php echo CHtml::encode($model->authorName); ?></p>
-    <?php if($model->town):?>
-        <p><strong>Город:</strong> <?php echo CHtml::encode($model->town->name); ?></p>
-    <?php endif;?>
-</div>
-
-<?php echo CHtml::link('Редактировать вопрос', Yii::app()->createUrl('/admin/question/update',array('id'=>$model->id)), array('class'=>'btn btn-primary'));?>
-
-<?php echo CHtml::link('Смотреть на сайте', Yii::app()->createUrl('/question/view',array('id'=>$model->id)), array('class'=>'btn btn-info', 'target' => '_blank'));?>
-
-<?php endif;?>
 
 <h2>Ответы</h2>
 <?php $this->widget('zii.widgets.CListView', array(

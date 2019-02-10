@@ -28,7 +28,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <h1>Кампания #<?php echo $model->id; ?></h1>
 
 <div class="row vert-margin30">
-<div class="col-sm-12 ">
+<div class="col-sm-12">
 	<table class="table table-bordered">
     <tr>
         <td>
@@ -151,7 +151,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <div class="row">
 
 
-<div class="col-sm-6">
+<div class="col-sm-8">
 	<h2>Лиды</h2>
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'  =>  $leadsDataProvider,
@@ -164,7 +164,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 </div>
 
-<div class="col-sm-6">
+<div class="col-sm-4">
 	<h2>Статистика продаж лидов по дням</h2>
     <div class="vert-margin30">
        <?php $this->renderPartial('application.modules.admin.views.lead._searchFormDates', array(

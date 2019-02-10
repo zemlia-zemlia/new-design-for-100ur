@@ -64,7 +64,7 @@
                 <p>
                     <?php echo ($_SERVER['REQUEST_URI'] != '/site/referal/') ? CHtml::link('Реферальная программа', Yii::app()->createUrl('/site/referal/')) : '<span class="active">Реферальная программа</span>'; ?>
                     <br/>
-                    <?php echo ($_SERVER['REQUEST_URI'] != '/site/partners/') ? CHtml::link('Вебмастерам', Yii::app()->createUrl('/site/partners/')) : '<span class="active">Вебмастерам</span>'; ?>
+                    <?php // echo ($_SERVER['REQUEST_URI'] != '/site/partners/') ? CHtml::link('Вебмастерам', Yii::app()->createUrl('/site/partners/')) : '<span class="active">Вебмастерам</span>'; ?>
                     <br/>
                 </p>
             </div>

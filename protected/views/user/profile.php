@@ -155,10 +155,11 @@ if (Yii::app()->user->id != $user->id) {
                                     <?php echo CHtml::encode($user->settings->hello); ?>
                                 </blockquote>
                             </div>
+                             <hr>
                         <?php endif; ?>
                     </div>
                 </div>
-                <hr>
+               
                 <div class="row vert-margin30">
 
                     <?php if ($user->role == User::ROLE_JURIST): ?>
@@ -186,11 +187,11 @@ if (Yii::app()->user->id != $user->id) {
                                     <span><?php echo $num; ?></span><?php endforeach; ?><br/>
                             </p>
                         </div>
-
+						<hr/>
                     <?php endif; ?>
                 </div>
 
-                <hr/>
+                
 
                 <?php if ($user->role == User::ROLE_JURIST): ?>
 
@@ -291,9 +292,10 @@ if (Yii::app()->user->id != $user->id) {
                         </div>
                     </div>
 
-                    <hr/>
+                   
 
                     <?php if ($user->settings->priceConsult > 0 || $user->settings->priceDoc > 0): ?>
+                	 <hr/>
                         <div class='vert-margin20'>
                             <h3 class="left-align">Информация о платных услугах</h3>
                             <?php if ($user->settings->priceConsult > 0): ?>
@@ -315,9 +317,11 @@ if (Yii::app()->user->id != $user->id) {
                     <div class="col-sm-12">
                         <?php if (sizeof($questions) > 0): ?>
                             <?php if ($user->role == User::ROLE_CLIENT): ?>
-                                <h2 class="header-block-light-grey vert-margin20">Мои вопросы</h2>
+                            	 <hr>
+                                <h2 class="vert-margin20">Мои вопросы</h2>
                             <?php else: ?>
-                                <h2 class="header-block-light-grey vert-margin20">Последние вопросы, на которые ответил
+                            	 <hr>
+                                <h2 class="vert-margin20">Последние вопросы, на которые ответил
                                     юрист</h2>
                             <?php endif; ?>
 
@@ -336,7 +340,21 @@ if (Yii::app()->user->id != $user->id) {
                         <?php endif; ?>
                     </div>
                 </div>
-
+                <?php if (Yii::app()->user->role == User::ROLE_CLIENT && Yii::app()->user->id == $user->id): ?>
+                 <hr>
+				    <h2>Мои заказы документов</h2>
+				    <table class="table table-bordered">
+				        <?php
+				        $this->widget('zii.widgets.CListView', array(
+				            'dataProvider' => $ordersDataProvider,
+				            'itemView' => 'application.views.order._view',
+				            'emptyText' => 'Не найдено ни одного заказа',
+				            'summaryText' => 'Показаны заказы с {start} до {end}, всего {count}',
+				            'pager' => array('class' => 'GTLinkPager'), //we use own pager with russian words
+				        ));
+				        ?>
+				    </table>
+				<?php endif; ?>
             </div> <!-- Конец col-sm-8 -->
         </div>
     </div>
@@ -344,20 +362,7 @@ if (Yii::app()->user->id != $user->id) {
 </div>
 
 
-<?php if (Yii::app()->user->role == User::ROLE_CLIENT && Yii::app()->user->id == $user->id): ?>
-    <h2>Мои заказы документов</h2>
-    <table class="table table-bordered">
-        <?php
-        $this->widget('zii.widgets.CListView', array(
-            'dataProvider' => $ordersDataProvider,
-            'itemView' => 'application.views.order._view',
-            'emptyText' => 'Не найдено ни одного заказа',
-            'summaryText' => 'Показаны заказы с {start} до {end}, всего {count}',
-            'pager' => array('class' => 'GTLinkPager'), //we use own pager with russian words
-        ));
-        ?>
-    </table>
-<?php endif; ?>
+
 
 
 

@@ -50,15 +50,15 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row vert-margin20">
                     <div class="col-md-4 col-sm-4">
                         <div class="logo-wrapper">
                             <?php if ($_SERVER['REQUEST_URI'] != '/'): ?>
                                 <a href="/">
-                                    <img src="/pics/2017/100_yuristov_logo.svg" alt="100 Юристов и Адвокатов" title="Юридический портал" style="width:276px; height:75px;" />
+                                    <img src="/pics/2017/100_yuristov_logo.jpg" alt="100 Юристов и Адвокатов" title="Юридический портал"/>
                                 </a>
                             <?php else: ?>
-                                <img src="/pics/2017/100_yuristov_logo.svg" alt="100 Юристов и Адвокатов" title="Юридический портал" style="width:276px; height:75px;" />
+                                <img src="/pics/2017/100_yuristov_logo.jpg" alt="100 Юристов и Адвокатов" title="Юридический портал"/>
                             <?php endif; ?>      
                         </div>			
                     </div>
@@ -120,12 +120,12 @@
 
                     <?php if (Yii::app()->user->isGuest): ?>
 
-                        <?php
+                        <?php 
                         // выводим виджет с номером 8800
-                        $this->widget('application.widgets.Hotline.HotlineWidget', array(
-                            'showAlways' => true,
+                        // $this->widget('application.widgets.Hotline.HotlineWidget', array(
+                        //    'showAlways' => true,
                                 //'showPhone'     =>  false, // true - показать телефон, false - форму запроса города
-                        ));
+                       // ));
                         ?>
                     <?php endif; ?>
 
@@ -150,17 +150,18 @@
                             <!--<li><?php echo CHtml::link('CRM для юристов', "http://www.yurcrm.ru", ['target' => '_blank']); ?></li>-->
                             
                             	<?php elseif(Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->isGuest): ?>
-
-                                <?php if (!stristr($_SERVER['REQUEST_URI'], '/question/create/')): ?>
+                                
+                                <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/')) ? CHtml::link('Задать свой вопрос юристам online', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' . Yii::app()->controller->id, array('class' => 'yellow-button arrow')) : ''; ?></li>
 	
-                                <li class=""><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/russia/') ? CHtml::link('Каталог юристов', Yii::app()->createUrl('/yurist/russia/')) : '<span class="active">Каталог юристов</span>'; ?></li>
-                                <?php endif; ?>
+                                
 
                                 <li class="hidden-xs"><?php echo ($_SERVER['REQUEST_URI'] != '/question/call/') ? CHtml::link('Консультация по телефону', Yii::app()->createUrl('/question/call/')) : '<span class="active">Консультация по телефону</span>'; ?></li>
 
                                 <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/docs/')) ? CHtml::link("Заказать документы", Yii::app()->createUrl('question/docs'), array('class' => '')) : '<span class="active">Заказать документы</span>'; ?></li>
 
-                                <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/services/')) ? CHtml::link("Заказать услуги", Yii::app()->createUrl('question/services'), array('class' => '')) : '<span class="active">Заказать услуги</span>'; ?></li>   
+                                <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/services/')) ? CHtml::link("Заказать услуги", Yii::app()->createUrl('question/services'), array('class' => '')) : '<span class="active">Заказать услуги</span>'; ?></li>
+
+                                <li class=""><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/russia/') ? CHtml::link('Каталог юристов', Yii::app()->createUrl('/yurist/russia/')) : '<span class="active">Каталог юристов</span>'; ?></li>   
 
                                 <?php if (!stristr($_SERVER['REQUEST_URI'], '/question/create/')): ?>
 
@@ -170,7 +171,7 @@
                                     
                                 <?php endif; ?>
                                 
-                                <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/')) ? CHtml::link('Бесплатная online консультация на сайте', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' . Yii::app()->controller->id, array('class' => 'yellow-button arrow')) : ''; ?></li>
+                                
 
 
 

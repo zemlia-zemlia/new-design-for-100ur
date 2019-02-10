@@ -23,7 +23,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 
 <div class="row">
-    <div class="col-md-9 small">
+    <div class="col-md-9">
         <br/>
         <h1 class="vert-margin30"><?php echo CHtml::encode($model->name); ?></h1>
         <br/>
