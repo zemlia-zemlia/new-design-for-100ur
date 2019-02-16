@@ -23,8 +23,10 @@ $this->breadcrumbs = array(
     <div class="alert alert-warning gray-panel" role="alert">
         <h4>Спасибо, <?php echo CHtml::encode(Yii::app()->user->name); ?>!</h4>
         <p class="text-success">
-            <strong><span class="glyphicon glyphicon-ok"></span> Ваш вопрос ожидает публикации в порядке очереди</strong>.
-            Вы можете ускорить публикацию и получить 100% гарантию получения ответа, <a href="#vip-block">переведя вопрос в VIP статус</a>.
+            <strong><span class="glyphicon glyphicon-ok"></span> Ваш вопрос ожидает публикации в порядке
+                очереди</strong>.
+            Вы можете ускорить публикацию и получить 100% гарантию получения ответа, <a href="#vip-block">переведя
+                вопрос в VIP статус</a>.
         </p>
     </div>
 <?php endif; ?>
@@ -119,10 +121,10 @@ $this->breadcrumbs = array(
     </div>
 
     <?php if (
-            !Yii::app()->user->isGuest
-            && Yii::app()->user->id === $model->authorId
-            && $model->payed == 0
-            && in_array(Yii::app()->request->getUserHostAddress(), ['80.76.230.174', '127.0.0.1'])): ?>
+        !Yii::app()->user->isGuest
+        && Yii::app()->user->id === $model->authorId
+        && $model->payed == 0
+    ): ?>
         <hr/>
         <h2 id="vip-block">Хотите получить ответ максимально быстро и со 100% гарантией?</h2>
         <p class="text-center">Переведите вопрос в VIP-статус</p>
@@ -171,9 +173,9 @@ $this->breadcrumbs = array(
                 </div>
             </div>
             <div class="question-cards">
-                <img src="/pics/payment/visa.png" alt="VISA" />
-                <img src="/pics/payment/mc.png" alt="Mastercard" />
-                <img src="/pics/payment/mir.png" alt="МИР" />
+                <img src="/pics/payment/visa.png" alt="VISA"/>
+                <img src="/pics/payment/mc.png" alt="Mastercard"/>
+                <img src="/pics/payment/mir.png" alt="МИР"/>
             </div>
         </div>
     <?php endif; ?>
