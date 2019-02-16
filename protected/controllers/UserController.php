@@ -856,6 +856,7 @@ class UserController extends Controller
                             Yii::log('Вопрос сохранен, id: ' . $question->id, 'info', 'system.web');
                         } else {
                             $saveTransaction->rollback();
+                            Yii::log('Ошибки: ' . print_r($question->errors, true) . ' ' . print_r($moneyTransaction->errors, true) , 'error', 'system.web');
                         }
                     } catch (Exception $e) {
                         $saveTransaction->rollback();
