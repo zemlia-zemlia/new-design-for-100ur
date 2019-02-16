@@ -839,7 +839,7 @@ class UserController extends Controller
                 if ($question) {
 
                     $question->payed = 1;
-                    $question->price = $amount;
+                    $question->price = floor($amount);
 
                     $moneyTransaction = new Money();
                     $moneyTransaction->accountId = 0; // Яндекс деньги
