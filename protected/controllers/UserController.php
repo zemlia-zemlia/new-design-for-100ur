@@ -762,7 +762,7 @@ class UserController extends Controller
         $amount = $request->getPost('amount');
         $label = $request->getPost('label');
 
-        preg_match('/(a-z)\-([0-9]+)/', $label, $labelMatches);
+        preg_match('/([a-z]{1})\-([0-9]+)/', $label, $labelMatches);
         if ($labelMatches[1] && $labelMatches[1] == 'u') {
             $paymentType = 'user';
             $userId = (int)$labelMatches[2];
