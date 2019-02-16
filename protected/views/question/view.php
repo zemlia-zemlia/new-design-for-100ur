@@ -23,11 +23,8 @@ $this->breadcrumbs = array(
     <div class="alert alert-warning gray-panel" role="alert">
         <h4>Спасибо, <?php echo CHtml::encode(Yii::app()->user->name); ?>!</h4>
         <p class="text-success">
-            <strong><span class="glyphicon glyphicon-ok"></span> Ваш вопрос опубликован</strong>. Теперь юристы смогут
-            дать Вам ответ. <br/>
-            <strong><span class="glyphicon glyphicon-ok"></span> Ваш Email подтвержден</strong>. На него Вы будете
-            получать уведомления о новых ответах. <br/>
-
+            <strong><span class="glyphicon glyphicon-ok"></span> Ваш вопрос ожидает публикации в порядке очереди</strong>.
+            Вы можете ускорить публикацию и получить 100% гарантию получения ответа, <a href="#vip-block">переведя вопрос в VIP статус</a>.
         </p>
     </div>
 <?php endif; ?>
@@ -53,17 +50,17 @@ $this->breadcrumbs = array(
                         <span class="label label-warning"><span class='glyphicon glyphicon-ruble'></span></span>
                     <?php endif; ?>
 
-                        <?php if ($model->publishDate): ?>
-                            <span class="glyphicon glyphicon-calendar"></span>&nbsp;
-                            <time itemprop="dateCreated"
-                                  datetime="<?php echo $model->publishDate; ?>"><?php echo CustomFuncs::niceDate($model->publishDate, false); ?></time> &nbsp;&nbsp;
-                        <?php endif; ?>
+                    <?php if ($model->publishDate): ?>
+                        <span class="glyphicon glyphicon-calendar"></span>&nbsp;
+                        <time itemprop="dateCreated"
+                              datetime="<?php echo $model->publishDate; ?>"><?php echo CustomFuncs::niceDate($model->publishDate, false); ?></time> &nbsp;&nbsp;
+                    <?php endif; ?>
 
-                        <?php if ($model->categories): ?>
-                            <?php foreach ($model->categories as $category): ?>
-                                <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($category->name), Yii::app()->createUrl('questionCategory/alias', $category->getUrl())); ?> &nbsp;&nbsp;
-                            <?php endforeach; ?>
-                        <?php endif; ?>
+                    <?php if ($model->categories): ?>
+                        <?php foreach ($model->categories as $category): ?>
+                            <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($category->name), Yii::app()->createUrl('questionCategory/alias', $category->getUrl())); ?> &nbsp;&nbsp;
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </p>
             </div>
             <div class="col-sm-3">
@@ -84,42 +81,103 @@ $this->breadcrumbs = array(
         <?php echo nl2br(CHtml::encode($model->questionText)); ?>
     </div>
 
-<div class="row vert-margin30">
-	<div class="col-sm-7">
-        <div class="inside">
-            <?php if ($model->authorName): ?>
-                <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <div class="row vert-margin30">
+        <div class="col-sm-7">
+            <div class="inside">
+                <?php if ($model->authorName): ?>
+                    <span itemprop="author" itemscope itemtype="http://schema.org/Person">
 
                     <span class="glyphicon glyphicon-user"></span>&nbsp;<span
-                            itemprop="name"><?php echo CHtml::encode($model->authorName); ?></span> &nbsp;&nbsp;
+                                itemprop="name"><?php echo CHtml::encode($model->authorName); ?></span> &nbsp;&nbsp;
                 </span>
-            <?php endif; ?>
-            <em>
-	            <?php if ($model->town): ?>
-	                <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php
-	                echo CHtml::link(CHtml::encode($model->town->name), Yii::app()->createUrl('town/alias', array(
-	                    'name' => $model->town->alias,
-	                    'countryAlias' => $model->town->country->alias,
-	                    'regionAlias' => $model->town->region->alias,
-	                )));
-	                ?> &nbsp;
-	                <?php if (!$model->town->isCapital): ?>
-	                    <span class="text-muted">(<?php echo $model->town->region->name; ?>)</span>
-	                <?php endif; ?>
-	                &nbsp;&nbsp;
-	            <?php endif; ?>
-        	</em>
+                <?php endif; ?>
+                <em>
+                    <?php if ($model->town): ?>
+                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php
+                        echo CHtml::link(CHtml::encode($model->town->name), Yii::app()->createUrl('town/alias', array(
+                            'name' => $model->town->alias,
+                            'countryAlias' => $model->town->country->alias,
+                            'regionAlias' => $model->town->region->alias,
+                        )));
+                        ?> &nbsp;
+                        <?php if (!$model->town->isCapital): ?>
+                            <span class="text-muted">(<?php echo $model->town->region->name; ?>)</span>
+                        <?php endif; ?>
+                        &nbsp;&nbsp;
+                    <?php endif; ?>
+                </em>
+            </div>
         </div>
-	</div>
-	<div class="col-sm-5">
-		    <?php if (Yii::app()->user->role == User::ROLE_JURIST && $nextQuestionId): ?>
-		        <p class="text-right">
-		            <?php echo CHtml::link('Следующий вопрос <span class="glyphicon glyphicon glyphicon-arrow-right"></span>', Yii::app()->createUrl('question/view', ['id' => $nextQuestionId]), ['class' => 'btn btn-default btn-block']); ?>
-		        </p>
-		    <?php endif; ?>
-	</div>
+        <div class="col-sm-5">
+            <?php if (Yii::app()->user->role == User::ROLE_JURIST && $nextQuestionId): ?>
+                <p class="text-right">
+                    <?php echo CHtml::link('Следующий вопрос <span class="glyphicon glyphicon glyphicon-arrow-right"></span>', Yii::app()->createUrl('question/view', ['id' => $nextQuestionId]), ['class' => 'btn btn-default btn-block']); ?>
+                </p>
+            <?php endif; ?>
+        </div>
 
-</div>
+    </div>
+
+    <?php if (
+            !Yii::app()->user->isGuest
+            && Yii::app()->user->id === $model->authorId
+            && $model->payed == 0
+            && in_array(Yii::app()->request->getUserHostAddress(), ['80.76.230.174', '127.0.0.1'])): ?>
+        <hr/>
+        <h2 id="vip-block">Хотите получить ответ максимально быстро и со 100% гарантией?</h2>
+        <p class="text-center">Переведите вопрос в VIP-статус</p>
+
+        <div class="payment-options  vert-margin30">
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <h4>139 руб.</h4>
+
+                    <p class="text-center">1 гарантированный ответ</p>
+                    <?php echo $this->renderPartial('application.views.transaction._yandexFormQuestion', [
+                        'questionId' => $model->id,
+                        'questionPrice' => 139,
+                    ]); ?>
+                </div>
+                <div class="col-sm-3">
+                    <h4>279 руб.</h4>
+
+                    <p class="text-center">2 гарантированных ответа</p>
+                    <?php echo $this->renderPartial('application.views.transaction._yandexFormQuestion', [
+                        'questionId' => $model->id,
+                        'questionPrice' => 279,
+                    ]); ?>
+                </div>
+                <div class="col-sm-3">
+                    <h4>419 руб.</h4>
+
+                    <p class="text-center">3 гарантированных ответа</p>
+                    <?php echo $this->renderPartial('application.views.transaction._yandexFormQuestion', [
+                        'questionId' => $model->id,
+                        'questionPrice' => 419,
+                    ]); ?>
+                    <p class="text-center"><strong>
+                            <small>Выбор пользователей</small>
+                        </strong></p>
+                </div>
+                <div class="col-sm-3">
+                    <h4>559 руб.</h4>
+
+                    <p class="text-center">4 гарантированных ответа</p>
+                    <?php echo $this->renderPartial('application.views.transaction._yandexFormQuestion', [
+                        'questionId' => $model->id,
+                        'questionPrice' => 559,
+                    ]); ?>
+                </div>
+            </div>
+            <div class="question-cards">
+                <img src="/pics/payment/visa.png" alt="VISA" />
+                <img src="/pics/payment/mc.png" alt="Mastercard" />
+                <img src="/pics/payment/mir.png" alt="МИР" />
+            </div>
+        </div>
+    <?php endif; ?>
+
     <?php if (in_array(Yii::app()->user->role, array(User::ROLE_JURIST, User::ROLE_ROOT)) && !in_array(Yii::app()->user->id, $answersAuthors)): ?>
 
         <?php if (Yii::app()->user->isVerified || Yii::app()->user->role == User::ROLE_ROOT): ?>

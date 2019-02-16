@@ -1231,3 +1231,13 @@ article img {
     text-align: center;
     border: #a2e2c6 1px solid;
 }
+
+.question-cards {
+    text-align: center;
+    padding:10px 0;
+}
+
+.question-cards img {
+    max-height:20px;
+    margin: 0 5px;
+}

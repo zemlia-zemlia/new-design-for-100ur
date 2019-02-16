@@ -2,7 +2,8 @@
 
 use YurcrmClient\YurcrmClient;
 
-class UserController extends Controller {
+class UserController extends Controller
+{
 
     public $layout = '//frontend/question';
     public $defaultAction = 'profile';
@@ -10,7 +11,8 @@ class UserController extends Controller {
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
         );
@@ -21,7 +23,8 @@ class UserController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
                 'actions' => array('index', 'view', 'create', 'balanceAddRequest', 'confirmationSent', 'restorePassword', 'setNewPassword', 'captcha', 'unsubscribe'),
@@ -46,7 +49,8 @@ class UserController extends Controller {
         );
     }
 
-    public function actions() {
+    public function actions()
+    {
         return array(
             'captcha' => array(
                 'class' => 'CCaptchaAction',
@@ -82,12 +86,12 @@ class UserController extends Controller {
 
         // найдем последний запрос на смену статуса
         $lastRequest = Yii::app()->db->createCommand()
-                ->select('isVerified, status')
-                ->from("{{userStatusRequest}}")
-                ->where("yuristId=:id", array(':id' => $user->id))
-                ->order('id DESC')
-                ->limit(1)
-                ->queryRow();
+            ->select('isVerified, status')
+            ->from("{{userStatusRequest}}")
+            ->where("yuristId=:id", array(':id' => $user->id))
+            ->order('id DESC')
+            ->limit(1)
+            ->queryRow();
 
         $this->render('profile', array(
             'questions' => $questions,
@@ -98,14 +102,15 @@ class UserController extends Controller {
     }
 
     // creating a new user by registration form 
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $this->layout = '//frontend/smart';
         $model = new User;
         $yuristSettings = new YuristSettings;
         $model->setScenario('register');
 
 
-        $model->role = (isset($_GET['role'])) ? (int) $_GET['role'] : 0;
+        $model->role = (isset($_GET['role'])) ? (int)$_GET['role'] : 0;
 
         // при регистрации юриста действуют отдельные правила проверки полей
         if ($model->role == User::ROLE_JURIST) {
@@ -157,7 +162,8 @@ class UserController extends Controller {
     }
 
     // страница редактирования пользователя 
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $this->layout = '//frontend/smart';
         $model = User::model()->findByPk($id);
 
@@ -181,7 +187,6 @@ class UserController extends Controller {
 
         // модель для работы со сканом
         $userFile = new UserFile;
-
 
 
         if ($model->role == User::ROLE_JURIST) {
@@ -221,7 +226,7 @@ class UserController extends Controller {
                     $u2cat->uId = $model->id;
                     $u2cat->cId = $categoryId;
                     if (!$u2cat->save()) {
-                        
+
                     }
                 }
             }
@@ -234,12 +239,12 @@ class UserController extends Controller {
                     // определяем имя файла для хранения на сервере
                     $newFileName = md5($file->getName() . $file->getSize() . mt_rand(10000, 100000)) . "." . $file->getExtensionName();
                     Yii::app()->ih
-                            ->load($file->tempName)
-                            ->resize(600, 600, true)
-                            ->save(Yii::getPathOfAlias('webroot') . User::USER_PHOTO_PATH . '/' . $newFileName)
-                            ->reload()
-                            ->adaptiveThumb(120, 120, array(255, 255, 255))
-                            ->save(Yii::getPathOfAlias('webroot') . User::USER_PHOTO_PATH . User::USER_PHOTO_THUMB_FOLDER . '/' . $newFileName);
+                        ->load($file->tempName)
+                        ->resize(600, 600, true)
+                        ->save(Yii::getPathOfAlias('webroot') . User::USER_PHOTO_PATH . '/' . $newFileName)
+                        ->reload()
+                        ->adaptiveThumb(120, 120, array(255, 255, 255))
+                        ->save(Yii::getPathOfAlias('webroot') . User::USER_PHOTO_PATH . User::USER_PHOTO_THUMB_FOLDER . '/' . $newFileName);
 
                     $model->avatar = $newFileName;
                 }
@@ -248,8 +253,8 @@ class UserController extends Controller {
                 if ($scan && $scan->getError() == 0) { // если файл нормально загрузился
                     $scanFileName = md5($scan->getName() . $scan->getSize() . mt_rand(10000, 100000)) . "." . $scan->getExtensionName();
                     Yii::app()->ih
-                            ->load($scan->tempName)
-                            ->save(Yii::getPathOfAlias('webroot') . UserFile::USER_FILES_FOLDER . '/' . $scanFileName);
+                        ->load($scan->tempName)
+                        ->save(Yii::getPathOfAlias('webroot') . UserFile::USER_FILES_FOLDER . '/' . $scanFileName);
                     // CustomFuncs::printr($scan);
                     // Yii::app()->end();
 
@@ -297,7 +302,8 @@ class UserController extends Controller {
         ));
     }
 
-    public function actionChangePassword($id) {
+    public function actionChangePassword($id)
+    {
         $this->layout = '//frontend/question';
         // если пользователь не админ, он может менять пароль только у себя
         if (Yii::app()->user->id !== $id && !Yii::app()->user->checkAccess(User::ROLE_ROOT)) {
@@ -331,7 +337,8 @@ class UserController extends Controller {
     /**
      * Отображение страницы с результатом отправки ссылки на подтверждение профиля
      */
-    public function actionConfirmationSent() {
+    public function actionConfirmationSent()
+    {
         $this->layout = '//frontend/smart';
 
         $role = ($_GET['role'] == User::ROLE_JURIST) ? User::ROLE_JURIST : User::ROLE_CLIENT;
@@ -342,7 +349,8 @@ class UserController extends Controller {
      * Подтверждение Email пользователя
      * @throws CHttpException
      */
-    public function actionConfirm() {
+    public function actionConfirm()
+    {
         $this->layout = '//frontend/question';
 
         $email = CHtml::encode($_GET['email']);
@@ -448,7 +456,8 @@ class UserController extends Controller {
      *  восстановление пароля пользователя
      * Страница с формой, где пользователь вводит свою почту, на которую отправляется ссылка для восстановления пароля
      */
-    public function actionRestorePassword() {
+    public function actionRestorePassword()
+    {
         $this->layout = "//frontend/smart";
         // $model - модель с формой восстановления пароля
         $model = new RestorePasswordForm;
@@ -487,7 +496,8 @@ class UserController extends Controller {
     /**
      * Форма установки нового пароля при восстановлении пароля
      */
-    public function actionSetNewPassword() {
+    public function actionSetNewPassword()
+    {
         // если пользователь уже залогинен, перенаправляем его на страницу смены пароля в его профиле
         if (!Yii::app()->user->isGuest) {
             $this->redirect(array("user/changePassword", 'id' => Yii::app()->user->id));
@@ -532,7 +542,7 @@ class UserController extends Controller {
                 }
 
                 if ($user->save()) {
-                    if($user->yurcrmToken != '') {
+                    if ($user->yurcrmToken != '') {
                         $this->redirect(['site/passwordChanged', 'yurcrm' => 1]);
                     } else {
                         $this->redirect(['site/passwordChanged']);
@@ -550,11 +560,12 @@ class UserController extends Controller {
     }
 
     /**
-     * 
+     *
      * @param type $id
      * @throws CHttpException
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         $this->layout = '//frontend/lp';
 
         $user = User::model()->with('settings')->findByPk($id);
@@ -572,7 +583,8 @@ class UserController extends Controller {
     }
 
     // отписаться от получения почтовых рассылок
-    public function actionUnsubscribe() {
+    public function actionUnsubscribe()
+    {
         $email = CHtml::encode($_GET['email']);
         $code = CHtml::encode($_GET['code']);
 
@@ -594,7 +606,8 @@ class UserController extends Controller {
         }
     }
 
-    public function actionKarmaPlus() {
+    public function actionKarmaPlus()
+    {
         // разрешаем только POST запросы
         // параметр - answerId
         if (!Yii::app()->request->isPostRequest) {
@@ -602,7 +615,7 @@ class UserController extends Controller {
         }
 
 
-        $answerId = isset($_POST['answerId']) ? (int) $_POST['answerId'] : false;
+        $answerId = isset($_POST['answerId']) ? (int)$_POST['answerId'] : false;
 
         // если не передан id ответа
         if (!$answerId) {
@@ -620,10 +633,10 @@ class UserController extends Controller {
 
         // проверим, не ставил ли плюс текущий пользователь заданному ответу
         $existingPluses = Yii::app()->db->createCommand()
-                ->select("COUNT(*) counter")
-                ->from("{{karmaChange}}")
-                ->where("answerId=:answerId AND authorId=:authorId", array(':answerId' => $answerId, ':authorId' => Yii::app()->user->id))
-                ->queryRow();
+            ->select("COUNT(*) counter")
+            ->from("{{karmaChange}}")
+            ->where("answerId=:answerId AND authorId=:authorId", array(':answerId' => $answerId, ':authorId' => Yii::app()->user->id))
+            ->queryRow();
 
         //print_r($existingPluses);Yii::app()->end();
 
@@ -633,27 +646,27 @@ class UserController extends Controller {
 
         // делаем запись в таблице karmaChange
         $karmaInsertResult = Yii::app()->db->createCommand()
-                ->insert("{{karmaChange}}", array(
-            'userId' => $userId,
-            'answerId' => $answerId,
-            'authorId' => Yii::app()->user->id,
-        ));
+            ->insert("{{karmaChange}}", array(
+                'userId' => $userId,
+                'answerId' => $answerId,
+                'authorId' => Yii::app()->user->id,
+            ));
 
         // обновляем запись в таблице пользователей
         $userKarmaUpdateResult = Yii::app()->db->createCommand()
-                ->update("{{user}}", array(
-            'karma' => ($answer->author->karma + 1),
-                ), "id=:id", array(
-            ':id' => $userId,
-        ));
+            ->update("{{user}}", array(
+                'karma' => ($answer->author->karma + 1),
+            ), "id=:id", array(
+                ':id' => $userId,
+            ));
         //print_r($userKarmaUpdateResult);
         // обновляем запись в таблице ответов
         $answerKarmaUpdateResult = Yii::app()->db->createCommand()
-                ->update("{{answer}}", array(
-            'karma' => ($answer->karma + 1),
-                ), "id=:id", array(
-            ':id' => $answerId,
-        ));
+            ->update("{{answer}}", array(
+                'karma' => ($answer->karma + 1),
+            ), "id=:id", array(
+                ':id' => $answerId,
+            ));
         //print_r($answerKarmaUpdateResult);
         //Yii::app()->end();
         if ($karmaInsertResult && $answerKarmaUpdateResult && $userKarmaUpdateResult) {
@@ -663,13 +676,14 @@ class UserController extends Controller {
         }
     }
 
-    public function actionStats() {
+    public function actionStats()
+    {
         if (!Yii::app()->user->id) {
             // запрет доступа для гостей
             throw new CHttpException(403, 'Доступ к этой странице для Вас закрыт');
         }
 
-        $userId = (isset($_GET['userId'])) ? (int) $_GET['userId'] : 0;
+        $userId = (isset($_GET['userId'])) ? (int)$_GET['userId'] : 0;
 
         if (!$userId && (Yii::app()->user->role == User::ROLE_OPERATOR || Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_CALL_MANAGER)) {
             // без указания id пользователя к странице могут обратиться только роли, отвечающие на вопросы
@@ -698,12 +712,12 @@ class UserController extends Controller {
         //WHERE authorId=8 AND status IN (0,1) AND datetime IS NOT NULL
         //GROUP BY year, month
         $statsRows = Yii::app()->db->createCommand()
-                ->select("COUNT(*) counter, MONTH(`datetime`) month, YEAR(`datetime`) year")
-                ->from("{{answer}}")
-                ->where("authorId=:userId AND status IN (:status1, :status2) AND datetime IS NOT NULL", array(':userId' => $userId, ":status1" => Answer::STATUS_NEW, "status2" => Answer::STATUS_PUBLISHED))
-                ->group("year, month")
-                ->order("datetime DESC")
-                ->queryAll();
+            ->select("COUNT(*) counter, MONTH(`datetime`) month, YEAR(`datetime`) year")
+            ->from("{{answer}}")
+            ->where("authorId=:userId AND status IN (:status1, :status2) AND datetime IS NOT NULL", array(':userId' => $userId, ":status1" => Answer::STATUS_NEW, "status2" => Answer::STATUS_PUBLISHED))
+            ->group("year, month")
+            ->order("datetime DESC")
+            ->queryAll();
 
         $this->render('stats', array(
             'statsRows' => $statsRows,
@@ -714,7 +728,8 @@ class UserController extends Controller {
     /**
      * Лента новостей пользователя (юриста). Содержит уведомления типа комментариев к его ответам и т.д.
      */
-    public function actionFeed() {
+    public function actionFeed()
+    {
         $user = User::model()->findByPk(Yii::app()->user->id);
         if (!$user) {
             throw new CHttpException(404, 'Ошибка: пользователь не найден');
@@ -737,27 +752,39 @@ class UserController extends Controller {
      * На этот адрес будут приходить запросы от Яндекса о пополнении кошелька
      * https://100yuristov.com/user/balanceAddRequest
      */
-    public function actionBalanceAddRequest() {
+    public function actionBalanceAddRequest()
+    {
         Yii::log('Пришел запрос от Яндекса с уведомлением о пополнении баланса', 'info', 'system.web');
         Yii::log('POST запрос: ' . print_r($_POST, true), 'info', 'system.web');
         $request = Yii::app()->request;
 
         // разбираем данные, которые пришли от Яндекса
         $amount = $request->getPost('amount');
-        $userId = $request->getPost('label');
+        $label = $request->getPost('label');
+
+        preg_match('/(a-z)\-([0-9]+)/', $label, $labelMatches);
+        if ($labelMatches[1] && $labelMatches[1] == 'u') {
+            $paymentType = 'user';
+            $userId = (int)$labelMatches[2];
+        } elseif ($labelMatches[1] && $labelMatches[1] == 'q') {
+            $paymentType = 'question';
+            $questionId = (int)$labelMatches[2];
+        }
+        Yii::log('Субъект оплаты: ' . $paymentType, 'info', 'system.web');
+
         $hash = $request->getPost('sha1_hash');
 
         $secret = Yii::app()->params['yandexMoneySecret'];
 
         $requestString = $request->getPost('notification_type') . '&' .
-                $request->getPost('operation_id') . '&' .
-                $request->getPost('amount') . '&' .
-                $request->getPost('currency') . '&' .
-                $request->getPost('datetime') . '&' .
-                $request->getPost('sender') . '&' .
-                $request->getPost('codepro') . '&' .
-                $secret . '&' .
-                $request->getPost('label');
+            $request->getPost('operation_id') . '&' .
+            $request->getPost('amount') . '&' .
+            $request->getPost('currency') . '&' .
+            $request->getPost('datetime') . '&' .
+            $request->getPost('sender') . '&' .
+            $request->getPost('codepro') . '&' .
+            $secret . '&' .
+            $request->getPost('label');
 
         Yii::log('Собранная строка для проверки: ' . $requestString, 'info', 'system.web');
 
@@ -768,46 +795,81 @@ class UserController extends Controller {
         if ($requestString == $hash) {
             // данные от яндекса не подделаны, можно зачислять бабло
 
-            $user = User::model()->findByPk($userId);
+            if ($paymentType == 'user') {
+                $user = User::model()->findByPk($userId);
+                if ($user) {
+                    //@todo Отрефакторить, выделив в отдельный метод. Дублирует код из CampaignController
+                    Yii::log('Пополняем баланс пользователя: ' . $user->getShortName(), 'info', 'system.web');
+                    $user->balance += $amount;
+                    $transaction = new TransactionCampaign;
+                    $transaction->buyerId = $user->id;
+                    $transaction->sum = $amount;
+                    $transaction->description = 'Пополнение баланса пользователя';
 
-            if ($user) {
-
-                //@todo Отрефакторить, выделив в отдельный метод. Дублирует код из CampaignController
-                Yii::log('Пополняем баланс пользователя: ' . $user->getShortName(), 'info', 'system.web');
-                $user->balance += $amount;
-                $transaction = new TransactionCampaign;
-                $transaction->buyerId = $user->id;
-                $transaction->sum = $amount;
-                $transaction->description = 'Пополнение баланса пользователя';
-
-                $moneyTransaction = new Money();
-                $moneyTransaction->accountId = 0; // Яндекс деньги
-                $moneyTransaction->value = $amount;
-                $moneyTransaction->type = Money::TYPE_INCOME;
-                $moneyTransaction->direction = 501;
-                $moneyTransaction->datetime = date('Y-m-d');
-                $moneyTransaction->comment = 'Пополнение баланса пользователя ' . $user->id;
+                    $moneyTransaction = new Money();
+                    $moneyTransaction->accountId = 0; // Яндекс деньги
+                    $moneyTransaction->value = $amount;
+                    $moneyTransaction->type = Money::TYPE_INCOME;
+                    $moneyTransaction->direction = 501;
+                    $moneyTransaction->datetime = date('Y-m-d');
+                    $moneyTransaction->comment = 'Пополнение баланса пользователя ' . $user->id;
 
 
-                $saveTransaction = $transaction->dbConnection->beginTransaction();
-                try {
-                    if($transaction->save() && $moneyTransaction->save() && $user->save(false)) {
-                        $saveTransaction->commit();
-                        Yii::log('Транзакция сохранена, id: ' . $transaction->id, 'info', 'system.web');
-                    } else {
+                    $saveTransaction = $transaction->dbConnection->beginTransaction();
+                    try {
+                        if ($transaction->save() && $moneyTransaction->save() && $user->save(false)) {
+                            $saveTransaction->commit();
+                            Yii::log('Транзакция сохранена, id: ' . $transaction->id, 'info', 'system.web');
+                        } else {
+                            $saveTransaction->rollback();
+                        }
+                    } catch (Exception $e) {
                         $saveTransaction->rollback();
+                        Yii::log('Ошибка при пополнении баланса пользователя ' . $userId . ' (' . $amount . ' руб.)', 'error', 'system.web');
+
+                        throw new CHttpException(500, 'Не удалось пополнить баланс пользователя');
                     }
-                } catch (Exception $e) {
-                    $saveTransaction->rollback();
-                    Yii::log('Ошибка при пополнении баланса пользователя ' . $userId . ' (' . $amount . ' руб.)', 'error', 'system.web');
-                    
-                    throw new CHttpException(500, 'Не удалось пополнить баланс пользователя');
+
+                    Yii::log('Пришло бабло от пользователя ' . $userId . ' (' . $amount . ' руб.)', 'info', 'system.web');
+                    LoggerFactory::getLogger('db')->log('Пополнение баланса пользователя #' . $user->id . '(' . $user->getShortName() . ') на ' . $amount . ' руб.', 'User', $user->id);
                 }
+            } elseif ($paymentType == 'question') {
+                $question = Question::model()->findByPk($questionId);
 
-                Yii::log('Пришло бабло от пользователя ' . $userId . ' (' . $amount . ' руб.)', 'info', 'system.web');
-                LoggerFactory::getLogger('db')->log('Пополнение баланса пользователя #' . $user->id . '(' . $user->getShortName() . ') на ' . $amount . ' руб.', 'User', $user->id);
+                if ($question) {
 
+                    $question->payed = 1;
+                    $question->price = $amount;
+
+                    $moneyTransaction = new Money();
+                    $moneyTransaction->accountId = 0; // Яндекс деньги
+                    $moneyTransaction->value = $amount;
+                    $moneyTransaction->type = Money::TYPE_INCOME;
+                    $moneyTransaction->direction = 504; // VIP вопросы
+                    $moneyTransaction->datetime = date('Y-m-d');
+                    $moneyTransaction->comment = 'Оплата вопроса ' . $question->id;
+
+                    $saveTransaction = $moneyTransaction->dbConnection->beginTransaction();
+                    try {
+                        if ($question->save() && $moneyTransaction->save()) {
+                            $saveTransaction->commit();
+                            Yii::log('Вопрос сохранен, id: ' . $question->id, 'info', 'system.web');
+                        } else {
+                            $saveTransaction->rollback();
+                        }
+                    } catch (Exception $e) {
+                        $saveTransaction->rollback();
+                        Yii::log('Ошибка при оплате вопроса ' . $questionId . ' (' . $amount . ' руб.)', 'error', 'system.web');
+
+                        throw new CHttpException(500, 'Не удалось оплатить вопрос');
+                    }
+
+                    Yii::log('Пришло бабло за вопрос ' . $questionId . ' (' . $amount . ' руб.)', 'info', 'system.web');
+                    LoggerFactory::getLogger('db')->log('Оплата вопроса #' . $question->id . ') на ' . $amount . ' руб.', 'Question', $question->id);
+
+                }
             }
+
         }
     }
 

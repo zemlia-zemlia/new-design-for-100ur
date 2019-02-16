@@ -167,38 +167,6 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
 </small>
 </div>
 
-
-<?php if($pay == true):?>
-<div class="payment-options  vert-margin30">
-    <div class="row">
-        <div class="col-sm-3">
-            <label>
-            <input type="radio" name="Question[price]" value="0" checked="checked"/> <strong>Бесплатно</strong>
-            <p><small>Ответ в течение суток</small></p>
-            </label>
-        </div>
-        <div class="col-sm-3">
-            <label>
-            <input type="radio" name="Question[price]" value="99" /> <strong>125 руб.</strong>
-            <p><small>Гарантия 1 ответа юриста в течение 3 часов</small></p>
-            </label>
-        </div>
-        <div class="col-sm-3">
-            <label>
-            <input type="radio" name="Question[price]" value="199" /> <strong>255 руб.</strong>
-            <p><small>Гарантия 3 ответов юристов в течение 3 часов</small></p>
-            </label>
-        </div>
-        <div class="col-sm-3">
-            <label>
-            <input type="radio" name="Question[price]" value="299" /> <strong>399 руб.</strong>
-            <p><small>Гарантия 5 ответов юристов в течение 3 часов</small></p>
-            </label>
-        </div>
-    </div>
-</div>
-<?php endif;?>
-
 	<div class="form-group">
 		<?php echo CHtml::submitButton('Отправить вопрос юристу', array('class'=>'yellow-button center-block')); ?>
 	</div>

@@ -4,7 +4,7 @@
 
 <form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml" class="balance-form">    
     <input type="hidden" name="receiver" value="410012948838662">      
-    <input type="hidden" name="label" value="<?php echo Yii::app()->user->id; ?>">    
+    <input type="hidden" name="label" value="u-<?php echo Yii::app()->user->id; ?>">
     <input type="hidden" name="quickpay-form" value="shop">    
     <input type="hidden" name="successURL" value="<?php echo Yii::app()->urlManager->baseUrl .  Yii::app()->request->requestUri; ?>">    
     <input type="hidden" name="targets" value="Пополнение баланса пользователя <?php echo Yii::app()->user->id; ?>">    
