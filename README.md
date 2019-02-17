@@ -3,7 +3,7 @@
 После клонирования проекта из репозитория для создания необходимых папок запустить скрипт /protected/tools/init_project.sh
 
 ## Настройки веб-сервера
-* PHP 7.0 (с модулями: curl, mbstring)
+* PHP 7.1 (с модулями: curl, mbstring)
 * MySQL
 * Composer
 * Yii framework 1.1 (в папке "framework")

@@ -1,7 +1,7 @@
 {
     "minimum-stability": "dev",
     "require":{
-        "php":"^7",
+        "php":"^7.1",
         "sendpulse/rest-api":"*",
         "swiftmailer/swiftmailer":"^6.0",
         "robmorgan/phinx":"0.5",
