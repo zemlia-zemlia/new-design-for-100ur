@@ -18,7 +18,7 @@ class YandexPaymentQuestion implements YandexPaymentProcessorInterface
      * Обработка платежа
      * @throws CHttpException
      */
-    public function process():bool
+    public function process(): bool
     {
         if (is_null($this->question)) {
             return false;
@@ -42,9 +42,13 @@ class YandexPaymentQuestion implements YandexPaymentProcessorInterface
             if ($this->question->save() && $moneyTransaction->save()) {
                 $saveTransaction->commit();
                 Yii::log('Вопрос сохранен, id: ' . $this->question->id, 'info', 'system.web');
+                Yii::log('Пришло бабло за вопрос ' . $this->question->id . ' (' . $amount . ' руб.)', 'info', 'system.web');
+                LoggerFactory::getLogger('db')->log('Оплата вопроса #' . $this->question->id . ') на ' . $amount . ' руб.', 'Question', $this->question->id);
+                return true;
             } else {
                 $saveTransaction->rollback();
                 Yii::log('Ошибки: ' . print_r($this->question->errors, true) . ' ' . print_r($moneyTransaction->errors, true), 'error', 'system.web');
+                return false;
             }
         } catch (Exception $e) {
             $saveTransaction->rollback();
@@ -52,8 +56,5 @@ class YandexPaymentQuestion implements YandexPaymentProcessorInterface
 
             throw new CHttpException(500, 'Не удалось оплатить вопрос');
         }
-
-        Yii::log('Пришло бабло за вопрос ' . $this->question->id . ' (' . $amount . ' руб.)', 'info', 'system.web');
-        LoggerFactory::getLogger('db')->log('Оплата вопроса #' . $this->question->id . ') на ' . $amount . ' руб.', 'Question', $this->question->id);
     }
 }

@@ -57,7 +57,7 @@ class YaPayConfirmRequest extends CFormModel
     [currency] => 643
     [email] =>
      */
-    
+
     public function rules()
     {
         return [
