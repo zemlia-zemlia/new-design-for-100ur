@@ -18,7 +18,46 @@ class YaPayConfirmRequest extends CFormModel
     public $codepro;
     public $label;
     public $unaccepted;
+    public $zip;
+    public $firstname;
+    public $city;
+    public $building;
+    public $lastname;
+    public $suite;
+    public $phone;
+    public $street;
+    public $flat;
+    public $fathersname;
+    public $operation_label;
+    public $email;
 
+    /*
+     * Пример запроса от Яндекса:
+    [notification_type] => card-incoming
+    [zip] =>
+    [amount] => 2.94
+    [firstname] =>
+    [codepro] => false
+    [withdraw_amount] => 3.00
+    [city] =>
+    [unaccepted] => false
+    [label] => q-56565
+    [building] =>
+    [lastname] =>
+    [datetime] => 2019-02-24T13:41:10Z
+    [suite] =>
+    [sender] =>
+    [phone] =>
+    [sha1_hash] => 3de0babc4ff0bf87791c1482ec124314adec3f5f
+    [street] =>
+    [flat] =>
+    [fathersname] =>
+    [operation_label] => 2404b2a0-0011-5000-a000-14508182aca3
+    [operation_id] => 604330870735091012
+    [currency] => 643
+    [email] =>
+     */
+    
     public function rules()
     {
         return [
