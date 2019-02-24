@@ -17,6 +17,7 @@ class YaPayConfirmRequest extends CFormModel
     public $sender;
     public $codepro;
     public $label;
+    public $unaccepted;
 
     public function rules()
     {
