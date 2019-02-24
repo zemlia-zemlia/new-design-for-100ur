@@ -756,11 +756,14 @@ class UserController extends Controller
     {
         Yii::log('Пришел запрос от Яндекса с уведомлением о пополнении баланса', 'info', 'system.web');
         Yii::log('POST запрос: ' . print_r($_POST, true), 'info', 'system.web');
-        $request = Yii::app()->request;
+        $yandexRequestData = new YaPayConfirmRequest();
+        $yandexRequestData->setAttributes($_POST);
 
         $secret = Yii::app()->params['yandexMoneySecret'];
-        $paymentProcessor = new YandexPaymentResponseProcessor($request, $secret);
-        $paymentProcessor->process();
-    }
+        $paymentProcessor = new YandexPaymentResponseProcessor($yandexRequestData, $secret);
 
+        if($paymentProcessor->process() != true) {
+            throw new CHttpException(400, 'Cannot process payment');
+        }
+    }
 }

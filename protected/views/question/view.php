@@ -138,7 +138,7 @@ $this->breadcrumbs = array(
                     <p class="text-center">1 гарантированный ответ</p>
                     <?php echo $this->renderPartial('application.views.transaction._yandexFormQuestion', [
                         'questionId' => $model->id,
-                        'questionPrice' => 3,
+                        'questionPrice' => 139,
                     ]); ?>
                 </div>
                 <div class="col-sm-3">
