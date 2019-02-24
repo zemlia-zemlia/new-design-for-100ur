@@ -7,6 +7,9 @@
  */
 class YandexPaymentResponseProcessor
 {
+    const TYPE_USER = 'user';
+    const TYPE_QUESTION = 'question';
+
     /** @var CHttpRequest */
     private $request;
 
@@ -32,7 +35,7 @@ class YandexPaymentResponseProcessor
      * Обработка запроса
      * @return bool
      */
-    public function process():bool
+    public function process(): bool
     {
         // разбираем данные, которые пришли от Яндекса
         $label = $this->request->label;
@@ -48,12 +51,9 @@ class YandexPaymentResponseProcessor
         }
 
         // данные от яндекса не подделаны, можно зачислять бабло
+        $paymentProcessorFactory = new YandexPaymentFactory($this->entityId, $this->request);
+        $paymentProcessor = $paymentProcessorFactory->createPaymentClass($this->paymentType);
 
-        if ($this->paymentType == 'user') {
-            $paymentProcessor = new YandexPaymentUser($this->entityId, $this->request);
-        } elseif ($this->paymentType == 'question') {
-            $paymentProcessor = new YandexPaymentQuestion($this->entityId, $this->request);
-        }
         try {
             return $paymentProcessor->process();
         } catch (\Exception $e) {
@@ -82,10 +82,10 @@ class YandexPaymentResponseProcessor
 
         switch ($labelMatches[1]) {
             case 'u':
-                $this->paymentType = 'user';
+                $this->paymentType = self::TYPE_USER;
                 break;
             case 'q':
-                $this->paymentType = 'question';
+                $this->paymentType = self::TYPE_QUESTION;
                 break;
             default:
                 return null;

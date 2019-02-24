@@ -763,6 +763,7 @@ class UserController extends Controller
         $paymentProcessor = new YandexPaymentResponseProcessor($yandexRequestData, $secret);
 
         if($paymentProcessor->process() != true) {
+            Yii::log('Ошибка при обработке платежа: ' . print_r($paymentProcessor->getErrors(), true), 'error', 'system.web');
             throw new CHttpException(400, 'Cannot process payment');
         }
     }
