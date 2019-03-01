@@ -140,13 +140,13 @@ if ($model->seoH1) {
                 </div>
             </div>
 
-            <?php
+            <?php /*
             $this->widget('application.widgets.RecentCategories.RecentCategories', [
                 'number' => 4,
                 'template' => 'default1',
                 'rootId' => $model->root,
                 'title' => '<h2>Похожие статьи</h2>',
-            ]);
+            ]); */
             ?>
 
         </div>
