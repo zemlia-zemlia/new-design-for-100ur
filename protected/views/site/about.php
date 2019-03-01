@@ -16,13 +16,6 @@
 <p>Проект 100 Юристов предлагает онлайн консультации юристов на платной основе, ниже представлены описание тарифных планов и их стоимость.</p>   
 <table class="table center-align table-bordered alert alert-warning">
 			<tr>
-				<th class="center-align" style="width: 33%">Бронза</th>
-				<th class="center-align" style="width: 33%">Серебро</th>
-				<th class="center-align" style="width: 33%">Золото</th>
-				<!--<th class="center-align" style="width: 33%">Vip1</th>-->
-				<!--<th class="center-align" style="width: 33%">Vip2</th>-->
-			</tr>
-			<tr>
 
 			</tr>
 			<tr>
@@ -37,31 +30,19 @@
 				<td>
 				<strong style="font-size: 20px;">3</strong><br/><span class="mutted">гарантированных ответа</span>
 				</td>
-
-			</tr>
-			<tr>
-                            <td><?php echo Question::getPriceByLevel(Question::LEVEL_1);?> руб.</td>
-                            <td><?php echo Question::getPriceByLevel(Question::LEVEL_2);?> руб.</td>
-                            <td><?php echo Question::getPriceByLevel(Question::LEVEL_3);?> руб.</td>
-			</tr>
-        </table>
-			
-		<table class="table center-align table-bordered alert alert-warning">
-			<tr>
-				<th class="center-align" style="width: 33%">Vip</th>
-				<th class="center-align" style="width: 33%">Vip+</th>
-			</tr>
-			<tr>
 				<td>
 				<strong style="font-size: 20px;">4</strong><br/><span class="mutted">гарантированных ответа</span>
 				</td>
-				<td>
-				<strong style="font-size: 20px;">5</strong><br/><span class="mutted">гарантированных ответов</span>
-				</td>
+
 			</tr>
 			<tr>
-				<td><?php echo Question::getPriceByLevel(Question::LEVEL_4);?> руб.</td>
-				<td><?php echo Question::getPriceByLevel(Question::LEVEL_5);?> руб.</td>
+                            <td>139 руб.</td>
+                            <td>279 руб.</td>
+                            <td>419 руб.</td>
+                            <td>559 руб.</td>
+
 			</tr>
-		</table>
+        </table>
+			
+	
 			
