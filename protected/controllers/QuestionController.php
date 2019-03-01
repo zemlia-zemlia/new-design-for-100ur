@@ -78,7 +78,7 @@ class QuestionController extends Controller
             $answerModel->attributes = $_POST['Answer'];
             $answerModel->authorId = Yii::app()->user->id;
             $answerModel->questionId = $model->id;
-            $answerModel->datetime = date("Y-m-d h:i:s");
+            $answerModel->datetime = date("Y-m-d H:i:s");
 
             if (Yii::app()->user->checkAccess(User::ROLE_ROOT)) {
                 $answerModel->setScenario('addVideo');
