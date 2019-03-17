@@ -27,7 +27,7 @@ class CustomFuncs
         if (!Yii::app()->user->getState('currentTownId')) {
             // если принудительно не задан IP, берем текущий IP адрес
             if (empty($ip)) {
-                if ($_SERVER['HTTP_X_REAL_IP']) {
+                if (isset($_SERVER['HTTP_X_REAL_IP'])) {
                     $ip = $_SERVER['HTTP_X_REAL_IP'];
                 } else {
                     $ip = $_SERVER['REMOTE_ADDR'];
@@ -49,8 +49,10 @@ class CustomFuncs
             curl_close($ch);
             $xml = iconv('windows-1251', 'utf-8', $xml);
             preg_match("/<city>(.*?)<\/city>/", $xml, $a);
-            $townName = $a[1];
+            $townName = isset($a[1]) ? $a[1] : '';
             //echo 'Город:' . $townName; Yii::app()->end();
+
+            $currentTown = null;
             if ($townName) {
                 $currentTown = Town::model()->findByAttributes(array('name' => $townName));
             }

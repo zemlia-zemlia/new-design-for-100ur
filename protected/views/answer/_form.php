@@ -25,17 +25,14 @@
         <p class="text-muted small center-align"><strong>ДОПУСТИМО!</strong> Ссылаться в ответах, на контактные данные
             указанные в вашем профиле.</p>
     </div>
-    <?
-    /*
-      <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
-      <div class="form-group">
-      <?php echo $form->labelEx($model,'videoLink'); ?>
-      <?php echo $form->textField($model,'videoLink', array('class'=>'form-control')); ?>
-      <?php echo $form->error($model,'videoLink'); ?>
-      </div>
-      <?php endif;?>
-     */
-    ?>
+
+    <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
+        <div class="form-group">
+            <?php echo $form->labelEx($model, 'videoLink'); ?>
+            <?php echo $form->textField($model, 'videoLink', array('class' => 'form-control')); ?>
+            <?php echo $form->error($model, 'videoLink'); ?>
+        </div>
+    <?php endif; ?>
 
 
     <div class="row">

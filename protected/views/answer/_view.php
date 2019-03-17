@@ -88,12 +88,6 @@
                                 </p>
                             </div>
                         </div>
-
-                        <?php if ($data->authorId == Yii::app()->user->id && time() - strtotime($data->datetime) < Answer::EDIT_TIMEOUT): ?>
-                            <div class="right-align">
-                                <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('question/updateAnswer', array('id' => $data->id)), array('class' => 'btn btn-default btn-xs')); ?>
-                            </div>
-                        <?php endif; ?>
                     </div>
 
                 </div>
@@ -107,35 +101,35 @@
                                 </p>
                             </div>
                         </div>
-
-                        <?php if ($data->authorId == Yii::app()->user->id && time() - strtotime($data->datetime) < Answer::EDIT_TIMEOUT): ?>
-                            <div class="right-align">
-                                <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('question/updateAnswer', array('id' => $data->id)), array('class' => 'btn btn-default btn-xs')); ?>
-                            </div>
-                        <?php endif; ?>
                     </div>
                 </div>
 
                 <div class="col-sm-10 col-xs-12  col-sm-offset-2">
 
-                    <a href="<?php echo Yii::app()->createUrl('user/view', array('id' => $data->authorId)); ?>"
-                       rel="nofollow" class='btn btn-xs btn-default'><span
-                                class='glyphicon glyphicon-user'></span> Перейти в профиль юриста</a>
 
-                    <?php if (!Yii::app()->user->isGuest && $data->authorId != Yii::app()->user->id): ?>
-                        <?php
-                        // проверим, не голосовал ли текущий пользователь за данный ответ
-                        $showKarmaLink = true;
-                        foreach ($data->karmaChanges as $karmaChange) {
-                            if ($karmaChange->authorId == Yii::app()->user->id) {
-                                $showKarmaLink = false;
-                                break;
+                    <div class="vert-margin20 answer-karma-string">
+
+                        <?php if ($data->authorId != Yii::app()->user->id): ?>
+                            <a href="<?php echo Yii::app()->createUrl('user/view', array('id' => $data->authorId)); ?>"
+                               rel="nofollow" class='btn btn-xs btn-default'><span
+                                        class='glyphicon glyphicon-user'></span> Перейти в профиль юриста</a>
+                        <?php endif; ?>
+
+                        <?php if ($data->authorId == Yii::app()->user->id && time() - strtotime($data->datetime) < Answer::EDIT_TIMEOUT): ?>
+                            <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('question/updateAnswer', array('id' => $data->id)), array('class' => 'btn btn-default btn-xs')); ?>
+                        <?php endif; ?>
+
+                        <?php if (!Yii::app()->user->isGuest && $data->authorId != Yii::app()->user->id): ?>
+                            <?php
+                            // проверим, не голосовал ли текущий пользователь за данный ответ
+                            $showKarmaLink = true;
+                            foreach ($data->karmaChanges as $karmaChange) {
+                                if ($karmaChange->authorId == Yii::app()->user->id) {
+                                    $showKarmaLink = false;
+                                    break;
+                                }
                             }
-                        }
-                        ?>
-
-                        <div class="vert-margin20 answer-karma-string">
-
+                            ?>
 
                             <?php if ($showKarmaLink === true): ?>
                                 <span id="answer-karma-<?php echo $data->id; ?>">
@@ -157,10 +151,10 @@
 	                            </div> 
                             <?php endif; ?>
 							-->
+                        <?php endif; ?>
+                    </div>
 
-                        </div>
 
-                    <?php endif; ?>
                     <?php endif; ?>
 
                     <?php foreach ($data->comments as $comment): ?>
