@@ -1,4 +1,4 @@
-$(function(){
+document.onload = function() {
     
     $(".radio-labels input[type=radio]").change(function(){
         toggleUserForm();
@@ -31,7 +31,7 @@ $(function(){
         }
     })
         
-})
+}
 
 
 
