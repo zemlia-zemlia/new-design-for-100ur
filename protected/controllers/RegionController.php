@@ -1,6 +1,7 @@
 <?php
 
-class RegionController extends Controller {
+class RegionController extends Controller
+{
 
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -11,7 +12,8 @@ class RegionController extends Controller {
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
@@ -23,10 +25,11 @@ class RegionController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view', 'country'),
+                'actions' => array('index', 'view', 'country', 'redirect'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -47,10 +50,10 @@ class RegionController extends Controller {
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView() 
+    public function actionView()
     {
         $this->layout = "/frontend/catalog";
-        
+
         if (!isset($_GET['regionAlias'])) {
             throw new CHttpException(404, 'Регион не найден');
         }
@@ -60,14 +63,14 @@ class RegionController extends Controller {
         if (!$model) {
             throw new CHttpException(404, 'Регион не найден');
         }
-        
+
         // найдем id городов текущего региона
         $towns = Yii::app()->db->createCommand()
-                ->select('id')
-                ->from('{{town}}')
-                ->where('regionId=:regionId', [':regionId' => $model->id])
-                ->queryColumn();
-        
+            ->select('id')
+            ->from('{{town}}')
+            ->where('regionId=:regionId', [':regionId' => $model->id])
+            ->queryColumn();
+
         $criteria = new CDbCriteria;
 
         $criteria->order = "rating DESC, karma DESC";
@@ -85,22 +88,23 @@ class RegionController extends Controller {
         ));
 
         $this->render('view', array(
-            'model'                 =>  $model,
-            'yuristsDataProvider'   =>  $yuristsDataProvider,
+            'model' => $model,
+            'yuristsDataProvider' => $yuristsDataProvider,
         ));
     }
 
     /**
      * Lists all models.
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
 
         $regionsRows = Yii::app()->db->cache(3600)->createCommand()
-                ->select("r.id, r.name regionName, r.alias regionAlias, c.id countryId, c.name countryName, c.alias countryAlias")
-                ->from("{{region}} r")
-                ->leftJoin("{{country}} c", "c.id = r.countryId")
-                ->order("c.id asc, r.name")
-                ->queryAll();
+            ->select("r.id, r.name regionName, r.alias regionAlias, c.id countryId, c.name countryName, c.alias countryAlias")
+            ->from("{{region}} r")
+            ->leftJoin("{{country}} c", "c.id = r.countryId")
+            ->order("c.id asc, r.name")
+            ->queryAll();
 
         $regionsArray = array();
 
@@ -115,23 +119,23 @@ class RegionController extends Controller {
         ));
     }
 
-    public function actionCountry($countryAlias) 
+    public function actionCountry($countryAlias)
     {
         $this->layout = "/frontend/catalog";
-        
+
         $country = Country::model()->findByAttributes(array('alias' => $countryAlias));
 
-        if(!($country instanceof Country)) {
+        if (!($country instanceof Country)) {
             throw new CHttpException(404, 'Страна не найдена');
         }
 
         $regionsRows = Yii::app()->db->cache(0)->createCommand()
-                ->select("r.id, r.name regionName, r.alias regionAlias, c.id countryId, c.name countryName, c.alias countryAlias")
-                ->from("{{region}} r")
-                ->leftJoin("{{country}} c", "c.id = r.countryId")
-                ->where('c.alias = :alias', array(':alias' => $countryAlias))
-                ->order("c.id asc, r.name")
-                ->queryAll();
+            ->select("r.id, r.name regionName, r.alias regionAlias, c.id countryId, c.name countryName, c.alias countryAlias")
+            ->from("{{region}} r")
+            ->leftJoin("{{country}} c", "c.id = r.countryId")
+            ->where('c.alias = :alias', array(':alias' => $countryAlias))
+            ->order("c.id asc, r.name")
+            ->queryAll();
 
 
         $criteria = new CDbCriteria;
@@ -149,18 +153,53 @@ class RegionController extends Controller {
                 'pageSize' => 12,
             ),
         ));
-        
+
         $this->render('country', array(
             'regions' => $regionsRows,
             'country' => $country,
-            'yuristsDataProvider'   =>  $yuristsDataProvider,
+            'yuristsDataProvider' => $yuristsDataProvider,
         ));
+    }
+
+    /**
+     * Редирект со старых адресов типа region/russia/* на /yurist/russia/*
+     */
+    public function actionRedirect()
+    {
+        $countryAlias = Yii::app()->request->getParam('countryAlias');
+        $regionAlias = Yii::app()->request->getParam('regionAlias');
+        $townName = Yii::app()->request->getParam('name');
+
+        if ($countryAlias && $regionAlias && $townName) {
+            $this->redirect([
+                '/town/alias',
+                'name' => $townName,
+                'countryAlias' => $countryAlias,
+                'regionAlias' => $regionAlias
+            ], true, 301);
+        }
+
+        if ($countryAlias && $regionAlias) {
+            $this->redirect([
+                '/region/view',
+                'countryAlias' => $countryAlias,
+                'regionAlias' => $regionAlias
+            ], true, 301);
+        }
+
+        if ($countryAlias) {
+            $this->redirect([
+                '/region/country',
+                'countryAlias' => $countryAlias,
+            ], true, 301);
+        }
     }
 
     /**
      * Manages all models.
      */
-    public function actionAdmin() {
+    public function actionAdmin()
+    {
         $model = new Region('search');
         $model->unsetAttributes();  // clear any default values
         if (isset($_GET['Region']))
@@ -178,7 +217,8 @@ class RegionController extends Controller {
      * @return Region the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id)
+    {
         $model = Region::model()->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
@@ -189,11 +229,11 @@ class RegionController extends Controller {
      * Performs the AJAX validation.
      * @param Region $model the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'region-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
     }
-
 }
