@@ -49,6 +49,7 @@ abstract class EmailParser {
      * Письма берутся не старше чем $period дней
      * @param string $folderName имя папки
      * @param integer $period за сколько последних дней собирать письма
+     * @throws Exception
      * @return array Массив объектов ParsedEmail
      */
     protected function getMessagesFromFolder($folderName, $period = 2) {
@@ -62,7 +63,13 @@ abstract class EmailParser {
         $parsedMessages = [];
         
         // подключаемся к папке в почтовом ящике
-        if (!$mbox = imap_open("{" . "{$host}:{$port}{$param}" . "}$folder", $login, $pass)) {
+        try {
+            $mbox = imap_open("{" . "{$host}:{$port}{$param}" . "}$folder", $login, $pass);
+        } catch(\Exception $e) {
+            throw new CException("Couldn't open the inbox");
+        }
+
+        if ($mbox === false) {
             throw new CException("Couldn't open the inbox");
         };
 
