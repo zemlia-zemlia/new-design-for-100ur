@@ -8,7 +8,8 @@
         "yurcrm/yurcrm-client":"*",
         "ext-curl":"*",
         "ext-json":"*",
-        "ext-imap": "*"
+        "ext-imap": "*",
+        "ext-iconv": "*"
     },
     "require-dev": {
         "codeception/codeception":"*",
