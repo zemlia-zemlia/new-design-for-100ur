@@ -64,7 +64,7 @@ abstract class EmailParser {
         
         // подключаемся к папке в почтовом ящике
         try {
-            $mbox = imap_open("{" . "{$host}:{$port}{$param}" . "}$folder", $login, $pass);
+            $mbox = @imap_open("{" . "{$host}:{$port}{$param}" . "}$folder", $login, $pass);
         } catch(\Exception $e) {
             throw new CException("Couldn't open the inbox");
         }
