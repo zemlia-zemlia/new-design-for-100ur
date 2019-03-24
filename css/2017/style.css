@@ -1241,3 +1241,11 @@ article img {
     max-height:20px;
     margin: 0 5px;
 }
+
+.lead-page p {
+    font-size: 16px;
+    font-family: Arial,Helvetica,sans-serif;
+}
+.lead-page img {
+    margin: 10px auto;
+}
