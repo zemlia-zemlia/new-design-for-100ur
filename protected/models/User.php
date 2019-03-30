@@ -113,9 +113,9 @@ class User extends CActiveRecord
         );
     }
 
-    /** возвращает асоциативный массив, ключами которого являются 
+    /** возвращает асоциативный массив, ключами которого являются
      * коды ролей пользователей, а значениями - названия ролей
-     * 
+     *
      * @return array массив ролей пользователей (код => название)
      */
     static public function getRoleNamesArray()
@@ -135,19 +135,19 @@ class User extends CActiveRecord
 
     /**
      * Возвращает название роли пользователя
-     * 
+     *
      * @return string роль пользователя
      */
     public function getRoleName()
     {
         $rolesNames = self::getRoleNamesArray();
-        $roleName = $rolesNames[(int) $this->role];
+        $roleName = $rolesNames[(int)$this->role];
         return $roleName;
     }
 
     /**
      * возвращает массив активных объектов класса User, у которых роль Менеджер
-     * 
+     *
      * @return array массив активных объектов класса User
      */
     static public function getManagers()
@@ -162,7 +162,7 @@ class User extends CActiveRecord
     /**
      * возвращает массив, ключами которого являются id менеджеров
      *  а значениями - их имена
-     * 
+     *
      * @return array массив менеджеров (id => name)
      */
     static public function getManagersNames()
@@ -177,8 +177,8 @@ class User extends CActiveRecord
 
     /**
      * возвращает массив, ключами которого являются id активных юристов, а значениями - их имена
-     * 
-     * @return array Массив активных юристов (id => name) 
+     *
+     * @return array Массив активных юристов (id => name)
      */
     public static function getAllJuristsIdsNames()
     {
@@ -194,9 +194,9 @@ class User extends CActiveRecord
     }
 
     /**
-     * возвращает массив, ключами которого являются id активных покупателей, 
+     * возвращает массив, ключами которого являются id активных покупателей,
      * а значениями - их имена
-     * 
+     *
      * @return array Массив активных покупателей (id => name)
      */
     public static function getAllBuyersIdsNames()
@@ -222,7 +222,7 @@ class User extends CActiveRecord
 
     /**
      * Отношения с другими моделями
-     * 
+     *
      * @return array массив отношений
      */
     public function relations()
@@ -315,7 +315,7 @@ class User extends CActiveRecord
 
     /**
      * Метод, вызываемый перед сохранением объекта
-     * 
+     *
      * @return boolean
      */
     protected function beforeSave()
@@ -324,15 +324,15 @@ class User extends CActiveRecord
             // записываем название города, чтобы не дергать его джойном лишний раз
             if ($this->townId) {
                 $townNameRow = Yii::app()->db->createCommand()
-                        ->select('name')
-                        ->from('{{town}}')
-                        ->where('id=:id', array(':id' => $this->townId))
-                        ->limit(1)
-                        ->queryRow();
+                    ->select('name')
+                    ->from('{{town}}')
+                    ->where('id=:id', array(':id' => $this->townId))
+                    ->limit(1)
+                    ->queryRow();
                 $townName = $townNameRow['name'];
                 $this->townName = $townName;
             }
-            
+
             // если при создании пользователя в сессии есть id пригласившего, запишем его
             if ($this->isNewRecord && Yii::app()->user->getState('ref') > 0) {
                 $this->refId = Yii::app()->user->getState('ref');
@@ -346,7 +346,7 @@ class User extends CActiveRecord
     /**
      *  Отправляет пользователю письмо со ссылкой на подтверждение email.
      *  Если указан параметр $newPassword, он будет выслан в письме  как новый пароль
-     * 
+     *
      * @param string $newPassword Новый пароль, который необходимо отправить в письме
      * @return boolean true - письмо отправлено, false - не отправлено
      */
@@ -356,9 +356,9 @@ class User extends CActiveRecord
         $mailer = new GTMail(true); // отправляем через SMTP сервер
 
         $confirmLink = CHtml::decode(Yii::app()->createUrl('user/confirm', array(
-                            'email' => $this->email,
-                            'code' => $this->confirm_code,
-                ))) . "?utm_source=100yuristov&utm_medium=mail&utm_campaign=user_registration";
+                'email' => $this->email,
+                'code' => $this->confirm_code,
+            ))) . "?utm_source=100yuristov&utm_medium=mail&utm_campaign=user_registration";
 
         $mailer->subject = "100 Юристов - Подтверждение Email";
 
@@ -369,16 +369,16 @@ class User extends CActiveRecord
 
         if ($this->role == self::ROLE_JURIST) {
             $mailer->message .= "Вы зарегистрировались в качестве юриста на сайте " . CHtml::link("100 Юристов", Yii::app()->createUrl('/')) . "</p>" .
-                    "<p>Для активации профиля Вам необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";
+                "<p>Для активации профиля Вам необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";
         } elseif ($this->role == self::ROLE_BUYER) {
             $mailer->message .= "Вы зарегистрировались в качестве покупателя лидов на сайте " . CHtml::link("100 Юристов", Yii::app()->createUrl('/')) . "</p>" .
-                    "<p>Для активации профиля Вам необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";
+                "<p>Для активации профиля Вам необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";
         } elseif ($this->role == self::ROLE_PARTNER) {
             $mailer->message .= "Вы зарегистрировались в качестве вебмастера на сайте " . CHtml::link("100 Юристов", Yii::app()->createUrl('/')) . "</p>" .
-                    "<p>Для активации профиля Вам необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";
+                "<p>Для активации профиля Вам необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";
         } else {
             $mailer->message .= "Вы задали вопрос на сайте " . CHtml::link("100 Юристов", Yii::app()->createUrl('/')) . "</p>" .
-                    "<p>Для того, чтобы юристы увидели Ваш вопрос, необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";
+                "<p>Для того, чтобы юристы увидели Ваш вопрос, необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";
         }
 
         $mailer->message .= "<p><strong>" . CHtml::link("Подтвердить Email", $confirmLink, array('style' => ' padding: 10px;
@@ -408,9 +408,9 @@ class User extends CActiveRecord
     }
 
     /**
-     *  изменяет пароль пользователя на $newPassword, высылает ему на 
+     *  изменяет пароль пользователя на $newPassword, высылает ему на
      *  почту новый пароль. Если пароль не задан, генерируется произвольный пароль
-     * 
+     *
      * @param string $newPassword Новый пароль
      */
     public function changePassword($newPassword)
@@ -439,7 +439,7 @@ class User extends CActiveRecord
 
     /**
      * Отправляет пользователю его пароль по почте (используем после активации аккаунта)
-     * 
+     *
      * @param string $newPassword новый пароль
      * @return boolean true - удалось отправить письмо, false - не удалось
      */
@@ -465,7 +465,7 @@ class User extends CActiveRecord
 
     /**
      * Высылает на email пользователю ссылку на смену пароля
-     * 
+     *
      * @return boolean true - удалось отправить письмо, false - не удалось
      */
     public function sendChangePasswordLink()
@@ -482,8 +482,8 @@ class User extends CActiveRecord
         $mailer->subject = "Смена пароля пользователя";
         $mailer->message = "Здравствуйте!<br />
             Ваша ссылка для смены пароля на портале 100 Юристов:<br />" .
-                CHtml::link($changePasswordLink, $changePasswordLink) .
-                "<br />";
+            CHtml::link($changePasswordLink, $changePasswordLink) .
+            "<br />";
 
         $mailer->email = $this->email;
 
@@ -497,7 +497,7 @@ class User extends CActiveRecord
 
     /**
      * Высылает пароль $newPassword на email пользователю
-     * 
+     *
      * @param string $newPassword Новый пароль
      * @return boolean true - удалось отправить письмо, false - не удалось
      */
@@ -522,7 +522,7 @@ class User extends CActiveRecord
 
     /**
      * генерирует пароль длиной $len символов
-     * 
+     *
      * @param int $len Длина пароля
      * @return string Сгенерированный пароль
      */
@@ -533,7 +533,7 @@ class User extends CActiveRecord
 
     /**
      * Шифрует пароль
-     * 
+     *
      * @param string $password Незашифрованный пароль
      * @return string Зашифрованный пароль
      */
@@ -544,9 +544,9 @@ class User extends CActiveRecord
 
     /**
      * Проверка пароля
-     * 
+     *
      * @param string $password Введенный пользователем незашифрованный пароль
-     * @return boolean true - пароль верный, false - неверный 
+     * @return boolean true - пароль верный, false - неверный
      */
     public function validatePassword($password)
     {
@@ -555,8 +555,8 @@ class User extends CActiveRecord
 
     /**
      * возвращает массив объектов класса User, которые являются подчиненными менеджера
-     * 
-     * @return array Массив пользователей 
+     *
+     * @return array Массив пользователей
      */
     public function myEmployees()
     {
@@ -566,8 +566,8 @@ class User extends CActiveRecord
 
     /**
      * возвращает массив id подчиненных данного пользователя
-     * 
-     * @return type 
+     *
+     * @return type
      */
     public function myEmployeesIds()
     {
@@ -580,11 +580,11 @@ class User extends CActiveRecord
     }
 
     /**
-     * возвращает URL аватара текущего пользователя. Если аватар не задан, 
+     * возвращает URL аватара текущего пользователя. Если аватар не задан,
      * возвращает URL аватара по умолчанию
-     * 
+     *
      * @param string $size размер картинки: по умолчанию thumb - маленькая, по умолчанию - большая
-     * @return type 
+     * @return type
      */
     public function getAvatarUrl($size = 'thumb')
     {
@@ -601,21 +601,21 @@ class User extends CActiveRecord
 
     /**
      * Возвращает фамилию и инициалы пользователя, например, Путин В.В.
-     * 
+     *
      * @return string фамилия и инициалы
      */
     public function getShortName()
     {
         // Если не указана фамилия, вернем имя
-        if($this->lastName == '' && $this->name != '') {
+        if ($this->lastName == '' && $this->name != '') {
             return $this->name;
         }
-        
+
         $shortName = $this->lastName . ' ';
-        if($this->name != '') {
+        if ($this->name != '') {
             $shortName .= mb_substr($this->name, 0, 1, 'utf-8') . '.';
         }
-        if($this->name2 != '') {
+        if ($this->name2 != '') {
             $shortName .= mb_substr($this->name2, 0, 1, 'utf-8') . '.';
         }
         return $shortName;
@@ -668,7 +668,7 @@ class User extends CActiveRecord
 
     /**
      * отправка письма пользователю, на вопрос которого дан ответ
-     * 
+     *
      * @param Question $question Вопрос
      * @param Answer $answer Ответ
      * @return boolean Результат отправки: true - успешно, false - ошибка
@@ -734,7 +734,7 @@ class User extends CActiveRecord
 
     /**
      * функция отправки уведомления юристу или клиенту о новом комментарии на его ответ / комментарий
-     * 
+     *
      * @param Question $question Вопрос
      * @param Comment $comment Комментарий
      * @param boolean $isChildComment Является ли комментарий дочерним для другого
@@ -803,7 +803,7 @@ class User extends CActiveRecord
 
     /**
      * функция проверки кода в ссылке "отписаться от рассылок"
-     * 
+     *
      * @param string $code Код из ссылки "отписаться"
      * @param string $email Email из ссылки "отписаться"
      * @return boolean true, если код верный, false - если неверный
@@ -819,8 +819,8 @@ class User extends CActiveRecord
 
     /**
      * генерирует строку для возможности автологина пользователя
-     * 
-     * @return string Строка для автологина 
+     *
+     * @return string Строка для автологина
      */
     public function generateAutologinString()
     {
@@ -831,7 +831,7 @@ class User extends CActiveRecord
 
     /**
      * Автологин пользователя
-     * 
+     *
      * @param array $params Массив параметров
      * @return boolean Результат: true - успех, false - ошибка
      */
@@ -860,7 +860,7 @@ class User extends CActiveRecord
 
     /**
      * Отправляет покупателю письмо с уведомлением по его кампании
-     * 
+     *
      * @param Campaign $campaign кампания, к которой относится уведомление
      */
     public function sendBuyerNotification($eventType, $campaign = NULL)
@@ -883,7 +883,7 @@ class User extends CActiveRecord
                 $mailer->message = "<h1>Ваш баланс пополнен</h1>
                     <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />
                     Ваш баланс пополнен и составляет " . $this->balance . " руб. "
-                        . "Информация о списаниях и зачислениях доступна в <a href='" . $cabinetLink . "'>личном кабинете</a>.
+                    . "Информация о списаниях и зачислениях доступна в <a href='" . $cabinetLink . "'>личном кабинете</a>.
                     </p>";
                 break;
             case self::BUYER_EVENT_LOW_BALANCE:
@@ -891,7 +891,7 @@ class User extends CActiveRecord
                 $mailer->message = "<h1>Уведомление о расходе средств</h1>
                     <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />
                     Ваш баланс составляет " . $this->balance . " руб. "
-                        . "Пополнить баланс, увидеть информацию о списаниях и зачислениях можно в <a href='" . $cabinetLink . "'>личном кабинете</a>.
+                    . "Пополнить баланс, увидеть информацию о списаниях и зачислениях можно в <a href='" . $cabinetLink . "'>личном кабинете</a>.
                         
                     </p>";
                 break;
@@ -922,10 +922,10 @@ class User extends CActiveRecord
     public function calculateWebmasterBalance($cacheTime = 0)
     {
         $transactionsSumRow = Yii::app()->db->cache($cacheTime)->createCommand()
-                ->select("SUM(t.`sum`) balance")
-                ->from("{{partnerTransaction}} t")
-                ->where("t.partnerId=:userId AND t.status=:status", array(':userId' => $this->id, ':status' => PartnerTransaction::STATUS_COMPLETE))
-                ->queryRow();
+            ->select("SUM(t.`sum`) balance")
+            ->from("{{partnerTransaction}} t")
+            ->where("t.partnerId=:userId AND t.status=:status", array(':userId' => $this->id, ':status' => PartnerTransaction::STATUS_COMPLETE))
+            ->queryRow();
 
         return $transactionsSumRow['balance'];
     }
@@ -943,10 +943,10 @@ class User extends CActiveRecord
         }
 
         $transactionsSumRow = Yii::app()->db->cache($cacheTime)->createCommand()
-                ->select("SUM(t.`sum`) hold")
-                ->from("{{partnerTransaction}} t")
-                ->where("t.partnerId=:userId AND t.leadId!=0 AND t.datetime>=NOW()-INTERVAL :interval DAY", array(':userId' => $this->id, ':interval' => Yii::app()->params['leadHoldPeriodDays']))
-                ->queryRow();
+            ->select("SUM(t.`sum`) hold")
+            ->from("{{partnerTransaction}} t")
+            ->where("t.partnerId=:userId AND t.leadId!=0 AND t.datetime>=NOW()-INTERVAL :interval DAY", array(':userId' => $this->id, ':interval' => Yii::app()->params['leadHoldPeriodDays']))
+            ->queryRow();
 
         return $transactionsSumRow['hold'];
     }
@@ -957,7 +957,7 @@ class User extends CActiveRecord
     public function confirmOrders()
     {
         Yii::app()->db->createCommand()
-                ->update('{{order}}', ['status' => Order::STATUS_CONFIRMED], 'status=' . Order::STATUS_NEW . ' AND userId=' . $this->id);
+            ->update('{{order}}', ['status' => Order::STATUS_CONFIRMED], 'status=' . Order::STATUS_NEW . ' AND userId=' . $this->id);
     }
 
     /**
@@ -1015,15 +1015,15 @@ class User extends CActiveRecord
         $feedArray = [];
 
         $feed = Yii::app()->db->createCommand()
-                ->select("q.id, c.type, q.title, c.text, u.name, COUNT(*) counter")
-                ->from("{{question}} q")
-                ->leftJoin("{{answer}} a", "a.questionId = q.id")
-                ->leftJoin("{{comment}} c", "c.objectId = a.id")
-                ->leftJoin("{{user}} u", "u.id = c.authorId")
-                ->where("c.type=4 AND c.seen=0 AND a.authorId = :userId AND c.dateTime>NOW()-INTERVAL :days DAY", [':userId' => $this->id, ':days' => $days])
-                ->group("q.id")
-                ->order("c.id DESC")
-                ->queryAll();
+            ->select("q.id, c.type, q.title, c.text, u.name, COUNT(*) counter")
+            ->from("{{question}} q")
+            ->leftJoin("{{answer}} a", "a.questionId = q.id")
+            ->leftJoin("{{comment}} c", "c.objectId = a.id")
+            ->leftJoin("{{user}} u", "u.id = c.authorId")
+            ->where("c.type=4 AND c.seen=0 AND a.authorId = :userId AND c.dateTime>NOW()-INTERVAL :days DAY", [':userId' => $this->id, ':days' => $days])
+            ->group("q.id")
+            ->order("c.id DESC")
+            ->queryAll();
 
         if ($returnCount == true) {
             return sizeof($feed);
@@ -1085,12 +1085,12 @@ class User extends CActiveRecord
 
         // найдем последний запрос на смену статуса
         $lastRequest = Yii::app()->db->createCommand()
-                ->select('*')
-                ->from("{{userStatusRequest}}")
-                ->where("yuristId=:id AND isVerified=0", array(':id' => $this->id))
-                ->order('id DESC')
-                ->limit(1)
-                ->queryAll();
+            ->select('*')
+            ->from("{{userStatusRequest}}")
+            ->where("yuristId=:id AND isVerified=0", array(':id' => $this->id))
+            ->order('id DESC')
+            ->limit(1)
+            ->queryAll();
 
         $editProfilePage = CHtml::link('Обновить профиль', Yii::app()->createUrl('user/update', ['id' => $this->id]), ['class' => 'yellow-button']);
         $editQualificationPage = CHtml::link('Подтвердить', Yii::app()->createUrl('userStatusRequest/create'), ['class' => 'yellow-button']);
@@ -1177,6 +1177,40 @@ class User extends CActiveRecord
                 $this->yurcrmSource = $crmResponseDecoded['data']['source100yuristov'];
             }
         }
+    }
+
+    /**
+     * Получение статистики лидов вебмастера
+     */
+    public function getWebmasterLeadsStats($periodDays = 10)
+    {
+        $statsArray = [];
+
+        $query = "SELECT DATE(l.question_date) create_date, l.leadStatus, COUNT(l.id) counter, r.name region_name
+            FROM {{lead}} l
+            LEFT JOIN {{town}} t ON t.id = l.townId
+            LEFT JOIN {{region}} r ON r.id = t.regionId
+            WHERE sourceId IN (
+                SELECT id from {{leadsource}} WHERE userId = :userId
+            )
+            AND DATE(l.question_date) >= NOW() - INTERVAL :days DAY
+            GROUP BY DATE(l.question_date), l.leadStatus, region_name
+            ORDER BY l.id DESC";
+
+        $statsRows = Yii::app()->db->createCommand($query)
+            ->bindParam(":userId", $this->id, PDO::PARAM_INT)
+            ->bindParam(":days", $periodDays, PDO::PARAM_INT)
+            ->queryAll();
+
+        foreach ($statsRows as $row) {
+            $statsArray[$row['create_date']][$row['region_name']]['total_leads'] += $row['counter'];
+
+            if (in_array($row['leadStatus'], [Lead::LEAD_STATUS_BRAK, Lead::LEAD_STATUS_NABRAK])) {
+                $statsArray[$row['create_date']][$row['region_name']]['brak_leads'] += $row['counter'];
+            }
+        }
+
+        return $statsArray;
     }
 
 }

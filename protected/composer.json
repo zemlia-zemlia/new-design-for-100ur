@@ -9,7 +9,8 @@
         "ext-curl":"*",
         "ext-json":"*",
         "ext-imap": "*",
-        "ext-iconv": "*"
+        "ext-iconv": "*",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "codeception/codeception":"*",

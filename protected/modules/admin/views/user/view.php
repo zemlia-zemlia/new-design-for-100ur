@@ -1,5 +1,8 @@
 <?php
 /* @var $this UserController */
+
+use sto_yuristov\helpers\DateHelper;
+
 /* @var $model User */
 $this->pageTitle = 'Профиль пользователя ' . CHtml::encode($model->name) . '. ' . Yii::app()->name;
 
@@ -18,8 +21,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 ?>
 
 <style>
-    .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
-        padding:1px;
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        padding: 1px;
     }
 </style>
 
@@ -47,9 +50,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <table class="table table-bordered">
 
                     <?php
-// Показываем контактные данные сотрудников только секретарю и менеджерам
+                    // Показываем контактные данные сотрудников только секретарю и менеджерам
                     if (Yii::app()->user->checkAccess(User::ROLE_MANAGER) || Yii::app()->user->role == User::ROLE_SECRETARY):
-                        ?>    
+                        ?>
                         <tr>
                             <td><strong><?php echo $model->getAttributeLabel('email'); ?></strong></td>
                             <td><?php echo CHtml::encode($model->email); ?></td>
@@ -58,7 +61,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             <td><strong><?php echo $model->getAttributeLabel('phone'); ?></strong></td>
                             <td><?php echo CHtml::encode($model->phone); ?></td>
                         </tr>
-                    <?php endif; ?>    
+                    <?php endif; ?>
 
                     <tr>
                         <td><strong><?php echo $model->getAttributeLabel('birthday'); ?></strong></td>
@@ -107,22 +110,24 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
                     <tr>
                         <td>Баланс</td>
-                        <td><?php echo ($model->role == User::ROLE_PARTNER) ? round($model->calculateWebmasterBalance(), 2) : $model->balance; ?> руб.</td>
+                        <td><?php echo ($model->role == User::ROLE_PARTNER) ? round($model->calculateWebmasterBalance(), 2) : $model->balance; ?>
+                            руб.
+                        </td>
                     </tr>
 
-                    <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) && in_array($model->role, [User::ROLE_JURIST, User::ROLE_BUYER])):?>
+                    <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) && in_array($model->role, [User::ROLE_JURIST, User::ROLE_BUYER])): ?>
                         <td>Регистрация в YurCRM</td>
                         <td>
-                            <?php if($model->yurcrmSource > 0):?>
+                            <?php if ($model->yurcrmSource > 0): ?>
                                 Есть
-                            <?php else:?>
+                            <?php else: ?>
                                 <div id="yurcrm-register-result">
-                                Нет
-                                <?php echo CHtml::ajaxLink('создать аккаунт', Yii::app()->createUrl('/admin/user/registerInCrm', ['id' => $model->id]), ['success' => 'onRegisterUserInCRM']);?>
+                                    Нет
+                                    <?php echo CHtml::ajaxLink('создать аккаунт', Yii::app()->createUrl('/admin/user/registerInCrm', ['id' => $model->id]), ['success' => 'onRegisterUserInCRM']); ?>
                                 </div>
-                            <?php endif;?>
+                            <?php endif; ?>
                         </td>
-                    <?php endif;?>
+                    <?php endif; ?>
                 </table>
 
                 <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
@@ -132,6 +137,50 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <?php endif; ?>
 
                 <?php if ($model->role == User::ROLE_PARTNER): ?>
+
+                    <div class="vert-margin30">
+                        <h2>Статистика лидов по дням</h2>
+
+                        <?php $leadsStats = $model->getWebmasterLeadsStats(); ?>
+
+                        <?php if (sizeof($leadsStats) > 0): ?>
+                            <table class="table table-stripped">
+                                <tr>
+                                    <th>Регион</th>
+                                    <th class="text-right">Лидов</th>
+                                    <th class="text-right">Брак</th>
+                                    <th class="text-right">% брака</th>
+                                </tr>
+                                <?php foreach ($leadsStats as $date => $statsByDate): ?>
+                                    <tr>
+                                        <th colspan="4"><?php echo CustomFuncs::niceDate($date, false, true); ?></th>
+                                    </tr>
+                                    <?php foreach ($statsByDate as $regionName => $statsByRegion): ?>
+                                        <tr>
+                                            <td>
+                                                &nbsp;&nbsp; <?php echo $regionName; ?>
+                                            </td>
+                                            <td class="text-right">
+                                                <?php echo (int)$statsByRegion['total_leads']; ?>
+                                            </td>
+                                            <td class="text-right">
+                                                <?php echo (int)$statsByRegion['brak_leads']; ?>
+                                            </td>
+                                            <td class="text-right">
+                                                <?php
+                                                echo ((int)$statsByRegion['total_leads'] > 0) ?
+                                                    round((int)$statsByRegion['brak_leads'] / (int)$statsByRegion['total_leads'] * 100) . '%' :
+                                                    '-';
+                                                ?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endforeach; ?>
+                            </table>
+                        <?php endif; ?>
+                    </div>
+
+
                     <div class="vert-margin30">
                         <h2>Лиды вебмастера</h2>
 
@@ -145,7 +194,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         ));
                         ?>
                     </div>
-                    <hr />
+                    <hr/>
                 <?php endif; ?>
 
 
@@ -161,7 +210,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             <tr>
                                 <td><?php echo $campaign->id . ' ' . CHtml::link(trim($campaign->town->name . ' ' . $campaign->region->name), Yii::app()->createUrl('/admin/campaign/view', array('id' => $campaign->id))); ?></td>
                                 <td><?php echo $campaign->getActiveStatusName(); ?></td>
-                                <td><?php echo (int) $campaign->price; ?> руб.</td>
+                                <td><?php echo (int)$campaign->price; ?> руб.</td>
                             </tr>
                         <?php endforeach; ?>
                     </table>
@@ -197,12 +246,12 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     <h2>Транзакции вебмастера</h2>
                     <table class="table table-bordered table-hover table-striped">
                         <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Дата</th>
-                                <th>Сумма</th>
-                                <th>Комментарий</th>
-                            </tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>Дата</th>
+                            <th>Сумма</th>
+                            <th>Комментарий</th>
+                        </tr>
                         </thead>
                         <?php
                         $this->widget('zii.widgets.CListView', array(
@@ -217,7 +266,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <?php endif; ?>
 
 
-                    <?php if ($model->role == User::ROLE_BUYER): ?>        
+                <?php if ($model->role == User::ROLE_BUYER): ?>
                     <h2>Статистика продаж лидов по дням</h2>
                     <div class="vert-margin30">
                         <?php
@@ -225,9 +274,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             'model' => $searchModel,
                             'action' => Yii::app()->createUrl('admin/user/view', array('id' => $model->id)),
                         ));
-                        ?> 
+                        ?>
                     </div>
-    <?php if (is_array($leadsStats) && is_array($leadsStats['dates'])): ?>
+                    <?php if (is_array($leadsStats) && is_array($leadsStats['dates'])): ?>
 
                         <table class="table table-bordered">
                             <tr>
@@ -235,24 +284,24 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                 <th class="text-right">Количество</th>
                                 <th class="text-right">Сумма</th>
                             </tr>
-        <?php foreach ($leadsStats['dates'] as $date => $leadsByDate): ?>
+                            <?php foreach ($leadsStats['dates'] as $date => $leadsByDate): ?>
                                 <tr>
                                     <td><?php echo CustomFuncs::niceDate($date, false, false); ?></td>
                                     <td class="text-right"><?php echo $leadsByDate['count']; ?></td>
                                     <td class="text-right"><?php echo $leadsByDate['sum']; ?> руб.</td>
                                 </tr>
-        <?php endforeach; ?>
+                            <?php endforeach; ?>
                             <tr>
                                 <th></th>
                                 <th class="text-right"><?php echo $leadsStats['total']; ?></th>
                                 <th class="text-right"><?php echo $leadsStats['sum']; ?> руб.</th>
                             </tr>
                         </table>
-    <?php endif; ?>
-<?php endif; ?>
+                    <?php endif; ?>
+                <?php endif; ?>
             </div>
         </div>
-        
+
         <h4>Записи из лога</h4>
         <?php
         // выводим виджет с последними записями лога
@@ -260,12 +309,12 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             'class' => 'User',
             'subjectId' => $model->id,
         ]);
-        ?>		
+        ?>
     </div>
 
     <div class="col-md-4">
         <h2>Комментарии</h2>
-            <?php if (!is_null($commentModel)): ?>
+        <?php if (!is_null($commentModel)): ?>
             <div>
                 <strong>Ваш комментарий:</strong>
                 <?php
@@ -282,8 +331,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
         <?php if ($model->comments): ?>
 
-    <?php foreach ($model->comments as $comment): ?>
-        <?php if ($comment->status != Comment::STATUS_SPAM): ?>
+            <?php foreach ($model->comments as $comment): ?>
+                <?php if ($comment->status != Comment::STATUS_SPAM): ?>
                     <div class="user-comment" style="margin-left:<?php echo ($comment->level - 1) * 20; ?>px;">
 
                         <p>
@@ -292,16 +341,18 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             <span class="text-muted">
                             <?php echo CustomFuncs::niceDate($comment->dateTime, false, false); ?>
                             </span>
-                            <br />
-                        <?php echo CHtml::encode($comment->text); ?>
+                            <br/>
+                            <?php echo CHtml::encode($comment->text); ?>
                         </p>
-            <?php if (!is_null($commentModel)): ?>
+                        <?php if (!is_null($commentModel)): ?>
                             <div class="left-align">
-                                <a class="btn btn-xs btn-default" role="button" data-toggle="collapse" href="#collapse-comment-<?php echo $comment->id; ?>" aria-expanded="false">
+                                <a class="btn btn-xs btn-default" role="button" data-toggle="collapse"
+                                   href="#collapse-comment-<?php echo $comment->id; ?>" aria-expanded="false">
                                     Ответить
                                 </a>
-                            </div>    
-                            <div class="collapse child-comment-container" id="collapse-comment-<?php echo $comment->id; ?>">
+                            </div>
+                            <div class="collapse child-comment-container"
+                                 id="collapse-comment-<?php echo $comment->id; ?>">
                                 <strong>Ваш ответ:</strong>
                                 <?php
                                 $this->renderPartial('application.views.comment._form', array(
@@ -313,11 +364,11 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                 ));
                                 ?>
                             </div>
-                    <?php endif; ?>
+                        <?php endif; ?>
                     </div>
                 <?php endif; ?>
-    <?php endforeach; ?>
-<?php endif; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
 
     </div>
 
