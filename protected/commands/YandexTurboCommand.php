@@ -14,7 +14,7 @@ class YandexTurboCommand extends CConsoleCommand
         $host = $turboApi->requestHost();
         $turboApi->requestUploadAddress();
 
-        $tasks = $this->getTasks(2000);
+        $tasks = $this->getTasks(2000, false);
         $taskIds = [];
 
         foreach ($tasks as $task) {
@@ -103,7 +103,7 @@ class YandexTurboCommand extends CConsoleCommand
     /**
      * @return array
      */
-    private function getTasks($tasksLimit = 50)
+    private function getTasks($tasksLimit = 50, $turboEnabled = true)
     {
         $categories = $this->getCategories(4000);
         $questions = $this->getQuestions(30000);
@@ -116,7 +116,7 @@ class YandexTurboCommand extends CConsoleCommand
             $link = Yii::app()->createUrl('/questionCategory/alias', $category->getUrl());
             $taskItem = new TurboItem();
 
-            $taskXML = '<item turbo="true"><link>' . $link . '</link>';
+            $taskXML = '<item turbo="' . $turboEnabled . '"><link>' . $link . '</link>';
             $taskXML .= '<turbo:content><![CDATA[';
             $taskXML .= '<header>
                        <figure>
@@ -136,7 +136,7 @@ class YandexTurboCommand extends CConsoleCommand
             $link = Yii::app()->createUrl('/question/view', ['id' => $question['id']]);
             $taskItem = new TurboItem();
 
-            $taskXML = '<item turbo="true"><link>' . $link . '</link>';
+            $taskXML = '<item turbo="' . $turboEnabled . '"><link>' . $link . '</link>';
             $taskXML .= '<turbo:content><![CDATA[';
             $taskXML .= '<header>
                        <h1>' . $question['title'] . '</h1>
