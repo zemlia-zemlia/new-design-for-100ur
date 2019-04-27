@@ -14,7 +14,7 @@ class YandexTurboCommand extends CConsoleCommand
         $host = $turboApi->requestHost();
         $turboApi->requestUploadAddress();
 
-        $tasks = $this->getTasks(2000, false);
+        $tasks = $this->getTasks(2000, 'false');
         $taskIds = [];
 
         foreach ($tasks as $task) {
@@ -103,7 +103,7 @@ class YandexTurboCommand extends CConsoleCommand
     /**
      * @return array
      */
-    private function getTasks($tasksLimit = 50, $turboEnabled = true)
+    private function getTasks($tasksLimit = 50, $turboEnabled = 'true')
     {
         $categories = $this->getCategories(4000);
         $questions = $this->getQuestions(30000);
