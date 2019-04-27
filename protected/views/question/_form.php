@@ -45,26 +45,6 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
     
 </div>
 
-<!--
-<div class="row hidden-xs">
-    <div class="col-md-12">
-        <div class="form-group">
-            <label class="col-sm-4 control-label">Категория права</label>
-            <div class="col-sm-8">
-            <?php echo $form->dropDownList($model,'categories', $allDirections, array('class'=>'form-control')); ?>
-                <small>
-                <p class="text-muted">
-                    Правильный выбор категории поможет найти специалистов именно в этой отрасли права. Если Вы сомневаетесь в выборе, пропустите этот пункт.
-                </p>
-                </small>
-                <?php echo $form->error($model,'categories'); ?>
-            </div>
-            
-	</div>
-    </div>
-</div> 
--->
-
 <hr />
 
 <div class="row">

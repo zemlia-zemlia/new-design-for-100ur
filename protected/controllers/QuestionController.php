@@ -75,7 +75,7 @@ class QuestionController extends Controller
 
         if (isset($_POST['Answer'])) {
 
-            if(!Yii::app()->user->checkAccess(User::ROLE_JURIST)) {
+            if (!Yii::app()->user->checkAccess(User::ROLE_JURIST)) {
                 throw new CHttpException(403, 'Для того, чтобы отвечать на вопросы вы должны залогиниться на сайте как юрист');
             }
 
@@ -220,7 +220,7 @@ class QuestionController extends Controller
         $pay = (isset($_GET['pay'])) ? true : false;
 
         // Если перешли из виджета задай вопрос юристу
-        if(isset($_POST['komm'])) {
+        if (isset($_POST['komm'])) {
             $question->questionText = CHtml::encode($_POST['komm']);
         }
 
@@ -296,16 +296,23 @@ class QuestionController extends Controller
                 }
 
                 $lead->leadStatus = Lead::LEAD_STATUS_DEFAULT; // по умолчанию лид никуда не отправляем
-                //CustomFuncs::printr($lead);Yii::app()->end();
 
                 $duplicates = $lead->findDublicates(86400);
-                //CustomFuncs::printr($duplicates);Yii::app()->end();
                 if ($duplicates) {
-                    throw new CHttpException(400, 'Похоже, Вы пытаетесь отправить заявку несколько раз. Ваша заявка уже сохранена.');
+                    $lead->leadStatus = Lead::LEAD_STATUS_DUPLICATE;
                 }
 
                 if ($lead->save()) {
-                    $question->status = Question::STATUS_NEW;
+
+                    // Если клиент задает второй вопрос и уже подтвердил почту, избавим его от необходимости подтверждать повторно
+                    if (Yii::app()->user->email && Yii::app()->user->active100 == 1) {
+                        $question->status = Question::STATUS_CHECK;
+                        $question->authorId = Yii::app()->user->id;
+                        $question->email = Yii::app()->user->email;
+                        $question->publishDate = (new DateTime())->format('Y-m-d H:i:s');
+                    } else {
+                        $question->status = Question::STATUS_NEW;
+                    }
 
                     if ($question->save()) {
                         // после сохранения вопроса удаляем id источника из сессии, чтобы вебмастер не добавил несколько вопросов
@@ -347,15 +354,26 @@ class QuestionController extends Controller
                             }
                         }
 
+                        if (Yii::app()->user->email && Yii::app()->user->active100 == 1) {
+                            $this->redirect(array('question/view', 'id' => $question->id));
+                        }
                         $this->redirect(array('confirm', 'qId' => $question->id, 'sId' => $question->sessionId));
                     }
                 }
             }
         }
 
-        //$townsArray = Town::getTownsIdsNames();
-        //$townsArray = array();
-        //CustomFuncs::printr($townsArray);
+        if (!$question->authorName && Yii::app()->user->name) {
+            $question->authorName = Yii::app()->user->name;
+        }
+
+        if (!$question->phone && Yii::app()->user->phone) {
+            $question->phone = Yii::app()->user->phone;
+        }
+
+        if (!$question->townId && Yii::app()->user->townId) {
+            $question->townId = Yii::app()->user->townId;
+        }
 
         $this->render('create', array(
             'model' => $question,
@@ -678,61 +696,59 @@ class QuestionController extends Controller
             $lead->sourceId = 3;
             $lead->type = Lead::TYPE_CALL;
 
-            /**
-             * @todo заменить следующую проверку вызовом метода Lead::findDublicates()
-             */
-            $existingLeads = Yii::app()->db->createCommand()
-                ->select('phone')
-                ->from('{{lead}}')
-                ->where('question_date>NOW()- INTERVAL 12 HOUR')
-                ->queryAll();
-            // массив, в котором будут храниться телефоны лидов, которые добавлены в базу за последний день, чтобы не добавить одного лида несколько раз
-            $existingLeadsPhones = array();
-
-            foreach ($existingLeads as $existingLead) {
-                $existingLeadsPhones[] = Question::normalizePhone($existingLead['phone']);
+            $duplicates = $lead->findDublicates(86400);
+            if ($duplicates) {
+                $lead->leadStatus = Lead::LEAD_STATUS_DUPLICATE;
             }
 
-            if (in_array($lead->phone, $existingLeadsPhones)) {
-                $lead->addError('phone', "Похоже, вы пытаетесь задать свой вопрос повторно");
-            } else {
+            if ($lead->validate()) {
+                $lead->question = CHtml::encode('Нужна консультация юриста. Перезвоните мне. ' . $lead->question);
 
-                if ($lead->validate()) {
-                    $lead->question = CHtml::encode('Нужна консультация юриста. Перезвоните мне. ' . $lead->question);
+                if ($lead->save()) {
+                    // сохраним категории, к которым относится вопрос, если категория указана
+                    if (isset($_POST['Lead']['categories']) && $_POST['Lead']['categories'] != 0) {
 
-                    if ($lead->save()) {
-                        // сохраним категории, к которым относится вопрос, если категория указана
-                        if (isset($_POST['Lead']['categories']) && $_POST['Lead']['categories'] != 0) {
+                        $lead2category = new Lead2Category;
+                        $lead2category->leadId = $lead->id;
+                        $leadCategory = (int)$_POST['Lead']['categories'];
+                        $lead2category->cId = $leadCategory;
 
-                            $lead2category = new Lead2Category;
-                            $lead2category->leadId = $lead->id;
-                            $leadCategory = (int)$_POST['Lead']['categories'];
-                            $lead2category->cId = $leadCategory;
+                        if ($lead2category->save()) {
+                            // проверим, не является ли указанная категория дочерней
+                            // если является, найдем ее родителя и запишем в категории вопроса
+                            foreach ($allDirectionsHierarchy as $parentId => $parentCategory) {
+                                if (!$parentCategory['children'])
+                                    continue;
 
-                            if ($lead2category->save()) {
-                                // проверим, не является ли указанная категория дочерней
-                                // если является, найдем ее родителя и запишем в категории вопроса
-                                foreach ($allDirectionsHierarchy as $parentId => $parentCategory) {
-                                    if (!$parentCategory['children'])
-                                        continue;
-
-                                    foreach ($parentCategory['children'] as $childId => $childCategory) {
-                                        if ($childId == $leadCategory) {
-                                            $lead2category = new Lead2Category();
-                                            $lead2category->leadId = $lead->id;
-                                            $lead2category->cId = $parentId;
-                                            $lead2category->save();
-                                            break;
-                                        }
+                                foreach ($parentCategory['children'] as $childId => $childCategory) {
+                                    if ($childId == $leadCategory) {
+                                        $lead2category = new Lead2Category();
+                                        $lead2category->leadId = $lead->id;
+                                        $lead2category->cId = $parentId;
+                                        $lead2category->save();
+                                        break;
                                     }
                                 }
                             }
-
                         }
-                        $this->redirect(array('weCallYou'));
+
                     }
+                    $this->redirect(array('weCallYou'));
                 }
             }
+
+        }
+
+        if (!$lead->name && Yii::app()->user->name) {
+            $lead->name = Yii::app()->user->name;
+        }
+
+        if (!$lead->phone && Yii::app()->user->phone) {
+            $lead->phone = Yii::app()->user->phone;
+        }
+
+        if (!$lead->townId && Yii::app()->user->townId) {
+            $lead->townId = Yii::app()->user->townId;
         }
 
         $townsArray = Town::getTownsIdsNames();

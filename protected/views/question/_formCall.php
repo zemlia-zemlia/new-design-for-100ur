@@ -1,5 +1,10 @@
 <?php
 $allDirections = array(0 => 'Не выбрано') + $allDirections;
+
+if(!is_null($model->town->name)) {
+    $currenTownName = $model->town->name;
+}
+
 ?>
 <?php
 $form = $this->beginWidget('CActiveForm', array(

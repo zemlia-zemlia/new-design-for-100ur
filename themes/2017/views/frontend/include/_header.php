@@ -166,8 +166,6 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
 
                         <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/docs/')) ? CHtml::link("Заказать документы", Yii::app()->createUrl('question/docs'), array('class' => '')) : '<span class="active">Заказать документы</span>'; ?></li>
 
-                        <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/services/')) ? CHtml::link("Заказать услуги", Yii::app()->createUrl('question/services'), array('class' => '')) : '<span class="active">Заказать услуги</span>'; ?></li>
-
                         <li class=""><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/russia/') ? CHtml::link('Каталог юристов', Yii::app()->createUrl('/yurist/russia/')) : '<span class="active">Каталог юристов</span>'; ?></li>
 
                         <?php if (Yii::app()->user->role == User::ROLE_CLIENT): ?>
