@@ -9,7 +9,7 @@
         <link>https://100yuristov.com/</link>
         <language>ru</language>
 
-        <item turbo="true">
+        <item turbo="false">
             <link>https://100yuristov.com/</link>
             <turbo:content>
                 <![CDATA[
@@ -74,7 +74,7 @@
             </item>
         
         
-            <item turbo="true">
+            <item turbo="false">
             <link>https://100yuristov.com/site/crm/</link>
             <turbo:content>
                 <![CDATA[
@@ -119,7 +119,7 @@
             </turbo:content>
         </item>
         
-        <item turbo="true">
+        <item turbo="false">
             <link>https://100yuristov.com/site/goryachaya_liniya/</link>
             <turbo:content>
                 <![CDATA[
@@ -181,7 +181,7 @@
         </item>
         
         
-        <item turbo="true">
+        <item turbo="false">
             <link>https://100yuristov.com/site/lead/</link>
             <turbo:content>
                 <![CDATA[

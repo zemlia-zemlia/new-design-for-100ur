@@ -41,20 +41,6 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
 
                 <div id="left-bar" class="vert-margin20">
 
-                    <div class="vert-margin30 inside">
-                        <h3>Топ юристов</h3>
-                        <p class="text-center small">Рейтинг юристов по количеству консультаций за последние 30 дней</p>
-                        <?php
-                        // выводим виджет с топовыми юристами
-                        $this->widget('application.widgets.TopYurists.TopYurists', array(
-                            'cacheTime' => 30,
-                            'limit' => 3,
-                            'fetchType' => TopYurists::FETCH_RANKED,
-                            'template' => 'shortList',
-                        ));
-                        ?>
-                    </div>
-
                     <h3 id="left-menu-switch" class="">Темы вопросов</h3>
                     <?php
                     // выводим виджет с деревом категорий
@@ -63,6 +49,20 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
 
                 </div>
 
+                <div class="vert-margin30 inside">
+                    <h3>Топ юристов</h3>
+                    <p class="text-center small">Рейтинг юристов по количеству консультаций за последние 30 дней</p>
+                    <?php
+                    // выводим виджет с топовыми юристами
+                    $this->widget('application.widgets.TopYurists.TopYurists', array(
+                        'cacheTime' => 30,
+                        'limit' => 3,
+                        'fetchType' => TopYurists::FETCH_RANKED,
+                        'template' => 'shortList',
+                    ));
+                    ?>
+                </div>
+                    
                 <div class="vert-margin20">
                     <?php
                     // выводим виджет с формой

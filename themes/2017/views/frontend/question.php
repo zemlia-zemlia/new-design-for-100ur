@@ -47,7 +47,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                     <div class="vert-margin30">
                         <div class="flat-panel inside">
                             <p class="lead text-center">
-                                <?php echo CHtml::link('<strong>Зачем юристу отвечать на вопросы + конкурс</strong>', Yii::app()->createUrl('site/yuristam')); ?>
+                                <?php echo CHtml::link('<strong>Зачем юристу отвечать на вопросы?</strong>', Yii::app()->createUrl('site/yuristam')); ?>
                             </p>
                         </div>
                     </div>

@@ -66,6 +66,8 @@ blockquote {
 .breadcrumbs {
     margin-bottom: 10px;
     padding: 3px;
+    background-color: #fbfbfb;
+    border: #efefef 1px solid;
 }
 
 .right-align {
@@ -122,7 +124,7 @@ div.errorSummary {
 }
 
 .hotline-wrapper {
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 .header-phone {
@@ -727,6 +729,7 @@ div.errorSummary {
 
 .recent-categories a {
     color:#000;
+    font-size: 17px;
 }
 
 .category-preview-wrapper {
@@ -1152,6 +1155,10 @@ ul.hor-list-menu a.yellow-button,
     margin-top: 15px;
 }
 
+.post-hero {
+    background-color: #d8d8d8;
+}
+
 @media (min-width: 768px) {
     .post-hero {
         position: relative;
@@ -1216,9 +1223,9 @@ article img {
 
 .consult-phone-widget {
     padding: 10px;
-    background-color: #eeffff;
+    background-color: #ffffff;
     text-align: center;
-    border: #a2e2c6 1px solid;
+    border: #c8cac9 1px solid;
 }
 
 .consult-phone-widget p {
@@ -1227,9 +1234,9 @@ article img {
 
 .question-docs-block {
     padding: 10px;
-    background-color: #eeffff;
+    background-color: #ffffff;
     text-align: center;
-    border: #a2e2c6 1px solid;
+    border: #c8cac9 1px solid;
 }
 
 .question-cards {
@@ -1248,4 +1255,31 @@ article img {
 }
 .lead-page img {
     margin: 10px auto;
+}
+
+.article ul li {
+    background: url(/pics/Ok-icon.png) no-repeat;
+	padding: 1px 0 20px 28px;
+	background-position: 0px 5px;
+    background-repeat: no-repeat;
+    list-style-type: none;
+}
+
+.article h2 {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.article ul {
+	padding-top: 20px;
+}
+
+.article ol {
+    background-color: #fbfbfb;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 50px;
+    color: #000;
+    font-size: 16px;
+    border: #e0e4e2 1px solid;
 }

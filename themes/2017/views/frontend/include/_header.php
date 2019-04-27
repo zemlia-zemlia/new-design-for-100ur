@@ -50,7 +50,7 @@
                     </div>
                 </div>
 
-                <div class="row vert-margin20">
+                <div class="row">
                     <div class="col-md-4 col-sm-4">
                         <div class="logo-wrapper">
                             <?php if ($_SERVER['REQUEST_URI'] != '/'): ?>
@@ -70,7 +70,7 @@
                             <ul class="hor-list-menu">
                                 <li><?php echo CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER) ? '/cabinet' : '/user')); ?></li>
                                 <?php if (Yii::app()->user->role == User::ROLE_PARTNER): ?>
-                                    <li><?php echo CHtml::link('Кабинет', Yii::app()->createUrl('/webmaster'), array('class' => '')); ?></li>
+                                    <li><?php echo CHtml::link('Кабинет вебмастера', Yii::app()->createUrl('/webmaster'), array('class' => '')); ?></li>
                                 <?php endif; ?>
 
                                 <?php if (Yii::app()->user->role == User::ROLE_BUYER || Yii::app()->user->role == User::ROLE_PARTNER): ?>
@@ -119,14 +119,15 @@
                     <?php endif; ?>
 
                     <?php if (Yii::app()->user->isGuest): ?>
-
+                        <div class="col-md-4 col-sm-4">
                         <?php 
                         // выводим виджет с номером 8800
-                        // $this->widget('application.widgets.Hotline.HotlineWidget', array(
-                        //    'showAlways' => true,
+                         $this->widget('application.widgets.Hotline.HotlineWidget', array(
+                            'showAlways' => true,
                                 //'showPhone'     =>  false, // true - показать телефон, false - форму запроса города
-                       // ));
+                        ));
                         ?>
+                        </div>
                     <?php endif; ?>
 
                 </div>

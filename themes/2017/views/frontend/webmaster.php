@@ -25,7 +25,6 @@
         <div class="row">
             <div class="col-md-3 col-sm-3 center-align">
                 <div class="logo-wrapper">
-                     <h3>Кабинет вебмастера</h3>
                     <?php if ($_SERVER['REQUEST_URI'] != '/'): ?>
                         <a href="/webmaster/">
                             <img src="/pics/2017/logo_white.png" alt="100 Юристов и Адвокатов"
@@ -34,6 +33,7 @@
                     <?php else: ?>
                         <img src="/pics/2017/logo_white.png" alt="100 Юристов и Адвокатов" title="Юридический портал"/>
                     <?php endif; ?>
+                     	<h3>Кабинет вебмастера</h3>
 
                 </div>
 
@@ -118,8 +118,8 @@
                             </h4>
                             <p class="text-center">
                                 <small>Привлекаем <?php echo $source->getTypeName(); ?>
-                                    <?php if ($source->type == Leadsource::TYPE_LEAD): ?>
-                                        <?php echo CHtml::link('Добавить вручную', Yii::app()->createUrl('/webmaster/lead/create', array('sourceId' => $source->id))); ?>
+                                    <?php if ($source->type == Leadsource::TYPE_LEAD): ?> <br>
+                                        <?php echo CHtml::link('Добавить лид вручную', Yii::app()->createUrl('/webmaster/lead/create', array('sourceId' => $source->id))); ?>
                                     <?php endif; ?>
                                 </small>
                             </p>

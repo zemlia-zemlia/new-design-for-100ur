@@ -92,7 +92,9 @@
                     <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                         <span itemprop="addressLocality">Москва</span> <span itemprop="streetAddress">Шлюзовая набережная д.6 стр.4</span>
                     </div>
-                    <span itemprop="telephone">8 (499) 288-22-40</span>
+                    <span itemprop="telephone">8 (499) 288-22-40</span><br/>
+                    <span itemprop="email">admin@100yuristov.com</span>
+
                 </div>
 
             </div>

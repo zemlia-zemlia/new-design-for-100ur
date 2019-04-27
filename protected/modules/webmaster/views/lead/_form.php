@@ -4,6 +4,7 @@
 /* @var $form CActiveForm */
 ?>
 
+
 <div class="form new-lead-form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -13,19 +14,26 @@
 )); ?>
 
 	<?php echo $form->errorSummary($model, "Исправьте ошибки"); ?>
-
-        <div class="form-group">
-		<?php echo $form->labelEx($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255, 'class'=>'form-control')); ?>
-		<?php echo $form->error($model,'name'); ?>
+<div class="row">
+	<div class="col-sm-6">
+	    <div class="form-group">
+			<?php echo $form->labelEx($model,'name'); ?>
+			<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255, 'class'=>'form-control')); ?>
+			<?php echo $form->error($model,'name'); ?>
+		</div>
 	</div>
+</div>
 
-	<div class="form-group">
-		<?php echo $form->labelEx($model,'phone'); ?>
-		<?php echo $form->textField($model,'phone',array('size'=>60,'maxlength'=>255, 'class'=>'form-control phone-mask')); ?>
-		<?php echo $form->error($model,'phone'); ?>
+<div class="row">
+	<div class="col-sm-6">
+		<div class="form-group">
+			<?php echo $form->labelEx($model,'phone'); ?>
+			<?php echo $form->textField($model,'phone',array('size'=>60,'maxlength'=>255, 'class'=>'form-control phone-mask')); ?>
+			<?php echo $form->error($model,'phone'); ?>
+		</div>
 	</div>
-        
+</div>  
+
         <?php if($model->sourceId && $model->isNewRecord):?>
             <?php echo $form->hiddenField($model,'sourceId'); ?>
         <?php else:?>
@@ -36,25 +44,36 @@
             </div>
         <?php endif;?>
 
-	<div class="form-group">
-		<?php echo $form->labelEx($model,'question'); ?>
-		<?php echo $form->textArea($model,'question',array('rows'=>6, 'class'=>'form-control')); ?>
-		<?php echo $form->error($model,'question'); ?>
+<div class="row">
+	<div class="col-sm-8">
+		<div class="form-group">
+			<?php echo $form->labelEx($model,'question'); ?>
+			<?php echo $form->textArea($model,'question',array('rows'=>6, 'class'=>'form-control')); ?>
+			<?php echo $form->error($model,'question'); ?>
+		</div>
 	</div>
-
-	<div class="form-group">
-		<?php echo $form->labelEx($model,'town'); ?>
-                <?php echo CHtml::textField('town', $model->town->name, array(
-                    'id'            =>  'town-selector', 
-                    'class'         =>  'form-control',
-                )); ?>
-                <?php
-                    echo $form->hiddenField($model, 'townId', array('id'=>'selected-town'));
-                ?>
-		<?php echo $form->error($model,'townId'); ?>
+</div>  
+<div class="row">
+	<div class="col-sm-6">
+		<div class="form-group">
+			<?php echo $form->labelEx($model,'town'); ?>
+	                <?php echo CHtml::textField('town', $model->town->name, array(
+	                    'id'            =>  'town-selector', 
+	                    'class'         =>  'form-control',
+	                )); ?>
+	                <?php
+	                    echo $form->hiddenField($model, 'townId', array('id'=>'selected-town'));
+	                ?>
+			<?php echo $form->error($model,'townId'); ?>
+		</div>
 	</div>
+</div>
 
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-primary btn-block')); ?>
+<div class="row">
+	<div class="col-sm-8">
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-primary btn-block btn-lg')); ?>
+	</div>
+</div>
 
 <?php $this->endWidget(); ?>
 
