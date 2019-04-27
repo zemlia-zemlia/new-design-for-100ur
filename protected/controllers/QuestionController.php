@@ -37,7 +37,7 @@ class QuestionController extends Controller
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'search'
-                'actions' => array('search', 'updateAnswer', 'checkCommentsAsRead'),
+                'actions' => array('search', 'updateAnswer', 'checkCommentsAsRead', 'my'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -74,6 +74,11 @@ class QuestionController extends Controller
         $answerModel = new Answer();
 
         if (isset($_POST['Answer'])) {
+
+            if(!Yii::app()->user->checkAccess(User::ROLE_JURIST)) {
+                throw new CHttpException(403, 'Для того, чтобы отвечать на вопросы вы должны залогиниться на сайте как юрист');
+            }
+
             // отправлен ответ, сохраним его
             $answerModel->attributes = $_POST['Answer'];
             $answerModel->authorId = Yii::app()->user->id;
@@ -1136,6 +1141,26 @@ class QuestionController extends Controller
         }
 
 
+    }
+
+    /**
+     * Отображение страницы Мои вопросы
+     */
+    public function actionMy()
+    {
+        $user = User::model()->findByPk(Yii::app()->user->id);
+
+        $questionCriteria = new CDbCriteria();
+        $questionCriteria->order = 'publishDate DESC';
+        $questionCriteria->with = 'answersCount';
+        $questionCriteria->addColumnCondition(['authorId' => $user->id]);
+        $questionCriteria->addInCondition('status', [Question::STATUS_PUBLISHED, Question::STATUS_CHECK]);
+        $questions = Question::model()->findAll($questionCriteria);
+
+        $this->render('my', array(
+            'questions' => $questions,
+            'user' => $user,
+        ));
     }
 
 }

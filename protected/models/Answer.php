@@ -21,6 +21,8 @@ class Answer extends CActiveRecord {
     // время на редактирование юристом собственного ответа (сек.)
     const EDIT_TIMEOUT = 4800;
 
+    const ANSWER_MIN_LENGTH = 50;
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -48,7 +50,7 @@ class Answer extends CActiveRecord {
             array('questionId, authorId, status', 'numerical', 'integerOnly' => true),
             array('videoLink', 'url'),
             array('answerText', 'required', 'except' => 'addVideo', 'message' => 'Не введен текст ответа'),
-            array('answerText', 'length', 'except' => 'addVideo', 'min' => 100, 'tooShort' => 'Текст ответа слишком короткий (минимум 100 символов)'),
+            array('answerText', 'length', 'except' => 'addVideo', 'min' => self::ANSWER_MIN_LENGTH, 'tooShort' => 'Текст ответа слишком короткий (минимум ' . self::ANSWER_MIN_LENGTH . ' символов)'),
             array('answerText', 'validateText', 'except' => 'addVideo', 'message' => 'Текст ответа содержит запрещенные слова (например, Email адреса)'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.

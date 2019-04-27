@@ -20,9 +20,11 @@
     </p>
     <div class="form-group">
         <?php echo $form->textArea($model, 'answerText', array('rows' => 7, 'class' => 'form-control limited-text')); ?>
-        <div class="chars-counter text-right"></div>
+        <div class="chars-counter text-center"></div>
         <?php echo $form->error($model, 'answerText'); ?>
-        <p class="text-muted small center-align"><strong>ДОПУСТИМО!</strong> Ссылаться в ответах, на контактные данные
+        <p class="text-muted small center-align">
+            Минимальная длина ответа: <?php echo Answer::ANSWER_MIN_LENGTH;?> символов<br />
+            <strong>ДОПУСТИМО!</strong> Ссылаться в ответах, на контактные данные
             указанные в вашем профиле.</p>
     </div>
 
