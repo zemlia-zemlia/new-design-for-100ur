@@ -20,16 +20,18 @@ class QuestionsToCSVCommand extends CConsoleCommand
             ->from("{{question}} q")
             ->leftJoin("{{question2category}} q2c", 'q.id = q2c.qId')
             ->leftJoin("{{questionCategory}} c", 'c.id = q2c.cId')
+            ->where("c.id IS NOT NULL")
             ->group('q.id')
-            ->limit(1000);
+            ->limit(10000);
 
         $questions = $command->queryAll();
         var_dump($questions);
 
         $fp = fopen(__DIR__. '/output/questions.csv', 'w');
+        $order   = ["\r\n", "\n", "\r", "\""];
+        $replace = '';
         foreach ($questions as $question) {
-            $question['questionText'] = str_replace('\r', '', $question['questionText']);
-            $question['questionText'] = str_replace('\n', '', $question['questionText']);
+            $question['questionText'] = str_replace($order, $replace, $question['questionText']);
 //            $question['questionText'] = nl2br($question['questionText']);
             fputcsv($fp, $question);
         }
