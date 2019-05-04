@@ -164,6 +164,7 @@ class UserController extends Controller
     // страница редактирования пользователя 
     public function actionUpdate($id)
     {
+        ini_set('upload_max_filesize', '10M');
         $this->layout = '//frontend/smart';
         $model = User::model()->findByPk($id);
 

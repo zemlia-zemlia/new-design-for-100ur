@@ -53,14 +53,13 @@ class UserStatusRequestController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
+        ini_set('upload_max_filesize', '10M');
         $model = new UserStatusRequest;
 
         // модель для работы со сканом
         $userFile = new UserFile;
-
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
 
         if (isset($_POST['UserStatusRequest'])) {
             $model->attributes = $_POST['UserStatusRequest'];
@@ -78,23 +77,15 @@ class UserStatusRequestController extends Controller {
                     break;
             }
 
-            //$model->validateRequest();
             $model->validate();
-//                    CustomFuncs::printr($model->errors);Yii::app()->end();
             // загрузка скана
             if (!empty($_FILES) && !$model->errors && $model->scenario == 'createYurist') {
-                //echo 'files are loaded..';
-                //CustomFuncs::printr($_FILES);
+
                 $scan = CUploadedFile::getInstance($userFile, 'userFile');
-                //CustomFuncs::printr($scan);
                 if ($scan && $scan->getError() == 0) { // если файл нормально загрузился
                     $scanFileName = md5($scan->getName() . $scan->getSize() . mt_rand(10000, 100000)) . "." . $scan->getExtensionName();
-//                    Yii::app()->ih
-//                            ->load($scan->tempName)
-//                            ->save(Yii::getPathOfAlias('webroot') . UserFile::USER_FILES_FOLDER . '/' . $scanFileName);
+
                     $scan->saveAs(Yii::getPathOfAlias('webroot') . UserFile::USER_FILES_FOLDER . '/' . $scanFileName);
-                    // CustomFuncs::printr($scan);
-                    // Yii::app()->end();
 
                     $userFile->userId = Yii::app()->user->id;
                     $userFile->name = $scanFileName;
@@ -110,8 +101,6 @@ class UserStatusRequestController extends Controller {
                     }
                 } else {
                     $modelHasErrors = true;
-                    //CustomFuncs::printr($userFile->errors);
-                    //echo "не загружен файл";
                 }
             }
             
