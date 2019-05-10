@@ -38,4 +38,22 @@ class QuestionsToCSVCommand extends CConsoleCommand
 
         fclose($fp);
     }
+
+    public function actionTypes()
+    {
+        $command = Yii::app()->db->createCommand()
+            ->select('q.id, q.questionText, q.status')
+            ->from("{{question}} q")
+            ->where("q.status NOT IN (0, 5)")
+            ->limit(100000);
+
+        $questions = $command->queryAll();
+        $fp = fopen(__DIR__. '/output/questions_status.csv', 'w');
+        $order   = ["\r\n", "\n", "\r", "\""];
+        $replace = '';
+        foreach ($questions as $question) {
+            $question['questionText'] = str_replace($order, $replace, $question['questionText']);
+            fputcsv($fp, $question);
+        }
+    }
 }
