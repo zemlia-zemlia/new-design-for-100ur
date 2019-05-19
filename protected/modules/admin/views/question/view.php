@@ -16,18 +16,31 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
  ));
 
 ?>
-<div class="vert-margin30">
-<h1>Вопрос #<?php echo $model->id; ?></h1>
-<?php if($model->title):?>
-    <h3><?php echo CHtml::encode($model->title);?> </h3>
-<?php endif;?>
-</div>
+
 
 <div class="row">
 	<div class="col-sm-8">
+		<div class="vert-margin30">
+			<h1>Вопрос #<?php echo $model->id; ?></h1>
+			<?php if($model->title):?>
+			    <h3><?php echo CHtml::encode($model->title);?> </h3>
+			<?php endif;?>
+		</div>
+
+
 		<p>
 			<?php echo nl2br(CHtml::encode($model->questionText));?>
 		</p>
+
+		<h2>Ответы</h2>
+			<?php $this->widget('zii.widgets.CListView', array(
+				'dataProvider'  =>  $answersDataProvider,
+				'itemView'      =>  'application.views.answer._view',
+			        'emptyText'     =>  'Не найдено ни одного ответа',
+			        'summaryText'   =>  'Показаны ответы с {start} до {end}, всего {count}',
+			        'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
+
+			)); ?>
 	</div>
 	<div class="col-sm-4">
 		<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?> 
@@ -60,14 +73,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 </div>
 
 
-<h2>Ответы</h2>
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'  =>  $answersDataProvider,
-	'itemView'      =>  'application.views.answer._view',
-        'emptyText'     =>  'Не найдено ни одного ответа',
-        'summaryText'   =>  'Показаны ответы с {start} до {end}, всего {count}',
-        'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
 
-)); ?>
 
 <?php //echo CHtml::link('Добавить ответ', Yii::app()->createUrl('/admin/answer/create',array('questionId'=>$model->id)),array('class'=>'btn btn-primary')); ?>
