@@ -113,8 +113,6 @@ class QuestionController extends Controller
                 // является, сохраним его как дочерний комментарий
                 $rootComment = Comment::model()->findByPk($commentModel->parentId);
                 $commentModel->appendTo($rootComment);
-            } else {
-                // не является, сохраним его как комментарий верхнего уровня
             }
 
             // сохраняем комментарий с учетом его иерархии
@@ -123,18 +121,8 @@ class QuestionController extends Controller
             }
         }
 
-        // выборка ответов
-        $criteria = new CDbCriteria;
-        $criteria->order = 't.id ASC';
-        $criteria->with = "comments";
-        $criteria->addColumnCondition(['questionId' => $model->id]);
-
-        $answersDataProvider = new CActiveDataProvider('Answer', [
-            'criteria' => $criteria,
-            'pagination' => [
-                'pageSize' => 20,
-            ],
-        ]);
+        // выборка ответов для текущего вопроса
+        $answersDataProvider = $answerModel->getAnswersDataProviderByQuestion($model);
 
         // массив с id авторов ответов к текущему вопросу
         // запишем в него авторов ответов, чтобы не дать юристу ответить на данный вопрос дважды
@@ -142,15 +130,6 @@ class QuestionController extends Controller
 
         foreach ($answersDataProvider->data as $answer) {
             $answersAuthors[] = $answer->authorId;
-        }
-
-        $categories = $model->categories;
-
-        // массив для хранения id категорий данного вопроса
-        $categoriesArray = [];
-
-        foreach ($categories as $cat) {
-            $categoriesArray[] = $cat->id;
         }
 
         if (Yii::app()->user->role == User::ROLE_JURIST) {
@@ -163,21 +142,7 @@ class QuestionController extends Controller
                 ->limit(1)
                 ->queryAll();
 
-            $nextQuestionSql = "SELECT q1.id FROM 100_question q1
-                WHERE q1.id NOT IN (
-                    SELECT q.id
-                    FROM 100_question q
-                    LEFT OUTER JOIN 100_answer a ON a.questionId = q.id
-                    WHERE a.authorId = :yuristId
-                ) AND q1.status IN (:status1, :status2) AND q1.id!=:qid AND q1.id < :qid
-                ORDER BY q1.id DESC
-                LIMIT 1";
-            $command = Yii::app()->db->createCommand($nextQuestionSql);
-            $command->bindValue(":qid", $model->id, PDO::PARAM_INT);
-            $command->bindValue(":yuristId", Yii::app()->user->id, PDO::PARAM_INT);
-            $command->bindValue(":status1", Question::STATUS_PUBLISHED, PDO::PARAM_INT);
-            $command->bindValue(":status2", Question::STATUS_CHECK, PDO::PARAM_INT);
-            $nextQuestionId = $command->queryScalar();
+            $nextQuestionId = $model->getNextQuestionIdForYurist(Yii::app()->user->id);
 
         } else {
             $lastRequest = null;

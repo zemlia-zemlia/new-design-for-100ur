@@ -661,4 +661,30 @@ class Question extends CActiveRecord {
         }
     }
 
+    /**
+     * Возвращает id следующего вопроса для юриста
+     * @param int $userId
+     * @return mixed
+     */
+    public function getNextQuestionIdForYurist($userId)
+    {
+        $nextQuestionSql = "SELECT q1.id FROM {{question}} q1
+                WHERE q1.id NOT IN (
+                    SELECT q.id
+                    FROM {{question}} q
+                    LEFT OUTER JOIN {{answer}} a ON a.questionId = q.id
+                    WHERE a.authorId = :yuristId
+                ) AND q1.status IN (:status1, :status2) AND q1.id!=:qid AND q1.id < :qid
+                ORDER BY q1.id DESC
+                LIMIT 1";
+
+        $command = Yii::app()->db->createCommand($nextQuestionSql);
+        $command->bindValue(":qid", $this->id, PDO::PARAM_INT);
+        $command->bindValue(":yuristId", $userId, PDO::PARAM_INT);
+        $command->bindValue(":status1", Question::STATUS_PUBLISHED, PDO::PARAM_INT);
+        $command->bindValue(":status2", Question::STATUS_CHECK, PDO::PARAM_INT);
+        $nextQuestionId = $command->queryScalar();
+
+        return $nextQuestionId;
+    }
 }
