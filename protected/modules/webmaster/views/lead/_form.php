@@ -33,6 +33,8 @@
 		</div>
 	</div>
 </div>  
+<div class="row">
+	<div class="col-sm-6">
 
         <?php if($model->sourceId && $model->isNewRecord):?>
             <?php echo $form->hiddenField($model,'sourceId'); ?>
@@ -43,6 +45,9 @@
                 <?php echo $form->error($model,'sourceId'); ?>
             </div>
         <?php endif;?>
+
+	</div>
+</div>  
 
 <div class="row">
 	<div class="col-sm-8">

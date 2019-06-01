@@ -9,14 +9,14 @@ Yii::app()->clientScript->registerMetaTag($model->description, "Description");
 Yii::app()->clientScript->registerLinkTag("canonical", NULL, Yii::app()->createUrl('post/view', array('id' => $model->id, 'alias' => $model->alias)));
 
 $this->breadcrumbs = array(
-    'Блог' => array('/blog'),
+    'Новости' => array('/blog'),
     CHtml::encode($model->title),
 );
 ?>
 
 <?php
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('Консультация юриста', "/"),
+    'homeLink' => CHtml::link('100 Юристов', "/"),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
 ));
@@ -49,24 +49,17 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </div>
 <?php endif; ?>
 
-<div class="post-text">
-    <?php
-    // очищаем текст поста от ненужных тегов перед выводом в браузер
-
-    echo $purifier->purify($model->text);
-    ?>
-</div>
-
-
-<div class="post-stats">
+<div class="post-stats vert-margin20">
     <div class='row'>
-        <div class='col-md-3 col-sm-3'>
+        <div class='col-md-4 col-sm-3 right-align'></div>
+
+        <div class='col-md-2 col-sm-3 right-align'>
             <span class="muted"><?php echo CustomFuncs::invertDate($model->datePublication); ?></span>
         </div>
-        <div class='col-md-5 col-sm-5 right-align'>
+        <div class='col-md-3 col-sm-5 right-align'>
             <img src='/pics/2015/icon_eye.png' alt='просмотров' />&nbsp;<span class='muted'><?php echo $model->viewsCount->views; ?> <?php echo CustomFuncs::numForms($model->viewsCount->views, 'просмотр', "просмотра", "просмотров"); ?></span>
         </div>
-        <div class='col-md-4 col-sm-4 right-align'>
+        <div class='col-md-3 col-sm-4 right-align'>
             <script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
             <script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
             <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,twitter,lj"></div>
@@ -76,9 +69,18 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </div>
 </div>
 
-<hr />
+<div class="post-text">
+    <?php
+    // очищаем текст поста от ненужных тегов перед выводом в браузер
+
+    echo $purifier->purify($model->text);
+    ?>
+</div>
+
+
+
 <?php if (!Yii::app()->user->isGuest && !is_null($postCommentModel)): ?>
-    <div class="vert-margin30">
+    <div class="vert-margin30 sidebar-form inside">
     <strong>Ваш комментарий:</strong>
     <?php
     $this->renderPartial('application.views.comment._form', array(
@@ -93,8 +95,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </div>
 <?php endif; ?>
     
-<div class="post-comments-list vert-margin40">
-    <h2>Комментарии</h2>
+<div class="post-comments-list vert-margin40 ">
+    <h2>Обсуждения</h2>
     <?php if ($commentsDataProvider): ?>
         <?php
         $this->widget('zii.widgets.CListView', array(

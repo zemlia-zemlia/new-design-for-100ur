@@ -8,5 +8,5 @@
     <input type="hidden" name="paymentType" value="AC">
     <input type="hidden" name="sum" value="<?php echo $questionPrice; ?>" data-type="number"
            class="form-control text-right">
-    <input type="submit" class="btn btn-default" value="Оплатить">
+    <input type="submit" class="btn btn-default" value="Выбрать">
 </form>

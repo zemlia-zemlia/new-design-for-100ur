@@ -54,24 +54,24 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <?php endif; ?>
 </p>
 
-<h2>История изменения баланса</h2>
-<small>
-<table class="table table-bordered">
-    <tr>
-        <th>Время</th>
-        <th>Кампания</th>
-        <th>Сумма</th>
-        <th>Описание</th>
-    </tr>
+	<h2>История изменения баланса</h2>
+	<small>
+		<table class="table table-bordered">
+		    <tr>
+		        <th>Время</th>
+		        <th>Кампания</th>
+		        <th>Сумма</th>
+		        <th>Описание</th>
+		    </tr>
 
-    <?php
-    $this->widget('zii.widgets.CListView', array(
-        'dataProvider' => $transactionsDataProvider,
-        'itemView' => 'application.views.transactionCampaign._view',
-        'emptyText' => 'Не найдено ни одной транзакции',
-        'summaryText' => 'Показаны транзакции с {start} до {end}, всего {count}',
-        'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
-    ));
-    ?>
-</table>
-</small>
+		    <?php
+		    $this->widget('zii.widgets.CListView', array(
+		        'dataProvider' => $transactionsDataProvider,
+		        'itemView' => 'application.views.transactionCampaign._view',
+		        'emptyText' => 'Не найдено ни одной транзакции',
+		        'summaryText' => 'Показаны транзакции с {start} до {end}, всего {count}',
+		        'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
+		    ));
+		    ?>
+		</table>
+	</small>
