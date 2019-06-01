@@ -60,14 +60,14 @@ Yii::app()->clientScript->registerLinkTag("canonical", NULL, "https://" . $_SERV
     </p>
 </div>
 
-<h3 class="vert-margin20">Самые популярные статьи</h3>
+<h3 class="vert-margin20">Обсуждаемые новости</h3>
 <div class='vert-margin30'>
 
     <?php
     $this->widget('application.widgets.RecentPosts.RecentPosts', [
         'number' => 3,
         'order' => 'views',
-        'intervalDays' => 800,
+        'intervalDays' => 60,
         'template' => 'horizontal',
     ]);
     ?>

@@ -27,11 +27,7 @@ $purifier = new CHtmlPurifier();
                         <?php echo CHtml::link(CHtml::encode($recentPost['title']), Yii::app()->createUrl('post/view', array('id' => $recentPost['id'], 'alias' => $recentPost['alias']))); ?>
                         <br/>
                     </p>
-                    <p>
-                        <small>
-                            <?php echo CustomFuncs::cutString($purifier->purify($recentPost['preview']), 100); ?>
-                        </small>
-                    </p>
+
                 </div>
             </div>
         </div>

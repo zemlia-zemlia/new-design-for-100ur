@@ -54,8 +54,6 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                 <?php endif; ?>
 
 
-
-
                 <?php if (Yii::app()->user->role != User::ROLE_JURIST): ?>
                     <div data-spy="" data-offset-top="200" class="vert-margin20">
                         <div class="vert-margin20">
@@ -82,6 +80,20 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                     </div>
                 <?php endif; ?>
 
+
+                <div class="inside article-preview">
+                    <h3>Обсуждаемые новости</h3>
+                    <?php
+                    $this->widget('application.widgets.RecentPosts.RecentPosts', [
+                        'number' => 8,
+                        'order' => 'views',
+                        'intervalDays' => 100,
+                        'template' => 'default1',
+
+                    ]);
+                    ?>
+                </div>
+
                 <div class="vert-margin30 inside">
                     <h3>Топ юристов</h3>
                     <p class="text-center">Рейтинг юристов по количеству консультаций за последние 30 дней</p>
@@ -96,6 +108,11 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                     ));
                     ?>
                 </div>
+
+
+
+
+
 
                 <?php if (Yii::app()->user->isGuest): ?>
 

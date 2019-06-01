@@ -2,7 +2,7 @@
 /* @var $this CategoryController */
 /* @var $dataProvider CActiveDataProvider */
 
-$pageTitle = "Блог юридического портала. ";
+$pageTitle = "Новости ";
 if(isset($_GET) && (int)$_GET['Post_page']) {
     $pageNumber = (int)$_GET['Post_page'];
     $pagesTotal = ceil($dataProvider->totalItemCount / $dataProvider->pagination->getPageSize());
@@ -11,23 +11,23 @@ if(isset($_GET) && (int)$_GET['Post_page']) {
 $this->setPageTitle($pageTitle . Yii::app()->name);
 
 Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('/blog'));
-Yii::app()->clientScript->registerMetaTag("Блог портала 100 Юристов", "Description");
+Yii::app()->clientScript->registerMetaTag("Раздел в котором мы публикуем самые интересные новости и факты произошедшие в стране.", "Description");
 
 $this->breadcrumbs=array(
-	'Блог портала 100 Юристов',
+	'Новости',
 );
 ?>
 
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('Консультация юриста',"/"),
+        'homeLink'=>CHtml::link('100 Юристов',"/"),
         'separator'=>' / ',
         'links'=>$this->breadcrumbs,
      ));
 ?>
 <div class="panel gray-panel">
     <div class="panel-body">
-		<h1>Блог юридического портала "100 Юристов"</h1>
+		<h1>Новости</h1>
     </div>
 </div>
 

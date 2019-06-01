@@ -154,12 +154,9 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
 
                         <li><?php echo CHtml::link('Заказы документов ' . '<strong class="red">(' . Order::calculateNewOrders() . ')</strong>', Yii::app()->createUrl('order/index')); ?></li>
 
-                        <!--<li><?php echo CHtml::link('Заявки', Yii::app()->createUrl('lead/index')); ?></li> -->
-                        <!--<li><?php echo CHtml::link('CRM для юристов', "http://www.yurcrm.ru", ['target' => '_blank']); ?></li>-->
-
                     <?php elseif (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->isGuest): ?>
 
-                        <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/')) ? CHtml::link('Задать свой вопрос юристам online', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' . Yii::app()->controller->id, array('class' => 'yellow-button arrow')) : ''; ?></li>
+                        <li><?php echo ($_SERVER['REQUEST_URI'] != '/question/create/') ? CHtml::link('Задать свой вопрос юристам online', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' . Yii::app()->controller->id, array('class' => 'yellow-button arrow')) : ''; ?></li>
 
 
                         <li class="hidden-xs"><?php echo ($_SERVER['REQUEST_URI'] != '/question/call/') ? CHtml::link('Консультация по телефону', Yii::app()->createUrl('/question/call/')) : '<span class="active">Консультация по телефону</span>'; ?></li>
@@ -170,6 +167,9 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
 
                         <?php if (Yii::app()->user->role == User::ROLE_CLIENT): ?>
                             <li class=""><?php echo ($_SERVER['REQUEST_URI'] != '/question/my/') ? CHtml::link('Мои вопросы', Yii::app()->createUrl('/question/my/')) : '<span class="active">Мои вопросы</span>'; ?></li>
+                        <?php endif; ?>
+                        <?php if (Yii::app()->user->role == User::ROLE_CLIENT): ?>
+                            <li class=""><?php echo ($_SERVER['REQUEST_URI'] != '/blog/') ? CHtml::link('Новости', Yii::app()->createUrl('/blog/')) : '<span class="active">Новости</span>'; ?></li>
                         <?php endif; ?>
 
                         <?php if (!stristr($_SERVER['REQUEST_URI'], '/question/create/')): ?>

@@ -40,7 +40,7 @@
                 <br/>
                 <?php echo ($_SERVER['REQUEST_URI'] != '/site/goryachaya_liniya/') ? CHtml::link('Горячая линия', Yii::app()->createUrl('/site/goryachaya_liniya/')) : '<span class="active">Горячая линия</span>'; ?>
                 <br/>
-                <?php echo ($_SERVER['REQUEST_URI'] != '/blog/') ? CHtml::link('Блог проекта', Yii::app()->createUrl('/blog')) : '<span class="active">Блог проекта</span>'; ?>
+                <?php echo ($_SERVER['REQUEST_URI'] != '/blog/') ? CHtml::link('Новости', Yii::app()->createUrl('/blog')) : '<span class="active">Блог проекта</span>'; ?>
                 <br/>
 
 

@@ -2,10 +2,10 @@
 /* @var $this CategoryController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->setPageTitle("Блог" . " | ". Yii::app()->name);
+$this->setPageTitle("Новости" . " | ". Yii::app()->name);
 
 $this->breadcrumbs=array(
-	'Блог',
+	'Новости',
 );
 ?>
 
@@ -18,11 +18,11 @@ $this->breadcrumbs=array(
 ?>
 
 
-<h1>Блог</h1>
+<h1>Новости</h1>
 
 <div class="right-align">
     <?php if(Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>
-        <?php echo CHtml::link('Создать пост', Yii::app()->createUrl('/admin/post/create'), array('class'=>'btn btn-primary')); ?>
+        <?php echo CHtml::link('Добавить новость', Yii::app()->createUrl('/admin/post/create'), array('class'=>'btn btn-primary')); ?>
     <?php endif;?>
 </div>
 

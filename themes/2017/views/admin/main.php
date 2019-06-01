@@ -220,10 +220,10 @@
 
                                             <?php if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)): ?>
                                                 <hr style="margin-top: 1px; margin-bottom: 1px;">
-                                                <li><?php echo CHtml::link("<span class='glyphicon glyphicon-pencil'></span>  Блог", Yii::app()->createUrl('/admin/blog')); ?></li>
+                                                <li><?php echo CHtml::link("<span class='glyphicon glyphicon-pencil'></span>  Новости", Yii::app()->createUrl('/admin/blog')); ?></li>
                                                 <ul>
                                                     <li>
-                                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Новые комментарии', Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_POST, 'status' => Comment::STATUS_NEW))); ?>
+                                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Новые комментарии к новостям', Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_POST, 'status' => Comment::STATUS_NEW))); ?>
                                                         <span class="badge badge-default"><?php echo Comment::newCommentsCount(Comment::TYPE_POST, 300); ?></span>
                                                     </li>
                                                     <li>

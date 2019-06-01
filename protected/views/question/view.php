@@ -125,11 +125,11 @@ $this->breadcrumbs = array(
         && Yii::app()->user->id === $model->authorId
         && $model->payed == 0
     ): ?>
-        <hr/>
+        <div class="vip-block">
         <h2 id="vip-block">Хотите получить ответ максимально быстро и со 100% гарантией?</h2>
         <p class="text-center">Переведите вопрос в VIP-статус</p>
 
-        <div class="payment-options  vert-margin30">
+        <div class="payment-options">
 
             <div class="row">
                 <div class="col-sm-3">
@@ -158,17 +158,14 @@ $this->breadcrumbs = array(
                         'questionId' => $model->id,
                         'questionPrice' => 419,
                     ]); ?>
-                    <p class="text-center"><strong>
-                            <small>Выбор пользователей</small>
-                        </strong></p>
                 </div>
                 <div class="col-sm-3">
-                    <h4>559 руб.</h4>
+                    <h4>759 руб.</h4>
 
                     <p class="text-center">4 гарантированных ответа</p>
                     <?php echo $this->renderPartial('application.views.transaction._yandexFormQuestion', [
                         'questionId' => $model->id,
-                        'questionPrice' => 559,
+                        'questionPrice' => 759,
                     ]); ?>
                 </div>
             </div>
@@ -178,6 +175,7 @@ $this->breadcrumbs = array(
                 <img src="/pics/payment/mir.png" alt="МИР"/>
             </div>
         </div>
+    </div>
     <?php endif; ?>
 
     <?php if (in_array(Yii::app()->user->role, array(User::ROLE_JURIST, User::ROLE_ROOT)) && !in_array(Yii::app()->user->id, $answersAuthors)): ?>
@@ -247,24 +245,36 @@ $this->breadcrumbs = array(
             ?>
         </div>
     </div>
+        
+    <div class="inside">
+            <!-- Yandex.RTB R-A-279595-2 -->
+            <div id="yandex_rtb_R-A-279595-2"></div>
+            <script type="text/javascript">
+                (function(w, d, n, s, t) {
+                    w[n] = w[n] || [];
+                    w[n].push(function() {
+                        Ya.Context.AdvManager.render({
+                            blockId: "R-A-279595-2",
+                            renderTo: "yandex_rtb_R-A-279595-2",
+                            async: true
+                        });
+                    });
+                    t = d.getElementsByTagName("script")[0];
+                    s = d.createElement("script");
+                    s.type = "text/javascript";
+                    s.src = "//an.yandex.ru/system/context.js";
+                    s.async = true;
+                    t.parentNode.insertBefore(s, t);
+                })(this, this.document, "yandexContextAsyncCallbacks");
+            </script>
+    </div>
 
 <?php endif; ?>
-<br/>
 
-<h3 class="vert-margin30">Самые популярные статьи</h3>
-<?php
-$this->widget('application.widgets.RecentPosts.RecentPosts', [
-    'number' => 3,
-    'order' => 'views',
-    'intervalDays' => 800,
-    'template' => 'horizontal',
-]);
-?>
 
 <?php
 // если перед этим опубликовали вопрос, отправим цель в метрику
-if (Yii::app()->user->getState('justPublished') == 1):
-    ?>
+  if (Yii::app()->user->getState('justPublished') == 1): ?>
 
     <script type="text/javascript">
         window.onload = function () {
