@@ -318,6 +318,10 @@ div.errorSummary {
     margin-bottom: 5px;
 }
 
+.popular-questions .question {
+    padding:10px 0;
+}
+
 /* 
     это стили для левой и правой панели
 */

@@ -120,63 +120,7 @@ $this->breadcrumbs = array(
 
     </div>
 
-    <?php if (
-        !Yii::app()->user->isGuest
-        && Yii::app()->user->id === $model->authorId
-        && $model->payed == 0
-    ): ?>
-        <div class="vip-block">
-        <h2 id="vip-block">Хотите получить ответ максимально быстро и со 100% гарантией?</h2>
-        <p class="text-center">Переведите вопрос в VIP-статус</p>
 
-        <div class="payment-options">
-
-            <div class="row">
-                <div class="col-sm-3">
-                    <h4>139 руб.</h4>
-
-                    <p class="text-center">1 гарантированный ответ</p>
-                    <?php echo $this->renderPartial('application.views.transaction._yandexFormQuestion', [
-                        'questionId' => $model->id,
-                        'questionPrice' => 139,
-                    ]); ?>
-                </div>
-                <div class="col-sm-3">
-                    <h4>279 руб.</h4>
-
-                    <p class="text-center">2 гарантированных ответа</p>
-                    <?php echo $this->renderPartial('application.views.transaction._yandexFormQuestion', [
-                        'questionId' => $model->id,
-                        'questionPrice' => 279,
-                    ]); ?>
-                </div>
-                <div class="col-sm-3">
-                    <h4>419 руб.</h4>
-
-                    <p class="text-center">3 гарантированных ответа</p>
-                    <?php echo $this->renderPartial('application.views.transaction._yandexFormQuestion', [
-                        'questionId' => $model->id,
-                        'questionPrice' => 419,
-                    ]); ?>
-                </div>
-                <div class="col-sm-3">
-                    <h4>759 руб.</h4>
-
-                    <p class="text-center">4 гарантированных ответа</p>
-                    <?php echo $this->renderPartial('application.views.transaction._yandexFormQuestion', [
-                        'questionId' => $model->id,
-                        'questionPrice' => 759,
-                    ]); ?>
-                </div>
-            </div>
-            <div class="question-cards">
-                <img src="/pics/payment/visa.png" alt="VISA"/>
-                <img src="/pics/payment/mc.png" alt="Mastercard"/>
-                <img src="/pics/payment/mir.png" alt="МИР"/>
-            </div>
-        </div>
-    </div>
-    <?php endif; ?>
 
     <?php if (in_array(Yii::app()->user->role, array(User::ROLE_JURIST, User::ROLE_ROOT)) && !in_array(Yii::app()->user->id, $answersAuthors)): ?>
 
@@ -232,6 +176,76 @@ $this->breadcrumbs = array(
     ?>
 
 </div> <!-- Question -->
+
+<?php if (
+    !Yii::app()->user->isGuest
+    && Yii::app()->user->id === $model->authorId
+    && $model->payed == 0
+): ?>
+    <div class="vip-block vert-margin40">
+        <h2 id="vip-block">Хотите получить ответ максимально быстро и со 100% гарантией?</h2>
+        <p class="text-center">Переведите вопрос в VIP-статус</p>
+
+        <div class="payment-options">
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <h4>139 руб.</h4>
+
+                    <p class="text-center">1 гарантированный ответ</p>
+                    <?php echo $this->renderPartial('application.views.transaction._yandexFormQuestion', [
+                        'questionId' => $model->id,
+                        'questionPrice' => 139,
+                    ]); ?>
+                </div>
+                <div class="col-sm-3">
+                    <h4>279 руб.</h4>
+
+                    <p class="text-center">2 гарантированных ответа</p>
+                    <?php echo $this->renderPartial('application.views.transaction._yandexFormQuestion', [
+                        'questionId' => $model->id,
+                        'questionPrice' => 279,
+                    ]); ?>
+                </div>
+                <div class="col-sm-3">
+                    <h4>419 руб.</h4>
+
+                    <p class="text-center">3 гарантированных ответа</p>
+                    <?php echo $this->renderPartial('application.views.transaction._yandexFormQuestion', [
+                        'questionId' => $model->id,
+                        'questionPrice' => 419,
+                    ]); ?>
+                </div>
+                <div class="col-sm-3">
+                    <h4>759 руб.</h4>
+
+                    <p class="text-center">4 гарантированных ответа</p>
+                    <?php echo $this->renderPartial('application.views.transaction._yandexFormQuestion', [
+                        'questionId' => $model->id,
+                        'questionPrice' => 759,
+                    ]); ?>
+                </div>
+            </div>
+            <div class="question-cards">
+                <img src="/pics/payment/visa.png" alt="VISA"/>
+                <img src="/pics/payment/mc.png" alt="Mastercard"/>
+                <img src="/pics/payment/mir.png" alt="МИР"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="popular-questions vert-margin40">
+        <h3>Примеры платных вопросов и ответов</h3>
+        <?php
+        $this->widget('application.widgets.PopularQuestions.PopularQuestions', [
+            'template' => 'default',
+            'cacheTime' => 10,
+            'showPayed' => true,
+        ]);
+        ?>
+    </div>
+
+<?php endif; ?>
 
 <br/>
 <?php if (Yii::app()->user->isGuest): ?>

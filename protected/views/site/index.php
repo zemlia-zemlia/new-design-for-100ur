@@ -60,6 +60,16 @@ Yii::app()->clientScript->registerLinkTag("canonical", NULL, "https://" . $_SERV
     </p>
 </div>
 
+<div class="popular-questions vert-margin40">
+<h3>Примеры вопросов и ответов</h3>
+<?php
+$this->widget('application.widgets.PopularQuestions.PopularQuestions', [
+    'template' => 'default',
+    'cacheTime' => 10,
+]);
+?>
+</div>
+
 <h3 class="vert-margin20">Обсуждаемые новости</h3>
 <div class='vert-margin30'>
 
