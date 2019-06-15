@@ -11,7 +11,7 @@ $purifier = new CHtmlPurifier();
 <?php foreach ($recentPosts as $index => $recentPost): ?>
 
     <?php if ($index % 3 == 0): ?>
-        <div class="row">
+        <div class="row vert-margin20">
     <?php endif; ?>
 
     <div class="col-md-4 horizontal-post-preview">
