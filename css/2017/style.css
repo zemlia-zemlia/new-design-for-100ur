@@ -715,7 +715,9 @@ div.errorSummary {
 }
 
 .donate-block {
-    display: none;
+    text-align: center;
+    background-color: #9fe3dc;
+    padding:10px;
 }
 
 .yurist-list-item {
