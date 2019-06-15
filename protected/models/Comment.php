@@ -13,6 +13,7 @@
  * @property string $text
  * @property string $dateTime
  * @property string $authorName
+ * @property string $title
  */
 class Comment extends CActiveRecord
 {
@@ -106,9 +107,11 @@ class Comment extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('text', 'required'),
+            array('text', 'required', 'message' => 'Поле {attribute} обязательное'),
+            array('title, rating', 'required', 'on' => 'user', 'message' => 'Поле {attribute} обязательное'),
+            array('rating', 'compare', 'compareValue' => 0, 'operator' => '>', 'on' => 'user', 'message' => 'Поле {attribute} обязательное'),
             array('type, authorId, objectId, rating, status, parentId', 'numerical', 'integerOnly' => true),
-            array('authorName', 'length', 'max' => 255),
+            array('authorName, title', 'length', 'max' => 255),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, type, authorId, objectId, text, dateTime', 'safe', 'on' => 'search'),
@@ -142,6 +145,7 @@ class Comment extends CActiveRecord
             'author' => 'Автор',
             'rating' => 'Оценка',
             'authorName' => 'Имя автора',
+            'title' => 'Заголовок',
         );
     }
 
@@ -170,7 +174,7 @@ class Comment extends CActiveRecord
 
     /**
      * возвращает массив, ключами которого являются коды статусов, а значениями - названия статусов
-     * 
+     *
      * @return array (код статуса => название)
      */
     static public function getStatusesArray()
@@ -184,7 +188,7 @@ class Comment extends CActiveRecord
 
     /**
      * возвращает название статуса для объекта
-     * 
+     *
      * @return string название статуса
      */
     public function getCommentStatusName()
@@ -195,9 +199,9 @@ class Comment extends CActiveRecord
 
     /**
      * Статический метод, возвращает название статуса по коду
-     * 
+     *
      * @param int $status код статуса
-     * @return string Название статуса 
+     * @return string Название статуса
      */
     static public function getStatusName($status)
     {
@@ -207,7 +211,7 @@ class Comment extends CActiveRecord
 
     /**
      * Возвращает количество новых комментариев заданного типа
-     * 
+     *
      * @param int $type Тип комментария
      * @param int $cacheTime Время кеширования (сек.)
      * @return int количество новых комментариев
@@ -215,10 +219,10 @@ class Comment extends CActiveRecord
     public static function newCommentsCount($type, $cacheTime = 0)
     {
         $counterRow = Yii::app()->db->cache($cacheTime)->createCommand()
-                ->select("COUNT(*) counter")
-                ->from("{{comment}}")
-                ->where("type=:type AND status=:status", array(':type' => (int) $type, ':status' => self::STATUS_NEW))
-                ->queryRow();
+            ->select("COUNT(*) counter")
+            ->from("{{comment}}")
+            ->where("type=:type AND status=:status", array(':type' => (int)$type, ':status' => self::STATUS_NEW))
+            ->queryRow();
 
         return ($counterRow !== false) ? $counterRow['counter'] : 0;
     }
@@ -229,7 +233,7 @@ class Comment extends CActiveRecord
     protected function afterSave()
     {
         /**
-         * после сохранения коментария, если это был комментарий к ответу юриста, 
+         * после сохранения коментария, если это был комментарий к ответу юриста,
          * отправим юристу уведомление
          * а если это комментарий на комментарий, уведомим автора родительского комментария
          */
@@ -253,6 +257,14 @@ class Comment extends CActiveRecord
             }
         }
 
+        // Если это отзыв на юриста
+        if ($this->type == self::TYPE_USER) {
+            $yurist = User::model()->findByPk($this->objectId);
+            if ($yurist) {
+                $yurist->sendTestimonialNotification();
+            }
+        }
+
         if ($this->type == self::TYPE_RESPONSE && !($this instanceof OrderResponse)) {
             if ($this->level == 1) {
                 // это комментарий к отклику
@@ -261,7 +273,7 @@ class Comment extends CActiveRecord
             } else {
                 // это комментарий на комментарий к отклику
                 $object = $this->parent()->find();
-                $response = OrderResponse::model()->findByPk((int) $object->objectId);
+                $response = OrderResponse::model()->findByPk((int)$object->objectId);
                 $order = $response->order;
             }
 
@@ -317,7 +329,7 @@ class Comment extends CActiveRecord
             }
         }
 
-        if($this->authorId) {
+        if ($this->authorId) {
             // логируем событие в лог
             LoggerFactory::getLogger('db')->log('Пользователь ' . $commentAuthor->name . ' прокомментировал ' . self::getTypeName($this->type) . ' #' . $this->objectId, 'User', $this->authorId);
         }

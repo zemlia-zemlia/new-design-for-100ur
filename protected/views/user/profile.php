@@ -144,6 +144,9 @@ if (Yii::app()->user->id != $user->id) {
                 }
                 ?>
 
+                <?php if (!Yii::app()->user->isGuest && Yii::app()->user->id != $user->id): ?>
+                    <?php echo CHtml::link('Оставить отзыв о юристе', Yii::app()->createUrl('user/testimonial', ['id' => $user->id]), ['class' => 'btn btn-block btn-info']); ?>
+                <?php endif; ?>
             </div>
             <div class="col-sm-8">
 
@@ -155,15 +158,15 @@ if (Yii::app()->user->id != $user->id) {
                                     <?php echo CHtml::encode($user->settings->hello); ?>
                                 </blockquote>
                             </div>
-                             <hr>
+                            <hr>
                         <?php endif; ?>
                     </div>
                 </div>
-               
+
                 <div class="row vert-margin30">
 
                     <?php if ($user->role == User::ROLE_JURIST): ?>
-                        <div class="col-sm-6 col-xs-6 center-align">
+                        <div class="col-sm-3 col-xs-6 center-align">
                             <p>Консультаций:</p>
                             <?php
                             $answersCountInt = $user->answersCount;
@@ -172,6 +175,12 @@ if (Yii::app()->user->id != $user->id) {
 
                             $karmaCount = str_pad((string)$user->karma, (strlen($user->karma) > 3) ? strlen($user->karma) : 3, '0', STR_PAD_LEFT);;
                             $numbersKarma = str_split($karmaCount);
+
+                            $testimonialsCount = $user->commentsCount;
+                            $testimonialsCount = str_pad((string)$testimonialsCount, (strlen($testimonialsCount) > 4) ? strlen($testimonialsCount) : 3, '0', STR_PAD_LEFT);
+                            $numbersTestimonials = str_split($testimonialsCount);
+
+                            $rating = $user->getRating();
                             ?>
 
                             <p class="kpi-counter">
@@ -180,18 +189,33 @@ if (Yii::app()->user->id != $user->id) {
                             </p>
                         </div>
 
-                        <div class="col-sm-6 col-xs-6 center-align">
+                        <div class="col-sm-3 col-xs-6 center-align">
                             <p><abbr title="Количество благодарностей за полезный ответ">Благодарностей:</abbr></p>
                             <p class="kpi-counter">
                                 <?php foreach ($numbersKarma as $num): ?>
                                     <span><?php echo $num; ?></span><?php endforeach; ?><br/>
                             </p>
                         </div>
-						<hr/>
+
+                        <div class="col-sm-3 col-xs-6 center-align">
+                            <p><abbr title="Количество отзывов">Отзывов:</abbr></p>
+                            <p class="kpi-counter">
+                                <?php foreach ($numbersTestimonials as $num): ?>
+                                    <span><?php echo $num; ?></span><?php endforeach; ?><br/>
+                            </p>
+                        </div>
+
+                        <div class="col-sm-3 col-xs-6 center-align">
+                            <p><abbr title="Средняя оценка по отзывам">Рейтинг:</abbr></p>
+                            <p class="kpi-counter">
+                                <span><?php echo $rating; ?></span><br/>
+                            </p>
+                        </div>
+
+                        <hr/>
                     <?php endif; ?>
                 </div>
 
-                
 
                 <?php if ($user->role == User::ROLE_JURIST): ?>
 
@@ -292,10 +316,9 @@ if (Yii::app()->user->id != $user->id) {
                         </div>
                     </div>
 
-                   
 
                     <?php if ($user->settings->priceConsult > 0 || $user->settings->priceDoc > 0): ?>
-                	 <hr/>
+                        <hr/>
                         <div class='vert-margin20'>
                             <h3 class="left-align">Информация о платных услугах</h3>
                             <?php if ($user->settings->priceConsult > 0): ?>
@@ -317,10 +340,10 @@ if (Yii::app()->user->id != $user->id) {
                     <div class="col-sm-12">
                         <?php if (sizeof($questions) > 0): ?>
                             <?php if ($user->role == User::ROLE_CLIENT): ?>
-                            	 <hr>
+                                <hr>
                                 <h2 class="vert-margin20">Мои вопросы</h2>
                             <?php else: ?>
-                            	 <hr>
+                                <hr>
                                 <h2 class="vert-margin20">Последние вопросы, на которые ответил
                                     юрист</h2>
                             <?php endif; ?>
@@ -340,29 +363,40 @@ if (Yii::app()->user->id != $user->id) {
                         <?php endif; ?>
                     </div>
                 </div>
+
+                <?php if ($testimonialsDataProvider->totalItemCount > 0): ?>
+                    <h2>Последние отзывы</h2>
+                    <?php
+                    $this->widget('zii.widgets.CListView', array(
+                        'dataProvider' => $testimonialsDataProvider,
+                        'itemView' => 'application.views.comment._viewUser',
+                        'emptyText' => 'Не найдено ни одного отзыва',
+                        'summaryText' => '',
+                        'pager' => array('class' => 'GTLinkPager'), //we use own pager with russian words
+                    ));
+                    ?>
+                    <p class="text-center">
+                        <?php echo CHtml::link('Все отзывы', Yii::app()->createUrl('user/testimonials', ['id' => $user->id])); ?>
+                    </p>
+                <?php endif; ?>
+
                 <?php if (Yii::app()->user->role == User::ROLE_CLIENT && Yii::app()->user->id == $user->id): ?>
-                 <hr>
-				    <h2>Мои заказы документов</h2>
-				    <table class="table table-bordered">
-				        <?php
-				        $this->widget('zii.widgets.CListView', array(
-				            'dataProvider' => $ordersDataProvider,
-				            'itemView' => 'application.views.order._view',
-				            'emptyText' => 'Не найдено ни одного заказа',
-				            'summaryText' => 'Показаны заказы с {start} до {end}, всего {count}',
-				            'pager' => array('class' => 'GTLinkPager'), //we use own pager with russian words
-				        ));
-				        ?>
-				    </table>
-				<?php endif; ?>
+                    <hr>
+                    <h2>Мои заказы документов</h2>
+                    <table class="table table-bordered">
+                        <?php
+                        $this->widget('zii.widgets.CListView', array(
+                            'dataProvider' => $ordersDataProvider,
+                            'itemView' => 'application.views.order._view',
+                            'emptyText' => 'Не найдено ни одного заказа',
+                            'summaryText' => 'Показаны заказы с {start} до {end}, всего {count}',
+                            'pager' => array('class' => 'GTLinkPager'), //we use own pager with russian words
+                        ));
+                        ?>
+                    </table>
+                <?php endif; ?>
             </div> <!-- Конец col-sm-8 -->
         </div>
     </div>
 
 </div>
-
-
-
-
-
-

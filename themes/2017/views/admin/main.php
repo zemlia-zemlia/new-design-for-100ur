@@ -187,17 +187,18 @@
 
                                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-question-sign'></span>  Ответы юристов", Yii::app()->createUrl('/admin/answer')); ?>
                                                 <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR) || Yii::app()->user->role == User::ROLE_SECRETARY): ?>
-                                                <ul>
-                                                    <li>
-                                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Предв. опубликованные', Yii::app()->createUrl('/admin/answer/index', array('status' => Answer::STATUS_NEW))); ?>
-                                                    </li>
-                                                    <li>
-                                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-ok'></span> " . 'Опубликованные', Yii::app()->createUrl('/admin/answer/index', array('status' => Answer::STATUS_PUBLISHED))); ?>
-                                                    </li>
-                                                    <li>
-                                                        <?php echo CHtml::link("<span class='glyphicon glyphicon-fire'></span> " . 'Спам', Yii::app()->createUrl('/admin/answer/index', array('status' => Answer::STATUS_SPAM))); ?>
-                                                    </li>
-                                                </ul>
+                                                    <ul>
+                                                        <li>
+                                                            <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Предв. опубликованные', Yii::app()->createUrl('/admin/answer/index', array('status' => Answer::STATUS_NEW))); ?>
+                                                        </li>
+                                                        <li>
+                                                            <?php echo CHtml::link("<span class='glyphicon glyphicon-ok'></span> " . 'Опубликованные', Yii::app()->createUrl('/admin/answer/index', array('status' => Answer::STATUS_PUBLISHED))); ?>
+                                                        </li>
+                                                        <li>
+                                                            <?php echo CHtml::link("<span class='glyphicon glyphicon-fire'></span> " . 'Спам', Yii::app()->createUrl('/admin/answer/index', array('status' => Answer::STATUS_SPAM))); ?>
+                                                        </li>
+                                                    </ul>
+                                                <?php endif; ?>
                                             </li>
 
                                             <hr style="margin-top: 1px; margin-bottom: 1px;">
@@ -215,8 +216,28 @@
                                                         <?php echo CHtml::link("<span class='glyphicon glyphicon-fire'></span> " . 'Спам комментарии', Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_ANSWER, 'status' => Comment::STATUS_SPAM))); ?>
                                                     </li>
                                                 </ul>
-                                                <?php endif; ?>
+
                                             </li>
+
+                                            <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
+                                                <hr style="margin-top: 1px; margin-bottom: 1px;">
+
+                                                <li>
+                                                    <ul id="left-menu">
+                                                        <li>
+                                                            <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Новые отзывы', Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_USER, 'status' => Comment::STATUS_NEW))); ?>
+                                                            <span class="badge badge-default"><?php echo Comment::newCommentsCount(Comment::TYPE_USER, 300); ?></span>
+                                                        </li>
+                                                        <li>
+                                                            <?php echo CHtml::link("<span class='glyphicon glyphicon-ok'></span> " . 'Одобренные отзывы', Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_USER, 'status' => Comment::STATUS_CHECKED))); ?>
+                                                        </li>
+                                                        <li>
+                                                            <?php echo CHtml::link("<span class='glyphicon glyphicon-fire'></span> " . 'Спам отзывы', Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_USER, 'status' => Comment::STATUS_SPAM))); ?>
+                                                        </li>
+                                                    </ul>
+
+                                                </li>
+                                            <?php endif; ?>
 
                                             <?php if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)): ?>
                                                 <hr style="margin-top: 1px; margin-bottom: 1px;">

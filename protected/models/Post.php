@@ -234,7 +234,7 @@ class Post extends CActiveRecord
     public static function getRecentPosts($categoryId = NULL, $number = 4, $order = 'views', $intervalDays = 30)
     {
         $recentPostsCommand = Yii::app()->db->createCommand()
-            ->select('p.id, title, alias, preview, datePublication, photo, v.views viewsCount, COUNT(c.id) comments ')
+            ->select('p.id, p.title, alias, preview, datePublication, photo, v.views viewsCount, COUNT(c.id) comments ')
             ->from('{{post}} p')
             ->leftJoin('{{postviews}} v', 'v.postId=p.id')
             ->leftJoin('{{comment}} c', 'c.objectId = p.id AND c.type=' . Comment::TYPE_POST)

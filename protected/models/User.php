@@ -245,7 +245,7 @@ class User extends CActiveRecord
             'campaignsModeratedCount' => array(self::STAT, 'Campaign', 'buyerId', 'condition' => 'active!=2'),
             'transactions' => array(self::HAS_MANY, 'TransactionCampaign', 'buyerId', 'order' => 'transactions.id DESC'),
             'comments' => array(self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_USER, 'order' => 'comments.id DESC, comments.root, comments.lft'),
-            'commentsCount' => array(self::STAT, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_USER),
+            'commentsCount' => array(self::STAT, 'Comment', 'objectId', 'condition' => 'type=' . Comment::TYPE_USER . ' AND status!=' . Comment::STATUS_SPAM),
             'sources' => array(self::HAS_MANY, 'Leadsource', 'userId'),
         );
     }
@@ -686,6 +686,7 @@ class User extends CActiveRecord
         // в письмо вставляем ссылку на вопрос + метки для отслеживания переходов
         $questionLink = Yii::app()->urlManager->baseUrl . "/q/" . $question->id . "/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_notification&utm_term=" . $question->id;
 
+        $testimonialLink = Yii::app()->createUrl('user/testimonial', ['id' => $answer->authorId]);
 
         /*  проверим, есть ли у пользователя заполненное поле autologin, если нет,
          *  генерируем код для автоматического логина при переходе из письма
@@ -700,6 +701,7 @@ class User extends CActiveRecord
              * пытаемся сохранить пользователя (обновив поле autologin)
              */
             $questionLink .= "&autologin=" . $autologinString;
+            $testimonialLink .= "?autologin=" . $autologinString;
         } else {
             Yii::log("Не удалось сохранить строку autologin пользователю " . $this->email . " с уведомлением об ответе на вопрос " . $question->id, 'error', 'system.web.User');
         }
@@ -717,6 +719,12 @@ class User extends CActiveRecord
             Будем держать Вас в курсе поступления других ответов. 
             <br /><br />
             " . CHtml::link("Посмотреть ответ", $questionLink, array('class' => 'btn')) . "
+            </p>";
+
+        $mailer->message .= ".<br /><br />
+            Вы также можете оставить отзыв юристу, оценив его ответ 
+            <br />
+            " . CHtml::link("Оставить отзыв", $testimonialLink, array('class' => 'btn')) . "
             </p>";
 
         // отправляем письмо на почту пользователя
@@ -1243,6 +1251,83 @@ class User extends CActiveRecord
             Yii::log("Не удалось отправить письмо пользователю " . $yurist->email . " с уведомлением о благодарности по вопросу " . $answer->question->id, 'error', 'system.web.User');
             return false;
         }
+    }
+
+    /**
+     * Отправка юристу уведомления о новом отзыве
+     */
+    public function sendTestimonialNotification()
+    {
+        $mailer = new GTMail();
+        $mailer->subject = "Вам оставили отзыв";
+
+        $mailer->message = "<h1>Новый отзыв в вашем профиле</h1>
+            <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />" .
+            "Вам только что оставили отзыв. Посмотреть его вы можете в своем профиле.";
+
+        // отправляем письмо на почту пользователя
+        $mailer->email = $this->email;
+
+        if ($mailer->sendMail(true, '100yuristov')) {
+            Yii::log("Отправлено письмо юристу " . $this->email . " с уведомлением о новом отзыве", 'info', 'system.web.User');
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log("Не удалось отправить письмо пользователю " . $this->email . " с уведомлением о новом отзыве", 'error', 'system.web.User');
+            return false;
+        }
+    }
+
+    /**
+     * Рейтинг пользователя как среднее арифметическое оценок из неспамных отзывов
+     * @return float
+     */
+    public function getRating()
+    {
+        $rating = 0;
+        $ratingsSum = 0;
+        $commentsNumber = 0;
+
+        foreach ($this->comments as $comment) {
+            if($comment->status != Comment::STATUS_SPAM) {
+                $ratingsSum+=$comment->rating;
+                $commentsNumber++;
+            }
+        }
+
+        if($commentsNumber > 0) {
+            $rating = round($ratingsSum / $commentsNumber, 1);
+        }
+
+        return $rating;
+    }
+
+
+    /**
+     * @param int|null $limit Если null, то без лимита
+     * @param bool|array $pagination
+     * @return CActiveDataProvider
+     */
+    public function getTestimonialsDataProvider($limit = 5, $pagination = false)
+    {
+        $testimonialsCriteria = new CDbCriteria();
+        $testimonialsCriteria->order = 'id DESC';
+        if(!is_null($limit)) {
+            $testimonialsCriteria->limit = $limit;
+        }
+
+        $testimonialsCriteria->addColumnCondition([
+            'type' => Comment::TYPE_USER,
+            'status!' => Comment::STATUS_SPAM,
+            'objectId' => $this->id,
+        ]);
+
+        $testimonialsDataProvider = new CActiveDataProvider('Comment', [
+            'criteria' => $testimonialsCriteria,
+            'pagination' => $pagination,
+        ]);
+
+        return $testimonialsDataProvider;
     }
 
 }

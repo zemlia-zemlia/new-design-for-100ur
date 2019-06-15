@@ -31,7 +31,7 @@ class UserController extends Controller
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('update', 'profile', 'changePassword', 'updateAvatar', 'invites', 'deleteAvatar', 'clearInfo', 'requestConfirmation', 'karmaPlus', 'stats', 'sendAnswerNotification'),
+                'actions' => array('update', 'profile', 'changePassword', 'updateAvatar', 'invites', 'deleteAvatar', 'clearInfo', 'requestConfirmation', 'karmaPlus', 'stats', 'sendAnswerNotification', 'testimonial', 'testimonials'),
                 'users' => array('@'),
             ),
             ['allow',
@@ -577,10 +577,30 @@ class UserController extends Controller
 
         $questions = (new QuestionRepository)->findRecentQuestionsByJuristAnswers($user);
 
+        $testimonialsDataProvider = $user->getTestimonialsDataProvider(5, false);
+
         $this->render('profile', array(
             'questions' => $questions,
             'user' => $user,
+            'testimonialsDataProvider' => $testimonialsDataProvider,
         ));
+    }
+
+    /**
+     * @param $userId
+     */
+    public function actionTestimonials($id)
+    {
+        $user = $this->loadModel($id);
+
+        $testimonialsDataProvider = $user->getTestimonialsDataProvider(null, [
+            'pageSize' => 20,
+        ]);
+
+        $this->render('testimonials', [
+            'yurist' => $user,
+            'testimonialsDataProvider' => $testimonialsDataProvider,
+        ]);
     }
 
     // отписаться от получения почтовых рассылок
@@ -763,9 +783,54 @@ class UserController extends Controller
         $secret = Yii::app()->params['yandexMoneySecret'];
         $paymentProcessor = new YandexPaymentResponseProcessor($yandexRequestData, $secret);
 
-        if($paymentProcessor->process() != true) {
+        if ($paymentProcessor->process() != true) {
             Yii::log('Ошибка при обработке платежа: ' . print_r($paymentProcessor->getErrors(), true), 'error', 'system.web');
             throw new CHttpException(400, 'Cannot process payment');
         }
+    }
+
+    /**
+     * Создание отзыва на юриста
+     * @param $id
+     */
+    public function actionTestimonial($id)
+    {
+        $yurist = $this->loadModel($id);
+
+        if ($yurist->id === Yii::app()->user->id) {
+            throw new CHttpException(400, 'Вы не можете оставлять отзывы на себя');
+        }
+
+        $commentModel = new Comment();
+        $commentModel->setScenario('user');
+
+        if(isset($_POST['Comment'])) {
+            $commentModel->attributes = $_POST['Comment'];
+            $commentModel->authorId = Yii::app()->user->id;
+
+            // сохраняем комментарий с учетом его иерархии
+            if ($commentModel->saveNode()) {
+                $this->redirect(['/user/view', 'id' => $yurist->id]);
+            }
+        }
+
+        $this->render('testimonial', [
+            'yurist' => $yurist,
+            'commentModel' => $commentModel,
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @return array|mixed|null
+     * @throws CHttpException
+     */
+    private function loadModel($id)
+    {
+        $model = User::model()->findByPk($id);
+        if (!$model) {
+            throw new CHttpException(404, 'Пользователь не найден');
+        }
+        return $model;
     }
 }
