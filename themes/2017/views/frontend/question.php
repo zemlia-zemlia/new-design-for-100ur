@@ -85,8 +85,8 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                     <h3>Обсуждаемые новости</h3>
                     <?php
                     $this->widget('application.widgets.RecentPosts.RecentPosts', [
-                        'number' => 8,
-                        'order' => 'views',
+                        'number' => 10,
+                        'order' => 'fresh_views',
                         'intervalDays' => 100,
                         'template' => 'default1',
 
