@@ -24,7 +24,7 @@ if (empty($recentPosts) || sizeof($recentPosts) == 0) {
                 &nbsp;&nbsp;
                 <span class="glyphicon glyphicon glyphicon-comment"></span> <?php echo $recentPost['comments']; ?>
 
-            </small>
+                </small>
+            </div>
         </div>
-    </div>
-<?php endforeach; ?>
+    <?php endforeach; ?>
