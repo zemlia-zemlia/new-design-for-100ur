@@ -97,6 +97,6 @@
 <?php endif; ?>
 
 <p class="right-align">
-    <?php echo CHtml::link('Все вопросы', Yii::app()->createUrl('/question/index')); ?> &nbsp; &nbsp;
-    <?php echo CHtml::link('Задать свой вопрос', Yii::app()->createUrl('question/create'), array('class' => 'yellow-button arrow')); ?>
+    <?php echo CHtml::link('Все вопросы', Yii::app()->createUrl('/question/index'), array('class' => 'text-muted')); ?> &nbsp; &nbsp;
+    <?php echo CHtml::link('Задать свой вопрос юристам', Yii::app()->createUrl('question/create'), array('class' => 'yellow-button arrow')); ?>
 </p>
