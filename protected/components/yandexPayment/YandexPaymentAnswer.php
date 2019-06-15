@@ -53,6 +53,7 @@ class YandexPaymentAnswer implements YandexPaymentProcessorInterface
                 $saveTransaction->commit();
                 Yii::log('Пришло бабло благодарность юристу ' . $yurist->id . ' (' . $amount . ' руб.)', 'info', 'system.web');
                 LoggerFactory::getLogger('db')->log('Благодарность юристу #' . $yurist->id . ') ' . $amount . ' руб.', 'User', $yurist->id);
+                $yurist->sendDonateNotification($this->answer, $yuristBonus);
                 return true;
             } else {
                 $saveTransaction->rollback();

@@ -1,7 +1,6 @@
 <?php
 /** @var Answer $answer */
 
-//$target = (isset($target)) ? urlencode($target) : urlencode("Благодарность юристу");
 $successUrl = (isset($successUrl)) ? urlencode($successUrl) : urlencode(Yii::app()->urlManager->baseUrl);
 ?>
 <form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml" class="form-inline donate-yurist-form">
@@ -19,7 +18,3 @@ $successUrl = (isset($successUrl)) ? urlencode($successUrl) : urlencode(Yii::app
     </div>
     <input type="submit" class="btn btn-default" value="Оплатить">
 </form>
-
-<!--
-<iframe frameborder="0" allowtransparency="true" scrolling="no" src="https://money.yandex.ru/quickpay/shop-widget?account=410012948838662&quickpay=shop&payment-type-choice=on&mobile-payment-type-choice=on&writer=seller&targets=<?php echo $target; ?>&targets-hint=&default-sum=195&button-text=01&successURL=<?php echo $successUrl; ?>" width="450" height="198"></iframe>
--->
