@@ -21,11 +21,21 @@
 
 <tr class="<?php echo $statusClass; ?>" id="comment-<?php echo $data->id;?>">
     <td>        
-              
+    
         <p>
         <?php echo CHtml::encode($data->text); ?>
         </p>
-        
+
+         <?php
+            switch($data->type) {
+                case Comment::TYPE_ANSWER:
+                    echo "Ответ на вопрос ";
+                    $answer = Answer::model()->with('question')->findByPk($data->objectId);
+                    echo CHtml::link(CHtml::encode($answer->question->title), Yii::app()->createUrl('question/view', array('id'=>$answer->questionId)), array('target'=>'_blank'));
+                    break;
+            }
+        ?> 
+        <br/>
         <small>
             <?php if($data->dateTime) {echo CustomFuncs::niceDate($data->dateTime, false, false);}?>
             &nbsp;
@@ -41,20 +51,7 @@
             <?php echo (int)$data->rating;?>/5
         </p>
     </td>
-    
-    <td>
-        
-        <?php
-            switch($data->type) {
-                case Comment::TYPE_ANSWER:
-                    echo "Ответ на вопрос ";
-                    $answer = Answer::model()->with('question')->findByPk($data->objectId);
-                    echo CHtml::link(CHtml::encode($answer->question->title), Yii::app()->createUrl('question/view', array('id'=>$answer->questionId)), array('target'=>'_blank'));
-                    break;
-            }
-        ?>
-    </td>
-    
+
     <td>
         <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>   
                       

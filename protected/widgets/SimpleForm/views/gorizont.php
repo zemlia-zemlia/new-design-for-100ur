@@ -1,6 +1,5 @@
 <div class="sidebar-form">
 <div class="form-container">
-        <h2 class="center-align">Есть вопрос к юристу?</h2>
 
         <?php $form=$this->beginWidget('CActiveForm', array(
                 'id'                    =>  'question-form-sidebar',

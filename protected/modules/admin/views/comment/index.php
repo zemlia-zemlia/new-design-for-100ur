@@ -40,10 +40,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <table class="table table-bordered table-hover table-striped">
     <thead>
     <tr>
-        <th>Отзыв</th>
-        <th>Объект</th>
+        <th>Текст</th>
         <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
-            <th>Автор</th>
+            <th>Управление</th>
         <?php endif;?>
     </tr>
     </thead>
