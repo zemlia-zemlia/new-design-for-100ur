@@ -19,14 +19,20 @@
             </div>
             <div class="col-sm-2">
                 <?php
-                if ($question['counter'] == 1) {
+                if ($question['answersCount'] == 1) {
                     echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> Есть ответ</span>";
-                } elseif ($question['counter'] > 1) {
-                    echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question['counter'] . ' ' . CustomFuncs::numForms($question['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
-                } elseif ($question['counter'] == 0) {
+                } elseif ($question['answersCount'] > 1) {
+                    echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question['answersCount'] . ' ' . CustomFuncs::numForms($question['answersCount'], 'ответ', 'ответа', 'ответов') . "</span>";
+                } elseif ($question['answersCount'] == 0) {
                     echo "<span class='text-muted'>Нет ответа</span>";
                 }
                 ?>
+                <br/>
+                <small>
+                    <?php
+                    echo $question['commentsCount'] . ' ' . CustomFuncs::numForms($question['commentsCount'], 'комментарий', 'комментария', 'комментариев') . "</span>";
+                    ?>
+                </small>
             </div>
         </div>
     </div>
