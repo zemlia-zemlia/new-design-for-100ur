@@ -1,7 +1,7 @@
 <?php
 /** @var Answer $answer */
 
-$target = (isset($target)) ? urlencode($target) : urlencode("Благодарность юристу");
+//$target = (isset($target)) ? urlencode($target) : urlencode("Благодарность юристу");
 $successUrl = (isset($successUrl)) ? urlencode($successUrl) : urlencode(Yii::app()->urlManager->baseUrl);
 ?>
 <form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml" class="form-inline donate-yurist-form">
