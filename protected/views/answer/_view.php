@@ -137,20 +137,6 @@
                             </span>
                             <?php endif; ?>
 
-                            <!--
-                            <?php if (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT): ?>
-                                <a href="#" class='btn btn-xs btn-default donate-yurist-link'><span class="glyphicon glyphicon-ruble"></span> Отблагодарить</a>
-                            <?php endif; ?>
-                               
-                            <?php if (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT): ?>
-	                             <div class='donate-block'>
-	                                <?php $this->renderPartial("application.views.question._donateForm", array(
-                                'target' => 'Благодарность юристу ' . CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->lastName),
-                                'successUrl' => Yii::app()->createUrl('question/view', array('id' => $data->questionId, 'answer_payed_id' => $data->id)),
-                            )); ?>
-	                            </div> 
-                            <?php endif; ?>
-							-->
                         <?php endif; ?>
                     </div>
 
@@ -215,6 +201,17 @@
                         ));
 
                         ?>
+                    <?php endif; ?>
+
+                    <?php if (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT): ?>
+                        <div class='donate-block'>
+                            <h3>Поблагодарите юриста <?php echo CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->lastName);?> за консультацию</h3>
+                            <?php $this->renderPartial("application.views.question._donateForm", array(
+                                'target' => 'Благодарность юристу ' . CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->lastName),
+                                'successUrl' => Yii::app()->createUrl('question/view', array('id' => $data->questionId, 'answer_payed_id' => $data->id)),
+                                'answer' => $data,
+                            )); ?>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>

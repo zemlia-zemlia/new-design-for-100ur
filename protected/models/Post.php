@@ -245,8 +245,21 @@ class Post extends CActiveRecord
             ])
             ->limit($number);
 
+        $freshPostsCommand = clone($recentPostsCommand);
+        $freshPosts = [];
+
+        // Если нужно показать половину свежих и половину популярных
+        if($order == 'fresh_views'){
+            $freshPostsCommand->limit((int)($number/2));
+            $recentPostsCommand->limit((int)($number/2));
+
+            $freshPostsCommand->order('id DESC');
+            $freshPosts = $freshPostsCommand->queryAll();
+        }
+
         switch ($order) {
             case 'views':
+            case 'fresh_views':
                 $recentPostsCommand->order('viewsCount DESC');
                 break;
             case 'comments':
@@ -262,6 +275,7 @@ class Post extends CActiveRecord
             $recentPostsCommand->where('p2c.catId = :catId', array(':catId' => (int)$categoryId));
         }
         $recentPostsRaw = $recentPostsCommand->queryAll();
+        $recentPostsRaw = array_merge($freshPosts, $recentPostsRaw); // подмешиваем свежие посты
 
         return $recentPostsRaw;
     }

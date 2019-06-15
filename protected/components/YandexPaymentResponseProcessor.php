@@ -9,6 +9,7 @@ class YandexPaymentResponseProcessor
 {
     const TYPE_USER = 'user';
     const TYPE_QUESTION = 'question';
+    const TYPE_ANSWER = 'answer';
 
     /** @var CHttpRequest */
     private $request;
@@ -86,6 +87,9 @@ class YandexPaymentResponseProcessor
                 break;
             case 'q':
                 $this->paymentType = self::TYPE_QUESTION;
+                break;
+            case 'a':
+                $this->paymentType = self::TYPE_ANSWER;
                 break;
             default:
                 return null;

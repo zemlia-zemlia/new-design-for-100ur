@@ -18,6 +18,8 @@ class YandexPaymentFactory
             return new YandexPaymentUser($this->entityId, $this->request);
         } elseif ($paymentType == YandexPaymentResponseProcessor::TYPE_QUESTION) {
             return new YandexPaymentQuestion($this->entityId, $this->request);
+        } elseif ($paymentType == YandexPaymentResponseProcessor::TYPE_ANSWER) {
+            return new YandexPaymentAnswer($this->entityId, $this->request);
         }
     }
 }

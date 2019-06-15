@@ -77,7 +77,6 @@ $this->pageTitle = "Транзакции пользователя. " . Yii::app(
 <table class="table table-bordered table-hover table-striped">
     <thead>
         <tr>
-            <th>ID</th>
             <th>Дата</th>
             <th>Сумма</th>
             <th>Комментарий</th>

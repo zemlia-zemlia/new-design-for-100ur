@@ -1213,4 +1213,36 @@ class User extends CActiveRecord
         return $statsArray;
     }
 
+    /**
+     * Отправка юристу уведомления о зачислении благодарности за консультацию
+     * @param Answer $answer
+     * @param $yuristBonus
+     */
+    public function sendDonateNotification(Answer $answer, $yuristBonus)
+    {
+        $yurist = $answer->author;
+        $mailer = new GTMail();
+        $mailer->subject = "Зачислена благодарность за ответ на вопрос";
+
+        $mailer->message = "<h1>Благодарность за консультацию по вопросу</h1>
+            <p>Здравствуйте, " . CHtml::encode($yurist->name) . "<br /><br />" .
+           "Вам зачислены ". $yuristBonus ." руб. в благодарность за консультацию по вопросу " .
+            CHtml::link(CHtml::encode($answer->question->title), Yii::app()->createUrl('question/view', ['id' => $answer->questionId])) . "</p>";
+        $mailer->message .= '<p>Ваш баланс и история его изменений доступны в Личном кабинете.</p>';
+        $mailer->message .= '<p>Благодарим за сотрудничество!</p>';
+
+
+        // отправляем письмо на почту пользователя
+        $mailer->email = $yurist->email;
+
+        if ($mailer->sendMail(true, '100yuristov')) {
+            Yii::log("Отправлено письмо юристу " . $yurist->email . " с уведомлением о благодарности по вопросу " . $answer->question->id, 'info', 'system.web.User');
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log("Не удалось отправить письмо пользователю " . $yurist->email . " с уведомлением о благодарности по вопросу " . $answer->question->id, 'error', 'system.web.User');
+            return false;
+        }
+    }
+
 }

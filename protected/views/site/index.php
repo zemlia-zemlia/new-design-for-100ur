@@ -139,15 +139,14 @@ Yii::app()->clientScript->registerLinkTag("canonical", NULL, "https://" . $_SERV
     <h3 class="vert-margin20">Обсуждаемые новости</h3>
     <div class='vert-margin30'>
 
-        <?php
-        $this->widget('application.widgets.RecentPosts.RecentPosts', [
-            'number' => 3,
-            'order' => 'views',
-            'intervalDays' => 60,
-            'template' => 'horizontal',
-        ]);
-        ?>
-    </div>
+    <?php
+    $this->widget('application.widgets.RecentPosts.RecentPosts', [
+        'number' => 6,
+        'order' => 'fresh_views',
+        'intervalDays' => 60,
+        'template' => 'horizontal',
+    ]);
+    ?>
 </div>
 
 

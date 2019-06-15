@@ -1,5 +1,4 @@
 <tr>
-    <td><small><?php echo md5($data->id); ?></small></td>
     <td>
         <?php if ($data instanceof PartnerTransaction): ?>
             <?php echo CustomFuncs::niceDate($data->datetime); ?>
