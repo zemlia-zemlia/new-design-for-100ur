@@ -19,11 +19,11 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
 <?php endif; ?>
 
     <div class="container">
-        <div class="row">
+
 
             <?php echo $content; ?>
 
-        </div>
+
     </div>
 
 <?php
