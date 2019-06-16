@@ -93,11 +93,14 @@ class UserController extends Controller
             ->limit(1)
             ->queryRow();
 
+        $testimonialsDataProvider = $user->getTestimonialsDataProvider(5, false);
+
         $this->render('profile', array(
             'questions' => $questions,
             'user' => $user,
             'lastRequest' => $lastRequest,
             'ordersDataProvider' => $ordersDataProvider,
+            'testimonialsDataProvider' => $testimonialsDataProvider,
         ));
     }
 
@@ -562,7 +565,7 @@ class UserController extends Controller
 
     /**
      *
-     * @param type $id
+     * @param int $id
      * @throws CHttpException
      */
     public function actionView($id)
