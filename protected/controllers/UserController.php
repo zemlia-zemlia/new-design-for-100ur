@@ -65,7 +65,7 @@ class UserController extends Controller
     {
         $this->layout = '//frontend/lp';
 
-        $user = User::model()->findByPk(Yii::app()->user->id);
+        $user = $this->loadModel(Yii::app()->user->id);
         $questionRepository = new QuestionRepository();
         $questionRepository->setCacheTime(600)->setLimit(10);
 
@@ -169,7 +169,7 @@ class UserController extends Controller
     {
         ini_set('upload_max_filesize', '10M');
         $this->layout = '//frontend/smart';
-        $model = User::model()->findByPk($id);
+        $model = $this->loadModel($id);
 
         $allDirections = QuestionCategory::getDirections(true, true);
 
@@ -285,9 +285,6 @@ class UserController extends Controller
                     $this->redirect(array('profile'));
                 }
             } else {
-//                CustomFuncs::printr($model->errors);
-//                CustomFuncs::printr($yuristSettings->errors);
-//                throw new CHttpException(500, 'Что-то пошло не так. Не удалось сохранить данные профиля.');
             }
         } else {
             $model->password = '';
@@ -314,14 +311,13 @@ class UserController extends Controller
             throw new CHttpException(403, 'У вас нет прав менять пароль другого пользователя');
         }
 
-        $model = User::model()->findByPk($id);
+        $model = $this->loadModel($id);
         $model->password = '';
         $model->setScenario('changePassword');
 
         // если была заполнена форма
         if ($_POST['User']) {
             $model->attributes = $_POST['User'];
-//                CustomFuncs::printr($model);Yii::app()->end();
             if ($model->validate()) {
                 // если данные пользователя прошли проверку (пароль не слишком короткий)
                 // шифруем пароль перед сохранением в базу
@@ -526,7 +522,6 @@ class UserController extends Controller
         // если была заполнена форма
         if ($_POST['User']) {
             $user->attributes = $_POST['User'];
-//                CustomFuncs::printr($model);Yii::app()->end();
             if ($user->validate()) {
                 // если данные пользователя прошли проверку (пароль не слишком короткий)
                 // шифруем пароль перед сохранением в базу
@@ -572,7 +567,7 @@ class UserController extends Controller
     {
         $this->layout = '//frontend/lp';
 
-        $user = User::model()->with('settings')->findByPk($id);
+        $user = $this->loadModel($id);
 
         if (!$user || $user->role != User::ROLE_JURIST) {
             throw new CHttpException(404, 'Пользователь не найден');
@@ -662,8 +657,6 @@ class UserController extends Controller
             ->where("answerId=:answerId AND authorId=:authorId", array(':answerId' => $answerId, ':authorId' => Yii::app()->user->id))
             ->queryRow();
 
-        //print_r($existingPluses);Yii::app()->end();
-
         if ($existingPluses['counter'] != 0) {
             throw new CHttpException(400, 'You have already voted for this user');
         }
@@ -683,7 +676,6 @@ class UserController extends Controller
             ), "id=:id", array(
                 ':id' => $userId,
             ));
-        //print_r($userKarmaUpdateResult);
         // обновляем запись в таблице ответов
         $answerKarmaUpdateResult = Yii::app()->db->createCommand()
             ->update("{{answer}}", array(
@@ -691,8 +683,6 @@ class UserController extends Controller
             ), "id=:id", array(
                 ':id' => $answerId,
             ));
-        //print_r($answerKarmaUpdateResult);
-        //Yii::app()->end();
         if ($karmaInsertResult && $answerKarmaUpdateResult && $userKarmaUpdateResult) {
             echo CJSON::encode(array('answerId' => $answerId, 'status' => 1));
         } else {
@@ -719,7 +709,7 @@ class UserController extends Controller
             throw new CHttpException(400, 'Не задан ID пользователя');
         }
 
-        $user = User::model()->findByPk($userId);
+        $user = $this->loadModel($userId);
 
         if (!(Yii::app()->user->checkAccess(User::ROLE_MANAGER) || Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->checkAccess(User::ROLE_OPERATOR))) {
             // запрет всем кроме менеджер+, операторов, юристов
@@ -754,7 +744,7 @@ class UserController extends Controller
      */
     public function actionFeed()
     {
-        $user = User::model()->findByPk(Yii::app()->user->id);
+        $user = $this->loadModel(Yii::app()->user->id);
         if (!$user) {
             throw new CHttpException(404, 'Ошибка: пользователь не найден');
         }
@@ -830,7 +820,7 @@ class UserController extends Controller
      */
     private function loadModel($id)
     {
-        $model = User::model()->findByPk($id);
+        $model = User::model()->with('settings')->findByPk($id);
         if (!$model) {
             throw new CHttpException(404, 'Пользователь не найден');
         }
