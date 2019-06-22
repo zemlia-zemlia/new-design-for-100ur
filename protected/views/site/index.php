@@ -56,7 +56,6 @@ Yii::app()->clientScript->registerLinkTag("canonical", NULL, "https://" . $_SERV
 
 <div class="row vert-margin40">
     <div class="col-sm-8 col-sm-offset-2">
-        <h3 class="vert-margin20">Задайте свой вопрос юристам портала бесплатно</h3>
         <div class="vert-margin20">
             <?php
             // выводим виджет с формой
@@ -132,10 +131,10 @@ Yii::app()->clientScript->registerLinkTag("canonical", NULL, "https://" . $_SERV
             <div class="center-align">
                 <h2>Консультации по телефону</h2>
                 <?php
-                // выводим виджет с номером 8800
-                $this->widget('application.widgets.Hotline.HotlineWidget', array(
-                    'showAlways' => true,
-                ));
+	                // выводим виджет с номером 8800
+	                $this->widget('application.widgets.Hotline.HotlineWidget', array(
+	                    'showAlways' => true,
+	                ));
                 ?>
                 <p>Оставьте запрос на консультацию и вам перезванивает наш специалист.</p>
             </div>

@@ -7,7 +7,7 @@
                 'action'                =>  Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=sidebar&utm_campaign='.Yii::app()->controller->id,
         )); ?>
 
-
+        <h3>Проконсультируйтесь в режиме online</h3>
         <div class="row">
             <div class="col-md-8 col-sm-12">
                 <div class="form-group">

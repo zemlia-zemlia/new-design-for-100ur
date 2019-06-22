@@ -2,10 +2,12 @@
     <div  class="container">
     <div class="row">
         <div class="col-md-6 hidden-xs">
+        	<!--
             <div id="law-block">
                 <div class="law-name"><a href="/user/8/?from=index-form" rel="nofollow">Тарасова Марина</a></div>
                 <small>юрист проекта</small>
             </div>
+        -->
         </div>
         <div class="col-md-6">
             <div class="form-container">

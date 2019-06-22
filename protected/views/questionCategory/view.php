@@ -62,7 +62,7 @@ if ($model->seoH1) {
 <div class="row">
 
     <div class="col-sm-9">
-        <div itemscope itemtype="http://schema.org/Article">
+        <div itemscope itemtype="http://schema.org/Article" >
 
             <div class="category-hero post-hero vert-margin40">
                    <!--  <img src="<?php echo $model->getImagePath(); ?>" alt="<?php echo $pageTitle; ?>"
@@ -94,7 +94,7 @@ if ($model->seoH1) {
 
             <?php if ($model->description1): ?>
                 <article>
-                    <div class="article vert-margin30" itemprop="articleBody">
+                    <div class="article vert-margin40" itemprop="articleBody">
                         <?php echo $model->description1; ?>
                     </div>
                 </article>
@@ -120,7 +120,7 @@ if ($model->seoH1) {
                 </div>
             <?php endif; ?>
 
-            <div class="row vert-margin30">
+            <div class="row vert-margin40">
                 <div class="col-sm-12 right-align">
                     <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
                     <script src="//yastatic.net/share2/share.js"></script>
@@ -129,14 +129,6 @@ if ($model->seoH1) {
                 </div>
             </div>
 
-                <div class="vert-margin20">
-                    <?php
-                    // выводим виджет с формой
-                    $this->widget('application.widgets.SimpleForm.SimpleForm', array(
-                        'template' => 'gorizont',
-                    ));
-                    ?>
-                </div>
 
             <?php /*
             $this->widget('application.widgets.RecentCategories.RecentCategories', [
@@ -148,6 +140,29 @@ if ($model->seoH1) {
             ?>
 
         </div>
+
+                <div class="vert-margin20">
+                    <?php
+                    // выводим виджет с формой
+                    $this->widget('application.widgets.SimpleForm.SimpleForm', array(
+                        'template' => 'gorizont',
+                    ));
+                    ?>
+                </div>
+
+		        <div class="popular-questions vert-margin40">
+		            <h2>Примеры бесплатных онлайн-консультаций</h2>
+		            <?php
+		            $this->widget('application.widgets.PopularQuestions.PopularQuestions', [
+		                'template' => 'default',
+		                'cacheTime' => 10,
+		            ]);
+		            ?>
+		        </div>
+
+
+
+
     </div>
 
     <div class="col-sm-3">
@@ -211,7 +226,7 @@ if ($model->seoH1) {
                     </div>
                 <?php endif; ?>
 
-            <div>
+            <div class="vert-margin40">
                 <?php
                 $this->widget('application.widgets.RecentCategories.RecentCategories', [
                     'number' => 5,
@@ -219,6 +234,18 @@ if ($model->seoH1) {
                     ]);
                 ?>
             </div>
+            <div class="inside article-preview">
+                    <h3>Обсуждаемые новости</h3>
+                    <?php
+                    $this->widget('application.widgets.RecentPosts.RecentPosts', [
+                        'number' => 8,
+                        'order' => 'fresh_views',
+                        'intervalDays' => 100,
+                        'template' => 'default1',
+
+                    ]);
+                    ?>
+                </div>
     </div>
 
 
