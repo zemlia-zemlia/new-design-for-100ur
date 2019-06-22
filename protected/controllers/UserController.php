@@ -793,6 +793,7 @@ class UserController extends Controller
         if ($yurist->id === Yii::app()->user->id) {
             throw new CHttpException(400, 'Вы не можете оставлять отзывы на себя');
         }
+        $questionId = (int)Yii::app()->request->getParam('questionId');
 
         $commentModel = new Comment();
         $commentModel->setScenario('user');
@@ -800,6 +801,7 @@ class UserController extends Controller
         if(isset($_POST['Comment'])) {
             $commentModel->attributes = $_POST['Comment'];
             $commentModel->authorId = Yii::app()->user->id;
+            $commentModel->questionId = $questionId;
 
             // сохраняем комментарий с учетом его иерархии
             if ($commentModel->saveNode()) {

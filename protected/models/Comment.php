@@ -14,6 +14,7 @@
  * @property string $dateTime
  * @property string $authorName
  * @property string $title
+ * @property integer $questionId
  */
 class Comment extends CActiveRecord
 {
@@ -27,6 +28,7 @@ class Comment extends CActiveRecord
     const TYPE_RESPONSE = 7; // комментарии к откликам на заказы документов
     const TYPE_ORDER = 8; // комментарии к заказам документов
     const TYPE_POST = 9; // комментарии к постам блога
+    const TYPE_ADMIN = 10; // комментарии на пользователей, видимые админам
     const STATUS_NEW = 0;
     const STATUS_CHECKED = 1;
     const STATUS_SPAM = 2;
@@ -127,6 +129,7 @@ class Comment extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'author' => array(self::BELONGS_TO, 'User', 'authorId'),
+            'question' => array(self::BELONGS_TO, 'Question', 'questionId'),
         );
     }
 
@@ -146,6 +149,7 @@ class Comment extends CActiveRecord
             'rating' => 'Оценка',
             'authorName' => 'Имя автора',
             'title' => 'Заголовок',
+            'questionId' => 'Вопрос',
         );
     }
 

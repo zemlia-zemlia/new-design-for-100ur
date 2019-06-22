@@ -97,6 +97,22 @@ Yii::app()->clientScript->registerLinkTag("canonical", NULL, "https://" . $_SERV
 
 <div class="row">
     <div class="col-sm-12">
+        <div class="vert-margin30">
+            <?php
+            // выводим виджет с последними ответами
+            $this->widget('application.widgets.Testimonials.TestimonialsWidget', array(
+                'template' => 'default',
+                'limit' => 6,
+                'cacheTime' => 3600,
+            ));
+            ?>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12">
         <div class="vert-margin40">
             <h2>Онлайн консультация юриста</h2>
             <p>

@@ -194,7 +194,7 @@ class Answer extends CActiveRecord {
         $criteria = new CDbCriteria;
         $criteria->order = 't.id ASC';
         $criteria->with = "comments";
-        $criteria->addColumnCondition(['questionId' => $question->id]);
+        $criteria->addColumnCondition(['t.questionId' => $question->id]);
 
         $answersDataProvider = new CActiveDataProvider(Answer::class, [
             'criteria' => $criteria,

@@ -139,7 +139,7 @@
                             </span>
                             <?php endif; ?>
 
-                            <?php echo CHtml::link('Оставьте отзыв о консультации', Yii::app()->createUrl('user/testimonial', ['id' => $data->authorId]), ['class' => 'btn btn-xs btn-default']); ?></a>
+                            <?php echo CHtml::link('Оставьте отзыв о консультации', Yii::app()->createUrl('user/testimonial', ['id' => $data->authorId, 'questionId' => $data->questionId]), ['class' => 'btn btn-xs btn-default']); ?></a>
 
                         <?php endif; ?>
                     </div>

@@ -319,7 +319,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <strong>Ваш комментарий:</strong>
                 <?php
                 $this->renderPartial('application.views.comment._form', array(
-                    'type' => Comment::TYPE_USER,
+                    'type' => Comment::TYPE_ADMIN,
                     'objectId' => $model->id,
                     'model' => $commentModel,
                     'hideRating' => true,
@@ -329,9 +329,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             </div>
         <?php endif; ?>
 
-        <?php if ($model->comments): ?>
+        <?php if ($model->adminComments): ?>
 
-            <?php foreach ($model->comments as $comment): ?>
+            <?php foreach ($model->adminComments as $comment): ?>
                 <?php if ($comment->status != Comment::STATUS_SPAM): ?>
                     <div class="user-comment" style="margin-left:<?php echo ($comment->level - 1) * 20; ?>px;">
 
@@ -356,7 +356,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                 <strong>Ваш ответ:</strong>
                                 <?php
                                 $this->renderPartial('application.views.comment._form', array(
-                                    'type' => Comment::TYPE_USER,
+                                    'type' => Comment::TYPE_ADMIN,
                                     'objectId' => $model->id,
                                     'model' => $commentModel,
                                     'hideRating' => true,
