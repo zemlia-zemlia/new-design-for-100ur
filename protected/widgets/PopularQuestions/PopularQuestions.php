@@ -9,6 +9,7 @@ class PopularQuestions extends CWidget
     public $template = 'default'; // представление виджета по умолчанию
     public $cacheTime = 600; // время кеширования по умолчанию
     public $showPayed = false; // показывать платные вопросы
+    public $intervalDays = 15; // период выборки
 
     public function run()
     {
@@ -27,10 +28,11 @@ class PopularQuestions extends CWidget
             ->from('{{question}} q')
             ->leftJoin('{{answer}} a', 'q.id=a.questionId')
             ->leftJoin('{{comment}} c', 'a.id = c.objectId')
-            ->where('q.createDate > NOW() - INTERVAL 7 DAY AND ' . $priceCondition . ' AND a.status!=:status AND c.type=:commentType AND c.status!=:commentSpam', [
+            ->where('q.createDate > NOW() - INTERVAL :interval DAY AND ' . $priceCondition . ' AND a.status!=:status AND c.type=:commentType AND c.status!=:commentSpam', [
                 ':status' => Answer::STATUS_SPAM,
                 ':commentType' => Comment::TYPE_ANSWER,
                 ':commentSpam' => Comment::STATUS_SPAM,
+                ':interval' => $this->intervalDays,
             ])
             ->group('a.id')
             ->order('q.id DESC')

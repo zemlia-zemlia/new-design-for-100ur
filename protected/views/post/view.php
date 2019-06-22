@@ -8,6 +8,11 @@ Yii::app()->clientScript->registerMetaTag($model->description, "Description");
 
 Yii::app()->clientScript->registerLinkTag("canonical", NULL, Yii::app()->createUrl('post/view', array('id' => $model->id, 'alias' => $model->alias)));
 
+$additionalTags = $model->getAdditionalMetaTags();
+foreach ($additionalTags as $property => $content) {
+    Yii::app()->clientScript->registerMetaTag($content, $property);
+}
+
 $this->breadcrumbs = array(
     'Новости' => array('/blog'),
     CHtml::encode($model->title),
@@ -49,6 +54,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </div>
 <?php endif; ?>
 
+<div class="post-text">
+    <?php
+    // очищаем текст поста от ненужных тегов перед выводом в браузер
+
+    echo $purifier->purify($model->text);
+    ?>
+</div>
+
 <div class="post-stats vert-margin20">
     <div class='row'>
         <div class='col-md-4 col-sm-3 right-align'></div>
@@ -64,20 +77,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
             <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,twitter,lj"></div>
         </div>
-
-
     </div>
 </div>
-
-<div class="post-text">
-    <?php
-    // очищаем текст поста от ненужных тегов перед выводом в браузер
-
-    echo $purifier->purify($model->text);
-    ?>
-</div>
-
-
 
 <?php if (!Yii::app()->user->isGuest && !is_null($postCommentModel)): ?>
     <div class="vert-margin30 sidebar-form inside">

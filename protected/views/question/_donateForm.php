@@ -13,17 +13,15 @@ $successUrl = (isset($successUrl)) ? urlencode($successUrl) : urlencode(Yii::app
         <input type="hidden" name="targets" value="<?php echo $target; ?>">
         <input type="hidden" name="paymentType" value="AC">
 
-        <div class="col-sm-3 col-xs-3 text-right">
+        <div class="col-sm-4 col-xs-3 text-right">
             <label for="sum">Сумма</label>
         </div>
         <div class="col-sm-2 col-xs-4">
             <input type="text" name="sum" value="190" data-type="number" id="sum"
                    class="form-control text-right">
         </div>
-        <div class="col-sm-7 text-left">
+        <div class="col-sm-6 text-left">
             <input type="submit" class="btn btn-default" value="Оплатить">
-            или
-            <?php echo CHtml::link('Оставьте отзыв', Yii::app()->createUrl('user/testimonial', ['id' => $answer->authorId]), ['class' => 'btn btn-default']); ?></a>
         </div>
     </div>
 </form>

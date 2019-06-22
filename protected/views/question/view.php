@@ -241,6 +241,7 @@ $this->breadcrumbs = array(
             'template' => 'default',
             'cacheTime' => 10,
             'showPayed' => true,
+            'intervalDays' => 15,
         ]);
         ?>
     </div>

@@ -29,7 +29,6 @@ if ($model->seoKeywords) {
 Yii::app()->clientScript->registerLinkTag("canonical", NULL, Yii::app()->createUrl('/questionCategory/alias', $model->getUrl()));
 
 $additionalTags = $model->getAdditionalMetaTags();
-//CustomFuncs::printr($additionalTags);exit;
 foreach ($additionalTags as $property => $content) {
     Yii::app()->clientScript->registerMetaTag($content, $property);
 }

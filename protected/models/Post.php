@@ -339,4 +339,22 @@ class Post extends CActiveRecord
         return $photoUrl;
     }
 
+    /**
+     * Возвращает массив метатегов для страницы категории
+     */
+    public function getAdditionalMetaTags()
+    {
+        $tags = [
+            'og:title' => CHtml::encode($this->title),
+            'og:type' => "article",
+            'og:image' => Yii::app()->urlManager->baseUrl . $this->getPhotoUrl(),
+            'og:url' => Yii::app()->createUrl('post/view', ['id' => $this->id, 'alias' => $this->alias]),
+            'og:description' => CHtml::encode($this->description),
+            'og:locale' => 'ru_RU',
+            'og:site_name' => Yii::app()->name,
+        ];
+
+        return $tags;
+    }
+
 }
