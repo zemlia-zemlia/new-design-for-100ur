@@ -11,12 +11,12 @@ $purifier = new CHtmlPurifier();
         <?php endif; ?>
 
         <div class="col-sm-4">
-            <p>
-                <?php echo CHtml::encode($testimonial->author->name); ?>
+            <h4 class="text-left">
+                <strong><?php echo CHtml::encode($testimonial->author->name); ?></strong>
                 <span class="text-muted small">
                         <?php echo CustomFuncs::niceDate($testimonial->dateTime, false, false); ?>
                     </span>
-            </p>
+            </h4>
             <p class="vert-margin30">
                 <?php echo $purifier->purify($testimonial->text); ?>
             </p>
