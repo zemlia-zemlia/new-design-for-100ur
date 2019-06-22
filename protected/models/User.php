@@ -1234,7 +1234,7 @@ class User extends CActiveRecord
 
         $mailer->message = "<h1>Благодарность за консультацию по вопросу</h1>
             <p>Здравствуйте, " . CHtml::encode($yurist->name) . "<br /><br />" .
-           "Вам зачислены ". $yuristBonus ." руб. в благодарность за консультацию по вопросу " .
+            "Вам зачислены " . $yuristBonus . " руб. в благодарность за консультацию по вопросу " .
             CHtml::link(CHtml::encode($answer->question->title), Yii::app()->createUrl('question/view', ['id' => $answer->questionId])) . "</p>";
         $mailer->message .= '<p>Ваш баланс и история его изменений доступны в Личном кабинете.</p>';
         $mailer->message .= '<p>Благодарим за сотрудничество!</p>';
@@ -1289,13 +1289,13 @@ class User extends CActiveRecord
         $commentsNumber = 0;
 
         foreach ($this->comments as $comment) {
-            if($comment->status != Comment::STATUS_SPAM) {
-                $ratingsSum+=$comment->rating;
+            if ($comment->status != Comment::STATUS_SPAM) {
+                $ratingsSum += $comment->rating;
                 $commentsNumber++;
             }
         }
 
-        if($commentsNumber > 0) {
+        if ($commentsNumber > 0) {
             $rating = round($ratingsSum / $commentsNumber, 1);
         }
 
@@ -1312,7 +1312,7 @@ class User extends CActiveRecord
     {
         $testimonialsCriteria = new CDbCriteria();
         $testimonialsCriteria->order = 'id DESC';
-        if(!is_null($limit)) {
+        if (!is_null($limit)) {
             $testimonialsCriteria->limit = $limit;
         }
 
@@ -1330,4 +1330,69 @@ class User extends CActiveRecord
         return $testimonialsDataProvider;
     }
 
+
+    /**
+     * Возвращает название ранга пользователя
+     * @return string|null
+     * @throws Exception
+     */
+    public function getRangName()
+    {
+        $rangName = null;
+        if ($this->settings) {
+            $yuristRangs = new YuristRang(Yii::app()->params['rangs']);
+            $rangsInfo = $yuristRangs->getRangInfo($this->settings->rang);
+        }
+        $rangName = (isset($rangsInfo['name'])) ? $rangsInfo['name'] : null;
+
+        return $rangName;
+    }
+
+    /**
+     * Проверяет, какого ранга достоин пользователь.
+     * Если большего, чем сейчас, увеличиваем ранг и отправляем уведомление
+     */
+    public function detectRang()
+    {
+        $yuristSetting = $this->settings;
+        $yuristRangs = new YuristRang(Yii::app()->params['rangs']);
+        $newRang = $yuristRangs->detectRang($this);
+
+        if ($yuristSetting->rang != $newRang) {
+            $yuristSetting->rang = $newRang;
+
+            if ($yuristSetting->save()) {
+                $newRangInfo = $yuristRangs->getRangInfo($newRang);
+                $this->sendNewRangNotification($newRangInfo);
+            } else {
+                LoggerFactory::getLogger()->log('Не удалось сменить ранг пользователя', 'User', $this->id);
+            }
+        }
+    }
+
+    /**
+     * Отправляет письмо юристу с уведомлением о смене ранга
+     * @param array $newRangInfo
+     * @return bool
+     */
+    public function sendNewRangNotification($newRangInfo)
+    {
+        $mailer = new GTMail();
+        $mailer->subject = "Измененилось ваше звание";
+
+        $mailer->message = "<h1>Ваше новое звание: " . $newRangInfo['name'] . "</h1>
+            <p>Звания показывают активность и профессионализм юриста. Они присваиваются за определенное количество ответов, отзывов и среднюю оценку по отзывам.</p>";
+
+        // отправляем письмо на почту пользователя
+        $mailer->email = $this->email;
+
+        if ($mailer->sendMail(true, '100yuristov')) {
+            Yii::log("Отправлено письмо юристу " . $this->email . " с уведомлением о новом звании", 'info', 'system.web.User');
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log("Не удалось отправить письмо пользователю " . $this->email . " с уведомлением о новом звании", 'error', 'system.web.User');
+            return false;
+        }
+    }
 }

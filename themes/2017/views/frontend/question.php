@@ -35,6 +35,30 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                     </div>
 
                     <div class="vert-margin20">
+                        <div class="flat-panel inside">
+                            <h4>Мои достижения</h4>
+                            <?php
+                            $rangName = Yii::app()->user->getRangName();
+                            $rangsCount = sizeof(Yii::app()->params['rangs']);
+                            $currentRang = Yii::app()->user->settings->rang;
+                            $percent = ($currentRang + 1) / $rangsCount * 100;
+                            ?>
+                            <?php if ($rangName): ?>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $percent; ?>"
+                                         aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $percent; ?>%;">
+                                        <span class="sr-only"><?php echo $percent; ?>% Complete</span>
+                                        <?php echo $rangName; ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                            <p class="text-center">
+                                <?php echo CHtml::link('Подробнее о достижениях', Yii::app()->createUrl('site/rangs')); ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="vert-margin20">
                         <?php
                         // выводим виджет со статистикой ответов
                         $this->widget('application.widgets.MyAnswers.MyAnswers', array());
@@ -108,10 +132,6 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                     ));
                     ?>
                 </div>
-
-
-
-
 
 
                 <?php if (Yii::app()->user->isGuest): ?>

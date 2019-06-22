@@ -25,7 +25,8 @@
  * @property string $phoneVisible
  * @property string $emailVisible
  * @property integer $subscribeQuestions
- * 
+ * @property integer $rang
+ *
  */
 class YuristSettings extends CActiveRecord
 {
@@ -112,6 +113,7 @@ class YuristSettings extends CActiveRecord
             'phoneVisible'  =>  'Общедоступный телефон',
             'emailVisible'  =>  'Общедоступный Email',
             'subscribeQuestions'     =>  'Получать уведомления о вопросах',
+            'rang'     =>  'Звание',
         );
     }
 

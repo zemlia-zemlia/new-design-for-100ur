@@ -36,6 +36,27 @@ class YuristRatingCommand extends CConsoleCommand
                     ->update('{{user}}', ['rating' => $row['ratio']], 'id=:id', [':id'=>$row['id']]);
         }
     }
+
+    /**
+     * Пересчет званий юристов
+     */
+    public function actionRang()
+    {
+        $startTime = microtime(true);
+
+//        $yurists = User::model()->findAllByAttributes(['role' => User::ROLE_JURIST, 'active100' => 1]);
+
+        $yurists =  [User::model()->findByPk(8)];
+
+        foreach ($yurists as $yurist) {
+            $yurist->detectRang();
+        }
+
+        $finishTime = microtime(true);
+        $executionTime = round($finishTime - $startTime, 3);
+
+        echo 'Processed ' . sizeof($yurists) . ' records in ' . $executionTime . ' seconds';
+    }
 }
 
 

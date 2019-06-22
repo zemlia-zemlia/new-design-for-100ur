@@ -183,14 +183,16 @@ class Question extends CActiveRecord {
 
     /**
      * возвращает количество вопросов без ответов
+     * @param integer $interval Количество дней
      * @return int количество вопросов
      */
-    static public function getCountWithoutAnswers() {
+    static public function getCountWithoutAnswers($interval = 30) {
         $connection = Yii::app()->db;
-        $sql = "SELECT COUNT(*) counter FROM {{question}} q LEFT OUTER JOIN {{answer}} a ON a.questionId = q.id WHERE a.id IS NULL AND q.status IN (:statusPub,:statusCheck)";
+        $sql = "SELECT COUNT(*) counter FROM {{question}} q LEFT OUTER JOIN {{answer}} a ON a.questionId = q.id WHERE a.id IS NULL AND q.status IN (:statusPub,:statusCheck) AND q.createDate > NOW()-INTERVAL :interval DAY";
         $command = $connection->createCommand($sql);
         $command->bindValue(":statusCheck", Question::STATUS_CHECK, PDO::PARAM_INT);
         $command->bindValue(":statusPub", Question::STATUS_PUBLISHED, PDO::PARAM_INT);
+        $command->bindValue(":interval", $interval, PDO::PARAM_INT);
         $row = $command->queryRow();
         return $row['counter'];
     }

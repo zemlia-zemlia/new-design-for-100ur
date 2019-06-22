@@ -74,7 +74,6 @@ if (Yii::app()->user->id != $user->id) {
         <?php endif; ?>
     </h1>
 
-
     <div class='vert-margin20'>
         <div class="row">
             <div class="col-sm-4 center-align">

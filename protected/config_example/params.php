@@ -1,7 +1,8 @@
 <?php
 // this contains the application parameters that can be maintained via GUI
 return array(
-	'adminEmail'    =>  '100yuristov@mail.ru',
+    'rangs' => require(dirname(__FILE__) . '/rangs.php'),
+    'adminEmail'    =>  '100yuristov@mail.ru',
         'leadsEmail'    =>  'admin@100yuristov.com',
         'adminNotificationsEmail'    =>  'admin@100yuristov.com',
         '100yuristovSourceId'   =>  3,  // id источника лидов, соответствующего 100 юристам

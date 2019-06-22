@@ -23,15 +23,17 @@
                                          class="img-responsive"/>
                                 </a>
                             </div>
-                            <?php if (floor((time() - strtotime($data->author->lastActivity)) / 60) < 60): ?>
-                                <div class="center-align">
-                                    <small><span class="label label-success">Сейчас на сайте</span></small>
+                            <?php if ($data->authorId != Yii::app()->user->id): ?>
+                                <div class="center-align vert-margin10">
+                                    <a href="<?php echo Yii::app()->createUrl('user/view', array('id' => $data->authorId)); ?>"
+                                       rel="nofollow" class='btn btn-block btn-xs btn-default'>В профиль</a>
                                 </div>
                             <?php endif; ?>
 
-                            <?php if ($data->authorId != Yii::app()->user->id): ?>
-                                <a href="<?php echo Yii::app()->createUrl('user/view', array('id' => $data->authorId)); ?>"
-                                   rel="nofollow" class='btn btn-block btn-xs btn-default'>В профиль</a>
+                            <?php if (floor((time() - strtotime($data->author->lastActivity)) / 60) < 60): ?>
+                                <div class="center-align vert-margin10">
+                                    <small><span class="label label-success">Сейчас на сайте</span></small>
+                                </div>
                             <?php endif; ?>
 
                         <?php endif; ?>
