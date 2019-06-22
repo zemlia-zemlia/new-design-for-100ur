@@ -44,9 +44,7 @@ class YuristRatingCommand extends CConsoleCommand
     {
         $startTime = microtime(true);
 
-//        $yurists = User::model()->findAllByAttributes(['role' => User::ROLE_JURIST, 'active100' => 1]);
-
-        $yurists =  [User::model()->findByPk(8)];
+        $yurists = User::model()->findAllByAttributes(['role' => User::ROLE_JURIST, 'active100' => 1]);
 
         foreach ($yurists as $yurist) {
             $yurist->detectRang();
