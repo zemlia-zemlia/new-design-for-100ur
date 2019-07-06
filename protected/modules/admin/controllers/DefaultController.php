@@ -144,7 +144,7 @@ class DefaultController extends Controller {
         $stat100yuristovRows = Yii::app()->db->createCommand()
             ->select("DATE(l.question_date) lead_date, COUNT(*) counter")
             ->from("{{lead}} l")
-            ->where("l.question_date > NOW() - INTERVAL 30 DAY AND l.sourceId = 3")
+            ->where("l.question_date > NOW() - INTERVAL 30 DAY AND l.sourceId = 3 AND l.leadStatus NOT IN (:double, :brak)", [':double' => Lead::LEAD_STATUS_DUPLICATE, ':brak' => Lead::LEAD_STATUS_BRAK])
             ->group("lead_date")
             ->order("lead_date")
             ->queryAll();
