@@ -13,9 +13,7 @@ $purifier = new CHtmlPurifier();
         <div class="col-sm-4">
             <h4 class="text-left">
                 <strong><?php echo CHtml::encode($testimonial->author->name); ?></strong>
-                <span class="text-muted small">
-                        <?php echo CustomFuncs::niceDate($testimonial->dateTime, false, false); ?>
-                    </span>
+ 
             </h4>
             <p class="vert-margin30">
                 <?php echo $purifier->purify($testimonial->text); ?>
@@ -25,6 +23,9 @@ $purifier = new CHtmlPurifier();
                     Вопрос: <?php echo CHtml::link(CHtml::encode($testimonial->question->title), Yii::app()->createUrl('question/view', ['id' => $testimonial->question->id])); ?>
                 </p>
             <?php endif; ?>
+                            <span class="text-muted small right-align">
+                        <?php echo CustomFuncs::niceDate($testimonial->dateTime, false, false); ?>
+                    </span>
         </div>
         <?php if ($index % 3 == 2): ?>
             </div>

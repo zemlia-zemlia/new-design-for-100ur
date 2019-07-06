@@ -1,5 +1,5 @@
 <?php
-$this->setPageTitle("Звания юристов. " . Yii::app()->name);
+$this->setPageTitle("Звания юристов. " );
 Yii::app()->clientScript->registerMetaTag("", 'description');
 
 $answersCount = $user->answersCount;

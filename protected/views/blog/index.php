@@ -2,13 +2,13 @@
 /* @var $this CategoryController */
 /* @var $dataProvider CActiveDataProvider */
 
-$pageTitle = "Новости ";
+$pageTitle = "Новости - новостные и информационные публикации";
 if(isset($_GET) && (int)$_GET['Post_page']) {
     $pageNumber = (int)$_GET['Post_page'];
     $pagesTotal = ceil($dataProvider->totalItemCount / $dataProvider->pagination->getPageSize());
     $pageTitle .= 'Страница ' . $pageNumber . ' из ' . $pagesTotal . '. ';
 }
-$this->setPageTitle($pageTitle . Yii::app()->name);
+$this->setPageTitle($pageTitle);
 
 Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('/blog'));
 Yii::app()->clientScript->registerMetaTag("Раздел в котором мы публикуем самые интересные новости и факты произошедшие в стране.", "Description");

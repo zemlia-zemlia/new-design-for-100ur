@@ -1,5 +1,5 @@
 <?php
-$this->setPageTitle("Для юристов." . Yii::app()->name);
+$this->setPageTitle("Для юристов.");
 Yii::app()->clientScript->registerMetaTag("", 'description');
 ?>
 

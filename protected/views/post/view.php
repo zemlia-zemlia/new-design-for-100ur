@@ -3,7 +3,7 @@
 /* @var $model Post */
 $purifier = new Purifier();
 
-$this->setPageTitle(CHtml::encode($model->title) . " " . "Консультации " . Yii::app()->name);
+$this->setPageTitle(CHtml::encode($model->title));
 Yii::app()->clientScript->registerMetaTag($model->description, "Description");
 
 Yii::app()->clientScript->registerLinkTag("canonical", NULL, Yii::app()->createUrl('post/view', array('id' => $model->id, 'alias' => $model->alias)));

@@ -14,7 +14,7 @@ if($model->settings) {
 } else {
     $userStatusName = '';
 }
-$this->setPageTitle($userStatusName . $userDisplayName . '. Город ' . $model->town->name . '. ' . Yii::app()->name);
+$this->setPageTitle($userStatusName . $userDisplayName . '. Город ' . $model->town->name . '. ');
 Yii::app()->clientScript->registerMetaTag("100 Юристов. " . $userStatusName . $userDisplayName . '. Город ' . $model->town->name . '. ', "Description");
         
 $this->widget('zii.widgets.CBreadcrumbs', array(

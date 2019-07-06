@@ -33,9 +33,9 @@ if ($user->settings) {
     $title = $user->settings->getStatusName() . ' ' . $title;
 }
 
-$title .= ', ' . $user->town->name;
+$title .= ' город ' . $user->town->name;
 
-$this->setPageTitle($title . '. ' . Yii::app()->name);
+$this->setPageTitle($title . '. ' );
 
 // формируем метаописание профиля
 $pageDescription = '';

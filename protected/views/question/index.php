@@ -6,7 +6,7 @@ Yii::app()->clientScript->registerLinkTag("canonical", NULL, Yii::app()->createU
 
 $pageTitle = "Последние советы юристов бесплатно онлайн ";
 
-$this->setPageTitle($pageTitle . Yii::app()->name);
+$this->setPageTitle($pageTitle);
 
 Yii::app()->clientScript->registerMetaTag("Советы юристов по всем отраслям права задайте свой вопрос и получите ответ в течении 15 минут", 'description');
 ?>
@@ -14,7 +14,7 @@ Yii::app()->clientScript->registerMetaTag("Советы юристов по вс
 
 <h1 class="header-block-light-grey vert-margin20">Последние вопросы юристам</h1>
 
-<div class="">
+<div class="vert-margin40">
     <?php foreach ($questions as $question): ?>
         <div class="row question-list-item  <?php if ($question->payed == 1): ?> vip-question<? endif; ?>">
             <div class="col-sm-10 col-xs-8">

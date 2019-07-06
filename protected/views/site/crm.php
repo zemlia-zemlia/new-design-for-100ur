@@ -1,5 +1,5 @@
 <?php
-    $this->setPageTitle("CRM для юристов и юридических компаний yurcrm.ru". Yii::app()->name);
+    $this->setPageTitle("CRM для юристов и юридических компаний yurcrm.ru");
     Yii::app()->clientScript->registerMetaTag("Занимаетесь юридической деятельностью?! Автоматизируйте рабочие процессы от первичной консультации клиента, до представления его интересов в суде!", 'description');
 ?>
 

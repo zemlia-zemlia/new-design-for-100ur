@@ -128,7 +128,7 @@
                             ?>
 
                             <?php if ($data->datetime): ?>
-                                <span class="text-muted">
+                                <span class="text-muted small">
                                 <?php echo CustomFuncs::niceDate($data->datetime, false); ?>
                                 </span>
                             <?php endif; ?>
@@ -139,7 +139,7 @@
                             </span>
                             <?php endif; ?>
 
-                            <?php echo CHtml::link('Оставьте отзыв о консультации', Yii::app()->createUrl('user/testimonial', ['id' => $data->authorId, 'questionId' => $data->questionId]), ['class' => 'btn btn-xs btn-default']); ?></a>
+                            <?php echo CHtml::link('<span class="glyphicon glyphicon-hand-right"></span> Оставьте пожалуйста отзыв о консультации тут', Yii::app()->createUrl('user/testimonial', ['id' => $data->authorId, 'questionId' => $data->questionId]), ['class' => 'btn btn-xs btn-warning']); ?></a>
 
                         <?php endif; ?>
                     </div>
