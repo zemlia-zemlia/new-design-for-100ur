@@ -296,7 +296,7 @@ class Lead extends CActiveRecord
      */
     private function saveSoldLead($buyer, $transaction, $campaign)
     {
-        $leadSentToPartner = false;
+        $leadSentToPartner = null;
 
         if (!$this->save()) {
             $leadSaved = false;
