@@ -141,10 +141,15 @@ class DefaultController extends Controller {
         /*
          * Получение статистики по лидам источника 100 Юристов
          */
+        $monthAgoDate = (new DateTime())->sub(new DateInterval('P30D'))->format('Y-m-d');
         $stat100yuristovRows = Yii::app()->db->createCommand()
             ->select("DATE(l.question_date) lead_date, COUNT(*) counter")
             ->from("{{lead}} l")
-            ->where("l.question_date > NOW() - INTERVAL 30 DAY AND l.sourceId = 3 AND l.leadStatus NOT IN (:double, :brak)", [':double' => Lead::LEAD_STATUS_DUPLICATE, ':brak' => Lead::LEAD_STATUS_BRAK])
+            ->where("DATE(l.question_date) >= :startDate AND l.sourceId = 3 AND l.leadStatus != :brak AND NOT (l.leadStatus = :double AND l.buyerId = 0)", [
+                ':double' => Lead::LEAD_STATUS_DUPLICATE,
+                ':brak' => Lead::LEAD_STATUS_BRAK,
+                ':startDate' => $monthAgoDate,
+                ])
             ->group("lead_date")
             ->order("lead_date")
             ->queryAll();
