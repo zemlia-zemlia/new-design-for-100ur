@@ -117,6 +117,15 @@ class UserController extends Controller {
             ));
         }
 
+        if($model->role == User::ROLE_CLIENT) {
+            $questionCriteria = new CDbCriteria();
+            $questionCriteria->addColumnCondition(['authorId' => $model->id]);
+            $questionCriteria->addInCondition('status', [Question::STATUS_PUBLISHED, Question::STATUS_CHECK]);
+            $questions = Question::model()->findAll($questionCriteria);
+        } else {
+            $questions = [];
+        }
+
         // если был отправлен комментарий
         if (isset($_POST['Comment'])) {
             // отправлен ответ, сохраним его
@@ -149,6 +158,7 @@ class UserController extends Controller {
             'commentModel'  => $commentModel,
             'partnerTransactionsDataProvider'   =>  $partnerTransactionsDataProvider,
             'leadsDataProvider'                 =>  $leadsDataProvider,
+            'questions' => $questions,
         ));
     }
 

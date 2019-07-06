@@ -181,6 +181,14 @@ class QuestionController extends Controller
         $question = new Question();
         $question->setScenario('create');
 
+        if (!Yii::app()->user->isGuest) {
+            $user = User::model()->findByPk(Yii::app()->user->id);
+            $myRecentQuestionsCount = $user->getRecentQuestionCount(1);
+            if ($myRecentQuestionsCount > 0) {
+                return $this->render('questionsLimit');
+            }
+        }
+
         // параметр, определяющий, будет ли в форме блок выбора цены (форма платного вопроса)
         $pay = (isset($_GET['pay'])) ? true : false;
 
@@ -646,6 +654,14 @@ class QuestionController extends Controller
         $lead = new Lead();
         $lead->setScenario('createCall');
 
+        if (!Yii::app()->user->isGuest) {
+            $user = User::model()->findByPk(Yii::app()->user->id);
+            $myRecentQuestionsCount = $user->getRecentQuestionCount(1);
+            if ($myRecentQuestionsCount > 0) {
+                return $this->render('questionsLimit');
+            }
+        }
+
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
 
@@ -988,7 +1004,7 @@ class QuestionController extends Controller
             echo json_encode([
                 'code' => 400,
                 'message' => 'No input data',
-                ]);
+            ]);
             Yii::app()->end();
         }
         $model = new Lead;
@@ -1016,7 +1032,7 @@ class QuestionController extends Controller
             echo json_encode([
                 'code' => 400,
                 'message' => 'Unknown sender. Check App ID parameter',
-                ]);
+            ]);
             Yii::app()->end();
         }
 
@@ -1036,7 +1052,7 @@ class QuestionController extends Controller
             echo json_encode([
                 'code' => 403,
                 'message' => 'Signature wrong',
-                ]);
+            ]);
             Yii::app()->end();
         }
 
@@ -1044,7 +1060,7 @@ class QuestionController extends Controller
             die(json_encode([
                 'code' => 400,
                 'message' => 'Dublicates found',
-                ]));
+            ]));
             Yii::app()->end();
         }
 
@@ -1052,14 +1068,14 @@ class QuestionController extends Controller
             echo json_encode([
                 'code' => 200,
                 'message' => 'OK',
-                ]);
+            ]);
             Yii::app()->end();
         } else {
             echo json_encode([
                 'code' => 500,
                 'message' => 'Lead not saved.',
                 'errors' => $model->errors,
-                ]);
+            ]);
             Yii::app()->end();
         }
     }
@@ -1090,7 +1106,7 @@ class QuestionController extends Controller
                 ':status1' => Question::STATUS_CHECK,
                 ':status2' => Question::STATUS_PUBLISHED,
                 ':year' => $year,
-                ])
+            ])
             ->group('month')
             ->queryAll();
         foreach ($datesRows as $row) {
@@ -1131,14 +1147,14 @@ class QuestionController extends Controller
                 'code' => 200,
                 'message' => '',
                 'id' => $question->id,
-                ]);
+            ]);
             Yii::app()->end();
         } else {
             echo json_encode([
                 'code' => 500,
                 'message' => 'Не удалось отметить комментарии прочитанными',
                 'id' => $question->id,
-                ]);
+            ]);
             Yii::app()->end();
         }
     }

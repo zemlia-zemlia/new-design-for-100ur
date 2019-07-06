@@ -214,9 +214,7 @@ class QuestionController extends Controller {
             $criteria->with = array(
                 'categories',
                 'town',
-                (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)) ? "answersCount" : 'answersCount' => array(
-                    'having' => 's=0',
-                ),
+                $answersCountRelation,
                 'bublishUser',
             );
             $nocat = false;

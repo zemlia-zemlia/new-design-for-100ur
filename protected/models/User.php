@@ -1396,4 +1396,20 @@ class User extends CActiveRecord
             return false;
         }
     }
+
+    /**
+     * Получение числа вопросов, заданных пользователем за последние часы
+     * @param integer $intervalHours Количество часов
+     * @return mixed
+     */
+    public function getRecentQuestionCount($intervalHours)
+    {
+        $myRecentQuestionsCount = Yii::app()->db->createCommand()
+            ->select('COUNT(id) counter')
+            ->from('{{question}}')
+            ->where('authorId=:id AND createDate > NOW() - INTERVAL :hours HOUR', [':id' => $this->id, ':hours' => $intervalHours])
+            ->queryScalar();
+
+        return $myRecentQuestionsCount;
+    }
 }

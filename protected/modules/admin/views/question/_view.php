@@ -58,8 +58,10 @@
                     <?php echo "Город по IP адресу: " . $data->townByIP->name;?> &nbsp; 
                 <?php endif;?>
             <?php endif;?>
-            
-            <?php if($data->authorName):?>
+
+            <?php if($data->author instanceof User):?>
+                <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($data->authorName), Yii::app()->createUrl('admin/user/view', ['id' => $data->authorId]));?>
+            <?php elseif($data->authorName):?>
             <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo CHtml::encode($data->authorName);?>
             <? endif;?>
 
