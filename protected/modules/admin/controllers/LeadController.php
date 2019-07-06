@@ -137,6 +137,7 @@ class LeadController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
+        $model->setScenario('update');
 
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
