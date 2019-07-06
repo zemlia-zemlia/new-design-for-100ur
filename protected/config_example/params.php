@@ -66,4 +66,5 @@ return array(
         'yurcrmDefaultTariff' => 5, // тариф по умолчанию для создаваемых пользователей в CRM
         'yurcrmApiUrl' => 'http://crm2/api/', // адрес API CRM
         'yurcrmDomain' => 'http://crm2', // адрес YurCRM
+        'donatesEnabled' => false,
 );

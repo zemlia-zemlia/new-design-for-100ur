@@ -207,17 +207,19 @@
                         ?>
                     <?php endif; ?>
 
-                    <?php if (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT): ?>
-                        <div class='donate-block'>
-                            <h3>Поблагодарите
-                                юриста <?php echo CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->lastName); ?>
-                                за консультацию</h3>
-                            <?php $this->renderPartial("application.views.question._donateForm", array(
-                                'target' => 'Благодарность юристу ' . CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->lastName),
-                                'successUrl' => Yii::app()->createUrl('question/view', array('id' => $data->questionId, 'answer_payed_id' => $data->id)),
-                                'answer' => $data,
-                            )); ?>
-                        </div>
+                    <?php if (isset(Yii::app()->params['donatesEnabled']) && Yii::app()->params['donatesEnabled'] == true): ?>
+                        <?php if (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT): ?>
+                            <div class='donate-block'>
+                                <h3>Поблагодарите
+                                    юриста <?php echo CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->lastName); ?>
+                                    за консультацию</h3>
+                                <?php $this->renderPartial("application.views.question._donateForm", array(
+                                    'target' => 'Благодарность юристу ' . CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->lastName),
+                                    'successUrl' => Yii::app()->createUrl('question/view', array('id' => $data->questionId, 'answer_payed_id' => $data->id)),
+                                    'answer' => $data,
+                                )); ?>
+                            </div>
+                        <?php endif; ?>
                     <?php endif; ?>
                 </div>
             </div>
