@@ -296,6 +296,8 @@ class Lead extends CActiveRecord
      */
     private function saveSoldLead($buyer, $transaction, $campaign)
     {
+        $leadSentToPartner = false;
+
         if (!$this->save()) {
             $leadSaved = false;
             Yii::log("Не удалось сохранить лид " . $this->id, 'error', 'system.web.CCommand');
