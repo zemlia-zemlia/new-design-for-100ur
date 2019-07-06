@@ -20,7 +20,7 @@
  * @property integer $sendToApi
  * @property string $apiClass
  * @property integer $type
- * 
+ *
  * @author Michael Krutikov m@mkrutikov.pro
  */
 class Campaign extends CActiveRecord
@@ -108,8 +108,8 @@ class Campaign extends CActiveRecord
             'leadsCount' => array(self::STAT, 'Lead', 'campaignId'),
             'leadsTodayCount' => array(self::STAT, 'Lead', 'campaignId',
                 'condition' => 'DATE(t.deliveryTime)="' . date('Y-m-d') .
-                '" AND leadStatus IN(' . Lead::LEAD_STATUS_SENT . ', ' .
-                Lead::LEAD_STATUS_NABRAK . ', ' . Lead::LEAD_STATUS_RETURN . ')',
+                    '" AND leadStatus IN(' . Lead::LEAD_STATUS_SENT . ', ' .
+                    Lead::LEAD_STATUS_NABRAK . ', ' . Lead::LEAD_STATUS_RETURN . ')',
             ),
             'transactions' => array(self::HAS_MANY, 'TransactionCampaign', 'campaignId', 'order' => 'transactions.id DESC'),
         );
@@ -228,9 +228,9 @@ class Campaign extends CActiveRecord
 
     /**
      * находит список кампаний, подходящих для отправки заданного лида
-     * 
+     *
      * @param int $leadId ID лида
-     * @return int ID кампании для отправки лида 
+     * @return int ID кампании для отправки лида
      */
     public static function getCampaignsForLead($leadId, $returnArray = false)
     {
@@ -255,19 +255,19 @@ class Campaign extends CActiveRecord
          */
         // SELECT * FROM `crm_campaign` WHERE (`townId`=563 OR `regionId`=57) AND `timeFrom`<=16 AND `timeTo`>=16 AND active=1
         $campaignsRows = Yii::app()->db->createCommand()
-                ->select('c.*, u.balance')
-                ->from("{{campaign}} c")
-                ->leftJoin("{{user}} u", "u.id = c.buyerId")
-                ->where("(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1 AND u.balance>=c.price AND c.price>=:buyPrice AND c.type=:typeBuyer", array(
-                    ':townId' => $lead->town->id,
-                    ':regionId' => $lead->town->regionId,
-                    ':hour' => (int) date('H'),
-                    ':buyPrice' => (int) $lead->buyPrice,
-                    ':typeBuyer' => self::TYPE_BUYERS,
-                ))
-                ->order('c.lastLeadTime ASC')
-                ->limit($limit)
-                ->queryAll();
+            ->select('c.*, u.balance')
+            ->from("{{campaign}} c")
+            ->leftJoin("{{user}} u", "u.id = c.buyerId")
+            ->where("(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1 AND u.balance>=c.price AND c.price>=:buyPrice AND c.type=:typeBuyer", array(
+                ':townId' => $lead->town->id,
+                ':regionId' => $lead->town->regionId,
+                ':hour' => (int)date('H'),
+                ':buyPrice' => (int)$lead->buyPrice,
+                ':typeBuyer' => self::TYPE_BUYERS,
+            ))
+            ->order('c.lastLeadTime ASC')
+            ->limit($limit)
+            ->queryAll();
 
         foreach ($campaignsRows as $campaign) {
 
@@ -282,16 +282,16 @@ class Campaign extends CActiveRecord
 
             // находим, сколько лидов сегодня уже отправлено в кампанию
             $campaignTodayLeads = Yii::app()->db->createCommand()
-                    ->select('COUNT(*) counter')
-                    ->from("{{lead}} l")
-                    ->where("DATE(deliveryTime)=:todayDate AND campaignId=:campaignId AND leadStatus IN(:status1, :status2, :status3)", array(
-                        ':todayDate' => date('Y-m-d'),
-                        ':campaignId' => $campaign['id'],
-                        ':status1' => Lead::LEAD_STATUS_SENT,
-                        ':status2' => Lead::LEAD_STATUS_NABRAK,
-                        ':status3' => Lead::LEAD_STATUS_RETURN,
-                    ))
-                    ->queryRow();
+                ->select('COUNT(*) counter')
+                ->from("{{lead}} l")
+                ->where("DATE(deliveryTime)=:todayDate AND campaignId=:campaignId AND leadStatus IN(:status1, :status2, :status3)", array(
+                    ':todayDate' => date('Y-m-d'),
+                    ':campaignId' => $campaign['id'],
+                    ':status1' => Lead::LEAD_STATUS_SENT,
+                    ':status2' => Lead::LEAD_STATUS_NABRAK,
+                    ':status3' => Lead::LEAD_STATUS_RETURN,
+                ))
+                ->queryRow();
 
 
             // если в кампанию сегодня отправлено лидов меньше, чем дневной лимит, добавляем в список кампаний
@@ -322,16 +322,16 @@ class Campaign extends CActiveRecord
         // Если не нашлось ни одной кампании, ищем кампанию партнерских программ для данного региона
 
         $partnerCampaignsRow = Yii::app()->db->createCommand()
-                ->select('c.*')
-                ->from("{{campaign}} c")
-                ->where("(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1 AND c.type=:typePartner", array(
-                    ':townId' => $lead->town->id,
-                    ':regionId' => $lead->town->regionId,
-                    ':hour' => (int) date('H'),
-                    ':typePartner' => self::TYPE_PARTNERS,
-                ))
-                ->order('c.lastLeadTime ASC')
-                ->queryRow();
+            ->select('c.*')
+            ->from("{{campaign}} c")
+            ->where("(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1 AND c.type=:typePartner", array(
+                ':townId' => $lead->town->id,
+                ':regionId' => $lead->town->regionId,
+                ':hour' => (int)date('H'),
+                ':typePartner' => self::TYPE_PARTNERS,
+            ))
+            ->order('c.lastLeadTime ASC')
+            ->queryRow();
 
         if ($partnerCampaignsRow) {
             return ($returnArray === true) ? [$partnerCampaignsRow['id']] : $partnerCampaignsRow['id'];
@@ -340,7 +340,7 @@ class Campaign extends CActiveRecord
 
     /**
      * Поиск кампаний по id покупателя
-     * 
+     *
      * @param type $buyerId id покупателя
      * @return array массив кампаний
      */
@@ -348,7 +348,7 @@ class Campaign extends CActiveRecord
     {
         $criteria = new CDbCriteria;
         $criteria->order = "active DESC";
-        $criteria->addColumnCondition(array('buyerId' => (int) $buyerId));
+        $criteria->addColumnCondition(array('buyerId' => (int)$buyerId));
 
         $dependency = new CDbCacheDependency('SELECT COUNT(id) FROM {{campaign}}');
 
@@ -360,7 +360,7 @@ class Campaign extends CActiveRecord
 
     /**
      * Возвращает имя кампании (город + регион) по ее id
-     * 
+     *
      * @param int $id id кампании
      * @return string имя кампании
      */
@@ -369,18 +369,25 @@ class Campaign extends CActiveRecord
         $campaign = self::model()->cache(600)->with('town', 'region')->findByPk($id);
 
         if (!is_null($campaign)) {
-            return $campaign->town->name . '' . $campaign->region->name;
+            $campaignName = '';
+            if ($campaign->town instanceof Town) {
+                $campaignName .= $campaign->town->name;
+            }
+            if ($campaign->region instanceof Region) {
+                $campaignName .= ' ' . $campaign->region->name;
+            }
+            return trim($campaignName);
         }
     }
 
     /**
      * Возвращает массивы продажных городов и регионов, ключами которых являются коды городов и регионов
-     * 
+     *
      * @return array Массив городов и регионов, пример:
      * array(
      * 'regions' => array(
-     *      71 => 1, 
-     *      104 => 1), 
+     *      71 => 1,
+     *      104 => 1),
      * 'towns' => array(
      *      598 => 1,
      *      830 => 1,
@@ -393,10 +400,10 @@ class Campaign extends CActiveRecord
         $payedTowns = array();
 
         $campaignsRows = Yii::app()->db->cache($cacheTime)->createCommand()
-                ->select('regionId, townId')
-                ->from('{{campaign}} c')
-                ->where('active=1 AND timeFrom<=HOUR(NOW()) AND timeTo>HOUR(NOW())')
-                ->queryAll();
+            ->select('regionId, townId')
+            ->from('{{campaign}} c')
+            ->where('active=1 AND timeFrom<=HOUR(NOW()) AND timeTo>HOUR(NOW())')
+            ->queryAll();
 
         foreach ($campaignsRows as $row) {
             if ($row['regionId'] != 0) {
@@ -416,7 +423,7 @@ class Campaign extends CActiveRecord
     /**
      * Метод, вызываемый перед сохранением кампании.
      * Проверяет заполненность только одного из свойств: город ИЛИ регион
-     * 
+     *
      * @return boolean Пройдена ли проверка
      */
     protected function beforeSave()
@@ -442,16 +449,16 @@ class Campaign extends CActiveRecord
 
     /**
      * Возвращает число кампаний в статусе На модерации
-     * 
+     *
      * @return integer число кампаний
      */
     public static function getModerationCount()
     {
         $campaignsRow = Yii::app()->db->createCommand()
-                ->select('COUNT(*) counter')
-                ->from('{{campaign}}')
-                ->where("active=:active", array(':active' => self::ACTIVE_MODERATION))
-                ->queryRow();
+            ->select('COUNT(*) counter')
+            ->from('{{campaign}}')
+            ->where("active=:active", array(':active' => self::ACTIVE_MODERATION))
+            ->queryRow();
 
         return $campaignsRow['counter'];
     }
@@ -468,11 +475,11 @@ class Campaign extends CActiveRecord
         }
 
         $campaign24hoursLeadsRows = Yii::app()->db->createCommand()
-                ->select('leadStatus, COUNT(*) counter')
-                ->from('{{lead}}')
-                ->where('campaignId = ' . $this->id . ' AND DATE(deliveryTime)="' . $date . '"')
-                ->group('leadStatus')
-                ->queryAll();
+            ->select('leadStatus, COUNT(*) counter')
+            ->from('{{lead}}')
+            ->where('campaignId = ' . $this->id . ' AND DATE(deliveryTime)="' . $date . '"')
+            ->group('leadStatus')
+            ->queryAll();
         //CustomFuncs::printr($campaign24hoursLeadsRows);
 
         $totalLeads = 0;
