@@ -358,7 +358,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <h2>Сообщения</h2>
         <div class="container-fluid">
 
-            <?php if (sizeof($order->comments == 0) && Yii::app()->user->id == $order->userId): ?>
+            <?php if (sizeof($order->comments) == 0 && Yii::app()->user->id == $order->userId): ?>
                 <p>
                     Здесь будет переписка с выбранным исполнителем заказа
                 </p>
