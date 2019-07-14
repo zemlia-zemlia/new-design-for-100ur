@@ -1,10 +1,20 @@
 <?php
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 /**
  * Контроллер первой версии API 100 Юристов
  */
-class ApiController extends Controller
+class ApiController extends CController
 {
+    private $logger;
+
+    public function init()
+    {
+        $this->logger = new Logger('api');
+        $this->logger->pushHandler(new StreamHandler(Yii::getPathOfAlias("application.runtime").'/api.log', Logger::INFO));
+    }
 
     public $layout = '//frontend/atom';
 

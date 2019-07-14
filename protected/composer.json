@@ -10,7 +10,8 @@
         "ext-json":"*",
         "ext-imap": "*",
         "ext-iconv": "*",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "monolog/monolog":"^1.24"
     },
     "require-dev": {
         "codeception/codeception":"*",
