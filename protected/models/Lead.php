@@ -734,20 +734,16 @@ class Lead extends CActiveRecord
     public function calculatePrices()
     {
         $regionBuyPrice = 20;
-        $regionSellPrice = 50;
         $townBuyPrice = 0;
-        $townSellPrice = 0;
 
         $town = $this->town;
         if ($town) {
             $region = $this->town->region;
             $townBuyPrice = $town->buyPrice;
-            $townSellPrice = $town->sellPrice;
         }
 
         if ($region) {
             $regionBuyPrice = $region->buyPrice;
-            $regionSellPrice = $region->sellPrice;
         }
 
         // цена города приоритетнее цены региона

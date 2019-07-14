@@ -31,6 +31,12 @@
     </div>
 
     <div class="form-group">
+        <?php echo $form->checkBox($model, 'priceByPartner', array()); ?>
+        <?php echo $model->getAttributeLabel('priceByPartner'); ?>
+        <?php echo $form->error($model, 'priceByPartner'); ?>
+    </div>
+
+    <div class="form-group">
         <?php echo $form->labelEx($model, 'name'); ?>
         <?php echo $form->textField($model, 'name', array('class' => 'form-control')); ?>
         <?php echo $form->error($model, 'name'); ?>

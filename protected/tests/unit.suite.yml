@@ -8,6 +8,6 @@ modules:
         - Asserts
         - \Helper\Unit
         - Yii1:
-            appPath: 'C:\xampp\htdocs\100juristov\www\index.php'
+            appPath: '/var/www/100yuristov/public_html/index.php'
             url: 'http://100yuristov/index.php'
         

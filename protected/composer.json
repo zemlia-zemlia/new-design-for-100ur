@@ -14,6 +14,7 @@
     },
     "require-dev": {
         "codeception/codeception":"*",
-        "phpunit/phpunit": "^7"
+        "phpunit/phpunit": "^7",
+        "100yuristov/sto-yuristov-client":"v1.1"
     }
 }

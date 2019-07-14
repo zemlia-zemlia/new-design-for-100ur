@@ -15,38 +15,43 @@
  * @property string $secretKey
  * @property integer $userId
  * @property integer $moderation
+ * @property integer $priceByPartner
  */
-class Leadsource extends CActiveRecord {
+class Leadsource extends CActiveRecord
+{
 
     const TYPE_LEAD = 1; // источник для привлечения лидов
     const TYPE_QUESTION = 2; // источник для привлечения вопросов
-    
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return Leadsource the static model class
      */
-    public static function model($className = __CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return '{{leadsource}}';
     }
 
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
             array('name', 'required', 'message' => 'Поле {attribute} не заполнено'),
             array('name, description', 'length', 'max' => 255),
-            array('officeId, noLead, active, userId, type, moderation', 'numerical', 'integerOnly' => true),
+            array('officeId, noLead, active, userId, type, moderation, priceByPartner', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, name, description', 'safe', 'on' => 'search'),
@@ -56,18 +61,20 @@ class Leadsource extends CActiveRecord {
     /**
      * @return array relational rules.
      */
-    public function relations() {
+    public function relations()
+    {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'user'      => array(self::BELONGS_TO, 'User', 'userId'),
+            'user' => array(self::BELONGS_TO, 'User', 'userId'),
         );
     }
 
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
             'id' => 'ID',
             'type' => 'Тип',
@@ -80,17 +87,19 @@ class Leadsource extends CActiveRecord {
             'secretKey' => 'Секретный ключ для API',
             'userId' => 'ID пользователя',
             'moderation' => 'Требуется премодерация лидов',
+            'priceByPartner' => 'Вебмастер назначает цену',
         );
     }
 
     /**
      *  возвращает массив источников лидов, ключами которого являются ID, а значениями - названия
-     * 
+     *
      * @param boolean $showInactive показывать неактивные источники
      * @param integer $cacheTime на сколько секунд кешировать
      * @return array массив источников лидов (id => name)
      */
-    static public function getSourcesArray($showInactive = true, $cacheTime = 60) {
+    static public function getSourcesArray($showInactive = true, $cacheTime = 60)
+    {
         $attributes = array();
 
         if ($showInactive == false) {
@@ -105,18 +114,18 @@ class Leadsource extends CActiveRecord {
         }
         return $sourcesArray;
     }
-    
+
     /**
      * Возвращает массив типов источников (code => name)
      */
     public static function getTypes()
     {
         return array(
-            self::TYPE_LEAD         => 'лиды',
-            self::TYPE_QUESTION     => 'вопросы',
+            self::TYPE_LEAD => 'лиды',
+            self::TYPE_QUESTION => 'вопросы',
         );
     }
-    
+
     /**
      * Возвращает название типа источника
      * @return type
@@ -131,7 +140,8 @@ class Leadsource extends CActiveRecord {
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search() {
+    public function search()
+    {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
@@ -163,7 +173,7 @@ class Leadsource extends CActiveRecord {
     {
         $this->secretKey = md5($this->id . mt_rand(1000000, 9999999) . time());
     }
-    
+
     /**
      * Возвращает массив источников, привязанных к пользователю
      * @param integer $userId ID пользователя
@@ -173,17 +183,17 @@ class Leadsource extends CActiveRecord {
     {
         $criteria = new CDbCriteria;
         $criteria->addColumnCondition(array('userId' => $userId));
-        
+
         $sources = self::model()->findAll($criteria);
-        
+
         return $sources;
     }
-    
+
     public static function getSourcesArrayByUser($userId)
     {
         $criteria = new CDbCriteria;
         $criteria->addColumnCondition(array('userId' => $userId));
-        
+
         $sources = self::model()->findAll($criteria);
         foreach ($sources as $source) {
             $sourcesArray[$source->id] = $source->name;
