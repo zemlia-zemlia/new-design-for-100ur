@@ -101,7 +101,7 @@ class Lead extends CActiveRecord
             array('agree', 'compare', 'compareValue' => 1, 'on' => array('create', 'createCall'), 'message' => 'Вы должны согласиться на обработку персональных данных'),
             array('name, phone, email, secretCode, brakComment', 'length', 'max' => 255),
             array('townId', 'match', 'not' => true, 'pattern' => '/^0$/', 'message' => 'Поле Город не заполнено'),
-            array('name', 'match', 'pattern' => '/^([а-яА-Я0-9ёЁ\-., ])+$/u', 'message' => 'В имени могут присутствовать русские буквы, цифры, точка, дефис и пробел', 'except' => 'parsing, brak, update'),
+            array('name', 'match', 'pattern' => '/^([а-яА-Я0-9ёЁ_a-zA-Z\-., ])+$/u', 'message' => 'В имени могут присутствовать русские буквы, цифры, точка, дефис и пробел', 'except' => 'parsing, brak, update'),
             array('phone', 'match', 'pattern' => '/^([0-9]{11})+$/u', 'message' => 'В номере телефона могут присутствовать только цифры'),
             array('email', 'email', 'message' => 'E-mail похож на ненастоящий, проверьте, пожалуйста, правильность набора'),
             array('date1, date2', 'match', 'pattern' => '/^([0-9\-])+$/u', 'message' => 'В датах могут присутствовать только цифры и знак плюса'),
