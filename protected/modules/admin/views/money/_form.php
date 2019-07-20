@@ -14,7 +14,7 @@
 	<?php echo $form->errorSummary($model, 'Исправьте ошибки'); ?>
 
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-6 col-xs-6">
             <div class="form-group">
 		<?php echo $form->labelEx($model,'datetime'); ?>
 		<?php $this->widget('zii.widgets.jui.CJuiDatePicker',
@@ -35,7 +35,7 @@
            </div>
         </div>
         
-        <div class="col-sm-6">
+        <div class="col-sm-6 col-xs-6">
             <div class="form-group">
 		<?php echo $form->labelEx($model,'accountId'); ?>
 		<?php echo $form->dropDownList($model,'accountId', Money::getAccountsArray(), array('class'=>'form-control')); ?>
@@ -48,14 +48,14 @@
 
 	
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-6 col-xs-6">
             <div class="form-group">
 		<?php echo $form->labelEx($model,'type'); ?><br >
 		<?php echo $form->radioButtonList($model,'type', array(Money::TYPE_INCOME=>'Доход', Money::TYPE_EXPENCE=>'Расход')); ?>
 		<?php echo $form->error($model,'type'); ?>
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-6 col-xs-6">
             <div class="form-group">
 		<?php echo $form->labelEx($model,'value'); ?>
 		<?php echo $form->textField($model,'value',array('class'=>'form-control right-align')); ?>
@@ -82,10 +82,10 @@
         </div>
     </div>
 
-    <?php echo CHtml::submitButton('Сохранить', array('class'=>'btn btn-primary')); ?>
+    <?php echo CHtml::submitButton('Сохранить', array('class'=>'btn btn-block btn-primary')); ?>
     
     <?php if(!$model->isNewRecord):?>
-        <?php echo CHtml::link('Удалить запись', Yii::app()->createUrl('admin/money/delete',array('id'=>$model->id)), array('class'=>'btn btn-danger', 'onclick'=>'return confirm("Удалить запись?")'));?>
+        <?php echo CHtml::link('Удалить запись', Yii::app()->createUrl('admin/money/delete',array('id'=>$model->id)), array('class'=>'btn btn-block btn-danger', 'onclick'=>'return confirm("Удалить запись?")'));?>
     <?php endif;?>
 <?php $this->endWidget(); ?>
 
