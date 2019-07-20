@@ -200,4 +200,19 @@ class Leadsource extends CActiveRecord
         }
         return $sourcesArray;
     }
+
+    /**
+     * @param integer $appId
+     * @param integer $cacheTime
+     * @return mixed
+     */
+    public static function getByAppIdAsArray($appId, $cacheTime)
+    {
+        $source = Yii::app()->db->cache($cacheTime)->createCommand()
+            ->select("*")
+            ->from("{{leadsource}}")
+            ->where("appId=:appId AND active=1", array(":appId" => $appId))
+            ->queryRow();
+        return $source;
+    }
 }

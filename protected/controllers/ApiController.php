@@ -8,6 +8,7 @@ use Monolog\Handler\StreamHandler;
  */
 class ApiController extends CController
 {
+    /** @var Logger */
     private $logger;
 
     public function init()
@@ -74,6 +75,7 @@ class ApiController extends CController
      */
     public function actionSendLead()
     {
+        /** @var CHttpRequest $request */
         $request = Yii::app()->request;
 
         if (!$request->isPostRequest) {
@@ -88,12 +90,10 @@ class ApiController extends CController
             Yii::app()->end();
         }
 
+        $this->logRequest($request, $_POST, $appId);
+
         // ищем источник по параметру appId
-        $source = Yii::app()->db->createCommand()
-            ->select("*")
-            ->from("{{leadsource}}")
-            ->where("appId=:appId AND active=1", array(":appId" => $appId))
-            ->queryRow();
+        $source = Leadsource::getByAppIdAsArray($appId, 60);
 
         // если источник не найден
         if (!$source) {
@@ -131,7 +131,7 @@ class ApiController extends CController
         $town = Yii::app()->db->cache(86400)->createCommand()
             ->select("id")
             ->from("{{town}}")
-            ->where("LOWER(`name`)=:townName", array(":townName" => mb_strtolower($leadTown, 'utf-8')))
+            ->where("LOWER(`name`)=:townName", [":townName" => mb_strtolower($leadTown, 'utf-8')])
             ->queryRow();
         // если город не найден
         if (!$town) {
@@ -267,6 +267,19 @@ class ApiController extends CController
             echo json_encode(array('code' => 400, 'message' => 'Lead not saved.', 'errors' => $lead->errors));
             Yii::app()->end();
         }
+    }
+
+    /**
+     * @param CHttpRequest $request
+     * @param array $rawData
+     * @param integer $appId
+     */
+    private function logRequest($request, $rawData, $appId): void
+    {
+        $this->logger->info(print_r($rawData, true), [
+            'ip' => $request->getUserHostAddress(),
+            'appId' => $appId,
+        ]);
     }
 
 }
