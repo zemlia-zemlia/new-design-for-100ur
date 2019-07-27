@@ -95,7 +95,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         <strong>Стоимость</strong>
                     </td>
                     <td>
-                        <?php echo $order->price; ?> руб.
+                        <?php echo MoneyFormat::rubles($order->price); ?> руб.
                         <?php if ($order->status == Order::STATUS_JURIST_SELECTED && Yii::app()->user->role == User::ROLE_CLIENT): ?>
                             <?php echo CHtml::link('изменить', Yii::app()->createUrl('order/update', ['id' => $order->id]), ['class' => 'btn btn-default btn-xs']); ?>
                         <?php endif; ?>
