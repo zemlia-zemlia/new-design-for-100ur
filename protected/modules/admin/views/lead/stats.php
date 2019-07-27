@@ -109,15 +109,15 @@
             ?>
         </td>
         <td class="text-right"><?php echo $kolichArray[$date];?></td>
-        <td class="text-right"><?php echo MoneyFormat::rubles($summa);?></td>
-        <td class="text-right"><?php echo (int)$vipStats[$date];?></td>
+        <td class="text-right"><?php echo MoneyFormat::rubles($summa, true);?></td>
+        <td class="text-right"><?php echo MoneyFormat::rubles($vipStats[$date], true);?></td>
         <td class="text-right"></td>
-        <td class="text-right"><?php echo MoneyFormat::rubles($buySumArray[$date]);?></td>
-        <td class="text-right"><?php echo MoneyFormat::rubles($expencesDirectArray[$date]['expence']);?></td>
-        <td class="text-right"><?php echo MoneyFormat::rubles($expencesCallsArray[$date]['expence']);?></td>
+        <td class="text-right"><?php echo MoneyFormat::rubles($buySumArray[$date], true);?></td>
+        <td class="text-right"><?php echo MoneyFormat::rubles($expencesDirectArray[$date]['expence'], true);?></td>
+        <td class="text-right"><?php echo MoneyFormat::rubles($expencesCallsArray[$date]['expence'], true);?></td>
         <td class="text-right">
             <?php
-                echo MoneyFormat::rubles($profit);
+                echo MoneyFormat::rubles($profit, true);
             ?>
         </td>
         <td>
@@ -132,13 +132,13 @@
     <tr>
         <th>Всего</th>
         <th class="text-right"><?php echo $kolichTotal;?></th>
-        <th class="text-right"><?php echo MoneyFormat::rubles($sumTotal);?> руб.</th>
-        <th class="text-right"><?php echo MoneyFormat::rubles($vipTotal);?> руб.</th>
+        <th class="text-right"><?php echo MoneyFormat::rubles($sumTotal, true);?> руб.</th>
+        <th class="text-right"><?php echo MoneyFormat::rubles($vipTotal, true);?> руб.</th>
 		<td></td>
-        <th class="text-right"><?php echo MoneyFormat::rubles($buySumTotal);?> руб.</th>
-        <th class="text-right"><?php echo MoneyFormat::rubles($expencesDirectTotal);?> руб.</th>
-        <th class="text-right"><?php echo MoneyFormat::rubles($expencesCallsTotal);?> руб.</th>
-        <th class="text-right"><?php echo MoneyFormat::rubles($profitTotal);?></th>
+        <th class="text-right"><?php echo MoneyFormat::rubles($buySumTotal, true);?> руб.</th>
+        <th class="text-right"><?php echo MoneyFormat::rubles($expencesDirectTotal, true);?> руб.</th>
+        <th class="text-right"><?php echo MoneyFormat::rubles($expencesCallsTotal, true);?> руб.</th>
+        <th class="text-right"><?php echo MoneyFormat::rubles($profitTotal, true);?></th>
         <td>
             <span class="<?php echo (round($marginPercentSum/sizeof($sumArray))>=50)?'text-success':'text-warning' ;?>">
                 <strong>

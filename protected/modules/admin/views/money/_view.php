@@ -17,6 +17,6 @@
     <td><?php echo $data->getAccount();?></td>
     <td>
         <?php echo ($data->type == Money::TYPE_INCOME)?'+':'-';?>
-        <?php echo MoneyFormat::rubles($data->value);?> руб.</td>
+        <?php echo MoneyFormat::rubles($data->value, true);?> руб.</td>
     <td><?php echo CHtml::encode($data->comment);?></td>
 </tr>

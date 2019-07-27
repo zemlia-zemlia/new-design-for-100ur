@@ -5,11 +5,14 @@ use Money\Money as MoneyLib;
 
 class MoneyFormat
 {
-    public static function rubles($valueMinor = 0)
+    public static function rubles($valueMinor = 0, $withThousandsSeparator = false)
     {
         $currencies = new ISOCurrencies();
         $moneyFormatter = new DecimalMoneyFormatter($currencies);
 
-        return $moneyFormatter->format(MoneyLib::RUB($valueMinor));
+        return ($withThousandsSeparator == true) ?
+            number_format((float)$moneyFormatter->format(MoneyLib::RUB($valueMinor)), 2, '.', ' ') :
+            $moneyFormatter->format(MoneyLib::RUB($valueMinor))
+            ;
     }
 }
