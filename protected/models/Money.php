@@ -183,7 +183,7 @@ class Money extends CActiveRecord
         $criteria->compare('accountId',$this->accountId);
         $criteria->compare('datetime',$this->datetime,true);
         $criteria->compare('type',$this->type);
-        $criteria->compare('value',$this->value,true);
+        $criteria->compare('value',$this->value*100,true);
         $criteria->compare('comment',$this->comment,true);
         $criteria->compare('direction',$this->direction);
 

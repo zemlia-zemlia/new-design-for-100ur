@@ -217,7 +217,8 @@ class UserController extends Controller
             // если мы редактировали юриста
             if (isset($_POST['YuristSettings'])) {
                 $yuristSettings->attributes = $_POST['YuristSettings'];
-
+                $yuristSettings->priceDoc *= 100;
+                $yuristSettings->priceConsult *= 100;
                 $yuristSettings->save();
             }
 

@@ -19,7 +19,7 @@ $sumBalance = 0;
     <?php echo CHtml::link("Внутр. транз.", Yii::app()->createUrl("/admin/money/addTransaction"), array('class'=>'btn btn-primary'));?>
     <small>
         <abbr title="Сумма балансов вебмастеров">
-            <?php echo PartnerTransaction::sumAll();?> руб.
+            <?php echo MoneyFormat::rubles(PartnerTransaction::sumAll());?> руб.
         </abbr>
     </small>
 </h1>
@@ -30,7 +30,7 @@ $sumBalance = 0;
             <div class="panel panel-warning">
                 <div class="panel-heading"><?php echo $account;?></div>
                 <div class="panel-body">
-                    <h4><?php echo number_format($balances[$acId], 0, '.', ' ');?></h4>
+                    <h4><?php echo MoneyFormat::rubles($balances[$acId]);?></h4>
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@ $sumBalance = 0;
         <div class="panel panel-success">
             <div class="panel-heading">Всего</div>
             <div class="panel-body">
-                <h4><?php echo number_format($sumBalance, 0, '.', ' ');?></h4>
+                <h4><?php echo MoneyFormat::rubles($sumBalance);?></h4>
             </div>
             
         </div>

@@ -44,7 +44,7 @@ class EmailParserleadlaw extends EmailParser {
         $lead->phone = $phone;
         $lead->question = trim($question);
         $lead->sourceId = $folderSettings['sourceId']; // id нужного источника лидов
-        $lead->buyPrice = $folderSettings['buyPrice']; // цена покупки
+        $lead->buyPrice = $folderSettings['buyPrice'] * 100; // цена покупки, переводим в копейки
         $lead->townId = $folderSettings['townId']; // id города
         $lead->leadStatus = Lead::LEAD_STATUS_DEFAULT;
 

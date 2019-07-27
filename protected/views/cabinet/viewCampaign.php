@@ -51,7 +51,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     Цена лида
                 </td>
                 <td>
-                    <?php echo $model->price;?> руб.
+                    <?php echo MoneyFormat::rubles($model->price);?> руб.
                 </td>
             </tr>
             <?php endif;?>

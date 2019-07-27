@@ -37,6 +37,7 @@ class ExpenceController extends Controller {
         
         if (isset($_POST['Expence'])) {
             $model->attributes = $_POST['Expence'];
+            $model->expences *= 100;
             try {
                 if($model->save()) {
                     $this->redirect(array('/admin/expence/index'));
@@ -62,6 +63,8 @@ class ExpenceController extends Controller {
         
         if (isset($_POST['Expence'])) {
             $model->attributes = $_POST['Expence'];
+            $model->expences *= 100;
+
             try {
                 if($model->save()) {
                     $this->redirect(array('/admin/expence/index'));

@@ -13,7 +13,7 @@
         <?php echo $data->campaign->town->name . ' ' . $data->campaign->region->name;?>
     </td>
     <td class="<?php echo $transactionClass;?>">
-        <?php echo $data->sum;?>
+        <?php echo MoneyFormat::rubles($data->sum);?>
     </td>
     <td>
         <?php echo CHtml::encode($data->description);?>

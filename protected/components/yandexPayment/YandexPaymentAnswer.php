@@ -26,7 +26,7 @@ class YandexPaymentAnswer implements YandexPaymentProcessorInterface
             return false;
         }
 
-        $amount = $this->request->amount;
+        $amount = $this->request->amount * 100;
 
         // Доля юриста после вычета нашей комиссии
         $yuristBonus = $amount * (1-self::SERVICE_COMMISSION);
@@ -51,8 +51,8 @@ class YandexPaymentAnswer implements YandexPaymentProcessorInterface
         try {
             if ($yurist->save() && $moneyTransaction->save() && $yuristTransaction->save()) {
                 $saveTransaction->commit();
-                Yii::log('Пришло бабло благодарность юристу ' . $yurist->id . ' (' . $amount . ' руб.)', 'info', 'system.web');
-                LoggerFactory::getLogger('db')->log('Благодарность юристу #' . $yurist->id . ') ' . $amount . ' руб.', 'User', $yurist->id);
+                Yii::log('Пришло бабло благодарность юристу ' . $yurist->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'info', 'system.web');
+                LoggerFactory::getLogger('db')->log('Благодарность юристу #' . $yurist->id . ') ' . MoneyFormat::rubles($amount) . ' руб.', 'User', $yurist->id);
                 $yurist->sendDonateNotification($this->answer, $yuristBonus);
                 return true;
             } else {
@@ -62,7 +62,7 @@ class YandexPaymentAnswer implements YandexPaymentProcessorInterface
             }
         } catch (Exception $e) {
             $saveTransaction->rollback();
-            Yii::log('Ошибка при благодарности ' . $yurist->id . ' (' . $amount . ' руб.)', 'error', 'system.web');
+            Yii::log('Ошибка при благодарности ' . $yurist->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'error', 'system.web');
 
             throw new CHttpException(500, 'Не удалось сохранить благодарность');
         }

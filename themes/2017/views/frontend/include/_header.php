@@ -98,7 +98,7 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                                     $transactionPage = '/webmaster/transaction/index';
                                 }
                                 ?>
-                                Баланс: <?php echo CHtml::link($balance, Yii::app()->createUrl($transactionPage)); ?>
+                                Баланс: <?php echo CHtml::link(MoneyFormat::rubles($balance), Yii::app()->createUrl($transactionPage)); ?>
                                 руб.
                                 <?php if (Yii::app()->user->campaignsModeratedCount > 0): ?>
                                     <?php echo CHtml::link("Пополнить", Yii::app()->createUrl('cabinet/transactions'), array('title' => 'Пополнить', 'class' => 'btn btn-default btn-xs')); ?>
@@ -111,7 +111,7 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                                 $balance = Yii::app()->user->balance;
                                 ?>
                                 <small>
-                                    Баланс: <?php echo CHtml::link($balance, Yii::app()->createUrl('transaction/index')); ?>
+                                    Баланс: <?php echo CHtml::link(MoneyFormat::rubles($balance), Yii::app()->createUrl('transaction/index')); ?>
                                     руб.
                                 </small>
                             </li>

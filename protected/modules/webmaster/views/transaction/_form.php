@@ -1,3 +1,7 @@
+<?php
+    $model->sum = MoneyFormat::rubles($model->sum);
+?>
+
 <div class="form">
 
     <?php $form = $this->beginWidget('CActiveForm', array(

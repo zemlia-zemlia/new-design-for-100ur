@@ -12,10 +12,10 @@
 
     </td>
     <td>
-        <?php echo round($data->partner->calculateWebmasterBalance(), 2);?>
+        <?php echo MoneyFormat::rubles($data->partner->calculateWebmasterBalance());?>
     </td>
     <td>
-        <?php echo $data->sum;?>
+        <?php echo MoneyFormat::rubles($data->sum);?>
     </td>
     <td>
         <p><?php echo $data->comment;?></p>

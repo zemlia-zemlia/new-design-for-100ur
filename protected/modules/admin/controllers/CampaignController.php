@@ -102,6 +102,8 @@ class CampaignController extends Controller {
         if (isset($_POST['Campaign'])) {
             $model->attributes = $_POST['Campaign'];
             $model->buyerId = $buyerId;
+            $model->price *= 100;
+
             if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->id));
             }
@@ -132,6 +134,8 @@ class CampaignController extends Controller {
             $oldActivity = $model->active; // запомним статус активности кампании
 
             $model->attributes = $_POST['Campaign'];
+            $model->price *= 100;
+
             $buyer = $model->buyer; // покупатель
 
             if ($_POST['town'] == '') {
@@ -139,9 +143,6 @@ class CampaignController extends Controller {
             }
             
             $model->days = implode(',', $model->workDays);
-//            CustomFuncs::printr($model->workDays);
-//            CustomFuncs::printr($model->days);
-//            Yii::app()->end();           
             
             if ($model->save()) {
 

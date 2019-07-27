@@ -57,7 +57,7 @@ class EmailParser9111 extends EmailParser {
         $lead->setScenario("parsing");
         
         $lead->sourceId = $folderSettings['sourceId']; // id нужного источника лидов
-        $lead->buyPrice = $folderSettings['buyPrice']; // цена покупки
+        $lead->buyPrice = $folderSettings['buyPrice'] * 100; // цена покупки, переводим в копейки
         
         if($message->getSubject() == 'Телефонный трафик (8-800)') {
             // это письмо с отчетом о звонке

@@ -7,7 +7,7 @@
  * The followings are the available columns in table '{{expence}}':
  * @property integer $id
  * @property string $date
- * @property string $expences
+ * @property integer $expences
  * @property string $comment
  * @property integer $type
  */
@@ -104,7 +104,7 @@ class Expence extends CActiveRecord {
 
         $criteria->compare('id', $this->id);
         $criteria->compare('date', $this->date, true);
-        $criteria->compare('expences', $this->expences, true);
+        $criteria->compare('expences', $this->expences*100, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

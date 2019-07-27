@@ -63,6 +63,7 @@ class MoneyController extends Controller
             {
                 $model->attributes=$_POST['Money'];
                 $model->datetime = CustomFuncs::invertDate($model->datetime);
+                $model->value *= 100;
                 if($model->save()) {
                     $this->redirect(array('view','id'=>$model->id));
                 } else {
@@ -91,6 +92,7 @@ class MoneyController extends Controller
             {
                 $model->attributes=$_POST['Money'];
                 $model->datetime = CustomFuncs::invertDate($model->datetime);
+                $model->value *= 100;
 
                 if($model->direction == Money::DIRECTION_INTERNAL) {
                     $model->isInternal = 1;
@@ -104,6 +106,7 @@ class MoneyController extends Controller
 
             }
             $model->datetime = CustomFuncs::invertDate($model->datetime);
+
             $this->render('update',array(
                     'model'=>$model,
             ));

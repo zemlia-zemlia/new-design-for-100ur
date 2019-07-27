@@ -2,8 +2,11 @@
 /* @var $this UserController */
 /* @var $model User */
 /* @var $form CActiveForm */
+/* @var $yuristSettings YuristSettings */
 
 Yii::app()->clientScript->registerScriptFile('/js/user.js', CClientScript::POS_END);
+$yuristSettings->priceConsult = MoneyFormat::rubles($yuristSettings->priceConsult);
+$yuristSettings->priceDoc = MoneyFormat::rubles($yuristSettings->priceDoc);
 ?>
 
 <style>

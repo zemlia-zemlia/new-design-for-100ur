@@ -156,10 +156,10 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         <div class='flat-panel inside vert-margin20'>
                             <h3 class="left-align">Платные услуги</h3>
                             <?php if($model->settings->priceConsult  > 0):?>
-                                <p>Консультация от <?php echo $model->settings->priceConsult;?> руб.</p>
+                                <p>Консультация от <?php echo MoneyFormat::rubles($model->settings->priceConsult);?> руб.</p>
                             <?php endif;?>
                             <?php if($model->settings->priceDoc  > 0):?>
-                                <p>Составление документа от <?php echo $model->settings->priceDoc;?> руб.</p>
+                                <p>Составление документа от <?php echo MoneyFormat::rubles($model->settings->priceDoc);?> руб.</p>
                             <?php endif;?>
                         </div>
                     <?php endif;?>

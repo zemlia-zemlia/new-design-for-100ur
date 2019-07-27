@@ -24,10 +24,10 @@ class YandexPaymentQuestion implements YandexPaymentProcessorInterface
             return false;
         }
 
-        $amount = $this->request->amount;
+        $amount = $this->request->amount * 100;
 
         $this->question->payed = 1;
-        $this->question->price = floor($amount);
+        $this->question->price = $amount;
 
         $moneyTransaction = new Money();
         $moneyTransaction->accountId = 0; // Яндекс деньги
@@ -42,8 +42,8 @@ class YandexPaymentQuestion implements YandexPaymentProcessorInterface
             if ($this->question->save() && $moneyTransaction->save()) {
                 $saveTransaction->commit();
                 Yii::log('Вопрос сохранен, id: ' . $this->question->id, 'info', 'system.web');
-                Yii::log('Пришло бабло за вопрос ' . $this->question->id . ' (' . $amount . ' руб.)', 'info', 'system.web');
-                LoggerFactory::getLogger('db')->log('Оплата вопроса #' . $this->question->id . ') на ' . $amount . ' руб.', 'Question', $this->question->id);
+                Yii::log('Пришло бабло за вопрос ' . $this->question->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'info', 'system.web');
+                LoggerFactory::getLogger('db')->log('Оплата вопроса #' . $this->question->id . ') на ' . MoneyFormat::rubles($amount) . ' руб.', 'Question', $this->question->id);
                 return true;
             } else {
                 $saveTransaction->rollback();
@@ -52,7 +52,7 @@ class YandexPaymentQuestion implements YandexPaymentProcessorInterface
             }
         } catch (Exception $e) {
             $saveTransaction->rollback();
-            Yii::log('Ошибка при оплате вопроса ' . $this->question->id . ' (' . $amount . ' руб.)', 'error', 'system.web');
+            Yii::log('Ошибка при оплате вопроса ' . $this->question->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'error', 'system.web');
 
             throw new CHttpException(500, 'Не удалось оплатить вопрос');
         }

@@ -80,7 +80,7 @@
         
         <?php if($data->payed == 1):?>
             <div>
-                <span class="label label-info">VIP</span> <?php echo $data->price;?> руб.
+                <span class="label label-info">VIP</span> <?php echo MoneyFormat::rubles($data->price);?> руб.
             </div>
         <?php endif;?>
     </td>

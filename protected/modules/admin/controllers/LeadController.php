@@ -83,6 +83,7 @@ class LeadController extends Controller
         if (isset($_POST['Lead'])) {
             $model->attributes = $_POST['Lead'];
             $model->phone = Question::normalizePhone($model->phone);
+            $model->buyPrice *= 100;
 
             if ($model->testMode) {
                 // тестовый режим. найдем по источнику его данные
@@ -148,6 +149,9 @@ class LeadController extends Controller
         if (isset($_POST['Lead'])) {
             $model->attributes = $_POST['Lead'];
             $model->phone = Question::normalizePhone($model->phone);
+            $model->buyPrice *= 100;
+
+
             //CustomFuncs::printr($model);Yii::app()->end();
             if ($model->save()) {
 
@@ -393,7 +397,7 @@ class LeadController extends Controller
             $buyer->balance += $lead->price;
             // записываем данные о возврате средств на баланс пользователя
             $transaction = new TransactionCampaign;
-            $transaction->sum = (int) $lead->price;
+            $transaction->sum = $lead->price;
             $transaction->campaignId = $campaign->id;
             $transaction->buyerId = $buyer->id;
             $transaction->description = 'Возврат за лид ID=' . $lead->id;

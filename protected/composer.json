@@ -1,7 +1,7 @@
 {
     "minimum-stability": "dev",
     "require":{
-        "php":"^7.1",
+        "php":"~7.2",
         "sendpulse/rest-api":"*",
         "swiftmailer/swiftmailer":"^6.0",
         "robmorgan/phinx":"0.5",
@@ -11,7 +11,8 @@
         "ext-imap": "*",
         "ext-iconv": "*",
         "ext-pdo": "*",
-        "monolog/monolog":"^1.24"
+        "monolog/monolog":"^1.24",
+        "moneyphp/money":"^3"
     },
     "require-dev": {
         "codeception/codeception":"*",

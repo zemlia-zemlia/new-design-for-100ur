@@ -25,10 +25,10 @@ $leadsSentPercent = ($data->leadsDayLimit>0)?($data->leadsTodayCount/$data->lead
         <?php echo $data->leadsDayLimit;?>
     </td>
     
-    <td><?php echo $data->price;?> руб.</td>
+    <td><?php echo MoneyFormat::rubles($data->price);?> руб.</td>
     <td>
         <p><span class="balance-<?php echo $data->id;?>">
-        <?php echo $data->balance;?></span> руб.<br />
+        <?php echo MoneyFormat::rubles($data->balance);?></span> руб.<br />
         </p>
         
         <?php echo CHtml::link('Транзакции', Yii::app()->createUrl('/cabinet/campaign', array('id'=>$data->id)));?>

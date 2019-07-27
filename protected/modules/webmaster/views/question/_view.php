@@ -52,7 +52,7 @@
             <?php echo $data->getQuestionStatusName(); ?>
             &nbsp;
             <?php if(in_array($data->status, array(Question::STATUS_CHECK, Question::STATUS_PUBLISHED))):?>
-                <strong>Ваш заработок: </strong> <?php echo $data->buyPrice;?> руб.
+                <strong>Ваш заработок: </strong> <?php echo MoneyFormat::rubles($data->buyPrice);?> руб.
             <?php endif;?>
         </small>
     </td>         

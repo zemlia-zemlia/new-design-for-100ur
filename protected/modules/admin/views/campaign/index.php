@@ -62,7 +62,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
             </td>
             <td colspan="8">
                     <span class="label label-default balance-<?php echo $user['id'];?>">
-            <?php echo $user['balance'];?> руб.</span>
+            <?php echo MoneyFormat::rubles($user['balance']);?> руб.</span>
 
             <div class="buyer-topup-message"></div>
             <a href="#" class="buyer-topup btn btn-xs btn-default" data-id="<?php echo $user['id'];?>">Пополнить</a>
@@ -117,7 +117,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                     </small>
                 </td>
 
-                <td><?php echo $campaign['price'];?> руб.</td>
+                <td><?php echo MoneyFormat::rubles($campaign['price']);?> руб.</td>
 
                 <td>
                     <abbr title='Всего'><?php echo $campaign['leadsSent'];?></abbr> / 

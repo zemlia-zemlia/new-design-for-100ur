@@ -2,6 +2,8 @@
 /* @var $this LeadController */
 /* @var $model Lead */
 /* @var $form CActiveForm */
+
+$model->buyPrice = MoneyFormat::rubles($model->buyPrice);
 ?>
 
 <div class="new-lead-form">

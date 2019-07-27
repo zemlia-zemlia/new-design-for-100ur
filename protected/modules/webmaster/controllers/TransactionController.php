@@ -50,6 +50,7 @@ class TransactionController extends Controller {
             $transaction->attributes = $_POST['PartnerTransaction'];
             $transaction->partnerId = Yii::app()->user->id;
             $transaction->status = PartnerTransaction::STATUS_PENDING;
+            $transaction->sum *= 100;
             
             $transaction->validate();
             

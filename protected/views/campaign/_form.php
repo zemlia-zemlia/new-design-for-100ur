@@ -2,6 +2,8 @@
 /* @var $this CampaignController */
 /* @var $model Campaign */
 /* @var $form CActiveForm */
+
+$model->price = MoneyFormat::rubles($model->price);
 ?>
 
 <div class="">

@@ -321,10 +321,10 @@ if (Yii::app()->user->id != $user->id) {
                         <div class='vert-margin20'>
                             <h3 class="left-align">Информация о платных услугах</h3>
                             <?php if ($user->settings->priceConsult > 0): ?>
-                                <p>Консультация от <?php echo $user->settings->priceConsult; ?> руб.</p>
+                                <p>Консультация от <?php echo MoneyFormat::rubles($user->settings->priceConsult); ?> руб.</p>
                             <?php endif; ?>
                             <?php if ($user->settings->priceDoc > 0): ?>
-                                <p>Составление документа от <?php echo $user->settings->priceDoc; ?> руб.
+                                <p>Составление документа от <?php echo MoneyFormat::rubles($user->settings->priceDoc); ?> руб.
                                     <?php if ($user->id == 8): ?>
                                         <?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/docs', ['juristId' => $user->id])); ?>
                                     <?php endif; ?>

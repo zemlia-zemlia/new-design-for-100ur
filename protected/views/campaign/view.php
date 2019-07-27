@@ -55,7 +55,7 @@ $this->breadcrumbs=array(
                     Цена лида
                 </td>
                 <td>
-                    <?php echo $model->price;?>
+                    <?php echo MoneyFormat::rubles($model->price);?>
                 </td>
             </tr>
             <tr>
@@ -63,7 +63,7 @@ $this->breadcrumbs=array(
                     Баланс
                 </td>
                 <td>
-                    <?php echo number_format($model->balance, 2, '.', ' ');?> руб.
+                    <?php echo MoneyFormat::rubles($model->balance);?> руб.
                 </td>
             </tr>
             <tr>

@@ -63,7 +63,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </tr>
     <tr>
         <td><strong><?php echo $model->getAttributeLabel('buyPrice'); ?></strong></td>
-        <td><?php echo $model->buyPrice; ?> руб.</td>
+        <td><?php echo MoneyFormat::rubles($model->buyPrice); ?> руб.</td>
     </tr>
     <?php endif;?>
     

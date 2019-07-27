@@ -16,7 +16,7 @@ use YurcrmClient\YurcrmClient;
  * @property integer $leadStatus
  * @property integer $type
  * @property integer $campaignId
- * @property float $price
+ * @property integer $price
  * @property string $deliveryTime
  * @property string $lastLeadTime
  * @property integer $brakReason
@@ -343,7 +343,7 @@ class Lead extends CActiveRecord
 
     /**
      * Отправка лида в кампанию по почте
-     * @param type $campaign
+     * @param Campaign $campaign
      * @return boolean
      */
     private function sendToCampaignByMail(Campaign $campaign)
@@ -478,7 +478,7 @@ class Lead extends CActiveRecord
                 $logMessage .= ': ' . $buyer->name;
             }
         } else if ($buyer != 0 && $buyer) {
-            $logMessage .= 'покупателю #' . $buyerId . ' (' . $buyer->getShortName() . ')';
+            $logMessage .= 'покупателю #' . $buyer->id . ' (' . $buyer->getShortName() . ')';
         }
 
         LoggerFactory::getLogger('db')->log($logMessage, 'Lead', $this->id);
@@ -733,7 +733,8 @@ class Lead extends CActiveRecord
      */
     public function calculatePrices()
     {
-        $regionBuyPrice = 20;
+        // Все цены в копейках
+        $regionBuyPrice = 2000;
         $townBuyPrice = 0;
 
         $town = $this->town;

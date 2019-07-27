@@ -95,7 +95,7 @@
                                             $transactionPage = '/webmaster/transaction/index';
                                         }
                                     ?>
-                                    Баланс: <?php echo CHtml::link($balance, Yii::app()->createUrl($transactionPage));?> руб.
+                                    Баланс: <?php echo CHtml::link(MoneyFormat::rubles($balance), Yii::app()->createUrl($transactionPage));?> руб.
                                     
                                     
                                 </div>

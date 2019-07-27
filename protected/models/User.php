@@ -1225,7 +1225,8 @@ class User extends CActiveRecord
     /**
      * Отправка юристу уведомления о зачислении благодарности за консультацию
      * @param Answer $answer
-     * @param $yuristBonus
+     * @param integer $yuristBonus В копейках
+     * @return boolean
      */
     public function sendDonateNotification(Answer $answer, $yuristBonus)
     {
@@ -1235,7 +1236,7 @@ class User extends CActiveRecord
 
         $mailer->message = "<h1>Благодарность за консультацию по вопросу</h1>
             <p>Здравствуйте, " . CHtml::encode($yurist->name) . "<br /><br />" .
-            "Вам зачислены " . $yuristBonus . " руб. в благодарность за консультацию по вопросу " .
+            "Вам зачислены " . MoneyFormat::rubles($yuristBonus) . " руб. в благодарность за консультацию по вопросу " .
             CHtml::link(CHtml::encode($answer->question->title), Yii::app()->createUrl('question/view', ['id' => $answer->questionId])) . "</p>";
         $mailer->message .= '<p>Ваш баланс и история его изменений доступны в Личном кабинете.</p>';
         $mailer->message .= '<p>Благодарим за сотрудничество!</p>';

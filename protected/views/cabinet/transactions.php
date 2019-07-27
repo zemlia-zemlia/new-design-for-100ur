@@ -19,7 +19,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     }
 </style>
 
-<h1 class="vert-margin20">Ваш баланс: <?php echo Yii::app()->user->balance; ?> руб.</h1>
+<h1 class="vert-margin20">Ваш баланс: <?php echo MoneyFormat::rubles(Yii::app()->user->balance); ?> руб.</h1>
 
 <p>
     <?php if (Yii::app()->user->campaignsModeratedCount > 0): ?>

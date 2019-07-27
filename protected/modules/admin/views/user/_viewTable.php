@@ -9,7 +9,7 @@
         <?php endif; ?>
 
         <?php if ($data->role == User::ROLE_PARTNER): ?>
-            <span class='text-muted'><?php echo round($data->calculateWebmasterBalance(), 2); ?> руб.</span>
+            <span class='text-muted'><?php echo MoneyFormat::rubles($data->calculateWebmasterBalance()); ?> руб.</span>
         <?php endif; ?>
 
         <?php if ($data->role == User::ROLE_JURIST): ?>

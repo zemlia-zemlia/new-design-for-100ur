@@ -117,7 +117,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             Цена лида
         </td>
         <td>
-            <?php echo $model->price;?>
+            <?php echo MoneyFormat::rubles($model->price);?>
         </td>
     </tr>
    
@@ -184,13 +184,13 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <tr>
                 <td><?php echo CustomFuncs::niceDate($date, false, false);?></td>
                 <td class="text-right"><?php echo $leadsByDate['count'];?></td>
-                <td class="text-right"><?php echo $leadsByDate['sum'];?> руб.</td>
+                <td class="text-right"><?php echo MoneyFormat::rubles($leadsByDate['sum']);?> руб.</td>
             </tr>
             <?php endforeach;?>
             <tr>
                 <th></th>
                 <th class="text-right"><?php echo $leadsStats['total'];?></th>
-                <th class="text-right"><?php echo $leadsStats['sum'];?> руб.</th>
+                <th class="text-right"><?php echo MoneyFormat::rubles($leadsStats['sum']);?> руб.</th>
             </tr>
         </table>
     <?php endif;?>

@@ -2,6 +2,9 @@
 /* @var $this MoneyController */
 /* @var $model Money */
 /* @var $form CActiveForm */
+
+$model->value = MoneyFormat::rubles($model->value);
+
 ?>
 
 <div class="form">

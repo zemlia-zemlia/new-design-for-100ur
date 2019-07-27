@@ -112,7 +112,7 @@ class ApiController extends CController
         $signature = $request->getPost('signature');
         $leadEmail = $request->getPost('email');
         $leadType = $request->getPost('type');
-        $partnerPrice = $request->getPost('price');
+        $partnerPrice = $request->getPost('price') * 100;
         $testMode = $request->getPost('testMode');
 
         // проверка подписи
@@ -180,7 +180,7 @@ class ApiController extends CController
         // если тестовый режим, то не сохраняем, а только проверяем лид
         if ($testMode != 0) {
             if ($model->validate()) {
-                echo json_encode(array('code' => 200, 'buyPrice' => $model->buyPrice, 'message' => 'OK. You are in the test mode. Lead accepted but not saved.'));
+                echo json_encode(array('code' => 200, 'buyPrice' => MoneyFormat::rubles($model->buyPrice), 'message' => 'OK. You are in the test mode. Lead accepted but not saved.'));
                 Yii::app()->end();
             } else {
                 echo json_encode(array('code' => 500, 'message' => 'Lead not saved.', 'errors' => $model->errors));
@@ -189,7 +189,7 @@ class ApiController extends CController
         }
 
         if ($model->save()) {
-            echo json_encode(array('code' => 200, 'buyPrice' => $model->buyPrice, 'message' => 'OK'));
+            echo json_encode(array('code' => 200, 'buyPrice' => MoneyFormat::rubles($model->buyPrice), 'message' => 'OK'));
 
             Yii::app()->end();
         } else {

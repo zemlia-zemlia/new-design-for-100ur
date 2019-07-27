@@ -8,7 +8,7 @@ $this->pageTitle = "Транзакции пользователя. " . Yii::app(
 </div>
 
 <div class="vert-margin30 text-center">
-    <p class="lead">Ваш баланс: <strong><?php echo round((float)Yii::app()->user->getBalance(true), 2); ?> руб.</strong>
+    <p class="lead">Ваш баланс: <strong><?php echo MoneyFormat::rubles(Yii::app()->user->getBalance(true), 2); ?> руб.</strong>
         <a data-toggle="collapse" href="#collapse-add-balance" aria-expanded="false" aria-controls="collapse-add-balance">пополнить</a>
     </p>
 </div>
@@ -33,7 +33,7 @@ $this->pageTitle = "Транзакции пользователя. " . Yii::app(
                     <?php if (($balance) < PartnerTransaction::MIN_WITHDRAW_REFERAL): ?>
                         <small><span class="text-danger">Минимальная сумма для вывода - <?php echo PartnerTransaction::MIN_WITHDRAW_REFERAL; ?>&nbsp;руб.</span></small>
                     <?php else: ?>
-                        <?php echo $balance; ?> руб.</strong>
+                        <?php echo MoneyFormat::rubles($balance); ?> руб.</strong>
                 <?php endif; ?>
             </td>
             <td>

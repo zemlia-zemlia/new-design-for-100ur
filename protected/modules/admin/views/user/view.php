@@ -110,7 +110,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
                     <tr>
                         <td>Баланс</td>
-                        <td><?php echo ($model->role == User::ROLE_PARTNER) ? round($model->calculateWebmasterBalance(), 2) : $model->balance; ?>
+                        <td><?php echo ($model->role == User::ROLE_PARTNER) ? MoneyFormat::rubles($model->calculateWebmasterBalance()) : MoneyFormat::rubles($model->balance); ?>
                             руб.
                         </td>
                     </tr>
@@ -210,7 +210,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             <tr>
                                 <td><?php echo $campaign->id . ' ' . CHtml::link(trim($campaign->town->name . ' ' . $campaign->region->name), Yii::app()->createUrl('/admin/campaign/view', array('id' => $campaign->id))); ?></td>
                                 <td><?php echo $campaign->getActiveStatusName(); ?></td>
-                                <td><?php echo (int)$campaign->price; ?> руб.</td>
+                                <td><?php echo MoneyFormat::rubles($campaign->price); ?> руб.</td>
                             </tr>
                         <?php endforeach; ?>
                     </table>
@@ -288,13 +288,13 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                 <tr>
                                     <td><?php echo CustomFuncs::niceDate($date, false, false); ?></td>
                                     <td class="text-right"><?php echo $leadsByDate['count']; ?></td>
-                                    <td class="text-right"><?php echo $leadsByDate['sum']; ?> руб.</td>
+                                    <td class="text-right"><?php echo MoneyFormat::rubles($leadsByDate['sum']); ?> руб.</td>
                                 </tr>
                             <?php endforeach; ?>
                             <tr>
                                 <th></th>
                                 <th class="text-right"><?php echo $leadsStats['total']; ?></th>
-                                <th class="text-right"><?php echo $leadsStats['sum']; ?> руб.</th>
+                                <th class="text-right"><?php echo MoneyFormat::rubles($leadsStats['sum']); ?> руб.</th>
                             </tr>
                         </table>
                     <?php endif; ?>

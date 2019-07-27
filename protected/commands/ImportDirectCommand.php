@@ -22,7 +22,7 @@ class ImportDirectCommand extends CConsoleCommand
             if($date == date('d.m.Y')) {
                 continue;
             }
-            $expence = $dataRow[1];
+            $expence = $dataRow[1] * 100;
             
             echo $date . ' - ' . $expence . PHP_EOL;
             

@@ -1,3 +1,7 @@
+<?php
+    $model->expences = MoneyFormat::rubles($model->expences);
+?>
+
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(

@@ -16,14 +16,14 @@
 <table class="table">
     <tr>
         <td class="center-align">
-            Ваш баланс:<br /> <strong><?php echo $balance;?> руб.</strong><br /> (из них холд <?php echo $hold;?> руб.)
+            Ваш баланс:<br /> <strong><?php echo MoneyFormat::rubles($balance);?> руб.</strong><br /> (из них холд <?php echo MoneyFormat::rubles($hold);?> руб.)
         </td>
         <td class="center-align">
             Доступно для вывода:<br /> <strong>
                 <?php if(($balance-$hold)< PartnerTransaction::MIN_WITHDRAW):?>
                 <small><span class="text-danger">Минимальная сумма для вывода - 1000&nbsp;руб.</span></small>
                 <?php else:?>
-                    <?php echo $balance - $hold;?> руб.</strong>
+                    <?php echo MoneyFormat::rubles($balance - $hold);?> руб.</strong>
                 <?php endif;?>
         </td>
         <td>

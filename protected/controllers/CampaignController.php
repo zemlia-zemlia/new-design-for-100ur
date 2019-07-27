@@ -78,7 +78,7 @@ class CampaignController extends Controller {
             if (Yii::app()->user->role != User::ROLE_ROOT) {
                 $model->buyerId = Yii::app()->user->id;
             }
-            $model->price = 90;
+            $model->price = 9000;
             $model->brakPercent = 20;
 
             // Проверим, не создано ли у этого пользователя других кампаний из этого города и региона
@@ -128,6 +128,7 @@ class CampaignController extends Controller {
 
         if (isset($_POST['Campaign'])) {
             $model->attributes = $_POST['Campaign'];
+
             if ($model->save()) {
                 $this->redirect(array('cabinet/campaign', 'id' => $model->id));
             }

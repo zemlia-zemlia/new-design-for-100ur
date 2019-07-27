@@ -9,7 +9,7 @@
             <?php echo CustomFuncs::niceDate($data->time); ?>
         <?php endif; ?>
     </td>
-    <td><?php echo $data->sum; ?></td>
+    <td><?php echo MoneyFormat::rubles($data->sum); ?></td>
     <td>
         <?php if ($data instanceof PartnerTransaction): ?>    
             <?php echo $data->comment; ?>

@@ -43,7 +43,7 @@ switch ($data->leadStatus) {
             </span>
             <br/>
             <?php if($data->buyPrice>0 && $data->leadStatus != Lead::LEAD_STATUS_BRAK):?>
-                <?php echo $data->buyPrice;?> руб.
+                <?php echo MoneyFormat::rubles($data->buyPrice);?> руб.
             <?php endif;?>
         </small>
     </td>

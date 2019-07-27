@@ -20,6 +20,7 @@
  * @property integer $sendToApi
  * @property string $apiClass
  * @property integer $type
+ * @property integer $balance
  *
  * @author Michael Krutikov m@mkrutikov.pro
  */
@@ -188,7 +189,7 @@ class Campaign extends CActiveRecord
         $criteria->compare('regionId', $this->regionId);
         $criteria->compare('timeFrom', $this->timeFrom);
         $criteria->compare('timeTo', $this->timeTo);
-        $criteria->compare('price', $this->price);
+        $criteria->compare('price', $this->price * 100);
         $criteria->compare('leadsDayLimit', $this->leadsDayLimit);
         $criteria->compare('brakPercent', $this->brakPercent);
         $criteria->compare('buyerId', $this->buyerId);

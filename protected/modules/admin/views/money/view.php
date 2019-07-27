@@ -31,7 +31,7 @@ $this->breadcrumbs=array(
         <td>Сумма</td>
         <td>
             <?php echo ($model->type == Money::TYPE_INCOME)?'+':'-';?>
-            <?php echo $model->value;?> руб.
+            <?php echo MoneyFormat::rubles($model->value);?> руб.
         </td>
     </tr>
     <tr>

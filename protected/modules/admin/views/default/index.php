@@ -49,7 +49,7 @@ $endYear = 2019;
                         data: [
                             <?php foreach ($sumArray as $year => $summByMonth): ?>
                             <?php for ($month = 1; $month <= 12; $month++): ?>
-                            <?php echo '["' . $month . '.' . $year . '",' . floor($summByMonth[$month] + $vipArray[$year][$month]) . '],'; ?>
+                            <?php echo '["' . $month . '.' . $year . '",' . MoneyFormat::rubles($summByMonth[$month] + $vipArray[$year][$month]) . '],'; ?>
                             <?php endfor; ?>
                             <?php endforeach; ?>
                         ]
@@ -58,7 +58,7 @@ $endYear = 2019;
                         data: [
                             <?php foreach ($buySumArray as $year => $summByMonth): ?>
                             <?php for ($month = 1; $month <= 12; $month++): ?>
-                            <?php echo '["' . $month . '.' . $year . '",' . floor($summByMonth[$month]) . '],'; ?>
+                            <?php echo '["' . $month . '.' . $year . '",' . MoneyFormat::rubles($summByMonth[$month]) . '],'; ?>
                             <?php endfor; ?>
                             <?php endforeach; ?>
                         ]
@@ -69,7 +69,7 @@ $endYear = 2019;
                             data: [
                                 <?php foreach ($flow as $year => $summByMonth): ?>
                                 <?php for ($month = 1; $month <= 12; $month++): ?>
-                                <?php echo '["' . $month . '.' . $year . '",' . abs($summByMonth[$month]) . '],'; ?>
+                                <?php echo '["' . $month . '.' . $year . '",' . MoneyFormat::rubles(abs($summByMonth[$month])) . '],'; ?>
                                 <?php endfor; ?>
                                 <?php endforeach; ?>
                             ]

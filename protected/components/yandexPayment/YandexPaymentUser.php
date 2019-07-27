@@ -27,7 +27,7 @@ class YandexPaymentUser implements YandexPaymentProcessorInterface
         if (is_null($this->user)) {
             return false;
         }
-        $amount = $this->request->amount;
+        $amount = $this->request->amount * 100;
         Yii::log('Пополняем баланс пользователя: ' . $this->user->getShortName(), 'info', 'system.web');
         $this->user->balance += $amount;
         $transaction = new TransactionCampaign;
@@ -49,8 +49,8 @@ class YandexPaymentUser implements YandexPaymentProcessorInterface
             if ($transaction->save() && $moneyTransaction->save() && $this->user->save(false)) {
                 $saveTransaction->commit();
                 Yii::log('Транзакция сохранена, id: ' . $transaction->id, 'info', 'system.web');
-                Yii::log('Пришло бабло от пользователя ' . $this->user->id . ' (' . $amount . ' руб.)', 'info', 'system.web');
-                LoggerFactory::getLogger('db')->log('Пополнение баланса пользователя #' . $this->user->id . '(' . $this->user->getShortName() . ') на ' . $amount . ' руб.', 'User', $this->user->id);
+                Yii::log('Пришло бабло от пользователя ' . $this->user->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'info', 'system.web');
+                LoggerFactory::getLogger('db')->log('Пополнение баланса пользователя #' . $this->user->id . '(' . $this->user->getShortName() . ') на ' . MoneyFormat::rubles($amount) . ' руб.', 'User', $this->user->id);
                 return true;
             } else {
                 $saveTransaction->rollback();
