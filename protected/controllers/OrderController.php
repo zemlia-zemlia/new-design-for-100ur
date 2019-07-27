@@ -134,6 +134,7 @@ class OrderController extends Controller {
             // отправлен ответ, сохраним его
             $orderResponse->attributes = $_POST['OrderResponse'];
             $orderResponse->authorId = Yii::app()->user->id;
+            $orderResponse->price *= 100;
 
             // сохраняем отклик с учетом его иерархии
             if ($orderResponse->saveNode()) {

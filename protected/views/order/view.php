@@ -248,7 +248,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                         <div class="right-align order-price-tag">
                                             выполню заказ за
                                             <span class="label label-success">
-                                                <?php echo $response->price; ?> руб. 
+                                                <?php echo MoneyFormat::rubles($response->price); ?> руб.
                                             </span>
                                         </div>
                                     </div>

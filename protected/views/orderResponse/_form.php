@@ -2,6 +2,8 @@
 /* @var $this CommentController */
 /* @var $model Comment */
 /* @var $form CActiveForm */
+
+$model->price = MoneyFormat::rubles($model->price);
 ?>
 
 <div class="form">
