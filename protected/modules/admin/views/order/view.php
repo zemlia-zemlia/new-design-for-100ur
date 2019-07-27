@@ -147,7 +147,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             <?php endif;?>
                         <div class="center-align lead">
                             <span class="label label-success">
-                                <?php echo $response->price;?> руб. 
+                                <?php echo MoneyFormat::rubles($response->price, true);?> руб.
                             </span>
                         </div>
                         <?php endif;?>
