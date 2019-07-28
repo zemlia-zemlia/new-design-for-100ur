@@ -2,6 +2,7 @@
     "minimum-stability": "dev",
     "require":{
         "php":"~7.2",
+        "yiisoft/yii":"*",
         "sendpulse/rest-api":"*",
         "swiftmailer/swiftmailer":"^6.0",
         "robmorgan/phinx":"0.5",
