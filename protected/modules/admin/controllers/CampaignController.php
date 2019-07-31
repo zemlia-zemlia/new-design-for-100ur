@@ -377,7 +377,7 @@ class CampaignController extends Controller {
 
     public function actionTopup() {
         $buyerId = isset($_POST['buyerId']) ? (int) $_POST['buyerId'] : 0;
-        $sum = isset($_POST['sum']) ? (int) $_POST['sum'] : 0;
+        $sum = isset($_POST['sum']) ? ((int) $_POST['sum'])*100 : 0;
         $account = isset($_POST['account']) ? (int) $_POST['account'] : 1;
 
         if ($sum <= 0 || !$buyerId) {
