@@ -1229,6 +1229,7 @@ class User extends CActiveRecord
      * @param Answer $answer
      * @param integer $yuristBonus В копейках
      * @return boolean
+     * @todo Поправить вызов метода $mailer->sendMail
      */
     public function sendDonateNotification(Answer $answer, $yuristBonus)
     {
