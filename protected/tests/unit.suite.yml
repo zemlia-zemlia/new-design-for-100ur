@@ -7,7 +7,4 @@ modules:
     enabled:
         - Asserts
         - \Helper\Unit
-        - Yii1:
-            appPath: '/var/www/100yuristov/public_html/index.php'
-            url: 'http://100yuristov/index.php'
         
