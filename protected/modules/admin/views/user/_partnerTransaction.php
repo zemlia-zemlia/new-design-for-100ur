@@ -6,6 +6,6 @@
             <span class="label label-warning">холд</span>
         <?php endif;?>
     </td>
-    <td><?php echo $data->sum;?></td>
+    <td><?php echo MoneyFormat::rubles($data->sum);?></td>
     <td><?php echo $data->comment;?></td>
 </tr>
