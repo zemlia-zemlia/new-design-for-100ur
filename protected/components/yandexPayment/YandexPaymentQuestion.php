@@ -25,7 +25,7 @@ class YandexPaymentQuestion implements YandexPaymentProcessorInterface
         }
 
         $amount = $this->request->amount * 100;
-        $amountBeforeCommission = $this->request->withdraw_amount;
+        $amountBeforeCommission = $this->request->withdraw_amount * 100;
 
         $this->question->payed = 1;
         $this->question->price = $amountBeforeCommission;
