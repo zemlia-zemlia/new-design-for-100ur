@@ -136,12 +136,12 @@ class User extends CActiveRecord
     /**
      * Возвращает название роли пользователя
      *
-     * @return string роль пользователя
+     * @return string|null роль пользователя
      */
-    public function getRoleName()
+    public function getRoleName():?string
     {
         $rolesNames = self::getRoleNamesArray();
-        $roleName = $rolesNames[(int)$this->role];
+        $roleName = (isset($rolesNames[(int)$this->role])) ? $rolesNames[(int)$this->role] : null;
         return $roleName;
     }
 
@@ -150,7 +150,7 @@ class User extends CActiveRecord
      *
      * @return array массив активных объектов класса User
      */
-    static public function getManagers()
+    static public function getManagers():array
     {
         $managers = self::model()->findAllByAttributes(array(
             'role' => self::ROLE_MANAGER,

@@ -6,5 +6,8 @@ namespace Helper;
 
 class Unit extends \Codeception\Module
 {
-
+    public function clearTable($table){
+        $db = $this->getModule('Db')->_getDriver();
+        $db->load(["TRUNCATE TABLE `$table`"]);
+    }
 }
