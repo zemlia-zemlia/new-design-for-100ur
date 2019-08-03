@@ -22,7 +22,7 @@
     },
     "autoload": {
         "PSR-4": {
-            "app\\": "/"
+            "notifiers\\": "notifiers/"
         }
     }
 }
