@@ -13,31 +13,18 @@ class PopularQuestions extends CWidget
 
     public function run()
     {
-        /*
-            SELECT q.id, q.publishDate, q.title, a.id answerId, a.answerText, c.text, COUNT(*) counter
-            FROM 100_question q
-            LEFT JOIN 100_answer a ON q.id = a.questionId
-            LEFT JOIN 100_comment c ON a.id = c.objectId
-            WHERE c.type=4 AND c.status IN (0,1) AND q.status IN (2,4) AND q.publishDate > NOW()-INTERVAL 7 DAY
-            GROUP BY a.id
-            order by q.id desc
-         */
         $priceCondition = ($this->showPayed === true) ? 'price > 0' : 'price = 0';
         $questionsRows = Yii::app()->db->cache($this->cacheTime)->createCommand()
-            ->select('q.id, q.title, q.createDate, q.price, a.id answerId, COUNT(*) counter')
+            ->select('q.id, q.title, q.createDate, q.price, a.id answerId, COUNT(a.id) counter')
             ->from('{{question}} q')
             ->leftJoin('{{answer}} a', 'q.id=a.questionId')
-            ->leftJoin('{{comment}} c', 'a.id = c.objectId')
-            ->where('q.createDate > NOW() - INTERVAL :interval DAY AND ' . $priceCondition . ' AND a.status!=:status AND c.type=:commentType AND c.status!=:commentSpam', [
+            ->where('q.createDate > NOW() - INTERVAL :interval DAY AND ' . $priceCondition . ' AND a.status!=:status', [
                 ':status' => Answer::STATUS_SPAM,
-                ':commentType' => Comment::TYPE_ANSWER,
-                ':commentSpam' => Comment::STATUS_SPAM,
                 ':interval' => $this->intervalDays,
             ])
-            ->group('a.id')
+            ->group('q.id')
             ->order('q.id DESC')
             ->queryAll();
-
         $questions = [];
 
         foreach ($questionsRows as $row) {
@@ -45,8 +32,7 @@ class PopularQuestions extends CWidget
             $questions[$row['id']]['id'] = $row['id'];
             $questions[$row['id']]['createDate'] = $row['createDate'];
             $questions[$row['id']]['price'] = $row['price'];
-            $questions[$row['id']]['answersCount']++;
-            $questions[$row['id']]['commentsCount'] += $row['counter'];
+            $questions[$row['id']]['answersCount'] = $row['counter'];
         }
 
         $questions = array_slice($questions, 0, 10);

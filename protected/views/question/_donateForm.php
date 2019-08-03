@@ -1,6 +1,6 @@
 <?php
 /** @var Answer $answer */
-
+$donateSum = (isset($donateSum)) ? $donateSum : 190;
 $successUrl = (isset($successUrl)) ? urlencode($successUrl) : urlencode(Yii::app()->urlManager->baseUrl);
 ?>
 <form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml" class="donate-yurist-form">
@@ -17,7 +17,7 @@ $successUrl = (isset($successUrl)) ? urlencode($successUrl) : urlencode(Yii::app
             <label for="sum">Сумма</label>
         </div>
         <div class="col-sm-2 col-xs-4">
-            <input type="text" name="sum" value="190" data-type="number" id="sum"
+            <input type="text" name="sum" value="<?php echo $donateSum;?>" data-type="number" id="sum"
                    class="form-control text-right">
         </div>
         <div class="col-sm-6 text-left">

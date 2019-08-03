@@ -23,13 +23,14 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
 
 <div class="vert-margin20">
     <p>
-        <?php echo CHtml::link("Активные", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'active')), array('class' => ($type == 'active') ? 'text-muted' : ''));?> &nbsp; 
-        <?php echo CHtml::link("Пассивные", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'passive')), array('class' => ($type == 'passive') ? 'text-muted' : ''));?> &nbsp; 
-        <?php echo CHtml::link("Отключены", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'inactive')), array('class' => ($type == 'inactive') ? 'text-muted' : ''));?> &nbsp; 
-        <?php echo CHtml::link("Архив", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'archive')), array('class' => ($type == 'archive') ? 'text-muted' : ''));?> &nbsp; 
-        <?php echo CHtml::link("Одобренные", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'accepted')), array('class' => ($type == 'accepted') ? 'text-muted' : ''));?> &nbsp; 
+        <?php echo CHtml::link("Активные", Yii::app()->createUrl('/admin/campaign/index', array('active' => 'active')), array('class' => ($type == 'active') ? 'text-muted' : ''));?> &nbsp;
+        <?php echo CHtml::link("Активные ПП", Yii::app()->createUrl('/admin/campaign/index', array('active' => 'active', 'type' => Campaign::TYPE_PARTNERS)), array('class' => ($type == 'activePP') ? 'text-muted' : ''));?> &nbsp;
+        <?php echo CHtml::link("Пассивные", Yii::app()->createUrl('/admin/campaign/index', array('active' => 'passive')), array('class' => ($type == 'passive') ? 'text-muted' : ''));?> &nbsp;
+        <?php echo CHtml::link("Отключены", Yii::app()->createUrl('/admin/campaign/index', array('active' => 'inactive')), array('class' => ($type == 'inactive') ? 'text-muted' : ''));?> &nbsp;
+        <?php echo CHtml::link("Архив", Yii::app()->createUrl('/admin/campaign/index', array('active' => 'archive')), array('class' => ($type == 'archive') ? 'text-muted' : ''));?> &nbsp;
+        <?php echo CHtml::link("Одобренные", Yii::app()->createUrl('/admin/campaign/index', array('active' => 'accepted')), array('class' => ($type == 'accepted') ? 'text-muted' : ''));?> &nbsp;
 
-        <?php echo CHtml::link("На модерации", Yii::app()->createUrl('/admin/campaign/index', array('type' => 'moderation')), array('class' => ($type == 'moderation') ? 'text-muted' : ''));?>
+        <?php echo CHtml::link("На модерации", Yii::app()->createUrl('/admin/campaign/index', array('active' => 'moderation')), array('class' => ($type == 'moderation') ? 'text-muted' : ''));?>
         <span class="badge"><?php echo Campaign::getModerationCount();?></span>
         
         &nbsp; 
