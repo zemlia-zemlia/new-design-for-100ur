@@ -73,6 +73,24 @@
             <?php echo $form->error($model,'today'); ?>
     </div>
 
+    <div class="checkbox">
+        <label>
+            <?php echo $form->checkBox($model, 'payed', array(
+            )); ?>
+            <?php echo $model->getAttributeLabel('payed');?>
+        </label>
+        <?php echo $form->error($model,'payed'); ?>
+    </div>
+
+    <div class="checkbox">
+        <label>
+            <?php echo $form->checkBox($model, 'noAnswers', array(
+            )); ?>
+            <?php echo $model->getAttributeLabel('noAnswers');?>
+        </label>
+        <?php echo $form->error($model,'noAnswers'); ?>
+    </div>
+
 
     <div class="form-group">
             <?php echo CHtml::submitButton('Отфильтровать', array('class'=>'yellow-button btn-block')); ?>

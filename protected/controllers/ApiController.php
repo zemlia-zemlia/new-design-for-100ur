@@ -144,7 +144,7 @@ class ApiController extends CController
         $model = new Lead;
         $purifier = new CHtmlPurifier();
 
-        $model->name = CHtml::encode($leadName);
+        $model->name = CHtml::encode(CustomFuncs::filterString($leadName));
         $model->sourceId = $source['id'];
         $model->email = $leadEmail;
         if ($leadType) {
