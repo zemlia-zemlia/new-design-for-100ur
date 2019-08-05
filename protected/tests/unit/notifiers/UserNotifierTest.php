@@ -1,7 +1,6 @@
 <?php
 
 use \PHPUnit\Framework\TestCase;
-use app\notifiers\UserNotifier;
 
 class UserNotifierTest extends TestCase
 {

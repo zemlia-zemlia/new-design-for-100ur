@@ -438,9 +438,7 @@ class UserController extends Controller
                  */
             } else {
                 if (!empty($user->errors)) {
-                    print "<pre>";
-                    print_r($user->errors);
-                    print "</pre>";
+                    Yii::log(print_r($user->getErrors(), true), 'error', 'system.web');
                 }
 
                 $this->layout = '//frontend/smart';

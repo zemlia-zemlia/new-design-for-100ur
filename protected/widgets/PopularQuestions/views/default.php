@@ -17,7 +17,7 @@
             <div class="col-sm-8">
                 <?php echo CHtml::link(CHtml::encode($question['title']), Yii::app()->createUrl('question/view', ['id' => $question['id']])); ?>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-2 text-center small">
                 <?php
                 if ($question['answersCount'] == 1) {
                     echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> Есть ответ</span>";
@@ -27,12 +27,6 @@
                     echo "<span class='text-muted'>Нет ответа</span>";
                 }
                 ?>
-                <br/>
-                <small>
-                    <?php
-                    echo $question['commentsCount'] . ' ' . CustomFuncs::numForms($question['commentsCount'], 'комментарий', 'комментария', 'комментариев') . "</span>";
-                    ?>
-                </small>
             </div>
         </div>
     </div>

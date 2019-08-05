@@ -595,7 +595,7 @@ class Lead extends CActiveRecord
      * @param int $timeframe временной интеркал (сек.)
      * @return int количество лидов 
      */
-    public function findDublicates($timeframe = 600)
+    public function findDublicates($timeframe = 86400)
     {
         $dublicatesRow = Yii::app()->db->createCommand()
                 ->select("COUNT(*) counter")

@@ -382,6 +382,14 @@ class CustomFuncs
         return $datesArray;
     }
 
+    /**
+     * Удаляет из строки символы, не входящие в шаблон
+     * @param string $string Строка
+     * @param string $patternWhite Шаблон разрешенных символов
+     * @return string
+     */
+    public static function filterString($string, $patternWhite = '0-9a-zA-Zа-яА-ЯёЁ\-., ')
+    {
+        return preg_replace('/[^0-9a-zA-Zа-яА-ЯёЁ\-., ]/', '', $string);
+    }
 }
-
-?>
