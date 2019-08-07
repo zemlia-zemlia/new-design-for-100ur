@@ -14,7 +14,7 @@ class ApiController extends CController
     public function init()
     {
         $this->logger = new Logger('api');
-        $this->logger->pushHandler(new StreamHandler(Yii::getPathOfAlias("application.runtime").'/api.log', Logger::INFO));
+        $this->logger->pushHandler(new StreamHandler(Yii::getPathOfAlias("application.runtime") . '/api.log', Logger::INFO));
     }
 
     public $layout = '//frontend/atom';
@@ -190,10 +190,11 @@ class ApiController extends CController
 
         if ($model->save()) {
             echo json_encode(array('code' => 200, 'buyPrice' => MoneyFormat::rubles($model->buyPrice), 'message' => 'OK'));
-
+            $this->logLeadSaveResult($model);
             Yii::app()->end();
         } else {
             echo json_encode(array('code' => 500, 'message' => 'Lead not saved.', 'errors' => $model->errors));
+            $this->logLeadSaveResult($model);
             Yii::app()->end();
         }
     }
@@ -280,6 +281,23 @@ class ApiController extends CController
             'ip' => $request->getUserHostAddress(),
             'appId' => $appId,
         ]);
+    }
+
+    /**
+     * Логирует результат сохранения лида
+     * @param Lead $model
+     */
+    private function logLeadSaveResult(Lead $model)
+    {
+        if ($model->hasErrors() == true) {
+            $this->logger->error(print_r($model->getErrors(), true), [
+                'phone' => $model->phone,
+            ]);
+        } else {
+            $this->logger->info("Lead saved, id=" . $model->id, [
+                'phone' => $model->phone,
+            ]);
+        }
     }
 
 }
