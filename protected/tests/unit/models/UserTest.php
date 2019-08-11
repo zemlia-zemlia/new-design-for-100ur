@@ -12,15 +12,20 @@ class UserTest extends \Codeception\Test\Unit
      */
     protected $tester;
 
+    /** @var CDbTransaction */
+    protected $transaction;
+
     const USER_TABLE = '100_user';
 
     protected function _before()
     {
-        $this->tester->clearTable(self::USER_TABLE);
+//        $this->tester->clearTable(self::USER_TABLE);
+        $this->transaction = \Yii::app()->db->beginTransaction();
     }
 
     protected function _after()
     {
+        $this->transaction->rollback();
     }
 
     /**
