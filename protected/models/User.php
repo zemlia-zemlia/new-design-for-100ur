@@ -891,7 +891,7 @@ class User extends CActiveRecord
                 $mailer->subject = CHtml::encode($this->name) . ", Ваш баланс пополнен";
                 $mailer->message = "<h1>Ваш баланс пополнен</h1>
                     <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />
-                    Ваш баланс пополнен и составляет " . $this->balance . " руб. "
+                    Ваш баланс пополнен и составляет " . MoneyFormat::rubles($this->balance) . " руб. "
                     . "Информация о списаниях и зачислениях доступна в <a href='" . $cabinetLink . "'>личном кабинете</a>.
                     </p>";
                 break;
@@ -899,7 +899,7 @@ class User extends CActiveRecord
                 $mailer->subject = CHtml::encode($this->name) . ", уведомление о расходе средств";
                 $mailer->message = "<h1>Уведомление о расходе средств</h1>
                     <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />
-                    Ваш баланс составляет " . $this->balance . " руб. "
+                    Ваш баланс составляет " . MoneyFormat::rubles($this->balance) . " руб. "
                     . "Пополнить баланс, увидеть информацию о списаниях и зачислениях можно в <a href='" . $cabinetLink . "'>личном кабинете</a>.
                         
                     </p>";
