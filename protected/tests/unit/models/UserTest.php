@@ -4,6 +4,7 @@ namespace models;
 
 use Codeception\Util\Fixtures;
 use User;
+use Yii;
 
 class UserTest extends \Codeception\Test\Unit
 {
@@ -17,13 +18,13 @@ class UserTest extends \Codeception\Test\Unit
 
     const USER_TABLE = '100_user';
 
-    protected function _before()
+    protected function _beforeClass()
     {
-//        $this->tester->clearTable(self::USER_TABLE);
-        $this->transaction = \Yii::app()->db->beginTransaction();
+        $this->transaction = Yii::app()->db->beginTransaction();
+        Yii::app()->db->createCommand()->delete(self::USER_TABLE, 'id>0');
     }
 
-    protected function _after()
+    protected function _afterClass()
     {
         $this->transaction->rollback();
     }
@@ -67,7 +68,7 @@ class UserTest extends \Codeception\Test\Unit
                 ],
                 'saveResult' => true,
             ],
-            'correct, only name' => [
+            'incorrect, email exists' => [
                 'userParams' => [
                     'name' => 'Иван',
                     'name2' => '',
@@ -78,7 +79,7 @@ class UserTest extends \Codeception\Test\Unit
                     'password' => '123456',
                     'password2' => '123456',
                 ],
-                'saveResult' => true,
+                'saveResult' => false,
             ],
             'passwords not match' => [
                 'userParams' => [
@@ -116,15 +117,15 @@ class UserTest extends \Codeception\Test\Unit
     {
         $fixture = [
             'name' => 'Манагер',
-            'id' => 100,
+            'id' => 10000,
             'role' => User::ROLE_MANAGER,
             'active100' => 1
         ];
 
         $this->tester->haveInDatabase(self::USER_TABLE, $fixture);
-
+var_dump(User::getManagers());
         $this->assertEquals(1, sizeof(User::getManagers()));
-        $this->assertEquals(100, User::getManagers()[0]->id);
+        $this->assertEquals(10000, User::getManagers()[0]->id);
     }
 
     /**
@@ -135,19 +136,19 @@ class UserTest extends \Codeception\Test\Unit
         $fixtures = [
             [
                 'name' => 'Ivan',
-                'id' => 101,
+                'id' => 10001,
                 'role' => User::ROLE_JURIST,
                 'active100' => 1,
             ],
             [
                 'name' => 'Аленушка',
-                'id' => 102,
+                'id' => 10002,
                 'role' => User::ROLE_JURIST,
                 'active100' => 1,
             ],
             [
                 'name' => 'Баба Яга',
-                'id' => 103,
+                'id' => 10003,
                 'role' => User::ROLE_JURIST,
                 'active100' => 0,
             ],
@@ -158,6 +159,6 @@ class UserTest extends \Codeception\Test\Unit
         }
 
         $this->assertEquals(2, sizeof(User::getAllJuristsIdsNames()));
-        $this->assertEquals('Ivan', User::getAllJuristsIdsNames()[101]);
+        $this->assertEquals('Ivan', User::getAllJuristsIdsNames()[10001]);
     }
 }
