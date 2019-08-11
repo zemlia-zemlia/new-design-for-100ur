@@ -146,6 +146,7 @@ if (Yii::app()->user->id != $user->id) {
                 <?php if (!Yii::app()->user->isGuest && Yii::app()->user->id != $user->id): ?>
                     <?php echo CHtml::link('Оставить отзыв о юристе', Yii::app()->createUrl('user/testimonial', ['id' => $user->id]), ['class' => 'btn btn-block btn-info']); ?>
                 <?php endif; ?>
+
             </div>
             <div class="col-sm-8">
 
@@ -332,6 +333,21 @@ if (Yii::app()->user->id != $user->id) {
                             <?php endif; ?>
                         </div>
                     <?php endif; ?>
+
+                    <?php if (isset(Yii::app()->params['donatesEnabled']) && Yii::app()->params['donatesEnabled'] == true): ?>
+                        <?php if (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT): ?>
+                            <div class="vert-margin30"></div>
+                            <div class='donate-block'>
+                                <h3>Оплатить услуги юриста</h3>
+                                <?php $this->renderPartial("application.views.question._donateForm", array(
+                                    'target' => 'Благодарность юристу ' . CHtml::encode($user->name) . " " . CHtml::encode($user->lastName),
+                                    'successUrl' => Yii::app()->createUrl('user/view', array('id' => $user->id)),
+                                    'donateSum' => ($user->settings->priceConsult > 0) ? MoneyFormat::rubles($user->settings->priceConsult) : 500,
+                                )); ?>
+                            </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
+
 
                 <?php endif; ?>
 

@@ -13,7 +13,7 @@ class QuestionSearch extends CFormModel
     public $townName; // для вывода в форме имени города
     public $myCats; // для вывода вопросов по направлениям юриста
     public $myTown = 0; // для вывода вопросов по своему городу
-    
+    public $payed = 0; // для вывода платных вопросов
 
 
 
@@ -30,6 +30,7 @@ class QuestionSearch extends CFormModel
             'myCats'        =>  'по моей специальности',
             'sameRegion'    =>  'включая соседние города',
             'myTown'        =>  'из моего города',
+            'payed'         =>  'платные вопросы',
         );
     }
     
@@ -41,7 +42,7 @@ class QuestionSearch extends CFormModel
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-                array('townId, today, noAnswers, sameRegion, myCats, myTown', 'numerical', 'integerOnly'=>true),
+                array('townId, today, noAnswers, sameRegion, myCats, myTown, payed', 'numerical', 'integerOnly'=>true),
         );
     }
 
@@ -59,10 +60,11 @@ class QuestionSearch extends CFormModel
         $searchCommand = Yii::app()->db->createCommand();
         
         $searchCommand->
-                select('q.title, q.publishDate, t.name townName, q.id, q.authorName')
+                select('q.title, q.publishDate, t.name townName, q.id, q.authorName, COUNT(a.id) answersCount')
                 ->from('{{question q}}')
                 ->leftJoin('{{town}} t', 't.id=q.townId')
                 ->leftJoin('{{answer}} a', 'a.questionId = q.id')
+                ->group('q.id')
                 ->order('q.publishDate DESC')
                 ->limit($this->limit);
         
@@ -88,7 +90,10 @@ class QuestionSearch extends CFormModel
         
         if($this->noAnswers) {
             $whereCondition[] = 'a.id IS NULL';
-            
+        }
+
+        if($this->payed) {
+            $whereCondition[] = 'q.price>0 AND payed=1';
         }
         
         if($this->sameRegion) {
