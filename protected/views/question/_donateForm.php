@@ -9,7 +9,7 @@ $successUrl = (isset($successUrl)) ? urlencode($successUrl) : urlencode(Yii::app
         <input type="hidden" name="label" value="a-<?php echo $answer->id; ?>">
         <input type="hidden" name="quickpay-form" value="shop">
         <input type="hidden" name="successURL"
-               value="<?php echo Yii::app()->createUrl('question/view', ['id' => $answer->questionId]); ?>">
+               value="<?php echo Yii::app()->createUrl('question/view', ['id' => $answer->questionId]); ?>?payed_ok=1">
         <input type="hidden" name="targets" value="<?php echo $target; ?>">
         <input type="hidden" name="paymentType" value="AC">
 

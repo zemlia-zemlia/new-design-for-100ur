@@ -69,7 +69,8 @@ class QuestionController extends Controller
 
         $commentModel = new Comment;
 
-        $justPublished = ($_GET['justPublished']) ? true : false;
+        $justPublished = isset($_GET['justPublished']) ? true : false;
+        $justPayed = isset($_GET['payed_ok']) ? true : false;
 
         $answerModel = new Answer();
 
