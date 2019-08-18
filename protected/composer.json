@@ -19,5 +19,10 @@
         "codeception/codeception":"*",
         "phpunit/phpunit": "^7",
         "100yuristov/sto-yuristov-client":"v1.1"
+    },
+    "autoload": {
+        "PSR-4": {
+            "notifiers\\": "notifiers/"
+        }
     }
 }

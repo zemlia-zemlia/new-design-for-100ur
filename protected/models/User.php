@@ -136,12 +136,12 @@ class User extends CActiveRecord
     /**
      * Возвращает название роли пользователя
      *
-     * @return string роль пользователя
+     * @return string|null роль пользователя
      */
-    public function getRoleName()
+    public function getRoleName():?string
     {
         $rolesNames = self::getRoleNamesArray();
-        $roleName = $rolesNames[(int)$this->role];
+        $roleName = (isset($rolesNames[(int)$this->role])) ? $rolesNames[(int)$this->role] : null;
         return $roleName;
     }
 
@@ -150,7 +150,7 @@ class User extends CActiveRecord
      *
      * @return array массив активных объектов класса User
      */
-    static public function getManagers()
+    static public function getManagers():array
     {
         $managers = self::model()->findAllByAttributes(array(
             'role' => self::ROLE_MANAGER,
@@ -162,7 +162,7 @@ class User extends CActiveRecord
     /**
      * возвращает массив, ключами которого являются id менеджеров
      *  а значениями - их имена
-     *
+     * @todo перевести на DAO
      * @return array массив менеджеров (id => name)
      */
     static public function getManagersNames()
@@ -177,7 +177,7 @@ class User extends CActiveRecord
 
     /**
      * возвращает массив, ключами которого являются id активных юристов, а значениями - их имена
-     *
+     * @todo перевести на DAO
      * @return array Массив активных юристов (id => name)
      */
     public static function getAllJuristsIdsNames()
@@ -196,7 +196,7 @@ class User extends CActiveRecord
     /**
      * возвращает массив, ключами которого являются id активных покупателей,
      * а значениями - их имена
-     *
+     * @todo перевести на DAO
      * @return array Массив активных покупателей (id => name)
      */
     public static function getAllBuyersIdsNames()
@@ -348,6 +348,7 @@ class User extends CActiveRecord
      *  Отправляет пользователю письмо со ссылкой на подтверждение email.
      *  Если указан параметр $newPassword, он будет выслан в письме  как новый пароль
      *
+     * @todo Вынести отправки уведомлений в отдельный класс, использовать при отправке очередь
      * @param string $newPassword Новый пароль, который необходимо отправить в письме
      * @return boolean true - письмо отправлено, false - не отправлено
      */
@@ -556,7 +557,7 @@ class User extends CActiveRecord
 
     /**
      * возвращает массив объектов класса User, которые являются подчиненными менеджера
-     *
+     * @todo Выяснить, используется ли
      * @return array Массив пользователей
      */
     public function myEmployees()
@@ -567,7 +568,7 @@ class User extends CActiveRecord
 
     /**
      * возвращает массив id подчиненных данного пользователя
-     *
+     * @todo Выяснить, используется ли
      * @return type
      */
     public function myEmployeesIds()
@@ -627,6 +628,7 @@ class User extends CActiveRecord
      * в статус "Предварительно опубликован"
      * При этом, если у вопроса указан источник, создаем транзакции вебмастера
      * @return integer Количество опубликованных вопросов
+     * @todo Вынести в отдельный класс
      */
     public function publishNewQuestions()
     {
@@ -840,7 +842,7 @@ class User extends CActiveRecord
 
     /**
      * Автологин пользователя
-     *
+     * @todo Разобраться с предупреждениями PHPstorm
      * @param array $params Массив параметров
      * @return boolean Результат: true - успех, false - ошибка
      */
@@ -1227,6 +1229,7 @@ class User extends CActiveRecord
      * @param Answer $answer
      * @param integer $yuristBonus В копейках
      * @return boolean
+     * @todo Поправить вызов метода $mailer->sendMail
      */
     public function sendDonateNotification(Answer $answer, $yuristBonus)
     {
