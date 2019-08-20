@@ -119,8 +119,10 @@ class Mail extends CActiveRecord
             ->limit($limit)
             ->queryAll();
 
+        $mailTransportType = ($useSMTP === true) ? GTMail::TRANSPORT_TYPE_SMTP : GTMail::TRANSPORT_TYPE_SENDMAIL;
+
         foreach ($tasks as $task) {
-            $mailer = new GTMail($useSMTP);
+            $mailer = new GTMail($mailTransportType);
 
             $mailer->subject = $task['subject'];
             $mailer->message = $task['message'];

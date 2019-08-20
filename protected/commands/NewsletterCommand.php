@@ -81,7 +81,7 @@ class NewsletterCommand extends CConsoleCommand
                 'utm_source'    =>  'sendmail',
                 'utm_campaign'  =>  date("Y-m-d"),
             );
-            $mailer->message = GTMail::insertTags($mailer->message, $tags);
+            $mailer->message = UTMHelper::insertTags($mailer->message, $tags);
             
             print_r($mailer);
             //continue;

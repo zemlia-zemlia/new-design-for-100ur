@@ -350,12 +350,13 @@ class User extends CActiveRecord
      *
      * @todo Вынести отправки уведомлений в отдельный класс, использовать при отправке очередь
      * @param string $newPassword Новый пароль, который необходимо отправить в письме
+     * @param bool $useSMTP Использовать ли SMTP
      * @return boolean true - письмо отправлено, false - не отправлено
      */
-    public function sendConfirmation($newPassword = null)
+    public function sendConfirmation($newPassword = null, $useSMTP = true)
     {
-
-        $mailer = new GTMail(true); // отправляем через SMTP сервер
+        $mailTransportType = ($useSMTP === true) ? GTMail::TRANSPORT_TYPE_SMTP : GTMail::TRANSPORT_TYPE_SENDMAIL;
+        $mailer = new GTMail($mailTransportType); // отправляем через SMTP сервер
 
         $confirmLink = CHtml::decode(Yii::app()->createUrl('user/confirm', array(
                 'email' => $this->email,

@@ -188,7 +188,7 @@ class DefaultController extends Controller {
         echo 'Тестируем отправку письма';
         
         // первое письмо отправим через встроенную функцию
-        $testMail = new GTMail(false);
+        $testMail = new GTMail(GTMail::TRANSPORT_TYPE_SENDMAIL);
         $testMail->subject = 'Проверка работы почты';
         $testMail->email = 'misha-sunsetboy@yandex.ru';
         $testMail->message = 'Проверка отправки почты';
@@ -200,7 +200,7 @@ class DefaultController extends Controller {
         }
         
         // первое письмо отправим через встроенную функцию
-        $testMail = new GTMail(true);
+        $testMail = new GTMail(GTMail::TRANSPORT_TYPE_SMTP);
         $testMail->subject = 'Проверка работы почты';
         $testMail->email = 'misha-sunsetboy@yandex.ru';
         $testMail->message = 'Проверка отправки почты через SMTP';

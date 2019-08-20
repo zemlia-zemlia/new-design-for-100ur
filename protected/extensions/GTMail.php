@@ -4,6 +4,7 @@ class GTMail
 {
     const TRANSPORT_TYPE_SMTP = 'smtp';
     const TRANSPORT_TYPE_SENDMAIL = 'sendmail';
+    const TEST_MESSAGES_FOLDER = 'test';
 
     public $subject;
     public $message;
@@ -75,7 +76,11 @@ class GTMail
         }
     }
 
-    protected function getTestMessagesFolder()
+    /**
+     * Возвращает путь к папке для хранения писем в виде текстовых файлов
+     * @return mixed
+     */
+    public static function getTestMessagesFolder()
     {
         return Yii::getPathOfAlias('application.runtime.mail');
     }
@@ -87,9 +92,9 @@ class GTMail
      */
     protected function getTestMessageFilePath($testing = false): string
     {
-        $messageFilePath = $this->getTestMessagesFolder();
+        $messageFilePath = self::getTestMessagesFolder();
         if ($testing == true) {
-            $messageFilePath .= '/test';
+            $messageFilePath .= '/' . self::TEST_MESSAGES_FOLDER;
             if (!is_dir($messageFilePath)) {
                 mkdir($messageFilePath);
             }

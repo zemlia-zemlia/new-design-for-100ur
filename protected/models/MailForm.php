@@ -51,7 +51,8 @@ class MailForm extends CFormModel
 
         if ($this->recipientEmail != '') {
             // отправляем одному получателю
-            $mailer = new GTMail($useSMTP);
+            $mailTransportType = ($useSMTP === true) ? GTMail::TRANSPORT_TYPE_SMTP : GTMail::TRANSPORT_TYPE_SENDMAIL;
+            $mailer = new GTMail($mailTransportType);
 
             $mailer->subject = $this->subject;
             $mailer->message = $this->message;
@@ -66,8 +67,11 @@ class MailForm extends CFormModel
                 ->where('active100=1 AND isSubscribed=1 AND role=:role AND email!=""', [':role' => $this->roleId])
                 ->queryAll();
 
+            $mailTransportType = ($useSMTP === true) ? GTMail::TRANSPORT_TYPE_SMTP : GTMail::TRANSPORT_TYPE_SENDMAIL;
+
             foreach ($users as $user) {
-                $mailer = new GTMail($useSMTP);
+
+                $mailer = new GTMail($mailTransportType);
 
                 $mailer->subject = $this->subject;
                 $mailer->message = $this->message;

@@ -11,6 +11,7 @@ class GTMailTest extends TestCase
     {
         defined(YII_DEV) or define(YII_DEV, true);
         parent::setUp();
+        FileSystemHelper::delTree(GTMail::getTestMessagesFolder() . '/' . GTMail::TEST_MESSAGES_FOLDER);
         $this->mailer = new GTMail();
     }
 
