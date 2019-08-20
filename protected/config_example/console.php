@@ -22,6 +22,7 @@ return array(
         'application.extensions.Logger.*',
         'application.extensions.TurboApi.*',
         'application.notifiers.*',
+        'application.helpers.*',
     ),
 
     // application components

@@ -4,17 +4,18 @@ use PHPUnit\Framework\TestCase;
 
 class GTMailTest extends TestCase
 {
+    /** @var GTMail  */
     protected $mailer;
 
     public function setUp()
     {
+        defined(YII_DEV) or define(YII_DEV, true);
         parent::setUp();
         $this->mailer = new GTMail();
     }
 
     public function testConstructor()
     {
-
         $this->assertEquals(true, $this->mailer->isTestMode());
     }
 
@@ -25,16 +26,5 @@ class GTMailTest extends TestCase
         $this->mailer->email = 'hello@100yuristov.com';
 
         $this->assertEquals(true, $this->mailer->sendMail());
-    }
-
-    public function testComposeMessage()
-    {
-        $mailerStub = $this->createMock(GTMail::class);
-
-        $mailerStub->method('loadFooter')->willReturn('My footer');
-        $mailerStub->method('loadHeader')->willReturn('My header');
-        $mailerStub->message = 'Message text';
-
-        $this->assertEquals('', $mailerStub->createMessage(false));
     }
 }
