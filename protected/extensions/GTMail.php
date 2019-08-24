@@ -166,10 +166,10 @@ class GTMail
 
     /**
      * @param string $transportType
-     * @return Swift_Transport_SmtpAgent
+     * @return Swift_Transport
      * @throws Exception
      */
-    protected function createMailTransport($transportType): Swift_Transport_SmtpAgent
+    protected function createMailTransport($transportType): Swift_Transport
     {
         switch ($transportType) {
             case self::TRANSPORT_TYPE_SMTP:
