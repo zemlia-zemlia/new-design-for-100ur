@@ -49,6 +49,24 @@ class GTMail
     }
 
     /**
+     * @return string
+     */
+    public function getTransportType(): string
+    {
+        return $this->transportType;
+    }
+
+    /**
+     * @param string $transportType
+     * @return GTMail
+     */
+    public function setTransportType(string $transportType): GTMail
+    {
+        $this->transportType = $transportType;
+        return $this;
+    }
+
+    /**
      * Отправка сообщения
      * @param bool $appendSuffix Включать ли подпись
      * @return bool Результат отправки
