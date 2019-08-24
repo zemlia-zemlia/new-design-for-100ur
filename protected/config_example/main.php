@@ -24,6 +24,8 @@ return array(
         'application.extensions.StoYuristovClient.StoYuristovClient',
         'application.extensions.imperavi-redactor-widget.ImperaviRedactorWidget',
         'application.extensions.Logger.*',
+        'application.notifiers.*',
+        'application.helpers.*',
     ),
     'modules' => array(
         // uncomment the following to enable the Gii tool

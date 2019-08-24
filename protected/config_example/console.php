@@ -21,6 +21,8 @@ return array(
         'application.extensions.cleditor.ECLEditor',
         'application.extensions.Logger.*',
         'application.extensions.TurboApi.*',
+        'application.notifiers.*',
+        'application.helpers.*',
     ),
 
     // application components

@@ -3,11 +3,13 @@
 # Suite for unit (internal) tests.
 
 class_name: UnitTester
+coverage:
+    enabled: true
+    include:
+        - models/*
+        - notifiers/*
+        - extensions/GTMail.php
 modules:
     enabled:
         - Asserts
         - \Helper\Unit
-        - Yii1:
-            appPath: '/var/www/100yuristov/public_html/index.php'
-            url: 'http://100yuristov/index.php'
-        

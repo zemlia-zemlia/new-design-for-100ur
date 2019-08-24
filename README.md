@@ -7,4 +7,16 @@
 * MySQL
 * Composer
 * Yii framework 1.1 (в папке "framework")
-* В настройках PHP (php.ini) post_max_size = 10M; и upload_max_filesize = 10M; 
+* В настройках PHP (php.ini) post_max_size = 10M; и upload_max_filesize = 10M;
+
+## Запуск тестов
+```
+Unit:
+vendor/bin/codecept run tests/unit
+
+Unit с отчетом по покрытию:
+vendor/bin/codecept run tests/unit --coverage --coverage-html 
+
+Интеграционные:
+vendor/bin/codecept run tests/unit
+```
