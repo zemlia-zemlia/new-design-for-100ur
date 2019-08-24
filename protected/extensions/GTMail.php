@@ -19,7 +19,7 @@ class GTMail
      * @param string $transportType Тип транспорта
      * @throws Exception
      */
-    public function __construct($transportType = self::TRANSPORT_TYPE_SMTP)
+    public function __construct($transportType = self::TRANSPORT_TYPE_SENDMAIL)
     {
         $this->testMode = (YII_DEV === true) ? true : false;
         $this->transportType = $transportType;
