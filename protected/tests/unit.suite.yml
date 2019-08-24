@@ -3,6 +3,12 @@
 # Suite for unit (internal) tests.
 
 class_name: UnitTester
+coverage:
+    enabled: true
+    include:
+        - models/*
+        - notifiers/*
+        - extensions/GTMail.php
 modules:
     enabled:
         - Asserts
