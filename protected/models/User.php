@@ -353,7 +353,7 @@ class User extends CActiveRecord
      * @param bool $useSMTP Использовать ли SMTP
      * @return boolean true - письмо отправлено, false - не отправлено
      */
-    public function sendConfirmation($newPassword = null, $useSMTP = true)
+    public function sendConfirmation($newPassword = null, $useSMTP = false)
     {
         $mailTransportType = ($useSMTP === true) ? GTMail::TRANSPORT_TYPE_SMTP : GTMail::TRANSPORT_TYPE_SENDMAIL;
         $mailer = new GTMail($mailTransportType); // отправляем через SMTP сервер
