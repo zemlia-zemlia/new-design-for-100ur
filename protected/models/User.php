@@ -355,59 +355,8 @@ class User extends CActiveRecord
      */
     public function sendConfirmation($newPassword = null, $useSMTP = false)
     {
-        $mailTransportType = ($useSMTP === true) ? GTMail::TRANSPORT_TYPE_SMTP : GTMail::TRANSPORT_TYPE_SENDMAIL;
-        $mailer = new GTMail($mailTransportType); // отправляем через SMTP сервер
-
-        $confirmLink = CHtml::decode(Yii::app()->createUrl('user/confirm', array(
-                'email' => $this->email,
-                'code' => $this->confirm_code,
-            ))) . "?utm_source=100yuristov&utm_medium=mail&utm_campaign=user_registration";
-
-        $mailer->subject = "100 Юристов - Подтверждение Email";
-
-
-        $mailer->message = "
-            <h1>Пожалуйста подтвердите Email</h1>
-            <p>Здравствуйте!<br />";
-
-        if ($this->role == self::ROLE_JURIST) {
-            $mailer->message .= "Вы зарегистрировались в качестве юриста на сайте " . CHtml::link("100 Юристов", Yii::app()->createUrl('/')) . "</p>" .
-                "<p>Для активации профиля Вам необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";
-        } elseif ($this->role == self::ROLE_BUYER) {
-            $mailer->message .= "Вы зарегистрировались в качестве покупателя лидов на сайте " . CHtml::link("100 Юристов", Yii::app()->createUrl('/')) . "</p>" .
-                "<p>Для активации профиля Вам необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";
-        } elseif ($this->role == self::ROLE_PARTNER) {
-            $mailer->message .= "Вы зарегистрировались в качестве вебмастера на сайте " . CHtml::link("100 Юристов", Yii::app()->createUrl('/')) . "</p>" .
-                "<p>Для активации профиля Вам необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";
-        } else {
-            $mailer->message .= "Вы задали вопрос на сайте " . CHtml::link("100 Юристов", Yii::app()->createUrl('/')) . "</p>" .
-                "<p>Для того, чтобы юристы увидели Ваш вопрос, необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";
-        }
-
-        $mailer->message .= "<p><strong>" . CHtml::link("Подтвердить Email", $confirmLink, array('style' => ' padding: 10px;
-            width: 150px;
-            display: block;
-            text-decoration: none;
-            border: 1px solid #84BEEB;
-            text-align: center;
-            font-size: 18px;
-            font-family: Arial, sans-serif;
-            font-weight: bold;
-            color: #000;
-            background: linear-gradient(to bottom, #ffc154 0%,#e88b0f 100%);
-            border: 1px solid #EF9A27;
-            border-radius: 4px;
-            line-height: 17px;
-            margin:0 auto;
-        ')) . "</strong></p>";
-
-        if ($newPassword) {
-            $mailer->message .= "<h2>Ваш временный пароль</h2>
-            <p>После подтверждения Email вы сможете войти на сайт, используя временный пароль <strong>" . $newPassword . "</strong></p>";
-        }
-        $mailer->email = $this->email;
-
-        return $mailer->sendMail();
+        $notifier = new UserNotifier(new GTMail(), $this);
+        return $notifier->sendConfirmation($newPassword, $useSMTP);
     }
 
     /**
