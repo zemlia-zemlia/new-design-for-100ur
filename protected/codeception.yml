@@ -12,12 +12,3 @@ settings:
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
-modules:
-    config:
-        Db:
-          dsn: 'mysql:host=localhost;dbname=100yuristov_test'
-          user: '100yuristov_test'
-          password: ''
-          dump: 'db/100yuristov_etalon.sql'
-          populate: false
-          cleanup: false
