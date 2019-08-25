@@ -3,4 +3,11 @@ modules:
     enabled:
         - Asserts
         - \Helper\Integration
-        - Db
+        - Db:
+            dsn: 'mysql:host=localhost;dbname=100yuristov_test'
+            user: '100yuristov_test'
+            password: ''
+            dump: 'db/100yuristov_test.sql'
+            populate: true
+            cleanup: true
+            populator: 'mysql -u $user -h $host $dbname < $dump && vendor/bi/phinx migrate -e testing'

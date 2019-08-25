@@ -19,7 +19,7 @@ environments:
         host: localhost
         name: 100yuristov_etalon
         user: 100yuristov
-        pass: 'crm_local'
+        pass: '4Ce!HtNVCUL^'
         port: 3306
         charset: utf8
 

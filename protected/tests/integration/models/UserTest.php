@@ -9,7 +9,7 @@ use Yii;
 class UserTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \UnitTester
+     * @var \IntegrationTester
      */
     protected $tester;
 
@@ -18,13 +18,13 @@ class UserTest extends \Codeception\Test\Unit
 
     const USER_TABLE = '100_user';
 
-    protected function _beforeClass()
+    protected function _before()
     {
+        Yii::app()->db->createCommand()->truncateTable(self::USER_TABLE);
         $this->transaction = Yii::app()->db->beginTransaction();
-        Yii::app()->db->createCommand()->delete(self::USER_TABLE, 'id>0');
     }
 
-    protected function _afterClass()
+    protected function _after()
     {
         $this->transaction->rollback();
     }
@@ -68,19 +68,6 @@ class UserTest extends \Codeception\Test\Unit
                 ],
                 'saveResult' => true,
             ],
-            'incorrect, email exists' => [
-                'userParams' => [
-                    'name' => 'Иван',
-                    'name2' => '',
-                    'lastName' => '',
-                    'email' => 'ivan1@grozny.ru',
-                    'phone' => '+7(988)7776655',
-                    'townId' => 598,
-                    'password' => '123456',
-                    'password2' => '123456',
-                ],
-                'saveResult' => false,
-            ],
             'passwords not match' => [
                 'userParams' => [
                     'name' => 'Иван',
@@ -123,7 +110,6 @@ class UserTest extends \Codeception\Test\Unit
         ];
 
         $this->tester->haveInDatabase(self::USER_TABLE, $fixture);
-var_dump(User::getManagers());
         $this->assertEquals(1, sizeof(User::getManagers()));
         $this->assertEquals(10000, User::getManagers()[0]->id);
     }
@@ -160,5 +146,35 @@ var_dump(User::getManagers());
 
         $this->assertEquals(2, sizeof(User::getAllJuristsIdsNames()));
         $this->assertEquals('Ivan', User::getAllJuristsIdsNames()[10001]);
+    }
+
+    /**
+     * Попытка создать пользователя с существующим мейлом
+     */
+    public function testDuplicateEmail()
+    {
+        $user1 = new User();
+        $user1->setAttributes([
+            'name' => 'Вася',
+            'email' => '1@100yuristov.com',
+            'phone' => '+7(988)7776655',
+            'townId' => 598,
+            'password' => '123456',
+            'password2' => '123456',
+        ]);
+        $this->assertEquals(true, $user1->save());
+
+        $user2 = new User();
+        $user2->setAttributes([
+            'name' => 'Иван',
+            'email' => '1@100yuristov.com',
+            'phone' => '+7(988)7776655',
+            'townId' => 598,
+            'password' => '123456',
+            'password2' => '123456',
+        ]);
+
+        $this->assertEquals(false, $user2->save());
+        $this->assertArrayHasKey('email', $user2->getErrors());
     }
 }
