@@ -1,8 +1,8 @@
 <?php
 
-use \PHPUnit\Framework\TestCase;
+use \Codeception\Test\Unit;
 
-class UserNotifierTest extends TestCase
+class UserNotifierTest extends Unit
 {
     public function testCreateNotifier()
     {
@@ -25,11 +25,23 @@ class UserNotifierTest extends TestCase
     public function testSendUserConfirmationMail($role, $newPassword, $expectedMailFragment)
     {
         $mailer = new GTMail();
-        $user = new User();
-        $user->setAttributes([
-            'role' => $role,
-            'email' => 'tester@100yuristov.local',
+//        $user = new User();
+        $user = $this->makeEmpty('User', [
+            'save' => true,
+            'getIsNewRecord' => true,
+            'setAttribute' => true,
+            'getAttributes' => function() {
+                return ['id', 'role', 'email'];
+            },
+            'role',
+            'email',
         ]);
+        $user->role = $role;
+        $user->email = 'tester@100yuristov.local';
+//        $user->setAttributes([
+//            'role' => $role,
+//            'email' => 'tester@100yuristov.local',
+//        ]);
 
         $notifier = new UserNotifier($mailer, $user);
         $sendResult = $notifier->sendConfirmation($newPassword);
