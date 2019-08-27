@@ -65,6 +65,9 @@ class User extends CActiveRecord
     // значения баланса, при достижении которых покупателю отправляется уведомление о снижении баланса
     const BALANCE_STEPS = array(500, 1000, 5000, 10000);
 
+    /** @var UserNotifier */
+    protected $notifier;
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -81,6 +84,14 @@ class User extends CActiveRecord
     public function tableName()
     {
         return '{{user}}';
+    }
+
+    /**
+     *  Инициализация объекта, вызывается после конструктора
+     */
+    public function init()
+    {
+        $this->notifier = new UserNotifier(new GTMail(), $this);
     }
 
     /**
@@ -355,8 +366,7 @@ class User extends CActiveRecord
      */
     public function sendConfirmation($newPassword = null, $useSMTP = false)
     {
-        $notifier = new UserNotifier(new GTMail(), $this);
-        return $notifier->sendConfirmation($newPassword, $useSMTP);
+        return $this->notifier->sendConfirmation($newPassword, $useSMTP);
     }
 
     /**
