@@ -10,20 +10,7 @@ return array(
     'preload' => array('log'),
 
     // autoloading model and component classes
-    'import' => array(
-        'application.models.*',
-        'application.components.*',
-        'application.components.emailParsers.*',
-        'application.components.apiClasses.*',
-        'application.extensions.*',
-        'application.extensions.XWebDebugRouter.*',
-        'application.extensions.CustomFuncs.*',
-        'application.extensions.cleditor.ECLEditor',
-        'application.extensions.Logger.*',
-        'application.extensions.TurboApi.*',
-        'application.notifiers.*',
-        'application.helpers.*',
-    ),
+    'import' => require(dirname(__FILE__) . '/autoload.php'),
 
     // application components
     'components' => array(

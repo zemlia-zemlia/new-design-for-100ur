@@ -12,21 +12,7 @@ return array(
     // preloading 'log' component
     'preload' => array('log'),
     // autoloading model and component classes
-    'import' => array(
-        'application.models.*',
-        'application.components.*',
-        'application.components.emailParsers.*',
-        'application.components.apiClasses.*',
-        'application.extensions.*',
-        'application.extensions.XWebDebugRouter.*',
-        'application.extensions.CustomFuncs.*',
-        'application.extensions.cleditor.ECLEditor',
-        'application.extensions.StoYuristovClient.StoYuristovClient',
-        'application.extensions.imperavi-redactor-widget.ImperaviRedactorWidget',
-        'application.extensions.Logger.*',
-        'application.notifiers.*',
-        'application.helpers.*',
-    ),
+    'import' => require(dirname(__FILE__) . '/autoload.php'),
     'modules' => array(
         // uncomment the following to enable the Gii tool
 
