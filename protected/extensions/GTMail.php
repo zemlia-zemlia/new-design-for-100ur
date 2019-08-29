@@ -1,6 +1,6 @@
 <?php
 
-class GTMail
+class GTMail extends CApplicationComponent
 {
     const TRANSPORT_TYPE_SMTP = 'smtp';
     const TRANSPORT_TYPE_SENDMAIL = 'sendmail';

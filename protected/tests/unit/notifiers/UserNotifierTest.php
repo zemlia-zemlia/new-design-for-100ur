@@ -24,7 +24,7 @@ class UserNotifierTest extends Unit
      */
     public function testSendUserConfirmationMail($role, $newPassword, $expectedMailFragment)
     {
-        $mailer = new GTMail();
+        $mailer = Yii::app()->mailer;
         $user = new User();
 
         $user->setAttributes([

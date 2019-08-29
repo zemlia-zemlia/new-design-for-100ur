@@ -87,11 +87,24 @@ class User extends CActiveRecord
     }
 
     /**
-     *  Инициализация объекта, вызывается после конструктора
+     * @return UserNotifier
      */
+    public function getNotifier(): UserNotifier
+    {
+        return $this->notifier;
+    }
+
+    /**
+     * @param UserNotifier $notifier
+     */
+    public function setNotifier(UserNotifier $notifier): void
+    {
+        $this->notifier = $notifier;
+    }
+
     public function init()
     {
-        $this->notifier = new UserNotifier(new GTMail(), $this);
+        $this->notifier = new UserNotifier(Yii::app()->mailer, $this);
     }
 
     /**
