@@ -107,6 +107,10 @@ return array(
         'cache' => array(
             'class' => 'system.caching.CFileCache',
         ),
+
+        'mailer' => [
+            'class' => 'application.extensions.GTMail',
+        ],
     ),
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']

@@ -52,6 +52,10 @@ return array(
                 ),
             ),
         ),
+
+        'mailer' => [
+            'class' => 'application.extensions.GTMail',
+        ],
     ),
     'params' => require(dirname(__FILE__) . '/params.php'),
 );
