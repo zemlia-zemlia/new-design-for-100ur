@@ -601,41 +601,15 @@ class User extends CActiveRecord
      * в статус "Предварительно опубликован"
      * При этом, если у вопроса указан источник, создаем транзакции вебмастера
      * @return integer Количество опубликованных вопросов
-     * @todo Вынести в отдельный класс
      */
     public function publishNewQuestions()
     {
-
-        $questionCriteria = new CDbCriteria();
-        $questionCriteria->limit = 1;
-        $questionCriteria->condition = 'authorId!=0 AND authorId=:authorId AND status=:statusOld';
-        $questionCriteria->params = array(':authorId' => $this->id, ':statusOld' => Question::STATUS_NEW);
-
-        $questions = Question::model()->findAll($questionCriteria);
+        $questions = Question::getQuestionsByAuthor($this->id, [Question::STATUS_NEW]);
         $publishedQuestionsNumber = 0;
 
         foreach ($questions as $question) {
-            $question->status = Question::STATUS_CHECK;
-            $question->publishDate = date('Y-m-d H:i:s');
-
-            // при публикации вопроса автоматически присваиваем ему категории по ключевым словам
-            $question->autolinkCategories();
-
-            if ($question->save() && $question->sourceId !== 0) {
-
-                // запоминаем в сессию, что только что опубликовали вопрос
-                Yii::app()->user->setState('justPublished', 1);
-
+            if ($question->publish()) {
                 $publishedQuestionsNumber++;
-
-                //@todo этот код можно вынести в класс Question
-                $webmasterTransaction = new PartnerTransaction();
-                $webmasterTransaction->sum = $question->buyPrice;
-                $webmasterTransaction->sourceId = $question->sourceId;
-                $webmasterTransaction->partnerId = $question->source->userId;
-                $webmasterTransaction->questionId = $question->id;
-                $webmasterTransaction->comment = "Начисление за вопрос #" . $question->id;
-                $webmasterTransaction->save();
             }
         }
 
