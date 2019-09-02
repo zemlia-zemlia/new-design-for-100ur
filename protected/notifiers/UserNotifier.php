@@ -88,4 +88,240 @@ class UserNotifier
 
         return $this->mailer->sendMail();
     }
+
+    /**
+     * Отправляет пользователю его пароль по почте (используем после активации аккаунта)
+     *
+     * @param string $newPassword новый пароль
+     * @return boolean true - удалось отправить письмо, false - не удалось
+     */
+    public function sendNewPassword($newPassword)
+    {
+        $this->mailer->subject = CHtml::encode($this->user->name) . ", Ваш пароль для личного кабинета 100 юристов";
+        $this->mailer->message = "Здравствуйте!<br />
+            Вы упешно зарегистрировались на портале 100 юристов.<br /><br />
+            Ваш логин: " . CHtml::encode($this->user->email) . "<br />
+            Ваш временный пароль: " . $newPassword . "<br /><br />
+            Вы всегда можете поменять его на любой другой, зайдя в " . CHtml::link("личный кабинет", Yii::app()->createUrl('site/login')) . " на нашем сайте.<br /><br />
+            <br /><br />";
+        $this->mailer->email = $this->user->email;
+
+        return $this->mailer->sendMail();
+    }
+
+    /**
+     * Высылает на email пользователю ссылку на смену пароля
+     * @param string $changePasswordLink
+     * @return boolean true - удалось отправить письмо, false - не удалось
+     */
+    public function sendChangePasswordLink($changePasswordLink)
+    {
+        $this->mailer->subject = "Смена пароля пользователя";
+        $this->mailer->message = "Здравствуйте!<br />
+            Ваша ссылка для смены пароля на портале 100 Юристов:<br />" .
+            CHtml::link($changePasswordLink, $changePasswordLink) .
+            "<br />";
+
+        $this->mailer->email = $this->user->email;
+
+        return $this->mailer->sendMail();
+    }
+
+    /**
+     * Высылает пароль $newPassword на email пользователю
+     *
+     * @param string $newPassword Новый пароль
+     * @return boolean true - удалось отправить письмо, false - не удалось
+     */
+    public function sendChangedPassword($newPassword)
+    {
+        $this->mailer->subject = "Смена пароля пользователя";
+        $this->mailer->message = "Здравствуйте!<br />
+            Вы или кто-то, указавший ваш E-mail, запросил восстановление пароля на портале 100 юристов.<br /><br />
+            Ваш временный пароль: " . $newPassword . "<br /><br />
+            Вы всегда можете поменять его на любой другой, зайдя в " . CHtml::link("личный кабинет", Yii::app()->createUrl('site/login')) . " на нашем сайте.<br /><br />
+            Если Вы не запрашивали восстановление пароля, обратитесь, пожалуйста, к администратору сайта. <br /><br />";
+        $this->mailer->email = $this->user->email;
+
+        return $this->mailer->sendMail();
+    }
+
+    /**
+     * отправка письма пользователю, на вопрос которого дан ответ
+     * @param Answer $answer
+     * @param Question $question
+     * @param $questionLink
+     * @param $testimonialLink
+     * @return bool
+     */
+    public function sendAnswerNotification(Answer $answer, Question $question, $questionLink, $testimonialLink)
+    {
+        $this->mailer->subject = CHtml::encode($this->user->name) . ", новый ответ на Ваш вопрос!";
+        $this->mailer->message = "<h1>Новый ответ на Ваш вопрос</h1>
+            <p>Здравствуйте, " . CHtml::encode($this->user->name) . "<br /><br />
+            Спешим сообщить, что на " . CHtml::link("Ваш вопрос", $questionLink) . " получен новый ответ юриста ";
+        if (!$answer->videoLink) {
+            $this->mailer->message .= CHtml::encode($answer->author->name . ' ' . $answer->author->lastName);
+        }
+        $this->mailer->message .= ".<br /><br />
+            Будем держать Вас в курсе поступления других ответов. 
+            <br /><br />
+            " . CHtml::link("Посмотреть ответ", $questionLink, ['class' => 'btn']) . "
+            </p>";
+
+        $this->mailer->message .= ".<br /><br />
+            Вы также можете оставить отзыв юристу, оценив его ответ 
+            <br />
+            " . CHtml::link("Оставить отзыв", $testimonialLink, ['class' => 'btn']) . "
+            </p>";
+
+        // отправляем письмо на почту пользователя
+        $this->mailer->email = $this->user->email;
+
+        if ($this->mailer->sendMail()) {
+            Yii::log("Отправлено письмо пользователю " . $this->user->email . " с уведомлением об ответе на вопрос " . $question->id, 'info', 'system.web.User');
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log("Не удалось отправить письмо пользователю " . $this->user->email . " с уведомлением об ответе на вопрос " . $question->id, 'error', 'system.web.User');
+            return false;
+        }
+    }
+
+    /**
+     * функция отправки уведомления юристу или клиенту о новом комментарии на его ответ / комментарий
+     * @param Question $question
+     * @param Comment $comment
+     * @return bool
+     */
+    public function sendCommentNotification(Question $question, Comment $comment, $questionLink)
+    {
+        $this->mailer->subject = CHtml::encode($this->user->name) . ", обновление в переписке по вопросу!";
+        $this->mailer->message = "<h1>Обновление в переписке по вопросу</h1>
+            <p>Здравствуйте, " . CHtml::encode($this->user->name) . "<br /><br />
+            Спешим сообщить, что в переписке по вопросу " . CHtml::link(CHtml::encode($question->title), $questionLink) . " появился новый комментарий от " . CHtml::encode($comment->author->name . ' ' . $comment->author->lastName) . ".
+            <br /><br />
+            Будем держать Вас в курсе поступления других комментариев. 
+            <br /><br />
+            " . CHtml::link("Посмотреть комментарий", $questionLink, array('class' => 'btn')) . "
+            </p>";
+
+        $this->mailer->email = $this->user->email;
+
+        if ($this->mailer->sendMail(true)) {
+            Yii::log("Отправлено письмо пользователю " . $this->user->email . " с уведомлением о комментарии " . $comment->id, 'info', 'system.web.User');
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log("Не удалось отправить письмо пользователю " . $this->user->email . " с уведомлением о комментарии " . $comment->id, 'error', 'system.web.User');
+            return false;
+        }
+    }
+
+    /**
+     * Отправляет покупателю письмо с уведомлением по его кампании
+     * @param integer $eventType
+     * @return bool
+     */
+    public function sendBuyerNotification($eventType)
+    {
+        $cabinetLink = Yii::app()->createUrl('/cabinet');
+
+        switch ($eventType) {
+            case User::BUYER_EVENT_CONFIRM:
+                $this->mailer->subject = CHtml::encode($this->user->name) . ", Ваша кампания одобрена";
+                $this->mailer->message = "<h1>Ваша кампания одобрена модератором</h1>
+                    <p>Здравствуйте, " . CHtml::encode($this->user->name) . "<br /><br />
+                    Ваша кампания по покупке лидов одобрена. Параметры кампании Вы можете увидеть в ее настройках
+                    в <a href='" . $cabinetLink . "'>личном кабинете</a>. Для получения лидов Вам необходимо пополнить баланс. Способы пополнения
+                    также доступны в личном кабинете.
+                    </p>";
+                break;
+            case User::BUYER_EVENT_TOPUP:
+                $this->mailer->subject = CHtml::encode($this->user->name) . ", Ваш баланс пополнен";
+                $this->mailer->message = "<h1>Ваш баланс пополнен</h1>
+                    <p>Здравствуйте, " . CHtml::encode($this->user->name) . "<br /><br />
+                    Ваш баланс пополнен и составляет " . MoneyFormat::rubles($this->user->balance) . " руб. "
+                    . "Информация о списаниях и зачислениях доступна в <a href='" . $cabinetLink . "'>личном кабинете</a>.
+                    </p>";
+                break;
+            case User::BUYER_EVENT_LOW_BALANCE:
+                $this->mailer->subject = CHtml::encode($this->user->name) . ", уведомление о расходе средств";
+                $this->mailer->message = "<h1>Уведомление о расходе средств</h1>
+                    <p>Здравствуйте, " . CHtml::encode($this->user->name) . "<br /><br />
+                    Ваш баланс составляет " . MoneyFormat::rubles($this->user->balance) . " руб. "
+                    . "Пополнить баланс, увидеть информацию о списаниях и зачислениях можно в <a href='" . $cabinetLink . "'>личном кабинете</a>.
+                        
+                    </p>";
+                break;
+
+            default:
+                return false;
+        }
+
+        $this->mailer->email = $this->user->email;
+
+        if ($this->mailer->sendMail()) {
+            Yii::log("Отправлено письмо покупателю " . $this->user->email, 'info', 'system.web.User');
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log("Не удалось отправить письмо покупателю " . $this->user->email, 'error', 'system.web.User');
+            return false;
+        }
+    }
+
+    /**
+     * Отправка юристу уведомления о зачислении благодарности за консультацию
+     * @param Answer $answer
+     * @param int $yuristBonus В копейках
+     * @return bool
+     */
+    public function sendDonateNotification(Answer $answer, $yuristBonus)
+    {
+        $yurist = $answer->author;
+
+        $this->mailer->subject = "Зачислена благодарность за ответ на вопрос";
+
+        $this->mailer->message = "<h1>Благодарность за консультацию по вопросу</h1>
+            <p>Здравствуйте, " . CHtml::encode($yurist->name) . "<br /><br />" .
+            "Вам зачислены " . MoneyFormat::rubles($yuristBonus) . " руб. в благодарность за консультацию по вопросу " .
+            CHtml::link(CHtml::encode($answer->question->title), Yii::app()->createUrl('question/view', ['id' => $answer->questionId])) . "</p>";
+        $this->mailer->message .= '<p>Ваш баланс и история его изменений доступны в Личном кабинете.</p>';
+        $this->mailer->message .= '<p>Благодарим за сотрудничество!</p>';
+
+        $this->mailer->email = $yurist->email;
+
+        if ($this->mailer->sendMail()) {
+            Yii::log("Отправлено письмо юристу " . $yurist->email . " с уведомлением о благодарности по вопросу " . $answer->question->id, 'info', 'system.web.User');
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log("Не удалось отправить письмо пользователю " . $yurist->email . " с уведомлением о благодарности по вопросу " . $answer->question->id, 'error', 'system.web.User');
+            return false;
+        }
+    }
+
+    /**
+     * Отправка юристу уведомления о новом отзыве
+     */
+    public function sendTestimonialNotification()
+    {
+        $this->mailer->subject = "Вам оставили отзыв";
+
+        $this->mailer->message = "<h1>Новый отзыв в вашем профиле</h1>
+            <p>Здравствуйте, " . CHtml::encode($this->user->name) . "<br /><br />" .
+            "Вам только что оставили отзыв. Посмотреть его вы можете в своем профиле.";
+
+        $this->mailer->email = $this->user->email;
+
+        if ($this->mailer->sendMail()) {
+            Yii::log("Отправлено письмо юристу " . $this->user->email . " с уведомлением о новом отзыве", 'info', 'system.web.User');
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log("Не удалось отправить письмо пользователю " . $this->user->email . " с уведомлением о новом отзыве", 'error', 'system.web.User');
+            return false;
+        }
+    }
 }

@@ -162,7 +162,7 @@ class User extends CActiveRecord
      *
      * @return string|null роль пользователя
      */
-    public function getRoleName():?string
+    public function getRoleName(): ?string
     {
         $rolesNames = self::getRoleNamesArray();
         $roleName = (isset($rolesNames[(int)$this->role])) ? $rolesNames[(int)$this->role] : null;
@@ -174,7 +174,7 @@ class User extends CActiveRecord
      *
      * @return array массив активных объектов класса User
      */
-    static public function getManagers():array
+    static public function getManagers(): array
     {
         $managers = self::model()->findAllByAttributes(array(
             'role' => self::ROLE_MANAGER,
@@ -186,8 +186,8 @@ class User extends CActiveRecord
     /**
      * возвращает массив, ключами которого являются id менеджеров
      *  а значениями - их имена
-     * @todo перевести на DAO
      * @return array массив менеджеров (id => name)
+     * @todo перевести на DAO
      */
     static public function getManagersNames()
     {
@@ -201,8 +201,8 @@ class User extends CActiveRecord
 
     /**
      * возвращает массив, ключами которого являются id активных юристов, а значениями - их имена
-     * @todo перевести на DAO
      * @return array Массив активных юристов (id => name)
+     * @todo перевести на DAO
      */
     public static function getAllJuristsIdsNames()
     {
@@ -220,8 +220,8 @@ class User extends CActiveRecord
     /**
      * возвращает массив, ключами которого являются id активных покупателей,
      * а значениями - их имена
-     * @todo перевести на DAO
      * @return array Массив активных покупателей (id => name)
+     * @todo перевести на DAO
      */
     public static function getAllBuyersIdsNames()
     {
@@ -372,10 +372,10 @@ class User extends CActiveRecord
      *  Отправляет пользователю письмо со ссылкой на подтверждение email.
      *  Если указан параметр $newPassword, он будет выслан в письме  как новый пароль
      *
-     * @todo Вынести отправки уведомлений в отдельный класс, использовать при отправке очередь
      * @param string $newPassword Новый пароль, который необходимо отправить в письме
      * @param bool $useSMTP Использовать ли SMTP
      * @return boolean true - письмо отправлено, false - не отправлено
+     * @todo Вынести отправки уведомлений в отдельный класс, использовать при отправке очередь
      */
     public function sendConfirmation($newPassword = null, $useSMTP = false)
     {
@@ -420,28 +420,14 @@ class User extends CActiveRecord
      */
     public function sendNewPassword($newPassword)
     {
-        $mailer = new GTMail;
-        $mailer->subject = CHtml::encode($this->name) . ", Ваш пароль для личного кабинета 100 юристов";
-        $mailer->message = "Здравствуйте!<br />
-            Вы упешно зарегистрировались на портале 100 юристов.<br /><br />
-            Ваш логин: " . CHtml::encode($this->email) . "<br />
-            Ваш временный пароль: " . $newPassword . "<br /><br />
-            Вы всегда можете поменять его на любой другой, зайдя в " . CHtml::link("личный кабинет", Yii::app()->createUrl('site/login')) . " на нашем сайте.<br /><br />
-            <br /><br />";
-        $mailer->email = $this->email;
-
-        if ($mailer->sendMail()) {
-            return true;
-        } else {
-            // не удалось отправить письмо
-            return false;
-        }
+        return $this->notifier->sendNewPassword($newPassword);
     }
 
     /**
      * Высылает на email пользователю ссылку на смену пароля
      *
      * @return boolean true - удалось отправить письмо, false - не удалось
+     * @throws CHttpException
      */
     public function sendChangePasswordLink()
     {
@@ -453,21 +439,8 @@ class User extends CActiveRecord
             }
         }
         $changePasswordLink = $this->getChangePasswordLink();
-        $mailer = new GTMail();
-        $mailer->subject = "Смена пароля пользователя";
-        $mailer->message = "Здравствуйте!<br />
-            Ваша ссылка для смены пароля на портале 100 Юристов:<br />" .
-            CHtml::link($changePasswordLink, $changePasswordLink) .
-            "<br />";
 
-        $mailer->email = $this->email;
-
-        if ($mailer->sendMail()) {
-            return true;
-        } else {
-            // не удалось отправить письмо
-            return false;
-        }
+        return $this->notifier->sendChangePasswordLink($changePasswordLink);
     }
 
     /**
@@ -478,21 +451,7 @@ class User extends CActiveRecord
      */
     public function sendChangedPassword($newPassword)
     {
-        $mailer = new GTMail;
-        $mailer->subject = "Смена пароля пользователя";
-        $mailer->message = "Здравствуйте!<br />
-            Вы или кто-то, указавший ваш E-mail, запросил восстановление пароля на портале 100 юристов.<br /><br />
-            Ваш временный пароль: " . $newPassword . "<br /><br />
-            Вы всегда можете поменять его на любой другой, зайдя в " . CHtml::link("личный кабинет", Yii::app()->createUrl('site/login')) . " на нашем сайте.<br /><br />
-            Если Вы не запрашивали восстановление пароля, обратитесь, пожалуйста, к администратору сайта. <br /><br />";
-        $mailer->email = $this->email;
-
-        if ($mailer->sendMail()) {
-            return true;
-        } else {
-            // не удалось отправить письмо
-            return false;
-        }
+        return $this->notifier->sendChangedPassword($newPassword);
     }
 
     /**
@@ -529,37 +488,11 @@ class User extends CActiveRecord
     }
 
     /**
-     * возвращает массив объектов класса User, которые являются подчиненными менеджера
-     * @todo Выяснить, используется ли
-     * @return array Массив пользователей
-     */
-    public function myEmployees()
-    {
-        $myEmployeesArray = User::model()->findAllByAttributes(array('active' => 1, 'managerId' => $this->id));
-        return $myEmployeesArray;
-    }
-
-    /**
-     * возвращает массив id подчиненных данного пользователя
-     * @todo Выяснить, используется ли
-     * @return type
-     */
-    public function myEmployeesIds()
-    {
-        $myEmployees = array();
-        $myEmployeesArray = $this->myEmployees();
-        foreach ($myEmployeesArray as $myEmployee) {
-            $myEmployees[] = $myEmployee['id'];
-        }
-        return $myEmployees;
-    }
-
-    /**
      * возвращает URL аватара текущего пользователя. Если аватар не задан,
      * возвращает URL аватара по умолчанию
      *
      * @param string $size размер картинки: по умолчанию thumb - маленькая, по умолчанию - большая
-     * @return type
+     * @return string
      */
     public function getAvatarUrl($size = 'thumb')
     {
@@ -571,6 +504,7 @@ class User extends CActiveRecord
         if ($size == 'thumb') {
             $avatarFolder .= User::USER_PHOTO_THUMB_FOLDER;
         }
+
         return $avatarFolder . "/" . $this->avatar;
     }
 
@@ -649,13 +583,9 @@ class User extends CActiveRecord
      * @param Answer $answer Ответ
      * @return boolean Результат отправки: true - успешно, false - ошибка
      */
-    public function sendAnswerNotification($question, $answer)
+    public function sendAnswerNotification(Question $question, Answer $answer)
     {
-        if ($this->active100 == 0) {
-            return false;
-        }
-
-        if (!$question) {
+        if ($this->active100 == 0 || !$question) {
             return false;
         }
 
@@ -673,47 +603,14 @@ class User extends CActiveRecord
         $autologinString = (isset($this->autologin) && $this->autologin != '') ? $this->autologin : $this->generateAutologinString();
 
         if ($this->save()) {
-            /*
-             * пытаемся сохранить пользователя (обновив поле autologin)
-             */
             $questionLink .= "&autologin=" . $autologinString;
             $testimonialLink .= "?autologin=" . $autologinString;
         } else {
             Yii::log("Не удалось сохранить строку autologin пользователю " . $this->email . " с уведомлением об ответе на вопрос " . $question->id, 'error', 'system.web.User');
         }
 
+        return $this->notifier->sendAnswerNotification($answer, $question, $questionLink, $testimonialLink);
 
-        $mailer = new GTMail;
-        $mailer->subject = CHtml::encode($this->name) . ", новый ответ на Ваш вопрос!";
-        $mailer->message = "<h1>Новый ответ на Ваш вопрос</h1>
-            <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />
-            Спешим сообщить, что на " . CHtml::link("Ваш вопрос", $questionLink) . " получен новый ответ юриста ";
-        if (!$answer->videoLink) {
-            $mailer->message .= CHtml::encode($answer->author->name . ' ' . $answer->author->lastName);
-        }
-        $mailer->message .= ".<br /><br />
-            Будем держать Вас в курсе поступления других ответов. 
-            <br /><br />
-            " . CHtml::link("Посмотреть ответ", $questionLink, array('class' => 'btn')) . "
-            </p>";
-
-        $mailer->message .= ".<br /><br />
-            Вы также можете оставить отзыв юристу, оценив его ответ 
-            <br />
-            " . CHtml::link("Оставить отзыв", $testimonialLink, array('class' => 'btn')) . "
-            </p>";
-
-        // отправляем письмо на почту пользователя
-        $mailer->email = $this->email;
-
-        if ($mailer->sendMail(true, '100yuristov')) {
-            Yii::log("Отправлено письмо пользователю " . $this->email . " с уведомлением об ответе на вопрос " . $question->id, 'info', 'system.web.User');
-            return true;
-        } else {
-            // не удалось отправить письмо
-            Yii::log("Не удалось отправить письмо пользователю " . $this->email . " с уведомлением об ответе на вопрос " . $question->id, 'error', 'system.web.User');
-            return false;
-        }
     }
 
     /**
@@ -739,9 +636,7 @@ class User extends CActiveRecord
         }
 
         // в письмо вставляем ссылку на вопрос + метки для отслеживания переходов
-        //$questionLink = "https://100yuristov.com/q/" . $question->id . "/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_notification&utm_term=" . $question->id;
         $questionLink = Yii::app()->createUrl('question/view', array('id' => $question->id)) . "/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_notification&utm_term=" . $question->id;
-
 
         /*  проверим, есть ли у пользователя заполненное поле autologin, если нет,
          *  генерируем код для автоматического логина при переходе из письма
@@ -752,37 +647,12 @@ class User extends CActiveRecord
         $autologinString = (isset($this->autologin) && $this->autologin != '') ? $this->autologin : $this->generateAutologinString();
 
         if ($this->save()) {
-            /*
-             * пытаемся сохранить пользователя (обновив поле autologin)
-             */
             $questionLink .= "&autologin=" . $autologinString;
         } else {
             Yii::log("Не удалось сохранить строку autologin пользователю " . $this->email . " с уведомлением об ответе на вопрос " . $question->id, 'error', 'system.web.User');
         }
 
-
-        $mailer = new GTMail;
-        $mailer->subject = CHtml::encode($this->name) . ", обновление в переписке по вопросу!";
-        $mailer->message = "<h1>Обновление в переписке по вопросу</h1>
-            <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />
-            Спешим сообщить, что в переписке по вопросу " . CHtml::link(CHtml::encode($question->title), $questionLink) . " появился новый комментарий от " . CHtml::encode($comment->author->name . ' ' . $comment->author->lastName) . ".
-            <br /><br />
-            Будем держать Вас в курсе поступления других комментариев. 
-            <br /><br />
-            " . CHtml::link("Посмотреть комментарий", $questionLink, array('class' => 'btn')) . "
-            </p>";
-
-        // отправляем письмо на почту пользователя
-        $mailer->email = $this->email;
-
-        if ($mailer->sendMail(true)) {
-            Yii::log("Отправлено письмо пользователю " . $this->email . " с уведомлением о комментарии " . $comment->id, 'info', 'system.web.User');
-            return true;
-        } else {
-            // не удалось отправить письмо
-            Yii::log("Не удалось отправить письмо пользователю " . $this->email . " с уведомлением о комментарии " . $comment->id, 'error', 'system.web.User');
-            return false;
-        }
+        return $this->notifier->sendCommentNotification($question, $comment, $questionLink);
     }
 
     /**
@@ -815,11 +685,10 @@ class User extends CActiveRecord
 
     /**
      * Автологин пользователя
-     * @todo Разобраться с предупреждениями PHPstorm
      * @param array $params Массив параметров
      * @return boolean Результат: true - успех, false - ошибка
      */
-    public static function autologin($params = array())
+    public static function autologin($params = [])
     {
         if (!isset($params['autologin'])) {
             return false;
@@ -827,11 +696,9 @@ class User extends CActiveRecord
 
         $autologinString = $params['autologin'];
 
-        if ($identity === null) {
-            $identity = new UserIdentity('', '');
-            $identity->autologinString = $autologinString;
-            $identity->autologin();
-        }
+        $identity = new UserIdentity('', '');
+        $identity->autologinString = $autologinString;
+        $identity->autologin();
 
         if ($identity->errorCode === UserIdentity::ERROR_NONE) {
             $duration = 3600 * 24 * 30; // 30 days
@@ -844,58 +711,12 @@ class User extends CActiveRecord
 
     /**
      * Отправляет покупателю письмо с уведомлением по его кампании
-     *
-     * @param Campaign $campaign кампания, к которой относится уведомление
+     * @param integer $eventType
+     * @return bool
      */
-    public function sendBuyerNotification($eventType, $campaign = NULL)
+    public function sendBuyerNotification($eventType)
     {
-        $mailer = new GTMail;
-        $cabinetLink = Yii::app()->createUrl('/cabinet');
-
-        switch ($eventType) {
-            case self::BUYER_EVENT_CONFIRM:
-                $mailer->subject = CHtml::encode($this->name) . ", Ваша кампания одобрена";
-                $mailer->message = "<h1>Ваша кампания одобрена модератором</h1>
-                    <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />
-                    Ваша кампания по покупке лидов одобрена. Параметры кампании Вы можете увидеть в ее настройках
-                    в <a href='" . $cabinetLink . "'>личном кабинете</a>. Для получения лидов Вам необходимо пополнить баланс. Способы пополнения
-                    также доступны в личном кабинете.
-                    </p>";
-                break;
-            case self::BUYER_EVENT_TOPUP:
-                $mailer->subject = CHtml::encode($this->name) . ", Ваш баланс пополнен";
-                $mailer->message = "<h1>Ваш баланс пополнен</h1>
-                    <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />
-                    Ваш баланс пополнен и составляет " . MoneyFormat::rubles($this->balance) . " руб. "
-                    . "Информация о списаниях и зачислениях доступна в <a href='" . $cabinetLink . "'>личном кабинете</a>.
-                    </p>";
-                break;
-            case self::BUYER_EVENT_LOW_BALANCE:
-                $mailer->subject = CHtml::encode($this->name) . ", уведомление о расходе средств";
-                $mailer->message = "<h1>Уведомление о расходе средств</h1>
-                    <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />
-                    Ваш баланс составляет " . MoneyFormat::rubles($this->balance) . " руб. "
-                    . "Пополнить баланс, увидеть информацию о списаниях и зачислениях можно в <a href='" . $cabinetLink . "'>личном кабинете</a>.
-                        
-                    </p>";
-                break;
-
-            default:
-                return false;
-        }
-
-
-        // отправляем письмо на почту покупателю
-        $mailer->email = $this->email;
-
-        if ($mailer->sendMail(true)) {
-            Yii::log("Отправлено письмо покупателю " . $this->email, 'info', 'system.web.User');
-            return true;
-        } else {
-            // не удалось отправить письмо
-            Yii::log("Не удалось отправить письмо покупателю " . $this->email, 'error', 'system.web.User');
-            return false;
-        }
+        return $this->notifier->sendBuyerNotification($eventType);
     }
 
     /**
@@ -1202,33 +1023,10 @@ class User extends CActiveRecord
      * @param Answer $answer
      * @param integer $yuristBonus В копейках
      * @return boolean
-     * @todo Поправить вызов метода $mailer->sendMail
      */
     public function sendDonateNotification(Answer $answer, $yuristBonus)
     {
-        $yurist = $answer->author;
-        $mailer = new GTMail();
-        $mailer->subject = "Зачислена благодарность за ответ на вопрос";
-
-        $mailer->message = "<h1>Благодарность за консультацию по вопросу</h1>
-            <p>Здравствуйте, " . CHtml::encode($yurist->name) . "<br /><br />" .
-            "Вам зачислены " . MoneyFormat::rubles($yuristBonus) . " руб. в благодарность за консультацию по вопросу " .
-            CHtml::link(CHtml::encode($answer->question->title), Yii::app()->createUrl('question/view', ['id' => $answer->questionId])) . "</p>";
-        $mailer->message .= '<p>Ваш баланс и история его изменений доступны в Личном кабинете.</p>';
-        $mailer->message .= '<p>Благодарим за сотрудничество!</p>';
-
-
-        // отправляем письмо на почту пользователя
-        $mailer->email = $yurist->email;
-
-        if ($mailer->sendMail(true, '100yuristov')) {
-            Yii::log("Отправлено письмо юристу " . $yurist->email . " с уведомлением о благодарности по вопросу " . $answer->question->id, 'info', 'system.web.User');
-            return true;
-        } else {
-            // не удалось отправить письмо
-            Yii::log("Не удалось отправить письмо пользователю " . $yurist->email . " с уведомлением о благодарности по вопросу " . $answer->question->id, 'error', 'system.web.User');
-            return false;
-        }
+        return $this->notifier->sendDonateNotification($answer, $yuristBonus);
     }
 
     /**
@@ -1236,29 +1034,13 @@ class User extends CActiveRecord
      */
     public function sendTestimonialNotification()
     {
-        $mailer = new GTMail();
-        $mailer->subject = "Вам оставили отзыв";
-
-        $mailer->message = "<h1>Новый отзыв в вашем профиле</h1>
-            <p>Здравствуйте, " . CHtml::encode($this->name) . "<br /><br />" .
-            "Вам только что оставили отзыв. Посмотреть его вы можете в своем профиле.";
-
-        // отправляем письмо на почту пользователя
-        $mailer->email = $this->email;
-
-        if ($mailer->sendMail(true, '100yuristov')) {
-            Yii::log("Отправлено письмо юристу " . $this->email . " с уведомлением о новом отзыве", 'info', 'system.web.User');
-            return true;
-        } else {
-            // не удалось отправить письмо
-            Yii::log("Не удалось отправить письмо пользователю " . $this->email . " с уведомлением о новом отзыве", 'error', 'system.web.User');
-            return false;
-        }
+        return $this->notifier->sendTestimonialNotification();
     }
 
     /**
      * Рейтинг пользователя как среднее арифметическое оценок из неспамных отзывов
      * @return float
+     * @TODO А не проще получить это число SQL-запросом?
      */
     public function getRating()
     {
