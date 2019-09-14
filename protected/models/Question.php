@@ -131,8 +131,8 @@ class Question extends CActiveRecord {
 
     /**
      * возвращает массив, ключами которого являются коды статусов, а значениями - названия статусов
-     * 
-     * @return array массив статусов 
+     *
+     * @return array массив статусов
      */
     static public function getStatusesArray() {
         return array(
@@ -147,7 +147,7 @@ class Question extends CActiveRecord {
 
     /**
      * возвращает название статуса для вопроса
-     * 
+     *
      * @return string название статуса
      */
     public function getQuestionStatusName() {
@@ -157,9 +157,9 @@ class Question extends CActiveRecord {
 
     /**
      * статический метод, возвращает название статуса вопроса по коду
-     * 
+     *
      * @param int $status код статуса
-     * @return string название статуса 
+     * @return string название статуса
      */
     static public function getStatusName($status) {
         $statusesArray = self::getStatusesArray();
@@ -168,7 +168,7 @@ class Question extends CActiveRecord {
 
     /**
      * возвращает количество вопросов с определенным статусом
-     * 
+     *
      * @param int $status код статуса
      * @return int количество вопросов
      */
@@ -198,8 +198,8 @@ class Question extends CActiveRecord {
     }
 
     /**
-     * возвращает общее количество вопросов 
-     * @return int количество вопросов 
+     * возвращает общее количество вопросов
+     * @return int количество вопросов
      */
     static public function getCount() {
         $connection = Yii::app()->db;
@@ -244,7 +244,7 @@ class Question extends CActiveRecord {
 
         return true;
     }
-    
+
     /**
      * Метод, вызываемый после сохранения вопроса
      */
@@ -258,7 +258,7 @@ class Question extends CActiveRecord {
 
     /**
      * Присваивает полю title первые $wordsCount слов из текста вопроса, отфильтровывая стоп-слова
-     * 
+     *
      * @param int $wordsCount лимит на количество слов в заголовке
      */
     public function formTitle($wordsCount = 12) {
@@ -266,7 +266,7 @@ class Question extends CActiveRecord {
 
         preg_match("/(\w+\s+){0," . $wordsCount . "}/u", $text, $matches);
         $this->title = $matches[0];
-        
+
         $this->title = preg_replace('/\s{2,}/', ' ', $this->title);
 
         $patterns = array();
@@ -289,7 +289,7 @@ class Question extends CActiveRecord {
     /**
      * возвращает цену вопроса (руб.) по уровню вопроса
      * в базе хранится уровень вопроса (целое число), т.к. цена каждого уровня может со временем меняться
-     * 
+     *
      * @param int $level уровень вопроса
      * @return int Цена вопроса (руб.)
      */
@@ -314,7 +314,7 @@ class Question extends CActiveRecord {
     }
 
     /**
-     *  сохраняет в базу вопрос, который не был полностью заполнен 
+     *  сохраняет в базу вопрос, который не был полностью заполнен
      * (имеет только имя и текст вопроса)
      * лид из такого вопроса не создать, но уникальный контент для публикации можно получить
      */
@@ -348,42 +348,65 @@ class Question extends CActiveRecord {
      * Создает нового пользователя, сохраняет в базе, присваивает его id
      * как id автора вопроса
      * Нужно, чтобы в дальнейшем пользователь мог получать уведомления, писать комментарии к ответам, etc.
-     * 
+     * @param UloginUser $ulogin
      * @return boolean true - пользователь сохранен, false - не сохранен
      */
-    public function createAuthor() {
+    public function createAuthor(UloginUser $ulogin = null) {
         // Если вопрос задал существующий пользователь, сразу вернем true
         // проверим, есть ли в базе пользователь с таким мейлом
+        $email = ($ulogin instanceof UloginUser && $ulogin->email) ? $ulogin->email : $this->email;
         $findUserResult = Yii::app()->db->createCommand()
                 ->select('id')
                 ->from("{{user}}")
-                ->where("LOWER(email)=:email AND email!=''", array(":email" => strtolower($this->email)))
+                ->where("LOWER(email)=:email AND email!=''", [
+                    ":email" => strtolower($email)
+                ])
                 ->queryRow();
-        //CustomFuncs::printr($findUserResult);Yii::app()->end();
         if ($findUserResult) {
             // если есть, то запишем id этого пользователя в авторы вопроса
             $this->authorId = $findUserResult['id'];
-            $this->status = self::STATUS_CHECK;
-            $this->publishDate = date('Y-m-d H:i:s');
-            return true;
+            $author = User::model()->findByPk($this->authorId);
+        } else {
+            // создаем нового пользователя с атрибутами, которые о себе указал автор вопроса
+            $author = new User;
+            $author->role = User::ROLE_CLIENT;
+            $author->phone = $this->phone;
+            $author->name = $this->authorName;
+            $author->password = $author->password2 = $author->generatePassword();
+            $author->confirm_code = md5($this->email . mt_rand(100000, 999999));
         }
 
-
-        // создаем нового пользователя с атрибутами, которые о себе указал автор вопроса
-        $author = new User;
-        $author->role = User::ROLE_CLIENT;
-        $author->phone = $this->phone;
-        $author->email = $this->email;
         $author->townId = $this->townId;
-        $author->name = $this->authorName;
-        $author->password = $author->password2 = $author->generatePassword();
-        $author->confirm_code = md5($this->email . mt_rand(100000, 999999));
+        $author->uloginId = ($ulogin instanceof UloginUser) ? $ulogin->id : null;
+
+        if($ulogin instanceof UloginUser && $ulogin->email) {
+            $author->email = $ulogin->email;
+            // Если пользователь авторизовался через соцсеть, сразу активируем его и публикуем вопрос
+            $author->active100 = 1;
+            $this->status = self::STATUS_CHECK;
+            $this->publishDate = date('Y-m-d H:i:s');
+        } else {
+            $author->email = $this->email;
+        }
+
+        $this->email = $author->email;
 
         // сохраняем нового пользователя в базе, привязываем к вопросу, 
         // отправляем ссылку на подтверждение профиля
         if ($author->save()) {
             $this->authorId = $author->id;
-            $author->sendConfirmation();
+            if ($author->active100 != 1) {
+                $author->sendConfirmation();
+            } else {
+                // Пользователь уже активирован, автологиним его
+                if($author->autologin!='') {
+                    $autologinString = $author->autologin;
+                } else {
+                    $autologinString = $author->generateAutologinString();
+                    $author->save();
+                }
+                User::autologin(['autologin' => $autologinString]);
+            }
             return true;
         } else {
             return false;
@@ -391,15 +414,15 @@ class Question extends CActiveRecord {
     }
 
     /**
-     * возвращает id произвольного вопроса с определенным статусом и из категории, которая привязана 
+     * возвращает id произвольного вопроса с определенным статусом и из категории, которая привязана
      * к пользователю (юристу)
      *  Запрос:
-     *  SELECT * FROM `crm_question` q 
+     *  SELECT * FROM `crm_question` q
      *   LEFT JOIN `crm_question2category` q2c ON q.id = q2c.qId
      *   WHERE q2c.cId IN(3,5) AND q.status=2
      *   ORDER BY RAND()
      *   LIMIT 1
-     * 
+     *
      * @return int id вопроса (0 - ничего не найдено)
      */
     public static function getRandomId() {
@@ -614,7 +637,7 @@ class Question extends CActiveRecord {
                                 $mailer->message .= '</p><hr />';
                             }
                         }
-                        
+
                         $mailer->message .= "<p style='font-size:0.8em'>Если вы не хотите получать уведомления о новых вопросах, вы можете отключить их в личном кабинете на нашем сайте, в редактировании профиля</p>";
                         //echo "<div>" . $mailer->message . "</div><hr />";
                         if ($mailer->sendMail()) {

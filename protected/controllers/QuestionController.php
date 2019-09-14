@@ -397,7 +397,7 @@ class QuestionController extends Controller
         $criteria = new CDbCriteria;
         $criteria->addColumnCondition(['id' => $qId, 'sessionId' => $sId]);
         $question = Question::model()->find($criteria);
-
+        /** @var Question $question */
         if (!$question) {
             throw new CHttpException(404, 'Не найден вопрос');
         }
@@ -405,6 +405,8 @@ class QuestionController extends Controller
         if ($question->email) {
             throw new CHttpException(400, 'У данного вопроса уже задан Email');
         }
+
+        Yii::app()->user->setState('question_id', $question->id);
 
         if (isset($_POST['Question']) && isset($_POST['Question']['email'])) {
             $question->email = $_POST['Question']['email'];

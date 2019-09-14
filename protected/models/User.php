@@ -32,6 +32,7 @@ use YurcrmClient\YurcrmClient;
  * @property integer $refId
  * @property string $yurcrmToken
  * @property integer $yurcrmSource
+ * @property integer $uloginId
  */
 class User extends CActiveRecord
 {
@@ -97,7 +98,7 @@ class User extends CActiveRecord
             array('phone', 'required', 'message' => 'Поле {attribute} должно быть заполнено', 'on' => 'register, update, createJurist, updateJurist'),
             array('email', 'unique', 'message' => 'Пользователь с таким Email уже зарегистрирован'),
             array('townId', 'required', 'except' => 'unsubscribe, confirm', 'message' => 'Поле {attribute} должно быть заполнено'),
-            array('role, active100, townId, karma, refId, yurcrmSource', 'numerical', 'integerOnly' => true),
+            array('role, active100, townId, karma, refId, yurcrmSource, uloginId', 'numerical', 'integerOnly' => true),
             array('balance, priceCoeff', 'numerical'),
             array('name, email, phone', 'length', 'max' => 255),
             array('yurcrmToken', 'length', 'max' => 32),
@@ -248,6 +249,7 @@ class User extends CActiveRecord
             'adminComments' => array(self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'adminComments.type=' . Comment::TYPE_ADMIN, 'order' => 'adminComments.id DESC, adminComments.root, adminComments.lft'),
             'commentsCount' => array(self::STAT, 'Comment', 'objectId', 'condition' => 'type=' . Comment::TYPE_USER . ' AND status!=' . Comment::STATUS_SPAM),
             'sources' => array(self::HAS_MANY, 'Leadsource', 'userId'),
+            'ulogin' => array(self::BELONGS_TO, 'UloginModel', 'uloginId'),
         );
     }
 
@@ -849,6 +851,7 @@ class User extends CActiveRecord
      */
     public static function autologin($params = array())
     {
+        $identity = null;
         if (!isset($params['autologin'])) {
             return false;
         }
