@@ -1,16 +1,26 @@
 <?php
 
-class DefaultController extends Controller {
+class DefaultController extends Controller
+{
 
     public $layout = '//admin/main';
 
-    public function actionIndex() {
+    public function actionIndex()
+    {
+        // Первое число месяца год назад
+        $startDate = (new DateTime(
+            ((int)(new DateTime())->format('Y') - 1) . '-'.
+            (new DateTime())->format('m') .
+            '-01'))->format('Y-m-d');
+
         $leadsRows = Yii::app()->db->createCommand()
-                ->select('l.price summa, YEAR(l.question_date) year, MONTH(l.question_date) month, l.buyPrice, l.leadStatus')
-                ->from('{{lead}} l')
-                ->where('l.price != 0')
-                ->order('id ASC')
-                ->queryAll();
+            ->select('l.price summa, YEAR(l.question_date) year, MONTH(l.question_date) month, l.buyPrice, l.leadStatus')
+            ->from('{{lead}} l')
+            ->where('l.price != 0 AND l.question_date > :startDate', [
+                ':startDate' => $startDate
+            ])
+            ->order('id ASC')
+            ->queryAll();
 
         //CustomFuncs::printr($leadsRows);
 
@@ -22,7 +32,7 @@ class DefaultController extends Controller {
         foreach ($leadsRows as $row) {
             if ($row['leadStatus'] == Lead::LEAD_STATUS_SENT) {
                 $sumArray[$row['year']][$row['month']] += $row['summa'];
-                $kolichArray[$row['year']][$row['month']] ++;
+                $kolichArray[$row['year']][$row['month']]++;
             }
             $buySumArray[$row['year']][$row['month']] += $row['buyPrice'];
             $vipArray[$row['year']][$row['month']] = 0; // предзаполнение массива выручки вип вопросов нулями
@@ -31,27 +41,28 @@ class DefaultController extends Controller {
 
         // статистика по VIP вопросам
         $vipRows = Yii::app()->db->createCommand()
-                ->select('SUM(value) sum, MONTH(datetime) month, YEAR(datetime) year')
-                ->from('{{money}}')
-                ->where('type=:type AND direction=:direction', array(
-                    ':type' => Money::TYPE_INCOME,
-                    ':direction' => 504,
-                ))
-                ->group('year, month')
-                ->queryAll();
+            ->select('SUM(value) sum, MONTH(datetime) month, YEAR(datetime) year')
+            ->from('{{money}}')
+            ->where('type=:type AND direction=:direction AND datetime > :startDate', array(
+                ':type' => Money::TYPE_INCOME,
+                ':direction' => 504,
+                ':startDate' => $startDate,
+            ))
+            ->group('year, month')
+            ->queryAll();
 
         foreach ($vipRows as $row) {
             $vipArray[$row['year']][$row['month']] = $row['sum'];
         }
 
         $answerStatRows = Yii::app()->db->createCommand()
-                ->select('TIMESTAMPDIFF(HOUR, q.publishDate, a.datetime) delta')
-                ->from('{{answer}} a')
-                ->leftJoin('{{question}} q', 'q.id = a.questionId')
-                ->where('a.datetime > (NOW() - INTERVAL 30 DAY)')
-                ->group('q.id')
-                ->order('delta ASC')
-                ->queryAll();
+            ->select('TIMESTAMPDIFF(HOUR, q.publishDate, a.datetime) delta')
+            ->from('{{answer}} a')
+            ->leftJoin('{{question}} q', 'q.id = a.questionId')
+            ->where('a.datetime > (NOW() - INTERVAL 30 DAY)')
+            ->group('q.id')
+            ->order('delta ASC')
+            ->queryAll();
         $questionsCount = sizeof($answerStatRows);
         $fastQuestionsCount = 0;
         foreach ($answerStatRows as $row) {
@@ -67,13 +78,16 @@ class DefaultController extends Controller {
 
         // извлекаем статистику кассы  
         $moneyFlow = array();
-        $showDirections = array(502, 101, 3, 2, 4);
+        $showDirections = array(502, 101, 2, 4);
+
         $moneyFlowRows = Yii::app()->db->createCommand()
-                ->select('value, type, direction, MONTH(datetime) month, YEAR(datetime) year')
-                ->from('{{money}}')
-                ->where('isInternal = 0')
-                ->order('datetime')
-                ->queryAll();
+            ->select('value, type, direction, MONTH(datetime) month, YEAR(datetime) year')
+            ->from('{{money}}')
+            ->where('isInternal = 0 AND datetime > :startDate', [
+                'startDate' => $startDate,
+            ])
+            ->order('datetime')
+            ->queryAll();
 
         // массив для хранения сумм расходов по месяцам
         $totalExpences = array();
@@ -91,11 +105,11 @@ class DefaultController extends Controller {
         }
 
         $publishedQuestionsRows = Yii::app()->db->createCommand()
-                ->select("COUNT(*) counter, DATE(createDate) date1")
-                ->from("{{question}}")
-                ->where("createDate>NOW()-INTERVAL 8 DAY AND status IN (2,4)")
-                ->group('date1')
-                ->queryAll();
+            ->select("COUNT(*) counter, DATE(createDate) date1")
+            ->from("{{question}}")
+            ->where("createDate>NOW()-INTERVAL 8 DAY AND status IN (2,4)")
+            ->group('date1')
+            ->queryAll();
         $publishedQuestionsCount = array();
         foreach ($publishedQuestionsRows as $row) {
             $publishedQuestionsCount[$row['date1']] = $row['counter'];
@@ -104,32 +118,32 @@ class DefaultController extends Controller {
         array_shift($publishedQuestionsCount);
 
         $leadsByTypesRows = Yii::app()->db->createCommand()
-                ->select("COUNT(*) counter, type, DATE(question_date) date1")
-                ->from('{{lead}}')
-                ->where('question_date>NOW()-INTERVAL 30 DAY AND sourceId=:sourceId', array(':sourceId' => 3))
-                ->group('date1, type')
-                ->queryAll();
+            ->select("COUNT(*) counter, type, DATE(question_date) date1")
+            ->from('{{lead}}')
+            ->where('question_date>NOW()-INTERVAL 30 DAY AND sourceId=:sourceId', array(':sourceId' => 3))
+            ->group('date1, type')
+            ->queryAll();
         $leadsByTypes = array();
         $uniqueLeadDates = array();
 
         foreach ($leadsByTypesRows as $row) {
             $uniqueLeadDates[] = $row['date1'];
-            $leadsByTypes[$row['type']][$row['date1']] = (int) $row['counter'];
+            $leadsByTypes[$row['type']][$row['date1']] = (int)$row['counter'];
         }
 
         $uniqueLeadDates = array_unique($uniqueLeadDates);
         //CustomFuncs::printr($leadsByTypes);
-        
+
         $yuristActivityStatsRows = Yii::app()->db->createCommand()
-                ->select('COUNT(*) counter, DATE(lastActivity) lastDate')
-                ->from('{{user}}')
-                ->where('role=:role', [':role' => User::ROLE_JURIST])
-                ->group('lastDate')
-                ->order('lastDate DESC')
-                ->limit(10)
-                ->queryAll();
+            ->select('COUNT(*) counter, DATE(lastActivity) lastDate')
+            ->from('{{user}}')
+            ->where('role=:role', [':role' => User::ROLE_JURIST])
+            ->group('lastDate')
+            ->order('lastDate DESC')
+            ->limit(10)
+            ->queryAll();
         $yuristActivityStats = [];
-        
+
         foreach ($yuristActivityStatsRows as $row) {
             $yuristActivityStats[$row['lastDate']] = $row['counter'];
         }
@@ -149,7 +163,7 @@ class DefaultController extends Controller {
                 ':double' => Lead::LEAD_STATUS_DUPLICATE,
                 ':brak' => Lead::LEAD_STATUS_BRAK,
                 ':startDate' => $monthAgoDate,
-                ])
+            ])
             ->group("lead_date")
             ->order("lead_date")
             ->queryAll();
@@ -165,47 +179,47 @@ class DefaultController extends Controller {
 
 
         $this->render('index', array(
-            'sumArray'                  => $sumArray,
-            'kolichArray'               => $kolichArray,
-            'buySumArray'               => $buySumArray,
-            'fastQuestionsRatio'        => $fastQuestionsRatio,
-            'moneyFlow'                 => $moneyFlow,
-            'totalExpences'             => $totalExpences,
-            'questionStatuses'          => $questionStatuses,
-            'publishedQuestionsCount'   => $publishedQuestionsCount,
-            'leadsByTypes'              => $leadsByTypes,
-            'uniqueLeadDates'           => $uniqueLeadDates,
-            'yuristActivityStats'       => $yuristActivityStats,
-            'stat100yuristov'           => $stat100yuristov,
+            'sumArray' => $sumArray,
+            'kolichArray' => $kolichArray,
+            'buySumArray' => $buySumArray,
+            'fastQuestionsRatio' => $fastQuestionsRatio,
+            'moneyFlow' => $moneyFlow,
+            'totalExpences' => $totalExpences,
+            'questionStatuses' => $questionStatuses,
+            'publishedQuestionsCount' => $publishedQuestionsCount,
+            'leadsByTypes' => $leadsByTypes,
+            'uniqueLeadDates' => $uniqueLeadDates,
+            'yuristActivityStats' => $yuristActivityStats,
+            'stat100yuristov' => $stat100yuristov,
         ));
     }
-    
+
     /**
      * Тестирование отправки писем через SMTP и через встроенную функцию mail()
      */
     public function actionTestMail()
     {
         echo 'Тестируем отправку письма';
-        
+
         // первое письмо отправим через встроенную функцию
         $testMail = new GTMail(GTMail::TRANSPORT_TYPE_SENDMAIL);
         $testMail->subject = 'Проверка работы почты';
         $testMail->email = 'misha-sunsetboy@yandex.ru';
         $testMail->message = 'Проверка отправки почты';
-        
-        if($testMail->sendMail()) {
+
+        if ($testMail->sendMail()) {
             echo 'Письмо через встроенную функцию отправлено';
         } else {
             echo 'Письмо через встроенную функцию НЕ отправлено';
         }
-        
+
         // первое письмо отправим через встроенную функцию
         $testMail = new GTMail(GTMail::TRANSPORT_TYPE_SMTP);
         $testMail->subject = 'Проверка работы почты';
         $testMail->email = 'misha-sunsetboy@yandex.ru';
         $testMail->message = 'Проверка отправки почты через SMTP';
-        
-        if($testMail->sendMail()) {
+
+        if ($testMail->sendMail()) {
             echo 'Письмо через SMTP отправлено';
         } else {
             echo 'Письмо через SMTP НЕ отправлено';
