@@ -73,7 +73,7 @@ class UserIdentity extends CUserIdentity
         User::model()->updateByPk($user->id, array('autologin' => ''));
 
         LoggerFactory::getLogger('db')->log('Автологин пользователя ' . $user->getRoleName() . ' #' . $user->id . ' (' . $user->getShortName() . ')', 'User', $user->id);
-
+        (new UserActivity())->logActivity($user, UserActivity::ACTION_AUTOLOGIN);
         return $this->errorCode == self::ERROR_NONE;
     }
 

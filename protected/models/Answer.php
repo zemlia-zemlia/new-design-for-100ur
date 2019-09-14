@@ -147,8 +147,7 @@ class Answer extends CActiveRecord {
     protected function afterSave() {
         
         LoggerFactory::getLogger('db')->log('Юрист ' . $this->author->getShortName() . ' ответил на вопрос #' . $this->questionId, 'User', $this->authorId);
-
-        $question = $this->question;
+        (new UserActivity())->logActivity($this->author, UserActivity::ACTION_ANSWER_QUESTION);
 
         $questionAuthor = $this->question->author;
         if ($questionAuthor && $questionAuthor->active100 == 1 && $this->isNewRecord === true) {

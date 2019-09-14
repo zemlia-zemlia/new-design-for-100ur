@@ -127,7 +127,7 @@ CController::renderPartial('webroot.themes.2017.views.frontend.include._header')
                     $this->widget('application.widgets.TopYurists.TopYurists', array(
                         'cacheTime' => 30,
                         'limit' => 3,
-                        'fetchType' => TopYurists::FETCH_RANKED,
+                        'fetchType' => \TopYurists::FETCH_RANKED,
                         'template' => 'shortList',
                     ));
                     ?>

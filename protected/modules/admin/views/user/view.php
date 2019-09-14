@@ -288,7 +288,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                 <tr>
                                     <td><?php echo CustomFuncs::niceDate($date, false, false); ?></td>
                                     <td class="text-right"><?php echo $leadsByDate['count']; ?></td>
-                                    <td class="text-right"><?php echo MoneyFormat::rubles($leadsByDate['sum']); ?> руб.</td>
+                                    <td class="text-right"><?php echo MoneyFormat::rubles($leadsByDate['sum']); ?>
+                                        руб.
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                             <tr>
@@ -333,6 +335,13 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     </div>
                 </div>
             <?php endforeach; ?>
+        <?php endif; ?>
+
+        <?php if ($model->role == User::ROLE_JURIST): ?>
+            <h3>График активности юриста</h3>
+            <?php $this->widget('application.widgets.UserActivity.UserActivityWidget', [
+                'userId' => $model->id,
+            ]); ?>
         <?php endif; ?>
 
         <h4>Записи из лога</h4>
