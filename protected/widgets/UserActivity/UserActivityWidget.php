@@ -101,7 +101,7 @@ class UserActivityWidget extends CWidget
         $weekdayOfFirstDate = (int)$dateStart->format('w');
 
         $firstDateInCalendar = ($weekdayOfFirstDate == 0) ?
-            $weekdayOfFirstDate :
+            $dateStart :
             (clone $dateStart)->sub(new DateInterval('P' . $weekdayOfFirstDate . 'D'));
 
         return $firstDateInCalendar;
