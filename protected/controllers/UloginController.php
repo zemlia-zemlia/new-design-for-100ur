@@ -5,37 +5,26 @@ class UloginController extends Controller
 
     public function actionLogin()
     {
-
         if (isset($_POST['token'])) {
             $ulogin = new UloginModel();
             $ulogin->setAttributes($_POST);
             $ulogin->getAuthData();
 
-            if ($ulogin->validate()) {
-                $uloginUser = new UloginUser();
-                $uloginUser->setAttributes($ulogin->getAttributes());
+            if ($ulogin->validate() && $ulogin->login()) {
 
-                if ($uloginUser->save()) {
-                    $questionId = Yii::app()->user->getState('question_id');
+                $questionId = Yii::app()->user->getState('question_id');
+                if ($questionId) {
                     $question = Question::model()->findByPk($questionId);
-
+                    $question->status = Question::STATUS_CHECK;
+                    $question->authorId = Yii::app()->user->id;
                     /** @var Question $question */
-                    if (
-                        $question->createAuthor($uloginUser) &&
-                        $question->save() &&
-                        $question->status == Question::STATUS_CHECK
-                    ) {
+                    if ($question->save()) {
                         $this->redirect(['question/view', 'id' => $question->id]);
                     }
                 }
 
-            } else {
-
-                $this->render('error');
+                $this->redirect(['/user']);
             }
-        } else {
-
-            $this->redirect(Yii::app()->homeUrl, true);
         }
     }
 }

@@ -1,44 +1,50 @@
 <?php
 
+/**
+ * Класс, ответственный за аутентификацию пользователей по данным из Ulogin (провайдер соц логина)
+ * Class UloginUserIdentity
+ */
 class UloginUserIdentity implements IUserIdentity
 {
-
+    private $uloginModel;
     private $id;
     private $name;
     private $isAuthenticated = false;
     private $states = array();
 
-    public function __construct()
+    public function __construct(UloginModel $uloginModel)
     {
+        $this->uloginModel = $uloginModel;
     }
 
-    public function authenticate($uloginModel = null)
+    /**
+     * Аутентификация: ищем пользователя в базе 100 Юристов по таблице социалок + по email
+     * Если находим, то ОК, можно логинить
+     * @param UloginModel|null $uloginModel
+     * @return bool
+     * @throws CHttpException
+     * @throws UserBannedException
+     */
+    public function authenticate()
     {
+        $uloginUser = UloginUser::model()->find('identity=:identity', [
+            ':identity' => $this->uloginModel->identity,
+        ]);
 
-        $criteria = new CDbCriteria;
-        $criteria->condition = 'identity=:identity AND network=:network';
-        $criteria->params = array(
-            ':identity' => $uloginModel->identity
-        , ':network' => $uloginModel->network
-        );
-        $user = UloginUser::model()->find($criteria);
-
-        if (null !== $user) {
-            $this->id = $user->id;
-            $this->name = $user->full_name;
+        if(!$uloginUser) {
+            // пользователь новый, создать записи и в ulogin_user и в user
+            $uloginUser = UloginUser::create($this->uloginModel, null);
         }
-        else {
-            $user = new UloginUser();
-            $user->identity = $uloginModel->identity;
-            $user->network = $uloginModel->network;
-            $user->email = $uloginModel->email;
-            $user->full_name = $uloginModel->full_name;
-            $user->save();
 
-            $this->id = $user->id;
-            $this->name = $user->full_name;
+        /** @var User $user */
+        $user = $uloginUser->user;
+        if($user->active100 == 0) {
+            throw new CHttpException(403,'Пользователь заблокирован на сайте 100 Юристов, логин невозможен');
         }
+
+        $this->id = $user->id;
         $this->isAuthenticated = true;
+
         return true;
     }
 

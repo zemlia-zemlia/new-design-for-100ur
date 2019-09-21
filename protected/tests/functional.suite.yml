@@ -1,5 +1,7 @@
 actor: FunctionalTester
 modules:
     enabled:
-    - Yii1
     - \Helper\Functional
+    - REST
+        depends: PhpBrowser
+        url: 'http://100yuristov'

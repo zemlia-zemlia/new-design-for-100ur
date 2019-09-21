@@ -348,13 +348,12 @@ class Question extends CActiveRecord {
      * Создает нового пользователя, сохраняет в базе, присваивает его id
      * как id автора вопроса
      * Нужно, чтобы в дальнейшем пользователь мог получать уведомления, писать комментарии к ответам, etc.
-     * @param UloginUser $ulogin
      * @return boolean true - пользователь сохранен, false - не сохранен
      */
-    public function createAuthor(UloginUser $ulogin = null) {
+    public function createAuthor() {
         // Если вопрос задал существующий пользователь, сразу вернем true
         // проверим, есть ли в базе пользователь с таким мейлом
-        $email = ($ulogin instanceof UloginUser && $ulogin->email) ? $ulogin->email : $this->email;
+        $email = $this->email;
         $findUserResult = Yii::app()->db->createCommand()
                 ->select('id')
                 ->from("{{user}}")
@@ -372,24 +371,11 @@ class Question extends CActiveRecord {
             $author->role = User::ROLE_CLIENT;
             $author->phone = $this->phone;
             $author->name = $this->authorName;
-            $author->password = $author->password2 = $author->generatePassword();
+            $author->password = $author->password2 = User::hashPassword($author->generatePassword());
             $author->confirm_code = md5($this->email . mt_rand(100000, 999999));
-        }
-
-        $author->townId = $this->townId;
-        $author->uloginId = ($ulogin instanceof UloginUser) ? $ulogin->id : null;
-
-        if($ulogin instanceof UloginUser && $ulogin->email) {
-            $author->email = $ulogin->email;
-            // Если пользователь авторизовался через соцсеть, сразу активируем его и публикуем вопрос
-            $author->active100 = 1;
-            $this->status = self::STATUS_CHECK;
-            $this->publishDate = date('Y-m-d H:i:s');
-        } else {
             $author->email = $this->email;
+            $author->townId = $this->townId;
         }
-
-        $this->email = $author->email;
 
         // сохраняем нового пользователя в базе, привязываем к вопросу, 
         // отправляем ссылку на подтверждение профиля

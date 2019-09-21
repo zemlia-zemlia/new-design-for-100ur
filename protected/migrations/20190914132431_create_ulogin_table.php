@@ -18,6 +18,9 @@ class CreateUloginTable extends AbstractMigration
             ->addColumn('email', 'string', ['limit' => 255, 'null' => true, 'default' => null])
             ->addColumn('full_name', 'string', ['limit' => 255, 'null' => true, 'default' => null])
             ->addColumn('state', 'boolean')
+            ->addColumn('user_id', 'integer', ['signed' => false, 'null' => false, 'comment' => 'id пользователя в системе 100 Юристов'])
+            ->addIndex(['user_id'])
+            ->addIndex(['identity'], ['unique' => true])
             ->save();
     }
 
