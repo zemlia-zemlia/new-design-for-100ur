@@ -4,6 +4,7 @@ return [
     'application.components.*',
     'application.components.emailParsers.*',
     'application.components.apiClasses.*',
+    'application.components.yandexPayment.*',
     'application.extensions.*',
     'application.extensions.XWebDebugRouter.*',
     'application.extensions.CustomFuncs.*',
