@@ -375,6 +375,7 @@ class Question extends CActiveRecord {
             $author->confirm_code = md5($this->email . mt_rand(100000, 999999));
             $author->email = $this->email;
             $author->townId = $this->townId;
+            $author->registerDate = date('Y-m-d');
         }
 
         // сохраняем нового пользователя в базе, привязываем к вопросу, 

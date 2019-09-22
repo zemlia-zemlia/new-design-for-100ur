@@ -127,6 +127,7 @@ class UloginUser extends CActiveRecord
                 $user->password = $user->password2 = User::hashPassword($user->generatePassword());
                 $user->confirm_code = md5($user->email . mt_rand(100000, 999999));
                 $user->townId = 598;
+                $user->registerDate = date('Y-m-d');
 
                 if (!$user->save()) {
                     throw new Exception('Не удалось создать пользователя');
