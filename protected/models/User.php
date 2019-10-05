@@ -272,6 +272,7 @@ class User extends CActiveRecord
             'adminComments' => array(self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'adminComments.type=' . Comment::TYPE_ADMIN, 'order' => 'adminComments.id DESC, adminComments.root, adminComments.lft'),
             'commentsCount' => array(self::STAT, 'Comment', 'objectId', 'condition' => 'type=' . Comment::TYPE_USER . ' AND status!=' . Comment::STATUS_SPAM),
             'sources' => array(self::HAS_MANY, 'Leadsource', 'userId'),
+            'ulogin' => array(self::HAS_MANY, 'UloginModel', 'user_id'),
         );
     }
 
@@ -795,6 +796,7 @@ class User extends CActiveRecord
      */
     public static function autologin($params = array())
     {
+        $identity = null;
         if (!isset($params['autologin'])) {
             return false;
         }

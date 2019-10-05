@@ -189,50 +189,11 @@ $endYear = 2019;
             });
         });</script>
 
-
-    <div id="chart_yurist_activity" style="width:100%; height:300px;"></div>
-
-    <script type="text/javascript">
-        $(function () {
-            $('#chart_yurist_activity').highcharts({
-                chart: {
-                    type: 'column'
-                },
-                title: {
-                    text: 'Последняя активность юристов по дням'
-                },
-                xAxis: {
-                    categories: [
-                        <?php foreach ($yuristActivityStats as $date => $counter): ?>
-                        '<?php echo $date; ?>',
-                        <?php endforeach; ?>
-                    ],
-                    crosshair: true
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        text: ''
-                    }
-                },
-                plotOptions: {
-                    column: {
-                        pointPadding: 0.2,
-                        borderWidth: 0
-                    }
-                },
-                series: [{
-                    name: 'Последний раз в этот день заходило юристов',
-                    data: [
-                        <?php foreach ($yuristActivityStats as $date => $counter): ?>
-                        <?php echo $counter; ?>,
-                        <?php endforeach; ?>
-                    ]
-
-                }]
-            });
-        });
-    </script>
+    <h2>Активность юристов по дням</h2>
+    <?php $this->widget('application.widgets.UserActivity.UserActivityWidget', [
+        'userId' => null,
+        'role' => User::ROLE_JURIST,
+    ]); ?>
 
     <h2>Последние записи лога</h2>
     <?php

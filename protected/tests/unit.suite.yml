@@ -11,5 +11,5 @@ coverage:
         - extensions/GTMail.php
 modules:
     enabled:
-        - Asserts
         - \Helper\Unit
+        - Asserts

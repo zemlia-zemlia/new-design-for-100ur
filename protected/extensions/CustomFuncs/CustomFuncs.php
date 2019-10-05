@@ -27,14 +27,8 @@ class CustomFuncs
         if (!Yii::app()->user->getState('currentTownId')) {
             // если принудительно не задан IP, берем текущий IP адрес
             if (empty($ip)) {
-                if (isset($_SERVER['HTTP_X_REAL_IP'])) {
-                    $ip = $_SERVER['HTTP_X_REAL_IP'];
-                } else {
-                    $ip = $_SERVER['REMOTE_ADDR'];
-                }
+                $ip = self::getUserIP();
             }
-
-//                echo "IP: " . $ip; 
 
             $data = "<ipquery><fields><all/></fields><ip-list><ip>" . $ip . "</ip></ip-list></ipquery>";
             $ch = curl_init();
@@ -140,7 +134,7 @@ class CustomFuncs
     }
 
     // функция преобразует дату из формата 2012-09-01 12:30:00 в Пн 1 сен. 2012 12:30
-    public static function niceDate($date, $showTime = true, $showWeekday = true)
+    public static function niceDate($date, $showTime = true, $showWeekday = true, $showYear = true)
     {
         $monthsArray = array('', 'янв.', 'фев.', 'мар.', 'апр.', 'мая', 'июн.', 'июл.', 'авг.', 'сен.', 'окт.', 'ноя.', 'дек.');
         $weekDaysArray = array('Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб');
@@ -149,11 +143,16 @@ class CustomFuncs
         $weekday = $weekDaysArray[$weekdayNumber];
         $dateTimeArray = self::dateTimeArray($date);
 
-        $dateString = $dateTimeArray['day'] . " " . $monthsArray[$dateTimeArray['month']] . " " . $dateTimeArray['year'];
+        $dateString = $dateTimeArray['day'] . " " . $monthsArray[$dateTimeArray['month']];
+
+        if ($showYear === true) {
+            $dateString .= " " . $dateTimeArray['year'];
+        }
 
         if ($showTime === true) {
             $dateString .= " " . $dateTimeArray['hours'] . ":" . $dateTimeArray['minutes'];
         }
+
         if ($showWeekday === true) {
             $dateString = $weekday . " " . $dateString;
         }
@@ -391,5 +390,18 @@ class CustomFuncs
     public static function filterString($string, $patternWhite = '0-9a-zA-Zа-яА-ЯёЁ\-., ')
     {
         return preg_replace('/[^0-9a-zA-Zа-яА-ЯёЁ\-., ]/', '', $string);
+    }
+
+    /**
+     * @return string
+     */
+    public static function getUserIP(): string
+    {
+        if (isset($_SERVER['HTTP_X_REAL_IP'])) {
+            $ip = $_SERVER['HTTP_X_REAL_IP'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        return $ip;
     }
 }

@@ -139,6 +139,8 @@ class TransactionController extends Controller {
      */
     public function actionCreateSuccess() {
         LoggerFactory::getLogger('db')->log('Пользователь #' . Yii::app()->user->id . ' пополнил баланс', 'User', Yii::app()->user->id);
+        (new UserActivity())->logActivity(Yii::app()->user->getModel(), UserActivity::ACTION_TOPUP_BALANCE);
+
         echo $this->render('createSuccess');
     }
 
