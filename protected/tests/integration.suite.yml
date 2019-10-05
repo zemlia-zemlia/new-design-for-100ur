@@ -1,7 +1,6 @@
 actor: IntegrationTester
 modules:
     enabled:
-#        - Yii1
         - Asserts
         - \Helper\Integration
         - Db:

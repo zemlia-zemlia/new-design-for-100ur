@@ -233,6 +233,6 @@ class DefaultController extends Controller
 
     public function actionClient()
     {
-        Lead::testClient();
+        var_dump(Yii::app()->params['webmaster100yuristovId']);
     }
 }
