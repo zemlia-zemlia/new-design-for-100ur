@@ -132,7 +132,6 @@
         <th class="text-right"><?php echo $kolichTotal;?></th>
         <th class="text-right"><?php echo MoneyFormat::rubles($sumTotal, true);?> руб.</th>
         <th class="text-right"><?php echo MoneyFormat::rubles($vipTotal, true);?> руб.</th>
-		<td></td>
         <th class="text-right"><?php echo MoneyFormat::rubles($buySumTotal, true);?> руб.</th>
         <th class="text-right"><?php echo MoneyFormat::rubles($expencesDirectTotal, true);?> руб.</th>
         <th class="text-right"><?php echo MoneyFormat::rubles($expencesCallsTotal, true);?> руб.</th>
