@@ -64,7 +64,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <span class="text-warning">для пополнения счета у Вас должна быть хотя бы одна активная кампания, одобренная модератором</span>
 <?php endif; ?>
 </p>
-<?php if(!in_array(Yii::app()->user->id, [5379, 390])):?>
+<?php if(!in_array(Yii::app()->user->id, [5379])):?>
 	<h2>История изменения баланса</h2>
 	<small>
 		<table class="table table-bordered">
