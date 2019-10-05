@@ -221,14 +221,15 @@ class MoneyController extends Controller
             
             if(isset($_POST['MoneyMove'])) {
                 $model->attributes=$_POST['MoneyMove'];
-                //CustomFuncs::printr($model->attributes);
+
                 // сначала проверим правильность заполнения формы
                 if($model->validate()) {
                     
                     $model->datetime = CustomFuncs::invertDate($model->datetime);
 
                     // создаем 2 транзакции (для перевода между счетами - снятие и пополнение)
-                    
+
+                    $model->sum *= 100;
 
                     $moneyRecord1->isInternal = 1;
                     $moneyRecord2->isInternal = 1;
@@ -242,19 +243,15 @@ class MoneyController extends Controller
                     $moneyRecord2->type = Money::TYPE_INCOME;
                     $moneyRecord2->direction = $moneyRecord1->direction = Money::DIRECTION_INTERNAL; // код внутренних транзакций
 
-                    //CustomFuncs::printr($moneyRecord1->attributes);
-                    //CustomFuncs::printr($moneyRecord2->attributes);
-                    
-                    //exit;
-
                     if($moneyRecord1->save() && $moneyRecord2->save()) {
                         $this->redirect(array('index'));
                     } else {
                         $model->datetime = CustomFuncs::invertDate($model->datetime);
+                        $model->sum /= 100;
                     }
                 }
             }
-            
+
             $this->render('addTransaction', array(
                 'model'         => $model,
                 'moneyRecord1'  => $moneyRecord1,

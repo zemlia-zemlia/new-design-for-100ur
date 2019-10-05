@@ -74,8 +74,7 @@
         </th>
         <th>Лиды</th>
         <th>Выручка</th>
-        <th>VIP вопросы</th>
-        <th>Заказ док-в</th>
+        <th>VIP</th>
         <th>Покупка лидов</th>
         <th>Расход на контекст</th>
         <th>Прочие расходы</th>
@@ -111,7 +110,6 @@
         <td class="text-right"><?php echo $kolichArray[$date];?></td>
         <td class="text-right"><?php echo MoneyFormat::rubles($summa, true);?></td>
         <td class="text-right"><?php echo MoneyFormat::rubles($vipStats[$date], true);?></td>
-        <td class="text-right"></td>
         <td class="text-right"><?php echo MoneyFormat::rubles($buySumArray[$date], true);?></td>
         <td class="text-right"><?php echo MoneyFormat::rubles($expencesDirectArray[$date]['expence'], true);?></td>
         <td class="text-right"><?php echo MoneyFormat::rubles($expencesCallsArray[$date]['expence'], true);?></td>
