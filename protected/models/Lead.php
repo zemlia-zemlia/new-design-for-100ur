@@ -770,7 +770,7 @@ class Lead extends CActiveRecord
             
             // запишем транзакцию за лид
             $partnerTransaction = new PartnerTransaction;
-            $partnerTransaction->sum = ($sourceUser->id === Yii::app()->params['webmaster100yuristovId'])
+            $partnerTransaction->sum = ($sourceUser->id == Yii::app()->params['webmaster100yuristovId'])
                 ? 0
                 : $this->buyPrice;
             $partnerTransaction->leadId = $this->id;
@@ -846,11 +846,5 @@ class Lead extends CActiveRecord
         } else {
             return false;
         }
-    }
-
-    public static function testClient()
-    {
-        $yurcrmClient = new YurcrmClient('contact/create', 'POST', '123', Yii::app()->params['yurcrmApiUrl']);
-        var_dump($yurcrmClient);
     }
 }
