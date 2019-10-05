@@ -230,4 +230,9 @@ class DefaultController extends Controller
     {
         phpinfo();
     }
+
+    public function actionClient()
+    {
+        Lead::testClient();
+    }
 }

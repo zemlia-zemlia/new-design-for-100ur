@@ -847,4 +847,10 @@ class Lead extends CActiveRecord
             return false;
         }
     }
+
+    public static function testClient()
+    {
+        $yurcrmClient = new YurcrmClient('contact/create', 'POST', '123', Yii::app()->params['yurcrmApiUrl']);
+        var_dump($yurcrmClient);
+    }
 }
