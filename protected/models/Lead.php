@@ -434,7 +434,7 @@ class Lead extends CActiveRecord
             $dbTransaction->rollback();
             throw $e;
         }
-
+        var_dump($soldLeadResultCode);exit;
         $yurcrmResult = $this->sendToYurCRM($buyer);
 
         if ($soldLeadResultCode === self::SAVE_RESULT_CODE_OK) {

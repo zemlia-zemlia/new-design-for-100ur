@@ -9,7 +9,9 @@ modules:
             dsn: 'mysql:host=localhost;dbname=100yuristov_test'
             user: '100yuristov_test'
             password: ''
-            dump: 'db/100yuristov_test.sql'
+            dump:
+              - 'db/100yuristov_test.sql'
+              - 'db/100yuristov_test_geo.sql'
             populate: true
-            cleanup: true
+            cleanup: false
             populator: 'mysql -u $user -h $host $dbname < $dump && vendor/bi/phinx migrate -e testing'

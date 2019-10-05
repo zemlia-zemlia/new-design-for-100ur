@@ -16,9 +16,10 @@
         "moneyphp/money":"^3"
     },
     "require-dev": {
-        "codeception/codeception":"*",
+        "codeception/codeception":"2.5.6",
         "phpunit/phpunit": "^7",
-        "100yuristov/sto-yuristov-client":"v1.1"
+        "100yuristov/sto-yuristov-client":"v1.1",
+        "fzaninotto/faker": "v1.8.0"
     },
     "autoload": {
         "PSR-4": {
