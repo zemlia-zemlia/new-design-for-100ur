@@ -83,8 +83,12 @@ class GTMail extends CApplicationComponent
 
     /**
      * Сохраняет сообщение в папку на диске
+     * @param Swift_Message $mailerMessage
+     * @param bool $testing
+     * @return bool
+     *
      */
-    protected function saveMessage(Swift_Message $mailerMessage, $testing)
+    protected function saveMessage(Swift_Message $mailerMessage, $testing):bool
     {
         try {
             file_put_contents($this->getTestMessageFilePath($testing), $mailerMessage->getBody());
