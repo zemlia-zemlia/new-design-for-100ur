@@ -183,6 +183,7 @@ class LeadTest extends Unit
                 'leadsDayLimit' => 2,
                 'buyerId' => 10001,
                 'active' => 1,
+                'type' => 0,
             ],
             // неактивная
             [
@@ -193,6 +194,7 @@ class LeadTest extends Unit
                 'leadsDayLimit' => 2,
                 'buyerId' => 10001,
                 'active' => 0,
+                'type' => 0,
             ],
             // Москва
             [
@@ -203,6 +205,7 @@ class LeadTest extends Unit
                 'leadsDayLimit' => 1,
                 'buyerId' => 10001,
                 'active' => 1,
+                'type' => 0,
             ],
             // Москва
             [
@@ -213,6 +216,7 @@ class LeadTest extends Unit
                 'leadsDayLimit' => 1,
                 'buyerId' => 10002,
                 'active' => 1,
+                'type' => 0,
             ],
         ];
 

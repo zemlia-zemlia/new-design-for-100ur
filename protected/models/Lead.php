@@ -289,9 +289,9 @@ class Lead extends CActiveRecord
 
     /**
      * Сохранение проданного лида и связанных данных
-     * @param type $buyer
-     * @param type $transaction
-     * @param type $campaign
+     * @param User $buyer
+     * @param TransactionCampaign $transaction
+     * @param Campaign $campaign
      * @return integer Код результата сохранения
      */
     private function saveSoldLead($buyer, $transaction, $campaign)
@@ -434,7 +434,7 @@ class Lead extends CActiveRecord
             $dbTransaction->rollback();
             throw $e;
         }
-        var_dump($soldLeadResultCode);exit;
+
         $yurcrmResult = $this->sendToYurCRM($buyer);
 
         if ($soldLeadResultCode === self::SAVE_RESULT_CODE_OK) {
