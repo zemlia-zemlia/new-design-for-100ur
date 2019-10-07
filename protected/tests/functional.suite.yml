@@ -2,3 +2,6 @@ actor: FunctionalTester
 modules:
     enabled:
     - \Helper\Functional
+    - REST
+        depends: PhpBrowser
+        url: 'http://100yuristov'

@@ -333,8 +333,11 @@ class Comment extends CActiveRecord
             }
         }
 
-        if ($this->authorId) {
+        $commentAuthor = $this->author;
+
+        if ($commentAuthor instanceof User) {
             // логируем событие в лог
+            (new UserActivity())->logActivity($commentAuthor, UserActivity::ACTION_POST_COMMENT);
             LoggerFactory::getLogger('db')->log('Пользователь ' . $commentAuthor->name . ' прокомментировал ' . self::getTypeName($this->type) . ' #' . $this->objectId, 'User', $this->authorId);
         }
 

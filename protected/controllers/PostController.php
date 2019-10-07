@@ -72,7 +72,7 @@ class PostController extends Controller {
         }
 
         $postCommentModel = new Comment; // модель комментария поста
-        if (isset($_POST['Comment'])) {
+        if (isset($_POST['Comment']) && !Yii::app()->user->isGuest) {
             $postCommentModel->attributes = $_POST['Comment'];
             $postCommentModel->authorId = Yii::app()->user->id;
             $postCommentModel->objectId = $model->id;
@@ -91,6 +91,8 @@ class PostController extends Controller {
                  * так как комментарии были извлечены в коде выше
                  */
                 $this->redirect(array('view', 'id' => $model->id, 'alias' => $model->alias));
+            } else {
+                throw new CHttpException(400, 'Не удалось сохранить комментарий');
             }
         }
 

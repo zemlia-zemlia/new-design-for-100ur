@@ -67,4 +67,6 @@ return array(
         'yurcrmApiUrl' => 'http://crm2/api/', // адрес API CRM
         'yurcrmDomain' => 'http://crm2', // адрес YurCRM
         'donatesEnabled' => false,
+        'webmaster100yuristovId' => 4025, // id вебмастера, под которым создаются лиды источника 100 Юристов
+
 );

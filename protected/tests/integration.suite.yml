@@ -3,6 +3,8 @@ modules:
     enabled:
         - Asserts
         - \Helper\Integration
+        - REST:
+            depends: PhpBrowser
         - Db:
             dsn: 'mysql:host=localhost;dbname=100yuristov_test'
             user: '100yuristov_test'

@@ -435,7 +435,7 @@ class CampaignController extends Controller
             if ($buyer->save()) {
                 // если баланс пополнен, отправляем уведомление покупателю
                 $buyer->sendBuyerNotification(User::BUYER_EVENT_TOPUP);
-                echo json_encode(array('code' => 0, 'id' => $buyerId, 'balance' => $buyer->balance));
+                echo json_encode(array('code' => 0, 'id' => $buyerId, 'balance' => MoneyFormat::rubles($buyer->balance)));
             } else {
                 CustomFuncs::printr($buyer->errors);
             }
