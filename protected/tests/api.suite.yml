@@ -3,15 +3,17 @@ modules:
     enabled:
         - \Helper\Api
         - Db:
-              dsn: 'mysql:host=localhost;dbname=100yuristov_test'
-              user: '100yuristov_test'
-              password: ''
-              dump:
-                  - 'db/100yuristov_test.sql'
-                  - 'db/100yuristov_test_geo.sql'
-              populate: true
-              cleanup: false
-              populator: 'mysql -u $user -h $host $dbname < $dump && vendor/bin/phinx migrate -e testing'
+            dsn: 'mysql:host=localhost;dbname=100yuristov_test'
+            user: '100yuristov_test'
+            password: ''
+            dump:
+                - 'db/100yuristov_test.sql'
+                - 'db/100yuristov_test_geo.sql'
+            populate: true
+            cleanup: false
+            initial_queries:
+                - 'SET NAMES utf8;'
+            populator: 'mysql -u $user -h $host $dbname < $dump && vendor/bin/phinx migrate -e testing'
         - REST:
             depends: PhpBrowser
             url: 'http://100yuristov'

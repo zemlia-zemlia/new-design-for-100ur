@@ -79,6 +79,8 @@ class ApiController extends CController
      */
     public function actionSendLead()
     {
+        header('Content-type: application/json');
+
         /** @var CHttpRequest $request */
         $request = Yii::app()->request;
 
