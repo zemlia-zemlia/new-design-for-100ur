@@ -17,10 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `100yuristov_etalon`
+-- Database: `100yuristov_test`
 --
 
 -- --------------------------------------------------------
+DROP DATABASE `100yuristov_test`;
+CREATE DATABASE `100yuristov_test`;
+USE `100yuristov_test`;
 
 --
 -- Table structure for table `100_answer`
