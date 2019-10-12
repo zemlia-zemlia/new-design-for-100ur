@@ -34,7 +34,6 @@ class ApiController extends CController
     {
         return array(
             'accessControl', // perform access control for CRUD operations
-            'postOnly + sendLead', // we only allow deletion via POST request
         );
     }
 
