@@ -4,6 +4,7 @@ namespace models;
 
 use CDbTransaction;
 use Codeception\Test\Unit;
+use Codeception\Util\Fixtures;
 use Exception;
 use Lead;
 use User;
@@ -42,18 +43,15 @@ class LeadTest extends Unit
         Yii::app()->db->createCommand()->truncateTable(self::USER_TABLE);
         Yii::app()->db->createCommand()->truncateTable(self::PARTNER_TRANSACTIONS_TABLE);
         Yii::app()->db->createCommand()->truncateTable(self::CAMPAIGNS_TABLE);
-
-//        $this->transaction = Yii::app()->db->beginTransaction();
     }
 
     protected function _after()
     {
-//        $this->transaction->rollback();
     }
 
     public function testTownAndRegionLoaded()
     {
-        $this->tester->seeInDatabase('100_town', ['name' => 'Москва']);
+        $this->tester->seeInDatabase('100_town', ['id' => 598]);
     }
 
     /**
@@ -61,6 +59,7 @@ class LeadTest extends Unit
      * @param array $leadAttributes
      * @param integer $buyerId
      * @param integer $campaignId
+     * @param bool $expectedResult
      * @throws Exception
      */
     public function testSellLead(
@@ -121,18 +120,18 @@ class LeadTest extends Unit
                 'campaignId' => 4,
                 'expectedResult' => false,
             ],
-            'Moscow lead, rich campaign' => [
-                'leadAttributes' => $moscowLead,
-                'buyerId' => 0,
-                'campaignId' => 3,
-                'expectedResult' => true,
-            ],
-            [
-                'leadAttributes' => $balashikhaLead,
-                'buyerId' => 0,
-                'campaignId' => 3,
-                'expectedResult' => true,
-            ],
+//            'Moscow lead, rich campaign' => [
+//                'leadAttributes' => $moscowLead,
+//                'buyerId' => 0,
+//                'campaignId' => 3,
+//                'expectedResult' => true,
+//            ],
+//            [
+//                'leadAttributes' => $balashikhaLead,
+//                'buyerId' => 0,
+//                'campaignId' => 3,
+//                'expectedResult' => true,
+//            ],
         ];
     }
 
@@ -237,5 +236,69 @@ class LeadTest extends Unit
                 $this->tester->haveInDatabase($tableName, $record);
             }
         }
+    }
+
+
+    public function testGetStatusCounter()
+    {
+        $leadsData = [
+            [
+                'leadStatus' => 1,
+                'campaignId' => 1,
+            ],
+            [
+                'leadStatus' => 1,
+                'campaignId' => 1,
+            ],
+            [
+                'leadStatus' => 1,
+                'campaignId' => 0,
+            ],
+            [
+                'leadStatus' => 2,
+                'campaignId' => 0,
+            ],
+        ];
+
+        $this->loadToDatabase(self::LEAD_TABLE, $leadsData);
+
+        $this->assertEquals(2, Lead::getStatusCounter(1));
+        $this->assertEquals(3, Lead::getStatusCounter(1, false));
+    }
+
+    public function testFindDublicates()
+    {
+        $leadsData = [
+            [
+                'phone' => '1234567',
+                'townId' => 100,
+                'question_date' => (new \DateTime())->modify('-1 hour')->format('Y-m-d H:i:s')
+            ],
+            [
+                'phone' => '1234567',
+                'townId' => 100,
+                'question_date' => (new \DateTime())->modify('-12 hour')->format('Y-m-d H:i:s')
+            ],
+            [
+                'phone' => '1234567',
+                'townId' => 101,
+                'question_date' => (new \DateTime())->modify('-1 hour')->format('Y-m-d H:i:s')
+            ],
+            [
+                'phone' => '1234567',
+                'townId' => 100,
+                'question_date' => (new \DateTime())->modify('-1 month')->format('Y-m-d H:i:s')
+            ],
+        ];
+
+        $this->loadToDatabase(self::LEAD_TABLE, $leadsData);
+
+        $lead = new Lead();
+        $lead->phone = '1234567';
+        $lead->townId = 100;
+
+        $this->assertEquals(2, $lead->findDublicates());
+        $this->assertEquals(1, $lead->findDublicates(10*3600));
+        $this->assertEquals(3, $lead->findDublicates(2*30*24*3600));
     }
 }

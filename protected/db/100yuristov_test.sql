@@ -22,7 +22,7 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 DROP DATABASE `100yuristov_test`;
-CREATE DATABASE `100yuristov_test`;
+CREATE DATABASE `100yuristov_test` DEFAULT CHARACTER SET utf8;
 USE `100yuristov_test`;
 
 --

@@ -11,7 +11,7 @@ modules:
             password: ''
             dump:
               - 'db/100yuristov_test.sql'
-#              - 'db/100yuristov_test_geo.sql'
+              - 'db/100yuristov_test_geo.sql'
             populate: true
             cleanup: false
             populator: 'mysql -u $user -h $host $dbname < $dump && vendor/bin/phinx migrate -e testing'

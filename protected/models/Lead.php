@@ -101,10 +101,10 @@ class Lead extends CActiveRecord
             array('agree', 'compare', 'compareValue' => 1, 'on' => array('create', 'createCall'), 'message' => 'Вы должны согласиться на обработку персональных данных'),
             array('name, phone, email, secretCode, brakComment', 'length', 'max' => 255),
             array('townId', 'match', 'not' => true, 'pattern' => '/^0$/', 'message' => 'Поле Город не заполнено'),
-            array('name', 'match', 'pattern' => '/^([а-яА-Я0-9ёЁ_a-zA-Z\-., ])+$/u', 'message' => 'В имени могут присутствовать русские буквы, цифры, точка, дефис и пробел', 'except' => 'parsing, brak, update'),
+            array('name', 'match', 'pattern' => '/^([а-яА-Я0-9ёЁ_a-zA-Z\-., ])+$/u', 'message' => 'В имени могут присутствовать буквы, цифры, точка, дефис и пробел', 'except' => 'parsing, brak, update'),
             array('phone', 'match', 'pattern' => '/^([0-9]{11})+$/u', 'message' => 'В номере телефона могут присутствовать только цифры'),
             array('email', 'email', 'message' => 'E-mail похож на ненастоящий, проверьте, пожалуйста, правильность набора'),
-            array('date1, date2', 'match', 'pattern' => '/^([0-9\-])+$/u', 'message' => 'В датах могут присутствовать только цифры и знак плюса'),
+            array('date1, date2', 'match', 'pattern' => '/^([0-9\-])+$/u', 'message' => 'В датах могут присутствовать только цифры'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, name, phone, sourceId, question, question_date, townId, leadStatus', 'safe', 'on' => 'search'),
@@ -586,13 +586,14 @@ class Lead extends CActiveRecord
                 ->where($condition, array(":status" => (int) $status))
                 ->queryRow();
         $counter = $counterRow['counter'];
+
         return $counter;
     }
 
     /**
      * возвращает количество лидов с таким же номером телефона и городом, добавленных не более $timeframe секунд назад
      * 
-     * @param int $timeframe временной интеркал (сек.)
+     * @param int $timeframe временной интервал (сек.)
      * @return int количество лидов 
      */
     public function findDublicates($timeframe = 86400)
@@ -602,8 +603,6 @@ class Lead extends CActiveRecord
                 ->from("{{lead}}")
                 ->where("phone=:phone AND townId=:townId AND question_date>=NOW()-INTERVAL :timeframe SECOND", array(":phone" => $this->phone, ":townId" => $this->townId, ":timeframe" => $timeframe))
                 ->queryRow();
-
-        //CustomFuncs::printr($dublicatesRow['counter']);
 
         return $dublicatesRow['counter'];
     }
