@@ -615,7 +615,7 @@ class Lead extends CActiveRecord
     protected function beforeSave()
     {
         // удаляем из номера телефона все нецифровые символы
-        $this->phone = Question::normalizePhone($this->phone);
+        $this->phone = PhoneHelper::normalizePhone($this->phone);
 
         // создаем поле Секретный код, чтобы покупатель лида мог работать с ним, перейдя по ссылке из письма
         if ($this->secretCode == '') {

@@ -82,7 +82,7 @@ class LeadController extends Controller
 
         if (isset($_POST['Lead'])) {
             $model->attributes = $_POST['Lead'];
-            $model->phone = Question::normalizePhone($model->phone);
+            $model->phone = PhoneHelper::normalizePhone($model->phone);
             $model->buyPrice *= 100;
 
             if ($model->testMode) {
@@ -148,7 +148,7 @@ class LeadController extends Controller
 
         if (isset($_POST['Lead'])) {
             $model->attributes = $_POST['Lead'];
-            $model->phone = Question::normalizePhone($model->phone);
+            $model->phone = PhoneHelper::normalizePhone($model->phone);
             $model->buyPrice *= 100;
 
 

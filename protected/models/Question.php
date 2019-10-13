@@ -444,17 +444,6 @@ class Question extends CActiveRecord {
     }
 
     /**
-     * Преобразует телефонные номера в стандартный формат 70000000000
-     * @todo заменить вызовом PhoneHelper::normalizePhone()
-     * @param string $phone
-     * @return string
-     */
-    public static function normalizePhone($phone)
-    {
-        return PhoneHelper::normalizePhone($phone);
-    }
-
-    /**
      * После оплаты вопроса отправляет уведомление админу и записывает транзакцию
      * @param float $rateWithoutComission Сумма оплаты за вычетом комисии Яндекса
      */

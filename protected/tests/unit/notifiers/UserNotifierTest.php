@@ -1,8 +1,8 @@
 <?php
 
-use \PHPUnit\Framework\TestCase;
+use Codeception\Test\Unit;
 
-class UserNotifierTest extends TestCase
+class UserNotifierTest extends Unit
 {
     public function testCreateNotifier()
     {

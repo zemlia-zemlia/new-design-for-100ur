@@ -158,7 +158,7 @@ class ApiController extends CController
         }
         $model->townId = $townId;
         $model->question = $purifier->purify($leadQuestion);
-        $model->phone = Question::normalizePhone($leadPhone);
+        $model->phone = PhoneHelper::normalizePhone($leadPhone);
 
         // проверка на дубликаты за последние 12 часов
         if ($model->findDublicates(12 * 3600)) {

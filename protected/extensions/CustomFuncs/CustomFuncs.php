@@ -115,7 +115,7 @@ class CustomFuncs
     public static function detectTownIdByPhone($phoneNumber)
     {
         // приводим номер телефона к виду 7xxxxxxxxxx
-        $phoneNumber = Question::normalizePhone($phoneNumber);
+        $phoneNumber = PhoneHelper::normalizePhone($phoneNumber);
         $htmlwebApiResponse = file_get_contents('http://htmlweb.ru/geo/api.php?json&telcod=' . $phoneNumber . '&charset=utf-8&api_key=' . Yii::app()->params['htmlwebApiKey']);
         // расшифровываем JSON-ответ от сервера в ассоциативный массив
         $htmlwebApiResponseArray = json_decode($htmlwebApiResponse, true);

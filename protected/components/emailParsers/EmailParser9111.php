@@ -29,7 +29,7 @@ class EmailParser9111 extends EmailParser {
         }
         if ($phoneMatches) {
             $phone = $phoneMatches[2];
-            $phone = Question::normalizePhone($phone);
+            $phone = PhoneHelper::normalizePhone($phone);
         }
         if ($messageMatches) {
             $question = trim($messageMatches[2]);

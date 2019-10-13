@@ -82,7 +82,7 @@ class GetLeadsFrom140Command extends CConsoleCommand
         $existingLeadsPhones = array();
         
         foreach($existingLeads as $existingLead) {
-            $existingLeadsPhones[] = Question::normalizePhone($existingLead['phone']);
+            $existingLeadsPhones[] = PhoneHelper::normalizePhone($existingLead['phone']);
         }
         //echo "existing leads numbers: ";
         //print_r($existingLeadsPhones);
@@ -115,7 +115,7 @@ class GetLeadsFrom140Command extends CConsoleCommand
                 $message = trim($messageArray[1]);
                 
                 $phone = $phoneMatches[1];
-                $phone = Question::normalizePhone($phone);
+                $phone = PhoneHelper::normalizePhone($phone);
                 $name = $nameMatches[1];
                 
                 //echo "phone: " . $phone . PHP_EOL;

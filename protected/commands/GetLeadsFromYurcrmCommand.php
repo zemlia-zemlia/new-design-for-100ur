@@ -181,7 +181,7 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
         $existingLeadsPhones = array();
         
         foreach($existingLeads as $existingLead) {
-            $existingLeadsPhones[] = Question::normalizePhone($existingLead->phone);
+            $existingLeadsPhones[] = PhoneHelper::normalizePhone($existingLead->phone);
         }
         //echo "existing leads numbers: ";
         //print_r($existingLeadsPhones);
@@ -222,7 +222,7 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
                 $name = str_replace("&nbsp;", " ", $name);
                 $name = trim($name);
                 $phone = $phoneMatches[2];
-                $phone = Question::normalizePhone($phone);
+                $phone = PhoneHelper::normalizePhone($phone);
                 $question = $message;
                 
                 //echo $phone . "\n\r";

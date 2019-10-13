@@ -26,7 +26,7 @@ class LeadTest extends Unit
             $this->assertEquals($scenario, $lead->getScenario());
         }
         $lead->setAttributes($attributes);
-        $lead->phone = Question::normalizePhone($lead->phone);
+        $lead->phone = PhoneHelper::normalizePhone($lead->phone);
 
         $validationResult = $lead->validate();
 

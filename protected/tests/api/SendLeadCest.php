@@ -30,7 +30,7 @@ class SendLeadCest
         Yii::app()->db->createCommand()->truncateTable(self::LEAD_SOURCE_TABLE);
     }
 
-    protected function trySendGetRequest(ApiTester $I)
+    public function trySendGetRequest(ApiTester $I)
     {
         $I->sendGET(self::API_URL);
         $I->seeResponseIsJson();
@@ -40,7 +40,7 @@ class SendLeadCest
         ]);
     }
 
-    protected function trySendRequestWithoutAppId(ApiTester $I)
+    public function trySendRequestWithoutAppId(ApiTester $I)
     {
         $I->sendPOST(self::API_URL, []);
         $I->seeResponseIsJson();
@@ -53,7 +53,7 @@ class SendLeadCest
     /**
      * @param ApiTester $I
      */
-    public function trySendLeadTest(ApiTester $I)
+    protected function trySendLeadTest(ApiTester $I)
     {
         $I->haveInDatabase(self::LEAD_SOURCE_TABLE, [
             'id' => 33,

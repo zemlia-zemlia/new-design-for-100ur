@@ -144,7 +144,7 @@ abstract class EmailParser
         ));
 
         foreach ($existingLeads as $existingLead) {
-            $this->_existingPhones[] = Question::normalizePhone($existingLead->phone);
+            $this->_existingPhones[] = PhoneHelper::normalizePhone($existingLead->phone);
         }
 
         $this->echoDebug($this->_existingPhones);

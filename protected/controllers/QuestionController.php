@@ -230,7 +230,7 @@ class QuestionController extends Controller
                     ]);
                 }
                 $question->attributes = $_POST['Question'];
-                $question->phone = Question::normalizePhone($question->phone);
+                $question->phone = PhoneHelper::normalizePhone($question->phone);
                 $question->status = Question::STATUS_NEW;
                 $question->ip = (isset($_SERVER['HTTP_X_REAL_IP'])) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
                 $question->townIdByIP = Yii::app()->user->getState('currentTownId');
@@ -670,7 +670,7 @@ class QuestionController extends Controller
 
         if (isset($_POST['Lead'])) {
             $lead->attributes = $_POST['Lead'];
-            $lead->phone = Question::normalizePhone($lead->phone);
+            $lead->phone = PhoneHelper::normalizePhone($lead->phone);
             $lead->sourceId = 3;
             $lead->type = Lead::TYPE_CALL;
 
@@ -1044,7 +1044,7 @@ class QuestionController extends Controller
         $model->attributes = $_POST;
         $model->sourceId = $activeApp['sourceId'];
         $model->type = Lead::TYPE_INCOMING_CALL;
-        $model->phone = Question::normalizePhone($model->phone);
+        $model->phone = PhoneHelper::normalizePhone($model->phone);
 
         $appSecret = $activeApp['secretKey'];
         // сформируем подпись на основе принятых данных
