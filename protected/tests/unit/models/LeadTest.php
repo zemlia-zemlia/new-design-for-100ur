@@ -114,4 +114,31 @@ class LeadTest extends Unit
             'question' => $this->faker->paragraph,
         ];
     }
+
+    public function testGetLeadStatusName()
+    {
+        $lead = new Lead();
+        $lead->leadStatus = Lead::LEAD_STATUS_BRAK;
+
+        $this->assertEquals('брак', $lead->getLeadStatusName());
+    }
+
+    public function testGetLeadTypeName()
+    {
+        $lead = new Lead();
+        $lead->type = Lead::TYPE_CALL;
+
+        $this->assertEquals('запрос звонка', $lead->getLeadTypeName());
+
+        $lead->type = Lead::TYPE_QUESTION;
+        $this->assertEquals('вопрос', $lead->getLeadTypeName());
+    }
+
+    public function testGetReasonName()
+    {
+        $lead = new Lead();
+        $lead->brakReason = Lead::BRAK_REASON_BAD_NUMBER;
+
+        $this->assertEquals('неверный номер', $lead->getReasonName());
+    }
 }
