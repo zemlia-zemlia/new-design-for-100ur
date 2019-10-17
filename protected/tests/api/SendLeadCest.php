@@ -87,6 +87,27 @@ class SendLeadCest
     }
 
     /**
+     * Тест отправки лида в тестовом режиме: возвращается ответ, но лид не сохраняется
+     * @param ApiTester $I
+     */
+    public function sendCorrectLeadInTestMode(ApiTester $I)
+    {
+        $requestParams = $this->generateValidLeadRequestData(['testMode' => 1]);
+
+        $I->sendPOST(self::API_URL, $requestParams);
+
+        $I->seeResponseCodeIs(HttpCode::OK);
+
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson(['code' => HttpCode::OK]);
+
+        $I->dontSeeInDatabase(self::LEADS_TABLE, [
+            'phone' => $requestParams['phone'],
+            'sourceId' => $this->leadSourceAttributes['id'],
+        ]);
+    }
+
+    /**
      * Лид, который должен быть продан в кампанию
      * @param ApiTester $I
      */
@@ -113,6 +134,8 @@ class SendLeadCest
             'phone' => $sendLeadRequestParams['phone'],
             'sourceId' => $this->leadSourceAttributes['id'],
             'leadStatus' => Lead::LEAD_STATUS_SENT,
+            'buyerId' => $buyerAttributes['id'],
+            'campaignId' => $campaignAttributes['id'],
         ]);
 
     }
@@ -164,6 +187,41 @@ class SendLeadCest
     }
 
     /**
+     * Отправка лида повторно
+     * @param ApiTester $I
+     */
+    public function sendDuplicate(ApiTester $I)
+    {
+        $sendLeadRequestParams = $this->generateValidLeadRequestData();
+
+        $I->sendPOST(self::API_URL, $sendLeadRequestParams);
+
+        $I->seeResponseCodeIs(HttpCode::OK);
+
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'code' => 200,
+        ]);
+
+        $I->seeInDatabase(self::LEADS_TABLE, [
+            'phone' => $sendLeadRequestParams['phone'],
+            'sourceId' => $this->leadSourceAttributes['id'],
+        ]);
+
+        // отправим тот же лид еще раз
+
+        $I->sendPOST(self::API_URL, $sendLeadRequestParams);
+
+        $I->seeResponseCodeIs(HttpCode::OK);
+
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'code' => 400,
+            'message' => 'Dublicates found'
+        ]);
+    }
+
+    /**
      * @return array
      */
     protected function generateValidSourceAttributes(): array
@@ -183,17 +241,17 @@ class SendLeadCest
      * @param array $forcedFields
      * @return array
      */
-    protected function generateValidUserAttributes($forcedFields = []) :array
+    protected function generateValidUserAttributes($forcedFields = []): array
     {
         $attributes = [
-            'id' => $this->faker->numberBetween(1,100000),
+            'id' => $this->faker->numberBetween(1, 100000),
             'name' => $this->faker->name,
             'lastName' => $this->faker->lastName,
             'role' => User::ROLE_CLIENT,
             'email' => $this->faker->randomNumber(6) . '@yurcrm.ru',
             'phone' => PhoneHelper::normalizePhone($this->faker->phoneNumber),
             'active100' => 1,
-            'townId' => $this->faker->numberBetween(1,999),
+            'townId' => $this->faker->numberBetween(1, 999),
             'balance' => 1000000,
             'priceCoeff' => 0.5,
         ];
@@ -215,7 +273,7 @@ class SendLeadCest
             'townId' => $this->faker->numberBetween(1, 999),
             'timeFrom' => 0,
             'timeTo' => 24,
-            'price' => 50,
+            'price' => 15000,
             'leadsDayLimit' => 10,
             'realLimit' => 10,
             'brakPercent' => 20,
