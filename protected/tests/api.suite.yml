@@ -2,6 +2,7 @@ actor: ApiTester
 modules:
     enabled:
         - \Helper\Api
+        - \Helper\Unit
         - Db:
             dsn: 'mysql:host=localhost;dbname=100yuristov_test'
             user: '100yuristov_test'
