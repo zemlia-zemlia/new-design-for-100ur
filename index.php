@@ -1,5 +1,8 @@
 <?php
 
+// необходимо для запуска тестов API
+include 'protected/c3.php';
+
 // change the following paths if necessary
 $composer = dirname(__FILE__) . '/protected/vendor/autoload.php';
 $settings = dirname(__FILE__) . '/protected/config/settings.php';

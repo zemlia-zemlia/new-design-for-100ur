@@ -2,6 +2,10 @@
 
 use Codeception\Util\HttpCode;
 use Faker\Factory;
+use Tests\Factories\CampaignFactory;
+use Tests\Factories\LeadFactory;
+use Tests\Factories\LeadSourceFactory;
+use Tests\Factories\UserFactory;
 
 /**
  * Class SendLeadCest
@@ -34,7 +38,11 @@ class SendLeadCest
     {
         Yii::app()->db->createCommand()->truncateTable(self::LEAD_SOURCE_TABLE);
 
-        $this->leadSourceAttributes = $this->generateValidSourceAttributes();
+        $this->leadSourceAttributes = (new LeadSourceFactory())->generateOne([
+            'appId' => self::APP_ID,
+            'secretKey' => self::SECRET_KEY,
+        ]);
+
         $I->haveInDatabase(self::LEAD_SOURCE_TABLE, $this->leadSourceAttributes);
     }
 
@@ -113,10 +121,10 @@ class SendLeadCest
      */
     public function sendLeadWithCampaign(ApiTester $I)
     {
-        $buyerAttributes = $this->generateValidUserAttributes(['role' => User::ROLE_BUYER]);
+        $buyerAttributes = (new UserFactory())->generateOne(['role' => User::ROLE_BUYER]);
         $I->haveInDatabase(self::USER_TABLE, $buyerAttributes);
 
-        $campaignAttributes = $this->generateValidCampaignAttributes([
+        $campaignAttributes = (new CampaignFactory())->generateOne([
             'regionId' => 0,
             'townId' => 598,
             'buyerId' => $buyerAttributes['id'],
@@ -222,83 +230,19 @@ class SendLeadCest
     }
 
     /**
-     * @return array
-     */
-    protected function generateValidSourceAttributes(): array
-    {
-        return [
-            'id' => $this->faker->randomNumber(),
-            'appId' => self::APP_ID,
-            'secretKey' => self::SECRET_KEY,
-            'name' => 'Партнерка',
-            'active' => 1,
-            'userId' => 10000,
-            'priceByPartner' => 1
-        ];
-    }
-
-    /**
-     * @param array $forcedFields
-     * @return array
-     */
-    protected function generateValidUserAttributes($forcedFields = []): array
-    {
-        $attributes = [
-            'id' => $this->faker->numberBetween(1, 100000),
-            'name' => $this->faker->name,
-            'lastName' => $this->faker->lastName,
-            'role' => User::ROLE_CLIENT,
-            'email' => $this->faker->randomNumber(6) . '@yurcrm.ru',
-            'phone' => PhoneHelper::normalizePhone($this->faker->phoneNumber),
-            'active100' => 1,
-            'townId' => $this->faker->numberBetween(1, 999),
-            'balance' => 1000000,
-            'priceCoeff' => 0.5,
-        ];
-
-        $attributes = array_merge($attributes, $forcedFields);
-
-        return $attributes;
-    }
-
-    /**
-     * @param array $forcedFields
-     * @return array
-     */
-    protected function generateValidCampaignAttributes($forcedFields = []): array
-    {
-        $requestParams = [
-            'id' => $this->faker->randomNumber(),
-            'regionId' => $this->faker->numberBetween(1, 99),
-            'townId' => $this->faker->numberBetween(1, 999),
-            'timeFrom' => 0,
-            'timeTo' => 24,
-            'price' => 15000,
-            'leadsDayLimit' => 10,
-            'realLimit' => 10,
-            'brakPercent' => 20,
-            'buyerId' => 3333,
-            'active' => 1,
-            'type' => Campaign::TYPE_BUYERS,
-        ];
-
-        $requestParams = array_merge($requestParams, $forcedFields);
-        return $requestParams;
-    }
-
-    /**
      * @param array $forcedFields Массив атрибутов, которые нужно переопределить вручную
      * @return array
      */
     protected function generateValidLeadRequestData($forcedFields = []): array
     {
         $secretKey = self::SECRET_KEY;
+        $leadAttributes = (new LeadFactory())->generateOne();
         $requestParams = [
-            'name' => $this->faker->name,
-            'phone' => PhoneHelper::normalizePhone($this->faker->phoneNumber),
-            'email' => 'vasya@yurcrm.ru',
+            'name' => $leadAttributes['name'],
+            'phone' => $leadAttributes['phone'],
+            'email' => $leadAttributes['email'],
             'town' => 'Москва',
-            'question' => $this->faker->paragraph,
+            'question' => $leadAttributes['question'],
             'price' => 95,
             'appId' => self::APP_ID,
             'testMode' => 0,

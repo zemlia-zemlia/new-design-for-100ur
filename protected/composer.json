@@ -17,12 +17,14 @@
     },
     "require-dev": {
         "codeception/codeception":"^3",
+        "codeception/c3": "2.*",
         "phpunit/phpunit": "^7",
         "100yuristov/sto-yuristov-client":"v1.1",
         "fzaninotto/faker": "v1.8.0"
     },
     "autoload": {
-        "PSR-4": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
     }
 }
