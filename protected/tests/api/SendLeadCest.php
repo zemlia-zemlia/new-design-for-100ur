@@ -1,11 +1,17 @@
 <?php
 
+namespace Tests\Api;
+
+use ApiTester;
 use Codeception\Util\HttpCode;
 use Faker\Factory;
+use Lead;
 use Tests\Factories\CampaignFactory;
 use Tests\Factories\LeadFactory;
 use Tests\Factories\LeadSourceFactory;
 use Tests\Factories\UserFactory;
+use User;
+use Yii;
 
 /**
  * Class SendLeadCest

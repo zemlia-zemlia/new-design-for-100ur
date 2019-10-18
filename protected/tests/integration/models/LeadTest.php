@@ -1,10 +1,9 @@
 <?php
 
-namespace models;
+namespace Tests\Integration\Models;
 
 use CDbTransaction;
 use Codeception\Test\Unit;
-use Codeception\Util\Fixtures;
 use Exception;
 use Lead;
 use User;

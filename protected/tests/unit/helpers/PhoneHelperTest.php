@@ -1,6 +1,9 @@
 <?php
 
+namespace Tests\Unit\Helpers;
+
 use Codeception\Test\Unit;
+use PhoneHelper;
 
 class PhoneHelperTest extends Unit
 {

@@ -1,5 +1,9 @@
 <?php
 
+namespace Tests\Unit\Extensions;
+
+use FileSystemHelper;
+use GTMail;
 use PHPUnit\Framework\TestCase;
 
 class GTMailTest extends TestCase
@@ -11,7 +15,7 @@ class GTMailTest extends TestCase
     {
         defined(YII_DEV) or define(YII_DEV, true);
         parent::setUp();
-        FileSystemHelper::delTree(GTMail::getTestMessagesFolder() . '/' . GTMail::TEST_MESSAGES_FOLDER);
+        FileSystemHelper::delFolderContent(GTMail::getTestMessagesFolder() . '/' . GTMail::TEST_MESSAGES_FOLDER);
         $this->mailer = new GTMail();
     }
 

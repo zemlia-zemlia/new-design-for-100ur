@@ -1,8 +1,7 @@
 <?php
 
-namespace models;
+namespace Tests\Integration\Models;
 
-use Codeception\Util\Fixtures;
 use User;
 use Yii;
 
