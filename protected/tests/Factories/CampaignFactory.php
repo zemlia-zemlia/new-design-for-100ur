@@ -16,7 +16,7 @@ class CampaignFactory extends BaseFactory
      * @param array $forcedParams
      * @return array
      */
-    public function generateOne($forcedParams = []):array
+    public function generateOne($forcedParams = []): array
     {
         $requestParams = [
             'id' => $this->faker->randomNumber(),

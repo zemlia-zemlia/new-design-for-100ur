@@ -3,9 +3,12 @@
 namespace Tests\Api;
 
 use ApiTester;
+use Campaign;
+use Codeception\Example;
 use Codeception\Util\HttpCode;
 use Faker\Factory;
 use Lead;
+use Leadsource;
 use Tests\Factories\CampaignFactory;
 use Tests\Factories\LeadFactory;
 use Tests\Factories\LeadSourceFactory;
@@ -30,6 +33,7 @@ class SendLeadCest
     const LEADS_TABLE = '100_lead';
     const CAMPAIGNS_TABLE = '100_campaign';
     const USER_TABLE = '100_user';
+    const PARTNER_TRANSACTION_TABLE = '100_partnerTransaction';
 
     const API_URL = '/api/sendLead';
     const APP_ID = 188;
@@ -233,6 +237,84 @@ class SendLeadCest
             'code' => 400,
             'message' => 'Dublicates found'
         ]);
+    }
+
+    /**
+     * Отправка лида от вебмастера. Проверяем, что вебмастеру создалась/не создалась транзакция
+     * @dataProvider providerCampaignWithUser
+     * @param ApiTester $I
+     * @param Example $example
+     */
+    public function sendLeadFromSourceWithUser(ApiTester $I, Example $example)
+    {
+        $buyerAttributes = (new UserFactory())->generateOne(['role' => User::ROLE_BUYER]);
+        $I->haveInDatabase(self::USER_TABLE, $buyerAttributes);
+
+        $campaignAttributes = (new CampaignFactory())->generateOne([
+            'regionId' => 0,
+            'townId' => 598,
+            'buyerId' => $buyerAttributes['id'],
+        ]);
+        $I->haveInDatabase(self::CAMPAIGNS_TABLE, $campaignAttributes);
+
+        $webmasterAttributes = (new UserFactory())->generateOne([
+            'role' => User::ROLE_PARTNER,
+            'balance' => 0,
+        ]);
+        if ($example['partnerId']) {
+            $webmasterAttributes['id'] = $example['partnerId'];
+        }
+
+        $leadSourceAttributes = (new LeadSourceFactory())->generateOne([
+            'userId' => $webmasterAttributes['id'],
+            'secretKey' => self::SECRET_KEY,
+        ]);
+        $I->haveInDatabase(self::USER_TABLE, $webmasterAttributes);
+        $I->haveInDatabase(self::LEAD_SOURCE_TABLE, $leadSourceAttributes);
+
+        $sendLeadRequestParams = $this->generateValidLeadRequestData([
+            'town' => 'Москва',
+            'appId' => $leadSourceAttributes['appId'],
+        ]);
+        $I->sendPOST(self::API_URL, $sendLeadRequestParams);
+
+        $I->seeResponseContainsJson(['code' => 200, 'buyPrice' => $example['buyPrice']]);
+
+        // должна создаться транзакция вебмастера
+        $I->seeInDatabase(self::PARTNER_TRANSACTION_TABLE, [
+            'partnerId' => $webmasterAttributes['id'],
+            'sourceId' => $leadSourceAttributes['id'],
+            'sum' => $example['partnerTransactionSum'],
+        ]);
+
+
+        // лид продан
+        $I->seeInDatabase(self::LEADS_TABLE, [
+            'phone' => $sendLeadRequestParams['phone'],
+            'sourceId' => $leadSourceAttributes['id'],
+            'leadStatus' => Lead::LEAD_STATUS_SENT,
+            'buyerId' => $buyerAttributes['id'],
+            'campaignId' => $campaignAttributes['id'],
+        ]);
+    }
+
+    /**
+     * @return array
+     */
+    protected function providerCampaignWithUser(): array
+    {
+        return [
+            'regular webmaster' => [
+                'partnerId' => null,
+                'buyPrice' => "95.00",
+                'partnerTransactionSum' => 9500,
+            ],
+            '100yuristov internal webmaster' => [
+                'partnerId' => Yii::app()->params['webmaster100yuristovId'],
+                'buyPrice' => "95.00",
+                'partnerTransactionSum' => 0,
+            ],
+        ];
     }
 
     /**
