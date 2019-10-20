@@ -2,9 +2,10 @@
 
 namespace Tests\Integration\Models;
 
+use ApiClassFactory;
+use ApiLexprofit;
 use Campaign;
 use Exception;
-use IntegrationTester;
 use Lead;
 use Tests\Factories\CampaignFactory;
 use Tests\Factories\LeadFactory;
@@ -14,12 +15,24 @@ use Tests\integration\BaseIntegrationTest;
 use User;
 use Yii;
 
+/**
+ * Class LeadTest
+ * @package Tests\Integration\Models
+ *
+ * @todo Покрыть тестами следующий функционал:
+ * - Поиск по лидам
+ * - Отправка лида в Yurcrm
+ * - Перевод лида в статус Брак из другого статуса с удалением транзакции вебмастера
+ */
+
+
 class LeadTest extends BaseIntegrationTest
 {
     const LEAD_TABLE = '100_lead';
     const LEAD_SOURCE_TABLE = '100_leadsource';
     const USER_TABLE = '100_user';
     const PARTNER_TRANSACTIONS_TABLE = '100_partnerTransaction';
+    const CAMPAIGN_TRANSACTIONS_TABLE = '100_transactionCampaign';
     const CAMPAIGNS_TABLE = '100_campaign';
 
     protected function _before()
@@ -28,6 +41,7 @@ class LeadTest extends BaseIntegrationTest
         Yii::app()->db->createCommand()->truncateTable(self::LEAD_SOURCE_TABLE);
         Yii::app()->db->createCommand()->truncateTable(self::USER_TABLE);
         Yii::app()->db->createCommand()->truncateTable(self::PARTNER_TRANSACTIONS_TABLE);
+        Yii::app()->db->createCommand()->truncateTable(self::CAMPAIGN_TRANSACTIONS_TABLE);
         Yii::app()->db->createCommand()->truncateTable(self::CAMPAIGNS_TABLE);
     }
 
@@ -35,6 +49,9 @@ class LeadTest extends BaseIntegrationTest
     {
     }
 
+    /**
+     * Проверка, что в изначально загруженном дампе есть города и регионы
+     */
     public function testTownAndRegionLoaded()
     {
         $this->tester->seeInDatabase('100_town', ['id' => 598]);
@@ -71,6 +88,59 @@ class LeadTest extends BaseIntegrationTest
     }
 
     /**
+     * Продажа лида в партнерскую программу
+     * @dataProvider providerPartner
+     * @throws Exception
+     */
+    public function testSellLeadToPartnerProgram($partnerResult, $expectedResult)
+    {
+        $vologdaLead = (new LeadFactory())->generateOne([
+            'sourceId' => 33,
+            'townId' => 170,
+            'buyPrice' => 1000,
+        ]);
+        $buyerId = 0;
+        $campaignId = 5;
+
+        $this->loadFixtures();
+
+        $apiClassMock = $this->createMock(ApiLexProfit::class);
+        $apiClassMock->method('send')->willReturn($partnerResult);
+        $apiClassFactoryMock = $this->createMock(ApiClassFactory::class);
+        $apiClassFactoryMock->method('getApiClass')->willReturn($apiClassMock);
+
+        $lead = new Lead();
+        $lead->setApiClassFactory($apiClassFactoryMock);
+        $lead->attributes = $vologdaLead;
+        $this->assertTrue($lead->save());
+        $sellResult = $lead->sellLead($buyerId, $campaignId);
+
+        $this->assertEquals($expectedResult, $sellResult);
+
+        if ($expectedResult == true) {
+            $this->tester->seeInDatabase(self::LEAD_TABLE, [
+                'id' => $lead->id,
+                'price' => 0,
+                'campaignId' => $campaignId,
+            ]);
+        }
+    }
+
+    public function providerPartner(): array
+    {
+        return [
+            [
+                'partnerResult' => true,
+                'expectedResult' => true,
+            ],
+            [
+                'partnerResult' => false,
+                'expectedResult' => false,
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider providerSellLead
      * @param array $leadAttributes
      * @param integer $buyerId
@@ -98,6 +168,10 @@ class LeadTest extends BaseIntegrationTest
             $this->tester->seeInDatabase(self::PARTNER_TRANSACTIONS_TABLE, [
                 'leadId' => $lead->id,
             ]);
+
+            $this->tester->seeInDatabase(self::CAMPAIGN_TRANSACTIONS_TABLE, [
+                'campaignId' => $campaignId,
+            ]);
         }
     }
 
@@ -110,11 +184,6 @@ class LeadTest extends BaseIntegrationTest
         $moscowLead = (new LeadFactory())->generateOne([
             'sourceId' => 33,
             'townId' => 598,
-            'buyPrice' => 1000,
-        ]);
-        $balashikhaLead = (new LeadFactory())->generateOne([
-            'sourceId' => 33,
-            'townId' => 66,
             'buyPrice' => 1000,
         ]);
 
@@ -131,12 +200,6 @@ class LeadTest extends BaseIntegrationTest
                 'campaignId' => 3,
                 'expectedResult' => true,
             ],
-//            [
-//                'leadAttributes' => $balashikhaLead,
-//                'buyerId' => 0,
-//                'campaignId' => 3,
-//                'expectedResult' => true,
-//            ],
         ];
     }
 
@@ -196,6 +259,12 @@ class LeadTest extends BaseIntegrationTest
                 'balance' => 100,
                 'id' => 10002,
             ]),
+            (new UserFactory())->generateOne([
+                'name' => 'Партнерская программа',
+                'role' => User::ROLE_BUYER,
+                'balance' => 100000,
+                'id' => 10003,
+            ]),
         ];
 
         $leadSourceFixture = [
@@ -254,6 +323,19 @@ class LeadTest extends BaseIntegrationTest
                 'buyerId' => 10002,
                 'active' => 1,
                 'type' => Campaign::TYPE_BUYERS,
+            ]),
+            // Вологда, отправка в партнерские системы
+            (new CampaignFactory())->generateOne([
+                'id' => 5,
+                'regionId' => 0,
+                'townId' => 170,
+                'price' => 5000,
+                'leadsDayLimit' => 1,
+                'buyerId' => 10003,
+                'active' => 1,
+                'type' => Campaign::TYPE_PARTNERS,
+                'sendToApi' => 1,
+                'apiClass' => 'ApiLexprofit',
             ]),
         ];
 

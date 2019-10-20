@@ -5,7 +5,7 @@
  */
 class ApiClassFactory
 {
-    public static function getApiClass($className)
+    public function getApiClass($className)
     {
         switch ($className) {
             case 'ApiLexprofit':

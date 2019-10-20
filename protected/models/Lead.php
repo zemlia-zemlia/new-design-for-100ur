@@ -66,6 +66,15 @@ class Lead extends CActiveRecord
     const SAVE_RESULT_CODE_PARTNER_REJECT = 10; // партнерское апи не приняло заявку
     const SAVE_RESULT_CODE_ERROR = 500; // другая ошибка продажи
 
+    /** @var ApiClassFactory */
+    protected $apiClassFactory;
+
+    public function __construct($scenario = 'insert')
+    {
+        parent::__construct($scenario);
+        $this->apiClassFactory = new ApiClassFactory();
+    }
+
     /*
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -164,6 +173,17 @@ class Lead extends CActiveRecord
             'agree' => 'Согласие на обработку персональных данных',
             'buyerId' => 'id покупателя',
         ];
+    }
+
+    /**
+     * @param ApiClassFactory $apiClassFactory
+     * @return Lead
+     */
+    public function setApiClassFactory(ApiClassFactory $apiClassFactory): Lead
+    {
+        $this->apiClassFactory = $apiClassFactory;
+
+        return $this;
     }
 
     /**
@@ -297,7 +317,7 @@ class Lead extends CActiveRecord
      * Сохранение проданного лида и связанных данных.
      *
      * @param User                $buyer
-     * @param TransactionCampaign $transaction
+     * @param TransactionCampaign|null $transaction
      * @param Campaign            $campaign
      *
      * @return int Код результата сохранения
@@ -325,7 +345,7 @@ class Lead extends CActiveRecord
         }
 
         // сохранение транзакции за лид
-        if (isset($transaction) && !$transaction->save()) {
+        if (isset($transaction) && !is_null($transaction) && !$transaction->save()) {
             $transactionSaved = false;
             Yii::log('Не удалось сохранить транзакцию за продажу лида '.$this->id, 'error', 'system.web.CCommand');
         } else {
@@ -333,7 +353,7 @@ class Lead extends CActiveRecord
         }
 
         if ($campaign && Campaign::TYPE_PARTNERS == $campaign->type && 1 == $campaign->sendToApi && class_exists($campaign->apiClass)) {
-            $apiClass = ApiClassFactory::getApiClass($campaign->apiClass);
+            $apiClass = $this->apiClassFactory->getApiClass($campaign->apiClass);
             $leadSentToPartner = $apiClass->send($this);
         }
 
@@ -410,6 +430,7 @@ class Lead extends CActiveRecord
             $transaction->description = 'Покупка заявки #'.$this->id;
             $transaction->time = $transactionTime;
         } else {
+            $transaction = null;
             $buyer->lastTransactionTime = $transactionTime;
         }
 
