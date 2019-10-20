@@ -1,6 +1,11 @@
 <?php
 
-use \Codeception\Test\Unit;
+namespace Tests\Unit\Notifiers;
+
+use Codeception\Test\Unit;
+use GTMail;
+use User;
+use UserNotifier;
 
 class UserNotifierTest extends Unit
 {

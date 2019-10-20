@@ -1,15 +1,24 @@
 actor: IntegrationTester
+coverage:
+    enabled: true
+    include:
+        - models/*
+        - notifiers/*
+        - extensions/GTMail.php
 modules:
     enabled:
         - Asserts
         - \Helper\Integration
-        - REST:
-            depends: PhpBrowser
+        - \Helper\Unit
         - Db:
             dsn: 'mysql:host=localhost;dbname=100yuristov_test'
             user: '100yuristov_test'
             password: ''
-            dump: 'db/100yuristov_test.sql'
-            populate: false
+            dump:
+              - 'db/100yuristov_test.sql'
+              - 'db/100yuristov_test_geo.sql'
+            initial_queries:
+                - 'SET NAMES utf8;'
+            populate: true
             cleanup: false
             populator: 'mysql -u $user -h $host $dbname < $dump && vendor/bin/phinx migrate -e testing'

@@ -1,7 +1,7 @@
 <?php
 
+use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
 
 /**
  * Контроллер первой версии API 100 Юристов
@@ -14,7 +14,12 @@ class ApiController extends CController
     public function init()
     {
         $this->logger = new Logger('api');
-        $this->logger->pushHandler(new StreamHandler(Yii::getPathOfAlias("application.runtime") . '/api.log', Logger::INFO));
+        $rotateHandler = new RotatingFileHandler(
+            Yii::getPathOfAlias("application.runtime.api_logs") . '/api.log',
+            30,
+            Logger::INFO
+        );
+        $this->logger->pushHandler($rotateHandler);
     }
 
     public $layout = '//frontend/atom';
@@ -34,7 +39,6 @@ class ApiController extends CController
     {
         return array(
             'accessControl', // perform access control for CRUD operations
-            'postOnly + sendLead', // we only allow deletion via POST request
         );
     }
 
@@ -75,6 +79,8 @@ class ApiController extends CController
      */
     public function actionSendLead()
     {
+        header('Content-type: application/json');
+
         /** @var CHttpRequest $request */
         $request = Yii::app()->request;
 
@@ -152,7 +158,7 @@ class ApiController extends CController
         }
         $model->townId = $townId;
         $model->question = $purifier->purify($leadQuestion);
-        $model->phone = Question::normalizePhone($leadPhone);
+        $model->phone = PhoneHelper::normalizePhone($leadPhone);
 
         // проверка на дубликаты за последние 12 часов
         if ($model->findDublicates(12 * 3600)) {

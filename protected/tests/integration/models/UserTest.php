@@ -1,8 +1,8 @@
 <?php
 
-namespace tests\integration\models;
+namespace Tests\Integration\Models;
 
-use \Codeception\Test\Unit;
+use Codeception\Test\Unit;
 use User;
 use Yii;
 

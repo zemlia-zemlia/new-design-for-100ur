@@ -89,7 +89,7 @@ class GetLeadsFromMailCommand extends CConsoleCommand
         $existingLeadsPhones = array();
         
         foreach($existingLeads as $existingLead) {
-            $existingLeadsPhones[] = Question::normalizePhone($existingLead['phone']);
+            $existingLeadsPhones[] = PhoneHelper::normalizePhone($existingLead['phone']);
         }
         //echo "existing leads numbers: ";
         //print_r($existingLeadsPhones);
@@ -142,7 +142,7 @@ class GetLeadsFromMailCommand extends CConsoleCommand
                 
                 if(is_array($phoneMatches) && isset($phoneMatches[2])) {
                     $phone = $phoneMatches[2];
-                    $phone = Question::normalizePhone($phone);
+                    $phone = PhoneHelper::normalizePhone($phone);
                 }
                 $question = $message;
                 

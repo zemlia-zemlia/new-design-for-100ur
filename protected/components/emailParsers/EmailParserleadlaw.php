@@ -29,7 +29,7 @@ class EmailParserleadlaw extends EmailParser {
         $name = str_replace("&nbsp;", " ", $name);
         $name = trim($name);
         $phone = $phoneMatches[2];
-        $phone = Question::normalizePhone($phone);
+        $phone = PhoneHelper::normalizePhone($phone);
         $question = $message;
 
         $this->echoDebug($name . ': ' . $phone . ': '. $question);

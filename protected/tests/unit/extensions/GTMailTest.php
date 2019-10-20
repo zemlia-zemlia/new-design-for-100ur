@@ -1,6 +1,9 @@
 <?php
 
-use \Codeception\Test\Unit;
+namespace Tests\Unit\Extensions;
+
+use FileSystemHelper;
+use GTMail;
 
 class GTMailTest extends Unit
 {
@@ -11,7 +14,7 @@ class GTMailTest extends Unit
     {
         defined(YII_DEV) or define(YII_DEV, true);
         parent::setUp();
-        FileSystemHelper::delTree(GTMail::getTestMessagesFolder() . '/' . GTMail::TEST_MESSAGES_FOLDER);
+        FileSystemHelper::delFolderContent(GTMail::getTestMessagesFolder() . '/' . GTMail::TEST_MESSAGES_FOLDER);
         $this->mailer = new GTMail();
     }
 
