@@ -510,7 +510,7 @@ class Question extends CActiveRecord {
     /**
      * Привязывает к вопросу категории, исходя из ключевых слов в тексте вопроса
      */
-    public function autolinkCategories() {
+    protected function autolinkCategories() {
         $keys2categories = QuestionCategory::keys2categories();
 
         foreach ($keys2categories as $key => $catId) {
@@ -698,5 +698,69 @@ class Question extends CActiveRecord {
         $nextQuestionId = $command->queryScalar();
 
         return $nextQuestionId;
+    }
+
+    /**
+     * Переводит вопрос в статус Опубликован
+     * @return bool
+     */
+    public function publish()
+    {
+        $this->status = Question::STATUS_CHECK;
+        $this->publishDate = date('Y-m-d H:i:s');
+
+        // при публикации вопроса автоматически присваиваем ему категории по ключевым словам
+        $this->autolinkCategories();
+
+        if ($this->save()) {
+
+            // запоминаем в сессию, что только что опубликовали вопрос
+            Yii::app()->user->setState('justPublished', 1);
+
+            $this->payPartnerForPublishedQuestion();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Создает транзакцию оплаты вебмастеру за вопрос
+     */
+    protected function payPartnerForPublishedQuestion(): void
+    {
+        if ($this->sourceId !== 0) {
+            $webmasterTransaction = new PartnerTransaction();
+            $webmasterTransaction->sum = $this->buyPrice;
+            $webmasterTransaction->sourceId = $this->sourceId;
+            $webmasterTransaction->partnerId = $this->source->userId;
+            $webmasterTransaction->questionId = $this->id;
+            $webmasterTransaction->comment = "Начисление за вопрос #" . $this->id;
+
+            if($webmasterTransaction->save()) {
+                Yii::log('Не удалось создать транзакцию вебмастеру за вопрос ' . $this->id, CLogger::LEVEL_ERROR);
+            }
+        }
+    }
+
+    /**
+     * Возвращает массив вопросов заданного автора, заданных статусов
+     * @param integer $authorId
+     * @param array $statuses Массив статусов. Пустой массив - все статусы
+     * @return Question[]
+     */
+    public static function getQuestionsByAuthor($authorId, $statuses = [self::STATUS_NEW])
+    {
+        $questionCriteria = new CDbCriteria();
+        $questionCriteria->condition = 'authorId!=0 AND authorId=:authorId';
+        $questionCriteria->params = [
+            ':authorId' => $authorId,
+        ];
+        if (!empty($statuses)) {
+            $questionCriteria->addCondition('status IN (' . implode(',', $statuses) . ')');
+        }
+
+        return self::model()->findAll($questionCriteria);
     }
 }

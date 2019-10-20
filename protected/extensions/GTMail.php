@@ -1,6 +1,6 @@
 <?php
 
-class GTMail
+class GTMail extends CApplicationComponent
 {
     const TRANSPORT_TYPE_SMTP = 'smtp';
     const TRANSPORT_TYPE_SENDMAIL = 'sendmail';
@@ -83,8 +83,12 @@ class GTMail
 
     /**
      * Сохраняет сообщение в папку на диске
+     * @param Swift_Message $mailerMessage
+     * @param bool $testing
+     * @return bool
+     *
      */
-    protected function saveMessage(Swift_Message $mailerMessage, $testing)
+    protected function saveMessage(Swift_Message $mailerMessage, $testing):bool
     {
         try {
             file_put_contents($this->getTestMessageFilePath($testing), $mailerMessage->getBody());

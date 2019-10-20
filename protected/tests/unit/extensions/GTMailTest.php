@@ -1,8 +1,8 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
+use \Codeception\Test\Unit;
 
-class GTMailTest extends TestCase
+class GTMailTest extends Unit
 {
     /** @var GTMail  */
     protected $mailer;

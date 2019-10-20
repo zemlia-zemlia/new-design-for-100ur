@@ -1,32 +1,23 @@
 <?php
 
-namespace models;
+namespace tests\integration\models;
 
-use Codeception\Util\Fixtures;
+use \Codeception\Test\Unit;
 use User;
 use Yii;
 
-class UserTest extends \Codeception\Test\Unit
+class UserTest extends Unit
 {
     /**
      * @var \IntegrationTester
      */
     protected $tester;
 
-    /** @var CDbTransaction */
-    protected $transaction;
-
     const USER_TABLE = '100_user';
 
     protected function _before()
     {
         Yii::app()->db->createCommand()->truncateTable(self::USER_TABLE);
-        $this->transaction = Yii::app()->db->beginTransaction();
-    }
-
-    protected function _after()
-    {
-        $this->transaction->rollback();
     }
 
     /**

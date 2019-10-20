@@ -1,9 +1,8 @@
 <?php
 
+use \Codeception\Test\Unit;
 
-use PHPUnit\Framework\TestCase;
-
-class UTMHelperTest  extends TestCase
+class UTMHelperTest  extends Unit
 {
     /**
      * @dataProvider tagsProvider

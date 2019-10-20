@@ -10,6 +10,6 @@ modules:
             user: '100yuristov_test'
             password: ''
             dump: 'db/100yuristov_test.sql'
-            populate: true
-            cleanup: true
-            populator: 'mysql -u $user -h $host $dbname < $dump && vendor/bi/phinx migrate -e testing'
+            populate: false
+            cleanup: false
+            populator: 'mysql -u $user -h $host $dbname < $dump && vendor/bin/phinx migrate -e testing'

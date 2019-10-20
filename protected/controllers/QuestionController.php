@@ -999,6 +999,7 @@ class QuestionController extends Controller
 
     /**
      * прием лида по POST запросу
+     * @deprecated
      */
     public function actionSendLead()
     {

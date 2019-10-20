@@ -65,6 +65,9 @@ class User extends CActiveRecord
     // значения баланса, при достижении которых покупателю отправляется уведомление о снижении баланса
     const BALANCE_STEPS = array(500, 1000, 5000, 10000);
 
+    /** @var UserNotifier */
+    protected $notifier;
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -81,6 +84,27 @@ class User extends CActiveRecord
     public function tableName()
     {
         return '{{user}}';
+    }
+
+    /**
+     * @return UserNotifier
+     */
+    public function getNotifier(): UserNotifier
+    {
+        return $this->notifier;
+    }
+
+    /**
+     * @param UserNotifier $notifier
+     */
+    public function setNotifier(UserNotifier $notifier): void
+    {
+        $this->notifier = $notifier;
+    }
+
+    public function init()
+    {
+        $this->notifier = new UserNotifier(Yii::app()->mailer, $this);
     }
 
     /**
@@ -356,59 +380,7 @@ class User extends CActiveRecord
      */
     public function sendConfirmation($newPassword = null, $useSMTP = false)
     {
-        $mailTransportType = ($useSMTP === true) ? GTMail::TRANSPORT_TYPE_SMTP : GTMail::TRANSPORT_TYPE_SENDMAIL;
-        $mailer = new GTMail($mailTransportType); // отправляем через SMTP сервер
-
-        $confirmLink = CHtml::decode(Yii::app()->createUrl('user/confirm', array(
-                'email' => $this->email,
-                'code' => $this->confirm_code,
-            ))) . "?utm_source=100yuristov&utm_medium=mail&utm_campaign=user_registration";
-
-        $mailer->subject = "100 Юристов - Подтверждение Email";
-
-
-        $mailer->message = "
-            <h1>Пожалуйста подтвердите Email</h1>
-            <p>Здравствуйте!<br />";
-
-        if ($this->role == self::ROLE_JURIST) {
-            $mailer->message .= "Вы зарегистрировались в качестве юриста на сайте " . CHtml::link("100 Юристов", Yii::app()->createUrl('/')) . "</p>" .
-                "<p>Для активации профиля Вам необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";
-        } elseif ($this->role == self::ROLE_BUYER) {
-            $mailer->message .= "Вы зарегистрировались в качестве покупателя лидов на сайте " . CHtml::link("100 Юристов", Yii::app()->createUrl('/')) . "</p>" .
-                "<p>Для активации профиля Вам необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";
-        } elseif ($this->role == self::ROLE_PARTNER) {
-            $mailer->message .= "Вы зарегистрировались в качестве вебмастера на сайте " . CHtml::link("100 Юристов", Yii::app()->createUrl('/')) . "</p>" .
-                "<p>Для активации профиля Вам необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";
-        } else {
-            $mailer->message .= "Вы задали вопрос на сайте " . CHtml::link("100 Юристов", Yii::app()->createUrl('/')) . "</p>" .
-                "<p>Для того, чтобы юристы увидели Ваш вопрос, необходимо подтвердить email. Для этого нажмите кнопку 'Подтвердить Email':</p>";
-        }
-
-        $mailer->message .= "<p><strong>" . CHtml::link("Подтвердить Email", $confirmLink, array('style' => ' padding: 10px;
-            width: 150px;
-            display: block;
-            text-decoration: none;
-            border: 1px solid #84BEEB;
-            text-align: center;
-            font-size: 18px;
-            font-family: Arial, sans-serif;
-            font-weight: bold;
-            color: #000;
-            background: linear-gradient(to bottom, #ffc154 0%,#e88b0f 100%);
-            border: 1px solid #EF9A27;
-            border-radius: 4px;
-            line-height: 17px;
-            margin:0 auto;
-        ')) . "</strong></p>";
-
-        if ($newPassword) {
-            $mailer->message .= "<h2>Ваш временный пароль</h2>
-            <p>После подтверждения Email вы сможете войти на сайт, используя временный пароль <strong>" . $newPassword . "</strong></p>";
-        }
-        $mailer->email = $this->email;
-
-        return $mailer->sendMail();
+        return $this->notifier->sendConfirmation($newPassword, $useSMTP);
     }
 
     /**
@@ -630,41 +602,15 @@ class User extends CActiveRecord
      * в статус "Предварительно опубликован"
      * При этом, если у вопроса указан источник, создаем транзакции вебмастера
      * @return integer Количество опубликованных вопросов
-     * @todo Вынести в отдельный класс
      */
     public function publishNewQuestions()
     {
-
-        $questionCriteria = new CDbCriteria();
-        $questionCriteria->limit = 1;
-        $questionCriteria->condition = 'authorId!=0 AND authorId=:authorId AND status=:statusOld';
-        $questionCriteria->params = array(':authorId' => $this->id, ':statusOld' => Question::STATUS_NEW);
-
-        $questions = Question::model()->findAll($questionCriteria);
+        $questions = Question::getQuestionsByAuthor($this->id, [Question::STATUS_NEW]);
         $publishedQuestionsNumber = 0;
 
         foreach ($questions as $question) {
-            $question->status = Question::STATUS_CHECK;
-            $question->publishDate = date('Y-m-d H:i:s');
-
-            // при публикации вопроса автоматически присваиваем ему категории по ключевым словам
-            $question->autolinkCategories();
-
-            if ($question->save() && $question->sourceId !== 0) {
-
-                // запоминаем в сессию, что только что опубликовали вопрос
-                Yii::app()->user->setState('justPublished', 1);
-
+            if ($question->publish()) {
                 $publishedQuestionsNumber++;
-
-                //@todo этот код можно вынести в класс Question
-                $webmasterTransaction = new PartnerTransaction();
-                $webmasterTransaction->sum = $question->buyPrice;
-                $webmasterTransaction->sourceId = $question->sourceId;
-                $webmasterTransaction->partnerId = $question->source->userId;
-                $webmasterTransaction->questionId = $question->id;
-                $webmasterTransaction->comment = "Начисление за вопрос #" . $question->id;
-                $webmasterTransaction->save();
             }
         }
 
