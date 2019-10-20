@@ -4,6 +4,7 @@ namespace Tests\Integration\Models;
 
 use ApiClassFactory;
 use ApiLexprofit;
+use CActiveDataProvider;
 use Campaign;
 use Exception;
 use Lead;
@@ -20,7 +21,6 @@ use Yii;
  * @package Tests\Integration\Models
  *
  * @todo Покрыть тестами следующий функционал:
- * - Поиск по лидам
  * - Отправка лида в Yurcrm
  * - Перевод лида в статус Брак из другого статуса с удалением транзакции вебмастера
  */
@@ -201,6 +201,38 @@ class LeadTest extends BaseIntegrationTest
                 'expectedResult' => true,
             ],
         ];
+    }
+
+    public function testSearch()
+    {
+        $leadsFixture = [
+            (new LeadFactory())->generateOne([
+                'name' => 'Вася Пупкин',
+                'townId' => 598,
+            ]),
+            (new LeadFactory())->generateOne([
+                'name' => 'Иван Пупкин',
+                'townId' => 170,
+            ]),
+            (new LeadFactory())->generateOne([
+                'name' => 'Игорь Сечин',
+                'townId' => 500,
+            ]),
+        ];
+        $this->loadToDatabase(self::LEAD_TABLE, $leadsFixture);
+
+        $searchModel = new Lead();
+        $searchModel->name = 'Пупкин';
+        $searchModel->regionId = 25; // Московская область
+
+        $searchResult = $searchModel->search();
+        $this->assertInstanceOf(CActiveDataProvider::class, $searchResult);
+        $this->assertEquals(1, $searchResult->totalItemCount);
+
+        $searchModelNoRegion = new Lead();
+        $searchModelNoRegion->name = 'Сечин';
+        $searchResult = $searchModelNoRegion->search();
+        $this->assertEquals(1, $searchResult->totalItemCount);
     }
 
     /**

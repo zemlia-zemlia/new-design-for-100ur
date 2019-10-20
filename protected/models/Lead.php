@@ -523,20 +523,18 @@ class Lead extends CActiveRecord
      */
     public function search()
     {
-        // Warning: Please modify the following code to remove attributes that
-        // should not be searched.
 
         $criteria = new CDbCriteria();
 
-        $criteria->compare('id', $this->id);
-        $criteria->compare('name', $this->name, true);
-        $criteria->compare('phone', $this->phone, true);
-        $criteria->compare('sourceId', $this->sourceId);
-        $criteria->compare('question', $this->question, true);
-        $criteria->compare('question_date', $this->question_date, true);
-        $criteria->compare('townId', $this->townId);
-        $criteria->compare('type', $this->type);
-        $criteria->compare('leadStatus', $this->leadStatus);
+        $criteria->compare('t.id', $this->id);
+        $criteria->compare('t.name', $this->name, true);
+        $criteria->compare('t.phone', $this->phone, true);
+        $criteria->compare('t.sourceId', $this->sourceId);
+        $criteria->compare('t.question', $this->question, true);
+        $criteria->compare('t.question_date', $this->question_date, true);
+        $criteria->compare('t.townId', $this->townId);
+        $criteria->compare('t.type', $this->type);
+        $criteria->compare('t.leadStatus', $this->leadStatus);
         $criteria->compare('DATE(t.question_date)>', CustomFuncs::invertDate($this->date1));
         $criteria->compare('DATE(t.question_date)<', CustomFuncs::invertDate($this->date2));
 
