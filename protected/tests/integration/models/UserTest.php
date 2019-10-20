@@ -35,9 +35,10 @@ class UserTest extends Unit
 
         if ($expectedSaveResult === true) {
             $this->assertEquals([], $user->getErrors());
+        } else {
+            $this->tester->dontSeeInDatabase(self::USER_TABLE, ['name' => $userParams['name']]);
         }
         $this->assertEquals($expectedSaveResult, $saveResult);
-        $this->tester->dontSeeInDatabase(self::USER_TABLE, ['name' => $userParams['name']]);
     }
 
     /**
@@ -113,7 +114,7 @@ class UserTest extends Unit
         $fixtures = [
             [
                 'name' => 'Ivan',
-                'id' => 10001,
+                'id' => 100001,
                 'role' => User::ROLE_JURIST,
                 'active100' => 1,
             ],
@@ -136,7 +137,7 @@ class UserTest extends Unit
         }
 
         $this->assertEquals(2, sizeof(User::getAllJuristsIdsNames()));
-        $this->assertEquals('Ivan', User::getAllJuristsIdsNames()[10001]);
+        $this->assertEquals('Ivan', User::getAllJuristsIdsNames()[100001]);
     }
 
     /**

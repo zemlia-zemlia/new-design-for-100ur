@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Extensions;
 
+use Codeception\Test\Unit;
 use FileSystemHelper;
 use GTMail;
 

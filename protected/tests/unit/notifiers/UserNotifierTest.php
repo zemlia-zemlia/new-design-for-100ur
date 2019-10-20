@@ -3,9 +3,11 @@
 namespace Tests\Unit\Notifiers;
 
 use Codeception\Test\Unit;
+use Exception;
 use GTMail;
 use User;
 use UserNotifier;
+use Yii;
 
 class UserNotifierTest extends Unit
 {
