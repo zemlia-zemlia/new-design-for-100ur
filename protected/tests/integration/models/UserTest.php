@@ -3,16 +3,13 @@
 namespace Tests\Integration\Models;
 
 use Codeception\Test\Unit;
+use Tests\Factories\UserFactory;
+use Tests\integration\BaseIntegrationTest;
 use User;
 use Yii;
 
-class UserTest extends Unit
+class UserTest extends BaseIntegrationTest
 {
-    /**
-     * @var \IntegrationTester
-     */
-    protected $tester;
-
     const USER_TABLE = '100_user';
 
     protected function _before()
@@ -46,31 +43,21 @@ class UserTest extends Unit
      */
     public function providerTestCreate()
     {
+        $correctAttributes = (new UserFactory())->generateOne();
+        $correctAttributes = array_merge($correctAttributes, [
+            'password2' => $correctAttributes['password'],
+        ]);
+        $wrongPassword2Attributes = array_merge($correctAttributes, [
+            'password2' => '376736573575',
+        ]);
+
         return [
             'correct' => [
-                'userParams' => [
-                    'name' => 'Иван',
-                    'name2' => 'Васильевич',
-                    'lastName' => 'Грозный',
-                    'email' => 'ivan1@grozny.ru',
-                    'phone' => '+7(988)7776655',
-                    'townId' => 598,
-                    'password' => '123456',
-                    'password2' => '123456',
-                ],
+                'userParams' => $correctAttributes,
                 'saveResult' => true,
             ],
             'passwords not match' => [
-                'userParams' => [
-                    'name' => 'Иван',
-                    'name2' => 'Васильевич',
-                    'lastName' => 'Грозный',
-                    'email' => 'ivan2@grozny.ru',
-                    'phone' => '+7(988)7776655',
-                    'townId' => 598,
-                    'password' => '123456',
-                    'password2' => '12345',
-                ],
+                'userParams' => $wrongPassword2Attributes,
                 'saveResult' => false,
             ],
         ];
@@ -95,13 +82,27 @@ class UserTest extends Unit
     public function testGetManagers()
     {
         $fixture = [
-            'name' => 'Манагер',
-            'id' => 10000,
-            'role' => User::ROLE_MANAGER,
-            'active100' => 1
+            [
+                'name' => 'Манагер',
+                'id' => 10000,
+                'role' => User::ROLE_MANAGER,
+                'active100' => 1
+            ],
+            [
+                'name' => 'Манагер неактивный',
+                'id' => 10001,
+                'role' => User::ROLE_MANAGER,
+                'active100' => 0
+            ],
+            [
+                'name' => 'Покупатель',
+                'id' => 10002,
+                'role' => User::ROLE_BUYER,
+                'active100' => 1
+            ],
         ];
 
-        $this->tester->haveInDatabase(self::USER_TABLE, $fixture);
+        $this->loadToDatabase(self::USER_TABLE, $fixture);
         $this->assertEquals(1, sizeof(User::getManagers()));
         $this->assertEquals(10000, User::getManagers()[0]->id);
     }

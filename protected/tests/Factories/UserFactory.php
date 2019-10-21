@@ -17,9 +17,11 @@ class UserFactory extends BaseFactory
      */
     public function generateOne($forcedParams = []): array
     {
+        $passwordRaw = $this->faker->randomNumber(8);
         $attributes = [
             'id' => $this->faker->numberBetween(1, 100000),
             'name' => $this->faker->name,
+            'name2' => $this->faker->firstName,
             'lastName' => $this->faker->lastName,
             'role' => User::ROLE_CLIENT,
             'email' => $this->faker->randomNumber(6) . '@yurcrm.ru',
@@ -28,6 +30,7 @@ class UserFactory extends BaseFactory
             'townId' => $this->faker->numberBetween(1, 999),
             'balance' => 1000000, // в копейках
             'priceCoeff' => 0.5,
+            'password' => $passwordRaw,
         ];
 
         $attributes = array_merge($attributes, $forcedParams);
