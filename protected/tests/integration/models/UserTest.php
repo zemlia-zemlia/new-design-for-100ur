@@ -6,6 +6,7 @@ use Codeception\Test\Unit;
 use Tests\Factories\UserFactory;
 use Tests\integration\BaseIntegrationTest;
 use User;
+use UserNotifier;
 use Yii;
 
 class UserTest extends BaseIntegrationTest
@@ -108,37 +109,68 @@ class UserTest extends BaseIntegrationTest
     }
 
     /**
-     * Тестирование получения менеджеров из базы
+     * Тестирование получения юристов из базы
      */
     public function testGetAllJuristsIdsNames()
     {
         $fixtures = [
-            [
+            (new UserFactory())->generateOne([
                 'name' => 'Ivan',
                 'id' => 100001,
                 'role' => User::ROLE_JURIST,
                 'active100' => 1,
-            ],
-            [
-                'name' => 'Аленушка',
-                'id' => 10002,
+            ]),
+            (new UserFactory())->generateOne([
                 'role' => User::ROLE_JURIST,
                 'active100' => 1,
-            ],
-            [
-                'name' => 'Баба Яга',
-                'id' => 10003,
+            ]),
+            (new UserFactory())->generateOne([
+                'role' => User::ROLE_BUYER,
+                'active100' => 1,
+            ]),
+            (new UserFactory())->generateOne([
                 'role' => User::ROLE_JURIST,
                 'active100' => 0,
-            ],
+            ]),
         ];
 
-        foreach ($fixtures as $fixture) {
-            $this->tester->haveInDatabase(self::USER_TABLE, $fixture);
-        }
+        $this->loadToDatabase(self::USER_TABLE, $fixtures);
 
         $this->assertEquals(2, sizeof(User::getAllJuristsIdsNames()));
         $this->assertEquals('Ivan', User::getAllJuristsIdsNames()[100001]);
+    }
+
+    /**
+     * Тестирование получения юристов из базы
+     */
+    public function testGetAllBuyersIdsNames()
+    {
+        $fixtures = [
+            (new UserFactory())->generateOne([
+                'name' => 'Ivan',
+                'lastName' => 'Kulakov',
+                'id' => 100001,
+                'role' => User::ROLE_BUYER,
+                'active100' => 1,
+            ]),
+            (new UserFactory())->generateOne([
+                'role' => User::ROLE_BUYER,
+                'active100' => 1,
+            ]),
+            (new UserFactory())->generateOne([
+                'role' => User::ROLE_PARTNER,
+                'active100' => 1,
+            ]),
+            (new UserFactory())->generateOne([
+                'role' => User::ROLE_BUYER,
+                'active100' => 0,
+            ]),
+        ];
+
+        $this->loadToDatabase(self::USER_TABLE, $fixtures);
+
+        $this->assertEquals(2, sizeof(User::getAllBuyersIdsNames()));
+        $this->assertEquals('Kulakov Ivan', User::getAllBuyersIdsNames()[100001]);
     }
 
     /**
@@ -146,28 +178,67 @@ class UserTest extends BaseIntegrationTest
      */
     public function testDuplicateEmail()
     {
-        $user1 = new User();
-        $user1->setAttributes([
-            'name' => 'Вася',
-            'email' => '1@100yuristov.com',
-            'phone' => '+7(988)7776655',
-            'townId' => 598,
-            'password' => '123456',
-            'password2' => '123456',
+        $userAttributes = (new UserFactory())->generateOne();
+        $userAttributes = array_merge($userAttributes, [
+            'password2' => $userAttributes['password'],
         ]);
+
+        $user1 = new User();
+        $user1->setAttributes($userAttributes);
         $this->assertEquals(true, $user1->save());
 
         $user2 = new User();
-        $user2->setAttributes([
-            'name' => 'Иван',
-            'email' => '1@100yuristov.com',
-            'phone' => '+7(988)7776655',
-            'townId' => 598,
-            'password' => '123456',
-            'password2' => '123456',
-        ]);
+        $user2->setAttributes($userAttributes);
 
         $this->assertEquals(false, $user2->save());
         $this->assertArrayHasKey('email', $user2->getErrors());
     }
+
+    /**
+     * @dataProvider providerChangePassword
+     * @param $newPassword
+     */
+    public function testChangePassword($newPassword, $expectedPasswordLength,$sendResult, $expectedResult)
+    {
+        $notifierMock = $this->createMock(UserNotifier::class);
+        $notifierMock->method('sendChangedPassword')->willReturn($sendResult);
+        $notifierMock->expects($this->once())->method('sendChangedPassword');
+
+        $user = new User();
+        $userAttributes = (new UserFactory())->generateOne();
+        $user->attributes = $userAttributes;
+        $user->setNotifier($notifierMock);
+
+        $changePasswordResult = $user->changePassword($newPassword);
+
+        $this->assertEquals($expectedPasswordLength, mb_strlen($user->password));
+        $this->assertEquals($expectedPasswordLength, mb_strlen($user->password2));
+
+        $this->assertEquals($expectedResult, $changePasswordResult);
+    }
+
+    public function providerChangePassword(): array
+    {
+        return [
+            [
+                'newPassword' => null,
+                'expectedPasswordLength' => 6,
+                'sendResult' => true,
+                'expectedResult' => true,
+            ],
+            [
+                'newPassword' => 'abcdef123',
+                'expectedPasswordLength' => 9,
+                'sendResult' => true,
+                'expectedResult' => true,
+            ],
+            [
+                'newPassword' => 'abcdef123',
+                'expectedPasswordLength' => 9,
+                'sendResult' => false,
+                'expectedResult' => false,
+            ],
+        ];
+    }
+
 }

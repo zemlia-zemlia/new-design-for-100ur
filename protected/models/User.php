@@ -528,7 +528,8 @@ class User extends CActiveRecord
         if ($this->name2 != '') {
             $shortName .= mb_substr($this->name2, 0, 1, 'utf-8') . '.';
         }
-        return $shortName;
+
+        return trim($shortName);
     }
 
     /**
