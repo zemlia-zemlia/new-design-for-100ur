@@ -207,4 +207,12 @@ class UserTest extends Unit
         $user = new User();
         $this->assertInstanceOf(UserNotifier::class, $user->getNotifier());
     }
+
+    public function testActivate()
+    {
+        $user = new User();
+        $user->activate();
+
+        $this->assertEquals(1, $user->active100);
+    }
 }

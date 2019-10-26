@@ -6,12 +6,14 @@ use Answer;
 use CActiveDataProvider;
 use CHttpException;
 use Codeception\Test\Unit;
+use Comment;
 use DateTime;
 use Exception;
 use Leadsource;
 use PartnerTransaction;
 use Question;
 use Tests\Factories\AnswerFactory;
+use Tests\Factories\CommentFactory;
 use Tests\Factories\LeadSourceFactory;
 use Tests\Factories\PartnerTransactionFactory;
 use Tests\Factories\QuestionFactory;
@@ -734,7 +736,7 @@ class UserTest extends BaseIntegrationTest
         $this->assertEquals($expectedResult, $actualResult);
     }
 
-    public function providerSendAnswerNotification():array
+    public function providerSendAnswerNotification(): array
     {
         $userFactory = new UserFactory();
         $question = $this->createMock(Question::class);
@@ -777,5 +779,167 @@ class UserTest extends BaseIntegrationTest
                 'expectedResult' => true,
             ],
         ];
+    }
+
+    /**
+     * @dataProvider providerSendCommentNotification
+     * @param array $userAttributes
+     * @param Question|null $question
+     * @param Comment|null $comment
+     * @param boolean $sendResult
+     * @param boolean $expectedResult
+     */
+    public function testSendCommentNotification(
+        $userAttributes,
+        ?Question $question,
+        ?Comment $comment,
+        $sendResult,
+        $expectedResult
+    )
+    {
+        $notifierMock = $this->createMock(UserNotifier::class);
+        $notifierMock->method('sendCommentNotification')->willReturn($sendResult);
+
+        $user = new User();
+        $user->attributes = $userAttributes;
+        $user->setNotifier($notifierMock);
+
+        $actualResult = $user->sendCommentNotification($question, $comment);
+
+        $this->assertEquals($expectedResult, $actualResult);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerSendCommentNotification(): array
+    {
+        $userFactory = new UserFactory();
+        $question = $this->createMock(Question::class);
+        $comment = $this->createMock(Comment::class);
+
+        return [
+            'inactive user' => [
+                'userAttributes' => $userFactory->generateOne([
+                    'active100' => 0,
+                ]),
+                'question' => $question,
+                'comment' => $comment,
+                'sendResult' => false,
+                'expectedResult' => false,
+            ],
+            'no question' => [
+                'userAttributes' => $userFactory->generateOne(),
+                'question' => null,
+                'comment' => $comment,
+                'sendResult' => false,
+                'expectedResult' => false,
+            ],
+            'no comment' => [
+                'userAttributes' => $userFactory->generateOne(),
+                'question' => $question,
+                'comment' => null,
+                'sendResult' => false,
+                'expectedResult' => false,
+            ],
+            'incorrect user' => [
+                'userAttributes' => $userFactory->generateOne([
+                    'name' => '',
+                ]),
+                'question' => $question,
+                'comment' => $comment,
+                'sendResult' => true,
+                'expectedResult' => true,
+            ],
+            'correct user' => [
+                'userAttributes' => $userFactory->generateOne([
+                    'password' => '123456',
+                    'password2' => '123456',
+                ]),
+                'question' => $question,
+                'comment' => $comment,
+                'sendResult' => true,
+                'expectedResult' => true,
+            ],
+        ];
+    }
+
+    public function testGetFeed()
+    {
+        $userAttributes = (new UserFactory())->generateOne();
+        $questionAttributes = (new QuestionFactory())->generateOne();
+        $answerAttributes = (new AnswerFactory())->generateOne([
+            'authorId' => $userAttributes['id'],
+            'questionId' => $questionAttributes['id'],
+        ]);
+        $commentAttributes = (new CommentFactory())->generateFew(3, [
+            'authorId' => $userAttributes['id'],
+            'objectId' => $answerAttributes['id'],
+            'dateTime' => (new DateTime())->modify('-6 hours')->format('Y-m-d H:i:s'),
+            'type' => Comment::TYPE_ANSWER,
+        ]);
+
+        $this->loadToDatabase(Comment::getFullTableName(), $commentAttributes);
+        $this->tester->haveInDatabase(Answer::getFullTableName(), $answerAttributes);
+        $this->tester->haveInDatabase(Question::getFullTableName(), $questionAttributes);
+        $this->tester->haveInDatabase(User::getFullTableName(), $userAttributes);
+
+        $user = new User();
+        $user->id = $userAttributes['id'];
+
+        $feed = $user->getFeed(2);
+        $feedCount = $user->getFeed(2, true);
+
+        $this->assertEquals(1, sizeof($feed));
+        $this->assertEquals(1, $feedCount);
+    }
+
+    /**
+     * @dataProvider providerGetRangName
+     * @param int $rang
+     * @param string $expectedName
+     * @throws Exception
+     */
+    public function testGetRangName($rang, $expectedName)
+    {
+        $user = new User();
+        $user->scenario = 'test';
+        $user->attributes = (new UserFactory())->generateOne();
+        $user->save(false);
+
+        $yuristSettings = new YuristSettings();
+        $yuristSettings->attributes = (new YuristSettingsFactory())->generateOne([
+            'yuristId' => $user->id,
+            'rang' => $rang,
+        ]);
+        $yuristSettings->save();
+
+        $this->assertEquals($expectedName, $user->getRangName());
+    }
+
+    public function providerGetRangName(): array
+    {
+        return [
+            [
+                'rang' => 1,
+                'expectedName' => 'Специалист',
+            ],
+        ];
+    }
+
+    public function testGetRecentQuestionCount()
+    {
+        $questions = (new QuestionFactory())->generateFew(5, [
+            'authorId' => 10,
+            'createDate' => (new DateTime())->modify('-3 hours')->format('Y-m-d H:i:s'),
+        ]);
+
+        $this->loadToDatabase(Question::getFullTableName(), $questions);
+
+        $user = new User();
+        $user->id = 10;
+
+        $this->assertEquals(5, $user->getRecentQuestionCount(6));
+        $this->assertEquals(0, $user->getRecentQuestionCount(2));
     }
 }

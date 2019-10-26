@@ -594,14 +594,12 @@ class User extends CActiveRecord
     /**
      * функция отправки уведомления юристу или клиенту о новом комментарии на его ответ / комментарий
      *
-     * @param Question $question Вопрос
-     * @param Comment $comment Комментарий
+     * @param Question|null $question Вопрос
+     * @param Comment|null $comment Комментарий
      * @param boolean $isChildComment Является ли комментарий дочерним для другого
      * @return boolean Результат отправки: true - успешно, false - ошибка
-     *
-     * @deprecated
      */
-    public function sendCommentNotification(Question $question, Comment $comment, $isChildComment = false)
+    public function sendCommentNotification(?Question $question, ?Comment $comment, $isChildComment = false)
     {
         if ($this->active100 == 0) {
             return false;

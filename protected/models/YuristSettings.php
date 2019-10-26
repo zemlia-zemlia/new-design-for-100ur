@@ -67,7 +67,7 @@ class YuristSettings extends CActiveRecord
         // will receive user inputs.
         return array(
                 array('yuristId', 'required'),
-                array('yuristId, startYear, isVerified, status, vuzTownId, educationYear, priceConsult, priceDoc, subscribeQuestions', 'numerical', 'integerOnly'=>true),
+                array('yuristId, startYear, isVerified, status, vuzTownId, educationYear, priceConsult, priceDoc, subscribeQuestions, rang', 'numerical', 'integerOnly'=>true),
                 array('alias', 'length', 'max'=>255),
                 array('alias','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. ])+$/u', 'message'=>'В псевдониме могут присутствовать буквы, цифры, точка, дефис и пробел'),
                 array('site','match','pattern'=>'/^(https?:\/\/)?([\dа-яёЁa-z\.-]+)\.([а-яёЁa-z\.]{2,6})([\/\w \.-]*)*\/?$/u', 'message'=>'В адресе сайта присутствуют недопустимые символы'),
