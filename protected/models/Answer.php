@@ -40,6 +40,14 @@ class Answer extends CActiveRecord {
     }
 
     /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'answer';
+    }
+
+    /**
      * @return array правила валидации для атрибутов модели
      */
     public function rules() {

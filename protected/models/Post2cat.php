@@ -27,6 +27,14 @@ class Post2cat extends CActiveRecord
             return '{{post2cat}}';
 	}
 
+    /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'post2cat';
+    }
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */

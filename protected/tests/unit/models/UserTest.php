@@ -136,4 +136,26 @@ class UserTest extends Unit
             ],
         ];
     }
+
+    public function testHashPassword()
+    {
+        $pass = 'Hello world';
+        $this->assertNotEquals($pass, User::hashPassword($pass));
+
+        $emptyPass = '';
+        $this->assertNotEquals($emptyPass, User::hashPassword($emptyPass));
+    }
+
+    /**
+     * Зашифруем пароль и проверим его
+     */
+    public function testHashAndValidatePassword()
+    {
+        $correctPassword = 'myPassword';
+        $user = new User();
+        $user->password = User::hashPassword($correctPassword);
+
+        $this->assertEquals(true, $user->validatePassword($correctPassword));
+        $this->assertEquals(false, $user->validatePassword('wrong password'));
+    }
 }

@@ -19,6 +19,14 @@ class Mail extends CActiveRecord
 		return '{{mail}}';
 	}
 
+    /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'mail';
+    }
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */

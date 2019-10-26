@@ -20,6 +20,14 @@ class KarmaChange extends CActiveRecord
 		return '{{karmaChange}}';
 	}
 
+    /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'karmaChange';
+    }
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */

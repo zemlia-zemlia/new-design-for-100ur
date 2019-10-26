@@ -16,11 +16,17 @@ abstract class BaseFactory implements TestFactoryInterface
         $this->faker = Factory::create($locale);
     }
 
-    public function generateFew($numberOfItems = 1)
+    /**
+     * Создает массив массивов атрибутов
+     * @param int $numberOfItems
+     * @param array $commonForcedAttributes
+     * @return array
+     */
+    public function generateFew($numberOfItems = 1, $commonForcedAttributes = [])
     {
         $items = [];
         for ($i = 0; $i < $numberOfItems; $i++) {
-            $items[] = $this->generateOne();
+            $items[] = $this->generateOne($commonForcedAttributes);
         }
 
         return $items;

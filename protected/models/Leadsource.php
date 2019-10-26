@@ -42,6 +42,14 @@ class Leadsource extends CActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'leadsource';
+    }
+
+    /**
      * @return array validation rules for model attributes.
      */
     public function rules()

@@ -25,6 +25,14 @@ class Mailtask extends CActiveRecord
 		return '{{mailtask}}';
 	}
 
+    /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'mailtask';
+    }
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */

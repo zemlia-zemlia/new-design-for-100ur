@@ -19,6 +19,14 @@ class Lead2Category extends CActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'lead2category';
+    }
+
+    /**
      * @return array validation rules for model attributes.
      */
     public function rules()

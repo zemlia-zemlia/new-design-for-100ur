@@ -46,6 +46,14 @@ class Campaign extends CActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'campaign';
+    }
+
+    /**
      * @return array validation rules for model attributes.
      */
     public function rules()

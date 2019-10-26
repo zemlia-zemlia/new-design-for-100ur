@@ -37,6 +37,14 @@ class Order extends CActiveRecord {
     }
 
     /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'order';
+    }
+
+    /**
      * @return array validation rules for model attributes.
      */
     public function rules() {

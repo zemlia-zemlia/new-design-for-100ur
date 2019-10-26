@@ -33,6 +33,14 @@ class UloginUser extends CActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'ulogin_user';
+    }
+
+    /**
      * @return array validation rules for model attributes.
      */
     public function rules()

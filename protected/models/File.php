@@ -31,6 +31,14 @@ class File extends CActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'file';
+    }
+
+    /**
      * @inheritdoc
      */
     public function rules()

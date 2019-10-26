@@ -33,6 +33,14 @@ class UserStatusRequest extends CActiveRecord {
     }
 
     /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'userStatusRequest';
+    }
+
+    /**
      * @return array validation rules for model attributes.
      */
     public function rules() {

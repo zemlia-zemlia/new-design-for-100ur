@@ -87,6 +87,14 @@ class User extends CActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'user';
+    }
+
+    /**
      * @return UserNotifier
      */
     public function getNotifier(): UserNotifier

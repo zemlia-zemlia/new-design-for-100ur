@@ -11,6 +11,14 @@ class OrderResponse extends Comment {
     public function tableName() {
         return '{{orderresponse}}';
     }
+
+    /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'orderresponse';
+    }
     
     public static function model($class = __CLASS__) {
         return parent::model($class);

@@ -54,6 +54,14 @@ class QuestionCategory extends CActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'questionCategory';
+    }
+
+    /**
      * Определение поведения для работы иерархии
      * @return type
      */

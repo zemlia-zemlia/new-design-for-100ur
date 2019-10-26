@@ -17,6 +17,14 @@ class User2category extends CActiveRecord
 		return '{{user2category}}';
 	}
 
+    /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'user2category';
+    }
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */

@@ -32,6 +32,14 @@ class Postcategory extends CActiveRecord
             return '{{postcategory}}';
 	}
 
+    /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'postcategory';
+    }
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */

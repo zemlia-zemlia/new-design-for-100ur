@@ -43,6 +43,14 @@ class Post extends CActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'post';
+    }
+
+    /**
      * @return array validation rules for model attributes.
      */
     public function rules()

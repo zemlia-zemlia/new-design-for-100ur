@@ -44,6 +44,14 @@ class Town extends CActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'town';
+    }
+
+    /**
      * @return array validation rules for model attributes.
      */
     public function rules()

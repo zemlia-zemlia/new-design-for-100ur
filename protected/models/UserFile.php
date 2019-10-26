@@ -42,6 +42,14 @@ class UserFile extends CActiveRecord
             return '{{userFile}}';
 	}
 
+    /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'userFile';
+    }
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */

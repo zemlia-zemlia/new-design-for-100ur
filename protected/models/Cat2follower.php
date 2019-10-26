@@ -27,6 +27,14 @@ class Cat2follower extends CActiveRecord
 		return '{{cat2follower}}';
 	}
 
+    /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'cat2follower';
+    }
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */

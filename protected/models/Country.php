@@ -18,6 +18,14 @@ class Country extends CActiveRecord
 		return '{{country}}';
 	}
 
+    /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'country';
+    }
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */

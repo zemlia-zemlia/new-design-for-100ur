@@ -84,6 +84,14 @@ class UserActivity extends CActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'user_activity';
+    }
+
+    /**
      * @return array validation rules for model attributes.
      */
     public function rules()

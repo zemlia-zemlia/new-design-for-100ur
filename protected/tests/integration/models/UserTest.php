@@ -2,12 +2,16 @@
 
 namespace Tests\Integration\Models;
 
+use Answer;
 use Codeception\Test\Unit;
+use Tests\Factories\AnswerFactory;
 use Tests\Factories\UserFactory;
+use Tests\Factories\YuristSettingsFactory;
 use Tests\integration\BaseIntegrationTest;
 use User;
 use UserNotifier;
 use Yii;
+use YuristSettings;
 
 class UserTest extends BaseIntegrationTest
 {
@@ -108,6 +112,30 @@ class UserTest extends BaseIntegrationTest
         $this->assertEquals(10000, User::getManagers()[0]->id);
     }
 
+    public function testGetManagersNames()
+    {
+        $fixture = [
+            [
+                'name' => 'Манагер',
+                'id' => 10000,
+                'role' => User::ROLE_MANAGER,
+                'active100' => 1
+            ],
+            [
+                'name' => 'Манагер неактивный',
+                'id' => 10001,
+                'role' => User::ROLE_MANAGER,
+                'active100' => 0
+            ],
+        ];
+
+        $this->loadToDatabase(self::USER_TABLE, $fixture);
+        $managersName = User::getManagersNames();
+        $this->assertEquals(2, sizeof($managersName));
+        $this->assertEquals('нет руководителя', $managersName[0]);
+        $this->assertEquals('Манагер', $managersName[10000]);
+    }
+
     /**
      * Тестирование получения юристов из базы
      */
@@ -198,7 +226,7 @@ class UserTest extends BaseIntegrationTest
      * @dataProvider providerChangePassword
      * @param $newPassword
      */
-    public function testChangePassword($newPassword, $expectedPasswordLength,$sendResult, $expectedResult)
+    public function testChangePassword($newPassword, $expectedPasswordLength, $sendResult, $expectedResult)
     {
         $notifierMock = $this->createMock(UserNotifier::class);
         $notifierMock->method('sendChangedPassword')->willReturn($sendResult);
@@ -241,4 +269,50 @@ class UserTest extends BaseIntegrationTest
         ];
     }
 
+    /**
+     * @dataProvider providerGetReferalBonus
+     * @param array $userAttributes
+     * @param integer $expectedBonus
+     */
+    public function testGetReferalBonus($userAttributes, $expectedBonus)
+    {
+        $user = new User();
+        $user->attributes = $userAttributes;
+
+        $answersOfYuristWithFewAnswers = (new AnswerFactory())->generateFew(5, [
+            'authorId' => 1000,
+        ]);
+        $settingsOfYuristWithFewAnswers = (new YuristSettingsFactory())->generateOne([
+            'yuristId' => 1000,
+        ]);
+
+        $this->loadToDatabase(Answer::getFullTableName(), $answersOfYuristWithFewAnswers);
+        $this->loadToDatabase(YuristSettings::getFullTableName(), $settingsOfYuristWithFewAnswers);
+
+        $this->assertEquals($expectedBonus, $user->referalOk());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerGetReferalBonus(): array
+    {
+        $yuristWithFewAnswersAttributes = (new UserFactory())->generateOne([
+            'refId' => 10,
+            'role' => User::ROLE_JURIST,
+            'id' => 1000,
+        ]);
+
+        return [
+            'no reference' => [
+                'userAttributes' => (new UserFactory())->generateOne(['refId' => 0]),
+                'expectedBonus' => 0,
+            ],
+            'yurist with few answers' => [
+                'userAttributes' => $yuristWithFewAnswersAttributes,
+                'expectedBonus' => 0,
+            ],
+
+        ];
+    }
 }

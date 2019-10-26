@@ -95,6 +95,14 @@ class Lead extends CActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'lead';
+    }
+
+    /**
      * @return array Правила валидации
      */
     public function rules()

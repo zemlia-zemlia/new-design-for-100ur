@@ -24,6 +24,14 @@ class Expence extends CActiveRecord {
     }
 
     /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'expence';
+    }
+
+    /**
      * @return array validation rules for model attributes.
      */
     public function rules() {
