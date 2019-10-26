@@ -31,6 +31,7 @@ class UserFactory extends BaseFactory
             'balance' => 1000000, // в копейках
             'priceCoeff' => 0.5,
             'password' => $passwordRaw,
+            'avatar' => $this->faker->word . '.jpg',
         ];
 
         $attributes = array_merge($attributes, $forcedParams);

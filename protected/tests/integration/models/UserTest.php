@@ -3,23 +3,33 @@
 namespace Tests\Integration\Models;
 
 use Answer;
+use CActiveDataProvider;
+use CHttpException;
 use Codeception\Test\Unit;
+use DateTime;
+use Exception;
+use Leadsource;
+use PartnerTransaction;
+use Question;
 use Tests\Factories\AnswerFactory;
+use Tests\Factories\LeadSourceFactory;
+use Tests\Factories\PartnerTransactionFactory;
+use Tests\Factories\QuestionFactory;
 use Tests\Factories\UserFactory;
 use Tests\Factories\YuristSettingsFactory;
 use Tests\integration\BaseIntegrationTest;
 use User;
 use UserNotifier;
+use UserStatusRequest;
 use Yii;
 use YuristSettings;
 
 class UserTest extends BaseIntegrationTest
 {
-    const USER_TABLE = '100_user';
 
     protected function _before()
     {
-        Yii::app()->db->createCommand()->truncateTable(self::USER_TABLE);
+        Yii::app()->db->createCommand()->truncateTable(User::getFullTableName());
     }
 
     /**
@@ -30,7 +40,7 @@ class UserTest extends BaseIntegrationTest
      */
     public function testCreate($userParams, $expectedSaveResult)
     {
-        $user = new \User();
+        $user = new User();
         $user->attributes = $userParams;
 
         $saveResult = $user->save();
@@ -38,7 +48,7 @@ class UserTest extends BaseIntegrationTest
         if ($expectedSaveResult === true) {
             $this->assertEquals([], $user->getErrors());
         } else {
-            $this->tester->dontSeeInDatabase(self::USER_TABLE, ['name' => $userParams['name']]);
+            $this->tester->dontSeeInDatabase(User::getFullTableName(), ['name' => $userParams['name']]);
         }
         $this->assertEquals($expectedSaveResult, $saveResult);
     }
@@ -73,7 +83,7 @@ class UserTest extends BaseIntegrationTest
      */
     public function testGetRoleName()
     {
-        $user = new \User();
+        $user = new User();
         $user->role = 10;
         $this->assertEquals('юрист', $user->getRoleName());
 
@@ -107,7 +117,7 @@ class UserTest extends BaseIntegrationTest
             ],
         ];
 
-        $this->loadToDatabase(self::USER_TABLE, $fixture);
+        $this->loadToDatabase(User::getFullTableName(), $fixture);
         $this->assertEquals(1, sizeof(User::getManagers()));
         $this->assertEquals(10000, User::getManagers()[0]->id);
     }
@@ -129,7 +139,7 @@ class UserTest extends BaseIntegrationTest
             ],
         ];
 
-        $this->loadToDatabase(self::USER_TABLE, $fixture);
+        $this->loadToDatabase(User::getFullTableName(), $fixture);
         $managersName = User::getManagersNames();
         $this->assertEquals(2, sizeof($managersName));
         $this->assertEquals('нет руководителя', $managersName[0]);
@@ -162,7 +172,7 @@ class UserTest extends BaseIntegrationTest
             ]),
         ];
 
-        $this->loadToDatabase(self::USER_TABLE, $fixtures);
+        $this->loadToDatabase(User::getFullTableName(), $fixtures);
 
         $this->assertEquals(2, sizeof(User::getAllJuristsIdsNames()));
         $this->assertEquals('Ivan', User::getAllJuristsIdsNames()[100001]);
@@ -195,7 +205,7 @@ class UserTest extends BaseIntegrationTest
             ]),
         ];
 
-        $this->loadToDatabase(self::USER_TABLE, $fixtures);
+        $this->loadToDatabase(User::getFullTableName(), $fixtures);
 
         $this->assertEquals(2, sizeof(User::getAllBuyersIdsNames()));
         $this->assertEquals('Kulakov Ivan', User::getAllBuyersIdsNames()[100001]);
@@ -226,14 +236,22 @@ class UserTest extends BaseIntegrationTest
      * @dataProvider providerChangePassword
      * @param $newPassword
      */
-    public function testChangePassword($newPassword, $expectedPasswordLength, $sendResult, $expectedResult)
+    public function testChangePassword(
+        $userAttributes,
+        $newPassword,
+        $expectedPasswordLength,
+        $sendResult,
+        $sendInvokedTimes,
+        $expectedResult
+    )
     {
         $notifierMock = $this->createMock(UserNotifier::class);
         $notifierMock->method('sendChangedPassword')->willReturn($sendResult);
-        $notifierMock->expects($this->once())->method('sendChangedPassword');
+        if ($sendInvokedTimes > 0) {
+            $notifierMock->expects($this->once())->method('sendChangedPassword');
+        }
 
         $user = new User();
-        $userAttributes = (new UserFactory())->generateOne();
         $user->attributes = $userAttributes;
         $user->setNotifier($notifierMock);
 
@@ -247,23 +265,40 @@ class UserTest extends BaseIntegrationTest
 
     public function providerChangePassword(): array
     {
+        $userFactory = new UserFactory();
         return [
             [
+                'userAttributes' => $userFactory->generateOne(),
                 'newPassword' => null,
                 'expectedPasswordLength' => 6,
                 'sendResult' => true,
+                'sendInvokedTimes' => 1,
                 'expectedResult' => true,
             ],
             [
+                'userAttributes' => $userFactory->generateOne(),
                 'newPassword' => 'abcdef123',
                 'expectedPasswordLength' => 9,
                 'sendResult' => true,
+                'sendInvokedTimes' => 1,
                 'expectedResult' => true,
             ],
             [
+                'userAttributes' => $userFactory->generateOne(),
                 'newPassword' => 'abcdef123',
                 'expectedPasswordLength' => 9,
                 'sendResult' => false,
+                'sendInvokedTimes' => 1,
+                'expectedResult' => false,
+            ],
+            [
+                'userAttributes' => $userFactory->generateOne([
+                    'name' => '',
+                ]),
+                'newPassword' => 'abcdef123',
+                'expectedPasswordLength' => 9,
+                'sendResult' => false,
+                'sendInvokedTimes' => 0,
                 'expectedResult' => false,
             ],
         ];
@@ -276,9 +311,6 @@ class UserTest extends BaseIntegrationTest
      */
     public function testGetReferalBonus($userAttributes, $expectedBonus)
     {
-        $user = new User();
-        $user->attributes = $userAttributes;
-
         $answersOfYuristWithFewAnswers = (new AnswerFactory())->generateFew(5, [
             'authorId' => 1000,
         ]);
@@ -286,8 +318,33 @@ class UserTest extends BaseIntegrationTest
             'yuristId' => 1000,
         ]);
 
+        $answersOfYuristWithManyAnswers = (new AnswerFactory())->generateFew(50, [
+            'authorId' => 1001,
+        ]);
+        $settingsOfYuristWithManyAnswers = (new YuristSettingsFactory())->generateOne([
+            'yuristId' => 1001,
+        ]);
+
+        $questions = (new QuestionFactory())->generateFew(3, [
+            'authorId' => 1003,
+        ]);
+
         $this->loadToDatabase(Answer::getFullTableName(), $answersOfYuristWithFewAnswers);
-        $this->loadToDatabase(YuristSettings::getFullTableName(), $settingsOfYuristWithFewAnswers);
+        $this->loadToDatabase(Answer::getFullTableName(), $answersOfYuristWithManyAnswers);
+        $this->loadToDatabase(Question::getFullTableName(), $questions);
+        $this->tester->haveInDatabase(YuristSettings::getFullTableName(), $settingsOfYuristWithFewAnswers);
+        $this->tester->haveInDatabase(YuristSettings::getFullTableName(), $settingsOfYuristWithManyAnswers);
+
+        $user = new User();
+        $user->scenario = 'test';
+        $user->attributes = $userAttributes;
+        $user->save();
+
+        $this->assertEquals($userAttributes['id'], $user->id);
+
+        if ($userAttributes['role'] == User::ROLE_JURIST) {
+            $this->assertInstanceOf(YuristSettings::class, $user->settings);
+        }
 
         $this->assertEquals($expectedBonus, $user->referalOk());
     }
@@ -301,18 +358,351 @@ class UserTest extends BaseIntegrationTest
             'refId' => 10,
             'role' => User::ROLE_JURIST,
             'id' => 1000,
+            'password' => '123456',
+            'password2' => '123456',
+        ]);
+        $yuristWithManyAnswersAttributes = (new UserFactory())->generateOne([
+            'refId' => 10,
+            'role' => User::ROLE_JURIST,
+            'id' => 1001,
+            'password' => '123456',
+            'password2' => '123456',
+        ]);
+
+        $clientWithoutQuestions = (new UserFactory())->generateOne([
+            'refId' => 10,
+            'role' => User::ROLE_CLIENT,
+            'id' => 1002,
+            'password' => '123456',
+            'password2' => '123456',
+        ]);
+
+        $clientWithQuestions = (new UserFactory())->generateOne([
+            'refId' => 10,
+            'role' => User::ROLE_CLIENT,
+            'id' => 1003,
+            'password' => '123456',
+            'password2' => '123456',
         ]);
 
         return [
             'no reference' => [
-                'userAttributes' => (new UserFactory())->generateOne(['refId' => 0]),
+                'userAttributes' => (new UserFactory())->generateOne([
+                    'refId' => 0,
+                    'password' => '123456',
+                    'password2' => '123456',
+                ]),
                 'expectedBonus' => 0,
             ],
             'yurist with few answers' => [
                 'userAttributes' => $yuristWithFewAnswersAttributes,
                 'expectedBonus' => 0,
             ],
-
+            'yurist with many answers' => [
+                'userAttributes' => $yuristWithManyAnswersAttributes,
+                'expectedBonus' => 25000,
+            ],
+            'client without questions' => [
+                'userAttributes' => $clientWithoutQuestions,
+                'expectedBonus' => 0,
+            ],
+            'client with questions' => [
+                'userAttributes' => $clientWithQuestions,
+                'expectedBonus' => 5000,
+            ],
         ];
+    }
+
+    public function testCalculateWebmasterBalance()
+    {
+        $partnerTransactions = (new PartnerTransactionFactory())->generateFew(5, [
+            'partnerId' => 100,
+            'sum' => 15000,
+            'datetime' => (new DateTime())->modify('-6 days')->format('Y-m-d H:i:s'),
+        ]);
+
+        $partnerTransactions[] = (new PartnerTransactionFactory())->generateOne([
+            'partnerId' => 100,
+            'sum' => 12000,
+            'leadId' => 10,
+            'datetime' => (new DateTime())->modify('-6 hours')->format('Y-m-d H:i:s'),
+        ]);
+
+        $this->loadToDatabase(PartnerTransaction::getFullTableName(), $partnerTransactions);
+
+        $user = new User();
+        $user->id = 100;
+        $user->role = User::ROLE_PARTNER;
+
+        $this->assertEquals(87000, $user->calculateWebmasterBalance());
+        $this->assertEquals(12000, $user->calculateWebmasterHold());
+
+        $client = new User();
+        $client->role = User::ROLE_CLIENT;
+        $this->assertEquals(0, $client->calculateWebmasterHold());
+    }
+
+    /**
+     * @dataProvider providerGetProfileNotification
+     * @param string|boolean $expectedResult
+     * @param array $userAttributes
+     * @param array $yuristSettings
+     */
+    public function testGetProfileNotification($expectedResult, $userAttributes, $yuristSettings)
+    {
+        if ($yuristSettings) {
+            $this->tester->haveInDatabase(YuristSettings::getFullTableName(), $yuristSettings);
+        }
+
+        $user = new User();
+        $user->scenario = 'test';
+        $user->attributes = $userAttributes;
+        $user->save();
+
+        if ($expectedResult === false) {
+            $this->assertFalse($user->getProfileNotification());
+        }
+
+        $this->assertStringContainsString($expectedResult, $user->getProfileNotification());
+    }
+
+    public function providerGetProfileNotification(): array
+    {
+        return [
+            [
+                'expectedResult' => false,
+                'userAttributes' => (new UserFactory())->generateOne([
+                    'role' => User::ROLE_PARTNER,
+                    'id' => 1000,
+                    'password' => '123456',
+                    'password2' => '123456',
+                ]),
+                'yuristSettings' => null,
+            ],
+            [
+                'expectedResult' => false,
+                'userAttributes' => (new UserFactory())->generateOne([
+                    'role' => User::ROLE_JURIST,
+                    'id' => 1001,
+                    'password' => '123456',
+                    'password2' => '123456',
+                ]),
+                'yuristSettings' => null,
+            ],
+            [
+                'expectedResult' => 'Пожалуйста, подтвердите свою квалификацию',
+                'userAttributes' => (new UserFactory())->generateOne([
+                    'role' => User::ROLE_JURIST,
+                    'id' => 1002,
+                    'password' => '123456',
+                    'password2' => '123456',
+                ]),
+                'yuristSettings' => (new YuristSettingsFactory())->generateOne([
+                    'yuristId' => 1002,
+                    'isVerified' => 0,
+                ]),
+            ],
+            [
+                'expectedResult' => 'Пожалуйста, загрузите свою фотографию',
+                'userAttributes' => (new UserFactory())->generateOne([
+                    'role' => User::ROLE_JURIST,
+                    'id' => 1003,
+                    'password' => '123456',
+                    'password2' => '123456',
+                    'avatar' => null,
+                ]),
+                'yuristSettings' => (new YuristSettingsFactory())->generateOne([
+                    'yuristId' => 1003,
+                    'isVerified' => 1,
+                ]),
+            ],
+            [
+                'expectedResult' => 'Пожалуйста, заполните текст приветствия в своем профиле',
+                'userAttributes' => (new UserFactory())->generateOne([
+                    'role' => User::ROLE_JURIST,
+                    'id' => 1004,
+                    'password' => '123456',
+                    'password2' => '123456',
+                ]),
+                'yuristSettings' => (new YuristSettingsFactory())->generateOne([
+                    'yuristId' => 1004,
+                    'isVerified' => 1,
+                    'hello' => '',
+                ]),
+            ],
+            [
+                'expectedResult' => 'Пожалуйста, укажите телефон или Email',
+                'userAttributes' => (new UserFactory())->generateOne([
+                    'role' => User::ROLE_JURIST,
+                    'id' => 1005,
+                    'password' => '123456',
+                    'password2' => '123456',
+                ]),
+                'yuristSettings' => (new YuristSettingsFactory())->generateOne([
+                    'yuristId' => 1005,
+                    'isVerified' => 1,
+                    'phoneVisible' => '',
+                ]),
+            ],
+            [
+                'expectedResult' => 'Пожалуйста, напишите немного о себе в своем профиле',
+                'userAttributes' => (new UserFactory())->generateOne([
+                    'role' => User::ROLE_JURIST,
+                    'id' => 1006,
+                    'password' => '123456',
+                    'password2' => '123456',
+                ]),
+                'yuristSettings' => (new YuristSettingsFactory())->generateOne([
+                    'yuristId' => 1006,
+                    'isVerified' => 1,
+                    'description' => '',
+                ]),
+            ],
+            [
+                'expectedResult' => 'Пожалуйста, укажите свои специализации в профиле',
+                'userAttributes' => (new UserFactory())->generateOne([
+                    'role' => User::ROLE_JURIST,
+                    'id' => 1007,
+                    'password' => '123456',
+                    'password2' => '123456',
+                ]),
+                'yuristSettings' => (new YuristSettingsFactory())->generateOne([
+                    'yuristId' => 1007,
+                    'isVerified' => 1,
+                ]),
+            ],
+        ];
+    }
+
+    public function testPublishNewQuestions()
+    {
+        $questionSourceUser = new User();
+        $questionSourceUser->scenario = 'test';
+        $questionSourceUser->id = 200;
+        $questionSourceUser->save(false);
+
+        $questionSource = new Leadsource();
+        $questionSource->scenario = 'test';
+        $questionSource->attributes = (new LeadSourceFactory())->generateOne([
+            'id' => 1,
+            'userId' => $questionSourceUser->id,
+        ]);
+        $questionSource->save(false);
+
+        $questionsFactory = new QuestionFactory();
+        $questions = $questionsFactory->generateFew(5, [
+            'authorId' => 15,
+            'status' => Question::STATUS_NEW,
+        ]);
+        $questions[] = $questionsFactory->generateOne([
+            'authorId' => 15,
+            'status' => Question::STATUS_NEW,
+            'sourceId' => 1,
+            'buyPrice' => 1000,
+        ]);
+        $questions[] = $questionsFactory->generateOne([
+            'authorId' => 15,
+            'status' => Question::STATUS_SPAM,
+        ]);
+        $questions[] = $questionsFactory->generateOne([
+            'authorId' => 16,
+            'status' => Question::STATUS_NEW,
+        ]);
+        $this->loadToDatabase(Question::getFullTableName(), $questions);
+
+        $user = new User();
+        $user->id = 15;
+
+        $this->assertEquals(6, $user->publishNewQuestions());
+        $this->tester->seeInDatabase(Question::getFullTableName(), [
+            'authorId' => 15,
+            'status' => Question::STATUS_CHECK,
+        ]);
+        $this->tester->seeInDatabase(PartnerTransaction::getFullTableName(), [
+            'sourceId' => 1,
+            'sum' => 1000,
+            'partnerId' => $questionSourceUser->id,
+        ]);
+    }
+
+    /**
+     * @dataProvider providerSendChangePasswordLink
+     * @param array $userAttributes
+     * @param boolean $sendResult
+     * @param boolean|Exception $expectedResult
+     * @throws CHttpException
+     */
+    public function testSendChangePasswordLink($userAttributes, $sendResult, $expectedResult)
+    {
+        $notifierMock = $this->createMock(UserNotifier::class);
+        $notifierMock->method('sendChangePasswordLink')->willReturn($sendResult);
+        if (!($expectedResult instanceof Exception)) {
+            $notifierMock->expects($this->once())->method('sendChangePasswordLink');
+        }
+
+        $user = new User();
+        $user->attributes = $userAttributes;
+        $user->setNotifier($notifierMock);
+
+        if ($expectedResult instanceof Exception) {
+            $this->expectException(CHttpException::class);
+        }
+
+        $sendResult = $user->sendChangePasswordLink();
+
+        if (!($expectedResult instanceof Exception)) {
+            $this->assertEquals([], $user->getErrors());
+            $this->assertEquals($expectedResult, $sendResult);
+            $this->assertNotEquals('', $user->confirm_code);
+        }
+    }
+
+    public function providerSendChangePasswordLink()
+    {
+        return [
+            'cannot save' => [
+                'userAttributes' => (new UserFactory())->generateOne([
+                    'confirm_code' => '',
+                    'name' => '',
+                    'email' => '',
+                ]),
+                'sendResult' => false,
+                'expectedResult' => new CHttpException(400),
+            ],
+            'saved and sent' => [
+                'userAttributes' => (new UserFactory())->generateOne([
+                    'confirm_code' => '123',
+                ]),
+                'sendResult' => true,
+                'expectedResult' => true,
+            ],
+        ];
+    }
+
+    public function testSearch()
+    {
+        $leadsFixture = [
+            (new UserFactory())->generateOne([
+                'name' => 'Вася',
+                'active100' => 1,
+            ]),
+            (new UserFactory())->generateOne([
+                'name' => 'Иван',
+                'active100' => 0,
+            ]),
+            (new UserFactory())->generateOne([
+                'name' => 'Игорь',
+                'active100' => 1,
+            ]),
+        ];
+        $this->loadToDatabase(User::getFullTableName(), $leadsFixture);
+
+        $searchModel = new User();
+        $searchModel->name = 'Вася';
+        $searchModel->active100 = 1;
+
+        $searchResult = $searchModel->search();
+        $this->assertInstanceOf(CActiveDataProvider::class, $searchResult);
+        $this->assertEquals(1, $searchResult->totalItemCount);
     }
 }

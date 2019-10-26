@@ -705,7 +705,7 @@ class Question extends CActiveRecord {
 
             return true;
         }
-
+        var_dump($this->errors);exit;
         return false;
     }
 
@@ -714,7 +714,7 @@ class Question extends CActiveRecord {
      */
     protected function payPartnerForPublishedQuestion(): void
     {
-        if ($this->sourceId !== 0) {
+        if ($this->sourceId != 0) {
             $webmasterTransaction = new PartnerTransaction();
             $webmasterTransaction->sum = $this->buyPrice;
             $webmasterTransaction->sourceId = $this->sourceId;

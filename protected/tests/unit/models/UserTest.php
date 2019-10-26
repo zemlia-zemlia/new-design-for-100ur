@@ -4,6 +4,7 @@
 namespace Tests\unit\models;
 
 use Codeception\Test\Unit;
+use GTMail;
 use Tests\Factories\UserFactory;
 use User;
 use UserNotifier;
@@ -157,5 +158,53 @@ class UserTest extends Unit
 
         $this->assertEquals(true, $user->validatePassword($correctPassword));
         $this->assertEquals(false, $user->validatePassword('wrong password'));
+    }
+
+    public function testSendConfirmation()
+    {
+        $userNotifierMock = $this->createMock(UserNotifier::class);
+        $userNotifierMock->expects($this->once())->method('sendConfirmation');
+
+        $user = new User();
+        $user->setNotifier($userNotifierMock);
+
+        $user->sendConfirmation();
+    }
+
+    public function testSendBuyerNotification()
+    {
+        $userNotifierMock = $this->createMock(UserNotifier::class);
+        $userNotifierMock->expects($this->once())->method('sendBuyerNotification');
+
+        $user = new User();
+        $user->setNotifier($userNotifierMock);
+
+        $user->sendBuyerNotification(1);
+    }
+
+    public function testGetChangePasswordLink()
+    {
+        $user = new User();
+        $user->email = 'vasya@pupkin.ru';
+        $user->confirm_code = '123afg';
+
+        $this->assertStringContainsString(urlencode($user->email), $user->getChangePasswordLink());
+        $this->assertStringContainsString($user->confirm_code, $user->getChangePasswordLink());
+    }
+
+    public function testVerifyUnsubscribeCode()
+    {
+        $email = '911@100yuristov.com';
+        $wrongCode = '123';
+        $correctCode = md5(User::UNSUBSCRIBE_SALT . $email);
+
+        $this->assertTrue(User::verifyUnsubscribeCode($correctCode, $email));
+        $this->assertFalse(User::verifyUnsubscribeCode($wrongCode, $email));
+    }
+
+    public function testSetGetNotifier()
+    {
+        $user = new User();
+        $this->assertInstanceOf(UserNotifier::class, $user->getNotifier());
     }
 }

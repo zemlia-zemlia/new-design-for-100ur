@@ -63,6 +63,7 @@ class Leadsource extends CActiveRecord
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, name, description', 'safe', 'on' => 'search'),
+            ['id', 'safe', 'on' => 'test'],
         );
     }
 

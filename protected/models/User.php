@@ -142,6 +142,7 @@ class User extends CActiveRecord
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, name, role, email, phone, password', 'safe', 'on' => 'search, balance'),
+            ['id, avatar', 'safe', 'on' => 'test'],
         );
     }
 
@@ -326,21 +327,14 @@ class User extends CActiveRecord
      */
     public function search()
     {
-        // Warning: Please modify the following code to remove attributes that
-        // should not be searched.
-
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id, true);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('role', $this->role);
-        $criteria->compare('position', $this->position, true);
         $criteria->compare('email', $this->email, true);
         $criteria->compare('phone', $this->phone, true);
-        $criteria->compare('password', $this->password, true);
-        $criteria->compare('active', $this->active);
         $criteria->compare('active100', $this->active100);
-        $criteria->compare('managerId', $this->manager, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -906,14 +900,16 @@ class User extends CActiveRecord
         }
 
         // если не заполнены специализации
+        if (!$this->settings->description) {
+            return 'Пожалуйста, напишите немного о себе в своем профиле, это увеличит доверие со стороны клиента. ' . $editProfilePage;
+        }
+
+        // если не заполнены специализации
         if (!sizeof($this->categories)) {
             return 'Пожалуйста, укажите свои специализации в профиле. ' . $editProfilePage;
         }
 
-        // если не заполнены специализации
-        if (!$this->settings->description) {
-            return 'Пожалуйста, напишите немного о себе в своем профиле, это увеличит доверие со стороны клиента. ' . $editProfilePage;
-        }
+        return '';
     }
 
     /**

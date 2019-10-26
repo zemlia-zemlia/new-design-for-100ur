@@ -51,8 +51,8 @@ return array(
         'sendPulseApiSecret'    =>  '72df25fae69d448db7f99753dc3cda03',
         'bonuses'   => [
             //настройки бонусов за привлечение пользователей
-            10  => 250, // за юриста 300 рублей
-            3   =>  50, // за клиента 50 рублей
+            10  => 25000, // за юриста 300 рублей
+            3   =>  5000, // за клиента 50 рублей
         ],
         'priceCoeff'    =>  1.6,
         'yandexMoneySecret'     => 'KUWxQxXHNKqj+yiQ6YOdSE/h',
