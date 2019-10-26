@@ -557,11 +557,11 @@ class User extends CActiveRecord
     /**
      * отправка письма пользователю, на вопрос которого дан ответ
      *
-     * @param Question $question Вопрос
+     * @param Question|null $question Вопрос
      * @param Answer $answer Ответ
      * @return boolean Результат отправки: true - успешно, false - ошибка
      */
-    public function sendAnswerNotification(Question $question, Answer $answer)
+    public function sendAnswerNotification(?Question $question, Answer $answer)
     {
         if ($this->active100 == 0 || !$question) {
             return false;
@@ -598,6 +598,8 @@ class User extends CActiveRecord
      * @param Comment $comment Комментарий
      * @param boolean $isChildComment Является ли комментарий дочерним для другого
      * @return boolean Результат отправки: true - успешно, false - ошибка
+     *
+     * @deprecated
      */
     public function sendCommentNotification(Question $question, Comment $comment, $isChildComment = false)
     {

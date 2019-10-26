@@ -705,4 +705,77 @@ class UserTest extends BaseIntegrationTest
         $this->assertInstanceOf(CActiveDataProvider::class, $searchResult);
         $this->assertEquals(1, $searchResult->totalItemCount);
     }
+
+    /**
+     * @dataProvider providerSendAnswerNotification
+     * @param array $userAttributes
+     * @param Question|null $question
+     * @param Answer|null $answer
+     * @param boolean $sendResult
+     * @param boolean $expectedResult
+     */
+    public function testSendAnswerNotification(
+        $userAttributes,
+        ?Question $question,
+        ?Answer $answer,
+        $sendResult,
+        $expectedResult
+    )
+    {
+        $notifierMock = $this->createMock(UserNotifier::class);
+        $notifierMock->method('sendAnswerNotification')->willReturn($sendResult);
+
+        $user = new User();
+        $user->attributes = $userAttributes;
+        $user->setNotifier($notifierMock);
+
+        $actualResult = $user->sendAnswerNotification($question, $answer);
+
+        $this->assertEquals($expectedResult, $actualResult);
+    }
+
+    public function providerSendAnswerNotification():array
+    {
+        $userFactory = new UserFactory();
+        $question = $this->createMock(Question::class);
+        $answer = $this->createMock(Answer::class);
+
+        return [
+            'inactive user' => [
+                'userAttributes' => $userFactory->generateOne([
+                    'active100' => 0,
+                ]),
+                'question' => $question,
+                'answer' => $answer,
+                'sendResult' => null,
+                'expectedResult' => false,
+            ],
+            'active user, no question' => [
+                'userAttributes' => $userFactory->generateOne(),
+                'question' => null,
+                'answer' => $answer,
+                'sendResult' => null,
+                'expectedResult' => false,
+            ],
+            'incorrect user data' => [
+                'userAttributes' => $userFactory->generateOne([
+                    'name' => '',
+                ]),
+                'question' => $question,
+                'answer' => $answer,
+                'sendResult' => true,
+                'expectedResult' => true,
+            ],
+            'correct user data' => [
+                'userAttributes' => $userFactory->generateOne([
+                    'password' => '123456',
+                    'password2' => '123456',
+                ]),
+                'question' => $question,
+                'answer' => $answer,
+                'sendResult' => true,
+                'expectedResult' => true,
+            ],
+        ];
+    }
 }
