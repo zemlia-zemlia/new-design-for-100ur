@@ -324,4 +324,27 @@ class UserNotifier
             return false;
         }
     }
+
+    /**
+     * Отправляет письмо юристу с уведомлением о смене ранга
+     * @param array $newRangInfo
+     * @return bool
+     */
+    public function sendNewRangNotification($newRangInfo)
+    {
+        $this->mailer->subject = "Измененилось ваше звание";
+
+        $this->mailer->message = "<h1>Ваше новое звание: " . $newRangInfo['name'] . "</h1>
+            <p>Звания показывают активность и профессионализм юриста. Они присваиваются за определенное количество ответов, отзывов и среднюю оценку по отзывам.</p>";
+
+        $this->mailer->email = $this->user->email;
+
+        if ($this->mailer->sendMail()) {
+            Yii::log("Отправлено письмо юристу " . $this->user->email . " с уведомлением о новом звании", 'info', 'system.web.User');
+            return true;
+        } else {
+            Yii::log("Не удалось отправить письмо пользователю " . $this->user->email . " с уведомлением о новом звании", 'error', 'system.web.User');
+            return false;
+        }
+    }
 }

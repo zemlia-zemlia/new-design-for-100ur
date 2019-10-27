@@ -1118,23 +1118,7 @@ class User extends CActiveRecord
      */
     public function sendNewRangNotification($newRangInfo)
     {
-        $mailer = new GTMail();
-        $mailer->subject = "Измененилось ваше звание";
-
-        $mailer->message = "<h1>Ваше новое звание: " . $newRangInfo['name'] . "</h1>
-            <p>Звания показывают активность и профессионализм юриста. Они присваиваются за определенное количество ответов, отзывов и среднюю оценку по отзывам.</p>";
-
-        // отправляем письмо на почту пользователя
-        $mailer->email = $this->email;
-
-        if ($mailer->sendMail(true, '100yuristov')) {
-            Yii::log("Отправлено письмо юристу " . $this->email . " с уведомлением о новом звании", 'info', 'system.web.User');
-            return true;
-        } else {
-            // не удалось отправить письмо
-            Yii::log("Не удалось отправить письмо пользователю " . $this->email . " с уведомлением о новом звании", 'error', 'system.web.User');
-            return false;
-        }
+        return $this->notifier->sendNewRangNotification($newRangInfo);
     }
 
     /**

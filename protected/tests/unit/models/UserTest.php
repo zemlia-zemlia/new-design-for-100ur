@@ -215,4 +215,22 @@ class UserTest extends Unit
 
         $this->assertEquals(1, $user->active100);
     }
+
+    public function testGetYurcrmDataFromResponse()
+    {
+        $crmResponse = [];
+        $crmResponse['response'] = json_encode([
+            'data' => [
+                'company' => [
+                    'token' => 'my_token',
+                ],
+                'source100yuristov' => 555,
+            ],
+        ]);
+        $user = new User();
+        $user->getYurcrmDataFromResponse($crmResponse);
+
+        $this->assertEquals('my_token', $user->yurcrmToken);
+        $this->assertEquals(555, $user->yurcrmSource);
+    }
 }

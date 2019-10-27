@@ -15,7 +15,7 @@ class CommentFactory extends BaseFactory
             'objectId' => $this->faker->randomNumber(6),
             'questionId' => $this->faker->randomNumber(6),
             'text' => $this->faker->paragraph,
-            'dateTime' => $this->faker->dateTime(),
+            'dateTime' => $this->faker->dateTime()->format('Y-m-d H:i:s'),
             'rating' => $this->faker->numberBetween(0,10),
             'status' => Comment::STATUS_NEW,
             'seen' => 0,

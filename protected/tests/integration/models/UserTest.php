@@ -942,4 +942,48 @@ class UserTest extends BaseIntegrationTest
         $this->assertEquals(5, $user->getRecentQuestionCount(6));
         $this->assertEquals(0, $user->getRecentQuestionCount(2));
     }
+
+    public function testGetRatingAndTestimonials()
+    {
+        $commentFactory = new CommentFactory();
+        $comments = [
+            $commentFactory->generateOne([
+                'objectId' => 100,
+                'type' => Comment::TYPE_USER,
+                'status' => Comment::STATUS_CHECKED,
+                'rating' => 5,
+            ]),
+            $commentFactory->generateOne([
+                'objectId' => 100,
+                'type' => Comment::TYPE_USER,
+                'status' => Comment::STATUS_CHECKED,
+                'rating' => 4,
+            ]),
+            $commentFactory->generateOne([
+                'objectId' => 100,
+                'type' => Comment::TYPE_USER,
+                'status' => Comment::STATUS_SPAM,
+                'rating' => 2,
+            ]),
+            $commentFactory->generateOne([
+                'objectId' => 101,
+                'type' => Comment::TYPE_USER,
+                'status' => Comment::STATUS_CHECKED,
+                'rating' => 1,
+            ]),
+        ];
+        $this->loadToDatabase(Comment::getFullTableName(), $comments);
+
+        $user = new User();
+        $user->scenario = 'test';
+        $user->attributes = (new UserFactory())->generateOne([
+            'id' => 100
+        ]);
+        $user->save(false);
+
+        $this->assertEquals(4.5, $user->getRating());
+
+        $testimonialsDataProvider = $user->getTestimonialsDataProvider();
+        $this->assertEquals(2, $testimonialsDataProvider->totalItemCount);
+    }
 }
