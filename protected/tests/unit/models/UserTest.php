@@ -8,6 +8,7 @@ use GTMail;
 use Tests\Factories\UserFactory;
 use User;
 use UserNotifier;
+use YurcrmClient\YurcrmClient;
 
 class UserTest extends Unit
 {
@@ -232,5 +233,47 @@ class UserTest extends Unit
 
         $this->assertEquals('my_token', $user->yurcrmToken);
         $this->assertEquals(555, $user->yurcrmSource);
+    }
+
+    /**
+     * @dataProvider providerCreateUserInYurcrm
+     * @param array $userAttributes
+     * @param array|null $expectedResult
+     */
+    public function testCreateUserInYurcrm($userAttributes, $yurcrmResult, $expectedResult)
+    {
+        $yurcrmClientMock = $this->createMock(YurcrmClient::class);
+        $yurcrmClientMock->method('send')->willReturn($yurcrmResult);
+
+        $user = new User();
+        $user->attributes = $userAttributes;
+        $user->setYurcrmClient($yurcrmClientMock);
+
+        $this->assertEquals($expectedResult, $user->createUserInYurcrm('my_password'));
+    }
+
+    public function providerCreateUserInYurcrm(): array
+    {
+        $userFactory = new UserFactory();
+        $yurCrmResult = [
+            'curlInfo',
+            'curlResponse',
+        ];
+        return [
+            'not buyer' => [
+                'userAttributes' => $userFactory->generateOne([
+                    'role' => User::ROLE_CLIENT,
+                ]),
+                'yurcrmResult' => $yurCrmResult,
+                'expectedResult' => null,
+            ],
+            'buyer buyer' => [
+                'userAttributes' => $userFactory->generateOne([
+                    'role' => User::ROLE_BUYER,
+                ]),
+                'yurcrmResult' => $yurCrmResult,
+                'expectedResult' => $yurCrmResult,
+            ],
+        ];
     }
 }

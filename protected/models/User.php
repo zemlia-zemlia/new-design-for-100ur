@@ -68,6 +68,9 @@ class User extends CActiveRecord
     /** @var UserNotifier */
     protected $notifier;
 
+    /** @var YurcrmClient */
+    protected $yurcrmClient;
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -110,9 +113,34 @@ class User extends CActiveRecord
         $this->notifier = $notifier;
     }
 
+    /**
+     * @return YurcrmClient
+     */
+    public function getYurcrmClient(): YurcrmClient
+    {
+        return $this->yurcrmClient;
+    }
+
+    /**
+     * @param YurcrmClient $yurcrmClient
+     * @return User
+     */
+    public function setYurcrmClient(YurcrmClient $yurcrmClient): User
+    {
+        $this->yurcrmClient = $yurcrmClient;
+
+        return $this;
+    }
+
     public function init()
     {
         $this->notifier = new UserNotifier(Yii::app()->mailer, $this);
+        $this->yurcrmClient = new YurcrmClient(
+            'user/create',
+            'POST',
+            Yii::app()->params['yurcrmToken'],
+            Yii::app()->params['yurcrmApiUrl']
+        );
     }
 
     /**
@@ -933,10 +961,9 @@ class User extends CActiveRecord
             return null;
         }
 
-        $yurcrmClient = new YurcrmClient('user/create', 'POST', Yii::app()->params['yurcrmToken'], Yii::app()->params['yurcrmApiUrl']);
         $tariff = Yii::app()->params['yurcrmDefaultTariff'];
 
-        $yurcrmClient->setData([
+        $this->yurcrmClient->setData([
             'tariff' => $tariff,
             'user[name]' => $this->name,
             'user[lastName]' => $this->lastName,
@@ -945,7 +972,8 @@ class User extends CActiveRecord
             'user[password1]' => $passwordRaw,
             'user[password2]' => $passwordRaw,
         ]);
-        $createUserResult = $yurcrmClient->send();
+        $createUserResult = $this->yurcrmClient->send();
+
         return $createUserResult;
     }
 
