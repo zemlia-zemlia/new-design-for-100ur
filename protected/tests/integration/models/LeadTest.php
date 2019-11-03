@@ -15,6 +15,7 @@ use Tests\Factories\UserFactory;
 use Tests\integration\BaseIntegrationTest;
 use User;
 use Yii;
+use YurcrmClient\YurcrmClient;
 
 /**
  * Class LeadTest
@@ -67,22 +68,7 @@ class LeadTest extends BaseIntegrationTest
 
         $lead = new Lead();
         $lead->attributes = (new LeadFactory())->generateOne();
-        $sellResult = $lead->sellLead(0, 0);
-
-        $this->assertEquals(false, $sellResult);
-    }
-
-    /**
-     * Попытка продать лид в несуществующую кампанию
-     * @throws Exception
-     */
-    public function testSellLeadToNonExistentCampaign()
-    {
-        $this->loadFixtures();
-
-        $lead = new Lead();
-        $lead->attributes = (new LeadFactory())->generateOne();
-        $sellResult = $lead->sellLead(0, 999999);
+        $sellResult = $lead->sellLead(null, null);
 
         $this->assertEquals(false, $sellResult);
     }
@@ -94,15 +80,16 @@ class LeadTest extends BaseIntegrationTest
      */
     public function testSellLeadToPartnerProgram($partnerResult, $expectedResult)
     {
+        $this->loadFixtures();
+
         $vologdaLead = (new LeadFactory())->generateOne([
             'sourceId' => 33,
             'townId' => 170,
             'buyPrice' => 1000,
         ]);
-        $buyerId = 0;
+        $buyer = null;
         $campaignId = 5;
-
-        $this->loadFixtures();
+        $campaign = Campaign::model()->findByPk($campaignId);
 
         $apiClassMock = $this->createMock(ApiLexProfit::class);
         $apiClassMock->method('send')->willReturn($partnerResult);
@@ -113,7 +100,7 @@ class LeadTest extends BaseIntegrationTest
         $lead->setApiClassFactory($apiClassFactoryMock);
         $lead->attributes = $vologdaLead;
         $this->assertTrue($lead->save());
-        $sellResult = $lead->sellLead($buyerId, $campaignId);
+        $sellResult = $lead->sellLead($buyer, $campaign);
 
         $this->assertEquals($expectedResult, $sellResult);
 
@@ -129,15 +116,49 @@ class LeadTest extends BaseIntegrationTest
     public function providerPartner(): array
     {
         return [
-            [
+            'partner program returns success' => [
                 'partnerResult' => true,
                 'expectedResult' => true,
             ],
-            [
+            'partner program returns fail' => [
                 'partnerResult' => false,
                 'expectedResult' => false,
             ],
         ];
+    }
+
+    public function testSellLeadToBuyerWithYurcrmAccount()
+    {
+        $this->loadFixtures();
+
+        $lebedyanskyLeadAttributes = (new LeadFactory())->generateOne([
+            'sourceId' => 33,
+            'townId' => 512,
+            'buyPrice' => 1000,
+        ]);
+
+        $buyerId = 10004;
+        $campaignId = 6;
+        $buyer = User::model()->findByPk($buyerId);
+        $campaign = Campaign::model()->findByPk($campaignId);
+
+        $yurcrmClientMock = $this->createMock(YurcrmClient::class);
+        $yurcrmSampleResult = [
+            'curlInfo' => 'some info',
+            'response' => 'test response data',
+        ];
+        $yurcrmClientMock->method('send')->willReturn($yurcrmSampleResult);
+        $yurcrmClientMock->method('setRoute')->willReturn($yurcrmClientMock);
+        $yurcrmClientMock->expects($this->once())->method('send');
+        $buyer->setYurcrmClient($yurcrmClientMock);
+
+        $lebedyanskyLead = new Lead();
+        $lebedyanskyLead->attributes = $lebedyanskyLeadAttributes;
+        $this->assertTrue($lebedyanskyLead->save());
+
+        $sellResult = $lebedyanskyLead->sellLead($buyer, $campaign);
+
+        $this->assertEquals(true, $sellResult);
     }
 
     /**
@@ -157,10 +178,12 @@ class LeadTest extends BaseIntegrationTest
     {
         $this->loadFixtures();
 
+        $buyer = User::model()->findByPk($buyerId);
+        $campaign = Campaign::model()->findByPk($campaignId);
         $lead = new Lead();
         $lead->attributes = $leadAttributes;
         $this->assertTrue($lead->save());
-        $sellResult = $lead->sellLead($buyerId, $campaignId);
+        $sellResult = $lead->sellLead($buyer, $campaign);
 
         $this->assertEquals($expectedResult, $sellResult);
 
@@ -297,6 +320,14 @@ class LeadTest extends BaseIntegrationTest
                 'balance' => 100000,
                 'id' => 10003,
             ]),
+            (new UserFactory())->generateOne([
+                'name' => 'Покупатель лидов с Yurcrm',
+                'role' => User::ROLE_BUYER,
+                'balance' => 100000,
+                'id' => 10004,
+                'yurcrmToken' => '123',
+                'yurcrmSource' => 1,
+            ]),
         ];
 
         $leadSourceFixture = [
@@ -368,6 +399,17 @@ class LeadTest extends BaseIntegrationTest
                 'type' => Campaign::TYPE_PARTNERS,
                 'sendToApi' => 1,
                 'apiClass' => 'ApiLexprofit',
+            ]),
+            // Лебедянь
+            (new CampaignFactory())->generateOne([
+                'id' => 6,
+                'regionId' => 0,
+                'townId' => 512,
+                'price' => 5000,
+                'leadsDayLimit' => 1,
+                'buyerId' => 10004,
+                'active' => 1,
+                'type' => Campaign::TYPE_BUYERS,
             ]),
         ];
 

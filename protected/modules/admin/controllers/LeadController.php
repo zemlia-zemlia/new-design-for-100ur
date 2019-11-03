@@ -284,7 +284,8 @@ class LeadController extends Controller
                 continue;
             }
 
-            $lead->sellLead(0, $campaignId);
+            $campaign = Campaign::model()->findByPk($campaignId);
+            $lead->sellLead(null, $campaign);
         }
 
         //$this->redirect(array('/admin/lead/index', 'leadsSent'=>1));
@@ -354,7 +355,8 @@ class LeadController extends Controller
                 continue;
             }
 
-            if ($lead->sellLead(0, $campaignId)) {
+            $campaign = Campaign::model()->findByPk($campaignId);
+            if ($lead->sellLead(null, $campaign)) {
                 echo "Лид отправлен в кампанию";
             } else {
                 echo "С этим лидом что-то пошло не так";
@@ -581,7 +583,7 @@ class LeadController extends Controller
             Yii::app()->end();
         }
 
-        if ($lead->sellLead(0, $campaign->id) === true) {
+        if ($lead->sellLead(null, $campaign) === true) {
             echo json_encode(array('code' => 0, 'message' => 'Лид продан'));
             Yii::app()->end();
         } else {

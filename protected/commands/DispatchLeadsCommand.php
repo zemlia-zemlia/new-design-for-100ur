@@ -21,9 +21,8 @@ class DispatchLeadsCommand extends CConsoleCommand
             if(!$campaignId) {
                 continue;
             }
-
-            $lead->sellLead(0, $campaignId);
-
+            $campaign = Campaign::model()->findByPk($campaignId);
+            $lead->sellLead(null, $campaign);
         }
     }
 }
