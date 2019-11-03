@@ -247,24 +247,19 @@ class User extends CActiveRecord
      * возвращает массив, ключами которого являются id активных юристов, а значениями - их имена.
      *
      * @return array Массив активных юристов (id => name)
-     *
-     * @todo перевести на DAO
      */
     public static function getAllJuristsIdsNames()
     {
         $allJurists = [];
-//        $jurists = User::model()->findAllByAttributes([
-//            'role' => self::ROLE_JURIST,
-//            'active100' => 1,
-//        ]);
+
         $jurists = Yii::app()->db->createCommand()
             ->select('id, name')
             ->from('{{user}}')
-            ->where([
-                'role' => self::ROLE_JURIST,
-                'active100' => 1,
+            ->where('role = :role AND active100 = 1', [
+                ':role' => self::ROLE_JURIST
             ])
             ->queryAll();
+
         foreach ($jurists as $jurist) {
             $allJurists[$jurist['id']] = $jurist['name'];
         }
@@ -277,18 +272,21 @@ class User extends CActiveRecord
      * а значениями - их имена.
      *
      * @return array Массив активных покупателей (id => name)
-     *
-     * @todo перевести на DAO
      */
     public static function getAllBuyersIdsNames()
     {
         $allBuyers = [];
-        $buyers = User::model()->findAllByAttributes([
-            'role' => self::ROLE_BUYER,
-            'active100' => 1,
-        ]);
+
+        $buyers = Yii::app()->db->createCommand()
+            ->select('id, name, lastName')
+            ->from('{{user}}')
+            ->where('role = :role AND active100 = 1', [
+                ':role' => self::ROLE_BUYER
+            ])
+            ->queryAll();
+
         foreach ($buyers as $buyer) {
-            $allBuyers[$buyer->id] = $buyer->lastName . ' ' . $buyer->name;
+            $allBuyers[$buyer['id']] = $buyer['lastName'] . ' ' . $buyer['name'];
         }
 
         return $allBuyers;
@@ -429,8 +427,6 @@ class User extends CActiveRecord
      * @param bool $useSMTP Использовать ли SMTP
      *
      * @return bool true - письмо отправлено, false - не отправлено
-     *
-     * @todo Вынести отправки уведомлений в отдельный класс, использовать при отправке очередь
      */
     public function sendConfirmation($newPassword = null, $useSMTP = false)
     {
@@ -459,10 +455,7 @@ class User extends CActiveRecord
                 return false;
             }
         } else {
-            // не удалось сохранить объект пользователя с новым паролем
-            if (YII_DEBUG === true) {
-                CustomFuncs::printr($this->errors);
-            }
+            Yii::log('Не удалось сменить пароль пользователю ' . $this->id . ': ' . print_r($this->errors, true), CLogger::LEVEL_ERROR, 'system.web.User');
 
             return false;
         }
@@ -1029,10 +1022,11 @@ class User extends CActiveRecord
      *
      * @param YurcrmResponse $crmResponse
      */
-    public function getYurcrmDataFromResponse($crmResponse)
+    public function getYurcrmDataFromResponse(YurcrmResponse $crmResponse)
     {
         if ($crmResponse->getResponse()) {
             $crmResponseDecoded = json_decode($crmResponse->getResponse(), true);
+
             if ($crmResponseDecoded['data'] && $crmResponseDecoded['data']['company'] && $crmResponseDecoded['data']['company']['token']) {
                 $this->yurcrmToken = $crmResponseDecoded['data']['company']['token'];
             }

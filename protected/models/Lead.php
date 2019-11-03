@@ -1,30 +1,31 @@
 <?php
 
 use YurcrmClient\YurcrmClient;
+use YurcrmClient\YurcrmResponse;
 
 /**
  * Модель для работы с лидами 100 юристов.
  *
  * Поля из таблицы '{{lead}}':
  *
- * @property int    $id
+ * @property int $id
  * @property string $name
  * @property string $phone
- * @property int    $sourceId
+ * @property int $sourceId
  * @property string $question
  * @property string $question_date
- * @property int    $townId
- * @property int    $leadStatus
- * @property int    $type
- * @property int    $campaignId
- * @property int    $price
+ * @property int $townId
+ * @property int $leadStatus
+ * @property int $type
+ * @property int $campaignId
+ * @property int $price
  * @property string $deliveryTime
  * @property string $lastLeadTime
- * @property int    $brakReason
+ * @property int $brakReason
  * @property string $brakComment
  * @property string $secretCode
- * @property int    $buyPrice
- * @property int    $buyerId
+ * @property int $buyPrice
+ * @property int $buyerId
  *
  * @author Michael Krutikov m@mkrutikov.pro
  */
@@ -69,9 +70,12 @@ class Lead extends CActiveRecord
     /** @var ApiClassFactory */
     protected $apiClassFactory;
 
-    public function __construct($scenario = 'insert')
+    /** @var YurcrmClient */
+    protected $yurcrmClient;
+
+
+    public function init()
     {
-        parent::__construct($scenario);
         $this->apiClassFactory = new ApiClassFactory();
     }
 
@@ -286,30 +290,43 @@ class Lead extends CActiveRecord
     }
 
     /**
+     * @return YurcrmClient
+     */
+    public function getYurcrmClient(): YurcrmClient
+    {
+        return $this->yurcrmClient;
+    }
+
+    /**
+     * @param YurcrmClient $yurcrmClient
+     * @return Lead
+     */
+    public function setYurcrmClient(YurcrmClient $yurcrmClient): Lead
+    {
+        $this->yurcrmClient = $yurcrmClient;
+
+        return $this;
+    }
+
+    /**
      * Проверяет на существование покупателя и кампанию.
      *
-     * @param int $buyerId    id покупателя
-     * @param int $campaignId id кампании
+     * @param User|null $buyer id покупателя
+     * @param Campaign|null $campaign id кампании
      *
      * @return bool | array Массив (User, Campaign) или false если оба объекта не найдены
      */
-    private function checkBuyerAndCampaign($buyerId, $campaignId)
+    private function checkBuyerAndCampaign(?User $buyer, ?Campaign $campaign)
     {
-        if (0 == $buyerId && 0 == $campaignId) {
-            return false;
-        }
-
-        $campaign = Campaign::model()->findByPk($campaignId);
-
-        if (0 != $campaignId && is_null($campaign)) {
+        if (null == $buyer && null == $campaign) {
             return false;
         }
 
         // если указана кампания, но не указан покупатель, берем покупателя из кампании
-        if (0 == $buyerId) {
+        if (null == $buyer) {
             $buyerId = $campaign->buyerId;
+            $buyer = User::model()->findByPk($buyerId);
         }
-        $buyer = User::model()->findByPk($buyerId);
 
         if (!$buyer) {
             return false;
@@ -324,9 +341,9 @@ class Lead extends CActiveRecord
     /**
      * Сохранение проданного лида и связанных данных.
      *
-     * @param User                $buyer
+     * @param User $buyer
      * @param TransactionCampaign|null $transaction
-     * @param Campaign            $campaign
+     * @param Campaign $campaign
      *
      * @return int Код результата сохранения
      */
@@ -336,7 +353,7 @@ class Lead extends CActiveRecord
 
         if (!$this->save()) {
             $leadSaved = false;
-            Yii::log('Не удалось сохранить лид '.$this->id, 'error', 'system.web.CCommand');
+            Yii::log('Не удалось сохранить лид ' . $this->id, 'error', 'system.web.CCommand');
             if (YII_DEBUG === true) {
                 CustomFuncs::printr($this->errors);
             }
@@ -347,7 +364,7 @@ class Lead extends CActiveRecord
         // сохранение покупателя. Важно сохранить его ДО сохранения транзакции, чтобы записалось время последней транзакции в пользователе
         if (!$buyer->save(false)) {
             $buyerSaved = false;
-            Yii::log('Не удалось сохранить покупателя при продаже лида '.$buyer->id, 'error', 'system.web.CCommand');
+            Yii::log('Не удалось сохранить покупателя при продаже лида ' . $buyer->id, 'error', 'system.web.CCommand');
         } else {
             $buyerSaved = true;
         }
@@ -355,7 +372,7 @@ class Lead extends CActiveRecord
         // сохранение транзакции за лид
         if (isset($transaction) && !is_null($transaction) && !$transaction->save()) {
             $transactionSaved = false;
-            Yii::log('Не удалось сохранить транзакцию за продажу лида '.$this->id, 'error', 'system.web.CCommand');
+            Yii::log('Не удалось сохранить транзакцию за продажу лида ' . $this->id, 'error', 'system.web.CCommand');
         } else {
             $transactionSaved = true;
         }
@@ -396,16 +413,16 @@ class Lead extends CActiveRecord
 
     /**
      * Продажа лида покупателю.
-     *
-     * @param int $buyerId    id покупателя
-     * @param int $campaignId id кампании
+     * @param User|null $buyer покупатель
+     * @param Campaign|null $campaign кампания
      *
      * @return bool результат
      */
-    public function sellLead($buyerId = 0, $campaignId = 0)
+    public function sellLead(?User $buyer = null, ?Campaign $campaign = null)
     {
         // получаем объекты покупателя и кампании
-        $buyerAndCampaignResult = $this->checkBuyerAndCampaign($buyerId, $campaignId);
+        $buyerAndCampaignResult = $this->checkBuyerAndCampaign($buyer, $campaign);
+
         if (false === $buyerAndCampaignResult) {
             return false;
         }
@@ -413,7 +430,7 @@ class Lead extends CActiveRecord
         $campaign = $buyerAndCampaignResult['campaign'];
         $buyer = $buyerAndCampaignResult['buyer'];
 
-        $leadPrice = ($campaignId && $campaign && $campaign->price) ? $campaign->price : (int) $this->calculatePrices()[1];
+        $leadPrice = ($campaign && $campaign->price) ? $campaign->price : (int)$this->calculatePrices()[1];
 
         if ($campaign && Campaign::TYPE_PARTNERS == $campaign->type) {
             // У лидов продаваемых в партнерки цена продажи 0
@@ -433,9 +450,9 @@ class Lead extends CActiveRecord
         if ($leadPrice > 0) {
             $transaction = new TransactionCampaign();
             $transaction->buyerId = $buyer->id;
-            $transaction->campaignId = $campaignId;
+            $transaction->campaignId = $campaign->id;
             $transaction->sum = -$leadPrice;
-            $transaction->description = 'Покупка заявки #'.$this->id;
+            $transaction->description = 'Покупка заявки #' . $this->id;
             $transaction->time = $transactionTime;
         } else {
             $transaction = null;
@@ -447,7 +464,7 @@ class Lead extends CActiveRecord
         $this->price = $leadPrice;
         $this->deliveryTime = $transactionTime;
         // записываем в лид кампанию
-        $this->campaignId = $campaignId;
+        $this->campaignId = $campaign->id;
 
         // Сохранение через транзакцию: если хоть один из компонентов не сохранился, отменяем операцию
 
@@ -477,18 +494,19 @@ class Lead extends CActiveRecord
             throw $e;
         }
 
+        /** @var YurcrmResponse $yurcrmResult */
         $yurcrmResult = $this->sendToYurCRM($buyer);
 
         if (self::SAVE_RESULT_CODE_OK === $soldLeadResultCode) {
             if (!is_null($yurcrmResult)) {
                 // Если успешно отправили лид в Yurcrm, уведомляем об этом покупателя
-                $yurcrmResultDecoded = json_decode($yurcrmResult['response'], true);
-                $crmLeadId = (int) $yurcrmResultDecoded['data']['id'];
-                if (200 == (int) $yurcrmResultDecoded['status'] && $crmLeadId > 0) {
+                $yurcrmResultDecoded = json_decode($yurcrmResult->getResponse(), true);
+                $crmLeadId = (int)$yurcrmResultDecoded['data']['id'];
+                if (200 == (int)$yurcrmResultDecoded['status'] && $crmLeadId > 0) {
                     $this->sendYurcrmNotification($buyer, $crmLeadId);
                 }
 
-                LoggerFactory::getLogger('db')->log('Лид отправлен в Yurcrm. Ответ: '.$yurcrmResult['response'], 'Lead', $this->id);
+                LoggerFactory::getLogger('db')->log('Лид отправлен в Yurcrm. Код ответа: '. $yurcrmResult->getHttpCode() .'. Ответ: ' . $yurcrmResult->getResponse(), 'Lead', $this->id);
             } else {
                 $this->sendToCampaignByMail($campaign);
             }
@@ -497,28 +515,28 @@ class Lead extends CActiveRecord
             $this->logSoldLead($buyer, $campaign);
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Запись в лог информации о проданном лиде.
      *
-     * @param User     $buyer
+     * @param User $buyer
      * @param Campaign $campaign
-     * @param int      $saveResult код результата сохранения лида
+     * @param int $saveResult код результата сохранения лида
      */
     private function logSoldLead(User $buyer, Campaign $campaign)
     {
-        $logMessage = 'Лид #'.$this->id.' продан ';
+        $logMessage = 'Лид #' . $this->id . ' продан ';
         if ($campaign) {
-            $logMessage .= 'в кампанию #'.$campaign->id.'('.Campaign::getCampaignNameById($campaign->id).')';
+            $logMessage .= 'в кампанию #' . $campaign->id . '(' . Campaign::getCampaignNameById($campaign->id) . ')';
             if ($buyer) {
-                $logMessage .= ': '.$buyer->name;
+                $logMessage .= ': ' . $buyer->name;
             }
         } elseif (0 != $buyer && $buyer) {
-            $logMessage .= 'покупателю #'.$buyer->id.' ('.$buyer->getShortName().')';
+            $logMessage .= 'покупателю #' . $buyer->id . ' (' . $buyer->getShortName() . ')';
         }
 
         LoggerFactory::getLogger('db')->log($logMessage, 'Lead', $this->id);
@@ -548,7 +566,7 @@ class Lead extends CActiveRecord
 
         // если применялся поиск по региону
         if ($this->regionId) {
-            $criteria->with = ['town' => ['condition' => 'town.regionId='.$this->regionId], 'town.region'];
+            $criteria->with = ['town' => ['condition' => 'town.regionId=' . $this->regionId], 'town.region'];
         } else {
             $criteria->with = ['town', 'town.region'];
         }
@@ -581,20 +599,20 @@ class Lead extends CActiveRecord
         }
 
         $mailer = new GTMail();
-        $mailer->subject = 'Заявка город '.$this->town->name.' ('.$this->town->region->name.')';
+        $mailer->subject = 'Заявка город ' . $this->town->name . ' (' . $this->town->region->name . ')';
         $mailer->message = '<h2>Заявка на консультацию</h2>';
-        $mailer->message .= '<p>Имя: '.CHtml::encode($this->name).',</p>';
-        $mailer->message .= '<p>Город: '.CHtml::encode($this->town->name).' ('.$this->town->region->name.')'.'</p>';
-        $mailer->message .= '<p>Телефон: '.$this->phone.'</p>';
-        $mailer->message .= '<p>Сообщение:<br />'.CHtml::encode($this->question).'</p><br /><br />';
-        $mailer->message .= '<p>Уникальный код заявки: '.$this->secretCode.'</p>';
+        $mailer->message .= '<p>Имя: ' . CHtml::encode($this->name) . ',</p>';
+        $mailer->message .= '<p>Город: ' . CHtml::encode($this->town->name) . ' (' . $this->town->region->name . ')' . '</p>';
+        $mailer->message .= '<p>Телефон: ' . $this->phone . '</p>';
+        $mailer->message .= '<p>Сообщение:<br />' . CHtml::encode($this->question) . '</p><br /><br />';
+        $mailer->message .= '<p>Уникальный код заявки: ' . $this->secretCode . '</p>';
         $mailer->message .= "<p>CRM Для юристов: <a href='http://www.yurcrm.ru'>YurCRM</a></p>";
 
         // Вставляем ссылку на отбраковку только если у кампании процент брака больше нуля
         if ($campaign->brakPercent > 0) {
             $mailer->message .= '<hr /><p>'
-                    ."<a style='display:inline-block; padding:5px 10px; border:#999 1px solid; color:#666; background-color:#fff; text-decoration:none;' href='https://100yuristov.com/site/brakLead/?code=".$this->secretCode."'>Отбраковка</a>"
-                    .'</p>';
+                . "<a style='display:inline-block; padding:5px 10px; border:#999 1px solid; color:#666; background-color:#fff; text-decoration:none;' href='https://100yuristov.com/site/brakLead/?code=" . $this->secretCode . "'>Отбраковка</a>"
+                . '</p>';
         }
 
         $mailer->email = $campaign->buyer->email;
@@ -609,7 +627,7 @@ class Lead extends CActiveRecord
     /**
      * Возвращает количество лидов с определенным статусом
      *
-     * @param int  $status     статус
+     * @param int $status статус
      * @param bool $noCampaign считать ли лиды без кампании
      *
      * @return int количество лидов
@@ -622,10 +640,10 @@ class Lead extends CActiveRecord
             $condition = 'leadStatus=:status';
         }
         $counterRow = Yii::app()->db->cache(60)->createCommand()
-                ->select('COUNT(*) counter')
-                ->from('{{lead}}')
-                ->where($condition, [':status' => (int) $status])
-                ->queryRow();
+            ->select('COUNT(*) counter')
+            ->from('{{lead}}')
+            ->where($condition, [':status' => (int)$status])
+            ->queryRow();
         $counter = $counterRow['counter'];
 
         return $counter;
@@ -641,10 +659,10 @@ class Lead extends CActiveRecord
     public function findDublicates($timeframe = 86400)
     {
         $dublicatesRow = Yii::app()->db->createCommand()
-                ->select('COUNT(*) counter')
-                ->from('{{lead}}')
-                ->where('phone=:phone AND townId=:townId AND question_date>=NOW()-INTERVAL :timeframe SECOND', [':phone' => $this->phone, ':townId' => $this->townId, ':timeframe' => $timeframe])
-                ->queryRow();
+            ->select('COUNT(*) counter')
+            ->from('{{lead}}')
+            ->where('phone=:phone AND townId=:townId AND question_date>=NOW()-INTERVAL :timeframe SECOND', [':phone' => $this->phone, ':townId' => $this->townId, ':timeframe' => $timeframe])
+            ->queryRow();
 
         return $dublicatesRow['counter'];
     }
@@ -661,7 +679,7 @@ class Lead extends CActiveRecord
 
         // создаем поле Секретный код, чтобы покупатель лида мог работать с ним, перейдя по ссылке из письма
         if ('' == $this->secretCode) {
-            $this->secretCode = md5(time().$this->phone.strlen($this->question).mt_rand(100000, 999999));
+            $this->secretCode = md5(time() . $this->phone . strlen($this->question) . mt_rand(100000, 999999));
         }
 
         if ($this->isNewRecord) {
@@ -675,16 +693,16 @@ class Lead extends CActiveRecord
         // при переводе лида в статус Брак из другого статуса удаляем у вебмастера транзакцию по этому лиду
         if (self::LEAD_STATUS_BRAK == $this->leadStatus) {
             $oldStatusRow = Yii::app()->db->createCommand()
-                    ->select('leadStatus')
-                    ->from('{{lead}}')
-                    ->where('id=:id', [':id' => $this->id])
-                    ->queryRow();
+                ->select('leadStatus')
+                ->from('{{lead}}')
+                ->where('id=:id', [':id' => $this->id])
+                ->queryRow();
             // старый статус
             $oldStatus = $oldStatusRow['leadStatus'];
 
             if ($oldStatus !== $this->leadStatus) {
                 $removeTransactionResult = Yii::app()->db->createCommand()
-                        ->delete('{{partnerTransaction}}', 'leadId=:leadId', [':leadId' => $this->id]);
+                    ->delete('{{partnerTransaction}}', 'leadId=:leadId', [':leadId' => $this->id]);
             }
         }
 
@@ -706,15 +724,17 @@ class Lead extends CActiveRecord
             return;
         }
 
-        LoggerFactory::getLogger('db')->log('Создан лид #'.$this->id.', '.$this->town->name, 'Lead', $this->id);
+        LoggerFactory::getLogger('db')->log('Создан лид #' . $this->id . ', ' . $this->town->name, 'Lead', $this->id);
 
         // после сохранения лида ищем для него кампанию
         $campaignId = Campaign::getCampaignsForLead($this->id);
+        $campaign = Campaign::model()->findByPk($campaignId);
+
         // если кампания найдена, отправляем в нее лид
-        if ($campaignId) {
+        if ($campaign instanceof Campaign) {
             // установим свойство isNewRecord = false, чтобы обновить, а не создать копию лида при продаже
             $this->setIsNewRecord(false);
-            $this->sellLead(0, $campaignId);
+            $this->sellLead(null, $campaign);
         }
     }
 
@@ -729,10 +749,10 @@ class Lead extends CActiveRecord
         }
 
         $leadsCommand = Yii::app()->db->createCommand()
-                ->select('id, price, DATE(deliveryTime) date')
-                ->from('{{lead}}')
-                ->order('date')
-                ->where('DATE(deliveryTime) >= :dateFrom AND DATE(deliveryTime) <= :dateTo AND leadStatus IN (:status1, :status2, :status3)', [':dateFrom' => $dateFrom, ':dateTo' => $dateTo, ':status1' => self::LEAD_STATUS_SENT, ':status2' => self::LEAD_STATUS_RETURN, ':status3' => self::LEAD_STATUS_NABRAK]);
+            ->select('id, price, DATE(deliveryTime) date')
+            ->from('{{lead}}')
+            ->order('date')
+            ->where('DATE(deliveryTime) >= :dateFrom AND DATE(deliveryTime) <= :dateTo AND leadStatus IN (:status1, :status2, :status3)', [':dateFrom' => $dateFrom, ':dateTo' => $dateTo, ':status1' => self::LEAD_STATUS_SENT, ':status2' => self::LEAD_STATUS_RETURN, ':status3' => self::LEAD_STATUS_NABRAK]);
 
         // если выборка по покупателю, найдем лиды, проданные ему или в его кампании
         if ($buyerId) {
@@ -750,7 +770,7 @@ class Lead extends CActiveRecord
 
         // если по кампании
         if ($campaignId) {
-            $leadsCommand->andWhere('campaignId = :campaignId', [':campaignId' => (int) $campaignId]);
+            $leadsCommand->andWhere('campaignId = :campaignId', [':campaignId' => (int)$campaignId]);
         }
 
         $leadsRows = $leadsCommand->queryAll();
@@ -816,9 +836,9 @@ class Lead extends CActiveRecord
             $partnerTransaction->leadId = $this->id;
             $partnerTransaction->sourceId = $this->sourceId;
             $partnerTransaction->partnerId = $sourceUser->id;
-            $partnerTransaction->comment = 'Начисление за лид #'.$this->id;
+            $partnerTransaction->comment = 'Начисление за лид #' . $this->id;
             if (!$partnerTransaction->save()) {
-                Yii::log('Не удалось сохранить транзакцию за покупку лида '.$this->id.' '.print_r($partnerTransaction->errors), 'error', 'system.web.CCommand');
+                Yii::log('Не удалось сохранить транзакцию за покупку лида ' . $this->id . ' ' . print_r($partnerTransaction->errors), 'error', 'system.web.CCommand');
             } else {
                 return true;
             }
@@ -843,7 +863,8 @@ class Lead extends CActiveRecord
      *
      * @param User $buyer покупатель
      *
-     * @return array|null Ответ от CRM
+     * @return YurcrmResponse|null Ответ от CRM
+     * @throws Exception
      */
     private function sendToYurCRM($buyer)
     {
@@ -851,16 +872,22 @@ class Lead extends CActiveRecord
             return null;
         }
 
-        $yurcrmClient = new YurcrmClient('contact/create', 'POST', $buyer->yurcrmToken, Yii::app()->params['yurcrmApiUrl']);
-        $yurcrmClient->setData([
-            'contact[name]' => $this->name,
-            'contact[sourceId]' => $buyer->yurcrmSource,
-            'contact[phone]' => $this->phone,
-            'contact[question]' => $this->question,
-            'contact[email]' => $this->email,
-            'contact[townId]' => $this->townId,
-            'contact[externalId]' => $this->id,
-        ]);
+        $yurcrmClient = $buyer->getYurcrmClient();
+
+        if (!($buyer->getYurcrmClient() instanceof YurcrmClient)) {
+            throw new \Exception('YurCRM client is not initialized');
+        }
+
+        $yurcrmClient->setRoute('contact/create')
+            ->setData([
+                'contact[name]' => $this->name,
+                'contact[sourceId]' => $buyer->yurcrmSource,
+                'contact[phone]' => $this->phone,
+                'contact[question]' => $this->question,
+                'contact[email]' => $this->email,
+                'contact[townId]' => $this->townId,
+                'contact[externalId]' => $this->id,
+            ]);
 
         $createLeadResult = $yurcrmClient->send();
 
@@ -877,12 +904,12 @@ class Lead extends CActiveRecord
     private function sendYurcrmNotification($buyer, $crmLeadId)
     {
         $mailer = new GTMail();
-        $mailer->subject = 'Заявка на консультацию из города '.$this->town->name.' ('.$this->town->region->name.')';
+        $mailer->subject = 'Заявка на консультацию из города ' . $this->town->name . ' (' . $this->town->region->name . ')';
         $mailer->message = '<h2>Заявка на консультацию</h2>';
-        $mailer->message .= '<p>Имя: '.CHtml::encode($this->name).',</p>';
-        $mailer->message .= '<p>Город: '.CHtml::encode($this->town->name).' ('.$this->town->region->name.')'.'</p>';
+        $mailer->message .= '<p>Имя: ' . CHtml::encode($this->name) . ',</p>';
+        $mailer->message .= '<p>Город: ' . CHtml::encode($this->town->name) . ' (' . $this->town->region->name . ')' . '</p>';
 
-        $mailer->message .= "<p>Просмотреть заявку в <a href='".Yii::app()->params['yurcrmDomain'].'/contact/view?id='.$crmLeadId."'>YurCRM</a></p>";
+        $mailer->message .= "<p>Просмотреть заявку в <a href='" . Yii::app()->params['yurcrmDomain'] . '/contact/view?id=' . $crmLeadId . "'>YurCRM</a></p>";
         $mailer->message .= '<p>При первом входе в CRM вам нужно будет воспользоваться функцией восстановления пароля.  В качестве Email используйте адрес, под которым вы зарегистрированы в 100 Юристах</p>';
         $mailer->email = $buyer->email;
 
