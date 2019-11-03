@@ -4,6 +4,7 @@
 use Sendpulse\RestApi\ApiClient;
 use Sendpulse\RestApi\Storage\FileStorage;
 use YurcrmClient\YurcrmClient;
+use YurcrmClient\YurcrmResponse;
 
 /**
  * Модель для работы с пользователями
@@ -670,11 +671,7 @@ class User extends CActiveRecord
      */
     public static function verifyUnsubscribeCode($code, $email)
     {
-        if ($code === md5(self::UNSUBSCRIBE_SALT . $email)) {
-            return true;
-        } else {
-            return false;
-        }
+        return $code === md5(self::UNSUBSCRIBE_SALT . $email);
     }
 
     /**
@@ -710,10 +707,11 @@ class User extends CActiveRecord
         if ($identity->errorCode === UserIdentity::ERROR_NONE) {
             $duration = 3600 * 24 * 30; // 30 days
             Yii::app()->user->login($identity, $duration);
+
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -749,7 +747,7 @@ class User extends CActiveRecord
      */
     public function calculateWebmasterHold($cacheTime = 0)
     {
-        // если пользователь не вебмастер, сразу возвращаем его баланс
+        // если пользователь не вебмастер, его холд всегда 0
         if ($this->role != self::ROLE_PARTNER) {
             return 0;
         }
@@ -774,6 +772,7 @@ class User extends CActiveRecord
 
     /**
      * Добавление пользователя в список рассылки Sendpulse через API
+     * Не используется 03.11.2019
      */
     public function addToSendpulse()
     {
@@ -812,7 +811,7 @@ class User extends CActiveRecord
      * Возвращает массив непросмотренных комментариев, написанных к ответам юриста
      * @param integer $days За сколько дней искать комментарии
      * @param boolean $returnCount Вернуть количество элементов
-     * @return array Массив с комментариями
+     * @return array|integer Массив с комментариями или количество комментариев
      */
     public function getFeed($days = 30, $returnCount = false)
     {
@@ -947,13 +946,14 @@ class User extends CActiveRecord
     public function getChangePasswordLink()
     {
         $changePasswordLink = Yii::app()->createUrl("user/setNewPassword", array('email' => $this->email, 'code' => $this->confirm_code));
+
         return $changePasswordLink;
     }
 
     /**
      * Создает пользователя в Yurcrm через запрос к API
      * @param string $passwordRaw Нешифрованный пароль
-     * @return array [curlInfo, response]
+     * @return YurcrmResponse
      */
     public function createUserInYurcrm($passwordRaw)
     {
@@ -963,6 +963,7 @@ class User extends CActiveRecord
 
         $tariff = Yii::app()->params['yurcrmDefaultTariff'];
 
+        $this->yurcrmClient->setRoute('user/create');
         $this->yurcrmClient->setData([
             'tariff' => $tariff,
             'user[name]' => $this->name,
@@ -978,12 +979,13 @@ class User extends CActiveRecord
     }
 
     /**
-     * @param $crmResponse
+     * Вытаскивает из ответа Yurcrm данные созданного пользователя: yurcrmToken, yurcrmSource
+     * @param YurcrmResponse $crmResponse
      */
     public function getYurcrmDataFromResponse($crmResponse)
     {
-        if ($crmResponse['response']) {
-            $crmResponseDecoded = json_decode($crmResponse['response'], true);
+        if ($crmResponse->getResponse()) {
+            $crmResponseDecoded = json_decode($crmResponse->getResponse(), true);
             if ($crmResponseDecoded['data'] && $crmResponseDecoded['data']['company'] && $crmResponseDecoded['data']['company']['token']) {
                 $this->yurcrmToken = $crmResponseDecoded['data']['company']['token'];
             }

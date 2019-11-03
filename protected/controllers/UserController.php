@@ -537,7 +537,7 @@ class UserController extends Controller
                 if ($user->role == User::ROLE_BUYER && is_null($user->yurcrmToken)) {
                     // покупателя лидов добавляем в CRM
                     $crmResponse = $user->createUserInYurcrm($passwordRaw);
-                    LoggerFactory::getLogger('db')->log('Создание пользователя в YurCRM. Ответ от API:' . $crmResponse['response'], 'User', $user->id);
+                    LoggerFactory::getLogger('db')->log('Создание пользователя в YurCRM. Ответ от API:' . $crmResponse->getResponse(), 'User', $user->id);
 
                     $user->getYurcrmDataFromResponse($crmResponse);
                 }
