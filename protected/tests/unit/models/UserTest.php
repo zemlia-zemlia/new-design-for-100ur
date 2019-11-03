@@ -9,6 +9,7 @@ use Tests\Factories\UserFactory;
 use User;
 use UserNotifier;
 use YurcrmClient\YurcrmClient;
+use YurcrmClient\YurcrmResponse;
 
 class UserTest extends Unit
 {
@@ -219,8 +220,8 @@ class UserTest extends Unit
 
     public function testGetYurcrmDataFromResponse()
     {
-        $crmResponse = [];
-        $crmResponse['response'] = json_encode([
+        $crmResponseMock = $this->createMock(YurcrmResponse::class);
+        $responseData = json_encode([
             'data' => [
                 'company' => [
                     'token' => 'my_token',
@@ -228,8 +229,9 @@ class UserTest extends Unit
                 'source100yuristov' => 555,
             ],
         ]);
+        $crmResponseMock->method('getResponse')->willReturn($responseData);
         $user = new User();
-        $user->getYurcrmDataFromResponse($crmResponse);
+        $user->getYurcrmDataFromResponse($crmResponseMock);
 
         $this->assertEquals('my_token', $user->yurcrmToken);
         $this->assertEquals(555, $user->yurcrmSource);
@@ -255,10 +257,7 @@ class UserTest extends Unit
     public function providerCreateUserInYurcrm(): array
     {
         $userFactory = new UserFactory();
-        $yurCrmResult = [
-            'curlInfo',
-            'curlResponse',
-        ];
+        $yurCrmResult = $this->createMock(YurcrmResponse::class);
         return [
             'not buyer' => [
                 'userAttributes' => $userFactory->generateOne([

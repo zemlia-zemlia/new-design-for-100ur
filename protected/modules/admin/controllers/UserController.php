@@ -703,7 +703,7 @@ class UserController extends Controller {
         $crmResponse = $user->createUserInYurcrm(User::generatePassword(10));
         $user->getYurcrmDataFromResponse($crmResponse);
 
-        $crmResponseDecoded = json_decode($crmResponse['response'], true);
+        $crmResponseDecoded = json_decode($crmResponse->getResponse(), true);
         if ((int)$crmResponseDecoded['status'] == 200) {
             $user->save();
         }

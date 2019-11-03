@@ -4,6 +4,7 @@
 use Sendpulse\RestApi\ApiClient;
 use Sendpulse\RestApi\Storage\FileStorage;
 use YurcrmClient\YurcrmClient;
+use YurcrmClient\YurcrmResponse;
 
 /**
  * Модель для работы с пользователями
@@ -953,7 +954,7 @@ class User extends CActiveRecord
     /**
      * Создает пользователя в Yurcrm через запрос к API
      * @param string $passwordRaw Нешифрованный пароль
-     * @return array [curlInfo, response]
+     * @return YurcrmResponse
      */
     public function createUserInYurcrm($passwordRaw)
     {
@@ -978,12 +979,13 @@ class User extends CActiveRecord
     }
 
     /**
-     * @param $crmResponse
+     * @param YurcrmResponse $crmResponse
      */
-    public function getYurcrmDataFromResponse($crmResponse)
+    public function getYurcrmDataFromResponse(YurcrmResponse $crmResponse)
     {
-        if ($crmResponse['response']) {
-            $crmResponseDecoded = json_decode($crmResponse['response'], true);
+        if ($crmResponse->getResponse()) {
+            $crmResponseDecoded = json_decode($crmResponse->getResponse(), true);
+
             if ($crmResponseDecoded['data'] && $crmResponseDecoded['data']['company'] && $crmResponseDecoded['data']['company']['token']) {
                 $this->yurcrmToken = $crmResponseDecoded['data']['company']['token'];
             }

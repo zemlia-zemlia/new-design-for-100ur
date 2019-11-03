@@ -16,6 +16,7 @@ use Tests\integration\BaseIntegrationTest;
 use User;
 use Yii;
 use YurcrmClient\YurcrmClient;
+use YurcrmClient\YurcrmResponse;
 
 /**
  * Class LeadTest
@@ -143,11 +144,11 @@ class LeadTest extends BaseIntegrationTest
         $campaign = Campaign::model()->findByPk($campaignId);
 
         $yurcrmClientMock = $this->createMock(YurcrmClient::class);
-        $yurcrmSampleResult = [
-            'curlInfo' => 'some info',
-            'response' => 'test response data',
-        ];
-        $yurcrmClientMock->method('send')->willReturn($yurcrmSampleResult);
+        $yurcrmResultMock = $this->createMock(YurcrmResponse::class);
+        $yurcrmResultMock->method('getResponse')->willReturn('test response data');
+        $yurcrmResultMock->method('getHttpCode')->willReturn(200);
+
+        $yurcrmClientMock->method('send')->willReturn($yurcrmResultMock);
         $yurcrmClientMock->method('setRoute')->willReturn($yurcrmClientMock);
         $yurcrmClientMock->expects($this->once())->method('send');
         $buyer->setYurcrmClient($yurcrmClientMock);

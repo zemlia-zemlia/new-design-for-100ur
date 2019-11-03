@@ -1,6 +1,7 @@
 <?php
 
 use YurcrmClient\YurcrmClient;
+use YurcrmClient\YurcrmResponse;
 
 /**
  * Модель для работы с лидами 100 юристов.
@@ -493,18 +494,19 @@ class Lead extends CActiveRecord
             throw $e;
         }
 
+        /** @var YurcrmResponse $yurcrmResult */
         $yurcrmResult = $this->sendToYurCRM($buyer);
 
         if (self::SAVE_RESULT_CODE_OK === $soldLeadResultCode) {
             if (!is_null($yurcrmResult)) {
                 // Если успешно отправили лид в Yurcrm, уведомляем об этом покупателя
-                $yurcrmResultDecoded = json_decode($yurcrmResult['response'], true);
+                $yurcrmResultDecoded = json_decode($yurcrmResult->getResponse(), true);
                 $crmLeadId = (int)$yurcrmResultDecoded['data']['id'];
                 if (200 == (int)$yurcrmResultDecoded['status'] && $crmLeadId > 0) {
                     $this->sendYurcrmNotification($buyer, $crmLeadId);
                 }
 
-                LoggerFactory::getLogger('db')->log('Лид отправлен в Yurcrm. Ответ: ' . $yurcrmResult['response'], 'Lead', $this->id);
+                LoggerFactory::getLogger('db')->log('Лид отправлен в Yurcrm. Код ответа: '. $yurcrmResult->getHttpCode() .'. Ответ: ' . $yurcrmResult->getResponse(), 'Lead', $this->id);
             } else {
                 $this->sendToCampaignByMail($campaign);
             }
@@ -861,7 +863,7 @@ class Lead extends CActiveRecord
      *
      * @param User $buyer покупатель
      *
-     * @return array|null Ответ от CRM
+     * @return YurcrmResponse|null Ответ от CRM
      * @throws Exception
      */
     private function sendToYurCRM($buyer)
