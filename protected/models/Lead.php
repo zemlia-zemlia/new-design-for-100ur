@@ -73,17 +73,14 @@ class Lead extends CActiveRecord
     /** @var YurcrmClient */
     protected $yurcrmClient;
 
+    /** @var LeadNotifier */
+    protected $notifier;
 
     public function init()
     {
         $this->apiClassFactory = new ApiClassFactory();
+        $this->notifier = new LeadNotifier(Yii::app()->mailer, $this);
     }
-
-    /*
-     * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
-     * @return Lead the static model class
-     */
 
     public static function model($className = __CLASS__)
     {
@@ -309,6 +306,22 @@ class Lead extends CActiveRecord
     }
 
     /**
+     * @return LeadNotifier
+     */
+    public function getNotifier(): LeadNotifier
+    {
+        return $this->notifier;
+    }
+
+    /**
+     * @param LeadNotifier $notifier
+     */
+    public function setNotifier(LeadNotifier $notifier): void
+    {
+        $this->notifier = $notifier;
+    }
+
+    /**
      * Проверяет на существование покупателя и кампанию.
      *
      * @param User|null $buyer id покупателя
@@ -405,7 +418,7 @@ class Lead extends CActiveRecord
     {
         // Если определена кампания и в ней стоит настройка Отправлять лиды на почту
         if ($campaign && $campaign->sendEmail) {
-            return $this->sendByEmail($campaign->id);
+            return $this->notifier->send($campaign);
         }
 
         return false;
@@ -503,7 +516,7 @@ class Lead extends CActiveRecord
                 $yurcrmResultDecoded = json_decode($yurcrmResult->getResponse(), true);
                 $crmLeadId = (int)$yurcrmResultDecoded['data']['id'];
                 if (200 == (int)$yurcrmResultDecoded['status'] && $crmLeadId > 0) {
-                    $this->sendYurcrmNotification($buyer, $crmLeadId);
+                    return $this->notifier->sendYurcrmNotification($buyer, $crmLeadId);
                 }
 
                 LoggerFactory::getLogger('db')->log('Лид отправлен в Yurcrm. Код ответа: '. $yurcrmResult->getHttpCode() .'. Ответ: ' . $yurcrmResult->getResponse(), 'Lead', $this->id);
@@ -579,49 +592,6 @@ class Lead extends CActiveRecord
                 'pageSize' => 50,
             ],
         ]);
-    }
-
-    /**
-     * Отправка лида по почте.
-     *
-     * @param int $campaignId id кампании
-     *
-     * @return bool
-     */
-    public function sendByEmail($campaignId = 0)
-    {
-        if ($campaignId) {
-            $campaign = Campaign::model()->with('buyer')->findByPk($campaignId);
-        }
-
-        if (0 == $campaignId || is_null($campaign)) {
-            return false;
-        }
-
-        $mailer = new GTMail();
-        $mailer->subject = 'Заявка город ' . $this->town->name . ' (' . $this->town->region->name . ')';
-        $mailer->message = '<h2>Заявка на консультацию</h2>';
-        $mailer->message .= '<p>Имя: ' . CHtml::encode($this->name) . ',</p>';
-        $mailer->message .= '<p>Город: ' . CHtml::encode($this->town->name) . ' (' . $this->town->region->name . ')' . '</p>';
-        $mailer->message .= '<p>Телефон: ' . $this->phone . '</p>';
-        $mailer->message .= '<p>Сообщение:<br />' . CHtml::encode($this->question) . '</p><br /><br />';
-        $mailer->message .= '<p>Уникальный код заявки: ' . $this->secretCode . '</p>';
-        $mailer->message .= "<p>CRM Для юристов: <a href='http://www.yurcrm.ru'>YurCRM</a></p>";
-
-        // Вставляем ссылку на отбраковку только если у кампании процент брака больше нуля
-        if ($campaign->brakPercent > 0) {
-            $mailer->message .= '<hr /><p>'
-                . "<a style='display:inline-block; padding:5px 10px; border:#999 1px solid; color:#666; background-color:#fff; text-decoration:none;' href='https://100yuristov.com/site/brakLead/?code=" . $this->secretCode . "'>Отбраковка</a>"
-                . '</p>';
-        }
-
-        $mailer->email = $campaign->buyer->email;
-
-        if ($mailer->sendMail()) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /**
@@ -892,31 +862,5 @@ class Lead extends CActiveRecord
         $createLeadResult = $yurcrmClient->send();
 
         return $createLeadResult;
-    }
-
-    /**
-     * Отправка покупателю уведомления о том, что его лид отправлен в Yurcrm.
-     *
-     * @param User $buyer
-     *
-     * @return bool
-     */
-    private function sendYurcrmNotification($buyer, $crmLeadId)
-    {
-        $mailer = new GTMail();
-        $mailer->subject = 'Заявка на консультацию из города ' . $this->town->name . ' (' . $this->town->region->name . ')';
-        $mailer->message = '<h2>Заявка на консультацию</h2>';
-        $mailer->message .= '<p>Имя: ' . CHtml::encode($this->name) . ',</p>';
-        $mailer->message .= '<p>Город: ' . CHtml::encode($this->town->name) . ' (' . $this->town->region->name . ')' . '</p>';
-
-        $mailer->message .= "<p>Просмотреть заявку в <a href='" . Yii::app()->params['yurcrmDomain'] . '/contact/view?id=' . $crmLeadId . "'>YurCRM</a></p>";
-        $mailer->message .= '<p>При первом входе в CRM вам нужно будет воспользоваться функцией восстановления пароля.  В качестве Email используйте адрес, под которым вы зарегистрированы в 100 Юристах</p>';
-        $mailer->email = $buyer->email;
-
-        if ($mailer->sendMail()) {
-            return true;
-        } else {
-            return false;
-        }
     }
 }
