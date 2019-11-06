@@ -6,7 +6,7 @@
         "sendpulse/rest-api":"*",
         "swiftmailer/swiftmailer":"^6.0",
         "robmorgan/phinx":"0.5",
-        "yurcrm/yurcrm-client":"*",
+        "yurcrm/yurcrm-client":"v1.0.2",
         "ext-curl":"*",
         "ext-json":"*",
         "ext-imap": "*",
