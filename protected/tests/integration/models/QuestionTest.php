@@ -4,22 +4,15 @@ namespace tests\integration\models;
 
 use Codeception\Test\Unit;
 use Question;
+use Tests\integration\BaseIntegrationTest;
 use Yii;
 
-class QuestionTest extends Unit
+class QuestionTest extends BaseIntegrationTest
 {
-
-    /**
-     * @var \IntegrationTester
-     */
-    protected $tester;
-
-    const USER_TABLE = '100_user';
-    const QUESTION_TABLE = '100_question';
 
     protected function _before()
     {
-        Yii::app()->db->createCommand()->truncateTable(self::QUESTION_TABLE);
+        Yii::app()->db->createCommand()->truncateTable(Question::getFullTableName());
     }
 
     public function testGetQuestionsByAuthor()
@@ -56,7 +49,7 @@ class QuestionTest extends Unit
         ];
 
         foreach ($fixtures as $fixture) {
-            $this->tester->haveInDatabase(self::QUESTION_TABLE, $fixture);
+            $this->tester->haveInDatabase(Question::getFullTableName(), $fixture);
         }
 
         $authorNewQuestions = Question::getQuestionsByAuthor(10);

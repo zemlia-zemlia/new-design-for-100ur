@@ -19,7 +19,7 @@ class SearchQuestionsWidget extends CWidget
             $searchModel->townName = Town::getName($searchModel->townId);
         }
         
-        $randomQuestionId = Question::getRandomId();
+        $randomQuestionId = Question::getRandomId(Yii::app()->user->getModel());
         
         $this->render($this->template, array(
                 'model'             =>  $searchModel,
