@@ -11,19 +11,22 @@
  * @property integer $buyPrice
  * @property integer $sellPrice
  */
-class Region extends CActiveRecord {
+class Region extends CActiveRecord
+{
 
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return '{{region}}';
     }
 
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
@@ -39,7 +42,8 @@ class Region extends CActiveRecord {
     /**
      * @return array relational rules.
      */
-    public function relations() {
+    public function relations()
+    {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
@@ -52,14 +56,15 @@ class Region extends CActiveRecord {
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
-            'id'            => 'ID',
-            'name'          => 'Название',
-            'alias'         => 'Псевдоним',
-            'countryId'     => 'ID страны',
-            'buyPrice'      => 'Базовая цена покупки лида',
-            'sellPrice'     => 'Базовая цена продажи лида',
+            'id' => 'ID',
+            'name' => 'Название',
+            'alias' => 'Псевдоним',
+            'countryId' => 'ID страны',
+            'buyPrice' => 'Базовая цена покупки лида',
+            'sellPrice' => 'Базовая цена продажи лида',
         );
     }
 
@@ -75,7 +80,8 @@ class Region extends CActiveRecord {
      * @return CActiveDataProvider the data provider that can return the models
      * based on the search/filter conditions.
      */
-    public function search() {
+    public function search()
+    {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria;
@@ -96,20 +102,22 @@ class Region extends CActiveRecord {
      * @param string $className active record class name.
      * @return Region the static model class
      */
-    public static function model($className = __CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
     /**
      * возвращает массив, ключами которого являются id регионов, а значениями - их имена
-     * 
+     *
      * @param int $countryId id страны (2 - РФ)
      * @return array массив регионов (id => name)
      */
-    public static function getAllRegions($countryId = 2) {
+    public static function getAllRegions($countryId = 2)
+    {
         $allRegions = array();
         $criteria = new CDbCriteria;
-        $criteria->addColumnCondition(array('countryId' => (int) $countryId));
+        $criteria->addColumnCondition(array('countryId' => (int)$countryId));
         $criteria->order = 'name asc';
 
         $regions = self::model()->findAll($criteria);
@@ -122,12 +130,13 @@ class Region extends CActiveRecord {
 
     /**
      * Возвращает расстояние в километрах от центра столицы региона до точки с заданными координатами
-     * 
+     *
      * @param float $lat Широта точки
      * @param float $lng Долгота точки
      * @return int Расстояние в километрах или -1 в случае, если не удалось найти (например, неизвестна столица региона)
      */
-    public function getRangeFromCenter($lat, $lng) {
+    public function getRangeFromCenter($lat, $lng)
+    {
         $capital = $this->capital;
 
         if (!$capital) {
@@ -137,7 +146,7 @@ class Region extends CActiveRecord {
         $capitalLat = $capital->lat;
         $capitalLng = $capital->lng;
 
-        $distance = (int) SQRT(POW(110.6 * ($lat - $capitalLat), 2) + POW(110.6 * ($capitalLng - $lng) * COS($lat / 57.3), 2));
+        $distance = (int)SQRT(POW(110.6 * ($lat - $capitalLat), 2) + POW(110.6 * ($capitalLng - $lng) * COS($lat / 57.3), 2));
 
         if ($distance > 0) {
             return $distance;
@@ -146,4 +155,32 @@ class Region extends CActiveRecord {
         }
     }
 
+    /**
+     *  Находит минимальную и максимальную цену покупки лида для каждого региона
+     * @return array Пример $prices[region_id] = ['min' => 100, 'max' => 200]
+     * @throws CException
+     */
+    public static function calculateMinMaxBuyPriceByRegion()
+    {
+        $regionsTownPricesRows = Yii::app()->db->createCommand()
+            ->select('r.id regionId, t.id townId, r.buyPrice regionPrice, t.buyPrice townPrice')
+            ->from('{{town}} t')
+            ->leftJoin('{{region}} r', 'r.id = t.regionId')
+            ->queryAll();
+
+        $minMaxPricesByRegion = [];
+
+        foreach ($regionsTownPricesRows as $row) {
+            if (!isset($minMaxPricesByRegion[$row['regionId']])) {
+                $minMaxPricesByRegion[$row['regionId']]['min'] = $row['regionPrice'];
+                $minMaxPricesByRegion[$row['regionId']]['max'] = $row['regionPrice'];
+            }
+
+            if ($row['townPrice'] > $minMaxPricesByRegion[$row['regionId']]['max']) {
+                $minMaxPricesByRegion[$row['regionId']]['max'] = $row['townPrice'];
+            }
+        }
+
+        return $minMaxPricesByRegion;
+    }
 }

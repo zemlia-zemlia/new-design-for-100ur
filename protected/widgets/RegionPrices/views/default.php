@@ -13,12 +13,7 @@
             <?php echo $region;?>
         </td>
         <td class="text-left">
-            <?php 
-            if(Yii::app()->user->role == User::ROLE_PARTNER && Yii::app()->user->priceCoeff !== 0) {
-                $price = $price * Yii::app()->user->priceCoeff;
-            }   
-            ?>
-            от <?php echo round($price);?> руб.
+            <?php echo $price;?> руб.
         </td>
     </tr>
     <?php endforeach;?>

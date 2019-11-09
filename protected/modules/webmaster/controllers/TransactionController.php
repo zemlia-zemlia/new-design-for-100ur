@@ -59,7 +59,7 @@ class TransactionController extends Controller {
             }
             
             if(abs($transaction->sum) < PartnerTransaction::MIN_WITHDRAW) {
-                $transaction->addError('sum', 'Минимальная сумма для вывода - ' . PartnerTransaction::MIN_WITHDRAW . ' руб.');
+                $transaction->addError('sum', 'Минимальная сумма для вывода - ' . MoneyFormat::rubles(PartnerTransaction::MIN_WITHDRAW) . ' руб.');
             }
             
             // Проверяем, нет ли у текущего пользователя заявок на рассмотрении
