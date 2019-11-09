@@ -89,7 +89,7 @@ $this->breadcrumbs=array(
     </td>
     <td style="max-width: 50px">
         <div>
-            <?php echo CHtml::textField('buyPrice', $town['buyPrice'], array(
+            <?php echo CHtml::textField('buyPrice', MoneyFormat::rubles($town['buyPrice']), array(
                 'class' => 'form-control town-buy-price input-sm input-xs', 
                 'data-id'=>$town['id'],
                 'style' => 'max-width:50px',
