@@ -148,6 +148,14 @@ class User extends CActiveRecord
     }
 
     /**
+     * @return QuestionCategory[]
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
      * @return array validation rules for model attributes
      */
     public function rules()

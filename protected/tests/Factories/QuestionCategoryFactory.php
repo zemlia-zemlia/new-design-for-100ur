@@ -12,6 +12,7 @@ class QuestionCategoryFactory extends BaseFactory
             'id' => $this->faker->randomNumber(6),
             'name' => $this->faker->sentence,
             'parentId' => $this->faker->randomNumber(6),
+            'alias' => $this->faker->randomNumber(9),
         ];
 
         $requestParams = array_merge($requestParams, $forcedParams);

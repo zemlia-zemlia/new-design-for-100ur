@@ -4,7 +4,12 @@ namespace tests\integration\models;
 
 use Codeception\Test\Unit;
 use Question;
+use Question2category;
+use QuestionCategory;
+use Tests\Factories\QuestionCategoryFactory;
+use Tests\Factories\QuestionFactory;
 use Tests\integration\BaseIntegrationTest;
+use User;
 use Yii;
 
 class QuestionTest extends BaseIntegrationTest
@@ -64,5 +69,32 @@ class QuestionTest extends BaseIntegrationTest
         $this->assertCount(1, $authorNewQuestions);
         $this->assertCount(1, $authorQuestionsByStatusNew);
         $this->assertCount(2, $authorQuestionsByStatusNewAndChecked);
+    }
+
+    public function testGetRandomId()
+    {
+        $questionsAttributes = (new QuestionFactory())->generateFew(5, [
+            'status' => Question::STATUS_PUBLISHED,
+        ]);
+        $this->loadToDatabase(Question::getFullTableName(), $questionsAttributes);
+
+        $categoriesAttributes = (new QuestionCategoryFactory())->generateFew(5);
+        $this->loadToDatabase(QuestionCategory::getFullTableName(), $categoriesAttributes);
+
+        $q2c = new Question2category();
+        $q2c->qId = $demoQuestionId = $questionsAttributes[0]['id'];
+        $q2c->cId = $demoCatId = $categoriesAttributes[0]['id'];
+        $this->assertTrue($q2c->save());
+
+        $democat = new QuestionCategory();
+        $democat->scenario = 'testing';
+        $democat->setAttributes([
+            'id' => $demoCatId,
+        ]);
+        $userMock = $this->createMock(User::class);
+        $categoriesArray = [$democat];
+        $userMock->method('getCategories')->willReturn($categoriesArray);
+
+        $this->assertEquals($demoQuestionId, Question::getRandomId($userMock));
     }
 }
