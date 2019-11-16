@@ -2,12 +2,16 @@
 
 namespace tests\integration\models;
 
+use Answer;
 use Codeception\Test\Unit;
+use DateTime;
 use Question;
 use Question2category;
 use QuestionCategory;
+use Tests\Factories\AnswerFactory;
 use Tests\Factories\QuestionCategoryFactory;
 use Tests\Factories\QuestionFactory;
+use Tests\Factories\UserFactory;
 use Tests\integration\BaseIntegrationTest;
 use User;
 use Yii;
@@ -96,5 +100,71 @@ class QuestionTest extends BaseIntegrationTest
         $userMock->method('getCategories')->willReturn($categoriesArray);
 
         $this->assertEquals($demoQuestionId, Question::getRandomId($userMock));
+    }
+
+    public function testGetCountByStatus()
+    {
+        $questionFactory = new QuestionFactory();
+        $questionsAttributes = array_merge(
+            $questionFactory->generateFew(3, ['status' => Question::STATUS_CHECK]),
+            $questionFactory->generateFew(2, ['status' => Question::STATUS_PUBLISHED])
+        );
+
+        $this->loadToDatabase(Question::getFullTableName(), $questionsAttributes);
+
+        $this->assertEquals(3, Question::getCountByStatus(Question::STATUS_CHECK));
+        $this->assertEquals(2, Question::getCountByStatus(Question::STATUS_PUBLISHED));
+        $this->assertEquals(0, Question::getCountByStatus(Question::STATUS_SPAM));
+    }
+
+    public function testGetCountWithoutAnswers()
+    {
+        $questionFactory = new QuestionFactory();
+        $answerFactory = new AnswerFactory();
+
+        $questionsAttributes = array_merge(
+            $questionFactory->generateFew(3, ['status' => Question::STATUS_CHECK]),
+            $questionFactory->generateFew(2, ['status' => Question::STATUS_SPAM]),
+            $questionFactory->generateFew(1, [
+                'status' => Question::STATUS_PUBLISHED,
+                'createDate' => (new DateTime())->modify('-1 year')->format('Y-m-d H:i:s')
+            ])
+        );
+
+        $answerAttributes = $answerFactory->generateOne([
+            'questionId' => $questionsAttributes[0]['id'],
+        ]);
+
+        $this->loadToDatabase(Question::getFullTableName(), $questionsAttributes);
+        $this->loadToDatabase(Answer::getFullTableName(), [$answerAttributes]);
+
+        $this->assertEquals(2, Question::getCountWithoutAnswers(30));
+        $this->assertEquals(3, Question::getCountWithoutAnswers(370));
+    }
+
+    /**
+     * @dataProvider providerCreateAuthor
+     * @param $questionAttributes
+     * @param $userAttributes
+     * @param $expectedResult
+     */
+    public function testCreateAuthor($questionAttributes, $userAttributes, $expectedResult)
+    {
+
+    }
+
+    public function providerCreateAuthor():array
+    {
+        $userFactory = new UserFactory();
+        $questionFactory = new QuestionFactory();
+
+        return [
+            'new user' => [
+
+            ],
+            'existing user' => [
+
+            ],
+        ];
     }
 }
