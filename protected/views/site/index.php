@@ -167,7 +167,7 @@ Yii::app()->clientScript->registerLinkTag("canonical", NULL, "https://" . $_SERV
             $this->widget('application.widgets.RecentPosts.RecentPosts', [
                 'number' => 6,
                 'order' => 'fresh_views',
-                'intervalDays' => 60,
+                'intervalDays' => 160,
                 'template' => 'horizontal',
             ]);
             ?>
