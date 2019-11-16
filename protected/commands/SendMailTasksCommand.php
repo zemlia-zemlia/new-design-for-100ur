@@ -11,7 +11,7 @@ class SendMailTasksCommand extends CConsoleCommand
     {
         echo '=== sending mails ===' . PHP_EOL;
 
-        $mailsSent = Mail::sendTasks($limit, !YII_DEV);
+        $mailsSent = Mail::sendTasks($limit, false);
 
         echo 'mails sent: ' . $mailsSent . PHP_EOL;
     }
