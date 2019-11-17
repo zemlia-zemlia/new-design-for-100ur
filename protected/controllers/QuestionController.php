@@ -225,9 +225,14 @@ class QuestionController extends Controller
                  * чтобы при сохранении вопроса произошел update записи
                  */
                 if ($question->sessionId != '') {
-                    $question = Question::model()->find([
-                        'condition' => 'sessionId = "' . $question->sessionId . '"',
+                    $findQuestionCriteria = new CDbCriteria();
+                    $findQuestionCriteria->addColumnCondition([
+                        'sessionId' => $question->sessionId,
                     ]);
+                    $existingQuestion = Question::model()->find($findQuestionCriteria);
+                    if($existingQuestion instanceof Question) {
+                        $question = $existingQuestion;
+                    }
                 }
                 $question->attributes = $_POST['Question'];
                 $question->phone = Question::normalizePhone($question->phone);
@@ -1088,6 +1093,11 @@ class QuestionController extends Controller
         $dateParts = explode('-', $date);
         $year = $dateParts[0];
         $month = $dateParts[1];
+
+        $date = (new DateTime())->setDate($year, $month, 1);
+        if (!($date instanceof DateTime) || $date > (new DateTime())) {
+            throw new CHttpException(400, 'Некорректная дата');
+        }
 
         $questionsDataProvider = new CActiveDataProvider('Question', [
             'criteria' => [

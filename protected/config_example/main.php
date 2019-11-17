@@ -48,6 +48,10 @@ return array(
             'allowAutoLogin' => true,
             'class' => 'WebUser',
         ),
+        'request' => [
+            'enableCsrfValidation' => true,
+            'enableCookieValidation'=>true,
+        ],
         'authManager' => array(
             // Будем использовать свой менеджер авторизации
             'class' => 'PhpAuthManager',

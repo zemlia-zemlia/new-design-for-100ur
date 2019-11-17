@@ -28,6 +28,8 @@ class Controller extends CController {
      * @return boolean
      */
     public function init() {
+
+        header('X-Frame-Options: DENY');
         Yii::setPathOfAlias('YurcrmClient', Yii::getPathOfAlias('application.vendor.yurcrm.yurcrm-client.src'));
 
         // если пользователь неактивен, разлогиниваем его
