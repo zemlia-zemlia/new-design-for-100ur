@@ -13,12 +13,14 @@ class ApiController extends CController
 
     public function init()
     {
+        Yii::app()->request->enableCsrfValidation = false;
         $this->logger = new Logger('api');
         $this->logger->pushHandler(new StreamHandler(Yii::getPathOfAlias("application.runtime") . '/api.log', Logger::INFO));
     }
 
     public function beforeAction($action)
     {
+        Yii::app()->request->enableCsrfValidation = false;
         $this->enableCsrfValidation = false;
         return parent::beforeAction($action);
     }
