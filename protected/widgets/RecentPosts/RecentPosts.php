@@ -8,7 +8,7 @@ class RecentPosts extends CWidget
     public $category = NULL;
     public $number = 4; // число постов
     public $order = 'views'; // порядок выборки (comments | views | fresh_views)
-    public $intervalDays = 30; // за какое число дней искать свежие посты
+    public $intervalDays = 150; // за какое число дней искать свежие посты
 
     public function run()
     {

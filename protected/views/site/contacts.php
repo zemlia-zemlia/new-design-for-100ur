@@ -1,7 +1,7 @@
 <?php
 $this->setPageTitle("Контакты юридических центров. " . Yii::app()->name);
 
-Yii::app()->clientScript->registerScriptFile("http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU", CClientScript::POS_HEAD);
+Yii::app()->clientScript->registerScriptFile("https://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU", CClientScript::POS_HEAD);
 ?>
 
 

@@ -42,7 +42,7 @@ $this->breadcrumbs=array(
                     'countryAlias'  => $region['countryAlias'],
                 )));
             echo "</td><td><div>";
-            echo CHtml::textField('buyPrice', $region['buyPrice'], array(
+            echo CHtml::textField('buyPrice', MoneyFormat::rubles($region['buyPrice']), array(
                 'class' => 'form-control region-buy-price input-sm input-xs', 
                 'data-id'=>$region['id'],
                 'style' => 'max-width:50px',

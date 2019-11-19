@@ -1,5 +1,5 @@
 <?php
-    $model->sum = MoneyFormat::rubles($model->sum);
+    $model->sum = ($model->sum > 0) ? MoneyFormat::rubles($model->sum) : null;
 ?>
 
 <div class="form">
