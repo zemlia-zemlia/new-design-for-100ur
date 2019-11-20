@@ -730,8 +730,6 @@ class Question extends CActiveRecord
 
             return true;
         }
-        var_dump($this->errors);
-        exit;
 
         return false;
     }
