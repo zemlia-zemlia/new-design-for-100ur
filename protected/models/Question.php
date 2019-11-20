@@ -477,7 +477,7 @@ class Question extends CActiveRecord
      */
     public function vipNotification($rateWithoutComission)
     {
-        $paymentLog = fopen($_SERVER['DOCUMENT_ROOT'].YandexKassa::PAYMENT_LOG_FILE, 'a+');
+        $paymentLog = fopen(Yii::getPathOfAlias('application').'/..'.YandexKassa::PAYMENT_LOG_FILE, 'a+');
         fwrite($paymentLog, 'Отправляем уведомление о вип вопросе '.$this->id.PHP_EOL);
         fwrite($paymentLog, 'На адрес '.Yii::app()->params['adminNotificationsEmail'].PHP_EOL);
         fwrite($paymentLog, 'Сумма '.$rateWithoutComission.PHP_EOL);

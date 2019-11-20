@@ -397,11 +397,13 @@ class CustomFuncs
      */
     public static function getUserIP(): string
     {
+        $ip = '';
         if (isset($_SERVER['HTTP_X_REAL_IP'])) {
             $ip = $_SERVER['HTTP_X_REAL_IP'];
-        } else {
+        } elseif (isset($_SERVER['REMOTE_ADDR'])) {
             $ip = $_SERVER['REMOTE_ADDR'];
         }
+
         return $ip;
     }
 }

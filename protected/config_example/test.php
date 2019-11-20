@@ -7,13 +7,29 @@ return CMap::mergeArray(
 			'fixture'=>array(
 				'class'=>'system.test.CDbFixtureManager',
 			),
-            'log' => [],
+            'request' => [
+                'enableCsrfValidation' => false,
+                'enableCookieValidation' => false,
+            ],
+            'db' => [
+                'connectionString' => 'mysql:host=localhost;dbname=100yuristov_test',
+                'username' => '100yuristov_test',
+                'password' => '',
+            ],
+            'log' => [
+                'class' => 'CLogRouter',
+                'routes' => [
+                    [
+                        'class' => 'CFileLogRoute',
+                        'levels' => 'error, warning',
+                    ],
+                ],
+            ],
             'cache' => null,
-			/* uncomment the following to provide test database connection
-			'db'=>array(
-				'connectionString'=>'DSN for test database',
-			),
-			*/
+            'urlManager' => [
+                'urlFormat' => 'path',
+                'showScriptName' => true,
+            ],
 		),
 	)
 );

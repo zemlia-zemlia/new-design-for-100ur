@@ -5,6 +5,7 @@ namespace tests\integration\models;
 use Answer;
 use Codeception\Test\Unit;
 use DateTime;
+use Money;
 use Question;
 use Question2category;
 use QuestionCategory;
@@ -144,26 +145,126 @@ class QuestionTest extends BaseIntegrationTest
 
     /**
      * @dataProvider providerCreateAuthor
-     * @param $questionAttributes
-     * @param $userAttributes
-     * @param $expectedResult
+     * @param array $questionAttributes
+     * @param array|null $userAttributes
+     * @param bool $expectedResult
      */
     public function testCreateAuthor($questionAttributes, $userAttributes, $expectedResult)
     {
+        if ($userAttributes) {
+            $this->loadToDatabase(User::getFullTableName(), [$userAttributes]);
+        }
 
+        $question = new Question();
+        $question->attributes = $questionAttributes;
+
+        $createAuthorResult = $question->createAuthor();
+
+        $this->assertEquals($expectedResult, $createAuthorResult);
+
+        if ($userAttributes && $expectedResult == true) {
+            $this->assertEquals($userAttributes['id'], $question->authorId);
+        }
     }
 
-    public function providerCreateAuthor():array
+    /**
+     * @return array
+     */
+    public function providerCreateAuthor(): array
     {
         $userFactory = new UserFactory();
         $questionFactory = new QuestionFactory();
 
         return [
-            'new user' => [
-
-            ],
             'existing user' => [
+                'questionAttributes' => $questionFactory->generateOne([
+                    'email' => 'pupkin@100yuristov.com',
+                ]),
+                'userAttributes' => $userFactory->generateOne([
+                    'id' => 100,
+                    'email' => 'pupkin@100yuristov.com',
+                ]),
+                'expectedResult' => true,
+            ],
+            'new user' => [
+                'questionAttributes' => $questionFactory->generateOne([
+                    'email' => 'pechkin@100yuristov.com',
+                ]),
+                'userAttributes' => null,
+                'expectedResult' => true,
+            ],
+            'incorrect user' => [
+                'questionAttributes' => $questionFactory->generateOne([
+                    'email' => 'pechkin@100yuristov.com',
+                ]),
+                'userAttributes' => $userFactory->generateOne([
+                    'id' => 100,
+                    'email' => 'pupkin@100yuristov.com',
+                    'password' => '12',
+                ]),
+                'expectedResult' => false,
+            ],
+        ];
+    }
 
+    public function testVipNotification()
+    {
+        $questionAttributes = (new QuestionFactory())->generateOne();
+
+        $question = new Question();
+        $question->attributes = $questionAttributes;
+        $saveResult = $question->save();
+
+        $this->assertTrue($saveResult);
+
+        $question->vipNotification(100);
+
+        $this->tester->seeInDatabase(Money::getFullTableName(), [
+            'type' => Money::TYPE_INCOME,
+            'direction' => 504,
+            'value' => 100,
+        ]);
+    }
+
+    /**
+     * @dataProvider providerPreSave
+     * @param array $questionAttributes
+     * @param boolean $expectedResult
+     */
+    public function testPreSave($questionAttributes, $expectedResult)
+    {
+        $question = new Question();
+        $question->attributes = $questionAttributes;
+
+        $this->assertEquals($expectedResult, $question->preSave());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerPreSave(): array
+    {
+        $questionFactory = new QuestionFactory();
+
+        return [
+            'no session' => [
+                'questionAttributes' => $questionFactory->generateOne([
+                    'sessionId' => '',
+                ]),
+                'expectedResult' => true,
+            ],
+            'session' => [
+                'questionAttributes' => $questionFactory->generateOne([
+                    'sessionId' => '123',
+                ]),
+                'expectedResult' => true,
+            ],
+            'bad question data' => [
+                'questionAttributes' => $questionFactory->generateOne([
+                    'sessionId' => '',
+                    'questionText' => '',
+                ]),
+                'expectedResult' => false,
             ],
         ];
     }
