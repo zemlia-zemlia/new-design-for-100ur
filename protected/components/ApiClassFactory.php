@@ -7,6 +7,9 @@ class ApiClassFactory
 {
     public function getApiClass($className)
     {
+        if(YII_ENV != 'prod') {
+            return new ApiTestHandler();
+        }
         switch ($className) {
             case 'ApiLexprofit':
                 return new ApiLexProfit();
