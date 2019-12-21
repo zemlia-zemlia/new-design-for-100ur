@@ -1,11 +1,12 @@
 <?php
 
 /**
- * Модель для работы со связью вопросов и категорий вопросов
+ * Модель для работы со связью вопросов и категорий вопросов.
  *
  * The followings are the available columns in table '{{question2category}}':
- * @property integer $qId
- * @property integer $cId
+ *
+ * @property int $qId
+ * @property int $cId
  */
 class Question2category extends CActiveRecord
 {
@@ -22,34 +23,34 @@ class Question2category extends CActiveRecord
      */
     public static function getFullTableName()
     {
-        return Yii::app()->db->tablePrefix . 'question2category';
+        return Yii::app()->db->tablePrefix.'question2category';
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-                array('qId, cId', 'required'),
-                array('qId, cId', 'numerical', 'integerOnly'=>true),
+        return [
+                ['qId, cId', 'required'],
+                ['qId, cId', 'numerical', 'integerOnly' => true],
                 // The following rule is used by search().
                 // @todo Please remove those attributes that should not be searched.
-                array('qId, cId', 'safe', 'on'=>'search'),
-        );
+                ['qId, cId', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-        );
+        return [
+        ];
     }
 
     /**
@@ -57,10 +58,10 @@ class Question2category extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'qId' => 'ID вопроса',
             'cId' => 'ID категории',
-        );
+        ];
     }
 
     /**
@@ -73,29 +74,31 @@ class Question2category extends CActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     *                             based on the search/filter conditions
      */
     public function search()
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria();
 
-        $criteria->compare('qId',$this->qId);
-        $criteria->compare('cId',$this->cId);
+        $criteria->compare('qId', $this->qId);
+        $criteria->compare('cId', $this->cId);
 
-        return new CActiveDataProvider($this, array(
-                'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+                'criteria' => $criteria,
+        ]);
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     *
+     * @param string $className active record class name
+     *
      * @return Question2category the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

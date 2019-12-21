@@ -23,7 +23,6 @@ use YurcrmClient\YurcrmResponse;
  * @package Tests\Integration\Models
  *
  * @todo Покрыть тестами следующий функционал:
- * - Отправка лида в Yurcrm
  * - Перевод лида в статус Брак из другого статуса с удалением транзакции вебмастера
  */
 
