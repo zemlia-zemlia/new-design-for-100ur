@@ -52,9 +52,9 @@
   <body class="skin-blue sidebar-mini">
     <div class="wrapper">
 
-    <?= CController::renderPartial('webroot.themes.2021.views.admin._header'); ?>
+    <?= CController::renderPartial('webroot.themes.2020.views.admin._header'); ?>
 
-        <?= CController::renderPartial('webroot.themes.2021.views.admin._left'); ?>
+        <?= CController::renderPartial('webroot.themes.2020.views.admin._left'); ?>
       <!-- Left side column. contains the logo and sidebar -->
 
 
