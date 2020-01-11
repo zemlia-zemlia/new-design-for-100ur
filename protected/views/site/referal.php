@@ -55,7 +55,7 @@ Yii::app()->clientScript->registerMetaTag("Получайте деньги за 
                 <li>задать вопрос через форму на сайте</li>
                 <li>подтвердить свою почту</li>
             </ul>
-			<strong>За приглашенного клиента вы получите: <?php echo Yii::app()->params['bonuses'][User::ROLE_CLIENT]; ?> руб.</strong>
+			<strong>За приглашенного клиента вы получите: <?php echo MoneyFormat::rubles(Yii::app()->params['bonuses'][User::ROLE_CLIENT]); ?> руб.</strong>
         </td>
     </tr>
     <tr>
@@ -67,7 +67,7 @@ Yii::app()->clientScript->registerMetaTag("Получайте деньги за 
                 <li>подтвердить свой статус юриста или адвоката</li>
                 <li>дать не менее 25 ответов на вопросы пользователей</li>
             </ul>
-		<strong>За приглашенного юриста вы получите: <?php echo Yii::app()->params['bonuses'][User::ROLE_JURIST]; ?> руб. </strong>
+		<strong>За приглашенного юриста вы получите: <?php echo MoneyFormat::rubles(Yii::app()->params['bonuses'][User::ROLE_JURIST]); ?> руб. </strong>
         </td>
     </tr>
 </table>
