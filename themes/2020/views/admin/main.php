@@ -32,6 +32,9 @@
     <!-- bootstrap wysihtml5 - text editor -->
     <link href="/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
       <?php
+      Yii::app()->clientScript->registerCssFile("/css/2017/admin.css");
+      ?>
+      <?php
       Yii::app()->clientScript->registerScriptFile("/js/respond.min.js");
       Yii::app()->clientScript->registerScriptFile("jquery.js");
       Yii::app()->clientScript->registerScriptFile("/js/jquery-ui/jquery-ui.min.js");
