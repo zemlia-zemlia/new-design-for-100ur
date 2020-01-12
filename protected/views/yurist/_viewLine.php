@@ -37,11 +37,11 @@
 
                     <?php if ($data->settings->priceConsult): ?>
                         <br />
-                        <strong>Консультация:</strong> от <?php echo $data->settings->priceConsult; ?> <span class="glyphicon glyphicon-ruble"></span>
+                        <strong>Консультация:</strong> от <?php echo MoneyFormat::rubles($data->settings->priceConsult); ?> <span class="glyphicon glyphicon-ruble"></span>
                     <?php endif; ?>
                     <?php if ($data->settings->priceDoc): ?>
                         <br />
-                        <strong>Документ:</strong> от <?php echo $data->settings->priceDoc; ?>  <span class="glyphicon glyphicon-ruble"></span>
+                        <strong>Документ:</strong> от <?php echo MoneyFormat::rubles($data->settings->priceDoc); ?>  <span class="glyphicon glyphicon-ruble"></span>
                     <?php endif; ?>
 
                 </p>
