@@ -514,9 +514,10 @@ class Lead extends CActiveRecord
             if (!is_null($yurcrmResult)) {
                 // Если успешно отправили лид в Yurcrm, уведомляем об этом покупателя
                 $yurcrmResultDecoded = json_decode($yurcrmResult->getResponse(), true);
-                $crmLeadId = (int)$yurcrmResultDecoded['data']['id'];
-                if (200 == (int)$yurcrmResultDecoded['status'] && $crmLeadId > 0) {
-                    return $this->notifier->sendYurcrmNotification($buyer, $crmLeadId);
+
+                if (200 == (int)$yurcrmResultDecoded['status'] && isset($yurcrmResultDecoded['data']['id'])) {
+                    $crmLeadId = (int)$yurcrmResultDecoded['data']['id'];
+                    $this->notifier->sendYurcrmNotification($buyer, $crmLeadId);
                 }
 
                 LoggerFactory::getLogger('db')->log('Лид отправлен в Yurcrm. Код ответа: '. $yurcrmResult->getHttpCode() .'. Ответ: ' . $yurcrmResult->getResponse(), 'Lead', $this->id);
