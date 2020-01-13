@@ -8,7 +8,7 @@ use Phinx\Migration\AbstractMigration;
  */
 class CreateFileTable extends AbstractMigration
 {
-    const TABLE = '100_file';
+    const TABLE = '100_docs';
 
     public function up()
     {
