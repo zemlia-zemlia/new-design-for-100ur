@@ -194,6 +194,7 @@ class LeadTest extends BaseIntegrationTest
 
             $this->tester->seeInDatabase(self::CAMPAIGN_TRANSACTIONS_TABLE, [
                 'campaignId' => $campaignId,
+                'leadId' => $lead->id,
             ]);
         }
     }

@@ -467,6 +467,7 @@ class Lead extends CActiveRecord
             $transaction->sum = -$leadPrice;
             $transaction->description = 'Покупка заявки #' . $this->id;
             $transaction->time = $transactionTime;
+            $transaction->leadId = $this->id;
         } else {
             $transaction = null;
             $buyer->lastTransactionTime = $transactionTime;
