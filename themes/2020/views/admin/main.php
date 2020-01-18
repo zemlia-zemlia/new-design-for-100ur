@@ -9,28 +9,31 @@
     <title><?= YiiBase::getPathOfAlias('web.themes.2020.views.admin')?></title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.4 -->
-    <link href="/themes/2020/views/admin/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/adminlte/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- FontAwesome 4.3.0 -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Ionicons 2.0.0 -->
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
-    <link href="/themes/2020/views/admin/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <link href="/adminlte/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link href="/themes/2020/views/admin/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
+    <link href="/adminlte/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
     <!-- iCheck -->
-    <link href="/themes/2020/views/admin/plugins/iCheck/flat/blue.css" rel="stylesheet" type="text/css" />
+    <link href="/adminlte/plugins/iCheck/flat/blue.css" rel="stylesheet" type="text/css" />
     <!-- Morris chart -->
-    <link href="/themes/2020/views/admin/plugins/morris/morris.css" rel="stylesheet" type="text/css" />
+    <link href="/adminlte/plugins/morris/morris.css" rel="stylesheet" type="text/css" />
     <!-- jvectormap -->
-    <link href="/themes/2020/views/admin/plugins/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+    <link href="/adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
     <!-- Date Picker -->
-    <link href="/themes/2020/views/admin/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
+    <link href="/adminlte/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
     <!-- Daterange picker -->
-    <link href="/themes/2020/views/admin/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+    <link href="/adminlte/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
     <!-- bootstrap wysihtml5 - text editor -->
-    <link href="/themes/2020/views/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+    <link href="/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+    <?php
+    Yii::app()->clientScript->registerCssFile("/css/2017/admin.css");
+    ?>
     <?php
     Yii::app()->clientScript->registerScriptFile("/js/respond.min.js");
     Yii::app()->clientScript->registerScriptFile("jquery.js");
