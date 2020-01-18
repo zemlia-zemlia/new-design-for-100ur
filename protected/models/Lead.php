@@ -698,6 +698,13 @@ class Lead extends CActiveRecord
 
         LoggerFactory::getLogger('db')->log('Создан лид #' . $this->id . ', ' . $this->town->name, 'Lead', $this->id);
 
+        if (Yii::app()->params['sellLeadAfterCreating'] == true) {
+            $this->findCampaignAndSell();
+        }
+    }
+
+    protected function findCampaignAndSell()
+    {
         // после сохранения лида ищем для него кампанию
         $campaignId = Campaign::getCampaignsForLead($this->id);
         $campaign = Campaign::model()->findByPk($campaignId);
