@@ -30,7 +30,7 @@
                     <li class="active"><a href="<?= Yii::app()->createUrl('/admin/lead/index', array('status' => Lead::LEAD_STATUS_PREMODERATION))?>"><i class="fa fa-circle-o"></i>  На модерации
                             <small class="label pull-right bg-red"><?php echo Lead::getStatusCounter(Lead::LEAD_STATUS_PREMODERATION, FALSE); ?></small></a></li>
                     <li class="active"><a href="<?= Yii::app()->createUrl('/admin/lead/index', array('status' => Lead::LEAD_STATUS_NABRAK)) ?>"><i class="fa fa-circle-o"></i> На отбраковке
-                            <small class="label pull-right bg-red"><?php echo Lead::getStatusCounter(Lead::getStatusCounter(Lead::LEAD_STATUS_NABRAK)) ?></small></a></li>
+                            <small class="label pull-right bg-red"><?php echo Lead::getStatusCounter(Lead::LEAD_STATUS_NABRAK) ?></small></a></li>
                 </ul>
             </li>
 
