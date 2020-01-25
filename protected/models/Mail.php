@@ -143,6 +143,8 @@ class Mail extends CActiveRecord
             }
             $additionalHeaders = [
                 'X-Postmaster-Msgtype' => 'рассылка_'. $task['mailId'],
+                'List-id' => 'рассылка_'. $task['mailId'],
+                'X-Mailru-Msgtype' => 'рассылка_'. $task['mailId'],
             ];
             $mailer->email = $task['email'];
             if ($mailer->sendMail(true, $additionalHeaders)) {

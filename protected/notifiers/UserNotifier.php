@@ -87,6 +87,8 @@ class UserNotifier
 
         $additionalHeaders = [
             'X-Postmaster-Msgtype' => 'Подтверждение Email',
+            'List-id' => 'Подтверждение Email',
+            'X-Mailru-Msgtype' => 'Подтверждение Email',
         ];
 
         return $this->mailer->sendMail(true, $additionalHeaders);
@@ -183,6 +185,8 @@ class UserNotifier
 
         $additionalHeaders = [
             'X-Postmaster-Msgtype' => 'Уведомление об ответе',
+            'List-id' => 'Уведомление об ответе',
+            'X-Mailru-Msgtype' => 'Уведомление об ответе',
         ];
 
         if ($this->mailer->sendMail(true, $additionalHeaders)) {
@@ -217,6 +221,8 @@ class UserNotifier
 
         $additionalHeaders = [
             'X-Postmaster-Msgtype' => 'Уведомление о комментарии',
+            'List-id' => 'Уведомление о комментарии',
+            'X-Mailru-Msgtype' => 'Уведомление о комментарии',
         ];
 
         if ($this->mailer->sendMail(true, $additionalHeaders)) {
@@ -274,6 +280,8 @@ class UserNotifier
 
         $additionalHeaders = [
             'X-Postmaster-Msgtype' => 'Уведомление покупателю',
+            'List-id' => 'Уведомление покупателю',
+            'X-Mailru-Msgtype' => 'Уведомление покупателю',
         ];
 
         if ($this->mailer->sendMail(true, $additionalHeaders)) {
@@ -309,6 +317,8 @@ class UserNotifier
 
         $additionalHeaders = [
             'X-Postmaster-Msgtype' => 'Уведомление юристу о донате',
+            'List-id' => 'Уведомление юристу о донате',
+            'X-Mailru-Msgtype' => 'Уведомление юристу о донате',
         ];
 
         if ($this->mailer->sendMail(true, $additionalHeaders)) {
@@ -336,6 +346,8 @@ class UserNotifier
 
         $additionalHeaders = [
             'X-Postmaster-Msgtype' => 'Уведомление юристу об отзыве',
+            'List-id' => 'Уведомление юристу об отзыве',
+            'X-Mailru-Msgtype' => 'Уведомление юристу об отзыве',
         ];
 
         if ($this->mailer->sendMail(true, $additionalHeaders)) {

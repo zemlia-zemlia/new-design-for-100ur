@@ -47,6 +47,8 @@ class LeadNotifier
 
         $additionalHeaders = [
             'X-Postmaster-Msgtype' => 'Отправка лида',
+            'List-id' => 'Отправка лида',
+            'X-Mailru-Msgtype' => 'Отправка лида',
         ];
 
         return $this->mailer->sendMail(true, $additionalHeaders);
@@ -71,6 +73,8 @@ class LeadNotifier
 
         $additionalHeaders = [
             'X-Postmaster-Msgtype' => 'Отправка лида',
+            'List-id' => 'Отправка лида',
+            'X-Mailru-Msgtype' => 'Отправка лида',
         ];
 
         return $this->mailer->sendMail(true, $additionalHeaders);

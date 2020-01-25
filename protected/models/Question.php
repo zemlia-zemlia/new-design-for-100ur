@@ -637,6 +637,8 @@ class Question extends CActiveRecord
 
                         $additionalHeaders = [
                             'X-Postmaster-Msgtype' => 'Вопросы из вашего региона',
+                            'List-id' => 'Вопросы из вашего региона',
+                            'X-Mailru-Msgtype' => 'Вопросы из вашего региона',
                         ];
 
                         if ($mailer->sendMail(true, $additionalHeaders)) {
@@ -676,6 +678,8 @@ class Question extends CActiveRecord
 
                         $additionalHeaders = [
                             'X-Postmaster-Msgtype' => 'Вопросы из вашего города',
+                            'List-id' => 'Вопросы из вашего города',
+                            'X-Mailru-Msgtype' => 'Вопросы из вашего города',
                         ];
 
                         //echo "<div>" . $mailer->message . "</div><hr />";
