@@ -119,7 +119,7 @@ class Mail extends CActiveRecord
         $mailsSent = 0;
 
         $tasks = Yii::app()->db->createCommand()
-            ->select('t.id, m.subject, m.message, t.status, u.autologin, t.email')
+            ->select('t.id, m.subject, m.message, t.status, u.autologin, t.email, t.mailId')
             ->from('{{mailtask}} t')
             ->leftJoin('{{mail}} m', 't.mailId = m.id')
             ->leftJoin('{{user}} u', 'u.id = t.userId')
