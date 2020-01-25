@@ -85,7 +85,11 @@ class UserNotifier
         }
         $this->mailer->email = $this->user->email;
 
-        return $this->mailer->sendMail();
+        $additionalHeaders = [
+            'X-Postmaster-Msgtype' => 'Подтверждение Email',
+        ];
+
+        return $this->mailer->sendMail(true, $additionalHeaders);
     }
 
     /**
@@ -177,7 +181,11 @@ class UserNotifier
         // отправляем письмо на почту пользователя
         $this->mailer->email = $this->user->email;
 
-        if ($this->mailer->sendMail()) {
+        $additionalHeaders = [
+            'X-Postmaster-Msgtype' => 'Уведомление об ответе',
+        ];
+
+        if ($this->mailer->sendMail(true, $additionalHeaders)) {
             Yii::log("Отправлено письмо пользователю " . $this->user->email . " с уведомлением об ответе на вопрос " . $question->id, 'info', 'system.web.User');
             return true;
         } else {
@@ -207,7 +215,11 @@ class UserNotifier
 
         $this->mailer->email = $this->user->email;
 
-        if ($this->mailer->sendMail(true)) {
+        $additionalHeaders = [
+            'X-Postmaster-Msgtype' => 'Уведомление о комментарии',
+        ];
+
+        if ($this->mailer->sendMail(true, $additionalHeaders)) {
             Yii::log("Отправлено письмо пользователю " . $this->user->email . " с уведомлением о комментарии " . $comment->id, 'info', 'system.web.User');
             return true;
         } else {
@@ -260,7 +272,11 @@ class UserNotifier
 
         $this->mailer->email = $this->user->email;
 
-        if ($this->mailer->sendMail()) {
+        $additionalHeaders = [
+            'X-Postmaster-Msgtype' => 'Уведомление покупателю',
+        ];
+
+        if ($this->mailer->sendMail(true, $additionalHeaders)) {
             Yii::log("Отправлено письмо покупателю " . $this->user->email, 'info', 'system.web.User');
             return true;
         } else {
@@ -291,7 +307,11 @@ class UserNotifier
 
         $this->mailer->email = $yurist->email;
 
-        if ($this->mailer->sendMail()) {
+        $additionalHeaders = [
+            'X-Postmaster-Msgtype' => 'Уведомление юристу о донате',
+        ];
+
+        if ($this->mailer->sendMail(true, $additionalHeaders)) {
             Yii::log("Отправлено письмо юристу " . $yurist->email . " с уведомлением о благодарности по вопросу " . $answer->question->id, 'info', 'system.web.User');
             return true;
         } else {
@@ -314,7 +334,11 @@ class UserNotifier
 
         $this->mailer->email = $this->user->email;
 
-        if ($this->mailer->sendMail()) {
+        $additionalHeaders = [
+            'X-Postmaster-Msgtype' => 'Уведомление юристу об отзыве',
+        ];
+
+        if ($this->mailer->sendMail(true, $additionalHeaders)) {
             Yii::log("Отправлено письмо юристу " . $this->user->email . " с уведомлением о новом отзыве", 'info', 'system.web.User');
             return true;
         } else {

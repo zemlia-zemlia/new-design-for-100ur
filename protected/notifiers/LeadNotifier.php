@@ -45,7 +45,11 @@ class LeadNotifier
 
         $this->mailer->email = $campaign->buyer->email;
 
-        return $this->mailer->sendMail();
+        $additionalHeaders = [
+            'X-Postmaster-Msgtype' => 'Отправка лида',
+        ];
+
+        return $this->mailer->sendMail(true, $additionalHeaders);
     }
 
     /**
@@ -65,6 +69,10 @@ class LeadNotifier
         $this->mailer->message .= '<p>При первом входе в CRM вам нужно будет воспользоваться функцией восстановления пароля.  В качестве Email используйте адрес, под которым вы зарегистрированы в 100 Юристах</p>';
         $this->mailer->email = $buyer->email;
 
-        return $this->mailer->sendMail();
+        $additionalHeaders = [
+            'X-Postmaster-Msgtype' => 'Отправка лида',
+        ];
+
+        return $this->mailer->sendMail(true, $additionalHeaders);
     }
 }
