@@ -141,9 +141,11 @@ class Mail extends CActiveRecord
                     CHtml::link($autologinLink, $autologinLink)
                     . '</p>';
             }
-
+            $additionalHeaders = [
+                'X-Postmaster-Msgtype' => 'рассылка_'. $task['mailId'],
+            ];
             $mailer->email = $task['email'];
-            if ($mailer->sendMail()) {
+            if ($mailer->sendMail(true, $additionalHeaders)) {
                 Yii::app()->db->createCommand()
                     ->update('{{mailtask}}', ['status' => Mailtask::STATUS_SENT], 'id=:id', [':id' => $task['id']]);
                 $mailsSent++;
