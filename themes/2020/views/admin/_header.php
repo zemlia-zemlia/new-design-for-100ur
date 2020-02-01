@@ -4,7 +4,7 @@
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>100</b></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>100</b> юристов</span>
+        <span class="logo-lg"><b>100</b> Юристов</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
@@ -14,12 +14,6 @@
         </a>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-                <!-- Messages: style can be found in dropdown.less-->
-                <li class="dropdown messages-menu">
-                    <?php echo CHtml::link('Добавить лид', Yii::app()->createUrl('/admin/lead/create/'), array('class' => 'btn btn-info btn-xs')); ?>
-
-                </li>
-                <!-- Notifications: style can be found in dropdown.less -->
                 <li class="dropdown notifications-menu">
                     <?php
                     echo CHtml::ajaxLink("<span class='glyphicon glyphicon-refresh'></span>", Yii::app()->createUrl('site/clearCache'), array(
@@ -33,7 +27,7 @@
                     ?>
 
                 </li>
-                <!-- Tasks: style can be found in dropdown.less -->
+
                 <li class="dropdown tasks-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-user"></i>
