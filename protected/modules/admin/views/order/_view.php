@@ -27,33 +27,32 @@ switch ($data->status) {
         break;
 }
 ?>
-
 <tr>
-	<td>
-            <?php echo CHtml::link($data->id, Yii::app()->createUrl('admin/order/view', ['id' => $data->id]));?>
-            <br />
-            <span class="label <?php echo $statusClass;?>">
-                <?php echo $data->getStatusName();?>
+    <td>
+        <?php echo CHtml::link($data->id, Yii::app()->createUrl('admin/order/view', ['id' => $data->id])); ?>
+        <br/>
+        <span class="label <?php echo $statusClass; ?>">
+                <?php echo $data->getStatusName(); ?>
             </span>
-	</td>
-	<td>
-            <?php echo $data->author->townName;?> 
-	</td>
+    </td>
+    <td>
+        <?php echo $data->author->townName; ?>
+    </td>
 
     <td>
-        <?php echo CustomFuncs::niceDate($data->createDate, false, false);?>
+        <?php echo CustomFuncs::niceDate($data->createDate, false, false); ?>
     </td>
     <td>
-        <?php echo $data->docType->getClassName();?>.
-        <?php echo $data->docType->name;?>
+        <?php echo $data->docType->getClassName(); ?>.
+        <?php echo $data->docType->name; ?>
     </td>
-	<td>
-            <?php echo ($data->jurist) ? $data->jurist->getShortName() : 'нет';?> 
-	</td>
+    <td>
+        <?php echo ($data->jurist) ? $data->jurist->getShortName() : 'нет'; ?>
+    </td>
     <td>
         <p>
-        <span class="glyphicon glyphicon-comment"></span> <?php echo $data->responsesCount;?>
+            <span class="glyphicon glyphicon-comment"></span> <?php echo $data->responsesCount; ?>
         </p>
     </td>
-	
+
 </tr>

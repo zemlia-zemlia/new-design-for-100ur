@@ -7,28 +7,28 @@ environments:
     default_database: development
     production:
         adapter: mysql
-        host: localhost
+        host: 127.0.0.1
         name: 100yuristov
-        user: 100yuristov
-        pass: '4Ce!HtNVCUL^'
+        user: root
+        pass: 'arkadia7'
         port: 3306
         charset: utf8
 
     development:
         adapter: mysql
-        host: localhost
-        name: 100yuristov_etalon
-        user: 100yuristov
-        pass: '4Ce!HtNVCUL^'
+        host: 127.0.0.1
+        name: 100yuristov
+        user: root
+        pass: 'arkadia7'
         port: 3306
         charset: utf8
 
     testing:
         adapter: mysql
-        host: localhost
-        name: 100yuristov_test
-        user: 100yuristov_test
-        pass: ''
+        host: 127.0.0.1
+        name: 100yuristov
+        user: root
+        pass: 'arkadia7'
         port: 3306
         charset: utf8
 
