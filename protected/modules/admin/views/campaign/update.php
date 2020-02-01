@@ -3,13 +3,13 @@
 /* @var $model Campaign */
 
 $this->breadcrumbs=array(
-	'Кампании'=>array('index'),
-	$model->id=>array('view','id'=>$model->id),
-	'Редактирование',
+    'Кампании'=>array('index'),
+    $model->id=>array('view','id'=>$model->id),
+    'Редактирование',
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 юристов',"/admin"),
+    'homeLink'=>CHtml::link('100 юристов', "/admin"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));

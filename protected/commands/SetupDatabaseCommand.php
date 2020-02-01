@@ -5,7 +5,6 @@
  */
 class SetupDatabaseCommand extends CConsoleCommand
 {
-    
     public function actionIndex()
     {
         $currentDSN  = explode('=', Yii::app()->db->connectionString);
@@ -18,6 +17,5 @@ class SetupDatabaseCommand extends CConsoleCommand
         } catch (Exception $ex) {
             throw $ex;
         }
-        
     }
 }

@@ -31,15 +31,15 @@ class UloginUserIdentity implements IUserIdentity
             ':identity' => $this->uloginModel->identity,
         ]);
 
-        if(!$uloginUser) {
+        if (!$uloginUser) {
             // пользователь новый, создать записи и в ulogin_user и в user
             $uloginUser = UloginUser::create($this->uloginModel, null);
         }
 
         /** @var User $user */
         $user = $uloginUser->user;
-        if($user->active100 == 0) {
-            throw new CHttpException(403,'Пользователь заблокирован на сайте 100 Юристов, логин невозможен');
+        if ($user->active100 == 0) {
+            throw new CHttpException(403, 'Пользователь заблокирован на сайте 100 Юристов, логин невозможен');
         }
 
         $this->id = $user->id;

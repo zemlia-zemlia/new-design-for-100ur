@@ -6,8 +6,10 @@ $this->setPageTitle("Сделать вопрос VIP. ". Yii::app()->name);
 <div class="flat-panel">
     <div class='panel-body'>
         <p>
-            <?php echo nl2br(mb_substr(CHtml::encode($question->questionText),0,240,'utf-8'));?>
-            <?php if(strlen(CHtml::encode($question->questionText))>240) echo "..."; ?>
+            <?php echo nl2br(mb_substr(CHtml::encode($question->questionText), 0, 240, 'utf-8'));?>
+            <?php if (strlen(CHtml::encode($question->questionText))>240) {
+    echo "...";
+} ?>
         </p>
     </div>
 </div>

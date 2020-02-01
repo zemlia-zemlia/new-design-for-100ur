@@ -2,7 +2,7 @@
 
 /**
  * Класс для миграции таблицы БД, переход от простой двухуровневой структуры хранения
- * категорий вопросов к многоуровневой иерархии 
+ * категорий вопросов к многоуровневой иерархии
  */
 class QuestionCategoriesMigrationCommand extends CConsoleCommand
 {
@@ -35,11 +35,10 @@ class QuestionCategoriesMigrationCommand extends CConsoleCommand
             // для каждого родителя найдем его потомков и сохраним эту связь
             $children = QuestionCategory::model()->findAllByAttributes(array('parentId'=>$root->id));
             
-            foreach($children as $child) {
+            foreach ($children as $child) {
                 $child->moveAsLast($root);
                 $child->saveNode();
             }
-            
         }
     }
     
@@ -63,7 +62,6 @@ class QuestionCategoriesMigrationCommand extends CConsoleCommand
             $category->id = $root['id'];
             $category->saveNode();
         }
-        
     }
     
     public function actionConvertChildren()
@@ -74,7 +72,7 @@ class QuestionCategoriesMigrationCommand extends CConsoleCommand
                 ->where('parentId!=0')
                 ->queryAll();
         
-        foreach($children as $child) {
+        foreach ($children as $child) {
             $category = new QuestionCategory;
             $category->attributes = $child;
             $category->id = $child['id'];

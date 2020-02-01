@@ -5,13 +5,13 @@
 $this->setPageTitle("Вопросы и ответы - редактировать вопрос. ". Yii::app()->name);
 
 $this->breadcrumbs=array(
-	'Вопросы и ответы'=>array('index'),
-	$model->id=>array('view','id'=>$model->id),
-	'Редактирование',
+    'Вопросы и ответы'=>array('index'),
+    $model->id=>array('view','id'=>$model->id),
+    'Редактирование',
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('CRM',"/"),
+    'homeLink'=>CHtml::link('CRM', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));

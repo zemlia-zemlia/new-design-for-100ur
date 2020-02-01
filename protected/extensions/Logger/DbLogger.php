@@ -41,5 +41,4 @@ class DbLogger extends Logger
             throw $ex;
         }
     }
-
 }

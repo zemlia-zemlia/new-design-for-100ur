@@ -18,7 +18,6 @@
  */
 class Post extends CActiveRecord
 {
-
     public $photoFile;
 
     const PHOTO_PATH = "/upload/blogphoto";
@@ -141,8 +140,9 @@ class Post extends CActiveRecord
             $connection = Yii::app()->db;
             $sqlInsert = "INSERT INTO {{postviews}} (postId) VALUES('" . $this->id . "')";
             $commandInsert = $connection->createCommand($sqlInsert);
-            if (!$commandInsert->execute())
+            if (!$commandInsert->execute()) {
                 throw new CHttpException(500, 'Не удалось инициализировать счетчик просмотров.');
+            }
         }
     }
 
@@ -203,7 +203,7 @@ class Post extends CActiveRecord
      * @param int $categoryId id категории
      * @return array массив самых популярных постов
      */
-    public static function getPopularPosts($categoryId = NULL)
+    public static function getPopularPosts($categoryId = null)
     {
         //$popularPostsSql = "SELECT * FROM {{post}} p LEFT JOIN {{post2cat}} p2c ON p.id = p2c.postId ORDER BY p.rating DESC LIMIT 5";
         $popularPostsCommand = Yii::app()->db->createCommand()
@@ -213,7 +213,7 @@ class Post extends CActiveRecord
             ->group('p.id')
             ->order('p.rating DESC')
             ->limit(10);
-        if ($categoryId !== NULL) {
+        if ($categoryId !== null) {
             $popularPostsCommand->where('p2c.catId = :catId', array(':catId' => (int)$categoryId));
         }
         $popularPostsRaw = $popularPostsCommand->queryAll();
@@ -239,7 +239,7 @@ class Post extends CActiveRecord
      * @param int $intervalDays за какое количество дней в прошлом искать
      * @return array массив последних постов
      */
-    public static function getRecentPosts($categoryId = NULL, $number = 4, $order = 'views', $intervalDays = 30)
+    public static function getRecentPosts($categoryId = null, $number = 4, $order = 'views', $intervalDays = 30)
     {
         $recentPostsCommand = Yii::app()->db->createCommand()
             ->select('p.id, p.title, alias, preview, datePublication, photo, v.views viewsCount, COUNT(c.id) comments ')
@@ -257,7 +257,7 @@ class Post extends CActiveRecord
         $freshPosts = [];
 
         // Если нужно показать половину свежих и половину популярных
-        if($order == 'fresh_views'){
+        if ($order == 'fresh_views') {
             $freshPostsCommand->limit((int)($number/2));
             $recentPostsCommand->limit((int)($number/2));
 
@@ -278,7 +278,7 @@ class Post extends CActiveRecord
                 break;
         }
 
-        if ($categoryId !== NULL) {
+        if ($categoryId !== null) {
             $recentPostsCommand->join('{{post2cat}} p2c', 'p.id = p2c.postId');
             $recentPostsCommand->where('p2c.catId = :catId', array(':catId' => (int)$categoryId));
         }
@@ -364,5 +364,4 @@ class Post extends CActiveRecord
 
         return $tags;
     }
-
 }

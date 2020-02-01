@@ -3,13 +3,13 @@
 /* @var $model Codecs */
 
 $this->breadcrumbs=array(
-	'Codecs'=>array('index'),
-	'Create',
+    'Codecs'=>array('index'),
+    'Create',
 );
 
 $this->menu=array(
-	array('label'=>'List Codecs', 'url'=>array('index')),
-	array('label'=>'Manage Codecs', 'url'=>array('admin')),
+    array('label'=>'List Codecs', 'url'=>array('index')),
+    array('label'=>'Manage Codecs', 'url'=>array('admin')),
 );
 ?>
 

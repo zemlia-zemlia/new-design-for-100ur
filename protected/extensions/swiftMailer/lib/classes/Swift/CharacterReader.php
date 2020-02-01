@@ -36,14 +36,13 @@ interface Swift_CharacterReader
    * @param int[] $bytes
    * @return int
    */
-  public function validateByteSequence($bytes, $size);
+    public function validateByteSequence($bytes, $size);
 
-  /**
-   * Returns the number of bytes which should be read to start each character.
-   * For fixed width character sets this should be the number of
-   * octets-per-character. For multibyte character sets this will probably be 1.
-   * @return int
-   */
-  public function getInitialByteSize();
-
+    /**
+     * Returns the number of bytes which should be read to start each character.
+     * For fixed width character sets this should be the number of
+     * octets-per-character. For multibyte character sets this will probably be 1.
+     * @return int
+     */
+    public function getInitialByteSize();
 }

@@ -2,7 +2,6 @@
 
 class DefaultController extends Controller
 {
-
     public $layout = '//admin/main';
 
     public function actionIndex()
@@ -11,7 +10,8 @@ class DefaultController extends Controller
         $startDate = (new DateTime(
             ((int)(new DateTime())->format('Y') - 1) . '-'.
             (new DateTime())->format('m') .
-            '-01'))->format('Y-m-d');
+            '-01'
+        ))->format('Y-m-d');
 
         $leadsRows = Yii::app()->db->createCommand()
             ->select('l.price summa, YEAR(l.question_date) year, MONTH(l.question_date) month, l.buyPrice, l.leadStatus')
@@ -76,7 +76,7 @@ class DefaultController extends Controller
             $fastQuestionsRatio = 0;
         }
 
-        // извлекаем статистику кассы  
+        // извлекаем статистику кассы
         $moneyFlow = array();
         $showDirections = array(502, 101, 2, 4);
 

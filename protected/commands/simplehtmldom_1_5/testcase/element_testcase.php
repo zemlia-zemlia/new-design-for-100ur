@@ -210,7 +210,7 @@ assert($dom->find('p', 1)->plaintext=='ok1link1');
 assert($dom->find('p', 2)->plaintext=='ok2link2');
 
 $count = 0;
-foreach($dom->find('p') as $p) {
+foreach ($dom->find('p') as $p) {
     $a = $p->find('a');
     assert($a[0]->innertext=='link'.$count);
     ++$count;
@@ -244,4 +244,3 @@ assert($dom==strtolower($str));
 // tear down
 $dom->clear();
 unset($dom);
-?>

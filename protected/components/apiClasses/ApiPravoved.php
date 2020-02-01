@@ -5,7 +5,6 @@
  */
 class ApiPravoved implements ApiClassInterface
 {
-
     protected $url = "https://pravoved.ru/polling/";
     protected $townApiUrl = "https://pravoved.ru/rest/cities/";
     protected $key = '24b554b143cf6c8dbbd0b55c4e7bd395'; // наш id в партнерской системе
@@ -21,7 +20,7 @@ class ApiPravoved implements ApiClassInterface
 
     /**
      * отправка лида
-     * @param Lead $lead 
+     * @param Lead $lead
      */
     public function send(Lead $lead)
     {
@@ -76,13 +75,12 @@ class ApiPravoved implements ApiClassInterface
      */
     private function checkResponse($apiResponse, $lead)
     {
-        if(strlen($apiResponse) == 41) {
+        if (strlen($apiResponse) == 41) {
             LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Pravoved', 'Lead', $lead->id);
             return true;
         }
         
         LoggerFactory::getLogger()->log('Ошибка при отправке лида #' . $lead->id . ' в партнерку Pravoved', 'Lead', $lead->id);
         return false;
-        
     }
 }

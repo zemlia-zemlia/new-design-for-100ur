@@ -9,4 +9,3 @@ foreach (new DirectoryIterator(getcwd()) as $entry) {
         echo '<br>...pass!<br><br>';
     }
 }
-?>

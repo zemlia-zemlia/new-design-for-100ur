@@ -3,21 +3,24 @@
 /**
  * Контроллер для работы вебмастера со своими источниками лидов
  */
-class SourceController extends Controller {
-
+class SourceController extends Controller
+{
     public $layout='//frontend/webmaster';
     
     
     /**
      * Список моих источников
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         
         // выбираем источники, связанные с текущим пользователем
         $criteria = new CDbCriteria;
         $criteria->addColumnCondition(array('userId' => Yii::app()->user->id));
         
-        $dataProvider = new CActiveDataProvider('Leadsource', array(
+        $dataProvider = new CActiveDataProvider(
+            'Leadsource',
+            array(
             'criteria' => $criteria,
             'pagination' => array(
                 'pageSize' => 20,
@@ -32,15 +35,15 @@ class SourceController extends Controller {
      * Просмотр источника
      * @param type $id
      */
-    public function actionView($id) {
-        
+    public function actionView($id)
+    {
         $model = Leadsource::model()->findByPk($id);
         
-        if(!$model) {
+        if (!$model) {
             throw new CHttpException(404, 'Источник не найден');
         }
         
-        if($model->userId !== Yii::app()->user->id) {
+        if ($model->userId !== Yii::app()->user->id) {
             throw new CHttpException(403, 'Вы не можете просматривать чужие источники');
         }
         
@@ -52,7 +55,8 @@ class SourceController extends Controller {
     /**
      * Добавление источника
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $model = new Leadsource;
 
         if (isset($_POST['Leadsource'])) {
@@ -79,15 +83,15 @@ class SourceController extends Controller {
      * Редактирование источника
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdate($id) {
-        
+    public function actionUpdate($id)
+    {
         $model = Leadsource::model()->findByPk($id);
         
-        if(!$model) {
+        if (!$model) {
             throw new CHttpException(404, 'Источник не найден');
         }
         
-        if($model->userId !== Yii::app()->user->id) {
+        if ($model->userId !== Yii::app()->user->id) {
             throw new CHttpException(403, 'Вы не можете просматривать чужие источники');
         }
 
@@ -112,5 +116,4 @@ class SourceController extends Controller {
             'model' => $model,
         ));
     }
-
 }

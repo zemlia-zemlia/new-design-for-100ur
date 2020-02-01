@@ -67,5 +67,4 @@ class RegionPrices extends CWidget
             'campaignsArray' => $campaignsArray,
         ));
     }
-
 }

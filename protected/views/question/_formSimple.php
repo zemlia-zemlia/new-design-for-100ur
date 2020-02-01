@@ -23,9 +23,9 @@
                 <div class="row">
                     <div class="col-md-7">
                         <div class="form-group">
-                                <?php echo $form->labelEx($model,'questionText'); ?>
-                                <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>6, 'placeholder'=>'Добрый день!...')); ?>
-                                <?php echo $form->error($model,'questionText'); ?>
+                                <?php echo $form->labelEx($model, 'questionText'); ?>
+                                <?php echo $form->textArea($model, 'questionText', array('class'=>'form-control', 'rows'=>6, 'placeholder'=>'Добрый день!...')); ?>
+                                <?php echo $form->error($model, 'questionText'); ?>
                         </div>
                     </div>
 
@@ -48,8 +48,8 @@
                     <div class="col-md-7">
                         <div class="form-group">
                             <label>Ваше имя *</label>
-                            <?php echo $form->textField($model,'authorName', array('class'=>'form-control', 'placeholder'=>'Иванов Иван')); ?>
-                            <?php echo $form->error($model,'authorName'); ?>
+                            <?php echo $form->textField($model, 'authorName', array('class'=>'form-control', 'placeholder'=>'Иванов Иван')); ?>
+                            <?php echo $form->error($model, 'authorName'); ?>
                         </div>
                     </div>
                     <div class="col-md-5">

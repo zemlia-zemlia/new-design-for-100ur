@@ -5,15 +5,15 @@
 $this->setPageTitle("Редактирование категории " . CHtml::encode($model->title) . " | Публикации" . " | ". Yii::app()->name);
 
 $this->breadcrumbs=array(
-	'Публикации'    =>  array('/category'),
-	CHtml::encode($model->title)    =>  array('view','id'=>$model->id),
-	'Редактирование',
+    'Публикации'    =>  array('/category'),
+    CHtml::encode($model->title)    =>  array('view','id'=>$model->id),
+    'Редактирование',
 );
 ?>
 
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('CRM',"/"),
+        'homeLink'=>CHtml::link('CRM', "/"),
         'separator'=>' / ',
         'links'=>$this->breadcrumbs,
      ));

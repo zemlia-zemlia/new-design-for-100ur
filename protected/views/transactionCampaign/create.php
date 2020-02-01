@@ -3,13 +3,13 @@
 /* @var $model TransactionCampaign */
 
 $this->breadcrumbs=array(
-	'Transaction Campaigns'=>array('index'),
-	'Create',
+    'Transaction Campaigns'=>array('index'),
+    'Create',
 );
 
 $this->menu=array(
-	array('label'=>'List TransactionCampaign', 'url'=>array('index')),
-	array('label'=>'Manage TransactionCampaign', 'url'=>array('admin')),
+    array('label'=>'List TransactionCampaign', 'url'=>array('index')),
+    array('label'=>'Manage TransactionCampaign', 'url'=>array('admin')),
 );
 ?>
 

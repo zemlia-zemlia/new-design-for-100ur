@@ -75,97 +75,97 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
  * @package application.extensions.jui
  */
  class EJqueryUiInclude extends CWidget
-{
-   //***************************************************************************
-   // Setters and getters
-   //***************************************************************************
+ {
+     //***************************************************************************
+     // Setters and getters
+     //***************************************************************************
 
-   /**
-    * Sets the theme.
-    *
-    * You need to set exactly one theme in all your jQuery UI widgets. The first
-    * theme defined will be used for all the widgets. A singleton is used to
-    * enforce this.
-    *
-    * @param string $value theme
-    */
-   public function setTheme($value)
-   {
-      EJqueryUiConfig::singleton()->setTheme($value);
-   }
+     /**
+      * Sets the theme.
+      *
+      * You need to set exactly one theme in all your jQuery UI widgets. The first
+      * theme defined will be used for all the widgets. A singleton is used to
+      * enforce this.
+      *
+      * @param string $value theme
+      */
+     public function setTheme($value)
+     {
+         EJqueryUiConfig::singleton()->setTheme($value);
+     }
 
-   /**
-    * Gets the theme from the singleton.
-    *
-    * @return <type>
-    */
-   public function getTheme()
-   {
-      return EJqueryUiConfig::singleton()->getTheme();
-   }
+     /**
+      * Gets the theme from the singleton.
+      *
+      * @return <type>
+      */
+     public function getTheme()
+     {
+         return EJqueryUiConfig::singleton()->getTheme();
+     }
 
-   /**
-    * Setter
-    *
-    * @param integer $value compression
-    */
-   public function setCompression($value)
-   {
-      EJqueryUiConfig::singleton()->setCompression($value);
-   }
+     /**
+      * Setter
+      *
+      * @param integer $value compression
+      */
+     public function setCompression($value)
+     {
+         EJqueryUiConfig::singleton()->setCompression($value);
+     }
 
-   /**
-    * Getter
-    *
-    * @return integer
-    */
-   public function getCompression()
-   {
-      return EJqueryUiConfig::singleton()->getCompression();
-   }
+     /**
+      * Getter
+      *
+      * @return integer
+      */
+     public function getCompression()
+     {
+         return EJqueryUiConfig::singleton()->getCompression();
+     }
 
-   /**
-    * Setter
-    *
-    * @param boolean $value useBundledStyleSheet
-    */
-   public function setUseBundledStyleSheet($value)
-   {
-      EJqueryUiConfig::singleton()->setUseBundledStyleSheet($value);
-   }
+     /**
+      * Setter
+      *
+      * @param boolean $value useBundledStyleSheet
+      */
+     public function setUseBundledStyleSheet($value)
+     {
+         EJqueryUiConfig::singleton()->setUseBundledStyleSheet($value);
+     }
 
-   /**
-    * Getter
-    *
-    * @return boolean
-    */
-   public function getUseBundledStyleSheet()
-   {
-      return EJqueryUiConfig::singleton()->getUseBundledStyleSheet();
-   }
+     /**
+      * Getter
+      *
+      * @return boolean
+      */
+     public function getUseBundledStyleSheet()
+     {
+         return EJqueryUiConfig::singleton()->getUseBundledStyleSheet();
+     }
 
-   //***************************************************************************
-   // Run Lola Run
-   //***************************************************************************
+     //***************************************************************************
+     // Run Lola Run
+     //***************************************************************************
 
-   /**
-    * Run the widget, including the js files.
-    */
-   public function run()
-   {
-      $dir = dirname(__FILE__).DIRECTORY_SEPARATOR.'jquery';
-      $baseUrl = Yii::app()->getAssetManager()->publish($dir);
+     /**
+      * Run the widget, including the js files.
+      */
+     public function run()
+     {
+         $dir = dirname(__FILE__).DIRECTORY_SEPARATOR.'jquery';
+         $baseUrl = Yii::app()->getAssetManager()->publish($dir);
 
-      $clientScript = Yii::app()->getClientScript();
+         $clientScript = Yii::app()->getClientScript();
 
-      $clientScript->registerCoreScript('jquery');
+         $clientScript->registerCoreScript('jquery');
 
-      switch ($this->getCompression()) {
+         switch ($this->getCompression()) {
          case 'none':
             $clientScript->registerScriptFile($baseUrl.'/js/jquery-ui-1.7.1.custom.js');
             break;
 
-         case 'packed';
+         case 'packed':
             $clientScript->registerScriptFile($baseUrl.'/js/jquery-ui-1.7.1.custom.packed.js');
             break;
 
@@ -174,8 +174,8 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
             break;
       }
 
-      if ($this->getUseBundledStyleSheet()) {
-         $clientScript->registerCssFile($baseUrl.'/css/'.$this->getTheme().'/jquery-ui-1.7.1.custom.css');
-      }
-   }
-}
+         if ($this->getUseBundledStyleSheet()) {
+             $clientScript->registerCssFile($baseUrl.'/css/'.$this->getTheme().'/jquery-ui-1.7.1.custom.css');
+         }
+     }
+ }

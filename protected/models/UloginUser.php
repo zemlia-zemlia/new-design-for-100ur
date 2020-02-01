@@ -118,7 +118,6 @@ class UloginUser extends CActiveRecord
         $uloginUser = new static();
 
         if (is_null($user)) {
-
             $user = User::model()->find('email=:email', [
                 ':email' => $uloginModel->email,
             ]);

@@ -50,7 +50,7 @@ class ApiController extends CController
     public function accessRules()
     {
         return array(
-            array('allow', // allow all users 
+            array('allow', // allow all users
                 'actions' => array('sendLead', 'statusLead'),
                 'users' => array('*'),
             ),
@@ -305,5 +305,4 @@ class ApiController extends CController
             ]);
         }
     }
-
 }

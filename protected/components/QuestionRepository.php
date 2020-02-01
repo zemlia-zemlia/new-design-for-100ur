@@ -6,7 +6,6 @@
 
 class QuestionRepository
 {
-
     protected $cacheTime = 600;
     protected $limit = 10;
 

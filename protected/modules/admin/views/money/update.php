@@ -3,9 +3,9 @@
 /* @var $model Money */
 
 $this->breadcrumbs=array(
-	'Moneys'=>array('index'),
-	$model->id=>array('view','id'=>$model->id),
-	'Update',
+    'Moneys'=>array('index'),
+    $model->id=>array('view','id'=>$model->id),
+    'Update',
 );
 
 ?>

@@ -15,10 +15,10 @@ class DispatchLeadsCommand extends CConsoleCommand
 
         $leads = Lead::model()->findAll($criteria);
 
-        foreach($leads as $lead) {
+        foreach ($leads as $lead) {
             $campaignId = Campaign::getCampaignsForLead($lead->id);
 
-            if(!$campaignId) {
+            if (!$campaignId) {
                 continue;
             }
             $campaign = Campaign::model()->findByPk($campaignId);

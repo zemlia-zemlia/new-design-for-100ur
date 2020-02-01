@@ -92,11 +92,11 @@ class PostComment extends CActiveRecord
 
         $criteria=new CDbCriteria;
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('postId',$this->postId);
-        $criteria->compare('authorId',$this->authorId);
-        $criteria->compare('text',$this->text,true);
-        $criteria->compare('datetime',$this->datetime,true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('postId', $this->postId);
+        $criteria->compare('authorId', $this->authorId);
+        $criteria->compare('text', $this->text, true);
+        $criteria->compare('datetime', $this->datetime, true);
 
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,

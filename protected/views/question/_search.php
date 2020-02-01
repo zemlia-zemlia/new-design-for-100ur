@@ -6,8 +6,8 @@
 
 <?php $form=$this->beginWidget('CActiveForm', array(
         'id'=>'question-search',
-	'action'    =>  '/question/search/',
-	'method'    =>  'get',
+    'action'    =>  '/question/search/',
+    'method'    =>  'get',
         'htmlOptions'   =>  array(
             'class'     =>  'form-inline',
             ),
@@ -16,14 +16,14 @@
 
     <div class="form-group">
             <?php echo CHtml::textField('townId', $model->townName, array(
-                'id'            =>  'town-selector', 
+                'id'            =>  'town-selector',
                 'class'         =>  'form-control',
                 'placeholder'   =>  $model->getAttributeLabel('townId'),
             )); ?>
             <?php
                 echo $form->hiddenField($model, 'townId', array('id'=>'selected-town'));
             ?>
-            <?php echo $form->error($model,'townId'); ?>
+            <?php echo $form->error($model, 'townId'); ?>
     </div>
     
     <div class="form-group">
@@ -31,7 +31,7 @@
                 'class'         =>  'form-control',
             )); ?>
             <?php echo $model->getAttributeLabel('noAnswers');?>
-            <?php echo $form->error($model,'noAnswers'); ?>
+            <?php echo $form->error($model, 'noAnswers'); ?>
     </div>
     
     <div class="form-group">
@@ -39,7 +39,7 @@
                 'class'         =>  'form-control',
             )); ?>
             <?php echo $model->getAttributeLabel('today');?>
-            <?php echo $form->error($model,'today'); ?>
+            <?php echo $form->error($model, 'today'); ?>
     </div>
 
 

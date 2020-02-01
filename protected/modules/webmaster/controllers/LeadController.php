@@ -1,11 +1,11 @@
 <?php
 
-class LeadController extends Controller {
-
+class LeadController extends Controller
+{
     public $layout='//frontend/webmaster';
     
-    public function actionIndex() {
-        
+    public function actionIndex()
+    {
         $criteria = new CDbCriteria;
         
         $criteria->with = "source";
@@ -40,11 +40,11 @@ class LeadController extends Controller {
     {
         $model = Lead::model()->findByPk($id);
         
-        if(!$model) {
+        if (!$model) {
             throw new CHttpException(404, 'Лид не найден');
         }
         
-        if($model->source->userId !== Yii::app()->user->id) {
+        if ($model->source->userId !== Yii::app()->user->id) {
             throw new CHttpException(403, 'Вы не можете просматривать чужие лиды');
         }
         
@@ -56,16 +56,17 @@ class LeadController extends Controller {
     /**
      * Добавление лида вебмастером
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $model = new Lead;
 
         // Проверим, есть ли источники у текущего пользователя. Если нет, перенаправим на создание источника
         $mySources = Leadsource::getSourcesArrayByUser(Yii::app()->user->id);
-        if(sizeof($mySources) == 0) {
+        if (sizeof($mySources) == 0) {
             $this->redirect(['source/create']);
         }
        
-        if($_GET['sourceId']) {
+        if ($_GET['sourceId']) {
             $model->sourceId = (int)$_GET['sourceId'];
         }
         
@@ -75,7 +76,7 @@ class LeadController extends Controller {
             
             // посчитаем цену покупки лида, исходя из города и региона
             $prices = $model->calculatePrices();
-            if($prices[0]) {
+            if ($prices[0]) {
                 $model->buyPrice = $prices[0];
             } else {
                 $model->buyPrice = 0;
@@ -88,8 +89,6 @@ class LeadController extends Controller {
             $model->buyPrice = $model->buyPrice * $priceCoeff;
         
             if ($model->save()) {
-                
-                
                 $this->redirect(array('index'));
             }
         }
@@ -103,5 +102,4 @@ class LeadController extends Controller {
     {
         $this->render('prices', array());
     }
-
 }

@@ -6,12 +6,12 @@ $this->setPageTitle("Редактирование лида " . $model->id . '. '
 
 
 $this->breadcrumbs=array(
-	'Лиды'=>array('index'),
-	$model->id=>array('view','id'=>$model->id),
-	'Редактирование',
+    'Лиды'=>array('index'),
+    $model->id=>array('view','id'=>$model->id),
+    'Редактирование',
 );
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 Юристов',"/"),
+    'homeLink'=>CHtml::link('100 Юристов', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));

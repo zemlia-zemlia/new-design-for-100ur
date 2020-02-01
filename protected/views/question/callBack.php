@@ -9,7 +9,7 @@ $this->setPageTitle("Заказать звонок ". Yii::app()->name);
 <div class='flat-panel vert-margin30'>
     <div class='inside'>
         
-        <?php if($isRegionPayed):?>
+        <?php if ($isRegionPayed):?>
             <h1 class="">Запрос звонка юриста</h1>
             <?php echo $this->renderPartial('_formCall', array(
                 'model'         =>  $lead

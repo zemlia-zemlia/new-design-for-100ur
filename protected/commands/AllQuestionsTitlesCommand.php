@@ -14,12 +14,12 @@ class AllQuestionsTitlesCommand extends CConsoleCommand
         
         $questions = Question::model()->findAll($criteria);
         echo sizeof($questions) . " found\n";
-        foreach($questions as $question) {
+        foreach ($questions as $question) {
             echo $question->id . "\n";
             echo $question->questionText . "\n";
             $question->formTitle();
             echo $question->title . "\n";
-            if($question->save()) {
+            if ($question->save()) {
                 echo " saved\n";
             } else {
                 echo " NOT saved\n";
@@ -30,5 +30,3 @@ class AllQuestionsTitlesCommand extends CConsoleCommand
         }
     }
 }
-
-

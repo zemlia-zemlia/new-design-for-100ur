@@ -10,4 +10,3 @@ class NewQuestionsNotificationCommand extends CConsoleCommand
         Question::sendRecentQuestionsNotifications(24);
     }
 }
-

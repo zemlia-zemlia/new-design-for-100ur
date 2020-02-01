@@ -37,10 +37,13 @@ $files = array(
 echo 'memory: '.memory_get_usage().'<br>';
 $dom = new simple_html_dom;
 
-foreach($files as $f) {
+foreach ($files as $f) {
     // get file from url
-    if($f['url']!='') file_put_contents($dir.$f['name'], file_get_contents($f['url']));
-    else file_put_contents($dir.$f['name'], '');
+    if ($f['url']!='') {
+        file_put_contents($dir.$f['name'], file_get_contents($f['url']));
+    } else {
+        file_put_contents($dir.$f['name'], '');
+    }
 
     $start = microtime();
     $dom->load(file_get_contents($dir.$f['name']), false);
@@ -51,9 +54,9 @@ foreach($files as $f) {
     if (file_get_contents($dir.$f['name'])!=$dom->save()) {
         echo "[<font color='red'>failed</font>] ".$f['name']."<br>";
         $dom->save($dir.$f['name'].'.error');
-    }
-    else
+    } else {
         echo "[success] ".$f['name']."<br>";
+    }
 
     echo 'memory: '.memory_get_usage().'<br>';
 
@@ -64,5 +67,3 @@ foreach($files as $f) {
 $dom->clear();
 unset($dom);
 echo '<br>memory: '.memory_get_usage().'<br>';
-
-?>

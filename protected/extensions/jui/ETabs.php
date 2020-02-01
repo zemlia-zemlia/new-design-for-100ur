@@ -76,34 +76,34 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
  */
 class ETabs extends EJqueryUiWidget
 {
-   /**
-    * Tabs for AJAX mode. The format is:
-    *
-    * array(array('title'=>string, 'url'=>string))
-    *
-    * where title is the tab title and url is the URL to be loaded using AJAX.
-    *
-    * @var array
-    */
-   protected $ajaxTabs = array();
+    /**
+     * Tabs for AJAX mode. The format is:
+     *
+     * array(array('title'=>string, 'url'=>string))
+     *
+     * where title is the tab title and url is the URL to be loaded using AJAX.
+     *
+     * @var array
+     */
+    protected $ajaxTabs = array();
 
-   //***************************************************************************
-   // Internal properties (not for configuration)
-   //***************************************************************************
+    //***************************************************************************
+    // Internal properties (not for configuration)
+    //***************************************************************************
 
-   /**
-    * Widget's body
-    *
-    * @var string
-    */
-   private $body = null;
+    /**
+     * Widget's body
+     *
+     * @var string
+     */
+    private $body = null;
 
-   /**
-    * See {@link http://jqueryui.com/demos/tabs}
-    *
-    * @var array
-    */
-   protected $validOptions = array(
+    /**
+     * See {@link http://jqueryui.com/demos/tabs}
+     *
+     * @var array
+     */
+    protected $validOptions = array(
                                    'ajaxOptions'=>array('type'=>'array'), // Additional Ajax options to consider when loading tab content (see $.ajax). Default: null
                                    'cache'=>array('type'=>'boolean'), // Whether or not to cache remote tabs content, e.g. load only once or with every click. Cached content is being lazy loaded, e.g once and only once for the first click. Note that to prevent the actual Ajax requests from being cached by the browser you need to provide an extra cache: false flag to ajaxOptions. Default: false
                                    'collapsible'=>array('type'=>'boolean'), // Set to true to allow an already selected tab to become unselected again upon reselection. Default: false
@@ -119,12 +119,12 @@ class ETabs extends EJqueryUiWidget
                                    'tabTemplate'=>array('type'=>'string'), // HTML template from which a new tab is created and added. The placeholders #{href} and #{label} are replaced with the url and tab label that are passed as arguments to the add method. Default: '<li><a href="#{href}"><span>#{label}</span></a></li>'
                                   );
 
-   /**
-    * See {@link http://jqueryui.com/demos/tabs}
-    *
-    * @var array
-    */
-   protected $validCallbacks = array(
+    /**
+     * See {@link http://jqueryui.com/demos/tabs}
+     *
+     * @var array
+     */
+    protected $validCallbacks = array(
                                      'select', // This event is triggered when clicking a tab.
                                      'load', // This event is triggered after the content of a remote tab has been loaded.
                                      'show', // This event is triggered when a tab is shown.
@@ -134,134 +134,132 @@ class ETabs extends EJqueryUiWidget
                                      'disable', // This event is triggered when a tab is disabled.
                                     );
 
-   //***************************************************************************
-   // Setters and getters
-   //***************************************************************************
+    //***************************************************************************
+    // Setters and getters
+    //***************************************************************************
 
-   /**
-    * Setter
-    *
-    * @param array $value
-    */
-   public function setAjaxTabs($value)
-   {
-      if (!is_array($value)) {
-         throw new CException(Yii::t('EJqueryUiWidget', 'ajaxTabs must be an array.'));
-      }
-      foreach ($value as $val) {
-         if (!is_array($val) || !array_key_exists('title', $val) || !array_key_exists('url', $val)) {
-            throw new CException(Yii::t('EJqueryUiWidget', 'ajaxTabs must be an array of arrays in the format array("title"=>$title, "url"=>$url).'));
-         }
-      }
-      $this->ajaxTabs = $value;
-   }
+    /**
+     * Setter
+     *
+     * @param array $value
+     */
+    public function setAjaxTabs($value)
+    {
+        if (!is_array($value)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'ajaxTabs must be an array.'));
+        }
+        foreach ($value as $val) {
+            if (!is_array($val) || !array_key_exists('title', $val) || !array_key_exists('url', $val)) {
+                throw new CException(Yii::t('EJqueryUiWidget', 'ajaxTabs must be an array of arrays in the format array("title"=>$title, "url"=>$url).'));
+            }
+        }
+        $this->ajaxTabs = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return array
-    */
-   public function getAjaxTabs()
-   {
-      return $this->ajaxTabs;
-   }
+    /**
+     * Getter
+     *
+     * @return array
+     */
+    public function getAjaxTabs()
+    {
+        return $this->ajaxTabs;
+    }
 
-   //***************************************************************************
-   // Utilities
-   //***************************************************************************
+    //***************************************************************************
+    // Utilities
+    //***************************************************************************
 
-   /**
-    * Generates the options for the jQuery widget
-    *
-    * @return string
-    */
-   protected function makeOptions()
-   {
-      $options = array();
+    /**
+     * Generates the options for the jQuery widget
+     *
+     * @return string
+     */
+    protected function makeOptions()
+    {
+        $options = array();
 
-      foreach ($this->callbacks as  $key=>$val) {
-         $options['callback_'.$key] = $key;
-      }
+        foreach ($this->callbacks as  $key=>$val) {
+            $options['callback_'.$key] = $key;
+        }
 
-      $encodedOptions = CJavaScript::encode(array_merge($options, $this->options));
+        $encodedOptions = CJavaScript::encode(array_merge($options, $this->options));
 
-      foreach ($this->callbacks as $key=>$val) {
-         $encodedOptions = str_replace("'callback_{$key}':'{$key}'", "{$key}: {$val}", $encodedOptions);
-      }
+        foreach ($this->callbacks as $key=>$val) {
+            $encodedOptions = str_replace("'callback_{$key}':'{$key}'", "{$key}: {$val}", $encodedOptions);
+        }
 
-      return $encodedOptions;
-   }
+        return $encodedOptions;
+    }
 
-   /**
-    * Generates the javascript code for the widget
-    *
-    * @return string
-    */
-   protected function jsCode($id)
-   {
-      $options = $this->makeOptions();
-      $script =<<<EOP
+    /**
+     * Generates the javascript code for the widget
+     *
+     * @return string
+     */
+    protected function jsCode($id)
+    {
+        $options = $this->makeOptions();
+        $script =<<<EOP
 $('#{$id}').tabs({$options});
 EOP;
-      return $script;
-   }
+        return $script;
+    }
 
 
-   public function htmlCode($id)
-   {
-      $tabs = '';
-      if (empty($this->ajaxTabs)) {
-         if (preg_match_all('/<div id="([^"]+)" title="([^"]+)">/i', $this->body, $regs)) {
-            $c = count($regs[0]);
-            for ($i=0; $i<$c; $i++) {
-               $tabs .= CHtml::tag('li', array(), CHtml::link($regs[2][$i], '#'.$regs[1][$i]));
+    public function htmlCode($id)
+    {
+        $tabs = '';
+        if (empty($this->ajaxTabs)) {
+            if (preg_match_all('/<div id="([^"]+)" title="([^"]+)">/i', $this->body, $regs)) {
+                $c = count($regs[0]);
+                for ($i=0; $i<$c; $i++) {
+                    $tabs .= CHtml::tag('li', array(), CHtml::link($regs[2][$i], '#'.$regs[1][$i]));
+                }
             }
-         }
-         $html = CHtml::tag('div', array('id'=>$id), CHtml::tag('ul', array(), $tabs).$this->body);
-      }
-      else {
-         foreach ($this->ajaxTabs as $tab) {
-            $tabs .= CHtml::tag('li', array(), CHtml::link($tab['title'], $tab['url']));
-         }
-         $html = CHtml::tag('div', array('id'=>$id), CHtml::tag('ul', array(), $tabs));
-      }
-      return $html;
-   }
+            $html = CHtml::tag('div', array('id'=>$id), CHtml::tag('ul', array(), $tabs).$this->body);
+        } else {
+            foreach ($this->ajaxTabs as $tab) {
+                $tabs .= CHtml::tag('li', array(), CHtml::link($tab['title'], $tab['url']));
+            }
+            $html = CHtml::tag('div', array('id'=>$id), CHtml::tag('ul', array(), $tabs));
+        }
+        return $html;
+    }
 
-   //***************************************************************************
-   // Run Lola, Run
-   //***************************************************************************
+    //***************************************************************************
+    // Run Lola, Run
+    //***************************************************************************
 
-   /**
-    * Get the output buffer
-    */
-   public function init()
-   {
-      ob_start();
-   }
+    /**
+     * Get the output buffer
+     */
+    public function init()
+    {
+        ob_start();
+    }
 
-   /**
-    * Run the widget
-    */
-   public function run()
-   {
-      if (empty($this->ajaxTabs)) {
-         $this->body = ob_get_contents();
-         ob_end_clean();
-      }
-      else {
-         ob_end_flush();
-      }
+    /**
+     * Run the widget
+     */
+    public function run()
+    {
+        if (empty($this->ajaxTabs)) {
+            $this->body = ob_get_contents();
+            ob_end_clean();
+        } else {
+            ob_end_flush();
+        }
 
-      list($name, $id) = $this->resolveNameID();
+        list($name, $id) = $this->resolveNameID();
 
-      $this->publishAssets();
-      $this->registerClientScripts();
+        $this->publishAssets();
+        $this->registerClientScripts();
 
-      $js = $this->jsCode($name);
-      $this->clientScript->registerScript('Yii.'.get_class($this).'#'.$id, $js, CClientScript::POS_READY);
+        $js = $this->jsCode($name);
+        $this->clientScript->registerScript('Yii.'.get_class($this).'#'.$id, $js, CClientScript::POS_READY);
 
-      $html = $this->htmlCode($id);
-      echo $html;
-   }
+        $html = $this->htmlCode($id);
+        echo $html;
+    }
 }

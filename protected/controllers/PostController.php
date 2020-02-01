@@ -1,6 +1,7 @@
 <?php
 
-class PostController extends Controller {
+class PostController extends Controller
+{
 
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -11,7 +12,8 @@ class PostController extends Controller {
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
         );
@@ -22,7 +24,8 @@ class PostController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
                 'actions' => array('index', 'view', 'postingDenied'),
@@ -45,14 +48,14 @@ class PostController extends Controller {
     /**
      * вывод отдельного поста
      */
-    public function actionView($id) {
-
+    public function actionView($id)
+    {
         $model = Post::model()->findByPk($id);
         if (!$model) {
             throw new CHttpException(404, 'Публикация не найдена');
         }
         
-        if(!Yii::app()->request->getParam('alias')) {
+        if (!Yii::app()->request->getParam('alias')) {
             $this->redirect(['post/view', 'id' => $model->id, 'alias' => $model->alias], true, 301);
         }
 
@@ -67,8 +70,9 @@ class PostController extends Controller {
                 'postId' => $id,
                 'userId' => Yii::app()->user->id,
             ));
-            if ($postRatingRecord)
+            if ($postRatingRecord) {
                 $postLiked = true;
+            }
         }
 
         $postCommentModel = new Comment; // модель комментария поста
@@ -112,7 +116,8 @@ class PostController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         // проверка, подтвердил ли текущий пользователь свой email
         $currentUser = User::model()->findByPk(Yii::app()->user->id);
         if (!$currentUser || $currentUser->active == 0) {
@@ -122,11 +127,11 @@ class PostController extends Controller {
         $model = new Post;
 
         /*
-         * получаем массив категорий публикаций. 
+         * получаем массив категорий публикаций.
          * id => title
          * для использования в форме выбора категорий для нового поста
          */
-        $categoriesArray = Array();
+        $categoriesArray = array();
         $allCategoriesArray = Postcategory::model()->findAll(array('select' => 'id, title', 'order' => 'title'));
         foreach ($allCategoriesArray as $cat) {
             $categoriesArray[$cat->id] = CHtml::encode($cat->title);
@@ -146,7 +151,6 @@ class PostController extends Controller {
                         $past2cat->postId = $model->id;
                         $past2cat->catId = $categoryId;
                         if (!$past2cat->save()) {
-                            
                         }
                     }
                 } else {
@@ -172,18 +176,19 @@ class PostController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $model = $this->loadModel($id);
 
         if (!($model->authorId == Yii::app()->user->id || Yii::app()->user->checkAccess(User::ROLE_EDITOR))) {
             throw new CHttpException(403, 'Отказано в доступе: Вы не можете редактировать этот пост');
         }
         /*
-         * получаем массив категорий публикаций. 
+         * получаем массив категорий публикаций.
          * id => title
          * для использования в форме выбора категорий для нового поста
          */
-        $categoriesArray = Array();
+        $categoriesArray = array();
         $allCategoriesArray = Postcategory::model()->findAll(array('select' => 'id, title', 'order' => 'title'));
         foreach ($allCategoriesArray as $cat) {
             $categoriesArray[$cat->id] = CHtml::encode($cat->title);
@@ -205,7 +210,6 @@ class PostController extends Controller {
                         $past2cat->postId = $model->id;
                         $past2cat->catId = $categoryId;
                         if (!$past2cat->save()) {
-                            
                         }
                     }
                 } else {
@@ -231,29 +235,34 @@ class PostController extends Controller {
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
+        if (!isset($_GET['ajax'])) {
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('/blog'));
+        }
     }
 
     /**
      * Lists all models.
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $this->redirect(array('/category'), true, 301);
     }
 
     /**
      * Manages all models.
      */
-    public function actionAdmin() {
+    public function actionAdmin()
+    {
         $model = new Post('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Post']))
+        if (isset($_GET['Post'])) {
             $model->attributes = $_GET['Post'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
@@ -267,10 +276,12 @@ class PostController extends Controller {
      * @return Post the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id)
+    {
         $model = Post::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
@@ -278,7 +289,8 @@ class PostController extends Controller {
      * Performs the AJAX validation.
      * @param Post $model the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'post-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -291,8 +303,8 @@ class PostController extends Controller {
      * если не лайкнул, повышаем рейтинг (+1)
      */
 
-    public function actionVote($id) {
-
+    public function actionVote($id)
+    {
         if (!Yii::app()->user->id) {
             throw new CHttpException(403, 'Голосовать за рейтинг могут только зарегистрированные пользователи');
         }
@@ -329,8 +341,8 @@ class PostController extends Controller {
         }
     }
 
-    public function actionPostingDenied() {
+    public function actionPostingDenied()
+    {
         $this->render('postingDenied');
     }
-
 }

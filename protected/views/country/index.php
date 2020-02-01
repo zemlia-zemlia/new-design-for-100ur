@@ -5,12 +5,12 @@
 $this->setPageTitle("Страны 100 юристов");
 
 $this->breadcrumbs=array(
-	'Страны',
+    'Страны',
 );
 ?>
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('Юристы и Адвокаты',"/"),
+        'homeLink'=>CHtml::link('Юристы и Адвокаты', "/"),
         'separator'=>' / ',
         'links'=>$this->breadcrumbs,
      ));

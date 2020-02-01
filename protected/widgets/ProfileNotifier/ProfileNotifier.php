@@ -2,12 +2,12 @@
 
 // выводит юристу уведомление о незаполненности важных полей в профиле
 
-class ProfileNotifier extends CWidget {
-
+class ProfileNotifier extends CWidget
+{
     public $template = 'default'; // представление виджета по умолчанию
 
-    public function run() {
-                
+    public function run()
+    {
         if (isset($_COOKIE['hide_profile_notifier'])) {
             return false;
         }
@@ -19,7 +19,4 @@ class ProfileNotifier extends CWidget {
             ]);
         }
     }
-
 }
-
-?>

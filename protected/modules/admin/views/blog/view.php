@@ -7,14 +7,14 @@ $this->setPageTitle(CHtml::encode($model->title) . " | Блог" . " | ". Yii::a
 Yii::app()->clientScript->registerMetaTag(CHtml::encode($model->description), "Description");
 
 $this->breadcrumbs=array(
-	'Блог'=>array('/blog'),
-	CHtml::encode($model->title),
+    'Блог'=>array('/blog'),
+    CHtml::encode($model->title),
 );
 ?>
 
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('CRM',"/"),
+        'homeLink'=>CHtml::link('CRM', "/"),
         'separator'=>' / ',
         'links'=>$this->breadcrumbs,
      ));
@@ -27,7 +27,7 @@ $this->breadcrumbs=array(
             <?php echo nl2br(CHtml::encode($model->description)); ?>
         </div>
 
-        <?php if($postsDataProvider):?>
+        <?php if ($postsDataProvider):?>
         <?php $this->widget('zii.widgets.CListView', array(
                 'dataProvider'  =>  $postsDataProvider,
                 'itemView'      =>  'application.views.post._view',
@@ -41,7 +41,7 @@ $this->breadcrumbs=array(
     <div class="col-md-4">
         <div class="vert-margin40">
             <?php echo CHtml::link('Написать новый пост', Yii::app()->createUrl((Yii::app()->user->isGuest)?'site/login':'post/create'), array('class'=>'btn btn-primary btn-block')); ?>
-            <?php if(Yii::app()->user->checkAccess('moderator')):?>
+            <?php if (Yii::app()->user->checkAccess('moderator')):?>
             <br /><br />
                 <?php echo CHtml::link('Редактировать категорию', Yii::app()->createUrl('blog/update', array('id'=>$model->id)), array('class'=>''));?>
             <?php endif;?>

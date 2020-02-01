@@ -6,7 +6,7 @@
 <h1>Кабинет вебмастера</h1>
 </div>
 
-<?php if($justCreated == true):?>
+<?php if ($justCreated == true):?>
 <div class="alert alert-success text-center">
     <h4>Заявка на вывод средств создана</h4>
     <p>Заявка создана и отправлена на рассмотрение модератору</p>
@@ -20,7 +20,7 @@
         </td>
         <td class="center-align">
             Доступно для вывода:<br /> <strong>
-                <?php if(($balance-$hold)< PartnerTransaction::MIN_WITHDRAW):?>
+                <?php if (($balance-$hold)< PartnerTransaction::MIN_WITHDRAW):?>
                 <small><span class="text-danger">Минимальная сумма для вывода - 1000&nbsp;руб.</span></small>
                 <?php else:?>
                     <?php echo MoneyFormat::rubles($balance - $hold);?> руб.</strong>
@@ -41,7 +41,7 @@
 
 <hr/>
 
-<?php if($requestsDataProvider->totalItemCount):?>
+<?php if ($requestsDataProvider->totalItemCount):?>
     <h2>Заявки на вывод средств</h2>
     <table class="table table-bordered table-hover table-striped">
         <thead>
@@ -73,8 +73,8 @@
     </tr>
     </thead>
 <?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
+    'dataProvider'=>$dataProvider,
+    'itemView'=>'_view',
         'emptyText' =>  'Не найдено ни одной транзакции',
         'summaryText'=>'Показаны транзакции с {start} до {end}, всего {count}',
         'pager'=>array('class'=>'GTLinkPager') //we use own pager with russian words

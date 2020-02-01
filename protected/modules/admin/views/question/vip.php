@@ -8,10 +8,10 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/question.js');
 
 
 $this->breadcrumbs=array(
-	'Вопросы без категории',
+    'Вопросы без категории',
 );
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 юристов',"/"),
+    'homeLink'=>CHtml::link('100 юристов', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
@@ -24,15 +24,15 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <thead>
     <tr>
         <th>Вопрос</th>
-        <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+        <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
             <th>Категория</th>
             <th></th>
         <?php endif;?>
     </tr>
     </thead>
 <?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'      =>  '_view',
+    'dataProvider'=>$dataProvider,
+    'itemView'      =>  '_view',
         'emptyText'     =>  'Не найдено ни одного вопроса',
         'summaryText'   =>  'Показаны вопросы с {start} до {end}, всего {count}',
         'pager'         =>  array('class'=>'GTLinkPager'), //we use own pager with russian words

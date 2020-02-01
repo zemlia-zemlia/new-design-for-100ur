@@ -6,8 +6,8 @@ $this->setPageTitle("Запись в кассе #" . $model->id . '. ' . Yii::ap
 
 
 $this->breadcrumbs=array(
-	'Moneys'=>array('index'),
-	$model->id,
+    'Moneys'=>array('index'),
+    $model->id,
 );
 
 ?>

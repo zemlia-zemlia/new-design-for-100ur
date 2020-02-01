@@ -118,8 +118,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
     <?php foreach ($order->responses as $response): ?>
         <?php if (Yii::app()->user->role == User::ROLE_JURIST && $response->authorId != Yii::app()->user->id) {
-            continue;
-        }
+    continue;
+}
         ?>
 
         <?php if (Yii::app()->user->role == User::ROLE_JURIST && $response->authorId == Yii::app()->user->id) {
@@ -128,7 +128,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         ?>
 
         <?php if ($response->status != Comment::STATUS_SPAM): ?>
-            <div class="answer-comment" style="margin-left:<?php echo ($response->level - 1) * 20; ?>px;">
+            <div class="answer-comment" style="margin-left:<?php echo($response->level - 1) * 20; ?>px;">
 
                 <div class="row">
                     <div class="col-sm-2 col-xs-4">
@@ -171,7 +171,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
                         <?php foreach ($response->comments as $comment): ?>
                             <div class="answer-comment"
-                                 style="margin-left:<?php echo ($comment->level - 1) * 20; ?>px;">
+                                 style="margin-left:<?php echo($comment->level - 1) * 20; ?>px;">
 
                                 <?php //CustomFuncs::printr($comment->children);?>
                                 <p><strong><span class="glyphicon glyphicon-comment"></span>

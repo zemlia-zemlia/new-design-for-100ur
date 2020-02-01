@@ -27,17 +27,17 @@ class LeadController extends Controller
     public function accessRules()
     {
         return array(
-            array('allow', // 
+            array('allow', //
                 'actions' => array('index', 'view', 'create', 'stats'),
                 'users' => array('@'),
                 'expression' => 'Yii::app()->user->role == ' . User::ROLE_ROOT . ' || Yii::app()->user->role == ' . User::ROLE_SECRETARY,
             ),
-            array('allow', // 
+            array('allow', //
                 'actions' => array('forceSell'),
                 'users' => array('@'),
                 'expression' => 'Yii::app()->user->role == ' . User::ROLE_ROOT,
             ),
-            array('allow', // 
+            array('allow', //
                 'actions' => array('update', 'delete', 'sendLeads', 'toQuestion', 'generate', 'dispatch', 'changeStatus'),
                 'users' => array('@'),
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_MANAGER . ') || Yii::app()->user->checkAccess(' . User::ROLE_SECRETARY . ')',
@@ -154,7 +154,6 @@ class LeadController extends Controller
 
             //CustomFuncs::printr($model);Yii::app()->end();
             if ($model->save()) {
-
                 Lead2Category::model()->deleteAll('leadId=' . $model->id);
                 if (is_array($model->categoriesId) && sizeof($model->categoriesId)) {
                     foreach ($model->categoriesId as $catId) {
@@ -197,7 +196,6 @@ class LeadController extends Controller
      */
     public function actionIndex()
     {
-
         $searchModel = new Lead;
         $searchModel->type = '';
 
@@ -263,7 +261,6 @@ class LeadController extends Controller
      */
     public function actionSendLeads()
     {
-
         $criteria = new CDbCriteria;
 
         $criteria->addColumnCondition(array('leadStatus' => Lead::LEAD_STATUS_DEFAULT));
@@ -550,8 +547,9 @@ class LeadController extends Controller
     public function loadModel($id)
     {
         $model = Lead::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
@@ -591,5 +589,4 @@ class LeadController extends Controller
             Yii::app()->end();
         }
     }
-
 }

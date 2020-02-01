@@ -1,13 +1,14 @@
 <?php
 
-class EmailParserleadlaw extends EmailParser {
-    
+class EmailParserleadlaw extends EmailParser
+{
     protected function getFetchBodySection()
     {
         return 1;
     }
 
-    public function parseMessage(ParsedEmail $message, Lead $lead, $folderSettings) {
+    public function parseMessage(ParsedEmail $message, Lead $lead, $folderSettings)
+    {
         $bodyDecoded = quoted_printable_decode($message->getBody());
         
         $this->echoDebug($bodyDecoded);
@@ -56,5 +57,4 @@ class EmailParserleadlaw extends EmailParser {
         
         return true;
     }
-
 }

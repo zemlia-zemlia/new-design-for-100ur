@@ -4,12 +4,12 @@
 $this->pageTitle = 'Редактирование профиля пользователя ' . CHtml::encode($model->name . ' ' . $model->lastName) . '. ' . Yii::app()->name;
 
 $this->breadcrumbs=array(
-	CHtml::encode($model->name . ' ' . $model->lastName) =>  ($model->role == User::ROLE_BUYER) ? array('/cabinet') : array('/user/profile'),
-	'Редактирование',
+    CHtml::encode($model->name . ' ' . $model->lastName) =>  ($model->role == User::ROLE_BUYER) ? array('/cabinet') : array('/user/profile'),
+    'Редактирование',
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 Юристов',"/"),
+    'homeLink'=>CHtml::link('100 Юристов', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
@@ -18,7 +18,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <h1 class="vert-margin30">Редактирование профиля</h1>
 
-<?php if($newUser):?>
+<?php if ($newUser):?>
 <div class="alert alert-info">
     Максимально заполните информацию о себе.<br /><br />
     Юристы с заполненным профилем участвуют в рейтинге и доверие к ним выше.

@@ -9,11 +9,11 @@ $model->price = MoneyFormat::rubles($model->price);
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'comment-form',
-	'enableAjaxValidation'=>false,
+    'id'=>'comment-form',
+    'enableAjaxValidation'=>false,
 )); ?>
 
-    <?php if(Yii::app()->user->isVerified):?>
+    <?php if (Yii::app()->user->isVerified):?>
     <div class="alert alert-success">
         <p>
             Для того, чтобы предложить свои услуги по данному заказу, заполните форму ниже.<br />
@@ -25,16 +25,16 @@ $model->price = MoneyFormat::rubles($model->price);
     <div class="row">
         <div class="col-sm-9">
             <div class="form-group">
-                <?php echo $form->labelEx($model,'text'); ?>
-		<?php echo $form->textArea($model,'text',array('rows'=>4,'class'=>'form-control')); ?>
-		<?php echo $form->error($model,'text'); ?>
+                <?php echo $form->labelEx($model, 'text'); ?>
+		<?php echo $form->textArea($model, 'text', array('rows'=>4,'class'=>'form-control')); ?>
+		<?php echo $form->error($model, 'text'); ?>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="form-group">
-                    <?php echo $form->labelEx($model,'price'); ?>
-                    <?php echo $form->textField($model,'price',array('class'=>'form-control right-align')); ?>
-                    <?php echo $form->error($model,'price'); ?>
+                    <?php echo $form->labelEx($model, 'price'); ?>
+                    <?php echo $form->textField($model, 'price', array('class'=>'form-control right-align')); ?>
+                    <?php echo $form->error($model, 'price'); ?>
             </div>
 
             <?php echo $form->hiddenField($model, 'type', array('value'=>$type));?>

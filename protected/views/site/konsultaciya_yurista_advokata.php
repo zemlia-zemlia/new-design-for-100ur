@@ -72,11 +72,11 @@
 	<div class="row">
 		
 		<?php
-			// выводим виджет с топовыми юристами
-			$this->widget('application.widgets.TopYurists.TopYurists', array(
-				'cacheTime' =>  0,
-			));
-		?>
+            // выводим виджет с топовыми юристами
+            $this->widget('application.widgets.TopYurists.TopYurists', array(
+                'cacheTime' =>  0,
+            ));
+        ?>
 		
 	</div>
 </div>

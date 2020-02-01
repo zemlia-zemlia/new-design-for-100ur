@@ -68,69 +68,71 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
  */
 class EProgressBar extends EJqueryUiWidget
 {
-   //***************************************************************************
-   // Internal properties
-   //***************************************************************************
-	/**
-	 * The valid script Options for the accordion widget.
-	 *
-	 * See @link http://jqueryui.com/demos/progressbar/#options
-	 *
-	 * @var array
-	 */
-	protected $validOptions = array(
-		'value'	=> array('type' => 'integer'),
-	);
+    //***************************************************************************
+    // Internal properties
+    //***************************************************************************
+    /**
+     * The valid script Options for the accordion widget.
+     *
+     * See @link http://jqueryui.com/demos/progressbar/#options
+     *
+     * @var array
+     */
+    protected $validOptions = array(
+        'value'	=> array('type' => 'integer'),
+    );
 
-   /**
-	* See @link http://jqueryui.com/demos/progressbar/#events
-	*
-	* @var array
-	*/
-   protected $validCallbacks = array('change');
+    /**
+     * See @link http://jqueryui.com/demos/progressbar/#events
+     *
+     * @var array
+     */
+    protected $validCallbacks = array('change');
 
-   //***************************************************************************
-   // Utilities
-   //***************************************************************************
-   /**
-	* Generates the javascript code for the widget
-	* @return string
-	*/
-	protected function jsCode($id)
-	{
-		if(!empty($this->options))
-		{
-			$options = CJavaScript::encode($this->options);
-			$script = '$("#'.$id.'").progressbar('.$options.');';
-		}
-		else
-			$script = '$("#'.$id.'").progressbar();';
+    //***************************************************************************
+    // Utilities
+    //***************************************************************************
+    /**
+     * Generates the javascript code for the widget
+     * @return string
+     */
+    protected function jsCode($id)
+    {
+        if (!empty($this->options)) {
+            $options = CJavaScript::encode($this->options);
+            $script = '$("#'.$id.'").progressbar('.$options.');';
+        } else {
+            $script = '$("#'.$id.'").progressbar();';
+        }
 
-		if(!empty($this->callbacks['change']))
-			$script .= "\n$('#".$id."').bind('progressbarchange', ".$this->callbacks['change'].");";
+        if (!empty($this->callbacks['change'])) {
+            $script .= "\n$('#".$id."').bind('progressbarchange', ".$this->callbacks['change'].");";
+        }
 
-		return $script;
-	}
+        return $script;
+    }
 
-   //***************************************************************************
-   // Run Lola, Run
-   //***************************************************************************
+    //***************************************************************************
+    // Run Lola, Run
+    //***************************************************************************
    
-	/**
-	 * Executes the widget.
-	 * This method is called by {@link CBaseController::endWidget}.
-	 */
-	public function run()
-	{
-		list($name, $id) = $this->resolveNameID();
+    /**
+     * Executes the widget.
+     * This method is called by {@link CBaseController::endWidget}.
+     */
+    public function run()
+    {
+        list($name, $id) = $this->resolveNameID();
 
-		$this->publishAssets();
-		$this->registerClientScripts();
+        $this->publishAssets();
+        $this->registerClientScripts();
 
-		$this->clientScript->registerScript('Yii.'.get_class($this).'#'.$id,
-											$this->jsCode($id),
-											CClientScript::POS_READY);
+        $this->clientScript->registerScript(
+            'Yii.'.get_class($this).'#'.$id,
+            $this->jsCode($id),
+            CClientScript::POS_READY
+        );
 
-		echo CHtml::tag('div', array('id'=>$id), "");
-	}
+        echo CHtml::tag('div', array('id'=>$id), "");
+    }
 }

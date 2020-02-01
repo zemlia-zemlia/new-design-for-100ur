@@ -1,12 +1,11 @@
 <?php
 
 /*
- * команда ищет вопросы, подходящие к категориям по ключевым словам и создает 
+ * команда ищет вопросы, подходящие к категориям по ключевым словам и создает
  * связки вопрос-категория
  */
 class SetCategoriesCommand extends CConsoleCommand
 {
-    
     public $keys2categories;
     
     public function actionIndex()
@@ -14,7 +13,7 @@ class SetCategoriesCommand extends CConsoleCommand
         // получаем массив ключевых слов и соответствующих категорий
         $keys2categories = QuestionCategory::keys2categories();
         
-        foreach($this->keys2categories as $key => $categoryId) {
+        foreach ($this->keys2categories as $key => $categoryId) {
             $questionsIds = Yii::app()->db->createCommand()
                     ->select('id')
                     ->from('{{question}}')
@@ -22,16 +21,15 @@ class SetCategoriesCommand extends CConsoleCommand
                     ->queryAll();
             
             echo $key . PHP_EOL;
-            foreach($questionsIds as $questionRow) {
+            foreach ($questionsIds as $questionRow) {
                 echo $questionRow['id'] . PHP_EOL;
                 try {
-                Yii::app()->db->createCommand()
+                    Yii::app()->db->createCommand()
                         ->insert('{{question2category}}', array('cId' => $categoryId, 'qId' => $questionRow['id']));
-                } catch(CDbException $e) {
+                } catch (CDbException $e) {
                     // дублирование связей вопрос-категория, не записываем
                 }
             }
         }
-        
     }
 }

@@ -91,11 +91,11 @@ class TransactionCampaign extends CActiveRecord
 
         $criteria=new CDbCriteria;
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('campaignId',$this->campaignId);
-        $criteria->compare('time',$this->time,true);
-        $criteria->compare('sum',$this->sum);
-        $criteria->compare('description',$this->description,true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('campaignId', $this->campaignId);
+        $criteria->compare('time', $this->time, true);
+        $criteria->compare('sum', $this->sum);
+        $criteria->compare('description', $this->description, true);
 
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,
@@ -117,12 +117,11 @@ class TransactionCampaign extends CActiveRecord
      * После сохранения транзакции записываем ее время пользователю
      */
     protected function afterSave()
-    {        
-        if($this->buyerId) {
+    {
+        if ($this->buyerId) {
             Yii::app()->db->createCommand()
                 ->update("{{user}}", array('lastTransactionTime' => date("Y-m-d H:i:s")), 'id = ' . $this->buyerId);
         }
         parent::afterSave();
-
     }
 }

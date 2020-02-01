@@ -1,5 +1,5 @@
 <?php
-Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('yurist'));
+Yii::app()->clientScript->registerLinkTag("canonical", null, Yii::app()->createUrl('yurist'));
 
 $pageTitle = "Каталог юристов и адвокатов. 100 Юристов - Юридические консультации онлайн";
 
@@ -22,8 +22,8 @@ Yii::app()->clientScript->registerMetaTag("Каталог юристов и ад
 </div>
 
 <?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'  =>  $yuristsDataProvider,
-	'itemView'      =>  '_view',
+    'dataProvider'  =>  $yuristsDataProvider,
+    'itemView'      =>  '_view',
         'emptyText'     =>  'Не найдено ни одного юриста',
         'summaryText'   =>  'Показаны юристы с {start} до {end}, всего {count}',
         'pager'         =>  array('class'=>'GTLinkPager'),

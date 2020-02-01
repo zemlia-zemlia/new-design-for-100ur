@@ -4,7 +4,6 @@ use YurcrmClient\YurcrmClient;
 
 class UserController extends Controller
 {
-
     public $layout = '//frontend/question';
     public $defaultAction = 'profile';
 
@@ -104,7 +103,7 @@ class UserController extends Controller
         ));
     }
 
-    // creating a new user by registration form 
+    // creating a new user by registration form
     public function actionCreate()
     {
         $this->layout = '//frontend/smart';
@@ -164,7 +163,7 @@ class UserController extends Controller
         ));
     }
 
-    // страница редактирования пользователя 
+    // страница редактирования пользователя
     public function actionUpdate($id)
     {
         ini_set('upload_max_filesize', '10M');
@@ -231,7 +230,6 @@ class UserController extends Controller
                     $u2cat->uId = $model->id;
                     $u2cat->cId = $categoryId;
                     if (!$u2cat->save()) {
-
                     }
                 }
             }
@@ -328,7 +326,6 @@ class UserController extends Controller
                 $model->password = User::hashPassword($model->password);
                 $model->password2 = $model->password;
                 if ($model->save()) {
-
                     $this->redirect(array('profile'));
                 }
             }
@@ -384,7 +381,6 @@ class UserController extends Controller
             }
 
             if ($user->save()) {
-
                 if (in_array($user->role, [User::ROLE_BUYER, User::ROLE_JURIST])) {
                     // покупателя и юриста перекинем на страницу установки пароля
                     $changePasswordLink = $user->getChangePasswordLink();
@@ -437,7 +433,7 @@ class UserController extends Controller
                     throw new CHttpException(400, 'Не удалось автоматически залогиниться на сайте');
                 }
                 /*
-                 * 
+                 *
                  */
             } else {
                 if (!empty($user->errors)) {
@@ -548,7 +544,6 @@ class UserController extends Controller
                     } else {
                         $this->redirect(['site/passwordChanged']);
                     }
-
                 } else {
                     throw new CHttpException(500, 'Ошибка, не удалось изменить пароль');
                 }
@@ -621,7 +616,7 @@ class UserController extends Controller
         $model->isSubscribed = 0;
         if (!$model->save()) {
             CustomFuncs::printr($model->errors);
-            //throw new CHttpException(400, 'Не удалось отписаться от рассылки. Возможно, ваш профиль не заполнен. Войдите и проверьте заполненность профиля.');
+        //throw new CHttpException(400, 'Не удалось отписаться от рассылки. Возможно, ваш профиль не заполнен. Войдите и проверьте заполненность профиля.');
         } else {
             $this->render('unsubscribeSuccess');
         }
@@ -724,7 +719,7 @@ class UserController extends Controller
         }
 
         // найдем статистику ответов пользователя с разбивкой по месяцам
-        //SELECT COUNT(*), MONTH(`datetime`) month, YEAR(`datetime`) year FROM `crm_answer` 
+        //SELECT COUNT(*), MONTH(`datetime`) month, YEAR(`datetime`) year FROM `crm_answer`
         //WHERE authorId=8 AND status IN (0,1) AND datetime IS NOT NULL
         //GROUP BY year, month
         $statsRows = Yii::app()->db->createCommand()
@@ -800,7 +795,7 @@ class UserController extends Controller
         $commentModel = new Comment();
         $commentModel->setScenario('user');
 
-        if(isset($_POST['Comment'])) {
+        if (isset($_POST['Comment'])) {
             $commentModel->attributes = $_POST['Comment'];
             $commentModel->authorId = Yii::app()->user->id;
             $commentModel->questionId = $questionId;

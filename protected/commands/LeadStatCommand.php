@@ -10,13 +10,13 @@ class LeadStatCommand extends CConsoleCommand
     // рассылка статистики продаж лидов за последние N дней
     public function actionIndex()
     {
-        foreach($this->emails as $email) {
+        foreach ($this->emails as $email) {
             $mailer = new GTMail;
             
             $leadsRows = Yii::app()->db->createCommand()
                     ->select('SUM(l.price) summa, DATE(l.question_date) lead_date')
                     ->from('{{lead}} l')
-                    ->where('l.price != 0 AND leadStatus =' . Lead::LEAD_STATUS_SENT.' AND l.question_date>NOW()-INTERVAL '.($this->daysInterval +1 ).' DAY')
+                    ->where('l.price != 0 AND leadStatus =' . Lead::LEAD_STATUS_SENT.' AND l.question_date>NOW()-INTERVAL '.($this->daysInterval +1).' DAY')
                     ->group("lead_date")
                     ->order('lead_date DESC')
                     ->queryAll();
@@ -29,7 +29,7 @@ class LeadStatCommand extends CConsoleCommand
             $mailer->message = '<h2>Статистика продаж лидов</h2>';
             $mailer->message .= "<table>";
             
-            foreach($leadsRows as $dayStats) {
+            foreach ($leadsRows as $dayStats) {
                 $mailer->message .= "<tr><td>" . $dayStats['lead_date'] . "</td><td> : " . $dayStats['summa'] . " руб.</td></tr>";
             }
             
@@ -39,7 +39,5 @@ class LeadStatCommand extends CConsoleCommand
 
             $mailer->sendMail(true);
         }
-        
-        
     }
 }

@@ -1,6 +1,6 @@
 <div class="post-comment">
     <?php if ($data->status != Comment::STATUS_SPAM): ?>
-        <div class="answer-comment" style="margin-left:<?php echo ($data->level - 1) * 20; ?>px;">
+        <div class="answer-comment" style="margin-left:<?php echo($data->level - 1) * 20; ?>px;">
             <p> <strong><span class="glyphicon glyphicon-comment"></span> 
  
                 <?php echo CHtml::encode($data->author->name . ' ' . $data->author->name2 . ' ' . $data->author->lastName); ?>

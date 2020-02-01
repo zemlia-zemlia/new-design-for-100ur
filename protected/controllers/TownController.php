@@ -1,13 +1,14 @@
 <?php
 
-class TownController extends Controller {
-
+class TownController extends Controller
+{
     public $layout = '//frontend/question';
 
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
@@ -19,7 +20,8 @@ class TownController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
                 'actions' => array('index', 'view', 'alias', 'aliasOld', 'ajaxGetList'),
@@ -32,7 +34,8 @@ class TownController extends Controller {
     }
 
     // список городов
-    public function actionIndex() {
+    public function actionIndex()
+    {
         throw new CHttpException(404, 'Этой страницы больше не существует...');
     }
 
@@ -40,7 +43,8 @@ class TownController extends Controller {
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         $town = Town::model()->findByPk($id);
         if (!$town) {
             throw new CHttpException(404, 'Город не найден');
@@ -70,13 +74,13 @@ class TownController extends Controller {
         ));
     }
 
-    /** 
+    /**
      * Вывод страницы города по алиасу
-     * 
+     *
      * @param type $name
      * @throws CHttpException
      */
-    public function actionAlias($name) 
+    public function actionAlias($name)
     {
         $this->layout = "/frontend/catalog";
         
@@ -168,7 +172,8 @@ class TownController extends Controller {
      * и редиректа на новые адреса городов
      * @deprecated
      */
-    public function actionAliasOld($name) {
+    public function actionAliasOld($name)
+    {
         $town = Town::model()->findByAttributes(array('alias' => $name));
         if (!$town) {
             throw new CHttpException(404, 'Страница города не найдена');
@@ -193,10 +198,12 @@ class TownController extends Controller {
      * @return Town the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id)
+    {
         $model = Town::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
@@ -204,14 +211,16 @@ class TownController extends Controller {
      * Performs the AJAX validation.
      * @param Town $model the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'town-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
     }
 
-    public function actionAjaxGetList() {
+    public function actionAjaxGetList()
+    {
         $term = addslashes(CHtml::encode($_GET['term']));
 
         $arr = array();
@@ -237,5 +246,4 @@ class TownController extends Controller {
         }
         echo CJSON::encode($arr);
     }
-
 }

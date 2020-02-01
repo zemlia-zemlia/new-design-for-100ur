@@ -82,8 +82,8 @@ class Lead2Category extends CActiveRecord
 
         $criteria=new CDbCriteria;
 
-        $criteria->compare('leadId',$this->leadId);
-        $criteria->compare('cId',$this->cId);
+        $criteria->compare('leadId', $this->leadId);
+        $criteria->compare('cId', $this->cId);
 
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,

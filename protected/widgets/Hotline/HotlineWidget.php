@@ -13,20 +13,19 @@ class HotlineWidget extends CWidget
     
     public function run()
     {
-        
-        if($this->showPhone === false) {
+        if ($this->showPhone === false) {
             $model = new Lead;
             return $this->render('callBack', array(
                 'model' => $model,
                 ));
         }
         
-        if($this->showAlways === true) {
+        if ($this->showAlways === true) {
             $this->render($this->template);
         } else {
             $currenTownId = Yii::app()->user->getState('currentTownId');
         
-            if(!$currenTownId) {
+            if (!$currenTownId) {
                 return false;
             }
 
@@ -44,12 +43,9 @@ class HotlineWidget extends CWidget
             /*
              * показываем виджет только если пользователь находится в одном из продажных городов ИЛИ регионов
              */
-            if(array_key_exists($currentTownId, $payedTowns) || array_key_exists($currentTown->regionId, $payedRegions)) {
+            if (array_key_exists($currentTownId, $payedTowns) || array_key_exists($currentTown->regionId, $payedRegions)) {
                 $this->render($this->template);
             }
         }
-        
-        
     }
 }
-?>

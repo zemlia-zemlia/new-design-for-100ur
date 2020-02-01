@@ -9,8 +9,8 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'user-form',
-	'enableAjaxValidation'=>false,
+    'id'=>'user-form',
+    'enableAjaxValidation'=>false,
         'htmlOptions'   =>  array(
             'class'     =>  'login-form',
             'enctype'   =>  'multipart/form-data',
@@ -18,7 +18,7 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
 )); ?>
 
     
-<?php if(!$model->role):?>
+<?php if (!$model->role):?>
     <div class="form-group">
         <p class="text-center vert-margin20">
         <strong>Выберите подходящий Вам тип аккаунта</strong><br />
@@ -43,7 +43,7 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
     </div>
 <?php else:?>
     
-    <?php echo $form->hiddenField($model,'role'); ?>
+    <?php echo $form->hiddenField($model, 'role'); ?>
     <?php
         switch ($model->role) {
             case User::ROLE_JURIST:

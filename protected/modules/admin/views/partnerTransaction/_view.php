@@ -23,7 +23,7 @@
     </td>
     
     <td class="request-control-wrapper">
-        <?php if($data->status == PartnerTransaction::STATUS_PENDING):?>
+        <?php if ($data->status == PartnerTransaction::STATUS_PENDING):?>
             <?php echo CHtml::link("Одобрить", "#", array('class'=>'btn btn-success btn-xs btn-block change-request-status', 'data-id'=>$data->id, 'data-action'=>'accept'));?>
         <?php else:?>
             <?php echo $data->getStatus();?>

@@ -3,7 +3,7 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs=array(
-	'Города',
+    'Города',
 );
 $this->pageTitle = "Города. " . Yii::app()->name;
 
@@ -31,7 +31,7 @@ $this->pageTitle = "Города. " . Yii::app()->name;
         <?php echo CHtml::encode($town['counter']);?>
     </td>
     <td>
-        <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/town/update',array('id'=>$town['id'])), array('class'=>'btn btn-primary btn-xs'));?>
+        <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/town/update', array('id'=>$town['id'])), array('class'=>'btn btn-primary btn-xs'));?>
     </td>
 </tr>
 

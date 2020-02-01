@@ -18,7 +18,6 @@ use stdClass;
 
 class ApiClient implements ApiInterface
 {
-
     private $apiUrl = 'https://api.sendpulse.com';
 
     private $userId;

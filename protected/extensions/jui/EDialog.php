@@ -76,36 +76,36 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
  */
 class EDialog extends EJqueryUiWidget
 {
-   /**
-    * The content of the dialog.
-    *
-    * @var string
-    */
-   private $body = null;
+    /**
+     * The content of the dialog.
+     *
+     * @var string
+     */
+    private $body = null;
 
-   /**
-    * Associative array key=>value where key is the name of the button, and
-    * value es a callback (a valid javascript funcion) which acts upon the click
-    *
-    * Example:
-    *
-    * $buttons['Ok'] = 'function(){$(this).dialog("close");}'
-      $buttons['Cancel'] = 'function(){alert("cancel");}'
-    *
-    * @var array
-    */
-   private $buttons = array();
+    /**
+     * Associative array key=>value where key is the name of the button, and
+     * value es a callback (a valid javascript funcion) which acts upon the click
+     *
+     * Example:
+     *
+     * $buttons['Ok'] = 'function(){$(this).dialog("close");}'
+       $buttons['Cancel'] = 'function(){alert("cancel");}'
+     *
+     * @var array
+     */
+    private $buttons = array();
   
-   //***************************************************************************
-   // Internal properties (not for configuration)
-   //***************************************************************************
+    //***************************************************************************
+    // Internal properties (not for configuration)
+    //***************************************************************************
 
-   /**
-    * See @link http://docs.jquery.com/UI/Dialog/dialog#options
-    *
-    * @var array
-    */
-   protected $validOptions = array(
+    /**
+     * See @link http://docs.jquery.com/UI/Dialog/dialog#options
+     *
+     * @var array
+     */
+    protected $validOptions = array(
                                    'autoOpen'=>array('type'=>'boolean'), // When autoOpen is true the dialog will open automatically when dialog is called. If false it will stay hidden until .dialog("open") is called on it. Default: true
                                    'bgiframe'=>array('type'=>'boolean'), // When true, the bgiframe plugin will be used, to fix the issue in IE6 where select boxes show on top of other elements, regardless of zIndex. Requires including the bgiframe plugin. Future versions may not require a separate plugin. Default: false
                                    'buttons'=>array('type'=>'array'), // Specifies which buttons should be displayed on the dialog. The property key is the text of the button. The value is the callback function for when the button is clicked. The context of the callback is the dialog element; if you need access to the button, it is available as the target of the event object. Default: {}
@@ -128,12 +128,12 @@ class EDialog extends EJqueryUiWidget
                                    'zIndex'=>array('type'=>'integer'), // The starting z-index for the dialog. Default: 1000
                                   );
 
-   /**
-    * See @link http://docs.jquery.com/UI/Dialog/dialog#options
-    *
-    * @var array
-    */
-   protected $validCallbacks = array(
+    /**
+     * See @link http://docs.jquery.com/UI/Dialog/dialog#options
+     *
+     * @var array
+     */
+    protected $validCallbacks = array(
                                      'beforeclose', // This event is triggered when a dialog attempts to close. If the beforeclose event handler (callback function) returns false, the close will be prevented.
                                      'open', // This event is triggered when dialog is opened.
                                      'focus', // This event is triggered when the dialog gains focus.
@@ -146,152 +146,152 @@ class EDialog extends EJqueryUiWidget
                                      'close', // This event is triggered when the dialog is closed.
                                     );
                                
-   //***************************************************************************
-   // Setters and getters
-   //***************************************************************************
+    //***************************************************************************
+    // Setters and getters
+    //***************************************************************************
 
-   /**
-    * Setter
-    *
-    * @param string $value body
-    */
-   public function setBody($value)
-   {
-      $this->body = strval($value);
-   }
+    /**
+     * Setter
+     *
+     * @param string $value body
+     */
+    public function setBody($value)
+    {
+        $this->body = strval($value);
+    }
 
-   /**
-    * Getter
-    *
-    * @return string
-    */
-   public function getBody()
-   {
-      return $this->body;
-   }
+    /**
+     * Getter
+     *
+     * @return string
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
 
-   /**
-    * Setter
-    *
-    * @param array $value buttons
-    */
-   public function setButtons($value)
-   {
-      if (!is_array($value))
-         throw new CException(Yii::t('EJqueryUiWidget', 'buttons must be an array'));
-      $this->buttons = $value;
-   }
+    /**
+     * Setter
+     *
+     * @param array $value buttons
+     */
+    public function setButtons($value)
+    {
+        if (!is_array($value)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'buttons must be an array'));
+        }
+        $this->buttons = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return array
-    */
-   public function getButtons()
-   {
-      return $this->buttons;
-   }
+    /**
+     * Getter
+     *
+     * @return array
+     */
+    public function getButtons()
+    {
+        return $this->buttons;
+    }
 
-   //***************************************************************************
-   // Utilities
-   //***************************************************************************
+    //***************************************************************************
+    // Utilities
+    //***************************************************************************
 
-   /**
-    * Generates the options for the jQuery widget
-    *
-    * @return string
-    */
-   protected function makeOptions()
-   {
-      $options = array();
-      $buttons = array();
+    /**
+     * Generates the options for the jQuery widget
+     *
+     * @return string
+     */
+    protected function makeOptions()
+    {
+        $options = array();
+        $buttons = array();
 
-      foreach ($this->callbacks as  $key=>$val) {
-         $options['callback_'.$key] = $key;
-      }
+        foreach ($this->callbacks as  $key=>$val) {
+            $options['callback_'.$key] = $key;
+        }
 
-      if (!empty($this->buttons)) {
-         $options['buttons'] = 'buttons';
-      }
+        if (!empty($this->buttons)) {
+            $options['buttons'] = 'buttons';
+        }
 
-      $encodedOptions = CJavaScript::encode(array_merge($options, $this->options));
+        $encodedOptions = CJavaScript::encode(array_merge($options, $this->options));
 
-      foreach ($this->callbacks as $key=>$val) {
-         $encodedOptions = str_replace("'callback_{$key}':'{$key}'", "{$key}: {$val}", $encodedOptions);
-      }
+        foreach ($this->callbacks as $key=>$val) {
+            $encodedOptions = str_replace("'callback_{$key}':'{$key}'", "{$key}: {$val}", $encodedOptions);
+        }
 
-      if (!empty($this->buttons)) {
-         $b = array();
-         foreach ($this->buttons as $key=>$val) {
-            $b[] = "'{$key}'".':'.str_replace(array("\n", "\r", "\t"), '', $val);
-         }
-         $buttons = "'buttons':{" . implode(',', $b) . '}';
-      }
-      $encodedOptions = str_replace("'buttons':'buttons'", $buttons, $encodedOptions);
+        if (!empty($this->buttons)) {
+            $b = array();
+            foreach ($this->buttons as $key=>$val) {
+                $b[] = "'{$key}'".':'.str_replace(array("\n", "\r", "\t"), '', $val);
+            }
+            $buttons = "'buttons':{" . implode(',', $b) . '}';
+        }
+        $encodedOptions = str_replace("'buttons':'buttons'", $buttons, $encodedOptions);
 
-      return $encodedOptions;
-   }
+        return $encodedOptions;
+    }
 
-   /**
-    * Generates the javascript code for the widget
-    *
-    * @return string
-    */
-   protected function jsCode($id)
-   {
-      $options = $this->makeOptions();      
-      $script =<<<EOP
+    /**
+     * Generates the javascript code for the widget
+     *
+     * @return string
+     */
+    protected function jsCode($id)
+    {
+        $options = $this->makeOptions();
+        $script =<<<EOP
 $('#{$id}').dialog({$options});
 EOP;
-      return $script;
-   }
+        return $script;
+    }
 
-   /**
-    * Generates the HTML markup for the widget
-    *
-    * @return string
-    */
-   protected function htmlCode($id)
-   {
-      $this->htmlOptions['id'] = $id;
-      $html = CHtml::tag('div', $this->htmlOptions, $this->body);
-      return $html;
-   }
+    /**
+     * Generates the HTML markup for the widget
+     *
+     * @return string
+     */
+    protected function htmlCode($id)
+    {
+        $this->htmlOptions['id'] = $id;
+        $html = CHtml::tag('div', $this->htmlOptions, $this->body);
+        return $html;
+    }
 
-   //***************************************************************************
-   // Run Lola, Run
-   //***************************************************************************
+    //***************************************************************************
+    // Run Lola, Run
+    //***************************************************************************
 
-   /**
-    * Init the widget. Capture the body.
-    */
-   public function init()
-   {
-      ob_start();
-   }
+    /**
+     * Init the widget. Capture the body.
+     */
+    public function init()
+    {
+        ob_start();
+    }
 
-   /**
-    * Run the widget
-    */
-   public function run()
-   {
-      if (is_null($this->body)) {
-         $this->body = ob_get_contents();
-         ob_end_clean();
-      }
-      else {
-         ob_end_flush();
-      }
+    /**
+     * Run the widget
+     */
+    public function run()
+    {
+        if (is_null($this->body)) {
+            $this->body = ob_get_contents();
+            ob_end_clean();
+        } else {
+            ob_end_flush();
+        }
 
-      list($name, $id) = $this->resolveNameID();
+        list($name, $id) = $this->resolveNameID();
 
-      $this->publishAssets();
-      $this->registerClientScripts();
+        $this->publishAssets();
+        $this->registerClientScripts();
 
-      $js = $this->jsCode($name);
-      $this->clientScript->registerScript('Yii.'.get_class($this).'#'.$id, $js, CClientScript::POS_READY);
+        $js = $this->jsCode($name);
+        $this->clientScript->registerScript('Yii.'.get_class($this).'#'.$id, $js, CClientScript::POS_READY);
 
-      $html = $this->htmlCode($id);
-      echo $html;
-   }
+        $html = $this->htmlCode($id);
+        echo $html;
+    }
 }

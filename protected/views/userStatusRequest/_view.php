@@ -34,26 +34,26 @@
 	<br />
 
 	<?php /*
-	<b><?php echo CHtml::encode($data->getAttributeLabel('vuzTownId')); ?>:</b>
-	<?php echo CHtml::encode($data->vuzTownId); ?>
-	<br />
+    <b><?php echo CHtml::encode($data->getAttributeLabel('vuzTownId')); ?>:</b>
+    <?php echo CHtml::encode($data->vuzTownId); ?>
+    <br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('educationYear')); ?>:</b>
-	<?php echo CHtml::encode($data->educationYear); ?>
-	<br />
+    <b><?php echo CHtml::encode($data->getAttributeLabel('educationYear')); ?>:</b>
+    <?php echo CHtml::encode($data->educationYear); ?>
+    <br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('advOrganisation')); ?>:</b>
-	<?php echo CHtml::encode($data->advOrganisation); ?>
-	<br />
+    <b><?php echo CHtml::encode($data->getAttributeLabel('advOrganisation')); ?>:</b>
+    <?php echo CHtml::encode($data->advOrganisation); ?>
+    <br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('advNumber')); ?>:</b>
-	<?php echo CHtml::encode($data->advNumber); ?>
-	<br />
+    <b><?php echo CHtml::encode($data->getAttributeLabel('advNumber')); ?>:</b>
+    <?php echo CHtml::encode($data->advNumber); ?>
+    <br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('position')); ?>:</b>
-	<?php echo CHtml::encode($data->position); ?>
-	<br />
+    <b><?php echo CHtml::encode($data->getAttributeLabel('position')); ?>:</b>
+    <?php echo CHtml::encode($data->position); ?>
+    <br />
 
-	*/ ?>
+    */ ?>
 
 </div>

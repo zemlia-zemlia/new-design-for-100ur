@@ -4,15 +4,15 @@
 $this->pageTitle = "Типы документов: " . CHtml::encode($model->name) . '. ' . Yii::app()->name;
 
 $this->breadcrumbs=array(
-	'Типы документов'=>array('index'),
-	$model->name,
+    'Типы документов'=>array('index'),
+    $model->name,
 );
 ?>
 
 <?php
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 юристов',"/admin"),
+    'homeLink'=>CHtml::link('100 юристов', "/admin"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));

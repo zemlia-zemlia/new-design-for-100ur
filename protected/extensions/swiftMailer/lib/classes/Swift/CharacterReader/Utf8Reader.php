@@ -26,12 +26,11 @@
  * @subpackage Encoder
  * @author Chris Corbyn
  */
-class Swift_CharacterReader_Utf8Reader
-  implements Swift_CharacterReader
+class Swift_CharacterReader_Utf8Reader implements Swift_CharacterReader
 {
 
   /** Pre-computed for optimization */
-  private static $length_map=array(
+    private static $length_map=array(
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, //0x0N
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, //0x1N
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, //0x2N
@@ -51,34 +50,33 @@ class Swift_CharacterReader_Utf8Reader
  );
 
 
-  /**
-   * Returns an integer which specifies how many more bytes to read.
-   * A positive integer indicates the number of more bytes to fetch before invoking
-   * this method again.
-   * A value of zero means this is already a valid character.
-   * A value of -1 means this cannot possibly be a valid character.
-   * @param string $bytes
-   * @return int
-   */
-  public function validateByteSequence($bytes, $size)
-  {
-    if ($size<1){
-      return -1;
-    }
-    $needed = self::$length_map[$bytes[0]] - $size;
-    return ($needed > -1)
+    /**
+     * Returns an integer which specifies how many more bytes to read.
+     * A positive integer indicates the number of more bytes to fetch before invoking
+     * this method again.
+     * A value of zero means this is already a valid character.
+     * A value of -1 means this cannot possibly be a valid character.
+     * @param string $bytes
+     * @return int
+     */
+    public function validateByteSequence($bytes, $size)
+    {
+        if ($size<1) {
+            return -1;
+        }
+        $needed = self::$length_map[$bytes[0]] - $size;
+        return ($needed > -1)
       ? $needed
       : -1
       ;
-  }
+    }
 
-  /**
-   * Returns the number of bytes which should be read to start each character.
-   * @return int
-   */
-  public function getInitialByteSize()
-  {
-    return 1;
-  }
-
+    /**
+     * Returns the number of bytes which should be read to start each character.
+     * @return int
+     */
+    public function getInitialByteSize()
+    {
+        return 1;
+    }
 }

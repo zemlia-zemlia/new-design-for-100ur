@@ -34,8 +34,8 @@
         <?php echo CHtml::link("Ред.", array('update', 'id'=>$data->id)); ?>
     </td>
 </tr>        
-        <?php if(sizeof($data->children)):?>
-            <?php foreach($data->children as $child):?>
+        <?php if (sizeof($data->children)):?>
+            <?php foreach ($data->children as $child):?>
                 <tr>
                     <td>
                     &nbsp;&nbsp;<?php echo CHtml::link(CHtml::encode($child->name), array('view', 'id'=>$child->id)); ?> (id <?php echo $child->id;?>) 

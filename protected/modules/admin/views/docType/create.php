@@ -3,8 +3,8 @@
 /* @var $model DocType */
 $this->pageTitle = "Новый тип документа. " . Yii::app()->name;
 $this->breadcrumbs=array(
-	'Типы документов'=>array('index'),
-	'Создание',
+    'Типы документов'=>array('index'),
+    'Создание',
 );
 
 ?>

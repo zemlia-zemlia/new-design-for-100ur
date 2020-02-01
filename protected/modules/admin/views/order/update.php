@@ -4,13 +4,13 @@
 $this->setPageTitle("Редактирование заказа документов #" . $model->id . '. ' . Yii::app()->name);
 
 $this->breadcrumbs=array(
-	'Заказы документов'=>array('index'),
-	$model->id=>array('view','id'=>$model->id),
-	'Редактирование',
+    'Заказы документов'=>array('index'),
+    $model->id=>array('view','id'=>$model->id),
+    'Редактирование',
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 Юристов',"/admin"),
+    'homeLink'=>CHtml::link('100 Юристов', "/admin"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));

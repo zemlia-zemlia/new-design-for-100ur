@@ -5,10 +5,8 @@ class SimpleForm extends CWidget
     
     public function run()
     {
-        
         $model = new Question;
         
         $this->render($this->template, array('model'=>$model));
     }
 }
-?>

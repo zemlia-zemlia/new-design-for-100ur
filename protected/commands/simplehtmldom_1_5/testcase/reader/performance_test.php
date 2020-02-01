@@ -19,11 +19,13 @@ for ($i=0; $i<$count; ++$i) {
     list($eu, $es) = explode(' ', microtime());
     list($bu, $bs) = explode(' ', $start);
 
-    if (((float)$eu+(float)$es-(float)$bu-(float)$bs)*1000 > $max)
+    if (((float)$eu+(float)$es-(float)$bu-(float)$bs)*1000 > $max) {
         $max = ((float)$eu+(float)$es-(float)$bu-(float)$bs)*1000;
+    }
 
-    if (((float)$eu+(float)$es-(float)$bu-(float)$bs)*1000 < $min)
+    if (((float)$eu+(float)$es-(float)$bu-(float)$bs)*1000 < $min) {
         $min = ((float)$eu+(float)$es-(float)$bu-(float)$bs)*1000;
+    }
     
     $all += ((float)$eu+(float)$es-(float)$bu-(float)$bs)*1000;
     echo sprintf('(%.1f)', ((float)$eu+(float)$es-(float)$bu-(float)$bs)*1000).'<br>';
@@ -35,4 +37,3 @@ echo 'min: ' . $min . '<br>';
 echo 'max: ' . $max . '<br>';
 
 echo '<br>avg: ' . $all/$count . '<br>';
-?>

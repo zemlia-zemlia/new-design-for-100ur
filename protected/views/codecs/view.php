@@ -7,12 +7,12 @@ Yii::app()->clientScript->registerMetaTag($model->introtext, 'description');
 
 
 $this->breadcrumbs  =   array(
-	'Кодексы РФ'    =>  array('/codecs'),
+    'Кодексы РФ'    =>  array('/codecs'),
 );
 
 $parents = $model->getParents();
 
-foreach($parents as $parentPath=>$parentTitle) {
+foreach ($parents as $parentPath=>$parentTitle) {
     $this->breadcrumbs += array($parentTitle=>array($parentPath));
 }
 
@@ -20,7 +20,7 @@ foreach($parents as $parentPath=>$parentTitle) {
 
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('Консультация юриста',"/"),
+        'homeLink'=>CHtml::link('Консультация юриста', "/"),
         'separator'=>' &rarr; ',
         'links'=>$this->breadcrumbs,
      ));

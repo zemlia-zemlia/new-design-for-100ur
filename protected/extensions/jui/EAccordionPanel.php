@@ -66,117 +66,118 @@
  */
 class EAccordionPanel extends EJqueryUiWidget
 {
-   //***************************************************************************
-   // Configuration
-   //***************************************************************************
+    //***************************************************************************
+    // Configuration
+    //***************************************************************************
 
-   /**
-    * The title of the accordion panel.
-    *
-    * @var string
-    */
-   protected $title = '';
+    /**
+     * The title of the accordion panel.
+     *
+     * @var string
+     */
+    protected $title = '';
 
-	/**
-	 * The wrapping html tag for the header-part
-	 * of a accordion panel.
-	 * @var string
-	 */
-	private $_headerHtml = 'h3';
+    /**
+     * The wrapping html tag for the header-part
+     * of a accordion panel.
+     * @var string
+     */
+    private $_headerHtml = 'h3';
 
-   /**
-    * The body of the accordion panel.
-    *
-    * @var string
-    */
-   private $body = null;
+    /**
+     * The body of the accordion panel.
+     *
+     * @var string
+     */
+    private $body = null;
 
-   //***************************************************************************
-   // Setters and getters
-   //***************************************************************************
+    //***************************************************************************
+    // Setters and getters
+    //***************************************************************************
 
-   /**
-    * Setter
-    *
-    * @param string $value the title
-    */
-   public function setTitle($value)
-   {
-      $this->title = strval($value);
-   }
+    /**
+     * Setter
+     *
+     * @param string $value the title
+     */
+    public function setTitle($value)
+    {
+        $this->title = strval($value);
+    }
 
-   /**
-    * Getter
-    *
-    * @return string
-    */
-   public function getTitle()
-   {
-      return $this->title;
-   }
+    /**
+     * Getter
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-   /**
-	* Sets the header html tag.
-	* @param string
-	*/
-	public function setHeaderHtml($headerHtml)
-	{
-		if(is_string($headerHtml))
-			$this->_headerHtml = $headerHtml;
-	}
+    /**
+     * Sets the header html tag.
+     * @param string
+     */
+    public function setHeaderHtml($headerHtml)
+    {
+        if (is_string($headerHtml)) {
+            $this->_headerHtml = $headerHtml;
+        }
+    }
 
-   /**
-	* Returns the header html tag.
-	* @return string
-	*/
-	public function getHeaderHtml()
-	{
-		return $this->_headerHtml;
-	}
+    /**
+     * Returns the header html tag.
+     * @return string
+     */
+    public function getHeaderHtml()
+    {
+        return $this->_headerHtml;
+    }
 
-   //***************************************************************************
-   // Utilities
-   //***************************************************************************
+    //***************************************************************************
+    // Utilities
+    //***************************************************************************
 
-   protected function htmlCode($id)
-   {
-      $header = CHtml::tag($this->_headerHtml, array(), CHtml::link($this->title, '#'));
-      $body = CHtml::tag('div', array(), $this->body);
-      $html = CHtml::tag('div', array(), $header.$body);
+    protected function htmlCode($id)
+    {
+        $header = CHtml::tag($this->_headerHtml, array(), CHtml::link($this->title, '#'));
+        $body = CHtml::tag('div', array(), $this->body);
+        $html = CHtml::tag('div', array(), $header.$body);
 
-      return $html;
-   }
+        return $html;
+    }
 
-   //***************************************************************************
-   // Run Lola, Run
-   //***************************************************************************
+    //***************************************************************************
+    // Run Lola, Run
+    //***************************************************************************
 
-   /**
-    * Get the panel contents
-    */
-   public function init()
-   {
-      if (empty($this->title))
-         throw new CException(Yii::t('EJqueryUiWidget', 'title must not be empty.'));
-      ob_start();
-   }
+    /**
+     * Get the panel contents
+     */
+    public function init()
+    {
+        if (empty($this->title)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'title must not be empty.'));
+        }
+        ob_start();
+    }
 
-   /**
-    *
-    */
-   public function run()
-   {
-      if (is_null($this->body)) {
-         $this->body = ob_get_contents();
-         ob_end_clean();
-      }
-      else {
-         ob_end_flush();
-      }
+    /**
+     *
+     */
+    public function run()
+    {
+        if (is_null($this->body)) {
+            $this->body = ob_get_contents();
+            ob_end_clean();
+        } else {
+            ob_end_flush();
+        }
 
-      list($name, $id) = $this->resolveNameID();
+        list($name, $id) = $this->resolveNameID();
 
-      $html = $this->htmlCode($id);
-      echo $html;
-   }
+        $html = $this->htmlCode($id);
+        echo $html;
+    }
 }

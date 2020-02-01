@@ -3,16 +3,16 @@
 /* @var $model Codecs */
 
 $this->breadcrumbs=array(
-	'Codecs'=>array('index'),
-	$model->id=>array('view','id'=>$model->id),
-	'Update',
+    'Codecs'=>array('index'),
+    $model->id=>array('view','id'=>$model->id),
+    'Update',
 );
 
 $this->menu=array(
-	array('label'=>'List Codecs', 'url'=>array('index')),
-	array('label'=>'Create Codecs', 'url'=>array('create')),
-	array('label'=>'View Codecs', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage Codecs', 'url'=>array('admin')),
+    array('label'=>'List Codecs', 'url'=>array('index')),
+    array('label'=>'Create Codecs', 'url'=>array('create')),
+    array('label'=>'View Codecs', 'url'=>array('view', 'id'=>$model->id)),
+    array('label'=>'Manage Codecs', 'url'=>array('admin')),
 );
 ?>
 

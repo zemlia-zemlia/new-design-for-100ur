@@ -11,11 +11,9 @@ class QuestionTitleCommand extends CConsoleCommand
         
         $questions = Question::model()->findAll($criteria);
         echo sizeof($questions) . " found";
-        foreach($questions as $question) {
+        foreach ($questions as $question) {
             $question->status = Question::STATUS_MODERATED;
             $question->save();
         }
     }
 }
-
-

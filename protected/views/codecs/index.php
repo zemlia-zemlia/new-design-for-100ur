@@ -12,7 +12,7 @@ Yii::app()->clientScript->registerMetaTag("Законы и кодексы Рос
 
 
 
-        <?php foreach($codecsArray as $codecs):?>
+        <?php foreach ($codecsArray as $codecs):?>
 
         <p>
             <?php echo CHtml::link($codecs->pagetitle, Yii::app()->createUrl('/codecs/'.$codecs->alias));?>

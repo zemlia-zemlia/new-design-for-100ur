@@ -6,7 +6,6 @@
  */
 class Api8088 implements ApiClassInterface
 {
-
     protected $url = "http://partner.8088.ru/query.php";
     protected $key = 13969; // наш id в партнерской системе
     protected $curl;
@@ -22,7 +21,7 @@ class Api8088 implements ApiClassInterface
 
     /**
      * отправка лида
-     * @param Lead $lead 
+     * @param Lead $lead
      */
     public function send(Lead $lead)
     {
@@ -63,5 +62,4 @@ class Api8088 implements ApiClassInterface
             return true;
         }
     }
-
 }

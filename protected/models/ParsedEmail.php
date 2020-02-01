@@ -8,7 +8,8 @@ class ParsedEmail
     protected $subject;
     protected $body;
     
-    public function __construct($body, $subject) {
+    public function __construct($body, $subject)
+    {
         $this->body = $body;
         $this->subject = $subject;
     }

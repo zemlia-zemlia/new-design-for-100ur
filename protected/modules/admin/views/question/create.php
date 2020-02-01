@@ -6,11 +6,11 @@ $this->setPageTitle("Вопросы и ответы - новый вопрос.".
 
 
 $this->breadcrumbs=array(
-	'Вопросы и ответы'=>array('index'),
-	'Новый вопрос',
+    'Вопросы и ответы'=>array('index'),
+    'Новый вопрос',
 );
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('CRM',"/"),
+    'homeLink'=>CHtml::link('CRM', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));

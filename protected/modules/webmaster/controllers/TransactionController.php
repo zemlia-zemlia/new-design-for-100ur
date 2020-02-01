@@ -3,15 +3,15 @@
 /**
  * Страницы раздела транзакций вебмастера
  */
-class TransactionController extends Controller {
-
+class TransactionController extends Controller
+{
     public $layout='//frontend/webmaster';
     
     /**
      * Список транзакций вебмастера
      */
-    public function actionIndex() {
-        
+    public function actionIndex()
+    {
         $transaction = new PartnerTransaction();
         $transaction->setScenario('pull');
         
@@ -54,11 +54,11 @@ class TransactionController extends Controller {
             
             $transaction->validate();
             
-            if(abs($transaction->sum) > ($balance - $hold)) {
+            if (abs($transaction->sum) > ($balance - $hold)) {
                 $transaction->addError('sum', 'Недостаточно средств');
             }
             
-            if(abs($transaction->sum) < PartnerTransaction::MIN_WITHDRAW) {
+            if (abs($transaction->sum) < PartnerTransaction::MIN_WITHDRAW) {
                 $transaction->addError('sum', 'Минимальная сумма для вывода - ' . MoneyFormat::rubles(PartnerTransaction::MIN_WITHDRAW) . ' руб.');
             }
             
@@ -72,20 +72,19 @@ class TransactionController extends Controller {
                         ))
                     ->limit(1)
                     ->queryAll();
-            if(sizeof($pendingTransactions)) {
+            if (sizeof($pendingTransactions)) {
                 $transaction->addError('comment', 'Невозможно создать заявку на вывод средств, т.к. у Вас уже есть активная заявка. Пожалуйста, дождитесь ее рассмотрения');
             }
             
-            if(!$transaction->hasErrors()) {
-                
+            if (!$transaction->hasErrors()) {
                 $transaction->sum = 0 - abs($transaction->sum);
-                if($transaction->save()) {
+                if ($transaction->save()) {
                     $this->redirect(array('/webmaster/transaction/index', 'created' => 1));
                 }
-            } 
+            }
         }
         
-        if($_GET['created'] == 1) {
+        if ($_GET['created'] == 1) {
             $justCreated = true;
         } else {
             $justCreated = false;

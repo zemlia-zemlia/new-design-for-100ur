@@ -4,17 +4,17 @@
     </div>
 
     <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'            =>  'lead-search-form',
+    'id'            =>  'lead-search-form',
         'method'        =>  'POST',
         'action'        =>  Yii::app()->createUrl('question/callback'),
         'htmlOptions'   =>  array('class'=>'form-inline'),
-	'enableAjaxValidation'=>false,
+    'enableAjaxValidation'=>false,
     )); ?>
     
     <div class="form-group">
-        <?php echo $form->labelEx($model,'town'); ?>
+        <?php echo $form->labelEx($model, 'town'); ?>
         <?php echo CHtml::textField('town', $townName, array(
-                        'id'            =>  'town-selector', 
+                        'id'            =>  'town-selector',
                         'class'         =>  'form-control input-sm',
         )); ?>
         <?php

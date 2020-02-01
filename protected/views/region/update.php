@@ -3,16 +3,16 @@
 /* @var $model Region */
 
 $this->breadcrumbs=array(
-	'Regions'=>array('index'),
-	$model->name=>array('view','id'=>$model->id),
-	'Update',
+    'Regions'=>array('index'),
+    $model->name=>array('view','id'=>$model->id),
+    'Update',
 );
 
 $this->menu=array(
-	array('label'=>'List Region', 'url'=>array('index')),
-	array('label'=>'Create Region', 'url'=>array('create')),
-	array('label'=>'View Region', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage Region', 'url'=>array('admin')),
+    array('label'=>'List Region', 'url'=>array('index')),
+    array('label'=>'Create Region', 'url'=>array('create')),
+    array('label'=>'View Region', 'url'=>array('view', 'id'=>$model->id)),
+    array('label'=>'Manage Region', 'url'=>array('admin')),
 );
 ?>
 

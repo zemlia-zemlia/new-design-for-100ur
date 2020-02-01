@@ -164,7 +164,7 @@ assert($dom->save()==$str);
 // -----------------------------------------------
 // $str = <<<HTML
 // <abc
-// (<1 mol%) 
+// (<1 mol%)
 // HTML;
 // $dom->load($str);
 // echo $dom;
@@ -188,12 +188,13 @@ function str_random($length)
     $char_list .= "abcdefghijklmnopqrstuvwxyz";
     $char_list .= "1234567890";
     $char_list .= "<>!?[]%^&*()";
-    for($i=0; $i<$length; ++$i)
-        $str .= substr($char_list,(rand()%(strlen($char_list))), 1);
+    for ($i=0; $i<$length; ++$i) {
+        $str .= substr($char_list, (rand()%(strlen($char_list))), 1);
+    }
     return $str;
 }
 
-for($i=0; $i<60; ++$i) {
+for ($i=0; $i<60; ++$i) {
     $str = str_random($i);
     //echo $str."\n<br>";
     $dom->load($str, false);
@@ -240,4 +241,3 @@ assert($dom==$str);
 // tear down
 $dom->clear();
 unset($dom);
-?>

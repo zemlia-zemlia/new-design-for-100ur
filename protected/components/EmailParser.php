@@ -5,7 +5,6 @@
  */
 abstract class EmailParser
 {
-
     protected $_existingPhones = [];
     protected $_folderSettings;
     protected $_debugMode = false;
@@ -96,7 +95,6 @@ abstract class EmailParser
 
         // извлекаем из писем тексты и заголовки
         foreach ($emails as $emailId) {
-
             $emailBody = imap_fetchbody($mbox, $emailId, $this->getFetchBodySection());
             if (isset(imap_header($mbox, $emailId)->subject)) {
                 $emailSubject = iconv_mime_decode(imap_header($mbox, $emailId)->subject);
@@ -138,7 +136,6 @@ abstract class EmailParser
      */
     protected function setExistingPhones($period = 2)
     {
-
         $existingLeads = Lead::model()->findAll(array(
             'condition' => 'question_date>NOW()- INTERVAL ' . $period . ' DAY AND sourceId IN(' . implode(', ', $this->_leadSourceIds) . ')',
         ));
@@ -169,7 +166,6 @@ abstract class EmailParser
      */
     public function run($debugMode = false, $period = 2)
     {
-
         $this->setLeadSourcesIds();
         $this->setExistingPhones($period);
         $this->_debugMode = $debugMode;

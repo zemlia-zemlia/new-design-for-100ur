@@ -89,10 +89,10 @@ class PostRatingHistory extends CActiveRecord
 
         $criteria=new CDbCriteria;
 
-        $criteria->compare('postId',$this->postId);
-        $criteria->compare('userId',$this->userId);
-        $criteria->compare('delta',$this->delta);
-        $criteria->compare('datetime',$this->datetime,true);
+        $criteria->compare('postId', $this->postId);
+        $criteria->compare('userId', $this->userId);
+        $criteria->compare('delta', $this->delta);
+        $criteria->compare('datetime', $this->datetime, true);
 
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,

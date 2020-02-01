@@ -71,7 +71,7 @@ assert($dom->find('ul', 1)->outertext=='<ul><li><b>li21</b></li><li><b>li22</b><
 $str = <<<HTML
 <ul><li><b>li11</b></li><li><b>li12</b></li><ul><li><b>li21</b></li><li><b>li22</b></li>
 HTML;
-//$dom->load($str);             
+//$dom->load($str);
 //assert($dom->find('ul', 0)->outertext=='<ul><li><b>li11</b></li><li><b>li12</b></li></ul>');
 //assert($dom->find('ul', 1)->outertext=='<ul><li><b>li21</b></li><li><b>li22</b></li></ul>');
 
@@ -185,7 +185,7 @@ assert($dom->find('p', 1)->plaintext=='ok1link1');
 assert($dom->find('p', 2)->plaintext=='ok2link2');
 
 $count = 0;
-foreach($dom->find('p') as $p) {
+foreach ($dom->find('p') as $p) {
     $a = $p->find('a');
     assert($a[0]->innertext=='link'.$count);
     ++$count;
@@ -240,4 +240,3 @@ assert(count($dom->find('code'))==1);
 // tear down
 $dom->clear();
 unset($dom);
-?>

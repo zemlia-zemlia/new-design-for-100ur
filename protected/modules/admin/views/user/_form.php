@@ -115,7 +115,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
         </div>
     <?php endif; ?>
 
-    <?php if(in_array($model->role, [User::ROLE_BUYER, User::ROLE_JURIST])):?>
+    <?php if (in_array($model->role, [User::ROLE_BUYER, User::ROLE_JURIST])):?>
         <div class="row">
             <div class="col-sm-8">
                 <div class="form-group">

@@ -24,4 +24,3 @@ assert(count($html->find('div[class!=made_up]'))==51);
 assert(count($html->find('p'))==324);
 
 echo 'All pass!<br>';
-?>

@@ -2,7 +2,7 @@
 /* @var $this QuestionController */
 /* @var $dataProvider CActiveDataProvider */
 
-Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('town'));
+Yii::app()->clientScript->registerLinkTag("canonical", null, Yii::app()->createUrl('town'));
 
 $pageTitle = "Юристы и Адвокаты России и СНГ";
 
@@ -24,8 +24,8 @@ $fontCoeff = $deltaFont/$deltaCounter;
 
 
 
-        <?php 
-            foreach($townsArray as $cat) {
+        <?php
+            foreach ($townsArray as $cat) {
                 $fontSize = round($fontMin + $fontCoeff * $cat['counter']);
                 echo CHtml::link($cat['name'], Yii::app()->createUrl('town/alias', array('name'=>$cat['alias'])), array('class'=>'cloud-category', 'style'=>'font-size:'.$fontSize.'px;'));
             }

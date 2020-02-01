@@ -98,7 +98,6 @@ class RegionController extends Controller
      */
     public function actionIndex()
     {
-
         $regionsRows = Yii::app()->db->cache(3600)->createCommand()
             ->select("r.id, r.name regionName, r.alias regionAlias, c.id countryId, c.name countryName, c.alias countryAlias")
             ->from("{{region}} r")
@@ -202,8 +201,9 @@ class RegionController extends Controller
     {
         $model = new Region('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Region']))
+        if (isset($_GET['Region'])) {
             $model->attributes = $_GET['Region'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
@@ -220,8 +220,9 @@ class RegionController extends Controller
     public function loadModel($id)
     {
         $model = Region::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 

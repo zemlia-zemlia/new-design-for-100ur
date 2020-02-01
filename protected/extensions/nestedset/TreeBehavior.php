@@ -62,10 +62,10 @@ class TreeBehavior extends CNestedSetBehavior
      */
     private static function getRegisterIndex($node)
     {
-        foreach(self::$_registered as $key => $n)
-        {
-            if($n === $node)
+        foreach (self::$_registered as $key => $n) {
+            if ($n === $node) {
                 return $key;
+            }
         }
         return -1;
     }
@@ -76,8 +76,9 @@ class TreeBehavior extends CNestedSetBehavior
      */
     protected static function register($node)
     {
-        if(!self::isRegistered($node))
+        if (!self::isRegistered($node)) {
             self::$_registered[] = $node;
+        }
     }
 
     /**
@@ -122,28 +123,26 @@ class TreeBehavior extends CNestedSetBehavior
      * @param $maxRight The highest right value we need to update. (-1 for no right upper limit)
      * @param $levelAdjustment The value that will be added to the level for all nodes in the range.
      */
-    protected static function updateRegisteredNodeRange($class,$adjustment,$minLeft = -1, $minRight = 1, $maxLeft = -1, $maxRight = -1, $levelAdjustment = 0)
+    protected static function updateRegisteredNodeRange($class, $adjustment, $minLeft = -1, $minRight = 1, $maxLeft = -1, $maxRight = -1, $levelAdjustment = 0)
     {
-        foreach(self::$_registered as $node)
-        {
-            if(get_class($node) != $class)
+        foreach (self::$_registered as $node) {
+            if (get_class($node) != $class) {
                 continue;
+            }
             $lft = $node->getLeftValue();
             $rgt = $node->getRightValue();
-            if($lft == null && $rgt == null)
+            if ($lft == null && $rgt == null) {
                 continue;
-            if(($lft >= $minLeft || $minLeft == -1) && ($lft <= $maxLeft || $maxLeft == -1))
-            {
+            }
+            if (($lft >= $minLeft || $minLeft == -1) && ($lft <= $maxLeft || $maxLeft == -1)) {
                 $node->setLeftValue($lft + $adjustment);
             }
-            if(($rgt <= $maxRight || $maxRight == -1) && ($rgt >= $minRight || $minRight == -1))
-            {
+            if (($rgt <= $maxRight || $maxRight == -1) && ($rgt >= $minRight || $minRight == -1)) {
                 $node->setRightValue($rgt + $adjustment);
             }
-            if(($lft >= $minLeft || $minLeft == -1) && ($lft <= $maxLeft || $maxLeft == -1)
-               && ($rgt >= $maxRight || $maxRight == -1) && ($rgt <= $maxRight || $minRight == -1) && $levelAdjustment != 0)
-            {
-                 $node->setLevelValue($node->getLevelValue() + $levelAdjustment);
+            if (($lft >= $minLeft || $minLeft == -1) && ($lft <= $maxLeft || $maxLeft == -1)
+               && ($rgt >= $maxRight || $maxRight == -1) && ($rgt <= $maxRight || $minRight == -1) && $levelAdjustment != 0) {
+                $node->setLevelValue($node->getLevelValue() + $levelAdjustment);
             }
         }
     }
@@ -158,12 +157,11 @@ class TreeBehavior extends CNestedSetBehavior
      */
     protected static function updateRegisteredNodes($class, array $ids, $adjustment, $levelAdjustment)
     {
-        foreach(self::$_registered as $movenode)
-        {
-            if(get_class($movenode) != $class)
+        foreach (self::$_registered as $movenode) {
+            if (get_class($movenode) != $class) {
                 continue;
-            if(in_array($movenode->getIDValue(),$ids))
-            {
+            }
+            if (in_array($movenode->getIDValue(), $ids)) {
                 $movenode->setLeftValue($movenode->getLeftValue() + $adjustment);
                 $movenode->setRightValue($movenode->getRightValue() + $adjustment);
                 $movenode->setLevelValue($movenode->getLevelValue() + $levelAdjustment);
@@ -315,18 +313,19 @@ class TreeBehavior extends CNestedSetBehavior
      */
     public function getChildNodes()
     {
-        Yii::trace(get_class($this).'.getChildNodes()','extensions.nestedset.treebehavior.getChildNodes()');
-        if($this->getOwner()->getIsNewRecord())
+        Yii::trace(get_class($this).'.getChildNodes()', 'extensions.nestedset.treebehavior.getChildNodes()');
+        if ($this->getOwner()->getIsNewRecord()) {
             throw new TreeException('You can\'t retrieve the child nodes of a parent that is not yet in the database. Add the parent node to the tree first using AppendChild or an Insert* method.');
+        }
         $table = $this->Owner->tableName();
         $lft = $this->getLeftValue();
         $rgt = $this->getRightValue();
         $level = $this->getLevelValue();
 
         $builder = $this->Owner->getCommandBuilder();
-        $criteria = $builder->createCriteria($this->_lftCol." > ? AND ".$this->_rgtCol." < ? AND ".$this->_lvlCol." = ?",array($lft, $rgt, $level+1));
+        $criteria = $builder->createCriteria($this->_lftCol." > ? AND ".$this->_rgtCol." < ? AND ".$this->_lvlCol." = ?", array($lft, $rgt, $level+1));
         $criteria->order = $this->_lftCol." ASC";
-        $command=$builder->createFindCommand($this->Owner->getTableSchema(),$criteria);
+        $command=$builder->createFindCommand($this->Owner->getTableSchema(), $criteria);
         $res =  $this->Owner->populateRecords($command->queryAll());
         return is_array($res) ? $res : array();
     }
@@ -363,36 +362,32 @@ class TreeBehavior extends CNestedSetBehavior
         // Fetch nodes information
         $parent = $this;
         $transaction= $this->Owner->dbConnection->beginTransaction();
-        if($this->getOwner()->getIsNewRecord())
+        if ($this->getOwner()->getIsNewRecord()) {
             throw new TreeException('You can\'t append a node to a parent that is not yet in the database. Add the parent node to the tree first using AppendChild or using an Insert* method.');
-        if(!$node->getOwner()->getIsNewRecord())
-        {
+        }
+        if (!$node->getOwner()->getIsNewRecord()) {
             return $node->moveBelow($this);
         }
-        try
-        {
+        try {
             $minleft = -1;
             $maxright = -1;
 
             // If the parent has no children insert node as only child
-            if ($parent->getRightValue() - $parent->getLeftValue() == 1)
-            {
+            if ($parent->getRightValue() - $parent->getLeftValue() == 1) {
                 $minleft = $parent->getLeftValue() + 1;
                 $minright = $parent->getRightValue();
                 $cond = "> ".$parent->getLeftValue();
                 $lv = $parent->getLeftValue() + 1;
             }
             // else, if a valid brother is specified
-            elseif (($brother != null) && ($brother->getLeftValue() > $parent->getLeftValue()) && ($brother->getRightValue() < $parent->getRightValue()))
-            {
+            elseif (($brother != null) && ($brother->getLeftValue() > $parent->getLeftValue()) && ($brother->getRightValue() < $parent->getRightValue())) {
                 $minleft = $brother->getLeftValue();
                 $minright = $brother->getRightValue();
                 $cond = ">= ".$brother->getLeftValue();
                 $lv = $brother->getLeftValue();
             }
             // else insert node as last child
-            else
-            {
+            else {
                 $minleft = $parent->getRightValue();
                 $minright = $parent->getRightValue();
                 $cond = ">= ".$parent->getRightValue();
@@ -401,12 +396,12 @@ class TreeBehavior extends CNestedSetBehavior
             $rv = $lv + 1;
 
             $sql = "UPDATE %3\$s SET %1\$s = %1\$s + 2 WHERE %1\$s %2\$s";
-            $command = $this->Owner->dbConnection->createCommand(sprintf($sql,$this->_lftCol,$cond, $this->Owner->tableName()));
+            $command = $this->Owner->dbConnection->createCommand(sprintf($sql, $this->_lftCol, $cond, $this->Owner->tableName()));
             $command->execute();
-            $command = $this->Owner->dbConnection->createCommand(sprintf($sql,$this->_rgtCol,$cond, $this->Owner->tableName()));
+            $command = $this->Owner->dbConnection->createCommand(sprintf($sql, $this->_rgtCol, $cond, $this->Owner->tableName()));
             $command->execute();
 
-            self::updateRegisteredNodeRange(get_class($this->Owner),2,$minleft,$minright);
+            self::updateRegisteredNodeRange(get_class($this->Owner), 2, $minleft, $minright);
 
             $node->setLeftValue($lv);
             $node->setRightValue($rv);
@@ -416,10 +411,8 @@ class TreeBehavior extends CNestedSetBehavior
             $transaction->commit();
 
             return true;
-        }
-        catch(Exception $e)
-        {
-            Yii::log("Error appending node, transaction aborted. Exception: ".$e->getMessage(),"error","application.extensions.nestedset.treebehavior");
+        } catch (Exception $e) {
+            Yii::log("Error appending node, transaction aborted. Exception: ".$e->getMessage(), "error", "application.extensions.nestedset.treebehavior");
             $transaction->rollBack();
             return false;
         }
@@ -431,19 +424,18 @@ class TreeBehavior extends CNestedSetBehavior
      */
     public function getSiblings()
     {
-        Yii::trace(get_class($this).'.getSiblings()','extensions.nestedset.treebehavior.TreeBehavior');
+        Yii::trace(get_class($this).'.getSiblings()', 'extensions.nestedset.treebehavior.TreeBehavior');
 
-        if($this->getOwner()->getIsNewRecord())
+        if ($this->getOwner()->getIsNewRecord()) {
             throw new TreeException('You can\'t get the siblings of a node that is not yet in the database. Append node to the tree first using AppendChild or an Insert method.');
+        }
 
         $parent = $this->getParentNode();
         $children = $parent->getChildNodes();
         $pk = $this->Owner->primaryKey();
 
-        foreach($children as $child)
-        {
-            if($this != $child)
-            {
+        foreach ($children as $child) {
+            if ($this != $child) {
                 $res[] = $child;
             }
         }
@@ -456,16 +448,17 @@ class TreeBehavior extends CNestedSetBehavior
      */
     public function getNextSibling()
     {
-        Yii::trace(get_class($this).'.getNextSibling()','extensions.nestedset.treebehavior.TreeBehavior');
+        Yii::trace(get_class($this).'.getNextSibling()', 'extensions.nestedset.treebehavior.TreeBehavior');
 
-        if($this->getOwner()->getIsNewRecord())
+        if ($this->getOwner()->getIsNewRecord()) {
             throw new TreeException('You can\'t get the siblings of a node that is not yet in the database. Append node to the tree first using AppendChild or an Insert method.');
+        }
 
         $builder = $this->Owner->getCommandBuilder();
         $cstring = $this->_lftCol." = ?";
-        $criteria = $builder->createCriteria($cstring,array($this->getRightValue() + 1));
+        $criteria = $builder->createCriteria($cstring, array($this->getRightValue() + 1));
         $criteria->limit = 1;
-        $command = $builder->createFindCommand($this->Owner->getTableSchema(),$criteria);
+        $command = $builder->createFindCommand($this->Owner->getTableSchema(), $criteria);
         return $this->Owner->populateRecord($command->queryRow());
     }
 
@@ -475,16 +468,17 @@ class TreeBehavior extends CNestedSetBehavior
      */
     public function getPreviousSibling()
     {
-        Yii::trace(get_class($this).'.getPreviousSibling()','extensions.nestedset.treebehavior.TreeBehavior');
+        Yii::trace(get_class($this).'.getPreviousSibling()', 'extensions.nestedset.treebehavior.TreeBehavior');
 
-        if($this->getOwner()->getIsNewRecord())
+        if ($this->getOwner()->getIsNewRecord()) {
             throw new TreeException('You can\'t get the siblings of a node that is not yet in the database. Append node to the tree first using AppendChild or an Insert method.');
+        }
 
         $builder = $this->Owner->getCommandBuilder();
         $cstring = $this->_rgtCol." = ?";
-        $criteria = $builder->createCriteria($cstring,array($this->getLeftValue() - 1));
+        $criteria = $builder->createCriteria($cstring, array($this->getLeftValue() - 1));
         $criteria->limit = 1;
-        $command = $builder->createFindCommand($this->Owner->getTableSchema(),$criteria);
+        $command = $builder->createFindCommand($this->Owner->getTableSchema(), $criteria);
         return $this->Owner->populateRecord($command->queryRow());
     }
 
@@ -494,16 +488,17 @@ class TreeBehavior extends CNestedSetBehavior
      */
     public function getParentNode()
     {
-        Yii::trace(get_class($this).'.getParentNode()','extensions.nestedset.treebehavior.TreeBehavior');
+        Yii::trace(get_class($this).'.getParentNode()', 'extensions.nestedset.treebehavior.TreeBehavior');
 
-        if($this->getOwner()->getIsNewRecord())
+        if ($this->getOwner()->getIsNewRecord()) {
             throw new TreeException('You can\'t get the parent of a node that is not yet in the database. Append node to the tree first using AppendChild or an Insert method.');
+        }
 
         $builder = $this->Owner->getCommandBuilder();
         $cstring = $this->_lftCol." < ? AND ".$this->_rgtCol." > ? AND ".$this->_lvlCol." = ?";
-        $criteria = $builder->createCriteria($cstring,array($this->getLeftValue(), $this->getRightValue(), $this->getLevelValue() - 1));
+        $criteria = $builder->createCriteria($cstring, array($this->getLeftValue(), $this->getRightValue(), $this->getLevelValue() - 1));
         $criteria->limit = 1;
-        $command = $builder->createFindCommand($this->Owner->getTableSchema(),$criteria);
+        $command = $builder->createFindCommand($this->Owner->getTableSchema(), $criteria);
         return $this->Owner->populateRecord($command->queryRow());
     }
 
@@ -514,11 +509,12 @@ class TreeBehavior extends CNestedSetBehavior
      */
     public function insertBefore($node)
     {
-        Yii::trace(get_class($this).'.insertBefore()','extensions.nestedset.treebehavior.TreeBehavior');
+        Yii::trace(get_class($this).'.insertBefore()', 'extensions.nestedset.treebehavior.TreeBehavior');
         $parent = $node->getParentNode();
-        if($parent == null)
+        if ($parent == null) {
             return false;
-        return $parent->appendChild($this,$node);
+        }
+        return $parent->appendChild($this, $node);
     }
 
     /**
@@ -528,14 +524,11 @@ class TreeBehavior extends CNestedSetBehavior
      */
     public function insertAfter($node)
     {
-        Yii::trace(get_class($this).'.insertAfter()','extensions.nestedset.treebehavior.TreeBehavior');
+        Yii::trace(get_class($this).'.insertAfter()', 'extensions.nestedset.treebehavior.TreeBehavior');
         $next = $node->getNextSibling();
-        if($next == null)
-        {
+        if ($next == null) {
             return $node->getParentNode()->appendChild($this);
-        }
-        else
-        {
+        } else {
             return $next->insertBefore($this);
         }
     }
@@ -549,86 +542,74 @@ class TreeBehavior extends CNestedSetBehavior
      */
     public function deleteNode($deleteChildren = false)
     {
-        Yii::trace(get_class($this).'.deleteNode()','extensions.nestedset.treebehavior.TreeBehavior');
-        if($this->getOwner()->getIsNewRecord() || $this->getLeftValue() == null || $this->getRightValue() == null || $this->getLevelValue() == null)
-        {
+        Yii::trace(get_class($this).'.deleteNode()', 'extensions.nestedset.treebehavior.TreeBehavior');
+        if ($this->getOwner()->getIsNewRecord() || $this->getLeftValue() == null || $this->getRightValue() == null || $this->getLevelValue() == null) {
             throw new TreeException('Node is not attached to the tree.');
         }
 
-        if($this->getDepth() === 0)
-        {
+        if ($this->getDepth() === 0) {
             throw new TreeException('Cannot delete the root node.');
         }
 
-        if($deleteChildren)
-        {
+        if ($deleteChildren) {
             $transaction= $this->Owner->dbConnection->beginTransaction();
-            try
-            {
+            try {
                 $width = $this->getRightValue() - $this->getLeftValue() + 1;
 
                 $sql = "DELETE FROM %1\$s WHERE %2\$s >= %4\$s AND %3\$s <= %5\$s";
-                $cstring = sprintf($sql,$this->Owner->tableName(),$this->_lftCol,$this->_rgtCol,$this->getLeftValue(),$this->getRightValue());
+                $cstring = sprintf($sql, $this->Owner->tableName(), $this->_lftCol, $this->_rgtCol, $this->getLeftValue(), $this->getRightValue());
                 $command = $this->Owner->dbConnection->createCommand($cstring);
                 $command->execute();
 
                 $sql = "UPDATE %1\$s SET %2\$s = %2\$s - %4\$s WHERE %2\$s > %3\$s";
-                $cstring = sprintf($sql,$this->Owner->tableName(),$this->_rgtCol,$this->getRightValue(),$width);
+                $cstring = sprintf($sql, $this->Owner->tableName(), $this->_rgtCol, $this->getRightValue(), $width);
                 $command = $this->Owner->dbConnection->createCommand($cstring);
                 $command->execute();
 
-                $cstring = sprintf($sql, $this->Owner->tableName(),$this->_lftCol,$this->getRightValue(),$width);
+                $cstring = sprintf($sql, $this->Owner->tableName(), $this->_lftCol, $this->getRightValue(), $width);
                 $command = $this->Owner->dbConnection->createCommand($cstring);
                 $command->execute();
                 $transaction->commit();
-                self::updateRegisteredNodeRange(get_class($this->Owner),-$width,$this->getRightValue() + 1, $this->getRightValue() + 1);
-
-            }
-            catch(Exception $e)
-            {
-                Yii::log("Error deleting nodes, transaction aborted. Exception: ".$e->getMessage(),"error","application.extensions.nestedset.treebehavior");
+                self::updateRegisteredNodeRange(get_class($this->Owner), -$width, $this->getRightValue() + 1, $this->getRightValue() + 1);
+            } catch (Exception $e) {
+                Yii::log("Error deleting nodes, transaction aborted. Exception: ".$e->getMessage(), "error", "application.extensions.nestedset.treebehavior");
                 $transaction->rollBack();
                 return false;
             }
-        }
-        else
-        {
+        } else {
             $transaction= $this->Owner->dbConnection->beginTransaction();
-            try
-            {
+            try {
                 //delete the node
                 $sql = "DELETE FROM %1\$s WHERE %2\$s = %3\$s";
-                $cstring = sprintf($sql,$this->Owner->tableName(),$this->_lftCol,$this->getLeftValue());
+                $cstring = sprintf($sql, $this->Owner->tableName(), $this->_lftCol, $this->getLeftValue());
                 $command = $this->Owner->dbConnection->createCommand($cstring);
                 $command->execute();
 
                 //update the child nodes
                 $sql = "UPDATE %1\$s SET %3\$s = %3\$s - 1, %2\$s = %2\$s - 1, %4\$s = %4\$s - 1 WHERE %2\$s BETWEEN %5\$s AND %6\$s";
-                $cstring = sprintf($sql,$this->Owner->tableName(),$this->_lftCol,$this->_rgtCol,$this->_lvlCol,$this->getLeftValue()+1,$this->getRightValue()-1);
+                $cstring = sprintf($sql, $this->Owner->tableName(), $this->_lftCol, $this->_rgtCol, $this->_lvlCol, $this->getLeftValue()+1, $this->getRightValue()-1);
                 $command = $this->Owner->dbConnection->createCommand($cstring);
                 $command->execute();
 
                 //update the nodes that the user has open as objects.
-                self::updateRegisteredNodeRange(get_class($this->Owner),-1, $this->getLeftValue()+1, $this->getLeftValue()+1, $this->getRightValue()-1, $this->getRightValue()-1);
+                self::updateRegisteredNodeRange(get_class($this->Owner), -1, $this->getLeftValue()+1, $this->getLeftValue()+1, $this->getRightValue()-1, $this->getRightValue()-1);
 
                 //update the rest of the tree
                 $sql = "UPDATE %1\$s SET %2\$s = %2\$s - 2 WHERE %2\$s > %3\$s";
-                $cstring = sprintf($sql,$this->Owner->tableName(),$this->_rgtCol,$this->getRightValue());
+                $cstring = sprintf($sql, $this->Owner->tableName(), $this->_rgtCol, $this->getRightValue());
                 $command = $this->Owner->dbConnection->createCommand($cstring);
                 $command->execute();
 
-                $cstring = sprintf($sql,$this->Owner->tableName(),$this->_lftCol,$this->getRightValue());
+                $cstring = sprintf($sql, $this->Owner->tableName(), $this->_lftCol, $this->getRightValue());
                 $command = $this->Owner->dbConnection->createCommand($cstring);
                 $command->execute();
 
                 //update the nodes that the user has open as objects.
-                self::updateRegisteredNodeRange(get_class($this->Owner),-2, $this->getRightValue()+1, $this->getRightValue()+1);
+                self::updateRegisteredNodeRange(get_class($this->Owner), -2, $this->getRightValue()+1, $this->getRightValue()+1);
 
                 $transaction->commit();
-            }
-            catch(Exception $e)
-            {
-                Yii::log("Error deleting single node, transaction aborted. Exception: ".$e->getMessage(),"error","application.extensions.nestedset.treebehavior");
+            } catch (Exception $e) {
+                Yii::log("Error deleting single node, transaction aborted. Exception: ".$e->getMessage(), "error", "application.extensions.nestedset.treebehavior");
                 $transaction->rollBack();
                 return false;
             }
@@ -637,7 +618,6 @@ class TreeBehavior extends CNestedSetBehavior
         $this->setRightValue(null);
         $this->setIDValue(null);
         $this->setLevelValue(null);
-
     }
 
     /**
@@ -649,11 +629,12 @@ class TreeBehavior extends CNestedSetBehavior
      */
     public function moveUp($after = true)
     {
-        Yii::trace(get_class($this).'.moveUp()','extensions.nestedset.treebehavior.TreeBehavior');
+        Yii::trace(get_class($this).'.moveUp()', 'extensions.nestedset.treebehavior.TreeBehavior');
         $parent = $this->getParentNode();
-        if($parent->getLeftValue() == 0)
+        if ($parent->getLeftValue() == 0) {
             throw new TreeException("Cannot move node up to root level.");
-        return $this->moveNode($this->getParentNode(),$after,false);
+        }
+        return $this->moveNode($this->getParentNode(), $after, false);
     }
 
     /**
@@ -665,8 +646,8 @@ class TreeBehavior extends CNestedSetBehavior
      */
     public function moveBelow($node, $lastChild = true)
     {
-        Yii::trace(get_class($this).'.moveBelow()','extensions.nestedset.treebehavior.TreeBehavior');
-        return $this->moveNode($node,$lastChild,true);
+        Yii::trace(get_class($this).'.moveBelow()', 'extensions.nestedset.treebehavior.TreeBehavior');
+        return $this->moveNode($node, $lastChild, true);
     }
 
     /**
@@ -676,12 +657,13 @@ class TreeBehavior extends CNestedSetBehavior
      */
     public function moveLeft()
     {
-        Yii::trace(get_class($this).'.moveLeft()','extensions.nestedset.treebehavior.TreeBehavior');
+        Yii::trace(get_class($this).'.moveLeft()', 'extensions.nestedset.treebehavior.TreeBehavior');
         $leftNode = $this->getPreviousSibling();
-        if($leftNode == null)
+        if ($leftNode == null) {
             return false;
-        else
-            return $this->moveNode($leftNode,false,false);
+        } else {
+            return $this->moveNode($leftNode, false, false);
+        }
     }
 
     /**
@@ -691,8 +673,8 @@ class TreeBehavior extends CNestedSetBehavior
      */
     public function moveBefore($node)
     {
-        Yii::trace(get_class($this).'.moveBefore()','extensions.nestedset.treebehavior.TreeBehavior');
-        return $this->moveNode($node,false,false);
+        Yii::trace(get_class($this).'.moveBefore()', 'extensions.nestedset.treebehavior.TreeBehavior');
+        return $this->moveNode($node, false, false);
     }
 
     /**
@@ -702,8 +684,8 @@ class TreeBehavior extends CNestedSetBehavior
      */
     public function moveAfter($node)
     {
-        Yii::trace(get_class($this).'.moveAfter()','extensions.nestedset.treebehavior.TreeBehavior');
-        return $this->moveNode($node,true,false);
+        Yii::trace(get_class($this).'.moveAfter()', 'extensions.nestedset.treebehavior.TreeBehavior');
+        return $this->moveNode($node, true, false);
     }
 
     /**
@@ -713,12 +695,13 @@ class TreeBehavior extends CNestedSetBehavior
      */
     public function moveRight()
     {
-        Yii::trace(get_class($this).'.moveRight()','extensions.nestedset.treebehavior.TreeBehavior');
+        Yii::trace(get_class($this).'.moveRight()', 'extensions.nestedset.treebehavior.TreeBehavior');
         $rightNode = $this->getNextSibling();
-        if($rightNode == null)
+        if ($rightNode == null) {
             return false;
-        else
-            return $this->moveNode($rightNode,true,false);
+        } else {
+            return $this->moveNode($rightNode, true, false);
+        }
     }
 
     /**
@@ -732,13 +715,15 @@ class TreeBehavior extends CNestedSetBehavior
      * @param  bool     $after   Insert the node after the sibling (or before)
      * @param  bool     $aschild false = as sibling, true = aschild
      */
-    private function moveNode ($sibling, $after = false, $aschild = false)
+    private function moveNode($sibling, $after = false, $aschild = false)
     {
-        Yii::trace(get_class($this).'.moveNode()','extensions.nestedset.treebehavior.TreeBehavior');
-        if($this->getOwner()->getIsNewRecord())
+        Yii::trace(get_class($this).'.moveNode()', 'extensions.nestedset.treebehavior.TreeBehavior');
+        if ($this->getOwner()->getIsNewRecord()) {
             throw new TreeException('You can\'t move a node that is not yet in the database. Append node to the tree first using AppendChild or an Insert method.');
-        if($sibling->getOwner()->getIsNewRecord())
+        }
+        if ($sibling->getOwner()->getIsNewRecord()) {
             throw new TreeException('You can\'t move a node using a sibling that is not yet in the database. Append the sibling to the tree first using AppendChild or an Insert method.');
+        }
 
         $aschild = $aschild ? 1 : 0;
 
@@ -746,8 +731,7 @@ class TreeBehavior extends CNestedSetBehavior
         $rgt = $this->_rgtCol;
         $lft = $this->_lftCol;
 
-        if (!is_array($movetree) or $sibling == null or count($movetree) == 0)
-        {
+        if (!is_array($movetree) or $sibling == null or count($movetree) == 0) {
             return false;
         }
 
@@ -764,32 +748,26 @@ class TreeBehavior extends CNestedSetBehavior
         // to sizeof($movetree) * 2
         $diff  = $movenode->getRightValue() - $movenode->getLeftValue() + 1;
         $ymove = $sibling->getLevelValue() - $movenode->getLevelValue();
-        if($aschild == 1)
-        {
+        if ($aschild == 1) {
             $ymove++;
         }
 
-        if ($after)
-        {
+        if ($after) {
             $aschild *= -1;
             $compare =  $sibling->getRightValue();
-        }
-        else
+        } else {
             $compare =  $sibling->getLeftValue();
+        }
 
-        if ($movenode->getLeftValue() < $compare)
-        // Moving down!
-        {
+        if ($movenode->getLeftValue() < $compare) {
+            // Moving down!
             $lower = $movenode->getRightValue() + 1;
-            if ($after)
-            {
+            if ($after) {
                 $upper = $sibling->getRightValue();
                 $move  = $aschild
                          ? $sibling->getRightValue() - $movenode->getRightValue() - 1
                          : $sibling->getRightValue() - $movenode->getRightValue();
-            }
-            else // before
-            {
+            } else { // before
                 $upper = $sibling->getLeftValue() - 1;
                 $move  = $aschild
                          ? $sibling->getLeftValue() - $movenode->getRightValue()
@@ -799,20 +777,15 @@ class TreeBehavior extends CNestedSetBehavior
             $upper += $aschild;
             // direction
             $diff *= -1;
-        }
-        else
-        // Going up!
-        {
+        } else {
+            // Going up!
             $upper = $movenode->getLeftValue() - 1;
-            if ($after)
-            {
+            if ($after) {
                 $lower = $sibling->getRightValue() + 1;
                 $move  = $aschild
                          ? $movenode->getLeftValue() - $sibling->getRightValue()
                          : $movenode->getLeftValue() - $sibling->getRightValue() - 1;
-            }
-            else // before
-            {
+            } else { // before
                 $lower = $sibling->getLeftValue();
                 $move  = $aschild
                          ? $movenode->getLeftValue() - $sibling->getLeftValue() + 1
@@ -824,51 +797,44 @@ class TreeBehavior extends CNestedSetBehavior
             $move *= -1;
         }
 
-        if ($lower > $upper)
-        // This (only?) (always?) happens when trying to move a node to the place
-        // it already is.  (Using yourself as sibling is already caught.)
-        {
-
+        if ($lower > $upper) {
+            // This (only?) (always?) happens when trying to move a node to the place
+            // it already is.  (Using yourself as sibling is already caught.)
             return false;
         }
 
         $transaction= $this->Owner->dbConnection->beginTransaction();
-        try
-        {
+        try {
 
             //update the lft/rgt values of the rest of the tree.
             $sql = "UPDATE %1\$s SET %2\$s = %2\$s + %3\$d WHERE %2\$s BETWEEN %4\$s AND %5\$s";
-            $cstring = sprintf($sql,$this->Owner->tableName(),$this->_lftCol,$diff,$lower,$upper);
+            $cstring = sprintf($sql, $this->Owner->tableName(), $this->_lftCol, $diff, $lower, $upper);
 
             $command = $this->Owner->dbConnection->createCommand($cstring);
             $command->execute();
 
-            $cstring = sprintf($sql,$this->Owner->tableName(),$this->_rgtCol,$diff,$lower,$upper);
+            $cstring = sprintf($sql, $this->Owner->tableName(), $this->_rgtCol, $diff, $lower, $upper);
             $command = $this->Owner->dbConnection->createCommand($cstring);
             $command->execute();
 
             //move the node + the children
             $ids = array();
-            foreach($movetree as $n)
-            {
+            foreach ($movetree as $n) {
                 $ids[] = $n->getIDValue();
             }
 
             $sql = "UPDATE %1\$s SET %2\$s = %2\$s + %4\$s, %3\$s = %3\$s + %4\$s, %5\$s = %5\$s + %6\$s WHERE %7\$s IN (%8\$s)";
-            $cstring = sprintf($sql,$this->Owner->tableName(),$this->_lftCol,$this->_rgtCol,$move,$this->_lvlCol,$ymove,$this->_idCol,join(",",$ids));
+            $cstring = sprintf($sql, $this->Owner->tableName(), $this->_lftCol, $this->_rgtCol, $move, $this->_lvlCol, $ymove, $this->_idCol, join(",", $ids));
 
             $command = $this->Owner->dbConnection->createCommand($cstring);
             $command->execute();
             $transaction->commit();
 
-            self::updateRegisteredNodeRange(get_class($this->Owner),$diff,$lower, $lower, $upper, $upper);
-            self::updateRegisteredNodes(get_class($this->Owner),$ids,$move,$ymove);
+            self::updateRegisteredNodeRange(get_class($this->Owner), $diff, $lower, $lower, $upper, $upper);
+            self::updateRegisteredNodes(get_class($this->Owner), $ids, $move, $ymove);
             //update the objects
-
-        }
-        catch(Exception $e)
-        {
-            Yii::log("Error moving node, transaction aborted. Exception: ".$e->getMessage(),"error","application.extensions.nestedset.treebehavior");
+        } catch (Exception $e) {
+            Yii::log("Error moving node, transaction aborted. Exception: ".$e->getMessage(), "error", "application.extensions.nestedset.treebehavior");
             $transaction->rollBack();
             return false;
         }
@@ -876,7 +842,6 @@ class TreeBehavior extends CNestedSetBehavior
 
 
         return true;
-
     }
 
     /**
@@ -885,18 +850,17 @@ class TreeBehavior extends CNestedSetBehavior
      */
     public function getTree($returnrootnode = true)
     {
-        Yii::trace(get_class($this).'.getTree()','extensions.nestedset.treebehavior.TreeBehavior');
+        Yii::trace(get_class($this).'.getTree()', 'extensions.nestedset.treebehavior.TreeBehavior');
 
         $condition = $this->_lftCol." >= ? AND ".$this->_rgtCol." <= ?";
         $params = array($this->getLeftValue(), $this->getRightValue());
         $builder = $this->Owner->getCommandBuilder();
-        $criteria = $builder->createCriteria($condition,$params);
+        $criteria = $builder->createCriteria($condition, $params);
         $criteria->order = $this->_lftCol." ASC";
-        $command = $builder->createFindCommand($this->Owner->getTableSchema(),$criteria);
+        $command = $builder->createFindCommand($this->Owner->getTableSchema(), $criteria);
         $nodes =  $this->Owner->populateRecords($command->queryAll());
 
-        if (!$returnrootnode)
-        {
+        if (!$returnrootnode) {
             array_shift($nodes);
         }
 
@@ -914,11 +878,10 @@ class TreeBehavior extends CNestedSetBehavior
      */
     public function getNestedTree($returnrootnode = true, $keyfield = null)
     {
-        if($keyfield == null)
-        {
+        if ($keyfield == null) {
             $keyfield = 'id';
         }
-        Yii::trace(get_class($this).'.getNestedTree()',$keyfield);
+        Yii::trace(get_class($this).'.getNestedTree()', $keyfield);
         // Fetch the flat tree
         $rawtree = $this->getTree(true);
 
@@ -929,21 +892,16 @@ class TreeBehavior extends CNestedSetBehavior
         $position = array();
         $lastitem = '';
 
-        foreach($rawtree as $rawitem)
-        {
+        foreach ($rawtree as $rawitem) {
             // If its a deeper item, then make it subitems of the current item
-            if ($rawitem->getLevelValue() > $depth)
-            {
+            if ($rawitem->getLevelValue() > $depth) {
                 $position[] =& $node; //$lastitem;
                 $depth = $rawitem->getLevelValue();
                 $node =& $node[$lastitem]['children'];
             }
             // If its less deep item, then return to a level up
-            else
-            {
-                while ($rawitem->getLevelValue() < $depth)
-                {
-
+            else {
+                while ($rawitem->getLevelValue() < $depth) {
                     end($position);
                     $node =& $position[key($position)];
                     array_pop($position);
@@ -958,8 +916,7 @@ class TreeBehavior extends CNestedSetBehavior
         }
 
         // we don't care about the root node
-        if (!$returnrootnode)
-        {
+        if (!$returnrootnode) {
             reset($tree);
             $tree = $tree[key($tree)]['children'];
             //array_shift($tree);
@@ -968,6 +925,4 @@ class TreeBehavior extends CNestedSetBehavior
 
         return $tree;
     }
-
-
 }

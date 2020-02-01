@@ -12,7 +12,7 @@ class UTMHelper
      * @param array $tags Массив UTM-меток
      * @return string
      */
-    static public function insertTags($text, $tags = [])
+    public static function insertTags($text, $tags = [])
     {
         if (empty($tags)) {
             return $text;

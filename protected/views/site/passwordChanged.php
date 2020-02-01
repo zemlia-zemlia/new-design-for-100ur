@@ -7,7 +7,7 @@ $this->setPageTitle("Пароль изменен." . Yii::app()->name);
     <?php echo CHtml::link('Войти в личный кабинет', Yii::app()->createUrl('site/login'));?>
 </p>
 
-<?php if($isYurcrmRegistered):?>
+<?php if ($isYurcrmRegistered):?>
 <h2>Хотите бонус?</h2>
 <p class="text-center">
     Мы также бесплатно создали для вас аккаунт в нашей CRM для юридических компаний.<br />

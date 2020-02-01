@@ -1,13 +1,14 @@
 <?php
 
-class OrderController extends Controller {
-
+class OrderController extends Controller
+{
     public $layout = '//admin/main';
 
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
@@ -19,7 +20,8 @@ class OrderController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
                 'actions' => array('index', 'view'),
@@ -40,7 +42,8 @@ class OrderController extends Controller {
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         $this->render('view', array(
             'order' => $this->loadModel($id),
         ));
@@ -50,7 +53,8 @@ class OrderController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $model = new Order;
 
         // Uncomment the following line if AJAX validation is needed
@@ -58,8 +62,9 @@ class OrderController extends Controller {
 
         if (isset($_POST['Order'])) {
             $model->attributes = $_POST['Order'];
-            if ($model->save())
+            if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->id));
+            }
         }
 
         $this->render('create', array(
@@ -72,7 +77,8 @@ class OrderController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $model = $this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
@@ -80,8 +86,9 @@ class OrderController extends Controller {
 
         if (isset($_POST['Order'])) {
             $model->attributes = $_POST['Order'];
-            if ($model->save())
+            if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->id));
+            }
         }
 
         $this->render('update', array(
@@ -94,18 +101,21 @@ class OrderController extends Controller {
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
+        if (!isset($_GET['ajax'])) {
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        }
     }
 
     /**
      * Lists all models.
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $ordersCriteria = new CDbCriteria();
         
         $ordersCriteria->order = 't.id DESC';
@@ -122,7 +132,7 @@ class OrderController extends Controller {
                 ->from('{{order}}')
                 ->where('status!=:stat', [':stat' => Order::STATUS_ARCHIVE])
                 ->queryAll();
-        foreach($orderStatsRows as $row) {
+        foreach ($orderStatsRows as $row) {
             $ordersByStatus[$row['status']][] = $row['id'];
         }
         
@@ -135,11 +145,13 @@ class OrderController extends Controller {
     /**
      * Manages all models.
      */
-    public function actionAdmin() {
+    public function actionAdmin()
+    {
         $model = new Order('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Order']))
+        if (isset($_GET['Order'])) {
             $model->attributes = $_GET['Order'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
@@ -153,10 +165,12 @@ class OrderController extends Controller {
      * @return Order the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id)
+    {
         $model = Order::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
@@ -164,11 +178,11 @@ class OrderController extends Controller {
      * Performs the AJAX validation.
      * @param Order $model the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'order-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
     }
-
 }

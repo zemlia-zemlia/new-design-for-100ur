@@ -2,7 +2,7 @@
 /* @var $this QuestionController */
 /* @var $dataProvider CActiveDataProvider */
 
-Yii::app()->clientScript->registerLinkTag("canonical", NULL, Yii::app()->createUrl('q'));
+Yii::app()->clientScript->registerLinkTag("canonical", null, Yii::app()->createUrl('q'));
 
 $pageTitle = "Последние советы юристов бесплатно онлайн ";
 
@@ -16,12 +16,12 @@ Yii::app()->clientScript->registerMetaTag("Советы юристов по вс
 
 <div class="vert-margin40">
     <?php foreach ($questions as $question): ?>
-        <div class="row question-list-item  <?php if ($question->payed == 1): ?> vip-question<? endif; ?>">
+        <div class="row question-list-item  <?php if ($question->payed == 1): ?> vip-question<?php endif; ?>">
             <div class="col-sm-10 col-xs-8">
                 <p style="font-size:0.9em;">
                     <?php if ($question->payed == 1) {
-                        echo "<span class='label label-warning'><abbr title='Вопрос с гарантией получения ответов'><span class='glyphicon glyphicon-ruble'></span></abbr></span>";
-                    }
+    echo "<span class='label label-warning'><abbr title='Вопрос с гарантией получения ответов'><span class='glyphicon glyphicon-ruble'></span></abbr></span>";
+}
                     ?>
                     <?php echo CHtml::link(CustomFuncs::mb_ucfirst($question->title, 'utf-8'), Yii::app()->createUrl('question/view', array('id' => $question->id))); ?>
                 </p>

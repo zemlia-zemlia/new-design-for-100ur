@@ -21,16 +21,16 @@ class NewsletterCommand extends CConsoleCommand
         
         $posts = Post::model()->findAll($postsCriteria);
         
-        if(!sizeof($posts)) {
+        if (!sizeof($posts)) {
             // если за последние сутки не было опубликовано ни одного поста, выходим
             echo "No fresh publications found";
             Yii::app()->end();
         }
         
-        foreach($users as $user) {
+        foreach ($users as $user) {
             $mailer = new GTMail;
             
-            if($posts[0] && $posts[0]->title) {
+            if ($posts[0] && $posts[0]->title) {
                 $mailer->subject = CHtml::encode(trim($user['name']) . ', ' . $posts[0]->title);
             } else {
                 $mailer->subject = CHtml::encode(trim($user['name'])) . ', помощь юристов и адвокатов';
@@ -50,10 +50,10 @@ class NewsletterCommand extends CConsoleCommand
             
             $mailer->message .= "<table>";
             
-            foreach($posts as $post) {
+            foreach ($posts as $post) {
                 $mailer->message .= "<tr><td>";
                 
-                if($post->photo) {
+                if ($post->photo) {
                     $mailer->message .= "<a href='" . Yii::app()->createUrl('post/view', array('id'=>$post->id)) . "'><img src='" . Yii::app()->urlManager->getBaseUrl() . $post->getPhotoUrl('thumb'). "' /></a></div>";
                 }
                 
@@ -86,12 +86,11 @@ class NewsletterCommand extends CConsoleCommand
             print_r($mailer);
             //continue;
 
-            if($mailer->sendMail(true) === true) {
+            if ($mailer->sendMail(true) === true) {
                 echo 'Письмо успешно отправлено на адрес ' . $mailer->email;
             } else {
                 echo 'Ошибка: не удалось отправить письмо на адрес ' . $mailer->email;
             }
         }
-        
     }
 }

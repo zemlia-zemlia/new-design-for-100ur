@@ -33,7 +33,7 @@ class SendAfterAnswerCommand extends CConsoleCommand
         
         echo "Sending mails to " . sizeof($answersRows) . ' recipients' . PHP_EOL;
         
-        foreach($answersRows as $row) {
+        foreach ($answersRows as $row) {
             // в письмо вставляем ссылку на вопрос + метки для отслеживания переходов
             $questionLink = "https://100yuristov.com/q/" . $row['id'] . "/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_followup&utm_term=" . $row['id'];
 
@@ -45,7 +45,7 @@ class SendAfterAnswerCommand extends CConsoleCommand
              * и дать возможность залогиниться из любого письма, содержащего актуальную строку autologin
              */
             $autologinString = $row['autologin'];
-            if($autologinString) {
+            if ($autologinString) {
                 $questionLink .= "&autologin=".$autologinString;
             }
             
@@ -68,13 +68,12 @@ class SendAfterAnswerCommand extends CConsoleCommand
             // отправляем письмо на почту пользователя
             $mailer->email = $row['email'];
 
-            if($mailer->sendMail(true, '100yuristov')) {
+            if ($mailer->sendMail(true, '100yuristov')) {
                 Yii::log("Отправлено письмо пользователю " . $row['email'] . " с уведомлением об ответе на вопрос " . $row['id'], 'info', 'system.web.User');
             } else {
                 // не удалось отправить письмо
                 Yii::log("Не удалось отправить письмо пользователю " . $row['email'] . " с уведомлением об ответе на вопрос " . $row['id'], 'error', 'system.web.User');
             }
         }
-        
     }
 }

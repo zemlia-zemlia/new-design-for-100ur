@@ -26,7 +26,7 @@ $monthsArray = array(
 </h1>
 </div>
 
-<form class="form-inline vert-margin30" role="form" action="<?php echo Yii::app()->createUrl('user/myStats',array('officeId'=>$office->id)); ?>">
+<form class="form-inline vert-margin30" role="form" action="<?php echo Yii::app()->createUrl('user/myStats', array('officeId'=>$office->id)); ?>">
     Статистика за месяц: 
     <div class="form-group">
         <?php echo CHtml::dropDownList("month", $month, $monthsArray, array('class'=>'form-control'));?>
@@ -50,15 +50,15 @@ $monthsArray = array(
             Всего: <?php echo $leadsArray['total'];?><br />
             В работе: <?php echo $leadsArray['active'];?><br />
             Брак: <?php echo $leadsArray['brak'];?>
-            <?php if($leadsArray['total']>0) {
-                    echo "<span class='text-muted'>(" . round(($leadsArray['brak']/$leadsArray['total'])*100) . "%)</span>";
-                }
+            <?php if ($leadsArray['total']>0) {
+    echo "<span class='text-muted'>(" . round(($leadsArray['brak']/$leadsArray['total'])*100) . "%)</span>";
+}
             ?>
             <br />
             Отказ: <?php echo $leadsArray['otkaz'];?>
-            <?php if($leadsArray['total']>0) {
-                    echo "<span class='text-muted'>(" . round(($leadsArray['otkaz']/$leadsArray['total'])*100) . "%)</span>";
-                }
+            <?php if ($leadsArray['total']>0) {
+                echo "<span class='text-muted'>(" . round(($leadsArray['otkaz']/$leadsArray['total'])*100) . "%)</span>";
+            }
             ?>
             <br />
         </td>
@@ -66,13 +66,13 @@ $monthsArray = array(
             Заключено: <?php echo (int)$agreementsArray['counter'];?><br />
             На сумму <?php echo (int)$agreementsArray['sum'];?> руб.<br />
             Средн. 
-                <?php 
-                if((int)$agreementsArray['counter']) {
+                <?php
+                if ((int)$agreementsArray['counter']) {
                     echo round(($agreementsArray['sum']/$agreementsArray['counter'])) . " руб.";
                 }
                 
             ?> <br /><br />
-            <?php if($agreementsArray['aborted']):?>
+            <?php if ($agreementsArray['aborted']):?>
                 Расторгнуто: <?php echo (int)$agreementsArray['aborted']['counter'];?><br />
                 На сумму <?php echo (int)$agreementsArray['aborted']['sum'];?> руб.<br />
             <?php endif;?>

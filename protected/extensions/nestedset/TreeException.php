@@ -15,8 +15,4 @@
  */
 class TreeException extends Exception
 {
-    
 }
-
-
-?>

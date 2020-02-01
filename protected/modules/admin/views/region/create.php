@@ -3,13 +3,13 @@
 /* @var $model Region */
 
 $this->breadcrumbs=array(
-	'Regions'=>array('index'),
-	'Create',
+    'Regions'=>array('index'),
+    'Create',
 );
 
 $this->menu=array(
-	array('label'=>'List Region', 'url'=>array('index')),
-	array('label'=>'Manage Region', 'url'=>array('admin')),
+    array('label'=>'List Region', 'url'=>array('index')),
+    array('label'=>'Manage Region', 'url'=>array('admin')),
 );
 ?>
 

@@ -2,7 +2,6 @@
 
 class QuestionController extends Controller
 {
-
     public $layout = '//frontend/question';
 
     /*
@@ -75,7 +74,6 @@ class QuestionController extends Controller
         $answerModel = new Answer();
 
         if (isset($_POST['Answer'])) {
-
             if (!Yii::app()->user->checkAccess(User::ROLE_JURIST)) {
                 throw new CHttpException(403, 'Для того, чтобы отвечать на вопросы вы должны залогиниться на сайте как юрист');
             }
@@ -144,7 +142,6 @@ class QuestionController extends Controller
                 ->queryAll();
 
             $nextQuestionId = $model->getNextQuestionIdForYurist(Yii::app()->user->id);
-
         } else {
             $lastRequest = null;
             $nextQuestionId = null;
@@ -230,7 +227,7 @@ class QuestionController extends Controller
                         'sessionId' => $question->sessionId,
                     ]);
                     $existingQuestion = Question::model()->find($findQuestionCriteria);
-                    if($existingQuestion instanceof Question) {
+                    if ($existingQuestion instanceof Question) {
                         $question = $existingQuestion;
                     }
                 }
@@ -302,8 +299,9 @@ class QuestionController extends Controller
                                 // проверим, не является ли указанная категория дочерней
                                 // если является, найдем ее родителя и запишем в категории вопроса
                                 foreach ($allDirectionsHierarchy as $parentId => $parentCategory) {
-                                    if (!$parentCategory['children'])
+                                    if (!$parentCategory['children']) {
                                         continue;
+                                    }
 
                                     foreach ($parentCategory['children'] as $childId => $childCategory) {
                                         if ($childId == $questionCategory) {
@@ -361,7 +359,6 @@ class QuestionController extends Controller
      */
     public function actionUpdateAnswer($id)
     {
-
         $answer = Answer::model()->findByPk($id);
         if (!$answer) {
             throw new CHttpException(404, 'Ответ не найден');
@@ -458,7 +455,7 @@ class QuestionController extends Controller
         $questions = Question::model()->cache(600)->findAll($criteria);
 
         /*
-         * SELECT YEAR(publishDate) year, MONTH(publishDate) month, COUNT(*) counter FROM `100_question` 
+         * SELECT YEAR(publishDate) year, MONTH(publishDate) month, COUNT(*) counter FROM `100_question`
           WHERE status IN (2,4)
           GROUP BY year, month
          */
@@ -491,8 +488,9 @@ class QuestionController extends Controller
     {
         $model = new Question('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Question']))
+        if (isset($_GET['Question'])) {
             $model->attributes = $_GET['Question'];
+        }
 
         $this->render('admin', [
             'model' => $model,
@@ -530,7 +528,6 @@ class QuestionController extends Controller
     // generates RSS 2.0 feed with published questions
     public function actionRss()
     {
-
         $questions = Yii::app()->db->cache(600)->createCommand()
             ->select('q.id, q.title, q.createDate, q.publishDate, SUBSTR(q.questionText, 1, 200) questionText, COUNT(*) answersCount')
             ->from('{{question}} q')
@@ -690,7 +687,6 @@ class QuestionController extends Controller
                 if ($lead->save()) {
                     // сохраним категории, к которым относится вопрос, если категория указана
                     if (isset($_POST['Lead']['categories']) && $_POST['Lead']['categories'] != 0) {
-
                         $lead2category = new Lead2Category;
                         $lead2category->leadId = $lead->id;
                         $leadCategory = (int)$_POST['Lead']['categories'];
@@ -700,8 +696,9 @@ class QuestionController extends Controller
                             // проверим, не является ли указанная категория дочерней
                             // если является, найдем ее родителя и запишем в категории вопроса
                             foreach ($allDirectionsHierarchy as $parentId => $parentCategory) {
-                                if (!$parentCategory['children'])
+                                if (!$parentCategory['children']) {
                                     continue;
+                                }
 
                                 foreach ($parentCategory['children'] as $childId => $childCategory) {
                                     if ($childId == $leadCategory) {
@@ -714,12 +711,10 @@ class QuestionController extends Controller
                                 }
                             }
                         }
-
                     }
                     $this->redirect(['weCallYou']);
                 }
             }
-
         }
 
         if (!$lead->name && Yii::app()->user->name) {
@@ -959,7 +954,6 @@ class QuestionController extends Controller
     // запрос от яндекса на проверку платежа
     public function actionPaymentCheck()
     {
-
         $yaKassa = new YandexKassa($_POST);
 
         $paymentLog = fopen($_SERVER['DOCUMENT_ROOT'] . YandexKassa::PAYMENT_LOG_FILE, 'w+');
@@ -971,7 +965,7 @@ class QuestionController extends Controller
         if (YandexKassa::checkMd5($_POST)) {
             fwrite($paymentLog, "MD5 correct!");
             $yaKassa->formResponse(0, 'OK');
-            //$yaKassa->formResponse(1,'Error'); // just for test
+        //$yaKassa->formResponse(1,'Error'); // just for test
         } else {
             fwrite($paymentLog, "MD5 incorrect!");
             $yaKassa->formResponse(1, 'Ошибка авторизации');
@@ -1008,7 +1002,6 @@ class QuestionController extends Controller
      */
     public function actionSendLead()
     {
-
         if (!isset($_POST)) {
             echo json_encode([
                 'code' => 400,

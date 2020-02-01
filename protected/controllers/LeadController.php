@@ -3,14 +3,15 @@
 /**
  * Контроллер для работы с лидами зарегистрированным пользователям
  */
-class LeadController extends Controller {
-
+class LeadController extends Controller
+{
     public $layout = '//frontend/question';
 
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
                 //'postOnly + delete', // we only allow deletion via POST request
@@ -22,9 +23,10 @@ class LeadController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
-            array('allow', // allow all users 
+            array('allow', // allow all users
                 'actions' => array('index', 'view', 'buy'),
                 'users' => array('@'),
                 'expression' => "Yii::app()->user->checkAccess(User::ROLE_JURIST) || Yii::app()->user->checkAccess(User::ROLE_BUYER)",
@@ -38,8 +40,8 @@ class LeadController extends Controller {
     /**
      * Просмотр списка лидов
      */
-    public function actionIndex() {
-
+    public function actionIndex()
+    {
         $this->layout = (Yii::app()->user->role == User::ROLE_BUYER) ? '//frontend/cabinet' : '//frontend/question';
 
         $criteria = new CDbCriteria;
@@ -92,8 +94,8 @@ class LeadController extends Controller {
     /**
      * Просмотр лида
      */
-    public function actionView($id) {
-
+    public function actionView($id)
+    {
         $this->layout = (Yii::app()->user->role == User::ROLE_BUYER) ? '//frontend/cabinet' : '//frontend/question';
 
         // если передан GET параметр autologin, попытаемся залогинить пользователя
@@ -118,7 +120,8 @@ class LeadController extends Controller {
      * Покупка лида пользователем
      * @param integer $id id лида
      */
-    public function actionBuy($id) {
+    public function actionBuy($id)
+    {
         $model = Lead::model()->findByPk($id);
 
         if (!$model) {
@@ -141,5 +144,4 @@ class LeadController extends Controller {
             return $this->render('leadSellError', ['errors'    =>  $sellLeadResult]);
         }
     }
-
 }

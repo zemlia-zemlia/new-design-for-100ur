@@ -1,16 +1,17 @@
 <div class="vert-margin30 flat-panel center-align inside">
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'lead-search-form',
+    'id'=>'lead-search-form',
         'method'=>'GET',
         'htmlOptions'   => array('class'=>'form-inline'),
-	'enableAjaxValidation'=>false,
+    'enableAjaxValidation'=>false,
         'action'    =>  $action,
 )); ?>
 
 <div class="form-group">
-                <?php echo $form->labelEx($model,'date1'); ?>
-                <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
-                        array(
+                <?php echo $form->labelEx($model, 'date1'); ?>
+                <?php $this->widget(
+    'zii.widgets.jui.CJuiDatePicker',
+    array(
                         'name'=>"Lead[date1]",
                         'value'=>$model['date1'],
                         'language'=>'ru',
@@ -19,17 +20,18 @@
                         'htmlOptions' => array(
                             'style'=>'text-align:right; width:85px;',
                             'class'=>'form-control input-sm'
-                            )    
+                            )
                         )
-                       );
+);
                  ?>
-                <?php echo $form->error($model,'date1'); ?>
+                <?php echo $form->error($model, 'date1'); ?>
             </div>
 
             <div class="form-group">
-                <?php echo $form->labelEx($model,'date2'); ?>
-                <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
-                        array(
+                <?php echo $form->labelEx($model, 'date2'); ?>
+                <?php $this->widget(
+                     'zii.widgets.jui.CJuiDatePicker',
+                     array(
                         'name'=>"Lead[date2]",
                         'value'=>$model['date2'],
                         'language'=>'ru',
@@ -38,11 +40,11 @@
                         'htmlOptions' => array(
                             'style'=>'text-align:right;  width:85px;',
                             'class'=>'form-control input-sm'
-                            )    
+                            )
                         )
-                       );
+                 );
                  ?>
-                <?php echo $form->error($model,'date2'); ?>
+                <?php echo $form->error($model, 'date2'); ?>
             </div>
 
 
