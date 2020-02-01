@@ -16,15 +16,15 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     'links' => $this->breadcrumbs,
 ));
 ?>
-<div class="vert-margin30">
-    <h1>Вопросы.
+<div>
+    <h3>Вопросы.
         <?php if ($nocat): ?>
             без категории
         <?php endif; ?>
         <?php if ($notown): ?>
             без города
         <?php endif; ?>
-    </h1>
+    </h3>
     <?php if ($moderator): ?>
         Модератор <?php echo $moderator->getShortName(); ?>
     <?php endif; ?>
