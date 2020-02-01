@@ -16,30 +16,31 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     'links' => $this->breadcrumbs,
 ));
 ?>
-<div class="vert-margin30">
-    <h1>Вопросы.
+<div>
+    <h3>Вопросы.
         <?php if ($nocat): ?>
-            без категории
+            (без категории)
         <?php endif; ?>
+
         <?php if ($notown): ?>
-            без города
+            (без города)
         <?php endif; ?>
-    </h1>
-    <?php if ($moderator): ?>
-        Модератор <?php echo $moderator->getShortName(); ?>
-    <?php endif; ?>
 
-    <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
+        <?php if ($moderator): ?>
+            (Модератор <?php echo $moderator->getShortName(); ?>)
+        <?php endif; ?>
 
-    <?php if (!is_null($status)): ?>
-        <h3>
+        <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
+
+        <?php if (!is_null($status)): ?>
+
             <?php echo Question::getStatusName($status); ?>
             <?php if ($status == Question::STATUS_MODERATED): ?>
                 <?php echo CHtml::link('Опубликовать все одобренные', Yii::app()->createUrl('question/publish'), array('class' => 'btn btn-success')); ?>
             <?php endif; ?>
 
-        </h3>
-    <?php endif; ?>
+        <?php endif; ?>
+    </h3>
 
 </div>
 <?php endif; ?>

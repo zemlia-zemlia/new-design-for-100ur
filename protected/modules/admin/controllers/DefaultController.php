@@ -185,7 +185,7 @@ class DefaultController extends Controller
             'fastQuestionsRatio' => $fastQuestionsRatio,
             'moneyFlow' => $moneyFlow,
             'totalExpences' => $totalExpences,
-            'questionStatuses' => $questionStatuses,
+//            'questionStatuses' => $questionStatuses,
             'publishedQuestionsCount' => $publishedQuestionsCount,
             'leadsByTypes' => $leadsByTypes,
             'uniqueLeadDates' => $uniqueLeadDates,
