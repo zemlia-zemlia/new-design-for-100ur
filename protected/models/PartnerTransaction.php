@@ -91,13 +91,14 @@ class PartnerTransaction extends CActiveRecord
             'questionId' => 'id вопроса',
             'userId' => 'id пользователя',
             'comment' => 'Комментарий',
+            'type' => 'Тип',
         ];
     }
 
     /**
      * Возвращает массив статусов транзакций.
      *
-     * @return type
+     * @return array
      */
     public static function getStatuses()
     {

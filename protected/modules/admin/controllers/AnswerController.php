@@ -2,7 +2,7 @@
 
 class AnswerController extends Controller
 {
-    public $layout='//admin/main';
+    public $layout = '//admin/main';
 
     /**
      * @return array action filters
@@ -23,25 +23,25 @@ class AnswerController extends Controller
     public function accessRules()
     {
         return array(
-                array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                        'actions'=>array('index','view', 'getRandom'),
-                        'users'=>array('@'),
-                        'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_JURIST . ') || Yii::app()->user->checkAccess(' . User::ROLE_OPERATOR . ') || Yii::app()->user->checkAccess(' . User::ROLE_SECRETARY . ')',
-                ),
-                array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                        'actions'=>array('update','view','index', 'byPublisher', 'toSpam'),
-                        'users'=>array('@'),
-                        'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
-                ),
-                array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                        'actions'=>array('create','update','admin','delete', 'publish', 'setPubTime'),
-                        'users'=>array('@'),
-                        'expression'=>'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
-                ),
-                array('deny',  // deny all users
-                        'users'=>array('*'),
-                ),
-            );
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => array('index', 'view', 'getRandom'),
+                'users' => array('@'),
+                'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_JURIST . ') || Yii::app()->user->checkAccess(' . User::ROLE_OPERATOR . ') || Yii::app()->user->checkAccess(' . User::ROLE_SECRETARY . ')',
+            ),
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => array('update', 'view', 'index', 'byPublisher', 'toSpam'),
+                'users' => array('@'),
+                'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
+            ),
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => array('create', 'update', 'admin', 'delete', 'publish', 'setPubTime', 'payBonus'),
+                'users' => array('@'),
+                'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
+            ),
+            array('deny',  // deny all users
+                'users' => array('*'),
+            ),
+        );
     }
 
     /**
@@ -53,11 +53,11 @@ class AnswerController extends Controller
         $model = Answer::model()->findByPk($id);
 
         $this->render('view', array(
-                    'model' =>  $model,
-            ));
+            'model' => $model,
+        ));
     }
 
-    
+
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -65,7 +65,7 @@ class AnswerController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model=$this->loadModel($id);
+        $model = $this->loadModel($id);
         $oldStatus = $model->status;
 
         // Uncomment the following line if AJAX validation is needed
@@ -73,15 +73,15 @@ class AnswerController extends Controller
 
         if (isset($_POST['Answer'])) {
             $model->attributes = $_POST['Answer'];
-                    
+
             if ($model->save()) {
-                $this->redirect(array('view','id'=>$model->id, 'question_updated'=>'yes'));
+                $this->redirect(array('view', 'id' => $model->id, 'question_updated' => 'yes'));
             }
         }
 
-                
+
         $this->render('update', array(
-            'model' =>  $model,
+            'model' => $model,
         ));
     }
 
@@ -109,42 +109,43 @@ class AnswerController extends Controller
         $criteria->order = 't.id DESC';
         $criteria->with = 'author';
         $status = null;
-                
+
         if (isset($_GET['status'])) {
             $status = (int)$_GET['status'];
-            $criteria->addColumnCondition(array('t.status'=>$status));
+            $criteria->addColumnCondition(array('t.status' => $status));
+            $criteria->with = ['question', 'transaction'];
         }
-                
+
         $dataProvider = new CActiveDataProvider('Answer', array(
-                    'criteria'=>$criteria,
-                    'pagination'=>array(
-                                'pageSize'=>20,
-                            ),
-                ));
-                
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 20,
+            ),
+        ));
+
         $this->render('index', array(
-            'dataProvider'  =>  $dataProvider,
-                        'status'        =>  $status,
+            'dataProvider' => $dataProvider,
+            'status' => $status,
         ));
     }
-        
-        
+
+
     public function actionPublish()
     {
         if (isset($_POST['id'])) {
             $id = (int)$_POST['id'];
         }
-            
+
         $model = $this->loadModel($id);
         $model->status = Answer::STATUS_PUBLISHED;
         if ($model->save()) {
-            echo CJSON::encode(array('id'=>$id, 'status'=>1));
+            echo CJSON::encode(array('id' => $id, 'status' => 1));
         } else {
             //print_r($model->errors);
-            echo CJSON::encode(array('status'=>0));
+            echo CJSON::encode(array('status' => 0));
         }
     }
-        
+
     public function actionToSpam()
     {
         if (isset($_POST['id'])) {
@@ -153,26 +154,25 @@ class AnswerController extends Controller
         $model = $this->loadModel($id);
         $model->status = Answer::STATUS_SPAM;
         if ($model->save()) {
-            echo CJSON::encode(array('id'=>$id, 'status'=>1));
+            echo CJSON::encode(array('id' => $id, 'status' => 1));
         } else {
             //print_r($model->errors);
-            echo CJSON::encode(array('status'=>0));
+            echo CJSON::encode(array('status' => 0));
         }
     }
-        
-        
+
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
      * @param integer $id the ID of the model to be loaded
-     * @return Question the loaded model
+     * @return Answer the loaded model
      * @throws CHttpException
      */
     public function loadModel($id)
     {
-        $model=Answer::model()->findByPk($id);
-        if ($model===null) {
+        $model = Answer::model()->findByPk($id);
+        if ($model === null) {
             throw new CHttpException(404, 'Ответ не найден');
         }
         return $model;
@@ -184,9 +184,27 @@ class AnswerController extends Controller
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax']==='question-form') {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'question-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
+        }
+    }
+
+    /**
+     * @throws CHttpException
+     */
+    public function actionPayBonus()
+    {
+        if (!Yii::app()->request->isPostRequest) {
+            throw new CHttpException(400, 'Разрешен только POST запрос');
+        }
+
+        $answerId = Yii::app()->request->getParam('id');
+
+        $answer = $this->loadModel($answerId);
+
+        if ($answer->payBonusForGoodAnswer()) {
+            echo json_encode(['message' => 'ok', 'status' => 1, 'id' => $answerId]);
         }
     }
 }

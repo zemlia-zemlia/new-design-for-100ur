@@ -21,8 +21,17 @@
 
 <tr class="<?php echo $statusClass; ?>" id="answer-<?php echo $data->id;?>">
     <td>        
-              
+
         <p>
+            <strong>Вопрос:</strong>
+            <?php echo CHtml::encode(CustomFuncs::cutString($data->question->questionText, 1000));?>
+        </p>
+        <p>
+            <strong>Ответ
+                <?php if($data->isFast()):?>
+                    <span class="text-success"><span class="glyphicon glyphicon-flash"></span> Быстрый</span>
+                <?php endif;?>
+                :</strong>
         <?php echo CHtml::encode($data->answerText); ?>
         </p>
         
@@ -61,7 +70,11 @@
             <?php if ($data->status!=Answer::STATUS_PUBLISHED):?>
             <?php echo CHtml::ajaxLink('Одобрить', Yii::app()->createUrl('/admin/answer/publish'), array('data'=>"id=".$data->id, 'type'=>'POST', 'success'=>'onPublishAnswer'), array('class'=>'btn btn-success btn-xs btn-block')); ?>
             <?php endif;?>
-            
+
+            <?php if ($data->status!=Answer::STATUS_PUBLISHED && !$data->transactionId):?>
+                <?php echo CHtml::ajaxLink('Одобрить и оплатить', Yii::app()->createUrl('/admin/answer/payBonus'), array('data'=>"id=".$data->id, 'type'=>'POST', 'success'=>'onPayBonus'), array('class'=>'btn btn-success btn-xs btn-block')); ?>
+            <?php endif;?>
+
             <?php if ($data->status!=Answer::STATUS_SPAM):?>   
             <?php echo CHtml::ajaxLink('В спам', Yii::app()->createUrl('/admin/answer/toSpam'), array('data'=>"id=".$data->id, 'type'=>'POST', 'success'=>'onSpamAnswer'), array('class'=>'btn btn-warning btn-xs btn-block')); ?>
             <?php endif;?>
@@ -69,6 +82,10 @@
             <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
                 <?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/answer/delete', array('id'=>$data->id)), array('class'=>'btn btn-danger btn-xs btn-block')); ?>
             <?php endif;?>
+
+        <?php if($data->transaction instanceof TransactionCampaign):?>
+            Бонус <?php echo MoneyFormat::rubles($data->transaction->sum);?>
+        <?php endif;?>
          
         <?php endif;?>
     </td> 

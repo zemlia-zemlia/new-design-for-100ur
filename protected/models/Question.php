@@ -14,6 +14,7 @@
  * @property int    $status
  * @property string $phone
  * @property string $email
+ * @property string $publishDate
  * @property int    $leadStatus
  * @property int    $authorId
  * @property int    $price

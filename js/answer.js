@@ -23,3 +23,14 @@ function onPublishAnswer(data, textStatus, jqXHR)
     }
 }
 
+function onPayBonus(data, textStatus, jqXHR)
+{
+    var jsonData = JSON.parse(data);
+    var status = jsonData.status;
+    if(status == 1){
+        var answerId = jsonData.id;
+        $("#answer-" + answerId).html('<td colspan="2"><div class="alert alert-success">Одобрен и оплачен</div></td>');
+    } else {
+        alert('Ошибка: не удалось изменить статус ответа и оплатить его');
+    }
+}

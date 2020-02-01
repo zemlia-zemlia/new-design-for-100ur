@@ -11,9 +11,13 @@
  * @property integer $sum
  * @property string $description
  * @property integer $leadId
+ * @property integer $type
  */
 class TransactionCampaign extends CActiveRecord
 {
+    // типы объектов, за которые начислена транзакция
+    const TYPE_ANSWER = 1;
+
     /**
      * @return string the associated database table name
      */
@@ -123,5 +127,28 @@ class TransactionCampaign extends CActiveRecord
                 ->update("{{user}}", array('lastTransactionTime' => date("Y-m-d H:i:s")), 'id = ' . $this->buyerId);
         }
         parent::afterSave();
+    }
+
+
+    /**
+     * Возвращает массив типов транзакций.
+     *
+     * @return array
+     */
+    public static function getTypes()
+    {
+        return [
+            self::TYPE_ANSWER => 'Ответ',
+        ];
+    }
+
+    /**
+     * Возвращает название типа транзакции.
+     */
+    public function getType()
+    {
+        $allTypes = self::getTypes();
+
+        return $allTypes[$this->type];
     }
 }

@@ -10,6 +10,8 @@
  * @property string $videoLink
  * @property integer $authorId
  * @property integer $status
+ * @property string $datetime
+ * @property integer $transactionId
  *
  * @author Michael Krutikov m@mkrutikov.pro
  */
@@ -81,6 +83,7 @@ class Answer extends CActiveRecord
             'author' => array(self::BELONGS_TO, 'User', 'authorId'),
             'karmaChanges' => array(self::HAS_MANY, 'KarmaChange', 'answerId'),
             'comments' => array(self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_ANSWER, 'order' => 'comments.root, comments.lft'),
+            'transaction' => array(self::BELONGS_TO, 'TransactionCampaign', 'transactionId'),
         );
     }
 
@@ -97,12 +100,13 @@ class Answer extends CActiveRecord
             'authorId' => 'ID автора',
             'status' => 'Статус',
             'videoLink' => 'Ссылка на Youtube видео',
+            'transactionId' => 'ID транзакции бонуса',
         );
     }
 
     /**
      * возвращает массив, ключами которого являются коды статусов, а значениями - названия статусов
-     * @return Array массив статусов
+     * @return array массив статусов
      */
     public static function getStatusesArray()
     {
@@ -221,5 +225,56 @@ class Answer extends CActiveRecord
         ]);
 
         return $answersDataProvider;
+    }
+
+    /**
+     * Зачисляет юристу бонус за хороший ответ
+     */
+    public function payBonusForGoodAnswer()
+    {
+        $user = $this->author;
+
+        $isFast = $this->isFast();
+
+        $bonusAmount = Yii::app()->params['yuristBonus']['bonusForGoodAnswer'];
+        $fastAnswerCoefficient = Yii::app()->params['yuristBonus']['fastAnswerCoefficient'];
+        if ($isFast) {
+            $bonusAmount *= $fastAnswerCoefficient;
+        }
+
+        $bonusTransaction = new TransactionCampaign();
+        $bonusTransaction->sum = $bonusAmount;
+        $bonusTransaction->type = TransactionCampaign::TYPE_ANSWER;
+        $bonusTransaction->description = "Вознаграждение за подробный" . ($isFast ? ' и быстрый' : '') . " ответ";
+        $bonusTransaction->buyerId = $user->id;
+
+        if ($bonusTransaction->save()) {
+            $this->transactionId = $bonusTransaction->id;
+            $this->status = self::STATUS_PUBLISHED;
+            $this->save();
+        } else {
+            Yii::log(print_r($bonusTransaction->getErrors(), true), CLogger::LEVEL_ERROR, 'application');
+            throw new CHttpException(500, 'Не удалось сохранить транзакцию за ответ');
+        }
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     * @throws Exception
+     */
+    public function isFast(): bool
+    {
+        $isFast = false;
+        $fastAnswerInterval = Yii::app()->params['yuristBonus']['fastAnswerInterval'];
+
+        $intervalSinceQuestionInHours = (new DateTime($this->datetime))->diff((new DateTime($this->question->publishDate)))->h;
+
+        if ($intervalSinceQuestionInHours <= $fastAnswerInterval) {
+            $isFast = true;
+        }
+
+        return $isFast;
     }
 }
