@@ -4,11 +4,10 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-
-                <img src=" <?=CHtml::encode(Yii::app()->user->avatarUrl) ;?>" class="img-circle" alt="User Image" />
+                <img src=" <?= CHtml::encode(Yii::app()->user->avatarUrl); ?>" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
-                <p><?=CHtml::encode(Yii::app()->user->shortName) ;?> </p>
+                <p><?= CHtml::encode(Yii::app()->user->shortName); ?> </p>
 
                 <a href="#"><i class="fa fa-circle text-success"></i><?php echo Yii::app()->user->roleName; ?></a>
             </div>
@@ -18,44 +17,50 @@
 
         <ul class="sidebar-menu">
             <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->role == User::ROLE_SECRETARY): ?>
-            <li class="header">Админ панель</li>
-            <li class="active treeview">
-                <a href="#">
-                    <i class="fa fa-dashboard"></i> <span>Лиды</span> <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li class="active"><a href="<?= Yii::app()->createUrl('/admin/lead/index')?>"><i class="fa fa-circle-o"></i> Все лиды</a></li>
-                    <li class="active"><a href="<?= Yii::app()->createUrl('/admin/lead/index', array('status' => Lead::LEAD_STATUS_PREMODERATION))?>"><i class="fa fa-circle-o"></i>  На модерации
-                            <small class="label pull-right bg-red"><?php echo Lead::getStatusCounter(Lead::LEAD_STATUS_PREMODERATION, FALSE); ?></small></a></li>
-                    <li class="active"><a href="<?= Yii::app()->createUrl('/admin/lead/index', array('status' => Lead::LEAD_STATUS_NABRAK)) ?>"><i class="fa fa-circle-o"></i> На отбраковке
-                            <small class="label pull-right bg-red"><?php echo Lead::getStatusCounter(Lead::LEAD_STATUS_NABRAK) ?></small></a></li>
-                </ul>
-            </li>
+                <li class="header">Админ панель</li>
+                <li class="active treeview">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>Лиды</span> <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="active"><a href="<?= Yii::app()->createUrl('/admin/lead/index') ?>"><i
+                                        class="fa fa-circle-o"></i> Все лиды</a></li>
+                        <li class="active"><a
+                                    href="<?= Yii::app()->createUrl('/admin/lead/index', array('status' => Lead::LEAD_STATUS_PREMODERATION)) ?>"><i
+                                        class="fa fa-circle-o"></i> На модерации
+                                <small class="label pull-right bg-red"><?php echo Lead::getStatusCounter(Lead::LEAD_STATUS_PREMODERATION, FALSE); ?></small></a>
+                        </li>
+                        <li class="active"><a
+                                    href="<?= Yii::app()->createUrl('/admin/lead/index', array('status' => Lead::LEAD_STATUS_NABRAK)) ?>"><i
+                                        class="fa fa-circle-o"></i> На отбраковке
+                                <small class="label pull-right bg-red"><?php echo Lead::getStatusCounter(Lead::LEAD_STATUS_NABRAK) ?></small></a>
+                        </li>
+                    </ul>
+                </li>
 
-            <li>
-                <a href="<?=Yii::app()->createUrl('/admin/order')?>">
-                    <i class="fa fa-th"></i> <span>Заказы документов</span> <small class="label pull-right bg-green"><?php echo Order::calculateNewOrders(); ?></small>
-                </a>
-            </li>
                 <li>
-                <a href="<?=Yii::app()->createUrl('/admin/campaign')?>">
-                    <i class="fa fa-th"></i> <span>Кампании</span>
-                </a>
-            </li>
+                    <a href="<?= Yii::app()->createUrl('/admin/order') ?>">
+                        <i class="fa fa-th"></i> <span>Заказы документов</span> <small
+                                class="label pull-right bg-green"><?php echo Order::calculateNewOrders(); ?></small>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= Yii::app()->createUrl('/admin/campaign') ?>">
+                        <i class="fa fa-th"></i> <span>Кампании</span>
+                    </a>
+                </li>
 
 
                 <?php if (!Yii::app()->user->role == User::ROLE_SECRETARY): ?>
 
 
-
-
                     <li>
-                        <a href="<?=Yii::app()->createUrl('/admin/lead/stats')?>">
+                        <a href="<?= Yii::app()->createUrl('/admin/lead/stats') ?>">
                             <i class="fa fa-th"></i> <span>Статистика</span>
                         </a>
-                      </li>
+                    </li>
                     <li>
-                        <a href="<?=Yii::app()->createUrl('/admin/leadsource')?>">
+                        <a href="<?= Yii::app()->createUrl('/admin/leadsource') ?>">
                             <i class="fa fa-th"></i> <span>Источники</span>
                         </a>
                     </li>
@@ -64,7 +69,7 @@
 
 
                 <li>
-                    <a href="<?=Yii::app()->createUrl('/admin/user/index')?>">
+                    <a href="<?= Yii::app()->createUrl('/admin/user/index') ?>">
                         <i class="fa fa-th"></i> <span>Пользователи</span>
                     </a>
                 </li>
@@ -72,15 +77,16 @@
                 <?php if (!Yii::app()->user->role == User::ROLE_SECRETARY): ?>
 
                     <li>
-                        <a href="<?=Yii::app()->createUrl('/admin/money')?>">
+                        <a href="<?= Yii::app()->createUrl('/admin/money') ?>">
                             <i class="fa fa-th"></i> <span>Касса</span>
                         </a>
                     </li>
 
 
                     <li>
-                        <a href="<?=Yii::app()->createUrl('/admin/partnerTransaction')?>">
-                            <i class="fa fa-th"></i> <span>Вывод средств</span> <small class="label pull-right bg-green"><?php echo PartnerTransaction::getNewRequestsCount(); ?></small>
+                        <a href="<?= Yii::app()->createUrl('/admin/partnerTransaction') ?>">
+                            <i class="fa fa-th"></i> <span>Вывод средств</span> <small
+                                    class="label pull-right bg-green"><?php echo PartnerTransaction::getNewRequestsCount(); ?></small>
                         </a>
                     </li>
 
@@ -88,8 +94,9 @@
                 <?php endif; ?>
 
                 <li>
-                    <a href="<?=Yii::app()->createUrl('/admin/userStatusRequest')?>">
-                        <i class="fa fa-th"></i> <span>Смена статуса</span> <small class="label pull-right bg-green"><?php echo UserStatusRequest::getNewRequestsCount(); ?></small>
+                    <a href="<?= Yii::app()->createUrl('/admin/userStatusRequest') ?>">
+                        <i class="fa fa-th"></i> <span>Смена статуса</span> <small
+                                class="label pull-right bg-green"><?php echo UserStatusRequest::getNewRequestsCount(); ?></small>
                     </a>
                 </li>
             <?php endif; ?>
@@ -97,91 +104,91 @@
                 <li class="header">Управление контентом</li>
 
 
+                <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR) || Yii::app()->user->role == User::ROLE_SECRETARY): ?>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-pie-chart"></i>
+                            <span>Вопросы</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-list'></span> " . 'Все вопросы', Yii::app()->createUrl('/admin/question')); ?>
+                            </li>
+                            <li>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-list'></span> " . 'VIP', Yii::app()->createUrl('/admin/question/vip')); ?>
+                            </li>
+                            <li>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-adjust'></span> " . 'Недозаполненные', Yii::app()->createUrl('/admin/question/index', array('status' => Question::STATUS_PRESAVE))); ?>
+                            </li>
+                            <li>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Email не указан', Yii::app()->createUrl('/admin/question/index', array('status' => Question::STATUS_NEW))); ?>
+                            </li>
+                            <li>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-envelope'></span> " . 'Email не подтвержден', Yii::app()->createUrl('/admin/question/index', array('status' => Question::STATUS_NEW, 'email_unconfirmed' => 1))); ?>
+                            </li>
+                            <li>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-check'></span> " . 'Ждет публикации', Yii::app()->createUrl('/admin/question/index', array('status' => Question::STATUS_MODERATED))); ?>
+                            </li>
+                            <li>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Предв. опубликован', Yii::app()->createUrl('/admin/question/index', array('status' => Question::STATUS_CHECK))); ?>
+                            </li>
+                            <li>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-ok'></span> " . 'Опубликованы', Yii::app()->createUrl('/admin/question/index', array('status' => Question::STATUS_PUBLISHED))); ?>
+                            </li>
+                            <li>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-fire'></span> " . 'Спам', Yii::app()->createUrl('/admin/question/index', array('status' => Question::STATUS_SPAM))); ?>
+                            </li>
+                            <li>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-chevron-right'></span> " . 'Вопросы без категории', Yii::app()->createUrl('/admin/question/nocat')); ?>
+                            </li>
 
 
-            <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR) || Yii::app()->user->role == User::ROLE_SECRETARY): ?>
-                <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-pie-chart"></i>
-                    <span>Вопросы</span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li>
-                        <?php echo CHtml::link("<span class='glyphicon glyphicon-list'></span> " . 'Все вопросы', Yii::app()->createUrl('/admin/question')); ?>
-                    </li>
-                    <li>
-                        <?php echo CHtml::link("<span class='glyphicon glyphicon-list'></span> " . 'VIP', Yii::app()->createUrl('/admin/question/vip')); ?>
-                    </li>
-                    <li>
-                        <?php echo CHtml::link("<span class='glyphicon glyphicon-adjust'></span> " . 'Недозаполненные', Yii::app()->createUrl('/admin/question/index', array('status' => Question::STATUS_PRESAVE))); ?>
-                    </li>
-                    <li>
-                        <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Email не указан', Yii::app()->createUrl('/admin/question/index', array('status' => Question::STATUS_NEW))); ?>
-                    </li>
-                    <li>
-                        <?php echo CHtml::link("<span class='glyphicon glyphicon-envelope'></span> " . 'Email не подтвержден', Yii::app()->createUrl('/admin/question/index', array('status' => Question::STATUS_NEW, 'email_unconfirmed' => 1))); ?>
-                    </li>
-                    <li>
-                        <?php echo CHtml::link("<span class='glyphicon glyphicon-check'></span> " . 'Ждет публикации', Yii::app()->createUrl('/admin/question/index', array('status' => Question::STATUS_MODERATED))); ?>
-                    </li>
-                    <li>
-                        <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Предв. опубликован', Yii::app()->createUrl('/admin/question/index', array('status' => Question::STATUS_CHECK))); ?>
-                    </li>
-                    <li>
-                        <?php echo CHtml::link("<span class='glyphicon glyphicon-ok'></span> " . 'Опубликованы', Yii::app()->createUrl('/admin/question/index', array('status' => Question::STATUS_PUBLISHED))); ?>
-                    </li>
-                    <li>
-                        <?php echo CHtml::link("<span class='glyphicon glyphicon-fire'></span> " . 'Спам', Yii::app()->createUrl('/admin/question/index', array('status' => Question::STATUS_SPAM))); ?>
-                    </li>
-                    <li>
-                        <?php echo CHtml::link("<span class='glyphicon glyphicon-chevron-right'></span> " . 'Вопросы без категории', Yii::app()->createUrl('/admin/question/nocat')); ?>
+
+                            <li>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-list'></span> " . 'Направления', Yii::app()->createUrl('/admin/questionCategory/directions')); ?>
+                            </li>
+
+                            <li>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-chevron-right'></span> " . 'Редактирование', Yii::app()->createUrl('/admin/question/setTitle')); ?>
+                            </li>
+                            <li>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-th-large'></span> " . 'Дубликаты', Yii::app()->createUrl('/admin/question/duplicates')); ?>
+                            </li>
+                        </ul>
                     </li>
 
                     <li>
-                        <?php echo CHtml::link("<span class='glyphicon glyphicon-list'></span> " . 'Категории', Yii::app()->createUrl('/admin/questionCategory')); ?>
+                        <?php echo CHtml::link("<span class='glyphicon glyphicon-list'></span> " . 'Категории справ. мат-ов', Yii::app()->createUrl('/admin/questionCategory')); ?>
                     </li>
 
-                    <li>
-                        <?php echo CHtml::link("<span class='glyphicon glyphicon-list'></span> " . 'Направления', Yii::app()->createUrl('/admin/questionCategory/directions')); ?>
+                <?php endif; ?>
+
+                <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR) || Yii::app()->user->role == User::ROLE_SECRETARY): ?>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-laptop"></i>
+                            <span>Ответы юристов</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Все ответы', Yii::app()->createUrl('/admin/answer')); ?>
+                            </li>
+                            <li>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Предв. опубликованные', Yii::app()->createUrl('/admin/answer/index', array('status' => Answer::STATUS_NEW))); ?>
+                            </li>
+                            <li>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-ok'></span> " . 'Опубликованные', Yii::app()->createUrl('/admin/answer/index', array('status' => Answer::STATUS_PUBLISHED))); ?>
+                            </li>
+                            <li>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-fire'></span> " . 'Спам', Yii::app()->createUrl('/admin/answer/index', array('status' => Answer::STATUS_SPAM))); ?>
+                            </li>
+                        </ul>
                     </li>
 
-                    <li>
-                        <?php echo CHtml::link("<span class='glyphicon glyphicon-chevron-right'></span> " . 'Редактирование', Yii::app()->createUrl('/admin/question/setTitle')); ?>
-                    </li>
-                    <li>
-                        <?php echo CHtml::link("<span class='glyphicon glyphicon-th-large'></span> " . 'Дубликаты', Yii::app()->createUrl('/admin/question/duplicates')); ?>
-                    </li>
-                </ul>
-                </li>
 
-            <?php endif; ?>
-
-            <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR) || Yii::app()->user->role == User::ROLE_SECRETARY): ?>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-laptop"></i>
-                        <span>Ответы юристов</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li>
-                            <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Все ответы', Yii::app()->createUrl('/admin/answer')); ?>
-                        </li>
-                        <li>
-                            <?php echo CHtml::link("<span class='glyphicon glyphicon-filter'></span> " . 'Предв. опубликованные', Yii::app()->createUrl('/admin/answer/index', array('status' => Answer::STATUS_NEW))); ?>
-                        </li>
-                        <li>
-                            <?php echo CHtml::link("<span class='glyphicon glyphicon-ok'></span> " . 'Опубликованные', Yii::app()->createUrl('/admin/answer/index', array('status' => Answer::STATUS_PUBLISHED))); ?>
-                        </li>
-                        <li>
-                            <?php echo CHtml::link("<span class='glyphicon glyphicon-fire'></span> " . 'Спам', Yii::app()->createUrl('/admin/answer/index', array('status' => Answer::STATUS_SPAM))); ?>
-                        </li>
-                    </ul>
-                </li>
-
-
-            <?php endif; ?>
+                <?php endif; ?>
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-edit"></i> <span>Комментарии</span>
@@ -191,8 +198,9 @@
                         <li>
 
 
-                            <a href="<?=Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_ANSWER, 'status' => Comment::STATUS_NEW))?>">
-                                <i class="fa fa-th"></i> <span>Новые комментарии</span> <small class="label pull-right bg-green">
+                            <a href="<?= Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_ANSWER, 'status' => Comment::STATUS_NEW)) ?>">
+                                <i class="fa fa-th"></i> <span>Новые комментарии</span> <small
+                                        class="label pull-right bg-green">
                                     <?php echo Comment::newCommentsCount(Comment::TYPE_ANSWER, 300); ?></small>
                             </a>
 
@@ -205,7 +213,7 @@
                         </li>
                     </ul>
                 </li>
-            <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
+                <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
 
                     <li class="treeview">
                         <a href="#">
@@ -213,9 +221,12 @@
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="<?= Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_USER, 'status' => Comment::STATUS_NEW)) ?>"><i class="fa fa-circle-o"></i> Новые отзывы
+                            <li>
+                                <a href="<?= Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_USER, 'status' => Comment::STATUS_NEW)) ?>"><i
+                                            class="fa fa-circle-o"></i> Новые отзывы
                                     <small class="label pull-right bg-green">
-                                        <?php echo Comment::newCommentsCount(Comment::TYPE_USER, 300); ?></small> </a></li>
+                                        <?php echo Comment::newCommentsCount(Comment::TYPE_USER, 300); ?></small> </a>
+                            </li>
                             <li>
                                 <?php echo CHtml::link("<span class='glyphicon glyphicon-ok'></span> " . 'Одобренные отзывы', Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_USER, 'status' => Comment::STATUS_CHECKED))); ?>
                             </li>
@@ -229,7 +240,6 @@
                 <?php if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)): ?>
 
 
-
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-table"></i> <span>Новости</span>
@@ -237,9 +247,12 @@
                         </a>
                         <ul class="treeview-menu">
                             <li><?php echo CHtml::link("<span class='glyphicon glyphicon-pencil'></span>  Все новости", Yii::app()->createUrl('/admin/blog')); ?></li>
-                            <li><a href="<?= Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_POST, 'status' => Comment::STATUS_NEW)) ?>"><i class="fa fa-circle-o"></i> Новые комментарии
+                            <li>
+                                <a href="<?= Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_POST, 'status' => Comment::STATUS_NEW)) ?>"><i
+                                            class="fa fa-circle-o"></i> Новые комментарии
                                     <small class="label pull-right bg-green">
-                                        <?php echo Comment::newCommentsCount(Comment::TYPE_POST, 300); ?></small> </a></li>
+                                        <?php echo Comment::newCommentsCount(Comment::TYPE_POST, 300); ?></small> </a>
+                            </li>
                             <li>
                             <li>
                                 <?php echo CHtml::link("<span class='glyphicon glyphicon-ok'></span> " . 'Одобренные комментарии', Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_POST, 'status' => Comment::STATUS_CHECKED))); ?>
@@ -255,12 +268,12 @@
 
                 <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
                     <li>
-                        <a href="<?=Yii::app()->createUrl('/admin/region')?>">
+                        <a href="<?= Yii::app()->createUrl('/admin/region') ?>">
                             <i class="fa fa-th"></i> <span>Регионы</span>
                         </a>
                     </li>
                     <li>
-                        <a href="<?=Yii::app()->createUrl('/admin/mail/create')?>">
+                        <a href="<?= Yii::app()->createUrl('/admin/mail/create') ?>">
                             <i class="fa fa-th"></i> <span>Рассылки</span>
                         </a>
                     </li>
@@ -269,7 +282,6 @@
 
 
             <?php endif; ?>
-
 
 
         </ul>
