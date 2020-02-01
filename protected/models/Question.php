@@ -634,7 +634,14 @@ class Question extends CActiveRecord
 
                         $mailer->message .= "<p style='font-size:0.8em'>Если вы не хотите получать уведомления о новых вопросах, вы можете отключить их в личном кабинете на нашем сайте, в редактировании профиля</p>";
                         //echo "<div>" . $mailer->message . "</div><hr />";
-                        if ($mailer->sendMail()) {
+
+                        $additionalHeaders = [
+                            'X-Postmaster-Msgtype' => 'Вопросы из вашего региона',
+                            'List-id' => 'Вопросы из вашего региона',
+                            'X-Mailru-Msgtype' => 'Вопросы из вашего региона',
+                        ];
+
+                        if ($mailer->sendMail(true, $additionalHeaders)) {
                             echo 'message sent <br />'.PHP_EOL;
                             Yii::log('Отправлено письмо юристу '.$mailer->email.' с уведомлением о новых вопросах', 'info', 'system.web.User');
                         }
@@ -669,8 +676,14 @@ class Question extends CActiveRecord
                         }
                         $mailer->message .= "<p style='font-size:0.8em'>Если вы не хотите получать уведомления о новых вопросах, вы можете отключить их в личном кабинете на нашем сайте, в редактировании профиля</p>";
 
+                        $additionalHeaders = [
+                            'X-Postmaster-Msgtype' => 'Вопросы из вашего города',
+                            'List-id' => 'Вопросы из вашего города',
+                            'X-Mailru-Msgtype' => 'Вопросы из вашего города',
+                        ];
+
                         //echo "<div>" . $mailer->message . "</div><hr />";
-                        if ($mailer->sendMail()) {
+                        if ($mailer->sendMail(true, $additionalHeaders)) {
                             echo 'message sent <br />'.PHP_EOL;
                             Yii::log('Отправлено письмо юристу '.$mailer->email.' с уведомлением о новых вопросах', 'info', 'system.web.User');
                         }

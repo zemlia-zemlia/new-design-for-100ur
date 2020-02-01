@@ -11,7 +11,7 @@ class GTMailTest extends Unit
     /** @var GTMail  */
     protected $mailer;
 
-    public function setUp()
+    protected function setUp(): void
     {
         defined(YII_DEV) or define(YII_DEV, true);
         parent::setUp();

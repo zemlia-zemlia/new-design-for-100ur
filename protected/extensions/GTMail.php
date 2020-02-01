@@ -69,16 +69,34 @@ class GTMail extends CApplicationComponent
     /**
      * Отправка сообщения
      * @param bool $appendSuffix Включать ли подпись
+     * @param array $additionalHeaders Дополнительные заголовки письма
      * @return bool Результат отправки
      */
-    public function sendMail($appendSuffix = true): bool
+    public function sendMail($appendSuffix = true, $additionalHeaders = []): bool
     {
         $mailerMessage = $this->createMessage($appendSuffix);
+        $mailerMessage = $this->appendHeaders($mailerMessage, $additionalHeaders);
 
         if ($this->testMode == false) {
             return ($this->mailer->send($mailerMessage) > 0) ? true : false;
         }
         return $this->saveMessage($mailerMessage, $this->testMode);
+    }
+
+    /**
+     * Добавляет письму служебные заголовки
+     * @param Swift_Message $message
+     * @param array $additionalHeaders
+     * @return Swift_Message
+     */
+    protected function appendHeaders(Swift_Message $message, $additionalHeaders = []) : Swift_Message
+    {
+        $headers = $message->getHeaders();
+        foreach ($additionalHeaders as $headerName => $headerValue) {
+            $headers->addTextHeader($headerName, $headerValue);
+        }
+
+        return $message;
     }
 
     /**

@@ -119,7 +119,7 @@ class Mail extends CActiveRecord
         $mailsSent = 0;
 
         $tasks = Yii::app()->db->createCommand()
-            ->select('t.id, m.subject, m.message, t.status, u.autologin, t.email')
+            ->select('t.id, m.subject, m.message, t.status, u.autologin, t.email, t.mailId')
             ->from('{{mailtask}} t')
             ->leftJoin('{{mail}} m', 't.mailId = m.id')
             ->leftJoin('{{user}} u', 'u.id = t.userId')
@@ -141,9 +141,13 @@ class Mail extends CActiveRecord
                     CHtml::link($autologinLink, $autologinLink)
                     . '</p>';
             }
-
+            $additionalHeaders = [
+                'X-Postmaster-Msgtype' => 'рассылка_'. $task['mailId'],
+                'List-id' => 'рассылка_'. $task['mailId'],
+                'X-Mailru-Msgtype' => 'рассылка_'. $task['mailId'],
+            ];
             $mailer->email = $task['email'];
-            if ($mailer->sendMail()) {
+            if ($mailer->sendMail(true, $additionalHeaders)) {
                 Yii::app()->db->createCommand()
                     ->update('{{mailtask}}', ['status' => Mailtask::STATUS_SENT], 'id=:id', [':id' => $task['id']]);
                 $mailsSent++;

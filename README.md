@@ -2,8 +2,10 @@
 
 После клонирования проекта из репозитория для создания необходимых папок запустить скрипт /protected/tools/init_project.sh
 
+Пропишите в файле protected/config/.env данные для доступа к БД для разработки и тестирования. В данные для тестирование впишите значения из файла protected/tests/integration.suite.yml 
+
 ## Настройки веб-сервера
-* PHP 7.1 (с модулями: curl, mbstring)
+* PHP 7.2 (с модулями: curl, mbstring)
 * MySQL
 * Composer
 * Yii framework 1.1 (в папке "framework")

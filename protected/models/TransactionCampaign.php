@@ -10,6 +10,7 @@
  * @property string $time
  * @property integer $sum
  * @property string $description
+ * @property integer $leadId
  */
 class TransactionCampaign extends CActiveRecord
 {

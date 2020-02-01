@@ -3,10 +3,10 @@
 // параметры доступа к БД
 if (YII_DEV == true) {
     return [
-        'connectionString' => 'mysql:host=localhost;dbname=100yuristov_etalon',
+        'connectionString' => 'mysql:host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_NAME'),
         'emulatePrepare' => true,
-        'username' => '100yuristov',
-        'password' => 'crm_local',
+        'username' => getenv('DB_USER'),
+        'password' => getenv('DB_PASSWORD'),
         'charset' => 'utf8',
         'tablePrefix' => '100_',
         'enableProfiling' => true,

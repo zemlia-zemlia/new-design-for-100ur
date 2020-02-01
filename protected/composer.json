@@ -1,25 +1,30 @@
 {
-    "minimum-stability": "dev",
-    "require":{
-        "php":"~7.2",
-        "yiisoft/yii":"*",
-        "sendpulse/rest-api":"*",
-        "swiftmailer/swiftmailer":"^6.0",
-        "robmorgan/phinx":"0.5",
-        "yurcrm/yurcrm-client":"^2",
-        "ext-curl":"*",
-        "ext-json":"*",
+    "minimum-stability": "stable",
+    "require": {
+        "php": "~7.2",
+        "yiisoft/yii": "*",
+        "sendpulse/rest-api": "*",
+        "swiftmailer/swiftmailer": "^6.0",
+        "robmorgan/phinx": "0.5",
+        "yurcrm/yurcrm-client": "^2",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-imap": "*",
         "ext-iconv": "*",
         "ext-pdo": "*",
-        "monolog/monolog":"^1.24",
-        "moneyphp/money":"^3"
+        "monolog/monolog": "^1.24",
+        "moneyphp/money": "^3",
+        "vlucas/phpdotenv": "4.1"
     },
     "require-dev": {
-        "codeception/codeception":"^3",
+        "codeception/codeception": "^4.0",
         "codeception/c3": "2.*",
-        "phpunit/phpunit": "^7",
-        "100yuristov/sto-yuristov-client":"v1.1",
-        "fzaninotto/faker": "v1.8.0"
+        "100yuristov/sto-yuristov-client": "v1.1",
+        "fzaninotto/faker": "v1.8.0",
+        "codeception/module-db": "^1.0.0",
+        "codeception/module-rest": "^1.0.0",
+        "codeception/module-asserts": "^1.0.0",
+        "codeception/module-phpbrowser": "^1.0"
     },
     "autoload": {
         "psr-4": {

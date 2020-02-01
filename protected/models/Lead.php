@@ -467,6 +467,7 @@ class Lead extends CActiveRecord
             $transaction->sum = -$leadPrice;
             $transaction->description = 'Покупка заявки #' . $this->id;
             $transaction->time = $transactionTime;
+            $transaction->leadId = $this->id;
         } else {
             $transaction = null;
             $buyer->lastTransactionTime = $transactionTime;
@@ -697,6 +698,13 @@ class Lead extends CActiveRecord
 
         LoggerFactory::getLogger('db')->log('Создан лид #' . $this->id . ', ' . $this->town->name, 'Lead', $this->id);
 
+        if (Yii::app()->params['sellLeadAfterCreating'] == true) {
+            $this->findCampaignAndSell();
+        }
+    }
+
+    protected function findCampaignAndSell()
+    {
         // после сохранения лида ищем для него кампанию
         $campaignId = Campaign::getCampaignsForLead($this->id);
         $campaign = Campaign::model()->findByPk($campaignId);
