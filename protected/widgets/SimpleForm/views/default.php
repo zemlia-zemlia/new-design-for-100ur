@@ -27,16 +27,16 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                                <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>6, 'placeholder'=>'Опишите свою ситуацию максимально подробно чтобы юрист смог сориентироваться и дать максимально развернутый ответ')); ?>
-                                <?php echo $form->error($model,'questionText'); ?>
+                                <?php echo $form->textArea($model, 'questionText', array('class'=>'form-control', 'rows'=>6, 'placeholder'=>'Опишите свою ситуацию максимально подробно чтобы юрист смог сориентироваться и дать максимально развернутый ответ')); ?>
+                                <?php echo $form->error($model, 'questionText'); ?>
                         </div>
                         
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Ваше имя *</label>
-                                    <?php echo $form->textField($model,'authorName', array('class'=>'form-control', 'placeholder'=>'Представьтесь')); ?>
-                                    <?php echo $form->error($model,'authorName'); ?>
+                                    <?php echo $form->textField($model, 'authorName', array('class'=>'form-control', 'placeholder'=>'Представьтесь')); ?>
+                                    <?php echo $form->error($model, 'authorName'); ?>
                     </div> 
                             </div>
                             <div class="col-md-6">
@@ -60,7 +60,7 @@
 
         <?php
             $questionsCountInt = Question::getCount()*2;
-            $questionsCount = str_pad((string)$questionsCountInt,6, '0',STR_PAD_LEFT);
+            $questionsCount = str_pad((string)$questionsCountInt, 6, '0', STR_PAD_LEFT);
             $numbers = str_split($questionsCount);
             $answersCount = round($questionsCountInt*1.684);
             $numbersAnswers = str_split($answersCount);

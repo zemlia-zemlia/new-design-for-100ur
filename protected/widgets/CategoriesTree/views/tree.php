@@ -1,16 +1,16 @@
-<?php if(stristr($_SERVER['REQUEST_URI'], '/q/')):?>
+<?php if (stristr($_SERVER['REQUEST_URI'], '/q/')):?>
 <noindex>
 <?php endif;?>
 
 <ul id="left-menu">
     
-<?php foreach($topCategories as $cat):?>
+<?php foreach ($topCategories as $cat):?>
     
     <?php
-    if((isset($_GET['name']) && $_GET['name'] == $cat['alias'])) {
+    if ((isset($_GET['name']) && $_GET['name'] == $cat['alias'])) {
         $active = true;
         // определим, показывать ли текущий элемент ссылкой
-        if($_GET['name'] == $cat['alias']) {
+        if ($_GET['name'] == $cat['alias']) {
             $showLink = false;
         } else {
             $showLink = true;
@@ -24,8 +24,8 @@
     ?>
 
     <li
-        <?php 
-            if($active) {
+        <?php
+            if ($active) {
                 echo " class='active'";
             }
         ?>
@@ -39,6 +39,6 @@
 <?php endforeach;?>
 </ul>
 
-<?php if(stristr($_SERVER['REQUEST_URI'], '/q/')):?>
+<?php if (stristr($_SERVER['REQUEST_URI'], '/q/')):?>
 </noindex>
 <?php endif;?>

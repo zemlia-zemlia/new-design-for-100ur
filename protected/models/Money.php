@@ -15,7 +15,6 @@
  */
 class Money extends CActiveRecord
 {
-	
     const TYPE_INCOME = 0; // доход
     const TYPE_EXPENCE = 1; // расход
     
@@ -30,7 +29,7 @@ class Money extends CActiveRecord
      */
     public function tableName()
     {
-            return '{{money}}';
+        return '{{money}}';
     }
 
     /**
@@ -92,16 +91,16 @@ class Money extends CActiveRecord
 
     /**
      * возвращает массив, ключами которого являются коды счетов, а значениями - названия
-     * @return array массив счетов (код => название) 
+     * @return array массив счетов (код => название)
      */
-    static public function getAccountsArray()
+    public static function getAccountsArray()
     {
         return array(
             0   =>  "Яндекс",
             1   =>  "Карта В",
             2   =>  "Карта М",
-            3   =>  "Наличные", 
-            4   =>  "Р/сч", 
+            3   =>  "Наличные",
+            4   =>  "Р/сч",
         );
     }
 
@@ -118,22 +117,22 @@ class Money extends CActiveRecord
 
     /**
      * возвращает массив, ключами которого являются коды статей расходов/доходов, а значениями - названия
-     * @return array 
+     * @return array
      * 1-100 - операционные расходы
      * 101-200 - капитальные расходы
      * 501-600 - доходы
      */
-    static public function getDirectionsArray()
+    public static function getDirectionsArray()
     {
         return array(
             1   =>  "Аренда",
             2   =>  "Хозрасходы",
             3   =>  "Контекстная реклама",
-            4   =>  "Фонд оплаты труда", 
+            4   =>  "Фонд оплаты труда",
             5   =>  "Телефония",
             6   =>  "Покупка заявок",
             7   =>  "Реклама",
-			8   =>  "Выплаты вебмастерам",
+            8   =>  "Выплаты вебмастерам",
             101 =>  "SEO",
             500 =>  "Другое",
             501 => "Пополнение баланса пользователя",
@@ -141,7 +140,7 @@ class Money extends CActiveRecord
             503 => "Размещение рекламы",
             504 => "VIP вопросы",
             505 => "Благодарность юристам",
-			506 => "Выручка от продаж лидов в партнерки",
+            506 => "Выручка от продаж лидов в партнерки",
             900 => "Внутренние транзакции",
             1000 => "Выплата дивидендов",
         );
@@ -159,7 +158,7 @@ class Money extends CActiveRecord
     
     /**
      * Статический метод, возвращающий название направления по коду
-     * 
+     *
      * @param int $code Код направления
      * @return string Название направления
      */
@@ -187,19 +186,19 @@ class Money extends CActiveRecord
 
         $criteria=new CDbCriteria;
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('accountId',$this->accountId);
-        $criteria->compare('datetime',$this->datetime,true);
-        $criteria->compare('type',$this->type);
-        $criteria->compare('value',$this->value*100,true);
-        $criteria->compare('comment',$this->comment,true);
-        $criteria->compare('direction',$this->direction);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('accountId', $this->accountId);
+        $criteria->compare('datetime', $this->datetime, true);
+        $criteria->compare('type', $this->type);
+        $criteria->compare('value', $this->value*100, true);
+        $criteria->compare('comment', $this->comment, true);
+        $criteria->compare('direction', $this->direction);
 
-        if($this->date1){
-                $criteria->addCondition('datetime>="' . CustomFuncs::invertDate($this->date1) . '"');
+        if ($this->date1) {
+            $criteria->addCondition('datetime>="' . CustomFuncs::invertDate($this->date1) . '"');
         }
-        if($this->date2){
-                $criteria->addCondition('datetime<="' . CustomFuncs::invertDate($this->date2) . '"');
+        if ($this->date2) {
+            $criteria->addCondition('datetime<="' . CustomFuncs::invertDate($this->date2) . '"');
         }
         $criteria->order = 'datetime DESC, id DESC';
 
@@ -214,37 +213,35 @@ class Money extends CActiveRecord
 
     /**
     * Возвращает массив записей, соответствующих условию
-    * 
+    *
     * @return array массив записей кассы
     */
     public function getReportSet()
     {
-
         $command = Yii::app()->db->createCommand()
         ->select('*')
         ->from('{{money}}');
 
-        if($this->date1) {
-                $command->andWhere('`datetime`>=:date1', array(':date1'=>CustomFuncs::invertDate($this->date1)));
+        if ($this->date1) {
+            $command->andWhere('`datetime`>=:date1', array(':date1'=>CustomFuncs::invertDate($this->date1)));
         }
 
-        if($this->date2) {
-                $command->andWhere('`datetime`<=:date2', array(':date2'=>CustomFuncs::invertDate($this->date2)));
+        if ($this->date2) {
+            $command->andWhere('`datetime`<=:date2', array(':date2'=>CustomFuncs::invertDate($this->date2)));
         }
         
         $command->andWhere('isInternal = 0');
         /*
         echo CustomFuncs::invertDate($this->date1);
         echo CustomFuncs::invertDate($this->date2);
-        
+
         echo $command->text;*/
         return $command->queryAll();
-
     }
     
     /**
      * Сортирует набор записей о доходах и расходах в массив, сгруппированный по типам и статьям
-     * 
+     *
      * @param array $reportDataSet сырой набор записей кассы
      * @return array отсортированный набор
      */
@@ -252,33 +249,33 @@ class Money extends CActiveRecord
     {
         $dataSetFiltered = array();
         
-        foreach($reportDataSet as $setRow) {
-            switch($setRow['type']) {
+        foreach ($reportDataSet as $setRow) {
+            switch ($setRow['type']) {
                 case self::TYPE_INCOME:
-                    if($setRow['direction']>500) {
+                    if ($setRow['direction']>500) {
                         $dataSetFiltered['income']['sum'] += $setRow['value'];
                         $dataSetFiltered['income']['directions'][$setRow['direction']] += $setRow['value'];
                     }
                     break;
                     
                 case self::TYPE_EXPENCE:
-                    if($setRow['direction'] == 500) {
+                    if ($setRow['direction'] == 500) {
                         break;
                     }
-                    $expenceType = NULL;
+                    $expenceType = null;
                     $dataSetFiltered['expences']['sum'] += $setRow['value'];
-                    if($setRow['direction']<101) {
+                    if ($setRow['direction']<101) {
                         $expenceType = 'opex';
                     } elseif ($setRow['direction']<201 && $setRow['direction']>=101) {
-                        $expenceType = 'capex'; 
+                        $expenceType = 'capex';
                     }
-                    if($expenceType) {
+                    if ($expenceType) {
                         $dataSetFiltered['expences'][$expenceType]['sum'] += $setRow['value'];
                         $dataSetFiltered['expences'][$expenceType]['directions'][$setRow['direction']] += $setRow['value'];
                     }
                     break;
                     
-                default :
+                default:
                     break;
             }
         }

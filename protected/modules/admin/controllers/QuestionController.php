@@ -1,13 +1,14 @@
 <?php
 
-class QuestionController extends Controller {
-
+class QuestionController extends Controller
+{
     public $layout = '//admin/main';
 
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + toSpam', // we only allow deletion via POST request
@@ -19,7 +20,8 @@ class QuestionController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'view', 'getRandom', 'nocat', 'vip'),
@@ -46,7 +48,8 @@ class QuestionController extends Controller {
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         $model = Question::model()->findByPk($id);
 
         $criteria = new CDbCriteria;
@@ -70,7 +73,8 @@ class QuestionController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $model = new Question;
 
         // Uncomment the following line if AJAX validation is needed
@@ -85,7 +89,6 @@ class QuestionController extends Controller {
                         $q2cat->qId = $model->id;
                         $q2cat->cId = $categoryId;
                         if (!$q2cat->save()) {
-                            
                         }
                     }
                 } /* else {
@@ -122,7 +125,8 @@ class QuestionController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $model = $this->loadModel($id);
         $oldStatus = $model->status;
         $model->setScenario('convert'); // чтобы поле Email было необязательным
@@ -130,7 +134,6 @@ class QuestionController extends Controller {
         // $this->performAjaxValidation($model);
 
         if (isset($_POST['Question'])) {
-
             $model->attributes = $_POST['Question'];
             if ($model->status == Question::STATUS_MODERATED && $oldStatus == Question::STATUS_NEW) {
                 $model->publishDate = date('Y-m-d H:i:s');
@@ -146,7 +149,6 @@ class QuestionController extends Controller {
                         $q2cat->qId = $model->id;
                         $q2cat->cId = $categoryId;
                         if (!$q2cat->save()) {
-                            
                         }
                     }
                 } /* else {
@@ -177,19 +179,21 @@ class QuestionController extends Controller {
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
+        if (!isset($_GET['ajax'])) {
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+        }
     }
 
     /**
      * Lists all models.
      */
-    public function actionIndex() {
-
+    public function actionIndex()
+    {
         $criteria = new CDbCriteria;
         $criteria->order = 't.id DESC';
 
@@ -246,9 +250,9 @@ class QuestionController extends Controller {
             if (isset($_GET['status'])) {
                 $status = (int) $_GET['status'];
                 $criteria->addColumnCondition(array('t.status' => $status));
-                if($status === Question::STATUS_NEW && isset($_GET['email_unconfirmed'])) {
+                if ($status === Question::STATUS_NEW && isset($_GET['email_unconfirmed'])) {
                     $criteria->addColumnCondition(array('t.email!' => ''));
-                } elseif($status === Question::STATUS_NEW && !isset($_GET['email_unconfirmed'])) {
+                } elseif ($status === Question::STATUS_NEW && !isset($_GET['email_unconfirmed'])) {
                     $criteria->addColumnCondition(array('t.email' => ''));
                 }
             } else {
@@ -280,7 +284,8 @@ class QuestionController extends Controller {
     }
 
     // вывод списка вопросов без категорий
-    public function actionNocat() {
+    public function actionNocat()
+    {
         //SELECT q.id, q2c.cId, COUNT(*) counter FROM `crm_question` q LEFT JOIN `crm_question2category` q2c on q.id=q2c.qId WHERE q2c.cId IS NULL AND q.status IN(2, 4) GROUP BY q.id ORDER BY q2c.cId
 
         $questions = Yii::app()->db->createCommand()
@@ -314,8 +319,8 @@ class QuestionController extends Controller {
     }
 
     // вывод списка вопросов без категорий
-    public function actionVip() {
-
+    public function actionVip()
+    {
         $criteria = new CDbCriteria;
         $criteria->order = 't.id DESC';
 
@@ -334,7 +339,8 @@ class QuestionController extends Controller {
     }
 
     // выводит список вопросов, одобренных заданным пользователем с id=$id
-    public function actionByPublisher($id) {
+    public function actionByPublisher($id)
+    {
         $publisher = User::model()->findByPk($id);
         if (!$publisher) {
             throw new CHttpException(404, 'Пользователь не найден');
@@ -361,23 +367,27 @@ class QuestionController extends Controller {
     /**
      * Manages all models.
      */
-    public function actionAdmin() {
+    public function actionAdmin()
+    {
         $model = new Question('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Question']))
+        if (isset($_GET['Question'])) {
             $model->attributes = $_GET['Question'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
         ));
     }
 
-    public function actionPublish() {
+    public function actionPublish()
+    {
         $sqlCommandResult = Yii::app()->db->createCommand('UPDATE {{question}} SET status=' . Question::STATUS_PUBLISHED . ', publishDate=NOW() WHERE status=' . Question::STATUS_MODERATED)->execute();
         $this->redirect('/question');
     }
 
-    public function actionToSpam() {
+    public function actionToSpam()
+    {
         if (isset($_POST['id'])) {
             $id = (int) $_POST['id'];
         }
@@ -391,7 +401,8 @@ class QuestionController extends Controller {
         }
     }
 
-    public function actionGetRandom() {
+    public function actionGetRandom()
+    {
         $question = Yii::app()->db->createCommand()
                 ->select('q.id id, questionText, townId, authorName')
                 ->from('{{question q}}')
@@ -423,10 +434,12 @@ class QuestionController extends Controller {
      * @return Question the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id)
+    {
         $model = Question::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'Вопрос не найден');
+        }
         return $model;
     }
 
@@ -434,14 +447,16 @@ class QuestionController extends Controller {
      * Performs the AJAX validation.
      * @param Question $model the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'question-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
     }
 
-    public function actionSetPubTime() {
+    public function actionSetPubTime()
+    {
         $criteria = new CDbCriteria();
         $criteria->condition = 'TIME(publishDate) = "00:00:00" AND status=' . Question::STATUS_PUBLISHED;
         //$criteria->limit=10;
@@ -462,7 +477,8 @@ class QuestionController extends Controller {
         }
     }
 
-    public function actionSetCategory() {
+    public function actionSetCategory()
+    {
         $catId = ($_POST['catId']) ? (int) $_POST['catId'] : false;
         $questionId = ($_POST['questionId']) ? (int) $_POST['questionId'] : false;
 
@@ -480,8 +496,9 @@ class QuestionController extends Controller {
             // проверим, не является ли указанная категория дочерней
             // если является, найдем ее родителя и запишем в категории вопроса
             foreach ($allDirectionsHierarchy as $parentId => $parentCategory) {
-                if (!$parentCategory['children'])
+                if (!$parentCategory['children']) {
                     continue;
+                }
 
                 foreach ($parentCategory['children'] as $childId => $childCategory) {
                     if ($childId == $catId) {
@@ -504,7 +521,8 @@ class QuestionController extends Controller {
     /**
      * Быстрое редактирование вопроса - заголовок и текст
      */
-    public function actionSetTitle() {
+    public function actionSetTitle()
+    {
         if (isset($_POST['my']) || isset($_GET['my'])) {
             $showMy = true;
         } else {
@@ -530,7 +548,7 @@ class QuestionController extends Controller {
                     $this->redirect(array('question/setTitle'));
                 }
             }
-        } else if (isset($_GET['id'])) {
+        } elseif (isset($_GET['id'])) {
             $id = (int) $_GET['id'];
             $question = Question::model()->findByPk($id);
         } else {
@@ -593,7 +611,8 @@ class QuestionController extends Controller {
     /**
      * Находит несколько вопросов с одинаковым текстом и показывает их
      */
-    public function actionDuplicates() {
+    public function actionDuplicates()
+    {
         $questions = [];
 
 //            SELECT id, md5(questionText), COUNT(*) counter
@@ -617,7 +636,9 @@ class QuestionController extends Controller {
         $criteria = new CDbCriteria();
         $criteria->addColumnCondition(array('MD5(title)' => $md5['hash']));
         $criteria->addInCondition('status', array(Question::STATUS_CHECK, Question::STATUS_PUBLISHED));
-        $dataProvider = new CActiveDataProvider('Question', array(
+        $dataProvider = new CActiveDataProvider(
+            'Question',
+            array(
             'criteria' => $criteria)
         );
 
@@ -626,8 +647,8 @@ class QuestionController extends Controller {
         ));
     }
 
-    public function actionNotifyYurists() {
+    public function actionNotifyYurists()
+    {
         Question::sendRecentQuestionsNotifications();
     }
-
 }

@@ -2,7 +2,8 @@
 
 use YurcrmClient\YurcrmClient;
 
-class UserController extends Controller {
+class UserController extends Controller
+{
 
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -14,7 +15,8 @@ class UserController extends Controller {
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
@@ -26,7 +28,8 @@ class UserController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow',
                 'actions' => array('restorePassword', 'captcha', 'confirm', 'registerInCrm'),
@@ -52,7 +55,8 @@ class UserController extends Controller {
         );
     }
 
-    public function actions() {
+    public function actions()
+    {
         return array(
             'captcha' => array(
                 'class' => 'CCaptchaAction',
@@ -67,12 +71,13 @@ class UserController extends Controller {
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         $model = User::model()->findByPk($id);
 
         $transactionsDataProvider = new CArrayDataProvider($model->transactions);
 
-        $leadsStats = NULL;
+        $leadsStats = null;
 
         $leadSearchModel = new Lead;
         $leadSearchModel->scenario = 'search';
@@ -117,7 +122,7 @@ class UserController extends Controller {
             ));
         }
 
-        if($model->role == User::ROLE_CLIENT) {
+        if ($model->role == User::ROLE_CLIENT) {
             $questionCriteria = new CDbCriteria();
             $questionCriteria->addColumnCondition(['authorId' => $model->id]);
             $questionCriteria->addInCondition('status', [Question::STATUS_PUBLISHED, Question::STATUS_CHECK]);
@@ -162,7 +167,8 @@ class UserController extends Controller {
         ));
     }
 
-    public function actionProfile() {
+    public function actionProfile()
+    {
         $userId = Yii::app()->user->id;
         $model = User::model()->findByPk($userId);
 
@@ -175,7 +181,8 @@ class UserController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $model = new User;
         $model->setScenario('create');
         $yuristSettings = new YuristSettings();
@@ -258,7 +265,8 @@ class UserController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $model = $this->loadModel($id);
         $model->setScenario('update');
 
@@ -306,7 +314,6 @@ class UserController extends Controller {
                     $u2cat->uId = $model->id;
                     $u2cat->cId = $categoryId;
                     if (!$u2cat->save()) {
-                        
                     }
                 }
             }
@@ -348,7 +355,8 @@ class UserController extends Controller {
         ));
     }
 
-    public function actionChangePassword($id) {
+    public function actionChangePassword($id)
+    {
         // если пользователь не админ, он может менять пароль только у себя
         if (Yii::app()->user->id !== $id && !Yii::app()->user->checkAccess(User::ROLE_ROOT)) {
             throw new CHttpException(403, 'У вас нет прав менять пароль другого пользователя');
@@ -380,18 +388,21 @@ class UserController extends Controller {
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
+        if (!isset($_GET['ajax'])) {
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        }
     }
 
     /**
      * Lists all models.
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $criteria = new CDbCriteria;
         $criteria->order = 't.active100 DESC, t.id DESC';
         $criteria->with = 'town';
@@ -403,7 +414,7 @@ class UserController extends Controller {
         $roles = User::getRoleNamesArray();
         $roleName = $roles[$role];
 
-        if($role == User::ROLE_BUYER) {
+        if ($role == User::ROLE_BUYER) {
             $criteria->with = array('town', 'campaignsCount');
         }
         $criteria->addColumnCondition(array('t.role' => $role));
@@ -425,22 +436,26 @@ class UserController extends Controller {
     /**
      * Manages all models.
      */
-    public function actionAdmin() {
+    public function actionAdmin()
+    {
         $model = new User('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['User']))
+        if (isset($_GET['User'])) {
             $model->attributes = $_GET['User'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
         ));
     }
 
-    public function actionConfirmationSent() {
+    public function actionConfirmationSent()
+    {
         $this->render('confirmationSent');
     }
 
-    public function actionConfirm() {
+    public function actionConfirm()
+    {
         $email = CHtml::encode($_GET['email']);
         $code = CHtml::encode($_GET['code']);
 
@@ -480,7 +495,8 @@ class UserController extends Controller {
     }
 
     // восстановление пароля пользователя
-    public function actionRestorePassword() {
+    public function actionRestorePassword()
+    {
         $this->layout = '//frontend/login';
 
         // $model - модель с формой восстановления пароля
@@ -518,10 +534,12 @@ class UserController extends Controller {
      * @return User the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id)
+    {
         $model = User::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'Пользователь не найден');
+        }
         return $model;
     }
 
@@ -529,14 +547,16 @@ class UserController extends Controller {
      * Performs the AJAX validation.
      * @param User $model the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'user-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
     }
 
-    public function actionRemoveAvatar($id) {
+    public function actionRemoveAvatar($id)
+    {
         $user = User::model()->findByPk($id);
         $user->scenario = 'removeAvatar';
 
@@ -557,7 +577,8 @@ class UserController extends Controller {
     }
 
     // показывает юристу его показатели
-    public function actionMystats() {
+    public function actionMystats()
+    {
         if ($_GET['month']) {
             $month = (int) $_GET['month'];
         } else {
@@ -641,7 +662,8 @@ class UserController extends Controller {
     }
 
     // верифицирует или не верифицирует скан
-    public function actionVerifyFile() {
+    public function actionVerifyFile()
+    {
         $fileId = (isset($_POST['id'])) ? (int) $_POST['id'] : false;
         $isVerified = (isset($_POST['verified'])) ? (int) $_POST['verified'] : false;
         $reason = (isset($_POST['reason'])) ? $_POST['reason'] : '';
@@ -670,7 +692,8 @@ class UserController extends Controller {
     }
 
     // вывод списка пользователей, у которых есть загруженные файлы в статусе На проверке
-    public function actionRequests() {
+    public function actionRequests()
+    {
         // SELECT * FROM `crm_userFile` f LEFT JOIN `crm_user` u ON f.userId=u.id where f.`isVerified`=0 ORDER BY f.datetime DESC
         $users = Yii::app()->db->createCommand()
                 ->select('*')
@@ -711,5 +734,4 @@ class UserController extends Controller {
         echo json_encode($crmResponse);
         Yii::app()->end();
     }
-
 }

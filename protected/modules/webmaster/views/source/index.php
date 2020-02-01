@@ -6,11 +6,11 @@ $this->pageTitle = "Источники лидов. " . Yii::app()->name;
 
 
 $this->breadcrumbs=array(
-	'Источники лидов',
+    'Источники лидов',
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('Кабинет вебмастера',"/webmaster/"),
+    'homeLink'=>CHtml::link('Кабинет вебмастера', "/webmaster/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
@@ -31,8 +31,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </thead>
     
 <?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
+    'dataProvider'=>$dataProvider,
+    'itemView'=>'_view',
         'emptyText' =>  'Не найдено ни одного источника',
         'summaryText'=>'Показаны источники с {start} до {end}, всего {count}',
         'pager'=>array('class'=>'GTLinkPager') //we use own pager with russian words

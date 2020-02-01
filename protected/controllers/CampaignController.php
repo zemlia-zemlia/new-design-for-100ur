@@ -1,6 +1,7 @@
 <?php
 
-class CampaignController extends Controller {
+class CampaignController extends Controller
+{
 
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -11,7 +12,8 @@ class CampaignController extends Controller {
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
@@ -23,7 +25,8 @@ class CampaignController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'view', 'create'),
@@ -49,7 +52,8 @@ class CampaignController extends Controller {
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         $campaign = Campaign::model()->with('transactions')->findByPk($id);
         $transactionsDataProvider = new CArrayDataProvider($campaign->transactions);
 
@@ -67,11 +71,12 @@ class CampaignController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $this->layout = '//frontend/cabinet';
         $model = new Campaign;
 
-        $model->active = Campaign::ACTIVE_MODERATION; // статус по умолчанию - На рассмотрении 
+        $model->active = Campaign::ACTIVE_MODERATION; // статус по умолчанию - На рассмотрении
 
         if (isset($_POST['Campaign'])) {
             $model->attributes = $_POST['Campaign'];
@@ -120,7 +125,8 @@ class CampaignController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $model = $this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
@@ -148,18 +154,21 @@ class CampaignController extends Controller {
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
+        if (!isset($_GET['ajax'])) {
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        }
     }
 
     /**
      * Lists all models.
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $dataProvider = new CActiveDataProvider('Campaign');
         $this->render('index', array(
             'dataProvider' => $dataProvider,
@@ -169,11 +178,13 @@ class CampaignController extends Controller {
     /**
      * Manages all models.
      */
-    public function actionAdmin() {
+    public function actionAdmin()
+    {
         $model = new Campaign('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Campaign']))
+        if (isset($_GET['Campaign'])) {
             $model->attributes = $_GET['Campaign'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
@@ -187,10 +198,12 @@ class CampaignController extends Controller {
      * @return Campaign the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id)
+    {
         $model = Campaign::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
@@ -198,11 +211,11 @@ class CampaignController extends Controller {
      * Performs the AJAX validation.
      * @param Campaign $model the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'campaign-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
     }
-
 }

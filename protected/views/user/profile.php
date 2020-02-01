@@ -35,7 +35,7 @@ if ($user->settings) {
 
 $title .= ' город ' . $user->town->name;
 
-$this->setPageTitle($title . '. ' );
+$this->setPageTitle($title . '. ');
 
 // формируем метаописание профиля
 $pageDescription = '';
@@ -290,13 +290,21 @@ if (Yii::app()->user->id != $user->id) {
                                         <?php endif; ?>
                                     </h3>
                                     <p>
-                                        <?php if ($user->settings->education) echo '<b>Специальность:</b> ' . $user->settings->education . ' '; ?>
+                                        <?php if ($user->settings->education) {
+                                echo '<b>Специальность:</b> ' . $user->settings->education . ' ';
+                            } ?>
                                         <br/>
-                                        <?php if ($user->settings->vuz) echo '<b>ВУЗ:</b> ' . $user->settings->vuz . ', '; ?>
+                                        <?php if ($user->settings->vuz) {
+                                echo '<b>ВУЗ:</b> ' . $user->settings->vuz . ', ';
+                            } ?>
                                         <br/>
-                                        <?php if ($user->settings->vuzTownId) echo '<b>Город:</b> ' . $user->settings->vuzTown->name . ' '; ?>
+                                        <?php if ($user->settings->vuzTownId) {
+                                echo '<b>Город:</b> ' . $user->settings->vuzTown->name . ' ';
+                            } ?>
                                         <br/>
-                                        <?php if ($user->settings->educationYear) echo '<b>Год окончания:</b> ' . $user->settings->educationYear . ' '; ?>
+                                        <?php if ($user->settings->educationYear) {
+                                echo '<b>Год окончания:</b> ' . $user->settings->educationYear . ' ';
+                            } ?>
 
                                     </p>
                                 </div>

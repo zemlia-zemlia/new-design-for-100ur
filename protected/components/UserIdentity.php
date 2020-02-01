@@ -5,7 +5,6 @@
  */
 class UserIdentity extends CUserIdentity
 {
-
     protected $_id;
     public $autologinString;
 
@@ -23,9 +22,9 @@ class UserIdentity extends CUserIdentity
         if ($user === null) {
             // если не нашли пользователя
             $this->errorCode = self::ERROR_USERNAME_INVALID;
-        } else if ($user->active100 != 1) {
+        } elseif ($user->active100 != 1) {
             $this->errorCode = self::ERROR_USER_INACTIVE;
-        } else if (!$user->validatePassword($this->password)) {
+        } elseif (!$user->validatePassword($this->password)) {
             // если неправильный пароль
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         } else {
@@ -40,7 +39,7 @@ class UserIdentity extends CUserIdentity
 
     /**
      * аутентификация пользователя по строке autologin
-     * @return int Код результата 
+     * @return int Код результата
      */
     public function autologin()
     {
@@ -79,12 +78,11 @@ class UserIdentity extends CUserIdentity
 
     /**
      * Возвращает id текущего авторизованного пользователя
-     * 
+     *
      * @return integer id текущего пользователя
      */
     public function getId()
     {
         return $this->_id;
     }
-
 }

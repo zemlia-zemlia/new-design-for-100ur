@@ -1,13 +1,14 @@
 <?php
 
-class LeadsourceController extends Controller {
-
+class LeadsourceController extends Controller
+{
     public $layout = '//admin/main';
 
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
                 //'postOnly + delete', // we only allow deletion via POST request
@@ -19,7 +20,8 @@ class LeadsourceController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'view', 'create', 'update', 'delete'),
@@ -36,8 +38,8 @@ class LeadsourceController extends Controller {
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView($id) {
-        
+    public function actionView($id)
+    {
         $model = $this->loadModel($id);
         
         // загружаем статистику по лидам из заданного источника
@@ -53,7 +55,7 @@ class LeadsourceController extends Controller {
                     ':sourceId' => $model->id,
                 ))
                 ->queryColumn();
-        foreach($yearsRows as $row) {
+        foreach ($yearsRows as $row) {
             $yearsArray[$row] = $row;
         }
         //CustomFuncs::printr($yearsArray);
@@ -75,7 +77,7 @@ class LeadsourceController extends Controller {
             $leadsStats[$row['townName']]['total']++;
             $leadsStats[$row['townName']]['expences']+=$row['buyPrice'];
             
-            if($row['leadStatus'] == Lead::LEAD_STATUS_BRAK) {
+            if ($row['leadStatus'] == Lead::LEAD_STATUS_BRAK) {
                 $leadsStats[$row['townName']]['brak']++;
             } else {
                 $leadsStats[$row['townName']]['sold']++;
@@ -98,7 +100,8 @@ class LeadsourceController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $model = new Leadsource;
 
         // Uncomment the following line if AJAX validation is needed
@@ -128,7 +131,8 @@ class LeadsourceController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $model = $this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
@@ -159,18 +163,21 @@ class LeadsourceController extends Controller {
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
+        if (!isset($_GET['ajax'])) {
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+        }
     }
 
     /**
      * Lists all models.
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $criteria = new CDbCriteria;
         
         $criteria->with = 'user';
@@ -186,7 +193,9 @@ class LeadsourceController extends Controller {
         }
 
 
-        $dataProvider = new CActiveDataProvider('Leadsource', array(
+        $dataProvider = new CActiveDataProvider(
+            'Leadsource',
+            array(
             'criteria' => $criteria,
             'pagination' => array(
                 'pageSize' => 50,
@@ -200,11 +209,13 @@ class LeadsourceController extends Controller {
     /**
      * Manages all models.
      */
-    public function actionAdmin() {
+    public function actionAdmin()
+    {
         $model = new Leadsource('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Leadsource']))
+        if (isset($_GET['Leadsource'])) {
             $model->attributes = $_GET['Leadsource'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
@@ -218,10 +229,12 @@ class LeadsourceController extends Controller {
      * @return Leadsource the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id)
+    {
         $model = Leadsource::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
@@ -229,11 +242,11 @@ class LeadsourceController extends Controller {
      * Performs the AJAX validation.
      * @param Leadsource $model the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'leadsource-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
     }
-
 }

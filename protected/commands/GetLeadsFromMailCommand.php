@@ -1,6 +1,6 @@
 <?php
 /**
- * собирает лиды из писем, расположенных в почтовом ящике admin@100yuristov.com 
+ * собирает лиды из писем, расположенных в почтовом ящике admin@100yuristov.com
  * в папках Yurist1,..
  */
 class GetLeadsFromMailCommand extends CConsoleCommand
@@ -23,7 +23,7 @@ class GetLeadsFromMailCommand extends CConsoleCommand
     );
 
 
- // возвращает массив мейлов из заданной папки на сервере
+    // возвращает массив мейлов из заданной папки на сервере
     protected function getEmailsFromFolder($folderName)
     {
         // параметры подключения к почтовому ящику с заявками
@@ -34,36 +34,36 @@ class GetLeadsFromMailCommand extends CConsoleCommand
         $param       = Yii::app()->params['mailBoxYurcrmParam'];
         $folder      = 'INBOX/' . $folderName;
         
-        if(!$mbox = imap_open("{"."{$host}:{$port}{$param}"."}$folder",$login,$pass)){
-            die("Couldn't open the inbox");   
+        if (!$mbox = imap_open("{"."{$host}:{$port}{$param}"."}$folder", $login, $pass)) {
+            die("Couldn't open the inbox");
         };
                 
         //извлекаем письма из папки в ящике
-        $emails = imap_search($mbox, 'ALL SINCE '. date('d-M-Y',strtotime("-1 day")));
-        if($emails == false && imap_errors()) {
+        $emails = imap_search($mbox, 'ALL SINCE '. date('d-M-Y', strtotime("-1 day")));
+        if ($emails == false && imap_errors()) {
             echo "Messages search wrong criteria";
             Yii::app()->end();
         }
         
-        if (!count($emails) || $emails == false){
-                return array();
-            } else {
-                print_r($emails);
-                // If we've got some email IDs, sort them from new to old and show them
-                rsort($emails);
+        if (!count($emails) || $emails == false) {
+            return array();
+        } else {
+            print_r($emails);
+            // If we've got some email IDs, sort them from new to old and show them
+            rsort($emails);
 
-                $emailBody = array();
+            $emailBody = array();
 
-                foreach($emails as $email_id) {
-                        // Fetch the email's overview and show subject, from and date. 
-                        $overview = imap_fetch_overview($mbox,$email_id,0);  
-                        $emailBody[] = imap_fetchbody($mbox,$email_id,"1"); // 1.1 - потому что письмо в формате Multipart
-                }
-
-                imap_close($mbox);
-
-                return $emailBody;
+            foreach ($emails as $email_id) {
+                // Fetch the email's overview and show subject, from and date.
+                $overview = imap_fetch_overview($mbox, $email_id, 0);
+                $emailBody[] = imap_fetchbody($mbox, $email_id, "1"); // 1.1 - потому что письмо в формате Multipart
             }
+
+            imap_close($mbox);
+
+            return $emailBody;
+        }
     }
 
 
@@ -73,9 +73,9 @@ class GetLeadsFromMailCommand extends CConsoleCommand
         require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'simplehtmldom_1_5/simple_html_dom.php';
         
         // будем присваивать лидам источник id=24
-        //$leadSourceId = 24;        
+        //$leadSourceId = 24;
         // цена покупки лида
-        //$buyPrice = 30;    
+        //$buyPrice = 30;
         
         foreach ($this->folders as $folder) {
             $leadSourceIds[] = $folder['sourceId'];
@@ -88,13 +88,13 @@ class GetLeadsFromMailCommand extends CConsoleCommand
         // массив, в котором будут храниться телефоны лидов, которые добавлены в базу за последние 7 дней, чтобы не добавить одного лида несколько раз
         $existingLeadsPhones = array();
         
-        foreach($existingLeads as $existingLead) {
+        foreach ($existingLeads as $existingLead) {
             $existingLeadsPhones[] = PhoneHelper::normalizePhone($existingLead['phone']);
         }
         //echo "existing leads numbers: ";
         //print_r($existingLeadsPhones);
         
-        foreach($this->folders as $folderAlias=>$folderSettings) {
+        foreach ($this->folders as $folderAlias=>$folderSettings) {
             
             //echo $folderAlias . "\n\r";
             
@@ -102,9 +102,9 @@ class GetLeadsFromMailCommand extends CConsoleCommand
         
             //print_r($emails);
             //continue;
-			
-            foreach($emails as $email) {
-                // Fetch the email's overview and show subject, from and date. 
+            
+            foreach ($emails as $email) {
+                // Fetch the email's overview and show subject, from and date.
                 
                 //print_r($body);
                 
@@ -125,14 +125,14 @@ class GetLeadsFromMailCommand extends CConsoleCommand
                 preg_match("/Город:([^<]+)</iu", $bodyDecoded, $townMatches);
                 
                 $messageArray = explode("Сообщение:", $bodyDecoded);
-                if(is_array($messageArray) && $messageArray[1]) {
+                if (is_array($messageArray) && $messageArray[1]) {
                     $messageWithSuffix = trim($messageArray[1]);
                     $messageArray2 = explode("</p>", $messageWithSuffix);
                     $message = $messageArray2[0];
-                }  else {
+                } else {
                     $message = 'вопрос не указан';
-                }        
-                if(is_array($nameMatches) && isset($nameMatches[1])) {
+                }
+                if (is_array($nameMatches) && isset($nameMatches[1])) {
                     $name = trim($nameMatches[1]);
                     $name = str_replace("&nbsp;", " ", $name);
                     $name = trim($name);
@@ -140,7 +140,7 @@ class GetLeadsFromMailCommand extends CConsoleCommand
                     $name = 'Без имени';
                 }
                 
-                if(is_array($phoneMatches) && isset($phoneMatches[2])) {
+                if (is_array($phoneMatches) && isset($phoneMatches[2])) {
                     $phone = $phoneMatches[2];
                     $phone = PhoneHelper::normalizePhone($phone);
                 }
@@ -153,17 +153,17 @@ class GetLeadsFromMailCommand extends CConsoleCommand
                 //print_r($nameMatches[1]);
                 
                 // название города из письма
-                if(is_array($townMatches) && isset($townMatches[1])) {
+                if (is_array($townMatches) && isset($townMatches[1])) {
                     $townName = trim($townMatches[1]);
                 }
                 // найдем id города по названию
-                if($townName) {
+                if ($townName) {
                     $townRow = Yii::app()->db->cache(600)->createCommand()
                         ->select('id')
                         ->from('{{town}}')
                         ->where('`name`=:name', array(':name' => mb_strtolower($townName, 'utf-8')))
                         ->queryRow();
-                    if($townRow) {
+                    if ($townRow) {
                         $townId = $townRow['id'];
                     }
                 }
@@ -177,7 +177,7 @@ class GetLeadsFromMailCommand extends CConsoleCommand
                 //continue;
                 //exit;
                 
-                if(in_array($phone, $existingLeadsPhones)) {
+                if (in_array($phone, $existingLeadsPhones)) {
                     continue;
                     // если лид с таким телефоном уже есть в базе, пропускаем его
                 }
@@ -192,18 +192,12 @@ class GetLeadsFromMailCommand extends CConsoleCommand
                 $lead->townId = $townId; // id города
                 $lead->leadStatus = Lead::LEAD_STATUS_DEFAULT;
 
-                if(!$lead->save()) {
+                if (!$lead->save()) {
                     echo $lead->phone;
                     print_r($lead->errors);
                     Yii::log($lead->getError('question') . ': ' .$lead->name, 'error', 'system.web');
                 }
-
-
-            }    
-        } 
+            }
+        }
     }
-       
-    
 }
-
-?>

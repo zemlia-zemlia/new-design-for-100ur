@@ -6,11 +6,11 @@ $this->pageTitle = "Источники контактов. " . Yii::app()->name;
 
 
 $this->breadcrumbs=array(
-	'Источники контактов'=>array('index'),
-	'Новый',
+    'Источники контактов'=>array('index'),
+    'Новый',
 );
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 юристов',"/"),
+    'homeLink'=>CHtml::link('100 юристов', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));

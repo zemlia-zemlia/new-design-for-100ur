@@ -5,14 +5,14 @@
 $this->setPageTitle("Новый пост" . " | Публикации" . " | ". Yii::app()->name);
 
 $this->breadcrumbs=array(
-	'Блог'=>array('/blog'),
-	'Новый пост',
+    'Блог'=>array('/blog'),
+    'Новый пост',
 );
 ?>
 
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('Консультация юриста',"/"),
+        'homeLink'=>CHtml::link('Консультация юриста', "/"),
         'separator'=>' / ',
         'links'=>$this->breadcrumbs,
      ));
@@ -23,5 +23,5 @@ $this->breadcrumbs=array(
 <?php echo $this->renderPartial('_form', array(
         'model'             =>  $model,
         'categoriesArray'   =>  $categoriesArray,
-    )); 
+    ));
 ?>

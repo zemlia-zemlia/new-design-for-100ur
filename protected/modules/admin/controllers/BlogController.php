@@ -52,7 +52,6 @@ class BlogController extends Controller
      */
     public function actionView($id)
     {
-
         $dependency = new CDbCacheDependency('SELECT MAX(datetime) FROM {{post}}');
 
         $model = Post::model()->cache(1000, $dependency)->findByPk($id);
@@ -75,8 +74,9 @@ class BlogController extends Controller
 
         if (isset($_POST['Postcategory'])) {
             $model->attributes = $_POST['Postcategory'];
-            if ($model->save())
+            if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->id));
+            }
         }
 
         $this->render('create', array(
@@ -98,8 +98,9 @@ class BlogController extends Controller
 
         if (isset($_POST['Postcategory'])) {
             $model->attributes = $_POST['Postcategory'];
-            if ($model->save())
+            if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->id));
+            }
         }
 
         $this->render('update', array(
@@ -117,8 +118,9 @@ class BlogController extends Controller
         $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
+        if (!isset($_GET['ajax'])) {
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        }
     }
 
     /**
@@ -146,8 +148,9 @@ class BlogController extends Controller
     {
         $model = new Postcategory('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Postcategory']))
+        if (isset($_GET['Postcategory'])) {
             $model->attributes = $_GET['Postcategory'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
@@ -164,8 +167,9 @@ class BlogController extends Controller
     public function loadModel($id)
     {
         $model = Postcategory::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
@@ -191,7 +195,7 @@ class BlogController extends Controller
         }
         // получаем объект связи категория-подписчик
         $cat2follower = Cat2follower::model()->findByAttributes(array('catId' => $category->id, 'userId' => Yii::app()->user->id));
-        if ($cat2follower !== NULL) {
+        if ($cat2follower !== null) {
             // объект найден, удаляем его, чтобы отписать пользователя от категории
             Cat2follower::model()->deleteAllByAttributes(array('catId' => $category->id, 'userId' => Yii::app()->user->id));
             $this->redirect(array('blog/view', 'id' => $category->id));

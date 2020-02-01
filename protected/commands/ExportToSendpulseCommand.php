@@ -1,7 +1,7 @@
 <?php
 use Sendpulse\RestApi\ApiClient;
 use Sendpulse\RestApi\Storage\FileStorage;
-    
+
 /**
  * Консольная команда для загрузки активных пользователей в Sendpulse через API
  */
@@ -15,7 +15,7 @@ class ExportToSendpulseCommand extends CConsoleCommand
         $users = User::model()->findAll($criteria);
         $usersCount = sizeof($users);
         
-        foreach($users as $index=>$user) {
+        foreach ($users as $index=>$user) {
             echo $index . '/' . $usersCount . ': ' . $user->email . PHP_EOL;
             $user->addToSendpulse();
         }

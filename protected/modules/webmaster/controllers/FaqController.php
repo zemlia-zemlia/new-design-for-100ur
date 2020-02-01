@@ -3,15 +3,15 @@
 /**
  * FAQ вебмастера
  */
-class FaqController extends Controller {
-
+class FaqController extends Controller
+{
     public $layout='//frontend/webmaster';
     
     /**
      * Описание работы API
      */
-    public function actionIndex() {
-        
+    public function actionIndex()
+    {
         echo $this->render('index');
     }
 }

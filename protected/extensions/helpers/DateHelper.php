@@ -11,29 +11,29 @@ class DateHelper
     // функция пребразует дату в формате yyyy-mm-dd в формат dd-mm-yyyy и наоборот в зависимости от формата аргумента
     public static function invertDate($date)
     {
-        if($date=='') return NULL;
-        if(preg_match("/([0-9]{4})\-([0-9]{2})\-([0-9]{2})/",$date))
-        {
+        if ($date=='') {
+            return null;
+        }
+        if (preg_match("/([0-9]{4})\-([0-9]{2})\-([0-9]{2})/", $date)) {
             // аргумент $date - строка формата yyyy-mm-dd
-            $dateArray = explode("-",$date);
+            $dateArray = explode("-", $date);
             $year = $dateArray[0];
             $month = $dateArray[1];
             $day = $dateArray[2];
             
             // возвращаем дату в формате dd-mm-yyyy
             return $day."-".$month."-".$year;
-        }
-        else if(preg_match("/([0-9]{2})\-([0-9]{2})\-([0-9]{4})/",$date))
-        {
+        } elseif (preg_match("/([0-9]{2})\-([0-9]{2})\-([0-9]{4})/", $date)) {
             // аргумент $date - строка формата dd-mm-yyyy, разбиваем строку на части
-            $dateArray = explode("-",$date);
+            $dateArray = explode("-", $date);
             $year = $dateArray[2];
             $month = $dateArray[1];
             $day = $dateArray[0];
             // возвращаем дату в формате yyyy-mm-dd
             return $year."-".$month."-".$day;
+        } else {
+            return false;
         }
-        else return false;
     }
     
     public static function getMonthsNames()
@@ -100,8 +100,9 @@ class DateHelper
             $minutes = $timeArray[1];
             $seconds = $timeArray[2];
             return $hours . ":" . $minutes;
-        } else
-            return NULL;
+        } else {
+            return null;
+        }
     }
 
     // функция принимает дату yyyy-mm-dd hh:mm:ss и возвращает массив из года, месяца, дня, часа, минуты, секунды, даты и времени
@@ -119,7 +120,7 @@ class DateHelper
             $hours = (int) $timeArray[0];
             $minutes = $timeArray[1];
             $seconds = $timeArray[2];
-            $outputArray = Array(
+            $outputArray = array(
                 'year' => $year,
                 'month' => $month,
                 'day' => $day,
@@ -135,15 +136,14 @@ class DateHelper
             $year = (int) $dateArray[0];
             $month = (int) $dateArray[1];
             $day = (int) $dateArray[2];
-            $outputArray = Array(
+            $outputArray = array(
                 'year' => $year,
                 'month' => $month,
                 'day' => $day,
             );
             return $outputArray;
         } else {
-            return NULL;
+            return null;
         }
     }
-
 }

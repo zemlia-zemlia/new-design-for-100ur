@@ -17,8 +17,8 @@
     </tr>
     </thead>
 <?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'  =>  $dataProvider,
-	'itemView'      =>  '_view',
+    'dataProvider'  =>  $dataProvider,
+    'itemView'      =>  '_view',
         'emptyText'     =>  'Не найдено ни одного расхода',
         'summaryText'   =>  'Показаны расходы с {start} до {end}, всего {count}',
         'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words

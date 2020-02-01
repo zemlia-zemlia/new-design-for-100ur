@@ -6,7 +6,7 @@ Yii::app()->clientScript->registerMetaTag("Заказать юридически
 
 
 <h1 class="header-block header-block-light-grey">Заказ документов</h1>
-<?php 
+<?php
 //CustomFuncs::printr($order->errors);
 //CustomFuncs::printr($author->errors);
 //CustomFuncs::printr($order->attributes);
@@ -25,11 +25,11 @@ Yii::app()->clientScript->registerMetaTag("Заказать юридически
 
 <script type="text/javascript">   
     var docs = {
-        <?php foreach(DocType::getClassesArray() as $classId => $docClass):?>
+        <?php foreach (DocType::getClassesArray() as $classId => $docClass):?>
             <?php echo $classId;?>: { type:'<?php echo $docClass['name'];?>',
                 type_description:'<?php echo $docClass['description'];?>',
                 subtypes:[
-                    <?php foreach($docTypesArray[$classId] as $type):?>
+                    <?php foreach ($docTypesArray[$classId] as $type):?>
                             {id:<?php echo $type->id;?>, name: '<?php echo $type->name;?>'},
                     <?php endforeach;?>
                 ]

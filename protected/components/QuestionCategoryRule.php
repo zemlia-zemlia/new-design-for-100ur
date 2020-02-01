@@ -25,7 +25,7 @@ class QuestionCategoryRule extends CBaseUrlRule
         if ($route === 'questionCategory/alias') {
             if (isset($params['root'], $params['name'])) {
                 return $this->_prefix . $params['root'] . '/' . $params['name'] . Yii::app()->urlManager->urlSuffix;
-            } else if (isset($params['name'])) {
+            } elseif (isset($params['name'])) {
                 return $this->_prefix . $params['name'] . Yii::app()->urlManager->urlSuffix;
             }
         }
@@ -44,12 +44,11 @@ class QuestionCategoryRule extends CBaseUrlRule
     {
         $urlPattern = '/^cat(\/[a-z0-9-]+)(\/[a-z0-9-]+)?$/i';
         
-        if (preg_match($urlPattern, $pathInfo, $matches))
-        {
+        if (preg_match($urlPattern, $pathInfo, $matches)) {
             $matches = array_reverse($matches);
             array_pop($matches);
 
-            if($matches[0]) {
+            if ($matches[0]) {
                 $_GET['name'] = str_replace('/', '', $matches[0]);
             }
 

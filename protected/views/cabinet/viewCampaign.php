@@ -5,12 +5,12 @@
 $this->setPageTitle("Кампания #" . $model->id . '. '. Yii::app()->name);
 
 $this->breadcrumbs=array(
-	'Кабинет'   =>  array('/cabinet'),
+    'Кабинет'   =>  array('/cabinet'),
         'Кампания',
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 юристов',"/"),
+    'homeLink'=>CHtml::link('100 юристов', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
@@ -45,7 +45,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             </tr>
             
             
-            <?php if($model->active != Campaign::ACTIVE_MODERATION):?>
+            <?php if ($model->active != Campaign::ACTIVE_MODERATION):?>
             <tr>
                 <td>
                     Цена лида
@@ -77,7 +77,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 </div>
 <br/>
 <div class='flat-panel inside'>
-        <?php if($transactionsDataProvider->totalItemCount):?>
+        <?php if ($transactionsDataProvider->totalItemCount):?>
         <h2>Транзакции</h2>
 
         <table class="table table-bordered">

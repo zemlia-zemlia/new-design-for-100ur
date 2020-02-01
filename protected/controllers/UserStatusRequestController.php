@@ -1,6 +1,7 @@
 <?php
 
-class UserStatusRequestController extends Controller {
+class UserStatusRequestController extends Controller
+{
 
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -11,7 +12,8 @@ class UserStatusRequestController extends Controller {
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
@@ -23,7 +25,8 @@ class UserStatusRequestController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'view', 'create', 'update'),
@@ -43,7 +46,8 @@ class UserStatusRequestController extends Controller {
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         $this->render('view', array(
             'model' => $this->loadModel($id),
         ));
@@ -80,7 +84,6 @@ class UserStatusRequestController extends Controller {
             $model->validate();
             // загрузка скана
             if (!empty($_FILES) && !$model->errors && $model->scenario == 'createYurist') {
-
                 $scan = CUploadedFile::getInstance($userFile, 'userFile');
                 if ($scan && $scan->getError() == 0) { // если файл нормально загрузился
                     $scanFileName = md5($scan->getName() . $scan->getSize() . mt_rand(10000, 100000)) . "." . $scan->getExtensionName();
@@ -105,7 +108,7 @@ class UserStatusRequestController extends Controller {
             }
             
             // Если подтверждаем юриста, проверим, что он загрузил скан
-            if($model->scenario == 'createYurist' && !$scan) {
+            if ($model->scenario == 'createYurist' && !$scan) {
                 $userFile->addError('userFile', 'Не загружен файл со сканом/фото диплома');
                 $modelHasErrors = true;
             }
@@ -129,7 +132,8 @@ class UserStatusRequestController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $model = $this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
@@ -137,8 +141,9 @@ class UserStatusRequestController extends Controller {
 
         if (isset($_POST['UserStatusRequest'])) {
             $model->attributes = $_POST['UserStatusRequest'];
-            if ($model->save())
+            if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->id));
+            }
         }
 
         $this->render('update', array(
@@ -151,18 +156,21 @@ class UserStatusRequestController extends Controller {
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
+        if (!isset($_GET['ajax'])) {
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        }
     }
 
     /**
      * Lists all models.
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $dataProvider = new CActiveDataProvider('UserStatusRequest');
         $this->render('index', array(
             'dataProvider' => $dataProvider,
@@ -172,11 +180,13 @@ class UserStatusRequestController extends Controller {
     /**
      * Manages all models.
      */
-    public function actionAdmin() {
+    public function actionAdmin()
+    {
         $model = new UserStatusRequest('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['UserStatusRequest']))
+        if (isset($_GET['UserStatusRequest'])) {
             $model->attributes = $_GET['UserStatusRequest'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
@@ -190,10 +200,12 @@ class UserStatusRequestController extends Controller {
      * @return UserStatusRequest the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id)
+    {
         $model = UserStatusRequest::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
@@ -201,11 +213,11 @@ class UserStatusRequestController extends Controller {
      * Performs the AJAX validation.
      * @param UserStatusRequest $model the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'user-status-request-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
     }
-
 }

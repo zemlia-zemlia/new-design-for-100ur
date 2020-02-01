@@ -4,13 +4,13 @@
 $this->pageTitle = 'Изменение пароля пользователя ' . CHtml::encode($model->name . ' ' . $model->lastName) . '. ' . Yii::app()->name;
 
 $this->breadcrumbs=array(
-	'Пользователи'              =>  array('index'),
-	CHtml::encode($model->name . ' ' . $model->lastName) =>  array('view','id'=>$model->id),
-	'Смена пароля',
+    'Пользователи'              =>  array('index'),
+    CHtml::encode($model->name . ' ' . $model->lastName) =>  array('view','id'=>$model->id),
+    'Смена пароля',
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('CRM',"/"),
+    'homeLink'=>CHtml::link('CRM', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));

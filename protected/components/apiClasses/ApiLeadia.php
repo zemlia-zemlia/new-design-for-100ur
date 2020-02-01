@@ -5,7 +5,6 @@
  */
 class ApiLeadia implements ApiClassInterface
 {
-
     protected $url = "http://cloud1.leadia.org/lead.php";
     protected $key = 13550; // наш id в партнерской системе
     protected $curl;
@@ -18,14 +17,14 @@ class ApiLeadia implements ApiClassInterface
         curl_setopt($this->curl, CURLOPT_URL, $this->url);
         curl_setopt($this->curl, CURLOPT_POST, true);
         curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
-        if(YII_DEV == true) {
+        if (YII_DEV == true) {
             $this->testMode = true;
         }
     }
 
     /**
      * отправка лида
-     * @param Lead $lead 
+     * @param Lead $lead
      */
     public function send(Lead $lead)
     {
@@ -79,5 +78,4 @@ class ApiLeadia implements ApiClassInterface
         LoggerFactory::getLogger()->log('Ошибка при отправке лида #' . $lead->id . ' в партнерку Leadia', 'Lead', $lead->id);
         return false;
     }
-
 }

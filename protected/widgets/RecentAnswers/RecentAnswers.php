@@ -12,10 +12,9 @@ class RecentAnswers extends CWidget
     
     public function run()
     {
-        
         $answers = Yii::app()->cache->get('recentAnswers');
         
-        if($answers === false) {
+        if ($answers === false) {
             
             // выберем ответы за последний месяц, с вопросами и авторами
             $answersRows = Yii::app()->db->createCommand()
@@ -30,15 +29,14 @@ class RecentAnswers extends CWidget
 
             $answers = array();
             
-            foreach($answersRows as $row) {
+            foreach ($answersRows as $row) {
                 $answers[$row['authorId']] = $row;
             }
             // храним результаты выборки ответов в кеше
             Yii::app()->cache->set('recentAnswers', $answers, $this->cacheTime);
-        }                    
+        }
         $this->render($this->template, array(
             'answers'  =>  $answers,
         ));
     }
 }
-?>

@@ -264,7 +264,7 @@ $dom = str_get_dom($str);
 $es= $dom->find('ul');
 assert(count($es)==2);
 
-foreach($es as $n) {
+foreach ($es as $n) {
     $li = $n->find('li');
     assert(count($li)==2);
 }
@@ -281,10 +281,10 @@ assert($es[2]->outertext=='<li>2</li>');
 assert($es[3]->outertext=='<li>3</li>');
 
 $counter = 0;
-foreach($dom->find('ul') as $ul) {
-    foreach($ul->find('li') as $li) {
+foreach ($dom->find('ul') as $ul) {
+    foreach ($ul->find('li') as $li) {
         assert($li->innertext=="$counter");
-            assert($li->outertext=="<li>$counter</li>");
+        assert($li->outertext=="<li>$counter</li>");
         ++$counter;
     }
 }
@@ -581,4 +581,3 @@ assert(count($dom->find('a[title], img[title]'))==2);
 // tear down
 $dom->clear();
 unset($dom);
-?>

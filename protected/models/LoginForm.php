@@ -3,8 +3,8 @@
 /**
  * Модель для работы с формой логина
  */
-class LoginForm extends CFormModel {
-
+class LoginForm extends CFormModel
+{
     public $email;
     public $password;
     public $rememberMe;
@@ -16,7 +16,8 @@ class LoginForm extends CFormModel {
      * The rules state that username and password are required,
      * and password needs to be authenticated.
      */
-    public function rules() {
+    public function rules()
+    {
         return array(
             // username and password are required
             array('email, password', 'required', 'message' => 'Поле {attribute} не может быть пустым'),
@@ -32,7 +33,8 @@ class LoginForm extends CFormModel {
     /**
      * Declares attribute labels.
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
             'rememberMe' => 'Запомнить',
             'email' => 'E-mail',
@@ -43,7 +45,8 @@ class LoginForm extends CFormModel {
     /**
      * Проверка правильности введенных логина и пароля
      */
-    public function authenticate($attribute, $params) {
+    public function authenticate($attribute, $params)
+    {
         $this->_identity = new UserIdentity($this->email, $this->password);
 
         if (!$this->_identity->authenticate()) {
@@ -53,10 +56,11 @@ class LoginForm extends CFormModel {
 
     /**
      * Пытается залогинить пользователя по email и паролю
-     * 
+     *
      * @return boolean true - залогинен, false - ошибка
      */
-    public function login() {
+    public function login()
+    {
         if ($this->_identity === null) {
             $this->_identity = new UserIdentity($this->email, $this->password);
             $this->_identity->authenticate();
@@ -70,5 +74,4 @@ class LoginForm extends CFormModel {
             return false;
         }
     }
-
 }

@@ -6,13 +6,14 @@ include('../simple_html_dom.php');
 $html = file_get_html('http://www.google.com/');
 
 // remove all image
-foreach($html->find('img') as $e)
+foreach ($html->find('img') as $e) {
     $e->outertext = '';
+}
 
 // replace all input
-foreach($html->find('input') as $e)
+foreach ($html->find('input') as $e) {
     $e->outertext = '[INPUT]';
+}
 
 // dump contents
 echo $html;
-?>

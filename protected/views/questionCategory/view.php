@@ -26,7 +26,7 @@ if ($model->seoKeywords) {
     Yii::app()->clientScript->registerMetaTag(CHtml::encode($model->seoKeywords), 'keywords');
 }
 
-Yii::app()->clientScript->registerLinkTag("canonical", NULL, Yii::app()->createUrl('/questionCategory/alias', $model->getUrl()));
+Yii::app()->clientScript->registerLinkTag("canonical", null, Yii::app()->createUrl('/questionCategory/alias', $model->getUrl()));
 
 $additionalTags = $model->getAdditionalMetaTags();
 foreach ($additionalTags as $property => $content) {
@@ -152,11 +152,11 @@ if ($model->seoH1) {
 		        <div class="popular-questions vert-margin40">
 		            <h2>Примеры бесплатных онлайн-консультаций</h2>
 		            <?php
-		            $this->widget('application.widgets.PopularQuestions.PopularQuestions', [
-		                'template' => 'default',
-		                'cacheTime' => 10,
-		            ]);
-		            ?>
+                    $this->widget('application.widgets.PopularQuestions.PopularQuestions', [
+                        'template' => 'default',
+                        'cacheTime' => 10,
+                    ]);
+                    ?>
 		        </div>
 
 

@@ -2,15 +2,15 @@
 /**
  * Реализация парсера заявок из писем от сервиса 9111
  */
-class EmailParser9111 extends EmailParser {
-    
+class EmailParser9111 extends EmailParser
+{
     protected function getFetchBodySection()
     {
         return 2;
     }
 
-    public function parseMessage(ParsedEmail $message, Lead $lead, $folderSettings) {
-        
+    public function parseMessage(ParsedEmail $message, Lead $lead, $folderSettings)
+    {
         $bodyDecoded = $message->getBody();
         
         $name = '';
@@ -40,14 +40,14 @@ class EmailParser9111 extends EmailParser {
          * Если не удалось распарсить текст письма, возможно оно закодировано в quoted_printable
          * Пытаемся распарсить раскодированную версию письма
          */
-        if(!$name && !$phone && !$question) {
+        if (!$name && !$phone && !$question) {
             $message->setBody(quoted_printable_decode($bodyDecoded));
             return $this->parseMessage($message, $lead, $folderSettings);
         }
 
         // если лид с таким телефоном уже есть в базе, пропускаем его
         if (in_array($phone, $this->_existingPhones)) {
-            return false; 
+            return false;
         }
 
         if (!$name && !$phone) {
@@ -59,7 +59,7 @@ class EmailParser9111 extends EmailParser {
         $lead->sourceId = $folderSettings['sourceId']; // id нужного источника лидов
         $lead->buyPrice = $folderSettings['buyPrice'] * 100; // цена покупки, переводим в копейки
         
-        if($message->getSubject() == 'Телефонный трафик (8-800)') {
+        if ($message->getSubject() == 'Телефонный трафик (8-800)') {
             // это письмо с отчетом о звонке
             $lead->name = "Звонок";
             $lead->type = Lead::TYPE_INCOMING_CALL;
@@ -84,5 +84,4 @@ class EmailParser9111 extends EmailParser {
         
         return true;
     }
-
 }

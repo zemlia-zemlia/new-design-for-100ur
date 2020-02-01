@@ -7,7 +7,6 @@
 
 class UpdateAllPasswordsCommand extends CConsoleCommand
 {
-
     public function actionIndex()
     {
         echo "======= Resetting all users passwords =========" . PHP_EOL;
@@ -17,14 +16,14 @@ class UpdateAllPasswordsCommand extends CConsoleCommand
                 ->queryAll();
         echo 'Users found: ' . sizeof($users) . PHP_EOL;
         
-        foreach($users as $user) {
+        foreach ($users as $user) {
             $newPassword =  User::hashPassword(User::generatePassword(8));
             $updateResult = Yii::app()
                     ->db
                     ->createCommand()
                     ->update('{{user}}', ['password' => $newPassword], 'id=:id', [':id' => $user['id']]);
             
-            if($updateResult) {
+            if ($updateResult) {
                 echo 'User id ' . $user['id'] . ' updated' . PHP_EOL;
             } else {
                 echo 'Error: User id ' . $user['id'] . ' NOT updated' . PHP_EOL;
@@ -41,5 +40,4 @@ class UpdateAllPasswordsCommand extends CConsoleCommand
         $checkResult = password_verify($password, $passwordHash);
         echo 'Verification: ' . $checkResult . PHP_EOL;
     }
-
 }

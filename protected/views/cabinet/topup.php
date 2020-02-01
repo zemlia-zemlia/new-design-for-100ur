@@ -3,12 +3,12 @@
 $this->setPageTitle("Пополнение баланса." . Yii::app()->name);
 
 $this->breadcrumbs=array(
-	'Кабинет'   =>  array('/cabinet'),
+    'Кабинет'   =>  array('/cabinet'),
         'Пополнение баланса',
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 юристов',"/"),
+    'homeLink'=>CHtml::link('100 юристов', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));

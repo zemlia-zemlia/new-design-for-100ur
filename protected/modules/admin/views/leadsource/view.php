@@ -119,8 +119,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <td><?php echo $townName; ?></td>
                 <td><?php echo (int)$townStats['total']; ?></td>
                 <td><?php echo (int)$townStats['brak']; ?> (<?php if ($townStats['total']) {
-                        echo round(((int)$townStats['brak'] / $townStats['total']) * 100);
-                    } ?>%)
+                echo round(((int)$townStats['brak'] / $townStats['total']) * 100);
+            } ?>%)
                 </td>
                 <td><?php echo MoneyFormat::rubles($townStats['expences']); ?></td>
                 <td><?php echo $townStats['sold']; ?></td>
@@ -136,8 +136,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <th>Итого</th>
             <th><?php echo $sumTotal; ?></th>
             <th><?php echo $brakTotal; ?> (<?php if ($sumTotal) {
-                    echo round(($brakTotal / $sumTotal) * 100);
-                } ?>%)
+            echo round(($brakTotal / $sumTotal) * 100);
+        } ?>%)
             </th>
             <th><?php echo MoneyFormat::rubles($expTotal); ?> руб.</th>
             <th><?php echo $soldTotal; ?> </th>

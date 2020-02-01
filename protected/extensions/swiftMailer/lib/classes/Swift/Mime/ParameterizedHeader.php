@@ -2,12 +2,12 @@
 
 /*
  Parameterized Header Interface in Swift Mailer.
- 
+
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -15,7 +15,7 @@
 
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- 
+
  */
 
 //@require 'Swift/Mime/Header.php';
@@ -34,12 +34,11 @@ interface Swift_Mime_ParameterizedHeader extends Swift_Mime_Header
    * @param string $parameter
    * @param string $value
    */
-  public function setParameter($parameter, $value);
+    public function setParameter($parameter, $value);
   
-  /**
-   * Get the value of $parameter.
-   * @return string
-   */
-  public function getParameter($parameter);
-  
+    /**
+     * Get the value of $parameter.
+     * @return string
+     */
+    public function getParameter($parameter);
 }

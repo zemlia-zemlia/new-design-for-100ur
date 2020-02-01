@@ -5,15 +5,15 @@
 $this->setPageTitle("Кампания #" . $model->id . '. '. Yii::app()->name);
 
 $this->breadcrumbs=array(
-	'Кабинет покупателя лидов'  =>  array('/cabinet'),
-	'Кампания ' . $model->id,
+    'Кабинет покупателя лидов'  =>  array('/cabinet'),
+    'Кампания ' . $model->id,
 );
 
 ?>
 
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('100 юристов',"/"),
+        'homeLink'=>CHtml::link('100 юристов', "/"),
         'separator'=>' / ',
         'links'=>$this->breadcrumbs,
      ));
@@ -86,7 +86,7 @@ $this->breadcrumbs=array(
 
 
 
-        <?php if($transactionsDataProvider->totalItemCount):?>
+        <?php if ($transactionsDataProvider->totalItemCount):?>
         <h2>Транзакции</h2>
 
         <table class="table table-bordered">

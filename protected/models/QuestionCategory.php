@@ -151,7 +151,8 @@ class QuestionCategory extends CActiveRecord
     {
         $allCategories = [0 => 'Без категории'];
 
-        $topCategories = QuestionCategory::model()->findAll([
+        $topCategories = QuestionCategory::model()->findAll(
+            [
                 'order' => 't.name',
                 'with' => 'children',
                 'condition' => 't.parentId=0',

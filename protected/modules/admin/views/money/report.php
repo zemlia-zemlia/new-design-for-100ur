@@ -15,7 +15,7 @@ $this->setPageTitle("Финансовый отчет за период. " . Yii:
         <h3>Доходы</h3>
         </td>
     </tr>
-    <?php foreach($reportDataSetFiltered['income']['directions'] as $code=>$value):?>
+    <?php foreach ($reportDataSetFiltered['income']['directions'] as $code=>$value):?>
     <tr>
         <td>
             <?php echo Money::getDirectionByCode($code);?>
@@ -40,7 +40,7 @@ $this->setPageTitle("Финансовый отчет за период. " . Yii:
             <h4>Операционные расходы</h4>
         </td>
     </tr>
-    <?php foreach($reportDataSetFiltered['expences']['opex']['directions'] as $code=>$value):?>
+    <?php foreach ($reportDataSetFiltered['expences']['opex']['directions'] as $code=>$value):?>
     <tr>
         <td>
             <?php echo Money::getDirectionByCode($code);?>
@@ -60,8 +60,8 @@ $this->setPageTitle("Финансовый отчет за период. " . Yii:
             <h4>Капитальные расходы</h4>
         </td>
     </tr>
-    <?php if($reportDataSetFiltered['expences']['capex']['directions']):?>
-        <?php foreach($reportDataSetFiltered['expences']['capex']['directions'] as $code=>$value):?>
+    <?php if ($reportDataSetFiltered['expences']['capex']['directions']):?>
+        <?php foreach ($reportDataSetFiltered['expences']['capex']['directions'] as $code=>$value):?>
         <tr>
             <td>
                 <?php echo Money::getDirectionByCode($code);?>

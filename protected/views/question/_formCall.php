@@ -1,7 +1,7 @@
 <?php
 $allDirections = array(0 => 'Не выбрано') + $allDirections;
 
-if(!is_null($model->town->name)) {
+if (!is_null($model->town->name)) {
     $currenTownName = $model->town->name;
 }
 
@@ -33,7 +33,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <div class="col-sm-4">
                 <?php
                 echo $form->textField($model, 'phone', array(
-                    //'class'         =>  'form-control phone-mask', 
+                    //'class'         =>  'form-control phone-mask',
                     'class' => 'form-control icon-input phone-mask',
                     'style' => 'background-image:url(/pics/2017/phone_icon.png)',
                     'data-toggle' => "tooltip",
@@ -57,7 +57,7 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
 </div>
 
-<?php if(false):?>
+<?php if (false):?>
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">

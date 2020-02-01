@@ -134,4 +134,3 @@ assert($dom==$str);
 // tear down
 $dom->clear();
 unset($dom);
-?>

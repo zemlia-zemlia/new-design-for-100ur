@@ -3,13 +3,13 @@
 /* @var $model Country */
 
 $this->breadcrumbs=array(
-	'Countries'=>array('index'),
-	'Create',
+    'Countries'=>array('index'),
+    'Create',
 );
 
 $this->menu=array(
-	array('label'=>'List Country', 'url'=>array('index')),
-	array('label'=>'Manage Country', 'url'=>array('admin')),
+    array('label'=>'List Country', 'url'=>array('index')),
+    array('label'=>'Manage Country', 'url'=>array('admin')),
 );
 ?>
 

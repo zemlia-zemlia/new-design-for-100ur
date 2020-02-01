@@ -15,13 +15,13 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/question.js');
     )); ?>
 
 
-<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+<?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
 <table class="table">
     <tr>
         <th>Модератор</th>
         <th>Вопросов</th>
     </tr>
-    <?php foreach($moderatorsStats as $moderator):?>
+    <?php foreach ($moderatorsStats as $moderator):?>
     <tr>
         <td><?php echo $moderator['name'] . ' ' . $moderator['lastName'];?></td>
         <td><?php echo CHtml::link($moderator['counter'], Yii::app()->createUrl('/admin/question/index', array('moderatedBy' => $moderator['id'])));?></td>
@@ -30,7 +30,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/question.js');
 </table>
 <?php endif; ?>
 
-<?php if(Yii::app()->user->role == User::ROLE_EDITOR):?>
+<?php if (Yii::app()->user->role == User::ROLE_EDITOR):?>
 <?php echo CHtml::link("Вопросы, отредактированные мной", Yii::app()->createUrl('/admin/question/index', array('moderatedBy' => Yii::app()->user->id)));?>
 <?php endif; ?>
 

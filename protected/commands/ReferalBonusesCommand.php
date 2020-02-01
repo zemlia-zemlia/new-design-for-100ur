@@ -4,9 +4,10 @@
  * Консольный скрипт, начисляющий пользователям бонусы за привлеченных пользователей
  * по реферальной программе
  */
-class ReferalBonusesCommand extends CConsoleCommand {
-
-    public function actionIndex() {
+class ReferalBonusesCommand extends CConsoleCommand
+{
+    public function actionIndex()
+    {
         /*
           SELECT u.id, u.name, t.id FROM `100_user` u
           LEFT JOIN `100_partnertransaction` t ON t.userId = u.id
@@ -54,5 +55,4 @@ class ReferalBonusesCommand extends CConsoleCommand {
             }
         }
     }
-
 }

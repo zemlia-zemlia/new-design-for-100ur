@@ -5,12 +5,12 @@ Yii::app()->clientScript->registerMetaTag($model->introtext, 'description');
 
 
 $this->breadcrumbs  =   array(
-	'Кодексы РФ'    =>  array('/codecs'),
+    'Кодексы РФ'    =>  array('/codecs'),
 );
 
 $parents = $model->getParents();
 
-foreach($parents as $parentPath=>$parentTitle) {
+foreach ($parents as $parentPath=>$parentTitle) {
     $this->breadcrumbs += array($parentTitle=>array($parentPath));
 }
 
@@ -18,7 +18,7 @@ foreach($parents as $parentPath=>$parentTitle) {
 
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('Консультация юриста',"/"),
+        'homeLink'=>CHtml::link('Консультация юриста', "/"),
         'separator'=>' &rarr; ',
         'links'=>$this->breadcrumbs,
      ));
@@ -28,12 +28,15 @@ foreach($parents as $parentPath=>$parentTitle) {
         <h1 class="header-block header-block-light-grey vert-margin30"><?php echo CHtml::encode($model->longtitle); ?></h1>
 
 
-        <?php foreach($model->children as $child):?>
+        <?php foreach ($model->children as $child):?>
             <p>    
-            <?php 
+            <?php
                 $realPath = str_replace('|', '/', $child->path);
-                echo CHtml::link(CHtml::encode($child->longtitle), 
-                        Yii::app()->createUrl($realPath), array('class'=>'codecs-link'));
+                echo CHtml::link(
+                    CHtml::encode($child->longtitle),
+                    Yii::app()->createUrl($realPath),
+                    array('class'=>'codecs-link')
+                );
             ?>
             </p>
         <?php endforeach;?>

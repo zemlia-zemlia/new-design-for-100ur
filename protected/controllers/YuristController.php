@@ -1,13 +1,14 @@
 <?php
 
-class YuristController extends Controller {
-
+class YuristController extends Controller
+{
     public $layout = '//frontend/question';
 
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
                 //'postOnly + delete', // we only allow deletion via POST request
@@ -19,9 +20,10 @@ class YuristController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
-            array('allow', // allow all users 
+            array('allow', // allow all users
                 'actions' => array('index'),
                 'users' => array('*'),
             ),
@@ -31,8 +33,8 @@ class YuristController extends Controller {
         );
     }
 
-    public function actionIndex() {
-        
+    public function actionIndex()
+    {
         return $this->redirect(['region/country', 'countryAlias' => 'russia'], true, 301);
         
         
@@ -55,5 +57,4 @@ class YuristController extends Controller {
             'yuristsDataProvider' => $yuristsDataProvider,
         ));
     }
-
 }

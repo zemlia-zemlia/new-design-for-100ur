@@ -6,4 +6,3 @@ abstract class Logger
 {
     abstract public function log($message, $class, $id);
 }
-

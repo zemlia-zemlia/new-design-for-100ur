@@ -1,6 +1,6 @@
 <?php
 /*
- * 
+ *
  * собирает лиды из писем, расположенных в почтовом ящике admin@100yuristov.com
  */
 class GetLeadsFromYurcrmCommand extends CConsoleCommand
@@ -9,17 +9,17 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
         1036  => 'LeadLawCheboksary',
         472  =>  'LeadLawKrasnoyarsk',
         822  =>  'LeadLawSPb',
-        
+
     );*/
     
     // Настройки парсинга лидов из папок
     protected $folders = array(
-		'LeadLawAltay' => array(
+        'LeadLawAltay' => array(
             'townId'    => 71,
             'sourceId'  => 24,
             'buyPrice'  => 20,
         ),
-		'LeadLawNN' => array(
+        'LeadLawNN' => array(
             'townId'    => 641,
             'sourceId'  => 24,
             'buyPrice'  => 63,
@@ -39,32 +39,32 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
             'sourceId'  => 24,
             'buyPrice'  => 120,
         ),
-		'LeadLawEkb' => array(
+        'LeadLawEkb' => array(
             'townId'    => 269,
             'sourceId'  => 24,
             'buyPrice'  => 63,
         ),
-		'LeadLawVlg' => array(
+        'LeadLawVlg' => array(
             'townId'    => 165,
             'sourceId'  => 24,
             'buyPrice'  => 25,
         ),
-		'LeadLawRostov' => array(
+        'LeadLawRostov' => array(
             'townId'    => 805,
             'sourceId'  => 24,
             'buyPrice'  => 50,
         ),
-		'LeadLawMsk' => array(
+        'LeadLawMsk' => array(
             'townId'    => 598,
             'sourceId'  => 24,
             'buyPrice'  => 220,
         ),
-		'LeadLawKrasnodar' => array(
+        'LeadLawKrasnodar' => array(
             'townId'    => 461,
             'sourceId'  => 24,
             'buyPrice'  => 50,
         ),
-		'LeadLawNovosib' => array(
+        'LeadLawNovosib' => array(
             'townId'    => 666,
             'sourceId'  => 24,
             'buyPrice'  => 25,
@@ -74,42 +74,42 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
             'sourceId'  => 24,
             'buyPrice'  => 25,
         ),
-		'LeadLawKazan' => array(
+        'LeadLawKazan' => array(
             'townId'    => 347,
             'sourceId'  => 24,
             'buyPrice'  => 25,
         ),
-		'LeadLawPerm' => array(
+        'LeadLawPerm' => array(
             'townId'    => 737,
             'sourceId'  => 24,
             'buyPrice'  => 25,
         ),
-		'LeadLawYaroslavl' => array(
+        'LeadLawYaroslavl' => array(
             'townId'    => 1106,
             'sourceId'  => 24,
             'buyPrice'  => 25,
         ),
-		'LeadLawIrkutsk' => array(
+        'LeadLawIrkutsk' => array(
             'townId'    => 339,
             'sourceId'  => 24,
             'buyPrice'  => 25,
         ),
-		'LeadLawKaluga' => array(
+        'LeadLawKaluga' => array(
             'townId'    => 354,
             'sourceId'  => 24,
             'buyPrice'  => 25,
         ),
-		'LeadLawAstrakhan' => array(
+        'LeadLawAstrakhan' => array(
             'townId'    => 50,
             'sourceId'  => 24,
             'buyPrice'  => 25,
         ),
-		'LeadLawTver' => array(
+        'LeadLawTver' => array(
             'townId'    => 945,
             'sourceId'  => 24,
             'buyPrice'  => 20,
         ),
-		'LeadLawKrim' => array(
+        'LeadLawKrim' => array(
             'townId'    => 1118,
             'sourceId'  => 24,
             'buyPrice'  => 25,
@@ -117,7 +117,7 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
     );
 
 
- // возвращает массив мейлов из заданной папки на сервере
+    // возвращает массив мейлов из заданной папки на сервере
     protected function getEmailsFromFolder($folderName)
     {
         // параметры подключения к почтовому ящику с заявками
@@ -128,36 +128,36 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
         $param       = Yii::app()->params['mailBoxYurcrmParam'];
         $folder      = 'INBOX/' . $folderName;
         
-        if(!$mbox = imap_open("{"."{$host}:{$port}{$param}"."}$folder",$login,$pass)){
-            die("Couldn't open the inbox");   
+        if (!$mbox = imap_open("{"."{$host}:{$port}{$param}"."}$folder", $login, $pass)) {
+            die("Couldn't open the inbox");
         };
                 
         //извлекаем письма из папки в ящике
-        $emails = imap_search($mbox, 'ALL SINCE '. date('d-M-Y',strtotime("-4 day")));
-        if($emails == false && imap_errors()) {
+        $emails = imap_search($mbox, 'ALL SINCE '. date('d-M-Y', strtotime("-4 day")));
+        if ($emails == false && imap_errors()) {
             echo "Messages search wrong criteria";
             Yii::app()->end();
         }
         
-        if (!count($emails) || $emails == false){
-                return array();
-            } else {
-                //print_r($emails);
-                // If we've got some email IDs, sort them from new to old and show them
-                rsort($emails);
+        if (!count($emails) || $emails == false) {
+            return array();
+        } else {
+            //print_r($emails);
+            // If we've got some email IDs, sort them from new to old and show them
+            rsort($emails);
 
-                $emailBody = array();
+            $emailBody = array();
 
-                foreach($emails as $email_id) {
-                        // Fetch the email's overview and show subject, from and date. 
-                        $overview = imap_fetch_overview($mbox,$email_id,0);  
-                        $emailBody[] = imap_fetchbody($mbox,$email_id,"1"); // 1.1 - потому что письмо в формате Multipart
-                }
-
-                imap_close($mbox);
-
-                return $emailBody;
+            foreach ($emails as $email_id) {
+                // Fetch the email's overview and show subject, from and date.
+                $overview = imap_fetch_overview($mbox, $email_id, 0);
+                $emailBody[] = imap_fetchbody($mbox, $email_id, "1"); // 1.1 - потому что письмо в формате Multipart
             }
+
+            imap_close($mbox);
+
+            return $emailBody;
+        }
     }
 
 
@@ -167,9 +167,9 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
         require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'simplehtmldom_1_5/simple_html_dom.php';
         
         // будем присваивать лидам источник id=24
-        //$leadSourceId = 24;        
+        //$leadSourceId = 24;
         // цена покупки лида
-        //$buyPrice = 30;    
+        //$buyPrice = 30;
         
         foreach ($this->folders as $folder) {
             $leadSourceIds[] = $folder['sourceId'];
@@ -180,13 +180,13 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
         // массив, в котором будут храниться телефоны лидов, которые добавлены в базу за последний день, чтобы не добавить одного лида несколько раз
         $existingLeadsPhones = array();
         
-        foreach($existingLeads as $existingLead) {
+        foreach ($existingLeads as $existingLead) {
             $existingLeadsPhones[] = PhoneHelper::normalizePhone($existingLead->phone);
         }
         //echo "existing leads numbers: ";
         //print_r($existingLeadsPhones);
         
-        foreach($this->folders as $folderAlias=>$folderSettings) {
+        foreach ($this->folders as $folderAlias=>$folderSettings) {
             
             //echo $folderAlias . "\n\r";
             
@@ -194,9 +194,9 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
         
             //print_r($emails);
             //continue;
-			
-            foreach($emails as $email) {
-                // Fetch the email's overview and show subject, from and date. 
+            
+            foreach ($emails as $email) {
+                // Fetch the email's overview and show subject, from and date.
                 
                 //print_r($body);
                 
@@ -232,7 +232,7 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
                 //print_r($message);
                 //continue;
                 
-                if(in_array($phone, $existingLeadsPhones)) {
+                if (in_array($phone, $existingLeadsPhones)) {
                     continue;
                     // если лид с таким телефоном уже есть в базе, пропускаем его
                 }
@@ -247,18 +247,12 @@ class GetLeadsFromYurcrmCommand extends CConsoleCommand
                 $lead->townId = $this->folders[$folderAlias]['townId']; // id города
                 $lead->leadStatus = Lead::LEAD_STATUS_DEFAULT;
 
-                if(!$lead->save()) {
+                if (!$lead->save()) {
                     //echo $lead->phone;
                     //print_r($lead->errors);
                     Yii::log('Ошибка парсинга лида из папки ящика ' . $folderAlias . ' : ' . $lead->getError('question') . ': ' .$lead->name, 'error', 'system.web');
                 }
-
-
-            }    
-        } 
+            }
+        }
     }
-       
-    
 }
-
-?>

@@ -3,8 +3,8 @@
 * Управление информацией о расходах
 */
 
-class ExpenceController extends Controller {
-
+class ExpenceController extends Controller
+{
     public $layout = '//admin/main';
 
     /**
@@ -39,10 +39,10 @@ class ExpenceController extends Controller {
             $model->attributes = $_POST['Expence'];
             $model->expences *= 100;
             try {
-                if($model->save()) {
+                if ($model->save()) {
                     $this->redirect(array('/admin/expence/index'));
                 }
-            } catch(CDbException $e) {
+            } catch (CDbException $e) {
                 throw new CHttpException(500, 'Не удалось сохранить расход, возможно, Вы пытаетесь продублировать существующую запись');
             }
         }
@@ -57,7 +57,7 @@ class ExpenceController extends Controller {
     {
         $model = Expence::model()->findByPk($id);
         
-        if(!$model) {
+        if (!$model) {
             throw new CHttpException(404, 'Расход не найден');
         }
         
@@ -66,10 +66,10 @@ class ExpenceController extends Controller {
             $model->expences *= 100;
 
             try {
-                if($model->save()) {
+                if ($model->save()) {
                     $this->redirect(array('/admin/expence/index'));
                 }
-            } catch(CDbException $e) {
+            } catch (CDbException $e) {
                 throw new CHttpException(500, 'Не удалось сохранить расход, возможно, Вы пытаетесь продублировать существующую запись');
             }
         }
@@ -84,11 +84,11 @@ class ExpenceController extends Controller {
     {
         $model = Expence::model()->findByPk($id);
         
-        if(!$model) {
+        if (!$model) {
             throw new CHttpException(404, 'Расход не найден');
         }
         
-        if($model->delete()) {
+        if ($model->delete()) {
             $this->redirect(array('/admin/expence/index'));
         } else {
             throw new CHttpException(500, 'Не удалось удалить расход');

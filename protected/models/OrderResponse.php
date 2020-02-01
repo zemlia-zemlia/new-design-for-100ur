@@ -3,12 +3,14 @@
 /**
  * Отклик юриста на заказ документа
  */
-class OrderResponse extends Comment {
+class OrderResponse extends Comment
+{
 
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return '{{orderresponse}}';
     }
 
@@ -20,14 +22,16 @@ class OrderResponse extends Comment {
         return Yii::app()->db->tablePrefix . 'orderresponse';
     }
     
-    public static function model($class = __CLASS__) {
+    public static function model($class = __CLASS__)
+    {
         return parent::model($class);
     }
 
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
         return array(
             array('text', 'length', 'max' => 10000),
             array('price', 'required'),
@@ -43,7 +47,8 @@ class OrderResponse extends Comment {
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
             'id'            => 'ID',
             'type'          => 'Тип',
@@ -58,7 +63,8 @@ class OrderResponse extends Comment {
         );
     }
 
-    public function relations() {
+    public function relations()
+    {
         return array(
             'author'        =>  array(self::BELONGS_TO, 'User', 'authorId'),
             'order'         =>  array(self::BELONGS_TO, 'Order', 'objectId'),
@@ -93,10 +99,10 @@ class OrderResponse extends Comment {
          * если есть, вставляем существующее значение
          * это сделано, чтобы не создавать новую строку autologin при наличии старой
          * и дать возможность залогиниться из любого письма, содержащего актуальную строку autologin
-         */        
+         */
         $autologinString = (isset($client->autologin) && $client->autologin != '') ? $client->autologin : $client->generateAutologinString();
 
-        if(!$client->autologin) {
+        if (!$client->autologin) {
             $client->autologin = $autologinString;
             if (!$client->save()) {
                 Yii::log("Не удалось сохранить строку autologin пользователю " . $client->email . " с уведомлением об отклике на заказ " . $order->id, 'error', 'system.web.User');
@@ -131,7 +137,5 @@ class OrderResponse extends Comment {
             Yii::log("Не удалось отправить письмо пользователю " . $client->email . " с уведомлением об ответе на заказ " . $order->id, 'error', 'system.web.User');
             return false;
         }
-        
     }
-    
 }

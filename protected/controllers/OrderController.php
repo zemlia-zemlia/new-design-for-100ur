@@ -3,14 +3,15 @@
 /**
  * Контроллер для раздела работы с заказами документов
  */
-class OrderController extends Controller {
-
+class OrderController extends Controller
+{
     public $layout = '//frontend/question';
 
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
                 //'postOnly + delete', // we only allow deletion via POST request
@@ -22,17 +23,18 @@ class OrderController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
-            array('allow', // allow all users 
+            array('allow', // allow all users
                 'actions' => array('archive'),
                 'users' => array('@'),
             ),
-            array('allow', // allow all users 
+            array('allow', // allow all users
                 'actions' => array('view'),
                 'users' => array('*'),
             ),
-            array('allow', // allow all users 
+            array('allow', // allow all users
                 'actions' => array('index', 'changeStatus'),
                 'users' => array('@'),
                 'expression'    =>  "Yii::app()->user->checkAccess(User::ROLE_JURIST)",
@@ -57,7 +59,7 @@ class OrderController extends Controller {
         
         $ordersCriteria->order = 'id DESC';
              
-        if(isset($_GET['my']) && Yii::app()->user->role == User::ROLE_JURIST) {
+        if (isset($_GET['my']) && Yii::app()->user->role == User::ROLE_JURIST) {
             $ordersCriteria->addColumnCondition(['juristId' => Yii::app()->user->id]);
             $showMyOrders = true;
         } else {
@@ -89,7 +91,7 @@ class OrderController extends Controller {
         
         $order = Order::model()->findByPk($id);
         
-        if(!$order) {
+        if (!$order) {
             throw new CHttpException(404, 'Заказ не найден');
         }
         
@@ -101,7 +103,7 @@ class OrderController extends Controller {
         
         // проверка прав доступа - заявку может видить ее автор, юристы, админы
         
-        if(!(Yii::app()->user->checkAccess(User::ROLE_JURIST) || Yii::app()->user->id == $order->userId)) {
+        if (!(Yii::app()->user->checkAccess(User::ROLE_JURIST) || Yii::app()->user->id == $order->userId)) {
             throw new CHttpException(403, 'Вы не можете просматривать данный заказ');
         }
         
@@ -120,7 +122,7 @@ class OrderController extends Controller {
                     $commentModel->sendNotification();
                     $this->redirect(array('/order/view', 'id' => $order->id));
                 }
-            } 
+            }
             // сохраняем комментарий с учетом его иерархии
             if ($commentModel->saveNode()) {
                 // Отправляем уведомление о комментарии
@@ -160,20 +162,20 @@ class OrderController extends Controller {
         $this->layout = '//frontend/smart';
         $order = Order::model()->findByPk($id);
         
-        if(!$order) {
+        if (!$order) {
             throw new CHttpException(404, 'Заказ не найден');
         }
         
-        if($order->userId != Yii::app()->user->id) {
+        if ($order->userId != Yii::app()->user->id) {
             throw new CHttpException(403, 'Вы не можете управлять чужими заказами');
         }
         
-        if($order->juristId) {
+        if ($order->juristId) {
             throw new CHttpException(400, 'У этого заказа уже выбран юрист');
         }
         $juristId = (int)$_GET['juristId'];
         $jurist = User::model()->findByAttributes(['role' => User::ROLE_JURIST, 'active100' => 1, 'id' => $juristId]);
-        if(!$jurist) {
+        if (!$jurist) {
             throw new CHttpException(404, 'Юрист не найден');
         }
         
@@ -184,21 +186,20 @@ class OrderController extends Controller {
             $order->juristId = $juristId;
             $order->status = Order::STATUS_JURIST_SELECTED;
             
-            if((int)$order->termDays>0) {
+            if ((int)$order->termDays>0) {
                 $order->term = date('Y-m-d', time() + $order->termDays*86400);
             }
 
-            if($order->save()) {
+            if ($order->save()) {
                 $order->sendJuristNotification();
                 $this->redirect(['order/view', 'id'=>$order->id]);
-            } 
+            }
         }
         
         $this->render('setJurist', [
             'order'     =>  $order,
             'jurist'    =>  $jurist,
         ]);
-        
     }
     
     /**
@@ -209,19 +210,19 @@ class OrderController extends Controller {
     {
         $order = Order::model()->findByPk($id);
         
-        if(!$order) {
+        if (!$order) {
             throw new CHttpException(404, 'Заказ не найден');
         }
         
-        if($order->juristId != Yii::app()->user->id) {
+        if ($order->juristId != Yii::app()->user->id) {
             throw new CHttpException(403, 'Нельзя менять статус заказа, назначенного другому юристу');
         }
         
         $action = $_GET['action'];
         
-        if($action == 'confirm') {
+        if ($action == 'confirm') {
             $order->status = Order::STATUS_JURIST_CONFIRMED;
-        } elseif($action == 'decline') {
+        } elseif ($action == 'decline') {
             // если юрист отказывается от заказа, заказ отправляется в статус Подтвержден
             $order->status = Order::STATUS_CONFIRMED;
             $order->juristId = 0;
@@ -231,7 +232,7 @@ class OrderController extends Controller {
             throw new CHttpException(400, 'Вы пытаетесь присвоить заказу неизвестный статус');
         }
         
-        if($order->save()) {
+        if ($order->save()) {
             $this->redirect(['order/view', 'id' => $order->id]);
         } else {
             throw new CHttpException(500, 'Ошибка, не удалось сохранить заказ');
@@ -247,15 +248,15 @@ class OrderController extends Controller {
     {
         $order = Order::model()->findByPk($id);
         
-        if(!$order) {
+        if (!$order) {
             throw new CHttpException(404, 'Заказ не найден');
         }
         
-        if($order->userId != Yii::app()->user->id) {
+        if ($order->userId != Yii::app()->user->id) {
             throw new CHttpException(403, 'Нельзя менять статус чужого заказа');
         }
         
-        if($order->status != Order::STATUS_JURIST_SELECTED) {
+        if ($order->status != Order::STATUS_JURIST_SELECTED) {
             throw new CHttpException(403, 'Нельзя менять статус заказа, находящегося в текущем статусе');
         }
         
@@ -264,7 +265,7 @@ class OrderController extends Controller {
         $order->price = 0;
         $order->term = null;
         
-        if($order->save()) {
+        if ($order->save()) {
             $this->redirect(['order/view', 'id' => $order->id]);
         } else {
             throw new CHttpException(500, 'Ошибка, не удалось сохранить заказ');
@@ -275,17 +276,17 @@ class OrderController extends Controller {
      * Редактирование параметров заказа клиентом
      * @param type $id
      */
-    public function actionUpdate($id) 
+    public function actionUpdate($id)
     {
         $this->layout = '//frontend/smart';
         
         $order = Order::model()->findByPk($id);
         
-        if(!$order) {
+        if (!$order) {
             throw new CHttpException(404, 'Заказ не найден');
         }
         
-        if($order->userId != Yii::app()->user->id) {
+        if ($order->userId != Yii::app()->user->id) {
             throw new CHttpException(403, 'Нельзя менять чужой заказ');
         }
         
@@ -295,14 +296,14 @@ class OrderController extends Controller {
         if (isset($_POST['Order'])) {
             $order->attributes = $_POST['Order'];
                         
-            if((int)$order->termDays>0) {
+            if ((int)$order->termDays>0) {
                 $order->term = date('Y-m-d', time() + $order->termDays*86400);
             }
 
-            if($order->save()) {
+            if ($order->save()) {
                 $order->sendJuristNotification();
                 $this->redirect(['order/view', 'id'=>$order->id]);
-            } 
+            }
         }
         
         return $this->render('update', [
@@ -312,7 +313,7 @@ class OrderController extends Controller {
     
     /**
      * Архивация заказа клиентом
-     * 
+     *
      * @param integer $id ID заказа
      * @throws CHttpException
      */
@@ -320,21 +321,20 @@ class OrderController extends Controller {
     {
         $order = Order::model()->findByPk($id);
         
-        if(!$order) {
+        if (!$order) {
             throw new CHttpException(404, 'Заказ не найден');
         }
         
-        if($order->userId != Yii::app()->user->id) {
+        if ($order->userId != Yii::app()->user->id) {
             throw new CHttpException(403, 'Нельзя менять чужой заказ');
         }
         
         $order->status = Order::STATUS_ARCHIVE;
         
-        if($order->save()) {
+        if ($order->save()) {
             $this->redirect(['order/view', 'id'=>$order->id]);
         } else {
             throw new CHttpException(500, 'Не удалось изменить статус заказа');
         }
     }
-
 }

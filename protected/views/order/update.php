@@ -4,7 +4,7 @@
     $jurist = $order->jurist;
     
     $this->breadcrumbs = [];
-    if(Yii::app()->user->role == User::ROLE_CLIENT) {
+    if (Yii::app()->user->role == User::ROLE_CLIENT) {
         $this->breadcrumbs['Личный кабинет'] = ['/user/'];
     } else {
         $this->breadcrumbs['Заказы документов'] = ['/order/'];
@@ -13,7 +13,7 @@
     $this->breadcrumbs[] = 'Редактирование';
     
     $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 юристов',"/"),
+    'homeLink'=>CHtml::link('100 юристов', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
@@ -29,12 +29,12 @@
     <?php echo CHtml::encode($order->description);?>
 </p>
 
-<?php if($jurist):?>
+<?php if ($jurist):?>
 <p>
     <strong>Выбран юрист:</strong>
     <br /> 
     <?php echo CHtml::link(CHtml::encode(trim($jurist->name . ' ' . $jurist->name2 . ' ' .$jurist->lastName)), Yii::app()->createUrl('user/view', ['id' => $jurist->id]));?>
-    <?php if($order->status == Order::STATUS_JURIST_SELECTED && Yii::app()->user->role == User::ROLE_CLIENT):?>
+    <?php if ($order->status == Order::STATUS_JURIST_SELECTED && Yii::app()->user->role == User::ROLE_CLIENT):?>
         <?php echo CHtml::link('отменить', Yii::app()->createUrl('order/cancel', ['id' => $order->id]), ['class' => 'btn btn-default btn-xs']);?>
     <?php endif;?>
 </p>

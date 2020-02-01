@@ -9,10 +9,15 @@ class CustomFuncs
     public static function numForms($num, $form1, $form2, $form5)
     {
         $num10 = $num % 10;
-        if ($num >= 10 && $num < 20) return $form5;
-        else if ($num10 == 1) return $form1;
-        else if ($num10 > 1 && $num10 < 5) return $form2;
-        else return $form5;
+        if ($num >= 10 && $num < 20) {
+            return $form5;
+        } elseif ($num10 == 1) {
+            return $form1;
+        } elseif ($num10 > 1 && $num10 < 5) {
+            return $form2;
+        } else {
+            return $form5;
+        }
     }
 
     /**
@@ -20,9 +25,9 @@ class CustomFuncs
      * @param string $ip
      * @return Town город или NULL
      */
-    public static function detectTown($ip = NULL)
+    public static function detectTown($ip = null)
     {
-        $town = NULL;
+        $town = null;
 
         if (!Yii::app()->user->getState('currentTownId')) {
             // если принудительно не задан IP, берем текущий IP адрес
@@ -51,18 +56,20 @@ class CustomFuncs
                 $currentTown = Town::model()->findByAttributes(array('name' => $townName));
             }
             return $currentTown;
-
         }
         return $town;
     }
 
     // временная функция
-    public static function detectTownTest($ip = NULL)
+    public static function detectTownTest($ip = null)
     {
         if (!Yii::app()->user->getState('currentTown')) {
             //if(empty($ip)) $ip=$_SERVER['REMOTE_ADDR'];
-            if (empty($ip)) $ip = $_SERVER['HTTP_X_REAL_IP'];
-            else $ip = "79.111.82.114";
+            if (empty($ip)) {
+                $ip = $_SERVER['HTTP_X_REAL_IP'];
+            } else {
+                $ip = "79.111.82.114";
+            }
             $data = "<ipquery><fields><all/></fields><ip-list><ip>" . $ip . "</ip></ip-list></ipquery>";
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, "http://194.85.91.253:8090/geo/geo.html");
@@ -90,7 +97,6 @@ class CustomFuncs
             preg_match("/<city>(.*?)<\/city>/", $xml, $a);
             $town = $a[1];
             Yii::app()->user->getState('currentTown', $town);
-
         } else {
             $town = Yii::app()->user->getState('currentTown');
         }
@@ -98,7 +104,7 @@ class CustomFuncs
     }
 
 
-    public static function detectTownLink($ip = NULL, $selector)
+    public static function detectTownLink($ip = null, $selector)
     {
         $town = self::detectTown($ip);
         if ($town) {
@@ -171,7 +177,9 @@ class CustomFuncs
             $minutes = $timeArray[1];
             $seconds = $timeArray[2];
             return $hours . ":" . $minutes;
-        } else return NULL;
+        } else {
+            return null;
+        }
     }
 
     // функция принимает дату yyyy-mm-dd hh:mm:ss и возвращает массив из года, месяца, дня, часа, минуты, секунды, даты и времени
@@ -189,7 +197,7 @@ class CustomFuncs
             $hours = (int)$timeArray[0];
             $minutes = $timeArray[1];
             $seconds = $timeArray[2];
-            $outputArray = Array(
+            $outputArray = array(
                 'year' => $year,
                 'month' => $month,
                 'day' => $day,
@@ -205,14 +213,14 @@ class CustomFuncs
             $year = (int)$dateArray[0];
             $month = (int)$dateArray[1];
             $day = (int)$dateArray[2];
-            $outputArray = Array(
+            $outputArray = array(
                 'year' => $year,
                 'month' => $month,
                 'day' => $day,
             );
             return $outputArray;
         } else {
-            return NULL;
+            return null;
         }
     }
 
@@ -268,7 +276,9 @@ class CustomFuncs
     // функция пребразует дату в формате yyyy-mm-dd в формат dd-mm-yyyy и наоборот в зависимости от формата аргумента
     public static function invertDate($date)
     {
-        if ($date == '') return NULL;
+        if ($date == '') {
+            return null;
+        }
         if (preg_match("/([0-9]{4})\-([0-9]{2})\-([0-9]{2})/", $date)) {
             // аргумент $date - строка формата yyyy-mm-dd
             $dateArray = explode("-", $date);
@@ -278,7 +288,7 @@ class CustomFuncs
 
             // возвращаем дату в формате dd-mm-yyyy
             return $day . "-" . $month . "-" . $year;
-        } else if (preg_match("/([0-9]{2})\-([0-9]{2})\-([0-9]{4})/", $date)) {
+        } elseif (preg_match("/([0-9]{2})\-([0-9]{2})\-([0-9]{4})/", $date)) {
             // аргумент $date - строка формата dd-mm-yyyy, разбиваем строку на части
             $dateArray = explode("-", $date);
             $year = $dateArray[2];
@@ -286,7 +296,9 @@ class CustomFuncs
             $day = $dateArray[0];
             // возвращаем дату в формате yyyy-mm-dd
             return $year . "-" . $month . "-" . $day;
-        } else return false;
+        } else {
+            return false;
+        }
     }
 
     public static function getMonthsNames()
@@ -361,7 +373,7 @@ class CustomFuncs
      */
     public static function fillEmptyDatesArrayByDefaultValues($datesArray, $defaultValue = 0, $interval = 'P1D')
     {
-        if(sizeof($datesArray) == 0) {
+        if (sizeof($datesArray) == 0) {
             return $datesArray;
         }
         
@@ -371,8 +383,8 @@ class CustomFuncs
 
         $currentDate = (new DateTime($dateStart))->add(new DateInterval('P1D'));
 
-        while($currentDate < $dateTimeEnd) {
-            if(!isset($datesArray[$currentDate->format('Y-m-d')])) {
+        while ($currentDate < $dateTimeEnd) {
+            if (!isset($datesArray[$currentDate->format('Y-m-d')])) {
                 $datesArray[$currentDate->format('Y-m-d')] = $defaultValue;
             }
             $currentDate->add(new DateInterval('P1D'));

@@ -118,11 +118,11 @@ class Town extends CActiveRecord
 
     /**
      * Возвращает название города по его id в формате "Город (регион)"
-     * 
+     *
      * @param int $id id города
      * @return string Название города + регион
      */
-    static public function getName($id) 
+    public static function getName($id)
     {
         $model = self::model()->with('region')->findByPk((int)$id);
         return $model->name . " (" . $model->region->name . ")";
@@ -131,10 +131,10 @@ class Town extends CActiveRecord
 
     /**
     *   возвращает массив городов, отсортированный по уменьшению населения
-     *  
+     *
     *   @return Array массив. ключи - id городов, значения - названия + названия регионов
     */
-    static public function getTownsIdsNames()
+    public static function getTownsIdsNames()
     {
         $townsArray = array();
 
@@ -147,7 +147,7 @@ class Town extends CActiveRecord
 
         $townsArray = array();
 
-        foreach($towns as $town) {
+        foreach ($towns as $town) {
             $townsArray[$town['id']] = $town['name'] . " (" . $town['regionName'] . ")";
         }
 
@@ -161,20 +161,23 @@ class Town extends CActiveRecord
      */
     public function search()
     {
-            // Warning: Please modify the following code to remove attributes that
-            // should not be searched.
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
 
-            $criteria=new CDbCriteria;
+        $criteria=new CDbCriteria;
 
-            $criteria->compare('id',$this->id);
-            $criteria->compare('name',$this->name,true);
-            $criteria->compare('country',$this->country,true);
-            $criteria->compare('alias',$this->alias,true);
-            // для поиска городов с описанием и без:
-            if($this->description === 0) $criteria->addCondition("description=''");
-                else if($this->description === 1) $criteria->addCondition("description!=''");
+        $criteria->compare('id', $this->id);
+        $criteria->compare('name', $this->name, true);
+        $criteria->compare('country', $this->country, true);
+        $criteria->compare('alias', $this->alias, true);
+        // для поиска городов с описанием и без:
+        if ($this->description === 0) {
+            $criteria->addCondition("description=''");
+        } elseif ($this->description === 1) {
+            $criteria->addCondition("description!=''");
+        }
 
-            return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
                     'pagination'=>array(
                         'pageSize'=>30,
@@ -184,13 +187,13 @@ class Town extends CActiveRecord
 
     /**
      * Возвращает SEO title для страницы города
-     * 
+     *
      * @return string SEO title
      */
     public function createPageTitle()
     {
-        if(!empty($this->seoTitle)) {
-           $pageTitle =  $this->seoTitle;
+        if (!empty($this->seoTitle)) {
+            $pageTitle =  $this->seoTitle;
         } else {
             $pageTitle = "Консультация юриста в городе " . CHtml::encode($this->name) . ". ".CHtml::encode($this->region->name) . ". ";
         }
@@ -199,14 +202,14 @@ class Town extends CActiveRecord
 
     /**
      * Возвращает SEO Description для страницы города
-     * 
+     *
      * @return string SEO Description
      */
     public function createPageDescription()
     {
-        if(!empty($this->seoDescription)) {
-           $pageDescription =  $this->seoDescription;
-        } else { 
+        if (!empty($this->seoDescription)) {
+            $pageDescription =  $this->seoDescription;
+        } else {
             $pageDescription = "Консультация юриста по всем отраслям права в городе " . CHtml::encode($this->name) . ", " . CHtml::encode($this->region->name) . ", только профессиональные юристы и адвокаты.";
         }
         return $pageDescription;
@@ -214,13 +217,13 @@ class Town extends CActiveRecord
 
     /**
      * Возвращает SEO Keywords для страницы города
-     * 
+     *
      * @return string SEO Keywords
      */
     public function createPageKeywords()
     {
-        if(!empty($this->seoKeywords)) {
-           $pageKeywords =  $this->seoKeywords;
+        if (!empty($this->seoKeywords)) {
+            $pageKeywords =  $this->seoKeywords;
         } else {
             $pageKeywords = 'Консультация юриста, консультация адваоката, '.CHtml::encode($this->name);
         }
@@ -229,34 +232,33 @@ class Town extends CActiveRecord
 
     /**
      * возвращает URL фотографии города относительно корня сайта
-     * 
+     *
      * @param string $size размер фотографии (full - большая, thumb - маленькая)
-     * @return string 
+     * @return string
      */
     public function getPhotoUrl($size='full')
     {
         $photoUrl = '';
 
-        if($size == 'full') {
+        if ($size == 'full') {
             $photoUrl = self::TOWN_PHOTO_PATH . '/' . CHtml::encode($this->photo);
-        } elseif($size == 'thumb') {
+        } elseif ($size == 'thumb') {
             $photoUrl = self::TOWN_PHOTO_PATH . self::TOWN_PHOTO_THUMB_FOLDER . '/' . CHtml::encode($this->photo);
         }
         return $photoUrl;
     }
 
     /**
-     * Возвращает массив соседних городов, расположенных 
+     * Возвращает массив соседних городов, расположенных
      * в радиусе $radius км. от данного города
      * за расстояние считается дистанция между центрами
-     * 
+     *
      * @param float $radius Радиус поиска (км)
      * @return array массив объектов Town
      */
     public function getCloseTowns($radius = 100, $limit = 10)
     {
-
-        if(!$this->lat || !$this->lng) {
+        if (!$this->lat || !$this->lng) {
             return array();
         }
         
@@ -273,5 +275,4 @@ class Town extends CActiveRecord
 
         return $towns;
     }
-        
 }

@@ -83,7 +83,7 @@ class TurboPack
             $counter++;
         }
 
-        if($counter % $taskSize != 0) {
+        if ($counter % $taskSize != 0) {
             $currentTaskXML .= $this->getFooter();
             $tasks[] = $currentTaskXML;
         }

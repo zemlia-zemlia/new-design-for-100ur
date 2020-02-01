@@ -26,8 +26,7 @@
  * @subpackage Encoder
  * @author Chris Corbyn
  */
-class Swift_CharacterReader_UsAsciiReader
-  implements Swift_CharacterReader
+class Swift_CharacterReader_UsAsciiReader implements Swift_CharacterReader
 {
 
   /**
@@ -39,26 +38,22 @@ class Swift_CharacterReader_UsAsciiReader
    * @param string $bytes
    * @return int
    */
-  public function validateByteSequence($bytes, $size)
-  {
-    $byte = reset($bytes);
-    if (1 == count($bytes) && $byte >= 0x00 && $byte <= 0x7F)
+    public function validateByteSequence($bytes, $size)
     {
-      return 0;
+        $byte = reset($bytes);
+        if (1 == count($bytes) && $byte >= 0x00 && $byte <= 0x7F) {
+            return 0;
+        } else {
+            return -1;
+        }
     }
-    else
+
+    /**
+     * Returns the number of bytes which should be read to start each character.
+     * @return int
+     */
+    public function getInitialByteSize()
     {
-      return -1;
+        return 1;
     }
-  }
-
-  /**
-   * Returns the number of bytes which should be read to start each character.
-   * @return int
-   */
-  public function getInitialByteSize()
-  {
-    return 1;
-  }
-
 }

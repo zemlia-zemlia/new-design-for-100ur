@@ -9,8 +9,8 @@
  * @property string $name
  * @property integer $minPrice
  */
-class DocType extends CActiveRecord {
-
+class DocType extends CActiveRecord
+{
     const CLASS_BUSINESS = 1; // Регистрация бизнеса
     const CLASS_DEAL = 2; // Договоры и соглашения
     const CLASS_COURT = 3; // Документы в суд
@@ -20,7 +20,8 @@ class DocType extends CActiveRecord {
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return '{{doctype}}';
     }
 
@@ -35,7 +36,8 @@ class DocType extends CActiveRecord {
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
@@ -51,7 +53,8 @@ class DocType extends CActiveRecord {
     /**
      * @return array relational rules.
      */
-    public function relations() {
+    public function relations()
+    {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
@@ -61,7 +64,8 @@ class DocType extends CActiveRecord {
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
             'id'        => 'ID',
             'class'     => 'Раздел',
@@ -71,10 +75,11 @@ class DocType extends CActiveRecord {
     }
     
     /**
-     * возвращает массив, ключами которого являются коды классов, а значениями - названия 
+     * возвращает массив, ключами которого являются коды классов, а значениями - названия
      * @return Array массив классов
      */
-    static public function getClassesArray() {
+    public static function getClassesArray()
+    {
         return array(
             self::CLASS_BUSINESS     => [
                 'name'          =>  'Регистрация бизнеса',
@@ -97,7 +102,7 @@ class DocType extends CActiveRecord {
                 'description'   =>  'Жалоба на действия должностного лица, судебного пристава, сотрудника ГИБДД и др.',
             ],
             self::CLASS_OTHER        => [
-                'name'          =>  'Другое', 
+                'name'          =>  'Другое',
                 'description'   =>  'Любой другой документ. Вы можете описать его самостоятельно.',
             ],
         );
@@ -105,10 +110,11 @@ class DocType extends CActiveRecord {
     
     /**
      * возвращает название класса для объекта
-     * 
+     *
      * @return string название статуса
      */
-    public function getClassName() {
+    public function getClassName()
+    {
         $classesArray = self::getClassesArray();
         return $classesArray[$this->class]['name'];
     }
@@ -126,7 +132,8 @@ class DocType extends CActiveRecord {
      * @return CActiveDataProvider the data provider that can return the models
      * based on the search/filter conditions.
      */
-    public function search() {
+    public function search()
+    {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria;
@@ -146,8 +153,8 @@ class DocType extends CActiveRecord {
      * @param string $className active record class name.
      * @return DocType the static model class
      */
-    public static function model($className = __CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
-
 }

@@ -4,8 +4,8 @@
  * Клиент для работы с API сервиса 100 Юристов
  * @author Михаил Крутиков <m@mkrutikov.pro>
  */
-class StoYuristovClient {
-
+class StoYuristovClient
+{
     protected $_appId; // идентификатор кампании партнера
     protected $_secretKey; // секретный ключ кампании
     protected $_curlLink; // линк Curl
@@ -23,11 +23,11 @@ class StoYuristovClient {
 
     /**
      * Конструктор
-     * 
+     *
      * @param integer $appId
      * @param string $secretKey
      */
-    public function __construct($appId, $secretKey, $testMode = 0) 
+    public function __construct($appId, $secretKey, $testMode = 0)
     {
         $this->_appId = $appId;
         $this->_secretKey = $secretKey;
@@ -46,16 +46,16 @@ class StoYuristovClient {
     /**
      * Вычисление сигнатуры
      */
-    protected function _calculateSignature() 
+    protected function _calculateSignature()
     {
         $this->_signature = md5($this->name . $this->phone . $this->town . $this->question . $this->_appId . $this->_secretKey);
     }
 
     /**
      * Проверка данных перед отправкой в API на стороне клиента
-     * @return mixed Результат проверки. true если все в 
+     * @return mixed Результат проверки. true если все в
      */
-    protected function _validate() 
+    protected function _validate()
     {
         $errors = array();
 
@@ -81,10 +81,10 @@ class StoYuristovClient {
 
     /**
      * Возвращает массив параметров для POST запроса
-     * 
+     *
      * @return array Массив параметров
      */
-    protected function _getParams() 
+    protected function _getParams()
     {
         return array(
             'name' => $this->name,
@@ -101,12 +101,12 @@ class StoYuristovClient {
 
     /**
      * Отправляет лид в api
-     * 
+     *
      * @return array Массив с результатом. Элементы массива:
      * * code - код ответа. 200 - ОК, остальные коды - ошибки
      * * message - сообщение от api
      */
-    public function send() 
+    public function send()
     {
         // проверяем данные
         if (($errors = $this->_validate()) !== true) {
@@ -130,5 +130,4 @@ class StoYuristovClient {
             return array("message" => "Ошибка при отправке лида на сервер");
         }
     }
-
 }

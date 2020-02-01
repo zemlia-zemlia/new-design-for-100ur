@@ -6,7 +6,7 @@ $this->pageTitle=Yii::app()->name . ' - Аккаунт успешно актив
     <div class="panel-body">
         <h1 class="vert-margin30">Ура, Ваш аккаунт успешно активирован!</h1>
         <div class="vert-margin30">
-        <?php if($user->role == User::ROLE_JURIST):?>
+        <?php if ($user->role == User::ROLE_JURIST):?>
             <p>
                 Теперь Вам необходимо заполнить свой профиль.
             </p>
@@ -20,11 +20,11 @@ $this->pageTitle=Yii::app()->name . ' - Аккаунт успешно актив
                 отправлены на Вашу почту.
             </p>
             
-            <?php 
+            <?php
                 //CustomFuncs::printr($question);
             ?>
             
-            <?php if($question->price):?>
+            <?php if ($question->price):?>
                 <div class="center-align">
                     <h3>Оплатите вопрос и получите быстрый гарантированный ответ юриста</h3>
                     <?php $this->renderPartial('application.views.question._paymentForm', array('question'=>$question));?>

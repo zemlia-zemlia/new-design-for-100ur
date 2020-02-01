@@ -2,7 +2,6 @@
 
 class UloginModel extends CModel
 {
-
     public $identity;
     public $network;
     public $email;
@@ -34,7 +33,6 @@ class UloginModel extends CModel
 
     public function getAuthData()
     {
-
         $authData = json_decode(file_get_contents($this->uloginAuthUrl . $this->token . '&host=' . $_SERVER['HTTP_HOST']), true);
 
         $this->setAttributes($authData);

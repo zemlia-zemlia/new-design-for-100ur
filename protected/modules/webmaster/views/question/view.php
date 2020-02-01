@@ -5,12 +5,12 @@
 $this->setPageTitle(CHtml::encode($model->id) . ". Вопросы. ". Yii::app()->name);
 
 $this->breadcrumbs=array(
-	'Вопросы'=>array('index'),
-	$model->id,
+    'Вопросы'=>array('index'),
+    $model->id,
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('Кабинет вебмастера',"/webmaster/"),
+    'homeLink'=>CHtml::link('Кабинет вебмастера', "/webmaster/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
@@ -40,15 +40,15 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </p>
     
     <p><strong>Автор вопроса:</strong> <?php echo CHtml::encode($model->authorName); ?></p>
-    <?php if($model->town):?>
+    <?php if ($model->town):?>
         <p><strong>Город:</strong> <?php echo CHtml::encode($model->town->name); ?></p>
     <?php endif;?>
         
-    <?php if(in_array($model->status, array(Question::STATUS_CHECK, Question::STATUS_PUBLISHED))):?>
+    <?php if (in_array($model->status, array(Question::STATUS_CHECK, Question::STATUS_PUBLISHED))):?>
         <strong>Ваш заработок: </strong> <?php echo $model->buyPrice;?> руб.
     <?php endif;?>
 </div>
 
-<?php if(in_array($model->status, array(Question::STATUS_CHECK, Question::STATUS_PUBLISHED))):?>
-    <?php echo CHtml::link('Смотреть на сайте', Yii::app()->createUrl('/question/view',array('id'=>$model->id)), array('class'=>'btn btn-info', 'target' => '_blank'));?>
+<?php if (in_array($model->status, array(Question::STATUS_CHECK, Question::STATUS_PUBLISHED))):?>
+    <?php echo CHtml::link('Смотреть на сайте', Yii::app()->createUrl('/question/view', array('id'=>$model->id)), array('class'=>'btn btn-info', 'target' => '_blank'));?>
 <?php endif;?>

@@ -14,5 +14,5 @@ $this->setPageTitle("Редактирование текста ответа " . 
 
 <?php echo $this->renderPartial('application.views.answer._form', array(
     'model' =>  $model,
-    )); 
+    ));
 ?>

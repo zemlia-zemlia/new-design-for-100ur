@@ -3,14 +3,15 @@
 /**
  * Страницы раздела транзакций пользователя
  */
-class TransactionController extends Controller {
-
+class TransactionController extends Controller
+{
     public $layout = "//frontend/question";
 
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
         );
@@ -21,7 +22,8 @@ class TransactionController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
                 'actions' => array('index', 'createSuccess'),
@@ -33,8 +35,8 @@ class TransactionController extends Controller {
     /**
      * Список транзакций
      */
-    public function actionIndex() {
-
+    public function actionIndex()
+    {
         $transaction = new PartnerTransaction();
         $transaction->setScenario('pull');
 
@@ -110,7 +112,6 @@ class TransactionController extends Controller {
             }
 
             if (!$transaction->hasErrors()) {
-
                 $transaction->sum = 0 - abs($transaction->sum);
                 if ($transaction->save()) {
                     $this->redirect(array('/transaction/index', 'created' => 1));
@@ -137,11 +138,11 @@ class TransactionController extends Controller {
     /**
      * Страница успешной отправки запроса на вывод средств
      */
-    public function actionCreateSuccess() {
+    public function actionCreateSuccess()
+    {
         LoggerFactory::getLogger('db')->log('Пользователь #' . Yii::app()->user->id . ' пополнил баланс', 'User', Yii::app()->user->id);
         (new UserActivity())->logActivity(Yii::app()->user->getModel(), UserActivity::ACTION_TOPUP_BALANCE);
 
         echo $this->render('createSuccess');
     }
-
 }

@@ -13,10 +13,10 @@ class LogReader
                 ->order('id desc')
                 ->limit($limit);
         
-        if($class) {
+        if ($class) {
             $command->andWhere('class=:class', [':class' => $class]);
         }
-        if($subjectId) {
+        if ($subjectId) {
             $command->andWhere('subjectId=:subjectId', [':subjectId' => $subjectId]);
         }
         
@@ -31,11 +31,11 @@ class LogReader
      */
     public static function createLink($logRow)
     {
-        if($logRow['class'] == '' || $logRow['subjectId'] == 0) {
+        if ($logRow['class'] == '' || $logRow['subjectId'] == 0) {
             return '';
         }
         
-        switch($logRow['class']) {
+        switch ($logRow['class']) {
             case 'Lead':
                 return CHtml::link('Лид #' . $logRow['subjectId'], Yii::app()->createUrl('admin/lead/view', ['id' => $logRow['subjectId']]));
             
@@ -50,4 +50,3 @@ class LogReader
         }
     }
 }
-

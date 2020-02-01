@@ -13,25 +13,24 @@ class SendAnswerNotificationCommand extends CConsoleCommand
         
         $answers = Answer::model()->with(array('question', 'question.author'))->findAll($criteria);
                 
-        foreach($answers as $answer) {
+        foreach ($answers as $answer) {
             //echo $answer->id . ': ' . $answer->authorId . ': ' . $answer->datetime . ':' . $answer->question->id . ':' . $answer->question->author->id . PHP_EOL;
             
             $question = $answer->question;
             $user = $answer->question->author;
             
-            if(!($user instanceof User) || !($question instanceof Question) || !$user->email) {
+            if (!($user instanceof User) || !($question instanceof Question) || !$user->email) {
                 continue;
             }
             
             // если уже отправили письмо на этот адрес, не отправляем
-            if(in_array($user->email, $emailsSent)) {
+            if (in_array($user->email, $emailsSent)) {
                 continue;
             }
             
-            if($user->sendAnswerNotification($question, $answer) === true) {
+            if ($user->sendAnswerNotification($question, $answer) === true) {
                 $emailsSent[] = $user->email;
             }
         }
-        
     }
 }

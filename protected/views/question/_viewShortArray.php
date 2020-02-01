@@ -5,13 +5,13 @@
     </div>
     <div class="col-sm-3">
 
-        <?php if($data['counter'] == 1) {
-            echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>Есть ответ</span>";
-        } elseif($data['counter']>1) {
-            echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>" . $data['counter'] . ' ' . CustomFuncs::numForms($data['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
-        } else {
-            echo "Нет ответа";
-        }
+        <?php if ($data['counter'] == 1) {
+    echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>Есть ответ</span>";
+} elseif ($data['counter']>1) {
+    echo "<img src='/pics/2017/icon_checkmark.png' alt='Есть ответ' /> <span class='text-success'>" . $data['counter'] . ' ' . CustomFuncs::numForms($data['counter'], 'ответ', 'ответа', 'ответов') . "</span>";
+} else {
+    echo "Нет ответа";
+}
         ?>
 
     </div>

@@ -20,12 +20,11 @@ class NumberHelper
         $num10 = $num % 10;
         if ($num >= 10 && $num < 20) {
             return $form5;
-        } else if ($num10 == 1) {
+        } elseif ($num10 == 1) {
             return $form1;
-        } else if ($num10 > 1 && $num10 < 5) {
+        } elseif ($num10 > 1 && $num10 < 5) {
             return $form2;
         }
         return $form5;
     }
-
 }

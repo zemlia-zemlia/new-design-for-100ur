@@ -18,7 +18,6 @@
  */
 class Comment extends CActiveRecord
 {
-
     const TYPE_CONTACT = 1;
     const TYPE_AGREEMENT = 2;
     const TYPE_EVENT = 3;
@@ -189,7 +188,7 @@ class Comment extends CActiveRecord
      *
      * @return array (код статуса => название)
      */
-    static public function getStatusesArray()
+    public static function getStatusesArray()
     {
         return array(
             self::STATUS_NEW => 'Новый, не проверен',
@@ -215,7 +214,7 @@ class Comment extends CActiveRecord
      * @param int $status код статуса
      * @return string Название статуса
      */
-    static public function getStatusName($status)
+    public static function getStatusName($status)
     {
         $statusesArray = self::getStatusesArray();
         return $statusesArray[$status];
@@ -416,5 +415,4 @@ class Comment extends CActiveRecord
             return false;
         }
     }
-
 }

@@ -33,7 +33,7 @@ class CategoriesTree extends CWidget
                 ->group('c.root')
                 ->order('c.id ASC')
                 ->queryAll();
-        
+
         foreach($questionsByCategories as $row) {
             $questionsByCategoriesArray[$row['root']] = $row['counter'];
         }*/
@@ -44,4 +44,3 @@ class CategoriesTree extends CWidget
         ));
     }
 }
-?>

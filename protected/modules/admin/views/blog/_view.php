@@ -7,12 +7,12 @@
     <div class="category-post-header">
         <?php echo $data->author->name;?>
         <span class="muted">
-        <?php if(strtotime($data->datePublication)>time()):?>
+        <?php if (strtotime($data->datePublication)>time()):?>
             <span class="label label-warning">ожидает публикации</span>
         <?php endif;?>    
             <?php echo CustomFuncs::invertDate($data->datePublication);?></span>
         <h3>
-            <?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('/admin/post/view',array('id'=>$data->id)));?>
+            <?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('/admin/post/view', array('id'=>$data->id)));?>
         </h3>
     </div>
     
@@ -22,7 +22,7 @@
             <?php
                 // очищаем текст поста от ненужных тегов перед выводом в браузер
                 $purifier = new Purifier();
-                echo $purifier->purify($data->preview) . ' ' . CHtml::link('читать весь пост', Yii::app()->createUrl('/admin/post/view',array('id'=>$data->id))); 
+                echo $purifier->purify($data->preview) . ' ' . CHtml::link('читать весь пост', Yii::app()->createUrl('/admin/post/view', array('id'=>$data->id)));
             ?>
         </div>
         

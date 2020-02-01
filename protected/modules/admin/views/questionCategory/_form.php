@@ -67,8 +67,9 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
 
                 <div class="form-group">
                     <?php echo $form->labelEx($model, 'publish_date'); ?>
-                    <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
-                        array(
+                    <?php $this->widget(
+                'zii.widgets.jui.CJuiDatePicker',
+                array(
                             'name' => "QuestionCategory[publish_date]",
                             'value' => $model['publish_date'],
                             'language' => 'ru',
@@ -79,7 +80,7 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
                                 'class' => 'form-control'
                             )
                         )
-                    );
+            );
                     ?>
                     <?php echo $form->error($model, 'publish_date'); ?>
                 </div>
@@ -115,7 +116,7 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
                     <?php $attachmentFiles = $model->files; ?>
                     <?php foreach ($attachmentFiles as $file): ?>
                         <?php echo CHtml::link($file->name, Yii::app()->urlManager->baseUrl . $file->getRelativePath(), ['target' => '_blank']); ?>
-                        <?php // echo CHtml::link('удалить', '#', ['class' => 'text-danger delete-attachment-link', 'data-id' => $file->id]); ?>
+                        <?php // echo CHtml::link('удалить', '#', ['class' => 'text-danger delete-attachment-link', 'data-id' => $file->id]);?>
                         <br/>
                     <?php endforeach; ?>
                 </p>

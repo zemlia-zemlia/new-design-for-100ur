@@ -3,8 +3,8 @@
 /* @var $model Postcategory */
 
 $this->breadcrumbs=array(
-	'Блог'=>array('index'),
-	'Новая категория',
+    'Блог'=>array('index'),
+    'Новая категория',
 );
 $this->setPageTitle("Создание категории публикаций" . " | ". Yii::app()->name);
 
@@ -12,7 +12,7 @@ $this->setPageTitle("Создание категории публикаций" .
 
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('CRM',"/"),
+        'homeLink'=>CHtml::link('CRM', "/"),
         'separator'=>' / ',
         'links'=>$this->breadcrumbs,
      ));

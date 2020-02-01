@@ -19,10 +19,10 @@ $monthsArray = array(
 ?>
 
 
-<?php if(Yii::app()->user->checkAccess(User::ROLE_MANAGER) && ($model->role == User::ROLE_JURIST || $model->role == User::ROLE_OPERATOR)):?>    
+<?php if (Yii::app()->user->checkAccess(User::ROLE_MANAGER) && ($model->role == User::ROLE_JURIST || $model->role == User::ROLE_OPERATOR)):?>    
     <h2>Статистика сотрудника <?php echo $model->getShortName();?></h2>
     
-    <?php if(!$print):?>
+    <?php if (!$print):?>
     <div class="vert-margin30 right-align">
         <?php echo CHtml::link('Печать', Yii::app()->createUrl('user/stats', array('id'=>$model->id, 'print'=>1)), array('target'=>'_blank'));?>
     </div>
@@ -32,8 +32,8 @@ $monthsArray = array(
     </div>
     <?php endif;?>
     
-    <?php if($model->role == User::ROLE_JURIST) {
-            $this->renderPartial('_statJurist', array(
+    <?php if ($model->role == User::ROLE_JURIST) {
+    $this->renderPartial('_statJurist', array(
                 'monthsArray'   =>  $monthsArray,
                 'leadsArray'    =>  $leadsArray,
                 'channelsArray' =>  $channelsArray,
@@ -41,8 +41,8 @@ $monthsArray = array(
                 'agreementsArray'   =>  $agreementsArray,
                 'transactionsArray' =>  $transactionsArray,
             ));
-        } elseif($model->role == User::ROLE_OPERATOR) {
-            $this->renderPartial('_statOperator', array(
+} elseif ($model->role == User::ROLE_OPERATOR) {
+    $this->renderPartial('_statOperator', array(
                 'monthsArray'   =>  $monthsArray,
                 'leadsArray'    =>  $leadsArray,
                 'channelsArray' =>  $channelsArray,
@@ -50,6 +50,6 @@ $monthsArray = array(
                 'agreementsArray'   =>  $agreementsArray,
                 'meetingsCurrentArray'  =>  $meetingsCurrentArray,
             ));
-        }
+}
     ?>
 <?php endif;?>

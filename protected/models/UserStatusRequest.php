@@ -17,7 +17,8 @@
  * @property string $advNumber
  * @property string $position
  */
-class UserStatusRequest extends CActiveRecord {
+class UserStatusRequest extends CActiveRecord
+{
 
     // статусы заявок
     const STATUS_NEW = 0; // новая заявка
@@ -28,7 +29,8 @@ class UserStatusRequest extends CActiveRecord {
      * @return string the associated database table name
      */
 
-    public function tableName() {
+    public function tableName()
+    {
         return '{{userStatusRequest}}';
     }
 
@@ -43,7 +45,8 @@ class UserStatusRequest extends CActiveRecord {
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
@@ -63,7 +66,8 @@ class UserStatusRequest extends CActiveRecord {
     /**
      * @return array relational rules.
      */
-    public function relations() {
+    public function relations()
+    {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
@@ -76,7 +80,8 @@ class UserStatusRequest extends CActiveRecord {
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
             'id' => 'ID',
             'yuristId' => 'ID юриста',
@@ -94,7 +99,8 @@ class UserStatusRequest extends CActiveRecord {
     }
 
     // возвращает массив, ключами которого являются коды статусов верификации, а значениями - названия
-    static public function getVerificationStatusesArray() {
+    public static function getVerificationStatusesArray()
+    {
         return array(
             self::STATUS_NEW => 'новый',
             self::STATUS_ACCEPTED => 'подтверждено',
@@ -102,7 +108,8 @@ class UserStatusRequest extends CActiveRecord {
         );
     }
 
-    public function getVerificationStatusName() {
+    public function getVerificationStatusName()
+    {
         $statusesArray = self::getVerificationStatusesArray();
         $statusName = $statusesArray[$this->isVerified];
         return $statusName;
@@ -120,7 +127,8 @@ class UserStatusRequest extends CActiveRecord {
      * @return CActiveDataProvider the data provider that can return the models
      * based on the search/filter conditions.
      */
-    public function search() {
+    public function search()
+    {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria;
@@ -149,14 +157,16 @@ class UserStatusRequest extends CActiveRecord {
      * @param string $className active record class name.
      * @return UserStatusRequest the static model class
      */
-    public static function model($className = __CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
     /**
      * проверка заполненности необходимых полей в зависимости от статуса
      */
-    public function validateRequest() {
+    public function validateRequest()
+    {
         switch ($this->status) {
             case YuristSettings::STATUS_YURIST:
 
@@ -195,10 +205,11 @@ class UserStatusRequest extends CActiveRecord {
 
     /**
      * Отправка уведомления о смене статуса
-     * 
+     *
      * @return boolean результат: true - отправлено, false - ошибка
      */
-    public function sendNotification() {
+    public function sendNotification()
+    {
         $user = $this->user;
         $email = $user->email;
 
@@ -223,7 +234,8 @@ class UserStatusRequest extends CActiveRecord {
         }
     }
 
-    public static function getNewRequestsCount() {
+    public static function getNewRequestsCount()
+    {
         $counterRow = Yii::app()->db->cache(600)->createCommand()
                 ->select('COUNT(*) counter')
                 ->from("{{userStatusRequest}}")
@@ -231,5 +243,4 @@ class UserStatusRequest extends CActiveRecord {
                 ->queryRow();
         return $counterRow['counter'];
     }
-
 }

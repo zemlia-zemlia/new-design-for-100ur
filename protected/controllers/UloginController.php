@@ -2,7 +2,6 @@
 
 class UloginController extends Controller
 {
-
     public function actionLogin()
     {
         if (isset($_POST['token'])) {
@@ -11,7 +10,6 @@ class UloginController extends Controller
             $ulogin->getAuthData();
 
             if ($ulogin->validate() && $ulogin->login()) {
-
                 $questionId = Yii::app()->user->getState('question_id');
                 if ($questionId) {
                     $question = Question::model()->findByPk($questionId);

@@ -5,22 +5,22 @@
 $this->setPageTitle("Отзывы.". Yii::app()->name);
 Yii::app()->clientScript->registerScriptFile('/js/admin/comments.js');
 
-switch($type) {
+switch ($type) {
     case Comment::TYPE_ANSWER:
         $typeName = "Комментарии";
         break;
     case Comment::TYPE_COMPANY:
         $typeName = "Отзывы";
         break;
-    default :
+    default:
         $typeName = "Комментарии";
 }
 
 $this->breadcrumbs=array(
-	$typeName,
+    $typeName,
 );
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 юристов',"/"),
+    'homeLink'=>CHtml::link('100 юристов', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
@@ -29,8 +29,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <div class="vert-margin30">
 <h1><?php echo $typeName;?>.
 
-<?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
-    <?php if(!is_null($status)):?>
+<?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+    <?php if (!is_null($status)):?>
         <?php echo Comment::getStatusName($status); ?>
     <?php endif;?>    
 <?php endif;?>
@@ -41,14 +41,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <thead>
     <tr>
         <th>Текст</th>
-        <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+        <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
             <th>Управление</th>
         <?php endif;?>
     </tr>
     </thead>
 <?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'      =>  '_view',
+    'dataProvider'=>$dataProvider,
+    'itemView'      =>  '_view',
         'emptyText'     =>  'Не найдено ни одного комментария',
         'summaryText'   =>  'Показаны ' . $typeName . ' с {start} до {end}, всего {count}',
         'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words

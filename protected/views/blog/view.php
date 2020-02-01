@@ -7,14 +7,14 @@ $this->setPageTitle(CHtml::encode($model->title) . " | Блог" . " | ". Yii::a
 Yii::app()->clientScript->registerMetaTag(CHtml::encode($model->description), "Description");
 
 $this->breadcrumbs=array(
-	'Блог'=>array('/blog'),
-	CHtml::encode($model->title),
+    'Блог'=>array('/blog'),
+    CHtml::encode($model->title),
 );
 ?>
 
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('Консультация юриста',"/"),
+        'homeLink'=>CHtml::link('Консультация юриста', "/"),
         'separator'=>' / ',
         'links'=>$this->breadcrumbs,
      ));
@@ -27,7 +27,7 @@ $this->breadcrumbs=array(
             <?php echo nl2br(CHtml::encode($model->description)); ?>
         </div>
 
-        <?php if($postsDataProvider):?>
+        <?php if ($postsDataProvider):?>
         <?php $this->widget('zii.widgets.CListView', array(
                 'dataProvider'  =>  $postsDataProvider,
                 'itemView'      =>  'application.views.post._view',

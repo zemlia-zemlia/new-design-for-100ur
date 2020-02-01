@@ -69,56 +69,56 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
  */
 class EAccordion extends EJqueryUiWidget
 {
-   //***************************************************************************
-   // Configuration
-   //***************************************************************************
+    //***************************************************************************
+    // Configuration
+    //***************************************************************************
 
-   /**
-    * The body of the widget
-    *
-    * @var string
-    */
-   private $body = '';
+    /**
+     * The body of the widget
+     *
+     * @var string
+     */
+    private $body = '';
 
-	/**
-	 * The panels of the accordion widget.
-	 * @var array
-	 */
-	private $_panels = array();
+    /**
+     * The panels of the accordion widget.
+     * @var array
+     */
+    private $_panels = array();
 
-	/**
-	 * The wrapping html tag for the header-part
-	 * of a accordion panel.
-	 * @var string
-	 */
-	private $_headerHtml = 'h3';
+    /**
+     * The wrapping html tag for the header-part
+     * of a accordion panel.
+     * @var string
+     */
+    private $_headerHtml = 'h3';
 
-	/**
-	 * The functions supported by the
-	 * jquery accordion script
-	 * @var array
-	 */
-	private $_functions = array();
+    /**
+     * The functions supported by the
+     * jquery accordion script
+     * @var array
+     */
+    private $_functions = array();
 
-	/**
-	 * determines wether to use the jquery.easing
-	 * plugin or not...
-	 * @var boolean
-	 */
-	private $_useEasing = false;
+    /**
+     * determines wether to use the jquery.easing
+     * plugin or not...
+     * @var boolean
+     */
+    private $_useEasing = false;
 
-   //***************************************************************************
-   // Internal properties
-   //***************************************************************************
+    //***************************************************************************
+    // Internal properties
+    //***************************************************************************
 
-	/**
-	 * The valid script Options for the accordion widget.
-	 *
-	 * See @link http://jqueryui.com/demos/accordion/#options
-	 *
-	 * @var array
-	 */
-	protected $validOptions = array(
+    /**
+     * The valid script Options for the accordion widget.
+     *
+     * See @link http://jqueryui.com/demos/accordion/#options
+     *
+     * @var array
+     */
+    protected $validOptions = array(
       'active'=>array('type'=>array('boolean', 'number')), // Selector for the active element. Set to false to display none at start. Needs «collapsible: true». Default: first child
       'animated'=>array('type'=>array('boolean', 'string')), // Choose your favorite animation, or disable them (set to false). In addition to the default, 'bounceslide' and 'easeslide' are supported (both require the easing plugin). Default: false
       'autoHeight'=>array('type'=>'boolean'), // If set, the highest content part is used as height reference for all other parts. Provides more consistent animations. Default: true
@@ -129,213 +129,217 @@ class EAccordion extends EJqueryUiWidget
       'header'=>array('type'=>'string'), // Selector for the header element. Default: '> li > :first-child,> :not(li):even'
       'icons'=>array('type'=>'array'), // Icons to use for headers. Icons may be specified for 'header' and 'headerSelected', and we recommend using the icons native to the jQuery UI CSS Framework manipulated by jQuery UI ThemeRoller. Default: { 'header': 'ui-icon-triangle-1-e', 'headerSelected': 'ui-icon-triangle-1-s' }
       'navigation'=>array('type'=>'boolean'), // If set, looks for the anchor that matches location.href and activates it. Great for href-based state-saving. Use navigationFilter to implement your own matcher. Default: false
-	);
+    );
 
-   /**
-	* See @link http://jqueryui.com/demos/accordion/#options
-	*
-	* @var array
-	*/
-	protected $validFunctions = array('navigationFilter');
+    /**
+     * See @link http://jqueryui.com/demos/accordion/#options
+     *
+     * @var array
+     */
+    protected $validFunctions = array('navigationFilter');
 
-   /**
-	* See @link http://jqueryui.com/demos/accordion/#events
-	*
-	* @var array
-	*/
-   protected $validCallbacks = array('change');
+    /**
+     * See @link http://jqueryui.com/demos/accordion/#events
+     *
+     * @var array
+     */
+    protected $validCallbacks = array('change');
 
-   //***************************************************************************
-   // Setters and getters
-   //***************************************************************************
+    //***************************************************************************
+    // Setters and getters
+    //***************************************************************************
 
-   /**
-	* Sets the panels property.
-	* Format:
-	* array(
-	*	'Panel 1 Header' => '<p>Panel 1 Content</p>',
-	*	'Panel 2 Header' => '<ul><li>Panel 2 Content</li></ul>',
-	* )
-	* @param array
-	*/
-	public function setPanels(array $panels)
-	{
-		$this->_panels = $panels;
-	}
+    /**
+     * Sets the panels property.
+     * Format:
+     * array(
+     *	'Panel 1 Header' => '<p>Panel 1 Content</p>',
+     *	'Panel 2 Header' => '<ul><li>Panel 2 Content</li></ul>',
+     * )
+     * @param array
+     */
+    public function setPanels(array $panels)
+    {
+        $this->_panels = $panels;
+    }
 
-   /**
-	* Returns the panels property.
-	* @return array
-	*/
-	public function getPanels()
-	{
-		return $this->_panels;
-	}
+    /**
+     * Returns the panels property.
+     * @return array
+     */
+    public function getPanels()
+    {
+        return $this->_panels;
+    }
 
-   /**
-	* Sets the header html tag.
-	* @param string
-	*/
-	public function setHeaderHtml($headerHtml)
-	{
-		if(is_string($headerHtml))
-			$this->_headerHtml = $headerHtml;
-	}
+    /**
+     * Sets the header html tag.
+     * @param string
+     */
+    public function setHeaderHtml($headerHtml)
+    {
+        if (is_string($headerHtml)) {
+            $this->_headerHtml = $headerHtml;
+        }
+    }
 
-   /**
-	* Returns the header html tag.
-	* @return string
-	*/
-	public function getHeaderHtml()
-	{
-		return $this->_headerHtml;
-	}
+    /**
+     * Returns the header html tag.
+     * @return string
+     */
+    public function getHeaderHtml()
+    {
+        return $this->_headerHtml;
+    }
 
-   /**
-	* Sets the functions property.
-	* Format:
-    * array(
-	*	'navigationFilter' => 'function() {
-	*		return this.href.toLowerCase()==location.href.toLowerCase();
-	*	}',
-	* )
-	* @param array
-	*/
-	public function setFunctions(array $functions)
-	{
-		$this->_functions = $functions;
-	}
+    /**
+     * Sets the functions property.
+     * Format:
+     * array(
+     *	'navigationFilter' => 'function() {
+     *		return this.href.toLowerCase()==location.href.toLowerCase();
+     *	}',
+     * )
+     * @param array
+     */
+    public function setFunctions(array $functions)
+    {
+        $this->_functions = $functions;
+    }
 
-   /**
-	* Returns the functions property.
-	* @return array
-	*/
-	public function getFunctions()
-	{
-		return $this->_functions;
-	}
+    /**
+     * Returns the functions property.
+     * @return array
+     */
+    public function getFunctions()
+    {
+        return $this->_functions;
+    }
 
-   /**
-	* Sets the useEasing property.
-	* @return array
-	*/
-	public function setUseEasing($useEasing)
-	{
-		if(is_bool($useEasing))
-			$this->_useEasing = $useEasing;
-	}
+    /**
+     * Sets the useEasing property.
+     * @return array
+     */
+    public function setUseEasing($useEasing)
+    {
+        if (is_bool($useEasing)) {
+            $this->_useEasing = $useEasing;
+        }
+    }
 
-   /**
-	* Returns the useEasing property.
-	* @return array
-	*/
-	public function getUseEasing()
-	{
-		return $this->_useEasing;
-	}
+    /**
+     * Returns the useEasing property.
+     * @return array
+     */
+    public function getUseEasing()
+    {
+        return $this->_useEasing;
+    }
 
-   //***************************************************************************
-   // Utilities
-   //***************************************************************************
+    //***************************************************************************
+    // Utilities
+    //***************************************************************************
 
-   protected function makeOptions()
-   {
-		$options = array();
-		$options['header'] = $this->_headerHtml;
-		$options = CJavaScript::encode(array_merge($options, $this->options));
-		return $options;
-   }
+    protected function makeOptions()
+    {
+        $options = array();
+        $options['header'] = $this->_headerHtml;
+        $options = CJavaScript::encode(array_merge($options, $this->options));
+        return $options;
+    }
 
-   /**
-	* Generates the javascript code for the widget
-	* @return string
-	*/
-	protected function jsCode($id)
-	{
-		$options = $this->makeOptions();
-		$script = '$("#'.$id.'").accordion('.$options.');';
+    /**
+     * Generates the javascript code for the widget
+     * @return string
+     */
+    protected function jsCode($id)
+    {
+        $options = $this->makeOptions();
+        $script = '$("#'.$id.'").accordion('.$options.');';
 
-		$pattern = array("\r\n", "\n", "\r", "\t");
+        $pattern = array("\r\n", "\n", "\r", "\t");
 
-		foreach($this->callbacks as $key => $val) {
-			$val = str_replace($pattern, "", $val);
-			$script .= "\n$('#".$id."').accordion('option', '".$key."', ".$val.");";
-		}
+        foreach ($this->callbacks as $key => $val) {
+            $val = str_replace($pattern, "", $val);
+            $script .= "\n$('#".$id."').accordion('option', '".$key."', ".$val.");";
+        }
 
-		foreach($this->functions as $key => $val) {
-			$val = str_replace($pattern, "", $val);
-			$script .= "\n$('#".$id."').accordion('option', '".$key."', ".$val.");";
-		}
+        foreach ($this->functions as $key => $val) {
+            $val = str_replace($pattern, "", $val);
+            $script .= "\n$('#".$id."').accordion('option', '".$key."', ".$val.");";
+        }
 
-		return $script;
-	}
+        return $script;
+    }
 
-   /**
-	* Generates the html code for the widget
-	* @return string
-	*/
-	public function htmlCode()
-	{
-      $html = '';
-      if (!empty($this->_panels)) {
-         foreach ($this->_panels as $panelHeader => $panelBody) {
-            $anchor = sprintf("#%s", strtolower(trim($panelHeader)));
-            $anchor = str_replace(array("\r\n", "\n", "\r", "\t", " "), "", $anchor);
-            $header_link = CHtml::link($panelHeader, $anchor);
-            $html .= CHtml::openTag('div');
-            $html .= CHtml::tag($this->_headerHtml, array(), $header_link);
-            $html .= CHtml::tag('div', array(), $panelBody);
-            $html .= CHtml::closeTag('div');
-         }
-      }
-      else {
-         $html = CHtml::tag('div', array(), $this->body);
-      }
+    /**
+     * Generates the html code for the widget
+     * @return string
+     */
+    public function htmlCode()
+    {
+        $html = '';
+        if (!empty($this->_panels)) {
+            foreach ($this->_panels as $panelHeader => $panelBody) {
+                $anchor = sprintf("#%s", strtolower(trim($panelHeader)));
+                $anchor = str_replace(array("\r\n", "\n", "\r", "\t", " "), "", $anchor);
+                $header_link = CHtml::link($panelHeader, $anchor);
+                $html .= CHtml::openTag('div');
+                $html .= CHtml::tag($this->_headerHtml, array(), $header_link);
+                $html .= CHtml::tag('div', array(), $panelBody);
+                $html .= CHtml::closeTag('div');
+            }
+        } else {
+            $html = CHtml::tag('div', array(), $this->body);
+        }
 
-		return $html;
-	}
+        return $html;
+    }
 
-	public function registerClientScripts()
-	{
-		parent::registerClientScripts();
-		if($this->useEasing)
-			$this->clientScript->registerScriptFile($this->baseUrl.'/external/easing/jquery.easing.1.3.js');
-	}
+    public function registerClientScripts()
+    {
+        parent::registerClientScripts();
+        if ($this->useEasing) {
+            $this->clientScript->registerScriptFile($this->baseUrl.'/external/easing/jquery.easing.1.3.js');
+        }
+    }
 
-   //***************************************************************************
-   // Run Lola, Run
-   //***************************************************************************
+    //***************************************************************************
+    // Run Lola, Run
+    //***************************************************************************
 
-   /**
-    * Inits the widget.
-    */
-   public function init()
-   {
-      if (empty($this->_panels)) {
-         ob_start();
-      }
-   }
+    /**
+     * Inits the widget.
+     */
+    public function init()
+    {
+        if (empty($this->_panels)) {
+            ob_start();
+        }
+    }
 
-	/**
-	 * Executes the widget.
-	 * This method is called by {@link CBaseController::endWidget}.
-	 */
-	public function run()
-	{
-      if (empty($this->_panels)) {
-         $this->body = ob_get_contents();
-         ob_end_clean();
-      }
+    /**
+     * Executes the widget.
+     * This method is called by {@link CBaseController::endWidget}.
+     */
+    public function run()
+    {
+        if (empty($this->_panels)) {
+            $this->body = ob_get_contents();
+            ob_end_clean();
+        }
 
-		list($name, $id) = $this->resolveNameID();
+        list($name, $id) = $this->resolveNameID();
 
-		$this->publishAssets();
-		$this->registerClientScripts();
+        $this->publishAssets();
+        $this->registerClientScripts();
 
-		$this->clientScript->registerScript('Yii.'.get_class($this).'#'.$id,
-											$this->jsCode($name),
-											CClientScript::POS_READY);
+        $this->clientScript->registerScript(
+            'Yii.'.get_class($this).'#'.$id,
+            $this->jsCode($name),
+            CClientScript::POS_READY
+        );
 
-		echo CHtml::tag('div', array('id'=>$id), $this->htmlCode());
-	}
+        echo CHtml::tag('div', array('id'=>$id), $this->htmlCode());
+    }
 }

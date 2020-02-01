@@ -4,7 +4,7 @@
 ?>
 
 <?php
-    switch ($data->status){
+    switch ($data->status) {
         case Question::STATUS_NEW:
             $statusClass = '';
             break;
@@ -14,7 +14,7 @@
         case Question::STATUS_SPAM:
             $statusClass = 'danger';
             break;
-        default :
+        default:
             $statusClass = '';
     }
 ?>
@@ -27,8 +27,10 @@
         </p>
         
         <small>
-            <?php if(Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>
-                <?php if($data->datetime) {echo CustomFuncs::niceDate($data->datetime, false, false);}?>
+            <?php if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>
+                <?php if ($data->datetime) {
+    echo CustomFuncs::niceDate($data->datetime, false, false);
+}?>
             &nbsp;
             <?php endif;?>
              
@@ -40,7 +42,7 @@
             <?php echo CHtml::link(CHtml::encode($data->id), Yii::app()->createUrl('/admin/answer/view', array('id'=>$data->id))); ?>
             
             &nbsp;  
-            <?php if($data->author):?>
+            <?php if ($data->author):?>
             <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo CHtml::encode($data->author->lastName . ' ' . $data->author->name);?>
             <?php endif;?>
 
@@ -50,21 +52,21 @@
         </small>
     </td>
     
-    <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>  
+    <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>  
     <td>
-        <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>   
+        <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>   
                       
             <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/answer/update', array('id'=>$data->id)), array('class'=>'btn btn-primary btn-xs btn-block')); ?>
             
-            <?php if($data->status!=Answer::STATUS_PUBLISHED):?>
+            <?php if ($data->status!=Answer::STATUS_PUBLISHED):?>
             <?php echo CHtml::ajaxLink('Одобрить', Yii::app()->createUrl('/admin/answer/publish'), array('data'=>"id=".$data->id, 'type'=>'POST', 'success'=>'onPublishAnswer'), array('class'=>'btn btn-success btn-xs btn-block')); ?>
             <?php endif;?>
             
-            <?php if($data->status!=Answer::STATUS_SPAM):?>   
+            <?php if ($data->status!=Answer::STATUS_SPAM):?>   
             <?php echo CHtml::ajaxLink('В спам', Yii::app()->createUrl('/admin/answer/toSpam'), array('data'=>"id=".$data->id, 'type'=>'POST', 'success'=>'onSpamAnswer'), array('class'=>'btn btn-warning btn-xs btn-block')); ?>
             <?php endif;?>
         
-            <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+            <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
                 <?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/answer/delete', array('id'=>$data->id)), array('class'=>'btn btn-danger btn-xs btn-block')); ?>
             <?php endif;?>
          

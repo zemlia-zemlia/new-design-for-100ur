@@ -9,11 +9,10 @@ class AnnoyingWidget extends CWidget
     
     public function run()
     {
-        
         $currenTownId = Yii::app()->user->getState('currentTownId');
         
         // при отладке ставим текущий город Москва
-        if(YII_DEBUG && !$currenTownId) {
+        if (YII_DEBUG && !$currenTownId) {
             $currenTownId = 598;
         }
         $currentTown = Town::model()->findByPk($currenTownId);
@@ -25,13 +24,13 @@ class AnnoyingWidget extends CWidget
         
         // находим массив объектов продажных городов
         $payedTownsCriteria = new CDbCriteria();
-        $payedTownsCriteria->addInCondition('id', array_keys($payedTownsIds)); 
+        $payedTownsCriteria->addInCondition('id', array_keys($payedTownsIds));
         
         $payedTowns = Town::model()->findAll($payedTownsCriteria);
         
         // находим массив объектов продажных регионов
         $payedRegionsCriteria = new CDbCriteria();
-        $payedRegionsCriteria->addInCondition('id', array_keys($payedRegionsIds)); 
+        $payedRegionsCriteria->addInCondition('id', array_keys($payedRegionsIds));
         
         $payedRegions = Region::model()->findAll($payedRegionsCriteria);
                 
@@ -43,6 +42,5 @@ class AnnoyingWidget extends CWidget
             'payedRegions'     =>  $payedRegions,
             'showAlways'       =>  $this->showAlways,
         ));
-        
     }
 }

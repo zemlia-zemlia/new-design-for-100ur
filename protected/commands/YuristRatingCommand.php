@@ -10,7 +10,7 @@ class YuristRatingCommand extends CConsoleCommand
         
         /*
          * Вычисляем отношение кармы к числу ответов юриста
-         * 
+         *
          * SELECT u.id, u.name, u.lastName, u.karma, COUNT(u.id) answers, (u.karma/COUNT(u.id)) ratio
             FROM `100_user` u
             LEFT JOIN `100_answer` a ON a.authorId = u.id
@@ -31,7 +31,7 @@ class YuristRatingCommand extends CConsoleCommand
                 ->queryAll();
         
         // обновляем записи юристов
-        foreach($ratingRows as $row) {
+        foreach ($ratingRows as $row) {
             Yii::app()->db->createCommand()
                     ->update('{{user}}', ['rating' => $row['ratio']], 'id=:id', [':id'=>$row['id']]);
         }
@@ -56,5 +56,3 @@ class YuristRatingCommand extends CConsoleCommand
         echo 'Processed ' . sizeof($yurists) . ' records in ' . $executionTime . ' seconds';
     }
 }
-
-

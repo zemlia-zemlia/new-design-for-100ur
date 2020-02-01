@@ -19,7 +19,7 @@ switch ($data->status) {
     case Question::STATUS_SPAM:
         $statusClass = 'danger';
         break;
-    default :
+    default:
         $statusClass = '';
 }
 ?>
@@ -38,8 +38,8 @@ switch ($data->status) {
                 <small>
                     <?php if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)): ?>
                         <?php if ($data->createDate) {
-                            echo CustomFuncs::niceDate($data->createDate, false, false);
-                        } ?>
+    echo CustomFuncs::niceDate($data->createDate, false, false);
+} ?>
                         <?php
                         if ($data->publishDate) {
                             echo "<span class='muted'>Опубликован " . CustomFuncs::niceDate($data->publishDate) . " " . CHtml::link(CHtml::encode($data->bublishUser->name . " " . $data->bublishUser->lastName), Yii::app()->createUrl('question/byPublisher', array('id' => $data->bublishUser->id))) . "</span>";
@@ -68,7 +68,7 @@ switch ($data->status) {
                         <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo CHtml::link(CHtml::encode($data->authorName), Yii::app()->createUrl('admin/user/view', ['id' => $data->authorId])); ?>
                     <?php elseif ($data->authorName): ?>
                         <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo CHtml::encode($data->authorName); ?>
-                    <? endif; ?>
+                    <?php endif; ?>
 
                     &nbsp;
 

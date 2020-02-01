@@ -2,7 +2,7 @@
 
 /**
  * Модель для работы с просмотрами постов
- * 
+ *
  * Счетчики просмотров хранятся в отдельной таблице БД
  *
  * The followings are the available columns in table '{{postviews}}':
@@ -86,8 +86,8 @@ class Postviews extends CActiveRecord
 
         $criteria=new CDbCriteria;
 
-        $criteria->compare('postId',$this->postId,true);
-        $criteria->compare('views',$this->views,true);
+        $criteria->compare('postId', $this->postId, true);
+        $criteria->compare('views', $this->views, true);
 
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,

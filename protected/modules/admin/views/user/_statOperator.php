@@ -8,15 +8,15 @@
     
     
     <?php foreach ($leadsArray as $year=>$leadsPerYear):?>
-        <?php foreach($leadsPerYear as $month=>$leadsPerMonth):?>
+        <?php foreach ($leadsPerYear as $month=>$leadsPerMonth):?>
     
-            <?php 
+            <?php
                 $leadsTotal = (int)$leadsPerMonth['total'];
                 $leadsBrak = (int)$leadsPerMonth['brak'];
                 $leadsNaBrak = (int)$leadsPerMonth['nabrak'];
                 $leadsArchive = (int)$leadsPerMonth['archive'];
                 $leadsActive = (int)$leadsPerMonth['active'];
-                if($leadsTotal>0) {
+                if ($leadsTotal>0) {
                     $leadsBrakPercent = round((($leadsBrak + $leadsNaBrak)/$leadsTotal)*100);
                 }
             ?>
@@ -30,20 +30,22 @@
             <td>
                 Всего: <?php echo $leadsTotal; ?><br />
                 В работе: <?php echo $leadsActive; ?>
-                <?php if($leadsTotal>0) {
-                        echo " <span class='muted'>(" . round(($leadsActive/$leadsTotal)*100) . '%)</span>';
-                    }
+                <?php if ($leadsTotal>0) {
+                echo " <span class='muted'>(" . round(($leadsActive/$leadsTotal)*100) . '%)</span>';
+            }
                 ?>
                 <br />
                 Отказ: <?php echo $leadsArchive; ?>
-                <?php if($leadsTotal>0) {
-                        echo " <span class='muted'>(" . round(($leadsArchive/$leadsTotal)*100) . '%)</span>';
-                    }
+                <?php if ($leadsTotal>0) {
+                    echo " <span class='muted'>(" . round(($leadsArchive/$leadsTotal)*100) . '%)</span>';
+                }
                 ?>
                 <br />
                 Брак: <?php echo $leadsBrak; ?> + <abbr title="на отбраковку"><?php echo $leadsNaBrak; ?></abbr>
                 <span class="muted">
-                    <?php if($leadsArray[$year][$month]['total']>0) echo ' (' . $leadsBrakPercent . '%)';?>
+                    <?php if ($leadsArray[$year][$month]['total']>0) {
+                    echo ' (' . $leadsBrakPercent . '%)';
+                }?>
                 </span> 
                 <br />
                 Консульт:
@@ -52,9 +54,9 @@
                     // ключи - id каналов, значения - количество встреч
                     $noLeadsArray = array();
                     $meetingsCounter = 0;
-                    if(is_array($meetingsArray[$year][$month])) {
-                        foreach($meetingsArray[$year][$month] as $sourceId=>$meetingsBySource) {
-                            if($meetingsBySource['noLead'] != 0) {
+                    if (is_array($meetingsArray[$year][$month])) {
+                        foreach ($meetingsArray[$year][$month] as $sourceId=>$meetingsBySource) {
+                            if ($meetingsBySource['noLead'] != 0) {
                                 $noLeadsArray[$sourceId] = $meetingsBySource['counter'];
                             }
                             $meetingsCounter += $meetingsBySource['counter'];
@@ -62,7 +64,7 @@
                     }
 
                     echo (int)$meetingsCounter;
-                    if($leadsActive>0) {
+                    if ($leadsActive>0) {
                         echo ' <span class="muted">(' . round(($meetingsCounter/($leadsTotal - $leadsBrak))*100) . '%)</span>';
                     }
                 ?>
@@ -73,9 +75,9 @@
                     // ключи - id каналов, значения - количество встреч
                     $noLeadsArray = array();
                     $meetingsCurrentCounter = 0;
-                    if(is_array($meetingsCurrentArray[$year][$month])) {
-                        foreach($meetingsCurrentArray[$year][$month] as $sourceId=>$meetingsCurrentBySource) {
-                            if($meetingsCurrentBySource['noLead'] != 0) {
+                    if (is_array($meetingsCurrentArray[$year][$month])) {
+                        foreach ($meetingsCurrentArray[$year][$month] as $sourceId=>$meetingsCurrentBySource) {
+                            if ($meetingsCurrentBySource['noLead'] != 0) {
                                 $noLeadsArray[$sourceId] = $meetingsCurrentBySource['counter'];
                             }
                             $meetingsCurrentCounter += $meetingsCurrentBySource['counter'];
@@ -92,12 +94,12 @@
                     $noLeadsAgreementsArray = array();
                     $agreementsCounter = 0;
                     $agreementsSum = 0;
-                    if(is_array($agreementsArray[$year][$month])) {
-                        foreach($agreementsArray[$year][$month] as $sourceId=>$agreementsBySource) {
-                            if($agreementsBySource['noLead'] != 0) {
+                    if (is_array($agreementsArray[$year][$month])) {
+                        foreach ($agreementsArray[$year][$month] as $sourceId=>$agreementsBySource) {
+                            if ($agreementsBySource['noLead'] != 0) {
                                 $noLeadsAgreementsArray[$sourceId]['counter'] = $agreementsBySource['counter'];
-                                $noLeadsAgreementsArray[$sourceId]['sum'] = $agreementsBySource['sum'];  
-                            } 
+                                $noLeadsAgreementsArray[$sourceId]['sum'] = $agreementsBySource['sum'];
+                            }
                             $agreementsCounter += $agreementsBySource['counter'];
                             $agreementsSum += $agreementsBySource['sum'];
                         }
@@ -105,28 +107,28 @@
                     
                     echo "Заключено: " . (int)$agreementsCounter;
                     
-                    if($meetingsCounter>0) {
+                    if ($meetingsCounter>0) {
                         echo ' <span class="muted">(' . round(($agreementsCounter/$meetingsCounter)*100) . '%)</span>';
                     }
                     echo '<br />';
                     echo 'Сумма: ' . number_format($agreementsSum, 0, '.', ' ') . ' руб.';
                     echo '<br />';
-                    if($agreementsCounter>0) {
+                    if ($agreementsCounter>0) {
                         echo 'Средн.: ' . number_format($agreementsSum/$agreementsCounter, 0, '.', ' ') . ' руб.';
                     }
                 ?>
                 <br /><br />
                 <strong class='text-danger'>Раст: 
-                    <?php  
+                    <?php
                         $agreementsAbortedSum = 0;
                         $agreementsAbortedCounter = 0;
                         
-                        if(is_array($agreementsArray[$year][$month])) {
-                            foreach($agreementsArray[$year][$month] as $sourceId=>$agreementsBySource) {
-                                if($agreementsBySource['aborted']['noLead'] != 0) {
+                        if (is_array($agreementsArray[$year][$month])) {
+                            foreach ($agreementsArray[$year][$month] as $sourceId=>$agreementsBySource) {
+                                if ($agreementsBySource['aborted']['noLead'] != 0) {
                                     $noLeadsAgreementsAbortedArray[$sourceId]['aborted']['counter'] = $agreementsBySource['aborted']['counter'];
-                                    $noLeadsAgreementsAbortedArray[$sourceId]['aborted']['sum'] = $agreementsBySource['aborted']['sum'];  
-                                } 
+                                    $noLeadsAgreementsAbortedArray[$sourceId]['aborted']['sum'] = $agreementsBySource['aborted']['sum'];
+                                }
                                 $agreementsAbortedCounter += $agreementsBySource['aborted']['counter'];
                                 $agreementsAbortedSum += $agreementsBySource['aborted']['sum'];
                             }
@@ -135,13 +137,13 @@
                     
                 <?php echo $agreementsAbortedCounter;?></strong>
                 <br />
-                        <?php 
-                            if($agreementsAbortedSum>0) {
-                                echo "<strong class='text-danger'>Сумма раст: " . $agreementsAbortedSum . "&nbsp;руб.</strong>";    
+                        <?php
+                            if ($agreementsAbortedSum>0) {
+                                echo "<strong class='text-danger'>Сумма раст: " . $agreementsAbortedSum . "&nbsp;руб.</strong>";
                             }
                         ?>
             </td>
     
-    <?php endforeach; // перебираем месяцы ?>            
-    <?php endforeach; // перебираем годы ?>
+    <?php endforeach; // перебираем месяцы?>            
+    <?php endforeach; // перебираем годы?>
 </table>

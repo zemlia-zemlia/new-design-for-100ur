@@ -5,7 +5,6 @@
  */
 class MailForm extends CFormModel
 {
-
     public $recipientEmail;
     public $roleId;
     public $subject;
@@ -70,7 +69,6 @@ class MailForm extends CFormModel
             $mailTransportType = ($useSMTP === true) ? GTMail::TRANSPORT_TYPE_SMTP : GTMail::TRANSPORT_TYPE_SENDMAIL;
 
             foreach ($users as $user) {
-
                 $mailer = new GTMail($mailTransportType);
 
                 $mailer->subject = $this->subject;
@@ -100,7 +98,6 @@ class MailForm extends CFormModel
      */
     public function createTasks(Mail $mail)
     {
-
         $createTasksCount = 0;
 
         if ($this->recipientEmail != '') {
@@ -131,5 +128,4 @@ class MailForm extends CFormModel
         }
         return $createTasksCount;
     }
-
 }

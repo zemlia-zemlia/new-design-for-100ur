@@ -8,10 +8,10 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/question.js');
 
 
 $this->breadcrumbs=array(
-	'Вопросы без категории',
+    'Вопросы без категории',
 );
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 юристов',"/"),
+    'homeLink'=>CHtml::link('100 юристов', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
@@ -28,10 +28,10 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </tr>
     </thead>
 
-    <?php foreach($questions as $data):?>
+    <?php foreach ($questions as $data):?>
     
     <?php
-    switch ($data['status']){
+    switch ($data['status']) {
         case Question::STATUS_NEW:
             $statusClass = '';
             break;
@@ -44,14 +44,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         case Question::STATUS_SPAM:
             $statusClass = 'danger';
             break;
-        default :
+        default:
             $statusClass = '';
     }
 ?>
 
 <tr class="<?php echo $statusClass; ?>" id="question-<?php echo $data['id'];?>">
     <td>        
-        <?php if($data['title']):?>
+        <?php if ($data['title']):?>
             <h4 class='left-align'><?php echo CHtml::link(CHtml::encode($data['title']), Yii::app()->createUrl('/admin/question/view', array('id'=>$data['id']))); ?></h4>
         <?php endif;?>
         
@@ -60,10 +60,12 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         </p>
         
         <small>
-            <?php if(Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>
-                <?php if($data['createDate']) {echo CustomFuncs::niceDate($data['createDate'], false, false);}?>
-                <?php 
-                    if($data['publishDate']) {
+            <?php if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>
+                <?php if ($data['createDate']) {
+    echo CustomFuncs::niceDate($data['createDate'], false, false);
+}?>
+                <?php
+                    if ($data['publishDate']) {
                         echo "<span class='muted'>Опубликован " . CustomFuncs::niceDate($data['publishDate']) . "</span>";
                     }
                 ?>
@@ -74,12 +76,12 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <?php echo CHtml::link(CHtml::encode($data['id']), Yii::app()->createUrl('/admin/question/view', array('id'=>$data['id']))); ?>
         </small>
         
-        <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>   
+        <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>   
             <div class="vert-margin20">          
                 <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/question/update', array('id'=>$data['id'])), array('class'=>'btn btn-primary btn-xs')); ?>
                 <?php echo CHtml::ajaxLink('В спам', Yii::app()->createUrl('/admin/question/toSpam'), array('data'=>"id=".$data['id'], 'type'=>'POST', 'success'=>'onSpamQuestion'), array('class'=>'btn btn-warning btn-xs')); ?>
 
-                <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+                <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
                     <?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/question/delete', array('id'=>$data['id'])), array('class'=>'btn btn-danger btn-xs')); ?>
                 <?php endif;?>
             </div> 
@@ -93,11 +95,11 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </td>
 	
 	<td>
-	            <?php foreach($allDirections as $directionId=>$direction):?>
+	            <?php foreach ($allDirections as $directionId=>$direction):?>
                 <?php echo CHtml::link($direction['name'], '#', array('class'=>'set-category-link label label-primary', 'data-category'=>$directionId, 'data-question'=>$data['id']));?>
                 
-                    <?php if($direction['children']):?>
-                        <?php foreach($direction['children'] as $childId=>$child):?>
+                    <?php if ($direction['children']):?>
+                        <?php foreach ($direction['children'] as $childId=>$child):?>
                              <?php echo CHtml::link($child['name'], '#', array('class'=>'set-category-link  label label-default', 'data-category'=>$childId, 'data-question'=>$data['id']));?>
                         <?php endforeach;?>
                     <?php endif;?>
@@ -106,7 +108,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 	</td>
 	
 	
-    <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>    
+    <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>    
     
 	
     <?php endif;?>    

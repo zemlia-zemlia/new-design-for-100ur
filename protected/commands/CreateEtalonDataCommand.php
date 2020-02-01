@@ -84,7 +84,6 @@ class CreateEtalonDataCommand extends CConsoleCommand
         echo 'Нашлось пользователей: ' . sizeof($users) . PHP_EOL;
         
         foreach ($users as $counter => $user) {
-            
             $newName = $this->generateFioField('name');
             $newName2 = $this->generateFioField('name2');
             $newLastName = $this->generateFioField('lastName');
@@ -92,11 +91,11 @@ class CreateEtalonDataCommand extends CConsoleCommand
             $newPassword = User::hashPassword('12345'); // у всех будет один пароль
             $newPhone = '7999' . mt_rand(1000000, 9999999);
             
-            echo $user['id'] . ' | ' . $newName . ' | ' . 
-                    $newName2 . ' | ' . $newLastName . ' | ' . 
-                    $newEmail . ' | ' . $newPhone . PHP_EOL; 
+            echo $user['id'] . ' | ' . $newName . ' | ' .
+                    $newName2 . ' | ' . $newLastName . ' | ' .
+                    $newEmail . ' | ' . $newPhone . PHP_EOL;
             
-            if(Yii::app()->db->createCommand()->update('{{user}}', [
+            if (Yii::app()->db->createCommand()->update('{{user}}', [
                     'name' => $newName,
                     'name2' => $newName2,
                     'lastName' => $newLastName,
@@ -104,7 +103,7 @@ class CreateEtalonDataCommand extends CConsoleCommand
                     'password' => $newPassword,
                     'phone' => $newPhone,
                 ], 'id=:id', [':id' => $user['id']])) {
-                    echo 'saved' . PHP_EOL;
+                echo 'saved' . PHP_EOL;
             }
         }
     }
