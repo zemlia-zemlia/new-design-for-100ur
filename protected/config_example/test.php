@@ -12,9 +12,9 @@ return CMap::mergeArray(
                 'enableCookieValidation' => false,
             ],
             'db' => [
-                'connectionString' => 'mysql:host=localhost;dbname=100yuristov_test',
-                'username' => '100yuristov_test',
-                'password' => '',
+                'connectionString' => 'mysql:host=' . getenv('DB_TEST_HOST') . ';dbname=' . getenv('DB_TEST_NAME'),
+                'username' => getenv('DB_TEST_USER'),
+                'password' => getenv('DB_TEST_PASSWORD'),
             ],
             'log' => [
                 'class' => 'CLogRouter',
