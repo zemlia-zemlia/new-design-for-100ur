@@ -135,6 +135,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             </div>
         </div>
 
+
+
         <?php if ($model->role == User::ROLE_JURIST): ?>
             <div class="row">
                 <div class="col-md-12">
@@ -154,20 +156,56 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             </div>
         <?php endif; ?>
 
+
+
     </div>
     <div class="col-md-4">
-        <div class="box">
+        <?php if ($model->role == User::ROLE_PARTNER): ?>
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-title">Статистика лидов по дням вебмастера</div>
+                </div>
+                <div class="box-body">
+                    <?php $leadsStats = $model->getWebmasterLeadsStats(); ?>
 
-            <div class="box-body">
-                <?php
-                // выводим виджет с последними записями лога
-                $this->widget('application.widgets.LogReader.LogReaderWidget', [
-                    'class' => 'User',
-                    'subjectId' => $model->id,
-                ]);
-                ?>
+                    <?php if (sizeof($leadsStats) > 0): ?>
+                        <table class="table table-stripped">
+                            <tr>
+                                <th>Регион</th>
+                                <th class="text-right">Лидов</th>
+                                <th class="text-right">Брак</th>
+                                <th class="text-right">% брака</th>
+                            </tr>
+                            <?php foreach ($leadsStats as $date => $statsByDate): ?>
+                                <tr>
+                                    <th colspan="4"><?php echo CustomFuncs::niceDate($date, false, true); ?></th>
+                                </tr>
+                                <?php foreach ($statsByDate as $regionName => $statsByRegion): ?>
+                                    <tr>
+                                        <td>
+                                            &nbsp;&nbsp; <?php echo $regionName; ?>
+                                        </td>
+                                        <td class="text-right">
+                                            <?php echo (int)$statsByRegion['total_leads']; ?>
+                                        </td>
+                                        <td class="text-right">
+                                            <?php echo (int)$statsByRegion['brak_leads']; ?>
+                                        </td>
+                                        <td class="text-right">
+                                            <?php
+                                            echo ((int)$statsByRegion['total_leads'] > 0) ?
+                                                round((int)$statsByRegion['brak_leads'] / (int)$statsByRegion['total_leads'] * 100) . '%' :
+                                                '-';
+                                            ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        </table>
+                    <?php endif; ?>
+                </div>
             </div>
-        </div>
+        <?php endif; ?>
     </div>
     <div class="col-md-4">
         <?php if (!is_null($commentModel)): ?>
@@ -275,7 +313,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 </div>
 
 
-
 <?php if ($model->role == User::ROLE_BUYER): ?>
     <h1>Покупатель лидов</h1>
     <div class="row">
@@ -310,47 +347,48 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         </div>
         <div class="col-md-4">
             <?php if ($model->role == User::ROLE_BUYER): ?>
-            <div class="box">
+                <div class="box">
                 <div class="box-header">
                     <div class="box-title">Статистика продаж лидов по дням</div>
                 </div>
                 <div class="box-body">
-                    <div class="vert-margin30">
-                        <?php
-                        $this->renderPartial('application.modules.admin.views.lead._searchFormDates', array(
-                            'model' => $searchModel,
-                            'action' => Yii::app()->createUrl('admin/user/view', array('id' => $model->id)),
-                        ));
-                        ?>
-                    </div>
-                    <?php if (is_array($leadsStats) && is_array($leadsStats['dates'])): ?>
-
-                        <table class="table table-bordered">
-                            <tr>
-                                <th>Дата</th>
-                                <th class="text-right">Количество</th>
-                                <th class="text-right">Сумма</th>
-                            </tr>
-                            <?php foreach ($leadsStats['dates'] as $date => $leadsByDate): ?>
-                                <tr>
-                                    <td><?php echo CustomFuncs::niceDate($date, false, false); ?></td>
-                                    <td class="text-right"><?php echo $leadsByDate['count']; ?></td>
-                                    <td class="text-right"><?php echo MoneyFormat::rubles($leadsByDate['sum']); ?>
-                                        руб.
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                            <tr>
-                                <th></th>
-                                <th class="text-right"><?php echo $leadsStats['total']; ?></th>
-                                <th class="text-right"><?php echo MoneyFormat::rubles($leadsStats['sum']); ?>руб.
-                                </th>
-                            </tr>
-                        </table>
-                    <?php endif; ?>
-                    <?php endif; ?>
+                <div class="vert-margin30">
+                    <?php
+                    $this->renderPartial('application.modules.admin.views.lead._searchFormDates', array(
+                        'model' => $searchModel,
+                        'action' => Yii::app()->createUrl('admin/user/view', array('id' => $model->id)),
+                    ));
+                    ?>
                 </div>
-            </div>
+                <?php if (is_array($leadsStats) && is_array($leadsStats['dates'])): ?>
+
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Дата</th>
+                            <th class="text-right">Количество</th>
+                            <th class="text-right">Сумма</th>
+                        </tr>
+                        <?php foreach ($leadsStats['dates'] as $date => $leadsByDate): ?>
+                            <tr>
+                                <td><?php echo CustomFuncs::niceDate($date, false, false); ?></td>
+                                <td class="text-right"><?php echo $leadsByDate['count']; ?></td>
+                                <td class="text-right"><?php echo MoneyFormat::rubles($leadsByDate['sum']); ?>
+                                    руб.
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <tr>
+                            <th></th>
+                            <th class="text-right"><?php echo $leadsStats['total']; ?></th>
+                            <th class="text-right"><?php echo MoneyFormat::rubles($leadsStats['sum']); ?>руб.
+                            </th>
+                        </tr>
+                    </table>
+                    </div>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
+
         </div>
         <div class="col-md-4">
             <?php if ($model->role == User::ROLE_BUYER && $model->campaigns): ?>
@@ -383,56 +421,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <?php if ($model->role == User::ROLE_PARTNER): ?>
     <h1>Вебмастер</h1>
     <div class="row">
-        <div class="col-md-4">
-            <?php if ($model->role == User::ROLE_PARTNER): ?>
-                <div class="box">
-                    <div class="box-header">
-                        <div class="box-title">Статистика лидов по дням вебмастера</div>
-                    </div>
-                    <div class="box-body">
-                        <?php $leadsStats = $model->getWebmasterLeadsStats(); ?>
 
-                        <?php if (sizeof($leadsStats) > 0): ?>
-                            <table class="table table-stripped">
-                                <tr>
-                                    <th>Регион</th>
-                                    <th class="text-right">Лидов</th>
-                                    <th class="text-right">Брак</th>
-                                    <th class="text-right">% брака</th>
-                                </tr>
-                                <?php foreach ($leadsStats as $date => $statsByDate): ?>
-                                    <tr>
-                                        <th colspan="4"><?php echo CustomFuncs::niceDate($date, false, true); ?></th>
-                                    </tr>
-                                    <?php foreach ($statsByDate as $regionName => $statsByRegion): ?>
-                                        <tr>
-                                            <td>
-                                                &nbsp;&nbsp; <?php echo $regionName; ?>
-                                            </td>
-                                            <td class="text-right">
-                                                <?php echo (int)$statsByRegion['total_leads']; ?>
-                                            </td>
-                                            <td class="text-right">
-                                                <?php echo (int)$statsByRegion['brak_leads']; ?>
-                                            </td>
-                                            <td class="text-right">
-                                                <?php
-                                                echo ((int)$statsByRegion['total_leads'] > 0) ?
-                                                    round((int)$statsByRegion['brak_leads'] / (int)$statsByRegion['total_leads'] * 100) . '%' :
-                                                    '-';
-                                                ?>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php endforeach; ?>
-                            </table>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            <?php endif; ?>
-        </div>
-
-        <div class="col-md-4">
+        <div class="col-md-5">
             <?php if ($partnerTransactionsDataProvider): ?>
                 <div class="box">
                     <div class="box-header">
@@ -462,7 +452,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 </div>
             <?php endif; ?>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-7">
             <?php if ($model->role == User::ROLE_PARTNER): ?>
                 <h2>Лиды вебмастера</h2>
                 <?php
@@ -478,3 +468,20 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         </div>
     </div>
 <?php endif; ?>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="box">
+            <div class="box-body">
+                <?php
+                // выводим виджет с последними записями лога
+                $this->widget('application.widgets.LogReader.LogReaderWidget', [
+                    'class' => 'User',
+                    'subjectId' => $model->id,
+                ]);
+                ?>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6"></div>
+</div>
