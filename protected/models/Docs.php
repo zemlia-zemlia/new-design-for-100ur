@@ -51,9 +51,9 @@ class Docs extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'file2categories' => array(self::HAS_MANY, 'File2category', 'file_id'),
-			'file2objects' => array(self::HAS_MANY, 'File2object', 'file_id'),
-            'categories' => array(self::HAS_MANY, 'File2category', 'id', 'through' => 'file2categories'),
+			'file2categories' => array(self::HAS_MANY, 'File2Category', 'file_id'),
+			'file2objects' => array(self::HAS_MANY, 'File2Object', 'file_id'),
+            'categories' => array(self::HAS_MANY, 'File2Category', 'id', 'through' => 'file2categories'),
 		);
 	}
 
