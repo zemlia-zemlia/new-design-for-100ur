@@ -115,10 +115,14 @@ $endYear = 2019;
                     <div class="box-title">Вопросы и ответы на них (за последние 30 дней):</div>
                 </div>
                 <div class="box-body">
-                    <span>Всего вопросов поступило: кол-во</span><br/>
-                    <span>Вопросов на которые дан ответ: кол-во (%)</span><br/>
-                    <span>Среднее время ответа на вопрос: </span><br/>
-                    <span class="label label-info"><?php echo $fastQuestionsRatio; ?>%</span>
+                    <span>Всего вопросов поступило: <?php echo $questionPublishedInRecentDays; ?></span><br/>
+                    <span>Вопросов на которые дан ответ: <?php echo $answersMadeInRecentDays; ?>
+                        <?php if ($questionPublishedInRecentDays > 0) {
+                            echo ' (' . (int)($answersMadeInRecentDays / $questionPublishedInRecentDays * 100) . "%)";
+                        }
+                        ?>
+                    </span><br/>
+                    <span>Среднее время ответа на вопрос: <?php echo $averageIntervalUntillAnswer;?> ч</span><br/>
                 </div>
             </div>
         </div>

@@ -6,9 +6,12 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
+
+        $statsService = new StatisticsService();
+
         // Первое число месяца год назад
         $startDate = (new DateTime(
-            ((int)(new DateTime())->format('Y') - 1) . '-'.
+            ((int)(new DateTime())->format('Y') - 1) . '-' .
             (new DateTime())->format('m') .
             '-01'
         ))->format('Y-m-d');
@@ -53,27 +56,6 @@ class DefaultController extends Controller
 
         foreach ($vipRows as $row) {
             $vipArray[$row['year']][$row['month']] = $row['sum'];
-        }
-
-        $answerStatRows = Yii::app()->db->createCommand()
-            ->select('TIMESTAMPDIFF(HOUR, q.publishDate, a.datetime) delta')
-            ->from('{{answer}} a')
-            ->leftJoin('{{question}} q', 'q.id = a.questionId')
-            ->where('a.datetime > (NOW() - INTERVAL 30 DAY)')
-            ->group('q.id')
-            ->order('delta ASC')
-            ->queryAll();
-        $questionsCount = sizeof($answerStatRows);
-        $fastQuestionsCount = 0;
-        foreach ($answerStatRows as $row) {
-            if ($row['delta'] < 4) {
-                $fastQuestionsCount++;
-            }
-        }
-        if ($questionsCount > 0) {
-            $fastQuestionsRatio = round(($fastQuestionsCount / $questionsCount) * 100, 1);
-        } else {
-            $fastQuestionsRatio = 0;
         }
 
         // извлекаем статистику кассы
@@ -132,25 +114,12 @@ class DefaultController extends Controller
         }
 
         $uniqueLeadDates = array_unique($uniqueLeadDates);
-        //CustomFuncs::printr($leadsByTypes);
 
-        $yuristActivityStatsRows = Yii::app()->db->createCommand()
-            ->select('COUNT(*) counter, DATE(lastActivity) lastDate')
-            ->from('{{user}}')
-            ->where('role=:role', [':role' => User::ROLE_JURIST])
-            ->group('lastDate')
-            ->order('lastDate DESC')
-            ->limit(10)
-            ->queryAll();
-        $yuristActivityStats = [];
 
-        foreach ($yuristActivityStatsRows as $row) {
-            $yuristActivityStats[$row['lastDate']] = $row['counter'];
-        }
-
-        $yuristActivityStats = CustomFuncs::fillEmptyDatesArrayByDefaultValues($yuristActivityStats);
-
-        ksort($yuristActivityStats);
+        $yuristActivityStats = $statsService->getYuristsActivityStats();
+        $questionPublishedInRecentDays = $statsService->getPublishedQuestionsNumberInPeriod(30);
+        $answersMadeInRecentDays = $statsService->getCountOfAnswersForRecentQuestions(30);
+        $averageIntervalUntillAnswer = $statsService->getAverageDiffBetweenQuestionAndAnswer(30);
 
         /*
          * Получение статистики по лидам источника 100 Юристов
@@ -182,15 +151,16 @@ class DefaultController extends Controller
             'sumArray' => $sumArray,
             'kolichArray' => $kolichArray,
             'buySumArray' => $buySumArray,
-            'fastQuestionsRatio' => $fastQuestionsRatio,
             'moneyFlow' => $moneyFlow,
             'totalExpences' => $totalExpences,
-//            'questionStatuses' => $questionStatuses,
             'publishedQuestionsCount' => $publishedQuestionsCount,
             'leadsByTypes' => $leadsByTypes,
             'uniqueLeadDates' => $uniqueLeadDates,
             'yuristActivityStats' => $yuristActivityStats,
             'stat100yuristov' => $stat100yuristov,
+            'questionPublishedInRecentDays' => $questionPublishedInRecentDays,
+            'answersMadeInRecentDays' => $answersMadeInRecentDays,
+            'averageIntervalUntillAnswer' => $averageIntervalUntillAnswer,
         ));
     }
 
