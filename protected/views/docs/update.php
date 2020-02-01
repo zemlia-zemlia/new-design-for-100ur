@@ -8,14 +8,14 @@ $this->breadcrumbs=array(
 	'Update',
 );
 
-$this->menu=array(
-	array('label'=>'List Docs', 'url'=>array('index')),
-	array('label'=>'Create Docs', 'url'=>array('create')),
-	array('label'=>'View Docs', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage Docs', 'url'=>array('admin')),
-);
+
 ?>
 
-<h1>Update Docs <?php echo $model->id; ?></h1>
+<h1>Редактировать файл <?php echo $model->name; ?></h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php if (!$model->isNewRecord): ?>
+<p>Скачать:
+<a  target="_blank" href="/docs/download/?id=<?= $model->id ?>"><?= $model->name?>(<?php echo CHtml::encode($model->downloads_count); ?>)</a>
+</p>
+<?php endif; ?>

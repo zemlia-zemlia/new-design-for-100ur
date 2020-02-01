@@ -37,6 +37,7 @@ Yii::app()->clientScript->registerMetaTag("Советы юристов по вс
                     } elseif ($question->answersCount == 0) {
                         echo "<span class='text-muted'>Нет ответа</span>";
                     }
+
                     ?>
                 </small>
             </div>

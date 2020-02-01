@@ -64,6 +64,7 @@ class FileCategory extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'file2categories' => array(self::HAS_MANY, 'File2category', 'category_id'),
+            'files' => array(self::HAS_MANY, 'Docs', 'file_id', 'through' => 'file2categories'),
 		);
 	}
 

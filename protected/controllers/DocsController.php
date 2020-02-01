@@ -6,7 +6,7 @@ class DocsController extends Controller
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-    public $layout = '//frontend/blog';
+    public $layout='//admin/main';
 
 	/**
 	 * @return array action filters
@@ -15,7 +15,7 @@ class DocsController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
+//			'postOnly + delete', // we only allow deletion via POST request
 		);
 	}
 
@@ -24,26 +24,26 @@ class DocsController extends Controller
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
 	 */
-	public function accessRules()
-	{
-		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
-	}
+//	public function accessRules()
+//	{
+//		return array(
+//			array('allow',  // allow all users to perform 'index' and 'view' actions
+//				'actions'=>array('index','view'),
+//				'users'=>array('*'),
+//			),
+//			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+//				'actions'=>array('create','update'),
+//				'users'=>array('@'),
+//			),
+//			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+//				'actions'=>array('admin','delete'),
+//				'users'=>array('admin'),
+//			),
+//			array('deny',  // deny all users
+//				'users'=>array('*'),
+//			),
+//		);
+//	}
 
 	/**
 	 * Displays a particular model.
@@ -55,29 +55,76 @@ class DocsController extends Controller
 			'model'=>$this->loadModel($id),
 		));
 	}
+    public function actionCategory($id)
+    {
+        $category = FileCategory::model()->findByPk($id);
+        $dataProvider=new CActiveDataProvider('Docs');
+//        $dataProvider->criteria = ''
+        $this->render('index',array(
+            'dataProvider'=>$dataProvider,
+            'category'=>$category,
+        ));
+    }
 
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate()
-	{
-		$model=new Docs;
+//	public function actionCreate()
+//	{
+//		$model=new Docs;
+//
+//		// Uncomment the following line if AJAX validation is needed
+//		// $this->performAjaxValidation($model);
+//
+//		if(isset($_POST['Docs']))
+//		{
+//			$model->attributes=$_POST['Docs'];
+//			if($model->save())
+//				$this->redirect(array('view','id'=>$model->id));
+//		}
+//
+//		$this->render('create',array(
+//			'model'=>$model,
+//		));
+//	}
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+    public function actionCreate($cat_id){
+        $model=new Docs;
+        if(isset($_POST['Docs'])){
+            $model->attributes=$_POST['Docs'];
+            $model->filename=CUploadedFile::getInstance($model,'filename');
 
-		if(isset($_POST['Docs']))
-		{
-			$model->attributes=$_POST['Docs'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
+                $name = $model->generateName();
+                $path = Yii::getPathOfAlias('webroot') . '/upload/files/' . $name;
+                $model->filename->saveAs($path);
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
-	}
+            $model->filename = $name;
+
+            $model->save();
+            $category = new File2Category();
+            $category->file_id = $model->id;
+            $category->category_id = $cat_id;
+
+            $category->save();
+//            var_dump($category->getErrors());die;
+
+            Yii::app()->user->setFlash('success', "Файл загружен");
+            return $this->redirect('/docs/index');
+
+
+        }
+        $this->render('create', array('model'=>$model));
+    }
+
+    public function actionDownload($id){
+        $model = $this->loadModel($id);
+        return $this->redirect($model->getDownloadLink());
+    }
+
+
+
+
 
 	/**
 	 * Updates a particular model.
@@ -87,15 +134,37 @@ class DocsController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+		$filename = $model->filename;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Docs']))
-		{
-			$model->attributes=$_POST['Docs'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+
+
+        {
+            $model->attributes=$_POST['Docs'];
+            $model->filename=CUploadedFile::getInstance($model,'filename');
+//            var_dump($model);die;
+            if ($model->filename) {
+                $name = $model->generateName();
+                $path = Yii::getPathOfAlias('webroot') . '/upload/files/' . $name;
+                $model->filename->saveAs($path);
+
+                $model->filename = $name;
+                unlink(Yii::getPathOfAlias('webroot') . '/upload/files/' . $filename);
+            }
+            else {
+                $model->filename = $filename;
+            }
+
+            $model->save();
+//            var_dump($model->getErrors());die;
+
+
+
+                Yii::app()->user->setFlash('success', "Файл изменен");
+                return $this->redirect('/docs/index');
+				$this->redirect('index');
+
 		}
 
 		$this->render('update',array(
@@ -110,21 +179,29 @@ class DocsController extends Controller
 	 */
 	public function actionDelete($id)
 	{
+        File2Category::model()->find('file_id = ' . $id)->delete();
+
 		$this->loadModel($id)->delete();
 
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+
+        Yii::app()->user->setFlash('success', "Файл удален");
+        return $this->redirect('/docs/index');
+
+//		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+//		if(!isset($_GET['ajax']))
+//			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
+	public function actionIndex($cat_id = 1)
 	{
 		$dataProvider=new CActiveDataProvider('Docs');
+		$category = FileCategory::model()->findByPk($cat_id);
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
+            'category' => $category
 		));
 	}
 

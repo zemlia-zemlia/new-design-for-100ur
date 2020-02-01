@@ -27,19 +27,11 @@
 
 
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'root');
-//		var_dump(CHtml::listData(FileCategory::model()->findAll(array('order'=>'lft')), 'id','name'));die;
-		?>
-        <?php echo CHtml::dropDownList('root', [], CHtml::listData(FileCategory::model()->findAll(array('order'=>'lft')), 'id','name')); ?>
-
-		<?php echo $form->error($model,'root'); ?>
-	</div>
 
 
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton('Сохранить'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

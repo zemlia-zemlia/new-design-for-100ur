@@ -266,6 +266,11 @@
                             <i class="fa fa-th"></i> <span>Рассылки</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="<?=Yii::app()->createUrl('/docs')?>">
+                            <i class="fa fa-th"></i> <span>Файлы</span>
+                        </a>
+                    </li>
 
                 <?php endif; ?>
 

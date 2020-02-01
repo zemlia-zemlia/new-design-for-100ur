@@ -32,7 +32,7 @@ class Docs extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, filename, type', 'required'),
+			array('name,  type', 'required'),
 			array('type, downloads_count', 'numerical', 'integerOnly'=>true),
 			array('name, filename', 'length', 'max'=>255),
 			// The following rule is used by search().
@@ -53,6 +53,7 @@ class Docs extends CActiveRecord
 		return array(
 			'file2categories' => array(self::HAS_MANY, 'File2category', 'file_id'),
 			'file2objects' => array(self::HAS_MANY, 'File2object', 'file_id'),
+            'categories' => array(self::HAS_MANY, 'File2category', 'id', 'through' => 'file2categories'),
 		);
 	}
 
@@ -63,10 +64,10 @@ class Docs extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'filename' => 'Filename',
-			'type' => 'Type',
-			'downloads_count' => 'Downloads Count',
+			'name' => 'Название',
+			'filename' => 'Файл',
+			'type' => 'Тип',
+			'downloads_count' => 'Количество скачиваний',
 		);
 	}
 
@@ -98,6 +99,28 @@ class Docs extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+    protected function generateRandomString($legth = 10){
+
+        $charaters = "01234567890abcdefghijklmnopqrstuvwxyz";
+        $randomString = '';
+        for($i = 0; $i<$legth;$i++){
+            $randomString .= $charaters[rand(0,strlen($charaters) - 1)];
+        }
+        return $randomString;
+
+    }
+
+	public  function generateName(){
+	    return $this->generateRandomString(11) .  '_' . time() . '.' . $this->filename->getExtensionName();
+    }
+
+
+
+    public function getDownloadLink(){
+        $this->downloads_count += 1;
+        $this->save();
+	    return '/upload/files/' . $this->filename;
+    }
 
 	/**
 	 * Returns the static model of the specified AR class.
