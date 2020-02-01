@@ -564,7 +564,6 @@ class Lead extends CActiveRecord
      */
     public function search()
     {
-
         $criteria = new CDbCriteria();
 
         $criteria->compare('t.id', $this->id);

@@ -12,7 +12,7 @@ if (isset($_GET) && (int)$_GET['Question_page'] && $dataProvider->pagination) {
 $this->setPageTitle($pageTitle);
 Yii::app()->clientScript->registerMetaTag($model->createPageDescription(), 'description');
 Yii::app()->clientScript->registerMetaTag($model->createPageKeywords(), 'keywords');
-Yii::app()->clientScript->registerLinkTag("canonical", NULL, Yii::app()->createUrl('town/alias', array(
+Yii::app()->clientScript->registerLinkTag("canonical", null, Yii::app()->createUrl('town/alias', array(
     'name' => $model->alias,
     'countryAlias' => $model->country->alias,
     'regionAlias' => $model->region->alias,

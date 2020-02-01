@@ -6,7 +6,6 @@
  */
 class YandexTurboCommand extends CConsoleCommand
 {
-
     public function actionIndex()
     {
         $turboApi = new TurboApi('AQAAAAAC0uqLAAUEeoJmgnrmUkc3sEaMzC4JonQ', (YII_DEV == true)?'DEBUG':'PRODUCTION');
@@ -53,7 +52,6 @@ class YandexTurboCommand extends CConsoleCommand
         }
 
         file_put_contents(__DIR__ . '/output/tasks_results.txt', implode('', $taskStatus));
-
     }
 
     protected function getCategories($limit = 1000)

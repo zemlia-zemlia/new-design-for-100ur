@@ -54,7 +54,9 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="form-group">
             <?php echo $form->labelEx($model, 'datePublication'); ?>
             <?php
-            $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+            $this->widget(
+                'zii.widgets.jui.CJuiDatePicker',
+                array(
                     'name' => "Post[datePublication]",
                     'value' => $model['datePublication'],
                     'language' => 'ru',
@@ -76,7 +78,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <?php echo $form->error($model, 'description'); ?>
         </div>
 
-        <?php if($model->photo):?>
+        <?php if ($model->photo):?>
             <img src="<?php echo $model->getPhotoUrl();?>" class="img-responsive" />
         <?php endif;?>
 
@@ -91,8 +93,8 @@ $form = $this->beginWidget('CActiveForm', array(
 <?php echo CHtml::submitButton($model->isNewRecord ? 'Создать пост' : 'Сохранить пост', array('class' => 'btn btn-primary btn-large')); ?>
 <?php
 if (!$model->isNewRecord) {
-    echo CHtml::link('Не сохранять', Yii::app()->createUrl('/admin/post/view', array('id' => $model->id)), array('class' => 'btn btn-large'));
-}
+                echo CHtml::link('Не сохранять', Yii::app()->createUrl('/admin/post/view', array('id' => $model->id)), array('class' => 'btn btn-large'));
+            }
 ?>
 
 <?php $this->endWidget(); ?>

@@ -477,7 +477,7 @@ class Campaign extends CActiveRecord
      * @param string $date Дата, за которую нужна статистика, формат yyyy-mm-dd
      * @return integer Description
      */
-    public function calculateCurrentBrakPercent($date = NULL)
+    public function calculateCurrentBrakPercent($date = null)
     {
         if (is_null($date)) {
             $date = date('Y-m-d');
@@ -515,7 +515,7 @@ class Campaign extends CActiveRecord
      * @param string $date Дата, на которую считать процент брака
      * @return boolean
      */
-    public function checkCanBrak($date = NULL)
+    public function checkCanBrak($date = null)
     {
         $brakPercent = $this->calculateCurrentBrakPercent($date);
         //echo 'Процент брака: ' . $brakPercent . '<br />';
@@ -526,5 +526,4 @@ class Campaign extends CActiveRecord
         }
         return true;
     }
-
 }

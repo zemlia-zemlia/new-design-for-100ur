@@ -5,11 +5,11 @@
 $this->setPageTitle("Новый ответ". Yii::app()->name);
 
 $this->breadcrumbs=array(
-	'Вопросы и ответы'=>array('/questions'),
-	'Новый ответ',
+    'Вопросы и ответы'=>array('/questions'),
+    'Новый ответ',
 );
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('CRM',"/"),
+    'homeLink'=>CHtml::link('CRM', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));

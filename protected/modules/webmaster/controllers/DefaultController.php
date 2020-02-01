@@ -1,11 +1,11 @@
 <?php
 
-class DefaultController extends Controller {
-
+class DefaultController extends Controller
+{
     public $layout='//frontend/webmaster';
     
-    public function actionIndex() {
-        
+    public function actionIndex()
+    {
         $criteria = new CDbCriteria;
         
         $criteria->with = "source";
@@ -47,4 +47,3 @@ class DefaultController extends Controller {
         ));
     }
 }
-?>

@@ -1,6 +1,7 @@
 <?php
 
-class RegionController extends Controller {
+class RegionController extends Controller
+{
 
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -11,7 +12,8 @@ class RegionController extends Controller {
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
@@ -23,7 +25,8 @@ class RegionController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => array('index', 'view', 'create', 'update', 'admin', 'delete', 'setPrice'),
@@ -40,7 +43,8 @@ class RegionController extends Controller {
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView() {
+    public function actionView()
+    {
         if (!isset($_GET['regionAlias'])) {
             throw new CHttpException(404, 'Регион не найден');
         }
@@ -68,8 +72,8 @@ class RegionController extends Controller {
     /**
      * Lists all models.
      */
-    public function actionIndex() {
-
+    public function actionIndex()
+    {
         $regionsRows = Yii::app()->db->cache(30)->createCommand()
                 ->select("r.id, r.name regionName, r.alias regionAlias, c.id countryId, c.name countryName, c.alias countryAlias, r.buyPrice")
                 ->from("{{region}} r")
@@ -93,11 +97,13 @@ class RegionController extends Controller {
     /**
      * Manages all models.
      */
-    public function actionAdmin() {
+    public function actionAdmin()
+    {
         $model = new Region('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Region']))
+        if (isset($_GET['Region'])) {
             $model->attributes = $_GET['Region'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
@@ -111,10 +117,12 @@ class RegionController extends Controller {
      * @return Region the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id)
+    {
         $model = Region::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
@@ -122,7 +130,8 @@ class RegionController extends Controller {
      * Performs the AJAX validation.
      * @param Region $model the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'region-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -135,27 +144,25 @@ class RegionController extends Controller {
      */
     public function actionSetPrice()
     {
-        
         $price = (int)Yii::app()->request->getPost('price');
         $regionId = Yii::app()->request->getPost('id');
         
         $model = Region::model()->findByPk($regionId);
-        if(!$model) {
+        if (!$model) {
             throw new CHttpException('Регион не найден', 404);
         }
         
-        if($price<0) {
+        if ($price<0) {
             throw new CHttpException('Цена не может быть меньше нуля', 400);
         }
         
         $changePriceResult = Yii::app()->db->createCommand()
                 ->update('{{region}}', array('buyPrice' => $price), 'id=:id', array(':id' => $model->id));
         
-        if($changePriceResult > 0) {
+        if ($changePriceResult > 0) {
             echo json_encode(array('code' => 1, 'regionId' => $model->id));
         } else {
             echo json_encode(array('code' => 0, 'regionId' => $model->id));
         }
     }
-
 }

@@ -9,13 +9,13 @@ class SearchQuestionsWidget extends CWidget
         // модель для формы поиска по вопросам
         $searchModel = new QuestionSearch();
         
-        if(isset($_GET['QuestionSearch'])) {
+        if (isset($_GET['QuestionSearch'])) {
             $searchModel->attributes = $_GET['QuestionSearch'];
         }
         
         $searchModel->townId = Yii::app()->user->townId;
                 
-        if($searchModel->townId) {
+        if ($searchModel->townId) {
             $searchModel->townName = Town::getName($searchModel->townId);
         }
         
@@ -27,4 +27,3 @@ class SearchQuestionsWidget extends CWidget
         ));
     }
 }
-?>

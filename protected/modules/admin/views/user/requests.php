@@ -3,7 +3,7 @@ $this->pageTitle = "Запросы на проверку документов п
 
 
 $this->breadcrumbs=array(
-	'Запросы на проверку',
+    'Запросы на проверку',
 );
 
 
@@ -13,7 +13,7 @@ $this->breadcrumbs=array(
 </div>
 
 <table class="table table-bordered">
-<?php foreach($users as $user):?>
+<?php foreach ($users as $user):?>
 
     <tr>
         <td>

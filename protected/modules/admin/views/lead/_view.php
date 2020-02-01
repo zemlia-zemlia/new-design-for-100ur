@@ -24,7 +24,7 @@ switch ($data->leadStatus) {
     case Lead::LEAD_STATUS_DUPLICATE:
         $statusClass = 'label-warning';
         break;
-    default :
+    default:
         $statusClass = 'label-default';
 }
 ?>

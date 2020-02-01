@@ -4,17 +4,17 @@
 $this->setPageTitle('Новая кампания');
 
 $this->breadcrumbs=array(
-	'Кабинет покупателя'=>array('/cabinet'),
-	'Новая кампания',
+    'Кабинет покупателя'=>array('/cabinet'),
+    'Новая кампания',
 );
 
 ?>
 <div class="vert-margin20">
 <h1>Создание кампании по покупке лидов</h1>
 </div>
-<?php 
+<?php
     $this->renderPartial('_form', array(
         'model' =>  $model,
         'regions'   =>  $regions,
-    )); 
+    ));
 ?>

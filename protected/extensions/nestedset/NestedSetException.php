@@ -15,8 +15,4 @@
  */
 class NestedSetException extends Exception
 {
-    
 }
-
-
-?>

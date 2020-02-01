@@ -68,6 +68,6 @@
  */
 interface IJqueryUiWidget
 {
-    function publishAssets();
-    function registerClientScripts();
+    public function publishAssets();
+    public function registerClientScripts();
 }

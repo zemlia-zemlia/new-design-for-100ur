@@ -204,7 +204,9 @@
 			<?php echo (isset($item['content']) && !is_null($item['content'])) ? '<a href="#" class="yiiLinkItem" onclick="return yiiWebDebugToggle(\'__yiiWDP'.$index.'\');">'.$item['title'].'</a>' : $item['title'] ?>
 			&nbsp;]
 		</li>
-		<?php if (isset($item['content']) && !is_null($item['content'])) $index++; endforeach ?>
+		<?php if (isset($item['content']) && !is_null($item['content'])) {
+    $index++;
+} endforeach ?>
 	</ul>
 	
 	<?php if ($alignLeft): ?>
@@ -216,18 +218,24 @@
 
 <div id="yiiWebDebugPanel">
 	<?php
-	$index = 0;
-	foreach ($items as $item): if (!isset($item['content']) || is_null($item['content'])) continue; ?>
+    $index = 0;
+    foreach ($items as $item): if (!isset($item['content']) || is_null($item['content'])) {
+        continue;
+    } ?>
 	
 	<div id="__yiiWDP<?php echo $index ?>" style="display: none">
 		<div class="panelHeadInfo">
-			<?php if ($alignLeft) echo "<br/>" ?> <?php echo (isset($item['headinfo']) && !is_null($item['headinfo'])) ? $item['headinfo'] : '<br/><br/>' ?>
+			<?php if ($alignLeft) {
+        echo "<br/>";
+    } ?> <?php echo (isset($item['headinfo']) && !is_null($item['headinfo'])) ? $item['headinfo'] : '<br/><br/>' ?>
 		</div>
 		
 		<center>
 			<div class="gridContainer">
 				<div class="panelTitle">
-					<?php if (isset($item['panelTitle']) && !is_null($item['panelTitle'])) echo $item['panelTitle'] ?>
+					<?php if (isset($item['panelTitle']) && !is_null($item['panelTitle'])) {
+        echo $item['panelTitle'];
+    } ?>
 				</div>
 				
 				<div class="panelGrid" id="panelGridH__yiiWDP<?php echo $index ?>">
@@ -240,9 +248,9 @@
 	</div>
 	
 	<?php
-		$index++;
-		endforeach;
-	?>
+        $index++;
+        endforeach;
+    ?>
 </div>
 
 <script type="text/javascript">

@@ -107,13 +107,13 @@ class YuristSettings extends CActiveRecord
             'hello'         => 'Приветствие',
             'status'        => 'Статус',
             'isVerified'    => 'Верифицирован',
-            'vuz'           => 'ВУЗ', 
-            'facultet'      =>  'факультет', 
-            'education'     =>  'образование', 
-            'advOrganisation'   =>  'членство в адвокатском объединении', 
-            'advNumber'     =>  'номер в реестре адвокатов', 
-            'position'      =>  'должность', 
-            'vuzTownId'     =>  'город ВУЗа', 
+            'vuz'           => 'ВУЗ',
+            'facultet'      =>  'факультет',
+            'education'     =>  'образование',
+            'advOrganisation'   =>  'членство в адвокатском объединении',
+            'advNumber'     =>  'номер в реестре адвокатов',
+            'position'      =>  'должность',
+            'vuzTownId'     =>  'город ВУЗа',
             'educationYear' =>  'год окончания',
             'site'          =>  'сайт',
             'priceConsult'  =>  'консультация от',
@@ -126,12 +126,12 @@ class YuristSettings extends CActiveRecord
     }
 
 
-    /** 
+    /**
      * возвращает массив, ключами которого являются коды статусов, а значениями - названия
-     * 
+     *
      * @return array Массив статусов профессиональных пользователей (код => название)
      */
-    static public function getStatusesArray()
+    public static function getStatusesArray()
     {
         return array(
             self::STATUS_NOTHING    =>  '',
@@ -144,7 +144,7 @@ class YuristSettings extends CActiveRecord
 
     /**
      * Возвращает название статуса пользователя
-     * 
+     *
      * @return string Название статуса
      */
 
@@ -157,23 +157,23 @@ class YuristSettings extends CActiveRecord
 
     /**
      * Статический метод, возвращающий название статуса по коду
-     * 
+     *
      * @param int $code Код статуса
      * @return string Название статуса
      */
-    static public function getStatusNameByCode($code)
+    public static function getStatusNameByCode($code)
     {
         $statusesArray = self::getStatusesArray();
         $statusName = $statusesArray[$code];
         return $statusName;
     }
     
-    /** 
+    /**
      * возвращает массив, ключами которого являются коды типов подписки на вопросы, а значениями - названия
-     * 
+     *
      * @return array Массив типов подписки (код => название)
      */
-    static public function getSubscriptionsArray()
+    public static function getSubscriptionsArray()
     {
         return array(
             self::SUBSCRIPTION_NOTHING      =>  'Не получать уведомления',
@@ -185,7 +185,7 @@ class YuristSettings extends CActiveRecord
 
     /**
      * Возвращает название типа подписки на вопросы
-     * 
+     *
      * @return string Название статуса
      */
 
@@ -214,11 +214,11 @@ class YuristSettings extends CActiveRecord
 
         $criteria=new CDbCriteria;
 
-        $criteria->compare('yuristId',$this->yuristId);
-        $criteria->compare('alias',$this->alias,true);
-        $criteria->compare('startYear',$this->startYear);
-        $criteria->compare('description',$this->description,true);
-        $criteria->compare('town',$this->town);
+        $criteria->compare('yuristId', $this->yuristId);
+        $criteria->compare('alias', $this->alias, true);
+        $criteria->compare('startYear', $this->startYear);
+        $criteria->compare('description', $this->description, true);
+        $criteria->compare('town', $this->town);
 
         return new CActiveDataProvider($this, array(
                 'criteria'=>$criteria,

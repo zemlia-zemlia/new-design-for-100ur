@@ -4,8 +4,10 @@
     </strong>
 </p>
 <p class="random-question-text">
-    <?php echo nl2br(mb_substr(CHtml::encode($question['questionText']),0,300,'utf-8')); ?>
-    <?php if(strlen($question['questionText'])>300) echo "...";?>
+    <?php echo nl2br(mb_substr(CHtml::encode($question['questionText']), 0, 300, 'utf-8')); ?>
+    <?php if (strlen($question['questionText'])>300) {
+    echo "...";
+}?>
 </p>
 <?php echo CHtml::link("Ответить", Yii::app()->createUrl('answer/create', array('questionId'=>$question['id'])), array('class'=>'btn btn-success btn-block', 'id'=>'random-question-link'));?>
 <a id="random-question-refresh" class="btn btn-warning btn-block">Другой вопрос</a>

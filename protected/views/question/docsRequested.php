@@ -1,5 +1,5 @@
 <?php
-if(Yii::app()->user->isGuest) {
+if (Yii::app()->user->isGuest) {
     $title = "Осталось подтвердить Email";
 } else {
     $title = "Заказ документа отправлен";
@@ -11,7 +11,7 @@ $this->setPageTitle($title . '. ' . Yii::app()->name);
 <div class='panel panel-default'>
     <div class='panel-body'>
         <h1><?php echo $title;?></h1>
-        <?php if(Yii::app()->user->isGuest):?>
+        <?php if (Yii::app()->user->isGuest):?>
             <p>
                 Для подтверждения своей почты перейдите по ссылке, которую мы отправили Вам в письме.
                 После этого Ваш заказ будет отправлен юристам.

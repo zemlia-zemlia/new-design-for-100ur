@@ -22,11 +22,13 @@ for ($i=0; $i<$count; ++$i) {
 
     $diff = ((float)$eu+(float)$es-(float)$bu-(float)$bs)*1000;
 
-    if ($diff>$max)
+    if ($diff>$max) {
         $max = $diff;
+    }
 
-    if ($diff<$min)
+    if ($diff<$min) {
         $min = $diff;
+    }
 
     $all += $diff;
     echo sprintf('(%.1f)', $diff).'<br>';
@@ -37,4 +39,3 @@ echo 'min: ' . $min . '<br>';
 echo 'max: ' . $max . '<br>';
 
 echo '<br>avg: ' . $all/$count . '<br>';
-?>

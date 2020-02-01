@@ -22,5 +22,3 @@ class RecentCategories extends CWidget
         ]);
     }
 }
-
-?>

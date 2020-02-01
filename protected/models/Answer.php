@@ -10,11 +10,11 @@
  * @property string $videoLink
  * @property integer $authorId
  * @property integer $status
- * 
+ *
  * @author Michael Krutikov m@mkrutikov.pro
  */
-class Answer extends CActiveRecord {
-
+class Answer extends CActiveRecord
+{
     const STATUS_NEW = 0;
     const STATUS_PUBLISHED = 1;
     const STATUS_SPAM = 2;
@@ -28,14 +28,16 @@ class Answer extends CActiveRecord {
      * @param string $className active record class name.
      * @return Answer the static model class
      */
-    public static function model($className = __CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return '{{answer}}';
     }
 
@@ -50,7 +52,8 @@ class Answer extends CActiveRecord {
     /**
      * @return array правила валидации для атрибутов модели
      */
-    public function rules() {
+    public function rules()
+    {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
@@ -69,7 +72,8 @@ class Answer extends CActiveRecord {
     /**
      * @return array relational rules.
      */
-    public function relations() {
+    public function relations()
+    {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
@@ -83,7 +87,8 @@ class Answer extends CActiveRecord {
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
             'id' => 'ID',
             'questionId' => 'ID вопроса',
@@ -99,7 +104,8 @@ class Answer extends CActiveRecord {
      * возвращает массив, ключами которого являются коды статусов, а значениями - названия статусов
      * @return Array массив статусов
      */
-    static public function getStatusesArray() {
+    public static function getStatusesArray()
+    {
         return array(
             self::STATUS_NEW => 'Предварительно опубликован',
             self::STATUS_PUBLISHED => 'Опубликован',
@@ -109,31 +115,34 @@ class Answer extends CActiveRecord {
 
     /**
      * возвращает название статуса для объекта
-     * 
+     *
      * @return string название статуса
      */
-    public function getAnswerStatusName() {
+    public function getAnswerStatusName()
+    {
         $statusesArray = self::getStatusesArray();
         return $statusesArray[$this->status];
     }
 
     /**
      * статический метод, возвращает название статуса вопроса по коду
-     * 
+     *
      * @param int $status код статуса
      * @return string название статуса
      */
-    static public function getStatusName($status) {
+    public static function getStatusName($status)
+    {
         $statusesArray = self::getStatusesArray();
         return $statusesArray[$status];
     }
 
     /**
      * Возвращает массив объектов на основе критерия поиска
-     * 
+     *
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search() {
+    public function search()
+    {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
@@ -152,8 +161,8 @@ class Answer extends CActiveRecord {
     /**
      * Вызывается после сохранения объекта в базу
      */
-    protected function afterSave() {
-        
+    protected function afterSave()
+    {
         LoggerFactory::getLogger('db')->log('Юрист ' . $this->author->getShortName() . ' ответил на вопрос #' . $this->questionId, 'User', $this->authorId);
         (new UserActivity())->logActivity($this->author, UserActivity::ACTION_ANSWER_QUESTION);
 
@@ -168,7 +177,8 @@ class Answer extends CActiveRecord {
     /**
      * Получает код видео из ссылки на видео на Youtube
      */
-    public function getVideoCode() {
+    public function getVideoCode()
+    {
         $videoCode = '';
         if ($this->videoLink) {
             preg_match("/v=([0-9a-zA-Z\-_]+)/", $this->videoLink, $videoIdMatches);
@@ -179,17 +189,17 @@ class Answer extends CActiveRecord {
 
         return $videoCode;
     }
-    
+
     /**
      * Валидатор, проверяющий текст ответа на наличие запрещенных слов
      * @param type $attribute
      * @param type $params
      */
-    public function validateText($attribute,$params) {
-        if(preg_match("/([a-zA-Z0-9\-\.]+)@([a-zA-Z0-9\-\.]+)/u", $this->$attribute)) {
+    public function validateText($attribute, $params)
+    {
+        if (preg_match("/([a-zA-Z0-9\-\.]+)@([a-zA-Z0-9\-\.]+)/u", $this->$attribute)) {
             $this->addError($attribute, 'Текст ответа содержит недопустимые символы');
         }
-        
     }
 
     /**

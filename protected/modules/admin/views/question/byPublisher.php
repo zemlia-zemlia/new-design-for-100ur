@@ -10,7 +10,7 @@
     <thead>
     <tr>
         <th>Вопрос</th>
-        <?php if(Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
+        <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
             <th>Категория</th>
             <th>Автор</th>
             <th>Статус</th>
@@ -18,8 +18,8 @@
     </tr>
     </thead>
 <?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'      =>  '_view',
+    'dataProvider'=>$dataProvider,
+    'itemView'      =>  '_view',
         'emptyText'     =>  'Не найдено ни одного вопроса',
         'summaryText'   =>  'Показаны вопросы с {start} до {end}, всего {count}',
         'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words

@@ -64,7 +64,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <span class="text-warning">для пополнения счета у Вас должна быть хотя бы одна активная кампания, одобренная модератором</span>
 <?php endif; ?>
 </p>
-<?php if(!in_array(Yii::app()->user->id, [5379])):?>
+<?php if (!in_array(Yii::app()->user->id, [5379])):?>
 	<h2>История изменения баланса</h2>
 	<small>
 		<table class="table table-bordered">
@@ -76,14 +76,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 		    </tr>
 
 		    <?php
-		    $this->widget('zii.widgets.CListView', array(
-		        'dataProvider' => $transactionsDataProvider,
-		        'itemView' => 'application.views.transactionCampaign._view',
-		        'emptyText' => 'Не найдено ни одной транзакции',
-		        'summaryText' => 'Показаны транзакции с {start} до {end}, всего {count}',
-		        'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
-		    ));
-		    ?>
+            $this->widget('zii.widgets.CListView', array(
+                'dataProvider' => $transactionsDataProvider,
+                'itemView' => 'application.views.transactionCampaign._view',
+                'emptyText' => 'Не найдено ни одной транзакции',
+                'summaryText' => 'Показаны транзакции с {start} до {end}, всего {count}',
+                'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
+            ));
+            ?>
 		</table>
 	</small>
 <?php endif;?>

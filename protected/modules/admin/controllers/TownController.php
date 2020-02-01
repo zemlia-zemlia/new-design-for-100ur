@@ -1,6 +1,7 @@
 <?php
 
-class TownController extends Controller {
+class TownController extends Controller
+{
 
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -11,7 +12,8 @@ class TownController extends Controller {
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
@@ -23,7 +25,8 @@ class TownController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
                 'actions' => array('index', 'view', 'create', 'update', 'delete', 'admin', 'RemovePhoto', 'setPrice'),
@@ -40,7 +43,8 @@ class TownController extends Controller {
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         $this->render('view', array(
             'model' => $this->loadModel($id),
         ));
@@ -50,7 +54,8 @@ class TownController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $model = new Town;
 
         // Uncomment the following line if AJAX validation is needed
@@ -58,8 +63,9 @@ class TownController extends Controller {
 
         if (isset($_POST['Town'])) {
             $model->attributes = $_POST['Town'];
-            if ($model->save())
+            if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->id));
+            }
         }
 
         // для работы визуального редактора подключим необходимую версию JQuery
@@ -78,7 +84,8 @@ class TownController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $model = $this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
@@ -105,8 +112,9 @@ class TownController extends Controller {
                 }
             }
 
-            if ($model->save())
+            if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->id));
+            }
         }
 
         // для работы визуального редактора подключим необходимую версию JQuery
@@ -125,18 +133,21 @@ class TownController extends Controller {
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
+        if (!isset($_GET['ajax'])) {
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        }
     }
 
     /**
      * Lists all models.
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $townsArray = Yii::app()->db->cache(3600)->createCommand()
                 ->order('counter DESC')
                 ->select('t.id, t.name, COUNT(*) counter')
@@ -153,7 +164,8 @@ class TownController extends Controller {
         ));
     }
 
-    public function actionRemovePhoto($id) {
+    public function actionRemovePhoto($id)
+    {
         $model = Town::model()->findByPk($id);
         if ($model->photo != '') {
             //echo $_SERVER['DOCUMENT_ROOT'] . Town::TOWN_PHOTO_PATH . '/' . $model->photo;
@@ -173,11 +185,13 @@ class TownController extends Controller {
     /**
      * Manages all models.
      */
-    public function actionAdmin() {
+    public function actionAdmin()
+    {
         $model = new Town('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Town']))
+        if (isset($_GET['Town'])) {
             $model->attributes = $_GET['Town'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
@@ -191,10 +205,12 @@ class TownController extends Controller {
      * @return Town the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id)
+    {
         $model = Town::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
@@ -202,7 +218,8 @@ class TownController extends Controller {
      * Performs the AJAX validation.
      * @param Town $model the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'town-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -214,27 +231,25 @@ class TownController extends Controller {
      */
     public function actionSetPrice()
     {
-        
         $price = (int)Yii::app()->request->getPost('price');
         $townId = Yii::app()->request->getPost('id');
         
         $model = Town::model()->findByPk($townId);
-        if(!$model) {
+        if (!$model) {
             throw new CHttpException('Город не найден', 404);
         }
         
-        if($price<0) {
+        if ($price<0) {
             throw new CHttpException('Цена не может быть меньше нуля', 400);
         }
         
         $changePriceResult = Yii::app()->db->createCommand()
                 ->update('{{town}}', array('buyPrice' => $price), 'id=:id', array(':id' => $model->id));
         
-        if($changePriceResult > 0) {
+        if ($changePriceResult > 0) {
             echo json_encode(array('code' => 1, 'townId' => $model->id));
         } else {
             echo json_encode(array('code' => 0, 'townId' => $model->id));
         }
     }
-
 }

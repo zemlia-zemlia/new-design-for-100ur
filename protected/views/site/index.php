@@ -2,7 +2,7 @@
 $this->setPageTitle("Юридическая консультация онлайн - бесплатная помощь юристов и адвокатов круглосуточно");
 Yii::app()->clientScript->registerMetaTag("100 Юристов - круглосуточные бесплатные юридические консультации онлайн.  Вы можете задать любой вопрос юристу или самостоятельно найти ответ в нашей правовой базе.", 'description');
 Yii::app()->clientScript->registerMetaTag("бесплатная юридическая консультация онлайн", 'keywords');
-Yii::app()->clientScript->registerLinkTag("canonical", NULL, "https://" . $_SERVER['SERVER_NAME']);
+Yii::app()->clientScript->registerLinkTag("canonical", null, "https://" . $_SERVER['SERVER_NAME']);
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -147,10 +147,10 @@ Yii::app()->clientScript->registerLinkTag("canonical", NULL, "https://" . $_SERV
             <div class="center-align">
                 <h2>Консультации по телефону</h2>
                 <?php
-	                // выводим виджет с номером 8800
-	                $this->widget('application.widgets.Hotline.HotlineWidget', array(
-	                    'showAlways' => true,
-	                ));
+                    // выводим виджет с номером 8800
+                    $this->widget('application.widgets.Hotline.HotlineWidget', array(
+                        'showAlways' => true,
+                    ));
                 ?>
                 <p>Оставьте запрос на консультацию и вам перезванивает наш специалист.</p>
             </div>

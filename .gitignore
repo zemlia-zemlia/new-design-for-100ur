@@ -20,3 +20,4 @@
 /protected/vendor/*
 /protected/commands/output/*
 /protected/phinx.yml
+.php_cs.cache

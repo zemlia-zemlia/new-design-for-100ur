@@ -1,14 +1,14 @@
 <?php
 
-class PartnerTransactionController extends Controller {
-
-    
+class PartnerTransactionController extends Controller
+{
     public $layout = '//admin/main';
 
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
@@ -20,7 +20,8 @@ class PartnerTransactionController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow',
                 'actions' => array('index', 'view', 'create', 'update', 'change'),
@@ -36,7 +37,8 @@ class PartnerTransactionController extends Controller {
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         $this->render('view', array(
             'model' => $this->loadModel($id),
         ));
@@ -48,18 +50,21 @@ class PartnerTransactionController extends Controller {
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
+        if (!isset($_GET['ajax'])) {
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        }
     }
 
     /**
      * Lists all models.
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $criteria = new CDbCriteria();
         $criteria->order = 'id DESC';
         $criteria->addCondition('sum<0');
@@ -76,7 +81,8 @@ class PartnerTransactionController extends Controller {
     }
 
     // изменение статуса заявки через AJAX
-    public function actionChange() {
+    public function actionChange()
+    {
         $requestId = (isset($_POST['id'])) ? (int) $_POST['id'] : false;
         $requestVerified = (isset($_POST['status'])) ? (int) $_POST['status'] : false;
 
@@ -110,18 +116,14 @@ class PartnerTransactionController extends Controller {
                 $moneyTransaction->datetime = date('Y-m-d H:i:s');
                 $moneyTransaction->comment = "Выплата вебмастеру id " . $request->partnerId;
                 $moneyTransaction->save();
-                
-                
-            } 
+            }
             
             echo json_encode(array('code' => 0, 'id' => $request->id, 'message' => 'OK'));
             Yii::app()->end();
-            
         } else {
             echo json_encode(array('code' => 500, 'message' => 'Could not save request' . print_r($request->errors)));
             Yii::app()->end();
         }
-
     }
 
     /**
@@ -131,10 +133,12 @@ class PartnerTransactionController extends Controller {
      * @return UserStatusRequest the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id)
+    {
         $model = PartnerTransaction::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
@@ -142,11 +146,11 @@ class PartnerTransactionController extends Controller {
      * Performs the AJAX validation.
      * @param UserStatusRequest $model the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'user-status-request-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
     }
-
 }

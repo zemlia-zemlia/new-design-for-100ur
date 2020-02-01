@@ -8,14 +8,14 @@ $this->setPageTitle($pageTitle . Yii::app()->name);
 Yii::app()->clientScript->registerMetaTag("Каталог Юристов и Адвокатов России и СНГ", "Description");
 
 $this->breadcrumbs=array(
-	'Страны',
+    'Страны',
 );
 
 ?>
 
 <?php
     $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('Главная',"/"),
+        'homeLink'=>CHtml::link('Главная', "/"),
         'separator'=>' / ',
         'links'=>$this->breadcrumbs,
      ));

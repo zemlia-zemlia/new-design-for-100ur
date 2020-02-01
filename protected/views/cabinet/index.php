@@ -5,7 +5,7 @@ $this->setPageTitle("Кабинет покупателя лидов. ". Yii::app
 
 <h1 class="vert-margin20">Мои лиды</h1>
 
-<?php if(sizeof($currentUser->campaigns) == 0):?>
+<?php if (sizeof($currentUser->campaigns) == 0):?>
 <div class="alert alert-danger">
     <p>
         Для того, чтобы начать покупать лиды, Вам необходимо <?php echo CHtml::link('создать кампанию', Yii::app()->createUrl('campaign/create'));?> и дождаться ее проверки.<br />
@@ -33,8 +33,8 @@ $this->setPageTitle("Кабинет покупателя лидов. ". Yii::app
 )); ?>
 </table>
 
-<?php 
-if(!$showInactive) {
+<?php
+if (!$showInactive) {
     echo CHtml::link('Показать неактивные', $this->createUrl('?show_inactive=true'));
 }
 ?>

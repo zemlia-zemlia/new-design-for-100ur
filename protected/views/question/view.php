@@ -9,7 +9,7 @@ $this->setPageTitle($pageTitle);
 
 $pageH1 = CHtml::encode(CustomFuncs::cutString($model->title, 70));
 
-Yii::app()->clientScript->registerLinkTag("canonical", NULL, Yii::app()->createUrl('question/view', array('id' => $model->id)));
+Yii::app()->clientScript->registerLinkTag("canonical", null, Yii::app()->createUrl('question/view', array('id' => $model->id)));
 
 Yii::app()->clientScript->registerMetaTag(CHtml::encode(mb_substr($model->questionText, 0, 160, 'utf-8')), 'description');
 

@@ -3,12 +3,12 @@
 /**
  * Контроллер для работы с вопросами
  */
-class QuestionController extends Controller {
-
+class QuestionController extends Controller
+{
     public $layout='//frontend/webmaster';
     
-    public function actionIndex() {
-        
+    public function actionIndex()
+    {
         $criteria = new CDbCriteria;
         
         $criteria->with = "source";
@@ -48,7 +48,7 @@ class QuestionController extends Controller {
     {
         $model = Question::model()->findByPk($id);
         
-        if(!$model) {
+        if (!$model) {
             throw new CHttpException(404, 'Лид не найден');
         }
         
@@ -63,7 +63,7 @@ class QuestionController extends Controller {
             $mySourcesIds[] = $row['id'];
         }
         
-        if($model->source->userId != Yii::app()->user->id) {
+        if ($model->source->userId != Yii::app()->user->id) {
             throw new CHttpException(403, 'Вы не можете просматривать чужие вопросы');
         }
         
@@ -71,5 +71,4 @@ class QuestionController extends Controller {
             'model' => $model,
         ));
     }
-    
 }

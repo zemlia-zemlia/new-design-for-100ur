@@ -115,7 +115,7 @@ $html->load($str);
 assert($html==$str);
 
 $counter = 0;
-foreach($html->find('input[type=checkbox]') as $checkbox) {
+foreach ($html->find('input[type=checkbox]') as $checkbox) {
     if (isset($checkbox->checked)) {
         assert($checkbox->value=="checkbox$counter");
         $counter += 2;
@@ -123,7 +123,7 @@ foreach($html->find('input[type=checkbox]') as $checkbox) {
 }
 
 $counter = 0;
-foreach($html->find('input[type=checkbox]') as $checkbox) {
+foreach ($html->find('input[type=checkbox]') as $checkbox) {
     if ($checkbox->checked) {
         assert($checkbox->value=="checkbox$counter");
         $counter += 2;
@@ -192,32 +192,32 @@ HTML;
 $html->load($str);
 assert($html==$str);
 $e = $html->find('[name=checkbox1]', 0);
-$e->type = NULL;
+$e->type = null;
 assert($e=="<input name='checkbox1' checked>");
 $e->name = null;
 assert($e=="<input checked>");
-$e->checked = NULL;
+$e->checked = null;
 assert($e=="<input>");
 
 // -----------------------------------------------
 $html->load($str);
 assert($html==$str);
 $e = $html->find('[name=checkbox0]', 0);
-$e->type = NULL;
+$e->type = null;
 assert($e=="<input checked name='checkbox0'>");
-$e->name = NULL;
+$e->name = null;
 assert($e=='<input checked>');
-$e->checked = NULL;
+$e->checked = null;
 assert($e=='<input>');
 
 $html->load($str);
 assert($html==$str);
 $e = $html->find('[name=checkbox0]', 0);
-$e->checked = NULL;
+$e->checked = null;
 assert($e=="<input type=\"checkbox\" name='checkbox0'>");
-$e->name = NULL;
+$e->name = null;
 assert($e=='<input type="checkbox">');
-$e->type = NULL;
+$e->type = null;
 assert($e=="<input>");
 
 // -----------------------------------------------------------------------------
@@ -383,4 +383,3 @@ assert($ul->first_child()->next_sibling()->tag==='li');
 // tear down
 $html->clear();
 unset($html);
-?>

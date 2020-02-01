@@ -5,7 +5,7 @@
 $this->pageTitle = "Типы документов. " . Yii::app()->name;
 
 $this->breadcrumbs=array(
-	'Типы документов',
+    'Типы документов',
 );
 
 ?>

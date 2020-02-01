@@ -7,12 +7,12 @@ $this->pageTitle = CHtml::encode($model->name) . ". Города. " . Yii::app()
 
 $this->breadcrumbs=array(
         'Регионы'=>array('/admin/region'),
-	CHtml::encode($model->region->name)=>array('/admin/region/view', 'regionAlias'=>CHtml::encode($model->region->alias)),
-	$model->name,
+    CHtml::encode($model->region->name)=>array('/admin/region/view', 'regionAlias'=>CHtml::encode($model->region->alias)),
+    $model->name,
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 юристов',"/"),
+    'homeLink'=>CHtml::link('100 юристов', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
@@ -65,7 +65,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <tr>
         <td><?php echo $model->getAttributeLabel('photo');?></td>
         <td>
-            <?php if($model->photo != ''):?>
+            <?php if ($model->photo != ''):?>
                 <?php echo CHtml::image($model->getPhotoUrl(), $model->name, array('class'=>'img-responsive'));?>
                 <p><br />
                     <?php echo CHtml::link('Удалить фото', Yii::app()->createUrl('/admin/town/removePhoto', array('id'=>$model->id)), array('class'=>'btn btn-danger'));?>
@@ -76,4 +76,4 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     
 </table>
 
-<?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/town/update',array('id'=>$model->id)), array('class'=>'btn btn-primary'));?>
+<?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/town/update', array('id'=>$model->id)), array('class'=>'btn btn-primary'));?>

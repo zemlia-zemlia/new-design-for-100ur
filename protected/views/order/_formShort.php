@@ -1,22 +1,22 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'                    =>  'order-form',
-	'enableAjaxValidation'  =>  false,
+    'id'                    =>  'order-form',
+    'enableAjaxValidation'  =>  false,
         'htmlOptions'           =>  ['class'=>'form-horizontal'],
 )); ?>
 
 <div class="form-group">
     <label class="col-sm-4 control-label">Срок, дней</label>
     <div class="col-sm-2">
-        <?php echo $form->textField($order,'termDays', array('class'=>'form-control', 'style' => 'text-align:right')); ?>
-        <?php echo $form->error($order,'termDays'); ?>
+        <?php echo $form->textField($order, 'termDays', array('class'=>'form-control', 'style' => 'text-align:right')); ?>
+        <?php echo $form->error($order, 'termDays'); ?>
     </div>
 </div>
 
 <div class="form-group">
     <label class="col-sm-4 control-label">Стоимость работы, руб.</label>
     <div class="col-sm-2">
-            <?php echo $form->textField($order,'price', array('class'=>'form-control', 'style' => 'text-align:right')); ?>
-        <?php echo $form->error($order,'price'); ?>
+            <?php echo $form->textField($order, 'price', array('class'=>'form-control', 'style' => 'text-align:right')); ?>
+        <?php echo $form->error($order, 'price'); ?>
     </div>
 </div>
 

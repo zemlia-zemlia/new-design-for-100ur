@@ -66,92 +66,92 @@
  */
 class ETab extends EJqueryUiWidget
 {
-   //***************************************************************************
-   // Configuration
-   //***************************************************************************
+    //***************************************************************************
+    // Configuration
+    //***************************************************************************
 
-   /**
-    * Tab title
-    *
-    * @var string
-    */
-   protected $title = '';
+    /**
+     * Tab title
+     *
+     * @var string
+     */
+    protected $title = '';
 
-   //***************************************************************************
-   // Internal properties
-   //***************************************************************************
+    //***************************************************************************
+    // Internal properties
+    //***************************************************************************
 
-   /**
-    * Panel body
-    *
-    * @var string
-    */
-   private $body = null;
+    /**
+     * Panel body
+     *
+     * @var string
+     */
+    private $body = null;
 
-   //***************************************************************************
-   // Setters and getters
-   //***************************************************************************
+    //***************************************************************************
+    // Setters and getters
+    //***************************************************************************
 
-   /**
-    * Setter
-    *
-    * @param string $value the title
-    */
-   public function setTitle($value)
-   {
-      $this->title = strval($value);
-   }
+    /**
+     * Setter
+     *
+     * @param string $value the title
+     */
+    public function setTitle($value)
+    {
+        $this->title = strval($value);
+    }
 
-   /**
-    * Getter
-    *
-    * @return string
-    */
-   public function getTitle()
-   {
-      return $this->title;
-   }
+    /**
+     * Getter
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-   //***************************************************************************
-   // Utilities
-   //***************************************************************************
+    //***************************************************************************
+    // Utilities
+    //***************************************************************************
 
-   protected function htmlCode($id)
-   {
-      $html = CHtml::tag('div', array('id'=>$id, 'title'=>$this->title), $this->body);
-      return $html;
-   }
+    protected function htmlCode($id)
+    {
+        $html = CHtml::tag('div', array('id'=>$id, 'title'=>$this->title), $this->body);
+        return $html;
+    }
 
-   //***************************************************************************
-   // Run Lola, Run
-   //***************************************************************************
+    //***************************************************************************
+    // Run Lola, Run
+    //***************************************************************************
 
-   /**
-    * Get the panel contents
-    */
-   public function init()
-   {
-      if (empty($this->title))
-         throw new CException(Yii::t('EjQueryUIWidget', 'title must not be empty.'));
-      ob_start();
-   }
+    /**
+     * Get the panel contents
+     */
+    public function init()
+    {
+        if (empty($this->title)) {
+            throw new CException(Yii::t('EjQueryUIWidget', 'title must not be empty.'));
+        }
+        ob_start();
+    }
 
-   /**
-    *
-    */
-   public function run()
-   {
-      if (is_null($this->body)) {
-         $this->body = ob_get_contents();
-         ob_end_clean();
-      }
-      else {
-         ob_end_flush();
-      }
+    /**
+     *
+     */
+    public function run()
+    {
+        if (is_null($this->body)) {
+            $this->body = ob_get_contents();
+            ob_end_clean();
+        } else {
+            ob_end_flush();
+        }
 
-      list($name, $id) = $this->resolveNameID();
+        list($name, $id) = $this->resolveNameID();
 
-      $html = $this->htmlCode($id);
-      echo $html;
-   }
+        $html = $this->htmlCode($id);
+        echo $html;
+    }
 }

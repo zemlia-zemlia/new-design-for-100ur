@@ -3,13 +3,13 @@
 /* @var $model Town */
 
 $this->breadcrumbs=array(
-	'Towns'=>array('index'),
-	'Create',
+    'Towns'=>array('index'),
+    'Create',
 );
 
 $this->menu=array(
-	array('label'=>'List Town', 'url'=>array('index')),
-	array('label'=>'Manage Town', 'url'=>array('admin')),
+    array('label'=>'List Town', 'url'=>array('index')),
+    array('label'=>'Manage Town', 'url'=>array('admin')),
 );
 ?>
 

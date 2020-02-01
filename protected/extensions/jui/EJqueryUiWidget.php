@@ -76,254 +76,261 @@ define('_CHECK_JS_PARAMETERS_', true);
  */
 class EJqueryUiWidget extends CInputWidget implements IJqueryUiWidget
 {
-   //***************************************************************************
-   // Configuration
-   //***************************************************************************
+    //***************************************************************************
+    // Configuration
+    //***************************************************************************
 
-   /**
-    * Options for each jQuery UI widget. This must be an associative array:
-    *
-    * $options['option'] = value;
-    *
-    * @var array
-    */
-   private $options = array();
+    /**
+     * Options for each jQuery UI widget. This must be an associative array:
+     *
+     * $options['option'] = value;
+     *
+     * @var array
+     */
+    private $options = array();
 
-   /**
-    * Callbacks for each jQuery UI widget. This must be an associative array:
-    *
-    * $callbacks['callback'] = function;
-    *
-    * Where function is the code of a javascript function according to the
-    * specifications of the widget.
-    *
-    * @var array
-    */
-   private $callbacks = array();
+    /**
+     * Callbacks for each jQuery UI widget. This must be an associative array:
+     *
+     * $callbacks['callback'] = function;
+     *
+     * Where function is the code of a javascript function according to the
+     * specifications of the widget.
+     *
+     * @var array
+     */
+    private $callbacks = array();
 
-   //***************************************************************************
-   // Internal properties
-   //***************************************************************************
+    //***************************************************************************
+    // Internal properties
+    //***************************************************************************
 
-   /**
-    * The base URL for the published assets
-    *
-    * @var string
-    */
-   protected $baseUrl = '';
+    /**
+     * The base URL for the published assets
+     *
+     * @var string
+     */
+    protected $baseUrl = '';
 
-   /**
-    * The CClientScript instance
-    *
-    * @var CClientScript
-    */
-   protected $clientScript = null;
+    /**
+     * The CClientScript instance
+     *
+     * @var CClientScript
+     */
+    protected $clientScript = null;
 
-   /**
-    * Possible valid options, according to the jQuery UI widget documentation
-    *
-    * @var array
-    */
-   protected $validOptions = array();
+    /**
+     * Possible valid options, according to the jQuery UI widget documentation
+     *
+     * @var array
+     */
+    protected $validOptions = array();
 
-   /**
-    * Possible valid callbacks, according to the jQuery UI widget documentation
-    *
-    * @var array
-    */
-   protected $validCallbacks = array();
+    /**
+     * Possible valid callbacks, according to the jQuery UI widget documentation
+     *
+     * @var array
+     */
+    protected $validCallbacks = array();
 
-   //***************************************************************************
-   // Setters and getters
-   //***************************************************************************
+    //***************************************************************************
+    // Setters and getters
+    //***************************************************************************
 
-   /**
-    * Setter
-    *
-    * @var array $value options
-    */
-   public function setOptions($value)
-   {
-      if (!is_array($value))
-         throw new CException(Yii::t('EJqueryUiWidget', 'options must be an array'));
-      if (_CHECK_JS_PARAMETERS_) self::checkOptions($value, $this->validOptions);
-      $this->options = $value;
-   }
+    /**
+     * Setter
+     *
+     * @var array $value options
+     */
+    public function setOptions($value)
+    {
+        if (!is_array($value)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'options must be an array'));
+        }
+        if (_CHECK_JS_PARAMETERS_) {
+            self::checkOptions($value, $this->validOptions);
+        }
+        $this->options = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return array
-    */
-   public function getOptions()
-   {
-      return $this->options;
-   }
+    /**
+     * Getter
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
 
-   /**
-    * Setter
-    *
-    * @param array $value callbacks
-    */
-   public function setCallbacks($value)
-   {
-      if (!is_array($value))
-         throw new CException(Yii::t('EJqueryUiWidget', 'callbacks must be an associative array'));
-      if (_CHECK_JS_PARAMETERS_) self::checkCallbacks($value, $this->validCallbacks);
-      $this->callbacks = $value;
-   }
+    /**
+     * Setter
+     *
+     * @param array $value callbacks
+     */
+    public function setCallbacks($value)
+    {
+        if (!is_array($value)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'callbacks must be an associative array'));
+        }
+        if (_CHECK_JS_PARAMETERS_) {
+            self::checkCallbacks($value, $this->validCallbacks);
+        }
+        $this->callbacks = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return array
-    */
-   public function getCallbacks()
-   {
-      return $this->callbacks;
-   }
+    /**
+     * Getter
+     *
+     * @return array
+     */
+    public function getCallbacks()
+    {
+        return $this->callbacks;
+    }
 
-   /**
-    * Sets the theme.
-    *
-    * You need to set exactly one theme in all your jQuery UI widgets. The first
-    * theme defined will be used for all the widgets. A singleton is used to
-    * enforce this.
-    *
-    * @param string $value theme
-    */
-   public function setTheme($value)
-   {
-      EJqueryUiConfig::singleton()->setTheme($value);
-   }
+    /**
+     * Sets the theme.
+     *
+     * You need to set exactly one theme in all your jQuery UI widgets. The first
+     * theme defined will be used for all the widgets. A singleton is used to
+     * enforce this.
+     *
+     * @param string $value theme
+     */
+    public function setTheme($value)
+    {
+        EJqueryUiConfig::singleton()->setTheme($value);
+    }
 
-   /**
-    * Gets the theme from the singleton.
-    *
-    * @return <type>
-    */
-   public function getTheme()
-   {
-      return EJqueryUiConfig::singleton()->getTheme();
-   }
+    /**
+     * Gets the theme from the singleton.
+     *
+     * @return <type>
+     */
+    public function getTheme()
+    {
+        return EJqueryUiConfig::singleton()->getTheme();
+    }
 
-   /**
-    * Setter
-    *
-    * @param integer $value compression
-    */
-   public function setCompression($value)
-   {
-      EJqueryUiConfig::singleton()->setCompression($value);
-   }
+    /**
+     * Setter
+     *
+     * @param integer $value compression
+     */
+    public function setCompression($value)
+    {
+        EJqueryUiConfig::singleton()->setCompression($value);
+    }
 
-   /**
-    * Getter
-    *
-    * @return integer
-    */
-   public function getCompression()
-   {
-      return EJqueryUiConfig::singleton()->getCompression();
-   }
+    /**
+     * Getter
+     *
+     * @return integer
+     */
+    public function getCompression()
+    {
+        return EJqueryUiConfig::singleton()->getCompression();
+    }
 
-   /**
-    * Setter
-    *
-    * @param boolean $value useBundledStyleSheet
-    */
-   public function setUseBundledStyleSheet($value)
-   {
-      EJqueryUiConfig::singleton()->setUseBundledStyleSheet($value);
-   }
+    /**
+     * Setter
+     *
+     * @param boolean $value useBundledStyleSheet
+     */
+    public function setUseBundledStyleSheet($value)
+    {
+        EJqueryUiConfig::singleton()->setUseBundledStyleSheet($value);
+    }
 
-   /**
-    * Getter
-    *
-    * @return boolean
-    */
-   public function getUseBundledStyleSheet()
-   {
-      return EJqueryUiConfig::singleton()->getUseBundledStyleSheet();
-   }
+    /**
+     * Getter
+     *
+     * @return boolean
+     */
+    public function getUseBundledStyleSheet()
+    {
+        return EJqueryUiConfig::singleton()->getUseBundledStyleSheet();
+    }
 
-   //***************************************************************************
-   // Utilities
-   //***************************************************************************
+    //***************************************************************************
+    // Utilities
+    //***************************************************************************
 
-   /**
-    * Check the options against the valid ones
-    *
-    * @param array $value user's options
-    * @param array $validOptions valid options
-    */
-   protected static function checkOptions($value, $validOptions)
-   {
-      if (!empty($validOptions)) {         
-         foreach ($value as $key=>$val) {
-            if (!array_key_exists($key, $validOptions)) {
-               throw new CException(Yii::t('EJqueryUiWidget', '{k} is not a valid option', array('{k}'=>$key)));
+    /**
+     * Check the options against the valid ones
+     *
+     * @param array $value user's options
+     * @param array $validOptions valid options
+     */
+    protected static function checkOptions($value, $validOptions)
+    {
+        if (!empty($validOptions)) {
+            foreach ($value as $key=>$val) {
+                if (!array_key_exists($key, $validOptions)) {
+                    throw new CException(Yii::t('EJqueryUiWidget', '{k} is not a valid option', array('{k}'=>$key)));
+                }
+                $type = gettype($val);
+                if ((!is_array($validOptions[$key]['type']) && ($type != $validOptions[$key]['type'])) || (is_array($validOptions[$key]['type']) && !in_array($type, $validOptions[$key]['type']))) {
+                    throw new CException(Yii::t('EJqueryUiWidget', '{k} must be of type {t}', array('{k}'=>$key, '{t}'=>implode(',', (is_array($validOptions[$key]['type']))?implode(', ', $validOptions[$key]['type']):$validOptions[$key]['type']))));
+                }
+                if (array_key_exists('possibleValues', $validOptions[$key])) {
+                    if (!in_array($val, $validOptions[$key]['possibleValues'])) {
+                        throw new CException(Yii::t('EJqueryUiWidget', '{k} must be one of: {v}', array('{k}'=>$key, '{v}'=>implode(', ', $validOptions[$key]['possibleValues']))));
+                    }
+                }
+                if (($type == 'array') && array_key_exists('elements', $validOptions[$key])) {
+                    self::checkOptions($val, $validOptions[$key]['elements']);
+                }
             }
-            $type = gettype($val);
-            if ((!is_array($validOptions[$key]['type']) && ($type != $validOptions[$key]['type'])) || (is_array($validOptions[$key]['type']) && !in_array($type, $validOptions[$key]['type']))) {
-               throw new CException(Yii::t('EJqueryUiWidget', '{k} must be of type {t}', array('{k}'=>$key, '{t}'=>implode(',', (is_array($validOptions[$key]['type']))?implode(', ', $validOptions[$key]['type']):$validOptions[$key]['type']))));
+        }
+    }
+
+    /**
+     * Check callbacks against the valid ones
+     *
+     * @param array $value user's callbacks
+     * @param array $validCallbacks valid callbacks
+     */
+    protected static function checkCallbacks($value, $validCallbacks)
+    {
+        if (!empty($validCallbacks)) {
+            foreach ($value as $key=>$val) {
+                if (!in_array($key, $validCallbacks)) {
+                    throw new CException(Yii::t('EJqueryUiWidget', '{k} must be one of: {c}', array('{k}'=>$key, '{c}'=>implode(', ', $validCallbacks))));
+                }
             }
-            if (array_key_exists('possibleValues', $validOptions[$key])) {
-               if (!in_array($val, $validOptions[$key]['possibleValues'])) {
-                  throw new CException(Yii::t('EJqueryUiWidget', '{k} must be one of: {v}', array('{k}'=>$key, '{v}'=>implode(', ', $validOptions[$key]['possibleValues']))));
-               }
-            }
-            if (($type == 'array') && array_key_exists('elements', $validOptions[$key])) {
-               self::checkOptions($val, $validOptions[$key]['elements']);
-            }
-         }
-      }
-   }
+        }
+    }
 
-   /**
-    * Check callbacks against the valid ones
-    *
-    * @param array $value user's callbacks
-    * @param array $validCallbacks valid callbacks
-    */
-   protected static function checkCallbacks($value, $validCallbacks)
-   {
-      if (!empty($validCallbacks)) {
-         foreach ($value as $key=>$val) {
-            if (!in_array($key, $validCallbacks)) {
-               throw new CException(Yii::t('EJqueryUiWidget', '{k} must be one of: {c}', array('{k}'=>$key, '{c}'=>implode(', ', $validCallbacks))));
-            }
-         }
-      }
-   }
+    /**
+     * Publishes the assets
+     */
+    public function publishAssets()
+    {
+        $dir = dirname(__FILE__).DIRECTORY_SEPARATOR.'jquery';
+        $this->baseUrl = Yii::app()->getAssetManager()->publish($dir);
+    }
 
-   /**
-    * Publishes the assets
-    */
-   public function publishAssets()
-   {
-      $dir = dirname(__FILE__).DIRECTORY_SEPARATOR.'jquery';
-      $this->baseUrl = Yii::app()->getAssetManager()->publish($dir);
-   }
+    /**
+     * Registers the external javascript files
+     */
+    public function registerClientScripts()
+    {
+        if ($this->baseUrl === '') {
+            throw new CException(Yii::t('EJqueryUiWidget', 'baseUrl must be set. This is done automatically by calling publishAssets()'));
+        }
 
-   /**
-    * Registers the external javascript files
-    */
-   public function registerClientScripts()
-   {
-      if ($this->baseUrl === '')
-         throw new CException(Yii::t('EJqueryUiWidget', 'baseUrl must be set. This is done automatically by calling publishAssets()'));
+        $this->clientScript = Yii::app()->getClientScript();
 
-      $this->clientScript = Yii::app()->getClientScript();
+        $this->clientScript->registerCoreScript('jquery');
 
-      $this->clientScript->registerCoreScript('jquery');
-
-      switch ($this->getCompression()) {
+        switch ($this->getCompression()) {
          case 'none':
             $this->clientScript->registerScriptFile($this->baseUrl.'/js/jquery-ui-1.7.1.custom.js');
             break;
 
-         case 'packed';
+         case 'packed':
             $this->clientScript->registerScriptFile($this->baseUrl.'/js/jquery-ui-1.7.1.custom.packed.js');
             break;
 
@@ -332,8 +339,8 @@ class EJqueryUiWidget extends CInputWidget implements IJqueryUiWidget
             break;
       }
       
-      if ($this->getUseBundledStyleSheet()) {
-         $this->clientScript->registerCssFile($this->baseUrl.'/css/'.$this->getTheme().'/jquery-ui-1.7.1.custom.css');
-      }
-   }
+        if ($this->getUseBundledStyleSheet()) {
+            $this->clientScript->registerCssFile($this->baseUrl.'/css/'.$this->getTheme().'/jquery-ui-1.7.1.custom.css');
+        }
+    }
 }

@@ -17,7 +17,9 @@
             <div class="form-group">
                 <?php echo $form->labelEx($model, 'date1'); ?> <br/>
                 <?php
-                $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+                $this->widget(
+            'zii.widgets.jui.CJuiDatePicker',
+            array(
                         'name' => "Lead[date1]",
                         'value' => $model['date1'],
                         'language' => 'ru',
@@ -28,7 +30,7 @@
                             'class' => 'form-control input-sm'
                         )
                     )
-                );
+        );
                 ?>
                 <?php echo $form->error($model, 'date1'); ?>
             </div>
@@ -39,7 +41,9 @@
             <div class="form-group">
                 <?php echo $form->labelEx($model, 'date2'); ?><br/>
                 <?php
-                $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+                $this->widget(
+                    'zii.widgets.jui.CJuiDatePicker',
+                    array(
                         'name' => "Lead[date2]",
                         'value' => $model['date2'],
                         'language' => 'ru',

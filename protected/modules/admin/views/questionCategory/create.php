@@ -7,11 +7,11 @@ $this->setPageTitle("Создание категории вопросов. " . Y
 
 $this->breadcrumbs=array(
         'Вопросы и ответы'      =>  array('/question'),
-	'Категории вопросов'    =>  array('index'),
-	'Новая категория',
+    'Категории вопросов'    =>  array('index'),
+    'Новая категория',
 );
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('CRM',"/"),
+    'homeLink'=>CHtml::link('CRM', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));

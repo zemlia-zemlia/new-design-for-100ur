@@ -75,109 +75,109 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
  */
 class ESlider extends EJqueryUiWidget
 {
-   //***************************************************************************
-   // Configuration
-   //***************************************************************************
+    //***************************************************************************
+    // Configuration
+    //***************************************************************************
 
-   /**
-    * The value of the control. You can pass an float value if you have
-    * one handler, o you can pass an array of floats if you have several
-    * handlers. For instance, array(13,45,24) sets the first handler to 13, the 
-    * second to 45 and the third to 24.
-    *
-    * @var mixed
-    */
-   public $value = null;
+    /**
+     * The value of the control. You can pass an float value if you have
+     * one handler, o you can pass an array of floats if you have several
+     * handlers. For instance, array(13,45,24) sets the first handler to 13, the
+     * second to 45 and the third to 24.
+     *
+     * @var mixed
+     */
+    public $value = null;
 
-   /**
-    * Enable or disable the widget
-    *
-    * @var boolean
-    */
-   private $enabled = true;
+    /**
+     * Enable or disable the widget
+     *
+     * @var boolean
+     */
+    private $enabled = true;
 
-   /**
-    * The minimun value for the slider
-    *
-    * @var float
-    */
-   private $minValue = -100;
+    /**
+     * The minimun value for the slider
+     *
+     * @var float
+     */
+    private $minValue = -100;
 
-   /**
-    * The maximun value for the slider
-    *
-    * @var float
-    */
-   private $maxValue = 100;
+    /**
+     * The maximun value for the slider
+     *
+     * @var float
+     */
+    private $maxValue = 100;
 
-   /**
-    * Alternative to stepping, this defines how many steps a slider will have,
-    * instead of how many values to jump
-    *
-    * @var float
-    */
-   private $step = 1;
+    /**
+     * Alternative to stepping, this defines how many steps a slider will have,
+     * instead of how many values to jump
+     *
+     * @var float
+     */
+    private $step = 1;
 
-   /**
-    * Whetever to use a range or not
-    *
-    * @var boolean
-    */
-   private $range = false;
+    /**
+     * Whetever to use a range or not
+     *
+     * @var boolean
+     */
+    private $range = false;
 
-   /**
-    * Whether slide handle smoothly when user click outside handle on the bar.
-    *
-    * @var boolean
-    */
-   private $animate = false;
+    /**
+     * Whether slide handle smoothly when user click outside handle on the bar.
+     *
+     * @var boolean
+     */
+    private $animate = false;
 
-   /**
-    * How many handlers will we use
-    *
-    * @var float
-    */
-   private $numberOfHandlers = 1;
+    /**
+     * How many handlers will we use
+     *
+     * @var float
+     */
+    private $numberOfHandlers = 1;
 
-   /**
-    * This can be a string or an array of strings, and is used to pass the IDs
-    * of the elements which will show the values of the handlers. It's most
-    * useful, if you're using forms, if these elements are text fields (input
-    * form tags of text type)
-    *
-    * @var mixed
-    */
-   private $linkedElements = null;
+    /**
+     * This can be a string or an array of strings, and is used to pass the IDs
+     * of the elements which will show the values of the handlers. It's most
+     * useful, if you're using forms, if these elements are text fields (input
+     * form tags of text type)
+     *
+     * @var mixed
+     */
+    private $linkedElements = null;
 
-   /**
-    * This is the string ID of the element (usually a text field) which will
-    * get the range value. This only works when $numberOfHandlers == 2 and
-    * range == true
-    *
-    * @var string
-    */
-   private $linkedRangeElement = null;
+    /**
+     * This is the string ID of the element (usually a text field) which will
+     * get the range value. This only works when $numberOfHandlers == 2 and
+     * range == true
+     *
+     * @var string
+     */
+    private $linkedRangeElement = null;
 
-   /**
-    * When to show the value on the linked elements: 
-    * 
-    * 'slide' (when you drag the handlers)
-    * 'change' (when you release the mouse button)
-    * 
-    * @var string
-    */
-   private $showValueOn = 'slide';
+    /**
+     * When to show the value on the linked elements:
+     *
+     * 'slide' (when you drag the handlers)
+     * 'change' (when you release the mouse button)
+     *
+     * @var string
+     */
+    private $showValueOn = 'slide';
 
-   //***************************************************************************
-   // Internal properties (not for configuration)
-   //***************************************************************************
+    //***************************************************************************
+    // Internal properties (not for configuration)
+    //***************************************************************************
 
-   /**
-    * See @link http://docs.jquery.com/UI/Slider/slider#options
-    *
-    * @var array
-    */
-   protected $validOptions = array(
+    /**
+     * See @link http://docs.jquery.com/UI/Slider/slider#options
+     *
+     * @var array
+     */
+    protected $validOptions = array(
                                    'animate'=>array('type'=>'boolean'), // Whether to slide handle smoothly when user click outside handle on the bar. Default: false
                                    'max'=>array('type'=>'integer'), // The maximum value of the slider. Default: 100
                                    'min'=>array('type'=>'integer'), // The minimum value of the slider. Default: 0
@@ -188,372 +188,382 @@ class ESlider extends EJqueryUiWidget
                                    'values'=>array('type'=>'array'), // This option can be used to specify multiple handles. If range is set to true, the length of 'values' should be 2. Default: null
                                   );
 
-   /**
-    * See @link http://docs.jquery.com/UI/Slider/slider#options
-    *
-    * @var array
-    */
-   protected $validCallbacks = array(
+    /**
+     * See @link http://docs.jquery.com/UI/Slider/slider#options
+     *
+     * @var array
+     */
+    protected $validCallbacks = array(
                                      'start', // Function that gets called when the user starts sliding.
                                      'slide', // Function that gets called on every mouse move during slide. Takes arguments e and ui, for event and user-interface respectively. Use ui.value (single-handled sliders) to obtain the value of the current handle, $(..).slider('value', index) to get another handles' value.
                                      'change', // Function that gets called on slide stop, but only if the slider position has changed. Takes arguments e and ui, for event and user-interface respectively. Use ui.value (single-handled sliders) to obtain the value of the current handle, $(..).slider('value', index) to get another handles' value.
                                      'stop', // Function that gets called when the user stops sliding.
                                     );
 
-   //***************************************************************************
-   // Setters and getters
-   //***************************************************************************
+    //***************************************************************************
+    // Setters and getters
+    //***************************************************************************
 
-   /**
-    * Setter
-    *
-    * @param string $value showValueOn
-    */
-   public function setShowValueOn($value)
-   {
-      if ($value !== 'slide' && $value !== 'change')
-         throw new CException(Yii::t('EJqueryUiWidget', 'showValueOn must be one of: "slide", "change"'));
-      $this->showValueOn = $value;
-   }
+    /**
+     * Setter
+     *
+     * @param string $value showValueOn
+     */
+    public function setShowValueOn($value)
+    {
+        if ($value !== 'slide' && $value !== 'change') {
+            throw new CException(Yii::t('EJqueryUiWidget', 'showValueOn must be one of: "slide", "change"'));
+        }
+        $this->showValueOn = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return string
-    */
-   public function getShowValueOn()
-   {
-      return $this->showValueOn;
-   }
+    /**
+     * Getter
+     *
+     * @return string
+     */
+    public function getShowValueOn()
+    {
+        return $this->showValueOn;
+    }
 
-   /**
-    * Setter
-    *
-    * @param string $value linkedRangeElement
-    */
-   public function setLinkedRangeElement($value)
-   {
-      if (!is_string($value) || empty($value))
-         throw new CException(Yii::t('EJqueryUiWidget', 'linkedRangeElement must be a non-empty string'));
-      $this->linkedRangeElement = $value;
-   }
+    /**
+     * Setter
+     *
+     * @param string $value linkedRangeElement
+     */
+    public function setLinkedRangeElement($value)
+    {
+        if (!is_string($value) || empty($value)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'linkedRangeElement must be a non-empty string'));
+        }
+        $this->linkedRangeElement = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return string
-    */
-   public function getLinkedRangeElement()
-   {
-      return $this->linkedRangeElement;
-   }
+    /**
+     * Getter
+     *
+     * @return string
+     */
+    public function getLinkedRangeElement()
+    {
+        return $this->linkedRangeElement;
+    }
 
-   /**
-    * Setter
-    *
-    * @param mixed $value linkedElements
-    */
-   public function setLinkedElements($value)
-   {
-      if (!is_string($value) && !is_array($value))
-         throw new CException(Yii::t('EJqueryUiWidget', 'linkedElements must be an array of strings or a string'));
-      $this->linkedElements = $value;
-   }
+    /**
+     * Setter
+     *
+     * @param mixed $value linkedElements
+     */
+    public function setLinkedElements($value)
+    {
+        if (!is_string($value) && !is_array($value)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'linkedElements must be an array of strings or a string'));
+        }
+        $this->linkedElements = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return mixed
-    */
-   public function getLinkedElements()
-   {
-      return $this->linkedElements;
-   }
+    /**
+     * Getter
+     *
+     * @return mixed
+     */
+    public function getLinkedElements()
+    {
+        return $this->linkedElements;
+    }
 
-   /**
-    * Setter
-    *
-    * @param integer $value numberOfHandlers
-    */
-   public function setNumberOfHandlers($value)
-   {
-      if (!is_int($value) || intval($value)<1)
-         throw new CException(Yii::t('EJqueryUiWidget', 'numberOfHandlers must be an integer'));
-      $this->numberOfHandlers = $value;
-   }
+    /**
+     * Setter
+     *
+     * @param integer $value numberOfHandlers
+     */
+    public function setNumberOfHandlers($value)
+    {
+        if (!is_int($value) || intval($value)<1) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'numberOfHandlers must be an integer'));
+        }
+        $this->numberOfHandlers = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return integer numberOfHandlers
-    */
-   public function getNumberOfHandlers()
-   {
-      return $this->numberOfHandlers;
-   }
+    /**
+     * Getter
+     *
+     * @return integer numberOfHandlers
+     */
+    public function getNumberOfHandlers()
+    {
+        return $this->numberOfHandlers;
+    }
 
-   /**
-    * Setter
-    *
-    * @param boolean $value animate
-    */
-   public function setAnimate($value)
-   {
-      if (!is_bool($value))
-         throw new CException(Yii::t('EJqueryUiWidget', 'animate must be boolean'));
-      $this->animate = $value;
-   }
+    /**
+     * Setter
+     *
+     * @param boolean $value animate
+     */
+    public function setAnimate($value)
+    {
+        if (!is_bool($value)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'animate must be boolean'));
+        }
+        $this->animate = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return boolean
-    */
-   public function getAnimate()
-   {
-      return $this->animate;
-   }
+    /**
+     * Getter
+     *
+     * @return boolean
+     */
+    public function getAnimate()
+    {
+        return $this->animate;
+    }
 
-   /**
-    * Setter range
-    *
-    * @param boolean $value
-    */
-   public function setRange($value)
-   {
-      if (!is_bool($value))
-         throw new CException(Yii::t('EJqueryUiWidget', 'range must be boolean'));
-      $this->range = $value;
-   }
+    /**
+     * Setter range
+     *
+     * @param boolean $value
+     */
+    public function setRange($value)
+    {
+        if (!is_bool($value)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'range must be boolean'));
+        }
+        $this->range = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return boolean
-    */
-   public function getRange()
-   {
-      return $this->range;
-   }
+    /**
+     * Getter
+     *
+     * @return boolean
+     */
+    public function getRange()
+    {
+        return $this->range;
+    }
 
-   /**
-    * Setter step
-    *
-    * @param integer $value
-    */
-   public function setStep($value)
-   {
-      if (!is_float($value))
-         throw new CException(Yii::t('EJqueryUiWidget', 'step must be float'));
-      $this->step = $value;
-   }
+    /**
+     * Setter step
+     *
+     * @param integer $value
+     */
+    public function setStep($value)
+    {
+        if (!is_float($value)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'step must be float'));
+        }
+        $this->step = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return integer
-    */
-   public function getStep()
-   {
-      return $this->step;
-   }
+    /**
+     * Getter
+     *
+     * @return integer
+     */
+    public function getStep()
+    {
+        return $this->step;
+    }
 
-   /**
-    * Setter
-    *
-    * @param integer $value minValue
-    */
-   public function setMinValue($value)
-   {
-      if (!is_float($value))
-         throw new CException(Yii::t('EJqueryUiWidget', 'minValue must be float'));
-      $this->minValue = $value;
-   }
+    /**
+     * Setter
+     *
+     * @param integer $value minValue
+     */
+    public function setMinValue($value)
+    {
+        if (!is_float($value)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'minValue must be float'));
+        }
+        $this->minValue = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return integer
-    */
-   public function getMinValue()
-   {
-      return $this->minValue;
-   }
+    /**
+     * Getter
+     *
+     * @return integer
+     */
+    public function getMinValue()
+    {
+        return $this->minValue;
+    }
 
-   /**
-    * Setter
-    *
-    * @param integer $value maxValue
-    */
-   public function setMaxValue($value)
-   {
-      if (!is_float($value))
-         throw new CException(Yii::t('EJqueryUiWidget', 'maxValue must be float'));
-      $this->maxValue = $value;
-   }
+    /**
+     * Setter
+     *
+     * @param integer $value maxValue
+     */
+    public function setMaxValue($value)
+    {
+        if (!is_float($value)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'maxValue must be float'));
+        }
+        $this->maxValue = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return integer
-    */
-   public function getMaxValue()
-   {
-      return $this->maxValue;
-   }
+    /**
+     * Getter
+     *
+     * @return integer
+     */
+    public function getMaxValue()
+    {
+        return $this->maxValue;
+    }
 
-   /**
-    * Setter
-    *
-    * @param boolean $value enabled
-    */
-   public function setEnabled($value)
-   {
-      if (!is_bool($value))
-         throw new CException(Yii::t('EJqueryUiWidget', 'enabled must be boolean'));
-      $this->enabled = $value;
-   }
+    /**
+     * Setter
+     *
+     * @param boolean $value enabled
+     */
+    public function setEnabled($value)
+    {
+        if (!is_bool($value)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'enabled must be boolean'));
+        }
+        $this->enabled = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return boolean
-    */
-   public function getEnabled()
-   {
-      return $this->enabled;
-   }
+    /**
+     * Getter
+     *
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
 
-   //***************************************************************************
-   // Utilities
-   //***************************************************************************
+    //***************************************************************************
+    // Utilities
+    //***************************************************************************
 
-   /**
-    * Generates the options for the jQuery widget
-    *
-    * @param string $id id
-    * @return string
-    */
-   protected function makeOptions($id)
-   {
-      $hasChangeCallback = false;
-      $assignments = array();
+    /**
+     * Generates the options for the jQuery widget
+     *
+     * @param string $id id
+     * @return string
+     */
+    protected function makeOptions($id)
+    {
+        $hasChangeCallback = false;
+        $assignments = array();
 
-      $options = array();
-      $options['min'] = $this->minValue;
-      $options['max'] = $this->maxValue;
-      $options['range'] = $this->range ? 'true' : 'false';
-      $options['step'] = $this->step;
-      $options['animate'] = $this->animate ? 'true' : 'false';
-      if (!is_array($this->value) && !is_null($this->value)) {         
-         $this->value = array($this->value);
-      }
-      $options['values'] = $this->value;
+        $options = array();
+        $options['min'] = $this->minValue;
+        $options['max'] = $this->maxValue;
+        $options['range'] = $this->range ? 'true' : 'false';
+        $options['step'] = $this->step;
+        $options['animate'] = $this->animate ? 'true' : 'false';
+        if (!is_array($this->value) && !is_null($this->value)) {
+            $this->value = array($this->value);
+        }
+        $options['values'] = $this->value;
       
-      if (is_array($this->linkedElements) && !empty($this->linkedElements)) {         
-         $c = count($this->linkedElements);
-         for ($i=0; $i<$c; $i++) {
-            $assignments[] = '$("#'.strval($this->linkedElements[$i]).'").attr("value", $("#'.$id.'").slider("values", '.$i.'));';
-         }
-         $hasChangeCallback = true;
-      }
+        if (is_array($this->linkedElements) && !empty($this->linkedElements)) {
+            $c = count($this->linkedElements);
+            for ($i=0; $i<$c; $i++) {
+                $assignments[] = '$("#'.strval($this->linkedElements[$i]).'").attr("value", $("#'.$id.'").slider("values", '.$i.'));';
+            }
+            $hasChangeCallback = true;
+        }
 
-      if ($this->numberOfHandlers === 2 &&  $this->range &&
+        if ($this->numberOfHandlers === 2 &&  $this->range &&
           is_string($this->linkedRangeElement) && $this->linkedRangeElement !== '') {
-         $assignments[] = '$("#'.strval($this->linkedRangeElement).'").attr("values", ui.range);';
-         $hasChangeCallback = true;
-      }
+            $assignments[] = '$("#'.strval($this->linkedRangeElement).'").attr("values", ui.range);';
+            $hasChangeCallback = true;
+        }
 
-      if ($hasChangeCallback) {
-         $options[$this->showValueOn] = $this->showValueOn;
-         $funcall = "{$this->showValueOn}: function(e,ui) { ".implode('', $assignments)." }";
-      }
+        if ($hasChangeCallback) {
+            $options[$this->showValueOn] = $this->showValueOn;
+            $funcall = "{$this->showValueOn}: function(e,ui) { ".implode('', $assignments)." }";
+        }
 
-      foreach ($this->callbacks as  $key=>$val) {
-         $options['callback_'.$key] = $key;
-      }
+        foreach ($this->callbacks as  $key=>$val) {
+            $options['callback_'.$key] = $key;
+        }
 
-      $options = array_merge($options, $this->options);
-      $encodedOptions = CJavaScript::encode($options);
-      $encodedOptions = str_replace("'{$this->showValueOn}':'$this->showValueOn'", $funcall, $encodedOptions);
+        $options = array_merge($options, $this->options);
+        $encodedOptions = CJavaScript::encode($options);
+        $encodedOptions = str_replace("'{$this->showValueOn}':'$this->showValueOn'", $funcall, $encodedOptions);
 
-      foreach ($this->callbacks as $key=>$val) {
-         $encodedOptions = str_replace("'callback_{$key}':'{$key}'", "{$key}: {$val}", $encodedOptions);
-      }      
+        foreach ($this->callbacks as $key=>$val) {
+            $encodedOptions = str_replace("'callback_{$key}':'{$key}'", "{$key}: {$val}", $encodedOptions);
+        }
 
-      return $encodedOptions;
-   }
+        return $encodedOptions;
+    }
 
-   /**
-    * Generates the javascript code for the widget
-    *
-    * @param string $id id
-    * @return string
-    */
-   protected function jsCode($id)
-   {
-      $mv = $js = '';
-      $enabled = $this->enabled ? '' : '.slider("disable")';
-      $options = $this->makeOptions($id);
+    /**
+     * Generates the javascript code for the widget
+     *
+     * @param string $id id
+     * @return string
+     */
+    protected function jsCode($id)
+    {
+        $mv = $js = '';
+        $enabled = $this->enabled ? '' : '.slider("disable")';
+        $options = $this->makeOptions($id);
 
-      $this->value = (!is_array($this->value)) ? array($this->value) : $this->value;
-      if (is_array($this->value)) {
-         $c = count($this->value);
-         for ($i=0; $i<$c && $i<$this->numberOfHandlers; $i++) {
-            $val = floatval($this->value[$i]);
-            $mv .=<<<EOP
+        $this->value = (!is_array($this->value)) ? array($this->value) : $this->value;
+        if (is_array($this->value)) {
+            $c = count($this->value);
+            for ($i=0; $i<$c && $i<$this->numberOfHandlers; $i++) {
+                $val = floatval($this->value[$i]);
+                $mv .=<<<EOP
 $("#{$id}").slider("values", {$i}, {$val});
 EOP;
-         }
-      }
+            }
+        }
 
-      $js =<<<EOP
+        $js =<<<EOP
 $("#{$id}").slider({$options}){$enabled};
 EOP;
-      if ($mv !== '') {
-         $js .= "\n" . $mv;
-      }
-      return $js;
-   }
+        if ($mv !== '') {
+            $js .= "\n" . $mv;
+        }
+        return $js;
+    }
 
-   /**
-    * Generates the HTML markup for the widget
-    *
-    * @param string $id
-    * @return string
-    */
-   protected function htmlCode($id)
-   {
-      $this->htmlOptions['id'] = $id;
+    /**
+     * Generates the HTML markup for the widget
+     *
+     * @param string $id
+     * @return string
+     */
+    protected function htmlCode($id)
+    {
+        $this->htmlOptions['id'] = $id;
 
-      $handlers = '';
-      for ($i=0; $i<$this->numberOfHandlers; $i++) {
-         $handlers .= CHtml::tag('div', array('class'=>'ui-slider-handle'), '', true);
-      }
+        $handlers = '';
+        for ($i=0; $i<$this->numberOfHandlers; $i++) {
+            $handlers .= CHtml::tag('div', array('class'=>'ui-slider-handle'), '', true);
+        }
 
-      $html = CHtml::tag('div', $this->htmlOptions, $handlers, true);
+        $html = CHtml::tag('div', $this->htmlOptions, $handlers, true);
 
-      return $html;
-   }
+        return $html;
+    }
 
-   //***************************************************************************
-   // Run Lola Run
-   //***************************************************************************
+    //***************************************************************************
+    // Run Lola Run
+    //***************************************************************************
 
-   /**
-    * Run the widget
-    */
-   public function run()
-   {
-      list($name, $id) = $this->resolveNameID();
+    /**
+     * Run the widget
+     */
+    public function run()
+    {
+        list($name, $id) = $this->resolveNameID();
 
-      $this->publishAssets();
-      $this->registerClientScripts();
+        $this->publishAssets();
+        $this->registerClientScripts();
 
-      $js = $this->jsCode($id);      
-      $this->clientScript->registerScript('Yii.'.get_class($this).'#'.$id, $js);
+        $js = $this->jsCode($id);
+        $this->clientScript->registerScript('Yii.'.get_class($this).'#'.$id, $js);
       
-      $html = $this->htmlCode($id);
-      echo $html;
-   }
+        $html = $this->htmlCode($id);
+        echo $html;
+    }
 }

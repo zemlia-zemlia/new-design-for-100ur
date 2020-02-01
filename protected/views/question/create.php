@@ -8,15 +8,15 @@ Yii::app()->ClientScript->registerScriptFile('/js/jquery.maskedinput.min.js', CC
 Yii::app()->clientScript->registerMetaTag("Задать вопрос юристу онлайн бесплатно без телефона и регистрации круглосуточно по всей России.", 'description');
 
 $this->breadcrumbs=array(
-	'Вопросы и ответы'=>array('index'),
-	'Новый вопрос',
+    'Вопросы и ответы'=>array('index'),
+    'Новый вопрос',
 );
 
 ?>
 
         <?php
             $questionsCountInt = Question::getCount()*2;
-            $questionsCount = str_pad((string)$questionsCountInt,6, '0',STR_PAD_LEFT);
+            $questionsCount = str_pad((string)$questionsCountInt, 6, '0', STR_PAD_LEFT);
             $numbers = str_split($questionsCount);
             $answersCount = round($questionsCountInt*1.684);
             $numbersAnswers = str_split($answersCount);

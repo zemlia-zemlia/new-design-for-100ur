@@ -68,71 +68,71 @@
  */
 class EJqueryUiConfig
 {
-   //***************************************************************************
-   // Constants
-   //***************************************************************************
+    //***************************************************************************
+    // Constants
+    //***************************************************************************
 
-   const DEFAULT_THEME = 'base';
-   const DEFAULT_COMPRESSION = 'minified';
-   const DEFAULT_BUNDLED = true;
+    const DEFAULT_THEME = 'base';
+    const DEFAULT_COMPRESSION = 'minified';
+    const DEFAULT_BUNDLED = true;
 
-   //***************************************************************************
-   // Configuration
-   //***************************************************************************
+    //***************************************************************************
+    // Configuration
+    //***************************************************************************
 
-   /**
-    * The name of the css stylesheet. You can roll your own themes using
-    * ThemeRoller {@link http://ui.jquery.com/themeroller/}. If you do so,
-    * you'll need to set $useBundledStyleSheet to false, or leave $theme unset.
-    *
-    * @var string
-    */
-   protected $theme = null;
+    /**
+     * The name of the css stylesheet. You can roll your own themes using
+     * ThemeRoller {@link http://ui.jquery.com/themeroller/}. If you do so,
+     * you'll need to set $useBundledStyleSheet to false, or leave $theme unset.
+     *
+     * @var string
+     */
+    protected $theme = null;
 
-   /**
-    * Which compression to use for the full jQuery UI library file.
-    *
-    * Possible values are:
-    *
-    * none     - no compression
-    * minified - minified
-    * packed   - packed
-    *
-    * @var integer
-    */
-   protected $compression = null;
+    /**
+     * Which compression to use for the full jQuery UI library file.
+     *
+     * Possible values are:
+     *
+     * none     - no compression
+     * minified - minified
+     * packed   - packed
+     *
+     * @var integer
+     */
+    protected $compression = null;
 
-   /**
-    * Set true if you want to use the bundled themes, set false if you want to
-    * use your own CSS stylesheets. In this case, you may include your style
-    * sheet elsewhere in the view or widget needed.
-    *
-    * @var boolean
-    */
-   protected $useBundledStyleSheet = null;
+    /**
+     * Set true if you want to use the bundled themes, set false if you want to
+     * use your own CSS stylesheets. In this case, you may include your style
+     * sheet elsewhere in the view or widget needed.
+     *
+     * @var boolean
+     */
+    protected $useBundledStyleSheet = null;
 
-   //***************************************************************************
-   // Internal properties
-   //***************************************************************************
+    //***************************************************************************
+    // Internal properties
+    //***************************************************************************
 
-   /**
-    * The singleton instance.
-    *
-    * @var EJqueryUiTheme
-    */
-   private static $instance = null;
+    /**
+     * The singleton instance.
+     *
+     * @var EJqueryUiTheme
+     */
+    private static $instance = null;
 
-   /**
-    * Valid themes for the widget. You'll need to add here the name of every
-    * theme you add to the themes directory.
-    *
-    * If you want to construct a theme, go to: http://ui.jquery.com/themeroller
-    *
-    * @link http://ui.jquery.com/themeroller
-    *
-    * @var array
-    */
-   protected $validThemes = array(
+    /**
+     * Valid themes for the widget. You'll need to add here the name of every
+     * theme you add to the themes directory.
+     *
+     * If you want to construct a theme, go to: http://ui.jquery.com/themeroller
+     *
+     * @link http://ui.jquery.com/themeroller
+     *
+     * @var array
+     */
+    protected $validThemes = array(
                                  'base',
                                  'black-tie',
                                  'blitzer',
@@ -153,116 +153,124 @@ class EJqueryUiConfig
                                  'vader'
                                );
 
-   //***************************************************************************
-   // Setters and getters
-   //***************************************************************************
+    //***************************************************************************
+    // Setters and getters
+    //***************************************************************************
 
-   /**
-    * Setter
-    *
-    * @param string $value theme
-    */
-   public function setTheme($value)
-   {
-      if ($this->theme === null) {
-         if (!in_array($value, $this->validThemes))
-            throw new CException(Yii::t('EJqueryUiWidget', 'theme must be one of: {t}', array('{t}'=>implode(', ', $this->validThemes))));
-         $this->theme = $value;
-      }
+    /**
+     * Setter
+     *
+     * @param string $value theme
+     */
+    public function setTheme($value)
+    {
+        if ($this->theme === null) {
+            if (!in_array($value, $this->validThemes)) {
+                throw new CException(Yii::t('EJqueryUiWidget', 'theme must be one of: {t}', array('{t}'=>implode(', ', $this->validThemes))));
+            }
+            $this->theme = $value;
+        }
     }
 
-   /**
-    * Getter
-    *
-    * @return string theme
-    */
-   public function getTheme()
-   {
-      if ($this->theme === null) 
-         $this->theme = self::DEFAULT_THEME;
-      return $this->theme;
-   }
+    /**
+     * Getter
+     *
+     * @return string theme
+     */
+    public function getTheme()
+    {
+        if ($this->theme === null) {
+            $this->theme = self::DEFAULT_THEME;
+        }
+        return $this->theme;
+    }
 
-   /**
-    * Setter
-    *
-    * @param string $value compression
-    */
-   public function setCompression($value)
-   {
-      if ($this->compression === null) {
-         if (!in_array($value, array('none', 'minified', 'packed')))
-            throw new CException(Yii::t('EJqueryUiWidget', 'compression must be one of: "none", "minified", "packed"'));
-         $this->compression = $value;
-      }
-   }
+    /**
+     * Setter
+     *
+     * @param string $value compression
+     */
+    public function setCompression($value)
+    {
+        if ($this->compression === null) {
+            if (!in_array($value, array('none', 'minified', 'packed'))) {
+                throw new CException(Yii::t('EJqueryUiWidget', 'compression must be one of: "none", "minified", "packed"'));
+            }
+            $this->compression = $value;
+        }
+    }
 
-   /**
-    * Getter
-    *
-    * @return string
-    */
-   public function getCompression()
-   {
-      if ($this->compression === null)    
-         $this->compression = self::DEFAULT_COMPRESSION;
-      return $this->compression;
-   }
+    /**
+     * Getter
+     *
+     * @return string
+     */
+    public function getCompression()
+    {
+        if ($this->compression === null) {
+            $this->compression = self::DEFAULT_COMPRESSION;
+        }
+        return $this->compression;
+    }
 
-   /**
-    * Setter
-    *
-    * @param boolean $value useBundledStyleSheet
-    */
-   public function setUseBundledStyleSheet($value)
-   {
-      if ($this->useBundledStyleSheet === null) {
-         if (!is_bool($value))
-            throw new CException(Yii::t('EJqueryUiWidget', 'useBundledStyleSheet must be boolean'));
-         $this->useBundledStyleSheet = $value;
-      }
-   }
+    /**
+     * Setter
+     *
+     * @param boolean $value useBundledStyleSheet
+     */
+    public function setUseBundledStyleSheet($value)
+    {
+        if ($this->useBundledStyleSheet === null) {
+            if (!is_bool($value)) {
+                throw new CException(Yii::t('EJqueryUiWidget', 'useBundledStyleSheet must be boolean'));
+            }
+            $this->useBundledStyleSheet = $value;
+        }
+    }
 
-   /**
-    * Getter
-    *
-    * @return boolean
-    */
-   public function getUseBundledStyleSheet()
-   {
-      if ($this->useBundledStyleSheet === null)
-         $this->useBundledStyleSheet = self::DEFAULT_BUNDLED;
-      return $this->useBundledStyleSheet;
-   }
+    /**
+     * Getter
+     *
+     * @return boolean
+     */
+    public function getUseBundledStyleSheet()
+    {
+        if ($this->useBundledStyleSheet === null) {
+            $this->useBundledStyleSheet = self::DEFAULT_BUNDLED;
+        }
+        return $this->useBundledStyleSheet;
+    }
 
-   //***************************************************************************
-   // Singleton
-   //***************************************************************************
+    //***************************************************************************
+    // Singleton
+    //***************************************************************************
 
-   /**
-    * A private constructor; prevents direct creation of object.
-    */
-   private function __construct() {}
+    /**
+     * A private constructor; prevents direct creation of object.
+     */
+    private function __construct()
+    {
+    }
 
-   /**
-    * The singleton method.
-    *
-    * @return EJqueryUiTheme
-    */
-   public static function singleton()
-   {
-      if (!isset(self::$instance)) {
-         $c = __CLASS__;
-         self::$instance = new $c;
-      }
-      return self::$instance;
-   }
+    /**
+     * The singleton method.
+     *
+     * @return EJqueryUiTheme
+     */
+    public static function singleton()
+    {
+        if (!isset(self::$instance)) {
+            $c = __CLASS__;
+            self::$instance = new $c;
+        }
+        return self::$instance;
+    }
 
-   /**
-    * Prevent users to clone the instance.
-    */
+    /**
+     * Prevent users to clone the instance.
+     */
     public function __clone()
     {
-       throw new CException(Yii::t('EJqueryUiWidget', 'Clone is not allowed'));
+        throw new CException(Yii::t('EJqueryUiWidget', 'Clone is not allowed'));
     }
 }

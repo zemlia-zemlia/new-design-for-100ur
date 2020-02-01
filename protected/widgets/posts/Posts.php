@@ -5,7 +5,7 @@
 class Posts extends CWidget
 {
     public $template = 'default'; // представление виджета по умолчанию
-    public $category = NULL;
+    public $category = null;
     
     public function run()
     {
@@ -16,4 +16,3 @@ class Posts extends CWidget
         ));
     }
 }
-?>

@@ -3,7 +3,9 @@
 /* @var $data Leadsource */
 ?>
 
-<tr <?php if(!$data->active) echo 'class="text-muted"';?>>
+<tr <?php if (!$data->active) {
+    echo 'class="text-muted"';
+}?>>
     <td>
         <?php echo $data->id;?>
     </td>

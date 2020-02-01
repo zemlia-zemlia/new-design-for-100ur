@@ -1,6 +1,6 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'question-form',
-	'enableAjaxValidation'=>false,
+    'id'=>'question-form',
+    'enableAjaxValidation'=>false,
 )); ?>
 
 <div class="row">
@@ -8,18 +8,18 @@
         <?php echo $form->errorSummary($model, "Исправьте ошибки"); ?>
         <?php echo $form->hiddenField($model, 'id');?>
         <div class="form-group">
-            <?php echo $form->labelEx($model,'title'); ?>
-            <?php echo $form->textField($model,'title', array('class'=>'form-control')); ?>
-            <?php echo $form->error($model,'title'); ?>
+            <?php echo $form->labelEx($model, 'title'); ?>
+            <?php echo $form->textField($model, 'title', array('class'=>'form-control')); ?>
+            <?php echo $form->error($model, 'title'); ?>
         </div>
 
         <div class="form-group">
-            <?php echo $form->labelEx($model,'questionText'); ?>
-            <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>15)); ?>
-            <?php echo $form->error($model,'questionText'); ?>
+            <?php echo $form->labelEx($model, 'questionText'); ?>
+            <?php echo $form->textArea($model, 'questionText', array('class'=>'form-control', 'rows'=>15)); ?>
+            <?php echo $form->error($model, 'questionText'); ?>
         </div> 
         
-        <?php if($showMy == true):?>
+        <?php if ($showMy == true):?>
             Отредактирован вами <?php echo CustomFuncs::niceDate($model->moderatedTime);?>
         <?php endif;?>
     </div>
@@ -32,7 +32,7 @@
         </div>
         
         <?php $lastQuestionId = $_COOKIE['lastModeratedQuestionId'];?>
-        <?php if($lastQuestionId > 0):?>
+        <?php if ($lastQuestionId > 0):?>
         <div class="form-group">
             <?php echo CHtml::link('Назад', Yii::app()->createUrl('/admin/question/setTitle', array('id'=>$_COOKIE['lastModeratedQuestionId'])), array('class'=>'btn btn-default btn-block')); ?>
         </div>

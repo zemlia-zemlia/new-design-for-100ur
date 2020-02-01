@@ -2,7 +2,7 @@
 /* @var $this CampaignController */
 /* @var $data User */
 ?>
-<?php if($showInactive == true || $data->campaignsActiveCount > 0):?>
+<?php if ($showInactive == true || $data->campaignsActiveCount > 0):?>
 <tr class="active">
     <td colspan="">
         <?php echo CHtml::link(CHtml::encode($data->lastName . ' ' . $data->name), Yii::app()->createUrl('/admin/user/view', array('id'=>$data->id)));?> 
@@ -27,9 +27,9 @@
 	</td>
 </tr>
 
-<?php foreach($data->campaigns as $campaign):?>
-<?php if($showInactive == true || $campaign->active == 1):?>
-<?php 
+<?php foreach ($data->campaigns as $campaign):?>
+<?php if ($showInactive == true || $campaign->active == 1):?>
+<?php
 $leadsSentPercent = ($campaign->leadsDayLimit>0)?($campaign->leadsTodayCount/$campaign->leadsDayLimit)*100:0;
 ?>
 <tr>
@@ -38,7 +38,7 @@ $leadsSentPercent = ($campaign->leadsDayLimit>0)?($campaign->leadsTodayCount/$ca
     <td>        
         <?php echo CHtml::link(CHtml::encode($campaign->region->name . ' ' . $campaign->town->name), Yii::app()->createUrl('/admin/campaign/view', array('id'=>$campaign->id)));?>
        
-        <?php if($campaign->active==0):?>
+        <?php if ($campaign->active==0):?>
         <small><span class='label label-default'>неакт</span></small>
         <?php endif;?>
     </td> 

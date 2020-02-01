@@ -50,4 +50,3 @@ class MyAnswers extends CWidget
         ));
     }
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * Класс для работы с Яндекс кассой
  */
 
@@ -11,13 +11,14 @@ class YandexKassa
     
     const PAYMENT_LOG_FILE = '/protected/runtime/payment_log.txt';
     
-    public function __construct($params) {
+    public function __construct($params)
+    {
         $this->params = $params;
     }
 
 
     // проверяет контрольную сумму запроса, поступившего от кассы
-    static public function checkMd5($params)
+    public static function checkMd5($params)
     {
         // action;orderSumAmount;orderSumCurrencyPaycash;orderSumBankPaycash;shopId;invoiceId;customerNumber;shopPassword
         
@@ -31,7 +32,7 @@ class YandexKassa
                 
         $md5 = strtoupper(md5($params['action'] . ';' . $params['orderSumAmount'] . ';' . $params['orderSumCurrencyPaycash'] . ';' . $params['orderSumBankPaycash'] . ';' . $params['shopId'] . ';' . $params['invoiceId'] . ';' . $params['customerNumber'] . ';' . $shopPassword));
                 
-        if($sourceMd5 == $md5) {
+        if ($sourceMd5 == $md5) {
             return true;
         } else {
             return false;
@@ -61,7 +62,7 @@ class YandexKassa
         $paymentLog = fopen($_SERVER['DOCUMENT_ROOT'] . YandexKassa::PAYMENT_LOG_FILE, 'a+');
         fwrite($paymentLog, 'question id = ' . $question->id . ', rate = ' . $rate);
         
-        if(!$question) {
+        if (!$question) {
             return false;
         }
         
@@ -71,13 +72,10 @@ class YandexKassa
         // отправка уведомления и запись транзакции в кассу
         $question->vipNotification($rateWithoutComission);
         
-        if($question->save()) {
+        if ($question->save()) {
             return true;
         }
         fwrite($paymentLog, 'question not saved ' . json_encode($question->errors));
         return false;
-        
-        
     }
 }
-

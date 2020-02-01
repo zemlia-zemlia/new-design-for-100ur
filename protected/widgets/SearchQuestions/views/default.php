@@ -1,7 +1,7 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
         'id'=>'question-search',
-	'action'    =>  '/question/search/',
-	'method'    =>  'get',
+    'action'    =>  '/question/search/',
+    'method'    =>  'get',
         'htmlOptions'   =>  array(
             'class'     =>  '',
             ),
@@ -26,7 +26,7 @@
             </h4>
         </div>
         <div class="col-xs-8">
-            <?php echo CHtml::link(CustomFuncs::numForms($counterNoAnswers, 'вопрос', "вопроса", "вопросов") . ' без ответов', Yii::app()->createUrl('/question/search') ); ?>
+            <?php echo CHtml::link(CustomFuncs::numForms($counterNoAnswers, 'вопрос', "вопроса", "вопросов") . ' без ответов', Yii::app()->createUrl('/question/search')); ?>
             <br />
             <small><span class="text-muted">За последние <?php echo $intervalDays;?> дней</span></small>
             <br />
@@ -43,7 +43,7 @@
             )); ?>
             <?php echo $model->getAttributeLabel('myCats');?>
         </label>
-            <?php echo $form->error($model,'myCats'); ?>
+            <?php echo $form->error($model, 'myCats'); ?>
     </div>
 
     <div class="checkbox">
@@ -52,7 +52,7 @@
             )); ?>
             <?php echo $model->getAttributeLabel('myTown');?>
         </label>
-            <?php echo $form->error($model,'myTown'); ?>
+            <?php echo $form->error($model, 'myTown'); ?>
     </div>
 
     <div class="checkbox">
@@ -61,7 +61,7 @@
             )); ?>
             <?php echo $model->getAttributeLabel('sameRegion');?>
         </label>
-            <?php echo $form->error($model,'sameRegion'); ?>
+            <?php echo $form->error($model, 'sameRegion'); ?>
     </div>
 
     <div class="checkbox">
@@ -70,7 +70,7 @@
             )); ?>
             <?php echo $model->getAttributeLabel('today');?>
         </label>
-            <?php echo $form->error($model,'today'); ?>
+            <?php echo $form->error($model, 'today'); ?>
     </div>
 
     <div class="checkbox">
@@ -79,7 +79,7 @@
             )); ?>
             <?php echo $model->getAttributeLabel('payed');?>
         </label>
-        <?php echo $form->error($model,'payed'); ?>
+        <?php echo $form->error($model, 'payed'); ?>
     </div>
 
     <div class="checkbox">
@@ -88,14 +88,14 @@
             )); ?>
             <?php echo $model->getAttributeLabel('noAnswers');?>
         </label>
-        <?php echo $form->error($model,'noAnswers'); ?>
+        <?php echo $form->error($model, 'noAnswers'); ?>
     </div>
 
 
     <div class="form-group">
             <?php echo CHtml::submitButton('Отфильтровать', array('class'=>'yellow-button btn-block')); ?>
             
-            <?php if($randomQuestionId):?>
+            <?php if ($randomQuestionId):?>
                 <?php echo CHtml::link('Показать случайный вопрос', Yii::app()->createUrl('question/view', array('id'=>$randomQuestionId)), array('class'=>'button btn-block button-blue-gradient')); ?>
             <?php endif;?>
     </div>

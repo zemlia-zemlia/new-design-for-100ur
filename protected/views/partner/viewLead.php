@@ -5,14 +5,14 @@
 $this->setPageTitle("Лид #" . CHtml::encode($model->name) . '. '. Yii::app()->name);
 
 $this->breadcrumbs=array(
-	'Кабинет'   =>  array('/cabinet'),
+    'Кабинет'   =>  array('/cabinet'),
         'Кампания'  =>  array('/cabinet/campaign', 'id'=>$model->campaign->id),
         'Лиды'      =>  array('/cabinet/leads', 'campaign'=>$model->campaign->id),
-	CHtml::encode($model->name),
+    CHtml::encode($model->name),
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 юристов',"/cabinet/"),
+    'homeLink'=>CHtml::link('100 юристов', "/cabinet/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
@@ -34,11 +34,11 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <td><?php echo $model->getLeadStatusName(); ?></td>
             </tr>
 
-            <?php if(Yii::app()->user->role != User::ROLE_JURIST || $model->employeeId):?>
+            <?php if (Yii::app()->user->role != User::ROLE_JURIST || $model->employeeId):?>
             <tr>
                 <td><strong><?php echo $model->getAttributeLabel('phone'); ?></strong></td>
                 <td>
-                    <?php if($model->phone && !(Yii::app()->user->role == User::ROLE_JURIST && $model->employeeId != Yii::app()->user->id)):?>
+                    <?php if ($model->phone && !(Yii::app()->user->role == User::ROLE_JURIST && $model->employeeId != Yii::app()->user->id)):?>
                         <?php echo $model->phone; ?><br />
                     <?php endif;?>
                 </td>
@@ -68,7 +68,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             </tr>
         </table>    
 
-        <?php if(Yii::app()->user->role == User::ROLE_ROOT):?>
+        <?php if (Yii::app()->user->role == User::ROLE_ROOT):?>
         <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/lead/update', array('id'=>$model->id)), array('class'=>'btn btn-primary'));?>
 
         <?php echo CHtml::link('Удалить лида', Yii::app()->createUrl('/admin/lead/delete', array('id'=>$model->id)), array('class'=>'btn btn-danger'));?>

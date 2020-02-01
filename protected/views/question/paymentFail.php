@@ -11,8 +11,8 @@
         </p>
         
         <p class="center-align">
-            <?php 
-                if($params['customerNumber']) {
+            <?php
+                if ($params['customerNumber']) {
                     echo CHtml::link('На страницу вопроса', Yii::app()->createUrl('question/view', array('id'=>(int)$params['customerNumber'])), array('class'=>'btn btn-primary'));
                 }
             ?>

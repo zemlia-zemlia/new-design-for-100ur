@@ -25,4 +25,3 @@ class RestorePasswordForm extends CFormModel
         );
     }
 }
-?>

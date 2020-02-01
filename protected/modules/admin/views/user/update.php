@@ -4,13 +4,13 @@
 $this->pageTitle = 'Редактирование профиля пользователя ' . CHtml::encode($model->name . ' ' . $model->lastName) . '. ' . Yii::app()->name;
 
 $this->breadcrumbs=array(
-	'Пользователи'              =>  array('index'),
-	CHtml::encode($model->name . ' ' . $model->lastName) =>  array('view','id'=>$model->id),
-	'Редактирование',
+    'Пользователи'              =>  array('index'),
+    CHtml::encode($model->name . ' ' . $model->lastName) =>  array('view','id'=>$model->id),
+    'Редактирование',
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('CRM',"/"),
+    'homeLink'=>CHtml::link('CRM', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));

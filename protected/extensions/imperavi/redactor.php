@@ -5,9 +5,8 @@
  * @author Karagodin Evgeniy (ekaragodin@gmail.com)
  * v 0.2
  */
-class redactor extends CInputWidget {
-
-
+class redactor extends CInputWidget
+{
     public $focus = true; // Устанавливает фокус на конкретный Редактор, особенно полезно, когда на странице несколько Редакторов.
     public $resize = true; // Включение и отключение изменения высоты Редактора
     public $toolbar = 'classic'; // Указание, какой именно тулбар должен отобразиться в этом Редакторе.
@@ -15,7 +14,8 @@ class redactor extends CInputWidget {
 
     protected $element = array();
 
-    public function init() {
+    public function init()
+    {
         $baseDir = dirname(__FILE__);
         //$this->upload = CHtml::normalizeUrl(array('redactor/'));
         $assets = Yii::app()->getAssetManager()->publish($baseDir . DIRECTORY_SEPARATOR . 'assets');
@@ -37,8 +37,8 @@ class redactor extends CInputWidget {
         $cs->registerScript('Yii.' . get_class($this), $js);
     }
 
-    public function run() {
+    public function run()
+    {
         $this->render('widget');
     }
 }
-

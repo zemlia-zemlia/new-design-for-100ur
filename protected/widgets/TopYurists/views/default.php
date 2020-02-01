@@ -1,10 +1,10 @@
-<?php 
+<?php
     $usersCount = 0;
 ?>
 
 <div class="container-fluid">
 <?php foreach ($users as $user):?>
-    <?php if($usersCount%3 == 0) :?>
+    <?php if ($usersCount%3 == 0) :?>
         <div class="row row-yurist">
     <?php endif;?>
 
@@ -27,13 +27,13 @@
                 <div>
                 </div>
                 
-                <?php if(floor((time() - strtotime($user['lastActivity']))/60)<60):?>
+                <?php if (floor((time() - strtotime($user['lastActivity']))/60)<60):?>
                     <div class="small"><span class="glyphicon glyphicon-flash"></span> <span class="text-success">Сейчас на сайте</span></div>
                 <?php endif;?>
                 
                 <p class="text-muted">
                     <small>
-                    <?php if($user['townName']):?>
+                    <?php if ($user['townName']):?>
                         <?php echo $user['townName'];?><br />
                     <?php endif;?>
                     </small>
@@ -42,7 +42,7 @@
             </div>
         </div> 
     </div>
-    <?php if($usersCount%3 == 2) :?>
+    <?php if ($usersCount%3 == 2) :?>
         </div>
     <?php endif;?>
 
@@ -50,7 +50,7 @@
             
             
 <?php endforeach; ?>
-    <?php if($usersCount%3 == 2) :?>
+    <?php if ($usersCount%3 == 2) :?>
         </div> <!-- .row-yurist -->
     <?php endif;?>
 </div>   

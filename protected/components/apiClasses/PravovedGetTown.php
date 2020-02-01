@@ -5,13 +5,12 @@
  */
 class PravovedGetTown
 {
-
     const API_URL = 'https://pravoved.ru/rest/cities/';
 
     private static $instance;
 
     private function __construct()
-    {  
+    {
     }
 
     /**
@@ -36,13 +35,13 @@ class PravovedGetTown
         $apiPath = self::API_URL . '?prefix=' . urldecode($townName);
         $townsResponse = file_get_contents($apiPath); // ответ приходит в формате JSON
         
-        if($townsResponse == '') {
+        if ($townsResponse == '') {
             return 0;
         }
         
         $townsResponseDecoded = json_decode($townsResponse, true);
         
-        if($townsResponseDecoded['meta'] && $townsResponseDecoded['meta']['code'] && (int)$townsResponseDecoded['meta']['code'] == 200) {
+        if ($townsResponseDecoded['meta'] && $townsResponseDecoded['meta']['code'] && (int)$townsResponseDecoded['meta']['code'] == 200) {
             $firstTown = $townsResponseDecoded['data']['cities'][0];
             $firstTownId = $firstTown['id'];
             return (int)$firstTownId;
@@ -50,5 +49,4 @@ class PravovedGetTown
         
         return 0;
     }
-
 }

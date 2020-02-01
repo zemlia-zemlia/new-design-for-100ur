@@ -155,12 +155,12 @@
                             <div class="answer-comment <?php echo $commentBlockClass; ?>">
                                 <p><strong><span class="glyphicon glyphicon-comment"></span>
                                         <?php if ($data->question->authorId == $comment->authorId) {
-                                            echo CHtml::encode($data->question->authorName);
-                                        } elseif ($data->authorId == $comment->authorId) {
-                                            ?>
+                                echo CHtml::encode($data->question->authorName);
+                            } elseif ($data->authorId == $comment->authorId) {
+                                ?>
                                             <?php echo CHtml::encode($data->author->getShortName()); ?>
                                             <?php
-                                        }
+                            }
                                         ?>
                                     </strong>
                                 </p>

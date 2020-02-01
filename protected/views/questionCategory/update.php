@@ -7,13 +7,13 @@ $this->setPageTitle("Редактирование категории вопро�
 
 $this->breadcrumbs=array(
         'Вопросы и ответы'=>array('/question'),
-	'Категории вопросов'=>array('index'),
-	$model->name=>array('view','id'=>$model->id),
-	'Редактирование',
+    'Категории вопросов'=>array('index'),
+    $model->name=>array('view','id'=>$model->id),
+    'Редактирование',
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('CRM',"/"),
+    'homeLink'=>CHtml::link('CRM', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));

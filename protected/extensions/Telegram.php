@@ -19,7 +19,7 @@ class Telegram
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $request);
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         $data  = curl_exec($ch);
         curl_close($ch);
@@ -50,8 +50,9 @@ class Telegram
      */
     public static function alert($text)
     {
-        foreach (static::$_chat_id as $chat)
+        foreach (static::$_chat_id as $chat) {
             static::send($chat, $text);
+        }
         return true;
     }
 

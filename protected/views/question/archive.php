@@ -3,14 +3,14 @@
 $monthsNames = CustomFuncs::getMonthsNames();
 
 $pageTitle = "Архив вопросов за " . $monthsNames[$month] . ' ' . $year . ' года. ';
-if(isset($_GET) && (int)$_GET['Question_page']) {
+if (isset($_GET) && (int)$_GET['Question_page']) {
     $pageNumber = (int)$_GET['Question_page'];
     $pagesTotal = ceil($dataProvider->totalItemCount / $dataProvider->pagination->getPageSize());
     $pageTitle .= 'Страница ' . $pageNumber . ' из ' . $pagesTotal . '. ';
 }
 $this->setPageTitle($pageTitle);
 Yii::app()->clientScript->registerMetaTag("Ответы юристов и адвокатов. " . $pageTitle, "Description");
-Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUrl('/question/archive', array('date'=>$year . '-' . $month)));
+Yii::app()->clientScript->registerLinkTag("canonical", null, Yii::app()->createUrl('/question/archive', array('date'=>$year . '-' . $month)));
 
 ?>
 <div class="flat-panel">
@@ -20,7 +20,7 @@ Yii::app()->clientScript->registerLinkTag("canonical",NULL, Yii::app()->createUr
         <div class="row vert-margin20">
         <?php foreach ($datesArray as $monthArchive):?>
             <div class="col-md-2 text-center">
-                <?php if($monthArchive != $month):?>
+                <?php if ($monthArchive != $month):?>
                     <?php echo CHtml::link($monthsNames[$monthArchive], Yii::app()->createUrl('question/archive', array('date' => $year . '-' . $monthArchive)));?> 
                 <?php else:?>
                     <span class="text-muted"><?php echo $monthsNames[$monthArchive];?></span>

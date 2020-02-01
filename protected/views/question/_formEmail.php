@@ -13,14 +13,14 @@
         'enableAjaxValidation'  =>  false,
 )); ?>
 <div class="form-group">
-    <?php echo $form->textField($question,'email', array(
-        'class'         =>  'form-control icon-input', 
+    <?php echo $form->textField($question, 'email', array(
+        'class'         =>  'form-control icon-input',
         'style'         =>  'background-image:url(/pics/2017/flying_envelop.png)',
         'data-toggle'   =>  "tooltip",
         'data-placement'=>  "right",
         'title'         =>  "Необходим для отправки Вам уведомлений о новых ответах юристов, а также является логином для входа на сайт.",
         'placeholder'=>'ivanov@mail.ru')); ?>
-    <?php echo $form->error($question,'email'); ?>
+    <?php echo $form->error($question, 'email'); ?>
 </div>
 
 <div class="form-group">

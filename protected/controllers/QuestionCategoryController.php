@@ -1,13 +1,14 @@
 <?php
 
-class QuestionCategoryController extends Controller {
-
+class QuestionCategoryController extends Controller
+{
     public $layout = '//frontend/category';
 
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
@@ -19,7 +20,8 @@ class QuestionCategoryController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'view', 'alias'),
@@ -35,7 +37,8 @@ class QuestionCategoryController extends Controller {
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         $model = QuestionCategory::model()->with('parent', 'children')->findByPk($id);
 
         if (!$model) {
@@ -69,11 +72,12 @@ class QuestionCategoryController extends Controller {
 
     /**
      * Показ категории вопроса по ее псевдониму
-     * 
+     *
      * @param strung $level1 псевдоним категории
      * @throws CHttpException
      */
-    public function actionAlias() {
+    public function actionAlias()
+    {
         $categoriesPerPage = 15;
 
         $name = CHtml::encode($_GET['name']);
@@ -180,7 +184,8 @@ class QuestionCategoryController extends Controller {
     /**
      * Lists all models.
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $dataProvider = new CActiveDataProvider(QuestionCategory::model(), array(
             'criteria' => array(
                 'order' => 't.name',
@@ -203,10 +208,12 @@ class QuestionCategoryController extends Controller {
      * @return QuestionCategory the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id)
+    {
         $model = QuestionCategory::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
@@ -214,7 +221,8 @@ class QuestionCategoryController extends Controller {
      * Performs the AJAX validation.
      * @param QuestionCategory $model the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'question-category-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -226,7 +234,8 @@ class QuestionCategoryController extends Controller {
      * $thisCategory = false - новые вопросы без привязки к категории
      */
 
-    protected function findQuestions($category, $thisCategory = true) {
+    protected function findQuestions($category, $thisCategory = true)
+    {
         $questionsCommand = Yii::app()->db->createCommand()
                 ->select('q.id id, q.publishDate date, q.title title, a.id answerId')
                 ->from('{{question}} q')
@@ -257,5 +266,4 @@ class QuestionCategoryController extends Controller {
 
         return $questionsArray;
     }
-
 }

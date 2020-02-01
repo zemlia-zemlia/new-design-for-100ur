@@ -28,5 +28,4 @@ class PhoneHelper
 
         return $digitalNumber;
     }
-
 }

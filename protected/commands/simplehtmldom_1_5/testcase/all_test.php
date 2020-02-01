@@ -2,15 +2,19 @@
 // $Rev: 175 $
 error_reporting(E_ALL);
 
-function quick_test($html_dom, $str, $selector, $params=array('inner'=>'', 'plain'=>'', 'outer'=>'')) {
+function quick_test($html_dom, $str, $selector, $params=array('inner'=>'', 'plain'=>'', 'outer'=>''))
+{
     $html_dom->load($str);
     $e = $html_dom->find($selector, 0);
-    if (isset($params['inner']))
+    if (isset($params['inner'])) {
         assert($e->innertext===$params['inner']);
-    if (isset($params['plain']))
+    }
+    if (isset($params['plain'])) {
         assert($e->plaintext===$params['plain']);
-    if (isset($params['outer']))
+    }
+    if (isset($params['outer'])) {
         assert($e->outertext===$params['outer']);
+    }
     assert($html_dom==$str);
 }
 
@@ -21,4 +25,3 @@ foreach (new DirectoryIterator(getcwd()) as $entry) {
         echo '<br>...pass!<br><br>';
     }
 }
-?>

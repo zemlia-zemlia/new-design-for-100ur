@@ -1,12 +1,13 @@
-﻿<?php
+<?php
 
 /*
- * 
+ *
  * собирает лиды из писем, расположенных в почтовом ящике admin@100yuristov.com
  * в папках, начинающихся на 9111
  */
 
-class GetLeadsFrom9111Command extends CConsoleCommand {
+class GetLeadsFrom9111Command extends CConsoleCommand
+{
 
     // Настройки парсинга лидов из папок
     protected $folders = array(
@@ -85,16 +86,17 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
             'sourceId' => 33,
             'buyPrice' => 40,
         ),
-		'9111Astrahan' => array(
+        '9111Astrahan' => array(
             'townId' => 50,
             'sourceId' => 33,
             'buyPrice' => 25,
         ),
-		
+        
     );
 
     // возвращает массив мейлов из заданной папки на сервере
-    protected function getEmailsFromFolder($folderName) {
+    protected function getEmailsFromFolder($folderName)
+    {
         // параметры подключения к почтовому ящику с заявками
         $host = Yii::app()->params['mailBoxYurcrmServer'];
         $port = Yii::app()->params['mailBoxYurcrmPort'];
@@ -124,9 +126,9 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
             $emailBody = array();
 
             foreach ($emails as $email_id) {
-                // Fetch the email's overview and show subject, from and date. 
+                // Fetch the email's overview and show subject, from and date.
                 $overview = imap_fetch_overview($mbox, $email_id, 0);
-                if($overview && $overview[0] && isset($overview[0]->subject)) {
+                if ($overview && $overview[0] && isset($overview[0]->subject)) {
                     $emailSubject[$email_id] = imap_utf8($overview[0]->subject);
                 }
                 
@@ -139,7 +141,8 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
         }
     }
 
-    public function actionIndex() {
+    public function actionIndex()
+    {
         // подключаем библиотеку для парсинга текста письма
         require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'simplehtmldom_1_5/simple_html_dom.php';
 
@@ -233,7 +236,4 @@ class GetLeadsFrom9111Command extends CConsoleCommand {
             }
         }
     }
-
 }
-
-?>

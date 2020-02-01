@@ -4,7 +4,8 @@ error_reporting(E_ALL);
 include_once('../simple_html_dom.php');
 
 // -----------------------------------------------------------------------------
-function dump_memory($init_size) {
+function dump_memory($init_size)
+{
     $peak = number_format(memory_get_peak_usage()/1024, 0, '.', ',');
     $curr = number_format(memory_get_usage()/1024, 0, '.', ',');
     $diff = $curr - $init_size;
@@ -17,11 +18,12 @@ $filename = './html/google.htm';
 
 // -----------------------------------------------------------------------------
 // test_load_file_memory
-function test_load_file_memory($filename, $init_size) {
+function test_load_file_memory($filename, $init_size)
+{
     echo '[load file] init memory: '.number_format(memory_get_usage()/1024, 0, '.', ',').'<br>';
     echo '--------------------------------------------------------------------<br>';
     flush();
-    for($i=0; $i<3; ++$i) {
+    for ($i=0; $i<3; ++$i) {
         $str = file_get_contents($filename);
         
         dump_memory($init_size);
@@ -34,14 +36,15 @@ function test_load_file_memory($filename, $init_size) {
 
 // -----------------------------------------------------------------------------
 // test_multi_objects_str_get_html
-function test_multi_str_get_html($filename, $init_size) {
+function test_multi_str_get_html($filename, $init_size)
+{
     global $__g_node_mgr;
     
     $str = file_get_contents($filename);
     echo '[str_get_html] init memory: '.number_format(memory_get_usage()/1024, 0, '.', ',').'<br>';
     echo '--------------------------------------------------------------------<br>';
     flush();
-    for($i=0; $i<3; ++$i) {
+    for ($i=0; $i<3; ++$i) {
         $html = str_get_html($str);
         dump_memory($init_size);
         flush();
@@ -54,11 +57,12 @@ function test_multi_str_get_html($filename, $init_size) {
 
 // -----------------------------------------------------------------------------
 // test_multi_file_get_html
-function test_multi_file_get_html($filename, $init_size) {
+function test_multi_file_get_html($filename, $init_size)
+{
     echo '[file_get_html] init memory: '.number_format(memory_get_usage()/1024, 0, '.', ',').'<br>';
     echo '--------------------------------------------------------------------<br>';
     flush();
-    for($i=0; $i<3; ++$i) {
+    for ($i=0; $i<3; ++$i) {
         $html = file_get_html($filename);
         //$html->clear();
         unset($html);
@@ -118,4 +122,3 @@ echo '<br>before function: '.number_format(memory_get_usage()/1024, 0, '.', ',')
 test_multi_file_get_html($filename, $init_size);
 echo 'after function: '.number_format(memory_get_usage()/1024, 0, '.', ',').'<br><br>';
 flush();
-?>

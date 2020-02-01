@@ -37,7 +37,7 @@
         <?php echo $form->error($model, 'message'); ?>
     </div>
     
-    <?php echo CHtml::submitButton('Отправить рассылку',array('class'=>'btn btn-success btn-lg')); ?>
+    <?php echo CHtml::submitButton('Отправить рассылку', array('class'=>'btn btn-success btn-lg')); ?>
     
     <?php $this->endWidget(); ?>
 

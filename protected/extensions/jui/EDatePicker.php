@@ -75,171 +75,171 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
  */
 class EDatePicker extends EJqueryUiWidget
 {
-   //***************************************************************************
-   // Configuration
-   //***************************************************************************
+    //***************************************************************************
+    // Configuration
+    //***************************************************************************
 
-   /**
-    * In case a button is used, use just the button or both button and focus
-    * methods. Possible values: 'button', 'both'
-    * 
-    * @var string
-    */
-   private $showOn = 'both';
+    /**
+     * In case a button is used, use just the button or both button and focus
+     * methods. Possible values: 'button', 'both'
+     *
+     * @var string
+     */
+    private $showOn = 'both';
 
-   /**
-    * How to show:
-    *
-    * focus - show calendar on focus
-    * button - show calendar when a button is clicked
-    * imagebutton - show calendar when an image is clicked
-    * 
-    * @var string
-    */
-   private $mode = 'button';
+    /**
+     * How to show:
+     *
+     * focus - show calendar on focus
+     * button - show calendar when a button is clicked
+     * imagebutton - show calendar when an image is clicked
+     *
+     * @var string
+     */
+    private $mode = 'button';
 
-   /**
-    * The URL for the image used in the imagebutton mode.
-    *
-    * @var string
-    */
-   public $image = '';
+    /**
+     * The URL for the image used in the imagebutton mode.
+     *
+     * @var string
+     */
+    public $image = '';
 
-   /**
-    * The language for the widget.
-    *
-    * @var string the language suffix
-    */
-   private $language = 'en';
+    /**
+     * The language for the widget.
+     *
+     * @var string the language suffix
+     */
+    private $language = 'en';
 
-   /**
-    * The date format. This is a string in a date() style, where you can use
-    * these letters as the formatters:
-    *
-    * d - day of month (no leading zero)
-    * dd - day of month (two digit)
-    * D - day name short
-    * DD - day name long
-    * m - month of year (no leading zero)
-    * mm - month of year (two digit)
-    * M - month name short
-    * MM - month name long
-    * y - year (two digit)
-    * yy - year (four digit)
-    * '...' - literal text
-    * '' - single quote
-    *
-    * You can also use these special strings for some preset formats:
-    *
-    * ATOM
-    * COOKIE
-    * ISO_8601
-    * RFC_822
-    * RFC_850
-    * RFC_1036
-    * RFC_1123
-    * RFC_2822
-    * RSS
-    * TIMESTAMP
-    * W3C
-    *
-    * @var string the format
-    */
-   private $dateFormat = 'ISO_8601';
+    /**
+     * The date format. This is a string in a date() style, where you can use
+     * these letters as the formatters:
+     *
+     * d - day of month (no leading zero)
+     * dd - day of month (two digit)
+     * D - day name short
+     * DD - day name long
+     * m - month of year (no leading zero)
+     * mm - month of year (two digit)
+     * M - month name short
+     * MM - month name long
+     * y - year (two digit)
+     * yy - year (four digit)
+     * '...' - literal text
+     * '' - single quote
+     *
+     * You can also use these special strings for some preset formats:
+     *
+     * ATOM
+     * COOKIE
+     * ISO_8601
+     * RFC_822
+     * RFC_850
+     * RFC_1036
+     * RFC_1123
+     * RFC_2822
+     * RSS
+     * TIMESTAMP
+     * W3C
+     *
+     * @var string the format
+     */
+    private $dateFormat = 'ISO_8601';
 
-   /**
-    * Minimun date in a range
-    *
-    * @var string
-    */
-   public $minDate = '';
+    /**
+     * Minimun date in a range
+     *
+     * @var string
+     */
+    public $minDate = '';
 
-   /**
-    * Maximun date in a range
-    *
-    * @var string
-    */
-   public $maxDate = '';
+    /**
+     * Maximun date in a range
+     *
+     * @var string
+     */
+    public $maxDate = '';
 
-   /**
-    * The font size. This also controls the size of the widget.
-    *
-    * @var string
-    */
-   public $fontSize = '0.5em';
+    /**
+     * The font size. This also controls the size of the widget.
+     *
+     * @var string
+     */
+    public $fontSize = '0.5em';
 
-   /**
-    * Enable or disable the widget
-    *
-    * @var boolean
-    */
-   private $enabled = true;
+    /**
+     * Enable or disable the widget
+     *
+     * @var boolean
+     */
+    private $enabled = true;
 
-   /**
-    * Display effects.
-    * See {@link http://docs.jquery.com/UI/Datepicker/datepicker#options}
-    *
-    * Possible values: show, slideDown, fadeIn
-    *
-    * @var string
-    */
-   private $effect = 'slideDown';
+    /**
+     * Display effects.
+     * See {@link http://docs.jquery.com/UI/Datepicker/datepicker#options}
+     *
+     * Possible values: show, slideDown, fadeIn
+     *
+     * @var string
+     */
+    private $effect = 'slideDown';
 
-   /**
-    * Optional array of effect options.
-    * See {@link http://docs.jquery.com/UI/Datepicker/datepicker#options}
-    *
-    * Format: key => value
-    *
-    * @var array
-    */
-   private $effectOptions = array();
+    /**
+     * Optional array of effect options.
+     * See {@link http://docs.jquery.com/UI/Datepicker/datepicker#options}
+     *
+     * Format: key => value
+     *
+     * @var array
+     */
+    private $effectOptions = array();
 
-   //***************************************************************************
-   // Internal properties (not for configuration)
-   //***************************************************************************
+    //***************************************************************************
+    // Internal properties (not for configuration)
+    //***************************************************************************
 
-   /**
-    * Whetever to use a special preset format or not
-    *
-    * @var boolean
-    */
-   private $useSpecialFormat = true;
+    /**
+     * Whetever to use a special preset format or not
+     *
+     * @var boolean
+     */
+    private $useSpecialFormat = true;
 
-   /**
-    * Valid effects
-    *
-    * @var array
-    */
-   private $validEffects = array('show', 'slideDown', 'fadeIn', 'blind', 'clip', 'drop', 'explode', 'fold', 'puff', 'slide', 'scale', 'size', 'pulsate', 'bounce', 'shake');
+    /**
+     * Valid effects
+     *
+     * @var array
+     */
+    private $validEffects = array('show', 'slideDown', 'fadeIn', 'blind', 'clip', 'drop', 'explode', 'fold', 'puff', 'slide', 'scale', 'size', 'pulsate', 'bounce', 'shake');
 
-   /**
-    * Valid languages
-    *
-    * @var array
-    */
-   private $validLanguages = array('ar','bg','ca','cs','da','de','el','eo','es','fa','fi','fr','he','hr','hu','hy','id','is','it','ja','ko','lt','lv','ms','nl','no','pl','pt-BR','ro','ru','sk','sl','sq','sv','th','tr','uk','zh-CN','zh-TW');
+    /**
+     * Valid languages
+     *
+     * @var array
+     */
+    private $validLanguages = array('ar','bg','ca','cs','da','de','el','eo','es','fa','fi','fr','he','hr','hu','hy','id','is','it','ja','ko','lt','lv','ms','nl','no','pl','pt-BR','ro','ru','sk','sl','sq','sv','th','tr','uk','zh-CN','zh-TW');
 
-   /**
-    * Preset formats (shortcuts)
-    * 
-    * @var array
-    */
-   private $validPresetDateFormats = array('ATOM','COOKIE','ISO_8601','RFC_822','RFC_850','RFC_1036','RFC_1123','RFC_2822','RSS','TIMESTAMP','W3C');
+    /**
+     * Preset formats (shortcuts)
+     *
+     * @var array
+     */
+    private $validPresetDateFormats = array('ATOM','COOKIE','ISO_8601','RFC_822','RFC_850','RFC_1036','RFC_1123','RFC_2822','RSS','TIMESTAMP','W3C');
 
-   /**
-    * Valid modes
-    * 
-    * @var array
-    */
-   private $validModes = array('focus', 'button', 'imagebutton');
+    /**
+     * Valid modes
+     *
+     * @var array
+     */
+    private $validModes = array('focus', 'button', 'imagebutton');
 
-   /**
-    * See @link http://docs.jquery.com/UI/Datepicker/datepicker#options
-    *
-    * @var array
-    */
-   protected $validOptions = array(
+    /**
+     * See @link http://docs.jquery.com/UI/Datepicker/datepicker#options
+     *
+     * @var array
+     */
+    protected $validOptions = array(
                                    'altField'=>array('type'=>'string'), // The jQuery selector for another field that is to be updated with the selected date from the datepicker. Use the altFormat setting below to change the format of the date within this field. Leave as blank for no alternate field. Default: ""
                                    'altFormat'=>array('type'=>'string'), // The dateFormat to be used for the altField option. This allows one date format to be shown to the user for selection purposes, while a different format is actually sent behind the scenes. For a full list of the possible formats see the formatDate function . Default: ""
                                    'appendText'=>array('type'=>'string'), // The text to display after each date field, e.g. to show the required format. Default: ""
@@ -281,12 +281,12 @@ class EDatePicker extends EJqueryUiWidget
                                    'yearRange'=>array('type'=>'string') // Control the range of years displayed in the year drop-down: either relative to current year (-nn:+nn) or absolute (nnnn:nnnn). Default: '-10:+1'
                                   );
 
-   /**
-    * See @link http://docs.jquery.com/UI/Datepicker/datepicker#options
-    *
-    * @var array
-    */
-   protected $validCallbacks = array(
+    /**
+     * See @link http://docs.jquery.com/UI/Datepicker/datepicker#options
+     *
+     * @var array
+     */
+    protected $validCallbacks = array(
                                      'beforeShow',
                                      'beforeShowDay',
                                      'onSelect',
@@ -294,242 +294,246 @@ class EDatePicker extends EJqueryUiWidget
                                      'onClose',
                                     );
 
-   //***************************************************************************
-   // Constructor
-   //***************************************************************************
+    //***************************************************************************
+    // Constructor
+    //***************************************************************************
 
-   public function __construct($owner=null)
-   {
-      parent::__construct($owner);
-      $this->setLanguage(Yii::app()->language);
-   }
+    public function __construct($owner=null)
+    {
+        parent::__construct($owner);
+        $this->setLanguage(Yii::app()->language);
+    }
 
-   //***************************************************************************
-   // Setters and getters
-   //***************************************************************************
+    //***************************************************************************
+    // Setters and getters
+    //***************************************************************************
 
-   /**
-    * Setter
-    * 
-    * @param string $value effect
-    */
-   public function setEffect($value)
-   {
-      if (!in_array($value, $this->validEffects))
-         throw new CException(Yii::t('EJqueryUiWidget', 'effect must be one of: {e}', array('{e}'=>implode(', ', $this->validEffects))));
-      $this->effect = $value;
-   }
+    /**
+     * Setter
+     *
+     * @param string $value effect
+     */
+    public function setEffect($value)
+    {
+        if (!in_array($value, $this->validEffects)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'effect must be one of: {e}', array('{e}'=>implode(', ', $this->validEffects))));
+        }
+        $this->effect = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return string
-    */
-   public function getEffect()
-   {
-      return $this->effect;
-   }
+    /**
+     * Getter
+     *
+     * @return string
+     */
+    public function getEffect()
+    {
+        return $this->effect;
+    }
 
-   /**
-    * Setter
-    *
-    * @param array $value effectOptions
-    */
-   public function setEffectOptions($value)
-   {
-      if (!is_array($value))
-         throw new CException(Yii::t('EJqueryUiWidget', 'effectOptions must be an array'));
-      $this->effectOptions = $value;
-   }
+    /**
+     * Setter
+     *
+     * @param array $value effectOptions
+     */
+    public function setEffectOptions($value)
+    {
+        if (!is_array($value)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'effectOptions must be an array'));
+        }
+        $this->effectOptions = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return array
-    */
-   public function getEffectOptions()
-   {
-      return $this->effectOptions;
-   }
+    /**
+     * Getter
+     *
+     * @return array
+     */
+    public function getEffectOptions()
+    {
+        return $this->effectOptions;
+    }
 
-   /**
-    * Setter
-    * 
-    * @param boolean $value enabled
-    */
-   public function setEnabled($value)
-   {
-      if (!is_bool($value))
-         throw new CException(Yii::t('EJqueryUiWidget', 'enabled must be boolean'));
-      $this->enabled = $value;
-   }
+    /**
+     * Setter
+     *
+     * @param boolean $value enabled
+     */
+    public function setEnabled($value)
+    {
+        if (!is_bool($value)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'enabled must be boolean'));
+        }
+        $this->enabled = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return boolean
-    */
-   public function getEnabled()
-   {
-      return $this->enabled;
-   }
+    /**
+     * Getter
+     *
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
 
-   /**
-    * Setter
-    *
-    * @param string $value showOn
-    */
-   public function setShowOn($value)
-   {
-      if ($value !== 'button' && $value !== 'both')
-         throw new CException(Yii::t('EJqueryUiWidget', 'showOn must be one of: "button", "both"'));
-      $this->showOn = $value;
-   }
+    /**
+     * Setter
+     *
+     * @param string $value showOn
+     */
+    public function setShowOn($value)
+    {
+        if ($value !== 'button' && $value !== 'both') {
+            throw new CException(Yii::t('EJqueryUiWidget', 'showOn must be one of: "button", "both"'));
+        }
+        $this->showOn = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return string
-    */
-   public function getShowOn()
-   {
-      return $this->showOn;
-   }
+    /**
+     * Getter
+     *
+     * @return string
+     */
+    public function getShowOn()
+    {
+        return $this->showOn;
+    }
 
-   /**
-    * Setter
-    *
-    * @param string $value mode
-    */
-   public function setMode($value)
-   {
-      if (!in_array($value, $this->validModes))
-         throw new CException(Yii::t('EJqueryUiWidget', 'mode must be one of: {m}', array('{m}'=>implode(', ', $this->validModes))));
-      $this->mode = $value;
-   }
+    /**
+     * Setter
+     *
+     * @param string $value mode
+     */
+    public function setMode($value)
+    {
+        if (!in_array($value, $this->validModes)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'mode must be one of: {m}', array('{m}'=>implode(', ', $this->validModes))));
+        }
+        $this->mode = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return string
-    */
-   public function getMode()
-   {
-      return $this->mode;
-   }
+    /**
+     * Getter
+     *
+     * @return string
+     */
+    public function getMode()
+    {
+        return $this->mode;
+    }
 
-   /**
-    * Setter
-    *
-    * @param string $value dateFormat
-    */
-   public function setDateFormat($value)
-   {
-      if (!is_string($value))
-         throw new CException(Yii::t('EJqueryUiWidget', 'dateFormat must be a string'));
-      $this->useSpecialFormat = in_array($value, $this->validPresetDateFormats);
-      $this->dateFormat = $value;
-   }
+    /**
+     * Setter
+     *
+     * @param string $value dateFormat
+     */
+    public function setDateFormat($value)
+    {
+        if (!is_string($value)) {
+            throw new CException(Yii::t('EJqueryUiWidget', 'dateFormat must be a string'));
+        }
+        $this->useSpecialFormat = in_array($value, $this->validPresetDateFormats);
+        $this->dateFormat = $value;
+    }
 
-   /**
-    * Getter
-    *
-    * @return string
-    */
-   public function getDateFormat()
-   {
-      return $this->dateFormat;
-   }
+    /**
+     * Getter
+     *
+     * @return string
+     */
+    public function getDateFormat()
+    {
+        return $this->dateFormat;
+    }
 
-   /**
-    * Setter
-    *
-    * @param string $value language
-    */
-	public function setLanguage($value)
-	{
-      $lang = (($p = strpos($value, '_')) !== false) ? str_replace('_', '-', $value) : $value;
-      if (in_array($lang, $this->validLanguages)) {
-         $this->language = $lang;
-      }
-      else {
-         $suffix = empty($lang) ? 'en' : ($p !== false) ? strtolower(substr($lang, 0, $p)) : strtolower($lang);
-         if (in_array($suffix, $this->validLanguages)) $this->language = $suffix;
-      }
-	}
-
-	/**
-	 * Getter
-	 *
-	 * @return string
-	 */
-	public function getLanguage()
-	{
-	   return $this->language;
-	}
-
-   //***************************************************************************
-   // Utilities
-   //***************************************************************************
-
-   /**
-    * Encode an array into a javascript array
-    *
-    * @param array $value
-    * @return string
-    */
-	private static function encode($value)
-	{
-      $es = array();
-      $n = count($value);
-      if (($n) > 0 && array_keys($value) !== range(0, $n-1)) {
-         foreach($value as $k=>$v) {
-            if (is_array($v)) {
-                 $es[] = $k . ':' . self::encode($v);
+    /**
+     * Setter
+     *
+     * @param string $value language
+     */
+    public function setLanguage($value)
+    {
+        $lang = (($p = strpos($value, '_')) !== false) ? str_replace('_', '-', $value) : $value;
+        if (in_array($lang, $this->validLanguages)) {
+            $this->language = $lang;
+        } else {
+            $suffix = empty($lang) ? 'en' : ($p !== false) ? strtolower(substr($lang, 0, $p)) : strtolower($lang);
+            if (in_array($suffix, $this->validLanguages)) {
+                $this->language = $suffix;
             }
-            elseif ($k === 'yearRange') {
-               $es[] = $k . ':' . "'" . $v . "'";
+        }
+    }
+
+    /**
+     * Getter
+     *
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    //***************************************************************************
+    // Utilities
+    //***************************************************************************
+
+    /**
+     * Encode an array into a javascript array
+     *
+     * @param array $value
+     * @return string
+     */
+    private static function encode($value)
+    {
+        $es = array();
+        $n = count($value);
+        if (($n) > 0 && array_keys($value) !== range(0, $n-1)) {
+            foreach ($value as $k=>$v) {
+                if (is_array($v)) {
+                    $es[] = $k . ':' . self::encode($v);
+                } elseif ($k === 'yearRange') {
+                    $es[] = $k . ':' . "'" . $v . "'";
+                } else {
+                    $es[] = $k . ':' . $v;
+                }
             }
-            else {
-               $es[] = $k . ':' . $v;
+            return '{' . implode(',', $es) . '}';
+        } else {
+            foreach ($value as $v) {
+                $es[] = "'" . $v . "'";
             }
-         }
-         return '{' . implode(',', $es) . '}';
-      }
-      else {
-         foreach($value as $v) {
-            $es[] = "'" . $v . "'";
-         }
-         return '[' . implode(',', $es) . ']';
-      }
-	}
+            return '[' . implode(',', $es) . ']';
+        }
+    }
 
-   /**
-    * Generates the options for the jQuery widget
-    *
-    * @return string
-    */
-   protected function makeOptions()
-   {
-      $options = array();
-      if (is_string($this->minDate) && $this->minDate !== '') {
-         $options['minDate'] = "'" . $this->minDate . "'";         
-      }
-      if (is_string($this->maxDate) && $this->maxDate !== '') {
-         $options['maxDate'] = "'" . $this->maxDate . "'";
-      }
+    /**
+     * Generates the options for the jQuery widget
+     *
+     * @return string
+     */
+    protected function makeOptions()
+    {
+        $options = array();
+        if (is_string($this->minDate) && $this->minDate !== '') {
+            $options['minDate'] = "'" . $this->minDate . "'";
+        }
+        if (is_string($this->maxDate) && $this->maxDate !== '') {
+            $options['maxDate'] = "'" . $this->maxDate . "'";
+        }
 
-      if ($this->effect !== 'show') {
-         $options['showAnim'] = "'" . $this->effect . "'";
-         if (!empty($this->effectOptions)) {
-            $eo = self::encode($this->effectOptions);
-            $options['showOptions'] = $eo;
-         }
-      }
+        if ($this->effect !== 'show') {
+            $options['showAnim'] = "'" . $this->effect . "'";
+            if (!empty($this->effectOptions)) {
+                $eo = self::encode($this->effectOptions);
+                $options['showOptions'] = $eo;
+            }
+        }
 
-      $options['dateFormat'] = $this->useSpecialFormat ? '$.datepicker.'.$this->dateFormat : "'" . $this->dateFormat . "'";
+        $options['dateFormat'] = $this->useSpecialFormat ? '$.datepicker.'.$this->dateFormat : "'" . $this->dateFormat . "'";
 
-      switch ($this->mode) {
+        switch ($this->mode) {
          case 'focus':
             break;
 
@@ -539,7 +543,7 @@ class EDatePicker extends EJqueryUiWidget
 
          case 'imagebutton':
             if ($this->image === '') {
-               $this->image = $this->baseUrl.'/images/calendar.gif';
+                $this->image = $this->baseUrl.'/images/calendar.gif';
             }
             $options['showOn'] = "'" . $this->showOn . "'";
             $options['buttonImage'] = "'" . $this->image . "'";
@@ -547,92 +551,93 @@ class EDatePicker extends EJqueryUiWidget
             break;
       }
 
-      foreach ($this->callbacks as  $key=>$val) {
-         $options['callback_'.$key] = $key;
-      }
+        foreach ($this->callbacks as  $key=>$val) {
+            $options['callback_'.$key] = $key;
+        }
 
-      $encodedOptions = self::encode(array_merge($options, $this->options));
+        $encodedOptions = self::encode(array_merge($options, $this->options));
       
-      foreach ($this->callbacks as $key=>$val) {
-         $encodedOptions = str_replace("callback_{$key}:{$key}", "{$key}: {$val}", $encodedOptions);
-      }
+        foreach ($this->callbacks as $key=>$val) {
+            $encodedOptions = str_replace("callback_{$key}:{$key}", "{$key}: {$val}", $encodedOptions);
+        }
 
-      return $encodedOptions;
-   }
+        return $encodedOptions;
+    }
 
-   /**
-    * Generates the javascript code for the widget
-    *
-    * @param string $id id
-    * @return string
-    */
-   protected function jsCode($id)
-   {
-      $enabled = $this->enabled ? '' : '.datepicker("disable")';
-      $fontSize = '';
+    /**
+     * Generates the javascript code for the widget
+     *
+     * @param string $id id
+     * @return string
+     */
+    protected function jsCode($id)
+    {
+        $enabled = $this->enabled ? '' : '.datepicker("disable")';
+        $fontSize = '';
 
-      $options = $this->makeOptions();
+        $options = $this->makeOptions();
  
-      $js =<<<EOP
+        $js =<<<EOP
 $("#{$id}").datepicker({$options}){$enabled};
 EOP;
 
-      if (is_string($this->fontSize) && !empty($this->fontSize)) {
-         $fontSize =<<<EOP
+        if (is_string($this->fontSize) && !empty($this->fontSize)) {
+            $fontSize =<<<EOP
 $("#ui-datepicker-div").css("font-size", "{$this->fontSize}");
 EOP;
-         $js .= $fontSize;
-      }
+            $js .= $fontSize;
+        }
 
-      return $js;
-   }
+        return $js;
+    }
 
-   /**
-    * Generates the HTML markup for the widget
-    *
-    * @param string $id
-    * @return string
-    */
-   protected function htmlCode($id, $name)
-   {
-      $this->htmlOptions['id'] = $id;
-      $this->htmlOptions['size'] = !isset($this->htmlOptions['size']) ? 10 : $this->htmlOptions['size'];
-      $this->htmlOptions['maxlength'] = !isset($this->htmlOptions['maxlength']) ? 10 : $this->htmlOptions['maxlength'];
+    /**
+     * Generates the HTML markup for the widget
+     *
+     * @param string $id
+     * @return string
+     */
+    protected function htmlCode($id, $name)
+    {
+        $this->htmlOptions['id'] = $id;
+        $this->htmlOptions['size'] = !isset($this->htmlOptions['size']) ? 10 : $this->htmlOptions['size'];
+        $this->htmlOptions['maxlength'] = !isset($this->htmlOptions['maxlength']) ? 10 : $this->htmlOptions['maxlength'];
 
-      if ($this->hasModel())
-         $html = CHtml::activeTextField($this->model, $this->attribute, $this->htmlOptions);
-      else
-         $html = CHtml::textField($name, $this->value, $this->htmlOptions);
+        if ($this->hasModel()) {
+            $html = CHtml::activeTextField($this->model, $this->attribute, $this->htmlOptions);
+        } else {
+            $html = CHtml::textField($name, $this->value, $this->htmlOptions);
+        }
 
-      return $html;
-   }
+        return $html;
+    }
 
-   public function registerClientScripts()
-   {
-      parent::registerClientScripts();
-      if ($this->language !== '') {
-         $this->clientScript->registerScriptFile("{$this->baseUrl}/js/i18n/ui.datepicker-{$this->language}.js");
-      }
-   }
+    public function registerClientScripts()
+    {
+        parent::registerClientScripts();
+        if ($this->language !== '') {
+            $this->clientScript->registerScriptFile("{$this->baseUrl}/js/i18n/ui.datepicker-{$this->language}.js");
+        }
+    }
 
-   //***************************************************************************
-   // Run Lola Run
-   //***************************************************************************
+    //***************************************************************************
+    // Run Lola Run
+    //***************************************************************************
 
-   /**
-    * Run the widget
-    */
-   public function run()
-   {
-      list($name, $id) = $this->resolveNameID();
+    /**
+     * Run the widget
+     */
+    public function run()
+    {
+        list($name, $id) = $this->resolveNameID();
 
-      $this->publishAssets();
-      $this->registerClientScripts();
+        $this->publishAssets();
+        $this->registerClientScripts();
       
-      $js = $this->jsCode($id);
-      $this->clientScript->registerScript('Yii.'.get_class($this).'#'.$id, $js);
+        $js = $this->jsCode($id);
+        $this->clientScript->registerScript('Yii.'.get_class($this).'#'.$id, $js);
 
-      $html = $this->htmlCode($id, $name);
-      echo $html;
-   }
+        $html = $this->htmlCode($id, $name);
+        echo $html;
+    }
 }

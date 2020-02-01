@@ -134,4 +134,3 @@ class QuestionSearch extends CFormModel
         return $searchRows;
     }
 }
-

@@ -18,154 +18,152 @@
  */
 class Codecs extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return '{{codecs}}';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return '{{codecs}}';
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('parent, isfolder', 'numerical', 'integerOnly'=>true),
-			array('pagetitle, longtitle, description, alias, menutitle', 'length', 'max'=>255),
-			array('introtext, content, path', 'safe'),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, pagetitle, longtitle, description, alias, parent, isfolder, introtext, content, menutitle', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('parent, isfolder', 'numerical', 'integerOnly'=>true),
+            array('pagetitle, longtitle, description, alias, menutitle', 'length', 'max'=>255),
+            array('introtext, content, path', 'safe'),
+            // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
+            array('id, pagetitle, longtitle, description, alias, parent, isfolder, introtext, content, menutitle', 'safe', 'on'=>'search'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
                     'children'  =>  array(self::HAS_MANY, 'Codecs', 'parent', 'order'=>'children.id'),
                     'parentElement'    =>  array(self::BELONGS_TO, 'Codecs', 'parent'),
-		);
-	}
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'pagetitle' => 'Pagetitle',
-			'longtitle' => 'Longtitle',
-			'description' => 'Description',
-			'alias' => 'Alias',
-			'parent' => 'Parent',
-			'isfolder' => 'Isfolder',
-			'introtext' => 'Introtext',
-			'content' => 'Content',
-			'menutitle' => 'Menutitle',
-		);
-	}
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+            'id' => 'ID',
+            'pagetitle' => 'Pagetitle',
+            'longtitle' => 'Longtitle',
+            'description' => 'Description',
+            'alias' => 'Alias',
+            'parent' => 'Parent',
+            'isfolder' => 'Isfolder',
+            'introtext' => 'Introtext',
+            'content' => 'Content',
+            'menutitle' => 'Menutitle',
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     *
+     * Typical usecase:
+     * - Initialize the model fields with values from filter form.
+     * - Execute this method to get CActiveDataProvider instance which will filter
+     * models according to data in model fields.
+     * - Pass data provider to CGridView, CListView or any similar widget.
+     *
+     * @return CActiveDataProvider the data provider that can return the models
+     * based on the search/filter conditions.
+     */
+    public function search()
+    {
+        // @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+        $criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('pagetitle',$this->pagetitle,true);
-		$criteria->compare('longtitle',$this->longtitle,true);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('alias',$this->alias,true);
-		$criteria->compare('parent',$this->parent);
-		$criteria->compare('isfolder',$this->isfolder);
-		$criteria->compare('introtext',$this->introtext,true);
-		$criteria->compare('content',$this->content,true);
-		$criteria->compare('menutitle',$this->menutitle,true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('pagetitle', $this->pagetitle, true);
+        $criteria->compare('longtitle', $this->longtitle, true);
+        $criteria->compare('description', $this->description, true);
+        $criteria->compare('alias', $this->alias, true);
+        $criteria->compare('parent', $this->parent);
+        $criteria->compare('isfolder', $this->isfolder);
+        $criteria->compare('introtext', $this->introtext, true);
+        $criteria->compare('content', $this->content, true);
+        $criteria->compare('menutitle', $this->menutitle, true);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+        return new CActiveDataProvider($this, array(
+            'criteria'=>$criteria,
+        ));
+    }
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return Codecs the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return Codecs the static model class
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
         
-        /**
-         * рекурсивная функция, находящая путь до элемента кодексов и записывающая его в этот элемент
-         * 
-         * @param string $prefix 
-         * @return string путь до элемента
-         */
-        public function getPath($prefix = '')
-        {
-            $this->path = $prefix . '|' . $this->alias;
-            echo $this->path . '<br />';
-            $this->save();
+    /**
+     * рекурсивная функция, находящая путь до элемента кодексов и записывающая его в этот элемент
+     *
+     * @param string $prefix
+     * @return string путь до элемента
+     */
+    public function getPath($prefix = '')
+    {
+        $this->path = $prefix . '|' . $this->alias;
+        echo $this->path . '<br />';
+        $this->save();
             
-            $children = $this->children;
+        $children = $this->children;
             
-            foreach($children as $child) {
-                $child->getPath($this->path);
-            }
-            
+        foreach ($children as $child) {
+            $child->getPath($this->path);
         }
+    }
         
-        /**
-         * Функция получения массива родителей элемента
-         * 
-         * @return array массив родителей
-         */
-        public function getParents()
-        {
-            $path = $this->path;
-            $pathArray = explode('|', $path);
-            $parents = array();
+    /**
+     * Функция получения массива родителей элемента
+     *
+     * @return array массив родителей
+     */
+    public function getParents()
+    {
+        $path = $this->path;
+        $pathArray = explode('|', $path);
+        $parents = array();
             
-            while($parentAlias = array_pop($pathArray)) {
-                if($parentAlias=='codecs') {
-                    break;
-                }
-                $parentPath = implode('|', $pathArray); // путь из массива, оставшегося после удаления последнего элемента
-                //echo $parentPath . ':' . '<br />';
-                
-                $parent = self::model()->findByAttributes(array('path'=>$parentPath));
-                
-                if($parent) {
-                    $parents += array(str_replace('|', '/', $parentPath)  =>  $parent->pagetitle);
-                }
-                
+        while ($parentAlias = array_pop($pathArray)) {
+            if ($parentAlias=='codecs') {
+                break;
             }
-            
-            return array_reverse($parents);
+            $parentPath = implode('|', $pathArray); // путь из массива, оставшегося после удаления последнего элемента
+            //echo $parentPath . ':' . '<br />';
+                
+            $parent = self::model()->findByAttributes(array('path'=>$parentPath));
+                
+            if ($parent) {
+                $parents += array(str_replace('|', '/', $parentPath)  =>  $parent->pagetitle);
+            }
         }
+            
+        return array_reverse($parents);
+    }
 }

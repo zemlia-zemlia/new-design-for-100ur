@@ -6,7 +6,7 @@ $purifier = new Purifier();
 $this->setPageTitle(CHtml::encode($model->title));
 Yii::app()->clientScript->registerMetaTag($model->description, "Description");
 
-Yii::app()->clientScript->registerLinkTag("canonical", NULL, Yii::app()->createUrl('post/view', array('id' => $model->id, 'alias' => $model->alias)));
+Yii::app()->clientScript->registerLinkTag("canonical", null, Yii::app()->createUrl('post/view', array('id' => $model->id, 'alias' => $model->alias)));
 
 $additionalTags = $model->getAdditionalMetaTags();
 foreach ($additionalTags as $property => $content) {

@@ -3,10 +3,9 @@
      * расширяет класс CHtmlPurifier
      */
 
-class Purifier extends CHtmlPurifier 
+class Purifier extends CHtmlPurifier
 {
     public $options = array(
         'HTML.Allowed' => 'div,p,a[href], a[title],b,br,i,img[src|alt|title],span[style],strong,ul,ol,li,sup,sub,h1,h2,h3,h4,h5,h6',
     );
 }
-?>

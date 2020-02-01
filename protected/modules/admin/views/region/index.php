@@ -34,7 +34,6 @@ function showCountry($regions)
     echo "<table class='table table-bordered'>";
     echo '<tr><th>Регион</th><th>Цена покупки</th></tr>';
     foreach ($regions as $region) {
-
         $regionCounter++;
         echo "<tr><td>";
         echo CHtml::link($region['regionName'], Yii::app()->createUrl('admin/region/view', array(
@@ -48,7 +47,6 @@ function showCountry($regions)
             'style' => 'max-width:50px',
         ));
         echo "</div></td></tr>";
-
     }
     echo "</table>";
 }

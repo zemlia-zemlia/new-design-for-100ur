@@ -3,11 +3,12 @@
 /**
  * Личный кабинет партнера - поставщика лидов
  */
-class PartnerController extends Controller {
-
+class PartnerController extends Controller
+{
     public $layout = '//frontend/cabinet';
 
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
         );
@@ -18,7 +19,8 @@ class PartnerController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // разрешаем доступ только авторизованным пользователям
                 'actions' => array('index', 'leads', 'viewLead', 'campaign'),
@@ -43,7 +45,6 @@ class PartnerController extends Controller {
      */
     public function actionLeads()
     {
-        
     }
     /**
      * Страница просмотра лида
@@ -60,9 +61,5 @@ class PartnerController extends Controller {
      */
     public function actionCampaign($id)
     {
-        
     }
-
 }
-
-?>

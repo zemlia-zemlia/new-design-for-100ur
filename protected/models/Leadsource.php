@@ -19,7 +19,6 @@
  */
 class Leadsource extends CActiveRecord
 {
-
     const TYPE_LEAD = 1; // источник для привлечения лидов
     const TYPE_QUESTION = 2; // источник для привлечения вопросов
 
@@ -107,7 +106,7 @@ class Leadsource extends CActiveRecord
      * @param integer $cacheTime на сколько секунд кешировать
      * @return array массив источников лидов (id => name)
      */
-    static public function getSourcesArray($showInactive = true, $cacheTime = 60)
+    public static function getSourcesArray($showInactive = true, $cacheTime = 60)
     {
         $attributes = array();
 

@@ -5,22 +5,21 @@
 ?>
 
 <?php
-    if(isset($_POST['komm'])){
+    if (isset($_POST['komm'])) {
         $vopr=$_POST['komm'];
-    }
-    else{
-         $vopr='';
+    } else {
+        $vopr='';
     }
 ?>
 
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'                    =>  'question-form',
-	'enableAjaxValidation'  =>  false,
+    'id'                    =>  'question-form',
+    'enableAjaxValidation'  =>  false,
         'action'                =>  Yii::app()->createUrl('question/create'),
         'htmlOptions'               =>  ['class'=>'form-horizontal'],
 )); ?>
 
-<?php //echo $form->errorSummary($model, "Для отправки вопроса укажите данные"); ?>
+<?php //echo $form->errorSummary($model, "Для отправки вопроса укажите данные");?>
 <?php //CustomFuncs::printr($model->attributes);?>
     
 <?php
@@ -28,10 +27,10 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
 ?>
   
 <div class="form-group hidden-xs">
-    <?php echo $form->labelEx($model,'title', ['class' =>  'col-sm-4 control-label']); ?>
+    <?php echo $form->labelEx($model, 'title', ['class' =>  'col-sm-4 control-label']); ?>
     <div class="col-sm-8">
-        <?php echo $form->textField($model,'title', array('class'=>'form-control', 'placeholder'=>'Например, Как оспорить наследство?')); ?>
-        <?php echo $form->error($model,'title'); ?>
+        <?php echo $form->textField($model, 'title', array('class'=>'form-control', 'placeholder'=>'Например, Как оспорить наследство?')); ?>
+        <?php echo $form->error($model, 'title'); ?>
     </div>
     
 </div>
@@ -39,8 +38,8 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
 <div class="form-group">
     <label class="col-sm-4 control-label">Подробное описание</label>
     <div class="col-sm-8">
-        <?php echo $form->textArea($model,'questionText', array('class'=>'form-control', 'rows'=>10, 'placeholder'=>'Опишите вашу ситуацию подробнее, чтобы юрист мог более детально в нем сориентироваться и дать на него квалифицированный ответ.')); ?>
-        <?php echo $form->error($model,'questionText'); ?>
+        <?php echo $form->textArea($model, 'questionText', array('class'=>'form-control', 'rows'=>10, 'placeholder'=>'Опишите вашу ситуацию подробнее, чтобы юрист мог более детально в нем сориентироваться и дать на него квалифицированный ответ.')); ?>
+        <?php echo $form->error($model, 'questionText'); ?>
     </div>
     
 </div>
@@ -50,10 +49,10 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            <?php echo $form->labelEx($model,'authorName', ['class' =>  'col-sm-4 control-label']); ?>
+            <?php echo $form->labelEx($model, 'authorName', ['class' =>  'col-sm-4 control-label']); ?>
             <div class="col-sm-5">
-		<?php echo $form->textField($model,'authorName', array('class'=>'form-control', 'placeholder'=>'Ваше имя')); ?>
-                <?php echo $form->error($model,'authorName'); ?>
+		<?php echo $form->textField($model, 'authorName', array('class'=>'form-control', 'placeholder'=>'Ваше имя')); ?>
+                <?php echo $form->error($model, 'authorName'); ?>
             </div>
             
 	</div>
@@ -63,10 +62,10 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-		<?php echo $form->labelEx($model,'phone', ['class' =>  'col-sm-4 control-label']); ?>
+		<?php echo $form->labelEx($model, 'phone', ['class' =>  'col-sm-4 control-label']); ?>
             <div class="col-sm-5">
-		<?php echo $form->textField($model,'phone', array(
-                    'class'         =>  'form-control icon-input', 
+		<?php echo $form->textField($model, 'phone', array(
+                    'class'         =>  'form-control icon-input',
                     'style'         =>  'background-image:url(/pics/2017/phone_icon.png)',
                     'data-toggle'   =>  "tooltip",
                     'data-placement'=>  "bottom",
@@ -78,7 +77,7 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
                     Ваши данные в безопасности. Ваш телефон <strong>НИГДЕ и НИКОГДА</strong> не публикуется и доступен только юристу-консультанту для уточнения деталей. Для вас звонок бесплатный.
                 </p>
                 </small>
-		<?php echo $form->error($model,'phone'); ?>
+		<?php echo $form->error($model, 'phone'); ?>
             </div>
 	</div>
     </div>
@@ -98,21 +97,21 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
                     $currenTownName = $model->town->name;
                 }*/
                 $currenTownId = 0;
-                if(!is_null($model->town->name)) {
+                if (!is_null($model->town->name)) {
                     $currenTownName = $model->town->name;
                 }
                 
             ?>
             
-            <?php if($currenTownId == 0):?>
-                <?php echo $form->labelEx($model,'town', ['class' =>  'col-sm-4 control-label']); ?>
+            <?php if ($currenTownId == 0):?>
+                <?php echo $form->labelEx($model, 'town', ['class' =>  'col-sm-4 control-label']); ?>
                 <div class="col-sm-5">
                     <?php echo CHtml::textField('town', $currenTownName, array(
-                        'id'            =>  'town-selector', 
-                        'class'         =>  'form-control icon-input', 
+                        'id'            =>  'town-selector',
+                        'class'         =>  'form-control icon-input',
                         'style'         =>  'background-image:url(/pics/2017/map_mark_icon.png)',
                     )); ?>
-                    <?php echo $form->error($model,'townId'); ?>
+                    <?php echo $form->error($model, 'townId'); ?>
                 </div>
             <?php endif;?>
             
@@ -122,14 +121,14 @@ $allDirections = array(0=>'Не выбрано') + $allDirections;
 		
             
             
-		<?php //echo $form->labelEx($model,'email'); ?>
+		<?php //echo $form->labelEx($model,'email');?>
 		<?php /*echo $form->textField($model,'email', array(
-                    'class'         =>  'form-control', 
+                    'class'         =>  'form-control',
                     'data-toggle'   =>  "tooltip",
                     'data-placement'=>  "bottom",
                     'title'         =>  "Необходим для отправки Вам уведомлений о новых ответах юристов, а также является логином для входа на сайт. Нигде не публикуется.",
                     'placeholder'=>'ivanov@mail.ru'));*/ ?>
-		<?php //echo $form->error($model,'email'); ?>
+		<?php //echo $form->error($model,'email');?>
 	</div>
     </div>
 </div>

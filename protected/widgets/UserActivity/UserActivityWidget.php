@@ -121,7 +121,6 @@ class UserActivityWidget extends CWidget
         $currentDate = clone $dateStart;
 
         while ($currentDate <= $dateFinish) {
-
             $currentDateFormatted = $currentDate->format('Y-m-d');
 
             $dailyRank = 0;

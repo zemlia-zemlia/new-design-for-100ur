@@ -3,16 +3,16 @@
 /* @var $model TransactionCampaign */
 
 $this->breadcrumbs=array(
-	'Transaction Campaigns'=>array('index'),
-	$model->id=>array('view','id'=>$model->id),
-	'Update',
+    'Transaction Campaigns'=>array('index'),
+    $model->id=>array('view','id'=>$model->id),
+    'Update',
 );
 
 $this->menu=array(
-	array('label'=>'List TransactionCampaign', 'url'=>array('index')),
-	array('label'=>'Create TransactionCampaign', 'url'=>array('create')),
-	array('label'=>'View TransactionCampaign', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage TransactionCampaign', 'url'=>array('admin')),
+    array('label'=>'List TransactionCampaign', 'url'=>array('index')),
+    array('label'=>'Create TransactionCampaign', 'url'=>array('create')),
+    array('label'=>'View TransactionCampaign', 'url'=>array('view', 'id'=>$model->id)),
+    array('label'=>'Manage TransactionCampaign', 'url'=>array('admin')),
 );
 ?>
 

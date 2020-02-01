@@ -1,8 +1,8 @@
 <?php
-    if((isset($_GET['name']) && $_GET['name'] == $data->alias) || hasActiveChild($data, $_GET['name'])) {
+    if ((isset($_GET['name']) && $_GET['name'] == $data->alias) || hasActiveChild($data, $_GET['name'])) {
         $active = true;
         // определим, показывать ли текущий элемент ссылкой
-        if($_GET['name'] == $data->alias) {
+        if ($_GET['name'] == $data->alias) {
             $showLink = false;
         } else {
             $showLink = true;
@@ -16,8 +16,8 @@
 ?>
 
 <li
-    <?php 
-        if($active) {
+    <?php
+        if ($active) {
             echo " class='active'";
         }
     ?>

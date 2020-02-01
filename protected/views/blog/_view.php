@@ -20,7 +20,7 @@ switch ($index) {
 }
 ?>
 
-<?php if($index==1):?>
+<?php if ($index==1):?>
     <div class="row">
 <?php endif;?>
     
@@ -67,9 +67,9 @@ switch ($index) {
         </div>
 </div>
 
-<?php if($index==2):?>
+<?php if ($index==2):?>
     </div>
 <?php endif;?>
 
-<div class="clearfix <?php if($index == 1):?> visible-xs<?php endif;?>"></div>
-<hr class="<?php if($index == 1):?> visible-xs<?php endif;?>" />
+<div class="clearfix <?php if ($index == 1):?> visible-xs<?php endif;?>"></div>
+<hr class="<?php if ($index == 1):?> visible-xs<?php endif;?>" />

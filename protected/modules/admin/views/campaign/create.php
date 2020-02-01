@@ -3,8 +3,8 @@
 /* @var $model Campaign */
 
 $this->breadcrumbs=array(
-	'Кампании'=>array('index'),
-	'Новая',
+    'Кампании'=>array('index'),
+    'Новая',
 );
 
 ?>

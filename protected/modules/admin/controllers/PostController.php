@@ -51,7 +51,6 @@ class PostController extends Controller
      */
     public function actionView($id)
     {
-
         $model = Post::model()->findByPk($id);
 
         if (!$model) {
@@ -103,11 +102,11 @@ class PostController extends Controller
         $model = new Post;
 
         /*
-         * получаем массив категорий публикаций. 
+         * получаем массив категорий публикаций.
          * id => title
          * для использования в форме выбора категорий для нового поста
          */
-        $categoriesArray = Array();
+        $categoriesArray = array();
         $allCategoriesArray = Postcategory::model()->findAll(array('select' => 'id, title', 'order' => 'title'));
         foreach ($allCategoriesArray as $cat) {
             $categoriesArray[$cat->id] = CHtml::encode($cat->title);
@@ -166,11 +165,11 @@ class PostController extends Controller
             throw new CHttpException(403, 'Отказано в доступе: Вы не можете редактировать этот пост');
         }
         /*
-         * получаем массив категорий публикаций. 
+         * получаем массив категорий публикаций.
          * id => title
          * для использования в форме выбора категорий для нового поста
          */
-        $categoriesArray = Array();
+        $categoriesArray = array();
         $allCategoriesArray = Postcategory::model()->findAll(array('select' => 'id, title', 'order' => 'title'));
         foreach ($allCategoriesArray as $cat) {
             $categoriesArray[$cat->id] = CHtml::encode($cat->title);
@@ -225,8 +224,9 @@ class PostController extends Controller
         $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
+        if (!isset($_GET['ajax'])) {
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('/admin/blog'));
+        }
     }
 
     /**
@@ -244,8 +244,9 @@ class PostController extends Controller
     {
         $model = new Post('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Post']))
+        if (isset($_GET['Post'])) {
             $model->attributes = $_GET['Post'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
@@ -262,8 +263,9 @@ class PostController extends Controller
     public function loadModel($id)
     {
         $model = Post::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
@@ -287,7 +289,6 @@ class PostController extends Controller
 
     public function actionVote($id)
     {
-
         if (!Yii::app()->user->id) {
             throw new CHttpException(403, 'Голосовать за рейтинг могут только зарегистрированные пользователи');
         }
@@ -328,5 +329,4 @@ class PostController extends Controller
     {
         $this->render('postingDenied');
     }
-
 }

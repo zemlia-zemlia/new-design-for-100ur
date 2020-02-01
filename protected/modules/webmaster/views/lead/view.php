@@ -5,11 +5,11 @@
 $this->setPageTitle(CHtml::encode($model->name) . ". Лиды. ". Yii::app()->name);
 
 $this->breadcrumbs=array(
-	CHtml::encode($model->name),
+    CHtml::encode($model->name),
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('Кабинет вебмастера',"/webmaster/"),
+    'homeLink'=>CHtml::link('Кабинет вебмастера', "/webmaster/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
@@ -29,17 +29,17 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <td><strong><?php echo $model->getAttributeLabel('leadStatus'); ?></strong></td>
         <td>
             <?php echo $model->getLeadStatusName(); ?>
-            <?php if($model->leadStatus == Lead::LEAD_STATUS_NABRAK):?>
+            <?php if ($model->leadStatus == Lead::LEAD_STATUS_NABRAK):?>
             <p>Причина: <?php echo $model->getReasonName();?></p>
             <?php endif;?>
         </td>
     </tr>
     
-    <?php if(Yii::app()->user->role != User::ROLE_JURIST || $model->employeeId):?>
+    <?php if (Yii::app()->user->role != User::ROLE_JURIST || $model->employeeId):?>
     <tr>
         <td><strong><?php echo $model->getAttributeLabel('phone'); ?></strong></td>
         <td>
-            <?php if($model->phone && !(Yii::app()->user->role == User::ROLE_JURIST && $model->employeeId != Yii::app()->user->id)):?>
+            <?php if ($model->phone && !(Yii::app()->user->role == User::ROLE_JURIST && $model->employeeId != Yii::app()->user->id)):?>
                 <?php echo $model->phone; ?><br />
             <?php endif;?>
         </td>
@@ -56,7 +56,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </tr>
     
     
-    <?php if(Yii::app()->user->role != User::ROLE_JURIST):?>
+    <?php if (Yii::app()->user->role != User::ROLE_JURIST):?>
     <tr>
         <td><strong><?php echo $model->getAttributeLabel('source'); ?></strong></td>
         <td><?php echo $model->source->name; ?></td>
@@ -77,7 +77,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </tr>
 </table>    
     
-<?php if(Yii::app()->user->role == User::ROLE_ROOT):?>
+<?php if (Yii::app()->user->role == User::ROLE_ROOT):?>
 <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/lead/update', array('id'=>$model->id)), array('class'=>'btn btn-primary'));?>
 
 <?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/lead/delete', array('id'=>$model->id)), array('class'=>'btn btn-danger'));?>

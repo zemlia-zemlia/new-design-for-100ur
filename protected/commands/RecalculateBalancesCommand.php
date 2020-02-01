@@ -34,5 +34,4 @@ HAVING (u.balance - transactionSum) > 0
                     ->update('{{user}}', ['balance' => $balance['transactionSum']], 'id=:id', [':id' => $balance['id']]);
         }
     }
-
 }

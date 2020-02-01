@@ -87,7 +87,7 @@ class File extends CActiveRecord
         $baseName = $fileInfo['basename'];
         $extension = $fileInfo['extension'];
 
-        return md5($baseName . $extension . time() . mt_rand(10000,100000)) . '.' . $extension;
+        return md5($baseName . $extension . time() . mt_rand(10000, 100000)) . '.' . $extension;
     }
 
     /**
@@ -106,7 +106,7 @@ class File extends CActiveRecord
      */
     public function createFolderFromFileName()
     {
-        if(!$this->filename) {
+        if (!$this->filename) {
             return false;
         }
 
@@ -129,19 +129,18 @@ class File extends CActiveRecord
         $filePath = $directory . '/' . $this->filename;
 
         // удаляем файл
-        if(unlink($filePath)) {
+        if (unlink($filePath)) {
             // удалим директорию хранения файла, если там нет других файлов (есть только . и ..)
-            if(sizeof(scandir($directory)) == 2) {
+            if (sizeof(scandir($directory)) == 2) {
                 rmdir($directory);
 
                 // если директория уровнем выше тоже пуста, удалим и ее
                 $parentDirectory = substr($directory, 0, strlen($directory)-3);
-                if(is_dir($parentDirectory) && sizeof(scandir($parentDirectory)) == 2) {
+                if (is_dir($parentDirectory) && sizeof(scandir($parentDirectory)) == 2) {
                     rmdir($parentDirectory);
                 }
             }
         }
-
     }
 
 //    public function File($filename, $path)

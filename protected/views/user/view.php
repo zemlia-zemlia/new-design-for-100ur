@@ -7,9 +7,9 @@ $userDisplayName = CHtml::encode($model->name . ' ' . $model->lastName);
 
 $this->breadcrumbs=array(
         'Юристы и Адвокаты' =>  array('/yurist'),
-	$userDisplayName,
+    $userDisplayName,
 );
-if($model->settings) {
+if ($model->settings) {
     $userStatusName = $model->settings->getStatusName() . ' ';
 } else {
     $userStatusName = '';
@@ -18,7 +18,7 @@ $this->setPageTitle($userStatusName . $userDisplayName . '. Город ' . $mode
 Yii::app()->clientScript->registerMetaTag("100 Юристов. " . $userStatusName . $userDisplayName . '. Город ' . $model->town->name . '. ', "Description");
         
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 Юристов',"/"),
+    'homeLink'=>CHtml::link('100 Юристов', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));
@@ -41,35 +41,35 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 </div>
                 <div class="col-sm-9">
                     
-                    <?php if($model->settings->hello):?>
+                    <?php if ($model->settings->hello):?>
                     <div class="alert alert-info">
                         <?php echo CHtml::encode($model->settings->hello);?>
                     </div>
                     <?php endif;?>
                     
-                    <?php if($model->role == User::ROLE_JURIST):?>
+                    <?php if ($model->role == User::ROLE_JURIST):?>
                     <div class='flat-panel inside vert-margin20'>
                     <div class="row">
                         <div class="col-sm-6 col-xs-6 center-align">
                             <p>Дано ответов</p>
                             <?php
                                 $answersCountInt = $model->answersCount;
-                                $answersCount = str_pad((string)$answersCountInt,(strlen($answersCountInt)>4)?strlen($answersCountInt):4, '0',STR_PAD_LEFT);
+                                $answersCount = str_pad((string)$answersCountInt, (strlen($answersCountInt)>4)?strlen($answersCountInt):4, '0', STR_PAD_LEFT);
                                 $numbers = str_split($answersCount);
                                 
-                                $karmaCount = str_pad((string)$model->karma, (strlen($model->karma)>3)?strlen($model->karma):3, '0',STR_PAD_LEFT);;
+                                $karmaCount = str_pad((string)$model->karma, (strlen($model->karma)>3)?strlen($model->karma):3, '0', STR_PAD_LEFT);;
                                 $numbersKarma = str_split($karmaCount);
                             ?>
                             
                             <p class="kpi-counter">
-                                <?php foreach($numbers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
+                                <?php foreach ($numbers as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
                             </p>
                                 
                         </div>
                         <div class="col-sm-6 col-xs-6 center-align">
                             <p><abbr title="Количество благодарностей за полезный ответ">Карма</abbr></p>
                             <p class="kpi-counter">
-                                <?php foreach($numbersKarma as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
+                                <?php foreach ($numbersKarma as $num):?><span><?php echo $num;?></span><?php endforeach;?><br />
                             </p>
                         </div>
                     </div>
@@ -78,7 +78,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     
                     
                     
-                    <?php if($model->settings->description):?>
+                    <?php if ($model->settings->description):?>
                     <div class='flat-panel inside vert-margin20'>
                         <h3 class="left-align">О себе</h3>
                         <p><?php echo CHtml::encode($model->settings->description);?></p>
@@ -93,7 +93,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         <strong>Город:</strong> <?php echo $model->town->name;?>
                     </p>
                     
-                    <?php if($model->settings->phoneVisible):?>
+                    <?php if ($model->settings->phoneVisible):?>
                     <p>
                         <span class="hidden-block-container">
                             <strong>Телефон:</strong> 
@@ -107,7 +107,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     </p> 
                     <?php endif;?>
                     
-                    <?php if($model->settings->emailVisible):?>
+                    <?php if ($model->settings->emailVisible):?>
                     <p>
                         <span class="hidden-block-container">
                         <strong>Email:</strong> 
@@ -121,7 +121,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     </p>
                     <?php endif;?>
                     
-                    <?php if($model->settings->site):?>
+                    <?php if ($model->settings->site):?>
                     <p>
                         <strong>Сайт:</strong> <?php echo CHtml::link(CHtml::encode($model->settings->site), $model->settings->site, array('target'=>'_blank'));?>
                     </p>
@@ -129,19 +129,27 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                    
                     </div>
                     
-                    <?php if($model->settings->education):?>
+                    <?php if ($model->settings->education):?>
                     <div class='flat-panel inside vert-margin20'>
                         <h3 class="left-align">Образование</h3> 
                         <p>
-                            <?php if($model->settings->education) echo $model->settings->education . ', ';?>
-                            <?php if($model->settings->vuz) echo 'ВУЗ: ' . $model->settings->vuz . ', ';?>
-                            <?php if($model->settings->vuzTownId) echo '(' . $model->settings->vuzTown->name . '), ';?>
-                            <?php if($model->settings->educationYear) echo 'год окончания: ' . $model->settings->educationYear . '.';?>
+                            <?php if ($model->settings->education) {
+                                echo $model->settings->education . ', ';
+                            }?>
+                            <?php if ($model->settings->vuz) {
+                                echo 'ВУЗ: ' . $model->settings->vuz . ', ';
+                            }?>
+                            <?php if ($model->settings->vuzTownId) {
+                                echo '(' . $model->settings->vuzTown->name . '), ';
+                            }?>
+                            <?php if ($model->settings->educationYear) {
+                                echo 'год окончания: ' . $model->settings->educationYear . '.';
+                            }?>
                         </p>
                     </div> 
                     <?php endif;?>
                     
-                    <?php if($model->categories):?>
+                    <?php if ($model->categories):?>
                         <div class='flat-panel inside vert-margin20'>
                             <h3 class="left-align">Специализации</h3>
 
@@ -152,13 +160,13 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     <?php endif;?>
                     
                     
-                    <?php if($model->settings->priceConsult  > 0 || $model->settings->priceDoc  > 0):?>
+                    <?php if ($model->settings->priceConsult  > 0 || $model->settings->priceDoc  > 0):?>
                         <div class='flat-panel inside vert-margin20'>
                             <h3 class="left-align">Платные услуги</h3>
-                            <?php if($model->settings->priceConsult  > 0):?>
+                            <?php if ($model->settings->priceConsult  > 0):?>
                                 <p>Консультация от <?php echo MoneyFormat::rubles($model->settings->priceConsult);?> руб.</p>
                             <?php endif;?>
-                            <?php if($model->settings->priceDoc  > 0):?>
+                            <?php if ($model->settings->priceDoc  > 0):?>
                                 <p>Составление документа от <?php echo MoneyFormat::rubles($model->settings->priceDoc);?> руб.</p>
                             <?php endif;?>
                         </div>
@@ -172,18 +180,18 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 
 <div class="vert-margin30 flat-panel inside">
-<?php if(sizeof($questions)):?>        
+<?php if (sizeof($questions)):?>        
 <h2 class="header-block-light-grey">Последние ответы юриста</h2>
 <?php endif;?>
         
-<?php foreach($questions as $question):?>
-    <div class="row question-list-item <?php if($question['payed'] == 1):?> vip-question<?endif;?>">
+<?php foreach ($questions as $question):?>
+    <div class="row question-list-item <?php if ($question['payed'] == 1):?> vip-question<?endif;?>">
         <div class="col-sm-12">
             <p style="font-size:1.1em;">
 			<small>
-                <?php if($question['payed'] == 1){
-                    echo "<span class='label label-primary'><abbr title='Вопрос с гарантией получения ответов'>VIP</abbr></span>";
-                }
+                <?php if ($question['payed'] == 1) {
+                                echo "<span class='label label-primary'><abbr title='Вопрос с гарантией получения ответов'>VIP</abbr></span>";
+                            }
                 ?>
                 <?php echo CHtml::link(CHtml::encode(CustomFuncs::mb_ucfirst($question['title'])), Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?>
 			</small>

@@ -10,12 +10,12 @@ unset($statusesArray[0]);
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'user-status-request-form',
-	// Please note: When you enable ajax validation, make sure the corresponding
-	// controller action is handling ajax validation correctly.
-	// There is a call to performAjaxValidation() commented in generated controller code.
-	// See class documentation of CActiveForm for details on this.
-	'enableAjaxValidation'=>false,
+    'id'=>'user-status-request-form',
+    // Please note: When you enable ajax validation, make sure the corresponding
+    // controller action is handling ajax validation correctly.
+    // There is a call to performAjaxValidation() commented in generated controller code.
+    // See class documentation of CActiveForm for details on this.
+    'enableAjaxValidation'=>false,
         'htmlOptions'   =>  array(
             'enctype'   =>  'multipart/form-data',
         )
@@ -54,9 +54,9 @@ unset($statusesArray[0]);
             }*/
         })
     
-        $('#user-profile-<?php 
+        $('#user-profile-<?php
 
-        switch($model->status) {
+        switch ($model->status) {
             case YuristSettings::STATUS_YURIST:
                 echo 'yurist';
                 break;
@@ -69,7 +69,7 @@ unset($statusesArray[0]);
 
         }
         ?>').show();
-        <?php if(sizeof($model->errors)):?>                    
+        <?php if (sizeof($model->errors)):?>                    
             $('#form-submit').show();
         <?php endif;?>
     })
@@ -81,12 +81,16 @@ unset($statusesArray[0]);
 
         <div class="vert-margin20">
             <div class='row'>
-            <?php foreach($statusesArray as $statusCode=>$statusName):?>
+            <?php foreach ($statusesArray as $statusCode=>$statusName):?>
                 <div class='col-md-4 radio-block'>
                 <label>
-                    <input type="radio" name="UserStatusRequest[status]" value="<?php echo $statusCode;?>" <?php if($statusCode == $currentUser->settings->status) echo 'disabled'; ?> <?php if($statusCode == $model->status) echo "checked";?> /> <?php echo $statusName; ?>
+                    <input type="radio" name="UserStatusRequest[status]" value="<?php echo $statusCode;?>" <?php if ($statusCode == $currentUser->settings->status) {
+            echo 'disabled';
+        } ?> <?php if ($statusCode == $model->status) {
+            echo "checked";
+        }?> /> <?php echo $statusName; ?>
                 </label>
-                    <?php if($statusCode == $currentUser->settings->status): ?>
+                    <?php if ($statusCode == $currentUser->settings->status): ?>
                     <small class="text-muted">(текущий)</small>
                     <?php endif;?>
                 </div>
@@ -108,24 +112,24 @@ unset($statusesArray[0]);
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                                <?php echo $form->labelEx($model,'vuz'); ?>
-                                <?php echo $form->textField($model,'vuz', array('class'=>'form-control')); ?>
-                                <?php echo $form->error($model,'vuz'); ?>
+                                <?php echo $form->labelEx($model, 'vuz'); ?>
+                                <?php echo $form->textField($model, 'vuz', array('class'=>'form-control')); ?>
+                                <?php echo $form->error($model, 'vuz'); ?>
                         </div>
                         <div class="form-group">
-                                <?php echo $form->labelEx($model,'facultet'); ?>
-                                <?php echo $form->textField($model,'facultet', array('class'=>'form-control')); ?>
-                                <?php echo $form->error($model,'facultet'); ?>
+                                <?php echo $form->labelEx($model, 'facultet'); ?>
+                                <?php echo $form->textField($model, 'facultet', array('class'=>'form-control')); ?>
+                                <?php echo $form->error($model, 'facultet'); ?>
                         </div>
                         <div class="form-group">
-                                <?php echo $form->labelEx($model,'education'); ?>
-                                <?php echo $form->textField($model,'education', array('class'=>'form-control')); ?>
-                                <?php echo $form->error($model,'education'); ?>
+                                <?php echo $form->labelEx($model, 'education'); ?>
+                                <?php echo $form->textField($model, 'education', array('class'=>'form-control')); ?>
+                                <?php echo $form->error($model, 'education'); ?>
                         </div>
                     </div>
                     <div class="col-md-6">
                             <div class="form-group">
-                                    <?php echo $form->labelEx($model,'vuzTownId'); ?>
+                                    <?php echo $form->labelEx($model, 'vuzTownId'); ?>
                                     <?php echo CHtml::textField('vuzTownId', ($model->vuzTown->name)?$model->vuzTown->name:'', array('id'=>'vuz-town-selector', 'class'=>'form-control')); ?>
                                     <?php
                                         echo $form->hiddenField($model, 'vuzTownId', array('id'=>'vuz-selected-town'));
@@ -134,9 +138,9 @@ unset($statusesArray[0]);
                     </div>    
                     <div class="col-md-6">    
                             <div class="form-group">
-                                    <?php echo $form->labelEx($model,'educationYear'); ?>
-                                    <?php echo $form->textField($model,'educationYear', array('class'=>'form-control')); ?>
-                                    <?php echo $form->error($model,'educationYear'); ?>
+                                    <?php echo $form->labelEx($model, 'educationYear'); ?>
+                                    <?php echo $form->textField($model, 'educationYear', array('class'=>'form-control')); ?>
+                                    <?php echo $form->error($model, 'educationYear'); ?>
                             </div>
                     </div>
 
@@ -145,9 +149,9 @@ unset($statusesArray[0]);
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <?php echo $form->labelEx($userFile,'userFile'); ?>
+                            <?php echo $form->labelEx($userFile, 'userFile'); ?>
                             <?php echo $form->fileField($userFile, 'userFile');?>
-                            <?php echo $form->error($userFile,'userFile'); ?>
+                            <?php echo $form->error($userFile, 'userFile'); ?>
                         </div>
                     </div>
                 </div>
@@ -160,24 +164,24 @@ unset($statusesArray[0]);
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                                <?php echo $form->labelEx($model,'advOrganisation'); ?>
-                                <?php echo $form->textField($model,'advOrganisation', array('class'=>'form-control')); ?>
-                                <?php echo $form->error($model,'advOrganisation'); ?>
+                                <?php echo $form->labelEx($model, 'advOrganisation'); ?>
+                                <?php echo $form->textField($model, 'advOrganisation', array('class'=>'form-control')); ?>
+                                <?php echo $form->error($model, 'advOrganisation'); ?>
                         </div>
 
                     </div>
                     <div class="col-md-6">
                             <div class="form-group">
-                                <?php echo $form->labelEx($model,'advNumber'); ?>
-                                <?php echo $form->textField($model,'advNumber', array('class'=>'form-control')); ?>
-                                <?php echo $form->error($model,'advNumber'); ?>
+                                <?php echo $form->labelEx($model, 'advNumber'); ?>
+                                <?php echo $form->textField($model, 'advNumber', array('class'=>'form-control')); ?>
+                                <?php echo $form->error($model, 'advNumber'); ?>
                             </div>
                     </div>    
                     <div class="col-md-6">    
                             <div class="form-group">
-                                <?php echo $form->labelEx($model,'position'); ?>
-                                <?php echo $form->textField($model,'position', array('class'=>'form-control')); ?>
-                                <?php echo $form->error($model,'position'); ?>
+                                <?php echo $form->labelEx($model, 'position'); ?>
+                                <?php echo $form->textField($model, 'position', array('class'=>'form-control')); ?>
+                                <?php echo $form->error($model, 'position'); ?>
                             </div>
                     </div>
                 </div>
@@ -196,7 +200,7 @@ unset($statusesArray[0]);
             
             $submitButtonAttributes = ['id'=>'submitStatusRequest',  'class'=>'yellow-button'];
             
-            if(!$model->errors) {
+            if (!$model->errors) {
                 $submitButtonAttributes['disabled'] = 'disabled';
             }
             ?>

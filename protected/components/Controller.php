@@ -1,10 +1,11 @@
 <?php
 
 /**
- * Кастомизированный класс контроллера. 
+ * Кастомизированный класс контроллера.
  * Все контроллеры в приложении должны наследоваться от него
  */
-class Controller extends CController {
+class Controller extends CController
+{
 
     /**
      * Шаблон по умолчанию
@@ -27,8 +28,8 @@ class Controller extends CController {
      * Функция вызывается перед вызовом любого контроллера
      * @return boolean
      */
-    public function init() {
-
+    public function init()
+    {
         header('X-Frame-Options: DENY');
         Yii::setPathOfAlias('YurcrmClient', Yii::getPathOfAlias('application.vendor.yurcrm.yurcrm-client.src'));
 
@@ -77,7 +78,6 @@ class Controller extends CController {
             if ($refUser) {
                 Yii::app()->user->setState('ref', $refUser['id']);
             }
-            
         }
         
         // проверка, сохранен ли в сессии пользователя ID его города
@@ -108,19 +108,21 @@ class Controller extends CController {
     /**
      * Добавляет заголовок Last-modified
      */
-    protected function lastModified() {
+    protected function lastModified()
+    {
         $LastModified_unix = time() - 86400; // время последнего изменения страницы
         $LastModified = gmdate("D, d M Y H:i:s \G\M\T", $LastModified_unix);
         $IfModifiedSince = false;
-        if (isset($_ENV['HTTP_IF_MODIFIED_SINCE']))
+        if (isset($_ENV['HTTP_IF_MODIFIED_SINCE'])) {
             $IfModifiedSince = strtotime(substr($_ENV['HTTP_IF_MODIFIED_SINCE'], 5));
-        if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
+        }
+        if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
             $IfModifiedSince = strtotime(substr($_SERVER['HTTP_IF_MODIFIED_SINCE'], 5));
+        }
         if ($IfModifiedSince && $IfModifiedSince >= $LastModified_unix) {
             header($_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified');
             Yii::app()->end();
         }
         header('Last-Modified: ' . $LastModified);
     }
-
 }

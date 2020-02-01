@@ -9,10 +9,12 @@ $html = file_get_html('google.htm');
 
 $lang = '';
 $l=$html->find('html', 0);
-if ($l!==null)
+if ($l!==null) {
     $lang = $l->lang;
-if ($lang!='')
+}
+if ($lang!='') {
     $lang = 'lang="'.$lang.'"';
+}
 
 $charset = $html->find('meta[http-equiv*=content-type]', 0);
 $target = array();
@@ -23,24 +25,30 @@ if (isset($_REQUEST['query'])) {
     $target = $html->find($query);
 }
 
-function stat_dom($dom) {
+function stat_dom($dom)
+{
     $count_text = 0;
     $count_comm = 0;
     $count_elem = 0;
     $count_tag_end = 0;
     $count_unknown = 0;
     
-    foreach($dom->nodes as $n) {
-        if ($n->nodetype==HDOM_TYPE_TEXT)
+    foreach ($dom->nodes as $n) {
+        if ($n->nodetype==HDOM_TYPE_TEXT) {
             ++$count_text;
-        if ($n->nodetype==HDOM_TYPE_COMMENT)
+        }
+        if ($n->nodetype==HDOM_TYPE_COMMENT) {
             ++$count_comm;
-        if ($n->nodetype==HDOM_TYPE_ELEMENT)
+        }
+        if ($n->nodetype==HDOM_TYPE_ELEMENT) {
             ++$count_elem;
-        if ($n->nodetype==HDOM_TYPE_ENDTAG)
+        }
+        if ($n->nodetype==HDOM_TYPE_ENDTAG) {
             ++$count_tag_end;
-        if ($n->nodetype==HDOM_TYPE_UNKNOWN)
+        }
+        if ($n->nodetype==HDOM_TYPE_UNKNOWN) {
             ++$count_unknown;
+        }
     }
     
     echo 'Total: '. count($dom->nodes).
@@ -51,21 +59,22 @@ function stat_dom($dom) {
         ', Unknown: '.$count_unknown;
 }
 
-function dump_my_html_tree($node, $show_attr=true, $deep=0, $last=true) {
+function dump_my_html_tree($node, $show_attr=true, $deep=0, $last=true)
+{
     $count = count($node->nodes);
     if ($count>0) {
-        if($last)
+        if ($last) {
             echo '<li class="expandable lastExpandable"><div class="hitarea expandable-hitarea lastExpandable-hitarea"></div>&lt;<span class="tag">'.htmlspecialchars($node->tag).'</span>';
-        else
+        } else {
             echo '<li class="expandable"><div class="hitarea expandable-hitarea"></div>&lt;<span class="tag">'.htmlspecialchars($node->tag).'</span>';
-    }
-    else {
+        }
+    } else {
         $laststr = ($last===false) ? '' : ' class="last"';
         echo '<li'.$laststr.'>&lt;<span class="tag">'.htmlspecialchars($node->tag).'</span>';
     }
 
     if ($show_attr) {
-        foreach($node->attr as $k=>$v) {
+        foreach ($node->attr as $k=>$v) {
             echo ' '.htmlspecialchars($k).'="<span class="attr">'.htmlspecialchars($node->$k).'</span>"';
         }
     }
@@ -76,14 +85,17 @@ function dump_my_html_tree($node, $show_attr=true, $deep=0, $last=true) {
         return;
     }
 
-    if ($count>0) echo "\n<ul style=\"display: none;\">\n";
+    if ($count>0) {
+        echo "\n<ul style=\"display: none;\">\n";
+    }
     $i=0;
-    foreach($node->nodes as $c) {
+    foreach ($node->nodes as $c) {
         $last = (++$i==$count) ? true : false;
         dump_my_html_tree($c, $show_attr, $deep+1, $last);
     }
-    if ($count>0)
+    if ($count>0) {
         echo "</ul>\n";
+    }
 
     //if ($count>0) echo '&lt;/<span class="attr">'.htmlspecialchars($node->tag).'</span>&gt;';
     echo "</li>\n";
@@ -93,13 +105,14 @@ function dump_my_html_tree($node, $show_attr=true, $deep=0, $last=true) {
 
 <html <?=$lang?>>
 <head>
-    <?
-        if ($lang!='')
+    <?php
+        if ($lang!='') {
             echo '<meta http-equiv="content-type" content="text/html; charset=utf-8"/>';
-        else if ($charset)
+        } elseif ($charset) {
             echo $charset;
-        else 
+        } else {
             echo '<meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>';
+        }
     ?>
 	<title>Simple HTML DOM Query Test</title>
 	<link rel="stylesheet" href="js/jquery.treeview.css" />
@@ -132,10 +145,11 @@ function dump_my_html_tree($node, $show_attr=true, $deep=0, $last=true) {
     <br>
 	<div id="sidetreecontrol"><a href="?#">Collapse All</a> | <a href="?#">Expand All</a></div><br>
 	<ul class="treeview" id="html_tree">
-	    <?
+	    <?php
             ob_start();
-            foreach($target as $e)
+            foreach ($target as $e) {
                 dump_my_html_tree($e, true);
+            }
             ob_end_flush();
         ?>
 	</ul>

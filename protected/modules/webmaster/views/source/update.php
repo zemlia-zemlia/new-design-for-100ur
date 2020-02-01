@@ -6,13 +6,13 @@ $this->pageTitle = "Редактирование источника контак
 
 
 $this->breadcrumbs=array(
-	'Источники контактов'=>array('index'),
-	$model->name=>array('view','id'=>$model->id),
-	'Редактирование',
+    'Источники контактов'=>array('index'),
+    $model->name=>array('view','id'=>$model->id),
+    'Редактирование',
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 юристов',"/"),
+    'homeLink'=>CHtml::link('100 юристов', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));

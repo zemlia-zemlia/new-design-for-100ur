@@ -4,10 +4,12 @@
 $leadsSentPercent = ($data->leadsDayLimit>0)?($data->leadsTodayCount/$data->leadsDayLimit)*100:0;
 ?>
 
-<tr <?php if($data->active==0){echo 'class="active"';}?>>
+<tr <?php if ($data->active==0) {
+    echo 'class="active"';
+}?>>
     <td>
         <?php echo CHtml::link($data->id, Yii::app()->createUrl('/cabinet/campaign', array('id'=>$data->id)));?>
-        <?php if($data->active==0):?>
+        <?php if ($data->active==0):?>
         <br /><small><span class='label label-default'>неакт</span></small>
         <?php endif;?>
     </td>

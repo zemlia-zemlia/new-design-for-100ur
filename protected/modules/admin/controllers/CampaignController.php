@@ -55,7 +55,7 @@ class CampaignController extends Controller
         $model = Campaign::model()->with('transactions')->findByPk($id);
         $transactionsDataProvider = new CArrayDataProvider($model->transactions);
 
-        $leadsStats = NULL;
+        $leadsStats = null;
 
         $leadSearchModel = new Lead;
         $leadSearchModel->scenario = 'search';
@@ -72,7 +72,9 @@ class CampaignController extends Controller
         $leadsCriteria = new CDbCriteria();
         $leadsCriteria->addColumnCondition(['campaignId' => $model->id]);
         $leadsCriteria->order = 'id DESC';
-        $leadsDataProvider = new CActiveDataProvider('Lead', [
+        $leadsDataProvider = new CActiveDataProvider(
+            'Lead',
+            [
                 'criteria' => $leadsCriteria,
             ]
         );
@@ -182,8 +184,9 @@ class CampaignController extends Controller
         $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
+        if (!isset($_GET['ajax'])) {
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+        }
     }
 
     /**
@@ -322,7 +325,7 @@ class CampaignController extends Controller
         /* теперь нужно вытащить данные по маржинальности кампаний за последние 5 дней.
          * найдем лиды, отправленные в найденные кампании за последние 5 дней, вытащим суммы их цен покупки и продажи
          * цена покупки - для всех лидов, цена продажи - для лидов в статусе Отправлен
-         * 
+         *
          *  SELECT campaignId, leadStatus, SUM(buyPrice), SUM(price)  FROM 100_lead100
          *  WHERE deliveryTime > NOW()-INTERVAL 5 DAY
          *  GROUP BY campaignId, leadStatus
@@ -358,8 +361,9 @@ class CampaignController extends Controller
     {
         $model = new Campaign('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Campaign']))
+        if (isset($_GET['Campaign'])) {
             $model->attributes = $_GET['Campaign'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
@@ -376,8 +380,9 @@ class CampaignController extends Controller
     public function loadModel($id)
     {
         $model = Campaign::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 

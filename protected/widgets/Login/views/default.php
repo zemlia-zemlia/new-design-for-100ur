@@ -1,4 +1,4 @@
-<?php if(Yii::app()->user->isGuest):?>
+<?php if (Yii::app()->user->isGuest):?>
 
 
         <?php $form=$this->beginWidget('CActiveForm', array(
@@ -12,8 +12,10 @@
 
         )); ?>
 
-        <?
-            if(!isset($model)) $model=new LoginForm;
+        <?php
+            if (!isset($model)) {
+                $model=new LoginForm;
+            }
         ?>
 
         <h3 class="header-block header-block-light-grey header-icon-user">Вход на сайт</h3>
@@ -22,27 +24,27 @@
         <div class="inside">
             <div class="form-group">
 
-                <?php echo $form->textField($model,'email', array('class'=>'form-control input-sm','placeholder'=>$model->getAttributeLabel('email'))); ?>
+                <?php echo $form->textField($model, 'email', array('class'=>'form-control input-sm','placeholder'=>$model->getAttributeLabel('email'))); ?>
 
-                <?php echo $form->error($model,'email'); ?>
+                <?php echo $form->error($model, 'email'); ?>
             </div>
 
 
 
             <div class="form-group">
 
-                <?php echo $form->passwordField($model,'password', array('class'=>'form-control input-sm','placeholder'=>$model->getAttributeLabel('password'))); ?>
+                <?php echo $form->passwordField($model, 'password', array('class'=>'form-control input-sm','placeholder'=>$model->getAttributeLabel('password'))); ?>
 
-                <?php echo $form->error($model,'password'); ?>
+                <?php echo $form->error($model, 'password'); ?>
             </div>
 
             <div class="form-group">
 				<div class="col-md-6">
-					<?php echo $form->checkBox($model,'rememberMe'); ?>
+					<?php echo $form->checkBox($model, 'rememberMe'); ?>
 
 					<?php echo $model->getAttributeLabel('rememberMe');?>
 
-					<?php echo $form->error($model,'rememberMe'); ?>
+					<?php echo $form->error($model, 'rememberMe'); ?>
 				</div>
 				<div class="col-md-6 small">
 					<p>
@@ -53,7 +55,7 @@
             
             <div class="row">
                 <div class="col-md-12">
-                    <p><?php echo CHtml::submitButton('Войти',array('class'=>'button button-blue-gradient btn-block text-uppercase')); ?></p>
+                    <p><?php echo CHtml::submitButton('Войти', array('class'=>'button button-blue-gradient btn-block text-uppercase')); ?></p>
                 </div>
                 
                 <div class="col-md-12">
@@ -81,12 +83,12 @@
                         </div>
                         
 
-                        <?php if(Yii::app()->user->role == User::ROLE_BUYER || Yii::app()->user->role == User::ROLE_PARTNER):?>
+                        <?php if (Yii::app()->user->role == User::ROLE_BUYER || Yii::app()->user->role == User::ROLE_PARTNER):?>
                             <small>
                                 <div>
-                                    <?php 
+                                    <?php
                                         // найдем баланс пользователя. если это не вебмастер:
-                                        if(Yii::app()->user->role != User::ROLE_PARTNER) {
+                                        if (Yii::app()->user->role != User::ROLE_PARTNER) {
                                             $balance = Yii::app()->user->balance;
                                             $transactionPage = '/cabinet/transactions';
                                         } else {

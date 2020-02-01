@@ -7,7 +7,7 @@
 
 <div class="category-post">
     
-    <?php if($data->photo):?>
+    <?php if ($data->photo):?>
     <div>
     <img src="<?php echo $data->getPhotoUrl('thumb');?>" alt="" style="float:left; margin-right:20px;" />
     </div>
@@ -16,7 +16,7 @@
     <div class="category-post-header">
         
         <h3>
-            <?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('/admin/post/view',array('id'=>$data->id)));?>
+            <?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('/admin/post/view', array('id'=>$data->id)));?>
         </h3>
     </div>
     
@@ -26,7 +26,7 @@
             <?php
                 // очищаем текст поста от ненужных тегов перед выводом в браузер
                 $purifier = new Purifier();
-                echo $purifier->purify($data->preview); 
+                echo $purifier->purify($data->preview);
             ?>
         </div>
         
@@ -39,10 +39,10 @@
 			<?php echo $data->author->name;?>
             <span class="muted"><?php echo CustomFuncs::invertDate($data->datePublication);?></span>
             
-            <?php 
+            <?php
                 $now = time();
                 $pubTime = strtotime($data->datePublication);
-                if($pubTime > $now) {
+                if ($pubTime > $now) {
                     echo "<span class='label label-warning'>Отложенная публикация</span>";
                 }
            

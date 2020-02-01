@@ -3,18 +3,18 @@
 /* @var $model User */
 
 $this->breadcrumbs=array(
-	'Регистрация',
+    'Регистрация',
 );
 
 $title = "Регистрация нового ";
 
-if($model->role == User::ROLE_CLIENT) {
+if ($model->role == User::ROLE_CLIENT) {
     $title .= "клиента";
-} else if($model->role == User::ROLE_JURIST) {
+} elseif ($model->role == User::ROLE_JURIST) {
     $title .= "юриста";
-} else if($model->role == User::ROLE_BUYER) {
+} elseif ($model->role == User::ROLE_BUYER) {
     $title .= "покупателя лидов";
-} else if($model->role == User::ROLE_PARTNER) {
+} elseif ($model->role == User::ROLE_PARTNER) {
     $title .= "вебмастера";
 } else {
     $title .= "клиента";
@@ -23,7 +23,7 @@ if($model->role == User::ROLE_CLIENT) {
 $this->setPageTitle($title . '. ' . Yii::app()->name);
         
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 Юристов',"/"),
+    'homeLink'=>CHtml::link('100 Юристов', "/"),
     'separator'=>' / ',
     'links'=>$this->breadcrumbs,
  ));

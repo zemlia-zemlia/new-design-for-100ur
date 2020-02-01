@@ -24,7 +24,7 @@ switch ($data->leadStatus) {
     case Lead::LEAD_STATUS_DUPLICATE:
         $statusClass = 'label-warning';
         break;
-    default :
+    default:
         $statusClass = 'label-default';
 }
 ?>
@@ -42,7 +42,7 @@ switch ($data->leadStatus) {
                 <?php echo $data->getLeadStatusName();?>
             </span>
             <br/>
-            <?php if($data->buyPrice>0 && $data->leadStatus != Lead::LEAD_STATUS_BRAK):?>
+            <?php if ($data->buyPrice>0 && $data->leadStatus != Lead::LEAD_STATUS_BRAK):?>
                 <?php echo MoneyFormat::rubles($data->buyPrice);?> руб.
             <?php endif;?>
         </small>
@@ -51,14 +51,14 @@ switch ($data->leadStatus) {
 
             
 		<p style="border-bottom: #ded9d9 1px solid; ">
-            <?php if($data->townId):?>
+            <?php if ($data->townId):?>
                 <span class="glyphicon glyphicon-map-marker"></span>
                 <?php echo CHtml::encode($data->town->name); ?> (<?php echo CHtml::encode($data->town->region->name); ?>)
                 
-                <?php 
+                <?php
                     $distanceFromCapital = $data->town->region->getRangeFromCenter($data->town->lat, $data->town->lng);
                 ?>
-                <?php if($distanceFromCapital >=0):?>
+                <?php if ($distanceFromCapital >=0):?>
                 <span class="label label-default"><abbr title="Расстояние от центра региона"><?php echo $distanceFromCapital;?>  км.</abbr></span>
                 <?php endif;?>
                 
@@ -66,11 +66,11 @@ switch ($data->leadStatus) {
             <?php endif;?>
             &nbsp;
             
-            <?php if($data->phone && !(Yii::app()->user->role == User::ROLE_JURIST && $data->employeeId != Yii::app()->user->id)):?>
+            <?php if ($data->phone && !(Yii::app()->user->role == User::ROLE_JURIST && $data->employeeId != Yii::app()->user->id)):?>
                 <span class="glyphicon glyphicon-earphone"></span>
                 <?php echo CHtml::encode($data->phone); ?> &nbsp;
             <?php endif;?>
-            <?php if($data->email):?>
+            <?php if ($data->email):?>
                 <span class="glyphicon glyphicon-envelope"></span>
                 <?php echo CHtml::encode($data->email); ?>  &nbsp;    
             <?php endif;?>
@@ -83,7 +83,7 @@ switch ($data->leadStatus) {
             <?php echo nl2br(CHtml::encode($data->question)); ?>
         </p>
         
-        <?php if($data->brakReason):?>
+        <?php if ($data->brakReason):?>
         <p>
             <strong>Причина отбраковки:</strong>
             <?php echo CHtml::encode($data->getReasonName());?>

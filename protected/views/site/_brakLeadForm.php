@@ -1,6 +1,6 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'brak-lead-form',
-	'enableAjaxValidation'=>false,
+    'id'=>'brak-lead-form',
+    'enableAjaxValidation'=>false,
 )); ?>
 
 <script type="text/javascript">
@@ -22,17 +22,17 @@
 </script>
 
 <div class="form-group">
-    <?php echo $form->labelEx($lead,'brakReason'); ?><br />
-    <?php echo $form->radioButtonList($lead,'brakReason', Lead::getBrakReasonsArray(), array(
-            'class' =>  '', 
+    <?php echo $form->labelEx($lead, 'brakReason'); ?><br />
+    <?php echo $form->radioButtonList($lead, 'brakReason', Lead::getBrakReasonsArray(), array(
+            'class' =>  '',
     )); ?>
-    <?php echo $form->error($lead,'brakReason'); ?>
+    <?php echo $form->error($lead, 'brakReason'); ?>
 </div>
 
-<div class="form-group" id="lead-region" <?php if($model->brakReason != Lead::BRAK_REASON_BAD_REGION):?> style="display:none"<?php endif;?>>
-    <?php echo $form->labelEx($lead,'Укажите реальный город клиента'); ?>
+<div class="form-group" id="lead-region" <?php if ($model->brakReason != Lead::BRAK_REASON_BAD_REGION):?> style="display:none"<?php endif;?>>
+    <?php echo $form->labelEx($lead, 'Укажите реальный город клиента'); ?>
     <?php echo CHtml::textField('town', '', array(
-                    'id'            =>  'town-selector', 
+                    'id'            =>  'town-selector',
                     'class'         =>  'form-control',
     )); ?>
     <?php
@@ -41,12 +41,12 @@
 </div>
 
 <div class="form-group">
-    <?php echo $form->labelEx($lead,'brakComment'); ?><br />
-    <?php echo $form->textArea($lead,'brakComment', array(
+    <?php echo $form->labelEx($lead, 'brakComment'); ?><br />
+    <?php echo $form->textArea($lead, 'brakComment', array(
             'class' =>  'form-control',
             'rows'  =>  3,
     )); ?>
-    <?php echo $form->error($lead,'brakComment'); ?>
+    <?php echo $form->error($lead, 'brakComment'); ?>
 </div>
 
 <div class="form-group">

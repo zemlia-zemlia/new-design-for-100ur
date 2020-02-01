@@ -1,6 +1,6 @@
 <?php
 /*
- * собирает лиды из писем, расположенных в почтовом ящике admin@100yuristov.com 
+ * собирает лиды из писем, расположенных в почтовом ящике admin@100yuristov.com
  */
 class GetLeadsFrom140Command extends CConsoleCommand
 {
@@ -16,7 +16,7 @@ class GetLeadsFrom140Command extends CConsoleCommand
     
     protected $defaultTownId = 598; // по умолчанию все лиды в этой папке из Москвы
 
-     // возвращает массив мейлов из заданной папки на сервере
+    // возвращает массив мейлов из заданной папки на сервере
     protected function getEmailsFromFolder($folderName)
     {
         // параметры подключения к почтовому ящику с заявками
@@ -27,37 +27,37 @@ class GetLeadsFrom140Command extends CConsoleCommand
         $param       = Yii::app()->params['mailBoxYurcrmParam'];
         $folder      = 'INBOX/' . $folderName;
         
-        if(!$mbox = imap_open("{"."{$host}:{$port}{$param}"."}$folder",$login,$pass)){
-            die("Couldn't open the inbox");   
+        if (!$mbox = imap_open("{"."{$host}:{$port}{$param}"."}$folder", $login, $pass)) {
+            die("Couldn't open the inbox");
         };
                
         //извлекаем письма из папки в ящике
-        $emails = imap_search($mbox, 'ALL SINCE '. date('d-M-Y',strtotime("-1 day")));
+        $emails = imap_search($mbox, 'ALL SINCE '. date('d-M-Y', strtotime("-1 day")));
         //var_dump($emails);
-        if($emails == false && imap_errors()) {
+        if ($emails == false && imap_errors()) {
             echo "Messages search wrong criteria";
             Yii::app()->end();
         }
         
-        if (!count($emails) || $emails == false){
-                return array();
-            } else {
-                print_r($emails);
-                // If we've got some email IDs, sort them from new to old and show them
-                rsort($emails);
+        if (!count($emails) || $emails == false) {
+            return array();
+        } else {
+            print_r($emails);
+            // If we've got some email IDs, sort them from new to old and show them
+            rsort($emails);
 
-                $emailBody = array();
+            $emailBody = array();
 
-                foreach($emails as $email_id) {
-                        // Fetch the email's overview and show subject, from and date. 
-                        $overview = imap_fetch_overview($mbox,$email_id,0);  
-                        $emailBody[] = imap_fetchbody($mbox,$email_id,"1"); // 1.1 - потому что письмо в формате Multipart
-                }
-
-                imap_close($mbox);
-
-                return $emailBody;
+            foreach ($emails as $email_id) {
+                // Fetch the email's overview and show subject, from and date.
+                $overview = imap_fetch_overview($mbox, $email_id, 0);
+                $emailBody[] = imap_fetchbody($mbox, $email_id, "1"); // 1.1 - потому что письмо в формате Multipart
             }
+
+            imap_close($mbox);
+
+            return $emailBody;
+        }
     }
     
     public function actionIndex()
@@ -66,9 +66,9 @@ class GetLeadsFrom140Command extends CConsoleCommand
         require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'simplehtmldom_1_5/simple_html_dom.php';
         
         // будем присваивать лидам источник id=24
-        //$leadSourceId = 24;        
+        //$leadSourceId = 24;
         // цена покупки лида
-        //$buyPrice = 30;    
+        //$buyPrice = 30;
         
         foreach ($this->folders as $folder) {
             $leadSourceIds[] = $folder['sourceId'];
@@ -81,13 +81,13 @@ class GetLeadsFrom140Command extends CConsoleCommand
         // массив, в котором будут храниться телефоны лидов, которые добавлены в базу за последний день, чтобы не добавить одного лида несколько раз
         $existingLeadsPhones = array();
         
-        foreach($existingLeads as $existingLead) {
+        foreach ($existingLeads as $existingLead) {
             $existingLeadsPhones[] = PhoneHelper::normalizePhone($existingLead['phone']);
         }
         //echo "existing leads numbers: ";
         //print_r($existingLeadsPhones);
         
-        foreach($this->folders as $folderAlias=>$folderSettings) {
+        foreach ($this->folders as $folderAlias=>$folderSettings) {
             
             //echo $folderAlias . "\n\r";
             
@@ -95,9 +95,8 @@ class GetLeadsFrom140Command extends CConsoleCommand
         
             //print_r($emails);
             //continue;
-			
-            foreach($emails as $email) {
-             
+            
+            foreach ($emails as $email) {
                 $bodyDecoded = quoted_printable_decode($email);
                 $bodyDecoded = str_replace("\n", "", $bodyDecoded);
                 //echo $bodyDecoded;
@@ -122,7 +121,7 @@ class GetLeadsFrom140Command extends CConsoleCommand
                 //echo "name: " . $name . PHP_EOL;
                 //echo "message: " . $message . PHP_EOL;
                 
-                if(in_array($phone, $existingLeadsPhones)) {
+                if (in_array($phone, $existingLeadsPhones)) {
                     continue;
                     // если лид с таким телефоном уже есть в базе, пропускаем его
                 }
@@ -138,16 +137,11 @@ class GetLeadsFrom140Command extends CConsoleCommand
                 $lead->townId = $this->defaultTownId;
                 $lead->leadStatus = Lead::LEAD_STATUS_DEFAULT;
 
-                if(!$lead->save()) {
+                if (!$lead->save()) {
                     //echo $lead->name;
                     //print_r($lead->errors);
                 }
-
-            }    
-        } 
- 
+            }
+        }
     }
-    
 }
-
-?>

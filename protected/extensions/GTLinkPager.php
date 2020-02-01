@@ -8,4 +8,3 @@ class GTLinkPager extends CLinkPager
     public $nextPageLabel = ">";
     public $prevPageLabel = "<";
 }
-?>

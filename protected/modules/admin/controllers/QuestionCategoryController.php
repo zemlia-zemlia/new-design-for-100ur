@@ -2,7 +2,6 @@
 
 class QuestionCategoryController extends Controller
 {
-
     public $layout = '//admin/main';
 
     /**
@@ -169,15 +168,13 @@ class QuestionCategoryController extends Controller
                 $attachmentFile->filename = $attachmentFile->createFileName($attachment);
                 $attachmentFileFolder = $attachmentFile->createFolderFromFileName();
 
-                if(!is_dir(Yii::getPathOfAlias('webroot') . $attachmentFileFolder)) {
+                if (!is_dir(Yii::getPathOfAlias('webroot') . $attachmentFileFolder)) {
                     @mkdir(Yii::getPathOfAlias('webroot') . $attachmentFileFolder, 0777, true);
                 }
 
                 if ($attachment->saveAs(Yii::getPathOfAlias('webroot') . $attachmentFileFolder . '/' . $attachmentFile->filename)) {
                     $attachmentFile->save();
                 }
-
-
             }
 
             if ($model->saveNode()) {
@@ -277,18 +274,17 @@ class QuestionCategoryController extends Controller
      */
     public function actionIndexHierarchy()
     {
-
         $criteria = new CDbCriteria;
         $criteria->order = 't.root, t.lft'; // or 't.root, t.lft' for multiple trees
         $categories = QuestionCategory::model()->findAll($criteria);
         $level = 0;
 
         foreach ($categories as $n => $category) {
-            if ($category->level == $level)
+            if ($category->level == $level) {
                 echo CHtml::closeTag('li') . "\n";
-            else if ($category->level > $level)
+            } elseif ($category->level > $level) {
                 echo CHtml::openTag('ul') . "\n";
-            else {
+            } else {
                 echo CHtml::closeTag('li') . "\n";
 
                 for ($i = $level - $category->level; $i; $i--) {
@@ -306,7 +302,6 @@ class QuestionCategoryController extends Controller
             echo CHtml::closeTag('li') . "\n";
             echo CHtml::closeTag('ul') . "\n";
         }
-
     }
 
     /**
@@ -316,8 +311,9 @@ class QuestionCategoryController extends Controller
     {
         $model = new QuestionCategory('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['QuestionCategory']))
+        if (isset($_GET['QuestionCategory'])) {
             $model->attributes = $_GET['QuestionCategory'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
@@ -344,7 +340,6 @@ class QuestionCategoryController extends Controller
                 }
             }
         }
-
     }
 
     public function actionAjaxGetList()
@@ -354,7 +349,7 @@ class QuestionCategoryController extends Controller
         $arr = array();
 
         $condition = "name LIKE '%" . $term . "%'";
-        $params = Array('limit' => 5);
+        $params = array('limit' => 5);
 
         $allCats = QuestionCategory::model()->cache(10000)->findAllByAttributes(array(), $condition, $params);
 
@@ -377,8 +372,9 @@ class QuestionCategoryController extends Controller
     public function loadModel($id)
     {
         $model = QuestionCategory::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 

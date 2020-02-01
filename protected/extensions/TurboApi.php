@@ -6,7 +6,6 @@
  */
 class TurboApi
 {
-
     const HOST_ADDRESS = 'https://100yuristov.com/';
     const API_VERSION = 'v3.2';
     const API_BASE_URL = 'https://api.webmaster.yandex.net';
@@ -201,7 +200,7 @@ class TurboApi
     private function sendRequest($method, $route, $headers = [], $data = null)
     {
         $url = $this->getApiURL() . $route;
-        if($this->getMode()) {
+        if ($this->getMode()) {
             $url .= '?mode=' . $this->getMode();
         }
 

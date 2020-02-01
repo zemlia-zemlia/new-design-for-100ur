@@ -14,7 +14,8 @@
  * @property integer $juristId
  * @property string $term
  */
-class Order extends CActiveRecord {
+class Order extends CActiveRecord
+{
     
     // Статусы заказа
     const STATUS_NEW = 0; // новый (черновик)
@@ -32,7 +33,8 @@ class Order extends CActiveRecord {
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return '{{order}}';
     }
 
@@ -47,7 +49,8 @@ class Order extends CActiveRecord {
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
@@ -64,7 +67,8 @@ class Order extends CActiveRecord {
     /**
      * @return array relational rules.
      */
-    public function relations() {
+    public function relations()
+    {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
@@ -81,7 +85,8 @@ class Order extends CActiveRecord {
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
             'id'            => 'ID',
             'status'        => 'Статус',
@@ -101,7 +106,8 @@ class Order extends CActiveRecord {
      * возвращает массив, ключами которого являются коды статусов, а значениями - названия статусов
      * @return Array массив статусов
      */
-    static public function getStatusesArray() {
+    public static function getStatusesArray()
+    {
         return array(
             self::STATUS_NEW                => 'новый (черновик)',
             self::STATUS_JURIST_SELECTED    => 'выбран юрист',
@@ -118,7 +124,8 @@ class Order extends CActiveRecord {
      * возвращает массив, ключами которого являются коды статусов, а значениями - описания статусов
      * @return Array массив статусов
      */
-    static public function getStatusesNotes() {
+    public static function getStatusesNotes()
+    {
         return array(
             self::STATUS_NEW                => '',
             self::STATUS_JURIST_SELECTED    => 'Пожалуйста, подождите, пока юрист подтвердит принятие заказа',
@@ -132,10 +139,11 @@ class Order extends CActiveRecord {
     
     /**
      * возвращает название статуса для объекта
-     * 
+     *
      * @return string название статуса
      */
-    public function getStatusName() {
+    public function getStatusName()
+    {
         $statusesArray = self::getStatusesArray();
         return $statusesArray[$this->status];
     }
@@ -152,7 +160,8 @@ class Order extends CActiveRecord {
      * @return CActiveDataProvider the data provider that can return the models
      * based on the search/filter conditions.
      */
-    public function search() {
+    public function search()
+    {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria;
@@ -176,7 +185,8 @@ class Order extends CActiveRecord {
      * @param string $className active record class name.
      * @return Order the static model class
      */
-    public static function model($className = __CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
     
@@ -192,7 +202,7 @@ class Order extends CActiveRecord {
                 ->from("{{order}}")
                 ->where("status=:status", [':status' => self::STATUS_CONFIRMED])
                 ->queryRow();
-        if($countRow && $countRow['counter']) {
+        if ($countRow && $countRow['counter']) {
             return $countRow['counter'];
         } else {
             return 0;
@@ -205,11 +215,11 @@ class Order extends CActiveRecord {
     public function sendJuristNotification()
     {
         $jurist = $this->jurist;
-        if(!$jurist) {
+        if (!$jurist) {
             return false;
         }
         
-        $orderLink = Yii::app()->createUrl('order/view',['id' => $this->id]);
+        $orderLink = Yii::app()->createUrl('order/view', ['id' => $this->id]);
         
         /*  проверим, есть ли у пользователя заполненное поле autologin, если нет,
          *  генерируем код для автоматического логина при переходе из письма
@@ -219,7 +229,7 @@ class Order extends CActiveRecord {
          */
         $autologinString = (isset($jurist->autologin) && $jurist->autologin != '') ? $jurist->autologin : $jurist->generateAutologinString();
 
-        if(!$jurist->autologin) {
+        if (!$jurist->autologin) {
             $jurist->autologin = $autologinString;
             if (!$jurist->save()) {
                 Yii::log("Не удалось сохранить строку autologin пользователю " . $jurist->email . " с уведомлением об отклике на заказ " . $this->id, 'error', 'system.web.User');
@@ -247,7 +257,6 @@ class Order extends CActiveRecord {
             Yii::log("Не удалось отправить письмо пользователю " . $jurist->email . " с уведомлением о назначении исполнителем заказа " . $this->id, 'error', 'system.web.User');
             return false;
         }
-        
     }
     
     /**
@@ -258,11 +267,10 @@ class Order extends CActiveRecord {
     {
         $this->status = self::STATUS_ARCHIVE;
         
-        if($this->save()) {
-            if($this->sendArchiveNotification()) {
+        if ($this->save()) {
+            if ($this->sendArchiveNotification()) {
                 return true;
             }
-            
         } else {
             Yii::log("Ошибка при архивации заказов документов #" . $this->id, 'error', 'system.web');
         }
@@ -290,10 +298,10 @@ class Order extends CActiveRecord {
          * если есть, вставляем существующее значение
          * это сделано, чтобы не создавать новую строку autologin при наличии старой
          * и дать возможность залогиниться из любого письма, содержащего актуальную строку autologin
-         */        
+         */
         $autologinString = (isset($client->autologin) && $client->autologin != '') ? $client->autologin : $client->generateAutologinString();
 
-        if(!$client->autologin) {
+        if (!$client->autologin) {
             $client->autologin = $autologinString;
             if (!$client->save()) {
                 Yii::log("Не удалось сохранить строку autologin пользователю " . $client->email . " с уведомлением об отклике на заказ " . $this->id, 'error', 'system.web.User');
@@ -306,7 +314,7 @@ class Order extends CActiveRecord {
         $mailer = new GTMail;
         $mailer->subject = CHtml::encode($client->name) . ", Ваш заказ документа отправлен в архив";
         $mailer->message = "<h1>Ваш заказ документа отправлен в архив</h1>
-            <p>Здравствуйте, " . CHtml::encode($client->name) . "<br /><br />" . 
+            <p>Здравствуйте, " . CHtml::encode($client->name) . "<br /><br />" .
                 CHtml::link("Ваш заказ", $questionLink) . " отправлен в архив, так как по нему не совершалось никаких действий несколько дней.</p>";
         
         $mailer->message .= "<p><strong>Помогите нам улучшить сервис</strong><br />"
@@ -328,7 +336,5 @@ class Order extends CActiveRecord {
             Yii::log("Не удалось отправить письмо пользователю " . $client->email . " с уведомлением об ответе на заказ " . $this->id, 'error', 'system.web.User');
             return false;
         }
-        
     }
-
 }

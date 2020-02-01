@@ -209,7 +209,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 ?>
 
                 <?php if ($response->status != Comment::STATUS_SPAM): ?>
-                    <div class="answer-comment order-response" style="margin-left:<?php echo ($response->level - 1) * 20; ?>px;">
+                    <div class="answer-comment order-response" style="margin-left:<?php echo($response->level - 1) * 20; ?>px;">
 
                         <div class="row">
                             <div class="col-sm-2 col-xs-4">
@@ -261,9 +261,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                 </p>
 
                                 <?php foreach ($response->comments as $comment): ?>
-                                    <div class="answer-comment" style="margin-left:<?php echo ($comment->level - 1) * 20; ?>px;">
+                                    <div class="answer-comment" style="margin-left:<?php echo($comment->level - 1) * 20; ?>px;">
 
-                                        <?php //CustomFuncs::printr($comment->children); ?>
+                                        <?php //CustomFuncs::printr($comment->children);?>
                                         <p> <strong><span class="glyphicon glyphicon-comment"></span> 
 
                                                 <?php echo CHtml::encode($comment->author->name . ' ' . $comment->author->lastName); ?>

@@ -182,7 +182,7 @@ class GTMail extends CApplicationComponent
      */
     protected function loadHeader(CController $controller)
     {
-        return $controller->renderInternal(Yii::getPathOfAlias('application.extensions.GTMail.templates.default') . '/header.php', NULL, true);
+        return $controller->renderInternal(Yii::getPathOfAlias('application.extensions.GTMail.templates.default') . '/header.php', null, true);
     }
 
     /**
@@ -201,7 +201,7 @@ class GTMail extends CApplicationComponent
      */
     protected function loadFooter(CController $controller)
     {
-        return $controller->renderInternal(Yii::getPathOfAlias('application.extensions.GTMail.templates.default') . '/footer.php', NULL, true);
+        return $controller->renderInternal(Yii::getPathOfAlias('application.extensions.GTMail.templates.default') . '/footer.php', null, true);
     }
 
     /**
