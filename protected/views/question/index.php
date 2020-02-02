@@ -16,7 +16,7 @@ Yii::app()->clientScript->registerMetaTag("Советы юристов по вс
 
 <div class="vert-margin40">
     <?php foreach ($questions as $question): ?>
-        <div class="row question-list-item  <?php if ($question->payed == 1): ?> vip-question<? endif; ?>">
+        <div class="row question-list-item  <?php if ($question->payed == 1): ?> vip-question<?php endif; ?>">
             <div class="col-sm-10 col-xs-8">
                 <p style="font-size:0.9em;">
                     <?php if ($question->payed == 1) {
@@ -37,7 +37,6 @@ Yii::app()->clientScript->registerMetaTag("Советы юристов по вс
                     } elseif ($question->answersCount == 0) {
                         echo "<span class='text-muted'>Нет ответа</span>";
                     }
-
                     ?>
                 </small>
             </div>

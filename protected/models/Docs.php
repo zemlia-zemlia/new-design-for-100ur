@@ -53,7 +53,7 @@ class Docs extends CActiveRecord
 		return array(
 			'file2categories' => array(self::HAS_MANY, 'File2Category', 'file_id'),
 			'file2objects' => array(self::HAS_MANY, 'File2Object', 'file_id'),
-            'categories' => array(self::HAS_MANY, 'File2Category', 'id', 'through' => 'file2categories'),
+            'categories' => array(self::HAS_MANY, 'FileCategory', 'id', 'through' => 'file2categories'),
 		);
 	}
 
