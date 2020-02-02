@@ -1,4 +1,4 @@
-<div class="row question-list-item  <?php if ($data->payed == 1):?> vip-question<?endif;?>">
+<div class="row question-list-item  <?php if($data->payed == 1):?> vip-question<?endif;?>">
     <div class="col-sm-10">
         <p style="font-size:0.9em;">
             <?php if ($data->payed == 1) {

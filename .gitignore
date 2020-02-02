@@ -21,3 +21,5 @@
 /protected/commands/output/*
 /protected/phinx.yml
 .php_cs.cache
+/framework/
+/protected/phinx.yml

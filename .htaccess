@@ -55,6 +55,7 @@ AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application
 
 #php_value error_reporting 7
 php_flag display_errors On
+php_flag short_open_tag On
 
 #redirect 301 /question/index/  /question/
 #redirect 301 /site/$ https://100yuristov.com/
