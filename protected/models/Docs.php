@@ -37,7 +37,7 @@ class Docs extends CActiveRecord
 			array('name, filename', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, filename, type, downloads_count', 'safe', 'on'=>'search'),
+			array('id, name, filename, type, downloads_count, description', 'safe'),
 		);
 	}
 

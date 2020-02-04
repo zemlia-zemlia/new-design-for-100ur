@@ -25,6 +25,11 @@
 		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255, 'class' => 'form-control')); ?>
 		<?php echo $form->error($model,'name'); ?>
 	</div>
+    <div class="row">
+        <?php echo $form->labelEx($model,'description'); ?>
+        <?php echo $form->textArea($model,'description'); ?>
+        <?php echo $form->error($model,'description'); ?>
+    </div>
 
 	<div class="row">
       <div class="form-group">

@@ -10,6 +10,7 @@
  * @property integer $rgt
  * @property integer $root
  * @property integer $level
+ * @property string $description
  *
  * The followings are the available model relations:
  * @property File2category[] $file2categories
@@ -37,7 +38,7 @@ class FileCategory extends CActiveRecord
 			array('name', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, lft, rgt, root, level', 'safe', 'on'=>'search'),
+			array('id, name, lft, rgt, root, level, description', 'safe'),
 		);
 	}
 
@@ -75,11 +76,12 @@ class FileCategory extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
+			'name' => 'Название',
 			'lft' => 'Lft',
 			'rgt' => 'Rgt',
 			'root' => 'Root',
 			'level' => 'Level',
+            'description' => 'Описание',
 		);
 	}
 

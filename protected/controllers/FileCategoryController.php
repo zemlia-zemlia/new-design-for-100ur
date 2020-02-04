@@ -60,7 +60,7 @@ class FileCategoryController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate($cat_id = 0)
+	public function actionCreate($id = 0)
 	{
 //        $category1=new Category;
 //        $category1->title='Ford';
@@ -84,9 +84,9 @@ class FileCategoryController extends Controller
 
 		if(isset($_POST['FileCategory']))
 		{
-		    if ($cat_id != 0) {
+		    if ($id != 0) {
                 $model->attributes = $_POST['FileCategory'];
-                $root = FileCategory::model()->findByPk($cat_id);
+                $root = FileCategory::model()->findByPk($id);
                 $model->appendTo($root);
             }
             else {
@@ -119,7 +119,8 @@ class FileCategoryController extends Controller
 		if(isset($_POST['FileCategory']))
 		{
 			$model->attributes=$_POST['FileCategory'];
-			if($model->save())
+
+			if($model->saveNode())
 				$this->redirect(array('view','id'=>$model->id));
 		}
 

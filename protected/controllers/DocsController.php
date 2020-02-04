@@ -89,7 +89,7 @@ class DocsController extends Controller
 //		));
 //	}
 
-    public function actionCreate($cat_id){
+    public function actionCreate($id){
         $model=new Docs;
         if(isset($_POST['Docs'])){
             $model->attributes=$_POST['Docs'];
@@ -104,7 +104,7 @@ class DocsController extends Controller
             $model->save();
             $category = new File2Category();
             $category->file_id = $model->id;
-            $category->category_id = $cat_id;
+            $category->category_id = $id;
 
             $category->save();
 //            var_dump($category->getErrors());die;
@@ -195,13 +195,23 @@ class DocsController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex($cat_id = 1)
+	public function actionIndex($id = 0)
 	{
-		$dataProvider=new CActiveDataProvider('Docs');
-		$category = FileCategory::model()->findByPk($cat_id);
+
+		if ($id != 0)
+		$category = FileCategory::model()->findByPk($id);
+		else $category = null;
+		if (!$category)
+		    $categories  = FileCategory::model()->roots()->findAll();
+		else
+		    $categories  = $category->children()->findAll();
+
+
+
 		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-            'category' => $category
+
+            'category' => $category,
+            'categories' => $categories
 		));
 	}
 
