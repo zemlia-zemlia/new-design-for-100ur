@@ -29,7 +29,7 @@ $this->menu=array(
 
 
 <h1>Файлы</h1>
-<a class="btn btn-primary" id="addFile" href="#">Загрузить в категорию (выберите категорию)</a>
+
 
 
 
