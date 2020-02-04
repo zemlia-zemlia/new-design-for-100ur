@@ -44,7 +44,7 @@ $this->menu=array(
 <div class="row">
     <div class="col-lg-12">
 
-        <a class="btn btn-warning"  id="addCategory" href="/fileCategory/create/?cat_id=0">Добавить корневую категорию</a>
+        <a class="btn btn-warning"  id="addCategory" href="/admin/file-category/create/?cat_id=0">Добавить корневую категорию</a>
     </div>
 </div>
 
