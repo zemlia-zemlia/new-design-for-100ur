@@ -46,7 +46,8 @@ class File2Object extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'file' => array(self::BELONGS_TO, 'Docs', 'file_id'),
+            'file' => array(self::BELONGS_TO, 'Docs', 'file_id'),
+            'object' => array(self::BELONGS_TO, 'QuestionCategory', 'object_id'),
 		);
 	}
 

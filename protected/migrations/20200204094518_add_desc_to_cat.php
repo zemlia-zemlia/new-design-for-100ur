@@ -2,7 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class AddDescToDCat extends AbstractMigration
+class AddDescToCat extends AbstractMigration
 {
 
     public function up()

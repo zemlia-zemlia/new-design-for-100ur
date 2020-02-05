@@ -17,6 +17,11 @@
  */
 class FileCategory extends CActiveRecord
 {
+    public function actionAttachFileToObject(){
+
+    }
+
+
 	/**
 	 * @return string the associated database table name
 	 */

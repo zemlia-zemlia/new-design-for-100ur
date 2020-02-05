@@ -213,4 +213,24 @@ class FileCategoryController extends Controller
 			Yii::app()->end();
 		}
 	}
+
+	public function actionCreateModalForObject($id = 0){
+        if ($id != 0)
+            $category = $this->loadModel($id);
+        else $category = null;
+        if (!$category)
+            $categories  = FileCategory::model()->roots()->findAll();
+        else
+            $categories  = $category->children()->findAll();
+
+
+
+        $this->renderPartial('index-files',array(
+
+            'category' => $category,
+            'categories' => $categories
+        ));
+
+
+    }
 }

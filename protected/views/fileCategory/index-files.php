@@ -36,7 +36,7 @@ $this->menu=array(
 
 
 <div id="categories">
-    <?php $this->renderPartial('/_table', ['categories' => $categories]); ?>
+    <?php $this->renderPartial('_table', ['categories' => $categories]); ?>
 
 
 </div>

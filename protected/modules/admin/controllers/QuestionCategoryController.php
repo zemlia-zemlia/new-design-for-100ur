@@ -127,6 +127,7 @@ class QuestionCategoryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
+//        var_dump($model->docs);die;
         $oldImagePath = $model->getImagePath();
 
         // Uncomment the following line if AJAX validation is needed

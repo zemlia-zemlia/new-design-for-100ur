@@ -55,6 +55,7 @@ class DocsController extends Controller
 			'model'=>$this->loadModel($id),
 		));
 	}
+
     public function actionCategory($id)
     {
         $category = FileCategory::model()->findByPk($id);
