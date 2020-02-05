@@ -2,12 +2,34 @@
 /* @var $this QuestionCategoryController */
 /* @var $model QuestionCategory */
 //Yii::app()->clientScript
-
-$js = <<<JS
+$urlToModal = Yii::app()->createUrl('fileCategory/createModalForObject/');
+$js = "var urlToModal = '$urlToModal';" ;
+$js .= <<<JS
+var catId = Number($('#catId').text());
+ urlToModal =  urlToModal + ((catId != 0) ? '?id=' + catId : '');
 $('#attachFile').on('click' , function() {
- $('#fileModal').modal('show');
- 
+  $.get(
+  urlToModal ,
+  function(msg) {
+    $('#fileModal #category').html(msg);
+    $('#fileModal').modal('show');
+  }
+);
 });
+$('#fileModal').on('click' , '.catLink',  function() {
+    var catId = Number($(this).attr('id'));
+     urlToModal =  urlToModal + ((catId != 0) ? '?id=' + catId : '');
+      $.get(
+  urlToModal ,
+  function(msg) {
+   
+    $('#fileModal #category').html(msg);
+    
+  }
+);
+   
+});
+
 
 
 JS;
@@ -60,12 +82,22 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6></h6>
+                <h3>Файлы</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                <div  class="row">
+                    <div  id="category"  class="col-lg-6">
+
+                    </div>
+
+                    <div class="col-lg-6">
+
+                    </div>
+
+                </div>
 
             </div>
             <div class="modal-footer">

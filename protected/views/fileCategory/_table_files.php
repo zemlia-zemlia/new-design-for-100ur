@@ -8,7 +8,7 @@
     <tr>
         <th>Название</th>
         <th>Описание</th>
-        <th>Ред.</th>
+        <th>Добавить</th>
     </tr>
     <?php foreach ($files as $file): ?>
 
@@ -23,7 +23,7 @@
                 <?php echo CHtml::encode($file->description); ?>
             </td>
             <td>
-                <?php echo CHtml::link("Ред.", array('/admin/docs/update/?id=' .  $file->id)); ?>
+                <?php echo CHtml::link("+", array('/admin/docs/update/?id=' .  $file->id)); ?>
             </td>
         </tr>
 

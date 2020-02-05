@@ -27,31 +27,28 @@ $this->menu=array(
 
 
 
-
-<h1>Файлы</h1>
-
-
-
-
-
-
-<div id="categories">
-    <?php $this->renderPartial('_table', ['categories' => $categories]); ?>
-
-
-</div>
-
-<div class="row">
-    <div class="col-lg-12">
-
-        <a class="btn btn-warning"  id="addCategory" href="/admin/file-category/create/?cat_id=0">Добавить корневую категорию</a>
+    <div class="row">
+        <div class="col-lg-12">
+            <span class="hide" id="catId"><?= $category ? $category->id : 0 ?></span>
+            <?php $this->renderPartial('_table', ['categories' => $categories]); ?>
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div class="col-lg-12">
+            <?php
+            if ($category)
+                $this->renderPartial('_table_files', ['files' => $category->files]);
+            ?>
+        </div>
+    </div>
 
-<hr>
 
-<?php
-if ($category)
-$this->renderPartial('_table_files', ['files' => $category->files]);
-?>
+
+
+
+
+
+
+
+
 
