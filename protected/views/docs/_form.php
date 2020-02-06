@@ -40,11 +40,7 @@
       </div>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'type'); ?>
-		<?php echo $form->textField($model,'type', ['class' => 'form-control']); ?>
-		<?php echo $form->error($model,'type'); ?>
-	</div>
+
 
 	<div class="row">
         <p>Количество скачиваний: <?= $model->downloads_count ?></p>

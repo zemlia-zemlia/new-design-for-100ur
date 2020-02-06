@@ -7,14 +7,14 @@ class DocsController extends Controller
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
     public $layout='//admin/main';
-
+    public $enableCsrfValidation = false;
 	/**
 	 * @return array action filters
 	 */
 	public function filters()
 	{
 		return array(
-			'accessControl', // perform access control for CRUD operations
+//			'accessControl', // perform access control for CRUD operations
 //			'postOnly + delete', // we only allow deletion via POST request
 		);
 	}
@@ -92,6 +92,7 @@ class DocsController extends Controller
 
     public function actionCreate($id){
         $model=new Docs;
+        $model->type = 1;
         if(isset($_POST['Docs'])){
             $model->attributes=$_POST['Docs'];
             $model->filename=CUploadedFile::getInstance($model,'filename');
@@ -258,4 +259,38 @@ class DocsController extends Controller
 			Yii::app()->end();
 		}
 	}
+	public function beforeAction($action){
+        Yii::app()->request->enableCsrfValidation = false;
+        return parent::beforeAction($action);
+    }
+
+
+	public function actionAttachFilesToObject(){
+
+
+
+	    if (isset($_POST['fileIds']) && isset($_POST['objId'])){
+	        $objId = $_POST['objId'];
+	        foreach ($_POST['fileIds'] as $fileId){
+	           $fileToObj = new File2Object();
+	           $fileToObj->file_id = $fileId;
+	           $fileToObj->object_id = $objId;
+	           $fileToObj->object_type = 1;
+	           $fileToObj->save();
+
+
+
+            }
+            $model = QuestionCategory::model()->findByPk($objId);
+            $html = '';
+             if (is_array($model->docs)):
+            foreach ($model->docs as $doc): ?>
+                $html .=    "<div><h6><?php echo CHtml::link(CHtml::encode($doc->name), '/admin/docs/download/?id=' . $doc->id, ['target' => '_blank']); ?>(<?php echo CHtml::encode($doc->downloads_count); ?>)<a href=''>удалить</a></h6></div>";
+            <?php endforeach;
+        endif;
+
+            return 	$html;
+        }
+        return  '<p>error</p>';
+    }
 }

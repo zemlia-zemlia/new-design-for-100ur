@@ -3,7 +3,8 @@
 /* @var $model QuestionCategory */
 //Yii::app()->clientScript
 $urlToModal = Yii::app()->createUrl('fileCategory/createModalForObject/');
-$js = "var urlToModal = '$urlToModal';" ;
+$urlToAttach = Yii::app()->createUrl('admin/docs/attachFilesToObject/');
+$js = "var urlToModal = '$urlToModal'; objId = '$model->id'; var urlToAttach = '$urlToAttach';" ;
 $js .= <<<JS
 var catId = Number($('#catId').text());
  urlToModal =  urlToModal + ((catId != 0) ? '?id=' + catId : '');
@@ -28,6 +29,38 @@ $('#fileModal').on('click' , '.catLink',  function() {
   }
 );
    
+});
+
+$('#fileModal').on('click', '.selectFile', function() {
+var fileName = $(this).parents('tr').find('td:eq(0)').text();
+$('#filesSelected').append('<p class="selectedFile" data="' + $(this).attr('data') + '">' + fileName + '</p>');
+
+$('#fileModal').on('click', '#attachSelectedFiles', function() {
+    var fileIds = [];
+    
+    $('.selectedFile').each(function() {
+      fileIds.push($(this).attr('data'));
+    });
+    // console.log(fileIds);
+      $.ajax({
+    type: "POST",
+    url: 'http://100yuristov.local/admin/docs/attachFilesToObject/',
+    dataType: "html",
+    data: {fileIds: fileIds, objId: objId},
+    success: function(msg){
+        $('#file').html(msg);
+  
+       console.log(msg);
+        
+    },
+    error:function(error) {
+      alert('error');
+    }
+  });
+    
+});
+
+
 });
 
 
@@ -93,7 +126,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
                     </div>
 
-                    <div class="col-lg-6">
+                    <div id="filesSelected" class="col-lg-6">
 
                     </div>
 
@@ -101,8 +134,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
             </div>
             <div class="modal-footer">
-<!--                <button type="button" onclick="$('#exampleModal').modal('hide')" class="btn btn-primary">Продолжить покупки</button>-->
-<!--                <a href="" id="modalCartLink" class="btn btn-primary">Перейти в корзину</a>-->
+                <button id="attachSelectedFiles" class="btn btn-primary">Прикрепить выбранные файлы</button>
+
+
             </div>
         </div>
     </div>

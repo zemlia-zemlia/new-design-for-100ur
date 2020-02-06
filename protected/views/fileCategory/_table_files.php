@@ -15,7 +15,7 @@
         <tr>
             <td>
 
-                <?php echo CHtml::link(CHtml::encode($file->name), array('/admin/docs/update?id=' . $file->id)); ?></strong>
+                <?php echo CHtml::link(CHtml::encode($file->name), array('/docs/download?id=' . $file->id)); ?></strong>
 
             </td>
 
@@ -23,7 +23,8 @@
                 <?php echo CHtml::encode($file->description); ?>
             </td>
             <td>
-                <?php echo CHtml::link("+", array('/admin/docs/update/?id=' .  $file->id)); ?>
+                <a class="selectFile" data="<?= $file->id ?>" href="#">+</a>
+
             </td>
         </tr>
 
