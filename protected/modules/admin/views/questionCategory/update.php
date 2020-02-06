@@ -44,11 +44,12 @@ $('#fileModal').on('click', '#attachSelectedFiles', function() {
     // console.log(fileIds);
       $.ajax({
     type: "POST",
-    url: 'http://100yuristov.local/admin/docs/attachFilesToObject/',
+    url:urlToAttach,
     dataType: "html",
     data: {fileIds: fileIds, objId: objId},
     success: function(msg){
-        $('#file').html(msg);
+        $('#files').html(msg);
+         $('#fileModal').modal('hide');
   
        console.log(msg);
         

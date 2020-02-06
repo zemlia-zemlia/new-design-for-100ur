@@ -269,28 +269,46 @@ class DocsController extends Controller
 
 
 
-	    if (isset($_POST['fileIds']) && isset($_POST['objId'])){
-	        $objId = $_POST['objId'];
-	        foreach ($_POST['fileIds'] as $fileId){
-	           $fileToObj = new File2Object();
-	           $fileToObj->file_id = $fileId;
-	           $fileToObj->object_id = $objId;
-	           $fileToObj->object_type = 1;
-	           $fileToObj->save();
-
+	    if (isset($_POST['fileIds']) && isset($_POST['objId'])) {
+            $objId = $_POST['objId'];
+            foreach ($_POST['fileIds'] as $fileId) {
+                $fileToObj = new File2Object();
+                $fileToObj->file_id = $fileId;
+                $fileToObj->object_id = $objId;
+                $fileToObj->object_type = 1;
+                $fileToObj->save();
 
 
             }
-            $model = QuestionCategory::model()->findByPk($objId);
-            $html = '';
-             if (is_array($model->docs)):
+
+
+
+
+            $model = QuestionCategory::model()->findByPk($objId);?>
+
+              <?php if (is_array($model->docs)):
             foreach ($model->docs as $doc): ?>
-                $html .=    "<div><h6><?php echo CHtml::link(CHtml::encode($doc->name), '/admin/docs/download/?id=' . $doc->id, ['target' => '_blank']); ?>(<?php echo CHtml::encode($doc->downloads_count); ?>)<a href=''>удалить</a></h6></div>";
+                <div>
+                    <h6><?php echo CHtml::link(CHtml::encode($doc->name), '/admin/docs/download/?id=' . $doc->id, ['target' => '_blank']); ?>(<?php echo CHtml::encode($doc->downloads_count); ?>)
+                        <a href="">удалить</a></h6>
+
+                </div>
             <?php endforeach;
         endif;
 
-            return 	$html;
+
+
+//            $html = '';
+//            if (is_array($model->docs)) {
+//
+//                foreach ($model->docs as $doc)
+//                    $html .= '<div><h6><a href="/admin/docs/download/?id=' . $doc->id . '">' . $doc->name . '</a></h6><a href="">удалить</a></div>';
+//
+//
+//                echo $html;
+//            }
         }
+
         return  '<p>error</p>';
     }
 }
