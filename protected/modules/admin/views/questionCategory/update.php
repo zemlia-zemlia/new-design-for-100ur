@@ -19,9 +19,9 @@ $('#attachFile').on('click' , function() {
 });
 $('#fileModal').on('click' , '.catLink',  function() {
     var catId = Number($(this).attr('id'));
-     urlToModal =  urlToModal + ((catId != 0) ? '?id=' + catId : '');
+     urlToModal1 =  urlToModal + ((catId != 0) ? '?id=' + catId : '');
       $.get(
-  urlToModal ,
+  urlToModal1 ,
   function(msg) {
    
     $('#fileModal #category').html(msg);
@@ -62,6 +62,28 @@ $('#fileModal').on('click', '#attachSelectedFiles', function() {
 });
 
 
+});
+
+
+$('#fileModal').on('click', '#linkPrev', function() {
+    
+    
+       var catId = Number($(this).attr('data'));
+     urlToModal2 =  urlToModal + ((catId != 0) ? '?id=' + catId : '');
+ 
+      $.get(
+  urlToModal ,
+  function(msg) {
+   
+    $('#fileModal #category').html(msg);
+    
+  }
+);
+    
+    
+    
+    
+  
 });
 
 

@@ -23,9 +23,9 @@ $this->menu=array(
 <?php //var_dump($this->menu);die;?>
 
 
-
-
-
+<?php if ($category): ?>
+<p><a id="linkPrev"  data="<?= $category ? $category->id : 0 ?>" href="#">Назад</a></p>
+<?php endif; ?>
 
     <div class="row">
         <div class="col-lg-12">

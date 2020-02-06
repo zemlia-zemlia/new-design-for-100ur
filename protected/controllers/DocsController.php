@@ -7,7 +7,7 @@ class DocsController extends Controller
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
     public $layout='//admin/main';
-    public $enableCsrfValidation = false;
+
 	/**
 	 * @return array action filters
 	 */
@@ -251,18 +251,14 @@ class DocsController extends Controller
 	 * Performs the AJAX validation.
 	 * @param Docs $model the model to be validated
 	 */
-	protected function performAjaxValidation($model)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='docs-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-	}
-	public function beforeAction($action){
-        Yii::app()->request->enableCsrfValidation = false;
-        return parent::beforeAction($action);
-    }
+//	protected function performAjaxValidation($model)
+//	{
+//		if(isset($_POST['ajax']) && $_POST['ajax']==='docs-form')
+//		{
+//			echo CActiveForm::validate($model);
+//			Yii::app()->end();
+//		}
+//	}
 
 
 	public function actionAttachFilesToObject(){
@@ -272,6 +268,8 @@ class DocsController extends Controller
 	    if (isset($_POST['fileIds']) && isset($_POST['objId'])) {
             $objId = $_POST['objId'];
             foreach ($_POST['fileIds'] as $fileId) {
+                if(File2Object::model()->findAll('object_id = ' . $objId . ' AND file_id =' . $fileId))
+                    continue;
                 $fileToObj = new File2Object();
                 $fileToObj->file_id = $fileId;
                 $fileToObj->object_id = $objId;
