@@ -91,7 +91,6 @@ $endYear = 2019;
                     <div class="box-title">Опубликованные вопросы по дням</div>
                 </div>
                 <div class="box-body">
-                    <h3></h3>
                     <table class="table">
                         <tr>
                             <?php foreach ($publishedQuestionsCount as $date => $counter): ?>
@@ -230,7 +229,7 @@ $endYear = 2019;
         </div>
     </div>
 
-    <div class="box">
+    <div class="box small">
         <div class="box-header">
             <div class="box-title">Последние записи лога</div>
         </div>
