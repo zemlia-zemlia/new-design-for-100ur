@@ -31,6 +31,9 @@
     <link href="/adminlte/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
     <!-- bootstrap wysihtml5 - text editor -->
     <link href="/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+
+
+
       <?php
       Yii::app()->clientScript->registerScriptFile("/js/respond.min.js");
       Yii::app()->clientScript->registerScriptFile("jquery.js");
@@ -41,6 +44,9 @@
       Yii::app()->ClientScript->registerScriptFile('/adminlte/dist/js/app.min.js', CClientScript::POS_END);
       ?>
 
+      <?php
+      Yii::app()->clientScript->registerCssFile("/css/2017/admin.css");
+      ?>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

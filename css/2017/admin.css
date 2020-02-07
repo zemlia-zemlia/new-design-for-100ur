@@ -81,8 +81,8 @@ table p {
 	text-align: center;
 }
 
-div.form {
-    max-width: 460px;
+.form {
+    padding: 15px;
 }
 
 ul.no-padding {

@@ -18,32 +18,72 @@ $this->menu=array(
 
 <h1>Категория  <?php echo $model->name; ?></h1>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$model,
-	'attributes'=>array(
+<div class="row">
+    <div class="col-md-8">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-title">
+                    Вложенные категории
+                </div>
+            </div>
+            <div class="box-body">
+                <?php
+                if (is_array($model->children()->findAll()))
+                    $this->renderPartial('/docs/_table', ['categories' => $model->children()->findAll()]);
+                ?>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-header">
+                <div class="box-title">
+                    Файлы категории
+                </div>
+            </div>
+            <div class="box-body">
+                <?php
+                if (is_array($model->files))
+                    $this->renderPartial('/docs/_table_files', ['files' => $model->files]);
+                ?>
+                <a class="btn btn-warning right-align"  id="updateFile" href="/admin/docs/create/?id=<?= $model->id ?>">Добавить файл</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-title">
+                    Инфо о категории
+                </div>
+            </div>
+            <div class="box-body">
+                <?php $this->widget('zii.widgets.CDetailView', array(
+                    'data'=>$model,
+                    'attributes'=>array(
 
-		'name',
-		'description',
+                        'name',
+                        'description',
 
-	),
-)); ?>
+                    ),
+                )); ?>
+            </div>
+        </div>
 
-<a class="btn btn-primary"  id="addCategory" href="/admin/file-category/create/?id=<?= $model->id ?>">Добавить категорию</a>
-<a class="btn btn-danger"  id="removeCategory" href="/admin/file-category/delete/?id=<?= $model->id ?>">Удалить категорию</a>
-<a class="btn btn-danger"  id="updateCategory" href="/admin/file-category/update/?id=<?= $model->id ?>">Редактировать категорию</a>
+        <div class="box">
+            <div class="box-header">
+                <div class="box-title">
+                    Управление
+                </div>
+            </div>
+            <div class="box-body">
+                <a class="btn btn-info btn-block"  id="updateCategory" href="/admin/file-category/update/?id=<?= $model->id ?>">Редактировать категорию</a>
+                <a class="btn btn-primary btn-block"  id="addCategory" href="/admin/file-category/create/?id=<?= $model->id ?>">Добавить вложенную категорию</a>
+                <a class="btn btn-danger btn-block btn-xs"  id="removeCategory" href="/admin/file-category/delete/?id=<?= $model->id ?>">Удалить категорию</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-<hr>
-<h3>Подкатегории</h3>
 
-<?php
-if (is_array($model->children()->findAll()))
-    $this->renderPartial('/docs/_table', ['categories' => $model->children()->findAll()]);
-?>
 
-<hr>
-<h3>Файлы</h3>
-<?php
-if (is_array($model->files))
-    $this->renderPartial('/docs/_table_files', ['files' => $model->files]);
-?>
-<a class="btn btn-danger"  id="updateFile" href="/admin/docs/create/?id=<?= $model->id ?>">Добавить файл</a>
+
+
