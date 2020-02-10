@@ -8,6 +8,8 @@
     <tr>
         <th>Название</th>
         <th>Описание</th>
+        <th>Дата загрузки</th>
+        <th>Колво скачиваний</th>
         <th>Ред.</th>
     </tr>
     <?php foreach ($files as $file): ?>
@@ -22,6 +24,8 @@
             <td class="text-center">
                 <?php echo CHtml::encode($file->description); ?>
             </td>
+            <td><?= CustomFuncs::niceDate(date('Y-m-d H:i:s', $file->uploadTs)) ?></td>
+            <td><?= $file->downloads_count ?></td>
             <td>
                 <?php echo CHtml::link("Ред.", array('/admin/docs/update/?id=' .  $file->id)); ?>
             </td>

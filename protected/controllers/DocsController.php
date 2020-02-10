@@ -93,29 +93,35 @@ class DocsController extends Controller
     public function actionCreate($id){
         $model=new Docs;
         $category = FileCategory::model()->findByPk($id);
-        $model->type = 1;
+
         if(isset($_POST['Docs'])){
             $model->attributes=$_POST['Docs'];
-            $model->filename=CUploadedFile::getInstance($model,'filename');
+            $model->file=CUploadedFile::getInstance($model,'file');
 
                 $name = $model->generateName();
                 $path = Yii::getPathOfAlias('webroot') . '/upload/files/' . $name;
-                $model->filename->saveAs($path);
+                $model->file->saveAs($path);
+                $model->type = $model->file->getExtensionName();
+                $model->size = $model->file->getSize();
 
             $model->filename = $name;
+            $model->uploadTs = time();
 
-            $model->save();
-            $category = new File2Category();
-            $category->file_id = $model->id;
-            $category->category_id = $id;
+            if  ($model->save()){
 
-            if($category->save())
-//            var_dump($category->getErrors());die;
+                $category = new File2Category();
+                $category->file_id = $model->id;
+                $category->category_id = $id;
 
-            Yii::app()->user->setFlash('success', "Файл загружен");
-            else  Yii::app()->user->setFlash('error', "Ошибка");
+                if($category->save())
 
-            return $this->redirect('/admin/file-category/view/?id=' . $id);
+
+                    Yii::app()->user->setFlash('success', "Файл загружен");
+                else  Yii::app()->user->setFlash('error', "Ошибка");
+
+                return $this->redirect('/admin/file-category/view/?id=' . $id);
+
+            }
 
 
         }
@@ -124,6 +130,7 @@ class DocsController extends Controller
 
     public function actionDownload($id){
         $model = $this->loadModel($id);
+//        var_dump($model);die;
         return $this->redirect($model->getDownloadLink());
     }
 
@@ -139,7 +146,7 @@ class DocsController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-		$filename = $model->filename;
+
 
 //        var_dump($model->categories);die;
 
@@ -148,19 +155,19 @@ class DocsController extends Controller
 
         {
             $model->attributes=$_POST['Docs'];
-            $model->filename=CUploadedFile::getInstance($model,'filename');
+            $model->file=CUploadedFile::getInstance($model,'file');
 //            var_dump($model);die;
-            if ($model->filename) {
+            if ($model->file) {
                 $name = $model->generateName();
                 $path = Yii::getPathOfAlias('webroot') . '/upload/files/' . $name;
-                $model->filename->saveAs($path);
+                $model->file->saveAs($path);
+                $model->type = $model->file->getExtensionName();
+                $model->size = $model->file->getSize();
 
                 $model->filename = $name;
                 unlink(Yii::getPathOfAlias('webroot') . '/upload/files/' . $filename);
             }
-            else {
-                $model->filename = $filename;
-            }
+
 
             $model->save();
 //            var_dump($model->getErrors());die;

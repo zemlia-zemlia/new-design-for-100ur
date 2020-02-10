@@ -33,10 +33,10 @@
             </div>
 
             <div class="form-group">
-                <?php echo $form->labelEx($model, 'filename'); ?>
+                <?php echo $form->labelEx($model, 'file'); ?>
 
-                <?php echo $form->fileField($model, 'filename', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
-                <?php echo $form->error($model, 'filename'); ?>
+                <?php echo $form->fileField($model, 'file', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
+                <?php echo $form->error($model, 'file'); ?>
             </div>
 
 
