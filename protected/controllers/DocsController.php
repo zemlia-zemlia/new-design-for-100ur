@@ -92,6 +92,7 @@ class DocsController extends Controller
 
     public function actionCreate($id){
         $model=new Docs;
+        $category = FileCategory::model()->findByPk($id);
         $model->type = 1;
         if(isset($_POST['Docs'])){
             $model->attributes=$_POST['Docs'];
@@ -108,15 +109,17 @@ class DocsController extends Controller
             $category->file_id = $model->id;
             $category->category_id = $id;
 
-            $category->save();
+            if($category->save())
 //            var_dump($category->getErrors());die;
 
             Yii::app()->user->setFlash('success', "Файл загружен");
-            return $this->redirect('/docs/index');
+            else  Yii::app()->user->setFlash('error', "Ошибка");
+
+            return $this->redirect('/admin/file-category/view/?id=' . $id);
 
 
         }
-        $this->render('create', array('model'=>$model));
+        $this->render('create', array('model'=>$model, 'category' => $category));
     }
 
     public function actionDownload($id){
@@ -138,6 +141,7 @@ class DocsController extends Controller
 		$model=$this->loadModel($id);
 		$filename = $model->filename;
 
+//        var_dump($model->categories);die;
 
 		if(isset($_POST['Docs']))
 
@@ -164,7 +168,7 @@ class DocsController extends Controller
 
 
                 Yii::app()->user->setFlash('success', "Файл изменен");
-                return $this->redirect('/docs/index');
+                return $this->redirect('/admin/file-category/view/?id=' . $model->categories[0]->id);
 				$this->redirect('index');
 
 		}

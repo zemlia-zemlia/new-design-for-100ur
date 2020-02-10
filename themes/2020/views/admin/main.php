@@ -71,7 +71,15 @@
 
         <!-- Main content -->
           <section class="content">
-              <?php echo $content; ?>
+
+
+              <?php
+              foreach (Yii::app()->user->getFlashes() as $key => $message) {
+                  echo '<div class="alert alert-' . $key . '">' . $message . "</div>\n";
+              }
+
+
+              echo $content; ?>
           </section>
       </div><!-- /.content-wrapper -->
       <footer class="main-footer">
