@@ -4,14 +4,23 @@
 /* @var $form CActiveForm */
 
 Yii::app()->clientScript->registerScript('check', "
-$('#docs_form').beforeSubmit(function(e){
-if ($('#Docs_name.val() == '' ){
-alert('заполните название файла');
-e.preventDefault;
-}
+$('#delete').click(function(){
+$('#exampleModal').modal('show');
 });
+
+
+
+
+
+//$('#docs_form').beforeSubmit(function(e){
+//if ($('#Docs_name.val() == '' ){
+//alert('заполните название файла');
+//e.preventDefault;
+//}
+//});
 ", CClientScript::POS_END);
 ?>
+
 
 <div class="box">
     <div class="box-body">
@@ -53,8 +62,10 @@ e.preventDefault;
             <div class="form-group buttons">
                 <?php echo CHtml::submitButton('Сохранить', ['class' => 'btn btn-primary']); ?>
                 <?php if (!$model->isNewRecord): ?>
-                    <a href="/docs/delete/?id=<?= $model->id ?>" id="delete" class="btn btn-warning">Удалить</a>
+                <button type="button"  id="delete" class="btn btn-warning">Удалить</button>
                 <?php endif; ?>
+
+
 
             </div>
             <p class="text-muted">Ограничения по размеру - 10 мб, <br>типы файлов - doc, docx, pdf, csv, xlsx, xls, rar, zip, 7z.</p>
@@ -66,5 +77,25 @@ e.preventDefault;
             <?php $this->endWidget(); ?>
 
         </div><!-- form -->
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>Серьезно?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="$('#exampleModal').modal('hide')"   class="btn btn-primary">Нет</button>
+                <a href="/docs/delete/?id=<?= $model->id ?>"  class="btn btn-primary">Да</a>
+            </div>
+        </div>
     </div>
 </div>

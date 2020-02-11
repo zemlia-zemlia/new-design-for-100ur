@@ -11,39 +11,41 @@ class FileCategoryController extends Controller
 	/**
 	 * @return array action filters
 	 */
-//	public function filters()
-//	{
-//		return array(
-//			'accessControl', // perform access control for CRUD operations
-//			'postOnly + delete', // we only allow deletion via POST request
-//		);
-//	}
+	public function filters()
+	{
+		return array(
+			'accessControl', // perform access control for CRUD operations
+
+		);
+	}
 
 	/**
 	 * Specifies the access control rules.
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
 	 */
-//	public function accessRules()
-//	{
-//		return array(
-//			array('allow',  // allow all users to perform 'index' and 'view' actions
-//				'actions'=>array('index','view'),
-//				'users'=>array('*'),
-//			),
-//			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-//				'actions'=>array('create','update'),
-//				'users'=>array('@'),
-//			),
-//			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-//				'actions'=>array('admin','delete'),
-//				'users'=>array('admin'),
-//			),
-//			array('deny',  // deny all users
-//				'users'=>array('*'),
-//			),
-//		);
-//	}
+	public function accessRules()
+	{
+        return
+            [
+                [
+                    'allow',
+                    'actions' => ['createModalForObject'],
+                    'users' => ['*'],
+                ],
+                [
+                    'allow',
+                    'actions' => ['index', 'view',  'create', 'update', 'delete'],
+                    'users' => ['@'],
+                    'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ') || Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
+                ],
+
+                [
+                    'deny', // deny all users
+                    'users' => ['*'],
+                ],
+            ];
+	}
 
 	/**
 	 * Displays a particular model.
@@ -62,18 +64,6 @@ class FileCategoryController extends Controller
 	 */
 	public function actionCreate($id = 0)
 	{
-//        $category1=new Category;
-//        $category1->title='Ford';
-//        $category2=new Category;
-//        $category2->title='Mercedes';
-//        $category3=new Category;
-//        $category3->title='Audi';
-//        $root=Category::model()->findByPk(1);
-//        $category1->appendTo($root);
-//        $category2->insertAfter($category1);
-//        $category3->insertBefore($category1);
-//
-
 
 
 
@@ -155,9 +145,6 @@ class FileCategoryController extends Controller
         Yii::app()->user->setFlash('success', "Категория удалена");
         return $this->redirect('/docs/index');
 
-//		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-//		if(!isset($_GET['ajax']))
-//			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
 	/**
@@ -165,19 +152,7 @@ class FileCategoryController extends Controller
 	 */
 	public function actionIndex()
 	{
-//        $root = new FileCategory();
 
-//        $root->name ='еще233 корень';
-////        $root->root = 0;
-//        $root->saveNode();
-//        $root = new FileCategory();
-//        $root->name ='User Files';
-//        $root->root = 0;
-//        $root->saveNode();
-//        $cat1 = FileCategory::model()->findByPk(19);
-//
-//        $node = FileCategory::model()->findByPk(12);
-//        $cat1->moveAsFirst($node);
 
 		$dataProvider = new CActiveDataProvider('FileCategory');
 		$this->render('index',array(
@@ -185,20 +160,6 @@ class FileCategoryController extends Controller
 		));
 	}
 
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new FileCategory('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['FileCategory']))
-			$model->attributes=$_GET['FileCategory'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
-	}
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
@@ -215,18 +176,6 @@ class FileCategoryController extends Controller
 		return $model;
 	}
 
-	/**
-	 * Performs the AJAX validation.
-	 * @param FileCategory $model the model to be validated
-	 */
-	protected function performAjaxValidation($model)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='file-category-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-	}
 
 	public function actionCreateModalForObject($id = 0){
         if ($id != 0)

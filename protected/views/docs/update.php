@@ -8,11 +8,7 @@ $this->breadcrumbs = array(
     'Update',
 );
 
-Yii::app()->clientScript->registerScript('delete', "
-$('#delete').click(function(){
-alert('Серьезно?');
-});
-");
+
 ?>
 
 

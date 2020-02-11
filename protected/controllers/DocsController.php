@@ -2,293 +2,194 @@
 
 class DocsController extends Controller
 {
-	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
-    public $layout='//admin/main';
+    /**
+     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
+     * using two-column layout. See 'protected/views/layouts/column2.php'.
+     */
+    public $layout = '//admin/main';
 
-	/**
-	 * @return array action filters
-	 */
-
-
-	public function filters()
-	{
-		return array(
-//			'accessControl', // perform access control for CRUD operations
-//			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
-
-	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-//	public function accessRules()
-//	{
-//		return array(
-//			array('allow',  // allow all users to perform 'index' and 'view' actions
-//				'actions'=>array('index','view'),
-//				'users'=>array('*'),
-//			),
-//			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-//				'actions'=>array('create','update'),
-//				'users'=>array('@'),
-//			),
-//			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-//				'actions'=>array('admin','delete'),
-//				'users'=>array('admin'),
-//			),
-//			array('deny',  // deny all users
-//				'users'=>array('*'),
-//			),
-//		);
-//	}
-
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
-
-    public function actionCategory($id)
+    /**
+     * @return array action filters
+     */
+    public function filters()
     {
-        $category = FileCategory::model()->findByPk($id);
-        $dataProvider=new CActiveDataProvider('Docs');
-//        $dataProvider->criteria = ''
-        $this->render('index',array(
-            'dataProvider'=>$dataProvider,
-            'category'=>$category,
+        return array(
+            'accessControl', // perform access control for CRUD operations
+        );
+    }
+
+    /**
+     * Specifies the access control rules.
+     * This method is used by the 'accessControl' filter.
+     * @return array access control rules
+     */
+    public function accessRules()
+    {
+        return
+            [
+                [
+                    'allow',
+                    'actions' => ['attachFilesToObject', 'deAttachFilesToObject', 'download'],
+                    'users' => ['*'],
+                ],
+                [
+                    'allow',
+                    'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                    'users' => ['@'],
+                    'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ') || Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
+                ],
+
+                [
+                    'deny', // deny all users
+                    'users' => ['*'],
+                ],
+            ];
+    }
+
+    /**
+     * Displays a particular model.
+     * @param integer $id the ID of the model to be displayed
+     */
+    public function actionView($id)
+    {
+        $this->render('view', array(
+            'model' => $this->loadModel($id),
         ));
     }
 
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-//	public function actionCreate()
-//	{
-//		$model=new Docs;
-//
-//		// Uncomment the following line if AJAX validation is needed
-//		// $this->performAjaxValidation($model);
-//
-//		if(isset($_POST['Docs']))
-//		{
-//			$model->attributes=$_POST['Docs'];
-//			if($model->save())
-//				$this->redirect(array('view','id'=>$model->id));
-//		}
-//
-//		$this->render('create',array(
-//			'model'=>$model,
-//		));
-//	}
-
-    public function actionCreate($id){
-        $model=new Docs;
+    public function actionCreate($id)
+    {
+        $model = new Docs;
         $category = FileCategory::model()->findByPk($id);
 
-        if(isset($_POST['Docs'])){
-            $model->attributes=$_POST['Docs'];
-            $model->file=CUploadedFile::getInstance($model,'file');
-
-                $name = $model->generateName();
-                $path = Yii::getPathOfAlias('webroot') . '/upload/files/' . $name;
-                $model->file->saveAs($path);
-                $model->type = $model->file->getExtensionName();
-                $model->size = $model->file->getSize();
-
+        if (isset($_POST['Docs'])) {
+            $model->attributes = $_POST['Docs'];
+            $model->file = CUploadedFile::getInstance($model, 'file');
+            $name = $model->generateName();
+            $path = Yii::getPathOfAlias('webroot') . '/upload/files/' . $name;
+            $model->file->saveAs($path);
+            $model->type = $model->file->getExtensionName();
+            $model->size = $model->file->getSize();
             $model->filename = $name;
             $model->uploadTs = time();
-
-            if  ($model->save()){
-
+            if ($model->save()) {
                 $category = new File2Category();
                 $category->file_id = $model->id;
                 $category->category_id = $id;
-
-                if($category->save())
-
-
+                if ($category->save())
                     Yii::app()->user->setFlash('success', "Файл загружен");
                 else  Yii::app()->user->setFlash('error', "Ошибка");
-
                 return $this->redirect('/admin/file-category/view/?id=' . $id);
 
             }
 
 
         }
-        $this->render('create', array('model'=>$model, 'category' => $category));
+        $this->render('create', array('model' => $model, 'category' => $category));
     }
 
-    public function actionDownload($id){
+    public function actionDownload($id)
+    {
         $model = $this->loadModel($id);
-//        var_dump($model);die;
         return $this->redirect($model->getDownloadLink());
     }
 
 
+    /**
+     * Updates a particular model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id the ID of the model to be updated
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->loadModel($id);
 
-
-
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
-
-
-//        var_dump($model->categories);die;
-
-		if(isset($_POST['Docs']))
-
-
-        {
-            $model->attributes=$_POST['Docs'];
-            $model->file=CUploadedFile::getInstance($model,'file');
-//            var_dump($model);die;
+        if (isset($_POST['Docs'])) {
+            $model->attributes = $_POST['Docs'];
+            $model->file = CUploadedFile::getInstance($model, 'file');
             if ($model->file) {
                 $name = $model->generateName();
                 $path = Yii::getPathOfAlias('webroot') . '/upload/files/' . $name;
                 $model->file->saveAs($path);
                 $model->type = $model->file->getExtensionName();
                 $model->size = $model->file->getSize();
-
-
                 unlink(Yii::getPathOfAlias('webroot') . '/upload/files/' . $model->filename);
                 $model->filename = $name;
             }
-
-
             $model->save();
-//            var_dump($model->getErrors());die;
+            Yii::app()->user->setFlash('success', "Файл изменен");
+            return $this->redirect('/admin/file-category/view/?id=' . $model->categories[0]->id);
+            $this->redirect('index');
 
+        }
 
+        $this->render('update', array(
+            'model' => $model,
+        ));
+    }
 
-                Yii::app()->user->setFlash('success', "Файл изменен");
-                return $this->redirect('/admin/file-category/view/?id=' . $model->categories[0]->id);
-				$this->redirect('index');
+    /**
+     * Deletes a particular model.
+     * If deletion is successful, the browser will be redirected to the 'admin' page.
+     * @param integer $id the ID of the model to be deleted
+     */
+    public function actionDelete($id)
 
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-
-	{
+    {
         $model = $this->loadModel($id);
-
-	    $category = $model->categories[0];
+        $category = $model->categories[0];
         File2Category::model()->find('file_id = ' . $id)->delete();
-
         unlink(Yii::getPathOfAlias('webroot') . '/upload/files/' . $model->filename);
-
         $model->delete();
-
-
         Yii::app()->user->setFlash('success', "Файл удален");
         return $this->redirect('/admin/file-category/view/?id=' . $category->id);
+    }
 
-//		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-//		if(!isset($_GET['ajax']))
-//			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
+    /**
+     * Lists all models.
+     */
+    public function actionIndex($id = 0)
+    {
 
-	/**
-	 * Lists all models.
-	 */
-	public function actionIndex($id = 0)
-	{
+        if ($id != 0)
+            $category = FileCategory::model()->findByPk($id);
+        else $category = null;
+        if (!$category)
+            $categories = FileCategory::model()->roots()->findAll();
+        else
+            $categories = $category->children()->findAll();
 
-		if ($id != 0)
-		$category = FileCategory::model()->findByPk($id);
-		else $category = null;
-		if (!$category)
-		    $categories  = FileCategory::model()->roots()->findAll();
-		else
-		    $categories  = $category->children()->findAll();
-
-
-
-		$this->render('index',array(
-
+        $this->render('index', array(
             'category' => $category,
             'categories' => $categories
-		));
-	}
-
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new Docs('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Docs']))
-			$model->attributes=$_GET['Docs'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Returns the data model based on the primary key given in the GET variable.
-	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer $id the ID of the model to be loaded
-	 * @return Docs the loaded model
-	 * @throws CHttpException
-	 */
-	public function loadModel($id)
-	{
-		$model=Docs::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
-	}
-
-	/**
-	 * Performs the AJAX validation.
-	 * @param Docs $model the model to be validated
-	 */
-//	protected function performAjaxValidation($model)
-//	{
-//		if(isset($_POST['ajax']) && $_POST['ajax']==='docs-form')
-//		{
-//			echo CActiveForm::validate($model);
-//			Yii::app()->end();
-//		}
-//	}
+        ));
+    }
 
 
-	public function actionAttachFilesToObject(){
+    /**
+     * Returns the data model based on the primary key given in the GET variable.
+     * If the data model is not found, an HTTP exception will be raised.
+     * @param integer $id the ID of the model to be loaded
+     * @return Docs the loaded model
+     * @throws CHttpException
+     */
+    public function loadModel($id)
+    {
+        $model = Docs::model()->findByPk($id);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+        return $model;
+    }
 
 
+    public function actionAttachFilesToObject()
+    {
 
-	    if (isset($_POST['fileIds']) && isset($_POST['objId'])) {
+
+        if (isset($_POST['fileIds']) && isset($_POST['objId'])) {
             $objId = $_POST['objId'];
             foreach ($_POST['fileIds'] as $fileId) {
-                if(File2Object::model()->findAll('object_id = ' . $objId . ' AND file_id =' . $fileId))
+                if (File2Object::model()->findAll('object_id = ' . $objId . ' AND file_id =' . $fileId))
                     continue;
                 $fileToObj = new File2Object();
                 $fileToObj->file_id = $fileId;
@@ -296,52 +197,36 @@ class DocsController extends Controller
                 $fileToObj->object_type = 1;
                 $fileToObj->save();
             }
-
-            $model = QuestionCategory::model()->findByPk($objId);?>
-
-              <?php if (is_array($model->docs)):
-            foreach ($model->docs as $doc): ?>
-                <div>
-                    <h6><?php echo CHtml::link(CHtml::encode($doc->name), '/admin/docs/download/?id=' . $doc->id, ['target' => '_blank']); ?>(<?php echo CHtml::encode($doc->downloads_count); ?>)
-                        <a data="<?= $doc->id ?>"  id="deattach"  href="">открепить</a></h6>
-
-                </div>
-            <?php endforeach;
-        endif;
-
-
+            $model = QuestionCategory::model()->findByPk($objId); ?>
+            <?php if (is_array($model->docs)):
+                foreach ($model->docs as $doc): ?>
+                    <div>
+                        <h6><?php echo CHtml::link(CHtml::encode($doc->name), '/admin/docs/download/?id=' . $doc->id, ['target' => '_blank']); ?>
+                            (<?php echo CHtml::encode($doc->downloads_count); ?>)
+                            <a data="<?= $doc->id ?>" id="deattach" href="">открепить</a></h6>
+                    </div>
+                <?php endforeach;
+            endif;
         }
-
-        return  '<p>error</p>';
+        return '<p>error</p>';
     }
-
-    public function actionDeAttachFilesToObject(){
-
-
-
-	    if (isset($_POST['fileId']) && isset($_POST['objId'])) {
+    public function actionDeAttachFilesToObject()
+    {
+        if (isset($_POST['fileId']) && isset($_POST['objId'])) {
             $objId = $_POST['objId'];
             $fileId = $_POST['fileId'];
-
-                File2Object::model()->find('object_id = ' . $objId . ' AND file_id =' . $fileId)->delete();
-
+            File2Object::model()->find('object_id = ' . $objId . ' AND file_id =' . $fileId)->delete();
             $model = QuestionCategory::model()->findByPk($objId);
-
-
-
-             if (is_array($model->docs)):
-            foreach ($model->docs as $doc): ?>
-                <div>
-                    <h6><?php echo CHtml::link(CHtml::encode($doc->name), '/admin/docs/download/?id=' . $doc->id, ['target' => '_blank']); ?>(<?php echo CHtml::encode($doc->downloads_count); ?>)
-                        <a  data="<?= $doc->id?>" id="deattach"  href="">открепить</a></h6>
-
-                </div>
-            <?php endforeach;
-        endif;
-
-
+            if (is_array($model->docs)):
+                foreach ($model->docs as $doc): ?>
+                    <div>
+                        <h6><?php echo CHtml::link(CHtml::encode($doc->name), '/admin/docs/download/?id=' . $doc->id, ['target' => '_blank']); ?>
+                            (<?php echo CHtml::encode($doc->downloads_count); ?>)
+                            <a data="<?= $doc->id ?>" id="deattach" href="">открепить</a></h6>
+                    </div>
+                <?php endforeach;
+            endif;
         }
-
-        return  '<p>error</p>';
+        return '<p>error</p>';
     }
 }

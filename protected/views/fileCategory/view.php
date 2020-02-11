@@ -14,6 +14,14 @@ $this->menu=array(
 	array('label'=>'Delete FileCategory', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
 	array('label'=>'Manage FileCategory', 'url'=>array('admin')),
 );
+Yii::app()->clientScript->registerScript('check', "
+$('#removeCategory').click(function(){
+$('#exampleModal').modal('show');
+});
+
+", CClientScript::POS_END);
+
+
 ?>
 
 <h1>Категория  <?php echo $model->name; ?></h1>
@@ -77,13 +85,31 @@ $this->menu=array(
             <div class="box-body">
                 <a class="btn btn-info btn-block"  id="updateCategory" href="/admin/file-category/update/?id=<?= $model->id ?>">Редактировать категорию</a>
                 <a class="btn btn-primary btn-block"  id="addCategory" href="/admin/file-category/create/?id=<?= $model->id ?>">Добавить вложенную категорию</a>
-                <a class="btn btn-danger btn-block btn-xs"  id="removeCategory" href="/admin/file-category/delete/?id=<?= $model->id ?>">Удалить категорию</a>
+                <button class="btn btn-danger btn-block btn-xs"  id="removeCategory" >Удалить категорию</button>
             </div>
         </div>
     </div>
 </div>
 
 
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>Серьезно?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="$('#exampleModal').modal('hide')"   class="btn btn-primary">Нет</button>
+                <a  href="/admin/file-category/delete/?id=<?= $model->id ?>" class="btn btn-primary">Да</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 

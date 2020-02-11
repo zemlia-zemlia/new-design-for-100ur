@@ -35,17 +35,15 @@ class Docs extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'required'),
+			array('name', 'required', 'message' => 'Заполните имя'),
 			array('downloads_count', 'numerical', 'integerOnly'=>true),
 			array('name, filename', 'length', 'max'=>255),
-            array('file', 'file', 'types'=>'doc, docx, pdf, csv, xlsx, xls, rar, zip, 7z'),
+            array('file', 'file', 'types'=>'doc, docx, pdf, csv, xlsx, xls, rar, zip, 7z', 'allowEmpty'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, name, type, downloads_count, description, uploadTs, size', 'safe'),
 		);
 	}
-
-
 
 	/**
 	 * @return array relational rules.
@@ -94,7 +92,6 @@ class Docs extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('filename',$this->filename,true);
@@ -120,8 +117,6 @@ class Docs extends CActiveRecord
 	    return $this->generateRandomString(11) .  '_' . time() . '.' . $this->file->getExtensionName();
     }
 
-
-
     public function getDownloadLink(){
         $this->downloads_count += 1;
         $this->save();
@@ -139,4 +134,7 @@ class Docs extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+
+
 }

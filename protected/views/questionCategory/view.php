@@ -189,7 +189,7 @@ if ($model->seoH1) {
                             (<?php echo CHtml::encode($doc->downloads_count); ?>)
                         </div>
                         <div class="col-md-4">
-                            <p><?= $doc->size ?>Mb</p>
+                            <p><?= number_format($doc->size / 1048576, 1) ?> Mb</p>
 
                         </div>
                         <div class="col-md-12">
