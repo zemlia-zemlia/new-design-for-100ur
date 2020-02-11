@@ -136,7 +136,18 @@ class FileCategoryController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->deleteNode();
+
+		 $model = $this->loadModel($id);
+		 $childrens = $model->children()->findAll();
+		 $model->active = 0;
+		 $model->save();
+		 foreach ($childrens as $child){
+		     $child->active = 0;
+		     $child->save();
+         }
+
+
+
 
         Yii::app()->user->setFlash('success', "Категория удалена");
         return $this->redirect('/docs/index');

@@ -11,7 +11,8 @@
         <th>Подк.</th>
         <th>Ред.</th>
     </tr>
-    <?php foreach ($categories as $category):?>
+    <?php foreach ($categories as $category):
+        if ($category->active):?>
 
         <tr>
             <td>
@@ -33,5 +34,7 @@
             </td>
         </tr>
 
-    <?php endforeach; ?>
+    <?php
+    endif;
+  endforeach; ?>
 </table>

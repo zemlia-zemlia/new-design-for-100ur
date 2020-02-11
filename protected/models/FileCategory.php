@@ -27,7 +27,7 @@ class FileCategory extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{file_category}}';
+		return '{{docs_category}}';
 	}
 
 	/**

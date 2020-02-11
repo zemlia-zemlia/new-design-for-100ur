@@ -11,6 +11,8 @@ class DocsController extends Controller
 	/**
 	 * @return array action filters
 	 */
+
+
 	public function filters()
 	{
 		return array(
@@ -92,35 +94,45 @@ class DocsController extends Controller
 
     public function actionCreate($id){
         $model=new Docs;
-        $model->type = 1;
+        $category = FileCategory::model()->findByPk($id);
+
         if(isset($_POST['Docs'])){
             $model->attributes=$_POST['Docs'];
-            $model->filename=CUploadedFile::getInstance($model,'filename');
+            $model->file=CUploadedFile::getInstance($model,'file');
 
                 $name = $model->generateName();
                 $path = Yii::getPathOfAlias('webroot') . '/upload/files/' . $name;
-                $model->filename->saveAs($path);
+                $model->file->saveAs($path);
+                $model->type = $model->file->getExtensionName();
+                $model->size = $model->file->getSize();
 
             $model->filename = $name;
+            $model->uploadTs = time();
 
-            $model->save();
-            $category = new File2Category();
-            $category->file_id = $model->id;
-            $category->category_id = $id;
+            if  ($model->save()){
 
-            $category->save();
-//            var_dump($category->getErrors());die;
+                $category = new File2Category();
+                $category->file_id = $model->id;
+                $category->category_id = $id;
 
-            Yii::app()->user->setFlash('success', "Файл загружен");
-            return $this->redirect('/docs/index');
+                if($category->save())
+
+
+                    Yii::app()->user->setFlash('success', "Файл загружен");
+                else  Yii::app()->user->setFlash('error', "Ошибка");
+
+                return $this->redirect('/admin/file-category/view/?id=' . $id);
+
+            }
 
 
         }
-        $this->render('create', array('model'=>$model));
+        $this->render('create', array('model'=>$model, 'category' => $category));
     }
 
     public function actionDownload($id){
         $model = $this->loadModel($id);
+//        var_dump($model);die;
         return $this->redirect($model->getDownloadLink());
     }
 
@@ -136,27 +148,29 @@ class DocsController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-		$filename = $model->filename;
 
+
+//        var_dump($model->categories);die;
 
 		if(isset($_POST['Docs']))
 
 
         {
             $model->attributes=$_POST['Docs'];
-            $model->filename=CUploadedFile::getInstance($model,'filename');
+            $model->file=CUploadedFile::getInstance($model,'file');
 //            var_dump($model);die;
-            if ($model->filename) {
+            if ($model->file) {
                 $name = $model->generateName();
                 $path = Yii::getPathOfAlias('webroot') . '/upload/files/' . $name;
-                $model->filename->saveAs($path);
+                $model->file->saveAs($path);
+                $model->type = $model->file->getExtensionName();
+                $model->size = $model->file->getSize();
 
+
+                unlink(Yii::getPathOfAlias('webroot') . '/upload/files/' . $model->filename);
                 $model->filename = $name;
-                unlink(Yii::getPathOfAlias('webroot') . '/upload/files/' . $filename);
             }
-            else {
-                $model->filename = $filename;
-            }
+
 
             $model->save();
 //            var_dump($model->getErrors());die;
@@ -164,7 +178,7 @@ class DocsController extends Controller
 
 
                 Yii::app()->user->setFlash('success', "Файл изменен");
-                return $this->redirect('/docs/index');
+                return $this->redirect('/admin/file-category/view/?id=' . $model->categories[0]->id);
 				$this->redirect('index');
 
 		}
@@ -180,14 +194,20 @@ class DocsController extends Controller
 	 * @param integer $id the ID of the model to be deleted
 	 */
 	public function actionDelete($id)
+
 	{
+        $model = $this->loadModel($id);
+
+	    $category = $model->categories[0];
         File2Category::model()->find('file_id = ' . $id)->delete();
 
-		$this->loadModel($id)->delete();
+        unlink(Yii::getPathOfAlias('webroot') . '/upload/files/' . $model->filename);
+
+        $model->delete();
 
 
         Yii::app()->user->setFlash('success', "Файл удален");
-        return $this->redirect('/docs/index');
+        return $this->redirect('/admin/file-category/view/?id=' . $category->id);
 
 //		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 //		if(!isset($_GET['ajax']))
@@ -275,12 +295,7 @@ class DocsController extends Controller
                 $fileToObj->object_id = $objId;
                 $fileToObj->object_type = 1;
                 $fileToObj->save();
-
-
             }
-
-
-
 
             $model = QuestionCategory::model()->findByPk($objId);?>
 
@@ -288,23 +303,43 @@ class DocsController extends Controller
             foreach ($model->docs as $doc): ?>
                 <div>
                     <h6><?php echo CHtml::link(CHtml::encode($doc->name), '/admin/docs/download/?id=' . $doc->id, ['target' => '_blank']); ?>(<?php echo CHtml::encode($doc->downloads_count); ?>)
-                        <a href="">удалить</a></h6>
+                        <a data="<?= $doc->id ?>"  id="deattach"  href="">открепить</a></h6>
 
                 </div>
             <?php endforeach;
         endif;
 
 
+        }
 
-//            $html = '';
-//            if (is_array($model->docs)) {
-//
-//                foreach ($model->docs as $doc)
-//                    $html .= '<div><h6><a href="/admin/docs/download/?id=' . $doc->id . '">' . $doc->name . '</a></h6><a href="">удалить</a></div>';
-//
-//
-//                echo $html;
-//            }
+        return  '<p>error</p>';
+    }
+
+    public function actionDeAttachFilesToObject(){
+
+
+
+	    if (isset($_POST['fileId']) && isset($_POST['objId'])) {
+            $objId = $_POST['objId'];
+            $fileId = $_POST['fileId'];
+
+                File2Object::model()->find('object_id = ' . $objId . ' AND file_id =' . $fileId)->delete();
+
+            $model = QuestionCategory::model()->findByPk($objId);
+
+
+
+             if (is_array($model->docs)):
+            foreach ($model->docs as $doc): ?>
+                <div>
+                    <h6><?php echo CHtml::link(CHtml::encode($doc->name), '/admin/docs/download/?id=' . $doc->id, ['target' => '_blank']); ?>(<?php echo CHtml::encode($doc->downloads_count); ?>)
+                        <a  data="<?= $doc->id?>" id="deattach"  href="">открепить</a></h6>
+
+                </div>
+            <?php endforeach;
+        endif;
+
+
         }
 
         return  '<p>error</p>';

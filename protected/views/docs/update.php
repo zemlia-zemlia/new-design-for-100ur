@@ -8,8 +8,14 @@ $this->breadcrumbs = array(
     'Update',
 );
 
-
+Yii::app()->clientScript->registerScript('delete', "
+$('#delete').click(function(){
+alert('Серьезно?');
+});
+");
 ?>
+
+
 
 <h1>Редактировать файл <?php echo $model->name; ?></h1>
 <div class="row">

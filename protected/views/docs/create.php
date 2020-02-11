@@ -13,7 +13,7 @@ $this->menu = array(
 );
 ?>
 
-<h1>Загрузить Файл</h1>
+<h1>Загрузить Файл в категорию <?= $category->name ?></h1>
 <div class="row">
     <div class="col-md-6">
         <?php $this->renderPartial('_form', array('model' => $model)); ?>

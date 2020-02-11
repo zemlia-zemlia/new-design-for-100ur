@@ -159,6 +159,7 @@
                             </li>
 
 
+
                             <li>
                                 <?php echo CHtml::link("<span class='glyphicon glyphicon-list'></span> " . 'Направления', Yii::app()->createUrl('/admin/questionCategory/directions')); ?>
                             </li>
@@ -292,11 +293,14 @@
                             <i class="fa fa-th"></i> <span>Рассылки</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="<?= Yii::app()->createUrl('/docs') ?>">
-                            <i class="fa fa-th"></i> <span>Файлы</span>
-                        </a>
-                    </li>
+
+
+                <?php endif; ?>
+                <li>
+                    <a href="<?=Yii::app()->createUrl('/docs')?>">
+                        <i class="fa fa-th"></i> <span>Файлы</span>
+                    </a>
+                </li>
 
                 <?php endif; ?>
 

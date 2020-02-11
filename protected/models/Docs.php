@@ -7,8 +7,10 @@
  * @property integer $id
  * @property string $name
  * @property string $filename
- * @property integer $type
+ * @property string $type
  * @property integer $downloads_count
+ * @property integer $uploadTs
+ * @property integer $size
  *
  * The followings are the available model relations:
  * @property File2category[] $file2categories
@@ -16,6 +18,7 @@
  */
 class Docs extends CActiveRecord
 {
+    public $file;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -32,12 +35,13 @@ class Docs extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name,  type', 'required'),
-			array('type, downloads_count', 'numerical', 'integerOnly'=>true),
+			array('name', 'required'),
+			array('downloads_count', 'numerical', 'integerOnly'=>true),
 			array('name, filename', 'length', 'max'=>255),
+            array('file', 'file', 'types'=>'doc, docx, pdf, csv, xlsx, xls, rar, zip, 7z'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, filename, type, downloads_count, description', 'safe'),
+			array('id, name, type, downloads_count, description, uploadTs, size', 'safe'),
 		);
 	}
 
@@ -53,7 +57,7 @@ class Docs extends CActiveRecord
 		return array(
 			'file2categories' => array(self::HAS_MANY, 'File2Category', 'file_id'),
 			'file2objects' => array(self::HAS_MANY, 'File2Object', 'file_id'),
-            'categories' => array(self::HAS_MANY, 'FileCategory', 'id', 'through' => 'file2categories'),
+            'categories' => array(self::HAS_MANY, 'FileCategory', 'category_id', 'through' => 'file2categories'),
             'objects' => array(self::HAS_MANY, 'QuestionCategory', 'id', 'through' => 'file2objects'),
 		);
 	}
@@ -68,6 +72,7 @@ class Docs extends CActiveRecord
 			'name' => 'Название',
 			'filename' => 'Файл',
 			'type' => 'Тип',
+            'description' => 'Описание',
 			'downloads_count' => 'Количество скачиваний',
 		);
 	}
@@ -112,7 +117,7 @@ class Docs extends CActiveRecord
     }
 
 	public  function generateName(){
-	    return $this->generateRandomString(11) .  '_' . time() . '.' . $this->filename->getExtensionName();
+	    return $this->generateRandomString(11) .  '_' . time() . '.' . $this->file->getExtensionName();
     }
 
 
@@ -120,6 +125,7 @@ class Docs extends CActiveRecord
     public function getDownloadLink(){
         $this->downloads_count += 1;
         $this->save();
+
 	    return '/upload/files/' . $this->filename;
     }
 

@@ -7,9 +7,6 @@ $this->breadcrumbs = array(
 );
 
 
-foreach (Yii::app()->user->getFlashes() as $key => $message) {
-    echo '<div class="alert alert-' . $key . '">' . $message . "</div>\n";
-}
 
 
 $this->menu = array(

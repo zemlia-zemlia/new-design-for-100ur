@@ -174,7 +174,22 @@ if ($model->seoH1) {
                     ]);
                     ?>
                 </div>
+<div id="files">
+    <?php
+    if (is_array($model->docs)):
+    foreach ($model->docs as $doc):
+    ?>
 
+    <div>
+        <h6><?php echo CHtml::link(CHtml::encode($doc->name), '/admin/docs/download/?id=' . $doc->id, ['target' => '_blank']); ?>(<?php echo CHtml::encode($doc->downloads_count); ?>)
+           </h6>
+        <p><?= $doc->description ?></p>
+        <p><?= $doc->size ?></p>
+
+    </div>
+    <?php endforeach;
+    endif; ?>
+</div>
                 <?php if (Yii::app()->user->role == User::ROLE_JURIST): ?>
 
 
