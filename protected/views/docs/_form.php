@@ -48,9 +48,7 @@ e.preventDefault;
             </div>
 
 
-            <div class="form-group">
-                <p>Количество скачиваний: <?= $model->downloads_count ?></p>
-            </div>
+
 
             <div class="form-group buttons">
                 <?php echo CHtml::submitButton('Сохранить', ['class' => 'btn btn-primary']); ?>
@@ -58,6 +56,11 @@ e.preventDefault;
                     <a href="/docs/delete/?id=<?= $model->id ?>" id="delete" class="btn btn-warning">Удалить</a>
                 <?php endif; ?>
 
+            </div>
+            <p class="text-muted">Ограничения по размеру - 10 мб, <br>типы файлов - doc, docx, pdf, csv, xlsx, xls, rar, zip, 7z.</p>
+
+            <div class="form-group">
+                <p>Количество скачиваний: <?= $model->downloads_count ?></p>
             </div>
 
             <?php $this->endWidget(); ?>
