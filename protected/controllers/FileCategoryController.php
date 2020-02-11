@@ -97,7 +97,9 @@ class FileCategoryController extends Controller
             }
 
             Yii::app()->user->setFlash('success', "Категория добавлена");
-            return $this->redirect('/docs/index');
+		    if ($id) $url = '/admin/file-category/view/?id=' . $id;
+		    else $url =  '/admin/docs/index';
+            return $this->redirect($url);
 		}
 
 		$this->render('create',array(
