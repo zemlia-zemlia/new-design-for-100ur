@@ -78,6 +78,7 @@ class FileCategoryController extends Controller
 
 
 		$model=new FileCategory;
+		$model->status = 1;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
