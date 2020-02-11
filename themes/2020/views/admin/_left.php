@@ -305,7 +305,7 @@
                 <?php endif; ?>
 
 
-            <?php endif; ?>
+
 
 
         </ul>

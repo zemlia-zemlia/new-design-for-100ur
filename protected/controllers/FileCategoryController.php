@@ -78,7 +78,7 @@ class FileCategoryController extends Controller
 
 
 		$model=new FileCategory;
-		$model->status = 1;
+		$model->active = 1;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -141,10 +141,10 @@ class FileCategoryController extends Controller
 		 $model = $this->loadModel($id);
 		 $childrens = $model->children()->findAll();
 		 $model->active = 0;
-		 $model->save();
+		 $model->saveNode();
 		 foreach ($childrens as $child){
 		     $child->active = 0;
-		     $child->save();
+		     $child->saveNode();
          }
 
 

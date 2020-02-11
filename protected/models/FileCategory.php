@@ -43,7 +43,7 @@ class FileCategory extends CActiveRecord
 			array('name', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, lft, rgt, root, level, description', 'safe'),
+			array('id, name, lft, active, rgt, root, level, description', 'safe'),
 		);
 	}
 
