@@ -84,10 +84,25 @@
 
 
                     <li>
-                        <a href="<?= Yii::app()->createUrl('/admin/partnerTransaction') ?>">
-                            <i class="fa fa-th"></i> <span>Вывод средств</span> <small
-                                    class="label pull-right bg-green"><?php echo PartnerTransaction::getNewRequestsCount(); ?></small>
+                        <a href="#">
+                            <i class="fa fa-pie-chart"></i>
+                            <span>Вывод средств</span><span class="pull-right-container"><small class="label pull-right bg-yellow">0</small><small class="label pull-right bg-green">0</small></span>
+                            <i class="fa fa-angle-left pull-right"></i>
                         </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="<?= Yii::app()->createUrl('/admin/partnerTransaction') ?>">
+                                    <i class="fa fa-th"></i> <span>Вебмастера</span> <small
+                                            class="label pull-right bg-yellow"><?php echo PartnerTransaction::getNewRequestsCount(); ?></small>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Yii::app()->createUrl('/admin/partnerTransaction') ?>">
+                                    <i class="fa fa-th"></i> <span>Юристы</span> <small
+                                        class="label pull-right bg-green"><?php echo PartnerTransaction::getNewRequestsCount(); ?></small>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
 
@@ -142,7 +157,6 @@
                             <li>
                                 <?php echo CHtml::link("<span class='glyphicon glyphicon-chevron-right'></span> " . 'Вопросы без категории', Yii::app()->createUrl('/admin/question/nocat')); ?>
                             </li>
-
 
 
                             <li>
@@ -217,7 +231,8 @@
 
                     <li class="treeview">
                         <a href="#">
-                            <i class="fa fa-table"></i> <span>Отзывы</span>
+                            <i class="fa fa-table"></i> <span>Отзывы</span> <span><small
+                                    class="label pull-right bg-green"><?php echo Comment::newCommentsCount(Comment::TYPE_USER, 300); ?></small></span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -278,7 +293,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?=Yii::app()->createUrl('/docs')?>">
+                        <a href="<?= Yii::app()->createUrl('/docs') ?>">
                             <i class="fa fa-th"></i> <span>Файлы</span>
                         </a>
                     </li>
