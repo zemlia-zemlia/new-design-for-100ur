@@ -19,7 +19,7 @@ class File2Object extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{file2object}}';
+		return '{{docs2object}}';
 	}
 
 	/**

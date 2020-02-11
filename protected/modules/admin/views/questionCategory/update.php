@@ -4,7 +4,8 @@
 //Yii::app()->clientScript
 $urlToModal = Yii::app()->createUrl('fileCategory/createModalForObject/');
 $urlToAttach = Yii::app()->createUrl('admin/docs/attachFilesToObject/');
-$js = "var urlToModal = '$urlToModal'; objId = '$model->id'; var urlToAttach = '$urlToAttach';" ;
+$urlToDeAttach = Yii::app()->createUrl('admin/docs/deAttachFilesToObject/');
+$js = "var urlToModal = '$urlToModal'; objId = '$model->id'; var urlToAttach = '$urlToAttach'; var urlToDeAttach = '$urlToDeAttach';" ;
 $js .= <<<JS
 var catId = Number($('#catId').text());
  urlToModal =  urlToModal + ((catId != 0) ? '?id=' + catId : '');
@@ -62,6 +63,28 @@ $('#fileModal').on('click', '#attachSelectedFiles', function() {
 });
 
 
+});
+
+$('#files').on('click', '#deattach', function(e) {
+    e.preventDefault();
+   var fileId = Number($(this).attr('data'));
+   
+         $.ajax({
+    type: "POST",
+    url:urlToDeAttach,
+    dataType: "html",
+    data: {fileId: fileId, objId: objId},
+    success: function(msg){
+        $('#files').html(msg);
+
+  
+       console.log(msg);
+        
+    },
+    error:function(error) {
+      alert('error');
+    }
+  });
 });
 
 

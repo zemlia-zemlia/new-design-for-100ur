@@ -2,8 +2,16 @@
 /* @var $this DocsController */
 /* @var $model Docs */
 /* @var $form CActiveForm */
-?>
 
+Yii::app()->clientScript->registerScript('check', "
+$('#docs_form').beforeSubmit(function(e){
+if ($('#Docs_name.val() == '' ){
+alert('заполните название файла');
+e.preventDefault;
+}
+});
+", CClientScript::POS_END);
+?>
 
 <div class="box">
     <div class="box-body">
@@ -47,7 +55,7 @@
             <div class="form-group buttons">
                 <?php echo CHtml::submitButton('Сохранить', ['class' => 'btn btn-primary']); ?>
                 <?php if (!$model->isNewRecord): ?>
-                    <a href="/docs/delete/?id=<?= $model->id ?>" class="btn btn-warning">Удалить</a>
+                    <a href="/docs/delete/?id=<?= $model->id ?>" id="delete" class="btn btn-warning">Удалить</a>
                 <?php endif; ?>
 
             </div>
