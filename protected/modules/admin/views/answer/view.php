@@ -16,18 +16,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
  ));
 
 ?>
-<div class="vert-margin30">
 <h1>Ответ #<?php echo $model->id; ?></h1>
-</div>
 
-<div class="vert-margin30">
 <p>
     <?php echo nl2br(CHtml::encode($model->answerText));?>
 </p>
-</div>
 
 <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)):?> 
-<div class="vert-margin30">
+<div class="">
     <p><strong>Статус:</strong> <?php echo CHtml::encode($model->getAnswerStatusName()); ?>
         <span class="muted"><?php echo CustomFuncs::niceDate($model->datetime) . ' ' . CHtml::encode($model->author->name . ' ' .$model->author->lastName);?></span>
     </p>
