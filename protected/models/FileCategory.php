@@ -130,4 +130,8 @@ class FileCategory extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	public function getParentObj(){
+	    return $this->ancestors()->findAll()[0];
+
+    }
 }

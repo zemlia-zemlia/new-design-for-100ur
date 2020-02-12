@@ -131,6 +131,8 @@ class FileCategoryController extends Controller
 	{
 
 		 $model = $this->loadModel($id);
+		 $parent_id = $model->parentObj->id;
+//		 var_dump($model->parentObj->id);die;
 		 $childrens = $model->children()->findAll();
 		 $model->active = 0;
 		 $model->saveNode();
@@ -139,11 +141,14 @@ class FileCategoryController extends Controller
 		     $child->saveNode();
          }
 
+         if ($parent_id)
+             $url = '/admin/file-category/view/?id=' .  $parent_id;
+		 else $url = '/admin/docs/index';
 
 
 
         Yii::app()->user->setFlash('success', "Категория удалена");
-        return $this->redirect('/docs/index');
+        return $this->redirect($url);
 
 	}
 

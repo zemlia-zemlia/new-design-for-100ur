@@ -64,6 +64,9 @@ $('#exampleModal').modal('show');
                 </div>
             </div>
             <div class="box-body">
+                <?php if ($model->parentObj): ?>
+                Родитель: <a href="/admin/file-category/view/?id=<?= $model->parentObj->id ?>"> <?= $model->parentObj->name ?></a>
+     <?php endif; ?>
                 <?php $this->widget('zii.widgets.CDetailView', array(
                     'data'=>$model,
                     'attributes'=>array(
