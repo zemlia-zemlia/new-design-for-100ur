@@ -39,6 +39,7 @@ class TransactionController extends Controller
     {
         $transaction = new PartnerTransaction();
         $transaction->setScenario('pull');
+        $transaction->comment = (!Yii::app()->user->isGuest) ? Yii::app()->user->phone : '';
 
 
         $criteria = new CDbCriteria();

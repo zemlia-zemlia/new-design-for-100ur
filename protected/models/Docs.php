@@ -34,14 +34,18 @@ class Docs extends CActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
+        if ($this->getIsNewRecord()) $allowEmpty = false;
+        else $allowEmpty = true;
 		return array(
 			array('name', 'required', 'message' => 'Заполните имя'),
+            array('file', 'required','on' => 'create' ),
 			array('downloads_count', 'numerical', 'integerOnly'=>true),
 			array('name, filename', 'length', 'max'=>255),
-            array('file', 'file', 'types'=>'doc, docx, pdf, csv, xlsx, xls, rar, zip, 7z', 'allowEmpty'=>true),
+            array('file', 'file', 'types'=>'doc, docx, pdf, csv, xlsx, xls, rar, zip, 7z', 'allowEmpty'=>$allowEmpty),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, type, downloads_count, description, uploadTs, size', 'safe'),
+			array('id, type, downloads_count, description, uploadTs, size', 'safe'),
+
 		);
 	}
 
