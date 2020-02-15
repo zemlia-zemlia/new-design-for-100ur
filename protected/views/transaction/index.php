@@ -10,6 +10,7 @@ $this->pageTitle = "Транзакции пользователя. " . Yii::app(
 <div class="vert-margin30 text-center">
     <p class="lead">Ваш баланс: <strong><?php echo MoneyFormat::rubles(Yii::app()->user->getBalance(true), 2); ?> руб.</strong>
         <a data-toggle="collapse" href="#collapse-add-balance" aria-expanded="false" aria-controls="collapse-add-balance">пополнить</a>
+        <a data-toggle="collapse" href="#collapse-moneyout" aria-expanded="false" aria-controls="collapse-add-balance">вывести</a>
     </p>
 </div>
 

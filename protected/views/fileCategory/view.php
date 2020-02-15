@@ -70,6 +70,13 @@ $('#exampleModal').modal('show');
                 <?php $this->widget('zii.widgets.CDetailView', array(
                     'data'=>$model,
                     'attributes'=>array(
+                            [
+                            'attribute' => 'parentObj',
+                                'format' => 'html',
+                                'value' => function($data){
+                                return '<a href="/admin/file-category/view/?id=' . $data->parentObj->id . '">' . $data->parentObj->name .' </a>';
+                                }
+],
 
                         'name',
                         'description',
