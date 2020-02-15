@@ -41,7 +41,7 @@ class Docs extends CActiveRecord
             array('file', 'required','on' => 'create' ),
 			array('downloads_count', 'numerical', 'integerOnly'=>true),
 			array('name, filename', 'length', 'max'=>255),
-            array('file', 'file', 'types'=>'doc, docx, pdf, csv, xlsx, xls, rar, zip, 7z', 'maxSize' => 10485760, 'allowEmpty'=>true),
+            array('file', 'file', 'types'=>'doc, docx, pdf, csv, xlsx, xls, rar, zip, 7z', 'maxSize' => 10485760, 'allowEmpty'=>$allowEmpty),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, type, downloads_count, description, uploadTs, size', 'safe'),
