@@ -10,7 +10,7 @@ $this->pageTitle = "Транзакции пользователя. " . Yii::app(
 <div class="vert-margin30 text-center">
     <p class="lead">Ваш баланс: <strong><?php echo MoneyFormat::rubles(Yii::app()->user->getBalance(true), 2); ?> руб.</strong>
         <a data-toggle="collapse" href="#collapse-add-balance" aria-expanded="false" aria-controls="collapse-add-balance">пополнить</a>
-        <a data-toggle="collapse" href="#collapse-moneyout" aria-expanded="false" aria-controls="collapse-add-balance">вывести</a>
+        <a data-toggle="collapse" href="#collapse-moneyout" aria-expanded="false" aria-controls="collapse-moneyout">вывести</a>
     </p>
 </div>
 
@@ -24,6 +24,14 @@ $this->pageTitle = "Транзакции пользователя. " . Yii::app(
 <div class="collapse" id="collapse-add-balance">
     <h2>Пополнить баланс</h2>
     <?php echo $this->renderPartial('_yandexForm');?>
+</div>
+<div class="collapse" id="collapse-moneyout">
+    <h2>Вывести средства</h2>
+    <?php
+    echo $this->renderPartial('_form', array(
+        'model' => $transaction,
+    ));
+    ?>
 </div>
 
 <?php if (Yii::app()->user->role == User::ROLE_PARTNER): ?>
