@@ -22,5 +22,4 @@
 /protected/phinx.yml
 .php_cs.cache
 /framework/
-/framework/*
 /protected/phinx.yml
