@@ -92,7 +92,7 @@ class CampaignTransactionController extends Controller
             echo json_encode(['code' => 400, 'message' => 'Wrong data']);
             Yii::app()->end();
         }
-//        $trans = Yii::app()->db->beginTransaction();
+        $trans = Yii::app()->db->beginTransaction();
 
         $request = TransactionCampaign::model()->findByPk($requestId);
 
@@ -120,7 +120,7 @@ class CampaignTransactionController extends Controller
                 $moneyTransaction->datetime = date('Y-m-d H:i:s');
                 $moneyTransaction->comment = "Выплата юристу id " . $request->buyerId;
                 $moneyTransaction->save();
-
+                $trans->commit();
             }
             
             echo json_encode(['code' => 0, 'id' => $request->id, 'message' => 'OK']);
@@ -129,7 +129,7 @@ class CampaignTransactionController extends Controller
             echo json_encode(['code' => 500, 'message' => 'Could not save request' . print_r($request->errors)]);
             Yii::app()->end();
         }
-//        $trans->commit();
+
     }
 
     /**
