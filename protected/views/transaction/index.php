@@ -28,7 +28,7 @@ $this->pageTitle = "Транзакции пользователя. " . Yii::app(
 <div class="collapse" id="collapse-moneyout">
     <h2>Вывести средства</h2>
     <?php
-    echo $this->renderPartial('_form', array(
+    echo $this->renderPartial('_form_jurist', array(
         'model' => $transaction,
     ));
     ?>
