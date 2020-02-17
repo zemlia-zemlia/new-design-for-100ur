@@ -92,7 +92,7 @@ class CampaignTransactionController extends Controller
             echo json_encode(['code' => 400, 'message' => 'Wrong data']);
             Yii::app()->end();
         }
-        $trans = Yii::app()->db->beginTransaction();
+
 
         $request = TransactionCampaign::model()->findByPk($requestId);
 
@@ -103,13 +103,17 @@ class CampaignTransactionController extends Controller
 
         // обновляем запрос на вывод средств
         $request->status = $requestVerified;
-        if ($request->save()) {
+
+        $trans = Yii::app()->db->beginTransaction();
+        $transactionCampSave = $request->save();
+
+        if ($transactionCampSave) {
 
             if ($requestVerified == TransactionCampaign::STATUS_COMPLETE) {
 
                 // меняем баланс пользователя
-                Yii::app()->db->createCommand("UPDATE {{user}} SET balance = balance-" . abs($request->sum) . " WHERE id=" . $request->buyerId)->query();
-                Yii::app()->cache->delete('webmaster_' . $request->buyerId . '_balance');
+                $userBalanceSave = Yii::app()->db->createCommand("UPDATE {{user}} SET balance = balance-" . abs($request->sum) . " WHERE id=" . $request->buyerId)->query();
+
                 
                 // если одобрили вывод средств, создаем транзакцию в кассе
                 $moneyTransaction = new Money();
@@ -119,13 +123,23 @@ class CampaignTransactionController extends Controller
                 $moneyTransaction->value = abs($request->sum);
                 $moneyTransaction->datetime = date('Y-m-d H:i:s');
                 $moneyTransaction->comment = "Выплата юристу id " . $request->buyerId;
-                $moneyTransaction->save();
+                $moneyTransactionSave = $moneyTransaction->save();
+
+            }
+            if ($transactionCampSave && $userBalanceSave && $moneyTransactionSave){
                 $trans->commit();
+                echo json_encode(['code' => 0, 'id' => $request->id, 'message' => 'OK']);
+                Yii::app()->end();
+            }
+            else {
+                $trans->rollback();
+                echo json_encode(['code' => 500, 'message' => 'Could not save request' . print_r($request->errors)]);
+                Yii::app()->end();
             }
             
-            echo json_encode(['code' => 0, 'id' => $request->id, 'message' => 'OK']);
-            Yii::app()->end();
+
         } else {
+            $trans->rollback();
             echo json_encode(['code' => 500, 'message' => 'Could not save request' . print_r($request->errors)]);
             Yii::app()->end();
         }
