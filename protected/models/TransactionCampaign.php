@@ -39,7 +39,7 @@ class TransactionCampaign extends CActiveRecord
      */
     public static function getFullTableName()
     {
-        return Yii::app()->db->tablePrefix . 'transactionСampaign';
+        return Yii::app()->db->tablePrefix . 'transactionCampaign';
     }
 
     /**
