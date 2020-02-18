@@ -198,4 +198,5 @@ class TransactionCampaign extends CActiveRecord
         return $allStatuses[$this->status];
     }
 
+
 }

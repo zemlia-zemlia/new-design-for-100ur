@@ -155,7 +155,7 @@ class TransactionController extends Controller
             $transaction->buyerId = Yii::app()->user->id;
             $transaction->sum = $transaction->sum * 100;
             $transaction->status = TransactionCampaign::STATUS_PENDING;
-            $transaction->description = 'вывод средств с баланса на ' . $transaction->description;
+            $transaction->description = $transaction->description;
             $transaction->type = TransactionCampaign::TYPE_JURISN_MONEYOUT;
 
             $transaction->validate();
@@ -186,6 +186,8 @@ class TransactionController extends Controller
             if (!$transaction->hasErrors()) {
                 $transaction->sum = 0 - abs($transaction->sum);
                 if ($transaction->save()) {
+                    $transaction->description = 'вывод средств с баланса на ' . $transaction->description;
+                    $transaction->save();
                     Yii::app()->user->setFlash('success', "Заявка создана и отправлена на рассмотрение модератору");
                     LoggerFactory::getLogger('db')->log('Пользователь #' . Yii::app()->user->id . ' (' . Yii::app()->user->getShortName() . ') запросил вывод средств', 'User', Yii::app()->user->id);
                     $this->redirect(['/transaction/index']);
