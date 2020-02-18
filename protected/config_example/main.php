@@ -75,6 +75,9 @@ return array(
                 '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>' => '/codecs/view',
                 '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>/<glavaAlias:[\w\-\.]+>' => '/codecs/view',
                 '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>/<glavaAlias:[\w\-\.]+>/<articleAlias:[\w\-\.]+>' => '/codecs/view',
+                '/admin/docs/' => '/docs',
+                '/admin/docs/<action>'                =>  '/docs/<action>',
+                '/admin/file-category/<action>'  =>  '/fileCategory/<action>',
             ),
         ),
         'clientScript' => array(

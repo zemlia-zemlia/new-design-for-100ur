@@ -87,6 +87,7 @@ class FileCategory extends CActiveRecord
 			'root' => 'Root',
 			'level' => 'Level',
             'description' => 'Описание',
+            'parentObj' => 'Родитель'
 		);
 	}
 

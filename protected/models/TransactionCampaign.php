@@ -12,11 +12,15 @@
  * @property string $description
  * @property integer $leadId
  * @property integer $type
+ * @property integer $status
  */
 class TransactionCampaign extends CActiveRecord
 {
     // типы объектов, за которые начислена транзакция
     const TYPE_ANSWER = 1;
+
+    const STATUS_COMPLETE = 1; // транзакция совершена
+    const STATUS_PENDING = 2; // транзакция на рассмотрении
 
     /**
      * @return string the associated database table name
@@ -43,7 +47,7 @@ class TransactionCampaign extends CActiveRecord
         // will receive user inputs.
         return array(
                 array('buyerId, sum, description', 'required'),
-                array('campaignId, buyerId', 'numerical', 'integerOnly'=>true),
+                array('campaignId, buyerId', 'numerical', 'status', 'integerOnly'=>true),
                 array('sum', 'numerical'),
                 // The following rule is used by search().
                 // @todo Please remove those attributes that should not be searched.

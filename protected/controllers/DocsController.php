@@ -60,11 +60,16 @@ class DocsController extends Controller
     public function actionCreate($id)
     {
         $model = new Docs;
+        $model->setScenario('pull');
         $category = FileCategory::model()->findByPk($id);
 
         if (isset($_POST['Docs'])) {
             $model->attributes = $_POST['Docs'];
             $model->file = CUploadedFile::getInstance($model, 'file');
+            if (!$model->file && $model->getIsNewRecord()) {
+                Yii::app()->user->setFlash('error', "Ошибка");
+                $this->render('create', array('model' => $model, 'category' => $category));
+            }
             $name = $model->generateName();
             $path = Yii::getPathOfAlias('webroot') . '/upload/files/' . $name;
             $model->file->saveAs($path);
