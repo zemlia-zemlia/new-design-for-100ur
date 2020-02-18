@@ -3,30 +3,24 @@ $this->pageTitle = "Транзакции пользователя. " . Yii::app(
 
 ?>
 <?php
-foreach(Yii::app()->user->getFlashes() as $key => $message) {
-    echo '<div class="alert-' . $key . '">' . $message . "</div>\n";
+foreach (Yii::app()->user->getFlashes() as $key => $message) {
+    echo '<div class="alert alert-' . $key . '">' . $message . "</div>\n";
 }
 ?>
-<div  class="vert-margin30">
+<div class="vert-margin30">
     <h1>Мои финансы</h1>
 </div>
 
 <div class="vert-margin30 text-center">
-    <p class="lead">Ваш баланс: <strong><?php echo MoneyFormat::rubles(Yii::app()->user->getBalance(true), 2); ?> руб.</strong>
+    <p class="lead">Ваш баланс: <strong><?php echo MoneyFormat::rubles(Yii::app()->user->getBalance(true), 2); ?>
+            руб.</strong>
 
     </p>
 </div>
 
-<?php //if ($justCreated == true): ?>
-<!--    <div class="alert alert-success text-center">-->
-<!--        <h4>Заявка на вывод средств создана</h4>-->
-<!--        <p>Заявка создана и отправлена на рассмотрение модератору</p>-->
-<!--    </div>-->
-<?php //endif; ?>
-
 <div class="row">
     <div class="col-lg-6">
-        <?php echo $this->renderPartial('_yandexForm');?>
+        <?php echo $this->renderPartial('_yandexForm'); ?>
     </div>
     <div class="col-lg-6">
         <?php
@@ -40,20 +34,16 @@ foreach(Yii::app()->user->getFlashes() as $key => $message) {
 </div>
 
 
-
-
-
-
-
 <?php if (Yii::app()->user->role == User::ROLE_PARTNER): ?>
     <table class="table">
         <tr>
             <td class="center-align">
-                Доступно для вывода:<br /> <strong>
+                Доступно для вывода:<br/> <strong>
                     <?php if (($balance) < PartnerTransaction::MIN_WITHDRAW_REFERAL): ?>
-                        <small><span class="text-danger">Минимальная сумма для вывода - <?php echo PartnerTransaction::MIN_WITHDRAW_REFERAL; ?>&nbsp;руб.</span></small>
+                        <small><span
+                                    class="text-danger">Минимальная сумма для вывода - <?php echo PartnerTransaction::MIN_WITHDRAW_REFERAL; ?>&nbsp;руб.</span></small>
                     <?php else: ?>
-                        <?php echo MoneyFormat::rubles($balance); ?> руб.</strong>
+                    <?php echo MoneyFormat::rubles($balance); ?> руб.</strong>
                 <?php endif; ?>
             </td>
             <td>
@@ -67,19 +57,20 @@ foreach(Yii::app()->user->getFlashes() as $key => $message) {
         </tr>
     </table>
 
-    <hr/>
 <?php endif; ?>
 
+<hr/>
+
 <?php if ($requestsDataProvider->totalItemCount): ?>
-    <h2>Заявки на вывод средств</h2>
+    <h2>История изменения баланса</h2>
     <table class="table table-bordered table-hover table-striped">
         <thead>
-            <tr>
-                <th>Дата</th>
-                <th>Сумма</th>
-                <th>Комментарий</th>
-                <th>Статус</th>
-            </tr>
+        <tr>
+            <th>Дата</th>
+            <th>Сумма</th>
+            <th>Комментарий</th>
+            <th>Статус</th>
+        </tr>
         </thead>
         <?php
 
@@ -97,11 +88,11 @@ foreach(Yii::app()->user->getFlashes() as $key => $message) {
 <h2>История изменения баланса</h2>
 <table class="table table-bordered table-hover table-striped">
     <thead>
-        <tr>
-            <th>Дата</th>
-            <th>Сумма</th>
-            <th>Комментарий</th>
-        </tr>
+    <tr>
+        <th>Дата</th>
+        <th>Сумма</th>
+        <th>Комментарий</th>
+    </tr>
     </thead>
     <?php
     $this->widget('zii.widgets.CListView', array(
