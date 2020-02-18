@@ -22,7 +22,7 @@ class TransactionCampaign extends CActiveRecord
 
     const STATUS_COMPLETE = 1; // транзакция совершена
     const STATUS_PENDING = 2; // транзакция на рассмотрении
-    const MIN_WITHDRAW = 30000; // минимальная сумма для вывода (в копейках)
+    const MIN_WITHDRAW = 300; // минимальная сумма для вывода (в копейках)
 
 
 
