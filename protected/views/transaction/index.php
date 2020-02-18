@@ -2,41 +2,48 @@
 $this->pageTitle = "Транзакции пользователя. " . Yii::app()->name;
 
 ?>
-
+<?php
+foreach(Yii::app()->user->getFlashes() as $key => $message) {
+    echo '<div class="alert-' . $key . '">' . $message . "</div>\n";
+}
+?>
 <div  class="vert-margin30">
     <h1>Мои финансы</h1>
 </div>
 
 <div class="vert-margin30 text-center">
     <p class="lead">Ваш баланс: <strong><?php echo MoneyFormat::rubles(Yii::app()->user->getBalance(true), 2); ?> руб.</strong>
-        <a data-toggle="collapse" href="#collapse-add-balance" aria-expanded="false" aria-controls="collapse-add-balance">пополнить</a>
-        <a data-toggle="collapse" href="#collapse-moneyout" aria-expanded="false" aria-controls="collapse-moneyout">вывести</a>
+
     </p>
 </div>
 
-<?php if ($justCreated == true): ?>
-    <div class="alert alert-success text-center">
-        <h4>Заявка на вывод средств создана</h4>
-        <p>Заявка создана и отправлена на рассмотрение модератору</p>
+<?php //if ($justCreated == true): ?>
+<!--    <div class="alert alert-success text-center">-->
+<!--        <h4>Заявка на вывод средств создана</h4>-->
+<!--        <p>Заявка создана и отправлена на рассмотрение модератору</p>-->
+<!--    </div>-->
+<?php //endif; ?>
+
+<div class="row">
+    <div class="col-lg-6">
+        <?php echo $this->renderPartial('_yandexForm');?>
     </div>
-<?php endif; ?>
+    <div class="col-lg-6">
+        <?php
+        echo $this->renderPartial('_form_jurist', array(
+            'model' => $transaction,
+        ));
+        ?>
+    </div>
 
 
-
-<div class="collapse" id="collapse-add-balance">
-    <h2>Пополнить баланс</h2>
-    <?php echo $this->renderPartial('_yandexForm');?>
 </div>
 
 
-<div class="collapse" id="collapse-moneyout">
-    <h2>Вывести средства</h2>
-    <?php
-    echo $this->renderPartial('_form_jurist', array(
-        'model' => $transaction,
-    ));
-    ?>
-</div>
+
+
+
+
 
 <?php if (Yii::app()->user->role == User::ROLE_PARTNER): ?>
     <table class="table">
@@ -75,6 +82,7 @@ $this->pageTitle = "Транзакции пользователя. " . Yii::app(
             </tr>
         </thead>
         <?php
+
         $this->widget('zii.widgets.CListView', array(
             'dataProvider' => $requestsDataProvider,
             'itemView' => '_viewRequest',
