@@ -2,7 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class Add_StatusToTransaction extends AbstractMigration
+class AddStatusToTransaction extends AbstractMigration
 {
 
     public function up()
