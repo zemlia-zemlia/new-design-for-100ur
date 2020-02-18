@@ -83,7 +83,25 @@ class TransactionController extends Controller
             ),
         ));
 
+
+
+
+
         $currentUser = User::model()->findByPk(Yii::app()->user->id);
+
+
+        if ($currentUser->role == User::ROLE_JURIST){
+            $requestsCriteria = new CDbCriteria();
+            $requestsCriteria->addColumnCondition(array('buyerId' => Yii::app()->user->id, 'sum<' => 0));
+            $requestsCriteria->order = "id DESC";
+
+            $requestsDataProvider = new CActiveDataProvider('transactionCampaign', array(
+                'criteria' => $requestsCriteria,
+                'pagination' => array(
+                    'pageSize' => 10,
+                ),
+            ));
+        }
 
         // если это вебмастер, кешируем баланс, рассчитанный из транзакций вебмастера
         if ($cachedBalance = Yii::app()->cache->get('webmaster_' . Yii::app()->user->id . '_balance')) {
@@ -127,7 +145,8 @@ class TransactionController extends Controller
             if (!$transaction->hasErrors()) {
                 $transaction->sum = 0 - abs($transaction->sum);
                 if ($transaction->save()) {
-                    $this->redirect(array('/transaction/index', 'created' => 1));
+                    Yii::app()->user->setFlash('success', "Заявка создана и отправлена на рассмотрение модератору");
+                    $this->redirect(array('/transaction/index'));
                 }
             }
         }
@@ -147,7 +166,7 @@ class TransactionController extends Controller
             }
 
             if (abs($transaction->sum) < TransactionCampaign::MIN_WITHDRAW) {
-                $transaction->addError('sum', 'Минимальная сумма для вывода - ' . TransactionCampaign::MIN_WITHDRAW . ' руб.');
+                $transaction->addError('sum', 'Минимальная сумма для вывода - ' . TransactionCampaign::MIN_WITHDRAW / 100 . ' руб.');
             }
 
             // Проверяем, нет ли у текущего пользователя заявок на рассмотрении
@@ -161,14 +180,15 @@ class TransactionController extends Controller
                 ->limit(1)
                 ->queryAll();
             if (sizeof($pendingTransactions)) {
-                $transaction->addError('comment', 'Невозможно создать заявку на вывод средств, т.к. у Вас уже есть активная заявка. Пожалуйста, дождитесь ее рассмотрения');
+                $transaction->addError('description', 'Невозможно создать заявку на вывод средств, т.к. у Вас уже есть активная заявка. Пожалуйста, дождитесь ее рассмотрения');
             }
 
             if (!$transaction->hasErrors()) {
                 $transaction->sum = 0 - abs($transaction->sum);
                 if ($transaction->save()) {
+                    Yii::app()->user->setFlash('success', "Заявка создана и отправлена на рассмотрение модератору");
                     LoggerFactory::getLogger('db')->log('Пользователь #' . Yii::app()->user->id . ' (' . Yii::app()->user->getShortName() . ') запросил вывод средств', 'User', Yii::app()->user->id);
-                    $this->redirect(array('/transaction/index', 'created' => 1));
+                    $this->redirect(['/transaction/index']);
                 }
             }
         }
