@@ -21,10 +21,14 @@ $this->pageTitle = "Транзакции пользователя. " . Yii::app(
     </div>
 <?php endif; ?>
 
+
+
 <div class="collapse" id="collapse-add-balance">
     <h2>Пополнить баланс</h2>
     <?php echo $this->renderPartial('_yandexForm');?>
 </div>
+
+
 <div class="collapse" id="collapse-moneyout">
     <h2>Вывести средства</h2>
     <?php
