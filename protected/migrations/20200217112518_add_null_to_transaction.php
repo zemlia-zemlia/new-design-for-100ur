@@ -2,7 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class Add_NullToTransaction extends AbstractMigration
+class AddNullToTransaction extends AbstractMigration
 {
 
     public function up()
