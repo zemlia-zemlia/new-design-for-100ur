@@ -121,7 +121,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <div class='col-md-4'>
         <div class="box">
             <div class="box-header">
-                <div class="box-title">Записи из лога</div>
+                <div class="box-title">Управление</div>
             </div>
             <div class="box-body">
                 <div class="">

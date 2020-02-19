@@ -13,7 +13,7 @@
         $townName = ($model->townId) ? Town::getName($model->townId) : '';
         //CustomFuncs::printr($model->attributes);
         ?>
-        <div class="col-sm-1 col-xs-6">
+        <div class="col-sm-1 col-xs-2">
             <div class="form-group">
                 <?php echo $form->labelEx($model, 'date1'); ?> <br/>
                 <?php
@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <div class="col-sm-1 col-xs-6">
+        <div class="col-sm-1 col-xs-2">
 
             <div class="form-group">
                 <?php echo $form->labelEx($model, 'date2'); ?><br/>
@@ -60,7 +60,7 @@
             </div>
         </div>
 
-        <div class="col-sm-2 col-xs-6">
+        <div class="col-sm-2 col-xs-2">
             <div class="">
                 <?php echo $form->labelEx($model, 'town'); ?><br/>
                 <?php
@@ -75,7 +75,7 @@
             </div>
         </div>
 
-        <div class="col-sm-2 col-xs-6">
+        <div class="col-sm-2 col-xs-2 hidden-xs">
             <div class="">
                 <?php echo $form->labelEx($model, 'regionId'); ?><br/>
                 <?php
@@ -86,7 +86,7 @@
             </div>
         </div>
 
-        <div class="col-sm-1 col-xs-6">
+        <div class="col-sm-1 col-xs-2">
             <div class="form-group">
                 <?php echo $form->labelEx($model, 'sourceId'); ?><br/>
                 <?php
@@ -97,7 +97,7 @@
             </div>
         </div>
 
-        <div class="col-sm-1 col-xs-6">
+        <div class="col-sm-1 col-xs-2 hidden-xs">
             <div class="form-group">
                 <?php echo $form->labelEx($model, 'type'); ?><br/>
                 <?php
@@ -108,7 +108,7 @@
             </div>
         </div>
 
-        <div class="col-sm-1 col-xs-6">
+        <div class="col-sm-1 col-xs-2">
             <div class="form-group">
                 <?php echo $form->labelEx($model, 'leadStatus'); ?><br/>
                 <?php
@@ -119,7 +119,7 @@
             </div>
         </div>
 
-        <div class="col-sm-1 col-xs-6">
+        <div class="col-sm-1 col-xs-2">
             <div class="form-group">
                 <?php echo $form->labelEx($model, 'phone'); ?><br/>
                 <?php echo $form->textField($model, 'phone', array('class' => 'form-control input-sm', 'style' => 'width:100%;')); ?>
