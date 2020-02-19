@@ -16,6 +16,10 @@ class AddExtraFieldsToDocs extends AbstractMigration
 
     public function down()
     {
-
+        $this->table('100_docs')
+            ->removeColumn('size')
+            ->removeColumn('uploadTs')
+            ->save();
+        $this->query('ALTER TABLE `100_docs` CHANGE `type` `type` int(11) NULL AFTER `filename`');
     }
 }
