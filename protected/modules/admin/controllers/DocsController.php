@@ -204,7 +204,7 @@ class DocsController extends Controller
                 if (File2Object::model()->findAll('object_id = '.$objId.' AND file_id ='.$fileId)) {
                     continue;
                 }
-                $fileToObj = new File2Object(1);
+                $fileToObj = new File2Object();
                 $fileToObj->object_type = 1;
                 $fileToObj->file_id = $fileId;
                 $fileToObj->object_id = $objId;
