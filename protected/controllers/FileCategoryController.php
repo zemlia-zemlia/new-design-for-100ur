@@ -68,8 +68,6 @@ class FileCategoryController extends Controller
         $model = new FileCategory();
         $model->active = 1;
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
 
         if (isset($_POST['FileCategory'])) {
             if (0 != $id) {
@@ -107,8 +105,6 @@ class FileCategoryController extends Controller
     {
         $model = $this->loadModel($id);
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
 
         if (isset($_POST['FileCategory'])) {
             $model->attributes = $_POST['FileCategory'];
@@ -133,7 +129,6 @@ class FileCategoryController extends Controller
     {
         $model = $this->loadModel($id);
         $parent_id = $model->parentObj->id;
-        //		 var_dump($model->parentObj->id);die;
         $childrens = $model->children()->findAll();
         $model->active = 0;
         $model->saveNode();

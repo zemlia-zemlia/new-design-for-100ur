@@ -1,5 +1,6 @@
 <?php
 
+use RandomStringHelper;
 /**
  * This is the model class for table "{{docs}}".
  *
@@ -112,20 +113,11 @@ class Docs extends CActiveRecord
         ]);
     }
 
-    protected function generateRandomString($legth = 10)
-    {
-        $charaters = '01234567890abcdefghijklmnopqrstuvwxyz';
-        $randomString = '';
-        for ($i = 0; $i < $legth; ++$i) {
-            $randomString .= $charaters[rand(0, strlen($charaters) - 1)];
-        }
 
-        return $randomString;
-    }
 
     public function generateName()
     {
-        return $this->generateRandomString(11).'_'.time().'.'.$this->file->getExtensionName();
+        return RandomStringHelper::generateRandomString(11).'_'.time().'.'.$this->file->getExtensionName();
     }
 
     public function getDownloadLink()
