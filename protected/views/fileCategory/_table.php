@@ -15,7 +15,7 @@
         <tr>
             <td>
 
-               <strong><a href="#" class="catLink"  id="<?= $category->id ?>"><?= $category->name ?></a> </strong>
+               <strong><a href="#" class="catLink"  id="<?php echo $category->id; ?>"><?php echo $category->name; ?></a> </strong>
 
             </td>
             <td>

@@ -2,20 +2,20 @@
 /* @var $this FileCategoryController */
 /* @var $model FileCategory */
 
-$this->breadcrumbs=array(
-	'File Categories'=>array('index'),
-	$model->name=>array('view','id'=>$model->id),
-	'Update',
-);
+$this->breadcrumbs = [
+    'File Categories' => ['index'],
+    $model->name => ['view', 'id' => $model->id],
+    'Update',
+];
 
-$this->menu=array(
-	array('label'=>'List FileCategory', 'url'=>array('index')),
-	array('label'=>'Create FileCategory', 'url'=>array('create')),
-	array('label'=>'View FileCategory', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage FileCategory', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List FileCategory', 'url' => ['index']],
+    ['label' => 'Create FileCategory', 'url' => ['create']],
+    ['label' => 'View FileCategory', 'url' => ['view', 'id' => $model->id]],
+    ['label' => 'Manage FileCategory', 'url' => ['admin']],
+];
 ?>
 
 <h1>Update FileCategory <?php echo $model->id; ?></h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', ['model' => $model]); ?>

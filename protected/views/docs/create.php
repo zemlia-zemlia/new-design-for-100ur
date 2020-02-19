@@ -2,21 +2,21 @@
 /* @var $this DocsController */
 /* @var $model Docs */
 
-$this->breadcrumbs = array(
-    'Docs' => array('index'),
+$this->breadcrumbs = [
+    'Docs' => ['index'],
     'Create',
-);
+];
 
-$this->menu = array(
-    array('label' => 'List Docs', 'url' => array('index')),
-    array('label' => 'Manage Docs', 'url' => array('admin')),
-);
+$this->menu = [
+    ['label' => 'List Docs', 'url' => ['index']],
+    ['label' => 'Manage Docs', 'url' => ['admin']],
+];
 ?>
 
-<h1>Загрузить Файл в категорию <?= $category->name ?></h1>
+<h1>Загрузить Файл в категорию <?php echo $category->name; ?></h1>
 <div class="row">
     <div class="col-md-6">
-        <?php $this->renderPartial('_form', array('model' => $model)); ?>
+        <?php $this->renderPartial('_form', ['model' => $model]); ?>
     </div>
     <div class="col-md-6">
     </div>

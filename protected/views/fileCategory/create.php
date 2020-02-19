@@ -2,21 +2,21 @@
 /* @var $this FileCategoryController */
 /* @var $model FileCategory */
 
-$this->breadcrumbs = array(
-    'File Categories' => array('index'),
+$this->breadcrumbs = [
+    'File Categories' => ['index'],
     'Create',
-);
+];
 
-$this->menu = array(
-    array('label' => 'List FileCategory', 'url' => array('index')),
-    array('label' => 'Manage FileCategory', 'url' => array('admin')),
-);
+$this->menu = [
+    ['label' => 'List FileCategory', 'url' => ['index']],
+    ['label' => 'Manage FileCategory', 'url' => ['admin']],
+];
 ?>
 
 <h1>Новая категория файлов</h1>
 <div class="row">
     <div class="col-md-6">
-        <?php $this->renderPartial('_form', array('model' => $model)); ?>
+        <?php $this->renderPartial('_form', ['model' => $model]); ?>
     </div>
 
     <div class="col-md-6">

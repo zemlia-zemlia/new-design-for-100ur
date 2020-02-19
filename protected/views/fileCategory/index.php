@@ -2,19 +2,19 @@
 /* @var $this FileCategoryController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
-	'File Categories',
-);
+$this->breadcrumbs = [
+    'File Categories',
+];
 
-$this->menu=array(
-	array('label'=>'Create FileCategory', 'url'=>array('create')),
-	array('label'=>'Manage FileCategory', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'Create FileCategory', 'url' => ['create']],
+    ['label' => 'Manage FileCategory', 'url' => ['admin']],
+];
 ?>
 
 <h1>File Categories</h1>
 
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-)); ?>
+<?php $this->widget('zii.widgets.CListView', [
+    'dataProvider' => $dataProvider,
+    'itemView' => '_view',
+]); ?>
