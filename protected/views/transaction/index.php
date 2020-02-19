@@ -12,9 +12,8 @@ foreach (Yii::app()->user->getFlashes() as $key => $message) {
 </div>
 
 <div class="vert-margin30 text-center">
-    <p class="lead">Ваш баланс: <strong><?php echo MoneyFormat::rubles(Yii::app()->user->getBalance(true), 2); ?>
-            руб.</strong>
-
+    <p class="lead">Ваш баланс: <strong><?php echo MoneyFormat::rubles(Yii::app()->user->getBalance(true), 2); ?> руб.</strong>
+        <a data-toggle="collapse" href="#collapse-add-balance" aria-expanded="false" aria-controls="collapse-add-balance">пополнить</a>
     </p>
 </div>
 

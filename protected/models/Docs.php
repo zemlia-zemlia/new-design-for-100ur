@@ -38,10 +38,11 @@ class Docs extends CActiveRecord
 			array('name', 'required', 'message' => 'Заполните имя'),
 			array('downloads_count', 'numerical', 'integerOnly'=>true),
 			array('name, filename', 'length', 'max'=>255),
-            array('file', 'file', 'types'=>'doc, docx, pdf, csv, xlsx, xls, rar, zip, 7z', 'maxSize' => 10485760, 'allowEmpty'=>true),
+            array('file', 'file', 'types'=>'doc, docx, pdf, csv, xlsx, xls, rar, zip, 7z', 'allowEmpty'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, type, downloads_count, description, uploadTs, size', 'safe'),
+			array('id, type, downloads_count, description, uploadTs, size', 'safe'),
+
 		);
 	}
 
