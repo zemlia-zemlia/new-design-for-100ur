@@ -369,3 +369,7 @@ table.categories-list td{
 .campaign-topup-message {
     display:none;
 }
+
+.skin-blue .main-header .navbar {
+    background-color: #000000;
+}

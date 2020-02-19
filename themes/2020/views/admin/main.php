@@ -44,9 +44,7 @@
       Yii::app()->ClientScript->registerScriptFile('/adminlte/dist/js/app.min.js', CClientScript::POS_END);
       ?>
 
-      <?php
-      Yii::app()->clientScript->registerCssFile("/css/2017/admin.css");
-      ?>
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -54,6 +52,11 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+      <?php
+      Yii::app()->clientScript->registerCssFile("/css/2017/admin.css");
+      ?>
+
   </head>
   <body class="skin-blue sidebar-mini">
     <div class="wrapper">
