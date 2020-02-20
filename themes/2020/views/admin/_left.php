@@ -118,11 +118,17 @@
                     </a>
                 </li>
             <?php endif; ?>
+
             <?php if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)): ?>
                 <li class="header">Управление контентом</li>
 
-
                 <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR) || Yii::app()->user->role == User::ROLE_SECRETARY): ?>
+                    <li>
+                        <a href="<?= Yii::app()->createUrl('/admin/questionCategory') ?>">
+                            <i class="fa fa-bars" aria-hidden="true"></i> <span>Категории справ. мат-ов</span>
+                        </a>
+                    </li>
+
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-pie-chart"></i>
@@ -175,9 +181,6 @@
                         </ul>
                     </li>
 
-                    <li>
-                        <?php echo CHtml::link("<span class='glyphicon glyphicon-list'></span> " . 'Категории справ. мат-ов', Yii::app()->createUrl('/admin/questionCategory')); ?>
-                    </li>
 
                 <?php endif; ?>
 
@@ -295,8 +298,6 @@
                             <i class="fa fa-th"></i> <span>Рассылки</span>
                         </a>
                     </li>
-
-
                 <?php endif; ?>
                 <li>
                     <a href="<?= Yii::app()->createUrl('/docs') ?>">
