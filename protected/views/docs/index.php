@@ -3,11 +3,14 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs = array(
-    'Docs',
+    'Хранилище образцов документов',
 );
 
-
-
+$this->widget('zii.widgets.CBreadcrumbs', array(
+    'homeLink'=>CHtml::link('Админка', "/admin/"),
+    'separator'=>' / ',
+    'links'=>$this->breadcrumbs,
+));
 
 $this->menu = array(
     array('label' => 'Create Docs', 'url' => array('create')),
@@ -16,11 +19,13 @@ $this->menu = array(
 ?>
 <?php //var_dump($this->menu);die;?>
 
-<h1>Хранилище образцов документов</h1>
-
+<h2>Хранилище образцов документов</h2>
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-10">
         <div class="box">
+            <div class="box-header">
+                <div class="box-title">Категории документов</div>
+            </div>
             <div class="box-body">
                 <div id="categories">
                     <?php $this->renderPartial('_table', ['categories' => $categories]); ?>
@@ -28,12 +33,10 @@ $this->menu = array(
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
         <div class="box">
             <div class="box-body">
-                <a class="btn btn-warning btn-block" id="addCategory" href="/admin/file-category/create/?cat_id=0">Добавить
-                    корневую
-                    категорию</a>
+                <a class="btn btn-warning btn-block" id="addCategory" href="/admin/file-category/create/?cat_id=0">Добавить корневую категорию</a>
             </div>
         </div>
     </div>

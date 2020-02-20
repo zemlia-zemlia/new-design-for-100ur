@@ -18,4 +18,9 @@ $this->menu=array(
 
 <h1>Update FileCategory <?php echo $model->id; ?></h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<div class="row">
+    <div class="col-md-6">
+        <?php $this->renderPartial('_form', array('model'=>$model)); ?>
+    </div>
+    <div class="col-md-6"></div>
+</div>

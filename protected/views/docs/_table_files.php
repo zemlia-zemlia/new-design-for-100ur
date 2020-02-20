@@ -4,7 +4,7 @@
     }
 </style>
 
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-hover table-striped">
     <tr>
         <th>Название</th>
         <th>Описание</th>
@@ -15,13 +15,10 @@
     <?php foreach ($files as $file): ?>
 
         <tr>
-            <td>
-
+            <td class="lead">
                 <?php echo CHtml::link(CHtml::encode($file->name), array('/admin/docs/update?id=' . $file->id)); ?></strong>
-
             </td>
-
-            <td class="text-center">
+            <td>
                 <?php echo CHtml::encode($file->description); ?>
             </td>
             <td><?= CustomFuncs::niceDate(date('Y-m-d H:i:s', $file->uploadTs)) ?></td>

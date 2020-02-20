@@ -8,29 +8,21 @@
     <tr>
         <th>Название категории</th>
         <th>Описание</th>
-        <th>Подк.</th>
         <th>Ред.</th>
     </tr>
     <?php foreach ($categories as $category):
         if ($category->active):?>
 
         <tr>
-            <td>
-
-                <?php echo CHtml::link(CHtml::encode($category->name), array('fileCategory/view', 'id' => $category->id)); ?></strong>
-
+            <td class="lead">
+               <?php echo CHtml::link(CHtml::encode($category->name), array('fileCategory/view', 'id' => $category->id)); ?>
             </td>
-            <td>
-
-                <?php echo CHtml::encode($category->description); ?></strong>
-
+            <td class="small">
+                <?php echo CHtml::encode($category->description); ?>
             </td>
 
-            <td class="text-center">
-                <?php echo CHtml::link("+", array('/admin/file-category/create/?id=' . $category->id), array('class' => 'btn btn-xs btn-primary')); ?>
-            </td>
             <td>
-                <?php echo CHtml::link("Ред.", array('/admin/file-category/update/?id=' . $category->id)); ?>
+                <?php echo CHtml::link("Ред.", array('/admin/file-category/update/?id=' . $category->id), array('class' => 'btn btn-xs btn-default')); ?>
             </td>
         </tr>
 

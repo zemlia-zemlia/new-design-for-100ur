@@ -105,12 +105,20 @@ div.vert-margins {
 	padding:40px 0;
 }
 
+.vert-margin10 {
+    margin-bottom: 10px !important;
+}
+
 .vert-margin20 {
     margin-bottom: 20px !important;
 }
 
 .vert-margin30 {
 	margin-bottom: 30px;
+}
+
+.vert-margin40 {
+    margin-bottom: 40px;
 }
 
 .td-limited {

@@ -14,17 +14,13 @@
 
         <tr>
             <td>
-
                 <?php echo CHtml::link(CHtml::encode($file->name), array('/docs/download?id=' . $file->id)); ?></strong>
-
             </td>
-
             <td class="text-center">
                 <?php echo CHtml::encode($file->description); ?>
             </td>
             <td>
                 <a class="selectFile" data="<?= $file->id ?>" href="#">+</a>
-
             </td>
         </tr>
 

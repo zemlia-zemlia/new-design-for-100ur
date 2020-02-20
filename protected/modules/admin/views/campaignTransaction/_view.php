@@ -25,13 +25,13 @@
     
     <td class="request-control-wrapper">
         <?php if ($data->status == TransactionCampaign::STATUS_PENDING):?>
-            <select name="accountList"  id="accountList">
-                <option value="">Не выбран</option>
+            <select class="form-control vert-margin10"name="accountList"  id="accountList">
+                <option value="">Укажите счет</option>
                 <?php foreach (Money::getAccountsArray() as $key => $acc):?>
                     <option value="<?= $key ?>"><?= $acc ?></option>
                 <?php endforeach; ?>
             </select>
-            <?php echo CHtml::link("Оплатить", "#", ['class'=>'btn btn-success btn-xs btn-block change-request-status', 'data-id'=>$data->id, 'data-action'=>'accept']);?>
+            <?php echo CHtml::link("Выполнить", "#", ['class'=>'btn btn-success btn-xs btn-block change-request-status', 'data-id'=>$data->id, 'data-action'=>'accept']);?>
         <?php else:?>
             <?php echo $data->getStatus();?>
         
