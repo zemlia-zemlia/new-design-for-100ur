@@ -149,50 +149,52 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 </div>
 
 <div class="row">
-
     <div class="col-sm-8">
         <h3>Лиды</h3>
-        <?php $this->widget('zii.widgets.CListView', array(
-            'dataProvider' => $leadsDataProvider,
-            'itemView' => 'application.modules.admin.views.lead._view',
-            'template' => '{summary}{pager}{items}{pager}',
-            'emptyText' => 'Не найдено ни одного лида',
-            'summaryText' => 'Показаны лиды с {start} до {end}, всего {count}',
-            'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
-        )); ?>
-
+            <?php $this->widget('zii.widgets.CListView', array(
+                'dataProvider' => $leadsDataProvider,
+                'itemView' => 'application.modules.admin.views.lead._view',
+                'template' => '{summary}{pager}{items}{pager}',
+                'emptyText' => 'Не найдено ни одного лида',
+                'summaryText' => 'Показаны лиды с {start} до {end}, всего {count}',
+                'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
+            )); ?>
     </div>
 
     <div class="col-sm-4">
-        <h3>Статистика продаж по дням</h3>
-        <div class="box">
-            <?php $this->renderPartial('application.modules.admin.views.lead._searchFormDates', array(
-                'model' => $searchModel,
-                'action' => Yii::app()->createUrl('admin/campaign/view', array('id' => $model->id)),
-            )); ?>
+        <div class="box box-info">
+            <div class="box-header">
+                <div class="box-title">Статистика продаж по дням</div>
+            </div>
+            <div class="box-body">
+                <?php $this->renderPartial('application.modules.admin.views.lead._searchFormDates', array(
+                    'model' => $searchModel,
+                    'action' => Yii::app()->createUrl('admin/campaign/view', array('id' => $model->id)),
+                )); ?>
 
-            <?php if (is_array($leadsStats) && is_array($leadsStats['dates'])): ?>
+                <?php if (is_array($leadsStats) && is_array($leadsStats['dates'])): ?>
 
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Дата</th>
-                        <th class="text-right">Количество</th>
-                        <th class="text-right">Сумма</th>
-                    </tr>
-                    <?php foreach ($leadsStats['dates'] as $date => $leadsByDate): ?>
+                    <table class="table table-bordered">
                         <tr>
-                            <td><?php echo CustomFuncs::niceDate($date, false, false); ?></td>
-                            <td class="text-right"><?php echo $leadsByDate['count']; ?></td>
-                            <td class="text-right"><?php echo MoneyFormat::rubles($leadsByDate['sum']); ?> руб.</td>
+                            <th>Дата</th>
+                            <th class="text-right">Количество</th>
+                            <th class="text-right">Сумма</th>
                         </tr>
-                    <?php endforeach; ?>
-                    <tr>
-                        <th></th>
-                        <th class="text-right"><?php echo $leadsStats['total']; ?></th>
-                        <th class="text-right"><?php echo MoneyFormat::rubles($leadsStats['sum']); ?> руб.</th>
-                    </tr>
-                </table>
-            <?php endif; ?>
+                        <?php foreach ($leadsStats['dates'] as $date => $leadsByDate): ?>
+                            <tr>
+                                <td><?php echo CustomFuncs::niceDate($date, false, false); ?></td>
+                                <td class="text-right"><?php echo $leadsByDate['count']; ?></td>
+                                <td class="text-right"><?php echo MoneyFormat::rubles($leadsByDate['sum']); ?> руб.</td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <tr>
+                            <th></th>
+                            <th class="text-right"><?php echo $leadsStats['total']; ?></th>
+                            <th class="text-right"><?php echo MoneyFormat::rubles($leadsStats['sum']); ?> руб.</th>
+                        </tr>
+                    </table>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 </div>
