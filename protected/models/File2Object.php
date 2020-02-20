@@ -15,12 +15,7 @@
  */
 class File2Object extends CActiveRecord
 {
-    private $_type = 1;
 
-
-    private function getTypeClassName(){
-        return [1 => 'QuestionCategory'];
-    }
 
 
     /**
@@ -47,18 +42,7 @@ class File2Object extends CActiveRecord
         ];
     }
 
-    /**
-     * @return array relational rules
-     */
-    public function relations()
-    {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return [
-            'file' => [self::BELONGS_TO, 'Docs', 'file_id'],
-            'object' => [self::BELONGS_TO,  $this->_type, 'object_id'],
-        ];
-    }
+
 
     /**
      * @return array customized attribute labels (name=>label)
