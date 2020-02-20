@@ -21,7 +21,7 @@ $this->menu = array(
 
 <h2>Хранилище образцов документов</h2>
 <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-9">
         <div class="box">
             <div class="box-header">
                 <div class="box-title">Категории документов</div>
@@ -33,10 +33,11 @@ $this->menu = array(
             </div>
         </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
         <div class="box">
             <div class="box-body">
-                <a class="btn btn-warning btn-block" id="addCategory" href="/admin/file-category/create/?cat_id=0">Добавить корневую категорию</a>
+                <a class="btn btn-warning btn-block" id="addCategory" href="/admin/file-category/create/?cat_id=0"><i class="fa fa-plus" aria-hidden="true"></i>
+                     Добавить корневую категорию</a>
             </div>
         </div>
     </div>

@@ -8,8 +8,8 @@
     <tr>
         <th>Название</th>
         <th>Описание</th>
-        <th>Дата загрузки</th>
-        <th>Колво скачиваний</th>
+        <th>Загружен</th>
+        <th><i class="fa fa-download" aria-hidden="true"></i></th>
         <th>Ред.</th>
     </tr>
     <?php foreach ($files as $file): ?>

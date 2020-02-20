@@ -52,7 +52,7 @@ $('#exampleModal').modal('show');
                 ?>
             </div>
         </div>
-        <div class="box box-warning">
+        <div class="box box-info">
             <div class="box-header">
                 <div class="box-title">
                     Файлы вложенные в эту категорию
@@ -65,7 +65,7 @@ $('#exampleModal').modal('show');
                     $this->renderPartial('/docs/_table_files', ['files' => $model->files]);
                 ?>
                 </div>
-                <a class="btn btn-warning center-block" id="updateFile" href="/admin/docs/create/?id=<?= $model->id ?>">Добавить новый файл</a>
+                <a class="btn btn-info" id="updateFile" href="/admin/docs/create/?id=<?= $model->id ?>"><i class="fa fa-plus" aria-hidden="true"></i> Добавить новый файл</a>
             </div>
         </div>
     </div>
