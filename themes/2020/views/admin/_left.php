@@ -120,7 +120,6 @@
             <?php if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)): ?>
                 <li class="header">Управление контентом</li>
 
-
                 <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR) || Yii::app()->user->role == User::ROLE_SECRETARY): ?>
                     <li class="treeview">
                         <a href="#">

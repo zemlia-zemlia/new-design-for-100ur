@@ -23,21 +23,13 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <?php endif; ?>
 </h2>
 
-<table class="table table-bordered table-hover table-striped">
-    <thead>
-    <tr>
-        <th>Ответ</th>
-        <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
-            <th>Автор</th>
-        <?php endif; ?>
-    </tr>
-    </thead>
-    <?php $this->widget('zii.widgets.CListView', array(
-        'dataProvider' => $dataProvider,
-        'itemView' => '_view',
-        'emptyText' => 'Не найдено ни одного ответа',
-        'summaryText' => 'Показаны ответы с {start} до {end}, всего {count}',
-        'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
 
-    )); ?>
-</table>
+
+<?php $this->widget('zii.widgets.CListView', array(
+    'dataProvider' => $dataProvider,
+    'itemView' => '_view',
+    'emptyText' => 'Не найдено ни одного ответа',
+    'summaryText' => 'Показаны ответы с {start} до {end}, всего {count}',
+    'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
+
+)); ?>
