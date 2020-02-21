@@ -15,8 +15,8 @@
     <?php foreach ($files as $file): ?>
 
         <tr>
-            <td class="lead">
-                <?php echo CHtml::link(CHtml::encode($file->name), array('/admin/docs/update?id=' . $file->id)); ?></strong>
+            <td>
+                <h4 class="left-align"> <?php echo CHtml::link(CHtml::encode($file->name), array('/admin/docs/update?id=' . $file->id)); ?></h4>
             </td>
             <td>
                 <?php echo CHtml::encode($file->description); ?>

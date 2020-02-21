@@ -14,15 +14,15 @@
         if ($category->active):?>
 
         <tr>
-            <td class="lead">
-               <?php echo CHtml::link(CHtml::encode($category->name), array('fileCategory/view', 'id' => $category->id)); ?>
+            <td >
+                <h4 class="left-align"> <?php echo CHtml::link(CHtml::encode($category->name), array('fileCategory/view', 'id' => $category->id)); ?></h4>
             </td>
-            <td class="small">
+            <td class="">
                 <?php echo CHtml::encode($category->description); ?>
             </td>
 
             <td>
-                <?php echo CHtml::link("Ред.", array('/admin/file-category/update/?id=' . $category->id), array('class' => 'btn btn-xs btn-default')); ?>
+                <?php echo CHtml::link("Редактировать.", array('/admin/file-category/update/?id=' . $category->id), array('class' => 'btn btn-xs btn-default')); ?>
             </td>
         </tr>
 
