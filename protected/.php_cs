@@ -10,5 +10,6 @@ return PhpCsFixer\Config::create()
     '@PSR2' => true,
     'array_syntax' => ['syntax' => 'short'],
     'no_short_echo_tag' => true,
+    'concat_space' => ['spacing' => 'one'],
 ])
 ->setFinder($finder);
