@@ -20,12 +20,15 @@ use RandomStringHelper;
  */
 class Docs extends CActiveRecord
 {
+    /** @var CUploadedFile $file */
     public $file;
+
+    const RANDOM_NAME_LENGTH = 11; // длина рандомной части генерируемого имени файла
 
     /**
      * @return string the associated database table name
      */
-    public function tableName()
+    public function tableName():string
     {
         return '{{docs}}';
     }
@@ -33,32 +36,23 @@ class Docs extends CActiveRecord
     /**
      * @return array validation rules for model attributes
      */
-    public function rules()
+    public function rules():array
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
-        if ($this->getIsNewRecord()) {
-            $allowEmpty = false;
-        } else {
-            $allowEmpty = true;
-        }
-
         return [
             ['name', 'required', 'message' => 'Заполните имя'],
             ['file', 'required', 'on' => 'create'],
             ['downloads_count', 'numerical', 'integerOnly' => true],
             ['name, filename', 'length', 'max' => 255],
-            ['file', 'file', 'types' => 'doc, docx, pdf, csv, xlsx, xls, rar, zip, 7z', 'allowEmpty' => $allowEmpty],
+            ['file', 'file', 'types' => 'doc, docx, pdf, csv, xlsx, xls, rar, zip, 7z', 'allowEmpty' => $this->getIsNewRecord()],
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
-            ['id, type, downloads_count, description, uploadTs, size', 'safe'],
+            ['id, type, downloads_count, description, uploadTs, size', 'safe', 'on' => 'search'],
         ];
     }
 
     /**
      * @return array relational rules
      */
-    public function relations()
+    public function relations():array
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
@@ -66,14 +60,13 @@ class Docs extends CActiveRecord
             'file2categories' => [self::HAS_MANY, 'File2Category', 'file_id'],
             'file2objects' => [self::HAS_MANY, 'File2Object', 'file_id'],
             'categories' => [self::HAS_MANY, 'FileCategory', 'category_id', 'through' => 'file2categories'],
-
         ];
     }
 
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels()
+    public function attributeLabels():array
     {
         return [
             'id' => 'ID',
@@ -97,7 +90,7 @@ class Docs extends CActiveRecord
      * @return CActiveDataProvider the data provider that can return the models
      *                             based on the search/filter conditions
      */
-    public function search()
+    public function search():CActiveDataProvider
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
@@ -114,13 +107,18 @@ class Docs extends CActiveRecord
     }
 
 
-
-    public function generateName()
+    /**
+     * @return string
+     */
+    public function generateName():string
     {
-        return RandomStringHelper::generateRandomString(11).'_'.time().'.'.$this->file->getExtensionName();
+        return RandomStringHelper::generateRandomString(self::RANDOM_NAME_LENGTH).'_'.time().'.'.$this->file->getExtensionName();
     }
 
-    public function getDownloadLink()
+    /**
+     * @return string
+     */
+    public function getDownloadLink():string
     {
         ++$this->downloads_count;
         $this->save();
@@ -136,7 +134,7 @@ class Docs extends CActiveRecord
      *
      * @return Docs the static model class
      */
-    public static function model($className = __CLASS__)
+    public static function model($className = __CLASS__):Docs
     {
         return parent::model($className);
     }
