@@ -40,7 +40,7 @@
 
                 <li>
                     <a href="<?= Yii::app()->createUrl('/admin/order') ?>">
-                        <i class="fa fa-th"></i> <span>Заказы документов</span> <small
+                        <i class="fa fa-file-word-o" aria-hidden="true"></i><span>Заказы документов</span> <small
                                 class="label pull-right bg-green"><?php echo Order::calculateNewOrders(); ?></small>
                     </a>
                 </li>
@@ -56,7 +56,7 @@
 
                     <li>
                         <a href="<?= Yii::app()->createUrl('/admin/lead/stats') ?>">
-                            <i class="fa fa-area-chart" aria-hidden="true"></i><span>Статистика</span>
+                            <i class="fa fa-th"></i> <span>Статистика</span>
                         </a>
                     </li>
                     <li>
@@ -70,7 +70,7 @@
 
                 <li>
                     <a href="<?= Yii::app()->createUrl('/admin/user/index') ?>">
-                        <i class="fa fa-user" aria-hidden="true"></i><span>Пользователи</span>
+                        <i class="fa fa-th"></i> <span>Пользователи</span>
                     </a>
                 </li>
 
@@ -78,7 +78,7 @@
 
                     <li>
                         <a href="<?= Yii::app()->createUrl('/admin/money') ?>">
-                            <i class="fa fa-money" aria-hidden="true"></i><span>Касса</span>
+                            <i class="fa fa-th"></i> <span>Касса</span>
                         </a>
                     </li>
 
@@ -86,10 +86,10 @@
                     <li>
                         <a href="#">
                             <i class="fa fa-pie-chart"></i>
-                            <span>Вывод средств</span><span class="pull-right-container">
-                                <small class="label pull-right bg-yellow"><?php echo PartnerTransaction::getNewRequestsCount(); ?></small>
-                                <small class="label pull-right bg-green"><?php echo TransactionCampaign::getNewRequestsCount(); ?></small>
-                            </span>
+                            <span>Вывод средств</span><span class="pull-right-container"><small
+                                        class="label pull-right bg-yellow">0</small><small
+                                        class="label pull-right bg-green">0</small></span>
+                            <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
                             <li>
@@ -99,9 +99,9 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="<?= Yii::app()->createUrl('/admin/campaignTransaction') ?>">
+                                <a href="<?= Yii::app()->createUrl('/admin/partnerTransaction') ?>">
                                     <i class="fa fa-th"></i> <span>Юристы</span> <small
-                                            class="label pull-right bg-green"><?php echo TransactionCampaign::getNewRequestsCount(); ?></small>
+                                            class="label pull-right bg-green"><?php echo PartnerTransaction::getNewRequestsCount(); ?></small>
                                 </a>
                             </li>
                         </ul>
@@ -117,17 +117,11 @@
                     </a>
                 </li>
             <?php endif; ?>
-
             <?php if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)): ?>
                 <li class="header">Управление контентом</li>
 
-                <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR) || Yii::app()->user->role == User::ROLE_SECRETARY): ?>
-                    <li>
-                        <a href="<?= Yii::app()->createUrl('/admin/questionCategory') ?>">
-                            <i class="fa fa-bars" aria-hidden="true"></i> <span>Категории справ. мат-ов</span>
-                        </a>
-                    </li>
 
+                <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR) || Yii::app()->user->role == User::ROLE_SECRETARY): ?>
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-pie-chart"></i>
@@ -180,6 +174,9 @@
                         </ul>
                     </li>
 
+                    <li>
+                        <?php echo CHtml::link("<span class='glyphicon glyphicon-list'></span> " . 'Категории справ. мат-ов', Yii::app()->createUrl('/admin/questionCategory')); ?>
+                    </li>
 
                 <?php endif; ?>
 
@@ -262,10 +259,11 @@
 
                     <li class="treeview">
                         <a href="#">
-                            <i class="fa fa-newspaper-o" aria-hidden="true"></i><span>Новости</span>
+                            <i class="fa fa-table"></i> <span>Новости</span>
+                            <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li><?php echo CHtml::link("<i class=\"fa fa-newspaper-o\" aria-hidden=\"true\"></i>  Все новости", Yii::app()->createUrl('/admin/blog')); ?></li>
+                            <li><?php echo CHtml::link("<span class='glyphicon glyphicon-pencil'></span>  Все новости", Yii::app()->createUrl('/admin/blog')); ?></li>
                             <li>
                                 <a href="<?= Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_POST, 'status' => Comment::STATUS_NEW)) ?>"><i
                                             class="fa fa-circle-o"></i> Новые комментарии
@@ -274,10 +272,10 @@
                             </li>
                             <li>
                             <li>
-                                <?php echo CHtml::link("<i class=\"fa fa-comments\" aria-hidden=\"true\"></i> " . 'Одобренные комментарии', Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_POST, 'status' => Comment::STATUS_CHECKED))); ?>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-ok'></span> " . 'Одобренные комментарии', Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_POST, 'status' => Comment::STATUS_CHECKED))); ?>
                             </li>
                             <li>
-                                <?php echo CHtml::link("<i class=\"fa fa-comments\" aria-hidden=\"true\"></i> " . 'Спам комментарии', Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_POST, 'status' => Comment::STATUS_SPAM))); ?>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-fire'></span> " . 'Спам комментарии', Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_POST, 'status' => Comment::STATUS_SPAM))); ?>
                             </li>
                         </ul>
                     </li>
@@ -293,9 +291,11 @@
                     </li>
                     <li>
                         <a href="<?= Yii::app()->createUrl('/admin/mail/create') ?>">
-                            <i class="fa fa-at" aria-hidden="true"></i><span>Рассылки</span>
+                            <i class="fa fa-th"></i> <span>Рассылки</span>
                         </a>
                     </li>
+
+
                 <?php endif; ?>
                 <li>
                     <a href="<?= Yii::app()->createUrl('/docs') ?>">
