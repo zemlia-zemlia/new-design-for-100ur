@@ -1,4 +1,4 @@
-<?php
+с<?php
 // this contains the application parameters that can be maintained via GUI
 return array(
     'rangs' => require(dirname(__FILE__) . '/rangs.php'),
