@@ -15,7 +15,7 @@ $model->buyPrice = MoneyFormat::rubles($model->buyPrice);
     ));
     ?>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-4">
             <div class="box">
                 <div class="box-body">
                     <?php echo $form->errorSummary($model, "Исправьте ошибки"); ?>
@@ -113,19 +113,19 @@ $model->buyPrice = MoneyFormat::rubles($model->buyPrice);
             </div>
         </div>
         <div class="col-md-4">
-            <div class="box">
-                <div class="box-header">
-                    <div class="box-title">Категории права</div>
-                </div>
-                <div class="box-body">
-                    <?php if (!$model->isNewRecord): ?>
+            <?php if (!$model->isNewRecord): ?>
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-title">Категории права</div>
+                    </div>
+                    <div class="box-body">
                         <div class="form-group">
                             <?php echo $form->checkBoxList($model, 'categoriesId', $allDirections, array('class' => '')); ?>
                             <?php echo $form->error($model, 'categories'); ?>
                         </div>
-                    <?php endif; ?>
+                    </div>
                 </div>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 
