@@ -82,7 +82,10 @@ class CampaignTransactionController extends Controller
         ]);
     }
 
-    // изменение статуса заявки через AJAX
+    /**
+     * изменение статуса заявки через AJAX
+     * @todo покрыть тестами
+     */
     public function actionChange()
     {
         $requestId = (isset($_POST['id'])) ? (int) $_POST['id'] : false;
