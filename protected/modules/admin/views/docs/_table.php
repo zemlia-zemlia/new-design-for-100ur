@@ -17,7 +17,7 @@
         <tr>
             <td>
 
-                <?php echo CHtml::link(CHtml::encode($category->name), array('fileCategory/view', 'id' => $category->id)); ?></strong>
+                <?php echo CHtml::link(CHtml::encode($category->name), ['fileCategory/view', 'id' => $category->id]); ?></strong>
 
             </td>
             <td>
@@ -27,10 +27,10 @@
             </td>
 
             <td class="text-center">
-                <?php echo CHtml::link("+", array('/admin/file-category/create/?id=' . $category->id), array('class' => 'btn btn-xs btn-primary')); ?>
+                <?php echo CHtml::link('+', ['/admin/fileCategory/create', 'id' => $category->id], ['class' => 'btn btn-xs btn-primary']); ?>
             </td>
             <td>
-                <?php echo CHtml::link("Ред.", array('/admin/file-category/update/?id=' . $category->id)); ?>
+                <?php echo CHtml::link('Ред.', ['/admin/fileCategory/update', 'id' => $category->id]); ?>
             </td>
         </tr>
 

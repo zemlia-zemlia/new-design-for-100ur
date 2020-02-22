@@ -69,7 +69,7 @@ class CampaignTransactionController extends Controller
         $criteria = new CDbCriteria();
         $criteria->order = 'id DESC';
         $criteria->addCondition('sum<0');
-        $criteria->addCondition(['type =' . TransactionCampaign::TYPE_JURISN_MONEYOUT]);
+        $criteria->addCondition(['type =' . TransactionCampaign::TYPE_JURIST_MONEYOUT]);
         
         $dataProvider = new CActiveDataProvider('TransactionCampaign', [
             'criteria' => $criteria,
@@ -125,25 +125,17 @@ class CampaignTransactionController extends Controller
                 $moneyTransaction->comment = "Выплата юристу id " . $request->buyerId;
                 $moneyTransactionSave = $moneyTransaction->save();
 
+                if ($userBalanceSave && $moneyTransactionSave){
+                    $trans->commit();
+                    echo json_encode(['code' => 0, 'id' => $request->id, 'message' => 'OK']);
+                    Yii::app()->end();
+                }
             }
-            if ($transactionCampSave && $userBalanceSave && $moneyTransactionSave){
-                $trans->commit();
-                echo json_encode(['code' => 0, 'id' => $request->id, 'message' => 'OK']);
-                Yii::app()->end();
-            }
-            else {
-                $trans->rollback();
-                echo json_encode(['code' => 500, 'message' => 'Could not save request' . print_r($request->errors)]);
-                Yii::app()->end();
-            }
-            
-
-        } else {
-            $trans->rollback();
-            echo json_encode(['code' => 500, 'message' => 'Could not save request' . print_r($request->errors)]);
-            Yii::app()->end();
         }
 
+        $trans->rollback();
+        echo json_encode(['code' => 500, 'message' => 'Could not save request' . print_r($request->errors)]);
+        Yii::app()->end();
     }
 
     /**

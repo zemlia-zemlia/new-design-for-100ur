@@ -8,23 +8,26 @@
     <tr>
         <th>Название</th>
         <th>Описание</th>
-        <th>Добавить</th>
+        <th>Дата загрузки</th>
+        <th>Колво скачиваний</th>
+        <th>Ред.</th>
     </tr>
     <?php foreach ($files as $file): ?>
 
         <tr>
             <td>
+                <a href="<?= Yii::app()->createUrl('/admin/docs/update', ['id' => $file->id]) ?>"><?= CHtml::encode($file->name) ?></a>
 
-                <?php echo CHtml::link(CHtml::encode($file->name), array('/docs/download?id=' . $file->id)); ?></strong>
 
             </td>
 
             <td class="text-center">
                 <?php echo CHtml::encode($file->description); ?>
             </td>
+            <td><?php echo CustomFuncs::niceDate(date('Y-m-d H:i:s', $file->uploadTs)); ?></td>
+            <td><?php echo $file->downloads_count; ?></td>
             <td>
-                <a class="selectFile" data="<?= $file->id ?>" href="#">+</a>
-
+                <a href="<?= Yii::app()->createUrl('/admin/docs/update', ['id' => $file->id]) ?>">Ред.</a>
             </td>
         </tr>
 

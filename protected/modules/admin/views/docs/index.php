@@ -2,17 +2,14 @@
 /* @var $this DocsController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     'Docs',
-);
+];
 
-
-
-
-$this->menu = array(
-    array('label' => 'Create Docs', 'url' => array('create')),
-    array('label' => 'Manage Docs', 'url' => array('admin')),
-);
+$this->menu = [
+    ['label' => 'Create Docs', 'url' => ['create']],
+    ['label' => 'Manage Docs', 'url' => ['admin']],
+];
 ?>
 <?php //var_dump($this->menu);die;?>
 
@@ -31,7 +28,7 @@ $this->menu = array(
     <div class="col-md-4">
         <div class="box">
             <div class="box-body">
-                <a class="btn btn-warning btn-block" id="addCategory" href="/admin/file-category/create/?cat_id=0">Добавить
+                <a class="btn btn-warning btn-block" id="addCategory" href="<?= Yii::app()->createUrl('/admin/fileCategory/create', ['id' => 0]); ?>">Добавить
                     корневую
                     категорию</a>
             </div>
@@ -40,7 +37,8 @@ $this->menu = array(
 </div>
 
 <?php
-if ($category)
+if ($category) {
     $this->renderPartial('_table_files', ['files' => $category->files]);
+}
 ?>
 

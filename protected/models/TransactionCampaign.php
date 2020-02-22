@@ -18,11 +18,11 @@ class TransactionCampaign extends CActiveRecord
 {
     // типы объектов, за которые начислена транзакция
     const TYPE_ANSWER = 1;
-    const TYPE_JURISN_MONEYOUT = 9;
+    const TYPE_JURIST_MONEYOUT = 2;
 
     const STATUS_COMPLETE = 1; // транзакция совершена
     const STATUS_PENDING = 2; // транзакция на рассмотрении
-    const MIN_WITHDRAW = 300; // минимальная сумма для вывода (в копейках)
+    const MIN_WITHDRAW = 30000; // минимальная сумма для вывода (в копейках)
 
 
 
@@ -69,7 +69,6 @@ class TransactionCampaign extends CActiveRecord
         return array(
             'campaign'     =>  array(self::BELONGS_TO, 'Campaign', 'campaignId'),
             'partner' => [self::BELONGS_TO, 'User', 'buyerId'],
-
         );
     }
 
@@ -197,6 +196,4 @@ class TransactionCampaign extends CActiveRecord
 
         return $allStatuses[$this->status];
     }
-
-
 }

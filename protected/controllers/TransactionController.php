@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Страницы раздела транзакций пользователя
  */
@@ -47,7 +46,6 @@ class TransactionController extends Controller
         $criteria = new CDbCriteria();
         if (Yii::app()->user->role == User::ROLE_JURIST){
             $transaction = new TransactionCampaign();
-//            $transaction->setScenario('pull');
             $transaction->description = (!Yii::app()->user->isGuest) ? Yii::app()->user->phone : '';
             $criteria->addColumnCondition(array('buyerId' => Yii::app()->user->id));
             $transactionModelClass = 'TransactionCampaign';
@@ -157,7 +155,7 @@ class TransactionController extends Controller
             $transaction->sum = $transaction->sum * 100;
             $transaction->status = TransactionCampaign::STATUS_PENDING;
             $transaction->description = $transaction->description;
-            $transaction->type = TransactionCampaign::TYPE_JURISN_MONEYOUT;
+            $transaction->type = TransactionCampaign::TYPE_JURIST_MONEYOUT;
 
             $transaction->validate();
 

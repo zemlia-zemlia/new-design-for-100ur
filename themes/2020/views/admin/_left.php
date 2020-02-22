@@ -90,7 +90,6 @@
                                 <small class="label pull-right bg-yellow"><?php echo PartnerTransaction::getNewRequestsCount(); ?></small>
                                 <small class="label pull-right bg-green"><?php echo TransactionCampaign::getNewRequestsCount(); ?></small>
                             </span>
-<!--                            <i class="fa fa-angle-left pull-right"></i>-->
                         </a>
                         <ul class="treeview-menu">
                             <li>
@@ -299,7 +298,7 @@
 
                 <?php endif; ?>
                 <li>
-                    <a href="<?= Yii::app()->createUrl('/docs') ?>">
+                    <a href="<?= Yii::app()->createUrl('/admin/docs') ?>">
                         <i class="fa fa-th"></i> <span>Файлы</span>
                     </a>
                 </li>
