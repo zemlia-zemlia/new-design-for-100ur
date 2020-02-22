@@ -65,11 +65,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
     <?php
     // если пользователь залогинен и уже голосовал за этот пост, выводим иконку сердечка полупрозрачной
-    if ($postLiked === true) {
-        $likeClass = 'transparent';
-    } else {
-        $likeClass = '';
-    }
+    $likeClass = ($postLiked === true)  ? 'transparent' : '';
 
     ?>
     <div class="post-stats">
@@ -80,7 +76,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </div>
 
 
-    <?php if (sizeof($relatedPosts) > 0): ?>
+    <?php if (is_array($relatedPosts) && sizeof($relatedPosts) > 0): ?>
         <div class="post-related-list">
             <h2>Похожие посты</h2>
             <?php foreach ($relatedPosts as $relatedPost): ?>
