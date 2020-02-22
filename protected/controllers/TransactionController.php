@@ -29,6 +29,9 @@ class TransactionController extends Controller
                 'actions' => array('index', 'createSuccess'),
                 'users' => array('@'),
             ),
+            array('deny', // deny all users
+                'users' => array('*'),
+            ),
         );
     }
 
