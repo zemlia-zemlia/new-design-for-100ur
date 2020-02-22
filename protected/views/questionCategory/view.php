@@ -182,7 +182,7 @@ if ($model->seoH1) {
 
                     <div class="row">
                         <div class="col-md-6">
-                            <h6><?php echo CHtml::link(CHtml::encode($doc->name), '/admin/docs/download/?id=' . $doc->id, ['target' => '_blank']); ?>
+                            <h6><?php echo CHtml::link(CHtml::encode($doc->name), '/docs/download/?id=' . $doc->id, ['target' => '_blank']); ?>
                             </h6>
                         </div>
                         <div class="col-md-2">

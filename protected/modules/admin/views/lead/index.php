@@ -37,6 +37,6 @@ $this->breadcrumbs = array(
     'template' => '{summary}{pager}{items}{pager}',
     'emptyText' => 'Не найдено ни одного лида',
     'summaryText' => 'Показаны лиды с {start} до {end}, всего {count}',
-    'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
+    'pager' => array('class' => 'GTLinkPager'),
+    'ajaxUpdate' => false,
 )); ?>
-<!--</table>-->

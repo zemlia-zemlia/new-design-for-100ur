@@ -312,47 +312,46 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
     <?php if ($model->role == User::ROLE_BUYER): ?>
         <div class="col-md-6">
-        <div class="box">
-        <div class="box-header">
-            <div class="box-title">Статистика продаж лидов по дням</div>
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-title">Статистика продаж лидов по дням</div>
+                </div>
+                <div class="box-body">
+                    <div class="vert-margin30">
+                        <?php
+                        $this->renderPartial('application.modules.admin.views.lead._searchFormDates', array(
+                            'model' => $searchModel,
+                            'action' => Yii::app()->createUrl('admin/user/view', array('id' => $model->id)),
+                        ));
+                        ?>
+                    </div>
+                    <?php if (is_array($leadsStats) && is_array($leadsStats['dates'])): ?>
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Дата</th>
+                                <th class="text-right">Количество</th>
+                                <th class="text-right">Сумма</th>
+                            </tr>
+                            <?php foreach ($leadsStats['dates'] as $date => $leadsByDate): ?>
+                                <tr>
+                                    <td><?php echo CustomFuncs::niceDate($date, false, false); ?></td>
+                                    <td class="text-right"><?php echo $leadsByDate['count']; ?></td>
+                                    <td class="text-right"><?php echo MoneyFormat::rubles($leadsByDate['sum']); ?>
+                                        руб.
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            <tr>
+                                <th></th>
+                                <th class="text-right"><?php echo $leadsStats['total']; ?></th>
+                                <th class="text-right"><?php echo MoneyFormat::rubles($leadsStats['sum']); ?>руб.
+                                </th>
+                            </tr>
+                        </table>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
-        <div class="box-body">
-        <div class="vert-margin30">
-            <?php
-            $this->renderPartial('application.modules.admin.views.lead._searchFormDates', array(
-                'model' => $searchModel,
-                'action' => Yii::app()->createUrl('admin/user/view', array('id' => $model->id)),
-            ));
-            ?>
-        </div>
-        <?php if (is_array($leadsStats) && is_array($leadsStats['dates'])): ?>
-
-            <table class="table table-bordered">
-                <tr>
-                    <th>Дата</th>
-                    <th class="text-right">Количество</th>
-                    <th class="text-right">Сумма</th>
-                </tr>
-                <?php foreach ($leadsStats['dates'] as $date => $leadsByDate): ?>
-                    <tr>
-                        <td><?php echo CustomFuncs::niceDate($date, false, false); ?></td>
-                        <td class="text-right"><?php echo $leadsByDate['count']; ?></td>
-                        <td class="text-right"><?php echo MoneyFormat::rubles($leadsByDate['sum']); ?>
-                            руб.
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                <tr>
-                    <th></th>
-                    <th class="text-right"><?php echo $leadsStats['total']; ?></th>
-                    <th class="text-right"><?php echo MoneyFormat::rubles($leadsStats['sum']); ?>руб.
-                    </th>
-                </tr>
-            </table>
-            </div>
-            </div>
-            </div>
-        <?php endif; ?>
     <?php endif; ?>
 
     <?php if ($model->role == User::ROLE_PARTNER): ?>

@@ -1,6 +1,7 @@
 <?php
 //Yii::app()->clientScript->registerScriptFile('/js/balance.js');
 ?>
+<h3>Пополнить</h3>
 
 <form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml" class="balance-form">    
     <input type="hidden" name="receiver" value="410012948838662">      

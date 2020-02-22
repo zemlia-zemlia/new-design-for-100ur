@@ -19,6 +19,4 @@
 /f40f071a6e023e649c9f1a8137cc2500
 /protected/vendor/*
 /protected/commands/output/*
-/protected/phinx.yml
-/protected/.php_cs
 .php_cs.cache

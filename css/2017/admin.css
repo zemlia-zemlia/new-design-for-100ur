@@ -105,12 +105,20 @@ div.vert-margins {
 	padding:40px 0;
 }
 
+.vert-margin10 {
+    margin-bottom: 10px !important;
+}
+
 .vert-margin20 {
     margin-bottom: 20px !important;
 }
 
 .vert-margin30 {
 	margin-bottom: 30px;
+}
+
+.vert-margin40 {
+    margin-bottom: 40px;
 }
 
 .td-limited {
@@ -188,6 +196,14 @@ ul#left-menu a.btn:hover {
 
 div.pager {
     margin:10px 0;
+}
+
+.pager .next>a, .pager .next>span {
+    float: none;
+}
+
+.pager .previous>a, .pager .previous>span {
+    float: none;
 }
 
 .comments-item {
