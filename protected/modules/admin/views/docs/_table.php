@@ -22,7 +22,7 @@
             </td>
 
             <td>
-                <?php echo CHtml::link("Редактировать.", array('/admin/file-category/update/?id=' . $category->id), array('class' => 'btn btn-xs btn-default')); ?>
+                <?php echo CHtml::link("Редактировать.", array('/admin/fileCategory/update/?id=' . $category->id), array('class' => 'btn btn-xs btn-default')); ?>
             </td>
         </tr>
 

@@ -49,14 +49,15 @@ $('#exampleModal').modal('show');
             </div>
             <div class="box-body">
                 <div class="vert-margin10">
-                <?php
-                if (is_array($model->files)) {
-                    $this->renderPartial('/docs/_table_files', ['files' => $model->files]);
-                }
-                ?>
-                <a class="btn btn-warning right-align" id="updateFile"
-                   href="<?php echo Yii::app()->createUrl("/admin/docs/create", ['id' => $model->id]); ?>">Добавить
-                    файл</a>
+                    <?php
+                    if (is_array($model->files)) {
+                        $this->renderPartial('/docs/_table_files', ['files' => $model->files]);
+                    }
+                    ?>
+                    <a class="btn btn-warning right-align" id="updateFile"
+                       href="<?php echo Yii::app()->createUrl("/admin/docs/create", ['id' => $model->id]); ?>">Добавить
+                        файл</a>
+                </div>
             </div>
         </div>
     </div>
@@ -96,9 +97,13 @@ $('#exampleModal').modal('show');
                 </div>
             </div>
             <div class="box-body">
-                <a class="btn btn-info btn-block"  id="updateCategory" href="<?php echo Yii::app()->createUrl("/admin/fileCategory/update", ['id' => $model->id]); ?>">Редактировать категорию</a>
-                <a class="btn btn-primary btn-block"  id="addCategory" href="<?php echo Yii::app()->createUrl("/admin/fileCategory/create", ['id' => $model->id]); ?>">Добавить вложенную категорию</a>
-                <button class="btn btn-danger btn-block btn-xs"  id="removeCategory" >Удалить категорию</button>
+                <a class="btn btn-info btn-block" id="updateCategory"
+                   href="<?php echo Yii::app()->createUrl("/admin/fileCategory/update", ['id' => $model->id]); ?>">Редактировать
+                    категорию</a>
+                <a class="btn btn-primary btn-block" id="addCategory"
+                   href="<?php echo Yii::app()->createUrl("/admin/fileCategory/create", ['id' => $model->id]); ?>">Добавить
+                    вложенную категорию</a>
+                <button class="btn btn-danger btn-block btn-xs" id="removeCategory">Удалить категорию</button>
             </div>
         </div>
     </div>
@@ -119,8 +124,9 @@ $('#exampleModal').modal('show');
                 <h6>Серьезно?</h6>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="$('#exampleModal').modal('hide')"   class="btn btn-primary">Нет</button>
-                <a  href="<?php echo Yii::app()->createUrl("/admin/fileCategory/delete", ['id' => $model->id]); ?>" class="btn btn-primary">Да</a>
+                <button type="button" onclick="$('#exampleModal').modal('hide')" class="btn btn-primary">Нет</button>
+                <a href="<?php echo Yii::app()->createUrl("/admin/fileCategory/delete", ['id' => $model->id]); ?>"
+                   class="btn btn-primary">Да</a>
             </div>
         </div>
     </div>
