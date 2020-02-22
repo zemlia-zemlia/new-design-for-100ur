@@ -41,7 +41,7 @@ class ApiSovinform implements ApiClassInterface
             'question' => $lead->question,
         ];
 
-        $apiResponse = $this->httpClient->post('/add', [
+        $apiResponse = $this->httpClient->post('add', [
             'form_params' => $data,
         ]);
 
