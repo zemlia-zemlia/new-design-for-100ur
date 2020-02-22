@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="center-align">
-        <p class="small">Вывод средств возможен только на баланс мобильного телефона.</p>
+        <p class="small"><strong>Внимание!</strong> Вывод средств возможен только на баланс любого мобильного телефона.</p>
         <?php echo CHtml::submitButton('Вывести средства', array('class' => 'btn btn-default')); ?>
     </div>
     <?php $this->endWidget(); ?>
