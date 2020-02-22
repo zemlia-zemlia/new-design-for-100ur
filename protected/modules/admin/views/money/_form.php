@@ -14,6 +14,7 @@ $model->value = MoneyFormat::rubles($model->value);
                 <?php $form = $this->beginWidget('CActiveForm', array(
                     'id' => 'money-form',
                     'enableAjaxValidation' => false,
+                    'htmlOptions' => ['autocomplete'=>"off"]
                 )); ?>
 
                 <?php echo $form->errorSummary($model, 'Исправьте ошибки'); ?>

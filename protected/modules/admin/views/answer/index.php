@@ -30,6 +30,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     'itemView' => '_view',
     'emptyText' => 'Не найдено ни одного ответа',
     'summaryText' => 'Показаны ответы с {start} до {end}, всего {count}',
-    'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
-
+    'pager' => array('class' => 'GTLinkPager'), //we use own pager with russian words
+    'ajaxUpdate'=>false,
 )); ?>

@@ -4,14 +4,13 @@
             'id' => 'lead-search-form',
             'method' => 'GET',
             'action' => Yii::app()->createUrl('admin/lead/index'),
-            'htmlOptions' => array('class' => 'form-inline'),
+            'htmlOptions' => array('class' => 'form-inline', 'autocomplete'=>"off"),
             'enableAjaxValidation' => false,
         ));
         ?>
 
         <?php
         $townName = ($model->townId) ? Town::getName($model->townId) : '';
-        //CustomFuncs::printr($model->attributes);
         ?>
         <div class="col-sm-1 col-xs-2">
             <div class="form-group">

@@ -13,7 +13,6 @@ foreach (Yii::app()->user->getFlashes() as $key => $message) {
 
 <div class="vert-margin30 text-center">
     <p class="lead">Ваш баланс: <strong><?php echo MoneyFormat::rubles(Yii::app()->user->getBalance(true), 2); ?> руб.</strong>
-        <a data-toggle="collapse" href="#collapse-add-balance" aria-expanded="false" aria-controls="collapse-add-balance">пополнить</a>
     </p>
 </div>
 
@@ -61,7 +60,7 @@ foreach (Yii::app()->user->getFlashes() as $key => $message) {
 <hr/>
 
 <?php if ($requestsDataProvider->totalItemCount): ?>
-    <h2>История изменения баланса</h2>
+    <h2>Активные заявки на вывод средств</h2>
     <table class="table table-bordered table-hover table-striped">
         <thead>
         <tr>

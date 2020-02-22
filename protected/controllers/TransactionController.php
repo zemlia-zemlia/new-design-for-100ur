@@ -60,7 +60,7 @@ class TransactionController extends Controller
                 $criteria->addColumnCondition(array('partnerId' => Yii::app()->user->id, 'status' => PartnerTransaction::STATUS_COMPLETE));
                 $transactionModelClass = 'PartnerTransaction';
             } else {
-                $criteria->addColumnCondition(array('buyerId' => Yii::app()->user->id));
+                $criteria->addColumnCondition(array('buyerId' => Yii::app()->user->id, 'status' => TransactionCampaign::STATUS_COMPLETE));
                 $transactionModelClass = 'TransactionCampaign';
             }
         }
@@ -94,10 +94,10 @@ class TransactionController extends Controller
 
         if ($currentUser->role == User::ROLE_JURIST){
             $requestsCriteria = new CDbCriteria();
-            $requestsCriteria->addColumnCondition(array('buyerId' => Yii::app()->user->id, 'sum<' => 0));
+            $requestsCriteria->addColumnCondition(array('buyerId' => Yii::app()->user->id, 'sum<' => 0, 'status' => TransactionCampaign::STATUS_PENDING));
             $requestsCriteria->order = "id DESC";
 
-            $requestsDataProvider = new CActiveDataProvider('transactionCampaign', array(
+            $requestsDataProvider = new CActiveDataProvider('TransactionCampaign', array(
                 'criteria' => $requestsCriteria,
                 'pagination' => array(
                     'pageSize' => 10,

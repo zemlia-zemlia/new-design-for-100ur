@@ -198,6 +198,14 @@ div.pager {
     margin:10px 0;
 }
 
+.pager .next>a, .pager .next>span {
+    float: none;
+}
+
+.pager .previous>a, .pager .previous>span {
+    float: none;
+}
+
 .comments-item {
     background:#f2f2f2;
     padding:10px 5px;
