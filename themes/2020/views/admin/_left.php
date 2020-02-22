@@ -86,9 +86,10 @@
                     <li>
                         <a href="#">
                             <i class="fa fa-pie-chart"></i>
-                            <span>Вывод средств</span><span class="pull-right-container"><small
-                                        class="label pull-right bg-yellow">0</small><small
-                                        class="label pull-right bg-green">0</small></span>
+                            <span>Вывод средств</span><span class="pull-right-container">
+                                <small class="label pull-right bg-yellow"><?php echo PartnerTransaction::getNewRequestsCount(); ?></small>
+                                <small class="label pull-right bg-green"><?php echo TransactionCampaign::getNewRequestsCount(); ?></small>
+                            </span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -99,9 +100,9 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="<?= Yii::app()->createUrl('/admin/partnerTransaction') ?>">
+                                <a href="<?= Yii::app()->createUrl('/admin/campaignTransaction') ?>">
                                     <i class="fa fa-th"></i> <span>Юристы</span> <small
-                                            class="label pull-right bg-green"><?php echo PartnerTransaction::getNewRequestsCount(); ?></small>
+                                            class="label pull-right bg-green"><?php echo TransactionCampaign::getNewRequestsCount(); ?></small>
                                 </a>
                             </li>
                         </ul>
