@@ -50,7 +50,7 @@ class TransactionController extends Controller
         if (Yii::app()->user->role == User::ROLE_JURIST){
             $transaction = new TransactionCampaign();
             $transaction->description = (!Yii::app()->user->isGuest) ? Yii::app()->user->phone : '';
-            $criteria->addColumnCondition(array('buyerId' => Yii::app()->user->id));
+            $criteria->addColumnCondition(array('buyerId' => Yii::app()->user->id, 'status' => TransactionCampaign::STATUS_COMPLETE));
             $transactionModelClass = 'TransactionCampaign';
             $transaction->sum = $transaction->sum / 100;
 
