@@ -82,9 +82,9 @@ class FileCategoryController extends Controller
 
             Yii::app()->user->setFlash('success', 'Категория добавлена');
             if ($id) {
-                $url = '/admin/file-category/view/?id='.$id;
+                $url =  Yii::app()->createUrl('/admin/fileCategory/view', ['id' => $id]);
             } else {
-                $url = '/admin/docs/index';
+                $url = Yii::app()->createUrl('/admin/docs/index');
             }
 
             return $this->redirect($url);
@@ -138,9 +138,9 @@ class FileCategoryController extends Controller
         }
 
         if ($parent_id) {
-            $url = '/admin/file-category/view/?id='.$parent_id;
+            $url =  Yii::app()->createUrl('/admin/fileCategory/view', ['id' => $parent_id]);
         } else {
-            $url = '/admin/docs/index';
+            $url = Yii::app()->createUrl('/admin/docs/index');
         }
 
         Yii::app()->user->setFlash('success', 'Категория удалена');

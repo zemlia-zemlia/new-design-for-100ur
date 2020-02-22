@@ -21,7 +21,7 @@ $this->breadcrumbs = [
     <div class="col-md-6">
         <?php if (!$model->isNewRecord): ?>
             <p>Скачать:
-                <a target="_blank" href="/docs/download/?id=<?php echo $model->id; ?>"><?php echo $model->name; ?>
+                <a target="_blank" href="<?= Yii::app()->createUrl('/docs/download', ['id' => $model->id]); ?>"><?php echo $model->name; ?>
                     (<?php echo CHtml::encode($model->downloads_count); ?>)</a>
             </p>
         <?php endif; ?>

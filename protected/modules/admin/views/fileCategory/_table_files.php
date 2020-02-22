@@ -15,7 +15,7 @@
         <tr>
             <td>
 
-                <?php echo CHtml::link(CHtml::encode($file->name), ['/docs/download?id='.$file->id]); ?></strong>
+                <?php echo CHtml::link(CHtml::encode($file->name), ['/docs/download', 'id' => $file->id]); ?></strong>
 
             </td>
 

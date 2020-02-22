@@ -94,7 +94,7 @@ $('#exampleModal').modal('show');
             </div>
             <div class="modal-footer">
                 <button type="button" onclick="$('#exampleModal').modal('hide')"   class="btn btn-primary">Нет</button>
-                <a href="/docs/delete/?id=<?php echo $model->id; ?>"  class="btn btn-primary">Да</a>
+                <a href="<?php echo Yii::app()->createUrl('/admin/docs/delete', ['id' => $model->id]); ?>"  class="btn btn-primary">Да</a>
             </div>
         </div>
     </div>

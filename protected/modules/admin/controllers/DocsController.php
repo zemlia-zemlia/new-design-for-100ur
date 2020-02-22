@@ -89,7 +89,7 @@ class DocsController extends Controller
                     Yii::app()->user->setFlash('error', 'Ошибка');
                 }
 
-                return $this->redirect('/admin/file-category/view/?id='.$id);
+                return $this->redirect(Yii::app()->createUrl('/admin/fileCategory/view', ['id' => $id]));
             }
         }
         $this->render('create', ['model' => $model, 'category' => $category]);
@@ -127,7 +127,7 @@ class DocsController extends Controller
             $model->save();
             Yii::app()->user->setFlash('success', 'Файл изменен');
 
-            return $this->redirect('/admin/file-category/view/?id='.$model->categories[0]->id);
+            return $this->redirect(Yii::app()->createUrl('/admin/fileCategory/view', ['id' => $model->categories[0]->id]));
             $this->redirect('index');
         }
 
@@ -151,7 +151,7 @@ class DocsController extends Controller
         $model->delete();
         Yii::app()->user->setFlash('success', 'Файл удален');
 
-        return $this->redirect('/admin/file-category/view/?id='.$category->id);
+        return $this->redirect(Yii::app()->createUrl('/admin/fileCategory/view', ['id' => $category->id]));
     }
 
     /**
@@ -215,7 +215,7 @@ class DocsController extends Controller
             <?php if (is_array($model->docs)):
                 foreach ($model->docs as $doc): ?>
                     <div>
-                        <h6><?php echo CHtml::link(CHtml::encode($doc->name), '/admin/docs/download/?id='.$doc->id, ['target' => '_blank']); ?>
+                        <h6><?php echo CHtml::link(CHtml::encode($doc->name), ['/admin/docs/download', 'id' => $doc->id], ['target' => '_blank']); ?>
                             (<?php echo CHtml::encode($doc->downloads_count); ?>)
                             <a data="<?php echo $doc->id; ?>" id="deattach" href="">открепить</a></h6>
                     </div>
@@ -236,7 +236,7 @@ class DocsController extends Controller
             if (is_array($model->docs)):
                 foreach ($model->docs as $doc): ?>
                     <div>
-                        <h6><?php echo CHtml::link(CHtml::encode($doc->name), '/admin/docs/download/?id='.$doc->id, ['target' => '_blank']); ?>
+                        <h6><?php echo CHtml::link(CHtml::encode($doc->name), ['/admin/docs/download', 'id' => $doc->id], ['target' => '_blank']); ?>
                             (<?php echo CHtml::encode($doc->downloads_count); ?>)
                             <a data="<?php echo $doc->id; ?>" id="deattach" href="">открепить</a></h6>
                     </div>

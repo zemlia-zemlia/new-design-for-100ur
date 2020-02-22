@@ -27,10 +27,10 @@
             </td>
 
             <td class="text-center">
-                <?php echo CHtml::link('+', ['/admin/file-category/create/?id='.$category->id], ['class' => 'btn btn-xs btn-primary']); ?>
+                <?php echo CHtml::link('+', ['/admin/fileCategory/create', 'id' => $category->id], ['class' => 'btn btn-xs btn-primary']); ?>
             </td>
             <td>
-                <?php echo CHtml::link('Ред.', ['/admin/file-category/update/?id='.$category->id]); ?>
+                <?php echo CHtml::link('Ред.', ['/admin/fileCategory/update', 'id' => $category->id]); ?>
             </td>
         </tr>
 

@@ -16,8 +16,8 @@
 
         <tr>
             <td>
+                <a href="<?= Yii::app()->createUrl('/admin/docs/update', ['id' => $file->id]) ?>"><?= CHtml::encode($file->name) ?></a>
 
-                <?php echo CHtml::link(CHtml::encode($file->name), ['/admin/docs/update?id='.$file->id]); ?></strong>
 
             </td>
 
@@ -27,7 +27,7 @@
             <td><?php echo CustomFuncs::niceDate(date('Y-m-d H:i:s', $file->uploadTs)); ?></td>
             <td><?php echo $file->downloads_count; ?></td>
             <td>
-                <?php echo CHtml::link('Ред.', ['/admin/docs/update/?id='.$file->id]); ?>
+                <a href="<?= Yii::app()->createUrl('/admin/docs/update', ['id' => $file->id]) ?>">Ред.</a>
             </td>
         </tr>
 
