@@ -5,9 +5,10 @@
  * This is the model class for table "{{karmaChange}}".
  *
  * The followings are the available columns in table '{{karmaChange}}':
- * @property integer $id
- * @property integer $userId
- * @property integer $authorId
+ *
+ * @property int $id
+ * @property int $userId
+ * @property int $authorId
  * @property string $datetime
  */
 class KarmaChange extends CActiveRecord
@@ -15,7 +16,7 @@ class KarmaChange extends CActiveRecord
     /**
      * @return string the associated database table name
      */
-    public function tableName()
+    public function tableName(): string
     {
         return '{{karmaChange}}';
     }
@@ -23,51 +24,47 @@ class KarmaChange extends CActiveRecord
     /**
      * @return string
      */
-    public static function getFullTableName()
+    public static function getFullTableName(): string
     {
         return Yii::app()->db->tablePrefix . 'karmaChange';
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
-    public function rules()
+    public function rules(): array
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
-        return array(
-            array('userId, authorId, datetime', 'required'),
-            array('userId, authorId', 'numerical', 'integerOnly'=>true),
+        return [
+            ['userId, authorId, datetime', 'required'],
+            ['userId, authorId', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, userId, authorId, datetime', 'safe', 'on'=>'search'),
-        );
+            ['id, userId, authorId, datetime', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
-    public function relations()
+    public function relations(): array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return array(
-                    'user'      =>  array(self::BELONGS_TO, 'User', 'userId'),
-                    'author'    =>  array(self::BELONGS_TO, 'User', 'authorId'),
-        );
+        return [
+            'user' => [self::BELONGS_TO, 'User', 'userId'],
+            'author' => [self::BELONGS_TO, 'User', 'authorId'],
+        ];
     }
 
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
-        return array(
+        return [
             'id' => 'ID',
             'userId' => 'User',
             'authorId' => 'Author',
             'datetime' => 'Datetime',
-        );
+        ];
     }
 
     /**
@@ -80,31 +77,33 @@ class KarmaChange extends CActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     *                             based on the search/filter conditions
      */
-    public function search()
+    public function search(): CActiveDataProvider
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('userId', $this->userId);
         $criteria->compare('authorId', $this->authorId);
         $criteria->compare('datetime', $this->datetime, true);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     *
+     * @param string $className active record class name
+     *
      * @return KarmaChange the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__): KarmaChange
     {
         return parent::model($className);
     }

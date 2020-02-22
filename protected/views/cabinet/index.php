@@ -1,20 +1,20 @@
 <?php
-$this->setPageTitle("Кабинет покупателя лидов. ". Yii::app()->name);
+$this->setPageTitle('Кабинет покупателя лидов. ' . Yii::app()->name);
 
 ?>
 
 <h1 class="vert-margin20">Мои лиды</h1>
 
-<?php if (sizeof($currentUser->campaigns) == 0):?>
+<?php if (0 == sizeof($currentUser->campaigns)):?>
 <div class="alert alert-danger">
     <p>
-        Для того, чтобы начать покупать лиды, Вам необходимо <?php echo CHtml::link('создать кампанию', Yii::app()->createUrl('campaign/create'));?> и дождаться ее проверки.<br />
+        Для того, чтобы начать покупать лиды, Вам необходимо <?php echo CHtml::link('создать кампанию', Yii::app()->createUrl('campaign/create')); ?> и дождаться ее проверки.<br />
         Цена лида будет определена модератором при одобрении кампании.<br />
         После этого Вы сможете пополнить баланс и получать лиды.
     </p>
 </div>
 
-<?php endif;?>
+<?php endif; ?>
    
         
 <table class="table table-bordered table-hover table-striped">
@@ -24,13 +24,13 @@ $this->setPageTitle("Кабинет покупателя лидов. ". Yii::app
         <th>Управление</th>
     </tr>
     </thead>
-<?php $this->widget('zii.widgets.CListView', array(
-        'dataProvider'=>$dataProvider,
-        'itemView'=>'_viewLead',
-        'emptyText' =>  'Не найдено ни одного лида',
-        'summaryText'=>'Показаны лиды с {start} до {end}, всего {count}',
-        'pager'=>array('class'=>'GTLinkPager') //we use own pager with russian words
-)); ?>
+<?php $this->widget('zii.widgets.CListView', [
+        'dataProvider' => $dataProvider,
+        'itemView' => '_viewLead',
+        'emptyText' => 'Не найдено ни одного лида',
+        'summaryText' => 'Показаны лиды с {start} до {end}, всего {count}',
+        'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+]); ?>
 </table>
 
 <?php

@@ -1,25 +1,25 @@
 <?php
 
 /**
- * Модель для работы с заявками на изменение статусов пользователей
+ * Модель для работы с заявками на изменение статусов пользователей.
  *
  * Доступные поля в таблице '{{userStatusRequest}}':
- * @property integer $id
- * @property integer $yuristId
- * @property integer $status
- * @property integer $isVerified
+ *
+ * @property int    $id
+ * @property int    $yuristId
+ * @property int    $status
+ * @property int    $isVerified
  * @property string $vuz
  * @property string $facultet
  * @property string $education
- * @property integer $vuzTownId
- * @property integer $educationYear
+ * @property int    $vuzTownId
+ * @property int    $educationYear
  * @property string $advOrganisation
  * @property string $advNumber
  * @property string $position
  */
 class UserStatusRequest extends CActiveRecord
 {
-
     // статусы заявок
     const STATUS_NEW = 0; // новая заявка
     const STATUS_ACCEPTED = 1; // одобрено
@@ -28,7 +28,6 @@ class UserStatusRequest extends CActiveRecord
     /**
      * @return string the associated database table name
      */
-
     public function tableName()
     {
         return '{{userStatusRequest}}';
@@ -43,38 +42,38 @@ class UserStatusRequest extends CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('yuristId', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
-            array('vuz, facultet, education, vuzTownId, educationYear', 'required', 'on'=>'createYurist', 'message' => 'Поле {attribute} должно быть заполнено'),
-            array('advOrganisation, advNumber, position', 'required', 'on'=>'createAdvocat', 'message' => 'Поле {attribute} должно быть заполнено'),
+        return [
+            ['yuristId', 'required', 'message' => 'Поле {attribute} должно быть заполнено'],
+            ['vuz, facultet, education, vuzTownId, educationYear', 'required', 'on' => 'createYurist', 'message' => 'Поле {attribute} должно быть заполнено'],
+            ['advOrganisation, advNumber, position', 'required', 'on' => 'createAdvocat', 'message' => 'Поле {attribute} должно быть заполнено'],
             //array('', 'required', 'on'=>'createJudge', 'message' => 'Поле {attribute} должно быть заполнено'),
-            array('yuristId, status, isVerified, vuzTownId, educationYear', 'numerical', 'integerOnly' => true),
-            array('vuz, facultet, education, advOrganisation, advNumber, position', 'length', 'max' => 255),
-            array('userFile', 'file', 'types' => 'jpg,gif,png,tiff,pdf', 'maxSize' => '10000000', 'allowEmpty' => true, 'message' => 'Неправильный формат загруженного файла'),
+            ['yuristId, status, isVerified, vuzTownId, educationYear', 'numerical', 'integerOnly' => true],
+            ['vuz, facultet, education, advOrganisation, advNumber, position', 'length', 'max' => 255],
+            ['userFile', 'file', 'types' => 'jpg,gif,png,tiff,pdf', 'maxSize' => '10000000', 'allowEmpty' => true, 'message' => 'Неправильный формат загруженного файла'],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, yuristId, status, isVerified, vuz, facultet, education, vuzTownId, educationYear, advOrganisation, advNumber, position', 'safe', 'on' => 'search'),
-        );
+            ['id, yuristId, status, isVerified, vuz, facultet, education, vuzTownId, educationYear, advOrganisation, advNumber, position', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'user' => array(self::BELONGS_TO, 'User', 'yuristId'),
-            'vuzTown' => array(self::BELONGS_TO, 'Town', 'vuzTownId'),
-            'userFile' => array(self::BELONGS_TO, 'UserFile', 'fileId'),
-        );
+        return [
+            'user' => [self::BELONGS_TO, 'User', 'yuristId'],
+            'vuzTown' => [self::BELONGS_TO, 'Town', 'vuzTownId'],
+            'userFile' => [self::BELONGS_TO, 'UserFile', 'fileId'],
+        ];
     }
 
     /**
@@ -82,7 +81,7 @@ class UserStatusRequest extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'yuristId' => 'ID юриста',
             'status' => 'Статус',
@@ -95,23 +94,24 @@ class UserStatusRequest extends CActiveRecord
             'advOrganisation' => 'членство в адвокатском объединении',
             'advNumber' => 'номер в реестре адвокатов',
             'position' => 'должность',
-        );
+        ];
     }
 
     // возвращает массив, ключами которого являются коды статусов верификации, а значениями - названия
     public static function getVerificationStatusesArray()
     {
-        return array(
+        return [
             self::STATUS_NEW => 'новый',
             self::STATUS_ACCEPTED => 'подтверждено',
             self::STATUS_DECLINED => 'отказ',
-        );
+        ];
     }
 
     public function getVerificationStatusName()
     {
         $statusesArray = self::getVerificationStatusesArray();
         $statusName = $statusesArray[$this->isVerified];
+
         return $statusName;
     }
 
@@ -125,13 +125,13 @@ class UserStatusRequest extends CActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     *                             based on the search/filter conditions
      */
     public function search()
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('yuristId', $this->yuristId);
@@ -146,15 +146,17 @@ class UserStatusRequest extends CActiveRecord
         $criteria->compare('advNumber', $this->advNumber, true);
         $criteria->compare('position', $this->position, true);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     *
+     * @param string $className active record class name
+     *
      * @return UserStatusRequest the static model class
      */
     public static function model($className = __CLASS__)
@@ -163,20 +165,20 @@ class UserStatusRequest extends CActiveRecord
     }
 
     /**
-     * проверка заполненности необходимых полей в зависимости от статуса
+     * проверка заполненности необходимых полей в зависимости от статуса.
      */
     public function validateRequest()
     {
         switch ($this->status) {
             case YuristSettings::STATUS_YURIST:
 
-                if ($this->vuz == '') {
+                if ('' == $this->vuz) {
                     $this->addError('vuz', 'Не указан ВУЗ');
                 }
-                if ($this->facultet == '') {
+                if ('' == $this->facultet) {
                     $this->addError('facultet', 'Не указан факультет');
                 }
-                if ($this->education == '') {
+                if ('' == $this->education) {
                     $this->addError('education', 'Не указан уровень образования');
                 }
                 if (!$this->vuzTownId) {
@@ -185,18 +187,18 @@ class UserStatusRequest extends CActiveRecord
                 if (!$this->educationYear) {
                     $this->addError('educationYear', 'Не указан год окончания ВУЗа');
                 }
-                
-                $this->validate(array('userFile'));
-                
+
+                $this->validate(['userFile']);
+
                 break;
             case YuristSettings::STATUS_ADVOCAT:
-                if ($this->advOrganisation == '') {
+                if ('' == $this->advOrganisation) {
                     $this->addError('advOrganisation', 'Не указана организация');
                 }
-                if ($this->advNumber == '') {
+                if ('' == $this->advNumber) {
                     $this->addError('advNumber', 'Не указан номер в реестре');
                 }
-                if ($this->position == '') {
+                if ('' == $this->position) {
                     $this->addError('position', 'Не указана должность');
                 }
                 break;
@@ -204,25 +206,25 @@ class UserStatusRequest extends CActiveRecord
     }
 
     /**
-     * Отправка уведомления о смене статуса
+     * Отправка уведомления о смене статуса.
      *
-     * @return boolean результат: true - отправлено, false - ошибка
+     * @return bool результат: true - отправлено, false - ошибка
      */
     public function sendNotification()
     {
         $user = $this->user;
         $email = $user->email;
 
-        $mailer = new GTMail;
+        $mailer = new GTMail();
 
-        $mailer->subject = "100 Юристов - Смена Вашего статуса";
-        $mailer->message = "<p>" . CHtml::encode($user->name) . ", Ваша заявка на изменение статуса была проверена модератором.</p>"
-                . "<p>Ваша заявка ";
+        $mailer->subject = '100 Юристов - Смена Вашего статуса';
+        $mailer->message = '<p>' . CHtml::encode($user->name) . ', Ваша заявка на изменение статуса была проверена модератором.</p>'
+                . '<p>Ваша заявка ';
 
-        $mailer->message .= ($this->isVerified == self::STATUS_ACCEPTED) ? "одобрена" : "отклонена" . "</p>";
+        $mailer->message .= (self::STATUS_ACCEPTED == $this->isVerified) ? 'одобрена' : 'отклонена' . '</p>';
 
-        if ($this->isVerified == self::STATUS_DECLINED && $this->comment != '') {
-            $mailer->message .= "<p><strong>Причина отказа:</strong> " . CHtml::encode($this->comment) . "</p>";
+        if (self::STATUS_DECLINED == $this->isVerified && '' != $this->comment) {
+            $mailer->message .= '<p><strong>Причина отказа:</strong> ' . CHtml::encode($this->comment) . '</p>';
         }
 
         $mailer->email = $email;
@@ -238,9 +240,10 @@ class UserStatusRequest extends CActiveRecord
     {
         $counterRow = Yii::app()->db->cache(600)->createCommand()
                 ->select('COUNT(*) counter')
-                ->from("{{userStatusRequest}}")
+                ->from('{{userStatusRequest}}')
                 ->where('isVerified = 0')
                 ->queryRow();
+
         return $counterRow['counter'];
     }
 }

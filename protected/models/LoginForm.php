@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Модель для работы с формой логина
+ * Модель для работы с формой логина.
  */
 class LoginForm extends CFormModel
 {
@@ -18,16 +18,16 @@ class LoginForm extends CFormModel
      */
     public function rules()
     {
-        return array(
+        return [
             // username and password are required
-            array('email, password', 'required', 'message' => 'Поле {attribute} не может быть пустым'),
+            ['email, password', 'required', 'message' => 'Поле {attribute} не может быть пустым'],
             // rememberMe needs to be a boolean
-            array('rememberMe', 'boolean'),
-            array('uid', 'numerical', 'integerOnly' => true),
-            array('password', 'safe', 'on' => 'loginVk'),
+            ['rememberMe', 'boolean'],
+            ['uid', 'numerical', 'integerOnly' => true],
+            ['password', 'safe', 'on' => 'loginVk'],
             // password needs to be authenticated
-            array('password', 'authenticate'),
-        );
+            ['password', 'authenticate'],
+        ];
     }
 
     /**
@@ -35,15 +35,15 @@ class LoginForm extends CFormModel
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'rememberMe' => 'Запомнить',
             'email' => 'E-mail',
             'password' => 'Пароль',
-        );
+        ];
     }
 
     /**
-     * Проверка правильности введенных логина и пароля
+     * Проверка правильности введенных логина и пароля.
      */
     public function authenticate($attribute, $params)
     {
@@ -55,20 +55,21 @@ class LoginForm extends CFormModel
     }
 
     /**
-     * Пытается залогинить пользователя по email и паролю
+     * Пытается залогинить пользователя по email и паролю.
      *
-     * @return boolean true - залогинен, false - ошибка
+     * @return bool true - залогинен, false - ошибка
      */
     public function login()
     {
-        if ($this->_identity === null) {
+        if (null === $this->_identity) {
             $this->_identity = new UserIdentity($this->email, $this->password);
             $this->_identity->authenticate();
         }
 
-        if ($this->_identity->errorCode === UserIdentity::ERROR_NONE) {
+        if (UserIdentity::ERROR_NONE === $this->_identity->errorCode) {
             $duration = $this->rememberMe ? 3600 * 24 * 30 : 0; // 30 days
             Yii::app()->user->login($this->_identity, $duration);
+
             return true;
         } else {
             return false;

@@ -12,7 +12,7 @@ class ProfileNotifier extends CWidget
             return false;
         }
         $message = Yii::app()->user->getProfileNotification();
-        
+
         if ($message) {
             $this->render($this->template, [
                 'message' => $message,

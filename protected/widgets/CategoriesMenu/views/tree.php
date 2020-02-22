@@ -1,8 +1,8 @@
 <?php
 /**
- * @var QuestionCategory[] $neighbours
+ * @var QuestionCategory[]
  * @var QuestionCategory[] $children
- * @var QuestionCategory $category
+ * @var QuestionCategory   $category
  */
 ?>
 <ul id="left-menu">

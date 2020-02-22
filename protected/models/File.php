@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Класс для работы с прикрепляемыми к заявкам файлами
+ * Класс для работы с прикрепляемыми к заявкам файлами.
  *
- * @property integer $id
+ * @property int $id
  * @property string $name
  * @property string $filename
- * @property integer $itemId
- * @property integer $itemType
+ * @property int $itemId
+ * @property int $itemType
  */
 class File extends CActiveRecord
 {
-
     // путь к папке с файлами относительно корня сайта (Document root)
     const ATTACHMENTS_FOLDER = 'upload/files';
 
@@ -23,9 +22,9 @@ class File extends CActiveRecord
 
     /**
      * Возвращает имя таблицы БД, в которой хранятся записи модели
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function tableName()
+    public function tableName(): string
     {
         return '{{file}}';
     }
@@ -33,55 +32,58 @@ class File extends CActiveRecord
     /**
      * @return string
      */
-    public static function getFullTableName()
+    public static function getFullTableName(): string
     {
         return Yii::app()->db->tablePrefix . 'file';
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['name', 'filename', 'objectId', 'objectType'], 'required'],
-            [['objectId', 'objectType', 'type'], 'numerical', 'integerOnly'=>true],
+            [['objectId', 'objectType', 'type'], 'numerical', 'integerOnly' => true],
             [['name', 'filename'], 'length', 'max' => 255],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
-            'id'        => 'ID',
-            'name'      => 'Название элемента',
-            'filename'  => 'Имя файла на сервере',
-            'objectId'    => 'id объекта, связанного с файлом',
-            'objectType'  => 'Тип объекта, связанного с файлом',
-            'type'  => 'тип файла (к чему привязан)',
+            'id' => 'ID',
+            'name' => 'Название элемента',
+            'filename' => 'Имя файла на сервере',
+            'objectId' => 'id объекта, связанного с файлом',
+            'objectType' => 'Тип объекта, связанного с файлом',
+            'type' => 'тип файла (к чему привязан)',
         ];
     }
 
     /**
-     * Создает имя файла для хранения на сервере
+     * Создает имя файла для хранения на сервере.
      *
      * @param CUploadedFile $file
+     *
      * @return string
      */
-    public function createFileName($file)
+    public function createFileName($file):string
     {
-        return uniqid() . '_' .  CustomFuncs::translit($file->getName());
+        return uniqid() . '_' . CustomFuncs::translit($file->getName());
     }
 
     /**
-     * Создает имя файла из пути существующего файла на диске
-     * @param $path Путь к существующему файлу
+     * Создает имя файла из пути существующего файла на диске.
+     *
+     * @param string $path Путь к существующему файлу
+     *
      * @return string Имя файла для хранения на диске
      */
-    public static function createFileNameFromPath($path)
+    public static function createFileNameFromPath($path): string
     {
         $fileInfo = pathinfo($path);
         $baseName = $fileInfo['basename'];
@@ -91,7 +93,8 @@ class File extends CActiveRecord
     }
 
     /**
-     * Относительный путь к файлу от корня веб сервера
+     * Относительный путь к файлу от корня веб сервера.
+     *
      * @return string
      */
     public function getRelativePath()
@@ -99,9 +102,9 @@ class File extends CActiveRecord
         return $this->createFolderFromFileName() . '/' . $this->filename;
     }
 
-
     /**
-     * Возвращает имя папки для хранения файла на сервере
+     * Возвращает имя папки для хранения файла на сервере.
+     *
      * @return bool|string
      */
     public function createFolderFromFileName()
@@ -114,12 +117,11 @@ class File extends CActiveRecord
         $folderName = mb_substr($this->filename, 0, 2, 'utf-8');
         $folderName2 = mb_substr($this->filename, 2, 2, 'utf-8');
 
-        return '/' . self::ATTACHMENTS_FOLDER . '/' . $folderName . '/' .$folderName2;
+        return '/' . self::ATTACHMENTS_FOLDER . '/' . $folderName . '/' . $folderName2;
     }
-    
 
     /**
-     * Метод, вызываемый после удаления объекта. Удаляет загруженный файл с диска
+     * Метод, вызываемый после удаления объекта. Удаляет загруженный файл с диска.
      */
     public function afterDelete()
     {
@@ -131,26 +133,15 @@ class File extends CActiveRecord
         // удаляем файл
         if (unlink($filePath)) {
             // удалим директорию хранения файла, если там нет других файлов (есть только . и ..)
-            if (sizeof(scandir($directory)) == 2) {
+            if (2 == sizeof(scandir($directory))) {
                 rmdir($directory);
 
                 // если директория уровнем выше тоже пуста, удалим и ее
-                $parentDirectory = substr($directory, 0, strlen($directory)-3);
-                if (is_dir($parentDirectory) && sizeof(scandir($parentDirectory)) == 2) {
+                $parentDirectory = substr($directory, 0, strlen($directory) - 3);
+                if (is_dir($parentDirectory) && 2 == sizeof(scandir($parentDirectory))) {
                     rmdir($parentDirectory);
                 }
             }
         }
     }
-
-//    public function File($filename, $path)
-//    {
-//        $storagePath = $path;
-//
-//        // check filename for allowed chars (do not allow ../ to avoid security issue: downloading arbitrary files)
-//        if (!preg_match('/^[a-z0-9]+\.[a-z0-9]+$/i', $filename) || !is_file("$storagePath/$filename")) {
-//            throw new \yii\web\NotFoundHttpException('The file does not exists.');
-//        }
-//        return Yii::$app->response->sendFile("$storagePath/$filename", $filename);
-//    }
 }

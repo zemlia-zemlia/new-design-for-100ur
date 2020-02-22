@@ -1,6 +1,6 @@
 <?php
-$this->setPageTitle("Консультация по телефону ". Yii::app()->name);
-Yii::app()->clientScript->registerMetaTag("Заказать звонок юриста, получить консультацию по телефону", 'description');
+$this->setPageTitle('Консультация по телефону ' . Yii::app()->name);
+Yii::app()->clientScript->registerMetaTag('Заказать звонок юриста, получить консультацию по телефону', 'description');
 ?>
 
 
@@ -9,10 +9,10 @@ Yii::app()->clientScript->registerMetaTag("Заказать звонок юри�
 
 <div class='flat-panel'>
     <div class='inside'>
-        <?php echo $this->renderPartial('_formCall', array(
-            'model'         =>  $model,
-            'townsArray'    =>  $townsArray,
-            'allDirections' =>  $allDirections,
-        )); ?>
+        <?php echo $this->renderPartial('_formCall', [
+            'model' => $model,
+            'townsArray' => $townsArray,
+            'allDirections' => $allDirections,
+        ]); ?>
     </div>
 </div>

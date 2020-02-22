@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Модель для работы с транзакциями оплаты за лидов
+ * Модель для работы с транзакциями оплаты за лидов.
  *
  * The followings are the available columns in table '{{transactionCampaign}}':
- * @property integer $id
- * @property integer $buyerId
- * @property integer $campaignId
+ *
+ * @property int    $id
+ * @property int    $buyerId
+ * @property int    $campaignId
  * @property string $time
- * @property integer $sum
+ * @property int    $sum
  * @property string $description
- * @property integer $leadId
- * @property integer $type
- * @property integer $status
+ * @property int    $leadId
+ * @property int    $type
+ * @property int    $status
  */
 class TransactionCampaign extends CActiveRecord
 {
@@ -23,8 +24,6 @@ class TransactionCampaign extends CActiveRecord
     const STATUS_COMPLETE = 1; // транзакция совершена
     const STATUS_PENDING = 2; // транзакция на рассмотрении
     const MIN_WITHDRAW = 30000; // минимальная сумма для вывода (в копейках)
-
-
 
     /**
      * @return string the associated database table name
@@ -43,33 +42,33 @@ class TransactionCampaign extends CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-                array('buyerId, sum, description', 'required'),
-                array('campaignId, buyerId, status', 'numerical', 'integerOnly'=>true),
-                array('sum', 'numerical'),
+        return [
+                ['buyerId, sum, description', 'required'],
+                ['campaignId, buyerId, status', 'numerical', 'integerOnly' => true],
+                ['sum', 'numerical'],
                 // The following rule is used by search().
                 // @todo Please remove those attributes that should not be searched.
-                array('id, campaignId, time, status, sum, description', 'safe', 'on'=>'search'),
-        );
+                ['id, campaignId, time, status, sum, description', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'campaign'     =>  array(self::BELONGS_TO, 'Campaign', 'campaignId'),
+        return [
+            'campaign' => [self::BELONGS_TO, 'Campaign', 'campaignId'],
             'partner' => [self::BELONGS_TO, 'User', 'buyerId'],
-        );
+        ];
     }
 
     /**
@@ -77,13 +76,13 @@ class TransactionCampaign extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
-                'id'            => 'ID',
-                'campaignId'    => 'ID кампании',
-                'time'          => 'Время и дата',
-                'sum'           => 'Сумма',
-                'description'   => 'Описание',
-        );
+        return [
+                'id' => 'ID',
+                'campaignId' => 'ID кампании',
+                'time' => 'Время и дата',
+                'sum' => 'Сумма',
+                'description' => 'Описание',
+        ];
     }
 
     /**
@@ -96,13 +95,13 @@ class TransactionCampaign extends CActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     *                             based on the search/filter conditions
      */
     public function search()
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('campaignId', $this->campaignId);
@@ -110,34 +109,35 @@ class TransactionCampaign extends CActiveRecord
         $criteria->compare('sum', $this->sum);
         $criteria->compare('description', $this->description, true);
 
-        return new CActiveDataProvider($this, array(
-                'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+                'criteria' => $criteria,
+        ]);
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     *
+     * @param string $className active record class name
+     *
      * @return TransactionCampaign the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
-    
+
     /**
-     * После сохранения транзакции записываем ее время пользователю
+     * После сохранения транзакции записываем ее время пользователю.
      */
     protected function afterSave()
     {
         if ($this->buyerId) {
             Yii::app()->db->createCommand()
-                ->update("{{user}}", array('lastTransactionTime' => date("Y-m-d H:i:s")), 'id = ' . $this->buyerId);
+                ->update('{{user}}', ['lastTransactionTime' => date('Y-m-d H:i:s')], 'id = ' . $this->buyerId);
         }
         parent::afterSave();
     }
-
 
     /**
      * Возвращает массив типов транзакций.
@@ -169,11 +169,12 @@ class TransactionCampaign extends CActiveRecord
         $counterRow = Yii::app()->db->cache(600)->createCommand()
             ->select('COUNT(*) counter')
             ->from('{{transactionCampaign}}')
-            ->where('status = '.self::STATUS_PENDING.' AND sum<0')
+            ->where('status = ' . self::STATUS_PENDING . ' AND sum<0')
             ->queryRow();
 
         return $counterRow['counter'];
     }
+
     /**
      * Возвращает массив статусов транзакций.
      *

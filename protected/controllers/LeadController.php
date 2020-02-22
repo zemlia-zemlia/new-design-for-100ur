@@ -12,42 +12,43 @@ class LeadController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
                 //'postOnly + delete', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
+     *
      * @return array access control rules
      */
     public function accessRules()
     {
-        return array(
-            array('allow', // allow all users
-                'actions' => array('index', 'view', 'buy'),
-                'users' => array('@'),
-                'expression' => "Yii::app()->user->checkAccess(User::ROLE_JURIST) || Yii::app()->user->checkAccess(User::ROLE_BUYER)",
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+        return [
+            ['allow', // allow all users
+                'actions' => ['index', 'view', 'buy'],
+                'users' => ['@'],
+                'expression' => 'Yii::app()->user->checkAccess(User::ROLE_JURIST) || Yii::app()->user->checkAccess(User::ROLE_BUYER)',
+            ],
+            ['deny', // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
-     * Просмотр списка лидов
+     * Просмотр списка лидов.
      */
     public function actionIndex()
     {
-        $this->layout = (Yii::app()->user->role == User::ROLE_BUYER) ? '//frontend/cabinet' : '//frontend/question';
+        $this->layout = (User::ROLE_BUYER == Yii::app()->user->role) ? '//frontend/cabinet' : '//frontend/question';
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
         $showMy = false;
         $showAuto = false;
-        $searchModel = new Lead;
+        $searchModel = new Lead();
 
         if (isset($_GET['auto'])) {
             $showAuto = true;
@@ -58,7 +59,7 @@ class LeadController extends Controller
             $searchModel->attributes = $_GET['Lead'];
             $regionId = (int) $_GET['Lead']['regionId'];
             if ($regionId) {
-                $criteria->with = array('town' => array('condition' => 'town.regionId=' . $regionId), 'town.region');
+                $criteria->with = ['town' => ['condition' => 'town.regionId=' . $regionId], 'town.region'];
             }
         }
 
@@ -75,35 +76,34 @@ class LeadController extends Controller
             $criteria->addColumnCondition(['leadStatus' => Lead::LEAD_STATUS_DEFAULT]);
         }
 
-        $dataProvider = new CActiveDataProvider('Lead', array(
+        $dataProvider = new CActiveDataProvider('Lead', [
             'criteria' => $criteria,
-            'pagination' => array(
+            'pagination' => [
                 'pageSize' => 30,
-            ),
-        ));
+            ],
+        ]);
 
-
-        $this->render('index', array(
+        $this->render('index', [
             'dataProvider' => $dataProvider,
             'showMy' => $showMy,
             'showAuto' => $showAuto,
             'searchModel' => $searchModel,
-        ));
+        ]);
     }
 
     /**
-     * Просмотр лида
+     * Просмотр лида.
      */
     public function actionView($id)
     {
-        $this->layout = (Yii::app()->user->role == User::ROLE_BUYER) ? '//frontend/cabinet' : '//frontend/question';
+        $this->layout = (User::ROLE_BUYER == Yii::app()->user->role) ? '//frontend/cabinet' : '//frontend/question';
 
         // если передан GET параметр autologin, попытаемся залогинить пользователя
         User::autologin($_GET);
 
         $model = Lead::model()->findByPk($id);
 
-        if (!($model->leadStatus == Lead::LEAD_STATUS_DEFAULT || ($model->leadStatus == Lead::LEAD_STATUS_SENT && $model->buyerId == Yii::app()->user->id))) {
+        if (!(Lead::LEAD_STATUS_DEFAULT == $model->leadStatus || (Lead::LEAD_STATUS_SENT == $model->leadStatus && $model->buyerId == Yii::app()->user->id))) {
             throw new CHttpException(403, 'У вас нет прав на просмотр данной заявки');
         }
 
@@ -118,7 +118,8 @@ class LeadController extends Controller
 
     /**
      * Покупка лида пользователем
-     * @param integer $id id лида
+     *
+     * @param int $id id лида
      */
     public function actionBuy($id)
     {
@@ -128,7 +129,7 @@ class LeadController extends Controller
             throw new CHttpException(404, 'Заявка не найдена');
         }
 
-        if ($model->leadStatus != Lead::LEAD_STATUS_DEFAULT) {
+        if (Lead::LEAD_STATUS_DEFAULT != $model->leadStatus) {
             throw new CHttpException(403, 'Эта заявка уже продана другому пользователю');
         }
 
@@ -138,10 +139,10 @@ class LeadController extends Controller
         }
 
         $sellLeadResult = $model->sellLead(Yii::app()->user->getModel(), null);
-        if ($sellLeadResult === true) {
+        if (true === $sellLeadResult) {
             return $this->redirect(['/lead/view', 'id' => $model->id, 'leadSold' => 1]);
         } else {
-            return $this->render('leadSellError', ['errors'    =>  $sellLeadResult]);
+            return $this->render('leadSellError', ['errors' => $sellLeadResult]);
         }
     }
 }

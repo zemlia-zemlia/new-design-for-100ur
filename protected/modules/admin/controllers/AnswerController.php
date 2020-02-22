@@ -9,59 +9,61 @@ class AnswerController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
             'postOnly + toSpam', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
+     *
      * @return array access control rules
      */
     public function accessRules()
     {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'getRandom'),
-                'users' => array('@'),
+        return [
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['index', 'view', 'getRandom'],
+                'users' => ['@'],
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_JURIST . ') || Yii::app()->user->checkAccess(' . User::ROLE_OPERATOR . ') || Yii::app()->user->checkAccess(' . User::ROLE_SECRETARY . ')',
-            ),
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('update', 'view', 'index', 'byPublisher', 'toSpam'),
-                'users' => array('@'),
+            ],
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['update', 'view', 'index', 'byPublisher', 'toSpam'],
+                'users' => ['@'],
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
-            ),
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'admin', 'delete', 'publish', 'setPubTime', 'payBonus'),
-                'users' => array('@'),
+            ],
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['create', 'update', 'admin', 'delete', 'publish', 'setPubTime', 'payBonus'],
+                'users' => ['@'],
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
-            ),
-            array('deny',  // deny all users
-                'users' => array('*'),
-            ),
-        );
+            ],
+            ['deny',  // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     *
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
         $model = Answer::model()->findByPk($id);
 
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $model,
-        ));
+        ]);
     }
-
 
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     *
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -75,20 +77,20 @@ class AnswerController extends Controller
             $model->attributes = $_POST['Answer'];
 
             if ($model->save()) {
-                $this->redirect(array('view', 'id' => $model->id, 'question_updated' => 'yes'));
+                $this->redirect(['view', 'id' => $model->id, 'question_updated' => 'yes']);
             }
         }
 
-
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     *
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -96,7 +98,7 @@ class AnswerController extends Controller
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax'])) {
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['index']);
         }
     }
 
@@ -105,86 +107,89 @@ class AnswerController extends Controller
      */
     public function actionIndex()
     {
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
         $criteria->order = 't.id DESC';
         $criteria->with = 'author';
         $status = null;
 
         if (isset($_GET['status'])) {
-            $status = (int)$_GET['status'];
-            $criteria->addColumnCondition(array('t.status' => $status));
+            $status = (int) $_GET['status'];
+            $criteria->addColumnCondition(['t.status' => $status]);
             $criteria->with = ['question', 'transaction'];
         }
 
-        $dataProvider = new CActiveDataProvider('Answer', array(
+        $dataProvider = new CActiveDataProvider('Answer', [
             'criteria' => $criteria,
-            'pagination' => array(
+            'pagination' => [
                 'pageSize' => 20,
-            ),
-        ));
+            ],
+        ]);
 
-        $this->render('index', array(
+        $this->render('index', [
             'dataProvider' => $dataProvider,
             'status' => $status,
-        ));
+        ]);
     }
-
 
     public function actionPublish()
     {
         if (isset($_POST['id'])) {
-            $id = (int)$_POST['id'];
+            $id = (int) $_POST['id'];
         }
 
         $model = $this->loadModel($id);
         $model->status = Answer::STATUS_PUBLISHED;
         if ($model->save()) {
-            echo CJSON::encode(array('id' => $id, 'status' => 1));
+            echo CJSON::encode(['id' => $id, 'status' => 1]);
         } else {
             //print_r($model->errors);
-            echo CJSON::encode(array('status' => 0));
+            echo CJSON::encode(['status' => 0]);
         }
     }
 
     public function actionToSpam()
     {
         if (isset($_POST['id'])) {
-            $id = (int)$_POST['id'];
+            $id = (int) $_POST['id'];
         }
         $model = $this->loadModel($id);
         $model->status = Answer::STATUS_SPAM;
         if ($model->save()) {
-            echo CJSON::encode(array('id' => $id, 'status' => 1));
+            echo CJSON::encode(['id' => $id, 'status' => 1]);
         } else {
             //print_r($model->errors);
-            echo CJSON::encode(array('status' => 0));
+            echo CJSON::encode(['status' => 0]);
         }
     }
-
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     *
+     * @param int $id the ID of the model to be loaded
+     *
      * @return Answer the loaded model
+     *
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = Answer::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'Ответ не найден');
         }
+
         return $model;
     }
 
     /**
      * Performs the AJAX validation.
+     *
      * @param Question $model the model to be validated
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'question-form') {
+        if (isset($_POST['ajax']) && 'question-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

@@ -5,21 +5,22 @@
  * Хранит данные о расходах по датам: контекстная реклама, звонки и т.д.
  *
  * The followings are the available columns in table '{{expence}}':
- * @property integer $id
+ *
+ * @property int $id
  * @property string $date
- * @property integer $expences
+ * @property int $expences
  * @property string $comment
- * @property integer $type
+ * @property int $type
  */
 class Expence extends CActiveRecord
 {
     const TYPE_DIRECT = 0; // Расходы на директ
     const TYPE_CALLS = 1; // Расходы на входящие звонки
-    
+
     /**
      * @return string the associated database table name
      */
-    public function tableName()
+    public function tableName(): string
     {
         return '{{expence}}';
     }
@@ -27,73 +28,71 @@ class Expence extends CActiveRecord
     /**
      * @return string
      */
-    public static function getFullTableName()
+    public static function getFullTableName(): string
     {
         return Yii::app()->db->tablePrefix . 'expence';
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
-    public function rules()
+    public function rules(): array
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
-        return array(
-            array('date, expences', 'required'),
-            array('type', 'numerical', 'integerOnly' => true),
-            array('expences', 'length', 'max' => 6),
-            array('comment', 'length', 'max' => 255),
+        return [
+            ['date, expences', 'required'],
+            ['type', 'numerical', 'integerOnly' => true],
+            ['expences', 'length', 'max' => 6],
+            ['comment', 'length', 'max' => 255],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, date, expences', 'safe', 'on' => 'search'),
-        );
+            ['id, date, expences', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
-    public function relations()
+    public function relations(): array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return array(
-        );
+        return [];
     }
 
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
-        return array(
-            'id'        => 'ID',
-            'date'      => 'Дата',
-            'expences'  => 'Расход',
-            'comment'   => 'Комментарий',
-            'type'      => 'Статья',
-        );
+        return [
+            'id' => 'ID',
+            'date' => 'Дата',
+            'expences' => 'Расход',
+            'comment' => 'Комментарий',
+            'type' => 'Статья',
+        ];
     }
-    
+
     /**
-     * Возвращает массив типов расходов
+     * Возвращает массив типов расходов.
+     *
      * @return array Типы расходов [код => Наименование]
      */
-    public static function getTypes()
+    public static function getTypes(): array
     {
-        return array(
-            self::TYPE_DIRECT   => 'Директ',
-            self::TYPE_CALLS    => 'Звонки',
-        );
+        return [
+            self::TYPE_DIRECT => 'Директ',
+            self::TYPE_CALLS => 'Звонки',
+        ];
     }
-    
+
     /**
-     * Возвращает название типа расхода для текущего объекта
-     * @return type
+     * Возвращает название типа расхода для текущего объекта.
+     *
+     * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         $allTypes = self::getTypes();
+
         return $allTypes[$this->type];
     }
 
@@ -107,28 +106,30 @@ class Expence extends CActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     *                             based on the search/filter conditions
      */
-    public function search()
+    public function search(): CActiveDataProvider
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('date', $this->date, true);
-        $criteria->compare('expences', $this->expences*100, true);
+        $criteria->compare('expences', $this->expences * 100, true);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
-     * @return Direct the static model class
+     *
+     * @param string $className active record class name
+     *
+     * @return Expence Direct the static model class
      */
     public static function model($className = __CLASS__)
     {

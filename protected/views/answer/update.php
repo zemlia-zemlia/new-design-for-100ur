@@ -1,7 +1,7 @@
 <?php
 /* @var $this AnswerController */
 /* @var $model Answer */
-$this->setPageTitle("Редактирование текста ответа " . $model->id . '. ' .  Yii::app()->name);
+$this->setPageTitle('Редактирование текста ответа ' . $model->id . '. ' . Yii::app()->name);
 
 ?>
 
@@ -9,10 +9,10 @@ $this->setPageTitle("Редактирование текста ответа " . 
 
 <h3>Текст вопроса</h3>
 <p>
-    <?php echo CHtml::encode($model->question->questionText);?>
+    <?php echo CHtml::encode($model->question->questionText); ?>
 </p>
 
-<?php echo $this->renderPartial('application.views.answer._form', array(
-    'model' =>  $model,
-    ));
+<?php echo $this->renderPartial('application.views.answer._form', [
+    'model' => $model,
+    ]);
 ?>

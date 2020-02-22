@@ -5,35 +5,34 @@
 if ($model->seoTitle) {
     $pageTitle = CHtml::encode($model->seoTitle);
 } else {
-    $pageTitle = CHtml::encode($model->name) . ". Консультация юриста и адвоката. ";
+    $pageTitle = CHtml::encode($model->name) . '. Консультация юриста и адвоката. ';
 }
 
-if (isset($_GET) && (int)$_GET['page'] && $questionsDataProvider->pagination) {
-    $pageNumber = (int)$_GET['page'];
+if (isset($_GET) && (int) $_GET['page'] && $questionsDataProvider->pagination) {
+    $pageNumber = (int) $_GET['page'];
     $pagesTotal = ceil($questionsDataProvider->totalItemCount / $questionsDataProvider->pagination->getPageSize());
     $pageTitle .= 'Страница ' . $pageNumber . ' из ' . $pagesTotal . '. ';
 }
 $this->setPageTitle($pageTitle);
 
-
 if ($model->seoDescription) {
     Yii::app()->clientScript->registerMetaTag(CHtml::encode($model->seoDescription), 'description');
 } else {
-    Yii::app()->clientScript->registerMetaTag("Получите бесплатную консультацию юриста. Ответы квалифицированных юристов на вопросы тематики " . CHtml::encode($model->name), 'description');
+    Yii::app()->clientScript->registerMetaTag('Получите бесплатную консультацию юриста. Ответы квалифицированных юристов на вопросы тематики ' . CHtml::encode($model->name), 'description');
 }
 
 if ($model->seoKeywords) {
     Yii::app()->clientScript->registerMetaTag(CHtml::encode($model->seoKeywords), 'keywords');
 }
 
-Yii::app()->clientScript->registerLinkTag("canonical", null, Yii::app()->createUrl('/questionCategory/alias', $model->getUrl()));
+Yii::app()->clientScript->registerLinkTag('canonical', null, Yii::app()->createUrl('/questionCategory/alias', $model->getUrl()));
 
 $additionalTags = $model->getAdditionalMetaTags();
 foreach ($additionalTags as $property => $content) {
     Yii::app()->clientScript->registerMetaTag($content, $property);
 }
 
-$this->breadcrumbs = array('Темы' => array('/cat'));
+$this->breadcrumbs = ['Темы' => ['/cat']];
 
 foreach ($ancestors as $ancestor) {
     $this->breadcrumbs[$ancestor->name] = Yii::app()->createUrl('questionCategory/alias', $ancestor->getUrl());
@@ -43,11 +42,11 @@ $this->breadcrumbs[] = $model->name;
 ?>
 
 <?php
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('100 Юристов', "/"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 Юристов', '/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 ?>
 
 <?php
@@ -75,7 +74,7 @@ if ($model->seoH1) {
 
                         <?php
                         if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)) {
-                            echo CHtml::link("<span class='glyphicon glyphicon-pencil'><span>", Yii::app()->createUrl('/admin/questionCategory/update', array('id' => $model->id)), array('target' => '_blank'));
+                            echo CHtml::link("<span class='glyphicon glyphicon-pencil'><span>", Yii::app()->createUrl('/admin/questionCategory/update', ['id' => $model->id]), ['target' => '_blank']);
                         }
                         ?>
                         </span>
@@ -145,9 +144,9 @@ if ($model->seoH1) {
         <div class="vert-margin20">
             <?php
             // выводим виджет с формой
-            $this->widget('application.widgets.SimpleForm.SimpleForm', array(
+            $this->widget('application.widgets.SimpleForm.SimpleForm', [
                 'template' => 'gorizont',
-            ));
+            ]);
             ?>
         </div>
 
@@ -189,37 +188,37 @@ if ($model->seoH1) {
                             (<?php echo CHtml::encode($doc->downloads_count); ?>)
                         </div>
                         <div class="col-md-4">
-                            <p><?= number_format($doc->size / 1048576, 2) ?> Mb</p>
+                            <p><?php echo number_format($doc->size / 1048576, 2); ?> Mb</p>
 
                         </div>
                         <div class="col-md-12">
-                            <p><?= $doc->description ?></p>
+                            <p><?php echo $doc->description; ?></p>
                         </div>
                     </div>
                 <?php endforeach;
             endif; ?>
         </div>
-        <?php if (Yii::app()->user->role == User::ROLE_JURIST): ?>
+        <?php if (User::ROLE_JURIST == Yii::app()->user->role): ?>
 
 
             <div class="vert-margin20">
                 <?php
                 // выводим виджет с поиском вопросов
-                $this->widget('application.widgets.SearchQuestions.SearchQuestionsWidget', array());
+                $this->widget('application.widgets.SearchQuestions.SearchQuestionsWidget', []);
                 ?>
             </div>
 
             <div class="vert-margin20">
                 <?php
                 // выводим виджет со статистикой ответов
-                $this->widget('application.widgets.MyAnswers.MyAnswers', array());
+                $this->widget('application.widgets.MyAnswers.MyAnswers', []);
                 ?>
             </div>
         <?php endif; ?>
 
 
 
-        <?php if (Yii::app()->user->role != User::ROLE_JURIST): ?>
+        <?php if (User::ROLE_JURIST != Yii::app()->user->role): ?>
 
             <div data-spy="" data-offset-top="200" class="hidden-xs">
 
@@ -232,18 +231,18 @@ if ($model->seoH1) {
                     <p class="vert-margin20"><strong>8 812 466-87-81</strong></p>
                     <h3>для других регионов:</h3>
                     -->
-                    <?php echo CHtml::link('Запрос на обратный звонок ', Yii::app()->createUrl('question/call'), array('class' => 'button button-green-border btn-block')); ?>
+                    <?php echo CHtml::link('Запрос на обратный звонок ', Yii::app()->createUrl('question/call'), ['class' => 'button button-green-border btn-block']); ?>
                 </div>
 
 
                 <div class="question-docs-block vert-margin20">
                     <h3>Вы также можете задать свой вопрос и получить ответ прямо на сайте</h3>
-                    <?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/')) ? CHtml::link('Задать вопрос online', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=question-docs-block&utm_campaign=' . Yii::app()->controller->id, array('class' => 'button button-green-border btn-block')) : ''; ?>
+                    <?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/create/')) ? CHtml::link('Задать вопрос online', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=question-docs-block&utm_campaign=' . Yii::app()->controller->id, ['class' => 'button button-green-border btn-block']) : ''; ?>
                 </div>
 
                 <div class="question-docs-block vert-margin20">
                     <h3>Заказать юридический документ у профессиональных юристов</h3>
-                    <?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/docs/')) ? CHtml::link("Заказать документ", Yii::app()->createUrl('question/docs'), array('class' => 'button button-green-border btn-block')) : '<span class="active">Заказать документы</span>'; ?>
+                    <?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/docs/')) ? CHtml::link('Заказать документ', Yii::app()->createUrl('question/docs'), ['class' => 'button button-green-border btn-block']) : '<span class="active">Заказать документы</span>'; ?>
 
                 </div>
             </div>
@@ -265,7 +264,6 @@ if ($model->seoH1) {
                 'order' => 'fresh_views',
                 'intervalDays' => 100,
                 'template' => 'default1',
-
             ]);
             ?>
         </div>

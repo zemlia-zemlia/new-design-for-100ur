@@ -10,37 +10,37 @@ class EmailParserleadlaw extends EmailParser
     public function parseMessage(ParsedEmail $message, Lead $lead, $folderSettings)
     {
         $bodyDecoded = quoted_printable_decode($message->getBody());
-        
+
         $this->echoDebug($bodyDecoded);
-                
+
         $name = '';
         $phone = '';
         $email = '';
         $question = '';
 
-        preg_match("/Имя:(.+)</iu", $bodyDecoded, $nameMatches);
-        preg_match("/(Телефон):(.+)</iu", $bodyDecoded, $phoneMatches);
+        preg_match('/Имя:(.+)</iu', $bodyDecoded, $nameMatches);
+        preg_match('/(Телефон):(.+)</iu', $bodyDecoded, $phoneMatches);
 
-        $messageArray = explode("Текст вопроса:", $bodyDecoded);
+        $messageArray = explode('Текст вопроса:', $bodyDecoded);
         $messageWithSuffix = trim($messageArray[1]);
-        $messageArray2 = explode("</p>", $messageWithSuffix);
+        $messageArray2 = explode('</p>', $messageWithSuffix);
         $message = $messageArray2[0];
 
         $name = trim($nameMatches[1]);
-        $name = str_replace("&nbsp;", " ", $name);
+        $name = str_replace('&nbsp;', ' ', $name);
         $name = trim($name);
         $phone = $phoneMatches[2];
         $phone = PhoneHelper::normalizePhone($phone);
         $question = $message;
 
-        $this->echoDebug($name . ': ' . $phone . ': '. $question);
-        
+        $this->echoDebug($name . ': ' . $phone . ': ' . $question);
+
         // если лид с таким телефоном уже есть в базе, пропускаем его
         if (in_array($phone, $this->_existingPhones)) {
             return false;
         }
-        
-        $lead->setScenario("parsing");
+
+        $lead->setScenario('parsing');
         $lead->name = $name;
         $lead->phone = $phone;
         $lead->question = trim($question);
@@ -54,7 +54,7 @@ class EmailParserleadlaw extends EmailParser
             $this->echoDebug($lead->errors);
             Yii::log('Ошибка парсинга лида из папки ящика Leadlaw ' . ' : ' . $lead->getError('question') . ': ' . $lead->name, 'error', 'system.web');
         }
-        
+
         return true;
     }
 }

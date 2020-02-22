@@ -10,22 +10,22 @@ class RegionPrices extends CWidget
     public function run()
     {
         $campaignsCommand = Yii::app()->db->createCommand()
-            ->select("c.id, c.townId, t.name townName, c.regionId, r.name regionName, r.buyPrice regionPrice, t.buyPrice townPrice, r_town.buyPrice townRegionPrice, c.leadsDayLimit, c.realLimit, c.brakPercent, c.timeFrom, c.timeTo, c.price, COUNT(l.id) leadsSent, u.id userId, u.name, u.balance, u.lastTransactionTime")
-            ->from("{{campaign}} c")
-            ->leftJoin("{{user}} u", "u.id = c.buyerId")
-            ->leftJoin("{{town}} t", "t.id = c.townId")
-            ->leftJoin("{{region}} r", "r.id = c.regionId")
-            ->leftJoin("{{region}} r_town", "r_town.id = t.regionId")
-            ->leftJoin("{{lead}} l", "l.campaignId = c.id AND l.leadStatus!=" . Lead::LEAD_STATUS_BRAK)
-            ->andWhere("c.active=:active AND c.type=:type AND u.lastTransactionTime>NOW()-INTERVAL 10 DAY", array(':active' => Campaign::ACTIVE_YES, ':type' => Campaign::TYPE_BUYERS))
-            ->group("c.id")
-            ->order("townPrice DESC, regionPrice DESC");
+            ->select('c.id, c.townId, t.name townName, c.regionId, r.name regionName, r.buyPrice regionPrice, t.buyPrice townPrice, r_town.buyPrice townRegionPrice, c.leadsDayLimit, c.realLimit, c.brakPercent, c.timeFrom, c.timeTo, c.price, COUNT(l.id) leadsSent, u.id userId, u.name, u.balance, u.lastTransactionTime')
+            ->from('{{campaign}} c')
+            ->leftJoin('{{user}} u', 'u.id = c.buyerId')
+            ->leftJoin('{{town}} t', 't.id = c.townId')
+            ->leftJoin('{{region}} r', 'r.id = c.regionId')
+            ->leftJoin('{{region}} r_town', 'r_town.id = t.regionId')
+            ->leftJoin('{{lead}} l', 'l.campaignId = c.id AND l.leadStatus!=' . Lead::LEAD_STATUS_BRAK)
+            ->andWhere('c.active=:active AND c.type=:type AND u.lastTransactionTime>NOW()-INTERVAL 10 DAY', [':active' => Campaign::ACTIVE_YES, ':type' => Campaign::TYPE_BUYERS])
+            ->group('c.id')
+            ->order('townPrice DESC, regionPrice DESC');
 
         $campaignsRows = $campaignsCommand->queryAll();
 
         //CustomFuncs::printr($campaignsRows);
 
-        $campaignsArray = array();
+        $campaignsArray = [];
         $buyPricesByRegion = Region::calculateMinMaxBuyPriceByRegion();
 
         foreach ($campaignsRows as $campaign) {
@@ -37,7 +37,7 @@ class RegionPrices extends CWidget
                     $townPrice = $campaign['townRegionPrice'];
                 }
 
-                if (Yii::app()->user->role == User::ROLE_PARTNER && Yii::app()->user->priceCoeff !== 0) {
+                if (User::ROLE_PARTNER == Yii::app()->user->role && 0 !== Yii::app()->user->priceCoeff) {
                     $townPrice *= Yii::app()->user->priceCoeff;
                 }
                 $campaignsArray[$campaign['townName']] = MoneyFormat::rubles($townPrice);
@@ -46,7 +46,7 @@ class RegionPrices extends CWidget
                 $regionMaxPrice = $buyPricesByRegion[$campaign['regionId']]['max'] ?? 0;
                 $regionMinPrice = $buyPricesByRegion[$campaign['regionId']]['min'] ?? 0;
 
-                if (Yii::app()->user->role == User::ROLE_PARTNER && Yii::app()->user->priceCoeff !== 0) {
+                if (User::ROLE_PARTNER == Yii::app()->user->role && 0 !== Yii::app()->user->priceCoeff) {
                     $regionMinPrice = $regionMinPrice * Yii::app()->user->priceCoeff;
                     $regionMaxPrice = $regionMaxPrice * Yii::app()->user->priceCoeff;
                 }
@@ -63,8 +63,8 @@ class RegionPrices extends CWidget
 
         //CustomFuncs::printr($campaignsArray);
 
-        $this->render($this->template, array(
+        $this->render($this->template, [
             'campaignsArray' => $campaignsArray,
-        ));
+        ]);
     }
 }

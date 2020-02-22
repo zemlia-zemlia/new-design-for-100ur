@@ -82,7 +82,7 @@ class Lead extends CActiveRecord
         $this->notifier = new LeadNotifier(Yii::app()->mailer, $this);
     }
 
-    public static function model($className = __CLASS__)
+    public static function model($className = __CLASS__): Lead
     {
         return parent::model($className);
     }
@@ -90,7 +90,7 @@ class Lead extends CActiveRecord
     /**
      * @return string the associated database table name
      */
-    public function tableName()
+    public function tableName(): string
     {
         return '{{lead}}';
     }
@@ -98,7 +98,7 @@ class Lead extends CActiveRecord
     /**
      * @return string
      */
-    public static function getFullTableName()
+    public static function getFullTableName(): string
     {
         return Yii::app()->db->tablePrefix . 'lead';
     }
@@ -108,8 +108,6 @@ class Lead extends CActiveRecord
      */
     public function rules()
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
         return [
             ['name, phone, sourceId, townId, town', 'required', 'message' => 'Поле {attribute} должно быть заполнено'],
             ['sourceId, townId, newTownId, questionId, leadStatus, addedById, type, campaignId, brakReason, buyerId', 'numerical', 'integerOnly' => true],
@@ -133,10 +131,8 @@ class Lead extends CActiveRecord
     /**
      * @return array Связи с другими моделями
      */
-    public function relations()
+    public function relations(): array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
             'source' => [self::BELONGS_TO, 'Leadsource', 'sourceId'],
             'town' => [self::BELONGS_TO, 'Town', 'townId'],
@@ -150,7 +146,7 @@ class Lead extends CActiveRecord
     /**
      * @return array Наименования атрибутов (name=>label)
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -186,6 +182,7 @@ class Lead extends CActiveRecord
 
     /**
      * @param ApiClassFactory $apiClassFactory
+     *
      * @return Lead
      */
     public function setApiClassFactory(ApiClassFactory $apiClassFactory): Lead
@@ -200,7 +197,7 @@ class Lead extends CActiveRecord
      *
      * @return array Массив статусов (код статуса => название)
      */
-    public static function getLeadStatusesArray()
+    public static function getLeadStatusesArray(): array
     {
         return [
             self::LEAD_STATUS_DEFAULT => 'не обработан',
@@ -220,7 +217,7 @@ class Lead extends CActiveRecord
      *
      * @return string статус объекта
      */
-    public function getLeadStatusName()
+    public function getLeadStatusName(): string
     {
         $statusesArray = self::getLeadStatusesArray();
         $statusName = $statusesArray[$this->leadStatus];
@@ -233,7 +230,7 @@ class Lead extends CActiveRecord
      *
      * @return array Массив типов лидов (код => название)
      */
-    public static function getLeadTypesArray()
+    public static function getLeadTypesArray(): array
     {
         return [
             self::TYPE_QUESTION => 'вопрос',
@@ -250,7 +247,7 @@ class Lead extends CActiveRecord
      *
      * @return string тип лида
      */
-    public function getLeadTypeName()
+    public function getLeadTypeName(): string
     {
         $typesArray = self::getLeadTypesArray();
         $typeName = $typesArray[$this->type];
@@ -263,7 +260,7 @@ class Lead extends CActiveRecord
      *
      * @return array массив причин отбраковки (код => наименование)
      */
-    public static function getBrakReasonsArray()
+    public static function getBrakReasonsArray(): array
     {
         return [
             self::BRAK_REASON_BAD_QUESTION => 'не юридический вопрос',
@@ -278,7 +275,7 @@ class Lead extends CActiveRecord
      *
      * @return string Причина отбраковки
      */
-    public function getReasonName()
+    public function getReasonName(): string
     {
         $reasonsArray = self::getBrakReasonsArray();
         $reasonName = $reasonsArray[$this->brakReason];
@@ -296,6 +293,7 @@ class Lead extends CActiveRecord
 
     /**
      * @param YurcrmClient $yurcrmClient
+     *
      * @return Lead
      */
     public function setYurcrmClient(YurcrmClient $yurcrmClient): Lead
@@ -359,8 +357,9 @@ class Lead extends CActiveRecord
      * @param Campaign $campaign
      *
      * @return int Код результата сохранения
+     * @throws Exception
      */
-    private function saveSoldLead($buyer, $transaction, $campaign)
+    private function saveSoldLead($buyer, $transaction, $campaign): int
     {
         $leadSentToPartner = null;
 
@@ -414,7 +413,7 @@ class Lead extends CActiveRecord
      *
      * @return bool
      */
-    private function sendToCampaignByMail(Campaign $campaign)
+    private function sendToCampaignByMail(Campaign $campaign): bool
     {
         // Если определена кампания и в ней стоит настройка Отправлять лиды на почту
         if ($campaign && $campaign->sendEmail) {
@@ -426,12 +425,14 @@ class Lead extends CActiveRecord
 
     /**
      * Продажа лида покупателю.
+     *
      * @param User|null $buyer покупатель
      * @param Campaign|null $campaign кампания
      *
      * @return bool результат
+     * @throws CException
      */
-    public function sellLead(?User $buyer = null, ?Campaign $campaign = null)
+    public function sellLead(?User $buyer = null, ?Campaign $campaign = null): bool
     {
         // получаем объекты покупателя и кампании
         $buyerAndCampaignResult = $this->checkBuyerAndCampaign($buyer, $campaign);
@@ -521,7 +522,7 @@ class Lead extends CActiveRecord
                     $this->notifier->sendYurcrmNotification($buyer, $crmLeadId);
                 }
 
-                LoggerFactory::getLogger('db')->log('Лид отправлен в Yurcrm. Код ответа: '. $yurcrmResult->getHttpCode() .'. Ответ: ' . $yurcrmResult->getResponse(), 'Lead', $this->id);
+                LoggerFactory::getLogger('db')->log('Лид отправлен в Yurcrm. Код ответа: ' . $yurcrmResult->getHttpCode() . '. Ответ: ' . $yurcrmResult->getResponse(), 'Lead', $this->id);
             } else {
                 $this->sendToCampaignByMail($campaign);
             }
@@ -541,6 +542,7 @@ class Lead extends CActiveRecord
      * @param User $buyer
      * @param Campaign $campaign
      * @param int $saveResult код результата сохранения лида
+     * @throws Exception
      */
     private function logSoldLead(User $buyer, Campaign $campaign)
     {
@@ -562,7 +564,7 @@ class Lead extends CActiveRecord
      *
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
-    public function search()
+    public function search(): CActiveDataProvider
     {
         $criteria = new CDbCriteria();
 
@@ -602,6 +604,7 @@ class Lead extends CActiveRecord
      * @param bool $noCampaign считать ли лиды без кампании
      *
      * @return int количество лидов
+     * @throws CException
      */
     public static function getStatusCounter($status, $noCampaign = true)
     {
@@ -697,7 +700,7 @@ class Lead extends CActiveRecord
 
         LoggerFactory::getLogger('db')->log('Создан лид #' . $this->id . ', ' . $this->town->name, 'Lead', $this->id);
 
-        if (Yii::app()->params['sellLeadAfterCreating'] == true) {
+        if (true == Yii::app()->params['sellLeadAfterCreating']) {
             $this->findCampaignAndSell();
         }
     }
@@ -842,6 +845,7 @@ class Lead extends CActiveRecord
      * @param User $buyer покупатель
      *
      * @return YurcrmResponse|null Ответ от CRM
+     *
      * @throws Exception
      */
     private function sendToYurCRM($buyer)

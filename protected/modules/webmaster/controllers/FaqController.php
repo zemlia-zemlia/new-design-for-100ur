@@ -1,14 +1,14 @@
 <?php
 
 /**
- * FAQ вебмастера
+ * FAQ вебмастера.
  */
 class FaqController extends Controller
 {
-    public $layout='//frontend/webmaster';
-    
+    public $layout = '//frontend/webmaster';
+
     /**
-     * Описание работы API
+     * Описание работы API.
      */
     public function actionIndex()
     {

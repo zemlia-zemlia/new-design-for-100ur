@@ -2,22 +2,21 @@
 /* @var $this QuestionController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->setPageTitle("Вопросы без категории". Yii::app()->name);
+$this->setPageTitle('Вопросы без категории' . Yii::app()->name);
 Yii::app()->clientScript->registerScriptFile('/js/question.js');
 Yii::app()->clientScript->registerScriptFile('/js/admin/question.js');
 
-
-$this->breadcrumbs=array(
+$this->breadcrumbs = [
     'Вопросы без категории',
-);
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 юристов', "/"),
-    'separator'=>' / ',
-    'links'=>$this->breadcrumbs,
- ));
+];
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 юристов', '/'),
+    'separator' => ' / ',
+    'links' => $this->breadcrumbs,
+ ]);
 ?>
 <div class="vert-margin30">
-    <h1>Вопросы  без категории [<?php echo $questionsCount;?>]</h1>
+    <h1>Вопросы  без категории [<?php echo $questionsCount; ?>]</h1>
 </div>
 
 <table class="table table-bordered table-hover table-striped">
@@ -49,11 +48,11 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     }
 ?>
 
-<tr class="<?php echo $statusClass; ?>" id="question-<?php echo $data['id'];?>">
+<tr class="<?php echo $statusClass; ?>" id="question-<?php echo $data['id']; ?>">
     <td>        
         <?php if ($data['title']):?>
-            <h4 class='left-align'><?php echo CHtml::link(CHtml::encode($data['title']), Yii::app()->createUrl('/admin/question/view', array('id'=>$data['id']))); ?></h4>
-        <?php endif;?>
+            <h4 class='left-align'><?php echo CHtml::link(CHtml::encode($data['title']), Yii::app()->createUrl('/admin/question/view', ['id' => $data['id']])); ?></h4>
+        <?php endif; ?>
         
         <p>
         <?php echo CHtml::encode($data['questionText']); ?>
@@ -66,26 +65,26 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 }?>
                 <?php
                     if ($data['publishDate']) {
-                        echo "<span class='muted'>Опубликован " . CustomFuncs::niceDate($data['publishDate']) . "</span>";
+                        echo "<span class='muted'>Опубликован " . CustomFuncs::niceDate($data['publishDate']) . '</span>';
                     }
                 ?>
             &nbsp;
-            <?php endif;?>
+            <?php endif; ?>
              
             <b>ID:</b>
-            <?php echo CHtml::link(CHtml::encode($data['id']), Yii::app()->createUrl('/admin/question/view', array('id'=>$data['id']))); ?>
+            <?php echo CHtml::link(CHtml::encode($data['id']), Yii::app()->createUrl('/admin/question/view', ['id' => $data['id']])); ?>
         </small>
         
         <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>   
             <div class="vert-margin20">          
-                <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/question/update', array('id'=>$data['id'])), array('class'=>'btn btn-primary btn-xs')); ?>
-                <?php echo CHtml::ajaxLink('В спам', Yii::app()->createUrl('/admin/question/toSpam'), array('data'=>"id=".$data['id'], 'type'=>'POST', 'success'=>'onSpamQuestion'), array('class'=>'btn btn-warning btn-xs')); ?>
+                <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/question/update', ['id' => $data['id']]), ['class' => 'btn btn-primary btn-xs']); ?>
+                <?php echo CHtml::ajaxLink('В спам', Yii::app()->createUrl('/admin/question/toSpam'), ['data' => 'id=' . $data['id'], 'type' => 'POST', 'success' => 'onSpamQuestion'], ['class' => 'btn btn-warning btn-xs']); ?>
 
                 <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
-                    <?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/question/delete', array('id'=>$data['id'])), array('class'=>'btn btn-danger btn-xs')); ?>
-                <?php endif;?>
+                    <?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/question/delete', ['id' => $data['id']]), ['class' => 'btn btn-danger btn-xs']); ?>
+                <?php endif; ?>
             </div> 
-        <?php endif;?>
+        <?php endif; ?>
     
     
     
@@ -95,24 +94,24 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </td>
 	
 	<td>
-	            <?php foreach ($allDirections as $directionId=>$direction):?>
-                <?php echo CHtml::link($direction['name'], '#', array('class'=>'set-category-link label label-primary', 'data-category'=>$directionId, 'data-question'=>$data['id']));?>
+	            <?php foreach ($allDirections as $directionId => $direction):?>
+                <?php echo CHtml::link($direction['name'], '#', ['class' => 'set-category-link label label-primary', 'data-category' => $directionId, 'data-question' => $data['id']]); ?>
                 
                     <?php if ($direction['children']):?>
-                        <?php foreach ($direction['children'] as $childId=>$child):?>
-                             <?php echo CHtml::link($child['name'], '#', array('class'=>'set-category-link  label label-default', 'data-category'=>$childId, 'data-question'=>$data['id']));?>
-                        <?php endforeach;?>
-                    <?php endif;?>
+                        <?php foreach ($direction['children'] as $childId => $child):?>
+                             <?php echo CHtml::link($child['name'], '#', ['class' => 'set-category-link  label label-default', 'data-category' => $childId, 'data-question' => $data['id']]); ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                     <br />        
-            <?php endforeach;?>
+            <?php endforeach; ?>
 	</td>
 	
 	
     <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>    
     
 	
-    <?php endif;?>    
+    <?php endif; ?>    
 </tr>
-    <?php endforeach;?>
+    <?php endforeach; ?>
     
 </table>

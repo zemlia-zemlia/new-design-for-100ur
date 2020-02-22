@@ -6,10 +6,10 @@
 
 <div class="wide form">
 
-<?php $form=$this->beginWidget('CActiveForm', array(
-    'action'=>Yii::app()->createUrl($this->route),
-    'method'=>'get',
-)); ?>
+<?php $form = $this->beginWidget('CActiveForm', [
+    'action' => Yii::app()->createUrl($this->route),
+    'method' => 'get',
+]); ?>
 
 	<div class="row">
 		<?php echo $form->label($model, 'id'); ?>
@@ -33,17 +33,17 @@
 
 	<div class="row">
 		<?php echo $form->label($model, 'vuz'); ?>
-		<?php echo $form->textField($model, 'vuz', array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->textField($model, 'vuz', ['size' => 60, 'maxlength' => 255]); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model, 'facultet'); ?>
-		<?php echo $form->textField($model, 'facultet', array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->textField($model, 'facultet', ['size' => 60, 'maxlength' => 255]); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model, 'education'); ?>
-		<?php echo $form->textField($model, 'education', array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->textField($model, 'education', ['size' => 60, 'maxlength' => 255]); ?>
 	</div>
 
 	<div class="row">
@@ -58,17 +58,17 @@
 
 	<div class="row">
 		<?php echo $form->label($model, 'advOrganisation'); ?>
-		<?php echo $form->textField($model, 'advOrganisation', array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->textField($model, 'advOrganisation', ['size' => 60, 'maxlength' => 255]); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model, 'advNumber'); ?>
-		<?php echo $form->textField($model, 'advNumber', array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->textField($model, 'advNumber', ['size' => 60, 'maxlength' => 255]); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model, 'position'); ?>
-		<?php echo $form->textField($model, 'position', array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->textField($model, 'position', ['size' => 60, 'maxlength' => 255]); ?>
 	</div>
 
 	<div class="row buttons">

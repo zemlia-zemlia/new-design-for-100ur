@@ -2,11 +2,11 @@
 
 /**
  * Логика работы с рангами юристов
- * Class YuristRang
+ * Class YuristRang.
  */
 class YuristRang
 {
-    /** @var array  */
+    /** @var array */
     private $rangs;
 
     /**
@@ -19,7 +19,9 @@ class YuristRang
 
     /**
      * YuristRangs constructor.
+     *
      * @param array $rangsSettings
+     *
      * @throws Exception
      */
     public function __construct($rangsSettings)
@@ -31,9 +33,12 @@ class YuristRang
     }
 
     /**
-     * Возвращает данные ранга по его id в виде ассоц. массива
-     * @param integer $rangId
+     * Возвращает данные ранга по его id в виде ассоц. массива.
+     *
+     * @param int $rangId
+     *
      * @return array
+     *
      * @throws Exception
      */
     public function getRangInfo($rangId)
@@ -46,9 +51,11 @@ class YuristRang
     }
 
     /**
-     * Определяет, какого ранга достоин пользователь
+     * Определяет, какого ранга достоин пользователь.
+     *
      * @param User $user
-     * @return integer
+     *
+     * @return int
      */
     public function detectRang(User $user)
     {

@@ -4,9 +4,10 @@
  * Модель для работы с комментариями к постам
  *
  * The followings are the available columns in table '{{postComment}}':
- * @property integer $id
- * @property integer $postId
- * @property integer $authorId
+ *
+ * @property int    $id
+ * @property int    $postId
+ * @property int    $authorId
  * @property string $text
  * @property string $datetime
  */
@@ -14,10 +15,12 @@ class PostComment extends CActiveRecord
 {
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     *
+     * @param string $className active record class name
+     *
      * @return PostComment the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -39,32 +42,32 @@ class PostComment extends CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-                array('postId, authorId, text', 'required'),
-                array('postId, authorId', 'numerical', 'integerOnly'=>true),
+        return [
+                ['postId, authorId, text', 'required'],
+                ['postId, authorId', 'numerical', 'integerOnly' => true],
                 // The following rule is used by search().
                 // Please remove those attributes that should not be searched.
-                array('id, postId, authorId, text, datetime', 'safe', 'on'=>'search'),
-        );
+                ['id, postId, authorId, text, datetime', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'post'      =>  array(self::BELONGS_TO, 'Post', 'postId'),
-            'author'    =>  array(self::BELONGS_TO, 'User', 'authorId'),
-        );
+        return [
+            'post' => [self::BELONGS_TO, 'Post', 'postId'],
+            'author' => [self::BELONGS_TO, 'User', 'authorId'],
+        ];
     }
 
     /**
@@ -72,25 +75,26 @@ class PostComment extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
-            'id'        => 'ID',
-            'postId'    => 'ID поста',
-            'authorId'  => 'ID автора',
-            'text'      => 'Комментарий',
-            'datetime'  => 'Время создания',
-        );
+        return [
+            'id' => 'ID',
+            'postId' => 'ID поста',
+            'authorId' => 'ID автора',
+            'text' => 'Комментарий',
+            'datetime' => 'Время создания',
+        ];
     }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     *
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function search()
     {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('postId', $this->postId);
@@ -98,8 +102,8 @@ class PostComment extends CActiveRecord
         $criteria->compare('text', $this->text, true);
         $criteria->compare('datetime', $this->datetime, true);
 
-        return new CActiveDataProvider($this, array(
-                'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+                'criteria' => $criteria,
+        ]);
     }
 }

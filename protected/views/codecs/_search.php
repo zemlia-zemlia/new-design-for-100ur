@@ -6,10 +6,10 @@
 
 <div class="wide form">
 
-<?php $form=$this->beginWidget('CActiveForm', array(
-    'action'=>Yii::app()->createUrl($this->route),
-    'method'=>'get',
-)); ?>
+<?php $form = $this->beginWidget('CActiveForm', [
+    'action' => Yii::app()->createUrl($this->route),
+    'method' => 'get',
+]); ?>
 
 	<div class="row">
 		<?php echo $form->label($model, 'id'); ?>
@@ -18,22 +18,22 @@
 
 	<div class="row">
 		<?php echo $form->label($model, 'pagetitle'); ?>
-		<?php echo $form->textField($model, 'pagetitle', array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->textField($model, 'pagetitle', ['size' => 60, 'maxlength' => 255]); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model, 'longtitle'); ?>
-		<?php echo $form->textField($model, 'longtitle', array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->textField($model, 'longtitle', ['size' => 60, 'maxlength' => 255]); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model, 'description'); ?>
-		<?php echo $form->textField($model, 'description', array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->textField($model, 'description', ['size' => 60, 'maxlength' => 255]); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model, 'alias'); ?>
-		<?php echo $form->textField($model, 'alias', array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->textField($model, 'alias', ['size' => 60, 'maxlength' => 255]); ?>
 	</div>
 
 	<div class="row">
@@ -48,17 +48,17 @@
 
 	<div class="row">
 		<?php echo $form->label($model, 'introtext'); ?>
-		<?php echo $form->textArea($model, 'introtext', array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->textArea($model, 'introtext', ['rows' => 6, 'cols' => 50]); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model, 'content'); ?>
-		<?php echo $form->textArea($model, 'content', array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->textArea($model, 'content', ['rows' => 6, 'cols' => 50]); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->label($model, 'menutitle'); ?>
-		<?php echo $form->textField($model, 'menutitle', array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->textField($model, 'menutitle', ['size' => 60, 'maxlength' => 255]); ?>
 	</div>
 
 	<div class="row buttons">

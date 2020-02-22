@@ -1,6 +1,5 @@
 <?php
 
-use RandomStringHelper;
 /**
  * This is the model class for table "{{docs}}".
  *
@@ -28,7 +27,7 @@ class Docs extends CActiveRecord
     /**
      * @return string the associated database table name
      */
-    public function tableName():string
+    public function tableName(): string
     {
         return '{{docs}}';
     }
@@ -36,7 +35,7 @@ class Docs extends CActiveRecord
     /**
      * @return array validation rules for model attributes
      */
-    public function rules():array
+    public function rules(): array
     {
         return [
             ['name', 'required', 'message' => 'Заполните имя'],
@@ -52,10 +51,8 @@ class Docs extends CActiveRecord
     /**
      * @return array relational rules
      */
-    public function relations():array
+    public function relations(): array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
             'file2categories' => [self::HAS_MANY, 'File2Category', 'file_id'],
             'file2objects' => [self::HAS_MANY, 'File2Object', 'file_id'],
@@ -66,7 +63,7 @@ class Docs extends CActiveRecord
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels():array
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -90,7 +87,7 @@ class Docs extends CActiveRecord
      * @return CActiveDataProvider the data provider that can return the models
      *                             based on the search/filter conditions
      */
-    public function search():CActiveDataProvider
+    public function search(): CActiveDataProvider
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
@@ -106,24 +103,23 @@ class Docs extends CActiveRecord
         ]);
     }
 
-
     /**
      * @return string
      */
-    public function generateName():string
+    public function generateName(): string
     {
-        return RandomStringHelper::generateRandomString(self::RANDOM_NAME_LENGTH).'_'.time().'.'.$this->file->getExtensionName();
+        return RandomStringHelper::generateRandomString(self::RANDOM_NAME_LENGTH) . '_' . time() . '.' . $this->file->getExtensionName();
     }
 
     /**
      * @return string
      */
-    public function getDownloadLink():string
+    public function getDownloadLink(): string
     {
         ++$this->downloads_count;
         $this->save();
 
-        return '/upload/files/'.$this->filename;
+        return '/upload/files/' . $this->filename;
     }
 
     /**
@@ -134,7 +130,7 @@ class Docs extends CActiveRecord
      *
      * @return Docs the static model class
      */
-    public static function model($className = __CLASS__):Docs
+    public static function model($className = __CLASS__): Docs
     {
         return parent::model($className);
     }

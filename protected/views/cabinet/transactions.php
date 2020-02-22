@@ -1,16 +1,16 @@
 <?php
-$this->setPageTitle("Мои транзакции" . Yii::app()->name);
+$this->setPageTitle('Мои транзакции' . Yii::app()->name);
 
-$this->breadcrumbs = array(
-    'Кабинет' => array('/cabinet'),
+$this->breadcrumbs = [
+    'Кабинет' => ['/cabinet'],
     'Мои транзакции',
-);
+];
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('100 юристов', "/"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 юристов', '/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 ?>
 
 <style>
@@ -76,14 +76,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 		    </tr>
 
 		    <?php
-            $this->widget('zii.widgets.CListView', array(
+            $this->widget('zii.widgets.CListView', [
                 'dataProvider' => $transactionsDataProvider,
                 'itemView' => 'application.views.transactionCampaign._view',
                 'emptyText' => 'Не найдено ни одной транзакции',
                 'summaryText' => 'Показаны транзакции с {start} до {end}, всего {count}',
-                'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
-            ));
+                'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+            ]);
             ?>
 		</table>
 	</small>
-<?php endif;?>
+<?php endif; ?>

@@ -2,12 +2,12 @@
 
 
     <?php
-    $yuristName = ($data->settings && $data->settings->alias != '') ? $data->settings->alias : $data->lastName . ' ' . $data->name . ' ' . $data->name2;
+    $yuristName = ($data->settings && '' != $data->settings->alias) ? $data->settings->alias : $data->lastName . ' ' . $data->name . ' ' . $data->name2;
     ?>
     <div class="yurist-list-item">
         <div class="row">
             <div class="col-sm-3 col-xs-5">
-                <a href="<?php echo Yii::app()->createUrl('user/view', array('id' => $data->id)); ?>">
+                <a href="<?php echo Yii::app()->createUrl('user/view', ['id' => $data->id]); ?>">
                     <img src="<?php echo $data->getAvatarUrl(); ?>" alt="<?php echo CHtml::encode($yuristName); ?> " class="img-responsive" />
                 </a>
             </div>
@@ -24,7 +24,7 @@
                 <?php endif; ?>
 
                 <strong class="left-align" style="font-size: 15px;">
-                    <?php echo CHtml::link(CHtml::encode($yuristName), Yii::app()->createUrl('user/view', array('id' => $data->id))); ?> 
+                    <?php echo CHtml::link(CHtml::encode($yuristName), Yii::app()->createUrl('user/view', ['id' => $data->id])); ?> 
                     <span class="text-muted"><em><?php echo $data->settings->getStatusName(); ?></em></span>
                 </strong>
                 <p class="">

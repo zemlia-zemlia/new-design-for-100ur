@@ -1,35 +1,35 @@
 <?php
-    $this->pageTitle = "Транзакции. " . Yii::app()->name;
+    $this->pageTitle = 'Транзакции. ' . Yii::app()->name;
 ?>
 
 <div  class="vert-margin30">
 <h1>Кабинет вебмастера</h1>
 </div>
 
-<?php if ($justCreated == true):?>
+<?php if (true == $justCreated):?>
 <div class="alert alert-success text-center">
     <h4>Заявка на вывод средств создана</h4>
     <p>Заявка создана и отправлена на рассмотрение модератору</p>
 </div>
-<?php endif;?>
+<?php endif; ?>
 
 <table class="table">
     <tr>
         <td class="center-align">
-            Ваш баланс:<br /> <strong><?php echo MoneyFormat::rubles($balance);?> руб.</strong><br /> (из них холд <?php echo MoneyFormat::rubles($hold);?> руб.)
+            Ваш баланс:<br /> <strong><?php echo MoneyFormat::rubles($balance); ?> руб.</strong><br /> (из них холд <?php echo MoneyFormat::rubles($hold); ?> руб.)
         </td>
         <td class="center-align">
             Доступно для вывода:<br /> <strong>
-                <?php if (($balance-$hold)< PartnerTransaction::MIN_WITHDRAW):?>
+                <?php if (($balance - $hold) < PartnerTransaction::MIN_WITHDRAW):?>
                 <small><span class="text-danger">Минимальная сумма для вывода - 1000&nbsp;руб.</span></small>
                 <?php else:?>
-                    <?php echo MoneyFormat::rubles($balance - $hold);?> руб.</strong>
-                <?php endif;?>
+                    <?php echo MoneyFormat::rubles($balance - $hold); ?> руб.</strong>
+                <?php endif; ?>
         </td>
         <td>
-            <?php echo $this->renderPartial('_form', array(
+            <?php echo $this->renderPartial('_form', [
                 'model' => $transaction,
-            ));?>
+            ]); ?>
 			<div class="text-center">
 				<small><strong>Заявки на вывод средств обрабатываются в течении 3 (трёх) рабочих дней.</strong></small>
 				</div>
@@ -52,15 +52,15 @@
             <th>Статус</th>
         </tr>
         </thead>
-    <?php $this->widget('zii.widgets.CListView', array(
-            'dataProvider'=>$requestsDataProvider,
-            'itemView'=>'_viewRequest',
-            'emptyText' =>  'Не найдено ни одной заявки',
-            'summaryText'=>'Показаны заявки с {start} до {end}, всего {count}',
-            'pager'=>array('class'=>'GTLinkPager') //we use own pager with russian words
-    )); ?>
+    <?php $this->widget('zii.widgets.CListView', [
+            'dataProvider' => $requestsDataProvider,
+            'itemView' => '_viewRequest',
+            'emptyText' => 'Не найдено ни одной заявки',
+            'summaryText' => 'Показаны заявки с {start} до {end}, всего {count}',
+            'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+    ]); ?>
     </table>
-<?php endif;?>
+<?php endif; ?>
 
 <h2>Мои транзакции</h2>
 <table class="table table-bordered table-hover table-striped">
@@ -72,11 +72,11 @@
         <th>Комментарий</th>
     </tr>
     </thead>
-<?php $this->widget('zii.widgets.CListView', array(
-    'dataProvider'=>$dataProvider,
-    'itemView'=>'_view',
-        'emptyText' =>  'Не найдено ни одной транзакции',
-        'summaryText'=>'Показаны транзакции с {start} до {end}, всего {count}',
-        'pager'=>array('class'=>'GTLinkPager') //we use own pager with russian words
-)); ?>
+<?php $this->widget('zii.widgets.CListView', [
+    'dataProvider' => $dataProvider,
+    'itemView' => '_view',
+        'emptyText' => 'Не найдено ни одной транзакции',
+        'summaryText' => 'Показаны транзакции с {start} до {end}, всего {count}',
+        'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+]); ?>
 </table>

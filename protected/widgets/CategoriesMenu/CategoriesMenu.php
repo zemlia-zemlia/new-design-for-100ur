@@ -1,9 +1,8 @@
 <?php
 /**
  * Виджет, выводящий соседей и потомков категории
- * Class CategoriesMenu
+ * Class CategoriesMenu.
  */
-
 class CategoriesMenu extends CWidget
 {
     public $template = 'tree'; // представление виджета по умолчанию
@@ -22,8 +21,8 @@ class CategoriesMenu extends CWidget
 
         return $this->render($this->template, [
             'category' => $this->category,
-            'children'  => $children,
-            'neighbours'  => $neighbours,
+            'children' => $children,
+            'neighbours' => $neighbours,
         ]);
     }
 }

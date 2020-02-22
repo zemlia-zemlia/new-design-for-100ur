@@ -2,7 +2,7 @@
 
 /**
  * Виджет показа статистики активности пользователя по дням в виде тепловой карты
- * Class UserActivityWidget
+ * Class UserActivityWidget.
  */
 class UserActivityWidget extends CWidget
 {
@@ -11,7 +11,6 @@ class UserActivityWidget extends CWidget
     public $periodEnd; // до какой даты (Y-m-d). По умолчанию до сегодня
     public $role; // Роль пользователя. Задается, если $userId не указан.
     public $template = 'default'; // шаблон отображения
-
 
     public function init()
     {
@@ -30,7 +29,7 @@ class UserActivityWidget extends CWidget
 
         $activityRows = $this->getActivityRawData($this->userId);
 
-        if (sizeof($activityRows) == 0) {
+        if (0 == sizeof($activityRows)) {
             return;
         }
 
@@ -55,9 +54,11 @@ class UserActivityWidget extends CWidget
     }
 
     /**
-     * Выбирает из базы данные по активности пользователя/пользователей в виде строк
-     * @param integer|null $userId
-     * @param integer|null $role
+     * Выбирает из базы данные по активности пользователя/пользователей в виде строк.
+     *
+     * @param int|null $userId
+     * @param int|null $role
+     *
      * @return array
      */
     private function getActivityRawData($userId = null, $role = null): array
@@ -91,16 +92,19 @@ class UserActivityWidget extends CWidget
 
     /**
      * Поскольку первый день в выборке может быть не первым днем недели, получим ближайший
-     * первый день недели в прошлом от первого дня выборки
+     * первый день недели в прошлом от первого дня выборки.
+     *
      * @param DateTime $dateStart
+     *
      * @return DateTime|int
+     *
      * @throws Exception
      */
     private function calculateFirstDateInCalendar(DateTime $dateStart)
     {
-        $weekdayOfFirstDate = (int)$dateStart->format('w');
+        $weekdayOfFirstDate = (int) $dateStart->format('w');
 
-        $firstDateInCalendar = ($weekdayOfFirstDate == 0) ?
+        $firstDateInCalendar = (0 == $weekdayOfFirstDate) ?
             $dateStart :
             (clone $dateStart)->sub(new DateInterval('P' . $weekdayOfFirstDate . 'D'));
 
@@ -108,10 +112,12 @@ class UserActivityWidget extends CWidget
     }
 
     /**
-     * @param array $activityData
+     * @param array    $activityData
      * @param DateTime $dateStart
      * @param DateTime $dateFinish
+     *
      * @return array
+     *
      * @throws Exception
      */
     private function getRanksByDays(array $activityData, $dateStart, $dateFinish): array

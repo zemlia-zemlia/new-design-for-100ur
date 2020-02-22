@@ -2,11 +2,11 @@
 /* @var $this CampaignController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     'Кампании',
-);
+];
 
-$this->pageTitle = "Кампании. " . Yii::app()->name;
+$this->pageTitle = 'Кампании. ' . Yii::app()->name;
 
 Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
 
@@ -20,20 +20,20 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
 
 <div class="vert-margin20">
     <p>
-        <?php echo CHtml::link("Активные", Yii::app()->createUrl('/admin/campaign/index', array('active' => 'active')), array('class' => ($type == 'active') ? 'text-muted' : '')); ?>
+        <?php echo CHtml::link('Активные', Yii::app()->createUrl('/admin/campaign/index', ['active' => 'active']), ['class' => ('active' == $type) ? 'text-muted' : '']); ?>
         &nbsp;
-        <?php echo CHtml::link("Активные ПП", Yii::app()->createUrl('/admin/campaign/index', array('active' => 'active', 'type' => Campaign::TYPE_PARTNERS)), array('class' => ($type == 'activePP') ? 'text-muted' : '')); ?>
+        <?php echo CHtml::link('Активные ПП', Yii::app()->createUrl('/admin/campaign/index', ['active' => 'active', 'type' => Campaign::TYPE_PARTNERS]), ['class' => ('activePP' == $type) ? 'text-muted' : '']); ?>
         &nbsp;
-        <?php echo CHtml::link("Пассивные", Yii::app()->createUrl('/admin/campaign/index', array('active' => 'passive')), array('class' => ($type == 'passive') ? 'text-muted' : '')); ?>
+        <?php echo CHtml::link('Пассивные', Yii::app()->createUrl('/admin/campaign/index', ['active' => 'passive']), ['class' => ('passive' == $type) ? 'text-muted' : '']); ?>
         &nbsp;
-        <?php echo CHtml::link("Отключены", Yii::app()->createUrl('/admin/campaign/index', array('active' => 'inactive')), array('class' => ($type == 'inactive') ? 'text-muted' : '')); ?>
+        <?php echo CHtml::link('Отключены', Yii::app()->createUrl('/admin/campaign/index', ['active' => 'inactive']), ['class' => ('inactive' == $type) ? 'text-muted' : '']); ?>
         &nbsp;
-        <?php echo CHtml::link("Архив", Yii::app()->createUrl('/admin/campaign/index', array('active' => 'archive')), array('class' => ($type == 'archive') ? 'text-muted' : '')); ?>
+        <?php echo CHtml::link('Архив', Yii::app()->createUrl('/admin/campaign/index', ['active' => 'archive']), ['class' => ('archive' == $type) ? 'text-muted' : '']); ?>
         &nbsp;
-        <?php echo CHtml::link("Одобренные", Yii::app()->createUrl('/admin/campaign/index', array('active' => 'accepted')), array('class' => ($type == 'accepted') ? 'text-muted' : '')); ?>
+        <?php echo CHtml::link('Одобренные', Yii::app()->createUrl('/admin/campaign/index', ['active' => 'accepted']), ['class' => ('accepted' == $type) ? 'text-muted' : '']); ?>
         &nbsp;
 
-        <?php echo CHtml::link("На модерации", Yii::app()->createUrl('/admin/campaign/index', array('active' => 'moderation')), array('class' => ($type == 'moderation') ? 'text-muted' : '')); ?>
+        <?php echo CHtml::link('На модерации', Yii::app()->createUrl('/admin/campaign/index', ['active' => 'moderation']), ['class' => ('moderation' == $type) ? 'text-muted' : '']); ?>
         <span class="badge"><?php echo Campaign::getModerationCount(); ?></span>
 
         &nbsp;
@@ -64,8 +64,8 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                 <tr class="active">
                     <td colspan="">
                         id: <?php echo $user['id']; ?>
-                        <?php echo CHtml::link(CHtml::encode($user['name']), Yii::app()->createUrl('/admin/user/view', array('id' => $user['id']))); ?>
-                        <?php if ($user['yurcrmToken'] != ''): ?>
+                        <?php echo CHtml::link(CHtml::encode($user['name']), Yii::app()->createUrl('/admin/user/view', ['id' => $user['id']])); ?>
+                        <?php if ('' != $user['yurcrmToken']): ?>
                             <span class="label label-default">CRM</span>
                         <?php endif; ?>
                     </td>
@@ -84,7 +84,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                                        placeholder="Сумма"/>
                             </div>
                             <div class="form-group">
-                                <?php echo CHtml::dropDownList('account', 1, Money::getAccountsArray(), array('class' => 'form-control input-sm')); ?>
+                                <?php echo CHtml::dropDownList('account', 1, Money::getAccountsArray(), ['class' => 'form-control input-sm']); ?>
                             </div>
                             <br/>
                             <a href="#" class="btn btn-block btn-primary btn-sm submit-topup">Зачислить</a>
@@ -100,7 +100,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                         <td style="width:230px;">
                         </td>
                         <td>
-                            <?php echo CHtml::link(CHtml::encode($campaign['regionName'] . ' ' . $campaign['townName']), Yii::app()->createUrl('/admin/campaign/view', array('id' => $campaign['id']))); ?>
+                            <?php echo CHtml::link(CHtml::encode($campaign['regionName'] . ' ' . $campaign['townName']), Yii::app()->createUrl('/admin/campaign/view', ['id' => $campaign['id']])); ?>
                             <small><span class="text-muted">(id:<?php echo $campaign['id']; ?>)</span></small>
                         </td>
                         <td>
@@ -109,11 +109,11 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                         <td>
                             <small>
                                 <?php
-                                $workDays = array();
+                                $workDays = [];
                                 $workDays = explode(',', $campaign['days']);
                                 ?>
 
-                                <?php for ($dayNumber = 1; $dayNumber <= 7; $dayNumber++): ?>
+                                <?php for ($dayNumber = 1; $dayNumber <= 7; ++$dayNumber): ?>
                                     <?php
                                     if (!in_array($dayNumber, $workDays)) {
                                         $labelClass = 'label-default';
@@ -138,20 +138,20 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                         </td>
                         <td>
                             <?php
-                            $revenue = (int)$leadsByStatusArray[$campaign['id']]['revenue'];
-                            $expences = (int)$leadsByStatusArray[$campaign['id']]['expences'];
+                            $revenue = (int) $leadsByStatusArray[$campaign['id']]['revenue'];
+                            $expences = (int) $leadsByStatusArray[$campaign['id']]['expences'];
                             $profit = $revenue - $expences;
-                            $marginPercent = ($revenue != 0) ? round($profit / $revenue * 100) : 0;
+                            $marginPercent = (0 != $revenue) ? round($profit / $revenue * 100) : 0;
                             ?>
                             <?php echo $marginPercent; ?>%
                         </td>
                         <td>
                             <div class="">
-                                <?php echo CHtml::textField('realLimit', $campaign['realLimit'], array(
+                                <?php echo CHtml::textField('realLimit', $campaign['realLimit'], [
                                     'class' => 'form-control set-real-limit input-sm input-xs',
                                     'style' => 'max-width:50px',
                                     'data-id' => $campaign['id'],
-                                )); ?>
+                                ]); ?>
                             </div>
                         </td>
                     </tr>

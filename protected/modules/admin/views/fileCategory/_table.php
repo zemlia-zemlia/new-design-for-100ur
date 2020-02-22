@@ -13,7 +13,7 @@
     <?php foreach ($categories as $category):?>
         <tr>
             <td>
-               <strong><a href="#" class="catLink"  id="<?= $category->id ?>"><?= $category->name ?></a> </strong>
+               <strong><a href="#" class="catLink"  id="<?php echo $category->id; ?>"><?php echo $category->name; ?></a> </strong>
             </td>
             <td>
                 <?php echo CHtml::encode($category->description); ?>

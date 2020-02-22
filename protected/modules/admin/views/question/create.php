@@ -2,25 +2,24 @@
 /* @var $this QuestionController */
 /* @var $model Question */
 
-$this->setPageTitle("Вопросы и ответы - новый вопрос.". Yii::app()->name);
+$this->setPageTitle('Вопросы и ответы - новый вопрос.' . Yii::app()->name);
 
-
-$this->breadcrumbs=array(
-    'Вопросы и ответы'=>array('index'),
+$this->breadcrumbs = [
+    'Вопросы и ответы' => ['index'],
     'Новый вопрос',
-);
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('CRM', "/"),
-    'separator'=>' / ',
-    'links'=>$this->breadcrumbs,
- ));
+];
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('CRM', '/'),
+    'separator' => ' / ',
+    'links' => $this->breadcrumbs,
+ ]);
 ?>
 
 <h1>Добавление вопроса</h1>
 
-<?php echo $this->renderPartial('_form', array(
-        'model'         =>  $model,
-        'allCategories' =>  $allCategories,
-        'categoryId'    =>  $categoryId,
-        'townsArray'    =>  $townsArray,
-    )); ?>
+<?php echo $this->renderPartial('_form', [
+        'model' => $model,
+        'allCategories' => $allCategories,
+        'categoryId' => $categoryId,
+        'townsArray' => $townsArray,
+    ]); ?>

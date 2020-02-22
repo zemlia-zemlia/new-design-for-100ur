@@ -1,6 +1,5 @@
 <?php
 
-
 class YandexPaymentQuestion implements YandexPaymentProcessorInterface
 {
     private $question;
@@ -15,7 +14,8 @@ class YandexPaymentQuestion implements YandexPaymentProcessorInterface
     }
 
     /**
-     * Обработка платежа
+     * Обработка платежа.
+     *
      * @throws CHttpException
      */
     public function process(): bool
@@ -45,10 +45,12 @@ class YandexPaymentQuestion implements YandexPaymentProcessorInterface
                 Yii::log('Вопрос сохранен, id: ' . $this->question->id, 'info', 'system.web');
                 Yii::log('Пришло бабло за вопрос ' . $this->question->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'info', 'system.web');
                 LoggerFactory::getLogger('db')->log('Оплата вопроса #' . $this->question->id . ') на ' . MoneyFormat::rubles($amount) . ' руб.', 'Question', $this->question->id);
+
                 return true;
             } else {
                 $saveTransaction->rollback();
                 Yii::log('Ошибки: ' . print_r($this->question->errors, true) . ' ' . print_r($moneyTransaction->errors, true), 'error', 'system.web');
+
                 return false;
             }
         } catch (Exception $e) {

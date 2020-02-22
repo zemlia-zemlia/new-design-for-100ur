@@ -8,78 +8,78 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
 
 <div class="form">
 
-    <?php $form = $this->beginWidget('CActiveForm', array(
+    <?php $form = $this->beginWidget('CActiveForm', [
         'id' => 'user-form',
         'enableAjaxValidation' => false,
-        'htmlOptions' => array(
+        'htmlOptions' => [
             'class' => 'login-form',
             'enctype' => 'multipart/form-data',
-        ),
-    )); ?>
+        ],
+    ]); ?>
 
     <p class="note"><span class="required">*</span> - обязательные поля</p>
 
-    <?php echo $form->errorSummary($model, "Исправьте ошибки"); ?>
-    <?php echo $form->errorSummary($yuristSettings, "Исправьте ошибки"); ?>
+    <?php echo $form->errorSummary($model, 'Исправьте ошибки'); ?>
+    <?php echo $form->errorSummary($yuristSettings, 'Исправьте ошибки'); ?>
 
 
-    <?php if (Yii::app()->user->checkAccess(User::ROLE_MANAGER) || $model->scenario != 'update'): ?>
+    <?php if (Yii::app()->user->checkAccess(User::ROLE_MANAGER) || 'update' != $model->scenario): ?>
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'lastName'); ?>
-            <?php echo $form->textField($model, 'lastName', array('class' => 'form-control')); ?>
+            <?php echo $form->textField($model, 'lastName', ['class' => 'form-control']); ?>
             <?php echo $form->error($model, 'lastName'); ?>
         </div>
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'name'); ?>
-            <?php echo $form->textField($model, 'name', array('class' => 'form-control')); ?>
+            <?php echo $form->textField($model, 'name', ['class' => 'form-control']); ?>
             <?php echo $form->error($model, 'name'); ?>
         </div>
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'name2'); ?>
-            <?php echo $form->textField($model, 'name2', array('class' => 'form-control')); ?>
+            <?php echo $form->textField($model, 'name2', ['class' => 'form-control']); ?>
             <?php echo $form->error($model, 'name2'); ?>
         </div>
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'role'); ?>
-            <?php echo $form->dropDownList($model, 'role', $rolesNames, array('class' => 'form-control')); ?>
+            <?php echo $form->dropDownList($model, 'role', $rolesNames, ['class' => 'form-control']); ?>
             <?php echo $form->error($model, 'role'); ?>
         </div>
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'email'); ?>
-            <?php echo $form->textField($model, 'email', array('class' => 'form-control')); ?>
+            <?php echo $form->textField($model, 'email', ['class' => 'form-control']); ?>
             <?php echo $form->error($model, 'email'); ?>
         </div>
         <div class="form-group">
             <?php echo $form->labelEx($model, 'phone'); ?>
-            <?php echo $form->textField($model, 'phone', array('class' => 'form-control')); ?>
+            <?php echo $form->textField($model, 'phone', ['class' => 'form-control']); ?>
             <?php echo $form->error($model, 'phone'); ?>
         </div>
     <?php endif; ?>
 
-    <?php if ($model->isNewRecord == true): ?>
+    <?php if (true == $model->isNewRecord): ?>
         <div class="form-group">
             <?php echo $form->labelEx($model, 'password'); ?>
-            <?php echo $form->passwordField($model, 'password', array('class' => 'form-control')); ?>
+            <?php echo $form->passwordField($model, 'password', ['class' => 'form-control']); ?>
             <?php echo $form->error($model, 'password'); ?>
         </div>
         <div class="form-group">
             <?php echo $form->labelEx($model, 'password2'); ?>
-            <?php echo $form->passwordField($model, 'password2', array('class' => 'form-control')); ?>
+            <?php echo $form->passwordField($model, 'password2', ['class' => 'form-control']); ?>
             <?php echo $form->error($model, 'password2'); ?>
         </div>
     <?php else: ?>
         <p>
-            <?php echo CHtml::link('Изменить пароль', Yii::app()->createUrl('user/changePassword', array('id' => $model->id)), array('class' => 'btn btn-warning')); ?>
+            <?php echo CHtml::link('Изменить пароль', Yii::app()->createUrl('user/changePassword', ['id' => $model->id]), ['class' => 'btn btn-warning']); ?>
         </p>
     <?php endif; ?>
 
 
-    <?php if (Yii::app()->user->checkAccess(User::ROLE_MANAGER) || $model->scenario != 'update'): ?>
+    <?php if (Yii::app()->user->checkAccess(User::ROLE_MANAGER) || 'update' != $model->scenario): ?>
         <div class="form-group">
             <?php echo $form->checkBox($model, 'active100'); ?>
             <?php echo $model->getAttributeLabel('active100'); ?>
@@ -95,22 +95,22 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'town'); ?>
-        <?php echo CHtml::textField('town', '', array(
+        <?php echo CHtml::textField('town', '', [
             'id' => 'town-selector',
             'class' => 'form-control',
-        )); ?>
+        ]); ?>
         <?php
-        echo $form->hiddenField($model, 'townId', array('id' => 'selected-town'));
+        echo $form->hiddenField($model, 'townId', ['id' => 'selected-town']);
         ?>
         <?php echo $form->error($model, 'townId'); ?>
     </div>
 
-    <?php if ($model->role == User::ROLE_PARTNER): ?>
+    <?php if (User::ROLE_PARTNER == $model->role): ?>
         <div class="form-group">
             <?php echo $form->labelEx($model, 'priceCoeff'); ?>
-            <?php echo $form->textField($model, 'priceCoeff', array(
+            <?php echo $form->textField($model, 'priceCoeff', [
                 'class' => 'form-control',
-            )); ?>
+            ]); ?>
             <?php echo $form->error($model, 'priceCoeff'); ?>
         </div>
     <?php endif; ?>
@@ -120,30 +120,30 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
             <div class="col-sm-8">
                 <div class="form-group">
                     <?php echo $form->labelEx($model, 'yurcrmToken'); ?>
-                    <?php echo $form->textField($model, 'yurcrmToken', array('class' => 'form-control')); ?>
+                    <?php echo $form->textField($model, 'yurcrmToken', ['class' => 'form-control']); ?>
                     <?php echo $form->error($model, 'yurcrmToken'); ?>
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
                     <?php echo $form->labelEx($model, 'yurcrmSource'); ?>
-                    <?php echo $form->textField($model, 'yurcrmSource', array('class' => 'form-control')); ?>
+                    <?php echo $form->textField($model, 'yurcrmSource', ['class' => 'form-control']); ?>
                     <?php echo $form->error($model, 'yurcrmSource'); ?>
                 </div>
             </div>
         </div>
-    <?php endif;?>
+    <?php endif; ?>
 
-    <?php if ($model->role == User::ROLE_JURIST || $model->isNewRecord): ?>
+    <?php if (User::ROLE_JURIST == $model->role || $model->isNewRecord): ?>
 
         <div class="form-group">
             <?php echo $form->labelEx($yuristSettings, 'startYear'); ?>
-            <?php echo $form->textField($yuristSettings, 'startYear', array('class' => 'form-control')); ?>
+            <?php echo $form->textField($yuristSettings, 'startYear', ['class' => 'form-control']); ?>
             <?php echo $form->error($yuristSettings, 'startYear'); ?>
         </div>
         <div class="form-group">
             <?php echo $form->labelEx($yuristSettings, 'description'); ?>
-            <?php echo $form->textArea($yuristSettings, 'description', array('class' => 'form-control', 'rows' => 3)); ?>
+            <?php echo $form->textArea($yuristSettings, 'description', ['class' => 'form-control', 'rows' => 3]); ?>
             <?php echo $form->error($yuristSettings, 'description'); ?>
         </div>
 
@@ -151,7 +151,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
             <div class="col-md-6">
                 <div class="form-group">
                     <?php echo $form->labelEx($yuristSettings, 'status'); ?>
-                    <?php echo $form->dropDownList($yuristSettings, 'status', YuristSettings::getStatusesArray(), array('class' => 'form-control')); ?>
+                    <?php echo $form->dropDownList($yuristSettings, 'status', YuristSettings::getStatusesArray(), ['class' => 'form-control']); ?>
                     <?php echo $form->error($yuristSettings, 'status'); ?>
                 </div>
             </div>
@@ -194,7 +194,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
                             <?php echo $file->getTypeName(); ?>
                         </td>
                         <td>
-                            <?php echo CHtml::link("Файл", UserFile::USER_FILES_FOLDER . '/' . $file->name, array('target' => '_blank')); ?>
+                            <?php echo CHtml::link('Файл', UserFile::USER_FILES_FOLDER . '/' . $file->name, ['target' => '_blank']); ?>
                         </td>
                         <td>
                             <strong><?php echo $file->getStatusName(); ?></strong>
@@ -205,7 +205,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
                             <?php endif; ?>
 
                             <?php if (!$file->isVerified): ?>
-                                <?php echo CHtml::link('Обработать', '#', array('class' => 'process-user-file', 'data-id' => $file->id)); ?>
+                                <?php echo CHtml::link('Обработать', '#', ['class' => 'process-user-file', 'data-id' => $file->id]); ?>
                             <?php endif; ?>
                         </td>
                     </tr>
@@ -217,7 +217,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
     <?php endif; ?>
 
     <div class="form-group">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить пользователя' : 'Сохранить', array('class' => 'btn btn-primary btn-lg')); ?>
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить пользователя' : 'Сохранить', ['class' => 'btn btn-primary btn-lg']); ?>
     </div>
 
     <?php $this->endWidget(); ?>
@@ -225,7 +225,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
 </div><!-- form -->
 
 
-<?php if ($model->role == User::ROLE_OPERATOR || $model->role == User::ROLE_JURIST || $model->isNewRecord): ?>
+<?php if (User::ROLE_OPERATOR == $model->role || User::ROLE_JURIST == $model->role || $model->isNewRecord): ?>
 
     <!-- Modal -->
     <div class="modal fade" id="file-process-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -239,7 +239,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <?php echo CHtml::textArea('reason', '', array('id' => 'file-reason', 'class' => 'form-control', 'placeholder' => 'Причина отказа', 'rows' => 3)); ?>
+                            <?php echo CHtml::textArea('reason', '', ['id' => 'file-reason', 'class' => 'form-control', 'placeholder' => 'Причина отказа', 'rows' => 3]); ?>
                             <input type="hidden" name="file_id" id="file_id" value=""/>
                         </div>
 

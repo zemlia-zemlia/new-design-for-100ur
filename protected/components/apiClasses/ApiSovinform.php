@@ -5,11 +5,10 @@ use GuzzleHttp\Exception\ClientException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Класс для работы с API партнерки Sovinform
+ * Класс для работы с API партнерки Sovinform.
  */
 class ApiSovinform implements ApiClassInterface
 {
-
     protected $baseUrl = 'https://crm.sov-inform-buro.ru';
     protected $key; // наш API key в партнерской системе
 
@@ -26,9 +25,12 @@ class ApiSovinform implements ApiClassInterface
     }
 
     /**
-     * Отправка лида
+     * Отправка лида.
+     *
      * @param Lead $lead
+     *
      * @return bool
+     *
      * @throws Exception
      */
     public function send(Lead $lead): bool
@@ -54,31 +56,34 @@ class ApiSovinform implements ApiClassInterface
     }
 
     /**
-     * Получение статуса лида
+     * Получение статуса лида.
+     *
      * @param Lead $lead
      */
     public function getStatus(Lead $lead)
     {
-
     }
 
     /**
-     * Проверка ответа от API
+     * Проверка ответа от API.
+     *
      * @param ResponseInterface $apiResponse
-     * @param Lead $lead
+     * @param Lead              $lead
+     *
      * @return bool
+     *
      * @throws Exception
      */
     private function checkResponse(ResponseInterface $apiResponse, Lead $lead): bool
     {
-        if ($apiResponse->getStatusCode() == 200) {
+        if (200 == $apiResponse->getStatusCode()) {
             if (!stristr($apiResponse->getBody(), 'error')) {
                 LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Sovinform', 'Lead', $lead->id);
+
                 return true;
             }
 
             LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' НЕ отправлен в партнерку Sovinform, ответ:' . CHtml::encode($apiResponse->getBody()), 'Lead', $lead->id);
-
         }
 
         return false;

@@ -13,22 +13,22 @@ class UloginModel extends CModel
 
     public function rules()
     {
-        return array(
-            array('identity,network,token', 'required'),
-            array('email', 'email'),
-            array('identity,network,email', 'length', 'max' => 255),
-            array('full_name', 'length', 'max' => 55),
-        );
+        return [
+            ['identity,network,token', 'required'],
+            ['email', 'email'],
+            ['identity,network,email', 'length', 'max' => 255],
+            ['full_name', 'length', 'max' => 55],
+        ];
     }
 
     public function attributeLabels()
     {
-        return array(
+        return [
             'network' => 'Сервис',
             'identity' => 'Идентификатор сервиса',
             'email' => 'eMail',
             'full_name' => 'Имя',
-        );
+        ];
     }
 
     public function getAuthData()
@@ -42,6 +42,7 @@ class UloginModel extends CModel
 
     /**
      * @return bool
+     *
      * @throws CHttpException
      * @throws Exception
      * @throws UserBannedException
@@ -58,6 +59,7 @@ class UloginModel extends CModel
 
             return true;
         }
+
         return false;
     }
 

@@ -1,6 +1,6 @@
 <?php
-$this->setPageTitle("Заказ документов ". Yii::app()->name);
-Yii::app()->clientScript->registerMetaTag("Заказать юридический документ онлайн, заявления, иски, претензии и т.д.", 'description');
+$this->setPageTitle('Заказ документов ' . Yii::app()->name);
+Yii::app()->clientScript->registerMetaTag('Заказать юридический документ онлайн, заявления, иски, претензии и т.д.', 'description');
 
 ?>
 
@@ -14,11 +14,11 @@ Yii::app()->clientScript->registerMetaTag("Заказать юридически
 
 <div class='flat-panel'>
     <div class='inside'>
-        <?php echo $this->renderPartial('_formDocs', array(
-            'order'         =>  $order,
-            'author'        =>  $author,
-            'townsArray'    =>  $townsArray,
-        )); ?>
+        <?php echo $this->renderPartial('_formDocs', [
+            'order' => $order,
+            'author' => $author,
+            'townsArray' => $townsArray,
+        ]); ?>
     </div>
 </div>
 
@@ -26,15 +26,15 @@ Yii::app()->clientScript->registerMetaTag("Заказать юридически
 <script type="text/javascript">   
     var docs = {
         <?php foreach (DocType::getClassesArray() as $classId => $docClass):?>
-            <?php echo $classId;?>: { type:'<?php echo $docClass['name'];?>',
-                type_description:'<?php echo $docClass['description'];?>',
+            <?php echo $classId; ?>: { type:'<?php echo $docClass['name']; ?>',
+                type_description:'<?php echo $docClass['description']; ?>',
                 subtypes:[
                     <?php foreach ($docTypesArray[$classId] as $type):?>
-                            {id:<?php echo $type->id;?>, name: '<?php echo $type->name;?>'},
-                    <?php endforeach;?>
+                            {id:<?php echo $type->id; ?>, name: '<?php echo $type->name; ?>'},
+                    <?php endforeach; ?>
                 ]
             },
-        <?php endforeach;?>
+        <?php endforeach; ?>
     };
     
     $(function(){
@@ -86,8 +86,8 @@ Yii::app()->clientScript->registerMetaTag("Заказать юридически
             
         });
         
-        var selectedDocClass = <?php echo (!is_null($docType))?$docType->class:'null';?>;
-        var selectedDocType = <?php echo (!is_null($docType))?$docType->id:'null';?>;
+        var selectedDocClass = <?php echo (!is_null($docType)) ? $docType->class : 'null'; ?>;
+        var selectedDocType = <?php echo (!is_null($docType)) ? $docType->id : 'null'; ?>;
         
 //        console.log('class=' + selectedDocClass);
 //        console.log('type=' + selectedDocType);

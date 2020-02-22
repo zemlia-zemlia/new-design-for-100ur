@@ -2,19 +2,19 @@
 /* @var $this FileController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
+$this->breadcrumbs = [
     'Files',
-);
+];
 
-$this->menu=array(
-    array('label'=>'Create File', 'url'=>array('create')),
-    array('label'=>'Manage File', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'Create File', 'url' => ['create']],
+    ['label' => 'Manage File', 'url' => ['admin']],
+];
 ?>
 
 <h1>Files</h1>
 
-<?php $this->widget('zii.widgets.CListView', array(
-    'dataProvider'=>$dataProvider,
-    'itemView'=>'_view',
-)); ?>
+<?php $this->widget('zii.widgets.CListView', [
+    'dataProvider' => $dataProvider,
+    'itemView' => '_view',
+]); ?>

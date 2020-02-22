@@ -2,19 +2,19 @@
 /* @var $this TransactionCampaignController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
+$this->breadcrumbs = [
     'Transaction Campaigns',
-);
+];
 
-$this->menu=array(
-    array('label'=>'Create TransactionCampaign', 'url'=>array('create')),
-    array('label'=>'Manage TransactionCampaign', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'Create TransactionCampaign', 'url' => ['create']],
+    ['label' => 'Manage TransactionCampaign', 'url' => ['admin']],
+];
 ?>
 
 <h1>Transaction Campaigns</h1>
 
-<?php $this->widget('zii.widgets.CListView', array(
-    'dataProvider'=>$dataProvider,
-    'itemView'=>'_view',
-)); ?>
+<?php $this->widget('zii.widgets.CListView', [
+    'dataProvider' => $dataProvider,
+    'itemView' => '_view',
+]); ?>

@@ -3,15 +3,15 @@
 class UloginWidget extends CWidget
 {
     //параметры по-умолчанию
-    private $params = array(
-        'display'       =>  'panel',
-        'fields'        =>  'first_name,last_name,email',
-        'optional'      =>  '',
-        'providers'     =>  'vkontakte,odnoklassniki,mailru,facebook',
-        'hidden'        =>  'twitter,google,yandex,livejournal,openid,lastfm,linkedin,liveid,soundcloud,steam',
-        'redirect'      =>  '',
+    private $params = [
+        'display' => 'panel',
+        'fields' => 'first_name,last_name,email',
+        'optional' => '',
+        'providers' => 'vkontakte,odnoklassniki,mailru,facebook',
+        'hidden' => 'twitter,google,yandex,livejournal,openid,lastfm,linkedin,liveid,soundcloud,steam',
+        'redirect' => '',
         //'logout_url'    =>  '/ulogin/logout'
-    );
+    ];
 
     public function run()
     {

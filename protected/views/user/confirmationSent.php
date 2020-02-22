@@ -2,8 +2,8 @@
 /* @var $this UserController */
 /* @var $model User */
 
-$this->setPageTitle("Регистрация завершена. ". Yii::app()->name);
-                   
+$this->setPageTitle('Регистрация завершена. ' . Yii::app()->name);
+
 ?>
 <div class="panel panel-default">
     <div class="panel-body center-align">

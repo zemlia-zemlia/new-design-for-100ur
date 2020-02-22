@@ -2,20 +2,20 @@
 /* @var $this FileController */
 /* @var $model File */
 
-$this->breadcrumbs=array(
-    'Files'=>array('index'),
-    $model->name=>array('view','id'=>$model->id),
+$this->breadcrumbs = [
+    'Files' => ['index'],
+    $model->name => ['view', 'id' => $model->id],
     'Update',
-);
+];
 
-$this->menu=array(
-    array('label'=>'List File', 'url'=>array('index')),
-    array('label'=>'Create File', 'url'=>array('create')),
-    array('label'=>'View File', 'url'=>array('view', 'id'=>$model->id)),
-    array('label'=>'Manage File', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List File', 'url' => ['index']],
+    ['label' => 'Create File', 'url' => ['create']],
+    ['label' => 'View File', 'url' => ['view', 'id' => $model->id]],
+    ['label' => 'Manage File', 'url' => ['admin']],
+];
 ?>
 
 <h1>Update File <?php echo $model->id; ?></h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', ['model' => $model]); ?>

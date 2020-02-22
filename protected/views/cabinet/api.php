@@ -1,5 +1,5 @@
 <?php
-$this->setPageTitle("API для работы с лидами. ". Yii::app()->name);
+$this->setPageTitle('API для работы с лидами. ' . Yii::app()->name);
 
 ?>
 <h1 class="vert-margin20">Изменение статуса лида через API 100 Юристов</h1>

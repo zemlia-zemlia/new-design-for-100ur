@@ -7,34 +7,32 @@
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
 
-<?php $form=$this->beginWidget('CActiveForm', array(
+<?php $form = $this->beginWidget('CActiveForm', [
+    'id' => 'restorepassword-form',
 
-    'id'=>'restorepassword-form',
-
-    'enableAjaxValidation'=>false,
-
-)); ?>
+    'enableAjaxValidation' => false,
+]); ?>
 
 
 
 
 <div class="form-group">
     <?php echo $form->labelEx($model, 'email'); ?>
-    <?php echo $form->textField($model, 'email', array('class'=>'form-control')); ?>
+    <?php echo $form->textField($model, 'email', ['class' => 'form-control']); ?>
     <?php echo $form->error($model, 'email'); ?>
 </div>
 
 <?if (extension_loaded('gd')):?>
     <div class="form-group">
-        <?=CHtml::activeLabelEx($model, 'verifyCode')?>
+        <?php echo CHtml::activeLabelEx($model, 'verifyCode'); ?>
         <br />
-        <?$this->widget('CCaptcha', array('clickableImage'=>true,'buttonLabel'=>'Показать другой'))?><br />
-        <?php echo $form->textField($model, 'verifyCode', array('class'=>'form-control'))?>
+        <?$this->widget('CCaptcha', ['clickableImage' => true, 'buttonLabel' => 'Показать другой']); ?><br />
+        <?php echo $form->textField($model, 'verifyCode', ['class' => 'form-control']); ?>
     </div>
-<?endif?>
+<?endif; ?>
 
 <div class="form-group">
-    <?php echo CHtml::submitButton('Выслать пароль', array('class'=>'yellow-button center-block')); ?>
+    <?php echo CHtml::submitButton('Выслать пароль', ['class' => 'yellow-button center-block']); ?>
 </div>
 
 <?php $this->endWidget(); ?>
@@ -44,7 +42,7 @@
                 
 <?php
     if (isset($message)) {
-        print $message;
+        echo $message;
     }
 ?>                
                 

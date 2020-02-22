@@ -7,17 +7,17 @@
     echo 'class="text-muted"';
 }?>>
     <td>
-        <?php echo $data->id;?>
+        <?php echo $data->id; ?>
     </td>
     <td>
 	
-        <?php echo CHtml::link(CHtml::encode($data->name), $this->createUrl('view', array('id'=>$data->id))); ?>
+        <?php echo CHtml::link(CHtml::encode($data->name), $this->createUrl('view', ['id' => $data->id])); ?>
     </td>
     <td>
 	<?php echo CHtml::encode($data->description); ?>
     </td>
     <td>
-	<?php echo CHtml::link('Изменить', Yii::app()->createUrl('webmaster/source/update', array('id'=>$data->id))); ?> &nbsp;&nbsp;
+	<?php echo CHtml::link('Изменить', Yii::app()->createUrl('webmaster/source/update', ['id' => $data->id])); ?> &nbsp;&nbsp;
     </td>
 
 </tr>

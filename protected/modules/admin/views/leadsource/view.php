@@ -2,12 +2,12 @@
 /* @var $this LeadsourceController */
 /* @var $model Leadsource */
 
-$this->breadcrumbs = array(
-    'Источники' => array('index'),
+$this->breadcrumbs = [
+    'Источники' => ['index'],
     CHtml::encode($model->name),
-);
+];
 
-$monthsArray = array(
+$monthsArray = [
     '1' => 'Январь',
     '2' => 'Февраль',
     '3' => 'Март',
@@ -20,13 +20,13 @@ $monthsArray = array(
     '10' => 'Октябрь',
     '11' => 'Ноябрь',
     '12' => 'Декабрь',
-);
+];
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('100 Юристов', "/"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 Юристов', '/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 
 ?>
 
@@ -84,13 +84,13 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <form class="form-inline vert-margin30" role="form" action="">
             Статистика за месяц:
             <div class="form-group">
-                <?php echo CHtml::dropDownList("month", $month, $monthsArray, array('class' => 'form-control')); ?>
+                <?php echo CHtml::dropDownList('month', $month, $monthsArray, ['class' => 'form-control']); ?>
             </div>
             <div class="form-group">
-                <?php echo CHtml::dropDownList("year", $year, $yearsArray, array('class' => 'form-control')); ?>
+                <?php echo CHtml::dropDownList('year', $year, $yearsArray, ['class' => 'form-control']); ?>
             </div>
             <div class="form-group">
-                <?php echo CHtml::submitButton("Показать", array('class' => 'btn btn-primary')); ?>
+                <?php echo CHtml::submitButton('Показать', ['class' => 'btn btn-primary']); ?>
             </div>
         </form>
     </div>
@@ -109,17 +109,17 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         </tr>
         <?php foreach ($leadsStats as $townName => $townStats): ?>
             <?php
-            $sumTotal += (int)$townStats['total'];
-            $expTotal += (int)$townStats['expences'];
-            $soldTotal += (int)$townStats['sold'];
-            $revenueTotal += (int)$townStats['revenue'];
-            $brakTotal += (int)$townStats['brak'];
+            $sumTotal += (int) $townStats['total'];
+            $expTotal += (int) $townStats['expences'];
+            $soldTotal += (int) $townStats['sold'];
+            $revenueTotal += (int) $townStats['revenue'];
+            $brakTotal += (int) $townStats['brak'];
             ?>
             <tr>
                 <td><?php echo $townName; ?></td>
-                <td><?php echo (int)$townStats['total']; ?></td>
-                <td><?php echo (int)$townStats['brak']; ?> (<?php if ($townStats['total']) {
-                echo round(((int)$townStats['brak'] / $townStats['total']) * 100);
+                <td><?php echo (int) $townStats['total']; ?></td>
+                <td><?php echo (int) $townStats['brak']; ?> (<?php if ($townStats['total']) {
+                echo round(((int) $townStats['brak'] / $townStats['total']) * 100);
             } ?>%)
                 </td>
                 <td><?php echo MoneyFormat::rubles($townStats['expences']); ?></td>

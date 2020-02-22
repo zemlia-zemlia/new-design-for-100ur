@@ -9,38 +9,40 @@ class QuestionCategoryController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
-        );
+        ];
     }
 
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
+     *
      * @return array access control rules
      */
     public function accessRules()
     {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'admin', 'delete', 'translit', 'showActiveUrls'),
-                'users' => array('@'),
+        return [
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['index', 'view', 'create', 'update', 'admin', 'delete', 'translit', 'showActiveUrls'],
+                'users' => ['@'],
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
-            ),
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'ajaxGetList', 'directions', 'setDirectionParent', 'indexHierarchy'),
-                'users' => array('@'),
+            ],
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['index', 'view', 'create', 'update', 'ajaxGetList', 'directions', 'setDirectionParent', 'indexHierarchy'],
+                'users' => ['@'],
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
-            ),
-            array('deny',  // deny all users
-                'users' => array('*'),
-            ),
-        );
+            ],
+            ['deny',  // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     *
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
@@ -48,28 +50,28 @@ class QuestionCategoryController extends Controller
 
         $subCategoriesArray = QuestionCategory::getCategoriesArrayByParent($id);
 
-        $questionsCriteria = new CdbCriteria;
-        $questionsCriteria->with = array(
-            'categories' => array(
+        $questionsCriteria = new CdbCriteria();
+        $questionsCriteria->with = [
+            'categories' => [
                 'condition' => 'categories.id = ' . $model->id,
-            ),
-        );
+            ],
+        ];
         $questionsCriteria->order = 't.id DESC';
 
         $questions = Question::model()->findAll($questionsCriteria);
         //CustomFuncs::printr($questions);
 
-        $questionsDataProvider = new CArrayDataProvider($questions, array(
-            'pagination' => array(
+        $questionsDataProvider = new CArrayDataProvider($questions, [
+            'pagination' => [
                 'pageSize' => 20,
-            ),
-        ));
+            ],
+        ]);
 
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $model,
             'questionsDataProvider' => $questionsDataProvider,
             'subCategoriesArray' => $subCategoriesArray,
-        ));
+        ]);
     }
 
     /**
@@ -78,12 +80,12 @@ class QuestionCategoryController extends Controller
      */
     public function actionCreate()
     {
-        $model = new QuestionCategory;
+        $model = new QuestionCategory();
 
         $model->publish_date = date('Y-m-d');
 
         if (isset($_GET['parentId']) && $_GET['parentId']) {
-            $model->parentId = (int)$_GET['parentId'];
+            $model->parentId = (int) $_GET['parentId'];
         }
 
         // Uncomment the following line if AJAX validation is needed
@@ -102,7 +104,7 @@ class QuestionCategoryController extends Controller
             }
             $model->publish_date = CustomFuncs::invertDate($model->publish_date);
             if ($model->saveNode()) {
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
@@ -114,15 +116,16 @@ class QuestionCategoryController extends Controller
 
         $model->publish_date = CustomFuncs::invertDate($model->publish_date);
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     *
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -148,9 +151,9 @@ class QuestionCategoryController extends Controller
 
             $imageFile = CUploadedFile::getInstance($model, 'imageFile');
 
-            if ($imageFile && $imageFile->getError() == 0) { // если файл нормально загрузился
+            if ($imageFile && 0 == $imageFile->getError()) { // если файл нормально загрузился
                 // определяем имя файла для хранения на сервере
-                $newFileName = md5($imageFile->getName() . $imageFile->getSize()) . "." . $imageFile->getExtensionName();
+                $newFileName = md5($imageFile->getName() . $imageFile->getSize()) . '.' . $imageFile->getExtensionName();
                 Yii::app()->ih
                     ->load($imageFile->tempName)
                     ->adaptiveThumb(850, 570)
@@ -160,8 +163,8 @@ class QuestionCategoryController extends Controller
 
             $attachment = CUploadedFile::getInstance($model, 'attachments');
 
-            if ($attachment && $attachment->getHasError() == false) {
-                $attachmentFile = new File;
+            if ($attachment && false == $attachment->getHasError()) {
+                $attachmentFile = new File();
                 $attachmentFile->objectType = File::ITEM_TYPE_OBJECT_CATEGORY;
                 $attachmentFile->objectId = $model->id;
                 $attachmentFile->name = $attachment->name;
@@ -185,7 +188,7 @@ class QuestionCategoryController extends Controller
                 // при изменении категории, заново найдем путь до нее
                 $model->getUrl(true);
 
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
@@ -197,21 +200,22 @@ class QuestionCategoryController extends Controller
 
         $model->publish_date = CustomFuncs::invertDate((new DateTime($model->publish_date))->format('Y-m-d'));
 
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     *
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
         $this->loadModel($id)->deleteNode();
 
-        $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+        $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['index']);
     }
 
     /**
@@ -228,14 +232,14 @@ class QuestionCategoryController extends Controller
             LIMIT 100
          */
 
-        $parentId = (int)Yii::app()->request->getParam('parentId');
+        $parentId = (int) Yii::app()->request->getParam('parentId');
 
         $categoriesArray = QuestionCategory::getCategoriesArrayByParent($parentId);
 
         // Найдем количество категорий, у которых отсутствует описание
         $emptyCategoriesRow = Yii::app()->db->createCommand()
             ->select('COUNT(*) counter')
-            ->from("{{questionCategory}}")
+            ->from('{{questionCategory}}')
             ->where("description1='' AND description2=''")
             ->queryRow();
 
@@ -244,37 +248,36 @@ class QuestionCategoryController extends Controller
         // Найдем количество категорий, у которых отсутствует описание
         $totalCategoriesRow = Yii::app()->db->createCommand()
             ->select('COUNT(*) counter')
-            ->from("{{questionCategory}}")
+            ->from('{{questionCategory}}')
             ->queryRow();
 
         $totalCategoriesCount = (is_array($totalCategoriesRow)) ? $totalCategoriesRow['counter'] : 0;
 
-        $this->render('index', array(
+        $this->render('index', [
             'categoriesArray' => $categoriesArray,
             'emptyCategoriesCount' => $emptyCategoriesCount,
             'totalCategoriesCount' => $totalCategoriesCount,
-        ));
+        ]);
     }
 
     /**
-     * Выводит список URL категорий, которые заполнены
+     * Выводит список URL категорий, которые заполнены.
      */
     public function actionShowActiveUrls()
     {
         $categories = QuestionCategory::model()->findAll('description1!="" OR description2!=""');
 
-        $this->render('showActiveUrls', array(
+        $this->render('showActiveUrls', [
             'categories' => $categories,
-        ));
+        ]);
     }
 
-
     /**
-     * Временный метод для показа (контроля) иерархии категорий
+     * Временный метод для показа (контроля) иерархии категорий.
      */
     public function actionIndexHierarchy()
     {
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
         $criteria->order = 't.root, t.lft'; // or 't.root, t.lft' for multiple trees
         $categories = QuestionCategory::model()->findAll($criteria);
         $level = 0;
@@ -287,7 +290,7 @@ class QuestionCategoryController extends Controller
             } else {
                 echo CHtml::closeTag('li') . "\n";
 
-                for ($i = $level - $category->level; $i; $i--) {
+                for ($i = $level - $category->level; $i; --$i) {
                     echo CHtml::closeTag('ul') . "\n";
                     echo CHtml::closeTag('li') . "\n";
                 }
@@ -298,7 +301,7 @@ class QuestionCategoryController extends Controller
             $level = $category->level;
         }
 
-        for ($i = $level; $i; $i--) {
+        for ($i = $level; $i; --$i) {
             echo CHtml::closeTag('li') . "\n";
             echo CHtml::closeTag('ul') . "\n";
         }
@@ -315,26 +318,26 @@ class QuestionCategoryController extends Controller
             $model->attributes = $_GET['QuestionCategory'];
         }
 
-        $this->render('admin', array(
+        $this->render('admin', [
             'model' => $model,
-        ));
+        ]);
     }
 
     public function actionTranslit()
     {
         $categories = QuestionCategory::model()->findAll();
         foreach ($categories as $cat) {
-            if ($cat->alias == '') {
+            if ('' == $cat->alias) {
                 $cat->alias = CustomFuncs::translit($cat->name);
                 $cat->save();
             }
         }
 
-        $towns = Town::model()->findAllByAttributes(array('alias' => ''));
+        $towns = Town::model()->findAllByAttributes(['alias' => '']);
         foreach ($towns as $town) {
-            if ($town->alias == '') {
-                $town->alias = CustomFuncs::translit($town->name) . "-" . $town->id;
-                echo $town->name . " - " . $town->alias . "<br />";
+            if ('' == $town->alias) {
+                $town->alias = CustomFuncs::translit($town->name) . '-' . $town->id;
+                echo $town->name . ' - ' . $town->alias . '<br />';
                 if (!$town->save()) {
                     CustomFuncs::printr($town->errors);
                 }
@@ -346,18 +349,18 @@ class QuestionCategoryController extends Controller
     {
         $term = addslashes(CHtml::encode($_GET['term']));
 
-        $arr = array();
+        $arr = [];
 
         $condition = "name LIKE '%" . $term . "%'";
-        $params = array('limit' => 5);
+        $params = ['limit' => 5];
 
-        $allCats = QuestionCategory::model()->cache(10000)->findAllByAttributes(array(), $condition, $params);
+        $allCats = QuestionCategory::model()->cache(10000)->findAllByAttributes([], $condition, $params);
 
         foreach ($allCats as $cat) {
-            $arr[] = array(
+            $arr[] = [
                 'value' => CHtml::encode($cat->name),
                 'id' => $cat->id,
-            );
+            ];
         }
         echo CJSON::encode($arr);
     }
@@ -365,31 +368,35 @@ class QuestionCategoryController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     *
+     * @param int $id the ID of the model to be loaded
+     *
      * @return QuestionCategory the loaded model
+     *
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = QuestionCategory::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
     /**
      * Performs the AJAX validation.
+     *
      * @param QuestionCategory $model the model to be validated
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'question-category-form') {
+        if (isset($_POST['ajax']) && 'question-category-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
     }
-
 
     // выводит список категорий-направлений с их иерархией
     public function actionDirections()
@@ -406,19 +413,19 @@ class QuestionCategoryController extends Controller
      */
     public function actionSetDirectionParent()
     {
-        $directionId = (int)$_POST['id'];
-        $parentId = (int)$_POST['parentId'];
+        $directionId = (int) $_POST['id'];
+        $parentId = (int) $_POST['parentId'];
 
         // проверим, что направление и новый родитель существуют и являются направлениями
         $direction = QuestionCategory::model()->findByPk($directionId);
         $parent = QuestionCategory::model()->findByPk($parentId);
 
-        if (!$direction || !($parent || $parentId == 0)) {
+        if (!$direction || !($parent || 0 == $parentId)) {
             echo json_encode(['code' => 404, 'message' => 'Направление или новый родитель не найдены']);
             Yii::app()->end();
         }
 
-        if (!$direction->isDirection || !($parent->isDirection || $parentId == 0)) {
+        if (!$direction->isDirection || !($parent->isDirection || 0 == $parentId)) {
             echo json_encode(['code' => 404, 'message' => 'Категория или новый родитель не являются направлением']);
             Yii::app()->end();
         }

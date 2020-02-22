@@ -15,25 +15,25 @@ use YurcrmClient\YurcrmResponse;
  * @property string $name
  * @property string $name2
  * @property string $lastName
- * @property int $role
+ * @property int    $role
  * @property string $email
  * @property string $phone
  * @property string $password
- * @property int $active100
+ * @property int    $active100
  * @property string $confirm_code
  * @property string $townId
  * @property string $registerDate
- * @property int $isSubscribed
- * @property int $karma
+ * @property int    $isSubscribed
+ * @property int    $karma
  * @property string $autologin
  * @property string $lastActivity
- * @property float $balance
+ * @property float  $balance
  * @property string $lastTransactionTime
- * @property float $priceCoeff
- * @property int $lastAnswer
- * @property int $refId
+ * @property float  $priceCoeff
+ * @property int    $lastAnswer
+ * @property int    $refId
  * @property string $yurcrmToken
- * @property int $yurcrmSource
+ * @property int    $yurcrmSource
  */
 class User extends CActiveRecord
 {
@@ -214,7 +214,7 @@ class User extends CActiveRecord
     public function getRoleName(): ?string
     {
         $rolesNames = self::getRoleNamesArray();
-        $roleName = (isset($rolesNames[(int)$this->role])) ? $rolesNames[(int)$this->role] : null;
+        $roleName = (isset($rolesNames[(int) $this->role])) ? $rolesNames[(int) $this->role] : null;
 
         return $roleName;
     }
@@ -264,7 +264,7 @@ class User extends CActiveRecord
             ->select('id, name')
             ->from('{{user}}')
             ->where('role = :role AND active100 = 1', [
-                ':role' => self::ROLE_JURIST
+                ':role' => self::ROLE_JURIST,
             ])
             ->queryAll();
 
@@ -289,7 +289,7 @@ class User extends CActiveRecord
             ->select('id, name, lastName')
             ->from('{{user}}')
             ->where('role = :role AND active100 = 1', [
-                ':role' => self::ROLE_BUYER
+                ':role' => self::ROLE_BUYER,
             ])
             ->queryAll();
 
@@ -432,7 +432,7 @@ class User extends CActiveRecord
      *  Если указан параметр $newPassword, он будет выслан в письме  как новый пароль.
      *
      * @param string $newPassword Новый пароль, который необходимо отправить в письме
-     * @param bool $useSMTP Использовать ли SMTP
+     * @param bool   $useSMTP     Использовать ли SMTP
      *
      * @return bool true - письмо отправлено, false - не отправлено
      */
@@ -620,7 +620,7 @@ class User extends CActiveRecord
      * отправка письма пользователю, на вопрос которого дан ответ
      *
      * @param Question|null $question Вопрос
-     * @param Answer $answer Ответ
+     * @param Answer        $answer   Ответ
      *
      * @return bool Результат отправки: true - успешно, false - ошибка
      */
@@ -656,9 +656,9 @@ class User extends CActiveRecord
     /**
      * функция отправки уведомления юристу или клиенту о новом комментарии на его ответ / комментарий.
      *
-     * @param Question|null $question Вопрос
-     * @param Comment|null $comment Комментарий
-     * @param bool $isChildComment Является ли комментарий дочерним для другого
+     * @param Question|null $question       Вопрос
+     * @param Comment|null  $comment        Комментарий
+     * @param bool          $isChildComment Является ли комментарий дочерним для другого
      *
      * @return bool Результат отправки: true - успешно, false - ошибка
      */
@@ -699,7 +699,7 @@ class User extends CActiveRecord
     /**
      * функция проверки кода в ссылке "отписаться от рассылок".
      *
-     * @param string $code Код из ссылки "отписаться"
+     * @param string $code  Код из ссылки "отписаться"
      * @param string $email Email из ссылки "отписаться"
      *
      * @return bool true, если код верный, false - если неверный
@@ -853,7 +853,7 @@ class User extends CActiveRecord
     /**
      * Возвращает массив непросмотренных комментариев, написанных к ответам юриста.
      *
-     * @param int $days За сколько дней искать комментарии
+     * @param int  $days        За сколько дней искать комментарии
      * @param bool $returnCount Вернуть количество элементов
      *
      * @return array|int Массив с комментариями или количество комментариев
@@ -1082,7 +1082,7 @@ class User extends CActiveRecord
      * Отправка юристу уведомления о зачислении благодарности за консультацию.
      *
      * @param Answer $answer
-     * @param int $yuristBonus В копейках
+     * @param int    $yuristBonus В копейках
      *
      * @return bool
      */
@@ -1126,7 +1126,7 @@ class User extends CActiveRecord
     }
 
     /**
-     * @param int|null $limit Если null, то без лимита
+     * @param int|null   $limit      Если null, то без лимита
      * @param bool|array $pagination
      *
      * @return CActiveDataProvider

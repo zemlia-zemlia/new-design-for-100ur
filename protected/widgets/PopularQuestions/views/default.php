@@ -19,11 +19,11 @@
             </div>
             <div class="col-sm-2 text-center small">
                 <?php
-                if ($question['answersCount'] == 1) {
+                if (1 == $question['answersCount']) {
                     echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> Есть ответ</span>";
                 } elseif ($question['answersCount'] > 1) {
-                    echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question['answersCount'] . ' ' . CustomFuncs::numForms($question['answersCount'], 'ответ', 'ответа', 'ответов') . "</span>";
-                } elseif ($question['answersCount'] == 0) {
+                    echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question['answersCount'] . ' ' . CustomFuncs::numForms($question['answersCount'], 'ответ', 'ответа', 'ответов') . '</span>';
+                } elseif (0 == $question['answersCount']) {
                     echo "<span class='text-muted'>Нет ответа</span>";
                 }
                 ?>

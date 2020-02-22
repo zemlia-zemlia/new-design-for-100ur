@@ -29,7 +29,7 @@ switch ($data->leadStatus) {
 }
 ?>
 
-<tr id="lead-<?php echo $data->id;?>" >
+<tr id="lead-<?php echo $data->id; ?>" >
     <td class="warning" style="min-width: 120px;">
         
         <small class="muted" > 
@@ -38,13 +38,13 @@ switch ($data->leadStatus) {
             <br />
                 <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo CHtml::encode($data->source->name); ?>       
             <br />
-            <span class="label <?php echo $statusClass;?>">    
-                <?php echo $data->getLeadStatusName();?>
+            <span class="label <?php echo $statusClass; ?>">    
+                <?php echo $data->getLeadStatusName(); ?>
             </span>
             <br/>
-            <?php if ($data->buyPrice>0 && $data->leadStatus != Lead::LEAD_STATUS_BRAK):?>
-                <?php echo MoneyFormat::rubles($data->buyPrice);?> руб.
-            <?php endif;?>
+            <?php if ($data->buyPrice > 0 && Lead::LEAD_STATUS_BRAK != $data->leadStatus):?>
+                <?php echo MoneyFormat::rubles($data->buyPrice); ?> руб.
+            <?php endif; ?>
         </small>
     </td>
     <td class="success" >
@@ -58,25 +58,25 @@ switch ($data->leadStatus) {
                 <?php
                     $distanceFromCapital = $data->town->region->getRangeFromCenter($data->town->lat, $data->town->lng);
                 ?>
-                <?php if ($distanceFromCapital >=0):?>
-                <span class="label label-default"><abbr title="Расстояние от центра региона"><?php echo $distanceFromCapital;?>  км.</abbr></span>
-                <?php endif;?>
+                <?php if ($distanceFromCapital >= 0):?>
+                <span class="label label-default"><abbr title="Расстояние от центра региона"><?php echo $distanceFromCapital; ?>  км.</abbr></span>
+                <?php endif; ?>
                 
 
-            <?php endif;?>
+            <?php endif; ?>
             &nbsp;
             
-            <?php if ($data->phone && !(Yii::app()->user->role == User::ROLE_JURIST && $data->employeeId != Yii::app()->user->id)):?>
+            <?php if ($data->phone && !(User::ROLE_JURIST == Yii::app()->user->role && $data->employeeId != Yii::app()->user->id)):?>
                 <span class="glyphicon glyphicon-earphone"></span>
                 <?php echo CHtml::encode($data->phone); ?> &nbsp;
-            <?php endif;?>
+            <?php endif; ?>
             <?php if ($data->email):?>
                 <span class="glyphicon glyphicon-envelope"></span>
                 <?php echo CHtml::encode($data->email); ?>  &nbsp;    
-            <?php endif;?>
+            <?php endif; ?>
             
             <span class="glyphicon glyphicon-user"></span>    
-            <?php echo CHtml::link(CHtml::encode($data->name), array('/webmaster/lead/view', 'id'=>$data->id)); ?> <br />
+            <?php echo CHtml::link(CHtml::encode($data->name), ['/webmaster/lead/view', 'id' => $data->id]); ?> <br />
         </p>
 		
 		<p >
@@ -86,12 +86,12 @@ switch ($data->leadStatus) {
         <?php if ($data->brakReason):?>
         <p>
             <strong>Причина отбраковки:</strong>
-            <?php echo CHtml::encode($data->getReasonName());?>
+            <?php echo CHtml::encode($data->getReasonName()); ?>
             <br />
             <strong>Комментарий отбраковки:</strong>
-            <?php echo CHtml::encode($data->brakComment);?>
+            <?php echo CHtml::encode($data->brakComment); ?>
         </p>
-        <?php endif;?>
+        <?php endif; ?>
         	
 		
     </td>

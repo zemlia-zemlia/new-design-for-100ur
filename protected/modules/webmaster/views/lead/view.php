@@ -2,17 +2,17 @@
 /* @var $this ContactController */
 /* @var $model Contact */
 
-$this->setPageTitle(CHtml::encode($model->name) . ". Лиды. ". Yii::app()->name);
+$this->setPageTitle(CHtml::encode($model->name) . '. Лиды. ' . Yii::app()->name);
 
-$this->breadcrumbs=array(
+$this->breadcrumbs = [
     CHtml::encode($model->name),
-);
+];
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('Кабинет вебмастера', "/webmaster/"),
-    'separator'=>' / ',
-    'links'=>$this->breadcrumbs,
- ));
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('Кабинет вебмастера', '/webmaster/'),
+    'separator' => ' / ',
+    'links' => $this->breadcrumbs,
+ ]);
 
 ?>
 
@@ -29,19 +29,19 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <td><strong><?php echo $model->getAttributeLabel('leadStatus'); ?></strong></td>
         <td>
             <?php echo $model->getLeadStatusName(); ?>
-            <?php if ($model->leadStatus == Lead::LEAD_STATUS_NABRAK):?>
-            <p>Причина: <?php echo $model->getReasonName();?></p>
-            <?php endif;?>
+            <?php if (Lead::LEAD_STATUS_NABRAK == $model->leadStatus):?>
+            <p>Причина: <?php echo $model->getReasonName(); ?></p>
+            <?php endif; ?>
         </td>
     </tr>
     
-    <?php if (Yii::app()->user->role != User::ROLE_JURIST || $model->employeeId):?>
+    <?php if (User::ROLE_JURIST != Yii::app()->user->role || $model->employeeId):?>
     <tr>
         <td><strong><?php echo $model->getAttributeLabel('phone'); ?></strong></td>
         <td>
-            <?php if ($model->phone && !(Yii::app()->user->role == User::ROLE_JURIST && $model->employeeId != Yii::app()->user->id)):?>
+            <?php if ($model->phone && !(User::ROLE_JURIST == Yii::app()->user->role && $model->employeeId != Yii::app()->user->id)):?>
                 <?php echo $model->phone; ?><br />
-            <?php endif;?>
+            <?php endif; ?>
         </td>
     </tr>
     
@@ -49,14 +49,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <td><strong><?php echo $model->getAttributeLabel('email'); ?></strong></td>
         <td><?php echo $model->email; ?></td>
     </tr>
-    <?php endif;?>
+    <?php endif; ?>
     <tr>
         <td><strong><?php echo $model->getAttributeLabel('town'); ?></strong></td>
         <td><?php echo $model->town->name; ?></td>
     </tr>
     
     
-    <?php if (Yii::app()->user->role != User::ROLE_JURIST):?>
+    <?php if (User::ROLE_JURIST != Yii::app()->user->role):?>
     <tr>
         <td><strong><?php echo $model->getAttributeLabel('source'); ?></strong></td>
         <td><?php echo $model->source->name; ?></td>
@@ -65,7 +65,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <td><strong><?php echo $model->getAttributeLabel('buyPrice'); ?></strong></td>
         <td><?php echo MoneyFormat::rubles($model->buyPrice); ?> руб.</td>
     </tr>
-    <?php endif;?>
+    <?php endif; ?>
     
     <tr>
         <td><strong><?php echo $model->getAttributeLabel('question_date'); ?></strong></td>
@@ -77,10 +77,10 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </tr>
 </table>    
     
-<?php if (Yii::app()->user->role == User::ROLE_ROOT):?>
-<?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/lead/update', array('id'=>$model->id)), array('class'=>'btn btn-primary'));?>
+<?php if (User::ROLE_ROOT == Yii::app()->user->role):?>
+<?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/lead/update', ['id' => $model->id]), ['class' => 'btn btn-primary']); ?>
 
-<?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/lead/delete', array('id'=>$model->id)), array('class'=>'btn btn-danger'));?>
+<?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/lead/delete', ['id' => $model->id]), ['class' => 'btn btn-danger']); ?>
 <?php endif; ?>
 
 

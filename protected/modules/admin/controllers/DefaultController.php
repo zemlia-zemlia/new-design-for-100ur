@@ -6,12 +6,11 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
-
         $statsService = new StatisticsService();
 
         // Первое число месяца год назад
         $startDate = (new DateTime(
-            ((int)(new DateTime())->format('Y') - 1) . '-' .
+            ((int) (new DateTime())->format('Y') - 1) . '-' .
             (new DateTime())->format('m') .
             '-01'
         ))->format('Y-m-d');
@@ -20,37 +19,36 @@ class DefaultController extends Controller
             ->select('l.price summa, YEAR(l.question_date) year, MONTH(l.question_date) month, l.buyPrice, l.leadStatus')
             ->from('{{lead}} l')
             ->where('l.price != 0 AND l.question_date > :startDate', [
-                ':startDate' => $startDate
+                ':startDate' => $startDate,
             ])
             ->order('id ASC')
             ->queryAll();
 
         //CustomFuncs::printr($leadsRows);
 
-        $sumArray = array(); // выручка
-        $kolichArray = array(); // количество
-        $buySumArray = array(); // затраты на покупку лидов
-        $vipArray = array(); // доходы с vip вопросов
+        $sumArray = []; // выручка
+        $kolichArray = []; // количество
+        $buySumArray = []; // затраты на покупку лидов
+        $vipArray = []; // доходы с vip вопросов
 
         foreach ($leadsRows as $row) {
-            if ($row['leadStatus'] == Lead::LEAD_STATUS_SENT) {
+            if (Lead::LEAD_STATUS_SENT == $row['leadStatus']) {
                 $sumArray[$row['year']][$row['month']] += $row['summa'];
-                $kolichArray[$row['year']][$row['month']]++;
+                ++$kolichArray[$row['year']][$row['month']];
             }
             $buySumArray[$row['year']][$row['month']] += $row['buyPrice'];
             $vipArray[$row['year']][$row['month']] = 0; // предзаполнение массива выручки вип вопросов нулями
         }
 
-
         // статистика по VIP вопросам
         $vipRows = Yii::app()->db->createCommand()
             ->select('SUM(value) sum, MONTH(datetime) month, YEAR(datetime) year')
             ->from('{{money}}')
-            ->where('type=:type AND direction=:direction AND datetime > :startDate', array(
+            ->where('type=:type AND direction=:direction AND datetime > :startDate', [
                 ':type' => Money::TYPE_INCOME,
                 ':direction' => 504,
                 ':startDate' => $startDate,
-            ))
+            ])
             ->group('year, month')
             ->queryAll();
 
@@ -59,8 +57,8 @@ class DefaultController extends Controller
         }
 
         // извлекаем статистику кассы
-        $moneyFlow = array();
-        $showDirections = array(502, 101, 2, 4);
+        $moneyFlow = [];
+        $showDirections = [502, 101, 2, 4];
 
         $moneyFlowRows = Yii::app()->db->createCommand()
             ->select('value, type, direction, MONTH(datetime) month, YEAR(datetime) year')
@@ -72,13 +70,13 @@ class DefaultController extends Controller
             ->queryAll();
 
         // массив для хранения сумм расходов по месяцам
-        $totalExpences = array();
+        $totalExpences = [];
 
         foreach ($moneyFlowRows as $row) {
             if (!in_array($row['direction'], $showDirections)) {
                 continue;
             }
-            if ($row['type'] == Money::TYPE_INCOME) {
+            if (Money::TYPE_INCOME == $row['type']) {
                 $moneyFlow[$row['direction']][$row['year']][$row['month']] += $row['value'];
             } else {
                 $moneyFlow[$row['direction']][$row['year']][$row['month']] -= $row['value'];
@@ -87,12 +85,12 @@ class DefaultController extends Controller
         }
 
         $publishedQuestionsRows = Yii::app()->db->createCommand()
-            ->select("COUNT(*) counter, DATE(createDate) date1")
-            ->from("{{question}}")
-            ->where("createDate>NOW()-INTERVAL 8 DAY AND status IN (2,4)")
+            ->select('COUNT(*) counter, DATE(createDate) date1')
+            ->from('{{question}}')
+            ->where('createDate>NOW()-INTERVAL 8 DAY AND status IN (2,4)')
             ->group('date1')
             ->queryAll();
-        $publishedQuestionsCount = array();
+        $publishedQuestionsCount = [];
         foreach ($publishedQuestionsRows as $row) {
             $publishedQuestionsCount[$row['date1']] = $row['counter'];
         }
@@ -100,21 +98,20 @@ class DefaultController extends Controller
         array_shift($publishedQuestionsCount);
 
         $leadsByTypesRows = Yii::app()->db->createCommand()
-            ->select("COUNT(*) counter, type, DATE(question_date) date1")
+            ->select('COUNT(*) counter, type, DATE(question_date) date1')
             ->from('{{lead}}')
-            ->where('question_date>NOW()-INTERVAL 30 DAY AND sourceId=:sourceId', array(':sourceId' => 3))
+            ->where('question_date>NOW()-INTERVAL 30 DAY AND sourceId=:sourceId', [':sourceId' => 3])
             ->group('date1, type')
             ->queryAll();
-        $leadsByTypes = array();
-        $uniqueLeadDates = array();
+        $leadsByTypes = [];
+        $uniqueLeadDates = [];
 
         foreach ($leadsByTypesRows as $row) {
             $uniqueLeadDates[] = $row['date1'];
-            $leadsByTypes[$row['type']][$row['date1']] = (int)$row['counter'];
+            $leadsByTypes[$row['type']][$row['date1']] = (int) $row['counter'];
         }
 
         $uniqueLeadDates = array_unique($uniqueLeadDates);
-
 
         $yuristActivityStats = $statsService->getYuristsActivityStats();
         $questionPublishedInRecentDays = $statsService->getPublishedQuestionsNumberInPeriod(30);
@@ -126,15 +123,15 @@ class DefaultController extends Controller
          */
         $monthAgoDate = (new DateTime())->sub(new DateInterval('P30D'))->format('Y-m-d');
         $stat100yuristovRows = Yii::app()->db->createCommand()
-            ->select("DATE(l.question_date) lead_date, COUNT(*) counter")
-            ->from("{{lead}} l")
-            ->where("DATE(l.question_date) >= :startDate AND l.sourceId = 3 AND l.leadStatus != :brak AND NOT (l.leadStatus = :double AND l.buyerId = 0)", [
+            ->select('DATE(l.question_date) lead_date, COUNT(*) counter')
+            ->from('{{lead}} l')
+            ->where('DATE(l.question_date) >= :startDate AND l.sourceId = 3 AND l.leadStatus != :brak AND NOT (l.leadStatus = :double AND l.buyerId = 0)', [
                 ':double' => Lead::LEAD_STATUS_DUPLICATE,
                 ':brak' => Lead::LEAD_STATUS_BRAK,
                 ':startDate' => $monthAgoDate,
             ])
-            ->group("lead_date")
-            ->order("lead_date")
+            ->group('lead_date')
+            ->order('lead_date')
             ->queryAll();
         $stat100yuristov = [];
 
@@ -146,8 +143,7 @@ class DefaultController extends Controller
 
         ksort($stat100yuristov);
 
-
-        $this->render('index', array(
+        $this->render('index', [
             'sumArray' => $sumArray,
             'kolichArray' => $kolichArray,
             'buySumArray' => $buySumArray,
@@ -161,11 +157,11 @@ class DefaultController extends Controller
             'questionPublishedInRecentDays' => $questionPublishedInRecentDays,
             'answersMadeInRecentDays' => $answersMadeInRecentDays,
             'averageIntervalUntillAnswer' => $averageIntervalUntillAnswer,
-        ));
+        ]);
     }
 
     /**
-     * Тестирование отправки писем через SMTP и через встроенную функцию mail()
+     * Тестирование отправки писем через SMTP и через встроенную функцию mail().
      */
     public function actionTestMail()
     {

@@ -1,7 +1,7 @@
 <?php
-$this->setPageTitle("Статистика продаж. " . Yii::app()->name);
+$this->setPageTitle('Статистика продаж. ' . Yii::app()->name);
 
-$monthsArray = array(
+$monthsArray = [
     '1' => 'Январь',
     '2' => 'Февраль',
     '3' => 'Март',
@@ -14,7 +14,7 @@ $monthsArray = array(
     '10' => 'Октябрь',
     '11' => 'Ноябрь',
     '12' => 'Декабрь',
-);
+];
 Yii::app()->clientScript->registerScriptFile('/js/highcharts/js/highcharts.js');
 
 ?>
@@ -26,20 +26,20 @@ Yii::app()->clientScript->registerScriptFile('/js/highcharts/js/highcharts.js');
         <form class="form-inline vert-margin20" role="form" action="">
             Статистика за месяц:
             <div class="form-group">
-                <?php echo CHtml::dropDownList("month", $month, $monthsArray, array('class' => 'form-control')); ?>
+                <?php echo CHtml::dropDownList('month', $month, $monthsArray, ['class' => 'form-control']); ?>
             </div>
             <div class="form-group">
-                <?php echo CHtml::dropDownList("year", $year, $yearsArray, array('class' => 'form-control')); ?>
+                <?php echo CHtml::dropDownList('year', $year, $yearsArray, ['class' => 'form-control']); ?>
             </div>
             <div class="form-group">
-                <?php echo CHtml::submitButton("Показать", array('class' => 'btn btn-primary')); ?>
+                <?php echo CHtml::submitButton('Показать', ['class' => 'btn btn-primary']); ?>
             </div>
         </form>
     </div>
     <div class="col-md-6 right-align">
-        <?php echo CHtml::link('По датам', Yii::app()->createUrl('admin/lead/stats', array('type' => 'dates'))); ?>
+        <?php echo CHtml::link('По датам', Yii::app()->createUrl('admin/lead/stats', ['type' => 'dates'])); ?>
         &nbsp;&nbsp;
-        <?php echo CHtml::link('По кампаниям', Yii::app()->createUrl('admin/lead/stats', array('type' => 'campaigns'))); ?>
+        <?php echo CHtml::link('По кампаниям', Yii::app()->createUrl('admin/lead/stats', ['type' => 'campaigns'])); ?>
         &nbsp;&nbsp;
         <?php echo CHtml::link('Расходы', Yii::app()->createUrl('admin/expence')); ?>
     </div>
@@ -66,11 +66,11 @@ $expencesTotal = 0;
             <th>
                 <?php
                 switch ($type) {
-                    case "dates":
-                        echo "Дата";
+                    case 'dates':
+                        echo 'Дата';
                         break;
-                    case "campaigns":
-                        echo "Кампания";
+                    case 'campaigns':
+                        echo 'Кампания';
                         break;
                 }
                 ?>
@@ -101,10 +101,10 @@ $expencesTotal = 0;
                 <td>
                     <?php
                     switch ($type) {
-                        case "dates":
+                        case 'dates':
                             echo CustomFuncs::invertDate($date);
                             break;
-                        case "campaigns":
+                        case 'campaigns':
                             echo Campaign::getCampaignNameById($date);
                             break;
                     }
@@ -158,7 +158,7 @@ $expencesTotal = 0;
     ksort($sumArray);
     ?>
 
-    <?php if ($type == 'dates'): ?>
+    <?php if ('dates' == $type): ?>
         <script type="text/javascript">
             $(function () {
                 $('#chart_summa').highcharts({
@@ -170,9 +170,9 @@ $expencesTotal = 0;
                     },
                     xAxis: {
                         categories: [
-                            <?php    foreach ($sumArray as $date=>$summa):?>
+                            <?php    foreach ($sumArray as $date => $summa):?>
                             <?php echo '"' . $date . '"' . ','; ?>
-                            <?php  endforeach;?>
+                            <?php  endforeach; ?>
                         ]
                     },
                     yAxis: {
@@ -183,17 +183,17 @@ $expencesTotal = 0;
                     series: [{
                         name: 'Выручка',
                         data: [
-                            <?php    foreach ($sumArray as $date=>$summa):?>
+                            <?php    foreach ($sumArray as $date => $summa):?>
                             <?php echo MoneyFormat::rubles($summa) . ','; ?>
-                            <?php  endforeach;?>
+                            <?php  endforeach; ?>
                         ]
                     },
                         {
                             name: 'Прибыль',
                             data: [
-                                <?php    foreach ($sumArray as $date=>$summa):?>
+                                <?php    foreach ($sumArray as $date => $summa):?>
                                 <?php echo MoneyFormat::rubles($summa + $vipStats[$date] - $buySumArray[$date] - $expencesDirectArray[$date]['expence'] - $expencesCallsArray[$date]['expence']) . ','; ?>
-                                <?php  endforeach;?>
+                                <?php  endforeach; ?>
                             ]
                         }
                     ]
@@ -208,9 +208,9 @@ $expencesTotal = 0;
                     },
                     xAxis: {
                         categories: [
-                            <?php    foreach ($sumArray as $date=>$summa):?>
+                            <?php    foreach ($sumArray as $date => $summa):?>
                             <?php echo '"' . $date . '"' . ','; ?>
-                            <?php  endforeach;?>
+                            <?php  endforeach; ?>
                         ]
                     },
                     yAxis: {
@@ -221,9 +221,9 @@ $expencesTotal = 0;
                     series: [{
                         name: 'Количество',
                         data: [
-                            <?php    foreach ($sumArray as $date=>$summa):?>
+                            <?php    foreach ($sumArray as $date => $summa):?>
                             <?php echo $kolichArray[$date] . ','; ?>
-                            <?php  endforeach;?>
+                            <?php  endforeach; ?>
                         ]
                     }]
                 });
@@ -231,7 +231,7 @@ $expencesTotal = 0;
         </script>
     <?php endif; ?>
 
-    <?php if ($type == 'campaigns'): ?>
+    <?php if ('campaigns' == $type): ?>
         <script type="text/javascript">
             $(function () {
                 $('#chart_summa').highcharts({
@@ -244,12 +244,12 @@ $expencesTotal = 0;
                     series: [{
                         name: 'Выручка',
                         data: [
-                            <?php foreach ($sumArray as $date=>$summa):?>
+                            <?php foreach ($sumArray as $date => $summa):?>
                             {
-                                name: '<?php echo Campaign::getCampaignNameById($date);?>',
+                                name: '<?php echo Campaign::getCampaignNameById($date); ?>',
                                 y: <?php echo MoneyFormat::rubles($summa); ?>
                             },
-                            <?php  endforeach;?>
+                            <?php  endforeach; ?>
                         ]
                     }]
                 });
@@ -265,12 +265,12 @@ $expencesTotal = 0;
                     series: [{
                         name: 'Количество',
                         data: [
-                            <?php    foreach ($sumArray as $date=>$summa):?>
+                            <?php    foreach ($sumArray as $date => $summa):?>
                             {
-                                name: '<?php echo Campaign::getCampaignNameById($date);?>',
+                                name: '<?php echo Campaign::getCampaignNameById($date); ?>',
                                 y: <?php echo $kolichArray[$date]; ?>
                             },
-                            <?php  endforeach;?>
+                            <?php  endforeach; ?>
                         ]
                     }]
                 });

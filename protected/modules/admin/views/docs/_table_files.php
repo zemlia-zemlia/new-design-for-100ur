@@ -16,15 +16,15 @@
 
         <tr>
             <td>
-                <h4 class="left-align"> <?php echo CHtml::link(CHtml::encode($file->name), array('/admin/docs/update?id=' . $file->id)); ?></h4>
+                <h4 class="left-align"> <?php echo CHtml::link(CHtml::encode($file->name), ['/admin/docs/update?id=' . $file->id]); ?></h4>
             </td>
             <td>
                 <?php echo CHtml::encode($file->description); ?>
             </td>
-            <td><?= CustomFuncs::niceDate(date('Y-m-d H:i:s', $file->uploadTs)) ?></td>
-            <td><?= $file->downloads_count ?></td>
+            <td><?php echo CustomFuncs::niceDate(date('Y-m-d H:i:s', $file->uploadTs)); ?></td>
+            <td><?php echo $file->downloads_count; ?></td>
             <td>
-                <?php echo CHtml::link("Ред.", array('/admin/docs/update/?id=' .  $file->id)); ?>
+                <?php echo CHtml::link('Ред.', ['/admin/docs/update/?id=' . $file->id]); ?>
             </td>
         </tr>
 

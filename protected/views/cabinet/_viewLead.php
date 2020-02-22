@@ -21,7 +21,6 @@ switch ($data->leadStatus) {
     case Lead::LEAD_STATUS_SENT:
         $statusClass = 'label-success';
         break;
-    
 }
 ?>
 
@@ -29,8 +28,8 @@ switch ($data->leadStatus) {
     <td>
         <p>
             <?php echo nl2br(mb_substr(CHtml::encode($data->question), 0, 300, 'utf-8')); ?>
-            <?php if (strlen($data->question)>300) {
-    echo "...";
+            <?php if (strlen($data->question) > 300) {
+    echo '...';
 }?>
         </p>
 
@@ -38,9 +37,9 @@ switch ($data->leadStatus) {
        
         <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo CustomFuncs::niceDate($data->deliveryTime, false, false); ?>&nbsp;&nbsp;
 
-        <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->role == User::ROLE_SECRETARY):?>
+        <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || User::ROLE_SECRETARY == Yii::app()->user->role):?>
             <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo $data->source->name; ?> &nbsp;&nbsp;       
-        <?php endif;?>
+        <?php endif; ?>
           
 
             
@@ -49,37 +48,37 @@ switch ($data->leadStatus) {
             <?php if ($data->townId):?>
                 <span class="glyphicon glyphicon-map-marker"></span>
                 <?php echo CHtml::encode($data->town->name); ?> (<?php echo CHtml::encode($data->town->region->name); ?>)
-            <?php endif;?>
+            <?php endif; ?>
             &nbsp;
             
-            <?php if ($data->phone && !(Yii::app()->user->role == User::ROLE_JURIST && $data->employeeId != Yii::app()->user->id)):?>
+            <?php if ($data->phone && !(User::ROLE_JURIST == Yii::app()->user->role && $data->employeeId != Yii::app()->user->id)):?>
                 <span class="glyphicon glyphicon-earphone"></span>
                 <?php echo CHtml::encode($data->phone); ?> &nbsp;
-            <?php endif;?>
+            <?php endif; ?>
             <?php if ($data->email):?>
                 <span class="glyphicon glyphicon-envelope"></span>
                 <?php echo CHtml::encode($data->email); ?>  &nbsp;    
-            <?php endif;?>
+            <?php endif; ?>
             
             <span class="glyphicon glyphicon-user"></span>    
-            <?php echo CHtml::encode($data->name)?> 
+            <?php echo CHtml::encode($data->name); ?> 
 			
 			            
-			<span class="label <?php echo $statusClass;?>">    
-			<?php echo $data->getLeadStatusName();?></span>
+			<span class="label <?php echo $statusClass; ?>">    
+			<?php echo $data->getLeadStatusName(); ?></span>
             
-            <?php if ($data->leadStatus == Lead::LEAD_STATUS_NABRAK && $data->brakComment):?>
+            <?php if (Lead::LEAD_STATUS_NABRAK == $data->leadStatus && $data->brakComment):?>
             <p>
                 <strong>Комментарий отбраковки:</strong>
-                <?php echo CHtml::encode($data->brakComment);?>
+                <?php echo CHtml::encode($data->brakComment); ?>
             </p>
-            <?php endif;?>
+            <?php endif; ?>
         </small>
     </td>
     
     <td>
         
-        <?php echo CHtml::link("Просмотр", array('viewLead', 'id'=>$data->id), array('class'=>'btn btn-block btn-primary btn-sm')); ?>
+        <?php echo CHtml::link('Просмотр', ['viewLead', 'id' => $data->id], ['class' => 'btn btn-block btn-primary btn-sm']); ?>
         
         <?php
             $leadTimestamp = strtotime($data->deliveryTime);
@@ -87,9 +86,9 @@ switch ($data->leadStatus) {
             $holdPeriod = isset(Yii::app()->params['leadHoldPeriodDays']) ? Yii::app()->params['leadHoldPeriodDays'] : 2;
         ?>
         
-        <?php if (($data->leadStatus == Lead::LEAD_STATUS_SENT || $data->leadStatus == Lead::LEAD_STATUS_SENT_CRM) && ($now - $leadTimestamp)<86400*$holdPeriod && $data->campaign->brakPercent > 0 && $data->campaign->checkCanBrak()):?>
-            <?php echo CHtml::link('На отбраковку', Yii::app()->createUrl('site/brakLead', array('code'=>$data->secretCode)), array('class'=>'btn btn-block btn-default btn-sm', 'target'=>'_blank', 'data-id'=>$data->id));?>
+        <?php if ((Lead::LEAD_STATUS_SENT == $data->leadStatus || Lead::LEAD_STATUS_SENT_CRM == $data->leadStatus) && ($now - $leadTimestamp) < 86400 * $holdPeriod && $data->campaign->brakPercent > 0 && $data->campaign->checkCanBrak()):?>
+            <?php echo CHtml::link('На отбраковку', Yii::app()->createUrl('site/brakLead', ['code' => $data->secretCode]), ['class' => 'btn btn-block btn-default btn-sm', 'target' => '_blank', 'data-id' => $data->id]); ?>
 
-        <?php endif;?>
+        <?php endif; ?>
     </td>
 </tr>

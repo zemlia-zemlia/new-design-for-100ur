@@ -1,11 +1,10 @@
 <?php
 
 /**
- * Раздел для работы с Email рассылками
+ * Раздел для работы с Email рассылками.
  */
 class MailController extends Controller
 {
-
     // Шаблон страниц по умолчанию
     public $layout = '//admin/main';
 
@@ -14,30 +13,31 @@ class MailController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
-        );
+        ];
     }
 
     /**
      * Настройки доступа к страницам
+     *
      * @return array access control rules
      */
     public function accessRules()
     {
-        return array(
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('index', 'create', 'success'),
+        return [
+            ['allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions' => ['index', 'create', 'success'],
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+            ],
+            ['deny', // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
-     * Создание рассылки
+     * Создание рассылки.
      */
     public function actionCreate()
     {
@@ -47,12 +47,11 @@ class MailController extends Controller
             $mailFormModel->attributes = $_POST['MailForm'];
 
             $mailFormModel->validate();
-            if ($mailFormModel->recipientEmail == '' && $mailFormModel->roleId == '') {
+            if ('' == $mailFormModel->recipientEmail && '' == $mailFormModel->roleId) {
                 $mailFormModel->addError('roleId', 'Необходимо указать получателя или роль');
             }
 
             if (!$mailFormModel->hasErrors()) {
-
                 // создаем новую рассылку и задания по отправке
                 $mail = new Mail();
                 $mail->subject = $mailFormModel->subject;
@@ -73,10 +72,10 @@ class MailController extends Controller
     }
 
     /**
-     * Страница успешной отправки рассылки
+     * Страница успешной отправки рассылки.
      */
     public function actionSuccess($mailTasksCreated)
     {
-        $this->render('success', ['created' => (int)$mailTasksCreated]);
+        $this->render('success', ['created' => (int) $mailTasksCreated]);
     }
 }

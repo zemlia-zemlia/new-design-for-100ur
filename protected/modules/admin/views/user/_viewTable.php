@@ -3,16 +3,16 @@
         <?php echo $data->id; ?>
     </td>
     <td>
-        <?php echo CHtml::link(CHtml::encode($data->name . ' ' . $data->name2 . ' ' . $data->lastName), array('view', 'id' => $data->id)); ?>
-        <?php if ($data->active100 == 0): ?>
+        <?php echo CHtml::link(CHtml::encode($data->name . ' ' . $data->name2 . ' ' . $data->lastName), ['view', 'id' => $data->id]); ?>
+        <?php if (0 == $data->active100): ?>
             <span class="label label-default">неактивен</span>
         <?php endif; ?>
 
-        <?php if ($data->role == User::ROLE_PARTNER): ?>
+        <?php if (User::ROLE_PARTNER == $data->role): ?>
             <span class='text-muted'><?php echo MoneyFormat::rubles($data->calculateWebmasterBalance()); ?> руб.</span>
         <?php endif; ?>
 
-        <?php if ($data->role == User::ROLE_JURIST): ?>
+        <?php if (User::ROLE_JURIST == $data->role): ?>
             <?php echo $data->settings->getStatusName(); ?>
             <?php if ($data->settings->isVerified): ?>
                 <span class="label label-success">подтвержден</span>
@@ -22,7 +22,7 @@
         <?php endif; ?>
 
     </td>
-    <?php if ($data->role == User::ROLE_JURIST): ?>
+    <?php if (User::ROLE_JURIST == $data->role): ?>
         <td>
             <?php echo CustomFuncs::niceDate($data->lastActivity, true, false); ?>
         </td>
@@ -37,7 +37,7 @@
         <?php echo CHtml::encode($data->phone); ?>
     </td>
 
-    <?php if ($data->role == User::ROLE_BUYER): ?>
+    <?php if (User::ROLE_BUYER == $data->role): ?>
         <td class="text-center">
             <?php echo $data->campaignsCount; ?>
         </td>
@@ -45,7 +45,7 @@
 
     <td>
         <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
-            <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/user/update', array('id' => $data->id)), array('class' => 'btn btn-xs btn-primary')); ?>
+            <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/user/update', ['id' => $data->id]), ['class' => 'btn btn-xs btn-primary']); ?>
         <?php endif; ?>
     </td>
 </tr>

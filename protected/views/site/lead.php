@@ -1,6 +1,6 @@
 <?php
-    $this->setPageTitle("Продажа юридических заявок и лидов на консультацию");
-    Yii::app()->clientScript->registerMetaTag("Клиенты для юристов во всех отраслях права - юридические звонки, заявки, приходы. Можете получать горячих клиентов уже сегодня.", 'description');
+    $this->setPageTitle('Продажа юридических заявок и лидов на консультацию');
+    Yii::app()->clientScript->registerMetaTag('Клиенты для юристов во всех отраслях права - юридические звонки, заявки, приходы. Можете получать горячих клиентов уже сегодня.', 'description');
 ?>
 <div class="lead-page">
 		<h1 class="vert-margin20">Продажа юридических лидов (заявок) для всех регионов РФ</h1>
@@ -16,7 +16,7 @@
 
 		<div class="col-md-4">
 				<p class="text-center">
-			<?php echo CHtml::link('<br/> Зарегистрироваться как покупатель лидов (заявок) <br/> <br/>', Yii::app()->createUrl('user/create', array('role' => User::ROLE_BUYER)), array('class' => 'yellow-button btn-lg'));?>
+			<?php echo CHtml::link('<br/> Зарегистрироваться как покупатель лидов (заявок) <br/> <br/>', Yii::app()->createUrl('user/create', ['role' => User::ROLE_BUYER]), ['class' => 'yellow-button btn-lg']); ?>
 		</p>
 
 		</div>
@@ -116,7 +116,7 @@
 		</div>
 		<div class="col-md-4">
 			<p class="text-center">
-				<?php echo CHtml::link('<br/>Зарегистрироваться и начать<br/><br/>', Yii::app()->createUrl('user/create', array('role' => User::ROLE_BUYER)), array('class' => 'yellow-button'));?>
+				<?php echo CHtml::link('<br/>Зарегистрироваться и начать<br/><br/>', Yii::app()->createUrl('user/create', ['role' => User::ROLE_BUYER]), ['class' => 'yellow-button']); ?>
 			</p>
 		</div>
 		</div>

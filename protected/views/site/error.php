@@ -1,8 +1,8 @@
 <?php
 $this->pageTitle = Yii::app()->name . ' - Ошибка ' . $code;
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     'Error',
-);
+];
 ?>
 <div class="panel panel-warning">
     <div class="panel-body error-message">

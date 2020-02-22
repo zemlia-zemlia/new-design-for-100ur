@@ -37,7 +37,7 @@ class DocsController extends Controller
                     'allow',
                     'actions' => ['index', 'view', 'create', 'update', 'delete'],
                     'users' => ['@'],
-                    'expression' => 'Yii::app()->user->checkAccess('.User::ROLE_EDITOR.') || Yii::app()->user->checkAccess('.User::ROLE_ROOT.')',
+                    'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ') || Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
                 ],
 
                 [
@@ -73,7 +73,7 @@ class DocsController extends Controller
                 $this->render('create', ['model' => $model, 'category' => $category]);
             }
             $name = $model->generateName();
-            $path = Yii::getPathOfAlias('webroot').'/upload/files/'.$name;
+            $path = Yii::getPathOfAlias('webroot') . '/upload/files/' . $name;
             $model->file->saveAs($path);
             $model->type = $model->file->getExtensionName();
             $model->size = $model->file->getSize();
@@ -117,11 +117,11 @@ class DocsController extends Controller
             $model->file = CUploadedFile::getInstance($model, 'file');
             if ($model->file) {
                 $name = $model->generateName();
-                $path = Yii::getPathOfAlias('webroot').'/upload/files/'.$name;
+                $path = Yii::getPathOfAlias('webroot') . '/upload/files/' . $name;
                 $model->file->saveAs($path);
                 $model->type = $model->file->getExtensionName();
                 $model->size = $model->file->getSize();
-                unlink(Yii::getPathOfAlias('webroot').'/upload/files/'.$model->filename);
+                unlink(Yii::getPathOfAlias('webroot') . '/upload/files/' . $model->filename);
                 $model->filename = $name;
             }
             $model->save();
@@ -146,8 +146,8 @@ class DocsController extends Controller
     {
         $model = $this->loadModel($id);
         $category = $model->categories[0];
-        File2Category::model()->find('file_id = '.$id)->delete();
-        unlink(Yii::getPathOfAlias('webroot').'/upload/files/'.$model->filename);
+        File2Category::model()->find('file_id = ' . $id)->delete();
+        unlink(Yii::getPathOfAlias('webroot') . '/upload/files/' . $model->filename);
         $model->delete();
         Yii::app()->user->setFlash('success', 'Файл удален');
 
@@ -201,7 +201,7 @@ class DocsController extends Controller
         if (isset($_POST['fileIds']) && isset($_POST['objId'])) {
             $objId = $_POST['objId'];
             foreach ($_POST['fileIds'] as $fileId) {
-                if (File2Object::model()->findAll('object_id = '.$objId.' AND file_id ='.$fileId)) {
+                if (File2Object::model()->findAll('object_id = ' . $objId . ' AND file_id =' . $fileId)) {
                     continue;
                 }
                 $fileToObj = new File2Object();
@@ -231,7 +231,7 @@ class DocsController extends Controller
         if (isset($_POST['fileId']) && isset($_POST['objId'])) {
             $objId = $_POST['objId'];
             $fileId = $_POST['fileId'];
-            File2Object::model()->find('object_id = '.$objId.' AND file_id ='.$fileId)->delete();
+            File2Object::model()->find('object_id = ' . $objId . ' AND file_id =' . $fileId)->delete();
             $model = QuestionCategory::model()->findByPk($objId);
             if (is_array($model->docs)):
                 foreach ($model->docs as $doc): ?>

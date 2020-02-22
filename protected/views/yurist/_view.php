@@ -1,16 +1,16 @@
-<?php if ($index % 2 == 0) : ?>
+<?php if (0 == $index % 2) : ?>
 <div class="row row-yurist">
     <?php endif; ?>
 
     <div class="col-sm-6 vert-margin20">
 
         <?php
-        $yuristName = ($data->settings && $data->settings->alias != '') ? $data->settings->alias : $data->lastName . ' ' . $data->name . ' ' . $data->name2;
+        $yuristName = ($data->settings && '' != $data->settings->alias) ? $data->settings->alias : $data->lastName . ' ' . $data->name . ' ' . $data->name2;
         ?>
         <div class="yurist-list-item">
             <div class="row">
                 <div class="col-sm-3 col-xs-5">
-                    <a href="<?php echo Yii::app()->createUrl('user/view', array('id' => $data->id)); ?>">
+                    <a href="<?php echo Yii::app()->createUrl('user/view', ['id' => $data->id]); ?>">
                         <img src="<?php echo $data->getAvatarUrl(); ?>" alt="<?php echo CHtml::encode($yuristName); ?> "
                              class="img-responsive"/>
                     </a>
@@ -18,7 +18,7 @@
                 <div class="col-sm-9 col-xs-7">
 
                     <strong class="left-align" style="font-size: 15px;">
-                        <?php echo CHtml::link(CHtml::encode($yuristName), Yii::app()->createUrl('user/view', array('id' => $data->id))); ?>
+                        <?php echo CHtml::link(CHtml::encode($yuristName), Yii::app()->createUrl('user/view', ['id' => $data->id])); ?>
                     </strong>
                     <p class="small">
                         <?php if ($data->town): ?>
@@ -27,7 +27,7 @@
                         <br/>
                         <strong>Статус:</strong> <?php echo $data->settings->getStatusName(); ?>
                         <br/>
-                        <strong>Карма:</strong> <?php echo (int)$data->karma; ?><br/>
+                        <strong>Карма:</strong> <?php echo (int) $data->karma; ?><br/>
 
                         <?php if ($data->answersCount): ?>
                             <strong>Ответов:</strong> <?php echo $data->answersCount; ?>
@@ -49,6 +49,6 @@
             </div>
         </div>
     </div>
-    <?php if ($index % 2 == 1 || $index == $onPage - 1) : ?>
+    <?php if (1 == $index % 2 || $index == $onPage - 1) : ?>
 </div>
 <?php endif; ?>

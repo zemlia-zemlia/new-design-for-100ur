@@ -21,7 +21,7 @@
         <tr>
             <td>
 
-                <?php echo CHtml::link(CHtml::encode($rootCategory['name']), array('view', 'id' => $rootId)); ?></strong>
+                <?php echo CHtml::link(CHtml::encode($rootCategory['name']), ['view', 'id' => $rootId]); ?></strong>
                 (id <?php echo $rootId; ?>)
             </td>
             <td><?php echo QuestionCategory::checkIfArrayPropertyFilled($rootCategory, 'description1'); ?></td>
@@ -41,10 +41,10 @@
                 <?php echo QuestionCategory::checkIfArrayPropertyFilled($rootCategory, 'isDirection'); ?>
             </td>
             <td class="text-center">
-                <?php echo CHtml::link("+", array('create', 'parentId' => $rootId), array('class' => 'btn btn-xs btn-primary')); ?>
+                <?php echo CHtml::link('+', ['create', 'parentId' => $rootId], ['class' => 'btn btn-xs btn-primary']); ?>
             </td>
             <td>
-                <?php echo CHtml::link("Ред.", array('update', 'id' => $rootId)); ?>
+                <?php echo CHtml::link('Ред.', ['update', 'id' => $rootId]); ?>
             </td>
         </tr>
 

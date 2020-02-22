@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Класс для работы с User identity, используется при аутентификации
+ * Класс для работы с User identity, используется при аутентификации.
  */
 class UserIdentity extends CUserIdentity
 {
@@ -13,16 +13,17 @@ class UserIdentity extends CUserIdentity
     const ERROR_AUTOLOGIN_WRONG = 6;
 
     /**
-     * Аутентификация пользователя
-     * @return boolean успешна ли аутентификация
+     * Аутентификация пользователя.
+     *
+     * @return bool успешна ли аутентификация
      */
     public function authenticate()
     {
-        $user = User::model()->find('LOWER(email)=?', array(strtolower($this->username)));
-        if ($user === null) {
+        $user = User::model()->find('LOWER(email)=?', [strtolower($this->username)]);
+        if (null === $user) {
             // если не нашли пользователя
             $this->errorCode = self::ERROR_USERNAME_INVALID;
-        } elseif ($user->active100 != 1) {
+        } elseif (1 != $user->active100) {
             $this->errorCode = self::ERROR_USER_INACTIVE;
         } elseif (!$user->validatePassword($this->password)) {
             // если неправильный пароль
@@ -34,11 +35,12 @@ class UserIdentity extends CUserIdentity
             $this->errorCode = self::ERROR_NONE;
         }
 
-        return $this->errorCode == self::ERROR_NONE;
+        return self::ERROR_NONE == $this->errorCode;
     }
 
     /**
-     * аутентификация пользователя по строке autologin
+     * аутентификация пользователя по строке autologin.
+     *
      * @return int Код результата
      */
     public function autologin()
@@ -54,13 +56,13 @@ class UserIdentity extends CUserIdentity
         }
 
         // ищем в базе пользователя по полю autologin
-        $user = User::model()->find('autologin=?', array($this->autologinString));
-        if ($user === null) {
+        $user = User::model()->find('autologin=?', [$this->autologinString]);
+        if (null === $user) {
             // если не нашли пользователя
             return $this->errorCode = self::ERROR_AUTOLOGIN_WRONG;
         }
         // если пользователь неактивен
-        if ($user->active100 != 1) {
+        if (1 != $user->active100) {
             return $this->errorCode = self::ERROR_USER_INACTIVE;
         }
 
@@ -69,17 +71,18 @@ class UserIdentity extends CUserIdentity
         $this->errorCode = self::ERROR_NONE;
 
         // после логина удаляем у пользователя поле autologin, чтобы не дать залогиниться по этому коду еще раз
-        User::model()->updateByPk($user->id, array('autologin' => ''));
+        User::model()->updateByPk($user->id, ['autologin' => '']);
 
         LoggerFactory::getLogger('db')->log('Автологин пользователя ' . $user->getRoleName() . ' #' . $user->id . ' (' . $user->getShortName() . ')', 'User', $user->id);
         (new UserActivity())->logActivity($user, UserActivity::ACTION_AUTOLOGIN);
-        return $this->errorCode == self::ERROR_NONE;
+
+        return self::ERROR_NONE == $this->errorCode;
     }
 
     /**
-     * Возвращает id текущего авторизованного пользователя
+     * Возвращает id текущего авторизованного пользователя.
      *
-     * @return integer id текущего пользователя
+     * @return int id текущего пользователя
      */
     public function getId()
     {

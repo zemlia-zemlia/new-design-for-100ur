@@ -2,20 +2,20 @@
 /* @var $this CodecsController */
 /* @var $model Codecs */
 
-$this->breadcrumbs=array(
-    'Codecs'=>array('index'),
-    $model->id=>array('view','id'=>$model->id),
+$this->breadcrumbs = [
+    'Codecs' => ['index'],
+    $model->id => ['view', 'id' => $model->id],
     'Update',
-);
+];
 
-$this->menu=array(
-    array('label'=>'List Codecs', 'url'=>array('index')),
-    array('label'=>'Create Codecs', 'url'=>array('create')),
-    array('label'=>'View Codecs', 'url'=>array('view', 'id'=>$model->id)),
-    array('label'=>'Manage Codecs', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List Codecs', 'url' => ['index']],
+    ['label' => 'Create Codecs', 'url' => ['create']],
+    ['label' => 'View Codecs', 'url' => ['view', 'id' => $model->id]],
+    ['label' => 'Manage Codecs', 'url' => ['admin']],
+];
 ?>
 
 <h1>Update Codecs <?php echo $model->id; ?></h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', ['model' => $model]); ?>

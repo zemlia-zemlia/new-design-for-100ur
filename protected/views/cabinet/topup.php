@@ -1,17 +1,17 @@
 <?php
 
-$this->setPageTitle("Пополнение баланса." . Yii::app()->name);
+$this->setPageTitle('Пополнение баланса.' . Yii::app()->name);
 
-$this->breadcrumbs=array(
-    'Кабинет'   =>  array('/cabinet'),
+$this->breadcrumbs = [
+    'Кабинет' => ['/cabinet'],
         'Пополнение баланса',
-);
+];
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 юристов', "/"),
-    'separator'=>' / ',
-    'links'=>$this->breadcrumbs,
- ));
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 юристов', '/'),
+    'separator' => ' / ',
+    'links' => $this->breadcrumbs,
+ ]);
 
 ?>
 
@@ -29,6 +29,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <div class="alert alert-danger">
     <p>
-    <strong>ВНИМАНИЕ!</strong><br/> При оплате на карту или Яндекс Деньги в сообщении к платежу укажите <strong>"Пополнение баланса пользователя <?php echo Yii::app()->user->id;?>"</strong>
+    <strong>ВНИМАНИЕ!</strong><br/> При оплате на карту или Яндекс Деньги в сообщении к платежу укажите <strong>"Пополнение баланса пользователя <?php echo Yii::app()->user->id; ?>"</strong>
     </p>
 </div>

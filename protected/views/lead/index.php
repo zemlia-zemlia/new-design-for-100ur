@@ -2,7 +2,7 @@
 /* @var $this ContactController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->pageTitle = "Заявки. " . Yii::app()->name;
+$this->pageTitle = 'Заявки. ' . Yii::app()->name;
 ?>
 
 <div  class="vert-margin20">
@@ -18,18 +18,18 @@ $this->pageTitle = "Заявки. " . Yii::app()->name;
 </div>
 
 <ul class="nav nav-tabs vert-margin40">
-    <li role="presentation" class="<?php echo ($showMy == true || $showAuto == true) ? '' : 'active'; ?>">
+    <li role="presentation" class="<?php echo (true == $showMy || true == $showAuto) ? '' : 'active'; ?>">
         <?php echo CHtml::link('В продаже', Yii::app()->createUrl('/lead/index')); ?>
     </li>
-    <li role="presentation" class="<?php echo ($showAuto == true) ? 'active' : ''; ?>">
+    <li role="presentation" class="<?php echo (true == $showAuto) ? 'active' : ''; ?>">
         <?php echo CHtml::link('Автовыкуп лидов', Yii::app()->createUrl('/lead/index', ['auto' => 1])); ?>
     </li>
-    <li role="presentation" class="<?php echo ($showMy == true) ? 'active' : ''; ?>">
+    <li role="presentation" class="<?php echo (true == $showMy) ? 'active' : ''; ?>">
         <?php echo CHtml::link('Выкупленные мной', Yii::app()->createUrl('/lead/index', ['my' => 1])); ?>
     </li>
 </ul>
 
-<?php if ($showAuto == false): ?>
+<?php if (false == $showAuto): ?>
     <?php
     echo $this->renderPartial('_leadList', [
         'searchModel' => $searchModel,

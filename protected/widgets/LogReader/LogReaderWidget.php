@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Вывод блока с записями лога событий
+ * Вывод блока с записями лога событий.
  */
 class LogReaderWidget extends CWidget
 {
@@ -9,13 +9,13 @@ class LogReaderWidget extends CWidget
     public $class;
     public $subjectId;
     public $limit = 20;
-    
+
     public function run()
     {
         $records = LogReader::read($this->class, $this->subjectId, $this->limit);
-                
-        $this->render($this->template, array(
-            'records'   => $records,
-        ));
+
+        $this->render($this->template, [
+            'records' => $records,
+        ]);
     }
 }

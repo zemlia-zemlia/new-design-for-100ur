@@ -4,7 +4,7 @@ $usersCount = 0;
 
 <div class="container-fluid">
     <?php foreach ($users as $user): ?>
-        <?php $usersCount++; ?>
+        <?php ++$usersCount; ?>
 
         <div class="row row-yurist yurist-list-item">
             <div class="col-xs-1">
@@ -13,7 +13,7 @@ $usersCount = 0;
 
             <div class="col-xs-3 text-center">
                 <div>
-                    <a href="<?php echo Yii::app()->createUrl('user/view', array('id' => $user['id'])); ?>?from=top_yurist_widget"
+                    <a href="<?php echo Yii::app()->createUrl('user/view', ['id' => $user['id']]); ?>?from=top_yurist_widget"
                        rel="nofollow">
                         <img src="<?php echo User::USER_PHOTO_PATH . User::USER_PHOTO_THUMB_FOLDER . '/' . $user['avatar']; ?>"
                              alt="<?php echo CHtml::encode($user['name'] . ' ' . $user['lastName']); ?>"
@@ -24,7 +24,7 @@ $usersCount = 0;
             </div>
             <div class="col-xs-8">
                 <div>
-                    <a href="<?php echo Yii::app()->createUrl('user/view', array('id' => $user['id'])); ?>?from=top_yurist_widget"
+                    <a href="<?php echo Yii::app()->createUrl('user/view', ['id' => $user['id']]); ?>?from=top_yurist_widget"
                        rel="nofollow">
                         <?php echo CHtml::encode($user['name'] . ' ' . $user['lastName']); ?>
                     </a>

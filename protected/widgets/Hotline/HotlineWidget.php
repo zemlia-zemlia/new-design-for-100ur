@@ -2,7 +2,7 @@
 /**
  * Виджет показа номера телефона горячей линии
  * Определяет, из какого региона пользователь, есть ли в этом регионе рекламные кампании
- * и выводит/не выводит номер телефона
+ * и выводит/не выводит номер телефона.
  */
 class HotlineWidget extends CWidget
 {
@@ -10,21 +10,22 @@ class HotlineWidget extends CWidget
     public $cacheTime = 0;
     public $showAlways = false; // показывать всегда, независимо от текущего города и региона
     public $showPhone = true; // показывать номер телефона вместо формы запроса города
-    
+
     public function run()
     {
-        if ($this->showPhone === false) {
-            $model = new Lead;
-            return $this->render('callBack', array(
+        if (false === $this->showPhone) {
+            $model = new Lead();
+
+            return $this->render('callBack', [
                 'model' => $model,
-                ));
+                ]);
         }
-        
-        if ($this->showAlways === true) {
+
+        if (true === $this->showAlways) {
             $this->render($this->template);
         } else {
             $currenTownId = Yii::app()->user->getState('currentTownId');
-        
+
             if (!$currenTownId) {
                 return false;
             }
@@ -32,8 +33,8 @@ class HotlineWidget extends CWidget
             $currentTown = Town::model()->findByPk($currenTownId);
 
             // Определим, для каких регионов и городов у нас есть рекламные кампании
-            $payedRegions = array();
-            $payedTowns = array();
+            $payedRegions = [];
+            $payedTowns = [];
 
             $payedTownsRegions = Campaign::getPayedTownsRegions($cacheTime);
 

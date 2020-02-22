@@ -1,34 +1,33 @@
 <?php
 /* @var $this CategoryController */
 
-
 switch ($index) {
     case 0:
-        $postWrapperClass = "row post-hero";
-        $photoBlockClass = "col-xs-12";
-        $textBlockClass = "col-xs-12 text-over-hero";
+        $postWrapperClass = 'row post-hero';
+        $photoBlockClass = 'col-xs-12';
+        $textBlockClass = 'col-xs-12 text-over-hero';
         break;
     case 1: case 2:
-        $postWrapperClass = "col-sm-6";
-        $photoBlockClass = "";
-        $textBlockClass = "";
+        $postWrapperClass = 'col-sm-6';
+        $photoBlockClass = '';
+        $textBlockClass = '';
         break;
     default:
-        $postWrapperClass = "row";
-        $photoBlockClass = "col-sm-3 col-xs-12";
-        $textBlockClass = "col-sm-9 col-xs-12";
+        $postWrapperClass = 'row';
+        $photoBlockClass = 'col-sm-3 col-xs-12';
+        $textBlockClass = 'col-sm-9 col-xs-12';
 }
 ?>
 
-<?php if ($index==1):?>
+<?php if (1 == $index):?>
     <div class="row">
-<?php endif;?>
+<?php endif; ?>
     
     
     <div class="<?php echo $postWrapperClass; ?>">
         <div class="<?php echo $photoBlockClass; ?>  center-align">
             <?php if ($data->photo): ?>
-                <a href="<?php echo Yii::app()->createUrl('post/view', array('id' => $data->id, 'alias' => $data->alias)); ?>">
+                <a href="<?php echo Yii::app()->createUrl('post/view', ['id' => $data->id, 'alias' => $data->alias]); ?>">
                     <img src="<?php echo $data->getPhotoUrl(); ?>" alt="<?php echo CHtml::encode($data->title); ?>" class="vert-margin20" />
                 </a>
             <?php endif; ?>
@@ -37,7 +36,7 @@ switch ($index) {
         <div class="<?php echo $textBlockClass; ?>">
             <div class="category-post-header">
                 <h3>
-                    <?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('post/view', array('id' => $data->id, 'alias' => $data->alias))); ?>
+                    <?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('post/view', ['id' => $data->id, 'alias' => $data->alias])); ?>
                 </h3>
             </div>
 
@@ -67,9 +66,9 @@ switch ($index) {
         </div>
 </div>
 
-<?php if ($index==2):?>
+<?php if (2 == $index):?>
     </div>
-<?php endif;?>
+<?php endif; ?>
 
-<div class="clearfix <?php if ($index == 1):?> visible-xs<?php endif;?>"></div>
-<hr class="<?php if ($index == 1):?> visible-xs<?php endif;?>" />
+<div class="clearfix <?php if (1 == $index):?> visible-xs<?php endif; ?>"></div>
+<hr class="<?php if (1 == $index):?> visible-xs<?php endif; ?>" />

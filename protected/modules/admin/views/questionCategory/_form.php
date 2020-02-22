@@ -6,18 +6,18 @@
 Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
 ?>
 
-<?php $form = $this->beginWidget('CActiveForm', array(
+<?php $form = $this->beginWidget('CActiveForm', [
     'id' => 'question-category-form',
     'enableAjaxValidation' => false,
     'htmlOptions' => [
         'enctype' => 'multipart/form-data',
     ],
-)); ?>
+]); ?>
 
 <div class="row">
 
     <div class="col-md-8">
-        <?php echo $form->errorSummary($model, "Исправьте ошибки"); ?>
+        <?php echo $form->errorSummary($model, 'Исправьте ошибки'); ?>
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'description1'); ?>
@@ -45,7 +45,7 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'name'); ?>
-            <?php echo $form->textField($model, 'name', array('class' => 'form-control')); ?>
+            <?php echo $form->textField($model, 'name', ['class' => 'form-control']); ?>
             <?php echo $form->error($model, 'name'); ?>
         </div>
 
@@ -58,7 +58,7 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
                         <?php echo CHtml::image($model->getImagePath(), '', ['class' => 'img-responsive']); ?>
                     <?php endif; ?>
 
-                    <?php echo $form->fileField($model, 'imageFile', array('class' => 'form-control')); ?>
+                    <?php echo $form->fileField($model, 'imageFile', ['class' => 'form-control']); ?>
                     <div class="length-counter"></div>
                     <?php echo $form->error($model, 'imageFile'); ?>
                 </div>
@@ -69,17 +69,17 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
                     <?php echo $form->labelEx($model, 'publish_date'); ?>
                     <?php $this->widget(
                 'zii.widgets.jui.CJuiDatePicker',
-                array(
-                            'name' => "QuestionCategory[publish_date]",
+                [
+                            'name' => 'QuestionCategory[publish_date]',
                             'value' => $model['publish_date'],
                             'language' => 'ru',
-                            'options' => array('dateFormat' => 'dd-mm-yy',
-                            ),
-                            'htmlOptions' => array(
+                            'options' => ['dateFormat' => 'dd-mm-yy',
+                            ],
+                            'htmlOptions' => [
                                 'style' => 'text-align:right;',
-                                'class' => 'form-control'
-                            )
-                        )
+                                'class' => 'form-control',
+                            ],
+                        ]
             );
                     ?>
                     <?php echo $form->error($model, 'publish_date'); ?>
@@ -90,21 +90,21 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'seoTitle'); ?>
-            <?php echo $form->textField($model, 'seoTitle', array('class' => 'form-control strlen-count')); ?>
+            <?php echo $form->textField($model, 'seoTitle', ['class' => 'form-control strlen-count']); ?>
             <div class="length-counter"></div>
             <?php echo $form->error($model, 'seoTitle'); ?>
         </div>
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'seoDescription'); ?>
-            <?php echo $form->textArea($model, 'seoDescription', array('class' => 'form-control strlen-count', 'rows' => 6)); ?>
+            <?php echo $form->textArea($model, 'seoDescription', ['class' => 'form-control strlen-count', 'rows' => 6]); ?>
             <div class="length-counter"></div>
             <?php echo $form->error($model, 'seoDescription'); ?>
         </div>
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'seoH1'); ?>
-            <?php echo $form->textField($model, 'seoH1', array('class' => 'form-control')); ?>
+            <?php echo $form->textField($model, 'seoH1', ['class' => 'form-control']); ?>
             <?php echo $form->error($model, 'seoH1'); ?>
         </div>
 
@@ -114,7 +114,7 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
             foreach ($model->docs as $doc): ?>
                 <div>
                     <h6><?php echo CHtml::link(CHtml::encode($doc->name), '/admin/docs/download/?id=' . $doc->id, ['target' => '_blank']); ?>(<?php echo CHtml::encode($doc->downloads_count); ?>)
-                        <a id="deattach" data="<?= $doc->id?>" href="">открепить</a></h6>
+                        <a id="deattach" data="<?php echo $doc->id; ?>" href="">открепить</a></h6>
 
                 </div>
             <?php endforeach;
@@ -134,7 +134,7 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
                 </p>
             <?php endif; ?>
 
-            <?php echo $form->fileField($model, 'attachments', array('class' => 'form-control')); ?>
+            <?php echo $form->fileField($model, 'attachments', ['class' => 'form-control']); ?>
             <?php echo $form->error($model, 'attachments'); ?>
         </div>
 
@@ -143,14 +143,14 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
         <!--
         <div class="form-group">
             <?php echo $form->labelEx($model, 'seoKeywords'); ?>
-            <?php echo $form->textArea($model, 'seoKeywords', array('class' => 'form-control', 'rows' => 4)); ?>
+            <?php echo $form->textArea($model, 'seoKeywords', ['class' => 'form-control', 'rows' => 4]); ?>
             <?php echo $form->error($model, 'seoKeywords'); ?>
         </div> -->
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'parentId'); ?>
             <?php if ($model->parent->level < 3): ?>
-                <?php echo $form->dropDownList($model, 'parentId', QuestionCategory::getCategoriesIdsNames(), array('class' => 'form-control')); ?>
+                <?php echo $form->dropDownList($model, 'parentId', QuestionCategory::getCategoriesIdsNames(), ['class' => 'form-control']); ?>
             <?php else: ?>
                 <p>
                     <?php echo $model->parent->name; ?>
@@ -169,7 +169,7 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
 
 
         <div class="buttons">
-            <?php echo CHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('class' => 'btn btn-block btn-primary')); ?>
+            <?php echo CHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-block btn-primary']); ?>
         </div>
     </div>
 

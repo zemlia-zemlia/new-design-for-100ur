@@ -1,7 +1,7 @@
 <?php
 /** @var QuestionCategory $recentCategory */
-if (empty($recentCategories) || sizeof($recentCategories) == 0) {
-    echo "Не найдено ни одной категории";
+if (empty($recentCategories) || 0 == sizeof($recentCategories)) {
+    echo 'Не найдено ни одной категории';
 }
 ?>
 

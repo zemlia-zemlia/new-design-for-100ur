@@ -2,16 +2,16 @@
 /* @var $this LeadsourceController */
 /* @var $model Leadsource */
 
-$this->breadcrumbs=array(
-    'Источники'=>array('index'),
+$this->breadcrumbs = [
+    'Источники' => ['index'],
     CHtml::encode($model->name),
-);
+];
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('Кабинет вебмастера', "/webmaster/"),
-    'separator'=>' / ',
-    'links'=>$this->breadcrumbs,
- ));
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('Кабинет вебмастера', '/webmaster/'),
+    'separator' => ' / ',
+    'links' => $this->breadcrumbs,
+ ]);
 
 ?>
 
@@ -20,62 +20,62 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <table class="table table-bordered">
     <tr>
         <td>
-            <?php echo $model->getAttributeLabel('id');?>
+            <?php echo $model->getAttributeLabel('id'); ?>
         </td>
         <td>
-            <?php echo $model->id;?>
+            <?php echo $model->id; ?>
         </td>
     </tr>
     
     <tr>
         <td>
-            <?php echo $model->getAttributeLabel('type');?>
+            <?php echo $model->getAttributeLabel('type'); ?>
         </td>
         <td>
-            <?php echo $model->getTypeName();?>
+            <?php echo $model->getTypeName(); ?>
         </td>
     </tr>
     
     <tr>
         <td>
-            <?php echo $model->getAttributeLabel('name');?>
+            <?php echo $model->getAttributeLabel('name'); ?>
         </td>
         <td>
-            <?php echo CHtml::encode($model->name);?>
+            <?php echo CHtml::encode($model->name); ?>
         </td>
     </tr>
     <tr>
         <td>
-            <?php echo $model->getAttributeLabel('description');?>
+            <?php echo $model->getAttributeLabel('description'); ?>
         </td>
         <td>
-            <?php echo CHtml::encode($model->description);?>
+            <?php echo CHtml::encode($model->description); ?>
         </td>
     </tr>
-    <?php if ($model->type == Leadsource::TYPE_LEAD):?>
+    <?php if (Leadsource::TYPE_LEAD == $model->type):?>
     <tr>
         <td>
-            <?php echo $model->getAttributeLabel('appId');?>
+            <?php echo $model->getAttributeLabel('appId'); ?>
         </td>
         <td>
-            <?php echo $model->appId;?>
+            <?php echo $model->appId; ?>
         </td>
     </tr>
     <tr>
         <td>
-            <?php echo $model->getAttributeLabel('secretKey');?>
+            <?php echo $model->getAttributeLabel('secretKey'); ?>
         </td>
         <td>
-            <?php echo $model->secretKey;?>
+            <?php echo $model->secretKey; ?>
         </td>
     </tr>
-    <?php endif;?>
+    <?php endif; ?>
     <tr>
         <td>
             Реферальная ссылка
         </td>
         <td>
-            <?php echo Yii::app()->urlManager->baseUrl . '/?partnerAppId=' . $model->appId;?>
+            <?php echo Yii::app()->urlManager->baseUrl . '/?partnerAppId=' . $model->appId; ?>
         </td>
     </tr>
     

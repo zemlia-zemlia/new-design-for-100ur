@@ -2,18 +2,17 @@
 /* @var $this LeadsourceController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->pageTitle = "Источники лидов. " . Yii::app()->name;
+$this->pageTitle = 'Источники лидов. ' . Yii::app()->name;
 
-
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     'Источники лидов',
-);
+];
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('100 юристов', "/"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 юристов', '/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 
 ?>
 <style>
@@ -25,7 +24,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <h3>Источники лидов.
     <?php echo CHtml::encode($office->name); ?>
-    <?php echo CHtml::link("Добавить новый", Yii::app()->createUrl('admin/leadsource/create'), array('class' => 'btn btn-primary')); ?>
+    <?php echo CHtml::link('Добавить новый', Yii::app()->createUrl('admin/leadsource/create'), ['class' => 'btn btn-primary']); ?>
 </h3>
 
 <div class="box">
@@ -40,12 +39,12 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         </tr>
         </thead>
 
-        <?php $this->widget('zii.widgets.CListView', array(
+        <?php $this->widget('zii.widgets.CListView', [
             'dataProvider' => $dataProvider,
             'itemView' => '_view',
             'emptyText' => 'Не найдено ни одного контакта',
             'summaryText' => 'Показаны контакты с {start} до {end}, всего {count}',
-            'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
-        )); ?>
+            'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+        ]); ?>
     </table>
 </div>

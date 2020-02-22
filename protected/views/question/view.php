@@ -9,17 +9,17 @@ $this->setPageTitle($pageTitle);
 
 $pageH1 = CHtml::encode(CustomFuncs::cutString($model->title, 70));
 
-Yii::app()->clientScript->registerLinkTag("canonical", null, Yii::app()->createUrl('question/view', array('id' => $model->id)));
+Yii::app()->clientScript->registerLinkTag('canonical', null, Yii::app()->createUrl('question/view', ['id' => $model->id]));
 
 Yii::app()->clientScript->registerMetaTag(CHtml::encode(mb_substr($model->questionText, 0, 160, 'utf-8')), 'description');
 
-$this->breadcrumbs = array(
-    'Вопросы' => array('index'),
+$this->breadcrumbs = [
+    'Вопросы' => ['index'],
     CustomFuncs::mb_ucfirst(CHtml::encode($model->title), 'utf-8'),
-);
+];
 ?>
 
-<?php if ($justPublished == true): ?>
+<?php if (true == $justPublished): ?>
     <div class="alert alert-warning gray-panel" role="alert">
         <h4>Спасибо, <?php echo CHtml::encode(Yii::app()->user->name); ?>!</h4>
         <p class="text-success">
@@ -33,11 +33,11 @@ $this->breadcrumbs = array(
 
 <div>
     <?php
-    $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink' => CHtml::link('Вопрос юристу', "/"),
+    $this->widget('zii.widgets.CBreadcrumbs', [
+        'homeLink' => CHtml::link('Вопрос юристу', '/'),
         'separator' => ' / ',
         'links' => $this->breadcrumbs,
-    ));
+    ]);
     ?>
 </div>
 
@@ -48,7 +48,7 @@ $this->breadcrumbs = array(
         <div class="row">
             <div class="col-sm-9">
                 <p>
-                    <?php if ($model->price != 0 && $model->payed == 1): ?>
+                    <?php if (0 != $model->price && 1 == $model->payed): ?>
                         <span class="label label-warning"><span class='glyphicon glyphicon-ruble'></span></span>
                     <?php endif; ?>
 
@@ -96,11 +96,11 @@ $this->breadcrumbs = array(
                 <em>
                     <?php if ($model->town): ?>
                         <span class="glyphicon glyphicon-map-marker"></span>&nbsp;<?php
-                        echo CHtml::link(CHtml::encode($model->town->name), Yii::app()->createUrl('town/alias', array(
+                        echo CHtml::link(CHtml::encode($model->town->name), Yii::app()->createUrl('town/alias', [
                             'name' => $model->town->alias,
                             'countryAlias' => $model->town->country->alias,
                             'regionAlias' => $model->town->region->alias,
-                        )));
+                        ]));
                         ?> &nbsp;
                         <?php if (!$model->town->isCapital): ?>
                             <span class="text-muted">(<?php echo $model->town->region->name; ?>)</span>
@@ -111,7 +111,7 @@ $this->breadcrumbs = array(
             </div>
         </div>
         <div class="col-sm-5">
-            <?php if (Yii::app()->user->role == User::ROLE_JURIST && $nextQuestionId): ?>
+            <?php if (User::ROLE_JURIST == Yii::app()->user->role && $nextQuestionId): ?>
                 <p class="text-right">
                     <?php echo CHtml::link('Следующий вопрос <span class="glyphicon glyphicon glyphicon-arrow-right"></span>', Yii::app()->createUrl('question/view', ['id' => $nextQuestionId]), ['class' => 'btn btn-default btn-block']); ?>
                 </p>
@@ -122,14 +122,14 @@ $this->breadcrumbs = array(
 
 
 
-    <?php if (in_array(Yii::app()->user->role, array(User::ROLE_JURIST, User::ROLE_ROOT)) && !in_array(Yii::app()->user->id, $answersAuthors)): ?>
+    <?php if (in_array(Yii::app()->user->role, [User::ROLE_JURIST, User::ROLE_ROOT]) && !in_array(Yii::app()->user->id, $answersAuthors)): ?>
 
-        <?php if (Yii::app()->user->isVerified || Yii::app()->user->role == User::ROLE_ROOT): ?>
+        <?php if (Yii::app()->user->isVerified || User::ROLE_ROOT == Yii::app()->user->role): ?>
 
 
             <div class='flat-panel inside vert-margin30'>
                 <h2 class="">Ваш ответ на вопрос клиента:</h2>
-                <?php $this->renderPartial('application.views.answer._form', array('model' => $answerModel)); ?>
+                <?php $this->renderPartial('application.views.answer._form', ['model' => $answerModel]); ?>
 
             </div>
         <?php else: ?>
@@ -142,12 +142,12 @@ $this->breadcrumbs = array(
                     </p>
                 </div>
 
-            <?php elseif (sizeof($lastRequest) == 0): ?>
+            <?php elseif (0 == sizeof($lastRequest)): ?>
                 <div class="alert alert-danger">
                     <p>
                         Вы не можете отвечать на вопросы, пока не подтвердили свою квалификацию.
                     </p><br/>
-                    <?php echo CHtml::link('Подтвердить квалификацию', Yii::app()->createUrl('userStatusRequest/create'), array('class' => 'btn btn-default')); ?>
+                    <?php echo CHtml::link('Подтвердить квалификацию', Yii::app()->createUrl('userStatusRequest/create'), ['class' => 'btn btn-default']); ?>
                 </div>
             <?php endif; ?>
         <?php endif; ?>
@@ -155,7 +155,7 @@ $this->breadcrumbs = array(
 
     <?php endif; ?>
     <?php if ($answersDataProvider->itemCount > 0): ?>
-        <?php if ($answersDataProvider->itemCount == 1): ?>
+        <?php if (1 == $answersDataProvider->itemCount): ?>
             <h2>Ответ на вопрос:</h2>
         <?php else: ?>
             <h2>Ответы на вопрос:</h2>
@@ -163,16 +163,16 @@ $this->breadcrumbs = array(
     <?php endif; ?>
 
     <?php
-    $this->widget('zii.widgets.CListView', array(
+    $this->widget('zii.widgets.CListView', [
         'dataProvider' => $answersDataProvider,
         'itemView' => 'application.views.answer._view',
         'emptyText' => '<p class="text-muted inside">Ответов на этот вопрос пока нет...</p>',
         'summaryText' => '',
-        'pager' => array('class' => 'GTLinkPager'), //we use own pager with russian words
-        'viewData' => array(
+        'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+        'viewData' => [
             'commentModel' => $commentModel,
-        ),
-    ));
+        ],
+    ]);
     ?>
 
 </div> <!-- Question -->
@@ -180,7 +180,7 @@ $this->breadcrumbs = array(
 <?php if (
     !Yii::app()->user->isGuest
     && Yii::app()->user->id === $model->authorId
-    && $model->payed == 0
+    && 0 == $model->payed
 ): ?>
     <div class="vip-block vert-margin40">
         <h2 id="vip-block">Хотите получить ответ максимально быстро и со 100% гарантией?</h2>
@@ -254,9 +254,9 @@ $this->breadcrumbs = array(
                 <div class="vert-margin20">
                     <?php
                     // выводим виджет с формой
-                    $this->widget('application.widgets.SimpleForm.SimpleForm', array(
+                    $this->widget('application.widgets.SimpleForm.SimpleForm', [
                         'template' => 'gorizont',
-                    ));
+                    ]);
                     ?>
                 </div>
 
@@ -265,7 +265,7 @@ $this->breadcrumbs = array(
 
 <?php
 // если перед этим опубликовали вопрос, отправим цель в метрику
-  if (Yii::app()->user->getState('justPublished') == 1): ?>
+  if (1 == Yii::app()->user->getState('justPublished')): ?>
 
     <script type="text/javascript">
         window.onload = function () {

@@ -1,18 +1,18 @@
 <?php
-    $this->setPageTitle("Редактирование расхода. ". Yii::app()->name);
+    $this->setPageTitle('Редактирование расхода. ' . Yii::app()->name);
 
-    $this->breadcrumbs=array(
-    'Расходы'=>array('index'),
+    $this->breadcrumbs = [
+    'Расходы' => ['index'],
     'Редактирование',
-);
+];
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 Юристов', "/admin"),
-    'separator'=>' / ',
-    'links'=>$this->breadcrumbs,
- ));
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 Юристов', '/admin'),
+    'separator' => ' / ',
+    'links' => $this->breadcrumbs,
+ ]);
 ?>
 
 <h1 class="vert-margin30">Редактирование расхода</h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', ['model' => $model]); ?>

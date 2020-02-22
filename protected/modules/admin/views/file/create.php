@@ -2,17 +2,17 @@
 /* @var $this FileController */
 /* @var $model File */
 
-$this->breadcrumbs=array(
-    'Files'=>array('index'),
+$this->breadcrumbs = [
+    'Files' => ['index'],
     'Create',
-);
+];
 
-$this->menu=array(
-    array('label'=>'List File', 'url'=>array('index')),
-    array('label'=>'Manage File', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List File', 'url' => ['index']],
+    ['label' => 'Manage File', 'url' => ['admin']],
+];
 ?>
 
 <h1>Create File</h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', ['model' => $model]); ?>

@@ -2,19 +2,19 @@
 /* @var $this ContactController */
 /* @var $model Contact */
 
-$this->setPageTitle(CHtml::encode($model->name) . ". Лиды. " . Yii::app()->name);
+$this->setPageTitle(CHtml::encode($model->name) . '. Лиды. ' . Yii::app()->name);
 Yii::app()->clientScript->registerScriptFile('/js/admin/lead.js');
 
-$this->breadcrumbs = array(
-    'Лиды' => array('index'),
+$this->breadcrumbs = [
+    'Лиды' => ['index'],
     CHtml::encode($model->name),
-);
+];
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('100 Юристов', "/"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 Юристов', '/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 ?>
 
 
@@ -34,20 +34,20 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         <td><strong><?php echo $model->getAttributeLabel('leadStatus'); ?></strong></td>
                         <td>
                             <?php echo $model->getLeadStatusName(); ?>
-                            <?php if ($model->leadStatus == Lead::LEAD_STATUS_SENT && $model->buyer): ?>
+                            <?php if (Lead::LEAD_STATUS_SENT == $model->leadStatus && $model->buyer): ?>
                                 <?php echo $model->buyer->name; ?>
                             <?php endif; ?>
-                            <?php if ($model->leadStatus == Lead::LEAD_STATUS_NABRAK): ?>
+                            <?php if (Lead::LEAD_STATUS_NABRAK == $model->leadStatus): ?>
                                 <p>Причина: <?php echo $model->getReasonName(); ?></p>
                             <?php endif; ?>
                         </td>
                     </tr>
 
-                    <?php if (Yii::app()->user->role != User::ROLE_JURIST || $model->employeeId): ?>
+                    <?php if (User::ROLE_JURIST != Yii::app()->user->role || $model->employeeId): ?>
                         <tr>
                             <td><strong><?php echo $model->getAttributeLabel('phone'); ?></strong></td>
                             <td>
-                                <?php if ($model->phone && !(Yii::app()->user->role == User::ROLE_JURIST && $model->employeeId != Yii::app()->user->id)): ?>
+                                <?php if ($model->phone && !(User::ROLE_JURIST == Yii::app()->user->role && $model->employeeId != Yii::app()->user->id)): ?>
                                     <?php echo $model->phone; ?><br/>
                                 <?php endif; ?>
                             </td>
@@ -64,7 +64,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     </tr>
 
 
-                    <?php if (Yii::app()->user->role != User::ROLE_JURIST): ?>
+                    <?php if (User::ROLE_JURIST != Yii::app()->user->role): ?>
                         <tr>
                             <td><strong><?php echo $model->getAttributeLabel('source'); ?></strong></td>
                             <td><?php echo CHtml::link(CHtml::encode($model->source->name), Yii::app()->createUrl('admin/leadsource/view', ['id' => $model->source->id])); ?></td>
@@ -126,28 +126,28 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <div class="box-body">
                 <div class="">
                     <?php if (Yii::app()->user->checkAccess(User::ROLE_SECRETARY)): ?>
-                        <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/lead/update', array('id' => $model->id)), array('class' => 'btn btn-block btn-primary')); ?>
+                        <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/lead/update', ['id' => $model->id]), ['class' => 'btn btn-block btn-primary']); ?>
                     <?php endif; ?>
                     <br/>
                     <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
-                        <?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/lead/delete', array('id' => $model->id)), array('class' => 'btn btn-block btn-danger')); ?>
+                        <?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/lead/delete', ['id' => $model->id]), ['class' => 'btn btn-block btn-danger']); ?>
                         <br/><br/><br/>
 
-                        <?php if ($model->leadStatus != Lead::LEAD_STATUS_BRAK): ?>
+                        <?php if (Lead::LEAD_STATUS_BRAK != $model->leadStatus): ?>
                             <span id="lead-<?php echo $model->id; ?>">
-                <?php echo CHtml::link('В брак без возврата денег покупателю', '#', array('class' => 'btn btn-block btn-default lead-change-status', 'data-id' => $model->id, 'data-status' => Lead::LEAD_STATUS_BRAK, 'data-refund' => 0)); ?>
+                <?php echo CHtml::link('В брак без возврата денег покупателю', '#', ['class' => 'btn btn-block btn-default lead-change-status', 'data-id' => $model->id, 'data-status' => Lead::LEAD_STATUS_BRAK, 'data-refund' => 0]); ?>
                 </span>
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
 
-                <?php if ($model->leadStatus == Lead::LEAD_STATUS_DEFAULT): ?>
+                <?php if (Lead::LEAD_STATUS_DEFAULT == $model->leadStatus): ?>
                     <h4 class="vert-margin20">Ручная отправка лида в кампанию</h4>
                     <div id='force-sell'>
                         <?php foreach ($campaigns as $campaing): ?>
                             <p>
-                                <?php echo CHtml::link($campaing->region->name . ' ' . $campaing->town->name, '#', array('class' => 'force-sell-lead', 'data-id' => $model->id, 'data-campaignid' => $campaing->id)); ?>
-                                Покупатель: <?php echo CHtml::link($campaing->buyerId, Yii::app()->createUrl('admin/user/view', array('id' => $campaing->buyerId))); ?>
+                                <?php echo CHtml::link($campaing->region->name . ' ' . $campaing->town->name, '#', ['class' => 'force-sell-lead', 'data-id' => $model->id, 'data-campaignid' => $campaing->id]); ?>
+                                Покупатель: <?php echo CHtml::link($campaing->buyerId, Yii::app()->createUrl('admin/user/view', ['id' => $campaing->buyerId])); ?>
                             </p>
 
                         <?php endforeach; ?>

@@ -2,19 +2,18 @@
 /* @var $this LeadController */
 /* @var $model Lead */
 
-$this->setPageTitle("Новый лид". Yii::app()->name);
+$this->setPageTitle('Новый лид' . Yii::app()->name);
 
-
-$this->breadcrumbs=array(
-    'Лиды'=>array('index'),
+$this->breadcrumbs = [
+    'Лиды' => ['index'],
     'Добавление',
-);
+];
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 Юристов', "/webmaster"),
-    'separator'=>' / ',
-    'links'=>$this->breadcrumbs,
- ));
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 Юристов', '/webmaster'),
+    'separator' => ' / ',
+    'links' => $this->breadcrumbs,
+ ]);
 ?>
 
 <h1>Новый лид</h1>
@@ -22,8 +21,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <?php if (!empty($apiResult)):?>
     <h2>Результат запроса к API:</h2>
     <textarea class="form-control" rows="10">
-        <?php print_r($apiResult);?>
+        <?php print_r($apiResult); ?>
     </textarea>
-<?php endif;?>
+<?php endif; ?>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', ['model' => $model]); ?>

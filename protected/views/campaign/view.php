@@ -2,21 +2,21 @@
 /* @var $this CampaignController */
 /* @var $model Campaign */
 
-$this->setPageTitle("Кампания #" . $model->id . '. '. Yii::app()->name);
+$this->setPageTitle('Кампания #' . $model->id . '. ' . Yii::app()->name);
 
-$this->breadcrumbs=array(
-    'Кабинет покупателя лидов'  =>  array('/cabinet'),
+$this->breadcrumbs = [
+    'Кабинет покупателя лидов' => ['/cabinet'],
     'Кампания ' . $model->id,
-);
+];
 
 ?>
 
 <?php
-    $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('100 юристов', "/"),
-        'separator'=>' / ',
-        'links'=>$this->breadcrumbs,
-     ));
+    $this->widget('zii.widgets.CBreadcrumbs', [
+        'homeLink' => CHtml::link('100 юристов', '/'),
+        'separator' => ' / ',
+        'links' => $this->breadcrumbs,
+     ]);
 ?>
 
 <h1>Кампания #<?php echo $model->id; ?></h1>
@@ -29,7 +29,7 @@ $this->breadcrumbs=array(
                     Активность
                 </td>
                 <td>
-                    <?php echo $model->active?'Да':'Нет';?>
+                    <?php echo $model->active ? 'Да' : 'Нет'; ?>
                 </td>
             </tr>
             <tr>
@@ -37,8 +37,8 @@ $this->breadcrumbs=array(
                     Регион
                 </td>
                 <td>
-                    <?php echo $model->region->name;?> 
-                    <?php echo $model->town->name;?>
+                    <?php echo $model->region->name; ?> 
+                    <?php echo $model->town->name; ?>
                 </td>
             </tr>
             <tr>
@@ -46,8 +46,8 @@ $this->breadcrumbs=array(
                     Время (МСК)
                 </td>
                 <td>
-                    С <?php echo $model->timeFrom;?> до
-                    <?php echo $model->timeTo;?>
+                    С <?php echo $model->timeFrom; ?> до
+                    <?php echo $model->timeTo; ?>
                 </td>
             </tr>
             <tr>
@@ -55,7 +55,7 @@ $this->breadcrumbs=array(
                     Цена лида
                 </td>
                 <td>
-                    <?php echo MoneyFormat::rubles($model->price);?>
+                    <?php echo MoneyFormat::rubles($model->price); ?>
                 </td>
             </tr>
             <tr>
@@ -63,7 +63,7 @@ $this->breadcrumbs=array(
                     Баланс
                 </td>
                 <td>
-                    <?php echo MoneyFormat::rubles($model->balance);?> руб.
+                    <?php echo MoneyFormat::rubles($model->balance); ?> руб.
                 </td>
             </tr>
             <tr>
@@ -71,7 +71,7 @@ $this->breadcrumbs=array(
                     Лимит заявок в день
                 </td>
                 <td>
-                    <?php echo $model->leadsDayLimit;?>
+                    <?php echo $model->leadsDayLimit; ?>
                 </td>
             </tr>
             <tr>
@@ -79,7 +79,7 @@ $this->breadcrumbs=array(
                     Процент брака
                 </td>
                 <td>
-                    <?php echo $model->brakPercent;?>
+                    <?php echo $model->brakPercent; ?>
                 </td>
             </tr>
         </table>
@@ -96,16 +96,16 @@ $this->breadcrumbs=array(
                 <th>Описание</th>
             </tr>
 
-        <?php $this->widget('zii.widgets.CListView', array(
-                'dataProvider'  =>  $transactionsDataProvider,
-                'itemView'      =>  'application.views.transactionCampaign._view',
-                'emptyText'     =>  'Не найдено ни одной транзакции',
-                'summaryText'   =>  'Показаны транзакции с {start} до {end}, всего {count}',
-                'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
-        )); ?>
+        <?php $this->widget('zii.widgets.CListView', [
+                'dataProvider' => $transactionsDataProvider,
+                'itemView' => 'application.views.transactionCampaign._view',
+                'emptyText' => 'Не найдено ни одной транзакции',
+                'summaryText' => 'Показаны транзакции с {start} до {end}, всего {count}',
+                'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+        ]); ?>
         </table>
 
-        <?php endif;?>
+        <?php endif; ?>
 
     </div>
 </div>

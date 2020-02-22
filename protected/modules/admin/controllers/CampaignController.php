@@ -2,10 +2,9 @@
 
 class CampaignController extends Controller
 {
-
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     * using two-column layout. See 'protected/views/layouts/column2.php'.
+     *             using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = '//admin/main';
 
@@ -14,41 +13,43 @@ class CampaignController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
+     *
      * @return array access control rules
      */
     public function accessRules()
     {
-        return array(
-            array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view'),
-                'users' => array('*'),
-            ),
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'topup', 'setLimit'),
+        return [
+            ['allow', // allow all users to perform 'index' and 'view' actions
+                'actions' => ['index', 'view'],
+                'users' => ['*'],
+            ],
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['create', 'update', 'topup', 'setLimit'],
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_SECRETARY . ')',
-            ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin', 'delete'),
-                'users' => array('admin'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+            ],
+            ['allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions' => ['admin', 'delete'],
+                'users' => ['admin'],
+            ],
+            ['deny', // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     *
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
@@ -57,15 +58,14 @@ class CampaignController extends Controller
 
         $leadsStats = null;
 
-        $leadSearchModel = new Lead;
+        $leadSearchModel = new Lead();
         $leadSearchModel->scenario = 'search';
-
 
         $leadSearchModel->attributes = $_GET['Lead'];
 
         // по умолчанию собираем статистику по проданным лидам за последние 30 дней
-        $dateTo = ($leadSearchModel->date2 != '') ? CustomFuncs::invertDate($leadSearchModel->date2) : date("Y-m-d");
-        $dateFrom = ($leadSearchModel->date1 != '') ? CustomFuncs::invertDate($leadSearchModel->date1) : date("Y-m-d", time() - 86400 * 30);
+        $dateTo = ('' != $leadSearchModel->date2) ? CustomFuncs::invertDate($leadSearchModel->date2) : date('Y-m-d');
+        $dateFrom = ('' != $leadSearchModel->date1) ? CustomFuncs::invertDate($leadSearchModel->date1) : date('Y-m-d', time() - 86400 * 30);
         $leadsStats = Lead::getStatsByPeriod($dateFrom, $dateTo, null, $model->id);
 
         // найдем лиды, отправленные в данную кампанию
@@ -79,14 +79,13 @@ class CampaignController extends Controller
             ]
         );
 
-
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $model,
             'transactionsDataProvider' => $transactionsDataProvider,
             'leadsStats' => $leadsStats,
             'searchModel' => $leadSearchModel,
             'leadsDataProvider' => $leadsDataProvider,
-        ));
+        ]);
     }
 
     /**
@@ -95,12 +94,12 @@ class CampaignController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Campaign;
+        $model = new Campaign();
 
-        $buyerId = (int)$_GET['buyerId'];
+        $buyerId = (int) $_GET['buyerId'];
 
         if (!User::model()->findByPk($buyerId)) {
-            throw new CHttpException("Пользователь не найден", 404);
+            throw new CHttpException('Пользователь не найден', 404);
         }
 
         // Uncomment the following line if AJAX validation is needed
@@ -112,24 +111,25 @@ class CampaignController extends Controller
             $model->price *= 100;
 
             if ($model->save()) {
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
         $buyersArray = User::getAllBuyersIdsNames();
-        $regions = array('0' => 'Не выбран') + Region::getAllRegions();
+        $regions = ['0' => 'Не выбран'] + Region::getAllRegions();
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model,
             'buyersArray' => $buyersArray,
             'regions' => $regions,
-        ));
+        ]);
     }
 
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     *
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -146,38 +146,38 @@ class CampaignController extends Controller
 
             $buyer = $model->buyer; // покупатель
 
-            if ($_POST['town'] == '') {
+            if ('' == $_POST['town']) {
                 $model->townId = 0;
             }
 
             $model->days = implode(',', $model->workDays);
 
             if ($model->save()) {
-
                 // если статус активности сменился с Модерация на другой, отправим уведомление
-                if ($model->active != $oldActivity && $oldActivity == Campaign::ACTIVE_MODERATION) {
+                if ($model->active != $oldActivity && Campaign::ACTIVE_MODERATION == $oldActivity) {
                     $buyer->sendBuyerNotification(User::BUYER_EVENT_CONFIRM, $model);
                 }
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
         $buyersArray = User::getAllBuyersIdsNames();
-        $regions = array('0' => 'Не выбран') + Region::getAllRegions();
+        $regions = ['0' => 'Не выбран'] + Region::getAllRegions();
 
         $model->workDays = explode(',', $model->days);
 
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
             'buyersArray' => $buyersArray,
             'regions' => $regions,
-        ));
+        ]);
     }
 
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     *
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -185,7 +185,7 @@ class CampaignController extends Controller
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax'])) {
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['index']);
         }
     }
 
@@ -194,7 +194,6 @@ class CampaignController extends Controller
      */
     public function actionIndex()
     {
-
         /*
          * Базовый запрос
          * Ищем кампании с их пользователями, балансами.
@@ -217,52 +216,52 @@ class CampaignController extends Controller
         */
 
         $campaignsCommand = Yii::app()->db->createCommand()
-            ->select("c.id, c.townId, c.days, t.name townName, c.regionId, r.name regionName, c.leadsDayLimit, c.realLimit, c.brakPercent, c.timeFrom, c.timeTo, c.price, COUNT(l.id) leadsSent, u.id userId, u.name, u.balance, u.lastTransactionTime, u.yurcrmToken")
-            ->from("{{campaign}} c")
-            ->leftJoin("{{user}} u", "u.id = c.buyerId")
-            ->leftJoin("{{town}} t", "t.id = c.townId")
-            ->leftJoin("{{region}} r", "r.id = c.regionId")
-            ->leftJoin("{{lead}} l", "l.campaignId = c.id AND l.leadStatus!=" . Lead::LEAD_STATUS_BRAK)
-            ->group("c.id")
-            ->order("u.id, townName, regionName");
+            ->select('c.id, c.townId, c.days, t.name townName, c.regionId, r.name regionName, c.leadsDayLimit, c.realLimit, c.brakPercent, c.timeFrom, c.timeTo, c.price, COUNT(l.id) leadsSent, u.id userId, u.name, u.balance, u.lastTransactionTime, u.yurcrmToken')
+            ->from('{{campaign}} c')
+            ->leftJoin('{{user}} u', 'u.id = c.buyerId')
+            ->leftJoin('{{town}} t', 't.id = c.townId')
+            ->leftJoin('{{region}} r', 'r.id = c.regionId')
+            ->leftJoin('{{lead}} l', 'l.campaignId = c.id AND l.leadStatus!=' . Lead::LEAD_STATUS_BRAK)
+            ->group('c.id')
+            ->order('u.id, townName, regionName');
 
         // условия выборки в зависимости от выбранного типа кампании
         switch ($_GET['active']) {
             case 'active':
             default:
                 $active = Campaign::ACTIVE_YES;
-                $campaignsCommand->andWhere("c.active=:active AND u.lastTransactionTime>NOW()-INTERVAL 10 DAY", array(':active' => $active));
+                $campaignsCommand->andWhere('c.active=:active AND u.lastTransactionTime>NOW()-INTERVAL 10 DAY', [':active' => $active]);
                 $type = 'active';
-                if (Yii::app()->request->getParam('type') == Campaign::TYPE_PARTNERS) {
-                    $campaignsCommand->andWhere("c.type=:type", [':type' => Campaign::TYPE_PARTNERS]);
-                    $type='activePP';
+                if (Campaign::TYPE_PARTNERS == Yii::app()->request->getParam('type')) {
+                    $campaignsCommand->andWhere('c.type=:type', [':type' => Campaign::TYPE_PARTNERS]);
+                    $type = 'activePP';
                 } else {
-                    $campaignsCommand->andWhere("c.type=:type", [':type' => Campaign::TYPE_BUYERS]);
+                    $campaignsCommand->andWhere('c.type=:type', [':type' => Campaign::TYPE_BUYERS]);
                 }
                 break;
             case 'passive':
                 $active = Campaign::ACTIVE_YES;
-                $campaignsCommand->andWhere("c.active=:active AND u.lastTransactionTime<NOW()-INTERVAL 10 DAY", array(':active' => $active));
+                $campaignsCommand->andWhere('c.active=:active AND u.lastTransactionTime<NOW()-INTERVAL 10 DAY', [':active' => $active]);
                 $type = 'passive';
                 break;
             case 'inactive':
                 $active = Campaign::ACTIVE_NO;
-                $campaignsCommand->andWhere("c.active=:active", array(':active' => $active));
+                $campaignsCommand->andWhere('c.active=:active', [':active' => $active]);
                 $type = 'inactive';
                 break;
             case 'moderation':
                 $active = Campaign::ACTIVE_MODERATION;
-                $campaignsCommand->andWhere("c.active=:active", array(':active' => $active));
+                $campaignsCommand->andWhere('c.active=:active', [':active' => $active]);
                 $type = 'moderation';
                 break;
             case 'accepted':
                 $active = Campaign::ACTIVE_YES;
-                $campaignsCommand->andWhere("c.active=:active AND lastLeadTime IS NULL", array(':active' => $active));
+                $campaignsCommand->andWhere('c.active=:active AND lastLeadTime IS NULL', [':active' => $active]);
                 $type = 'accepted';
                 break;
             case 'archive':
                 $active = Campaign::ACTIVE_ARCHIVE;
-                $campaignsCommand->andWhere("c.active=:active", array(':active' => $active));
+                $campaignsCommand->andWhere('c.active=:active', [':active' => $active]);
                 $type = 'archive';
                 break;
         }
@@ -280,23 +279,23 @@ class CampaignController extends Controller
 //            GROUP BY c.id
 
         $todayLeadsRows = Yii::app()->db->createCommand()
-            ->select("c.id, COUNT(l.id) counter")
-            ->from("{{campaign}} c")
-            ->leftJoin("{{lead}} l", "l.campaignId = c.id AND l.leadStatus!=" . Lead::LEAD_STATUS_BRAK)
-            ->where("c.active=:active AND DATE(l.deliveryTime) = DATE(NOW())", array(':active' => $active))
-            ->group("c.id")
+            ->select('c.id, COUNT(l.id) counter')
+            ->from('{{campaign}} c')
+            ->leftJoin('{{lead}} l', 'l.campaignId = c.id AND l.leadStatus!=' . Lead::LEAD_STATUS_BRAK)
+            ->where('c.active=:active AND DATE(l.deliveryTime) = DATE(NOW())', [':active' => $active])
+            ->group('c.id')
             ->queryAll();
 
         /*
          * Массив со счетчиками лидов, отправленных сегодня в кампании (campaignId => count)
          */
-        $todayLeadsArray = array();
+        $todayLeadsArray = [];
 
         foreach ($todayLeadsRows as $row) {
             $todayLeadsArray[$row['id']] = $row['counter'];
         }
 
-        $campaignsArray = array();
+        $campaignsArray = [];
 
         foreach ($campaignsRows as $row) {
             $campaignsArray[$row['userId']]['name'] = $row['name'];
@@ -316,11 +315,10 @@ class CampaignController extends Controller
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['realLimit'] = $row['realLimit'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['brakPercent'] = $row['brakPercent'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['leadsSent'] = $row['leadsSent'];
-            $campaignsArray[$row['userId']]['campaigns'][$row['id']]['todayLeads'] = (int)$todayLeadsArray[$row['id']];
+            $campaignsArray[$row['userId']]['campaigns'][$row['id']]['todayLeads'] = (int) $todayLeadsArray[$row['id']];
 
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['object'] = Campaign::model()->findByPk($row['id']);
         }
-
 
         /* теперь нужно вытащить данные по маржинальности кампаний за последние 5 дней.
          * найдем лиды, отправленные в найденные кампании за последние 5 дней, вытащим суммы их цен покупки и продажи
@@ -332,26 +330,26 @@ class CampaignController extends Controller
          */
         $leadsByStatusArray = [];
         $leadsByStatusRows = Yii::app()->db->cache(600)->createCommand()
-            ->select("campaignId, leadStatus, SUM(buyPrice) sumBuy, SUM(price) sumSell")
-            ->from("{{lead}}")
-            ->where("deliveryTime > NOW()-INTERVAL 5 DAY")
-            ->group("campaignId, leadStatus")
+            ->select('campaignId, leadStatus, SUM(buyPrice) sumBuy, SUM(price) sumSell')
+            ->from('{{lead}}')
+            ->where('deliveryTime > NOW()-INTERVAL 5 DAY')
+            ->group('campaignId, leadStatus')
             ->queryAll();
         //CustomFuncs::printr($leadsByStatusRows);
 
         foreach ($leadsByStatusRows as $row) {
             $leadsByStatusArray[$row['campaignId']]['expences'] += $row['sumBuy']; // суммируем цены покупки для всех статусов в расход по кампании
-            if ($row['leadStatus'] == Lead::LEAD_STATUS_SENT || $row['leadStatus'] == Lead::LEAD_STATUS_RETURN) {
+            if (Lead::LEAD_STATUS_SENT == $row['leadStatus'] || Lead::LEAD_STATUS_RETURN == $row['leadStatus']) {
                 $leadsByStatusArray[$row['campaignId']]['revenue'] += $row['sumSell']; // суммируем цены продажи для проданных лидов в доход по кампании
             }
         }
         //CustomFuncs::printr($leadsByStatusArray);
 
-        $this->render('index', array(
+        $this->render('index', [
             'campaignsArray' => $campaignsArray,
             'type' => $type,
-            'leadsByStatusArray' => $leadsByStatusArray
-        ));
+            'leadsByStatusArray' => $leadsByStatusArray,
+        ]);
     }
 
     /**
@@ -365,34 +363,39 @@ class CampaignController extends Controller
             $model->attributes = $_GET['Campaign'];
         }
 
-        $this->render('admin', array(
+        $this->render('admin', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     *
+     * @param int $id the ID of the model to be loaded
+     *
      * @return Campaign the loaded model
+     *
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = Campaign::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
     /**
      * Performs the AJAX validation.
+     *
      * @param Campaign $model the model to be validated
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'campaign-form') {
+        if (isset($_POST['ajax']) && 'campaign-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
@@ -400,12 +403,12 @@ class CampaignController extends Controller
 
     public function actionTopup()
     {
-        $buyerId = isset($_POST['buyerId']) ? (int)$_POST['buyerId'] : 0;
-        $sum = isset($_POST['sum']) ? ((int)$_POST['sum']) * 100 : 0;
-        $account = isset($_POST['account']) ? (int)$_POST['account'] : 1;
+        $buyerId = isset($_POST['buyerId']) ? (int) $_POST['buyerId'] : 0;
+        $sum = isset($_POST['sum']) ? ((int) $_POST['sum']) * 100 : 0;
+        $account = isset($_POST['account']) ? (int) $_POST['account'] : 1;
 
         if ($sum <= 0 || !$buyerId) {
-            echo json_encode(array('code' => 400, 'message' => 'Error, not enough data'));
+            echo json_encode(['code' => 400, 'message' => 'Error, not enough data']);
             Yii::app()->end();
         }
 
@@ -413,14 +416,14 @@ class CampaignController extends Controller
         $buyer->setScenario('balance');
 
         if (!$buyer) {
-            echo json_encode(array('code' => 400, 'message' => 'Error, buyer not found'));
+            echo json_encode(['code' => 400, 'message' => 'Error, buyer not found']);
             Yii::app()->end();
         }
 
-        $transaction = new TransactionCampaign;
+        $transaction = new TransactionCampaign();
         $transaction->sum = $sum;
         $transaction->buyerId = $buyerId;
-        $transaction->description = "Пополнение баланса пользователя " . $buyerId;
+        $transaction->description = 'Пополнение баланса пользователя ' . $buyerId;
 
         // создаем запись кассы
         $moneyTransaction = new Money();
@@ -431,16 +434,15 @@ class CampaignController extends Controller
         $moneyTransaction->datetime = date('Y-m-d');
         $moneyTransaction->comment = 'Пополнение баланса пользователя ' . $buyerId;
 
-
         $buyer->balance += $sum;
 
         if ($transaction->save()) {
-            $buyer->lastTransactionTime = date("Y-m-d H:i:s");
+            $buyer->lastTransactionTime = date('Y-m-d H:i:s');
             $moneyTransaction->save();
             if ($buyer->save()) {
                 // если баланс пополнен, отправляем уведомление покупателю
                 $buyer->sendBuyerNotification(User::BUYER_EVENT_TOPUP);
-                echo json_encode(array('code' => 0, 'id' => $buyerId, 'balance' => MoneyFormat::rubles($buyer->balance)));
+                echo json_encode(['code' => 0, 'id' => $buyerId, 'balance' => MoneyFormat::rubles($buyer->balance)]);
             } else {
                 CustomFuncs::printr($buyer->errors);
             }
@@ -451,8 +453,8 @@ class CampaignController extends Controller
 
     public function actionSetLimit()
     {
-        $campaignId = (int)$_POST['id'];
-        $limit = (int)$_POST['limit'];
+        $campaignId = (int) $_POST['id'];
+        $limit = (int) $_POST['limit'];
 
         $campaign = Campaign::model()->findByPk($campaignId);
 
