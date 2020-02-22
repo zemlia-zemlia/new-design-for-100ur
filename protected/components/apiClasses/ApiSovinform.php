@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 class ApiSovinform implements ApiClassInterface
 {
 
-    protected $baseUrl = 'https://crm.sov-inform-buro.ru/api';
+    protected $baseUrl = 'https://crm.sov-inform-buro.ru';
     protected $key; // наш API key в партнерской системе
 
     /** @var Client */
@@ -41,7 +41,7 @@ class ApiSovinform implements ApiClassInterface
             'question' => $lead->question,
         ];
 
-        $apiResponse = $this->httpClient->post('add', [
+        $apiResponse = $this->httpClient->post('/api/add', [
             'form_params' => $data,
         ]);
 
