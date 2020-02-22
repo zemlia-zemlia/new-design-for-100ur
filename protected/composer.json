@@ -9,6 +9,7 @@
         "yurcrm/yurcrm-client": "^2",
         "ext-curl": "*",
         "ext-json": "*",
+        "ext-imap": "*",
         "ext-iconv": "*",
         "ext-pdo": "*",
         "monolog/monolog": "^1.24",

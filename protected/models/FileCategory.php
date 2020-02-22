@@ -84,14 +84,8 @@ class FileCategory extends CActiveRecord
             'root' => 'Root',
             'level' => 'Level',
             'description' => 'Описание',
-<<<<<<< HEAD
-            'parentObj' => 'Родитель'
-		);
-	}
-=======
         ];
     }
->>>>>>> 667263e81cd3b63052977713d7a6346292116b19
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.

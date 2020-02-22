@@ -22,53 +22,6 @@ class Docs extends CActiveRecord
 {
     /** @var CUploadedFile $file */
     public $file;
-<<<<<<< HEAD
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return '{{docs}}';
-	}
-
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-        if ($this->getIsNewRecord()) $allowEmpty = false;
-        else $allowEmpty = true;
-		return array(
-			array('name', 'required', 'message' => 'Заполните имя'),
-            array('file', 'required','on' => 'create' ),
-			array('downloads_count', 'numerical', 'integerOnly'=>true),
-			array('name, filename', 'length', 'max'=>255),
-            array('file', 'file', 'types'=>'doc, docx, pdf, csv, xlsx, xls, rar, zip, 7z', 'maxSize' => 10485760, 'allowEmpty'=>$allowEmpty),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, type, downloads_count, description, uploadTs, size', 'safe'),
-
-		);
-	}
-
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'file2categories' => array(self::HAS_MANY, 'File2Category', 'file_id'),
-			'file2objects' => array(self::HAS_MANY, 'File2Object', 'file_id'),
-            'categories' => array(self::HAS_MANY, 'FileCategory', 'category_id', 'through' => 'file2categories'),
-            'objects' => array(self::HAS_MANY, 'QuestionCategory', 'id', 'through' => 'file2objects'),
-		);
-	}
-=======
->>>>>>> 667263e81cd3b63052977713d7a6346292116b19
 
     const RANDOM_NAME_LENGTH = 11; // длина рандомной части генерируемого имени файла
 
