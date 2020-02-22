@@ -1,6 +1,7 @@
 <?php
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -30,7 +31,7 @@ class ApiSovinform implements ApiClassInterface
      * @return bool
      * @throws Exception
      */
-    public function send(Lead $lead):bool
+    public function send(Lead $lead): bool
     {
         $data = [
             'key' => $this->key,
@@ -41,9 +42,13 @@ class ApiSovinform implements ApiClassInterface
             'question' => $lead->question,
         ];
 
-        $apiResponse = $this->httpClient->post('/api/add', [
-            'form_params' => $data,
-        ]);
+        try {
+            $apiResponse = $this->httpClient->post('/api/add', [
+                'form_params' => $data,
+            ]);
+        } catch (ClientException $e) {
+            return false;
+        }
 
         return $this->checkResponse($apiResponse, $lead);
     }
@@ -64,7 +69,7 @@ class ApiSovinform implements ApiClassInterface
      * @return bool
      * @throws Exception
      */
-    private function checkResponse(ResponseInterface $apiResponse, Lead $lead):bool
+    private function checkResponse(ResponseInterface $apiResponse, Lead $lead): bool
     {
         if ($apiResponse->getStatusCode() == 200) {
             if (!stristr($apiResponse->getBody(), 'error')) {
