@@ -70,4 +70,7 @@ return array(
     'webmaster100yuristovId' => 4025, // id вебмастера, под которым создаются лиды источника 100 Юристов
     'geo_service_url' => 'http://geo.100yuristov',
     'sellLeadAfterCreating' => false, // пытаться продать лид сразу после создания
+    'sovinform' => [
+        'key' => '',
+    ]
 );

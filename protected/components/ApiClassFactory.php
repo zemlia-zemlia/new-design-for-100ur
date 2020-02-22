@@ -19,6 +19,8 @@ class ApiClassFactory
                 return new Api8088();
             case 'ApiPravoved':
                 return new ApiPravoved();
+            case 'ApiSovinform':
+                return new ApiSovinform();
         }
     }
 }
