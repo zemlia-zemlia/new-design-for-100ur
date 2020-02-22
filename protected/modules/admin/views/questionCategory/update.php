@@ -2,7 +2,7 @@
 /* @var $this QuestionCategoryController */
 /* @var $model QuestionCategory */
 //Yii::app()->clientScript
-$urlToModal = Yii::app()->createUrl('fileCategory/createModalForObject/');
+$urlToModal = Yii::app()->createUrl('admin/fileCategory/createModalForObject/');
 $urlToAttach = Yii::app()->createUrl('admin/docs/attachFilesToObject/');
 $urlToDeAttach = Yii::app()->createUrl('admin/docs/deAttachFilesToObject/');
 $js = "var urlToModal = '$urlToModal'; objId = '$model->id'; var urlToAttach = '$urlToAttach'; var urlToDeAttach = '$urlToDeAttach';" ;

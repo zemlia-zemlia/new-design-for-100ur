@@ -2,15 +2,15 @@
 /* @var $this FileCategoryController */
 /* @var $model FileCategory */
 
-$this->breadcrumbs=array(
-	'File Categories'=>array('index'),
-	'Manage',
-);
+$this->breadcrumbs = [
+    'File Categories' => ['index'],
+    'Manage',
+];
 
-$this->menu=array(
-	array('label'=>'List FileCategory', 'url'=>array('index')),
-	array('label'=>'Create FileCategory', 'url'=>array('create')),
-);
+$this->menu = [
+    ['label' => 'List FileCategory', 'url' => ['index']],
+    ['label' => 'Create FileCategory', 'url' => ['create']],
+];
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -33,26 +33,26 @@ You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&g
 or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
 </p>
 
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
+<?php echo CHtml::link('Advanced Search', '#', ['class' => 'search-button']); ?>
 <div class="search-form" style="display:none">
-<?php $this->renderPartial('_search',array(
-	'model'=>$model,
-)); ?>
+<?php $this->renderPartial('_search', [
+    'model' => $model,
+]); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'file-category-grid',
-	'dataProvider'=>$model->search(),
-	'filter'=>$model,
-	'columns'=>array(
-		'id',
-		'name',
-		'lft',
-		'rgt',
-		'root',
-		'level',
-		array(
-			'class'=>'CButtonColumn',
-		),
-	),
-)); ?>
+<?php $this->widget('zii.widgets.grid.CGridView', [
+    'id' => 'file-category-grid',
+    'dataProvider' => $model->search(),
+    'filter' => $model,
+    'columns' => [
+        'id',
+        'name',
+        'lft',
+        'rgt',
+        'root',
+        'level',
+        [
+            'class' => 'CButtonColumn',
+        ],
+    ],
+]); ?>

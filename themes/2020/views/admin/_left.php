@@ -297,7 +297,7 @@
 
                 <?php endif; ?>
                 <li>
-                    <a href="<?= Yii::app()->createUrl('/docs') ?>">
+                    <a href="<?= Yii::app()->createUrl('/admin/docs') ?>">
                         <i class="fa fa-th"></i> <span>Файлы</span>
                     </a>
                 </li>
