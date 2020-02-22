@@ -27,7 +27,7 @@ $('#exampleModal').modal('show');
 
 <div class="row">
     <div class="col-md-8">
-        <div class="box">
+        <div class="box box-info">
             <div class="box-header">
                 <div class="box-title">
                     Вложенные категории
@@ -41,56 +41,56 @@ $('#exampleModal').modal('show');
                 ?>
             </div>
         </div>
-        <div class="box">
+        <div class="box box-info">
             <div class="box-header">
                 <div class="box-title">
-                    Файлы категории
+                    Файлы вложенные в эту категорию
                 </div>
             </div>
             <div class="box-body">
-                <?php
-                if (is_array($model->files)) {
-                    $this->renderPartial('/docs/_table_files', ['files' => $model->files]);
-                }
-                ?>
-                <a class="btn btn-warning right-align" id="updateFile"
-                   href="<?php echo Yii::app()->createUrl("/admin/docs/create", ['id' => $model->id]); ?>">Добавить
-                    файл</a>
+                <div class="vert-margin10">
+                    <?php
+                    if (is_array($model->files)) {
+                        $this->renderPartial('/docs/_table_files', ['files' => $model->files]);
+                    }
+                    ?>
+                    <a class="btn btn-warning right-align" id="updateFile"
+                       href="<?php echo Yii::app()->createUrl("/admin/docs/create", ['id' => $model->id]); ?>">Добавить
+                        файл</a>
+                </div>
             </div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="box">
+        <div class="box box-primary">
             <div class="box-header">
                 <div class="box-title">
                     Инфо о категории
                 </div>
             </div>
             <div class="box-body">
-                <?php if ($model->parentObj): ?>
-                    Родитель: <a
-                            href="<?php echo Yii::app()->createUrl("/admin/fileCategory/view", ['id' => $model->parentObj->id]); ?>"> <?php echo $model->parentObj->name; ?></a>
-                <?php endif; ?>
-                <?php $this->widget('zii.widgets.CDetailView', array(
-                    'data' => $model,
-                    'attributes' => [
-                        [
-                            'attribute' => 'parentObj',
-                            'format' => 'html',
-                            'value' => function ($data) {
-                                return '<a href="/admin/file-category/view/?id=' . $data->parentObj->id . '">' . $data->parentObj->name . ' </a>';
-                            }
-                        ],
-
-                        'name',
-                        'description',
-
-                    ],
-                )); ?>
+                <table class="table table-striped">
+                    <?php if ($model->parentObj): ?>
+                        <tr>
+                            <td>Родитель:</td>
+                            <td>
+                                <a href="/admin/file-category/view/?id=<?= $model->parentObj->id ?>"> <?= $model->parentObj->name ?></a>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    <tr>
+                        <td>Название категории:</td>
+                        <td><?= $model->name; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Описание категории:</td>
+                        <td><?= $model->description; ?></td>
+                    </tr>
+                </table>
             </div>
         </div>
 
-        <div class="box">
+        <div class="box box-primary">
             <div class="box-header">
                 <div class="box-title">
                     Управление
