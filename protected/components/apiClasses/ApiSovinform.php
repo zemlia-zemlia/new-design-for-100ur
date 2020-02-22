@@ -42,7 +42,7 @@ class ApiSovinform implements ApiClassInterface
         ];
 
         $apiResponse = $this->httpClient->post('/add', [
-            'body' => $data,
+            'form_params' => $data,
         ]);
 
         return $this->checkResponse($apiResponse, $lead);
