@@ -247,6 +247,7 @@ class Answer extends CActiveRecord
         $bonusTransaction->type = TransactionCampaign::TYPE_ANSWER;
         $bonusTransaction->description = "Вознаграждение за подробный" . ($isFast ? ' и быстрый' : '') . " ответ";
         $bonusTransaction->buyerId = $user->id;
+        $bonusTransaction->status = TransactionCampaign::STATUS_COMPLETE;
 
         if ($bonusTransaction->save()) {
             $this->transactionId = $bonusTransaction->id;

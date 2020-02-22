@@ -32,7 +32,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <?php endif; ?>
     </tr>
     </thead>
-пше
+
     <?php $this->widget('zii.widgets.CListView', array(
         'dataProvider' => $dataProvider,
         'itemView' => '_view',

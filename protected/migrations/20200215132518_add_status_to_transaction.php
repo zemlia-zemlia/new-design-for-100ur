@@ -10,6 +10,7 @@ class AddStatusToTransaction extends AbstractMigration
         $this->table('100_transactionCampaign')
             ->addColumn('status', 'integer', ['limit' => 2, 'null' => true, 'default' => 1])
             ->save();
+
     }
 
     public function down()
