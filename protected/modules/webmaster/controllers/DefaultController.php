@@ -2,8 +2,8 @@
 
 class DefaultController extends Controller
 {
-    public $layout='//frontend/webmaster';
-    
+    public $layout='//lk/main';
+
     public function actionIndex()
     {
         $criteria = new CDbCriteria;

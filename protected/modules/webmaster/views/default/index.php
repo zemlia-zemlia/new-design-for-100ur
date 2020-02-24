@@ -7,6 +7,9 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
 
 ?>
 
+
+
+
 <div class="vert-margin40">
     <h2>Мои лиды</h2>
     <table class="table table-bordered table-hover table-striped">

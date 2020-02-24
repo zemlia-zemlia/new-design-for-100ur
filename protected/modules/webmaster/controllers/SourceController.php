@@ -5,7 +5,7 @@
  */
 class SourceController extends Controller
 {
-    public $layout='//frontend/webmaster';
+    public $layout='//lk/main';
     
     
     /**

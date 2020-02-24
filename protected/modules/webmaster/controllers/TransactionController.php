@@ -5,7 +5,7 @@
  */
 class TransactionController extends Controller
 {
-    public $layout='//frontend/webmaster';
+    public $layout='//lk/main';
     
     /**
      * Список транзакций вебмастера

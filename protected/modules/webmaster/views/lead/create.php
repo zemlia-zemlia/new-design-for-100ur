@@ -2,6 +2,7 @@
 /* @var $this LeadController */
 /* @var $model Lead */
 
+
 $this->setPageTitle("Новый лид". Yii::app()->name);
 
 
