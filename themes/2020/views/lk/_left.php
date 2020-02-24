@@ -12,33 +12,37 @@
                 <a href="#"><i class="fa fa-circle text-success"></i><?php echo Yii::app()->user->roleName; ?></a>
             </div>
         </div>
-
+        <ul class="sidebar-menu">
+            <li class="header">Личный кабинет</li>
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <?php if (Yii::app()->user->checkAccess(User::ROLE_BUYER)) : ?>
-        <ul class="sidebar-menu">
-            <li><a href="<?= Yii::app()->createUrl('/buyer/'); ?>">Главная</a></li>
-            <!-- <li><a href="/lead/">Каталог лидов</a></li> -->
-            <li><a href="/buyer/transactions/">Баланс</a></li>
-            <li><a href="/buyer/api/">API</a></li>
-            <li><a href="/buyer/faq/">FAQ</a></li>
-            <li><a href="http://www.yurcrm.ru/" target="_blank" rel="nofollow">CRM для юристов</a></li>
-            <li><a href="/buyer/help/">Техподдержка</a></li>
 
-        </ul>
+
+            <li><a href="<?= Yii::app()->createUrl('/buyer/'); ?>"><i class="fa fa-circle-o"></i> Главная</a></li>
+            <!-- <li><a href="/lead/">Каталог лидов</a></li> -->
+            <li><a href="<?= Yii::app()->createUrl('/buyer/transactions/'); ?>"><i class="fa fa-circle-o"></i> Баланс</a></li>
+            <li><a href="<?= Yii::app()->createUrl('/buyer/api/'); ?>"><i class="fa fa-circle-o"></i> API</a></li>
+            <li><a href="<?= Yii::app()->createUrl('/buyer/faq/'); ?>"><i class="fa fa-circle-o"></i> FAQ</a></li>
+            <li><a href="http://www.yurcrm.ru/" target="_blank" rel="nofollow"><i class="fa fa-circle-o"></i> CRM для юристов</a></li>
+            <li><a href="<?= Yii::app()->createUrl('/buyer/help/'); ?>"><i class="fa fa-circle-o"></i> Техподдержка</a></li>
+
+
         <?php endif; ?>
         <?php if (Yii::app()->user->checkAccess(User::ROLE_PARTNER)) : ?>
-        <ul class="sidebar-menu">
-            <li><a href="/webmaster/">Главная</a></li>
-                <li><a href="/webmaster/lead/">Мои лиды</a></li>
-                <li><a href="/webmaster/source/">Мои источники</a></li>
-                <li><a href="/webmaster/lead/prices/">Регионы и цены</a></li>
-                <li><a href="/webmaster/question/">Вопросы</a></li>
-                <li><a href="/webmaster/api/">API</a></li>
-                <li><a href="/webmaster/faq/">FAQ</a></li>
-                <li><a href="/webmaster/transaction/index/">Баланс</a></li>
+
+            <li><a href="<?= Yii::app()->createUrl('/webmaster/'); ?>"><i class="fa fa-circle-o"></i> Главная</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/lead/'); ?>"><i class="fa fa-circle-o"></i> Мои лиды</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/source'); ?>/"><i class="fa fa-circle-o"></i> Мои источники</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/lead/prices/'); ?>"><i class="fa fa-circle-o"></i> Регионы и цены</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/question/'); ?>"><i class="fa fa-circle-o"></i> Вопросы</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/api/'); ?>"><i class="fa fa-circle-o"></i> API</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/faq/'); ?>"><i class="fa fa-circle-o"></i> FAQ</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/transaction/index/'); ?>"><i class="fa fa-circle-o"></i> Баланс</a></li>
+
+
+        <?php endif; ?>
 
         </ul>
-        <?php endif; ?>
     </section>
     <!-- /.sidebar -->
 </aside>
