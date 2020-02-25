@@ -20,13 +20,15 @@
                         $balance = $currentUser->calculateWebmasterBalance(30);
                         $hold = $currentUser->calculateWebmasterHold(30);
                         ?>
+                    <div>
                         Доступно для вывода:<br /> <strong>
                         <?php if (($balance-$hold)< PartnerTransaction::MIN_WITHDRAW):?>
                             <small><span class="text-danger">Минимальная сумма для вывода - 1000&nbsp;руб.</span></small>
                         <?php else:?>
                             <?php echo MoneyFormat::rubles($balance - $hold);?> руб.</strong>
                         <?php endif;?>
-                    <p>ХОЛД  <?php echo MoneyFormat::rubles($hold);?></p>
+                    </div>
+                    <div>ХОЛД  <?php echo MoneyFormat::rubles($hold);?></div>
 
                     <?php endif; ?>
                     <?php if (Yii::app()->user->checkAccess(User::ROLE_BUYER)) : ?>
