@@ -42,7 +42,7 @@ class LeadController extends Controller
      */
     public function actionIndex()
     {
-        $this->layout = (Yii::app()->user->role == User::ROLE_BUYER) ? '//frontend/cabinet' : '//frontend/question';
+        $this->layout = (Yii::app()->user->role == User::ROLE_BUYER) ? '//lk/main' : '//frontend/question';
 
         $criteria = new CDbCriteria;
         $showMy = false;
@@ -96,7 +96,7 @@ class LeadController extends Controller
      */
     public function actionView($id)
     {
-        $this->layout = (Yii::app()->user->role == User::ROLE_BUYER) ? '//frontend/cabinet' : '//frontend/question';
+        $this->layout = (Yii::app()->user->role == User::ROLE_BUYER) ? '//lk/main' : '//frontend/question';
 
         // если передан GET параметр autologin, попытаемся залогинить пользователя
         User::autologin($_GET);

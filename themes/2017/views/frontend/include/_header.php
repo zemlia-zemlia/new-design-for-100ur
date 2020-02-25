@@ -75,7 +75,7 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
             <?php else: ?>
                 <div class="col-md-8 col-sm-8 right-align">
                     <ul class="hor-list-menu">
-                        <li><?php echo CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER) ? '/cabinet' : '/user')); ?></li>
+                        <li><?php echo CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER) ? '/buyer' : '/user')); ?></li>
                         <?php if (Yii::app()->user->role == User::ROLE_PARTNER): ?>
                             <li><?php echo CHtml::link('Кабинет вебмастера', Yii::app()->createUrl('/webmaster'), array('class' => '')); ?></li>
                         <?php endif; ?>
@@ -86,7 +86,7 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                                 // найдем баланс пользователя. если это не вебмастер:
                                 if (Yii::app()->user->role != User::ROLE_PARTNER) {
                                     $balance = Yii::app()->user->balance;
-                                    $transactionPage = '/cabinet/transactions';
+                                    $transactionPage = '/buyer/transactions';
                                 } else {
                                     $currentUser = User::model()->findByPk(Yii::app()->user->id);
 
@@ -103,7 +103,7 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                                 Баланс: <?php echo CHtml::link(MoneyFormat::rubles($balance), Yii::app()->createUrl($transactionPage)); ?>
                                 руб.
                                 <?php if (Yii::app()->user->campaignsModeratedCount > 0): ?>
-                                    <?php echo CHtml::link("Пополнить", Yii::app()->createUrl('cabinet/transactions'), array('title' => 'Пополнить', 'class' => 'btn btn-default btn-xs')); ?>
+                                    <?php echo CHtml::link("Пополнить", Yii::app()->createUrl('buyer/transactions'), array('title' => 'Пополнить', 'class' => 'btn btn-default btn-xs')); ?>
                                 <?php endif; ?>
 
                             </li>

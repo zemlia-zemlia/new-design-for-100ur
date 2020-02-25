@@ -5,7 +5,7 @@
 $this->setPageTitle("Кампания #" . $model->id . '. '. Yii::app()->name);
 
 $this->breadcrumbs=array(
-    'Кабинет'   =>  array('/cabinet'),
+    'Кабинет'   =>  array('/buyer'),
         'Кампания',
 );
 

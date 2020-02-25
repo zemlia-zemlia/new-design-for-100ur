@@ -7,7 +7,7 @@ $this->pageTitle = "Лиды. " . Yii::app()->name;
 Yii::app()->clientScript->registerScriptFile('/js/lead.js');
 
 $this->breadcrumbs = array(
-    'Кабинет' => array('/cabinet'),
+    'Кабинет' => array('/buyer'),
     'Лиды',
 );
 
@@ -28,16 +28,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 </div>
 
 <ul class="nav nav-tabs">
-    <li role="presentation" <?php if (!$status): ?>class="active"<?php endif; ?>><?php echo CHtml::link('Все', Yii::app()->createUrl('/cabinet/leads', array('campaign' => $campaign->id))); ?></li>
-    <li role="presentation" <?php if ($status == Lead::LEAD_STATUS_SENT): ?>class="active"<?php endif; ?>><?php echo CHtml::link('Новые', Yii::app()->createUrl('/cabinet/leads', array('campaign' => $campaign->id, 'status' => Lead::LEAD_STATUS_SENT))); ?></li>
-    <li role="presentation" <?php if ($status == Lead::LEAD_STATUS_NABRAK): ?>class="active"<?php endif; ?>><?php echo CHtml::link('На отбраковке', Yii::app()->createUrl('/cabinet/leads', array('campaign' => $campaign->id, 'status' => Lead::LEAD_STATUS_NABRAK))); ?></li>
-    <li role="presentation" <?php if ($status == Lead::LEAD_STATUS_BRAK): ?>class="active"<?php endif; ?>><?php echo CHtml::link('Брак', Yii::app()->createUrl('/cabinet/leads', array('campaign' => $campaign->id, 'status' => Lead::LEAD_STATUS_BRAK))); ?></li>
-    <li role="presentation" <?php if ($status == Lead::LEAD_STATUS_RETURN): ?>class="active"<?php endif; ?>><?php echo CHtml::link('Возврат', Yii::app()->createUrl('/cabinet/leads', array('campaign' => $campaign->id, 'status' => Lead::LEAD_STATUS_RETURN))); ?></li>
+    <li role="presentation" <?php if (!$status): ?>class="active"<?php endif; ?>><?php echo CHtml::link('Все', Yii::app()->createUrl('/buyer/leads', array('campaign' => $campaign->id))); ?></li>
+    <li role="presentation" <?php if ($status == Lead::LEAD_STATUS_SENT): ?>class="active"<?php endif; ?>><?php echo CHtml::link('Новые', Yii::app()->createUrl('/buyer/leads', array('campaign' => $campaign->id, 'status' => Lead::LEAD_STATUS_SENT))); ?></li>
+    <li role="presentation" <?php if ($status == Lead::LEAD_STATUS_NABRAK): ?>class="active"<?php endif; ?>><?php echo CHtml::link('На отбраковке', Yii::app()->createUrl('/buyer/leads', array('campaign' => $campaign->id, 'status' => Lead::LEAD_STATUS_NABRAK))); ?></li>
+    <li role="presentation" <?php if ($status == Lead::LEAD_STATUS_BRAK): ?>class="active"<?php endif; ?>><?php echo CHtml::link('Брак', Yii::app()->createUrl('/buyer/leads', array('campaign' => $campaign->id, 'status' => Lead::LEAD_STATUS_BRAK))); ?></li>
+    <li role="presentation" <?php if ($status == Lead::LEAD_STATUS_RETURN): ?>class="active"<?php endif; ?>><?php echo CHtml::link('Возврат', Yii::app()->createUrl('/buyer/leads', array('campaign' => $campaign->id, 'status' => Lead::LEAD_STATUS_RETURN))); ?></li>
 </ul>
 
 <div class='flat-panel inside'>
-
-
     <?php if ($dataProvider->totalItemCount): ?>
         <table class="table table-bordered table-hover table-striped">
             <thead>

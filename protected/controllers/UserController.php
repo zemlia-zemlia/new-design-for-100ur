@@ -282,7 +282,7 @@ class UserController extends Controller
                     $this->redirect(array('profile'));
                 }
                 if ($model->role == User::ROLE_BUYER) {
-                    $this->redirect(array('/cabinet'));
+                    $this->redirect(array('/buyer'));
                 } else {
                     $this->redirect(array('profile'));
                 }
@@ -420,7 +420,7 @@ class UserController extends Controller
                     if (Yii::app()->user->role == User::ROLE_JURIST) {
                         $this->redirect(array('user/update', 'id' => Yii::app()->user->id, 'newUser' => 1));
                     } elseif (Yii::app()->user->role == User::ROLE_BUYER) {
-                        $this->redirect(array('/cabinet'));
+                        $this->redirect(array('/buyer'));
                     } elseif (Yii::app()->user->role == User::ROLE_PARTNER) {
                         $this->redirect(array('/webmaster'));
                     }

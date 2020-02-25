@@ -78,7 +78,7 @@
                 </div>
                 <div class="col-sm-8 col-xs-6">
                         <div>
-                        <?php echo CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER)? '/cabinet':'/user'));?>
+                        <?php echo CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER)? '/buyer':'/user'));?>
                         <?php echo CHtml::link('<span class="glyphicon glyphicon-log-out"></span>', Yii::app()->createUrl('site/logout'), array());?>
                         </div>
                         
@@ -90,7 +90,7 @@
                                         // найдем баланс пользователя. если это не вебмастер:
                                         if (Yii::app()->user->role != User::ROLE_PARTNER) {
                                             $balance = Yii::app()->user->balance;
-                                            $transactionPage = '/cabinet/transactions';
+                                            $transactionPage = '/buyer/transactions';
                                         } else {
                                             // если это вебмастер, кешируем баланс, рассчитанный из транзакций вебмастера
                                             $balance = $currentUser->calculateWebmasterBalance(30);
