@@ -3,7 +3,7 @@ $this->setPageTitle("Кабинет покупателя лидов. ". Yii::app
 
 ?>
 
-<h1 class="vert-margin20">Мои лиды</h1>
+<h1>Мои лиды</h1>
 
 <?php if (sizeof($currentUser->campaigns) == 0):?>
 <div class="alert alert-danger">
@@ -17,13 +17,6 @@ $this->setPageTitle("Кабинет покупателя лидов. ". Yii::app
 <?php endif;?>
    
         
-<table class="table table-bordered table-hover table-striped">
-    <thead>
-    <tr>
-        <th>Лид</th>
-        <th>Управление</th>
-    </tr>
-    </thead>
 <?php $this->widget('zii.widgets.CListView', array(
         'dataProvider'=>$dataProvider,
         'itemView'=>'_viewLead',
@@ -31,7 +24,6 @@ $this->setPageTitle("Кабинет покупателя лидов. ". Yii::app
         'summaryText'=>'Показаны лиды с {start} до {end}, всего {count}',
         'pager'=>array('class'=>'GTLinkPager') //we use own pager with russian words
 )); ?>
-</table>
 
 <?php
 if (!$showInactive) {

@@ -10,9 +10,11 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
 
 
 
-<div class="vert-margin40">
-    <h2>Мои лиды</h2>
-    <table class="table table-bordered table-hover table-striped">
+    <h2>Кабинет вебмастера
+        <?php if (sizeof(Leadsource::getSourcesArrayByUser(Yii::app()->user->id))>0):?>
+            <?php echo CHtml::link('Добавить новый лид', Yii::app()->createUrl('/webmaster/lead/create'), array('class' => 'btn btn-primary'));?>
+        <?php endif;?>
+    </h2>
     <?php $this->widget('zii.widgets.CListView', array(
             'dataProvider'  =>  $dataProvider,
             'itemView'      =>  'application.modules.webmaster.views.lead._view',
@@ -20,8 +22,6 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
             'summaryText'   =>  'Показаны лиды с {start} до {end}, всего {count}',
             'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
     )); ?>
-    </table>
-</div>
 
 
 <!-- 
