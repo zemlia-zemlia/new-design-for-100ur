@@ -1,39 +1,47 @@
-
-<div>
-                <h1 class="vert-margin20">Мои кампании</h1>
-				<p>
+<h1 class="vert-margin20">Мои кампании</h1>
+<p>
 
 
-                <?php echo CHtml::link('Создать кампанию', Yii::app()->createUrl('campaign/create'), array('class' => 'btn btn-primary btn-block'));?>
-                <!--
+    <!--
                 <div class="flat-panel" >
                     <div class="inside">
-                        <?php echo CHtml::link('Купленные вручную', Yii::app()->createUrl('/buyer/leads'));?>
+                        <?php echo CHtml::link('Купленные вручную', Yii::app()->createUrl('buyer/leads')); ?>
                     </div>
                 </div>
                  -->
-                <?php foreach($campaigns as $campaign):?>
-				</p>
-                <div class="flat-panel" >
-                    <div class="inside">
-                        <h5>
-                            <?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/buyer/leads', array('campaign'=>$campaign->id)));?>
+</p>
 
-                            <?php if($campaign->active != Campaign::ACTIVE_MODERATION):?>
-                                <!-- <?php echo $campaign->price;?> руб. -->
-                            <?php endif;?>
+<div class="row">
+    <div class="col-md-8">
+        <div class="box">
+            <div class="box-body">
+                <?php foreach ($campaigns
 
-                            <?php echo CHtml::link("<span class='glyphicon glyphicon-cog'></span>", Yii::app()->createUrl('/buyer/campaign', array('id'=>$campaign->id)));?>
+                               as $campaign): ?>
 
-							<?php if($campaign->active != Campaign::ACTIVE_YES):?>
-							<p>
-								<?php echo $campaign->getActiveStatusName();?>
-							</p>
-							<?php endif;?>
-                        </h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5><?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/buyer/leads', array('campaign' => $campaign->id))); ?></h5>
+                        </div>
+                        <div class="col-md-4">
+                            <?php if ($campaign->active != Campaign::ACTIVE_MODERATION): ?>
+                                <!-- <?php echo $campaign->price; ?> руб. -->
+                            <?php endif; ?>
 
-
+                            <?php echo $campaign->getActiveStatusName(); ?>
+                        </div>
+                        <div class="col-md-4">
+                            <?php echo CHtml::link("Настройки <span class='glyphicon glyphicon-cog'></span>", Yii::app()->createUrl('/buyer/campaign', array('id' => $campaign->id))); ?>
+                        </div>
                     </div>
-                </div>
-                <?php endforeach;?>
+                <?php endforeach; ?>
+
             </div>
+        </div>
+
+    </div>
+    <div class="col-md-4">
+        <?php echo CHtml::link('Создать кампанию', Yii::app()->createUrl('campaign/create'), array('class' => 'btn btn-primary btn-block')); ?>
+
+    </div>
+</div>
