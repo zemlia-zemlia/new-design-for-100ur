@@ -4,7 +4,7 @@
 
 
 $this->setPageTitle("Новый лид". Yii::app()->name);
-
+Yii::app()->clientScript->registerScriptFile("/js/scripts.js", CClientScript::POS_END);
 
 $this->breadcrumbs=array(
     'Лиды'=>array('index'),
