@@ -130,7 +130,7 @@ class BuyerController extends Controller
     }
 
     public function actionCampaign($id)
-    {
+    {var_dump($id);die;
         $campaign = Campaign::model()->with('transactions')->findByPk($id);
 
         if ($campaign && $campaign->buyerId != Yii::app()->user->id) {
