@@ -31,6 +31,8 @@
     <link href="/adminlte-lk/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
     <!-- bootstrap wysihtml5 - text editor -->
     <link href="/adminlte-lk/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+    <link href="/css/2020/lk.css" rel="stylesheet" type="text/css"/>
+
 
 
 
@@ -84,9 +86,8 @@
       </div><!-- /.content-wrapper -->
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
-          <b>Version</b> 2.0
         </div>
-        <strong>Copyright &copy; 2014-2020 <a href="http://almsaeedstudio.com">100 Юристов</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2014-2020 <a href="http://almsaeedstudio.com">100 Юристов</a>.</strong>
       </footer>
       
       <!-- Control Sidebar -->      

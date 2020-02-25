@@ -29,70 +29,73 @@ switch ($data->leadStatus) {
 }
 ?>
 
-<tr id="lead-<?php echo $data->id;?>" >
-    <td class="warning" style="min-width: 120px;">
-        
-        <small class="muted" > 
+<div class="box">
+    <div class="box-body">
+        <div class="row" id="lead-<?php echo $data->id; ?>">
+            <div class="col-md-2" style="min-width: 120px;">
 
-            <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo CustomFuncs::niceDate($data->question_date, false, false); ?>&nbsp;&nbsp;
-            <br />
-                <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo CHtml::encode($data->source->name); ?>       
-            <br />
-            <span class="label <?php echo $statusClass;?>">    
-                <?php echo $data->getLeadStatusName();?>
+                <small class="muted">
+
+                    <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo CustomFuncs::niceDate($data->question_date, false, false); ?>
+                    &nbsp
+                    <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo CHtml::encode($data->source->name); ?>
+                    &nbsp
+                    <span class="label <?php echo $statusClass; ?>">
+                <?php echo $data->getLeadStatusName(); ?>
             </span>
-            <br/>
-            <?php if ($data->buyPrice>0 && $data->leadStatus != Lead::LEAD_STATUS_BRAK):?>
-                <?php echo MoneyFormat::rubles($data->buyPrice);?> руб.
-            <?php endif;?>
-        </small>
-    </td>
-    <td class="success" >
+                    &nbsp
+                    <?php if ($data->buyPrice > 0 && $data->leadStatus != Lead::LEAD_STATUS_BRAK): ?>
+                        <?php echo MoneyFormat::rubles($data->buyPrice); ?> руб.
+                    <?php endif; ?>
+                </small>
+            </div>
+            <div class="col-md-10">
+                <p>
+                    <?php if ($data->townId): ?>
+                        <span class="glyphicon glyphicon-map-marker"></span>
+                        <?php echo CHtml::encode($data->town->name); ?> (<?php echo CHtml::encode($data->town->region->name); ?>)
 
-            
-		<p style="border-bottom: #ded9d9 1px solid; ">
-            <?php if ($data->townId):?>
-                <span class="glyphicon glyphicon-map-marker"></span>
-                <?php echo CHtml::encode($data->town->name); ?> (<?php echo CHtml::encode($data->town->region->name); ?>)
-                
-                <?php
-                    $distanceFromCapital = $data->town->region->getRangeFromCenter($data->town->lat, $data->town->lng);
-                ?>
-                <?php if ($distanceFromCapital >=0):?>
-                <span class="label label-default"><abbr title="Расстояние от центра региона"><?php echo $distanceFromCapital;?>  км.</abbr></span>
-                <?php endif;?>
-                
+                        <?php
+                        $distanceFromCapital = $data->town->region->getRangeFromCenter($data->town->lat, $data->town->lng);
+                        ?>
 
-            <?php endif;?>
-            &nbsp;
-            
-            <?php if ($data->phone && !(Yii::app()->user->role == User::ROLE_JURIST && $data->employeeId != Yii::app()->user->id)):?>
-                <span class="glyphicon glyphicon-earphone"></span>
-                <?php echo CHtml::encode($data->phone); ?> &nbsp;
-            <?php endif;?>
-            <?php if ($data->email):?>
-                <span class="glyphicon glyphicon-envelope"></span>
-                <?php echo CHtml::encode($data->email); ?>  &nbsp;    
-            <?php endif;?>
-            
-            <span class="glyphicon glyphicon-user"></span>    
-            <?php echo CHtml::link(CHtml::encode($data->name), array('/webmaster/lead/view', 'id'=>$data->id)); ?> <br />
-        </p>
-		
-		<p >
-            <?php echo nl2br(CHtml::encode($data->question)); ?>
-        </p>
-        
-        <?php if ($data->brakReason):?>
-        <p>
-            <strong>Причина отбраковки:</strong>
-            <?php echo CHtml::encode($data->getReasonName());?>
-            <br />
-            <strong>Комментарий отбраковки:</strong>
-            <?php echo CHtml::encode($data->brakComment);?>
-        </p>
-        <?php endif;?>
-        	
-		
-    </td>
-</tr>
+                        <?php if ($distanceFromCapital >= 0): ?>
+                            <span class="label label-default"><abbr
+                                        title="Расстояние от центра региона"><?php echo $distanceFromCapital; ?>  км.</abbr></span>
+                        <?php endif; ?>
+
+
+                    <?php endif; ?>
+
+                    <?php if ($data->phone && !(Yii::app()->user->role == User::ROLE_JURIST && $data->employeeId != Yii::app()->user->id)): ?>
+                        <span class="glyphicon glyphicon-earphone"></span>
+                        <?php echo CHtml::encode($data->phone); ?> &nbsp
+                    <?php endif; ?>
+                    <?php if ($data->email): ?>
+                        <span class="glyphicon glyphicon-envelope"></span>
+                        <?php echo CHtml::encode($data->email); ?>  &nbsp
+                    <?php endif; ?>
+
+                    <span class="glyphicon glyphicon-user"></span>
+                    <?php echo CHtml::link(CHtml::encode($data->name), array('/webmaster/lead/view', 'id' => $data->id)); ?>
+                </p>
+
+                <p>
+                    <?php echo nl2br(CHtml::encode($data->question)); ?>
+                </p>
+
+                <?php if ($data->brakReason): ?>
+                    <p>
+                        <strong>Причина отбраковки:</strong>
+                        <?php echo CHtml::encode($data->getReasonName()); ?>
+                        <br/>
+                        <strong>Комментарий отбраковки:</strong>
+                        <?php echo CHtml::encode($data->brakComment); ?>
+                    </p>
+                <?php endif; ?>
+
+
+            </div>
+        </div>
+    </div>
+</div>

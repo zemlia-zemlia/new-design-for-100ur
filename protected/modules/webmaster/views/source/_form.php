@@ -11,9 +11,7 @@
     'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note"><span class="required">*</span> - обязательные поля</p>        
-        
-        
+	<p class="note"><span class="required">*</span> - обязательные поля</p>
         <div class="row">
             <div class="col-sm-4">
                 <div class="form-group">

@@ -1,0 +1,26 @@
+.balance-block-byer-webmaster{
+    color: #fff;
+    padding: auto;
+    text-align: center;
+    vertical-align: center;
+}
+
+.pager .next>a, .pager .next>span {
+    float: none;
+}
+
+.pager .previous>a, .pager .previous>span {
+    float: none;
+}
+
+.pager {
+    text-align: right;
+}
+
+.skin-blue .main-header .navbar {
+    background-color: #222d32;
+}
+
+.skin-blue .main-header .logo {
+    background-color: #222d32;
+}
