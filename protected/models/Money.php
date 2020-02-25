@@ -153,6 +153,21 @@ class Money extends CActiveRecord
             1000 => "Выплата дивидендов учредителям",
         );
     }
+    /**
+     * возвращает массив статей разбитый на доход и расход
+     */
+    public static function getDirectionsType(){
+        $directions = [];
+        foreach (self::getDirectionsArray() as $key => $dir){
+            if ($key >= 500 && $key <= 600) {
+                $directions[self::TYPE_INCOME][$key] =  $dir;
+            }
+            else {
+                $directions[self::TYPE_EXPENCE][$key] =  $dir;
+            }
+        }
+        return $directions;
+    }
 
     /**
      * Возвращает название статьи для объекта Money по коду
