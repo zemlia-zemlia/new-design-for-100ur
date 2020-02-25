@@ -33,7 +33,6 @@ switch ($data->leadStatus) {
         <div class="row" id="lead-<?php echo $data->id; ?>">
             <div class="col-md-10">
                 <p>
-
                     <?php if ($data->townId): ?>
                         <span class="glyphicon glyphicon-map-marker"></span>
                         <?php echo CHtml::encode($data->town->name); ?> (<?php echo CHtml::encode($data->town->region->name); ?>)
@@ -49,18 +48,7 @@ switch ($data->leadStatus) {
                         <?php endif; ?>
                     <?php endif; ?>
 
-                    <small>
-                <span class="label <?php echo $statusClass; ?>">    
-                    <?php echo $data->getLeadStatusName(); ?>
-                    <?php if ($data->campaign && $data->campaign->buyer): ?>
-                        <?php echo CHtml::encode($data->campaign->buyer->name); ?>
-                    <?php else: ?>
-                        <?php if ($data->buyerId && $data->buyer): ?>
-                            <?php echo $data->buyer->getShortName(); ?>
-                        <?php endif; ?>
-                    <?php endif; ?>
-                </span>
-                    </small>
+
                     &nbsp;
                     <span class="glyphicon glyphicon-earphone"></span>
                     <?php echo CHtml::encode($data->phone); ?> &nbsp;
@@ -97,24 +85,35 @@ switch ($data->leadStatus) {
 
             <div class="col-md-2">
                 <small>
-                    <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->role == User::ROLE_SECRETARY): ?>
-                        <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo $data->source->name; ?>
-                    <?php endif; ?></small>
-                <br/>
-
+                        <span class="label <?php echo $statusClass; ?>">
+                            <?php echo $data->getLeadStatusName(); ?>
+                            <?php if ($data->campaign && $data->campaign->buyer): ?>
+                                <?php echo CHtml::encode($data->campaign->buyer->name); ?>
+                            <?php else: ?>
+                                <?php if ($data->buyerId && $data->buyer): ?>
+                                    <?php echo $data->buyer->getShortName(); ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </span>
+                </small>
+                &nbsp
                 <small class="muted">
-
-
-                    <span>id:&nbsp;<?php echo $data->id; ?></span> &nbsp; <span
-                            class="label label-default"><?php echo $data->getLeadTypeName(); ?></span> <br/>
-
-                    <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo CustomFuncs::niceDate($data->question_date, false, false); ?>
+                    <span class="label label-default"><?php echo $data->getLeadTypeName(); ?></span>
                     &nbsp
 
+                    <span>id:&nbsp;<?php echo $data->id; ?></span> &nbsp;
+
+                    <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->role == User::ROLE_SECRETARY): ?>
+                        <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo $data->source->name; ?>
+                    <?php endif; ?>
+                    &nbsp
+
+                    <span class="glyphicon glyphicon-calendar"></span>&nbsp<?php echo CustomFuncs::niceDate($data->question_date, false, false); ?>
+                    &nbsp
                     <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
                         <?php if ($data->questionObject->ip): ?>
                             <?php echo "IP:&nbsp;" . $data->questionObject->ip; ?>
-                        <?php endif; ?>&nbsp;<br/>
+                        <?php endif; ?>&nbsp;
 
                         <?php if ($data->questionObject->townIdByIP): ?>
                             <?php echo "IPGeo: " . $data->questionObject->townByIP->name; ?>

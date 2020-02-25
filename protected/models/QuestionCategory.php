@@ -114,8 +114,7 @@ class QuestionCategory extends CActiveRecord
             'parent' => [self::BELONGS_TO, 'QuestionCategory', 'parentId'],
             'children' => [self::HAS_MANY, 'QuestionCategory', 'parentId', 'order' => 'children.name ASC'],
             'files' => [self::HAS_MANY, 'File', 'objectId', 'condition' => 'files.objectType = '.File::ITEM_TYPE_OBJECT_CATEGORY],
-            'file2object' => array(self::HAS_MANY, 'File2Object', 'object_id'),
-            'docs' => array(self::HAS_MANY, 'Docs', 'file_id', 'through' => 'file2object'),
+            'docs' => [self::MANY_MANY, 'Docs', '{{docs2object}}(object_id, file_id)'],
         ];
     }
 
