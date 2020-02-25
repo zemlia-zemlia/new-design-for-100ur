@@ -8,7 +8,7 @@
                 <!--
                 <div class="flat-panel" >
                     <div class="inside">
-                        <?php echo CHtml::link('Купленные вручную', Yii::app()->createUrl('cabinet/leads'));?>
+                        <?php echo CHtml::link('Купленные вручную', Yii::app()->createUrl('buyer/leads'));?>
                     </div>
                 </div>
                  -->
@@ -17,13 +17,13 @@
                 <div class="flat-panel" >
                     <div class="inside">
                         <h5>
-                            <?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/cabinet/leads', array('campaign'=>$campaign->id)));?>
+                            <?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/buyer/leads', array('campaign'=>$campaign->id)));?>
 
                             <?php if($campaign->active != Campaign::ACTIVE_MODERATION):?>
                                 <!-- <?php echo $campaign->price;?> руб. -->
                             <?php endif;?>
 
-                            <?php echo CHtml::link("<span class='glyphicon glyphicon-cog'></span>", Yii::app()->createUrl('/cabinet/campaign', array('id'=>$campaign->id)));?>
+                            <?php echo CHtml::link("<span class='glyphicon glyphicon-cog'></span>", Yii::app()->createUrl('/buyer/campaign', array('id'=>$campaign->id)));?>
 
 							<?php if($campaign->active != Campaign::ACTIVE_YES):?>
 							<p>

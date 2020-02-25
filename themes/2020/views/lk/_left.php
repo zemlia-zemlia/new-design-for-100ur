@@ -25,7 +25,7 @@
             <li><a href="<?= Yii::app()->createUrl('/buyer/campaigns/'); ?>"><i class="fa fa-life-ring" aria-hidden="true"></i> Мои кампании</a></li>
             <li><a href="http://www.yurcrm.ru/" target="_blank" rel="nofollow"><i class="fa fa-circle-o"></i> CRM для юристов  <i class="fa fa-external-link" aria-hidden="true"></i>
                 </a></li>
-            <!-- <li><a href="/lead/">Каталог лидов</a></li> -->
+
 
         <?php endif; ?>
         <?php if (Yii::app()->user->checkAccess(User::ROLE_PARTNER)) : ?>
