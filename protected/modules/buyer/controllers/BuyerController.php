@@ -20,7 +20,7 @@ class BuyerController extends Controller
     {
         return array(
             array('allow', // разрешаем доступ только авторизованным пользователям
-                'actions' => array('index', 'leads', 'faq', 'viewLead', 'campaign', 'brakLead', 'transactions', 'topup', 'api', 'help'),
+                'actions' => array('index', 'leads', 'faq', 'viewLead', 'campaign', 'brakLead', 'transactions', 'topup', 'api', 'help', 'campaigns'),
                 'users' => array('@'),
                 'expression' => 'Yii::app()->user->role == User::ROLE_BUYER',
             ),
@@ -117,6 +117,15 @@ class BuyerController extends Controller
 
         $this->render('viewLead', array(
             'model' => $model,
+        ));
+    }
+    public function actionCampaigns()
+    {
+        $campaigns = Campaign::getCampaignsForBuyer(Yii::app()->user->id);
+
+
+        $this->render('campaigns', array(
+            'campaigns' => $campaigns,
         ));
     }
 
