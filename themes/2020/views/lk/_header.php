@@ -14,6 +14,25 @@
         </a>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
+                <li>
+                    <?php if (Yii::app()->user->checkAccess(User::ROLE_PARTNER)) :
+                        $currentUser = User::model()->findByPk(Yii::app()->user->id);
+                        $balance = $currentUser->calculateWebmasterBalance(30);
+                        $hold = $currentUser->calculateWebmasterHold(30);
+                        ?>
+                        Доступно для вывода:<br /> <strong>
+                        <?php if (($balance-$hold)< PartnerTransaction::MIN_WITHDRAW):?>
+                            <small><span class="text-danger">Минимальная сумма для вывода - 1000&nbsp;руб.</span></small>
+                        <?php else:?>
+                            <?php echo MoneyFormat::rubles($balance - $hold);?> руб.</strong>
+                        <?php endif;?>
+                    <p>ХОЛД  <?php echo MoneyFormat::rubles($hold);?></p>
+
+                    <?php endif; ?>
+                    <?php if (Yii::app()->user->checkAccess(User::ROLE_BUYER)) : ?>
+                        Ваш баланс: <?php echo MoneyFormat::rubles(Yii::app()->user->balance); ?> руб.
+                        <?php endif; ?>
+                </li>
                 <li class="dropdown notifications-menu">
                     <?php
                     echo CHtml::ajaxLink("<span class='glyphicon glyphicon-refresh'></span>", Yii::app()->createUrl('site/clearCache'), array(
