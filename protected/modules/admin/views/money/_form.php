@@ -5,6 +5,31 @@
 
 $model->value = MoneyFormat::rubles($model->value);
 
+$js = <<<JS
+$('input[type=radio]').on('change', function() {
+if($(this).attr('id') == 'Money_type_1') {
+    $('#expence').removeClass('hidden');
+     $('#income').addClass('hidden');
+}
+else{
+     $('#income').removeClass('hidden');
+     $('#expence').addClass('hidden');
+}
+})
+
+$('#money-form').submit(function() {
+  $('.sel').each(function() {
+    if ($(this).hasClass('hidden')) {
+        $(this).remove();
+    }
+  });
+});
+JS;
+
+
+Yii::app()->clientScript->registerScript('myjquery', $js );
+
+
 ?>
 
 <div class="row">
