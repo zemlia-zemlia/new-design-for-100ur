@@ -33,27 +33,9 @@
                         Ваш баланс: <?php echo MoneyFormat::rubles(Yii::app()->user->balance); ?> руб.
                         <?php endif; ?>
                 </li>
-                <li class="dropdown notifications-menu">
-                    <?php
-                    echo CHtml::ajaxLink("<span class='glyphicon glyphicon-refresh'></span>", Yii::app()->createUrl('site/clearCache'), array(
-                        'success' => 'function(data, textStatus, jqXHR)
-                                {
-                                    if(data==1) message = "Кэш очищен";
-                                    else message = "Не удалось очистить кэш";
-                                    alert(message);
-                                }'
-                    ), array('title' => 'Очистить кеш страницы'));
-                    ?>
 
-                </li>
 
-                <li class="dropdown tasks-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-user"></i>
 
-                    </a>
-
-                </li>
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="user">
 
