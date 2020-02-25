@@ -73,12 +73,12 @@ $model->value = MoneyFormat::rubles($model->value);
 
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="form-group hidden" id="expence">
+                        <div class="form-group hidden sel" id="expence">
                             <?php echo $form->labelEx($model, 'direction'); ?>
                             <?php echo $form->dropDownList($model, 'direction', Money::getDirectionsType()[Money::TYPE_EXPENCE], array('class' => 'form-control')); ?>
                             <?php echo $form->error($model, 'direction'); ?>
                         </div>
-                        <div class="form-group hidden"  id="income">
+                        <div class="form-group hidden sel"  id="income">
                             <?php echo $form->labelEx($model, 'direction'); ?>
                             <?php echo $form->dropDownList($model, 'direction', Money::getDirectionsType()[Money::TYPE_INCOME], array('class' => 'form-control')); ?>
                             <?php echo $form->error($model, 'direction'); ?>

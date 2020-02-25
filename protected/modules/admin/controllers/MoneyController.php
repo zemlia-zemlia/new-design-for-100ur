@@ -60,6 +60,7 @@ class MoneyController extends Controller
         // $this->performAjaxValidation($model);
 
         if (isset($_POST['Money'])) {
+
             $model->attributes=$_POST['Money'];
             $model->datetime = CustomFuncs::invertDate($model->datetime);
             $model->value *= 100;
