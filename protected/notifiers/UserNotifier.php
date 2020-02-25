@@ -242,7 +242,7 @@ class UserNotifier
      */
     public function sendBuyerNotification($eventType)
     {
-        $cabinetLink = Yii::app()->createUrl('/cabinet');
+        $cabinetLink = Yii::app()->createUrl('/buyer');
 
         switch ($eventType) {
             case User::BUYER_EVENT_CONFIRM:

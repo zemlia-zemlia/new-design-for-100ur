@@ -41,7 +41,7 @@ $(function(){
 //        console.log("reason: " + reason); return false;
         
         
-        $.ajax('/cabinet/brakLead/', {
+        $.ajax('/buyer/brakLead/', {
             method:'POST',
             data:{reason:reason, reasonComment:reasonComment, leadId:leadId},
             success:onLeadBrakSubmit,

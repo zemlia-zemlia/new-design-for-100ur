@@ -4,7 +4,7 @@
 $this->pageTitle = 'Редактирование профиля пользователя ' . CHtml::encode($model->name . ' ' . $model->lastName) . '. ' . Yii::app()->name;
 
 $this->breadcrumbs=array(
-    CHtml::encode($model->name . ' ' . $model->lastName) =>  ($model->role == User::ROLE_BUYER) ? array('/cabinet') : array('/user/profile'),
+    CHtml::encode($model->name . ' ' . $model->lastName) =>  ($model->role == User::ROLE_BUYER) ? array('/buyer') : array('/user/profile'),
     'Редактирование',
 );
 

@@ -60,16 +60,16 @@
                 <div class="panel gray-panel" >
                     <div class="panel-body">
                         <h4>
-                            <?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/cabinet/campaign', array('id'=>$campaign->id)));?>
+                            <?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/buyer/campaign', array('id'=>$campaign->id)));?>
                         </h4>
                         
                         <p>
                             <strong>Лиды:</strong>
-                            <?php echo CHtml::link('Все', Yii::app()->createUrl('/cabinet/leads', array('campaign'=>$campaign->id)));?> &nbsp;
-                            <?php echo CHtml::link('Купленные', Yii::app()->createUrl('/cabinet/leads', array('campaign'=>$campaign->id, 'status'=>Lead::LEAD_STATUS_SENT)));?> &nbsp;
-                            <?php echo CHtml::link('На отбраковке', Yii::app()->createUrl('/cabinet/leads', array('campaign'=>$campaign->id, 'status'=>Lead::LEAD_STATUS_NABRAK)));?> &nbsp;
-                            <?php echo CHtml::link('Брак', Yii::app()->createUrl('/cabinet/leads', array('campaign'=>$campaign->id, 'status'=>Lead::LEAD_STATUS_BRAK)));?> &nbsp;
-                            <?php echo CHtml::link('Возврат', Yii::app()->createUrl('/cabinet/leads', array('campaign'=>$campaign->id, 'status'=>Lead::LEAD_STATUS_RETURN)));?>
+                            <?php echo CHtml::link('Все', Yii::app()->createUrl('/buyer/leads', array('campaign'=>$campaign->id)));?> &nbsp;
+                            <?php echo CHtml::link('Купленные', Yii::app()->createUrl('/buyer/leads', array('campaign'=>$campaign->id, 'status'=>Lead::LEAD_STATUS_SENT)));?> &nbsp;
+                            <?php echo CHtml::link('На отбраковке', Yii::app()->createUrl('/buyer/leads', array('campaign'=>$campaign->id, 'status'=>Lead::LEAD_STATUS_NABRAK)));?> &nbsp;
+                            <?php echo CHtml::link('Брак', Yii::app()->createUrl('/buyer/leads', array('campaign'=>$campaign->id, 'status'=>Lead::LEAD_STATUS_BRAK)));?> &nbsp;
+                            <?php echo CHtml::link('Возврат', Yii::app()->createUrl('/buyer/leads', array('campaign'=>$campaign->id, 'status'=>Lead::LEAD_STATUS_RETURN)));?>
                         </p>
                         <p>
                             <strong>Баланс:</strong> <?php echo number_format($campaign->balance, 2, '.', ' ');?> руб.

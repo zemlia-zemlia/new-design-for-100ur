@@ -4,7 +4,7 @@
 $this->setPageTitle('Новая кампания');
 
 $this->breadcrumbs=array(
-    'Кабинет покупателя'=>array('/cabinet'),
+    'Кабинет покупателя'=>array('/buyer'),
     'Новая кампания',
 );
 

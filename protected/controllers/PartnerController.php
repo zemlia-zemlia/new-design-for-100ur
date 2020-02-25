@@ -7,6 +7,10 @@ class PartnerController extends Controller
 {
     public $layout = '//frontend/cabinet';
 
+    /*
+     * TODO почепму тут грузится шаблон кабинет а функционал вебмастера?
+     */
+
     public function filters()
     {
         return array(

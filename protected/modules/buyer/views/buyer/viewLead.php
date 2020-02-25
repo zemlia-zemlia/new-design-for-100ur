@@ -5,14 +5,14 @@
 $this->setPageTitle("Лид #" . CHtml::encode($model->name) . '. ' . Yii::app()->name);
 
 $this->breadcrumbs = array(
-    'Кабинет' => array('/cabinet'),
-    'Кампания' => array('/cabinet/campaign', 'id' => $model->campaign->id),
-    'Лиды' => array('/cabinet/leads', 'campaign' => $model->campaign->id),
+    'Кабинет' => array('/buyer'),
+    'Кампания' => array('/buyer/campaign', 'id' => $model->campaign->id),
+    'Лиды' => array('/buyer/leads', 'campaign' => $model->campaign->id),
     CHtml::encode($model->name),
 );
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('100 юристов', "/cabinet/"),
+    'homeLink' => CHtml::link('100 юристов', "/buyer/"),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
 ));

@@ -3,7 +3,7 @@
 $this->setPageTitle("Пополнение баланса." . Yii::app()->name);
 
 $this->breadcrumbs=array(
-    'Кабинет'   =>  array('/cabinet'),
+    'Кабинет'   =>  array('/buyer'),
         'Пополнение баланса',
 );
 

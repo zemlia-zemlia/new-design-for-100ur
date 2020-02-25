@@ -2,7 +2,7 @@
 $this->setPageTitle("Мои транзакции" . Yii::app()->name);
 
 $this->breadcrumbs = array(
-    'Кабинет' => array('/cabinet'),
+    'Кабинет' => array('/buyer'),
     'Мои транзакции',
 );
 
