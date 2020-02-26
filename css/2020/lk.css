@@ -1,8 +1,17 @@
 .balance-block-byer-webmaster{
     color: #fff;
-    padding: auto;
     text-align: center;
     vertical-align: center;
+    position: relative;
+    font-weight: bold;
+}
+
+.block {
+    width: 130px;
+    display: table;
+    padding-top: 5px;}
+.block p {
+    display: table-cell;
 }
 
 .pager .next>a, .pager .next>span {

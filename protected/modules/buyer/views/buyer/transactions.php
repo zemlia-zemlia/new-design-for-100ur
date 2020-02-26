@@ -40,11 +40,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         <strong>(комиссия 0% для карт Московского региона)<br/>
                             для карт других регионов от 1% <br/> (у каждого банка индивидуально)<br/>
                             зачисление на баланс в течении 30 минут</strong></p>
-                    <div class="alert alert-warning">
-                        <p>
+                    <div class="callout callout-info">
                             <strong>ВНИМАНИЕ!</strong><br/> При оплате c карты сбербанка в сообщении к платежу укажите <strong>"Аккаунт
-                                ID <?php echo Yii::app()->user->id; ?>" </strong> Если отправляете платеж с другого банка, просим скинуть чек или скрин платежа нам на почту с указанием ID вашего аккаунта.
-                        </p>
+                                ID <?php echo Yii::app()->user->id; ?>" </strong> Если отправляете платеж с другого банка, просим скинуть чек или скрин платежа нам на почту admin@100yuristov.com с указанием ID вашего аккаунта.
                     </div>
                 </div>
             </div>
@@ -56,7 +54,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 </div>
                 <div class="box-body">
                     <p class="text-center">зачисление - мгновенно</p>
+                    <div style="max-width: 400px; margin-left: auto" class="align-center">
                     <?php echo $this->renderPartial('application.views.transaction._yandexForm'); ?>
+                    </div>
                 </div>
             </div>
         </div>

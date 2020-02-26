@@ -14,7 +14,7 @@ $this->pageTitle = "Транзакции. " . Yii::app()->name;
         <div class="box-title">Информация о балансе</div>
     </div>
     <div class="box-body">
-        <table class="table">
+        <table class="table text-center">
             <tr>
                 <td class="center-align">
                     Ваш баланс:<br/> <strong><?php echo MoneyFormat::rubles($balance); ?> руб.</strong><br/> (из них

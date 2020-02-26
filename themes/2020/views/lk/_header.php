@@ -15,25 +15,27 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <li>
-                    <div class="row center-block balance-block-byer-webmaster hidden-xs">
+                    <div class="row center-block balance-block-byer-webmaster">
                         <?php if (Yii::app()->user->checkAccess(User::ROLE_PARTNER)) :
                             $currentUser = User::model()->findByPk(Yii::app()->user->id);
                             $balance = $currentUser->calculateWebmasterBalance(30);
                             $hold = $currentUser->calculateWebmasterHold(30);
                             ?>
-                            <div class="col-md-6 align-center">
-                            Баланс:<?php if (($balance - $hold) < PartnerTransaction::MIN_WITHDRAW): ?>
+                            <div class="col-md-6 block">
+                            <p>Баланс:<?php if (($balance - $hold) < PartnerTransaction::MIN_WITHDRAW): ?></p>
                         <?php else: ?>
                             <?php echo MoneyFormat::rubles($balance - $hold); ?>
                             </div>
                         <?php endif; ?>
-                            <div class="col-md-6">
-                                Холд: <br><?php echo MoneyFormat::rubles($hold); ?>
+                            <div class="col-md-6 hidden-xs block">
+                                <p> Холд: <br><?php echo MoneyFormat::rubles($hold); ?></p>
                             </div>
                         <?php endif; ?>
 
                         <?php if (Yii::app()->user->checkAccess(User::ROLE_BUYER)) : ?>
-                            Ваш баланс: <br> <?php echo MoneyFormat::rubles(Yii::app()->user->balance); ?> руб.
+                        <div class="col-md-12 align-center block">
+                            <p> Баланс: <br> <?php echo MoneyFormat::rubles(Yii::app()->user->balance); ?></p>
+                        </div>
                         <?php endif; ?>
                     </div>
                 </li>

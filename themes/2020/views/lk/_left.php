@@ -9,7 +9,7 @@
             <div class="pull-left info">
                 <p><?= CHtml::encode(Yii::app()->user->shortName); ?> </p>
 
-                <a href="#"><i class="fa fa-circle text-success"></i><?php echo Yii::app()->user->roleName; ?></a>
+                <small><i class="fa fa-circle text-success"></i><?php echo Yii::app()->user->roleName; ?></small>
             </div>
         </div>
         <ul class="sidebar-menu">
@@ -19,10 +19,10 @@
 
             <li><a href="<?= Yii::app()->createUrl('/buyer/'); ?>"><i class="fa fa-circle-o"></i> Главная</a></li>
             <li><a href="<?= Yii::app()->createUrl('/buyer/transactions/'); ?>"><i class="fa fa-money" aria-hidden="true"></i> Баланс</a></li>
+            <li><a href="<?= Yii::app()->createUrl('/buyer/campaigns/'); ?>"><i class="fa fa-bars" aria-hidden="true"></i> Мои кампании</a></li>
             <li><a href="<?= Yii::app()->createUrl('/buyer/api/'); ?>"><i class="fa fa-wrench" aria-hidden="true"></i> API</a></li>
             <li><a href="<?= Yii::app()->createUrl('/buyer/faq/'); ?>"><i class="fa fa-question" aria-hidden="true"></i> FAQ</a></li>
             <li><a href="<?= Yii::app()->createUrl('/buyer/help/'); ?>"><i class="fa fa-life-ring" aria-hidden="true"></i> Техподдержка</a></li>
-            <li><a href="<?= Yii::app()->createUrl('/buyer/campaigns/'); ?>"><i class="fa fa-life-ring" aria-hidden="true"></i> Мои кампании</a></li>
             <li><a href="http://www.yurcrm.ru/" target="_blank" rel="nofollow"><i class="fa fa-circle-o"></i> CRM для юристов  <i class="fa fa-external-link" aria-hidden="true"></i>
                 </a></li>
 
