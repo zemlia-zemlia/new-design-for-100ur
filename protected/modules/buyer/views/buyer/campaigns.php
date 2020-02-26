@@ -21,7 +21,7 @@
 
                     <div class="row">
                         <div class="col-md-4">
-                            <h5><?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/buyer/leads', array('campaign' => $campaign->id))); ?></h5>
+                            <h5><?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/buyer/buyer/leads', array('campaign' => $campaign->id))); ?></h5>
                         </div>
                         <div class="col-md-4">
                             <?php if ($campaign->active != Campaign::ACTIVE_MODERATION): ?>
@@ -31,7 +31,7 @@
                             <?php echo $campaign->getActiveStatusName(); ?>
                         </div>
                         <div class="col-md-4">
-                            <?php echo CHtml::link("Настройки <span class='glyphicon glyphicon-cog'></span>", Yii::app()->createUrl('/buyer/campaign', array('id' => $campaign->id))); ?>
+                            <?php echo CHtml::link("Настройки <span class='glyphicon glyphicon-cog'></span>", Yii::app()->createUrl('/buyer/buyer/campaign', array('id' => $campaign->id))); ?>
                         </div>
                     </div>
                 <?php endforeach; ?>
