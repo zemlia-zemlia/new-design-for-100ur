@@ -19,7 +19,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         }
     </style>
 <div class="text-center">
-    <h1>Ваш баланс: <?php echo MoneyFormat::rubles(Yii::app()->user->balance); ?> руб.</h1>
+    <h2>Ваш баланс: <?php echo MoneyFormat::rubles(Yii::app()->user->balance); ?> руб.</h2>
 </div>
 
     <p>
@@ -54,7 +54,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 </div>
                 <div class="box-body">
                     <p class="text-center">зачисление - мгновенно</p>
-                    <div style="max-width: 400px; margin-left: auto" class="align-center">
+                    <div class="buyer-yandex-form align-center">
                     <?php echo $this->renderPartial('application.views.transaction._yandexForm'); ?>
                     </div>
                 </div>

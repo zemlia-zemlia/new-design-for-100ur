@@ -33,3 +33,9 @@
 .skin-blue .main-header .logo {
     background-color: #222d32;
 }
+
+.buyer-yandex-form {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
