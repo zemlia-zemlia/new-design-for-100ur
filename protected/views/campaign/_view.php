@@ -8,7 +8,7 @@ $leadsSentPercent = ($data->leadsDayLimit>0)?($data->leadsTodayCount/$data->lead
     echo 'class="active"';
 }?>>
     <td>
-        <?php echo CHtml::link($data->id, Yii::app()->createUrl('/buyer/campaign', array('id'=>$data->id)));?>
+        <?php echo CHtml::link($data->id, Yii::app()->createUrl('/buyer/buyer/campaign', array('id'=>$data->id)));?>
         <?php if ($data->active==0):?>
         <br /><small><span class='label label-default'>неакт</span></small>
         <?php endif;?>
@@ -33,7 +33,7 @@ $leadsSentPercent = ($data->leadsDayLimit>0)?($data->leadsTodayCount/$data->lead
         <?php echo MoneyFormat::rubles($data->balance);?></span> руб.<br />
         </p>
         
-        <?php echo CHtml::link('Транзакции', Yii::app()->createUrl('/buyer/campaign', array('id'=>$data->id)));?>
+        <?php echo CHtml::link('Транзакции', Yii::app()->createUrl('/buyer/buyer/campaign', array('id'=>$data->id)));?>
         
     </td>
     

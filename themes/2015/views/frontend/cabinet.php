@@ -60,7 +60,7 @@
                 <div class="panel gray-panel" >
                     <div class="panel-body">
                         <h4>
-                            <?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/buyer/campaign', array('id'=>$campaign->id)));?>
+                            <?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/buyer/buyer/campaign', array('id'=>$campaign->id)));?>
                         </h4>
                         
                         <p>

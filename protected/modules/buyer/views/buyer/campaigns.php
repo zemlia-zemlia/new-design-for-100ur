@@ -5,7 +5,7 @@
     <!--
                 <div class="flat-panel" >
                     <div class="inside">
-                        <?php echo CHtml::link('Купленные вручную', Yii::app()->createUrl('buyer/leads')); ?>
+                        <?php echo CHtml::link('Купленные вручную', Yii::app()->createUrl('/buyer/buyer/leads')); ?>
                     </div>
                 </div>
                  -->

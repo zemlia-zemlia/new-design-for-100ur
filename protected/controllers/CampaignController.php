@@ -108,7 +108,7 @@ class CampaignController extends Controller
 
 
             if (!$model->errors && $model->save()) {
-                $this->redirect(array('buyer/campaign', 'id' => $model->id));
+                $this->redirect(array('/buyer/buyer/campaign', 'id' => $model->id));
             }
         }
 
@@ -136,7 +136,7 @@ class CampaignController extends Controller
             $model->attributes = $_POST['Campaign'];
 
             if ($model->save()) {
-                $this->redirect(array('buyer/campaign', 'id' => $model->id));
+                $this->redirect(array('/buyer/buyer/campaign', 'id' => $model->id));
             }
         }
 
