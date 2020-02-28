@@ -20,7 +20,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <div class="box-body">
         <h1><?php echo CHtml::encode($model->name); ?></h1>
 
-
         <table class="table table-bordered">
             <tr>
                 <td><strong><?php echo $model->getAttributeLabel('id'); ?></strong></td>

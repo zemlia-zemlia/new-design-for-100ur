@@ -68,6 +68,49 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
     <!-- ./col -->
 </div>
 
+<div class="box">
+    <div class="box-header">
+        <div class="box-title">Cтатистика по лидам за последние 15 дней</div>
+    </div>
+    <div class="box-body">
+        <table class="table table-bordered">
+            <tr>
+                <th>Дата</th>
+                <th>Получено заявок</th>
+                <th>Выкуплено заявок</th>
+                <th>Не выкуплено</th>
+                <th>% Выкупа</th>
+                <th>Брак (%)</th>
+                <th>Дубли</th>
+                <th>Средняя стоимость заявки</th>
+                <th>Всего заработок</th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="box">
+    <div class="box-header">
+        <div class="box-title">Cтатистика по регионам за последние 15 дней</div>
+    </div>
+    <div class="box-body">
+        <table class="table table-bordered">
+            <tr>
+                <th>Название региона</th>
+                <th>Получено заявок</th>
+                <th>Выкуплено заявок</th>
+                <th>% Выкупа</th>
+                <th>Не выкуплено</th>
+                <th>Брак (%)</th>
+                <th>Дубли</th>
+                <th>Средняя стоимость заявки</th>
+                <th>Средняя стоимость заявки</th>
+                <th>Всего заработок</th>
+            </tr>
+        </table>
+    </div>
+</div>
+
 <h3>Последние лиды</h3>
 <?php $this->widget('zii.widgets.CListView', array(
     'dataProvider' => $dataProvider,
