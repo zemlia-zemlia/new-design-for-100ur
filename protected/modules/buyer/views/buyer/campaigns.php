@@ -1,15 +1,26 @@
 <h1 class="vert-margin20">Мои кампании</h1>
 <p>
-
-
     <!--
-                <div class="flat-panel" >
-                    <div class="inside">
-                        <?php echo CHtml::link('Купленные вручную', Yii::app()->createUrl('/buyer/buyer/leads')); ?>
-                    </div>
-                </div>
-                 -->
+<div class="flat-panel" >
+    <div class="inside">
+        <?php echo CHtml::link('Купленные вручную', Yii::app()->createUrl('/buyer/buyer/leads')); ?>
+    </div>
+</div>
+ -->
 </p>
+
+<?php if (sizeof($currentUser->campaigns) == 0): ?>
+    <div class="alert alert-danger">
+        <p>
+            Для того, чтобы начать покупать лиды, Вам
+            необходимо <?php echo CHtml::link('создать кампанию', Yii::app()->createUrl('campaign/create')); ?> и
+            дождаться ее проверки.<br/>
+            Цена лида будет определена модератором при одобрении кампании.<br/>
+            После этого Вы сможете пополнить баланс и получать лиды.
+        </p>
+    </div>
+<?php endif; ?>
+
 
 <div class="row">
     <div class="col-md-8">

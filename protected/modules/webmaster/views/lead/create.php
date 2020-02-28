@@ -3,7 +3,7 @@
 /* @var $model Lead */
 
 
-$this->setPageTitle("Новый лид" . Yii::app()->name);
+$this->setPageTitle("Новый лид " . Yii::app()->name);
 Yii::app()->clientScript->registerScriptFile("/js/scripts.js", CClientScript::POS_END);
 
 $this->breadcrumbs = array(
@@ -18,7 +18,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 ));
 ?>
 
-<h1>Новый лид</h1>
+<div class="vert-margin20"></div>
 
 <?php if (!empty($apiResult)): ?>
     <h2>Результат запроса к API:</h2>
@@ -29,6 +29,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <div class="row">
     <div class="col-md-6">
         <div class="box">
+            <div class="box-header">
+                <div class="box-title">Добавляем новый лид</div>
+            </div>
             <div class="box-body">
                 <?php echo $this->renderPartial('_form', array('model' => $model)); ?>
             </div>

@@ -14,37 +14,33 @@
         </a>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-                <li>
-                    <div class="row center-block balance-block-byer-webmaster">
-                        <?php if (Yii::app()->user->checkAccess(User::ROLE_PARTNER)) :
-                            $currentUser = User::model()->findByPk(Yii::app()->user->id);
-                            $balance = $currentUser->calculateWebmasterBalance(30);
-                            $hold = $currentUser->calculateWebmasterHold(30);
-                            ?>
-                            <div class="col-md-6 block">
-                            <p>Баланс:<?php if (($balance - $hold) < PartnerTransaction::MIN_WITHDRAW): ?> <i class="fa fa-rub" aria-hidden="true"></i>
-                            </p>
-                        <?php else: ?>
-                            <?php echo MoneyFormat::rubles($balance - $hold); ?>
-                            </div>
-                        <?php endif; ?>
-                            <div class="col-md-6 hidden-xs block">
-                                <p> Холд: <br><?php echo MoneyFormat::rubles($hold); ?> <i class="fa fa-rub" aria-hidden="true"></i>
-                                </p>
-                            </div>
-                        <?php endif; ?>
 
-                        <?php if (Yii::app()->user->checkAccess(User::ROLE_BUYER)) : ?>
-                        <div class="col-md-12 align-center block">
-                            <p> Баланс: <br> <?php echo MoneyFormat::rubles(Yii::app()->user->balance); ?> <i class="fa fa-rub" aria-hidden="true"></i></p>
-                        </div>
-                        <?php endif; ?>
-                    </div>
-                </li>
+                <?php if (Yii::app()->user->checkAccess(User::ROLE_PARTNER)) :
+                    $currentUser = User::model()->findByPk(Yii::app()->user->id);
+                    $balance = $currentUser->calculateWebmasterBalance(30);
+                    $hold = $currentUser->calculateWebmasterHold(30);
+                    ?>
+                    <li>
+                        <?php echo CHtml::link('<i class="fa fa-rub" aria-hidden="true"></i> ' . MoneyFormat::rubles($balance - $hold), Yii::app()->createUrl('/webmaster/transaction/')); ?>
+                    </li>
+
+                    <li class="hidden-xs">
+                        <?php echo CHtml::link('Холд: ' . MoneyFormat::rubles($hold) . ' <i class="fa fa-rub" aria-hidden="true"></i>', Yii::app()->createUrl('/webmaster/transaction/')); ?>
+                    </li>
+                <?php endif; ?>
+
+                <?php if (Yii::app()->user->checkAccess(User::ROLE_BUYER)) : ?>
+                    <li>
+                        <a href="/buyer/transactions/">
+                            <i class="fa fa-rub" aria-hidden="true"></i> <?php echo MoneyFormat::rubles(Yii::app()->user->balance); ?> </a>
+                    </li>
+                <?php endif; ?>
+
 
                 <li class="user">
-                    <?php echo CHtml::link('<i class="fa  fa-user" aria-hidden="true"></i>' . CHtml::encode(Yii::app()->user->shortName),  Yii::app()->createUrl('user')); ?>
+                    <?php echo CHtml::link('<i class="fa  fa-user" aria-hidden="true"></i>' . CHtml::encode(Yii::app()->user->shortName), Yii::app()->createUrl('user')); ?>
                     <?php echo CHtml::link('<i class="glyphicon glyphicon-log-out"></i>', Yii::app()->createUrl('site/logout')); ?>
+                </li>
             </ul>
         </div>
     </nav>

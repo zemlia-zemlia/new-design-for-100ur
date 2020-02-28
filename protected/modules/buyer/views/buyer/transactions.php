@@ -25,7 +25,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <p>
 <?php if (Yii::app()->user->campaignsModeratedCount > 0): ?>
 
-    <h3 class="text-uppercase">Пополнение баланса:</h3>
+    <h4 class="text-uppercase">Пополнение баланса:</h4>
 
     <div class="row">
         <div class="col-sm-6 text-center">
@@ -37,8 +37,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     Карта Сбербанка. Номер: 5469 3800 2197 4653 <br/>
                     получатель: Виталий Николаевич Т.<br/>
                     <p class="small">
-                        <strong>(комиссия 0% для карт Московского региона)<br/>
-                            для карт других регионов от 1% <br/> (у каждого банка индивидуально)<br/>
+                        <strong>(комиссия 0% для карт Московского региона)
+                            для карт других регионов от 1% (у каждого банка индивидуально)
                             зачисление на баланс в течении 30 минут</strong></p>
                     <div class="callout callout-info">
                             <strong>ВНИМАНИЕ!</strong><br/> При оплате c карты сбербанка в сообщении к платежу укажите <strong>"Аккаунт

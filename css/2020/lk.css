@@ -1,17 +1,6 @@
-.balance-block-byer-webmaster{
-    color: #fff;
-    text-align: center;
-    vertical-align: center;
-    position: relative;
-    font-weight: bold;
-}
-
-.block {
-    width: 130px;
-    display: table;
-    padding-top: 5px;}
-.block p {
-    display: table-cell;
+.skin-blue .main-header .navbar .nav>li>div>a:hover {
+    background: rgba(0,0,0,0.1);
+    color: #f6f6f6;
 }
 
 .pager .next>a, .pager .next>span {
@@ -27,15 +16,31 @@
 }
 
 .skin-blue .main-header .navbar {
-    background-color: #222d32;
+    background-color: #0178a3;
 }
 
 .skin-blue .main-header .logo {
-    background-color: #222d32;
+    background-color: #0178a3;
 }
 
 .buyer-yandex-form {
     max-width: 400px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.vert-margin10 {
+    margin-bottom: 10px !important;
+}
+
+.vert-margin20 {
+    margin-bottom: 20px !important;
+}
+
+.vert-margin30 {
+    margin-bottom: 30px !important;
+}
+
+.vert-margin40 {
+    margin-bottom: 40px !important;
 }
