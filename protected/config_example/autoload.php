@@ -14,5 +14,6 @@ return [
     'application.extensions.Logger.*',
     'application.notifiers.*',
     'application.helpers.*',
+    'application.repositories.*',
     'application.widgets.TopYurists.*',
 ];
