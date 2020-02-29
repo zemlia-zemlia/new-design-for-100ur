@@ -1,5 +1,5 @@
 <?php
-
+use webmaster\services\StatisticsService;
 class DefaultController extends Controller
 {
     public $layout='//lk/main';
@@ -40,10 +40,15 @@ class DefaultController extends Controller
             'criteria' => $questionCriteria,
             'pagination' => false,
         ));
-        
+        $stat = new StatisticsService();
+        $stat->userId = Yii::app()->user->id;
+
+//        var_dump(count($stat->getAllLead()));die;
+
         $this->render('index', array(
             'dataProvider'          =>  $leadsDataProvider,
             'questionsDataProvider' =>  $questionsDataProvider,
+            'stat' => $stat
         ));
     }
 }

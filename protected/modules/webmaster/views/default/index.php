@@ -15,7 +15,7 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
         <!-- small box -->
         <div class="small-box bg-aqua">
             <div class="inner">
-                <h3>150</h3>
+                <h3><?= count($stat->getAllLead()) ?></h3>
                 <p>Лидов за 30 дней</p>
             </div>
             <div class="icon">
