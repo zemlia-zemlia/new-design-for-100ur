@@ -1,9 +1,14 @@
 <?php
+/**
+ * @var $soldLeadsCount int
+ * @var $averageExpencesPerDay int
+ */
+
 $this->setPageTitle("Кабинет покупателя лидов. " . Yii::app()->name);
 
 ?>
 
-<?php if (sizeof($currentUser->campaigns) == 0): ?>
+<?php if (sizeof(Yii::app()->user->getModel()->campaigns) == 0): ?>
     <div class="alert alert-danger">
         <p>
             Для того, чтобы начать покупать лиды, Вам
@@ -33,7 +38,7 @@ $this->setPageTitle("Кабинет покупателя лидов. " . Yii::ap
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3><?php echo $soldLeadsCount;?></h3>
                         <p>Лидов за 30 дней</p>
                     </div>
                     <div class="icon">
@@ -45,7 +50,7 @@ $this->setPageTitle("Кабинет покупателя лидов. " . Yii::ap
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>44.553 </h3>
+                        <h3><?php echo MoneyFormat::rubles($averageExpencesPerDay);?> </h3>
 
                         <p>Средний расход в день</p>
                     </div>

@@ -31,7 +31,7 @@
 
                 <?php if (Yii::app()->user->checkAccess(User::ROLE_BUYER)) : ?>
                     <li>
-                        <a href="/buyer/transactions/">
+                        <a href="<?php echo Yii::app()->createUrl('buyer/buyer/transactions');?>">
                             <i class="fa fa-rub" aria-hidden="true"></i> <?php echo MoneyFormat::rubles(Yii::app()->user->balance); ?> </a>
                     </li>
                 <?php endif; ?>

@@ -9,7 +9,7 @@
  -->
 </p>
 
-<?php if (sizeof($currentUser->campaigns) == 0): ?>
+<?php if (sizeof(Yii::app()->user->getModel()->campaigns) == 0): ?>
     <div class="alert alert-danger">
         <p>
             Для того, чтобы начать покупать лиды, Вам

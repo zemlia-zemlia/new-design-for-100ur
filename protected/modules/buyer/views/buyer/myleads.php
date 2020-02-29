@@ -7,7 +7,7 @@ Yii::app()->clientScript->registerMetaTag("Что такое юридическ�
 
 <h2>Мои лиды</h2>
 
-<?php if (sizeof($currentUser->campaigns) == 0):?>
+<?php if (sizeof(Yii::app()->user->getModel()->campaigns) == 0):?>
     <div class="alert alert-danger">
         <p>
             Для того, чтобы начать покупать лиды, Вам необходимо <?php echo CHtml::link('создать кампанию', Yii::app()->createUrl('campaign/create'));?> и дождаться ее проверки.<br />

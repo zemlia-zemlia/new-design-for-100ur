@@ -1,5 +1,7 @@
 <?php
 
+use \buyer\services\StatisticsService;
+
 class BuyerController extends Controller
 {
     public $layout = '//lk/main';
@@ -20,7 +22,7 @@ class BuyerController extends Controller
     {
         return array(
             array('allow', // разрешаем доступ только авторизованным пользователям
-                'actions' => array('index', 'leads', 'faq', 'viewLead', 'campaign', 'brakLead', 'transactions', 'topup', 'api', 'help', 'campaigns' ,'myleads' ),
+                'actions' => array('index', 'leads', 'faq', 'viewLead', 'campaign', 'brakLead', 'transactions', 'topup', 'api', 'help', 'campaigns', 'myleads'),
                 'users' => array('@'),
                 'expression' => 'Yii::app()->user->role == User::ROLE_BUYER',
             ),
@@ -34,39 +36,24 @@ class BuyerController extends Controller
     public function actionIndex()
     {
         // выберем кампании текущего пользователя
-
-        $myCampaigns = Campaign::getCampaignsForBuyer(Yii::app()->user->id);
-        $myCampaignIds = array();
-
-        foreach ($myCampaigns as $campaign) {
-            $myCampaignIds[] = $campaign->id;
-        }
-
-        $criteria = new CDbCriteria;
-
-        $criteria->addInCondition('campaignId', $myCampaignIds);
-        $criteria->addColumnCondition(['buyerId' => Yii::app()->user->id], 'AND', 'OR');
-        $criteria->order = 'deliveryTime DESC';
-
+        $dataProvider = (new BuyerRepository())->getBuyersCampaignsDataProvider(Yii::app()->user->id);
         $showInactive = true;
+        $currentUser = Yii::app()->user->getModel();
 
-        $currentUser = User::model()->findByPk(Yii::app()->user->id);
+        $buyerStatisticService = new StatisticsService(Yii::app()->user->id);
 
-        /* if(!isset($_GET['show_inactive'])) {
-          $criteria->addColumnCondition(array('active'=>1));
-          $showInactive = false;
-          } else {
-          $showInactive = true;
-          } */
-
-        $dataProvider = new CActiveDataProvider('Lead', array(
-            'criteria' => $criteria,
-        ));
+        $statPeriodDays = 30;
+        $statsFromDate = (new DateTime())->modify('-' . ($statPeriodDays - 1) . ' day')->modify('midnight');
+        $soldLeadsCount = $buyerStatisticService->getSoldLeadsCount($statsFromDate);
+        $soldLeadsTotalExpences = $buyerStatisticService->getTotalExpences($statsFromDate);
+        $averageExpencesPerDay = $soldLeadsTotalExpences / $statPeriodDays;
 
         $this->render('index', array(
             'dataProvider' => $dataProvider,
             'showInactive' => $showInactive,
             'currentUser' => $currentUser,
+            'soldLeadsCount' => $soldLeadsCount,
+            'averageExpencesPerDay' => $averageExpencesPerDay,
         ));
     }
 
@@ -88,7 +75,7 @@ class BuyerController extends Controller
         $criteria->addColumnCondition(array('campaignId' => $campaignId));
 
         if ($status !== false) {
-            $criteria->addColumnCondition(array('leadStatus' => (int) $status));
+            $criteria->addColumnCondition(array('leadStatus' => (int)$status));
         }
         if ($campaignId == 0) {
             $criteria->addColumnCondition(['buyerId' => Yii::app()->user->id]);
@@ -119,10 +106,10 @@ class BuyerController extends Controller
             'model' => $model,
         ));
     }
+
     public function actionCampaigns()
     {
         $campaigns = Campaign::getCampaignsForBuyer(Yii::app()->user->id);
-
 
         $this->render('campaigns', array(
             'campaigns' => $campaigns,
@@ -177,48 +164,42 @@ class BuyerController extends Controller
     // отбраковка лида покупателем
     public function actionBrakLead()
     {
-        $reason = isset($_POST['reason']) ? (int) $_POST['reason'] : 0;
+        $reason = isset($_POST['reason']) ? (int)$_POST['reason'] : 0;
         $reasonComment = isset($_POST['reasonComment']) ? CHtml::encode($_POST['reasonComment']) : '';
-        $leadId = isset($_POST['leadId']) ? (int) $_POST['leadId'] : 0;
+        $leadId = isset($_POST['leadId']) ? (int)$_POST['leadId'] : 0;
 
         if (!$leadId || !$reason || !$reasonComment) {
             echo json_encode(array('code' => 400, 'message' => 'Ошибка, не заполнены все поля формы'));
-            Yii::app()->end();
-            ;
+            Yii::app()->end();;
         }
 
         $lead = Lead::model()->findByPk($leadId);
 
         if (!$lead) {
             echo json_encode(array('code' => 404, 'message' => 'Лид не найден'));
-            Yii::app()->end();
-            ;
+            Yii::app()->end();;
         }
 
         if (!$lead->campaign || $lead->campaign->buyerId != Yii::app()->user->id) {
             echo json_encode(array('code' => 403, 'message' => 'Вы не можете редактировать этого лида'));
-            Yii::app()->end();
-            ;
+            Yii::app()->end();;
         }
 
         if (!(!is_null($lead->deliveryTime) && (time() - strtotime($lead->deliveryTime) < 86400 * Yii::app()->params['leadHoldPeriodDays']))) {
             echo json_encode(array('code' => 403, 'message' => 'Нельзя отправить на отбраковку лид, отправленный покупателю более 3 суток назад'));
-            Yii::app()->end();
-            ;
+            Yii::app()->end();;
         }
 
         $lead->leadStatus = Lead::LEAD_STATUS_NABRAK;
-        $lead->brakReason = (int) $reason;
+        $lead->brakReason = (int)$reason;
         $lead->brakComment = $reasonComment;
 
         if ($lead->save()) {
             echo json_encode(array('code' => 0, 'id' => $leadId, 'message' => 'Лид отправлен на отбраковку'));
-            Yii::app()->end();
-            ;
+            Yii::app()->end();;
         } else {
             echo json_encode(array('code' => 400, 'id' => $leadId, 'message' => 'Ошибка: не удалось отправить лид на отбраковку'));
-            Yii::app()->end();
-            ;
+            Yii::app()->end();;
         }
     }
 
@@ -239,6 +220,10 @@ class BuyerController extends Controller
 
     public function actionMyleads()
     {
-        $this->render('myleads');
+        $dataProvider = (new BuyerRepository())->getBuyersCampaignsDataProvider(Yii::app()->user->id);
+
+        $this->render('myleads', [
+            'dataProvider' => $dataProvider,
+        ]);
     }
 }
