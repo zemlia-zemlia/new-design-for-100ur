@@ -1,6 +1,8 @@
 <?php
 /* @var $this ContactController */
 /* @var $dataProvider CActiveDataProvider */
+/* @var $leadStatsByDates array */
+/* @var $stat \webmaster\services\StatisticsService */
 
 $this->pageTitle = "Личный кабинет вебмастера. " . Yii::app()->name;
 
@@ -15,7 +17,7 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
         <!-- small box -->
         <div class="small-box bg-aqua">
             <div class="inner">
-                <h3><?= count($stat->getAllLead()) ?></h3>
+                <h3><?= $stat->getAllLeadsCount((new DateTime())->modify('-29 days')->modify('midnight')) ?></h3>
                 <p>Лидов за 30 дней</p>
             </div>
             <div class="icon">
@@ -84,6 +86,30 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
                 <th>Дубли</th>
                 <th>Средняя стоимость заявки</th>
                 <th>Всего заработок</th>
+            </tr>
+            <?php foreach ($leadStatsByDates['dates'] as $date => $leadsByDatesRow):?>
+                <tr>
+                    <td><?php echo $date;?></td>
+                    <td><?php echo $leadsByDatesRow['totalLeads'];?></td>
+                    <td><?php echo $leadsByDatesRow['soldLeads'];?></td>
+                    <td><?php echo $leadsByDatesRow['notSoldLeads'];?></td>
+                    <td><?php echo $leadsByDatesRow['soldLeadsPercent'];?>%</td>
+                    <td><?php echo $leadsByDatesRow['brakLeads'];?> (<?php echo $leadsByDatesRow['brakPercents'];?>%)</td>
+                    <td><?php echo $leadsByDatesRow['duplicateLeads'];?></td>
+                    <td><?php echo MoneyFormat::rubles($leadsByDatesRow['averageLeadPrice']);?></td>
+                    <td><?php echo MoneyFormat::rubles($leadsByDatesRow['totalRevenue']);?></td>
+                </tr>
+            <?php endforeach;?>
+            <tr>
+                <td>Всего</td>
+                <td><?php echo $leadStatsByDates['totalLeads'];?></td>
+                <td><?php echo $leadStatsByDates['soldLeads'];?></td>
+                <td><?php echo $leadStatsByDates['notSoldLeads'];?></td>
+                <td><?php echo $leadStatsByDates['soldLeadsPercent'];?>%</td>
+                <td><?php echo $leadStatsByDates['brakLeads'];?> (<?php echo $leadStatsByDates['brakPercents'];?>%)</td>
+                <td><?php echo $leadStatsByDates['duplicateLeads'];?></td>
+                <td><?php echo MoneyFormat::rubles($leadStatsByDates['averageLeadPrice']);?></td>
+                <td><?php echo MoneyFormat::rubles($leadStatsByDates['totalRevenue']);?></td>
             </tr>
         </table>
     </div>
