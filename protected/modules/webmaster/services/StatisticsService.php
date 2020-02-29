@@ -76,11 +76,11 @@ class StatisticsService
      * @return array
      * @throws \CException
      */
-    public function getLeadsStatisticsByDates(DateTime $fromDate = null): array
+    public function getLeadsStatisticsByField($groupByFieldName = 'lead_date', DateTime $fromDate = null): array
     {
         $rawStatistics = $this->getLeadsWithStatusesAndRegions($fromDate);
 
-        $statsByDates = [];
+        $statsByField = [];
         $totalLeadsCount = [];
         $soldLeadsCount = [];
         $soldLeadsPercent = [];
@@ -92,60 +92,62 @@ class StatisticsService
         $averageLeadPrice = [];
 
         foreach ($rawStatistics as $row) {
-            $totalLeadsCount[$row['lead_date']]++;
+            $totalLeadsCount[$row[$groupByFieldName]]++;
 
             if (in_array($row['leadStatus'], $this->getSoldLeadStatuses())) {
-                $soldLeadsCount[$row['lead_date']]++;
-                $totalRevenue[$row['lead_date']] += $row['buyPrice'];
+                $soldLeadsCount[$row[$groupByFieldName]]++;
+                $totalRevenue[$row[$groupByFieldName]] += $row['buyPrice'];
             }
 
             if ($row['leadStatus'] == Lead::LEAD_STATUS_DEFAULT) {
-                $notSoldLeadsCount[$row['lead_date']]++;
+                $notSoldLeadsCount[$row[$groupByFieldName]]++;
             }
 
             if ($row['leadStatus'] == Lead::LEAD_STATUS_BRAK) {
-                $brakLeadsCount[$row['lead_date']]++;
+                $brakLeadsCount[$row[$groupByFieldName]]++;
             }
 
             if ($row['leadStatus'] == Lead::LEAD_STATUS_DUPLICATE) {
-                $duplicateLeadsCount[$row['lead_date']]++;
+                $duplicateLeadsCount[$row[$groupByFieldName]]++;
             }
         }
 
-        foreach ($brakLeadsCount as $date => $brakLeadOnDate) {
-            $brakPercents[$date] = ($soldLeadsCount[$date] > 0) ? round(($brakLeadOnDate / $soldLeadsCount[$date]) * 100, 1) : 0;
+        foreach ($brakLeadsCount as $fieldToGroup => $brakLeadOnDate) {
+            $brakPercents[$fieldToGroup] = ($soldLeadsCount[$fieldToGroup] > 0) ? round(($brakLeadOnDate / $soldLeadsCount[$fieldToGroup]) * 100, 1) : 0;
         }
 
-        foreach ($soldLeadsCount as $date => $soldLeadsOnDate) {
-            $soldLeadsPercent[$date] = ($totalLeadsCount[$date] > 0) ? round(($soldLeadsOnDate / $totalLeadsCount[$date]) * 100, 1) : 0;
-            $averageLeadPrice[$date] = ($soldLeadsOnDate > 0) ? round($totalRevenue[$date] / $soldLeadsOnDate) : 0;
+        foreach ($soldLeadsCount as $fieldToGroup => $soldLeadsOnDate) {
+            $soldLeadsPercent[$fieldToGroup] = ($totalLeadsCount[$fieldToGroup] > 0) ? round(($soldLeadsOnDate / $totalLeadsCount[$fieldToGroup]) * 100, 1) : 0;
+            $averageLeadPrice[$fieldToGroup] = ($soldLeadsOnDate > 0) ? round($totalRevenue[$fieldToGroup] / $soldLeadsOnDate) : 0;
         }
 
-        foreach ($totalLeadsCount as $date => $totalLeadsForDate) {
-            $statsByDates['dates'][$date] = [
+        foreach ($totalLeadsCount as $fieldToGroup => $totalLeadsForDate) {
+            $statsByField['data'][$fieldToGroup] = [
                 'totalLeads' => $totalLeadsForDate,
-                'soldLeads' => $soldLeadsCount[$date] ?? 0,
-                'notSoldLeads' => $notSoldLeadsCount[$date] ?? 0,
-                'soldLeadsPercent' => $soldLeadsPercent[$date],
-                'brakLeads' => $brakLeadsCount[$date] ?? 0,
-                'duplicateLeads' => $duplicateLeadsCount[$date] ?? 0,
-                'brakPercents' => $brakPercents[$date],
-                'averageLeadPrice' => $averageLeadPrice[$date],
-                'totalRevenue' => $totalRevenue[$date],
+                'soldLeads' => $soldLeadsCount[$fieldToGroup] ?? 0,
+                'notSoldLeads' => $notSoldLeadsCount[$fieldToGroup] ?? 0,
+                'soldLeadsPercent' => $soldLeadsPercent[$fieldToGroup] ?? 0,
+                'brakLeads' => $brakLeadsCount[$fieldToGroup] ?? 0,
+                'duplicateLeads' => $duplicateLeadsCount[$fieldToGroup] ?? 0,
+                'brakPercents' => $brakPercents[$fieldToGroup] ?? 0,
+                'averageLeadPrice' => $averageLeadPrice[$fieldToGroup],
+                'totalRevenue' => $totalRevenue[$fieldToGroup],
             ];
-            $statsByDates['totalLeads'] += $totalLeadsForDate;
-            $statsByDates['soldLeads'] += $soldLeadsCount[$date];
-            $statsByDates['notSoldLeads'] += $notSoldLeadsCount[$date];
-            $statsByDates['brakLeads'] += $brakLeadsCount[$date];
-            $statsByDates['duplicateLeads'] += $duplicateLeadsCount[$date];
-            $statsByDates['totalRevenue'] += $totalRevenue[$date];
+            $statsByField['totalLeads'] += $totalLeadsForDate;
+            $statsByField['soldLeads'] += $soldLeadsCount[$fieldToGroup];
+            $statsByField['notSoldLeads'] += $notSoldLeadsCount[$fieldToGroup];
+            $statsByField['brakLeads'] += $brakLeadsCount[$fieldToGroup];
+            $statsByField['duplicateLeads'] += $duplicateLeadsCount[$fieldToGroup];
+            $statsByField['totalRevenue'] += $totalRevenue[$fieldToGroup];
         }
 
-        $statsByDates['brakPercents'] = ($statsByDates['soldLeads'] > 0) ? round(($statsByDates['brakLeads'] / $statsByDates['soldLeads']) * 100, 1) : 0;
-        $statsByDates['soldLeadsPercent'] = ($statsByDates['totalLeads'] > 0) ? round(($statsByDates['soldLeads'] / $statsByDates['totalLeads']) * 100, 1) : 0;
-        $statsByDates['averageLeadPrice'] = ($statsByDates['soldLeads'] > 0) ? round($statsByDates['totalRevenue'] / $statsByDates['soldLeads']) : 0;
+        ksort($statsByField['data']);
 
-        return $statsByDates;
+        $statsByField['brakPercents'] = ($statsByField['soldLeads'] > 0) ? round(($statsByField['brakLeads'] / $statsByField['soldLeads']) * 100, 1) : 0;
+        $statsByField['soldLeadsPercent'] = ($statsByField['totalLeads'] > 0) ? round(($statsByField['soldLeads'] / $statsByField['totalLeads']) * 100, 1) : 0;
+        $statsByField['averageLeadPrice'] = ($statsByField['soldLeads'] > 0) ? round($statsByField['totalRevenue'] / $statsByField['soldLeads']) : 0;
+
+        return $statsByField;
     }
 
     /**
@@ -157,7 +159,7 @@ class StatisticsService
     private function getLeadsWithStatusesAndRegions(DateTime $fromDate = null): array
     {
         $queryCommand = Yii::app()->db->createCommand()
-            ->select('l.id, l.leadStatus, l.buyPrice, DATE(l.question_date) lead_date, r.id, r.name')
+            ->select('l.id, l.leadStatus, l.buyPrice, DATE(l.question_date) lead_date, r.id, r.name region_name')
             ->from('{{lead}} l')
             ->leftJoin('{{leadsource}} s', 'l.sourceId = s.id')
             ->leftJoin('{{town}} t', 'l.townId = t.id')

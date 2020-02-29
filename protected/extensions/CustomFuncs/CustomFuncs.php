@@ -139,7 +139,14 @@ class CustomFuncs
         }
     }
 
-    // функция преобразует дату из формата 2012-09-01 12:30:00 в Пн 1 сен. 2012 12:30
+    /**
+     * функция преобразует дату из формата 2012-09-01 12:30:00 в Пн 1 сен. 2012 12:30
+     * @param string $date
+     * @param bool $showTime
+     * @param bool $showWeekday
+     * @param bool $showYear
+     * @return string
+     */
     public static function niceDate($date, $showTime = true, $showWeekday = true, $showYear = true)
     {
         $monthsArray = array('', 'янв.', 'фев.', 'мар.', 'апр.', 'мая', 'июн.', 'июл.', 'авг.', 'сен.', 'окт.', 'ноя.', 'дек.');

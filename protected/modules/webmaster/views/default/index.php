@@ -2,6 +2,7 @@
 /* @var $this ContactController */
 /* @var $dataProvider CActiveDataProvider */
 /* @var $leadStatsByDates array */
+/* @var $leadStatsByRegions array */
 /* @var $stat \webmaster\services\StatisticsService */
 
 $this->pageTitle = "Личный кабинет вебмастера. " . Yii::app()->name;
@@ -84,12 +85,12 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
                 <th>% Выкупа</th>
                 <th>Брак (%)</th>
                 <th>Дубли</th>
-                <th>Средняя стоимость заявки</th>
+                <th>Ср цена лида</th>
                 <th>Всего заработок</th>
             </tr>
-            <?php foreach ($leadStatsByDates['dates'] as $date => $leadsByDatesRow):?>
+            <?php foreach ($leadStatsByDates['data'] as $date => $leadsByDatesRow):?>
                 <tr>
-                    <td><?php echo $date;?></td>
+                    <td><?php echo CustomFuncs::niceDate($date, false, false, false);?></td>
                     <td><?php echo $leadsByDatesRow['totalLeads'];?></td>
                     <td><?php echo $leadsByDatesRow['soldLeads'];?></td>
                     <td><?php echo $leadsByDatesRow['notSoldLeads'];?></td>
@@ -125,12 +126,36 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
                 <th>Название региона</th>
                 <th>Получено заявок</th>
                 <th>Выкуплено заявок</th>
-                <th>% Выкупа</th>
                 <th>Не выкуплено</th>
+                <th>% Выкупа</th>
                 <th>Брак (%)</th>
                 <th>Дубли</th>
-                <th>Средняя стоимость заявки</th>
+                <th>Ср цена лида</th>
                 <th>Всего заработок</th>
+            </tr>
+            <?php foreach ($leadStatsByRegions['data'] as $regionName => $leadsByDatesRow):?>
+                <tr>
+                    <td><?php echo $regionName;?></td>
+                    <td><?php echo $leadsByDatesRow['totalLeads'];?></td>
+                    <td><?php echo $leadsByDatesRow['soldLeads'];?></td>
+                    <td><?php echo $leadsByDatesRow['notSoldLeads'];?></td>
+                    <td><?php echo $leadsByDatesRow['soldLeadsPercent'];?>%</td>
+                    <td><?php echo $leadsByDatesRow['brakLeads'];?> (<?php echo $leadsByDatesRow['brakPercents'];?>%)</td>
+                    <td><?php echo $leadsByDatesRow['duplicateLeads'];?></td>
+                    <td><?php echo MoneyFormat::rubles($leadsByDatesRow['averageLeadPrice']);?></td>
+                    <td><?php echo MoneyFormat::rubles($leadsByDatesRow['totalRevenue']);?></td>
+                </tr>
+            <?php endforeach;?>
+            <tr>
+                <td>Всего</td>
+                <td><?php echo $leadStatsByRegions['totalLeads'];?></td>
+                <td><?php echo $leadStatsByRegions['soldLeads'];?></td>
+                <td><?php echo $leadStatsByRegions['notSoldLeads'];?></td>
+                <td><?php echo $leadStatsByRegions['soldLeadsPercent'];?>%</td>
+                <td><?php echo $leadStatsByRegions['brakLeads'];?> (<?php echo $leadStatsByRegions['brakPercents'];?>%)</td>
+                <td><?php echo $leadStatsByRegions['duplicateLeads'];?></td>
+                <td><?php echo MoneyFormat::rubles($leadStatsByRegions['averageLeadPrice']);?></td>
+                <td><?php echo MoneyFormat::rubles($leadStatsByRegions['totalRevenue']);?></td>
             </tr>
         </table>
     </div>

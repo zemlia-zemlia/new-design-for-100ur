@@ -44,13 +44,15 @@ class DefaultController extends Controller
         ));
 
         $webmasterStat = new StatisticsService(Yii::app()->user->id);
-        $leadStatsByDates = $webmasterStat->getLeadsStatisticsByDates((new DateTime())->modify('-14 day')->modify('midnight'));
+        $leadStatsByDates = $webmasterStat->getLeadsStatisticsByField('lead_date', (new DateTime())->modify('-14 day')->modify('midnight'));
+        $leadStatsByRegions = $webmasterStat->getLeadsStatisticsByField('region_name', (new DateTime())->modify('-14 day')->modify('midnight'));
 
         $this->render('index', array(
             'dataProvider' => $leadsDataProvider,
             'questionsDataProvider' => $questionsDataProvider,
             'stat' => $webmasterStat,
             'leadStatsByDates' => $leadStatsByDates,
+            'leadStatsByRegions' => $leadStatsByRegions,
         ));
     }
 }
