@@ -72,11 +72,13 @@ class StatisticsService
 
     /**
      * Статистика лидов вебмастера по датам
+     * @param string $groupByFieldName
      * @param DateTime|null $fromDate
+     * @param string $order asc|desc
      * @return array
      * @throws \CException
      */
-    public function getLeadsStatisticsByField($groupByFieldName = 'lead_date', DateTime $fromDate = null): array
+    public function getLeadsStatisticsByField($groupByFieldName = 'lead_date', DateTime $fromDate = null, $order = 'asc'): array
     {
         $rawStatistics = $this->getLeadsWithStatusesAndRegions($fromDate);
 
@@ -141,7 +143,11 @@ class StatisticsService
             $statsByField['totalRevenue'] += $totalRevenue[$fieldToGroup];
         }
 
-        ksort($statsByField['data']);
+        if ($order == 'asc') {
+            ksort($statsByField['data']);
+        } else {
+            krsort($statsByField['data']);
+        }
 
         $statsByField['brakPercents'] = ($statsByField['soldLeads'] > 0) ? round(($statsByField['brakLeads'] / $statsByField['soldLeads']) * 100, 1) : 0;
         $statsByField['soldLeadsPercent'] = ($statsByField['totalLeads'] > 0) ? round(($statsByField['soldLeads'] / $statsByField['totalLeads']) * 100, 1) : 0;
