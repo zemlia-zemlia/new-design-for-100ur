@@ -22,7 +22,7 @@ class StatisticsService
             $yuristActivityStats[$row['lastDate']] = $row['counter'];
         }
 
-        $yuristActivityStats = CustomFuncs::fillEmptyDatesArrayByDefaultValues($yuristActivityStats);
+        $yuristActivityStats = DateHelper::fillEmptyDatesArrayByDefaultValues($yuristActivityStats);
 
         ksort($yuristActivityStats);
 

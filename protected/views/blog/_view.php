@@ -53,7 +53,7 @@ switch ($index) {
                 <div class="post-stats">
                     <div class='row'>
                         <div class='col-xs-6 left-align'>
-                            <span class="muted"><?php echo CustomFuncs::invertDate($data->datePublication); ?></span>
+                            <span class="muted"><?php echo DateHelper::invertDate($data->datePublication); ?></span>
                         </div>
                         <div class='col-xs-6 right-align'>
                             <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span class='muted'><?php echo $data->viewsCount->views; ?> </span>

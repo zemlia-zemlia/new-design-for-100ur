@@ -1,6 +1,7 @@
 <?php
 /* @var $this UserController */
 
+use DateHelper as DateHelperAlias;
 use sto_yuristov\helpers\DateHelper;
 
 /* @var $model User */
@@ -60,7 +61,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     <?php endif; ?>
                     <tr>
                         <td><strong><?php echo $model->getAttributeLabel('birthday'); ?></strong></td>
-                        <td><?php echo CustomFuncs::invertDate($model->birthday); ?></td>
+                        <td><?php echo DateHelperAlias::invertDate($model->birthday); ?></td>
                     </tr>
                     <?php if ($model->settings): ?>
                         <tr>
@@ -233,7 +234,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             <div class="user-comment" style="margin-left:<?php echo ($comment->level - 1) * 20; ?>px;">
                                 <p>
                                     <strong><?php echo CHtml::encode($comment->author->name . ' ' . $comment->author->lastName); ?></strong>
-                                    <span class="text-muted"><?php echo CustomFuncs::niceDate($comment->dateTime, false, false); ?></span>
+                                    <span class="text-muted"><?php echo DateHelperAlias::niceDate($comment->dateTime, false, false); ?></span>
                                     <br/>
                                     <?php echo CHtml::encode($comment->text); ?>
                                 </p>
@@ -284,7 +285,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                             echo "<span class='label label-warning'><abbr title='Вопрос с гарантией получения ответов'><span class='glyphicon glyphicon-ruble'></span></abbr></span>";
                                         }
                                         ?>
-                                        <?php echo CHtml::link(CustomFuncs::mb_ucfirst($question->title, 'utf-8'), Yii::app()->createUrl('question/view', array('id' => $question->id))); ?>
+                                        <?php echo CHtml::link(StringHelper::mb_ucfirst($question->title, 'utf-8'), Yii::app()->createUrl('question/view', array('id' => $question->id))); ?>
                                     </p>
                                 </div>
 
@@ -294,7 +295,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                         if ($question->answersCount == 1) {
                                             echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> Есть ответ</span>";
                                         } elseif ($question->answersCount > 1) {
-                                            echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question->answersCount . ' ' . CustomFuncs::numForms($question->answersCount, 'ответ', 'ответа', 'ответов') . "</span>";
+                                            echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question->answersCount . ' ' . NumbersHelper::numForms($question->answersCount, 'ответ', 'ответа', 'ответов') . "</span>";
                                         } elseif ($question->answersCount == 0) {
                                             echo "<span class='text-muted'>Нет ответа</span>";
                                         }
@@ -334,7 +335,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             </tr>
                             <?php foreach ($leadsStats['dates'] as $date => $leadsByDate): ?>
                                 <tr>
-                                    <td><?php echo CustomFuncs::niceDate($date, false, false); ?></td>
+                                    <td><?php echo DateHelperAlias::niceDate($date, false, false); ?></td>
                                     <td class="text-right"><?php echo $leadsByDate['count']; ?></td>
                                     <td class="text-right"><?php echo MoneyFormat::rubles($leadsByDate['sum']); ?>
                                         руб.
@@ -406,7 +407,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                 </tr>
                                 <?php foreach ($leadsStats as $date => $statsByDate): ?>
                                     <tr>
-                                        <th colspan="4"><?php echo CustomFuncs::niceDate($date, false, true); ?></th>
+                                        <th colspan="4"><?php echo DateHelperAlias::niceDate($date, false, true); ?></th>
                                     </tr>
                                     <?php foreach ($statsByDate as $regionName => $statsByRegion): ?>
                                         <tr>

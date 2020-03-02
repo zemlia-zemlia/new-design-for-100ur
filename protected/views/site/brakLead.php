@@ -29,7 +29,7 @@
 
     <tr>
         <td><strong><?php echo $lead->getAttributeLabel('deliveryTime'); ?></strong></td>
-        <td><?php echo CustomFuncs::niceDate($lead->deliveryTime); ?></td>
+        <td><?php echo DateHelper::niceDate($lead->deliveryTime); ?></td>
     </tr>
     <tr>
         <td><strong><?php echo $lead->getAttributeLabel('question'); ?></strong></td>

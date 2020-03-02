@@ -40,7 +40,7 @@ switch ($data->status) {
     </td>
 
     <td>
-        <?php echo CustomFuncs::niceDate($data->createDate, false, false); ?>
+        <?php echo DateHelper::niceDate($data->createDate, false, false); ?>
     </td>
     <td>
         <?php echo $data->docType->getClassName(); ?>.

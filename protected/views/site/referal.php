@@ -130,7 +130,7 @@ Yii::app()->clientScript->registerMetaTag("Получайте деньги за 
             <?php foreach ($referals as $referal): ?>
                 <tr>
                     <td>
-                        <?php echo CustomFuncs::niceDate($referal->registerDate, false, false); ?>
+                        <?php echo DateHelper::niceDate($referal->registerDate, false, false); ?>
                     </td>
                     <td>
                         <?php echo CHtml::encode($referal->name); ?>

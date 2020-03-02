@@ -1,6 +1,6 @@
 <tr>
     <td>
-        <?php echo CustomFuncs::niceDate(isset($data->datetime) ? $data->datetime : $data->time);?>
+        <?php echo DateHelper::niceDate(isset($data->datetime) ? $data->datetime : $data->time);?>
     </td>
     <td><?php echo MoneyFormat::rubles($data->sum);?></td>
     <td><?php echo isset($data->comment) ?  $data->comment : $data->description;?></td>

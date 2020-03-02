@@ -71,7 +71,7 @@
 
                                 &nbsp;|&nbsp;
 
-                                <span class="glyphicon glyphicon-signal"></span>&nbsp;<?php echo $data->author->answersCount . ' ' . CustomFuncs::numForms($data->author->answersCount, 'ответ', "ответа", "ответов"); ?>
+                                <span class="glyphicon glyphicon-signal"></span>&nbsp;<?php echo $data->author->answersCount . ' ' . NumbersHelper::numForms($data->author->answersCount, 'ответ', "ответа", "ответов"); ?>
                                 &nbsp;|&nbsp;
                                 <span class='glyphicon glyphicon-thumbs-up'></span>&nbsp;<?php echo $data->author->karma; ?>
 
@@ -129,7 +129,7 @@
 
                             <?php if ($data->datetime): ?>
                                 <span class="text-muted small">
-                                <?php echo CustomFuncs::niceDate($data->datetime, false); ?>
+                                <?php echo DateHelper::niceDate($data->datetime, false); ?>
                                 </span>
                             <?php endif; ?>
 

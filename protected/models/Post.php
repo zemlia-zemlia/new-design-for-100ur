@@ -322,7 +322,7 @@ class Post extends CActiveRecord
 
         // при создании поста генерируем алиас из заголовка и id
         if ($this->isNewRecord) {
-            $this->alias = mb_substr(CustomFuncs::translit($this->title), 0, 200, 'utf-8');
+            $this->alias = mb_substr(StringHelper::translit($this->title), 0, 200, 'utf-8');
             $this->alias = preg_replace("/[^a-zA-Z0-9\-]/ui", '', $this->alias);
         }
 

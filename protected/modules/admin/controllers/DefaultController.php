@@ -142,7 +142,7 @@ class DefaultController extends Controller
             $stat100yuristov[$row['lead_date']] = $row['counter'];
         }
 
-        $stat100yuristov = CustomFuncs::fillEmptyDatesArrayByDefaultValues($stat100yuristov);
+        $stat100yuristov = DateHelper::fillEmptyDatesArrayByDefaultValues($stat100yuristov);
 
         ksort($stat100yuristov);
 

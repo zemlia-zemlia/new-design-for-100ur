@@ -24,7 +24,7 @@ $purifier = new CHtmlPurifier();
                 </p>
             <?php endif; ?>
                             <span class="text-muted small right-align">
-                        <?php echo CustomFuncs::niceDate($testimonial->dateTime, false, false); ?>
+                        <?php echo DateHelper::niceDate($testimonial->dateTime, false, false); ?>
                     </span>
         </div>
         <?php if ($index % 3 == 2): ?>

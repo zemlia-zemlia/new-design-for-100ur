@@ -7,7 +7,7 @@
 
 <tr>
     <td>
-        <?php echo CustomFuncs::niceDate($data->time);?>
+        <?php echo DateHelper::niceDate($data->time);?>
     </td>
     <td>
         <?php echo $data->campaign->town->name . ' ' . $data->campaign->region->name;?>

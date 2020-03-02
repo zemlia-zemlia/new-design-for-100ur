@@ -73,7 +73,7 @@ class PostController extends Controller
                  */
                 $this->redirect(array('view', 'id' => $model->id));
             } else {
-                CustomFuncs::printr($postCommentModel->errors());
+                StringHelper::printr($postCommentModel->errors());
             }
         }
 
@@ -118,7 +118,7 @@ class PostController extends Controller
         if (isset($_POST['Post'])) {
             $model->attributes = $_POST['Post'];
             $model->authorId = Yii::app()->user->id;
-            $model->datePublication = CustomFuncs::invertDate($model->datePublication);
+            $model->datePublication = DateHelper::invertDate($model->datePublication);
 
 
             if (!empty($_FILES)) {
@@ -143,7 +143,7 @@ class PostController extends Controller
                 $this->redirect(array('view', 'id' => $model->id));
             }
 
-            $model->datePublication = CustomFuncs::invertDate($model->datePublication);
+            $model->datePublication = DateHelper::invertDate($model->datePublication);
         }
 
         $this->render('create', array(
@@ -180,7 +180,7 @@ class PostController extends Controller
 
         if (isset($_POST['Post'])) {
             $model->attributes = $_POST['Post'];
-            $model->datePublication = CustomFuncs::invertDate($model->datePublication);
+            $model->datePublication = DateHelper::invertDate($model->datePublication);
 
             if (!empty($_FILES)) {
                 $file = CUploadedFile::getInstance($model, 'photoFile');
@@ -203,10 +203,10 @@ class PostController extends Controller
             if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->id));
             }
-            $model->datePublication = CustomFuncs::invertDate($model->datePublication);
+            $model->datePublication = DateHelper::invertDate($model->datePublication);
         }
 
-        $model->datePublication = CustomFuncs::invertDate($model->datePublication);
+        $model->datePublication = DateHelper::invertDate($model->datePublication);
 
         $this->render('update', array(
             'model' => $model,

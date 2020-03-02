@@ -73,7 +73,7 @@ class File extends CActiveRecord
      */
     public function createFileName($file)
     {
-        return uniqid() . '_' .  CustomFuncs::translit($file->getName());
+        return uniqid() . '_' . StringHelper::translit($file->getName());
     }
 
     /**

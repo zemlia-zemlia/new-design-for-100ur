@@ -1,6 +1,6 @@
 <?php
 
-$monthsNames = CustomFuncs::getMonthsNames();
+$monthsNames = DateHelper::getMonthsNames();
 
 $pageTitle = "Архив вопросов за " . $monthsNames[$month] . ' ' . $year . ' года. ';
 if (isset($_GET) && (int)$_GET['Question_page']) {

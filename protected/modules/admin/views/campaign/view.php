@@ -100,7 +100,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             }
                             ?>
                             <span class="label <?php echo $labelClass; ?>">
-                    <?php echo CustomFuncs::getWeekDays()[$dayNumber]; ?>
+                    <?php echo DateHelper::getWeekDays()[$dayNumber]; ?>
                 </span> &nbsp;
                         <?php endfor; ?>
                     </td>
@@ -182,7 +182,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         </tr>
                         <?php foreach ($leadsStats['dates'] as $date => $leadsByDate): ?>
                             <tr>
-                                <td><?php echo CustomFuncs::niceDate($date, false, false); ?></td>
+                                <td><?php echo DateHelper::niceDate($date, false, false); ?></td>
                                 <td class="text-right"><?php echo $leadsByDate['count']; ?></td>
                                 <td class="text-right"><?php echo MoneyFormat::rubles($leadsByDate['sum']); ?> руб.</td>
                             </tr>

@@ -20,7 +20,7 @@
         </div> 
         
         <?php if ($showMy == true):?>
-            Отредактирован вами <?php echo CustomFuncs::niceDate($model->moderatedTime);?>
+            Отредактирован вами <?php echo DateHelper::niceDate($model->moderatedTime);?>
         <?php endif;?>
     </div>
     <div class="col-md-3">

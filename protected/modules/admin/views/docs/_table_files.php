@@ -21,7 +21,7 @@
             <td>
                 <?php echo CHtml::encode($file->description); ?>
             </td>
-            <td><?= CustomFuncs::niceDate(date('Y-m-d H:i:s', $file->uploadTs)) ?></td>
+            <td><?= DateHelper::niceDate(date('Y-m-d H:i:s', $file->uploadTs)) ?></td>
             <td><?= $file->downloads_count ?></td>
             <td>
                 <?php echo CHtml::link("Ред.", array('/admin/docs/update/?id=' .  $file->id)); ?>

@@ -625,7 +625,7 @@ class Question extends CActiveRecord
                                 //CustomFuncs::printr($question);
                                 $mailer->message .= '<p>'.
                                     CHtml::link($question->title, Yii::app()->createUrl('question/view', ['id' => $question->id, 'autologin' => $yurist['autologin'], 'utm_medium' => 'mail', 'utm_source' => '100yuristov', 'utm_campaign' => 'fresh_questions_notification', 'utm_term' => $yurist['id']])).
-                                    '<br />'.CHtml::encode(CustomFuncs::cutString($question->questionText, 200));
+                                    '<br />'.CHtml::encode(StringHelper::cutString($question->questionText, 200));
                                 if (mb_strlen($question->questionText, 'utf-8') > 200) {
                                     $mailer->message .= '...';
                                 }
@@ -669,7 +669,7 @@ class Question extends CActiveRecord
                             //CustomFuncs::printr($question);
                             $mailer->message .= '<p>'.
                                 CHtml::link($question->title, Yii::app()->createUrl('question/view', ['id' => $question->id, 'autologin' => $yurist['autologin'], 'utm_medium' => 'mail', 'utm_source' => '100yuristov', 'utm_campaign' => 'fresh_questions_notification', 'utm_term' => $yurist['id']])).
-                                '<br />'.CHtml::encode(CustomFuncs::cutString($question->questionText, 200));
+                                '<br />'.CHtml::encode(StringHelper::cutString($question->questionText, 200));
                             if (mb_strlen($question->questionText, 'utf-8') > 200) {
                                 $mailer->message .= '...';
                             }

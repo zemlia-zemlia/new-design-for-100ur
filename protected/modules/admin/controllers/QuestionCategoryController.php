@@ -100,7 +100,7 @@ class QuestionCategoryController extends Controller
                 // прикрепим категорию к родительской (в иерархии)
                 $model->appendTo($parent);
             }
-            $model->publish_date = CustomFuncs::invertDate($model->publish_date);
+            $model->publish_date = DateHelper::invertDate($model->publish_date);
             if ($model->saveNode()) {
                 $this->redirect(array('view', 'id' => $model->id));
             }
@@ -112,7 +112,7 @@ class QuestionCategoryController extends Controller
         $scriptMap['jquery.min.js'] = '/js/jquery-1.8.3.min.js';
         Yii::app()->clientScript->scriptMap = $scriptMap;
 
-        $model->publish_date = CustomFuncs::invertDate($model->publish_date);
+        $model->publish_date = DateHelper::invertDate($model->publish_date);
 
         $this->render('create', array(
             'model' => $model,
@@ -195,7 +195,7 @@ class QuestionCategoryController extends Controller
 //        $scriptMap['jquery.min.js'] = '/js/jquery-1.8.3.min.js';
 //        Yii::app()->clientScript->scriptMap = $scriptMap;
 
-        $model->publish_date = CustomFuncs::invertDate((new DateTime($model->publish_date))->format('Y-m-d'));
+        $model->publish_date = DateHelper::invertDate((new DateTime($model->publish_date))->format('Y-m-d'));
 
         $this->render('update', array(
             'model' => $model,
@@ -325,7 +325,7 @@ class QuestionCategoryController extends Controller
         $categories = QuestionCategory::model()->findAll();
         foreach ($categories as $cat) {
             if ($cat->alias == '') {
-                $cat->alias = CustomFuncs::translit($cat->name);
+                $cat->alias = StringHelper::translit($cat->name);
                 $cat->save();
             }
         }
@@ -333,10 +333,10 @@ class QuestionCategoryController extends Controller
         $towns = Town::model()->findAllByAttributes(array('alias' => ''));
         foreach ($towns as $town) {
             if ($town->alias == '') {
-                $town->alias = CustomFuncs::translit($town->name) . "-" . $town->id;
+                $town->alias = StringHelper::translit($town->name) . "-" . $town->id;
                 echo $town->name . " - " . $town->alias . "<br />";
                 if (!$town->save()) {
-                    CustomFuncs::printr($town->errors);
+                    StringHelper::printr($town->errors);
                 }
             }
         }

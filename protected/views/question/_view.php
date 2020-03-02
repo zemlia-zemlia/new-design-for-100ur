@@ -27,7 +27,7 @@
 <small>
         <p>
         <?php if (!is_null($data->publishDate)) {
-    echo CustomFuncs::niceDate($data->publishDate);
+    echo DateHelper::niceDate($data->publishDate);
 }?>&nbsp;&nbsp;    
             
         <?php if ($data->authorName):?>
@@ -52,7 +52,7 @@
         <?php endif;?>    
         
         <?php if ($answersCount = $data->answersCount):?>
-            <span class="glyphicon glyphicon-comment"></span>&nbsp;<?php echo $answersCount . "&nbsp;" .  CustomFuncs::numForms($answersCount, 'ответ', 'ответа', 'ответов');?>
+            <span class="glyphicon glyphicon-comment"></span>&nbsp;<?php echo $answersCount . "&nbsp;" . NumbersHelper::numForms($answersCount, 'ответ', 'ответа', 'ответов');?>
         <?php endif;?>
         </p>
 </small>

@@ -38,7 +38,7 @@
         <br/>
         <small>
             <?php if ($data->dateTime) {
-            echo CustomFuncs::niceDate($data->dateTime, false, false);
+            echo DateHelper::niceDate($data->dateTime, false, false);
         }?>
             &nbsp;
             <?php if ($data->author):?>

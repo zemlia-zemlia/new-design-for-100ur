@@ -10,7 +10,7 @@
         <?php if (strtotime($data->datePublication)>time()):?>
             <span class="label label-warning">ожидает публикации</span>
         <?php endif;?>    
-            <?php echo CustomFuncs::invertDate($data->datePublication);?></span>
+            <?php echo DateHelper::invertDate($data->datePublication);?></span>
         <h3>
             <?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('/admin/post/view', array('id'=>$data->id)));?>
         </h3>

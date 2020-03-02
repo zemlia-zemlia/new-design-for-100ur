@@ -19,7 +19,7 @@ if (empty($answers) || sizeof($answers)==0) {
     <?php if ($answer['questionPrice']!=0 && $answer['questionPayed'] == 1):?>
             <span class="label label-warning"><span class='glyphicon glyphicon-ruble'></span></span>
         <?php endif;?>
-    <?php echo CHtml::link(CHtml::encode(CustomFuncs::mb_ucfirst($answer['questionTitle'], 'utf-8')), Yii::app()->createUrl('question/view', array('id'=>$answer['questionId'])));?>
+    <?php echo CHtml::link(CHtml::encode(StringHelper::mb_ucfirst($answer['questionTitle'], 'utf-8')), Yii::app()->createUrl('question/view', array('id'=>$answer['questionId'])));?>
         
 </p>
 
@@ -32,7 +32,7 @@ if (empty($answers) || sizeof($answers)==0) {
     <div class="col-xs-8">
         <div class="answer-item-info">
             <?php if ($answer['answerTime']):?>
-            <span class="glyphicon glyphicon-calendar"></span> <?php echo CustomFuncs::niceDate($answer['answerTime'], false);?>
+            <span class="glyphicon glyphicon-calendar"></span> <?php echo DateHelper::niceDate($answer['answerTime'], false);?>
             <br />
             <?php endif;?>
             <?php if ($answer['authorId']):?>

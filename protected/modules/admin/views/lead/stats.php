@@ -102,7 +102,7 @@ $expencesTotal = 0;
                     <?php
                     switch ($type) {
                         case "dates":
-                            echo CustomFuncs::invertDate($date);
+                            echo DateHelper::invertDate($date);
                             break;
                         case "campaigns":
                             echo Campaign::getCampaignNameById($date);

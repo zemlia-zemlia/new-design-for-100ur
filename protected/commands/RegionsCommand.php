@@ -71,7 +71,7 @@ class RegionsCommand extends CConsoleCommand
                 ->queryAll();
         
         foreach ($towns as $town) {
-            $regionAlias = CustomFuncs::translit($town['ocrug']);
+            $regionAlias = StringHelper::translit($town['ocrug']);
             Yii::app()->db->createCommand()
                     ->update(
                         '{{region}}',

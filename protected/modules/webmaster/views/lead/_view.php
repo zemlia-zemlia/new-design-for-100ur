@@ -34,7 +34,7 @@ switch ($data->leadStatus) {
         
         <small class="muted" > 
 
-            <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo CustomFuncs::niceDate($data->question_date, false, false); ?>&nbsp;&nbsp;
+            <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo DateHelper::niceDate($data->question_date, false, false); ?>&nbsp;&nbsp;
             <br />
                 <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo CHtml::encode($data->source->name); ?>       
             <br />

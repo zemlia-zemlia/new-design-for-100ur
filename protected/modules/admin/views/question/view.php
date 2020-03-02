@@ -61,7 +61,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                 <?php endforeach; ?>
                             </p>
                             <p><strong>Статус:</strong> <?php echo CHtml::encode($model->getQuestionStatusName()); ?>
-                                <span class="muted"><?php echo CustomFuncs::niceDate($model->publishDate) . ' ' . CHtml::encode($model->bublishUser->name . ' ' . $model->bublishUser->lastName); ?></span>
+                                <span class="muted"><?php echo DateHelper::niceDate($model->publishDate) . ' ' . CHtml::encode($model->bublishUser->name . ' ' . $model->bublishUser->lastName); ?></span>
                             </p>
 
                             <p><strong>Автор вопроса:</strong> <?php echo CHtml::encode($model->authorName); ?></p>

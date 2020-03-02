@@ -138,7 +138,7 @@ class UserActivity extends CActiveRecord
         $this->userId = $user->id;
         $this->action = $actionId;
         $this->ts = (new DateTime())->format('Y-m-d H:i:s');
-        $this->ip = CustomFuncs::getUserIP();
+        $this->ip = IpHelper::getUserIP();
 
         return $this->save();
     }

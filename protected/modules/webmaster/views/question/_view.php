@@ -34,7 +34,7 @@
         
         <small>
                 <?php if ($data->createDate) {
-    echo CustomFuncs::niceDate($data->createDate, false, false);
+    echo DateHelper::niceDate($data->createDate, false, false);
 }?>
             &nbsp;
              

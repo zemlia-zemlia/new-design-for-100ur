@@ -24,7 +24,7 @@
     </td>
     <?php if ($data->role == User::ROLE_JURIST): ?>
         <td>
-            <?php echo CustomFuncs::niceDate($data->lastActivity, true, false); ?>
+            <?php echo DateHelper::niceDate($data->lastActivity, true, false); ?>
         </td>
     <?php endif; ?>
     <td>

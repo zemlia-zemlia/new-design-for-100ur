@@ -248,11 +248,11 @@ class LeadController extends Controller
             if ($contact->save()) {
                 echo $contact->id;
             } else {
-                CustomFuncs::printr($contact->errors);
+                StringHelper::printr($contact->errors);
                 //throw new CHttpException(500,'Не удалось перевести лид в вопрос');
             }
         } else {
-            CustomFuncs::printr($question->errors);
+            StringHelper::printr($question->errors);
         }
     }
 
@@ -319,8 +319,8 @@ class LeadController extends Controller
             if ($lead->save()) {
                 echo "Лид " . $lead->id . ' сохранен<br />';
             } else {
-                CustomFuncs::printr($lead->attributes);
-                CustomFuncs::printr($lead->errors);
+                StringHelper::printr($lead->attributes);
+                StringHelper::printr($lead->errors);
             }
         }
     }
@@ -402,7 +402,7 @@ class LeadController extends Controller
             $transaction->description = 'Возврат за лид ID=' . $lead->id;
 
             if (!$transaction->save()) {
-                CustomFuncs::printr($transaction->errors);
+                StringHelper::printr($transaction->errors);
                 echo json_encode(array('code' => 500, 'id' => $lead->id, 'message' => 'Не удалось сохранить транзакцию'));
                 Yii::app()->end();
             }

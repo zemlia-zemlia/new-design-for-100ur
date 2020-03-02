@@ -7,7 +7,7 @@
     <div class="col-sm-9">
         <p>
             <span class="muted" > 
-                <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo CustomFuncs::niceDate($data->question_date, false, false); ?>&nbsp;&nbsp;
+                <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo DateHelper::niceDate($data->question_date, false, false); ?>&nbsp;&nbsp;
             </span>
             &nbsp; 
             <?php if ($data->townId): ?>
@@ -22,7 +22,7 @@
 
         <p>
             <?php
-            $questionTextCutted = CustomFuncs::cutString($data->question, 300);
+            $questionTextCutted = StringHelper::cutString($data->question, 300);
             ?>
             <?php echo nl2br(CHtml::encode($questionTextCutted)); ?>
             <?php

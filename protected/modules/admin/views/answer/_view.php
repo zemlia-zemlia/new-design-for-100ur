@@ -26,7 +26,7 @@ switch ($data->status) {
                 <div class="col-md-8">
                     <p>
                         <strong>Вопрос:</strong>
-                        <?php echo CHtml::encode(CustomFuncs::cutString($data->question->questionText, 1000)); ?>
+                        <?php echo CHtml::encode(StringHelper::cutString($data->question->questionText, 1000)); ?>
                     </p>
 
                     <p>
@@ -44,7 +44,7 @@ switch ($data->status) {
                         <strong>Дата ответа:</strong>
                         <?php if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)): ?>
                             <?php if ($data->datetime) {
-                                echo CustomFuncs::niceDate($data->datetime, false, false);
+                                echo DateHelper::niceDate($data->datetime, false, false);
                             } ?>
                             &nbsp;
                         <?php endif; ?>

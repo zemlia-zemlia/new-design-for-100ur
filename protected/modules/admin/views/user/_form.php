@@ -188,7 +188,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');
 
                     <tr id="file-id-<?php echo $file->id; ?>" class="<?php echo $fileTrClass; ?>">
                         <td>
-                            <?php echo CustomFuncs::niceDate($file->datetime); ?>
+                            <?php echo DateHelper::niceDate($file->datetime); ?>
                         </td>
                         <td>
                             <?php echo $file->getTypeName(); ?>

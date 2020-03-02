@@ -69,7 +69,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     
     <tr>
         <td><strong><?php echo $model->getAttributeLabel('question_date'); ?></strong></td>
-        <td><?php echo CustomFuncs::niceDate($model->question_date); ?></td>
+        <td><?php echo DateHelper::niceDate($model->question_date); ?></td>
     </tr>
     <tr>
         <td><strong><?php echo $model->getAttributeLabel('question'); ?></strong></td>

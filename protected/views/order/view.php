@@ -37,7 +37,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     <strong>Дата заказа</strong>
                 </td>
                 <td>
-                    <?php echo CustomFuncs::niceDate($order->createDate, true, false); ?>
+                    <?php echo DateHelper::niceDate($order->createDate, true, false); ?>
                 </td>
             </tr>
             <?php if ($order->author): ?>
@@ -80,7 +80,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         <strong>Срок</strong>
                     </td>
                     <td>
-                        <?php echo CustomFuncs::invertDate($order->term); ?>
+                        <?php echo DateHelper::invertDate($order->term); ?>
 
                         <?php if ($order->status == Order::STATUS_JURIST_SELECTED && Yii::app()->user->role == User::ROLE_CLIENT): ?>
                             <?php echo CHtml::link('изменить', Yii::app()->createUrl('order/update', ['id' => $order->id]), ['class' => 'btn btn-default btn-xs']); ?>

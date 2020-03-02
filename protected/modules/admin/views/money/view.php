@@ -17,7 +17,7 @@ $this->breadcrumbs=array(
 <table class="table">
     <tr>
         <td>Дата</td>
-        <td><?php echo CustomFuncs::niceDate($model->datetime, false, false);?></td>
+        <td><?php echo DateHelper::niceDate($model->datetime, false, false);?></td>
     </tr>
     <tr>
         <td>Счет</td>
