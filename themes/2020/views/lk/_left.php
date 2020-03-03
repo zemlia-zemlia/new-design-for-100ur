@@ -26,8 +26,8 @@
             <li><a href="https://www.yurcrm.ru/" target="_blank" rel="nofollow"><i class="fa fa-circle-o"></i> CRM для юристов  <i class="fa fa-external-link" aria-hidden="true"></i>
                 </a></li>
 
-
         <?php endif; ?>
+
         <?php if (Yii::app()->user->checkAccess(User::ROLE_PARTNER)) : ?>
 
             <li><a href="<?= Yii::app()->createUrl('/webmaster/'); ?>"><i class="fa fa-circle-o"></i> Главная</a></li>
