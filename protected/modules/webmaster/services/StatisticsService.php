@@ -2,6 +2,7 @@
 
 namespace webmaster\services;
 
+use CException;
 use DateTime;
 use Lead;
 use Yii;
@@ -50,7 +51,7 @@ class StatisticsService
      *
      * @return int
      *
-     * @throws \CException
+     * @throws CException
      */
     public function getAllLeadsCount(DateTime $fromDate = null): int
     {
@@ -80,7 +81,7 @@ class StatisticsService
      *
      * @return array
      *
-     * @throws \CException
+     * @throws CException
      */
     public function getLeadsStatisticsByField($groupByFieldName = 'lead_date', DateTime $fromDate = null, $order = 'asc'): array
     {
@@ -167,7 +168,7 @@ class StatisticsService
      *
      * @return array
      *
-     * @throws \CException
+     * @throws CException
      */
     private function getLeadsWithStatusesAndRegions(DateTime $fromDate = null): array
     {

@@ -2,6 +2,7 @@
 
 namespace buyer\services;
 
+use CException;
 use DateTime;
 use Lead;
 use Yii;
@@ -37,7 +38,7 @@ class StatisticsService
      *
      * @return int
      *
-     * @throws \CException
+     * @throws CException
      */
     public function getSoldLeadsCount(DateTime $fromDate = null): int
     {
@@ -65,7 +66,7 @@ class StatisticsService
      *
      * @return int
      *
-     * @throws \CException
+     * @throws CException
      */
     public function getTotalExpences(DateTime $fromDate = null): int
     {

@@ -149,8 +149,8 @@ switch ($data->leadStatus) {
 
                 <?php if (Lead::LEAD_STATUS_SENT == $data->leadStatus): ?>
                     <?php
-                    $holdExpiration = (new \DateTime($data->deliveryTime))->add(new \DateInterval('P' . Yii::app()->params['leadHoldPeriodDays'] . 'D'));
-                    $now = new \DateTime();
+                    $holdExpiration = (new DateTime($data->deliveryTime))->add(new DateInterval('P' . Yii::app()->params['leadHoldPeriodDays'] . 'D'));
+                    $now = new DateTime();
                     if ($holdExpiration > $now) {
                         $daysLeftInHold = $holdExpiration->diff($now, true)->format('%a');
                         $hoursLeftInHold = $holdExpiration->diff($now, true)->format('%h');

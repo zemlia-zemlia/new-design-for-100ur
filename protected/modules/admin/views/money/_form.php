@@ -15,7 +15,7 @@ else{
      $('#income').removeClass('hidden');
      $('#expence').addClass('hidden');
 }
-})
+});
 
 $('#money-form').submit(function() {
   $('.sel').each(function() {
