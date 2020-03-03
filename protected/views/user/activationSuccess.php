@@ -20,10 +20,6 @@ $this->pageTitle=Yii::app()->name . ' - Аккаунт успешно актив
                 отправлены на Вашу почту.
             </p>
             
-            <?php
-                //CustomFuncs::printr($question);
-            ?>
-            
             <?php if ($question->price):?>
                 <div class="center-align">
                     <h3>Оплатите вопрос и получите быстрый гарантированный ответ юриста</h3>

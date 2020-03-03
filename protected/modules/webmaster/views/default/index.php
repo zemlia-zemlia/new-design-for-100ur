@@ -91,7 +91,7 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
             </tr>
             <?php foreach ($leadStatsByDates['data'] as $date => $leadsByDatesRow): ?>
                 <tr>
-                    <td><?php echo CustomFuncs::niceDate($date, false, false, false); ?></td>
+                    <td><?php echo DateHelper::niceDate($date, false, false, false); ?></td>
                     <td><?php echo $leadsByDatesRow['totalLeads']; ?></td>
                     <td><?php echo $leadsByDatesRow['soldLeads']; ?>
                         (<?php echo $leadsByDatesRow['soldLeadsPercent']; ?>%)

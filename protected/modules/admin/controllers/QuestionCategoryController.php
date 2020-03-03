@@ -57,7 +57,6 @@ class QuestionCategoryController extends Controller
         $questionsCriteria->order = 't.id DESC';
 
         $questions = Question::model()->findAll($questionsCriteria);
-        //CustomFuncs::printr($questions);
 
         $questionsDataProvider = new CArrayDataProvider($questions, array(
             'pagination' => array(

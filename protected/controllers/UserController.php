@@ -258,8 +258,6 @@ class UserController extends Controller
                     Yii::app()->ih
                         ->load($scan->tempName)
                         ->save(Yii::getPathOfAlias('webroot') . UserFile::USER_FILES_FOLDER . '/' . $scanFileName);
-                    // CustomFuncs::printr($scan);
-                    // Yii::app()->end();
 
                     $userFile->userId = Yii::app()->user->id;
                     $userFile->name = $scanFileName;

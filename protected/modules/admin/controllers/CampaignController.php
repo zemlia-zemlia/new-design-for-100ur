@@ -337,7 +337,6 @@ class CampaignController extends Controller
             ->where("deliveryTime > NOW()-INTERVAL 5 DAY")
             ->group("campaignId, leadStatus")
             ->queryAll();
-        //CustomFuncs::printr($leadsByStatusRows);
 
         foreach ($leadsByStatusRows as $row) {
             $leadsByStatusArray[$row['campaignId']]['expences'] += $row['sumBuy']; // суммируем цены покупки для всех статусов в расход по кампании
@@ -345,7 +344,6 @@ class CampaignController extends Controller
                 $leadsByStatusArray[$row['campaignId']]['revenue'] += $row['sumSell']; // суммируем цены продажи для проданных лидов в доход по кампании
             }
         }
-        //CustomFuncs::printr($leadsByStatusArray);
 
         $this->render('index', array(
             'campaignsArray' => $campaignsArray,

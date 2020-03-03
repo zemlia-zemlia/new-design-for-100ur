@@ -366,8 +366,6 @@ class Question extends CActiveRecord
 
             if (!$this->save()) {
                 return false;
-                //echo "Ошибки при предсохранении вопроса";
-                //CustomFuncs::printr($this->errors);
             }
         }
 
@@ -585,8 +583,7 @@ class Question extends CActiveRecord
                 echo 'Регион: '.$recentQuestion->town->regionId.', город: '.$recentQuestion->townId.', вопрос: '.$recentQuestion->title.'<br />';
             }
         }
-        //CustomFuncs::printr($questions);
-        //var_dump($questions);
+
         $yurists = [];
         $yuristsRows = Yii::app()->db->createCommand()
             ->select('u.id, u.name, u.lastName, u.email, u.autologin, u.townId, t.regionId, s.subscribeQuestions')
@@ -622,7 +619,6 @@ class Question extends CActiveRecord
 
                         foreach ($questions[$regionId] as $questionsByRegion) {
                             foreach ($questionsByRegion as $question) {
-                                //CustomFuncs::printr($question);
                                 $mailer->message .= '<p>'.
                                     CHtml::link($question->title, Yii::app()->createUrl('question/view', ['id' => $question->id, 'autologin' => $yurist['autologin'], 'utm_medium' => 'mail', 'utm_source' => '100yuristov', 'utm_campaign' => 'fresh_questions_notification', 'utm_term' => $yurist['id']])).
                                     '<br />'.CHtml::encode(StringHelper::cutString($question->questionText, 200));
@@ -666,7 +662,6 @@ class Question extends CActiveRecord
                         $mailer->message = '<h2>'.trim($yurist['name']).', подборка свежих вопросов из вашего города</h2>';
 
                         foreach ($questions[$regionId][$townId] as $question) {
-                            //CustomFuncs::printr($question);
                             $mailer->message .= '<p>'.
                                 CHtml::link($question->title, Yii::app()->createUrl('question/view', ['id' => $question->id, 'autologin' => $yurist['autologin'], 'utm_medium' => 'mail', 'utm_source' => '100yuristov', 'utm_campaign' => 'fresh_questions_notification', 'utm_term' => $yurist['id']])).
                                 '<br />'.CHtml::encode(StringHelper::cutString($question->questionText, 200));

@@ -362,7 +362,6 @@ class Campaign extends CActiveRecord
         $dependency = new CDbCacheDependency('SELECT COUNT(id) FROM {{campaign}}');
 
         $campaigns = self::model()->cache(600, $dependency)->findAll($criteria);
-        //CustomFuncs::printr($campaigns);
 
         return $campaigns;
     }
@@ -489,7 +488,6 @@ class Campaign extends CActiveRecord
             ->where('campaignId = ' . $this->id . ' AND DATE(deliveryTime)="' . $date . '"')
             ->group('leadStatus')
             ->queryAll();
-        //CustomFuncs::printr($campaign24hoursLeadsRows);
 
         $totalLeads = 0;
         $brakLeads = 0;

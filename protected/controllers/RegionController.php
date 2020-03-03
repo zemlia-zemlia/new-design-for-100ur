@@ -111,8 +111,6 @@ class RegionController extends Controller
             $regionsArray[$region['countryAlias']][] = $region;
         }
 
-//            CustomFuncs::printr($regionsArray);
-
         $this->render('index', array(
             'regions' => $regionsArray,
         ));

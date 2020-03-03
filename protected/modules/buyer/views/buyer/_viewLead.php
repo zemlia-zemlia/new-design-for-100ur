@@ -38,7 +38,7 @@ switch ($data->leadStatus) {
 
                 <small class="muted">
 
-                    <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo CustomFuncs::niceDate($data->deliveryTime, false, false); ?>
+                    <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo DateHelper::niceDate($data->deliveryTime, false, false); ?>
                     &nbsp;&nbsp;
 
                     <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->role == User::ROLE_SECRETARY): ?>

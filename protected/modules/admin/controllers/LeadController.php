@@ -97,8 +97,6 @@ class LeadController extends Controller
                     $apiClient->question = $model->question;
 
                     $apiResult = $apiClient->send();
-                    //CustomFuncs::printr($apiClient);
-                    //CustomFuncs::printr($apiResult);
                 }
             } else {
 
@@ -151,8 +149,6 @@ class LeadController extends Controller
             $model->phone = PhoneHelper::normalizePhone($model->phone);
             $model->buyPrice *= 100;
 
-
-            //CustomFuncs::printr($model);Yii::app()->end();
             if ($model->save()) {
                 Lead2Category::model()->deleteAll('leadId=' . $model->id);
                 if (is_array($model->categoriesId) && sizeof($model->categoriesId)) {
@@ -456,8 +452,6 @@ class LeadController extends Controller
                 ->order('lead_date DESC')
                 ->queryAll();
 
-        //CustomFuncs::printr($leadsRows);
-
         $sumArray = array();
         $kolichArray = array();
         $buySumArray = array();
@@ -503,8 +497,6 @@ class LeadController extends Controller
             }
         }
 
-        //CustomFuncs::printr($expencesArray);
-        //CustomFuncs::printr($kolichArray);
         // статистика по VIP вопросам
         $vipRows = Yii::app()->db->createCommand()
                 ->select('SUM(value) sum, DATE(datetime) date')

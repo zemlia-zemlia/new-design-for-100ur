@@ -16,9 +16,7 @@ class RandomQuestion extends CWidget
                 ->order('RAND()')
                 ->limit(1)
                 ->queryRow();
-          
-        //CustomFuncs::printr($question);
-        
+
         $this->render($this->template, array(
             'question'  =>  $question,
         ));

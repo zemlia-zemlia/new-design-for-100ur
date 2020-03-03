@@ -58,8 +58,7 @@ class LeadsourceController extends Controller
         foreach ($yearsRows as $row) {
             $yearsArray[$row] = $row;
         }
-        //CustomFuncs::printr($yearsArray);
-        
+
         // лиды из данного источника за заданный месяц
         $leadsStats = array();
         $leadsRows = Yii::app()->db->createCommand()
@@ -84,9 +83,7 @@ class LeadsourceController extends Controller
                 $leadsStats[$row['townName']]['revenue']+=$row['price'];
             }
         }
-        
-        //CustomFuncs::printr($leadsStats);
-        
+
         $this->render('view', array(
             'model'         =>  $model,
             'year'          =>  $year,

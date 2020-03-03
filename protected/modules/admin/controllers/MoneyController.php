@@ -196,8 +196,6 @@ class MoneyController extends Controller
             
         // набор, отфильтрованный по типам и статьям доходов/расходов
         $reportDataSetFiltered = Money::filterReportSet($reportDataSet);
-            
-        //CustomFuncs::printr($reportDataSetFiltered);
 
         $this->render('report', array(
                 'searchModel'           =>  $searchModel,

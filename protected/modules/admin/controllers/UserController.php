@@ -609,7 +609,7 @@ class UserController extends Controller
                 ->where(array('and', 'u.id = :uid', 'MONTH(question_date)=:month', 'YEAR(question_date)=:year'), array(":month" => $month, ":year" => $year, ":uid" => Yii::app()->user->id))
                 ->group('c.status')
                 ->queryAll();
-        //CustomFuncs::printr($leadsRows);
+
         $leadsArray = array();
 
         foreach ($leadsRows as $leadsRow) {
@@ -625,7 +625,6 @@ class UserController extends Controller
             $leadsArray['total'] += $leadsRow['counter'];
         }
 
-        //CustomFuncs::printr($leadsArray);
         // находим договоры, заключенные в выбранный месяц с разбивкй по каналам
         $agreementsRows = Yii::app()->db->cache(60)->createCommand()
                 ->select('COUNT(*) counter, SUM(a.totalPrice) sum, a.status agreement_status')
@@ -635,7 +634,6 @@ class UserController extends Controller
                 ->group('agreement_status')
                 ->queryAll();
 
-        //CustomFuncs::printr($agreementsRows);
         $agreementsArray = array();
 
         foreach ($agreementsRows as $agreementsRow) {
@@ -650,7 +648,6 @@ class UserController extends Controller
                 $agreementsArray['sum'] += $agreementsRow['sum'];
             }
         }
-        //CustomFuncs::printr($agreementsArray);
 
         $this->render('myStats', array(
             'month' => $month,

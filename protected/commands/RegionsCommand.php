@@ -11,18 +11,6 @@ class RegionsCommand extends CConsoleCommand
         
         foreach ($countries as $country) {
             
-//            $alias = CustomFuncs::translit($country['name']);
-//            echo $country['id'] . " - " . $country['name'] . ' - ' . $alias;
-//            Yii::app()->db->createCommand()
-//                    ->update('{{country}}',
-//                        array(
-//                            'alias'=>$alias
-//                        ),
-//                        'id=:id',
-//                        array(
-//                            ':id'       =>  $country['id']
-//                        ));
-            
             Yii::app()->db->createCommand()
                     ->update(
                         '{{town}}',

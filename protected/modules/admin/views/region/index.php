@@ -27,7 +27,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 function showCountry($regions)
 {
 
-    //CustomFuncs::printr($regions);
     $regionCounter = 0;
     $regionsNumber = sizeof($regions);
 

@@ -254,11 +254,7 @@ class Money extends CActiveRecord
         }
         
         $command->andWhere('isInternal = 0');
-        /*
-        echo CustomFuncs::invertDate($this->date1);
-        echo CustomFuncs::invertDate($this->date2);
 
-        echo $command->text;*/
         return $command->queryAll();
     }
     

@@ -267,7 +267,6 @@ class QuestionCategory extends CActiveRecord
             ->where('isDirection = 1')
             ->order('parentDirectionId ASC, name ASC')
             ->queryAll();
-        //CustomFuncs::printr($categoriesRows);
         $categories = [];
         $categoriesHierarchy = [];
 
@@ -285,8 +284,6 @@ class QuestionCategory extends CActiveRecord
                 ];
             }
         }
-
-//            CustomFuncs::printr($categories);exit;
 
         if (true === $withHierarchy && true === $withAlias) {
             // перебираем все категории-направления
@@ -312,8 +309,6 @@ class QuestionCategory extends CActiveRecord
                     $categoriesHierarchy[$cat['parentDirectionId']]['children'][$catId] = $cat;
                 }
             }
-
-//                CustomFuncs::printr($categoriesHierarchy);exit;
 
             return $categoriesHierarchy;
         }

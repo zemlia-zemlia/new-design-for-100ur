@@ -412,8 +412,6 @@ class QuestionController extends Controller
                 ->limit(1)
                 ->queryRow();
 
-        //CustomFuncs::printr($question);
-
         if ($question) {
             echo CJSON::encode(array(
                 'question' => nl2br(mb_substr(CHtml::encode($question['questionText']), 0, 300, 'utf-8')),
@@ -465,7 +463,7 @@ class QuestionController extends Controller
         foreach ($questions as $question) {
             $oldDate = $question->publishDate;
             $dateArray = explode(' ', $oldDate);
-            //CustomFuncs::printr($dateArray);
+
             $oldTime = $dateArray[1];
             $oldDate = $dateArray[0];
 

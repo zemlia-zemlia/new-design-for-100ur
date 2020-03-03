@@ -26,8 +26,6 @@ class DefaultController extends Controller
             ->order('id ASC')
             ->queryAll();
 
-        //CustomFuncs::printr($leadsRows);
-
         $sumArray = array(); // выручка
         $kolichArray = array(); // количество
         $buySumArray = array(); // затраты на покупку лидов
