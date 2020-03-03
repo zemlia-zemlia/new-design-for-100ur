@@ -2,12 +2,12 @@
 /* @var $this QuestionController */
 /* @var $model Question */
 
-$pageTitle = CHtml::encode(CustomFuncs::cutString($model->title, 70));
-$pageTitle = CustomFuncs::mb_ucfirst($pageTitle, 'utf-8');
+$pageTitle = CHtml::encode(StringHelper::cutString($model->title, 70));
+$pageTitle = StringHelper::mb_ucfirst($pageTitle, 'utf-8');
 
 $this->setPageTitle($pageTitle);
 
-$pageH1 = CHtml::encode(CustomFuncs::cutString($model->title, 70));
+$pageH1 = CHtml::encode(StringHelper::cutString($model->title, 70));
 
 Yii::app()->clientScript->registerLinkTag("canonical", null, Yii::app()->createUrl('question/view', array('id' => $model->id)));
 
@@ -15,7 +15,7 @@ Yii::app()->clientScript->registerMetaTag(CHtml::encode(mb_substr($model->questi
 
 $this->breadcrumbs = array(
     'Вопросы' => array('index'),
-    CustomFuncs::mb_ucfirst(CHtml::encode($model->title), 'utf-8'),
+    StringHelper::mb_ucfirst(CHtml::encode($model->title), 'utf-8'),
 );
 ?>
 
@@ -55,7 +55,7 @@ $this->breadcrumbs = array(
                     <?php if ($model->publishDate): ?>
                         <span class="glyphicon glyphicon-calendar"></span>&nbsp;
                         <time itemprop="dateCreated"
-                              datetime="<?php echo $model->publishDate; ?>"><?php echo CustomFuncs::niceDate($model->publishDate, false); ?></time> &nbsp;&nbsp;
+                              datetime="<?php echo $model->publishDate; ?>"><?php echo DateHelper::niceDate($model->publishDate, false); ?></time> &nbsp;&nbsp;
                     <?php endif; ?>
 
                     <?php if ($model->categories): ?>

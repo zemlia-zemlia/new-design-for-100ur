@@ -36,12 +36,12 @@ switch ($data->leadStatus) {
 
                 <small class="muted">
 
-                    <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo CustomFuncs::niceDate($data->question_date, false, false); ?>
-                    &nbsp
-                    <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo CHtml::encode($data->source->name); ?>
-                    &nbsp
-                    <span class="label <?php echo $statusClass; ?>">
-                <?php echo $data->getLeadStatusName(); ?>
+            <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo DateHelper::niceDate($data->question_date, false, false); ?>&nbsp;&nbsp;
+            <br />
+                <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo CHtml::encode($data->source->name); ?>       
+            <br />
+            <span class="label <?php echo $statusClass;?>">    
+                <?php echo $data->getLeadStatusName();?>
             </span>
                     &nbsp
                     <?php if ($data->buyPrice > 0 && $data->leadStatus != Lead::LEAD_STATUS_BRAK): ?>

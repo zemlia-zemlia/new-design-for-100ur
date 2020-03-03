@@ -3,7 +3,7 @@
 	<small><span class="label label-date">
         <?php //if(!is_null($data->publishDate)) echo CustomFuncs::invertDate($data->publishDate);?>
         <?php if (!is_null($data->publishDate)) {
-    echo CustomFuncs::niceDate($data->publishDate, false);
+    echo DateHelper::niceDate($data->publishDate, false);
 }?>
 	</span></small>
     </div>

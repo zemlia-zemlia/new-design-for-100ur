@@ -7,7 +7,7 @@
             <?php echo nl2br(mb_substr(CHtml::encode($answer->answerText), 0, 150, 'utf-8'));?>...
             <br />
             <?php if ($answer->datetime):?>
-            <span class="glyphicon glyphicon-calendar"></span> <?php echo CustomFuncs::niceDate($answer->datetime, false);?>
+            <span class="glyphicon glyphicon-calendar"></span> <?php echo DateHelper::niceDate($answer->datetime, false);?>
             <?php endif;?>
             <?php if ($answer->authorId):?>
                 <span class="glyphicon glyphicon-user"></span> 

@@ -26,7 +26,7 @@
                         if ($data['answersCount'] == 1) {
                             echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> Есть ответ</span>";
                         } elseif ($data['answersCount'] > 1) {
-                            echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $data['answersCount'] . ' ' . CustomFuncs::numForms($data['answersCount'], 'ответ', 'ответа', 'ответов') . "</span>";
+                            echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $data['answersCount'] . ' ' . NumbersHelper::numForms($data['answersCount'], 'ответ', 'ответа', 'ответов') . "</span>";
                         } elseif ($data['answersCount'] == 0) {
                             echo "<span class='text-muted'>Нет ответа</span>";
                         }

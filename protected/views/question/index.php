@@ -23,7 +23,7 @@ Yii::app()->clientScript->registerMetaTag("Советы юристов по вс
     echo "<span class='label label-warning'><abbr title='Вопрос с гарантией получения ответов'><span class='glyphicon glyphicon-ruble'></span></abbr></span>";
 }
                     ?>
-                    <?php echo CHtml::link(CustomFuncs::mb_ucfirst($question->title, 'utf-8'), Yii::app()->createUrl('question/view', array('id' => $question->id))); ?>
+                    <?php echo CHtml::link(StringHelper::mb_ucfirst($question->title, 'utf-8'), Yii::app()->createUrl('question/view', array('id' => $question->id))); ?>
                 </p>
             </div>
 
@@ -33,7 +33,7 @@ Yii::app()->clientScript->registerMetaTag("Советы юристов по вс
                     if ($question->answersCount == 1) {
                         echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> Есть ответ</span>";
                     } elseif ($question->answersCount > 1) {
-                        echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question->answersCount . ' ' . CustomFuncs::numForms($question->answersCount, 'ответ', 'ответа', 'ответов') . "</span>";
+                        echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question->answersCount . ' ' . NumbersHelper::numForms($question->answersCount, 'ответ', 'ответа', 'ответов') . "</span>";
                     } elseif ($question->answersCount == 0) {
                         echo "<span class='text-muted'>Нет ответа</span>";
                     }
@@ -47,7 +47,7 @@ Yii::app()->clientScript->registerMetaTag("Советы юристов по вс
 
 <div class="flat-panel">
     <div class="inside">
-        <?php $monthsNames = CustomFuncs::getMonthsNames(); ?>
+        <?php $monthsNames = DateHelper::getMonthsNames(); ?>
 
         <h3>Архив вопросов</h3>
         <?php foreach ($datesArray as $year => $months): ?>

@@ -9,7 +9,7 @@
                     if ($questionDatetime >= $nowDate) {
                         echo 'сегодня в ' . $questionDatetime->format('H:i');
                     } else {
-                        echo CustomFuncs::niceDate($question['createDate'], false, false);
+                        echo DateHelper::niceDate($question['createDate'], false, false);
                     }
                     ?>
                 </small>
@@ -22,7 +22,7 @@
                 if ($question['answersCount'] == 1) {
                     echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> Есть ответ</span>";
                 } elseif ($question['answersCount'] > 1) {
-                    echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question['answersCount'] . ' ' . CustomFuncs::numForms($question['answersCount'], 'ответ', 'ответа', 'ответов') . "</span>";
+                    echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question['answersCount'] . ' ' . NumbersHelper::numForms($question['answersCount'], 'ответ', 'ответа', 'ответов') . "</span>";
                 } elseif ($question['answersCount'] == 0) {
                     echo "<span class='text-muted'>Нет ответа</span>";
                 }

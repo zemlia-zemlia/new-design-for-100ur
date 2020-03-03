@@ -21,7 +21,7 @@ $this->breadcrumbs = array(
     echo "<span class='label label-warning'><abbr title='Вопрос с гарантией получения ответов'><span class='glyphicon glyphicon-ruble'></span></abbr></span>";
 }
                 ?>
-                <?php echo CHtml::link(CustomFuncs::mb_ucfirst($question->title, 'utf-8'), Yii::app()->createUrl('question/view', array('id' => $question->id))); ?>
+                <?php echo CHtml::link(StringHelper::mb_ucfirst($question->title, 'utf-8'), Yii::app()->createUrl('question/view', array('id' => $question->id))); ?>
             </p>
         </div>
 
@@ -31,7 +31,7 @@ $this->breadcrumbs = array(
                 if ($question->answersCount == 1) {
                     echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> Есть ответ</span>";
                 } elseif ($question->answersCount > 1) {
-                    echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question->answersCount . ' ' . CustomFuncs::numForms($question->answersCount, 'ответ', 'ответа', 'ответов') . "</span>";
+                    echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question->answersCount . ' ' . NumbersHelper::numForms($question->answersCount, 'ответ', 'ответа', 'ответов') . "</span>";
                 } elseif ($question->answersCount == 0) {
                     echo "<span class='text-muted'>Нет ответа</span>";
                 }

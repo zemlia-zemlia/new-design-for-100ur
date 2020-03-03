@@ -62,12 +62,12 @@ class MoneyController extends Controller
         if (isset($_POST['Money'])) {
 
             $model->attributes=$_POST['Money'];
-            $model->datetime = CustomFuncs::invertDate($model->datetime);
+            $model->datetime = DateHelper::invertDate($model->datetime);
             $model->value *= 100;
             if ($model->save()) {
                 $this->redirect(array('view','id'=>$model->id));
             } else {
-                $model->datetime = CustomFuncs::invertDate($model->datetime);
+                $model->datetime = DateHelper::invertDate($model->datetime);
             }
         }
 
@@ -90,7 +90,7 @@ class MoneyController extends Controller
 
         if (isset($_POST['Money'])) {
             $model->attributes=$_POST['Money'];
-            $model->datetime = CustomFuncs::invertDate($model->datetime);
+            $model->datetime = DateHelper::invertDate($model->datetime);
             $model->value *= 100;
 
             if ($model->direction == Money::DIRECTION_INTERNAL) {
@@ -103,7 +103,7 @@ class MoneyController extends Controller
                 $this->redirect(array('view','id'=>$model->id));
             }
         }
-        $model->datetime = CustomFuncs::invertDate($model->datetime);
+        $model->datetime = DateHelper::invertDate($model->datetime);
 
         $this->render('update', array(
                     'model'=>$model,
@@ -222,7 +222,7 @@ class MoneyController extends Controller
 
             // сначала проверим правильность заполнения формы
             if ($model->validate()) {
-                $model->datetime = CustomFuncs::invertDate($model->datetime);
+                $model->datetime = DateHelper::invertDate($model->datetime);
 
                 // создаем 2 транзакции (для перевода между счетами - снятие и пополнение)
 
@@ -243,7 +243,7 @@ class MoneyController extends Controller
                 if ($moneyRecord1->save() && $moneyRecord2->save()) {
                     $this->redirect(array('index'));
                 } else {
-                    $model->datetime = CustomFuncs::invertDate($model->datetime);
+                    $model->datetime = DateHelper::invertDate($model->datetime);
                     $model->sum /= 100;
                 }
             }

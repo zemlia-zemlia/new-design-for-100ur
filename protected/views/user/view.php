@@ -193,7 +193,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                 echo "<span class='label label-primary'><abbr title='Вопрос с гарантией получения ответов'>VIP</abbr></span>";
                             }
                 ?>
-                <?php echo CHtml::link(CHtml::encode(CustomFuncs::mb_ucfirst($question['title'])), Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?>
+                <?php echo CHtml::link(CHtml::encode(StringHelper::mb_ucfirst($question['title'])), Yii::app()->createUrl('question/view', array('id'=>$question['id'])));?>
 			</small>
             </p>
         </div>

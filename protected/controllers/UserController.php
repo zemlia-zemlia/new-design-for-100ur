@@ -267,7 +267,7 @@ class UserController extends Controller
 
                     if (!$userFile->save()) {
                         echo "Не удалось сохранить скан";
-                        CustomFuncs::printr($userFile->errors);
+                        StringHelper::printr($userFile->errors);
                         Yii::app()->end();
                     }
                 }
@@ -615,7 +615,7 @@ class UserController extends Controller
         $model->setScenario('unsubscribe');
         $model->isSubscribed = 0;
         if (!$model->save()) {
-            CustomFuncs::printr($model->errors);
+            StringHelper::printr($model->errors);
         //throw new CHttpException(400, 'Не удалось отписаться от рассылки. Возможно, ваш профиль не заполнен. Войдите и проверьте заполненность профиля.');
         } else {
             $this->render('unsubscribeSuccess');

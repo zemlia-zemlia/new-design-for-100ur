@@ -108,7 +108,7 @@ switch ($data->leadStatus) {
                     <?php endif; ?>
                     &nbsp
 
-                    <span class="glyphicon glyphicon-calendar"></span>&nbsp<?php echo CustomFuncs::niceDate($data->question_date, false, false); ?>
+                    <span class="glyphicon glyphicon-calendar"></span>&nbsp<?php echo DateHelper::niceDate($data->question_date, false, false); ?>
                     &nbsp
                     <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
                         <?php if ($data->questionObject->ip): ?>

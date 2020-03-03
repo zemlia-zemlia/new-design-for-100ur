@@ -88,8 +88,8 @@ class UserController extends Controller
             $leadSearchModel->attributes = $_GET['Lead'];
 
             // по умолчанию собираем статистику по проданным лидам за последние 30 дней
-            $dateTo = ($leadSearchModel->date2 != '') ? CustomFuncs::invertDate($leadSearchModel->date2) : date("Y-m-d");
-            $dateFrom = ($leadSearchModel->date1 != '') ? CustomFuncs::invertDate($leadSearchModel->date1) : date("Y-m-d", time() - 86400 * 30);
+            $dateTo = ($leadSearchModel->date2 != '') ? DateHelper::invertDate($leadSearchModel->date2) : date("Y-m-d");
+            $dateFrom = ($leadSearchModel->date1 != '') ? DateHelper::invertDate($leadSearchModel->date1) : date("Y-m-d", time() - 86400 * 30);
             $leadsStats = Lead::getStatsByPeriod($dateFrom, $dateTo, $model->id);
         }
         
@@ -571,7 +571,7 @@ class UserController extends Controller
         if ($user->save()) {
             $this->redirect(array('user/view', 'id' => $user->id));
         } else {
-            CustomFuncs::printr($user->errors);
+            StringHelper::printr($user->errors);
             throw new CHttpException(500, 'Не удалось удалить аватар');
         }
     }
@@ -686,7 +686,7 @@ class UserController extends Controller
         if ($file->save()) {
             echo json_encode(array('code' => 0, 'fileId' => $file->id));
         } else {
-            CustomFuncs::printr($file->errors);
+            StringHelper::printr($file->errors);
             echo json_encode(array('code' => 500, 'fileId' => $file->id, 'message' => 'При верификации файла произошла ошибка'));
         }
     }

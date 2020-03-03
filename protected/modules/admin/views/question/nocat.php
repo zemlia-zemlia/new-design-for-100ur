@@ -62,11 +62,11 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <small>
             <?php if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>
                 <?php if ($data['createDate']) {
-    echo CustomFuncs::niceDate($data['createDate'], false, false);
+    echo DateHelper::niceDate($data['createDate'], false, false);
 }?>
                 <?php
                     if ($data['publishDate']) {
-                        echo "<span class='muted'>Опубликован " . CustomFuncs::niceDate($data['publishDate']) . "</span>";
+                        echo "<span class='muted'>Опубликован " . DateHelper::niceDate($data['publishDate']) . "</span>";
                     }
                 ?>
             &nbsp;

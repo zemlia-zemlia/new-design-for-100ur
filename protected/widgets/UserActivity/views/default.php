@@ -24,7 +24,7 @@ $weeksInInterval = ceil(sizeof($rankByDay) / 7);
                     $rankColor = UserActivity::getColorByRank($rank);
                     ?>
                     <td class="small text-center" style="height:10px; background-color: <?php echo $rankColor; ?>">
-                        <?php echo CustomFuncs::niceDate($currentDate, false, false, false); ?>
+                        <?php echo DateHelper::niceDate($currentDate, false, false, false); ?>
                     </td>
                 <?php endfor; ?>
             </tr>

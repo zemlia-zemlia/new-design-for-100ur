@@ -8,7 +8,7 @@
          <small><span class="text-muted"><?php echo $data->id;?></span></small>
     </td>
     <td class="text-nowrap">
-        <?php echo CustomFuncs::niceDate($data->datetime, false, false);?>
+        <?php echo DateHelper::niceDate($data->datetime, false, false);?>
         <span class="table-links-hovered-container">
             <?php echo CHtml::link("<span class='glyphicon glyphicon-pencil'></span>", Yii::app()->createUrl('/admin/money/update', array('id'=>$data->id)));?>
         </span>

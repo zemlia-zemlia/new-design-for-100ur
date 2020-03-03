@@ -37,7 +37,7 @@
             <i class="glyphicon glyphicon-eye-open"></i>&nbsp;<?php echo $data->viewsCount->views;?>
 			&nbsp;&nbsp;
 			<?php echo $data->author->name;?>
-            <span class="muted"><?php echo CustomFuncs::invertDate($data->datePublication);?></span>
+            <span class="muted"><?php echo DateHelper::invertDate($data->datePublication);?></span>
             
             <?php
                 $now = time();

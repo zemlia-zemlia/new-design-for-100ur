@@ -96,7 +96,7 @@ class UserStatusRequestController extends Controller
 
                     if (!$userFile->save()) {
                         echo "Не удалось сохранить скан";
-                        CustomFuncs::printr($userFile->errors);
+                        StringHelper::printr($userFile->errors);
                         Yii::app()->end();
                     } else {
                         // после сохранения файла сохраним ссылку на него в объекте запроса

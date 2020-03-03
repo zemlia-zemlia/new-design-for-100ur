@@ -26,7 +26,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <?php if ($model->buyerId == Yii::app()->user->id): ?>
     <div class="alert alert-info">
-        Вы купили эту заявку <?php echo CustomFuncs::niceDate($model->deliveryTime, true, false); ?> 
+        Вы купили эту заявку <?php echo DateHelper::niceDate($model->deliveryTime, true, false); ?>
         за <?php echo $model->price; ?> руб.
     </div>
 <?php endif; ?>
@@ -39,7 +39,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
     <tr>
         <td><strong><?php echo $model->getAttributeLabel('question_date'); ?></strong></td>
-        <td><?php echo CustomFuncs::niceDate($model->question_date); ?></td>
+        <td><?php echo DateHelper::niceDate($model->question_date); ?></td>
     </tr>
     <tr>
         <td><strong><?php echo $model->getAttributeLabel('question'); ?></strong></td>

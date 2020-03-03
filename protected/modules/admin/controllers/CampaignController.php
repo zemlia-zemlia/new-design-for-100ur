@@ -64,8 +64,8 @@ class CampaignController extends Controller
         $leadSearchModel->attributes = $_GET['Lead'];
 
         // по умолчанию собираем статистику по проданным лидам за последние 30 дней
-        $dateTo = ($leadSearchModel->date2 != '') ? CustomFuncs::invertDate($leadSearchModel->date2) : date("Y-m-d");
-        $dateFrom = ($leadSearchModel->date1 != '') ? CustomFuncs::invertDate($leadSearchModel->date1) : date("Y-m-d", time() - 86400 * 30);
+        $dateTo = ($leadSearchModel->date2 != '') ? DateHelper::invertDate($leadSearchModel->date2) : date("Y-m-d");
+        $dateFrom = ($leadSearchModel->date1 != '') ? DateHelper::invertDate($leadSearchModel->date1) : date("Y-m-d", time() - 86400 * 30);
         $leadsStats = Lead::getStatsByPeriod($dateFrom, $dateTo, null, $model->id);
 
         // найдем лиды, отправленные в данную кампанию
@@ -442,10 +442,10 @@ class CampaignController extends Controller
                 $buyer->sendBuyerNotification(User::BUYER_EVENT_TOPUP);
                 echo json_encode(array('code' => 0, 'id' => $buyerId, 'balance' => MoneyFormat::rubles($buyer->balance)));
             } else {
-                CustomFuncs::printr($buyer->errors);
+                StringHelper::printr($buyer->errors);
             }
         } else {
-            CustomFuncs::printr($transaction->errors);
+            StringHelper::printr($transaction->errors);
         }
     }
 

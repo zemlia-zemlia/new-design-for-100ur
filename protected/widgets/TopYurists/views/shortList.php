@@ -51,7 +51,7 @@ $usersCount = 0;
                 <?php if (isset($user['answersCounter'])): ?>
                     <div>
                         <small>
-                            <?php echo $user['answersCounter'] . ' ' . CustomFuncs::numForms($user['answersCounter'], 'консультация', 'консультации', 'консультаций'); ?>
+                            <?php echo $user['answersCounter'] . ' ' . NumbersHelper::numForms($user['answersCounter'], 'консультация', 'консультации', 'консультаций'); ?>
                         </small>
                     </div>
                 <?php endif; ?>

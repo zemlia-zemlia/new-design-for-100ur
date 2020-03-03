@@ -368,7 +368,7 @@ class Lead extends CActiveRecord
             $leadSaved = false;
             Yii::log('Не удалось сохранить лид ' . $this->id, 'error', 'system.web.CCommand');
             if (YII_DEBUG === true) {
-                CustomFuncs::printr($this->errors);
+                StringHelper::printr($this->errors);
             }
         } else {
             $leadSaved = true;
@@ -575,8 +575,8 @@ class Lead extends CActiveRecord
         $criteria->compare('t.townId', $this->townId);
         $criteria->compare('t.type', $this->type);
         $criteria->compare('t.leadStatus', $this->leadStatus);
-        $criteria->compare('DATE(t.question_date)>', CustomFuncs::invertDate($this->date1));
-        $criteria->compare('DATE(t.question_date)<', CustomFuncs::invertDate($this->date2));
+        $criteria->compare('DATE(t.question_date)>', DateHelper::invertDate($this->date1));
+        $criteria->compare('DATE(t.question_date)<', DateHelper::invertDate($this->date2));
 
         // если применялся поиск по региону
         if ($this->regionId) {

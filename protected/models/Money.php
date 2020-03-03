@@ -218,10 +218,10 @@ class Money extends CActiveRecord
         $criteria->compare('direction', $this->direction);
 
         if ($this->date1) {
-            $criteria->addCondition('datetime>="' . CustomFuncs::invertDate($this->date1) . '"');
+            $criteria->addCondition('datetime>="' . DateHelper::invertDate($this->date1) . '"');
         }
         if ($this->date2) {
-            $criteria->addCondition('datetime<="' . CustomFuncs::invertDate($this->date2) . '"');
+            $criteria->addCondition('datetime<="' . DateHelper::invertDate($this->date2) . '"');
         }
         $criteria->order = 'datetime DESC, id DESC';
 
@@ -246,11 +246,11 @@ class Money extends CActiveRecord
         ->from('{{money}}');
 
         if ($this->date1) {
-            $command->andWhere('`datetime`>=:date1', array(':date1'=>CustomFuncs::invertDate($this->date1)));
+            $command->andWhere('`datetime`>=:date1', array(':date1'=> DateHelper::invertDate($this->date1)));
         }
 
         if ($this->date2) {
-            $command->andWhere('`datetime`<=:date2', array(':date2'=>CustomFuncs::invertDate($this->date2)));
+            $command->andWhere('`datetime`<=:date2', array(':date2'=> DateHelper::invertDate($this->date2)));
         }
         
         $command->andWhere('isInternal = 0');

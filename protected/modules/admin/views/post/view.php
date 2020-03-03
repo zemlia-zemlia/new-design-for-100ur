@@ -24,7 +24,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <h1><?php echo CHtml::encode($model->title); ?></h1>
 
 <?php echo $model->author->name . ' ' . $model->author->lastName; ?> &nbsp;
-<span class="muted"><?php echo CustomFuncs::invertDate($model->datePublication); ?></span>
+<span class="muted"><?php echo DateHelper::invertDate($model->datePublication); ?></span>
 
 
 <?php if ($model->photo): ?>

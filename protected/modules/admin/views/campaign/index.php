@@ -122,7 +122,7 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/campaign.js');
                                     }
                                     ?>
                                     <span class="label <?php echo $labelClass; ?>">
-                                <?php echo CustomFuncs::getWeekDays()[$dayNumber]; ?>
+                                <?php echo DateHelper::getWeekDays()[$dayNumber]; ?>
                             </span>
                                 <?php endfor; ?>
 

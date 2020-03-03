@@ -25,7 +25,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)):?> 
 <div class="">
     <p><strong>Статус:</strong> <?php echo CHtml::encode($model->getAnswerStatusName()); ?>
-        <span class="muted"><?php echo CustomFuncs::niceDate($model->datetime) . ' ' . CHtml::encode($model->author->name . ' ' .$model->author->lastName);?></span>
+        <span class="muted"><?php echo DateHelper::niceDate($model->datetime) . ' ' . CHtml::encode($model->author->name . ' ' .$model->author->lastName);?></span>
     </p>
     
     <p><strong>Автор:</strong> <?php echo CHtml::encode($model->author->lastName . ' ' . $model->author->name); ?></p>

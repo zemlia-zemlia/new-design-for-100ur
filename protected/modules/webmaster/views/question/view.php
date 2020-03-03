@@ -36,7 +36,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         </p>
         <p>
             <strong>Дата создания:</strong>
-            <span class="muted"><?php echo CustomFuncs::niceDate($model->createDate, false, false); ?></span>
+            <span class="muted"><?php echo DateHelper::niceDate($model->createDate, false, false); ?></span>
         </p>
 
         <p><strong>Автор вопроса:</strong> <?php echo CHtml::encode($model->authorName); ?></p>

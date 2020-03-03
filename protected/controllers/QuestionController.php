@@ -555,7 +555,7 @@ class QuestionController extends Controller
 
 
             if ($question->answersCount) {
-                $item->title = CHtml::encode($question['title']) . ' (' . $question['answersCount'] . ' ' . CustomFuncs::numForms($question['answersCount'], 'ответ', "ответа", "ответов") . ")";
+                $item->title = CHtml::encode($question['title']) . ' (' . $question['answersCount'] . ' ' . NumbersHelper::numForms($question['answersCount'], 'ответ', "ответа", "ответов") . ")";
             } else {
                 $item->title = CHtml::encode($question['title']);
             }
@@ -603,7 +603,7 @@ class QuestionController extends Controller
 
 
             if ($question['answersCount']) {
-                $item->title = CHtml::encode($question['title']) . ' (' . $question['answersCount'] . ' ' . CustomFuncs::numForms($question['answersCount'], 'ответ', "ответа", "ответов") . ")";
+                $item->title = CHtml::encode($question['title']) . ' (' . $question['answersCount'] . ' ' . NumbersHelper::numForms($question['answersCount'], 'ответ', "ответа", "ответов") . ")";
             } else {
                 $item->title = CHtml::encode($question['title']);
             }

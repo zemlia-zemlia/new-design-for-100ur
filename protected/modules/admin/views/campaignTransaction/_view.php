@@ -8,7 +8,7 @@
     <td>
         <strong><?php echo CHtml::encode($data->partner->name . ' ' . $data->partner->name2 . ' ' . $data->partner->lastName);?></strong>
         id: <?php echo CHtml::link($data->partner->id, Yii::app()->createUrl('admin/user/view', ['id' => $data->partner->id]));?><br />
-        <small><i><span class="text-muted"><?php echo CustomFuncs::niceDate($data->time);?></span></i></small>
+        <small><i><span class="text-muted"><?php echo DateHelper::niceDate($data->time);?></span></i></small>
 
     </td>
     <td>

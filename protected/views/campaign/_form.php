@@ -85,7 +85,7 @@ $model->price = MoneyFormat::rubles($model->price);
         <div class="form-group">
             <?php echo $form->labelEx($model, 'days', array('class' => 'col-sm-2 control-label')); ?>
             <div class="col-sm-10 col-md-2">
-                <?php echo $form->checkBoxList($model, 'workDays', CustomFuncs::getWeekDays(), array('class' => '')); ?>
+                <?php echo $form->checkBoxList($model, 'workDays', DateHelper::getWeekDays(), array('class' => '')); ?>
             </div>
             <?php echo $form->error($model, 'days'); ?>
         </div> 

@@ -26,7 +26,7 @@
             </h4>
         </div>
         <div class="col-xs-8">
-            <?php echo CHtml::link(CustomFuncs::numForms($counterNoAnswers, 'вопрос', "вопроса", "вопросов") . ' без ответов', Yii::app()->createUrl('/question/search')); ?>
+            <?php echo CHtml::link(NumbersHelper::numForms($counterNoAnswers, 'вопрос', "вопроса", "вопросов") . ' без ответов', Yii::app()->createUrl('/question/search')); ?>
             <br />
             <small><span class="text-muted">За последние <?php echo $intervalDays;?> дней</span></small>
             <br />

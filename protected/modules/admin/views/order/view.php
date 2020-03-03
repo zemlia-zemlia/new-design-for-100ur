@@ -27,7 +27,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <strong>Дата заказа</strong>
             </td>
             <td>
-                <?php echo CustomFuncs::niceDate($order->createDate, true, false); ?>
+                <?php echo DateHelper::niceDate($order->createDate, true, false); ?>
             </td>
         </tr>
         <?php if ($order->author): ?>
@@ -64,7 +64,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     <strong>Срок</strong>
                 </td>
                 <td>
-                    <?php echo CustomFuncs::invertDate($order->term); ?>
+                    <?php echo DateHelper::invertDate($order->term); ?>
                 </td>
             </tr>
         <?php endif; ?>

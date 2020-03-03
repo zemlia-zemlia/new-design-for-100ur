@@ -202,7 +202,7 @@ class QuestionCategory extends CActiveRecord
     {
         if (parent::beforeSave()) {
             if ('' == $this->alias) {
-                $this->alias = CustomFuncs::translit($this->name);
+                $this->alias = StringHelper::translit($this->name);
             }
 
             return true;
