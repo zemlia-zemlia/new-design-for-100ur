@@ -1,5 +1,5 @@
 <?php
-$this->pageTitle=Yii::app()->name . ' - Аккаунт не активирован';
+$this->pageTitle = Yii::app()->name . ' - Аккаунт не активирован';
 ?>
 
 <div class="panel panel-default">

@@ -2,7 +2,7 @@
 
 /**
  * Задает записям из 100_transactionCampaign значение leadId согласно значению из поля description
- * Class SetLeadIdToCampaignTransactionCommand
+ * Class SetLeadIdToCampaignTransactionCommand.
  */
 class SetLeadIdToCampaignTransactionCommand extends CConsoleCommand
 {
@@ -10,7 +10,7 @@ class SetLeadIdToCampaignTransactionCommand extends CConsoleCommand
     {
         $transactions = Yii::app()->db->createCommand()
             ->select('*')
-            ->from("{{transactionCampaign}}")
+            ->from('{{transactionCampaign}}')
             ->where('sum<0 AND leadId IS NULL')
             ->order('id DESC')
             ->queryAll();
@@ -22,11 +22,11 @@ class SetLeadIdToCampaignTransactionCommand extends CConsoleCommand
 
             if (isset($leadIdMatches[1])) {
                 echo $leadIdMatches[1] . PHP_EOL;
-                $leadId = (int)$leadIdMatches[1];
+                $leadId = (int) $leadIdMatches[1];
 
                 echo (
                     Yii::app()->db->createCommand()
-                    ->update("{{transactionCampaign}}", ['leadId' => $leadId], 'id=:id', [':id' => $transaction['id']])
+                    ->update('{{transactionCampaign}}', ['leadId' => $leadId], 'id=:id', [':id' => $transaction['id']])
                 ) ? 'OK' : 'fail';
 
                 echo PHP_EOL;

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Класс для обработки запросов от Яндекс денег об успешной оплате
+ * Класс для обработки запросов от Яндекс денег об успешной оплате.
  *
  * Class YandexPaymentResponseProcessor
  */
@@ -33,7 +33,8 @@ class YandexPaymentResponseProcessor
     }
 
     /**
-     * Обработка запроса
+     * Обработка запроса.
+     *
      * @return bool
      */
     public function process(): bool
@@ -43,11 +44,13 @@ class YandexPaymentResponseProcessor
 
         if (is_null($this->detectPaymentType($label))) {
             $this->addError('Некоректный тип плачиваемой сущности');
-            return false;
-        };
 
-        if ($this->request->validateHash($this->yandexSecret) !== true) {
+            return false;
+        }
+
+        if (true !== $this->request->validateHash($this->yandexSecret)) {
             $this->addError('Запрос не прошел проверку на целостность');
+
             return false;
         }
 
@@ -63,8 +66,10 @@ class YandexPaymentResponseProcessor
     }
 
     /**
-     * Получает тип сущности, за которую платят и ее id
+     * Получает тип сущности, за которую платят и ее id.
+     *
      * @param string $label
+     *
      * @return string|null
      */
     private function detectPaymentType($label): ?string
@@ -75,9 +80,9 @@ class YandexPaymentResponseProcessor
             return null;
         }
 
-        $this->entityId = (int)$labelMatches[2];
+        $this->entityId = (int) $labelMatches[2];
 
-        if ($this->entityId == 0) {
+        if (0 == $this->entityId) {
             return null;
         }
 
@@ -101,7 +106,8 @@ class YandexPaymentResponseProcessor
     }
 
     /**
-     * Добавление ошибки
+     * Добавление ошибки.
+     *
      * @param string $error
      */
     public function addError(string $error): void

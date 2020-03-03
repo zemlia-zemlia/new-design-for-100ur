@@ -1,6 +1,6 @@
 с<?php
 // this contains the application parameters that can be maintained via GUI
-return array(
+return [
     'rangs' => require(dirname(__FILE__) . '/rangs.php'),
     'adminEmail' => '100yuristov@mail.ru',
     'leadsEmail' => 'admin@100yuristov.com',
@@ -12,14 +12,14 @@ return array(
     'yandexShopId' => 73868, // идентификатор магазина
     'yandexScid' => 542085, // номер витрины
     'yandexPaymentAction' => 'https://demomoney.yandex.ru/eshop.xml', // куда отправлять форму оплаты через Яндекс
-    'mailBoxYurcrmLogin' => "admin@100yuristov.com",
-    'mailBoxYurcrmPassword' => "vpn168dsl168",
-    'mailBoxYurcrmServer' => "imap.mail.ru",
+    'mailBoxYurcrmLogin' => 'admin@100yuristov.com',
+    'mailBoxYurcrmPassword' => 'vpn168dsl168',
+    'mailBoxYurcrmServer' => 'imap.mail.ru',
     'mailBoxYurcrmPort' => 993,
     'mailBoxYurcrmParam' => '/imap/ssl/novalidate-cert',
     'questionPrice' => 5,
     'leadHoldPeriodDays' => 2, // сколько суток лид может быть забракован (в холде)
-    'categories' => array(
+    'categories' => [
         'кредит' => 47,
         'МФО' => 1040,
         'коллектор' => 48,
@@ -39,14 +39,14 @@ return array(
         'развод' => 330,
         'дду' => 1506,
         'банкрот' => 468,
-    ),
-    'sendpulseBooks' => array(
+    ],
+    'sendpulseBooks' => [
         // массив соответствия ID ролей пользователей и адресных книг Sendpulse
         3 => 1367186, // клиенты (пользователи)
         6 => 1347377, // покупатели лидов
         7 => 1347445, // вебмастера
         10 => 1347446, // юристы
-    ),
+    ],
     'sendPulseApiId' => '83b196b8167efa203431239059e6aef5',
     'sendPulseApiSecret' => '72df25fae69d448db7f99753dc3cda03',
     'bonuses' => [
@@ -72,5 +72,5 @@ return array(
     'sellLeadAfterCreating' => false, // пытаться продать лид сразу после создания
     'sovinform' => [
         'key' => '',
-    ]
-);
+    ],
+];

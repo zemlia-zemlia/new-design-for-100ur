@@ -2,7 +2,7 @@
     <td>
         <?php if ($data instanceof PartnerTransaction): ?>
             <?php echo DateHelper::niceDate($data->datetime); ?>
-            <?php if ($data->leadId != 0 && time() - strtotime($data->datetime) < 86400 * 3): ?>
+            <?php if (0 != $data->leadId && time() - strtotime($data->datetime) < 86400 * 3): ?>
                 <span class="label label-warning">холд</span>
             <?php endif; ?>
         <?php elseif ($data instanceof TransactionCampaign): ?>

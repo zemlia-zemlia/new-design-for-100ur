@@ -2,24 +2,24 @@
 /* @var $this RegionController */
 /* @var $model Region */
 
-$pageTitle = "Юристы и Адвокаты " . CHtml::encode($model->name) . '.';
-Yii::app()->clientScript->registerMetaTag("Каталог и рейтинг Юристов и Адвокатов " . CHtml::encode($model->name), "Description");
+$pageTitle = 'Юристы и Адвокаты ' . CHtml::encode($model->name) . '.';
+Yii::app()->clientScript->registerMetaTag('Каталог и рейтинг Юристов и Адвокатов ' . CHtml::encode($model->name), 'Description');
 Yii::app()->clientScript->registerScriptFile('/js/admin/town.js');
 
 $this->setPageTitle($pageTitle . Yii::app()->name);
 
-$this->breadcrumbs = array(
-    'Регионы' => array('/admin/region'),
+$this->breadcrumbs = [
+    'Регионы' => ['/admin/region'],
     CHtml::encode($model->name),
-);
+];
 ?>
 
 <?php
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('Юристы и Адвокаты', "/"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('Юристы и Адвокаты', '/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 ?>
 
 <style>
@@ -62,39 +62,39 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     </td>
                     <td>
         <span class='
-        <?php echo ($town['hasDesc1'] > 0) ? "glyphicon glyphicon-ok" : ""; ?>
+        <?php echo ($town['hasDesc1'] > 0) ? 'glyphicon glyphicon-ok' : ''; ?>
         '></span>
                     </td>
                     <td>
         <span class='
-        <?php echo ($town['hasDesc2'] > 0) ? "glyphicon glyphicon-ok" : ""; ?>
+        <?php echo ($town['hasDesc2'] > 0) ? 'glyphicon glyphicon-ok' : ''; ?>
         '></span>
                     </td>
                     <td>
         <span class='
-        <?php echo ($town['hasSeoTitle'] > 0) ? "glyphicon glyphicon-ok" : ""; ?>
+        <?php echo ($town['hasSeoTitle'] > 0) ? 'glyphicon glyphicon-ok' : ''; ?>
         '></span>
                     </td>
                     <td>
         <span class='
-        <?php echo ($town['hasSeoDescription'] > 0) ? "glyphicon glyphicon-ok" : ""; ?>
+        <?php echo ($town['hasSeoDescription'] > 0) ? 'glyphicon glyphicon-ok' : ''; ?>
         '></span>
                     </td>
                     <td>
         <span class='
-        <?php echo ($town['hasSeoKeywords'] > 0) ? "glyphicon glyphicon-ok" : ""; ?>
+        <?php echo ($town['hasSeoKeywords'] > 0) ? 'glyphicon glyphicon-ok' : ''; ?>
         '></span>
                     </td>
                     <td>
-                        <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/town/update', array('id' => $town['id'])), array('class' => 'btn btn-primary btn-xs')); ?>
+                        <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/town/update', ['id' => $town['id']]), ['class' => 'btn btn-primary btn-xs']); ?>
                     </td>
                     <td style="max-width: 50px">
                         <div>
-                            <?php echo CHtml::textField('buyPrice', MoneyFormat::rubles($town['buyPrice']), array(
+                            <?php echo CHtml::textField('buyPrice', MoneyFormat::rubles($town['buyPrice']), [
                                 'class' => 'form-control town-buy-price input-sm input-xs',
                                 'data-id' => $town['id'],
                                 'style' => 'max-width:50px',
-                            )); ?>
+                            ]); ?>
                         </div>
                     </td>
                 </tr>

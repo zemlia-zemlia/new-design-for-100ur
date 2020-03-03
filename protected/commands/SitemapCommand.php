@@ -5,7 +5,7 @@ class SitemapCommand extends CConsoleCommand
     public function actionIndex()
     {
         $siteUrl = Yii::app()->urlManager->baseUrl;
-        
+
         $siteMap = '<?xml version="1.0" encoding="UTF-8"?>
         <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
            <url>
@@ -28,7 +28,7 @@ class SitemapCommand extends CConsoleCommand
            </url>';
         }
         */
-        
+
         $categories = QuestionCategory::model()->findAll();
         foreach ($categories as $cat) {
             $siteMap .= '<url>
@@ -38,7 +38,7 @@ class SitemapCommand extends CConsoleCommand
               <priority>0.6</priority>
            </url>';
         }
-        
+
         $towns = Yii::app()->db->createCommand()
                 ->select('t.alias town, r.alias region, c.alias country')
                 ->from('{{town}} t')
@@ -48,23 +48,21 @@ class SitemapCommand extends CConsoleCommand
                 ->queryAll();
         foreach ($towns as $town) {
             $siteMap .= '<url>
-              <loc>' . Yii::app()->createUrl('town/alias', ['countryAlias' => CHtml::encode($town['country']), 'regionAlias' => CHtml::encode($town['region']), 'name' => CHtml::encode($town['town'])]) .  '</loc>
+              <loc>' . Yii::app()->createUrl('town/alias', ['countryAlias' => CHtml::encode($town['country']), 'regionAlias' => CHtml::encode($town['region']), 'name' => CHtml::encode($town['town'])]) . '</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.4</priority>
            </url>';
         }
-        
-        
 
         $questions = Yii::app()->db->createCommand()
                 ->select('id')
                 ->from('{{question}}')
-                ->where('status IN(:status1, :status2)', array(':status1'=>Question::STATUS_PUBLISHED, ':status2'=>Question::STATUS_CHECK))
+                ->where('status IN(:status1, :status2)', [':status1' => Question::STATUS_PUBLISHED, ':status2' => Question::STATUS_CHECK])
                 ->queryAll();
         foreach ($questions as $question) {
             $siteMap .= '<url>
-              <loc>' . Yii::app()->createUrl('question/view', ['id' => $question['id']]) .  '</loc>
+              <loc>' . Yii::app()->createUrl('question/view', ['id' => $question['id']]) . '</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.3</priority>
@@ -74,21 +72,21 @@ class SitemapCommand extends CConsoleCommand
         $posts = Yii::app()->db->createCommand()
                 ->select('id, alias')
                 ->from('{{post}}')
-                ->where('datePublication<:now', array(':now'=>date('Y-m-d')))
+                ->where('datePublication<:now', [':now' => date('Y-m-d')])
                 ->queryAll();
         foreach ($posts as $post) {
             $siteMap .= '<url>
-              <loc>' . Yii::app()->createUrl('post/view', ['id' => $post['id'], 'alias'=>$post['alias']])  .  '</loc>
+              <loc>' . Yii::app()->createUrl('post/view', ['id' => $post['id'], 'alias' => $post['alias']]) . '</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.6</priority>
            </url>';
         }
-        
+
         $siteMap .= '</urlset>';
-        
+
         $siteMapFilePath = YiiBase::getPathOfAlias('application') . '/../sitemap.xml';
-        
+
         $file = fopen($siteMapFilePath, 'w');
         fputs($file, $siteMap);
         fclose($file);

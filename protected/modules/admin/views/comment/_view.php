@@ -19,7 +19,7 @@
     }
 ?>
 
-<tr class="<?php echo $statusClass; ?>" id="comment-<?php echo $data->id;?>">
+<tr class="<?php echo $statusClass; ?>" id="comment-<?php echo $data->id; ?>">
     <td>        
     
         <p>
@@ -29,9 +29,9 @@
          <?php
             switch ($data->type) {
                 case Comment::TYPE_ANSWER:
-                    echo "Ответ на вопрос ";
+                    echo 'Ответ на вопрос ';
                     $answer = Answer::model()->with('question')->findByPk($data->objectId);
-                    echo CHtml::link(CHtml::encode($answer->question->title), Yii::app()->createUrl('question/view', array('id'=>$answer->questionId)), array('target'=>'_blank'));
+                    echo CHtml::link(CHtml::encode($answer->question->title), Yii::app()->createUrl('question/view', ['id' => $answer->questionId]), ['target' => '_blank']);
                     break;
             }
         ?> 
@@ -42,36 +42,36 @@
         }?>
             &nbsp;
             <?php if ($data->author):?>
-            <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo CHtml::encode($data->author->lastName . ' ' . $data->author->name);?>
+            <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo CHtml::encode($data->author->lastName . ' ' . $data->author->name); ?>
             <?php elseif ($data->authorName):?>
-                <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo CHtml::encode($data->authorName);?>
-            <?php endif;?>
+                <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo CHtml::encode($data->authorName); ?>
+            <?php endif; ?>
 
         </small>
         
         <p><strong>Оценка:</strong> 
-            <?php echo (int)$data->rating;?>/5
+            <?php echo (int) $data->rating; ?>/5
         </p>
     </td>
 
     <td>
         <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)):?>   
                       
-            <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/comment/update', array('id'=>$data->id)), array('class'=>'btn btn-primary btn-xs btn-block')); ?>
+            <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/comment/update', ['id' => $data->id]), ['class' => 'btn btn-primary btn-xs btn-block']); ?>
             
-            <?php if ($data->status!=Comment::STATUS_CHECKED):?>
-            <?php echo CHtml::ajaxLink('Одобрить', Yii::app()->createUrl('/admin/comment/publish'), array('data'=>"id=".$data->id, 'type'=>'POST', 'success'=>'onPublishComment'), array('class'=>'btn btn-success btn-xs btn-block')); ?>
-            <?php endif;?>
+            <?php if (Comment::STATUS_CHECKED != $data->status):?>
+            <?php echo CHtml::ajaxLink('Одобрить', Yii::app()->createUrl('/admin/comment/publish'), ['data' => 'id=' . $data->id, 'type' => 'POST', 'success' => 'onPublishComment'], ['class' => 'btn btn-success btn-xs btn-block']); ?>
+            <?php endif; ?>
             
-            <?php if ($data->status!=Comment::STATUS_SPAM):?>   
-            <?php echo CHtml::ajaxLink('В спам', Yii::app()->createUrl('/admin/comment/toSpam'), array('data'=>"id=".$data->id, 'type'=>'POST', 'success'=>'onSpamComment'), array('class'=>'btn btn-warning btn-xs btn-block')); ?>
-            <?php endif;?>
+            <?php if (Comment::STATUS_SPAM != $data->status):?>   
+            <?php echo CHtml::ajaxLink('В спам', Yii::app()->createUrl('/admin/comment/toSpam'), ['data' => 'id=' . $data->id, 'type' => 'POST', 'success' => 'onSpamComment'], ['class' => 'btn btn-warning btn-xs btn-block']); ?>
+            <?php endif; ?>
         
             <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)):?>
-                <?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/comment/delete', array('id'=>$data->id)), array('class'=>'btn btn-danger btn-xs btn-block')); ?>
-            <?php endif;?>
+                <?php echo CHtml::link('Удалить', Yii::app()->createUrl('/admin/comment/delete', ['id' => $data->id]), ['class' => 'btn btn-danger btn-xs btn-block']); ?>
+            <?php endif; ?>
          
-        <?php endif;?>
+        <?php endif; ?>
     </td> 
     
 </tr>

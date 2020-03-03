@@ -15,9 +15,6 @@
  */
 class File2Object extends CActiveRecord
 {
-
-
-
     /**
      * @return string the associated database table name
      */
@@ -41,8 +38,6 @@ class File2Object extends CActiveRecord
             ['id, file_id, object_id, object_type', 'safe', 'on' => 'search'],
         ];
     }
-
-
 
     /**
      * @return array customized attribute labels (name=>label)

@@ -3,8 +3,11 @@
  * EDialog class file.
  *
  * @author MetaYii
+ *
  * @version 2.4.1
- * @link http://www.yiiframework.com/
+ *
+ * @see http://www.yiiframework.com/
+ *
  * @copyright Copyright &copy; 2009 MetaYii
  * @license dual GPL (3.0 or later) and MIT, at your choice.
  * @license http://www.opensource.org/licenses/mit-license.php
@@ -58,20 +61,18 @@
  * choice. Please see {@link http://docs.jquery.com/Licensing} for details.
  * MetaYii is not related to the jQuery UI development team.
  */
-
-require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'EJqueryUiWidget.php';
 
 /**
- *
  * EDialog is a Yii widget which encapsulates the functionality of the jQuery UI
  * dialog widget to generate a dialog.
  *
  * Works with jQuery 1.3 and jQuery UI 1.7
  *
- * @link http://jqueryui.com/demos/tabs
+ * @see http://jqueryui.com/demos/tabs
  *
  * @author MetaYii
- * @package application.extensions.jui
+ *
  * @since 1.0.2
  */
 class EDialog extends EJqueryUiWidget
@@ -85,7 +86,7 @@ class EDialog extends EJqueryUiWidget
 
     /**
      * Associative array key=>value where key is the name of the button, and
-     * value es a callback (a valid javascript funcion) which acts upon the click
+     * value es a callback (a valid javascript funcion) which acts upon the click.
      *
      * Example:
      *
@@ -94,46 +95,46 @@ class EDialog extends EJqueryUiWidget
      *
      * @var array
      */
-    private $buttons = array();
-  
+    private $buttons = [];
+
     //***************************************************************************
     // Internal properties (not for configuration)
     //***************************************************************************
 
     /**
-     * See @link http://docs.jquery.com/UI/Dialog/dialog#options
+     * See @link http://docs.jquery.com/UI/Dialog/dialog#options.
      *
      * @var array
      */
-    protected $validOptions = array(
-                                   'autoOpen'=>array('type'=>'boolean'), // When autoOpen is true the dialog will open automatically when dialog is called. If false it will stay hidden until .dialog("open") is called on it. Default: true
-                                   'bgiframe'=>array('type'=>'boolean'), // When true, the bgiframe plugin will be used, to fix the issue in IE6 where select boxes show on top of other elements, regardless of zIndex. Requires including the bgiframe plugin. Future versions may not require a separate plugin. Default: false
-                                   'buttons'=>array('type'=>'array'), // Specifies which buttons should be displayed on the dialog. The property key is the text of the button. The value is the callback function for when the button is clicked. The context of the callback is the dialog element; if you need access to the button, it is available as the target of the event object. Default: {}
-                                   'closeOnEscape'=>array('type'=>'boolean'), // Specifies whether the dialog should close when it has focus and the user presses the esacpe (ESC) key. Default: true
-                                   'dialogClass'=>array('type'=>'string'), // The specified class name(s) will be added to the dialog, for additional theming. Default: ""
-                                   'draggable'=>array('type'=>'boolean'), // If set to true, the dialog will be draggable will be draggable by the titlebar. Default: true
-                                   'height'=>array('type'=>array('integer', 'string')), // The height of the dialog, in pixels. Default: 'auto'
-                                   'hide'=>array('type'=>'string'), // The effect to be used when the dialog is closed. Default: ""
-                                   'maxHeight'=>array('type'=>array('boolean', 'integer')), // The maximum height to which the dialog can be resized, in pixels. Default: false
-                                   'maxWidth'=>array('type'=>array('boolean', 'integer')), // The maximum width to which the dialog can be resized, in pixels. Default: false
-                                   'minHeight'=>array('type'=>array('boolean', 'integer')), // The minimum height to which the dialog can be resized, in pixels. Default: 150
-                                   'minWidth'=>array('type'=>array('boolean', 'integer')), // The minimum width to which the dialog can be resized, in pixels. Default: 150
-                                   'modal'=>array('type'=>'boolean'), // If set to true, the dialog will have modal behavior; other items on the page will be disabled (i.e. cannot be interacted with). Modal dialogs create an overlay below the dialog but above other page elements. Default: false
-                                   'position'=>array('type'=>array('string', 'array')), //Specifies where the dialog should be displayed. Possible values: 'center', 'left', 'right', 'top', 'bottom', or an array containing a coordinate pair (in pixel offset from top left of viewport) or the possible string values (e.g. ['right','top'] for top right corner). Default: 'center'
-                                   'resizable'=>array('type'=>'boolean'), // If set to true, the dialog will be resizeable. Default: true
-                                   'show'=>array('type'=>'string'), // The effect to be used when the dialog is opened. Default: null
-                                   'stack'=>array('type'=>'boolean'), // Specifies whether the dialog will stack on top of other dialogs. This will cause the dialog to move to the front of other dialogs when it gains focus. Default: true
-                                   'title'=>array('type'=>'string'), // Specifies the title of the dialog. The title can also be specified by the title attribute on the dialog source element. Default: ""
-                                   'width'=>array('type'=>'integer'), // The width of the dialog, in pixels. Default: 300
-                                   'zIndex'=>array('type'=>'integer'), // The starting z-index for the dialog. Default: 1000
-                                  );
+    protected $validOptions = [
+                                   'autoOpen' => ['type' => 'boolean'], // When autoOpen is true the dialog will open automatically when dialog is called. If false it will stay hidden until .dialog("open") is called on it. Default: true
+                                   'bgiframe' => ['type' => 'boolean'], // When true, the bgiframe plugin will be used, to fix the issue in IE6 where select boxes show on top of other elements, regardless of zIndex. Requires including the bgiframe plugin. Future versions may not require a separate plugin. Default: false
+                                   'buttons' => ['type' => 'array'], // Specifies which buttons should be displayed on the dialog. The property key is the text of the button. The value is the callback function for when the button is clicked. The context of the callback is the dialog element; if you need access to the button, it is available as the target of the event object. Default: {}
+                                   'closeOnEscape' => ['type' => 'boolean'], // Specifies whether the dialog should close when it has focus and the user presses the esacpe (ESC) key. Default: true
+                                   'dialogClass' => ['type' => 'string'], // The specified class name(s) will be added to the dialog, for additional theming. Default: ""
+                                   'draggable' => ['type' => 'boolean'], // If set to true, the dialog will be draggable will be draggable by the titlebar. Default: true
+                                   'height' => ['type' => ['integer', 'string']], // The height of the dialog, in pixels. Default: 'auto'
+                                   'hide' => ['type' => 'string'], // The effect to be used when the dialog is closed. Default: ""
+                                   'maxHeight' => ['type' => ['boolean', 'integer']], // The maximum height to which the dialog can be resized, in pixels. Default: false
+                                   'maxWidth' => ['type' => ['boolean', 'integer']], // The maximum width to which the dialog can be resized, in pixels. Default: false
+                                   'minHeight' => ['type' => ['boolean', 'integer']], // The minimum height to which the dialog can be resized, in pixels. Default: 150
+                                   'minWidth' => ['type' => ['boolean', 'integer']], // The minimum width to which the dialog can be resized, in pixels. Default: 150
+                                   'modal' => ['type' => 'boolean'], // If set to true, the dialog will have modal behavior; other items on the page will be disabled (i.e. cannot be interacted with). Modal dialogs create an overlay below the dialog but above other page elements. Default: false
+                                   'position' => ['type' => ['string', 'array']], //Specifies where the dialog should be displayed. Possible values: 'center', 'left', 'right', 'top', 'bottom', or an array containing a coordinate pair (in pixel offset from top left of viewport) or the possible string values (e.g. ['right','top'] for top right corner). Default: 'center'
+                                   'resizable' => ['type' => 'boolean'], // If set to true, the dialog will be resizeable. Default: true
+                                   'show' => ['type' => 'string'], // The effect to be used when the dialog is opened. Default: null
+                                   'stack' => ['type' => 'boolean'], // Specifies whether the dialog will stack on top of other dialogs. This will cause the dialog to move to the front of other dialogs when it gains focus. Default: true
+                                   'title' => ['type' => 'string'], // Specifies the title of the dialog. The title can also be specified by the title attribute on the dialog source element. Default: ""
+                                   'width' => ['type' => 'integer'], // The width of the dialog, in pixels. Default: 300
+                                   'zIndex' => ['type' => 'integer'], // The starting z-index for the dialog. Default: 1000
+                                  ];
 
     /**
-     * See @link http://docs.jquery.com/UI/Dialog/dialog#options
+     * See @link http://docs.jquery.com/UI/Dialog/dialog#options.
      *
      * @var array
      */
-    protected $validCallbacks = array(
+    protected $validCallbacks = [
                                      'beforeclose', // This event is triggered when a dialog attempts to close. If the beforeclose event handler (callback function) returns false, the close will be prevented.
                                      'open', // This event is triggered when dialog is opened.
                                      'focus', // This event is triggered when the dialog gains focus.
@@ -144,14 +145,14 @@ class EDialog extends EJqueryUiWidget
                                      'resize', // This event is triggered when the dialog is resized.
                                      'resizeStop', // This event is triggered after the dialog has been resized.
                                      'close', // This event is triggered when the dialog is closed.
-                                    );
-                               
+                                    ];
+
     //***************************************************************************
     // Setters and getters
     //***************************************************************************
 
     /**
-     * Setter
+     * Setter.
      *
      * @param string $value body
      */
@@ -161,7 +162,7 @@ class EDialog extends EJqueryUiWidget
     }
 
     /**
-     * Getter
+     * Getter.
      *
      * @return string
      */
@@ -171,7 +172,7 @@ class EDialog extends EJqueryUiWidget
     }
 
     /**
-     * Setter
+     * Setter.
      *
      * @param array $value buttons
      */
@@ -184,7 +185,7 @@ class EDialog extends EJqueryUiWidget
     }
 
     /**
-     * Getter
+     * Getter.
      *
      * @return array
      */
@@ -198,17 +199,17 @@ class EDialog extends EJqueryUiWidget
     //***************************************************************************
 
     /**
-     * Generates the options for the jQuery widget
+     * Generates the options for the jQuery widget.
      *
      * @return string
      */
     protected function makeOptions()
     {
-        $options = array();
-        $buttons = array();
+        $options = [];
+        $buttons = [];
 
-        foreach ($this->callbacks as  $key=>$val) {
-            $options['callback_'.$key] = $key;
+        foreach ($this->callbacks as  $key => $val) {
+            $options['callback_' . $key] = $key;
         }
 
         if (!empty($this->buttons)) {
@@ -217,14 +218,14 @@ class EDialog extends EJqueryUiWidget
 
         $encodedOptions = CJavaScript::encode(array_merge($options, $this->options));
 
-        foreach ($this->callbacks as $key=>$val) {
+        foreach ($this->callbacks as $key => $val) {
             $encodedOptions = str_replace("'callback_{$key}':'{$key}'", "{$key}: {$val}", $encodedOptions);
         }
 
         if (!empty($this->buttons)) {
-            $b = array();
-            foreach ($this->buttons as $key=>$val) {
-                $b[] = "'{$key}'".':'.str_replace(array("\n", "\r", "\t"), '', $val);
+            $b = [];
+            foreach ($this->buttons as $key => $val) {
+                $b[] = "'{$key}'" . ':' . str_replace(["\n", "\r", "\t"], '', $val);
             }
             $buttons = "'buttons':{" . implode(',', $b) . '}';
         }
@@ -234,21 +235,22 @@ class EDialog extends EJqueryUiWidget
     }
 
     /**
-     * Generates the javascript code for the widget
+     * Generates the javascript code for the widget.
      *
      * @return string
      */
     protected function jsCode($id)
     {
         $options = $this->makeOptions();
-        $script =<<<EOP
+        $script = <<<EOP
 $('#{$id}').dialog({$options});
 EOP;
+
         return $script;
     }
 
     /**
-     * Generates the HTML markup for the widget
+     * Generates the HTML markup for the widget.
      *
      * @return string
      */
@@ -256,6 +258,7 @@ EOP;
     {
         $this->htmlOptions['id'] = $id;
         $html = CHtml::tag('div', $this->htmlOptions, $this->body);
+
         return $html;
     }
 
@@ -272,7 +275,7 @@ EOP;
     }
 
     /**
-     * Run the widget
+     * Run the widget.
      */
     public function run()
     {
@@ -289,7 +292,7 @@ EOP;
         $this->registerClientScripts();
 
         $js = $this->jsCode($name);
-        $this->clientScript->registerScript('Yii.'.get_class($this).'#'.$id, $js, CClientScript::POS_READY);
+        $this->clientScript->registerScript('Yii.' . get_class($this) . '#' . $id, $js, CClientScript::POS_READY);
 
         $html = $this->htmlCode($id);
         echo $html;

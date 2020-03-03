@@ -2,7 +2,7 @@
 
 /**
  * Элемент списка страниц в турбо-rss
- * Class TurboItem
+ * Class TurboItem.
  */
 class TurboItem
 {
@@ -19,11 +19,13 @@ class TurboItem
 
     /**
      * @param mixed $xml
+     *
      * @return TurboItem
      */
     public function setXml($xml)
     {
         $this->xml = $xml;
+
         return $this;
     }
 }

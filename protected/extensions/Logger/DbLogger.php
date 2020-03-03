@@ -1,11 +1,10 @@
 <?php
 
 /**
- * Класс для записи лога в базу
+ * Класс для записи лога в базу.
  */
 class DbLogger extends Logger
 {
-
     /**
      * @var CDbConnection
      */
@@ -23,7 +22,8 @@ class DbLogger extends Logger
     }
 
     /**
-     * Запись сообщения в лог
+     * Запись сообщения в лог.
+     *
      * @param type $message
      * @param type $class
      * @param type $id

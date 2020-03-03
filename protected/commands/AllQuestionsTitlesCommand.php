@@ -9,9 +9,9 @@ class AllQuestionsTitlesCommand extends CConsoleCommand
     {
         $criteria = new CDbCriteria();
         $criteria->limit = 50;
-        $criteria->order = "id";
-        $criteria->addColumnCondition(array('title'=>''));
-        
+        $criteria->order = 'id';
+        $criteria->addColumnCondition(['title' => '']);
+
         $questions = Question::model()->findAll($criteria);
         echo sizeof($questions) . " found\n";
         foreach ($questions as $question) {

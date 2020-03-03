@@ -1,19 +1,18 @@
 <?php
 
-
 class GeoHelper
 {
-
     /**
      * @param string|null $ip
-     * @param string $selector
+     * @param string      $selector
+     *
      * @return string|null
      */
     public static function detectTownLink(?string $ip = null, string $selector)
     {
         $town = self::detectTown($ip);
         if ($town) {
-            $link = CHtml::link($town . "?", '', array('onclick' => "$('" . $selector . "').val('" . $town . "')", 'class' => 'suggest-link'));
+            $link = CHtml::link($town . '?', '', ['onclick' => "$('" . $selector . "').val('" . $town . "')", 'class' => 'suggest-link']);
 
             return $link;
         }
@@ -22,8 +21,10 @@ class GeoHelper
     }
 
     /**
-     * Определение города пользователя по IP адресу
+     * Определение города пользователя по IP адресу.
+     *
      * @param string|null $ip
+     *
      * @return Town город или NULL
      */
     public static function detectTown(?string $ip = null): ?Town
@@ -36,9 +37,9 @@ class GeoHelper
                 $ip = IpHelper::getUserIP();
             }
 
-            $data = "<ipquery><fields><all/></fields><ip-list><ip>" . $ip . "</ip></ip-list></ipquery>";
+            $data = '<ipquery><fields><all/></fields><ip-list><ip>' . $ip . '</ip></ip-list></ipquery>';
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "http://194.85.91.253:8090/geo/geo.html");
+            curl_setopt($ch, CURLOPT_URL, 'http://194.85.91.253:8090/geo/geo.html');
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
             curl_setopt($ch, CURLOPT_HEADER, false);
@@ -53,8 +54,9 @@ class GeoHelper
 
             $currentTown = null;
             if ($townName) {
-                $currentTown = Town::model()->findByAttributes(array('name' => $townName));
+                $currentTown = Town::model()->findByAttributes(['name' => $townName]);
             }
+
             return $currentTown;
         }
 
@@ -62,9 +64,11 @@ class GeoHelper
     }
 
     /**
-     * Возвращает id города по номеру телефона
+     * Возвращает id города по номеру телефона.
+     *
      * @param string $phoneNumber Номер телефона
-     * @return integer ID города в базе. null, если город в базе не найден
+     *
+     * @return int ID города в базе. null, если город в базе не найден
      */
     public static function detectTownIdByPhone($phoneNumber): ?int
     {
@@ -89,6 +93,5 @@ class GeoHelper
         }
 
         return null;
-
     }
 }

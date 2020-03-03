@@ -1,9 +1,8 @@
 <?php
 /**
  * Класс для работы с набором турбо-страниц в формате XML
- * Class TurboPack
+ * Class TurboPack.
  */
-
 class TurboPack
 {
     /** @var TurboItem[] */
@@ -27,6 +26,7 @@ class TurboPack
 
     /**
      * Добавление страницы в набор
+     *
      * @param TurboItem $item
      */
     public function addItem(TurboItem $item)
@@ -35,7 +35,8 @@ class TurboPack
     }
 
     /**
-     * Шапка RSS
+     * Шапка RSS.
+     *
      * @return string
      */
     private function getHeader()
@@ -51,7 +52,8 @@ class TurboPack
     }
 
     /**
-     * Футер RSS
+     * Футер RSS.
+     *
      * @return string
      */
     private function getFooter()
@@ -60,8 +62,10 @@ class TurboPack
     }
 
     /**
-     * Возвращает массив XML документов
-     * @param integer $taskSize Максимальное количество элементов в задаче
+     * Возвращает массив XML документов.
+     *
+     * @param int $taskSize Максимальное количество элементов в задаче
+     *
      * @return array
      */
     public function getTasks($taskSize = 5)
@@ -71,19 +75,19 @@ class TurboPack
         $currentTaskXML = '';
 
         foreach ($this->turboItems as $itemNumber => $item) {
-            if ($counter % $taskSize == 0) {
+            if (0 == $counter % $taskSize) {
                 $currentTaskXML = $this->getHeader();
             }
             $currentTaskXML .= $item->getXml();
 
-            if (($counter+1) % $taskSize == 0) {
+            if (0 == ($counter + 1) % $taskSize) {
                 $currentTaskXML .= $this->getFooter();
                 $tasks[] = $currentTaskXML;
             }
-            $counter++;
+            ++$counter;
         }
 
-        if ($counter % $taskSize != 0) {
+        if (0 != $counter % $taskSize) {
             $currentTaskXML .= $this->getFooter();
             $tasks[] = $currentTaskXML;
         }

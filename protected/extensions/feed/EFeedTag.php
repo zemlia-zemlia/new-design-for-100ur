@@ -1,8 +1,8 @@
 <?php
 /**
- *
  * @author Antonio Ramirez Cobos <ramirez.cobos@gmail.com>
- * @link http://www.ramirezcobos.com/
+ *
+ * @see http://www.ramirezcobos.com/
  *
  *
  * THIS SOFTWARE IS PROVIDED BY THE CONTRIBUTORS "AS IS" AND
@@ -18,43 +18,45 @@
  */
 
 /**
- * EFeedTag is the class for the Feed Items
+ * EFeedTag is the class for the Feed Items.
  *
  *
  * @author Antonio Ramirez Cobos <ramirez.cobos@gmail.com>
+ *
  * @version $Id: EFeedTag.php 1 2010-12-31 Antonio Ramirez Cobos $
- * @package rss
  */
 class EFeedTag
 {
     /**
-     * Tag name
+     * Tag name.
+     *
      * @var string name
      */
     public $name;
     /**
+     * Tag content.
      *
-     * Tag content
      * @var string content
      */
     public $content;
     /**
+     * Tag attributes array.
      *
-     * Tag attributes array
      * @var array attributes
      */
-    public $attributes = array();
+    public $attributes = [];
+
     /**
+     * EFeedTag constructor.
      *
-     * EFeedTag constructor
      * @param string $name
      * @param string $content
-     * @param array $attributes
+     * @param array  $attributes
      */
-    public function __construct($name, $content, $attributes = array())
+    public function __construct($name, $content, $attributes = [])
     {
         $this->name = $name;
         $this->content = $content;
-        $this->attributes = is_array($attributes)? $attributes: array();
+        $this->attributes = is_array($attributes) ? $attributes : [];
     }
 }

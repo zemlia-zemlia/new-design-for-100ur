@@ -2,10 +2,9 @@
 
 class TownController extends Controller
 {
-
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     * using two-column layout. See 'protected/views/layouts/column2.php'.
+     *             using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = '//admin/main';
 
@@ -14,40 +13,42 @@ class TownController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
+     *
      * @return array access control rules
      */
     public function accessRules()
     {
-        return array(
-            array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view', 'create', 'update', 'delete', 'admin', 'RemovePhoto', 'setPrice'),
-                'users' => array('*'),
+        return [
+            ['allow', // allow all users to perform 'index' and 'view' actions
+                'actions' => ['index', 'view', 'create', 'update', 'delete', 'admin', 'RemovePhoto', 'setPrice'],
+                'users' => ['*'],
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+            ],
+            ['deny', // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     *
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $this->loadModel($id),
-        ));
+        ]);
     }
 
     /**
@@ -56,7 +57,7 @@ class TownController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Town;
+        $model = new Town();
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
@@ -64,7 +65,7 @@ class TownController extends Controller
         if (isset($_POST['Town'])) {
             $model->attributes = $_POST['Town'];
             if ($model->save()) {
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
@@ -74,15 +75,16 @@ class TownController extends Controller
         $scriptMap['jquery.min.js'] = '/js/jquery-1.8.3.min.js';
         Yii::app()->clientScript->scriptMap = $scriptMap;
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     *
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -97,15 +99,15 @@ class TownController extends Controller
             if (!empty($_FILES)) {
                 $file = CUploadedFile::getInstance($model, 'photoFile');
 
-                if ($file && $file->getError() == 0) { // если файл нормально загрузился
+                if ($file && 0 == $file->getError()) { // если файл нормально загрузился
                     // определяем имя файла для хранения на сервере
-                    $newFileName = md5($file->getName() . $file->getSize() . mt_rand(10000, 100000)) . "." . $file->getExtensionName();
+                    $newFileName = md5($file->getName() . $file->getSize() . mt_rand(10000, 100000)) . '.' . $file->getExtensionName();
                     Yii::app()->ih
                             ->load($file->tempName)
                             ->resize(1000, 300, true)
                             ->save(Yii::getPathOfAlias('webroot') . Town::TOWN_PHOTO_PATH . '/' . $newFileName)
                             ->reload()
-                            ->adaptiveThumb(200, 200, array(255, 255, 255))
+                            ->adaptiveThumb(200, 200, [255, 255, 255])
                             ->save(Yii::getPathOfAlias('webroot') . Town::TOWN_PHOTO_PATH . Town::TOWN_PHOTO_THUMB_FOLDER . '/' . $newFileName);
 
                     $model->photo = $newFileName;
@@ -113,7 +115,7 @@ class TownController extends Controller
             }
 
             if ($model->save()) {
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
@@ -123,15 +125,16 @@ class TownController extends Controller
         $scriptMap['jquery.min.js'] = '/js/jquery-1.8.3.min.js';
         Yii::app()->clientScript->scriptMap = $scriptMap;
 
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     *
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -139,7 +142,7 @@ class TownController extends Controller
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax'])) {
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['admin']);
         }
     }
 
@@ -158,16 +161,15 @@ class TownController extends Controller
                 ->limit(50)
                 ->queryAll();
 
-
-        $this->render('index', array(
+        $this->render('index', [
             'townsArray' => $townsArray,
-        ));
+        ]);
     }
 
     public function actionRemovePhoto($id)
     {
         $model = Town::model()->findByPk($id);
-        if ($model->photo != '') {
+        if ('' != $model->photo) {
             //echo $_SERVER['DOCUMENT_ROOT'] . Town::TOWN_PHOTO_PATH . '/' . $model->photo;
             //echo $_SERVER['DOCUMENT_ROOT'] . Town::TOWN_PHOTO_PATH . '/' . Town::TOWN_PHOTO_THUMB_FOLDER . '/' . $model->photo;
             @unlink($_SERVER['DOCUMENT_ROOT'] . Town::TOWN_PHOTO_PATH . '/' . $model->photo);
@@ -176,7 +178,7 @@ class TownController extends Controller
         //exit;
         $model->photo = '';
         if ($model->save()) {
-            $this->redirect(array('town/view', 'id' => $model->id));
+            $this->redirect(['town/view', 'id' => $model->id]);
         } else {
             throw new CHttpException(500, 'Не удалось сохранить город после удаления фото');
         }
@@ -193,63 +195,68 @@ class TownController extends Controller
             $model->attributes = $_GET['Town'];
         }
 
-        $this->render('admin', array(
+        $this->render('admin', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     *
+     * @param int $id the ID of the model to be loaded
+     *
      * @return Town the loaded model
+     *
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = Town::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
     /**
      * Performs the AJAX validation.
+     *
      * @param Town $model the model to be validated
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'town-form') {
+        if (isset($_POST['ajax']) && 'town-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
     }
-    
+
     /**
-     * Устанавливает базовую цену покупки лида для города
+     * Устанавливает базовую цену покупки лида для города.
      */
     public function actionSetPrice()
     {
-        $price = (int)Yii::app()->request->getPost('price');
+        $price = (int) Yii::app()->request->getPost('price');
         $townId = Yii::app()->request->getPost('id');
-        
+
         $model = Town::model()->findByPk($townId);
         if (!$model) {
             throw new CHttpException('Город не найден', 404);
         }
-        
-        if ($price<0) {
+
+        if ($price < 0) {
             throw new CHttpException('Цена не может быть меньше нуля', 400);
         }
-        
+
         $changePriceResult = Yii::app()->db->createCommand()
-                ->update('{{town}}', array('buyPrice' => $price), 'id=:id', array(':id' => $model->id));
-        
+                ->update('{{town}}', ['buyPrice' => $price], 'id=:id', [':id' => $model->id]);
+
         if ($changePriceResult > 0) {
-            echo json_encode(array('code' => 1, 'townId' => $model->id));
+            echo json_encode(['code' => 1, 'townId' => $model->id]);
         } else {
-            echo json_encode(array('code' => 0, 'townId' => $model->id));
+            echo json_encode(['code' => 0, 'townId' => $model->id]);
         }
     }
 }

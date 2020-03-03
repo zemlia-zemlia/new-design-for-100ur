@@ -4,15 +4,16 @@ namespace sto_yuristov\helpers;
 
 class PhoneHelper
 {
-
     /**
-     * Преобразует телефонные номера в стандартный формат 70000000000
+     * Преобразует телефонные номера в стандартный формат 70000000000.
+     *
      * @param type $phone
+     *
      * @return type
      */
     public static function normalizePhone($phone)
     {
-        if ($phone == '') {
+        if ('' == $phone) {
             return '';
         }
         // удаляем из номера все кроме цифр
@@ -22,7 +23,7 @@ class PhoneHelper
 
         if (mb_strlen($digitalNumber, 'utf-8') < 11) {
             $digitalNumber = '7' . $digitalNumber;
-        } elseif (mb_substr($digitalNumber, 0, 1, 'utf-8') != '7') {
+        } elseif ('7' != mb_substr($digitalNumber, 0, 1, 'utf-8')) {
             $digitalNumber = substr_replace($digitalNumber, '7', 0, 1);
         }
 

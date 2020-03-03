@@ -14,14 +14,13 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-
 require '../src/facebook.php';
 
 // Create our Application instance (replace this with your appId and secret).
-$facebook = new Facebook(array(
-  'appId'  => '344617158898614',
+$facebook = new Facebook([
+  'appId' => '344617158898614',
   'secret' => '6dc8ac871858b34798bc2488200e503d',
-));
+]);
 
 // Get User ID
 $user = $facebook->getUser();
@@ -80,7 +79,7 @@ $naitik = $facebook->api('/naitik');
         Login using OAuth 2.0 handled by the PHP SDK:
         <a href="<?php echo $loginUrl; ?>">Login with Facebook</a>
       </div>
-    <?php endif ?>
+    <?php endif; ?>
 
     <h3>PHP Session</h3>
     <pre><?php print_r($_SESSION); ?></pre>
@@ -93,7 +92,7 @@ $naitik = $facebook->api('/naitik');
       <pre><?php print_r($user_profile); ?></pre>
     <?php else: ?>
       <strong><em>You are not Connected.</em></strong>
-    <?php endif ?>
+    <?php endif; ?>
 
     <h3>Public profile of Naitik</h3>
     <img src="https://graph.facebook.com/naitik/picture">

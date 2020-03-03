@@ -1,15 +1,14 @@
 <?php
 
-
 namespace Tests\Factories;
-
 
 class LeadSourceFactory extends BaseFactory
 {
-
     /**
-     * Генерация массива атрибутов модели
+     * Генерация массива атрибутов модели.
+     *
      * @param array $forcedParams Атрибуты, которые необходимо переопределить [key => value]
+     *
      * @return array
      */
     public function generateOne($forcedParams = []): array
@@ -21,7 +20,7 @@ class LeadSourceFactory extends BaseFactory
             'name' => $this->faker->word,
             'active' => 1,
             'userId' => $this->faker->randomNumber(),
-            'priceByPartner' => 1
+            'priceByPartner' => 1,
         ];
 
         $attributes = array_merge($attributes, $forcedParams);

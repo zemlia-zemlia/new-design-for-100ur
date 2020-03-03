@@ -1,27 +1,27 @@
 <div class="vert-margin30 flat-panel center-align inside">
-<?php $form=$this->beginWidget('CActiveForm', array(
-    'id'=>'lead-search-form',
-        'method'=>'GET',
-        'htmlOptions'   => array('class'=>'form-inline'),
-    'enableAjaxValidation'=>false,
-        'action'    =>  $action,
-)); ?>
+<?php $form = $this->beginWidget('CActiveForm', [
+    'id' => 'lead-search-form',
+        'method' => 'GET',
+        'htmlOptions' => ['class' => 'form-inline'],
+    'enableAjaxValidation' => false,
+        'action' => $action,
+]); ?>
 
 <div class="form-group">
                 <?php echo $form->labelEx($model, 'date1'); ?>
                 <?php $this->widget(
     'zii.widgets.jui.CJuiDatePicker',
-    array(
-                        'name'=>"Lead[date1]",
-                        'value'=>$model['date1'],
-                        'language'=>'ru',
-                        'options' => array('dateFormat'=>'dd-mm-yy',
-                                         ),
-                        'htmlOptions' => array(
-                            'style'=>'text-align:right; width:85px;',
-                            'class'=>'form-control input-sm'
-                            )
-                        )
+    [
+                        'name' => 'Lead[date1]',
+                        'value' => $model['date1'],
+                        'language' => 'ru',
+                        'options' => ['dateFormat' => 'dd-mm-yy',
+                                         ],
+                        'htmlOptions' => [
+                            'style' => 'text-align:right; width:85px;',
+                            'class' => 'form-control input-sm',
+                            ],
+                        ]
 );
                  ?>
                 <?php echo $form->error($model, 'date1'); ?>
@@ -31,17 +31,17 @@
                 <?php echo $form->labelEx($model, 'date2'); ?>
                 <?php $this->widget(
                      'zii.widgets.jui.CJuiDatePicker',
-                     array(
-                        'name'=>"Lead[date2]",
-                        'value'=>$model['date2'],
-                        'language'=>'ru',
-                        'options' => array('dateFormat'=>'dd-mm-yy',
-                                         ),
-                        'htmlOptions' => array(
-                            'style'=>'text-align:right;  width:85px;',
-                            'class'=>'form-control input-sm'
-                            )
-                        )
+                     [
+                        'name' => 'Lead[date2]',
+                        'value' => $model['date2'],
+                        'language' => 'ru',
+                        'options' => ['dateFormat' => 'dd-mm-yy',
+                                         ],
+                        'htmlOptions' => [
+                            'style' => 'text-align:right;  width:85px;',
+                            'class' => 'form-control input-sm',
+                            ],
+                        ]
                  );
                  ?>
                 <?php echo $form->error($model, 'date2'); ?>
@@ -49,7 +49,7 @@
 
 
 <div class="form-group buttons left-align">
-    <?php echo CHtml::submitButton("Найти", array('class'=>'btn btn-primary input-sm')); ?>
+    <?php echo CHtml::submitButton('Найти', ['class' => 'btn btn-primary input-sm']); ?>
 </div>
 
 <?php $this->endWidget(); ?>

@@ -7,7 +7,7 @@ $this->setPageTitle('Вы успешно отписались от почтов�
     <div class="panel-body">
         <h1>Вы успешно отписались от почтовой рассылки</h1>
         <p class="center-align">
-            <?php echo CHtml::link("На главную страницу", Yii::app()->createUrl('/'), array('class'=>'btn btn-primary'));?>
+            <?php echo CHtml::link('На главную страницу', Yii::app()->createUrl('/'), ['class' => 'btn btn-primary']); ?>
         </p>
     </div>
 </div>

@@ -2,10 +2,9 @@
 
 class RegionController extends Controller
 {
-
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     * using two-column layout. See 'protected/views/layouts/column2.php'.
+     *             using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = '//frontend/question';
 
@@ -14,51 +13,53 @@ class RegionController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
+     *
      * @return array access control rules
      */
     public function accessRules()
     {
-        return array(
-            array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view', 'country', 'redirect'),
-                'users' => array('*'),
-            ),
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update'),
-                'users' => array('@'),
-            ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin', 'delete'),
-                'users' => array('admin'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+        return [
+            ['allow', // allow all users to perform 'index' and 'view' actions
+                'actions' => ['index', 'view', 'country', 'redirect'],
+                'users' => ['*'],
+            ],
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['create', 'update'],
+                'users' => ['@'],
+            ],
+            ['allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions' => ['admin', 'delete'],
+                'users' => ['admin'],
+            ],
+            ['deny', // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     *
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView()
     {
-        $this->layout = "/frontend/catalog";
+        $this->layout = '/frontend/catalog';
 
         if (!isset($_GET['regionAlias'])) {
             throw new CHttpException(404, 'Регион не найден');
         }
 
-        $model = Region::model()->findByAttributes(array('alias' => CHtml::encode($_GET['regionAlias'])));
+        $model = Region::model()->findByAttributes(['alias' => CHtml::encode($_GET['regionAlias'])]);
 
         if (!$model) {
             throw new CHttpException(404, 'Регион не найден');
@@ -71,26 +72,26 @@ class RegionController extends Controller
             ->where('regionId=:regionId', [':regionId' => $model->id])
             ->queryColumn();
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
-        $criteria->order = "rating DESC, karma DESC";
-        $criteria->with = array("settings", "town", "town.region", "categories", "answersCount");
-        $criteria->addColumnCondition(array('active100' => 1));
-        $criteria->addColumnCondition(array('avatar!' => ''));
+        $criteria->order = 'rating DESC, karma DESC';
+        $criteria->with = ['settings', 'town', 'town.region', 'categories', 'answersCount'];
+        $criteria->addColumnCondition(['active100' => 1]);
+        $criteria->addColumnCondition(['avatar!' => '']);
         $criteria->addInCondition('t.townId', $towns);
-        $criteria->addCondition("role = " . User::ROLE_JURIST);
+        $criteria->addCondition('role = ' . User::ROLE_JURIST);
 
-        $yuristsDataProvider = new CActiveDataProvider('User', array(
+        $yuristsDataProvider = new CActiveDataProvider('User', [
             'criteria' => $criteria,
-            'pagination' => array(
+            'pagination' => [
                 'pageSize' => 10,
-            ),
-        ));
+            ],
+        ]);
 
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $model,
             'yuristsDataProvider' => $yuristsDataProvider,
-        ));
+        ]);
     }
 
     /**
@@ -99,67 +100,66 @@ class RegionController extends Controller
     public function actionIndex()
     {
         $regionsRows = Yii::app()->db->cache(3600)->createCommand()
-            ->select("r.id, r.name regionName, r.alias regionAlias, c.id countryId, c.name countryName, c.alias countryAlias")
-            ->from("{{region}} r")
-            ->leftJoin("{{country}} c", "c.id = r.countryId")
-            ->order("c.id asc, r.name")
+            ->select('r.id, r.name regionName, r.alias regionAlias, c.id countryId, c.name countryName, c.alias countryAlias')
+            ->from('{{region}} r')
+            ->leftJoin('{{country}} c', 'c.id = r.countryId')
+            ->order('c.id asc, r.name')
             ->queryAll();
 
-        $regionsArray = array();
+        $regionsArray = [];
 
         foreach ($regionsRows as $region) {
             $regionsArray[$region['countryAlias']][] = $region;
         }
 
-        $this->render('index', array(
+        $this->render('index', [
             'regions' => $regionsArray,
-        ));
+        ]);
     }
 
     public function actionCountry($countryAlias)
     {
-        $this->layout = "/frontend/catalog";
+        $this->layout = '/frontend/catalog';
 
-        $country = Country::model()->findByAttributes(array('alias' => $countryAlias));
+        $country = Country::model()->findByAttributes(['alias' => $countryAlias]);
 
         if (!($country instanceof Country)) {
             throw new CHttpException(404, 'Страна не найдена');
         }
 
         $regionsRows = Yii::app()->db->cache(0)->createCommand()
-            ->select("r.id, r.name regionName, r.alias regionAlias, c.id countryId, c.name countryName, c.alias countryAlias")
-            ->from("{{region}} r")
-            ->leftJoin("{{country}} c", "c.id = r.countryId")
-            ->where('c.alias = :alias', array(':alias' => $countryAlias))
-            ->order("c.id asc, r.name")
+            ->select('r.id, r.name regionName, r.alias regionAlias, c.id countryId, c.name countryName, c.alias countryAlias')
+            ->from('{{region}} r')
+            ->leftJoin('{{country}} c', 'c.id = r.countryId')
+            ->where('c.alias = :alias', [':alias' => $countryAlias])
+            ->order('c.id asc, r.name')
             ->queryAll();
 
+        $criteria = new CDbCriteria();
 
-        $criteria = new CDbCriteria;
-
-        $criteria->order = "rating DESC, karma DESC";
-        $criteria->with = array("settings", "town", "town.region", "categories", "answersCount");
-        $criteria->addColumnCondition(array('active100' => 1));
-        $criteria->addColumnCondition(array('avatar!' => ''));
-        $criteria->addCondition("role = " . User::ROLE_JURIST);
+        $criteria->order = 'rating DESC, karma DESC';
+        $criteria->with = ['settings', 'town', 'town.region', 'categories', 'answersCount'];
+        $criteria->addColumnCondition(['active100' => 1]);
+        $criteria->addColumnCondition(['avatar!' => '']);
+        $criteria->addCondition('role = ' . User::ROLE_JURIST);
         $criteria->limit = 20;
 
-        $yuristsDataProvider = new CActiveDataProvider('User', array(
+        $yuristsDataProvider = new CActiveDataProvider('User', [
             'criteria' => $criteria,
-            'pagination' => array(
+            'pagination' => [
                 'pageSize' => 12,
-            ),
-        ));
+            ],
+        ]);
 
-        $this->render('country', array(
+        $this->render('country', [
             'regions' => $regionsRows,
             'country' => $country,
             'yuristsDataProvider' => $yuristsDataProvider,
-        ));
+        ]);
     }
 
     /**
-     * Редирект со старых адресов типа region/russia/* на /yurist/russia/*
+     * Редирект со старых адресов типа region/russia/* на /yurist/russia/*.
      */
     public function actionRedirect()
     {
@@ -172,7 +172,7 @@ class RegionController extends Controller
                 '/town/alias',
                 'name' => $townName,
                 'countryAlias' => $countryAlias,
-                'regionAlias' => $regionAlias
+                'regionAlias' => $regionAlias,
             ], true, 301);
         }
 
@@ -180,7 +180,7 @@ class RegionController extends Controller
             $this->redirect([
                 '/region/view',
                 'countryAlias' => $countryAlias,
-                'regionAlias' => $regionAlias
+                'regionAlias' => $regionAlias,
             ], true, 301);
         }
 
@@ -203,34 +203,39 @@ class RegionController extends Controller
             $model->attributes = $_GET['Region'];
         }
 
-        $this->render('admin', array(
+        $this->render('admin', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     *
+     * @param int $id the ID of the model to be loaded
+     *
      * @return Region the loaded model
+     *
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = Region::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
     /**
      * Performs the AJAX validation.
+     *
      * @param Region $model the model to be validated
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'region-form') {
+        if (isset($_POST['ajax']) && 'region-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

@@ -14,6 +14,6 @@ Swift_Preferences::getInstance()->setCharset('utf-8');
 // If possible, use a disk cache to enable attaching large attachments etc
 if (function_exists('sys_get_temp_dir') && is_writable(sys_get_temp_dir())) {
     Swift_Preferences::getInstance()
-    -> setTempDir(sys_get_temp_dir())
-    -> setCacheType('disk');
+    ->setTempDir(sys_get_temp_dir())
+    ->setCacheType('disk');
 }

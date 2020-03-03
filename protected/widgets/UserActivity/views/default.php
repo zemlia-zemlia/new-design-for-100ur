@@ -8,15 +8,15 @@ $weeksInInterval = ceil(sizeof($rankByDay) / 7);
 ?>
 <div class="container-fluid">
     <table class="table">
-        <?php for ($dayOfWeek = 0; $dayOfWeek < 7; $dayOfWeek++): ?>
+        <?php for ($dayOfWeek = 0; $dayOfWeek < 7; ++$dayOfWeek): ?>
             <tr>
-                <?php for ($week = 0; $week < $weeksInInterval; $week++): ?>
+                <?php for ($week = 0; $week < $weeksInInterval; ++$week): ?>
 
                     <?php
                     $daysFromStartDateInCalendar = $week * 7 + $dayOfWeek;
                     $currentDate = (clone $firstDateInCalendar)
                         ->add(new DateInterval('P' . $daysFromStartDateInCalendar . 'D'))
-                        ->format("Y-m-d");
+                        ->format('Y-m-d');
 
                     $rank = (isset($rankByDay[$currentDate])) ?
                         $rankByDay[$currentDate] :

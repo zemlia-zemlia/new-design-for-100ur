@@ -1,11 +1,9 @@
 <?php
-$this->pageTitle = "Запросы на проверку документов пользователей. " . Yii::app()->name;
+$this->pageTitle = 'Запросы на проверку документов пользователей. ' . Yii::app()->name;
 
-
-$this->breadcrumbs=array(
+$this->breadcrumbs = [
     'Запросы на проверку',
-);
-
+];
 
 ?>
 <div  class="vert-margin30">
@@ -17,10 +15,10 @@ $this->breadcrumbs=array(
 
     <tr>
         <td>
-            <?php echo CHtml::encode($user['lastName'] . ' ' . $user['name']);?>
+            <?php echo CHtml::encode($user['lastName'] . ' ' . $user['name']); ?>
         </td>
         <td>
-            <?php echo CHtml::link('обработать', Yii::app()->createUrl('admin/user/update', array('id'=>$user['id'])), array('class'=>'btn btn-xs btn-primary'));?>
+            <?php echo CHtml::link('обработать', Yii::app()->createUrl('admin/user/update', ['id' => $user['id']]), ['class' => 'btn btn-xs btn-primary']); ?>
         </td>
     </tr>
 

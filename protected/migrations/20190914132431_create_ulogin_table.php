@@ -4,7 +4,7 @@ use Phinx\Migration\AbstractMigration;
 
 /**
  * Создание таблицы для хранения данных от Ulogin
- * Class CreateUloginTable
+ * Class CreateUloginTable.
  */
 class CreateUloginTable extends AbstractMigration
 {

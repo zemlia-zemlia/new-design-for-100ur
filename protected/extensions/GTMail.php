@@ -16,7 +16,9 @@ class GTMail extends CApplicationComponent
 
     /**
      * Конструктор
+     *
      * @param string $transportType Тип транспорта
+     *
      * @throws Exception
      */
     public function __construct($transportType = self::TRANSPORT_TYPE_SENDMAIL)
@@ -40,11 +42,13 @@ class GTMail extends CApplicationComponent
 
     /**
      * @param bool $testMode
+     *
      * @return GTMail
      */
     public function setTestMode(bool $testMode): GTMail
     {
         $this->testMode = $testMode;
+
         return $this;
     }
 
@@ -58,18 +62,22 @@ class GTMail extends CApplicationComponent
 
     /**
      * @param string $transportType
+     *
      * @return GTMail
      */
     public function setTransportType(string $transportType): GTMail
     {
         $this->transportType = $transportType;
+
         return $this;
     }
 
     /**
-     * Отправка сообщения
-     * @param bool $appendSuffix Включать ли подпись
+     * Отправка сообщения.
+     *
+     * @param bool  $appendSuffix      Включать ли подпись
      * @param array $additionalHeaders Дополнительные заголовки письма
+     *
      * @return bool Результат отправки
      */
     public function sendMail($appendSuffix = true, $additionalHeaders = []): bool
@@ -77,19 +85,22 @@ class GTMail extends CApplicationComponent
         $mailerMessage = $this->createMessage($appendSuffix);
         $mailerMessage = $this->appendHeaders($mailerMessage, $additionalHeaders);
 
-        if ($this->testMode == false) {
+        if (false == $this->testMode) {
             return ($this->mailer->send($mailerMessage) > 0) ? true : false;
         }
+
         return $this->saveMessage($mailerMessage, $this->testMode);
     }
 
     /**
-     * Добавляет письму служебные заголовки
+     * Добавляет письму служебные заголовки.
+     *
      * @param Swift_Message $message
-     * @param array $additionalHeaders
+     * @param array         $additionalHeaders
+     *
      * @return Swift_Message
      */
-    protected function appendHeaders(Swift_Message $message, $additionalHeaders = []) : Swift_Message
+    protected function appendHeaders(Swift_Message $message, $additionalHeaders = []): Swift_Message
     {
         $headers = $message->getHeaders();
         foreach ($additionalHeaders as $headerName => $headerValue) {
@@ -100,16 +111,18 @@ class GTMail extends CApplicationComponent
     }
 
     /**
-     * Сохраняет сообщение в папку на диске
-     * @param Swift_Message $mailerMessage
-     * @param bool $testing
-     * @return bool
+     * Сохраняет сообщение в папку на диске.
      *
+     * @param Swift_Message $mailerMessage
+     * @param bool          $testing
+     *
+     * @return bool
      */
-    protected function saveMessage(Swift_Message $mailerMessage, $testing):bool
+    protected function saveMessage(Swift_Message $mailerMessage, $testing): bool
     {
         try {
             file_put_contents($this->getTestMessageFilePath($testing), $mailerMessage->getBody());
+
             return true;
         } catch (Exception $e) {
             return false;
@@ -117,7 +130,8 @@ class GTMail extends CApplicationComponent
     }
 
     /**
-     * Возвращает путь к папке для хранения писем в виде текстовых файлов
+     * Возвращает путь к папке для хранения писем в виде текстовых файлов.
+     *
      * @return mixed
      */
     public static function getTestMessagesFolder()
@@ -127,13 +141,15 @@ class GTMail extends CApplicationComponent
 
     /**
      * @param bool $testing
+     *
      * @return bool|mixed|string
+     *
      * @throws Exception
      */
     protected function getTestMessageFilePath($testing = false): string
     {
         $messageFilePath = self::getTestMessagesFolder();
-        if ($testing == true) {
+        if (true == $testing) {
             $messageFilePath .= '/' . self::TEST_MESSAGES_FOLDER;
             if (!is_dir($messageFilePath)) {
                 mkdir($messageFilePath);
@@ -146,8 +162,10 @@ class GTMail extends CApplicationComponent
     }
 
     /**
-     * Создает объект сообщения
+     * Создает объект сообщения.
+     *
      * @param bool $appendSuffix Включать ли подпись
+     *
      * @return Swift_Message
      */
     protected function createMessage($appendSuffix): Swift_Message
@@ -163,7 +181,7 @@ class GTMail extends CApplicationComponent
         $this->message = $header . $this->message;
 
         // если задано добавлять подпись к письму, подгружаем ее из внешнего файла
-        if ($appendSuffix == true) {
+        if (true == $appendSuffix) {
             $this->message .= $this->loadPreFooter($controller);
         }
 
@@ -176,8 +194,10 @@ class GTMail extends CApplicationComponent
     }
 
     /**
-     * Загружает из файла шапку письма
+     * Загружает из файла шапку письма.
+     *
      * @param CController $controller
+     *
      * @return false|string
      */
     protected function loadHeader(CController $controller)
@@ -186,8 +206,10 @@ class GTMail extends CApplicationComponent
     }
 
     /**
-     * Загружает подпись письма
+     * Загружает подпись письма.
+     *
      * @param CController $controller
+     *
      * @return false|string
      */
     protected function loadPreFooter(CController $controller)
@@ -197,6 +219,7 @@ class GTMail extends CApplicationComponent
 
     /**
      * @param CController $controller
+     *
      * @return false|string
      */
     protected function loadFooter(CController $controller)
@@ -206,7 +229,9 @@ class GTMail extends CApplicationComponent
 
     /**
      * @param string $transportType
+     *
      * @return Swift_Transport
+     *
      * @throws Exception
      */
     protected function createMailTransport($transportType): Swift_Transport

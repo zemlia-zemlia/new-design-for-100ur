@@ -5,7 +5,7 @@
 <div class="blue-block text-center alert-dismissible">
     <div class="inside">
             <button type="button" class="close close-profile-notifier" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <?php echo $message;?>
+        <?php echo $message; ?>
     </div>
 </div>
 

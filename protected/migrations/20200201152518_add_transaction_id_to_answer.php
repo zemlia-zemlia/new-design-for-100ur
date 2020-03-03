@@ -4,7 +4,6 @@ use Phinx\Migration\AbstractMigration;
 
 class AddTransactionIdToAnswer extends AbstractMigration
 {
-
     public function up()
     {
         $this->table('100_answer')

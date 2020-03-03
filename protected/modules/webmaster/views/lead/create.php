@@ -2,20 +2,19 @@
 /* @var $this LeadController */
 /* @var $model Lead */
 
+$this->setPageTitle('Новый лид ' . Yii::app()->name);
+Yii::app()->clientScript->registerScriptFile('/js/scripts.js', CClientScript::POS_END);
 
-$this->setPageTitle("Новый лид " . Yii::app()->name);
-Yii::app()->clientScript->registerScriptFile("/js/scripts.js", CClientScript::POS_END);
-
-$this->breadcrumbs = array(
-    'Лиды' => array('index'),
+$this->breadcrumbs = [
+    'Лиды' => ['index'],
     'Добавление',
-);
+];
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('100 Юристов', "/webmaster"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 Юристов', '/webmaster'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 ?>
 
 <div class="vert-margin20"></div>
@@ -33,7 +32,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <div class="box-title">Добавляем новый лид</div>
             </div>
             <div class="box-body">
-                <?php echo $this->renderPartial('_form', array('model' => $model)); ?>
+                <?php echo $this->renderPartial('_form', ['model' => $model]); ?>
             </div>
         </div>
     </div>

@@ -27,14 +27,12 @@
 
 /**
  * A KeyCache which streams to and from disk.
- * @package Swift
- * @subpackage KeyCache
+ *
  * @author Chris Corbyn
  */
 class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
 {
-
-  /** Signal to place pointer at start of file */
+    /** Signal to place pointer at start of file */
     const POSITION_START = 0;
 
     /** Signal to place pointer at end of file */
@@ -42,37 +40,38 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
 
     /**
      * An InputStream for cloning.
+     *
      * @var Swift_KeyCache_KeyCacheInputStream
-     * @access private
      */
     private $_stream;
 
     /**
      * A path to write to.
+     *
      * @var string
-     * @access private
      */
     private $_path;
 
     /**
      * Stored keys.
+     *
      * @var array
-     * @access private
      */
-    private $_keys = array();
+    private $_keys = [];
 
     /**
      * Will be true if magic_quotes_runtime is turned on.
-     * @var boolean
-     * @access private
+     *
+     * @var bool
      */
     private $_quotes = false;
 
     /**
      * Create a new DiskKeyCache with the given $stream for cloning to make
      * InputByteStreams, and the given $path to save to.
+     *
      * @param Swift_KeyCache_KeyCacheInputStream $stream
-     * @param string $path to save to
+     * @param string                             $path   to save to
      */
     public function __construct(Swift_KeyCache_KeyCacheInputStream $stream, $path)
     {
@@ -83,11 +82,14 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
 
     /**
      * Set a string into the cache under $itemKey for the namespace $nsKey.
+     *
      * @param string $nsKey
      * @param string $itemKey
      * @param string $string
-     * @param int $mode
+     * @param int    $mode
+     *
      * @throws Swift_IoException
+     *
      * @see MODE_WRITE, MODE_APPEND
      */
     public function setString($nsKey, $itemKey, $string, $mode)
@@ -102,7 +104,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
         break;
       default:
         throw new Swift_SwiftException(
-            'Invalid mode [' . $mode . '] used to set nsKey='.
+            'Invalid mode [' . $mode . '] used to set nsKey=' .
           $nsKey . ', itemKey=' . $itemKey
         );
         break;
@@ -112,19 +114,22 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
 
     /**
      * Set a ByteStream into the cache under $itemKey for the namespace $nsKey.
-     * @param string $nsKey
-     * @param string $itemKey
+     *
+     * @param string                 $nsKey
+     * @param string                 $itemKey
      * @param Swift_OutputByteStream $os
-     * @param int $mode
+     * @param int                    $mode
+     *
      * @see MODE_WRITE, MODE_APPEND
+     *
      * @throws Swift_IoException
      */
     public function importFromByteStream(
-      $nsKey,
-      $itemKey,
-      Swift_OutputByteStream $os,
-      $mode
-  ) {
+        $nsKey,
+        $itemKey,
+        Swift_OutputByteStream $os,
+        $mode
+    ) {
         $this->_prepareCache($nsKey);
         switch ($mode) {
       case self::MODE_WRITE:
@@ -135,7 +140,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
         break;
       default:
         throw new Swift_SwiftException(
-            'Invalid mode [' . $mode . '] used to set nsKey='.
+            'Invalid mode [' . $mode . '] used to set nsKey=' .
           $nsKey . ', itemKey=' . $itemKey
         );
         break;
@@ -148,15 +153,17 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
     /**
      * Provides a ByteStream which when written to, writes data to $itemKey.
      * NOTE: The stream will always write in append mode.
+     *
      * @param string $nsKey
      * @param string $itemKey
+     *
      * @return Swift_InputByteStream
      */
     public function getInputByteStream(
-      $nsKey,
-      $itemKey,
-      Swift_InputByteStream $writeThrough = null
-  ) {
+        $nsKey,
+        $itemKey,
+        Swift_InputByteStream $writeThrough = null
+    ) {
         $is = clone $this->_stream;
         $is->setKeyCache($this);
         $is->setNsKey($nsKey);
@@ -164,14 +171,18 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
         if (isset($writeThrough)) {
             $is->setWriteThroughStream($writeThrough);
         }
+
         return $is;
     }
 
     /**
      * Get data back out of the cache as a string.
+     *
      * @param string $nsKey
      * @param string $itemKey
+     *
      * @return string
+     *
      * @throws Swift_IoException
      */
     public function getString($nsKey, $itemKey)
@@ -189,15 +200,17 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
             if ($this->_quotes) {
                 set_magic_quotes_runtime(1);
             }
+
             return $str;
         }
     }
 
     /**
      * Get data back out of the cache as a ByteStream.
-     * @param string $nsKey
-     * @param string $itemKey
-     * @param Swift_InputByteStream $is to write the data to
+     *
+     * @param string                $nsKey
+     * @param string                $itemKey
+     * @param Swift_InputByteStream $is      to write the data to
      */
     public function exportToByteStream($nsKey, $itemKey, Swift_InputByteStream $is)
     {
@@ -217,9 +230,11 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
 
     /**
      * Check if the given $itemKey exists in the namespace $nsKey.
+     *
      * @param string $nsKey
      * @param string $itemKey
-     * @return boolean
+     *
+     * @return bool
      */
     public function hasKey($nsKey, $itemKey)
     {
@@ -228,6 +243,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
 
     /**
      * Clear data for $itemKey in the namespace $nsKey if it exists.
+     *
      * @param string $nsKey
      * @param string $itemKey
      */
@@ -243,12 +259,13 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
 
     /**
      * Clear all data in the namespace $nsKey if it exists.
+     *
      * @param string $nsKey
      */
     public function clearAll($nsKey)
     {
         if (array_key_exists($nsKey, $this->_keys)) {
-            foreach ($this->_keys[$nsKey] as $itemKey=>$null) {
+            foreach ($this->_keys[$nsKey] as $itemKey => $null) {
                 $this->clearKey($nsKey, $itemKey);
             }
             rmdir($this->_path . '/' . $nsKey);
@@ -260,8 +277,8 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
 
     /**
      * Initialize the namespace of $nsKey if needed.
+     *
      * @param string $nsKey
-     * @access private
      */
     private function _prepareCache($nsKey)
     {
@@ -270,17 +287,18 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
             if (!mkdir($cacheDir)) {
                 throw new Swift_IoException('Failed to create cache directory ' . $cacheDir);
             }
-            $this->_keys[$nsKey] = array();
+            $this->_keys[$nsKey] = [];
         }
     }
 
     /**
      * Get a file handle on the cache item.
+     *
      * @param string $nsKey
      * @param string $itemKey
-     * @param int $position
+     * @param int    $position
+     *
      * @return resource
-     * @access private
      */
     private function _getHandle($nsKey, $itemKey, $position)
     {
@@ -293,6 +311,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
         } else {
             fseek($this->_keys[$nsKey][$itemKey], 0, SEEK_END);
         }
+
         return $this->_keys[$nsKey][$itemKey];
     }
 
@@ -301,7 +320,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
      */
     public function __destruct()
     {
-        foreach ($this->_keys as $nsKey=>$null) {
+        foreach ($this->_keys as $nsKey => $null) {
             $this->clearAll($nsKey);
         }
     }

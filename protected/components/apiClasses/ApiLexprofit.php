@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Класс для работы с API партнерки Lexprofit
+ * Класс для работы с API партнерки Lexprofit.
  */
 class ApiLexprofit implements ApiClassInterface
 {
-    protected $url = "http://api.lexprofit.ru/v1";
+    protected $url = 'http://api.lexprofit.ru/v1';
     protected $key = 250; // наш id в партнерской системе
     protected $curl;
     protected $lead;
@@ -19,7 +19,8 @@ class ApiLexprofit implements ApiClassInterface
     }
 
     /**
-     * отправка лида
+     * отправка лида.
+     *
      * @param Lead $lead
      */
     public function send(Lead $lead)
@@ -33,36 +34,39 @@ class ApiLexprofit implements ApiClassInterface
         ];
 
         curl_setopt($this->curl, CURLOPT_POSTFIELDS, http_build_query($data));
-        
+
         $apiResponse = curl_exec($this->curl);
-        
+
         LoggerFactory::getLogger()->log('Отправляем лид #' . $lead->id . ' в партнерку Lexprofit: ' . json_encode($data), 'Lead', $lead->id);
         LoggerFactory::getLogger()->log('Ответ API Lexprofit: ' . $apiResponse, 'Lead', $lead->id);
-                
+
         $apiResponseJSON = json_decode($apiResponse, true);
 
         curl_close($this->curl);
-        
+
         return $this->checkResponse($apiResponseJSON, $lead);
     }
-    
+
     /**
-     * Разбор ответа API
+     * Разбор ответа API.
+     *
      * @param type $apiResponse
      * @param type $lead
-     * @return boolean
+     *
+     * @return bool
      */
     private function checkResponse($apiResponse, $lead)
     {
-        if (sizeof($apiResponse) == 0) {
+        if (0 == sizeof($apiResponse)) {
             return false;
         }
-        
+
         if (is_array($apiResponse) && isset($apiResponse['success'])) {
             LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Lexprofit', 'Lead', $lead->id);
+
             return true;
         }
-        
+
         if (isset($apiResponse['warning']) && isset($apiResponse['warning']['msg'])) {
             $errorMessage = $apiResponse['warning']['msg'];
         }
@@ -74,6 +78,7 @@ class ApiLexprofit implements ApiClassInterface
             $errorMessage = 'Неизвестная ошибка';
         }
         LoggerFactory::getLogger()->log('Ошибка при отправке лида #' . $lead->id . ' в партнерку Lexprofit: ' . $errorMessage, 'Lead', $lead->id);
+
         return false;
     }
 }

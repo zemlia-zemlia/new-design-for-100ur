@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Класс для работы с данными текущего залогиненного пользователя
+ * Класс для работы с данными текущего залогиненного пользователя.
  */
 class WebUser extends CWebUser
 {
@@ -12,21 +12,24 @@ class WebUser extends CWebUser
     public $cacheTime = 10; // время кеширования информации о текущем пользователе
 
     /**
-         * Возвращает объект класса User, соответствующий залогиненному пользователю
-         * @param boolean $noCache Получить данные, не используя кеш
-         * @return User Объект класса User
-         */
+     * Возвращает объект класса User, соответствующий залогиненному пользователю.
+     *
+     * @param bool $noCache Получить данные, не используя кеш
+     *
+     * @return User Объект класса User
+     */
     public function getModel($noCache = false)
     {
-        if ($noCache === true) {
+        if (true === $noCache) {
             $this->cacheTime = 0;
         }
-        if (!$this->isGuest && $this->_model === null) {
+        if (!$this->isGuest && null === $this->_model) {
             $this->_model = User::model()->cache($this->cacheTime)->findByPk($this->id);
         }
+
         return $this->_model;
     }
-    
+
     public function getRole()
     {
         if ($user = $this->getModel()) {
@@ -69,7 +72,6 @@ class WebUser extends CWebUser
         }
     }
 
-
     public function getEmail()
     {
         if ($user = $this->getModel()) {
@@ -83,7 +85,7 @@ class WebUser extends CWebUser
             return $user->phone;
         }
     }
-    
+
     public function getSourceId()
     {
         if ($user = $this->getModel()) {
@@ -98,7 +100,6 @@ class WebUser extends CWebUser
         }
     }
 
-
     public function getLogin()
     {
         if ($user = $this->getModel()) {
@@ -106,15 +107,13 @@ class WebUser extends CWebUser
         }
     }
 
-
-
     public function getTownId()
     {
         if ($user = $this->getModel()) {
             return $user->townId;
         }
     }
-    
+
     public function getActive100()
     {
         if ($user = $this->getModel()) {
@@ -149,7 +148,7 @@ class WebUser extends CWebUser
             return $user->karma;
         }
     }
-    
+
     public function getBalance($noCache = false)
     {
         if ($user = $this->getModel($noCache)) {
@@ -158,22 +157,22 @@ class WebUser extends CWebUser
     }
 
     /**
-         * Возвращает массив категорий вопросов, на которых специализируется пользователь (юрист)
-         *
-         * @return array массив категорий
-         */
+     * Возвращает массив категорий вопросов, на которых специализируется пользователь (юрист).
+     *
+     * @return array массив категорий
+     */
     public function getCategories()
     {
         if ($user = $this->getModel()) {
             return $user->categories;
         }
     }
-    
+
     /**
-         * Возвращает объект настроек юриста, относящийся к текущему пользователю
-         *
-         * @return YuristSettings
-         */
+     * Возвращает объект настроек юриста, относящийся к текущему пользователю.
+     *
+     * @return YuristSettings
+     */
     public function getSettings()
     {
         if ($user = $this->getModel()) {
@@ -182,11 +181,12 @@ class WebUser extends CWebUser
     }
 
     /**
-         * Возвращает название ранга пользователя
-         *
-         * @return string
-         * @throws Exception
-         */
+     * Возвращает название ранга пользователя.
+     *
+     * @return string
+     *
+     * @throws Exception
+     */
     public function getRangName()
     {
         if ($user = $this->getModel()) {
@@ -194,45 +194,47 @@ class WebUser extends CWebUser
         }
     }
 
-
-    
     /**
-         * Возвращает количество модерированных кампаний покупателя
-         * @return integer Количество кампаний
-         */
+     * Возвращает количество модерированных кампаний покупателя.
+     *
+     * @return int Количество кампаний
+     */
     public function getCampaignsModeratedCount()
     {
         if ($user = $this->getModel()) {
             return $user->campaignsModeratedCount;
         }
     }
-    
+
     /**
-         * Возвращает коэффициент цены лида
-         * @return type
-         */
+     * Возвращает коэффициент цены лида.
+     *
+     * @return type
+     */
     public function getPriceCoeff()
     {
         if ($user = $this->getModel()) {
             return $user->priceCoeff;
         }
     }
-    
+
     /**
-         * Возвращает количество вопросов с непросмотренными комментами на мои ответы
-         * @return type
-         */
+     * Возвращает количество вопросов с непросмотренными комментами на мои ответы.
+     *
+     * @return type
+     */
     public function getNewEventsCount()
     {
         if ($user = $this->getModel()) {
             return $user->getFeed(30, true);
         }
     }
-    
+
     /**
-         * Возвращает текст сообщения для юриста с советом заполнить поле в профиле
-         * @return string Сообщение для пользователя
-         */
+     * Возвращает текст сообщения для юриста с советом заполнить поле в профиле.
+     *
+     * @return string Сообщение для пользователя
+     */
     public function getProfileNotification()
     {
         if ($user = $this->getModel()) {
@@ -241,7 +243,8 @@ class WebUser extends CWebUser
     }
 
     /**
-     * Возвращает адрес кабинета пользователя
+     * Возвращает адрес кабинета пользователя.
+     *
      * @return string|null
      */
     public function getHomeUrl()

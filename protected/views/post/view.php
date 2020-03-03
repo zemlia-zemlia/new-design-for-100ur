@@ -4,27 +4,27 @@
 $purifier = new Purifier();
 
 $this->setPageTitle(CHtml::encode($model->title));
-Yii::app()->clientScript->registerMetaTag($model->description, "Description");
+Yii::app()->clientScript->registerMetaTag($model->description, 'Description');
 
-Yii::app()->clientScript->registerLinkTag("canonical", null, Yii::app()->createUrl('post/view', array('id' => $model->id, 'alias' => $model->alias)));
+Yii::app()->clientScript->registerLinkTag('canonical', null, Yii::app()->createUrl('post/view', ['id' => $model->id, 'alias' => $model->alias]));
 
 $additionalTags = $model->getAdditionalMetaTags();
 foreach ($additionalTags as $property => $content) {
     Yii::app()->clientScript->registerMetaTag($content, $property);
 }
 
-$this->breadcrumbs = array(
-    'Новости' => array('/blog'),
+$this->breadcrumbs = [
+    'Новости' => ['/blog'],
     CHtml::encode($model->title),
-);
+];
 ?>
 
 <?php
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('100 Юристов', "/"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 Юристов', '/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 ?>
 
 <h1><?php echo CHtml::encode($model->title); ?></h1>
@@ -33,9 +33,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
     <?php if ($model->authorId == Yii::app()->user->id || Yii::app()->user->checkAccess(User::ROLE_EDITOR)): ?>
         <div>
-            <i class="glyphicon glyphicon-edit"></i> <?php echo CHtml::link('Редактировать пост', Yii::app()->createUrl('post/update', array('id' => $model->id))); ?>
+            <i class="glyphicon glyphicon-edit"></i> <?php echo CHtml::link('Редактировать пост', Yii::app()->createUrl('post/update', ['id' => $model->id])); ?>
             &nbsp;&nbsp; 
-            <i class="glyphicon glyphicon-remove"></i> <?php echo CHtml::link('Удалить пост', Yii::app()->createUrl('post/delete', array('id' => $model->id)), array('style' => 'color:#ff0000;')); ?>
+            <i class="glyphicon glyphicon-remove"></i> <?php echo CHtml::link('Удалить пост', Yii::app()->createUrl('post/delete', ['id' => $model->id]), ['style' => 'color:#ff0000;']); ?>
         </div>
     <?php endif; ?>
 </div>
@@ -70,7 +70,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <span class="muted"><?php echo DateHelper::invertDate($model->datePublication); ?></span>
         </div>
         <div class='col-md-3 col-sm-5 right-align'>
-            <img src='/pics/2015/icon_eye.png' alt='просмотров' />&nbsp;<span class='muted'><?php echo $model->viewsCount->views; ?> <?php echo NumbersHelper::numForms($model->viewsCount->views, 'просмотр', "просмотра", "просмотров"); ?></span>
+            <img src='/pics/2015/icon_eye.png' alt='просмотров' />&nbsp;<span class='muted'><?php echo $model->viewsCount->views; ?> <?php echo NumbersHelper::numForms($model->viewsCount->views, 'просмотр', 'просмотра', 'просмотров'); ?></span>
         </div>
         <div class='col-md-3 col-sm-4 right-align'>
             <script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
@@ -84,14 +84,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <div class="vert-margin30 sidebar-form inside">
     <strong>Ваш комментарий:</strong>
     <?php
-    $this->renderPartial('application.views.comment._form', array(
+    $this->renderPartial('application.views.comment._form', [
         'type' => Comment::TYPE_POST,
         'objectId' => $model->id,
         'model' => $postCommentModel,
         'hideRating' => true,
         'parentId' => 0,
-        'buttonText'    =>  'Комментировать'
-    ));
+        'buttonText' => 'Комментировать',
+    ]);
     ?>
     </div>
 <?php endif; ?>
@@ -100,7 +100,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <h2>Обсуждения</h2>
     <?php if ($commentsDataProvider): ?>
         <?php
-        $this->widget('zii.widgets.CListView', array(
+        $this->widget('zii.widgets.CListView', [
             'dataProvider' => $commentsDataProvider,
             'itemView' => '_viewComment',
             'emptyText' => 'Не найдено ни одного комментария. Ваш может стать первым!',
@@ -108,8 +108,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             'viewData' => [
                 'commentModel' => $postCommentModel,
             ],
-            'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
-        ));
+            'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+        ]);
         ?>
     <?php endif; ?>
 </div>

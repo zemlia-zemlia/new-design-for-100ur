@@ -3,8 +3,11 @@
  * EAccordionPanel class file.
  *
  * @author MetaYii
+ *
  * @version 2.4.1
- * @link http://www.yiiframework.com/
+ *
+ * @see http://www.yiiframework.com/
+ *
  * @copyright Copyright &copy; 2009 MetaYii
  * @license dual GPL (3.0 or later) and MIT, at your choice.
  * @license http://www.opensource.org/licenses/mit-license.php
@@ -60,7 +63,7 @@
  */
 
 /**
- * EAccordionPanel is a class with abstracts a panel in an accordion
+ * EAccordionPanel is a class with abstracts a panel in an accordion.
  *
  * @author MetaYii
  */
@@ -80,6 +83,7 @@ class EAccordionPanel extends EJqueryUiWidget
     /**
      * The wrapping html tag for the header-part
      * of a accordion panel.
+     *
      * @var string
      */
     private $_headerHtml = 'h3';
@@ -96,7 +100,7 @@ class EAccordionPanel extends EJqueryUiWidget
     //***************************************************************************
 
     /**
-     * Setter
+     * Setter.
      *
      * @param string $value the title
      */
@@ -106,7 +110,7 @@ class EAccordionPanel extends EJqueryUiWidget
     }
 
     /**
-     * Getter
+     * Getter.
      *
      * @return string
      */
@@ -117,6 +121,7 @@ class EAccordionPanel extends EJqueryUiWidget
 
     /**
      * Sets the header html tag.
+     *
      * @param string
      */
     public function setHeaderHtml($headerHtml)
@@ -128,6 +133,7 @@ class EAccordionPanel extends EJqueryUiWidget
 
     /**
      * Returns the header html tag.
+     *
      * @return string
      */
     public function getHeaderHtml()
@@ -141,9 +147,9 @@ class EAccordionPanel extends EJqueryUiWidget
 
     protected function htmlCode($id)
     {
-        $header = CHtml::tag($this->_headerHtml, array(), CHtml::link($this->title, '#'));
-        $body = CHtml::tag('div', array(), $this->body);
-        $html = CHtml::tag('div', array(), $header.$body);
+        $header = CHtml::tag($this->_headerHtml, [], CHtml::link($this->title, '#'));
+        $body = CHtml::tag('div', [], $this->body);
+        $html = CHtml::tag('div', [], $header . $body);
 
         return $html;
     }
@@ -153,7 +159,7 @@ class EAccordionPanel extends EJqueryUiWidget
     //***************************************************************************
 
     /**
-     * Get the panel contents
+     * Get the panel contents.
      */
     public function init()
     {
@@ -163,9 +169,6 @@ class EAccordionPanel extends EJqueryUiWidget
         ob_start();
     }
 
-    /**
-     *
-     */
     public function run()
     {
         if (is_null($this->body)) {

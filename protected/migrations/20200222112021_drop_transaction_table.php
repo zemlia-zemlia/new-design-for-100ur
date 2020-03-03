@@ -4,11 +4,10 @@ use Phinx\Migration\AbstractMigration;
 
 /**
  * Удаление неиспользуемой таблицы 100_transaction
- * Class DropTransactionTable
+ * Class DropTransactionTable.
  */
 class DropTransactionTable extends AbstractMigration
 {
-
     public function up()
     {
         $table = $this->table('100_transaction');

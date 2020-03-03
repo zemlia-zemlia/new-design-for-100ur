@@ -2,10 +2,9 @@
 
 class PostController extends Controller
 {
-
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     * using two-column layout. See 'protected/views/layouts/column2.php'.
+     *             using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = '//admin/main';
 
@@ -14,14 +13,15 @@ class PostController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
-        );
+        ];
     }
 
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
+     *
      * @return array access control rules
      */
     public function accessRules()
@@ -47,7 +47,7 @@ class PostController extends Controller
     }
 
     /**
-     * вывод отдельного поста
+     * вывод отдельного поста.
      */
     public function actionView($id)
     {
@@ -59,7 +59,7 @@ class PostController extends Controller
 
         $commentsDataProvider = new CArrayDataProvider($model->comments);
 
-        $postCommentModel = new Comment; // модель комментария поста
+        $postCommentModel = new Comment(); // модель комментария поста
         if (isset($_POST['Comment'])) {
             $postCommentModel->attributes = $_POST['Comment'];
             $postCommentModel->authorId = Yii::app()->user->id;
@@ -71,7 +71,7 @@ class PostController extends Controller
                  * просто отрендерить представление нельзя, в этом случае новый комментарий не отобразится,
                  * так как комментарии были извлечены в коде выше
                  */
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect(['view', 'id' => $model->id]);
             } else {
                 StringHelper::printr($postCommentModel->errors());
             }
@@ -80,11 +80,11 @@ class PostController extends Controller
         // увеличиваем счетчик просмотров поста на 1
         $model->incrementCounter();
 
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $model,
             'commentsDataProvider' => $commentsDataProvider,
             'postCommentModel' => $postCommentModel,
-        ));
+        ]);
     }
 
     /**
@@ -95,19 +95,19 @@ class PostController extends Controller
     {
         // проверка, подтвердил ли текущий пользователь свой email
         $currentUser = User::model()->findByPk(Yii::app()->user->id);
-        if (!$currentUser || $currentUser->active100 == 0) {
-            $this->redirect(array('postingDenied'));
+        if (!$currentUser || 0 == $currentUser->active100) {
+            $this->redirect(['postingDenied']);
         }
 
-        $model = new Post;
+        $model = new Post();
 
         /*
          * получаем массив категорий публикаций.
          * id => title
          * для использования в форме выбора категорий для нового поста
          */
-        $categoriesArray = array();
-        $allCategoriesArray = Postcategory::model()->findAll(array('select' => 'id, title', 'order' => 'title'));
+        $categoriesArray = [];
+        $allCategoriesArray = Postcategory::model()->findAll(['select' => 'id, title', 'order' => 'title']);
         foreach ($allCategoriesArray as $cat) {
             $categoriesArray[$cat->id] = CHtml::encode($cat->title);
         }
@@ -120,19 +120,18 @@ class PostController extends Controller
             $model->authorId = Yii::app()->user->id;
             $model->datePublication = DateHelper::invertDate($model->datePublication);
 
-
             if (!empty($_FILES)) {
                 $file = CUploadedFile::getInstance($model, 'photoFile');
 
-                if ($file && $file->getError() == 0) { // если файл нормально загрузился
+                if ($file && 0 == $file->getError()) { // если файл нормально загрузился
                     // определяем имя файла для хранения на сервере
-                    $newFileName = md5($file->getName() . $file->getSize() . mt_rand(10000, 100000)) . "." . $file->getExtensionName();
+                    $newFileName = md5($file->getName() . $file->getSize() . mt_rand(10000, 100000)) . '.' . $file->getExtensionName();
                     Yii::app()->ih
                         ->load($file->tempName)
                         ->resize(1000, 700, true)
                         ->save(Yii::getPathOfAlias('webroot') . Post::PHOTO_PATH . '/' . $newFileName)
                         ->reload()
-                        ->adaptiveThumb(200, 200, array(255, 255, 255))
+                        ->adaptiveThumb(200, 200, [255, 255, 255])
                         ->save(Yii::getPathOfAlias('webroot') . Post::PHOTO_PATH . Post::PHOTO_THUMB_FOLDER . '/' . $newFileName);
 
                     $model->photo = $newFileName;
@@ -140,22 +139,23 @@ class PostController extends Controller
             }
 
             if ($model->save()) {
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect(['view', 'id' => $model->id]);
             }
 
             $model->datePublication = DateHelper::invertDate($model->datePublication);
         }
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model,
             'categoriesArray' => $categoriesArray,
-        ));
+        ]);
     }
 
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     *
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -169,8 +169,8 @@ class PostController extends Controller
          * id => title
          * для использования в форме выбора категорий для нового поста
          */
-        $categoriesArray = array();
-        $allCategoriesArray = Postcategory::model()->findAll(array('select' => 'id, title', 'order' => 'title'));
+        $categoriesArray = [];
+        $allCategoriesArray = Postcategory::model()->findAll(['select' => 'id, title', 'order' => 'title']);
         foreach ($allCategoriesArray as $cat) {
             $categoriesArray[$cat->id] = CHtml::encode($cat->title);
         }
@@ -185,15 +185,15 @@ class PostController extends Controller
             if (!empty($_FILES)) {
                 $file = CUploadedFile::getInstance($model, 'photoFile');
 
-                if ($file && $file->getError() == 0) { // если файл нормально загрузился
+                if ($file && 0 == $file->getError()) { // если файл нормально загрузился
                     // определяем имя файла для хранения на сервере
-                    $newFileName = md5($file->getName() . $file->getSize() . mt_rand(10000, 100000)) . "." . $file->getExtensionName();
+                    $newFileName = md5($file->getName() . $file->getSize() . mt_rand(10000, 100000)) . '.' . $file->getExtensionName();
                     Yii::app()->ih
                         ->load($file->tempName)
                         ->resize(1000, 700, true)
                         ->save(Yii::getPathOfAlias('webroot') . Post::PHOTO_PATH . '/' . $newFileName)
                         ->reload()
-                        ->adaptiveThumb(200, 200, array(255, 255, 255))
+                        ->adaptiveThumb(200, 200, [255, 255, 255])
                         ->save(Yii::getPathOfAlias('webroot') . Post::PHOTO_PATH . Post::PHOTO_THUMB_FOLDER . '/' . $newFileName);
 
                     $model->photo = $newFileName;
@@ -201,23 +201,24 @@ class PostController extends Controller
             }
 
             if ($model->save()) {
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect(['view', 'id' => $model->id]);
             }
             $model->datePublication = DateHelper::invertDate($model->datePublication);
         }
 
         $model->datePublication = DateHelper::invertDate($model->datePublication);
 
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
             'categoriesArray' => $categoriesArray,
-        ));
+        ]);
     }
 
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     *
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -225,7 +226,7 @@ class PostController extends Controller
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax'])) {
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('/admin/blog'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['/admin/blog']);
         }
     }
 
@@ -234,7 +235,7 @@ class PostController extends Controller
      */
     public function actionIndex()
     {
-        $this->redirect(array('/category'), true, 301);
+        $this->redirect(['/category'], true, 301);
     }
 
     /**
@@ -248,34 +249,39 @@ class PostController extends Controller
             $model->attributes = $_GET['Post'];
         }
 
-        $this->render('admin', array(
+        $this->render('admin', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     *
+     * @param int $id the ID of the model to be loaded
+     *
      * @return Post the loaded model
+     *
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = Post::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
     /**
      * Performs the AJAX validation.
+     *
      * @param Post $model the model to be validated
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'post-form') {
+        if (isset($_POST['ajax']) && 'post-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
@@ -300,10 +306,10 @@ class PostController extends Controller
 
         // возвращает запись из таблицы истории изменений рейтинга для поста с id=$id
         // которая сделана пользователем с id= id текущего пользователя
-        $ratingsLogRecord = PostRatingHistory::model()->findByAttributes(array(
+        $ratingsLogRecord = PostRatingHistory::model()->findByAttributes([
             'userId' => Yii::app()->user->id,
             'postId' => $post->id,
-        ));
+        ]);
 
         if ($ratingsLogRecord) {
             // запись о лайке существует, понижаем рейтинг поста и стираем запись
@@ -316,7 +322,6 @@ class PostController extends Controller
                 throw new CHttpException(400, 'Изменение рейтинга поста не удалось');
             }
         }
-
 
         if ($post->save()) {
             echo $post->rating;

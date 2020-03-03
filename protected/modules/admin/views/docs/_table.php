@@ -15,14 +15,14 @@
 
         <tr>
             <td >
-                <h4 class="left-align"> <?php echo CHtml::link(CHtml::encode($category->name), array('fileCategory/view', 'id' => $category->id)); ?></h4>
+                <h4 class="left-align"> <?php echo CHtml::link(CHtml::encode($category->name), ['fileCategory/view', 'id' => $category->id]); ?></h4>
             </td>
             <td class="">
                 <?php echo CHtml::encode($category->description); ?>
             </td>
 
             <td>
-                <?php echo CHtml::link("Редактировать.", array('/admin/fileCategory/update/?id=' . $category->id), array('class' => 'btn btn-xs btn-default')); ?>
+                <?php echo CHtml::link('Редактировать.', ['/admin/fileCategory/update/?id=' . $category->id], ['class' => 'btn btn-xs btn-default']); ?>
             </td>
         </tr>
 

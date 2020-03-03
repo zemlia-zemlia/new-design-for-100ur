@@ -17,7 +17,7 @@
             &nbsp;
 
             <span class="glyphicon glyphicon-user"></span>    
-            <?php echo CHtml::link(CHtml::encode($data->name), array('lead/view', 'id' => $data->id)); ?>
+            <?php echo CHtml::link(CHtml::encode($data->name), ['lead/view', 'id' => $data->id]); ?>
         </p>
 
         <p>
@@ -28,7 +28,7 @@
             <?php
             if (mb_strlen($data->question, 'utf-8') > 300) {
                 echo '...';
-            };
+            }
             ?>
         </p>
     </div>
@@ -48,7 +48,7 @@
                 <?php echo CHtml::link('Купить', Yii::app()->createUrl('lead/buy', ['id' => $data->id]), $buyLinkAttributes); ?>
 
                 <?php if ($sellPrice > Yii::app()->user->balance): ?>
-                    <div><small><?php echo CHtml::link('Пополните баланс', Yii::app()->createUrl('transaction/index'));?></small></div>
+                    <div><small><?php echo CHtml::link('Пополните баланс', Yii::app()->createUrl('transaction/index')); ?></small></div>
                 <?php endif; ?>
             <?php endif; ?>
         <?php endif; ?>

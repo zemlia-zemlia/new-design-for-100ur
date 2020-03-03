@@ -9,46 +9,48 @@ class CampaignTransactionController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
+     *
      * @return array access control rules
      */
     public function accessRules()
     {
-        return array(
-            array('allow',
-                'actions' => array('index', 'view', 'create', 'update', 'change'),
-                'users' => array('@'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+        return [
+            ['allow',
+                'actions' => ['index', 'view', 'create', 'update', 'change'],
+                'users' => ['@'],
+            ],
+            ['deny', // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     *
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $this->loadModel($id),
-        ));
+        ]);
     }
-
 
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     *
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -56,7 +58,7 @@ class CampaignTransactionController extends Controller
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax'])) {
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['admin']);
         }
     }
 
@@ -65,7 +67,6 @@ class CampaignTransactionController extends Controller
      */
     public function actionIndex()
     {
-
         $criteria = new CDbCriteria();
         $criteria->order = 'id DESC';
         $criteria->addCondition('sum<0');
@@ -75,21 +76,19 @@ class CampaignTransactionController extends Controller
             'criteria' => $criteria,
         ]);
 
-
         $this->render('index', [
             'dataProvider' => $dataProvider,
-
         ]);
     }
 
     /**
-     * изменение статуса заявки через AJAX
+     * изменение статуса заявки через AJAX.
      */
     public function actionChange()
     {
-        $requestId = (isset($_POST['id'])) ? (int)$_POST['id'] : false;
-        $requestVerified = (isset($_POST['status'])) ? (int)$_POST['status'] : false;
-        $accountId = (int)Yii::app()->request->getParam('accountId');
+        $requestId = (isset($_POST['id'])) ? (int) $_POST['id'] : false;
+        $requestVerified = (isset($_POST['status'])) ? (int) $_POST['status'] : false;
+        $accountId = (int) Yii::app()->request->getParam('accountId');
 
         if (!$requestId || !$requestVerified) {
             echo json_encode(['code' => 400, 'message' => 'Wrong data']);
@@ -113,14 +112,17 @@ class CampaignTransactionController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     *
+     * @param int $id the ID of the model to be loaded
+     *
      * @return TransactionCampaign the loaded model
+     *
      * @throws CHttpException
      */
     public function loadModel($id): TransactionCampaign
     {
         $model = TransactionCampaign::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
 
@@ -129,11 +131,12 @@ class CampaignTransactionController extends Controller
 
     /**
      * Performs the AJAX validation.
+     *
      * @param UserStatusRequest $model the model to be validated
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'user-status-request-form') {
+        if (isset($_POST['ajax']) && 'user-status-request-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

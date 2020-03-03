@@ -2,19 +2,19 @@
 /* @var $this CommentController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
+$this->breadcrumbs = [
     'Comments',
-);
+];
 
-$this->menu=array(
-    array('label'=>'Create Comment', 'url'=>array('create')),
-    array('label'=>'Manage Comment', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'Create Comment', 'url' => ['create']],
+    ['label' => 'Manage Comment', 'url' => ['admin']],
+];
 ?>
 
 <h1>Comments</h1>
 
-<?php $this->widget('zii.widgets.CListView', array(
-    'dataProvider'=>$dataProvider,
-    'itemView'=>'_view',
-)); ?>
+<?php $this->widget('zii.widgets.CListView', [
+    'dataProvider' => $dataProvider,
+    'itemView' => '_view',
+]); ?>

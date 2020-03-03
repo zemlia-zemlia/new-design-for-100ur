@@ -1,6 +1,6 @@
 <?php
-    $this->setPageTitle("Пользовательское соглашение " . Yii::app()->name);
-    Yii::app()->clientScript->registerMetaTag("Пользовательское соглашение портала 100 Юристов", 'description');
+    $this->setPageTitle('Пользовательское соглашение ' . Yii::app()->name);
+    Yii::app()->clientScript->registerMetaTag('Пользовательское соглашение портала 100 Юристов', 'description');
 
 ?>
 

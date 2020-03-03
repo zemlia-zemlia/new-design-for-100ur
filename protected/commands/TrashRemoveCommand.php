@@ -1,10 +1,10 @@
 <?php
 
-
 class TrashRemoveCommand extends CConsoleCommand
 {
     /**
-     * Удаление старых недозаполненных вопросов
+     * Удаление старых недозаполненных вопросов.
+     *
      * @throws Exception
      */
     public function actionIncompleteQuestions()

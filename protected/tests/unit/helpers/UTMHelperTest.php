@@ -2,13 +2,14 @@
 
 namespace Tests\Unit\Helpers;
 
-use \Codeception\Test\Unit;
+use Codeception\Test\Unit;
 use UTMHelper;
 
-class UTMHelperTest  extends Unit
+class UTMHelperTest extends Unit
 {
     /**
      * @dataProvider tagsProvider
+     *
      * @param $sourceText
      * @param $tags
      * @param $expectedResult
@@ -31,10 +32,10 @@ class UTMHelperTest  extends Unit
                     'utm_term' => 'term',
                     'utm_content' => 'content',
                 ],
-                'expectedResult' => "<a href='https://www.100yuristov.com?utm_medium=medium&utm_source=source&utm_campaign=campaign&utm_term=term&utm_content=content'>Моя ссылка</a>"
+                'expectedResult' => "<a href='https://www.100yuristov.com?utm_medium=medium&utm_source=source&utm_campaign=campaign&utm_term=term&utm_content=content'>Моя ссылка</a>",
             ],
             [
-                'sourceText' => "Текст без ссылок",
+                'sourceText' => 'Текст без ссылок',
                 'tags' => [
                     'utm_medium' => 'medium',
                     'utm_source' => 'source',
@@ -42,7 +43,7 @@ class UTMHelperTest  extends Unit
                     'utm_term' => 'term',
                     'utm_content' => 'content',
                 ],
-                'expectedResult' => "Текст без ссылок"
+                'expectedResult' => 'Текст без ссылок',
             ],
             [
                 'sourceText' => "<a href='https://www.100yuristov.com'>Моя ссылка</a>",
@@ -56,7 +57,7 @@ class UTMHelperTest  extends Unit
                     'utm_source' => 'source',
                 ],
                 'expectedResult' => "<a href='https://www.100yuristov.com?param=1&utm_medium=medium&utm_source=source'>Моя ссылка</a>",
-            ]
+            ],
         ];
     }
 }

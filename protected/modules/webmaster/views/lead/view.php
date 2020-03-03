@@ -2,17 +2,17 @@
 /* @var $this ContactController */
 /* @var $model Contact */
 
-$this->setPageTitle(CHtml::encode($model->name) . ". Лиды. " . Yii::app()->name);
+$this->setPageTitle(CHtml::encode($model->name) . '. Лиды. ' . Yii::app()->name);
 
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     CHtml::encode($model->name),
-);
+];
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('Кабинет вебмастера', "/webmaster/"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('Кабинет вебмастера', '/webmaster/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 
 ?>
 
@@ -37,7 +37,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <td><strong><?php echo $model->getAttributeLabel('leadStatus'); ?></strong></td>
                 <td>
                     <?php echo $model->getLeadStatusName(); ?>
-                    <?php if ($model->leadStatus == Lead::LEAD_STATUS_NABRAK): ?>
+                    <?php if (Lead::LEAD_STATUS_NABRAK == $model->leadStatus): ?>
                         <p>Причина: <?php echo $model->getReasonName(); ?></p>
                     <?php endif; ?>
                 </td>

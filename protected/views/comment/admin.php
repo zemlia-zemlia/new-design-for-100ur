@@ -2,15 +2,15 @@
 /* @var $this CommentController */
 /* @var $model Comment */
 
-$this->breadcrumbs=array(
-    'Comments'=>array('index'),
+$this->breadcrumbs = [
+    'Comments' => ['index'],
     'Manage',
-);
+];
 
-$this->menu=array(
-    array('label'=>'List Comment', 'url'=>array('index')),
-    array('label'=>'Create Comment', 'url'=>array('create')),
-);
+$this->menu = [
+    ['label' => 'List Comment', 'url' => ['index']],
+    ['label' => 'Create Comment', 'url' => ['create']],
+];
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -33,26 +33,26 @@ You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&g
 or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
 </p>
 
-<?php echo CHtml::link('Advanced Search', '#', array('class'=>'search-button')); ?>
+<?php echo CHtml::link('Advanced Search', '#', ['class' => 'search-button']); ?>
 <div class="search-form" style="display:none">
-<?php $this->renderPartial('_search', array(
-    'model'=>$model,
-)); ?>
+<?php $this->renderPartial('_search', [
+    'model' => $model,
+]); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-    'id'=>'comment-grid',
-    'dataProvider'=>$model->search(),
-    'filter'=>$model,
-    'columns'=>array(
+<?php $this->widget('zii.widgets.grid.CGridView', [
+    'id' => 'comment-grid',
+    'dataProvider' => $model->search(),
+    'filter' => $model,
+    'columns' => [
         'id',
         'type',
         'authorId',
         'objectId',
         'text',
         'dateTime',
-        array(
-            'class'=>'CButtonColumn',
-        ),
-    ),
-)); ?>
+        [
+            'class' => 'CButtonColumn',
+        ],
+    ],
+]); ?>

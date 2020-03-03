@@ -1,5 +1,5 @@
 <?php
-    $this->setPageTitle("Платеж успешно совершен. " . Yii::app()->name);
+    $this->setPageTitle('Платеж успешно совершен. ' . Yii::app()->name);
 ?>
 
 <div class="panel gray-panel">
@@ -8,7 +8,7 @@
         <p class="center-align">
         <?php
             if ($params['customerNumber']) {
-                echo CHtml::link('На страницу вопроса', Yii::app()->createUrl('question/view', array('id'=>(int)$params['customerNumber'])), array('class'=>'btn btn-primary'));
+                echo CHtml::link('На страницу вопроса', Yii::app()->createUrl('question/view', ['id' => (int) $params['customerNumber']]), ['class' => 'btn btn-primary']);
             }
         ?>
         </p>

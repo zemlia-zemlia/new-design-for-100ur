@@ -9,7 +9,7 @@
  -->
 </p>
 
-<?php if (sizeof(Yii::app()->user->getModel()->campaigns) == 0): ?>
+<?php if (0 == sizeof(Yii::app()->user->getModel()->campaigns)): ?>
     <div class="alert alert-danger">
         <p>
             Для того, чтобы начать покупать лиды, Вам
@@ -27,22 +27,21 @@
         <div class="box">
             <div class="box-body">
                 <?php foreach ($campaigns
-
                                as $campaign): ?>
 
                     <div class="row">
                         <div class="col-md-4">
-                            <h5><?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/buyer/buyer/leads', array('campaign' => $campaign->id))); ?></h5>
+                            <h5><?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/buyer/buyer/leads', ['campaign' => $campaign->id])); ?></h5>
                         </div>
                         <div class="col-md-4">
-                            <?php if ($campaign->active != Campaign::ACTIVE_MODERATION): ?>
+                            <?php if (Campaign::ACTIVE_MODERATION != $campaign->active): ?>
                                 <!-- <?php echo $campaign->price; ?> руб. -->
                             <?php endif; ?>
 
                             <?php echo $campaign->getActiveStatusName(); ?>
                         </div>
                         <div class="col-md-4">
-                            <?php echo CHtml::link("Настройки <span class='glyphicon glyphicon-cog'></span>", Yii::app()->createUrl('/buyer/buyer/campaign', array('id' => $campaign->id))); ?>
+                            <?php echo CHtml::link("Настройки <span class='glyphicon glyphicon-cog'></span>", Yii::app()->createUrl('/buyer/buyer/campaign', ['id' => $campaign->id])); ?>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -52,7 +51,7 @@
 
     </div>
     <div class="col-md-4">
-        <?php echo CHtml::link('Создать кампанию', Yii::app()->createUrl('campaign/create'), array('class' => 'btn btn-primary btn-block')); ?>
+        <?php echo CHtml::link('Создать кампанию', Yii::app()->createUrl('campaign/create'), ['class' => 'btn btn-primary btn-block']); ?>
 
     </div>
 </div>

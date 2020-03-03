@@ -7,8 +7,7 @@
 /* @var $activeCampaignsCount int */
 /* @var $stat \webmaster\services\StatisticsService */
 
-$this->pageTitle = "Личный кабинет вебмастера. " . Yii::app()->name;
-
+$this->pageTitle = 'Личный кабинет вебмастера. ' . Yii::app()->name;
 
 ?>
 
@@ -20,7 +19,7 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
         <!-- small box -->
         <div class="small-box bg-aqua">
             <div class="inner">
-                <h3><?php echo $statsFor30Days['totalLeads'];?></h3>
+                <h3><?php echo $statsFor30Days['totalLeads']; ?></h3>
                 <p>Лидов за 30 дней</p>
             </div>
             <div class="icon">
@@ -33,7 +32,7 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
         <!-- small box -->
         <div class="small-box bg-green">
             <div class="inner">
-                <h3><?php echo $statsFor30Days['soldLeadsPercent'];?><sup style="font-size: 20px">%</sup></h3>
+                <h3><?php echo $statsFor30Days['soldLeadsPercent']; ?><sup style="font-size: 20px">%</sup></h3>
 
                 <p>Лидов выкуплено</p>
             </div>
@@ -47,7 +46,7 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
         <!-- small box -->
         <div class="small-box bg-yellow">
             <div class="inner">
-                <h3><?php echo MoneyFormat::rubles($statsFor30Days['totalRevenue']);?> </h3>
+                <h3><?php echo MoneyFormat::rubles($statsFor30Days['totalRevenue']); ?> </h3>
 
                 <p>Заработок за 30 дней</p>
             </div>
@@ -61,7 +60,7 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
         <!-- small box -->
         <div class="small-box bg-red">
             <div class="inner">
-                <h3><?php echo $activeCampaignsCount;?></h3>
+                <h3><?php echo $activeCampaignsCount; ?></h3>
 
                 <p>Выкупаемых регионов</p>
             </div>
@@ -173,26 +172,26 @@ $this->pageTitle = "Личный кабинет вебмастера. " . Yii::a
 </div>
 
 <h3>Последние лиды</h3>
-<?php $this->widget('zii.widgets.CListView', array(
+<?php $this->widget('zii.widgets.CListView', [
     'dataProvider' => $dataProvider,
     'itemView' => 'application.modules.webmaster.views.lead._view',
     'emptyText' => 'Не найдено ни одного лида',
     'summaryText' => 'Показаны лиды с {start} до {end}, всего {count}',
-    'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
-)); ?>
+    'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+]); ?>
 
 
 <!-- 
 <div class="vert-margin40">
     <h2>Мои вопросы</h2>
     <table class="table table-bordered table-hover table-striped">
-    <?php $this->widget('zii.widgets.CListView', array(
+    <?php $this->widget('zii.widgets.CListView', [
     'dataProvider' => $questionsDataProvider,
     'itemView' => 'application.modules.webmaster.views.question._view',
     'emptyText' => 'Не найдено ни одного вопроса',
     'summaryText' => 'Показаны лиды с {start} до {end}, всего {count}',
-    'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
-)); ?>
+    'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+]); ?>
     </table>
 </div>
 

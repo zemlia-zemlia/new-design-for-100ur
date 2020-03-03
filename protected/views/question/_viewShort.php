@@ -11,8 +11,8 @@
     
     <div class="col-md-10 col-sm-10">
         <?php if ($data->title):?>
-            <?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('question/view', array('id'=>$data->id))); ?>
-        <?php endif;?>
+            <?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('question/view', ['id' => $data->id])); ?>
+        <?php endif; ?>
     </div>    
 </div>
 

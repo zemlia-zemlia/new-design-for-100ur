@@ -1,5 +1,5 @@
 <?php
-$this->pageTitle=Yii::app()->name . ' - Аккаунт успешно активирован';
+$this->pageTitle = Yii::app()->name . ' - Аккаунт успешно активирован';
 ?>
 <h1>Ура, Ваш аккаунт успешно активирован!</h1>
 <p>Теперь Вы сможете пользоваться всеми возможностями сайта, которые доступны для зарегистрированных пользователей.</p>
@@ -7,8 +7,8 @@ $this->pageTitle=Yii::app()->name . ' - Аккаунт успешно актив
 <?php if (Yii::app()->user->isGuest):?>
 <div class="center-align">
     <?php
-        echo CHtml::link("Войти в систему", Yii::app()->createUrl('site/login'), array('class'=>'btn btn-primary'));
+        echo CHtml::link('Войти в систему', Yii::app()->createUrl('site/login'), ['class' => 'btn btn-primary']);
     ?>
 </div>
-<?php endif;?>
+<?php endif; ?>
 

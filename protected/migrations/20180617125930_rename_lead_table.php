@@ -9,7 +9,7 @@ class RenameLeadTable extends AbstractMigration
         $table = $this->table('100_lead100');
         $table->rename('100_lead');
     }
-    
+
     public function down()
     {
         $table = $this->table('100_lead');

@@ -1,12 +1,12 @@
 <div class="new-lead-form">
     <?php
-    $form = $this->beginWidget('CActiveForm', array(
+    $form = $this->beginWidget('CActiveForm', [
         'id' => 'mail-form',
         'enableAjaxValidation' => false,
-    ));
+    ]);
     ?>
 
-    <?php echo $form->errorSummary($model, "Исправьте ошибки"); ?>
+    <?php echo $form->errorSummary($model, 'Исправьте ошибки'); ?>
     
     <div class="row">
         <div class="col-sm-6">
@@ -37,7 +37,7 @@
         <?php echo $form->error($model, 'message'); ?>
     </div>
     
-    <?php echo CHtml::submitButton('Отправить рассылку', array('class'=>'btn btn-success btn-lg')); ?>
+    <?php echo CHtml::submitButton('Отправить рассылку', ['class' => 'btn btn-success btn-lg']); ?>
     
     <?php $this->endWidget(); ?>
 

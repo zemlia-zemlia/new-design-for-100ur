@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Клиент для работы с API сервиса 100 Юристов
+ * Клиент для работы с API сервиса 100 Юристов.
+ *
  * @author Михаил Крутиков <m@mkrutikov.pro>
  */
 class StoYuristovClient
@@ -24,7 +25,7 @@ class StoYuristovClient
     /**
      * Конструктор
      *
-     * @param integer $appId
+     * @param int    $appId
      * @param string $secretKey
      */
     public function __construct($appId, $secretKey, $testMode = 0)
@@ -34,7 +35,7 @@ class StoYuristovClient
         $this->_testMode = $testMode;
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, ($this->_testMode == 1) ? $this->_apiUrlTest : $this->_apiUrl);
+        curl_setopt($ch, CURLOPT_URL, (1 == $this->_testMode) ? $this->_apiUrlTest : $this->_apiUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -44,7 +45,7 @@ class StoYuristovClient
     }
 
     /**
-     * Вычисление сигнатуры
+     * Вычисление сигнатуры.
      */
     protected function _calculateSignature()
     {
@@ -52,24 +53,25 @@ class StoYuristovClient
     }
 
     /**
-     * Проверка данных перед отправкой в API на стороне клиента
+     * Проверка данных перед отправкой в API на стороне клиента.
+     *
      * @return mixed Результат проверки. true если все в
      */
     protected function _validate()
     {
-        $errors = array();
+        $errors = [];
 
         if (!$this->name) {
-            $errors[] = "Не указано имя";
+            $errors[] = 'Не указано имя';
         }
         if (!$this->phone) {
-            $errors[] = "Не указан номер телефона";
+            $errors[] = 'Не указан номер телефона';
         }
         if (!$this->question) {
-            $errors[] = "Не указан текст вопроса";
+            $errors[] = 'Не указан текст вопроса';
         }
         if (!$this->town) {
-            $errors[] = "Не указан город";
+            $errors[] = 'Не указан город';
         }
 
         if (empty($errors)) {
@@ -80,13 +82,13 @@ class StoYuristovClient
     }
 
     /**
-     * Возвращает массив параметров для POST запроса
+     * Возвращает массив параметров для POST запроса.
      *
      * @return array Массив параметров
      */
     protected function _getParams()
     {
-        return array(
+        return [
             'name' => $this->name,
             'phone' => $this->phone,
             'email' => $this->email,
@@ -96,21 +98,21 @@ class StoYuristovClient
             'appId' => $this->_appId,
             'signature' => $this->_signature,
             'testMode' => $this->_testMode,
-        );
+        ];
     }
 
     /**
-     * Отправляет лид в api
+     * Отправляет лид в api.
      *
      * @return array Массив с результатом. Элементы массива:
-     * * code - код ответа. 200 - ОК, остальные коды - ошибки
-     * * message - сообщение от api
+     *               * code - код ответа. 200 - ОК, остальные коды - ошибки
+     *               * message - сообщение от api
      */
     public function send()
     {
         // проверяем данные
-        if (($errors = $this->_validate()) !== true) {
-            return array("message" => "Некорректные данные", 'errors' => $errors);
+        if (true !== ($errors = $this->_validate())) {
+            return ['message' => 'Некорректные данные', 'errors' => $errors];
         }
 
         // вычисляем сигнатуру
@@ -121,13 +123,14 @@ class StoYuristovClient
         $jsonResponse = curl_exec($this->_curlLink);
         $curlInfo = curl_getinfo($this->_curlLink);
         curl_close($this->_curlLink);
-        
-        if ($jsonResponse !== false) {
+
+        if (false !== $jsonResponse) {
             // Возвращаем ответ от API в виде ассоциативного массива (code => код_ответа, message => текст ответа)
             $response = json_decode($jsonResponse, true);
+
             return $response;
         } else {
-            return array("message" => "Ошибка при отправке лида на сервер");
+            return ['message' => 'Ошибка при отправке лида на сервер'];
         }
     }
 }

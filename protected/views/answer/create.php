@@ -2,17 +2,17 @@
 /* @var $this AnswerController */
 /* @var $model Answer */
 
-$this->setPageTitle("Новый ответ". Yii::app()->name);
+$this->setPageTitle('Новый ответ' . Yii::app()->name);
 
-$this->breadcrumbs=array(
-    'Вопросы и ответы'=>array('/questions'),
+$this->breadcrumbs = [
+    'Вопросы и ответы' => ['/questions'],
     'Новый ответ',
-);
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('CRM', "/"),
-    'separator'=>' / ',
-    'links'=>$this->breadcrumbs,
- ));
+];
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('CRM', '/'),
+    'separator' => ' / ',
+    'links' => $this->breadcrumbs,
+ ]);
 ?>
 
 <h1>Новый ответ</h1>
@@ -21,7 +21,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <?php echo CHtml::encode($question->questionText); ?>
 </p>
 
-<?php echo $this->renderPartial('_form', array(
-        'model'         =>  $model,
-        'allJurists'    =>  $allJurists,
-    )); ?>
+<?php echo $this->renderPartial('_form', [
+        'model' => $model,
+        'allJurists' => $allJurists,
+    ]); ?>

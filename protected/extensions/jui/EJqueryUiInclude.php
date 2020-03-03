@@ -3,8 +3,11 @@
  * EJqueryUiWidget class file.
  *
  * @author MetaYii
+ *
  * @version 2.4.1
- * @link http://www.yiiframework.com/
+ *
+ * @see http://www.yiiframework.com/
+ *
  * @copyright Copyright &copy; 2009 MetaYii
  * @license dual GPL (3.0 or later) and MIT, at your choice.
  * @license http://www.opensource.org/licenses/mit-license.php
@@ -58,22 +61,21 @@
  * choice. Please see {@link http://docs.jquery.com/Licensing} for details.
  * MetaYii is not related to the jQuery UI development team.
  */
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'EJqueryUiConfig.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'EJqueryUiWidget.php';
 
-require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiConfig.php');
-require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
-
-/**
- * EJqueryUiInclude is a class which can be used to include the jQuery UI }
- * library without the need of including a widget in your view. This is useful
- * in case you need to use just an effect, for instance.
- *
- * This class is intended to work standalone. Don't use this class if you're
- * goint to use a jQuery UI widget wrapper.
- *
- * @author MetaYii
- * @since 1.0.4
- * @package application.extensions.jui
- */
+ /**
+  * EJqueryUiInclude is a class which can be used to include the jQuery UI }
+  * library without the need of including a widget in your view. This is useful
+  * in case you need to use just an effect, for instance.
+  *
+  * This class is intended to work standalone. Don't use this class if you're
+  * goint to use a jQuery UI widget wrapper.
+  *
+  * @author MetaYii
+  *
+  * @since 1.0.4
+  */
  class EJqueryUiInclude extends CWidget
  {
      //***************************************************************************
@@ -105,9 +107,9 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
      }
 
      /**
-      * Setter
+      * Setter.
       *
-      * @param integer $value compression
+      * @param int $value compression
       */
      public function setCompression($value)
      {
@@ -115,9 +117,9 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
      }
 
      /**
-      * Getter
+      * Getter.
       *
-      * @return integer
+      * @return int
       */
      public function getCompression()
      {
@@ -125,9 +127,9 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
      }
 
      /**
-      * Setter
+      * Setter.
       *
-      * @param boolean $value useBundledStyleSheet
+      * @param bool $value useBundledStyleSheet
       */
      public function setUseBundledStyleSheet($value)
      {
@@ -135,9 +137,9 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
      }
 
      /**
-      * Getter
+      * Getter.
       *
-      * @return boolean
+      * @return bool
       */
      public function getUseBundledStyleSheet()
      {
@@ -153,7 +155,7 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
       */
      public function run()
      {
-         $dir = dirname(__FILE__).DIRECTORY_SEPARATOR.'jquery';
+         $dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'jquery';
          $baseUrl = Yii::app()->getAssetManager()->publish($dir);
 
          $clientScript = Yii::app()->getClientScript();
@@ -162,20 +164,20 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
 
          switch ($this->getCompression()) {
          case 'none':
-            $clientScript->registerScriptFile($baseUrl.'/js/jquery-ui-1.7.1.custom.js');
+            $clientScript->registerScriptFile($baseUrl . '/js/jquery-ui-1.7.1.custom.js');
             break;
 
          case 'packed':
-            $clientScript->registerScriptFile($baseUrl.'/js/jquery-ui-1.7.1.custom.packed.js');
+            $clientScript->registerScriptFile($baseUrl . '/js/jquery-ui-1.7.1.custom.packed.js');
             break;
 
          default:
-            $clientScript->registerScriptFile($baseUrl.'/js/jquery-ui-1.7.1.custom.min.js');
+            $clientScript->registerScriptFile($baseUrl . '/js/jquery-ui-1.7.1.custom.min.js');
             break;
       }
 
          if ($this->getUseBundledStyleSheet()) {
-             $clientScript->registerCssFile($baseUrl.'/css/'.$this->getTheme().'/jquery-ui-1.7.1.custom.css');
+             $clientScript->registerCssFile($baseUrl . '/css/' . $this->getTheme() . '/jquery-ui-1.7.1.custom.css');
          }
      }
  }

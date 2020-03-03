@@ -6,7 +6,7 @@ use Monolog\Logger;
 /**
  * Класс-заглушка, чтобы не отправлять данные из среды разработки в реальные партнерки
  * данные будут отправляться в лог-файл
- * Class ApiTestHandler
+ * Class ApiTestHandler.
  */
 class ApiTestHandler implements ApiClassInterface
 {
@@ -17,7 +17,7 @@ class ApiTestHandler implements ApiClassInterface
     {
         $this->logger = new Logger('api');
         $rotateHandler = new RotatingFileHandler(
-            Yii::getPathOfAlias("application.runtime.partner_program") . '/test.log',
+            Yii::getPathOfAlias('application.runtime.partner_program') . '/test.log',
             30,
             Logger::INFO
         );
@@ -26,6 +26,7 @@ class ApiTestHandler implements ApiClassInterface
 
     /**
      * @param Lead $lead
+     *
      * @return bool
      */
     public function send(Lead $lead)

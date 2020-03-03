@@ -2,7 +2,7 @@
 
 /**
  * Класс, ответственный за аутентификацию пользователей по данным из Ulogin (провайдер соц логина)
- * Class UloginUserIdentity
+ * Class UloginUserIdentity.
  */
 class UloginUserIdentity implements IUserIdentity
 {
@@ -10,7 +10,7 @@ class UloginUserIdentity implements IUserIdentity
     private $id;
     private $name;
     private $isAuthenticated = false;
-    private $states = array();
+    private $states = [];
 
     public function __construct(UloginModel $uloginModel)
     {
@@ -19,9 +19,12 @@ class UloginUserIdentity implements IUserIdentity
 
     /**
      * Аутентификация: ищем пользователя в базе 100 Юристов по таблице социалок + по email
-     * Если находим, то ОК, можно логинить
+     * Если находим, то ОК, можно логинить.
+     *
      * @param UloginModel|null $uloginModel
+     *
      * @return bool
+     *
      * @throws CHttpException
      * @throws UserBannedException
      */
@@ -38,7 +41,7 @@ class UloginUserIdentity implements IUserIdentity
 
         /** @var User $user */
         $user = $uloginUser->user;
-        if ($user->active100 == 0) {
+        if (0 == $user->active100) {
             throw new CHttpException(403, 'Пользователь заблокирован на сайте 100 Юристов, логин невозможен');
         }
 

@@ -1,5 +1,5 @@
 <?php
-$this->setPageTitle("Услуги юриста заказаны". Yii::app()->name);
+$this->setPageTitle('Услуги юриста заказаны' . Yii::app()->name);
 ?>
 
 <h1>Юрист свяжется с Вами в ближайшее время</h1>

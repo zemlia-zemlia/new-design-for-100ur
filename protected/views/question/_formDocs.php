@@ -1,9 +1,9 @@
 <?php
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'docs-form',
     'enableAjaxValidation' => false,
     'action' => Yii::app()->createUrl('question/docs'),
-        ));
+        ]);
 ?>
 
 <div class="form-group">
@@ -19,7 +19,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="form-group">
 
     <label>Подробное описание</label>
-<?php echo $form->textArea($order, 'description', array('class' => 'form-control', 'rows' => 6)); ?>
+<?php echo $form->textArea($order, 'description', ['class' => 'form-control', 'rows' => 6]); ?>
 <?php echo $form->error($order, 'description'); ?>
 </div>
 
@@ -30,7 +30,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="col-md-6">  
             <div class="form-group">
                 <?php echo $form->labelEx($author, 'name'); ?>
-    <?php echo $form->textField($author, 'name', array('class' => 'form-control', 'placeholder' => 'Иванов Иван')); ?>
+    <?php echo $form->textField($author, 'name', ['class' => 'form-control', 'placeholder' => 'Иванов Иван']); ?>
     <?php echo $form->error($author, 'name'); ?>
             </div>
         </div>
@@ -40,7 +40,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="col-md-6">  
             <div class="form-group">
                 <?php echo $form->labelEx($author, 'email'); ?>
-    <?php echo $form->textField($author, 'email', array('class' => 'form-control', 'placeholder' => 'ivan@mail.ru')); ?>
+    <?php echo $form->textField($author, 'email', ['class' => 'form-control', 'placeholder' => 'ivan@mail.ru']); ?>
     <?php echo $form->error($author, 'email'); ?>
             </div>
         </div>
@@ -52,12 +52,12 @@ $form = $this->beginWidget('CActiveForm', array(
             <div class="form-group">
                 <?php echo $form->labelEx($author, 'phone'); ?>
                 <?php
-                echo $form->textField($author, 'phone', array(
+                echo $form->textField($author, 'phone', [
                     'class' => 'form-control phone-mask',
-                    'data-toggle' => "tooltip",
-                    'data-placement' => "top",
-                    'title' => "Номер телефона необходим, чтобы юрист смог с Вами связаться. Нигде не публикуется.",
-                ));
+                    'data-toggle' => 'tooltip',
+                    'data-placement' => 'top',
+                    'title' => 'Номер телефона необходим, чтобы юрист смог с Вами связаться. Нигде не публикуется.',
+                ]);
                 ?>
     <?php echo $form->error($author, 'phone'); ?>
             </div>
@@ -73,24 +73,24 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
     </div>
 
-    <?php echo CHtml::hiddenField('question_hidden', '', array('id' => 'Lead_question_hidden')); ?>
+    <?php echo CHtml::hiddenField('question_hidden', '', ['id' => 'Lead_question_hidden']); ?>
 
     <div class="row">
         <div class="col-md-6">  
             <div class="form-group">         
                 <?php echo $form->labelEx($author, 'town'); ?>
                 <?php
-                echo CHtml::textField('town', ($author->townId) ? $townsArray[$author->townId] : '', array(
+                echo CHtml::textField('town', ($author->townId) ? $townsArray[$author->townId] : '', [
                     'id' => 'town-selector',
                     'class' => 'form-control',
-                    'data-toggle' => "tooltip",
-                    'data-placement' => "top",
-                    'title' => "Необходим для уточнения регионального законодательства",
-                ));
+                    'data-toggle' => 'tooltip',
+                    'data-placement' => 'top',
+                    'title' => 'Необходим для уточнения регионального законодательства',
+                ]);
                 ?>
 
     <?php
-    echo $form->hiddenField($author, 'townId', array('id' => 'selected-town'));
+    echo $form->hiddenField($author, 'townId', ['id' => 'selected-town']);
     ?>
     <?php echo $form->error($author, 'townId'); ?>
             </div>
@@ -104,14 +104,14 @@ $form = $this->beginWidget('CActiveForm', array(
     <small class="text-muted">
         <label>
             <?php echo $form->checkBox($order, 'agree'); ?>
-            Отправляя вопрос, вы соглашаетесь с условиями <?php echo CHtml::link('пользовательского соглашения', Yii::app()->createUrl('site/offer'), array('target' => '_blank')); ?>
+            Отправляя вопрос, вы соглашаетесь с условиями <?php echo CHtml::link('пользовательского соглашения', Yii::app()->createUrl('site/offer'), ['target' => '_blank']); ?>
         </label>
         <?php echo $form->error($order, 'agree'); ?>
     </small>
 </div>
 
 <div class="form-group" id="form-submit-wrapper">
-<?php echo CHtml::submitButton('Отправить', array('class' => 'yellow-button center-block')); ?>
+<?php echo CHtml::submitButton('Отправить', ['class' => 'yellow-button center-block']); ?>
 </div>
 
 <?php $this->endWidget(); ?>

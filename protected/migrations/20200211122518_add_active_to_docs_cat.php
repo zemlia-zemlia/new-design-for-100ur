@@ -4,7 +4,6 @@ use Phinx\Migration\AbstractMigration;
 
 class AddActiveToDocsCat extends AbstractMigration
 {
-
     public function up()
     {
         $this->table('100_docs_category')
@@ -18,5 +17,4 @@ class AddActiveToDocsCat extends AbstractMigration
             ->removeColumn('active')
             ->save();
     }
-
 }

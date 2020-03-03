@@ -8,7 +8,7 @@ use GTMail;
 
 class GTMailTest extends Unit
 {
-    /** @var GTMail  */
+    /** @var GTMail */
     protected $mailer;
 
     protected function setUp(): void

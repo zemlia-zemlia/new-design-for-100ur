@@ -1,6 +1,5 @@
 <?php
 
-
 class YandexPaymentFactory
 {
     private $entityId;
@@ -14,11 +13,11 @@ class YandexPaymentFactory
 
     public function createPaymentClass($paymentType): YandexPaymentProcessorInterface
     {
-        if ($paymentType == YandexPaymentResponseProcessor::TYPE_USER) {
+        if (YandexPaymentResponseProcessor::TYPE_USER == $paymentType) {
             return new YandexPaymentUser($this->entityId, $this->request);
-        } elseif ($paymentType == YandexPaymentResponseProcessor::TYPE_QUESTION) {
+        } elseif (YandexPaymentResponseProcessor::TYPE_QUESTION == $paymentType) {
             return new YandexPaymentQuestion($this->entityId, $this->request);
-        } elseif ($paymentType == YandexPaymentResponseProcessor::TYPE_ANSWER) {
+        } elseif (YandexPaymentResponseProcessor::TYPE_ANSWER == $paymentType) {
             return new YandexPaymentAnswer($this->entityId, $this->request);
         }
     }

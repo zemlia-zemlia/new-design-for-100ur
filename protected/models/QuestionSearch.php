@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Модель для работы с формой поиска вопросов
+ * Модель для работы с формой поиска вопросов.
  */
 class QuestionSearch extends CFormModel
 {
@@ -15,13 +15,12 @@ class QuestionSearch extends CFormModel
     public $myTown = 0; // для вывода вопросов по своему городу
     public $payed = 0; // для вывода платных вопросов
 
-
     /**
      * @return array customized attribute labels (name=>label)
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'townId' => 'город',
             'noAnswers' => 'без ответов',
             'today' => 'за 24 часа',
@@ -29,24 +28,23 @@ class QuestionSearch extends CFormModel
             'sameRegion' => 'включая соседние города',
             'myTown' => 'из моего города',
             'payed' => 'платные вопросы',
-        );
+        ];
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('townId, today, noAnswers, sameRegion, myCats, myTown, payed', 'numerical', 'integerOnly' => true),
-        );
+        return [
+            ['townId, today, noAnswers, sameRegion, myCats, myTown, payed', 'numerical', 'integerOnly' => true],
+        ];
     }
 
-
     /**
-     * функция поиска
+     * функция поиска.
      *
      * @return array массив записей из базы
      */
@@ -64,15 +62,14 @@ class QuestionSearch extends CFormModel
             ->order('q.publishDate DESC')
             ->limit($this->limit);
 
-
-        $whereCondition = array('and', array('in', 'q.status', array(Question::STATUS_CHECK, Question::STATUS_PUBLISHED)));
-        $whereParams = array();
-        $groupArray = array();
+        $whereCondition = ['and', ['in', 'q.status', [Question::STATUS_CHECK, Question::STATUS_PUBLISHED]]];
+        $whereParams = [];
+        $groupArray = [];
         $groupArray[] = 'q.id';
 
         if ($this->townId) {
             $whereCondition[] = 'q.townId=:townId';
-            $whereParams += array(':townId' => $this->townId);
+            $whereParams += [':townId' => $this->townId];
         }
 
         if ($this->today) {
@@ -99,7 +96,7 @@ class QuestionSearch extends CFormModel
             $closeTowns = $myTown->getCloseTowns();
 
             if (sizeof($closeTowns)) {
-                $closeTownsIds = array();
+                $closeTownsIds = [];
                 foreach ($closeTowns as $town) {
                     $closeTownsIds[] = $town->id;
                     $townIds[] = $town->id;
@@ -114,11 +111,11 @@ class QuestionSearch extends CFormModel
 
         if ($this->myCats && Yii::app()->user->categories) {
             // если выбрано "моя специальность"
-            $searchCommand = $searchCommand->leftJoin("{{question2category}} q2c", "q.id = q2c.qId");
+            $searchCommand = $searchCommand->leftJoin('{{question2category}} q2c', 'q.id = q2c.qId');
             // получаем массив объектов-категорий
             $myCategories = Yii::app()->user->categories;
             $myCategoriesStr = '';
-            $myCategoriesIds = array();
+            $myCategoriesIds = [];
             foreach ($myCategories as $cat) {
                 $myCategoriesIds[] = $cat->id;
             }

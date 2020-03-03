@@ -2,18 +2,18 @@
 /* @var $this QuestionController */
 /* @var $model Question */
 
-$this->setPageTitle(CHtml::encode($model->id) . ". Вопросы-ответы. " . Yii::app()->name);
+$this->setPageTitle(CHtml::encode($model->id) . '. Вопросы-ответы. ' . Yii::app()->name);
 
-$this->breadcrumbs = array(
-    'Вопросы' => array('index'),
+$this->breadcrumbs = [
+    'Вопросы' => ['index'],
     $model->id,
-);
+];
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('100 Юристов', "/"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 Юристов', '/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 
 ?>
 
@@ -38,14 +38,13 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <div class="box">
                 <div class="box-body">
                     <h2>Ответы</h2>
-                    <?php $this->widget('zii.widgets.CListView', array(
+                    <?php $this->widget('zii.widgets.CListView', [
                         'dataProvider' => $answersDataProvider,
                         'itemView' => 'application.views.answer._view',
                         'emptyText' => 'Не найдено ни одного ответа',
                         'summaryText' => 'Показаны ответы с {start} до {end}, всего {count}',
-                        'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
-
-                    )); ?>
+                        'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+                    ]); ?>
                 </div>
             </div>
         </div>
@@ -57,7 +56,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             <p>
                                 <strong><?php echo $model->getAttributeLabel('category'); ?>:</strong>
                                 <?php foreach ($model->categories as $category): ?>
-                                    <span class="label label-warning"><?php echo CHtml::link($category->name, Yii::app()->createUrl('/admin/questionCategory/view', array('id' => $category->id))); ?></span>
+                                    <span class="label label-warning"><?php echo CHtml::link($category->name, Yii::app()->createUrl('/admin/questionCategory/view', ['id' => $category->id])); ?></span>
                                 <?php endforeach; ?>
                             </p>
                             <p><strong>Статус:</strong> <?php echo CHtml::encode($model->getQuestionStatusName()); ?>
@@ -72,9 +71,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             <?php endif; ?>
                         </div>
 
-                        <?php echo CHtml::link('Редактировать вопрос', Yii::app()->createUrl('/admin/question/update', array('id' => $model->id)), array('class' => 'btn btn-primary')); ?>
+                        <?php echo CHtml::link('Редактировать вопрос', Yii::app()->createUrl('/admin/question/update', ['id' => $model->id]), ['class' => 'btn btn-primary']); ?>
 
-                        <?php echo CHtml::link('Смотреть на сайте', Yii::app()->createUrl('/question/view', array('id' => $model->id)), array('class' => 'btn btn-info', 'target' => '_blank')); ?>
+                        <?php echo CHtml::link('Смотреть на сайте', Yii::app()->createUrl('/question/view', ['id' => $model->id]), ['class' => 'btn btn-info', 'target' => '_blank']); ?>
                     </div>
                 </div>
             <?php endif; ?>

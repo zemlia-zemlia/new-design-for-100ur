@@ -2,10 +2,10 @@
 /* @var $this QuestionCategoryController */
 /* @var $model QuestionCategory */
 
-$this->setPageTitle(CHtml::encode($model->id) . ". Категории вопросов. " . Yii::app()->name);
+$this->setPageTitle(CHtml::encode($model->id) . '. Категории вопросов. ' . Yii::app()->name);
 
 $this->breadcrumbs = [
-    'Категории вопросов' => array('index'),
+    'Категории вопросов' => ['index'],
 ];
 
 $ancestors = $model->ancestors()->findAll();
@@ -14,11 +14,11 @@ foreach ($ancestors as $ancestor) {
 }
 $this->breadcrumbs[] = CHtml::encode($model->name);
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('100 юристов', "/admin/"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 юристов', '/admin/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 ?>
 
 
@@ -41,9 +41,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 
     <div class="col-md-3">
-        <?php echo CHtml::link('Редактировать категорию', Yii::app()->createUrl('/admin/questionCategory/update', array('id' => $model->id)), array('class' => 'btn btn-block btn-primary')); ?>
-        <?php echo CHtml::link('Создать подкатегорию', Yii::app()->createUrl('/admin/questionCategory/create', array('parentId' => $model->id)), array('class' => 'btn btn-block btn-primary')); ?>
-        <?php echo CHtml::link('Открыть на сайте', Yii::app()->createUrl('/questionCategory/alias', array('name' => $model->alias)), array('class' => 'btn btn-block btn-default', 'target' => '_blank')); ?>
+        <?php echo CHtml::link('Редактировать категорию', Yii::app()->createUrl('/admin/questionCategory/update', ['id' => $model->id]), ['class' => 'btn btn-block btn-primary']); ?>
+        <?php echo CHtml::link('Создать подкатегорию', Yii::app()->createUrl('/admin/questionCategory/create', ['parentId' => $model->id]), ['class' => 'btn btn-block btn-primary']); ?>
+        <?php echo CHtml::link('Открыть на сайте', Yii::app()->createUrl('/questionCategory/alias', ['name' => $model->alias]), ['class' => 'btn btn-block btn-default', 'target' => '_blank']); ?>
         <br/>
         <p>Заглавная картинка категории:</p>
         <?php if ($model->image): ?>

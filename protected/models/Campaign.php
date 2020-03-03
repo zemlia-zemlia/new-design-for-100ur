@@ -1,32 +1,32 @@
 <?php
 
 /**
- * Класс для работы с кампаниями покупателей лидов
+ * Класс для работы с кампаниями покупателей лидов.
  *
  * Доступные поля в таблице '{{campaign}}':
- * @property integer $id
- * @property integer $regionId
- * @property integer $timeFrom
- * @property integer $timeTo
- * @property integer $price
- * @property integer $leadsDayLimit
- * @property integer $realLimit
- * @property integer $brakPercent
- * @property integer $buyerId
- * @property integer $active
- * @property integer $sendEmail
+ *
+ * @property int    $id
+ * @property int    $regionId
+ * @property int    $timeFrom
+ * @property int    $timeTo
+ * @property int    $price
+ * @property int    $leadsDayLimit
+ * @property int    $realLimit
+ * @property int    $brakPercent
+ * @property int    $buyerId
+ * @property int    $active
+ * @property int    $sendEmail
  * @property string $lastTransactionTime
  * @property string $days
- * @property integer $sendToApi
+ * @property int    $sendToApi
  * @property string $apiClass
- * @property integer $type
- * @property integer $balance
+ * @property int    $type
+ * @property int    $balance
  *
  * @author Michael Krutikov m@mkrutikov.pro
  */
 class Campaign extends CActiveRecord
 {
-
     // Статусы активности кампании
     const ACTIVE_NO = 0;
     const ACTIVE_YES = 1;
@@ -54,41 +54,43 @@ class Campaign extends CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('leadsDayLimit, brakPercent, buyerId, active', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
-            array('regionId, townId, price, sendEmail, leadsDayLimit, realLimit, brakPercent, buyerId, active, timeFrom, timeTo, sendToApi, type', 'numerical', 'integerOnly' => true),
-            array('price', 'validatePrice'),
-            array('apiClass', 'validateApiClass'),
-            array('days, apiClass', 'length', 'max' => 255),
-            array('leadsDayLimit', 'compare', 'compareValue' => 10, 'operator' => '>=', 'message' => 'Лимит лидов должен быть не меньше 10'),
-            array('workDays', 'type', 'type' => 'array'),
+        return [
+            ['leadsDayLimit, brakPercent, buyerId, active', 'required', 'message' => 'Поле {attribute} должно быть заполнено'],
+            ['regionId, townId, price, sendEmail, leadsDayLimit, realLimit, brakPercent, buyerId, active, timeFrom, timeTo, sendToApi, type', 'numerical', 'integerOnly' => true],
+            ['price', 'validatePrice'],
+            ['apiClass', 'validateApiClass'],
+            ['days, apiClass', 'length', 'max' => 255],
+            ['leadsDayLimit', 'compare', 'compareValue' => 10, 'operator' => '>=', 'message' => 'Лимит лидов должен быть не меньше 10'],
+            ['workDays', 'type', 'type' => 'array'],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, regionId, price, '
-                . 'leadsDayLimit, brakPercent, buyerId, active', 'safe', 'on' => 'search'),
-        );
+            ['id, regionId, price, '
+                . 'leadsDayLimit, brakPercent, buyerId, active', 'safe', 'on' => 'search', ],
+        ];
     }
 
     /**
-     * Валидатор поля цена лида
+     * Валидатор поля цена лида.
+     *
      * @param type $attribute
      * @param type $params
      */
     public function validatePrice($attribute, $params)
     {
-        if ($this->type == self::TYPE_BUYERS && $this->$attribute == 0) {
+        if (self::TYPE_BUYERS == $this->type && $this->$attribute == 0) {
             $this->addError($attribute, 'Цена продажи в кампании покупателей должна быть больше нуля');
         }
     }
 
     /**
-     * Валидатор поля Класс API
+     * Валидатор поля Класс API.
+     *
      * @param type $attribute
      * @param type $params
      */
@@ -100,28 +102,28 @@ class Campaign extends CActiveRecord
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'buyer' => array(self::BELONGS_TO, 'User', 'buyerId'),
-            'region' => array(self::BELONGS_TO, 'Region', 'regionId'),
-            'town' => array(self::BELONGS_TO, 'Town', 'townId'),
-            'leads' => array(self::HAS_MANY, 'Lead', 'campaignId'),
-            'leadsToday' => array(self::HAS_MANY, 'Lead', 'campaignId',
+        return [
+            'buyer' => [self::BELONGS_TO, 'User', 'buyerId'],
+            'region' => [self::BELONGS_TO, 'Region', 'regionId'],
+            'town' => [self::BELONGS_TO, 'Town', 'townId'],
+            'leads' => [self::HAS_MANY, 'Lead', 'campaignId'],
+            'leadsToday' => [self::HAS_MANY, 'Lead', 'campaignId',
                 'condition' => 'DATE(leadsToday.deliveryTime)="' . date('Y-m-d') . '"',
-            ),
-            'leadsCount' => array(self::STAT, 'Lead', 'campaignId'),
-            'leadsTodayCount' => array(self::STAT, 'Lead', 'campaignId',
+            ],
+            'leadsCount' => [self::STAT, 'Lead', 'campaignId'],
+            'leadsTodayCount' => [self::STAT, 'Lead', 'campaignId',
                 'condition' => 'DATE(t.deliveryTime)="' . date('Y-m-d') .
                     '" AND leadStatus IN(' . Lead::LEAD_STATUS_SENT . ', ' .
                     Lead::LEAD_STATUS_NABRAK . ', ' . Lead::LEAD_STATUS_RETURN . ')',
-            ),
-            'transactions' => array(self::HAS_MANY, 'TransactionCampaign', 'campaignId', 'order' => 'transactions.id DESC'),
-        );
+            ],
+            'transactions' => [self::HAS_MANY, 'TransactionCampaign', 'campaignId', 'order' => 'transactions.id DESC'],
+        ];
     }
 
     /**
@@ -129,7 +131,7 @@ class Campaign extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'regionId' => 'ID региона',
             'townId' => 'ID города',
@@ -151,11 +153,12 @@ class Campaign extends CActiveRecord
             'sendToApi' => 'Отправлять через API',
             'apiClass' => 'Класс для работы с API',
             'type' => 'Тип',
-        );
+        ];
     }
 
     /**
-     * Возвращает массив типов кампаний
+     * Возвращает массив типов кампаний.
+     *
      * @return type
      */
     public static function getTypes()
@@ -167,7 +170,8 @@ class Campaign extends CActiveRecord
     }
 
     /**
-     * Возвращает название типа кампании
+     * Возвращает название типа кампании.
+     *
      * @return type
      */
     public function getTypeName()
@@ -185,13 +189,13 @@ class Campaign extends CActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     *                             based on the search/filter conditions
      */
     public function search()
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('regionId', $this->regionId);
@@ -203,31 +207,34 @@ class Campaign extends CActiveRecord
         $criteria->compare('buyerId', $this->buyerId);
         $criteria->compare('active', $this->active);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     public static function getActivityStatuses()
     {
-        return array(
+        return [
             self::ACTIVE_NO => 'Неактивна',
             self::ACTIVE_YES => 'Активна',
             self::ACTIVE_MODERATION => 'На проверке',
             self::ACTIVE_ARCHIVE => 'В архиве',
-        );
+        ];
     }
 
     public function getActiveStatusName()
     {
         $statuses = self::getActivityStatuses();
+
         return $statuses[$this->active];
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     *
+     * @param string $className active record class name
+     *
      * @return Campaign the static model class
      */
     public static function model($className = __CLASS__)
@@ -236,9 +243,10 @@ class Campaign extends CActiveRecord
     }
 
     /**
-     * находит список кампаний, подходящих для отправки заданного лида
+     * находит список кампаний, подходящих для отправки заданного лида.
      *
      * @param int $leadId ID лида
+     *
      * @return int ID кампании для отправки лида
      */
     public static function getCampaignsForLead($leadId, $returnArray = false)
@@ -255,31 +263,30 @@ class Campaign extends CActiveRecord
             return false;
         }
 
-        $campaigns = array();
+        $campaigns = [];
 
         /**
          * Выбираем из базы активные кампании, настроенные на данный регион, город и время работы (время NOW())
          * сортировка по цене. Учитываем, что баланс владельца кампании должен быть больше цены лида
-         * Цена лида в кампании также должна быть выше, чем цена покупки данного лида
+         * Цена лида в кампании также должна быть выше, чем цена покупки данного лида.
          */
         // SELECT * FROM `crm_campaign` WHERE (`townId`=563 OR `regionId`=57) AND `timeFrom`<=16 AND `timeTo`>=16 AND active=1
         $campaignsRows = Yii::app()->db->createCommand()
             ->select('c.*, u.balance')
-            ->from("{{campaign}} c")
-            ->leftJoin("{{user}} u", "u.id = c.buyerId")
-            ->where("(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1 AND u.balance>=c.price AND c.price>=:buyPrice AND c.type=:typeBuyer", array(
+            ->from('{{campaign}} c')
+            ->leftJoin('{{user}} u', 'u.id = c.buyerId')
+            ->where('(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1 AND u.balance>=c.price AND c.price>=:buyPrice AND c.type=:typeBuyer', [
                 ':townId' => $lead->town->id,
                 ':regionId' => $lead->town->regionId,
-                ':hour' => (int)date('H'),
-                ':buyPrice' => (int)$lead->buyPrice,
+                ':hour' => (int) date('H'),
+                ':buyPrice' => (int) $lead->buyPrice,
                 ':typeBuyer' => self::TYPE_BUYERS,
-            ))
+            ])
             ->order('c.lastLeadTime ASC')
             ->limit($limit)
             ->queryAll();
 
         foreach ($campaignsRows as $campaign) {
-
             // Проверка, работает ли кампания в данный день недели
             $workDaysArray = explode(',', $campaign['days']);
             if (!in_array(date('N'), $workDaysArray)) {
@@ -287,21 +294,20 @@ class Campaign extends CActiveRecord
             }
 
             // находим дневной лимит кампании
-            $dayLimit = ($campaign['realLimit'] != 0) ? $campaign['realLimit'] : $campaign['leadsDayLimit'];
+            $dayLimit = (0 != $campaign['realLimit']) ? $campaign['realLimit'] : $campaign['leadsDayLimit'];
 
             // находим, сколько лидов сегодня уже отправлено в кампанию
             $campaignTodayLeads = Yii::app()->db->createCommand()
                 ->select('COUNT(*) counter')
-                ->from("{{lead}} l")
-                ->where("DATE(deliveryTime)=:todayDate AND campaignId=:campaignId AND leadStatus IN(:status1, :status2, :status3)", array(
+                ->from('{{lead}} l')
+                ->where('DATE(deliveryTime)=:todayDate AND campaignId=:campaignId AND leadStatus IN(:status1, :status2, :status3)', [
                     ':todayDate' => date('Y-m-d'),
                     ':campaignId' => $campaign['id'],
                     ':status1' => Lead::LEAD_STATUS_SENT,
                     ':status2' => Lead::LEAD_STATUS_NABRAK,
                     ':status3' => Lead::LEAD_STATUS_RETURN,
-                ))
+                ])
                 ->queryRow();
-
 
             // если в кампанию сегодня отправлено лидов меньше, чем дневной лимит, добавляем в список кампаний
             if ($campaignTodayLeads['counter'] < $dayLimit) {
@@ -310,18 +316,18 @@ class Campaign extends CActiveRecord
         }
 
         if (sizeof($campaigns)) {
-
             /*
              * Если нужно вернуть массив id кампаний, возвращаем его
              */
-            if ($returnArray === true) {
-                $campIds = array();
+            if (true === $returnArray) {
+                $campIds = [];
                 foreach ($campaigns as $camp) {
                     $campIds[] = $camp['id'];
                 }
+
                 return $campIds;
             } else {
-                /**
+                /*
                  * Если нужен не массив, возвращаем id первой кампании
                  */
                 return $campaigns[0]['id'];
@@ -332,32 +338,33 @@ class Campaign extends CActiveRecord
 
         $partnerCampaignsRow = Yii::app()->db->createCommand()
             ->select('c.*')
-            ->from("{{campaign}} c")
-            ->where("(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1 AND c.type=:typePartner", array(
+            ->from('{{campaign}} c')
+            ->where('(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1 AND c.type=:typePartner', [
                 ':townId' => $lead->town->id,
                 ':regionId' => $lead->town->regionId,
-                ':hour' => (int)date('H'),
+                ':hour' => (int) date('H'),
                 ':typePartner' => self::TYPE_PARTNERS,
-            ))
+            ])
             ->order('c.lastLeadTime ASC')
             ->queryRow();
 
         if ($partnerCampaignsRow) {
-            return ($returnArray === true) ? [$partnerCampaignsRow['id']] : $partnerCampaignsRow['id'];
+            return (true === $returnArray) ? [$partnerCampaignsRow['id']] : $partnerCampaignsRow['id'];
         }
     }
 
     /**
-     * Поиск кампаний по id покупателя
+     * Поиск кампаний по id покупателя.
      *
      * @param type $buyerId id покупателя
+     *
      * @return array массив кампаний
      */
     public static function getCampaignsForBuyer($buyerId)
     {
-        $criteria = new CDbCriteria;
-        $criteria->order = "active DESC";
-        $criteria->addColumnCondition(array('buyerId' => (int)$buyerId));
+        $criteria = new CDbCriteria();
+        $criteria->order = 'active DESC';
+        $criteria->addColumnCondition(['buyerId' => (int) $buyerId]);
 
         $dependency = new CDbCacheDependency('SELECT COUNT(id) FROM {{campaign}}');
 
@@ -367,9 +374,10 @@ class Campaign extends CActiveRecord
     }
 
     /**
-     * Возвращает имя кампании (город + регион) по ее id
+     * Возвращает имя кампании (город + регион) по ее id.
      *
      * @param int $id id кампании
+     *
      * @return string имя кампании
      */
     public static function getCampaignNameById($id)
@@ -384,28 +392,29 @@ class Campaign extends CActiveRecord
             if ($campaign->region instanceof Region) {
                 $campaignName .= ' ' . $campaign->region->name;
             }
+
             return trim($campaignName);
         }
     }
 
     /**
-     * Возвращает массивы продажных городов и регионов, ключами которых являются коды городов и регионов
+     * Возвращает массивы продажных городов и регионов, ключами которых являются коды городов и регионов.
      *
      * @return array Массив городов и регионов, пример:
-     * array(
-     * 'regions' => array(
-     *      71 => 1,
-     *      104 => 1),
-     * 'towns' => array(
-     *      598 => 1,
-     *      830 => 1,
-     * )
-     * )
+     *               array(
+     *               'regions' => array(
+     *               71 => 1,
+     *               104 => 1),
+     *               'towns' => array(
+     *               598 => 1,
+     *               830 => 1,
+     *               )
+     *               )
      */
     public static function getPayedTownsRegions($cacheTime = 600)
     {
-        $payedRegions = array();
-        $payedTowns = array();
+        $payedRegions = [];
+        $payedTowns = [];
 
         $campaignsRows = Yii::app()->db->cache($cacheTime)->createCommand()
             ->select('regionId, townId')
@@ -414,25 +423,25 @@ class Campaign extends CActiveRecord
             ->queryAll();
 
         foreach ($campaignsRows as $row) {
-            if ($row['regionId'] != 0) {
+            if (0 != $row['regionId']) {
                 $payedRegions[$row['regionId']] = 1;
             }
-            if ($row['townId'] != 0) {
+            if (0 != $row['townId']) {
                 $payedTowns[$row['townId']] = 1;
             }
         }
 
-        return array(
+        return [
             'towns' => $payedTowns,
             'regions' => $payedRegions,
-        );
+        ];
     }
 
     /**
      * Метод, вызываемый перед сохранением кампании.
-     * Проверяет заполненность только одного из свойств: город ИЛИ регион
+     * Проверяет заполненность только одного из свойств: город ИЛИ регион.
      *
-     * @return boolean Пройдена ли проверка
+     * @return bool Пройдена ли проверка
      */
     protected function beforeSave()
     {
@@ -456,25 +465,27 @@ class Campaign extends CActiveRecord
     }
 
     /**
-     * Возвращает число кампаний в статусе На модерации
+     * Возвращает число кампаний в статусе На модерации.
      *
-     * @return integer число кампаний
+     * @return int число кампаний
      */
     public static function getModerationCount()
     {
         $campaignsRow = Yii::app()->db->createCommand()
             ->select('COUNT(*) counter')
             ->from('{{campaign}}')
-            ->where("active=:active", array(':active' => self::ACTIVE_MODERATION))
+            ->where('active=:active', [':active' => self::ACTIVE_MODERATION])
             ->queryRow();
 
         return $campaignsRow['counter'];
     }
 
     /**
-     * Подсчитывает текущий процент брака определенную дату
+     * Подсчитывает текущий процент брака определенную дату.
+     *
      * @param string $date Дата, за которую нужна статистика, формат yyyy-mm-dd
-     * @return integer Description
+     *
+     * @return int Description
      */
     public function calculateCurrentBrakPercent($date = null)
     {
@@ -492,7 +503,7 @@ class Campaign extends CActiveRecord
         $totalLeads = 0;
         $brakLeads = 0;
         foreach ($campaign24hoursLeadsRows as $row) {
-            if ($row['leadStatus'] == Lead::LEAD_STATUS_BRAK || $row['leadStatus'] == Lead::LEAD_STATUS_NABRAK) {
+            if (Lead::LEAD_STATUS_BRAK == $row['leadStatus'] || Lead::LEAD_STATUS_NABRAK == $row['leadStatus']) {
                 $brakLeads += $row['counter'];
             }
             $totalLeads += $row['counter'];
@@ -505,13 +516,16 @@ class Campaign extends CActiveRecord
         } else {
             $brakPercent = 0;
         }
+
         return $brakPercent;
     }
 
     /**
      * Проверка, можно ли забраковать лид данной кампании в данный момент
+     *
      * @param string $date Дата, на которую считать процент брака
-     * @return boolean
+     *
+     * @return bool
      */
     public function checkCanBrak($date = null)
     {
@@ -522,6 +536,7 @@ class Campaign extends CActiveRecord
         if ($brakPercent >= $this->brakPercent) {
             return false;
         }
+
         return true;
     }
 }

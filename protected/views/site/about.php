@@ -1,6 +1,6 @@
 <?php
-    $this->setPageTitle("О проекте ");
-    Yii::app()->clientScript->registerMetaTag("Информация о проекте Юридические консультации онлайн 100 Юристов и Адвокатов", 'description');
+    $this->setPageTitle('О проекте ');
+    Yii::app()->clientScript->registerMetaTag('Информация о проекте Юридические консультации онлайн 100 Юристов и Адвокатов', 'description');
 ?>
 
 

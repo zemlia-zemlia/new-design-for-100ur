@@ -4,7 +4,7 @@ use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
 /**
- * Контроллер первой версии API 100 Юристов
+ * Контроллер первой версии API 100 Юристов.
  */
 class ApiController extends CController
 {
@@ -15,7 +15,7 @@ class ApiController extends CController
     {
         $this->logger = new Logger('api');
         $rotateHandler = new RotatingFileHandler(
-            Yii::getPathOfAlias("application.runtime.api_logs") . '/api.log',
+            Yii::getPathOfAlias('application.runtime.api_logs') . '/api.log',
             30,
             Logger::INFO
         );
@@ -37,27 +37,28 @@ class ApiController extends CController
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
-        );
+        ];
     }
 
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
+     *
      * @return array access control rules
      */
     public function accessRules()
     {
-        return array(
-            array('allow', // allow all users
-                'actions' => array('sendLead', 'statusLead'),
-                'users' => array('*'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+        return [
+            ['allow', // allow all users
+                'actions' => ['sendLead', 'statusLead'],
+                'users' => ['*'],
+            ],
+            ['deny', // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
@@ -68,7 +69,7 @@ class ApiController extends CController
      * town - название города на русском
      * question - текст вопроса
      * appId - уникальный id партнера (источника лидов)
-     * signature - подпись для проверки пришедших данных
+     * signature - подпись для проверки пришедших данных.
      *
      * signature = md5(name.phone.town.question.appId.secretKey)
      *
@@ -85,14 +86,14 @@ class ApiController extends CController
         $request = Yii::app()->request;
 
         if (!$request->isPostRequest) {
-            echo json_encode(array('code' => 400, 'message' => 'No input data'));
+            echo json_encode(['code' => 400, 'message' => 'No input data']);
             Yii::app()->end();
         }
 
         // проверяем обязательный целочисленный параметр appId
-        $appId = (int)$request->getPost('appId');
+        $appId = (int) $request->getPost('appId');
         if (!$appId) {
-            echo json_encode(array('code' => 400, 'message' => 'Unknown sender. Check appId parameter'));
+            echo json_encode(['code' => 400, 'message' => 'Unknown sender. Check appId parameter']);
             Yii::app()->end();
         }
 
@@ -103,7 +104,7 @@ class ApiController extends CController
 
         // если источник не найден
         if (!$source) {
-            echo json_encode(array('code' => 404, 'message' => 'Unknown or blocked sender. Check appId parameter'));
+            echo json_encode(['code' => 404, 'message' => 'Unknown or blocked sender. Check appId parameter']);
             Yii::app()->end();
         }
 
@@ -127,27 +128,27 @@ class ApiController extends CController
 //        $demoSignature = md5("Миша"."89263549557"."Москва"."Где находится нофелет?"."5032565"."860d7117e9d1eb5c8dc092f857a079d5");
 //        echo json_encode($signature);
 //        echo json_encode($correctSignature);
-        if ($correctSignature !== $signature || $signature == '') {
-            echo json_encode(array('code' => 400, 'message' => 'Signature is wrong'));
+        if ($correctSignature !== $signature || '' == $signature) {
+            echo json_encode(['code' => 400, 'message' => 'Signature is wrong']);
             Yii::app()->end();
         }
 
         // После проверки входных данных проверим город на существование в базе
 
         $town = Yii::app()->db->cache(86400)->createCommand()
-            ->select("id")
-            ->from("{{town}}")
-            ->where("LOWER(`name`)=:townName", [":townName" => mb_strtolower($leadTown, 'utf-8')])
+            ->select('id')
+            ->from('{{town}}')
+            ->where('LOWER(`name`)=:townName', [':townName' => mb_strtolower($leadTown, 'utf-8')])
             ->queryRow();
         // если город не найден
         if (!$town) {
-            echo json_encode(array('code' => 404, 'message' => 'Unknown town. Provide correct town name in Russian language'));
+            echo json_encode(['code' => 404, 'message' => 'Unknown town. Provide correct town name in Russian language']);
             Yii::app()->end();
         }
 
         $townId = $town['id'];
 
-        $model = new Lead;
+        $model = new Lead();
         $purifier = new CHtmlPurifier();
 
         $model->name = CHtml::encode($leadName);
@@ -162,7 +163,7 @@ class ApiController extends CController
 
         // проверка на дубликаты за последние 12 часов
         if ($model->findDublicates(12 * 3600)) {
-            die(json_encode(array('code' => 400, 'message' => 'Dublicates found')));
+            die(json_encode(['code' => 400, 'message' => 'Dublicates found']));
             Yii::app()->end();
         }
 
@@ -179,27 +180,27 @@ class ApiController extends CController
         }
 
         // Если в запросе от партнера есть цена
-        if ($partnerPrice && $sourceObject->priceByPartner == 1) {
+        if ($partnerPrice && 1 == $sourceObject->priceByPartner) {
             $model->buyPrice = $partnerPrice;
         }
 
         // если тестовый режим, то не сохраняем, а только проверяем лид
-        if ($testMode != 0) {
+        if (0 != $testMode) {
             if ($model->validate()) {
-                echo json_encode(array('code' => 200, 'buyPrice' => MoneyFormat::rubles($model->buyPrice), 'message' => 'OK. You are in the test mode. Lead accepted but not saved.'));
+                echo json_encode(['code' => 200, 'buyPrice' => MoneyFormat::rubles($model->buyPrice), 'message' => 'OK. You are in the test mode. Lead accepted but not saved.']);
                 Yii::app()->end();
             } else {
-                echo json_encode(array('code' => 500, 'message' => 'Lead not saved.', 'errors' => $model->errors));
+                echo json_encode(['code' => 500, 'message' => 'Lead not saved.', 'errors' => $model->errors]);
                 Yii::app()->end();
             }
         }
 
         if ($model->save()) {
-            echo json_encode(array('code' => 200, 'buyPrice' => MoneyFormat::rubles($model->buyPrice), 'message' => 'OK'));
+            echo json_encode(['code' => 200, 'buyPrice' => MoneyFormat::rubles($model->buyPrice), 'message' => 'OK']);
             $this->logLeadSaveResult($model);
             Yii::app()->end();
         } else {
-            echo json_encode(array('code' => 500, 'message' => 'Lead not saved.', 'errors' => $model->errors));
+            echo json_encode(['code' => 500, 'message' => 'Lead not saved.', 'errors' => $model->errors]);
             $this->logLeadSaveResult($model);
             Yii::app()->end();
         }
@@ -210,19 +211,20 @@ class ApiController extends CController
      * Обязательные поля запроса:
      * code - уникальный код лида (хранится в БД в поле secretCode)
      * brakReason - код причины брака
-     * brakComment - комментарий отбраковки
+     * brakComment - комментарий отбраковки.
+     *
      * @throws CHttpException
      */
     public function actionStatusLead()
     {
-        $availableStatuses = array(
+        $availableStatuses = [
             Lead::LEAD_STATUS_NABRAK,
-        );
+        ];
 
         $request = Yii::app()->request;
 
         if (!$request->isPostRequest) {
-            echo json_encode(array('code' => 400, 'message' => 'No input data'));
+            echo json_encode(['code' => 400, 'message' => 'No input data']);
             Yii::app()->end();
         }
 
@@ -232,54 +234,53 @@ class ApiController extends CController
         $brakComment = CHtml::encode($_POST['brakComment']);
 
         if (!in_array($newStatus, $availableStatuses)) {
-            echo json_encode(array('code' => 400, 'message' => 'You cannot set this status for this lead'));
+            echo json_encode(['code' => 400, 'message' => 'You cannot set this status for this lead']);
             Yii::app()->end();
         }
 
-        if ($code == '') {
-            echo json_encode(array('code' => 400, 'message' => 'Please specify lead secret code'));
+        if ('' == $code) {
+            echo json_encode(['code' => 400, 'message' => 'Please specify lead secret code']);
             Yii::app()->end();
         }
 
-        $lead = Lead::model()->findByAttributes(array('secretCode' => $code));
+        $lead = Lead::model()->findByAttributes(['secretCode' => $code]);
 
         if (!$lead) {
-            echo json_encode(array('code' => 400, 'message' => 'Lead not found'));
+            echo json_encode(['code' => 400, 'message' => 'Lead not found']);
             Yii::app()->end();
         }
 
-
-        if ($newStatus === Lead::LEAD_STATUS_NABRAK && !(!is_null($lead->deliveryTime) && (time() - strtotime($lead->deliveryTime) < 86400 * Yii::app()->params['leadHoldPeriodDays']))) {
-            echo json_encode(array('code' => 400, 'message' => 'Lead could not be sent to brak because it was created more than ' . Yii::app()->params['leadHoldPeriodDays'] . ' days ago'));
+        if (Lead::LEAD_STATUS_NABRAK === $newStatus && !(!is_null($lead->deliveryTime) && (time() - strtotime($lead->deliveryTime) < 86400 * Yii::app()->params['leadHoldPeriodDays']))) {
+            echo json_encode(['code' => 400, 'message' => 'Lead could not be sent to brak because it was created more than ' . Yii::app()->params['leadHoldPeriodDays'] . ' days ago']);
             Yii::app()->end();
         }
 
         $lead->brakReason = $brakReason;
         $lead->brakComment = $brakComment;
 
-        if ($newStatus === Lead::LEAD_STATUS_NABRAK && !$lead->brakReason) {
+        if (Lead::LEAD_STATUS_NABRAK === $newStatus && !$lead->brakReason) {
             $lead->addError('brakReason', 'Please specify a reason');
         }
 
-        if ($newStatus === Lead::LEAD_STATUS_NABRAK && !$lead->brakComment) {
+        if (Lead::LEAD_STATUS_NABRAK === $newStatus && !$lead->brakComment) {
             $lead->addError('brakComment', 'Please specify a comment');
         }
 
         $lead->leadStatus = $newStatus;
 
         if (!$lead->hasErrors() && $lead->save()) {
-            echo json_encode(array('code' => 200, 'message' => 'OK'));
+            echo json_encode(['code' => 200, 'message' => 'OK']);
             Yii::app()->end();
         } else {
-            echo json_encode(array('code' => 400, 'message' => 'Lead not saved.', 'errors' => $lead->errors));
+            echo json_encode(['code' => 400, 'message' => 'Lead not saved.', 'errors' => $lead->errors]);
             Yii::app()->end();
         }
     }
 
     /**
      * @param CHttpRequest $request
-     * @param array $rawData
-     * @param integer $appId
+     * @param array        $rawData
+     * @param int          $appId
      */
     private function logRequest($request, $rawData, $appId): void
     {
@@ -290,17 +291,18 @@ class ApiController extends CController
     }
 
     /**
-     * Логирует результат сохранения лида
+     * Логирует результат сохранения лида.
+     *
      * @param Lead $model
      */
     private function logLeadSaveResult(Lead $model)
     {
-        if ($model->hasErrors() == true) {
+        if (true == $model->hasErrors()) {
             $this->logger->error(print_r($model->getErrors(), true), [
                 'phone' => $model->phone,
             ]);
         } else {
-            $this->logger->info("Lead saved, id=" . $model->id, [
+            $this->logger->info('Lead saved, id=' . $model->id, [
                 'phone' => $model->phone,
             ]);
         }

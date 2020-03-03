@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Класс почтовой рассылки
+ * Класс почтовой рассылки.
  */
 class MailForm extends CFormModel
 {
@@ -11,35 +11,37 @@ class MailForm extends CFormModel
     public $message;
 
     /**
-     * Правила проверки полей
+     * Правила проверки полей.
      */
     public function rules()
     {
-        return array(
+        return [
             // username and password are required
-            array('subject, message', 'required', 'message' => 'Поле {attribute} не может быть пустым'),
-            array('recipientEmail', 'email', 'message' => 'Email не похож на настоящий'),
-            array('roleId', 'numerical', 'integerOnly' => true),
-        );
+            ['subject, message', 'required', 'message' => 'Поле {attribute} не может быть пустым'],
+            ['recipientEmail', 'email', 'message' => 'Email не похож на настоящий'],
+            ['roleId', 'numerical', 'integerOnly' => true],
+        ];
     }
 
     /**
-     * Наименования полей формы
+     * Наименования полей формы.
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'recipientEmail' => 'E-mail',
             'roleId' => 'Роль пользователей',
             'message' => 'Текст письма',
             'subject' => 'Тема сообщения',
-        );
+        ];
     }
 
     /**
-     * Отправка рассылки
-     * @param boolean $useSMTP Использовать для отправки SMTP
-     * @return integer Количесто отправленных писем
+     * Отправка рассылки.
+     *
+     * @param bool $useSMTP Использовать для отправки SMTP
+     *
+     * @return int Количесто отправленных писем
      */
     public function send($useSMTP = false)
     {
@@ -48,16 +50,17 @@ class MailForm extends CFormModel
 
         $this->message = nl2br($this->message);
 
-        if ($this->recipientEmail != '') {
+        if ('' != $this->recipientEmail) {
             // отправляем одному получателю
-            $mailTransportType = ($useSMTP === true) ? GTMail::TRANSPORT_TYPE_SMTP : GTMail::TRANSPORT_TYPE_SENDMAIL;
+            $mailTransportType = (true === $useSMTP) ? GTMail::TRANSPORT_TYPE_SMTP : GTMail::TRANSPORT_TYPE_SENDMAIL;
             $mailer = new GTMail($mailTransportType);
 
             $mailer->subject = $this->subject;
             $mailer->message = $this->message;
             $mailer->email = $this->recipientEmail;
-            return ($mailer->sendMail() === true) ? 1 : 0;
-        } elseif ($this->roleId != '') {
+
+            return (true === $mailer->sendMail()) ? 1 : 0;
+        } elseif ('' != $this->roleId) {
             // отправляем группе
             $mailsSent = 0;
             $users = Yii::app()->db->createCommand()
@@ -66,7 +69,7 @@ class MailForm extends CFormModel
                 ->where('active100=1 AND isSubscribed=1 AND role=:role AND email!=""', [':role' => $this->roleId])
                 ->queryAll();
 
-            $mailTransportType = ($useSMTP === true) ? GTMail::TRANSPORT_TYPE_SMTP : GTMail::TRANSPORT_TYPE_SENDMAIL;
+            $mailTransportType = (true === $useSMTP) ? GTMail::TRANSPORT_TYPE_SMTP : GTMail::TRANSPORT_TYPE_SENDMAIL;
 
             foreach ($users as $user) {
                 $mailer = new GTMail($mailTransportType);
@@ -74,7 +77,7 @@ class MailForm extends CFormModel
                 $mailer->subject = $this->subject;
                 $mailer->message = $this->message;
 
-                if ($user['autologin'] != '') {
+                if ('' != $user['autologin']) {
                     $autologinLink = Yii::app()->createUrl('/site/index', ['autologin' => $user['autologin']]);
                     $mailer->message .= '<p>Ваша ссылка для входа на сайт без ввода пароля (ссылка действительна один раз):' .
                         CHtml::link($autologinLink, $autologinLink)
@@ -83,7 +86,7 @@ class MailForm extends CFormModel
 
                 $mailer->email = $user['email'];
                 if ($mailer->sendMail()) {
-                    $mailsSent++;
+                    ++$mailsSent;
                 }
             }
 
@@ -92,15 +95,17 @@ class MailForm extends CFormModel
     }
 
     /**
-     * Создание заданий на отправку писем для рассылки
+     * Создание заданий на отправку писем для рассылки.
+     *
      * @param Mail $mail Рассылка
-     * @return integer Количество отправленных писем
+     *
+     * @return int Количество отправленных писем
      */
     public function createTasks(Mail $mail)
     {
         $createTasksCount = 0;
 
-        if ($this->recipientEmail != '') {
+        if ('' != $this->recipientEmail) {
             // отправляем одному получателю
             $createTasksCount = Yii::app()->db->createCommand()
                 ->insert('{{mailtask}}', [
@@ -108,7 +113,7 @@ class MailForm extends CFormModel
                     'email' => $this->recipientEmail,
                     'startDate' => date('Y-m-d'),
                 ]);
-        } elseif ($this->roleId != '') {
+        } elseif ('' != $this->roleId) {
             // отправляем группе
             $users = Yii::app()->db->createCommand()
                 ->select('email, id')
@@ -126,6 +131,7 @@ class MailForm extends CFormModel
                     ]);
             }
         }
+
         return $createTasksCount;
     }
 }

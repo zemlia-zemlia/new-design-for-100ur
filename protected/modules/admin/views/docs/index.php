@@ -2,20 +2,20 @@
 /* @var $this DocsController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     'Хранилище образцов документов',
-);
+];
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('Админка', "/admin/"),
-    'separator'=>' / ',
-    'links'=>$this->breadcrumbs,
-));
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('Админка', '/admin/'),
+    'separator' => ' / ',
+    'links' => $this->breadcrumbs,
+]);
 
-$this->menu = array(
-    array('label' => 'Create Docs', 'url' => array('create')),
-    array('label' => 'Manage Docs', 'url' => array('admin')),
-);
+$this->menu = [
+    ['label' => 'Create Docs', 'url' => ['create']],
+    ['label' => 'Manage Docs', 'url' => ['admin']],
+];
 
 ?>
 <?php //var_dump($this->menu);die;?>

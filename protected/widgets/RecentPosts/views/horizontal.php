@@ -1,7 +1,7 @@
 <?php
 
-if (empty($recentPosts) || sizeof($recentPosts) == 0) {
-    echo "Не найдено ни одного поста";
+if (empty($recentPosts) || 0 == sizeof($recentPosts)) {
+    echo 'Не найдено ни одного поста';
 }
 $purifier = new CHtmlPurifier();
 ?>
@@ -10,7 +10,7 @@ $purifier = new CHtmlPurifier();
 
 <?php foreach ($recentPosts as $index => $recentPost): ?>
 
-    <?php if ($index % 3 == 0): ?>
+    <?php if (0 == $index % 3): ?>
         <div class="row vert-margin20">
     <?php endif; ?>
 
@@ -23,20 +23,20 @@ $purifier = new CHtmlPurifier();
                     $postObject = new Post();
                     $postObject->attributes = $recentPost;
                     ?>
-                    <?php echo CHtml::link("<img src='" . $postObject->getPhotoUrl('thumb') . "' alt='" . CHtml::encode($recentPost['title']) . "'/>", Yii::app()->createUrl('post/view', array('id' => $recentPost['id'], 'alias' => $recentPost['alias']))); ?>
+                    <?php echo CHtml::link("<img src='" . $postObject->getPhotoUrl('thumb') . "' alt='" . CHtml::encode($recentPost['title']) . "'/>", Yii::app()->createUrl('post/view', ['id' => $recentPost['id'], 'alias' => $recentPost['alias']])); ?>
                 <?php endif; ?>
             </div>
             <div class="col-md-8">
 
                 <p class="center-mobile">
-                    <?php echo CHtml::link(CHtml::encode($recentPost['title']), Yii::app()->createUrl('post/view', array('id' => $recentPost['id'], 'alias' => $recentPost['alias']))); ?>
+                    <?php echo CHtml::link(CHtml::encode($recentPost['title']), Yii::app()->createUrl('post/view', ['id' => $recentPost['id'], 'alias' => $recentPost['alias']])); ?>
                     <br/>
                 </p>
 
             </div>
         </div>
     </div>
-    <?php if ($index % 3 == 2): ?>
+    <?php if (2 == $index % 3): ?>
         </div>
     <?php endif; ?>
 <?php endforeach; ?>

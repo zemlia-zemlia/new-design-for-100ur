@@ -17,15 +17,17 @@ abstract class BaseFactory implements TestFactoryInterface
     }
 
     /**
-     * Создает массив массивов атрибутов
-     * @param int $numberOfItems
+     * Создает массив массивов атрибутов.
+     *
+     * @param int   $numberOfItems
      * @param array $commonForcedAttributes
+     *
      * @return array
      */
     public function generateFew($numberOfItems = 1, $commonForcedAttributes = [])
     {
         $items = [];
-        for ($i = 0; $i < $numberOfItems; $i++) {
+        for ($i = 0; $i < $numberOfItems; ++$i) {
             $items[] = $this->generateOne($commonForcedAttributes);
         }
 

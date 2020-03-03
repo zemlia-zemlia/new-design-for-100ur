@@ -6,14 +6,15 @@ use Campaign;
 
 /**
  * Генератор атрибутов кампании
- * Class CampaignFactory
- * @package Tests\Factories
+ * Class CampaignFactory.
  */
 class CampaignFactory extends BaseFactory
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
+     *
      * @param array $forcedParams
+     *
      * @return array
      */
     public function generateOne($forcedParams = []): array

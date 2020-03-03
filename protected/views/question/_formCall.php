@@ -1,5 +1,5 @@
 <?php
-$allDirections = array(0 => 'Не выбрано') + $allDirections;
+$allDirections = [0 => 'Не выбрано'] + $allDirections;
 
 if (!is_null($model->town->name)) {
     $currenTownName = $model->town->name;
@@ -7,19 +7,19 @@ if (!is_null($model->town->name)) {
 
 ?>
 <?php
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'call-form',
     'enableAjaxValidation' => false,
     'action' => Yii::app()->createUrl('question/call'),
     'htmlOptions' => ['class' => 'form-horizontal'],
-        ));
+        ]);
 ?>
 <div class="row">  
     <div class="col-md-12">
         <div class="form-group">
             <?php echo $form->labelEx($model, 'name', ['class' => 'col-sm-4 control-label']); ?>
             <div class="col-sm-4">
-                <?php echo $form->textField($model, 'name', array('class' => 'form-control', 'placeholder' => 'Ваше имя')); ?>
+                <?php echo $form->textField($model, 'name', ['class' => 'form-control', 'placeholder' => 'Ваше имя']); ?>
                 <?php echo $form->error($model, 'name'); ?>
             </div>
         </div>
@@ -32,14 +32,14 @@ $form = $this->beginWidget('CActiveForm', array(
             <?php echo $form->labelEx($model, 'phone', ['class' => 'col-sm-4 control-label']); ?>
             <div class="col-sm-4">
                 <?php
-                echo $form->textField($model, 'phone', array(
+                echo $form->textField($model, 'phone', [
                     //'class'         =>  'form-control phone-mask',
                     'class' => 'form-control icon-input phone-mask',
                     'style' => 'background-image:url(/pics/2017/phone_icon.png)',
-                    'data-toggle' => "tooltip",
-                    'data-placement' => "bottom",
-                    'title' => "Номер телефона необходим, чтобы юрист смог с Вами связаться. Нигде не публикуется.",
-                ));
+                    'data-toggle' => 'tooltip',
+                    'data-placement' => 'bottom',
+                    'title' => 'Номер телефона необходим, чтобы юрист смог с Вами связаться. Нигде не публикуется.',
+                ]);
                 ?>
                 <small>
                     <img src="/pics/2017/red_lock.png" alt="ваши данные в безопасности" style="float:left;margin-top:10px;" />
@@ -63,7 +63,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="form-group">
             <label class="col-sm-4 control-label">Категория права</label>
             <div class="col-sm-8">
-                <?php echo $form->dropDownList($model, 'categories', $allDirections, array('class' => 'form-control')); ?>
+                <?php echo $form->dropDownList($model, 'categories', $allDirections, ['class' => 'form-control']); ?>
                 <small>
                     <p class="text-muted">
                         Правильный выбор категории поможет найти специалистов именно в этой отрасли права. Если Вы сомневаетесь в выборе, пропустите этот пункт.
@@ -75,12 +75,12 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
     </div>
 </div>
-<?php endif;?>
+<?php endif; ?>
 
 <div class="form-group">
     <label class='col-sm-4 control-label'>Тема:</label>
     <div class="col-sm-7">
-        <?php echo $form->textArea($model, 'question', array('class' => 'form-control', 'rows' => 6, 'placeholder' => 'В двух словах, о чем ваш вопрос?')); ?>
+        <?php echo $form->textArea($model, 'question', ['class' => 'form-control', 'rows' => 6, 'placeholder' => 'В двух словах, о чем ваш вопрос?']); ?>
         <?php echo $form->error($model, 'question'); ?>
     </div>
 </div>
@@ -92,15 +92,15 @@ $form = $this->beginWidget('CActiveForm', array(
             <?php echo $form->labelEx($model, 'town', ['class' => 'col-sm-4 control-label']); ?>
             <div class="col-sm-4">
                 <?php
-                echo CHtml::textField('town', $currenTownName, array(
+                echo CHtml::textField('town', $currenTownName, [
                     'id' => 'town-selector',
                     'class' => 'form-control icon-input',
                     'style' => 'background-image:url(/pics/2017/map_mark_icon.png)',
-                ));
+                ]);
                 ?>
 
                 <?php
-                echo $form->hiddenField($model, 'townId', array('id' => 'selected-town'));
+                echo $form->hiddenField($model, 'townId', ['id' => 'selected-town']);
                 ?>
                 <?php echo $form->error($model, 'townId'); ?>
             </div>
@@ -112,14 +112,14 @@ $form = $this->beginWidget('CActiveForm', array(
     <small class="text-muted">
         <label>
             <?php echo $form->checkBox($model, 'agree'); ?>
-            Отправляя вопрос, вы соглашаетесь с условиями <?php echo CHtml::link('пользовательского соглашения', Yii::app()->createUrl('site/offer'), array('target' => '_blank')); ?>
+            Отправляя вопрос, вы соглашаетесь с условиями <?php echo CHtml::link('пользовательского соглашения', Yii::app()->createUrl('site/offer'), ['target' => '_blank']); ?>
         </label>
         <?php echo $form->error($model, 'agree'); ?>
     </small>
 </div>
 
 <div class="form-group" id="form-submit-wrapper">
-    <?php echo CHtml::submitButton('Отправить запрос', array('class' => 'yellow-button center-block')); ?>
+    <?php echo CHtml::submitButton('Отправить запрос', ['class' => 'yellow-button center-block']); ?>
 </div>
 
 <?php $this->endWidget(); ?>

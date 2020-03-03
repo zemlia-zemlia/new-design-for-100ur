@@ -5,10 +5,10 @@
 
 <tr>
     <td>
-        <?php echo CHtml::link(CHtml::encode($data->name . ' ' . $data->name2 . ' ' . $data->lastName), array('view', 'id'=>$data->id)); ?>
-        <?php if ($data->active100==0):?>
+        <?php echo CHtml::link(CHtml::encode($data->name . ' ' . $data->name2 . ' ' . $data->lastName), ['view', 'id' => $data->id]); ?>
+        <?php if (0 == $data->active100):?>
         <span class="label label-default">неактивен</span>
-        <?php endif;?>
+        <?php endif; ?>
         <div class="muted">
             <?php echo CHtml::encode($data->position); ?>
         </div>
@@ -23,6 +23,6 @@
         <?php echo CHtml::encode($data->manager->name . ' ' . $data->manager->lastName); ?>
     </td>
     <td>
-        <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('user/update', array('id'=>$data->id)), array('class'=>'btn btn-primary'));?>
+        <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('user/update', ['id' => $data->id]), ['class' => 'btn btn-primary']); ?>
     </td>
 </tr>

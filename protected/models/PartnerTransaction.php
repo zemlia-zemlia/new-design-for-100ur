@@ -184,7 +184,7 @@ class PartnerTransaction extends CActiveRecord
         $counterRow = Yii::app()->db->cache(600)->createCommand()
                 ->select('COUNT(*) counter')
                 ->from('{{partnerTransaction}}')
-                ->where('status = '.self::STATUS_PENDING.' AND sum<0')
+                ->where('status = ' . self::STATUS_PENDING . ' AND sum<0')
                 ->queryRow();
 
         return $counterRow['counter'];

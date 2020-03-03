@@ -3,8 +3,11 @@
  * EJqueryUiWidget class file.
  *
  * @author MetaYii
+ *
  * @version 2.4.1
- * @link http://www.yiiframework.com/
+ *
+ * @see http://www.yiiframework.com/
+ *
  * @copyright Copyright &copy; 2009 MetaYii
  * @license dual GPL (3.0 or later) and MIT, at your choice.
  * @license http://www.opensource.org/licenses/mit-license.php
@@ -58,11 +61,10 @@
  * choice. Please see {@link http://docs.jquery.com/Licensing} for details.
  * MetaYii is not related to the jQuery UI development team.
  */
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'IJqueryUiWidget.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'EJqueryUiConfig.php';
 
-require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'IJqueryUiWidget.php');
-require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiConfig.php');
-
-/**
+/*
  * Do you want to check your user parameters against the valid ones?
  */
 define('_CHECK_JS_PARAMETERS_', true);
@@ -71,7 +73,7 @@ define('_CHECK_JS_PARAMETERS_', true);
  * EJqueryUiWidget is a base class for jQuery UI 1.7.1 widget wrappers.
  *
  * @author MetaYii
- * @package application.extensions.jui
+ *
  * @since 1.0.2
  */
 class EJqueryUiWidget extends CInputWidget implements IJqueryUiWidget
@@ -81,16 +83,16 @@ class EJqueryUiWidget extends CInputWidget implements IJqueryUiWidget
     //***************************************************************************
 
     /**
-     * Options for each jQuery UI widget. This must be an associative array:
+     * Options for each jQuery UI widget. This must be an associative array:.
      *
      * $options['option'] = value;
      *
      * @var array
      */
-    private $options = array();
+    private $options = [];
 
     /**
-     * Callbacks for each jQuery UI widget. This must be an associative array:
+     * Callbacks for each jQuery UI widget. This must be an associative array:.
      *
      * $callbacks['callback'] = function;
      *
@@ -99,48 +101,48 @@ class EJqueryUiWidget extends CInputWidget implements IJqueryUiWidget
      *
      * @var array
      */
-    private $callbacks = array();
+    private $callbacks = [];
 
     //***************************************************************************
     // Internal properties
     //***************************************************************************
 
     /**
-     * The base URL for the published assets
+     * The base URL for the published assets.
      *
      * @var string
      */
     protected $baseUrl = '';
 
     /**
-     * The CClientScript instance
+     * The CClientScript instance.
      *
      * @var CClientScript
      */
     protected $clientScript = null;
 
     /**
-     * Possible valid options, according to the jQuery UI widget documentation
+     * Possible valid options, according to the jQuery UI widget documentation.
      *
      * @var array
      */
-    protected $validOptions = array();
+    protected $validOptions = [];
 
     /**
-     * Possible valid callbacks, according to the jQuery UI widget documentation
+     * Possible valid callbacks, according to the jQuery UI widget documentation.
      *
      * @var array
      */
-    protected $validCallbacks = array();
+    protected $validCallbacks = [];
 
     //***************************************************************************
     // Setters and getters
     //***************************************************************************
 
     /**
-     * Setter
+     * Setter.
      *
-     * @var array $value options
+     * @var array options
      */
     public function setOptions($value)
     {
@@ -154,7 +156,7 @@ class EJqueryUiWidget extends CInputWidget implements IJqueryUiWidget
     }
 
     /**
-     * Getter
+     * Getter.
      *
      * @return array
      */
@@ -164,7 +166,7 @@ class EJqueryUiWidget extends CInputWidget implements IJqueryUiWidget
     }
 
     /**
-     * Setter
+     * Setter.
      *
      * @param array $value callbacks
      */
@@ -180,7 +182,7 @@ class EJqueryUiWidget extends CInputWidget implements IJqueryUiWidget
     }
 
     /**
-     * Getter
+     * Getter.
      *
      * @return array
      */
@@ -214,9 +216,9 @@ class EJqueryUiWidget extends CInputWidget implements IJqueryUiWidget
     }
 
     /**
-     * Setter
+     * Setter.
      *
-     * @param integer $value compression
+     * @param int $value compression
      */
     public function setCompression($value)
     {
@@ -224,9 +226,9 @@ class EJqueryUiWidget extends CInputWidget implements IJqueryUiWidget
     }
 
     /**
-     * Getter
+     * Getter.
      *
-     * @return integer
+     * @return int
      */
     public function getCompression()
     {
@@ -234,9 +236,9 @@ class EJqueryUiWidget extends CInputWidget implements IJqueryUiWidget
     }
 
     /**
-     * Setter
+     * Setter.
      *
-     * @param boolean $value useBundledStyleSheet
+     * @param bool $value useBundledStyleSheet
      */
     public function setUseBundledStyleSheet($value)
     {
@@ -244,9 +246,9 @@ class EJqueryUiWidget extends CInputWidget implements IJqueryUiWidget
     }
 
     /**
-     * Getter
+     * Getter.
      *
-     * @return boolean
+     * @return bool
      */
     public function getUseBundledStyleSheet()
     {
@@ -258,28 +260,28 @@ class EJqueryUiWidget extends CInputWidget implements IJqueryUiWidget
     //***************************************************************************
 
     /**
-     * Check the options against the valid ones
+     * Check the options against the valid ones.
      *
-     * @param array $value user's options
+     * @param array $value        user's options
      * @param array $validOptions valid options
      */
     protected static function checkOptions($value, $validOptions)
     {
         if (!empty($validOptions)) {
-            foreach ($value as $key=>$val) {
+            foreach ($value as $key => $val) {
                 if (!array_key_exists($key, $validOptions)) {
-                    throw new CException(Yii::t('EJqueryUiWidget', '{k} is not a valid option', array('{k}'=>$key)));
+                    throw new CException(Yii::t('EJqueryUiWidget', '{k} is not a valid option', ['{k}' => $key]));
                 }
                 $type = gettype($val);
                 if ((!is_array($validOptions[$key]['type']) && ($type != $validOptions[$key]['type'])) || (is_array($validOptions[$key]['type']) && !in_array($type, $validOptions[$key]['type']))) {
-                    throw new CException(Yii::t('EJqueryUiWidget', '{k} must be of type {t}', array('{k}'=>$key, '{t}'=>implode(',', (is_array($validOptions[$key]['type']))?implode(', ', $validOptions[$key]['type']):$validOptions[$key]['type']))));
+                    throw new CException(Yii::t('EJqueryUiWidget', '{k} must be of type {t}', ['{k}' => $key, '{t}' => implode(',', (is_array($validOptions[$key]['type'])) ? implode(', ', $validOptions[$key]['type']) : $validOptions[$key]['type'])]));
                 }
                 if (array_key_exists('possibleValues', $validOptions[$key])) {
                     if (!in_array($val, $validOptions[$key]['possibleValues'])) {
-                        throw new CException(Yii::t('EJqueryUiWidget', '{k} must be one of: {v}', array('{k}'=>$key, '{v}'=>implode(', ', $validOptions[$key]['possibleValues']))));
+                        throw new CException(Yii::t('EJqueryUiWidget', '{k} must be one of: {v}', ['{k}' => $key, '{v}' => implode(', ', $validOptions[$key]['possibleValues'])]));
                     }
                 }
-                if (($type == 'array') && array_key_exists('elements', $validOptions[$key])) {
+                if (('array' == $type) && array_key_exists('elements', $validOptions[$key])) {
                     self::checkOptions($val, $validOptions[$key]['elements']);
                 }
             }
@@ -287,37 +289,37 @@ class EJqueryUiWidget extends CInputWidget implements IJqueryUiWidget
     }
 
     /**
-     * Check callbacks against the valid ones
+     * Check callbacks against the valid ones.
      *
-     * @param array $value user's callbacks
+     * @param array $value          user's callbacks
      * @param array $validCallbacks valid callbacks
      */
     protected static function checkCallbacks($value, $validCallbacks)
     {
         if (!empty($validCallbacks)) {
-            foreach ($value as $key=>$val) {
+            foreach ($value as $key => $val) {
                 if (!in_array($key, $validCallbacks)) {
-                    throw new CException(Yii::t('EJqueryUiWidget', '{k} must be one of: {c}', array('{k}'=>$key, '{c}'=>implode(', ', $validCallbacks))));
+                    throw new CException(Yii::t('EJqueryUiWidget', '{k} must be one of: {c}', ['{k}' => $key, '{c}' => implode(', ', $validCallbacks)]));
                 }
             }
         }
     }
 
     /**
-     * Publishes the assets
+     * Publishes the assets.
      */
     public function publishAssets()
     {
-        $dir = dirname(__FILE__).DIRECTORY_SEPARATOR.'jquery';
+        $dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'jquery';
         $this->baseUrl = Yii::app()->getAssetManager()->publish($dir);
     }
 
     /**
-     * Registers the external javascript files
+     * Registers the external javascript files.
      */
     public function registerClientScripts()
     {
-        if ($this->baseUrl === '') {
+        if ('' === $this->baseUrl) {
             throw new CException(Yii::t('EJqueryUiWidget', 'baseUrl must be set. This is done automatically by calling publishAssets()'));
         }
 
@@ -327,20 +329,20 @@ class EJqueryUiWidget extends CInputWidget implements IJqueryUiWidget
 
         switch ($this->getCompression()) {
          case 'none':
-            $this->clientScript->registerScriptFile($this->baseUrl.'/js/jquery-ui-1.7.1.custom.js');
+            $this->clientScript->registerScriptFile($this->baseUrl . '/js/jquery-ui-1.7.1.custom.js');
             break;
 
          case 'packed':
-            $this->clientScript->registerScriptFile($this->baseUrl.'/js/jquery-ui-1.7.1.custom.packed.js');
+            $this->clientScript->registerScriptFile($this->baseUrl . '/js/jquery-ui-1.7.1.custom.packed.js');
             break;
 
          default:
-            $this->clientScript->registerScriptFile($this->baseUrl.'/js/jquery-ui-1.7.1.custom.min.js');
+            $this->clientScript->registerScriptFile($this->baseUrl . '/js/jquery-ui-1.7.1.custom.min.js');
             break;
       }
-      
+
         if ($this->getUseBundledStyleSheet()) {
-            $this->clientScript->registerCssFile($this->baseUrl.'/css/'.$this->getTheme().'/jquery-ui-1.7.1.custom.css');
+            $this->clientScript->registerCssFile($this->baseUrl . '/css/' . $this->getTheme() . '/jquery-ui-1.7.1.custom.css');
         }
     }
 }

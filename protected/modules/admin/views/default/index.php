@@ -1,9 +1,9 @@
 <?php
 /* @var $this DefaultController */
 
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     $this->module->id,
-);
+];
 
 Yii::app()->clientScript->registerScriptFile('/js/highcharts/js/highcharts.js');
 Yii::app()->clientScript->registerScriptFile('/js/highcharts/js/modules/funnel.js');
@@ -33,8 +33,8 @@ $endYear = 2019;
                         },
                         xAxis: {
                             categories: [
-                                <?php for ($y = $startYear; $y <= $endYear; $y++): ?>
-                                <?php for ($m = 1; $m <= 12; $m++): ?>
+                                <?php for ($y = $startYear; $y <= $endYear; ++$y): ?>
+                                <?php for ($m = 1; $m <= 12; ++$m): ?>
                                 <?php echo '"' . $m . '.' . $y . '"' . ','; ?>
                                 <?php endfor; ?>
                                 <?php endfor; ?>
@@ -49,7 +49,7 @@ $endYear = 2019;
                             name: 'Выручка (с VIP вопросами)',
                             data: [
                                 <?php foreach ($sumArray as $year => $summByMonth): ?>
-                                <?php for ($month = 1; $month <= 12; $month++): ?>
+                                <?php for ($month = 1; $month <= 12; ++$month): ?>
                                 <?php echo '["' . $month . '.' . $year . '",' . MoneyFormat::rubles($summByMonth[$month] + $vipArray[$year][$month]) . '],'; ?>
                                 <?php endfor; ?>
                                 <?php endforeach; ?>
@@ -58,7 +58,7 @@ $endYear = 2019;
                             name: 'Покупка лидов',
                             data: [
                                 <?php foreach ($buySumArray as $year => $summByMonth): ?>
-                                <?php for ($month = 1; $month <= 12; $month++): ?>
+                                <?php for ($month = 1; $month <= 12; ++$month): ?>
                                 <?php echo '["' . $month . '.' . $year . '",' . MoneyFormat::rubles($summByMonth[$month]) . '],'; ?>
                                 <?php endfor; ?>
                                 <?php endforeach; ?>
@@ -69,7 +69,7 @@ $endYear = 2019;
                                 name: '<?php echo $moneyDirections[$directionId]; ?>',
                                 data: [
                                     <?php foreach ($flow as $year => $summByMonth): ?>
-                                    <?php for ($month = 1; $month <= 12; $month++): ?>
+                                    <?php for ($month = 1; $month <= 12; ++$month): ?>
                                     <?php echo '["' . $month . '.' . $year . '",' . MoneyFormat::rubles(abs($summByMonth[$month])) . '],'; ?>
                                     <?php endfor; ?>
                                     <?php endforeach; ?>
@@ -117,11 +117,11 @@ $endYear = 2019;
                     <span>Всего вопросов поступило: <?php echo $questionPublishedInRecentDays; ?></span><br/>
                     <span>Вопросов на которые дан ответ: <?php echo $answersMadeInRecentDays; ?>
                         <?php if ($questionPublishedInRecentDays > 0) {
-                            echo ' (' . (int)($answersMadeInRecentDays / $questionPublishedInRecentDays * 100) . "%)";
-                        }
+    echo ' (' . (int) ($answersMadeInRecentDays / $questionPublishedInRecentDays * 100) . '%)';
+}
                         ?>
                     </span><br/>
-                    <span>Среднее время ответа на вопрос: <?php echo $averageIntervalUntillAnswer;?> ч</span><br/>
+                    <span>Среднее время ответа на вопрос: <?php echo $averageIntervalUntillAnswer; ?> ч</span><br/>
                 </div>
             </div>
         </div>
@@ -206,7 +206,7 @@ $endYear = 2019;
                                 name: '<?php echo Lead::getLeadTypesArray()[$type]; ?>',
                                 data: [
                                     <?php foreach ($uniqueLeadDates as $date): ?>
-                                    <?php echo '["' . date('d.m', strtotime($date)) . '",' . (int)$leadsByTypes[$type][$date] . '],'; ?>
+                                    <?php echo '["' . date('d.m', strtotime($date)) . '",' . (int) $leadsByTypes[$type][$date] . '],'; ?>
                                     <?php endforeach; ?>
                                 ]
                             },

@@ -1,9 +1,8 @@
 <?php
 /**
  * Репозиторий для выборок вопросов из базы
- * Class QuestionRepository
+ * Class QuestionRepository.
  */
-
 class QuestionRepository
 {
     protected $cacheTime = 600;
@@ -11,27 +10,33 @@ class QuestionRepository
 
     /**
      * @param int $cacheTime
+     *
      * @return QuestionRepository
      */
     public function setCacheTime($cacheTime)
     {
         $this->cacheTime = $cacheTime;
+
         return $this;
     }
 
     /**
      * @param int $limit
+     *
      * @return QuestionRepository
      */
     public function setLimit($limit)
     {
         $this->limit = $limit;
+
         return $this;
     }
 
     /**
      * Возвращает массив вопросов, на которые дал ответ юрист
+     *
      * @param User $user
+     *
      * @return array
      */
     public function findRecentQuestionsByJuristAnswers(User $user): array
@@ -43,7 +48,7 @@ class QuestionRepository
             ->where('a.id IS NOT NULL AND q.status IN (:status1, :status2) AND a.authorId = :authorId', [
                 ':status1' => Question::STATUS_PUBLISHED,
                 ':status2' => Question::STATUS_CHECK,
-                ':authorId' => $user->id])
+                ':authorId' => $user->id, ])
             ->limit($this->limit)
             ->order('a.datetime DESC')
             ->queryAll();
@@ -53,7 +58,9 @@ class QuestionRepository
 
     /**
      * Возвращает массив вопросов, заданных пользователем
+     *
      * @param User $user
+     *
      * @return array
      */
     public function findRecentQuestionsByClient(User $user): array
@@ -64,7 +71,7 @@ class QuestionRepository
             ->where('q.authorId=:authorId AND q.status IN (:status1, :status2)', [
                 ':status1' => Question::STATUS_PUBLISHED,
                 ':status2' => Question::STATUS_CHECK,
-                ':authorId' => $user->id])
+                ':authorId' => $user->id, ])
             ->limit($this->limit)
             ->order('q.publishDate DESC')
             ->queryAll();

@@ -4,7 +4,7 @@ class BlogController extends Controller
 {
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     * using two-column layout. See 'protected/views/layouts/column2.php'.
+     *             using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = '//admin/main';
 
@@ -13,15 +13,16 @@ class BlogController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
+     *
      * @return array access control rules
      */
     public function accessRules()
@@ -47,8 +48,7 @@ class BlogController extends Controller
     }
 
     /**
-     * Отображает категорию публикаций
-     *
+     * Отображает категорию публикаций.
      */
     public function actionView($id)
     {
@@ -56,9 +56,9 @@ class BlogController extends Controller
 
         $model = Post::model()->cache(1000, $dependency)->findByPk($id);
 
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
@@ -67,7 +67,7 @@ class BlogController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Postcategory;
+        $model = new Postcategory();
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
@@ -75,19 +75,20 @@ class BlogController extends Controller
         if (isset($_POST['Postcategory'])) {
             $model->attributes = $_POST['Postcategory'];
             if ($model->save()) {
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     *
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -99,19 +100,20 @@ class BlogController extends Controller
         if (isset($_POST['Postcategory'])) {
             $model->attributes = $_POST['Postcategory'];
             if ($model->save()) {
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     *
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -119,7 +121,7 @@ class BlogController extends Controller
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax'])) {
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['admin']);
         }
     }
 
@@ -128,17 +130,16 @@ class BlogController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('Post', array(
-            'criteria' => array(
-                'with' => array('commentsCount', 'author', 'viewsCount'),
+        $dataProvider = new CActiveDataProvider('Post', [
+            'criteria' => [
+                'with' => ['commentsCount', 'author', 'viewsCount'],
                 'order' => 't.datePublication DESC',
-            )
-        ));
+            ],
+        ]);
 
-
-        $this->render('index', array(
+        $this->render('index', [
             'dataProvider' => $dataProvider,
-        ));
+        ]);
     }
 
     /**
@@ -152,34 +153,39 @@ class BlogController extends Controller
             $model->attributes = $_GET['Postcategory'];
         }
 
-        $this->render('admin', array(
+        $this->render('admin', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     *
+     * @param int $id the ID of the model to be loaded
+     *
      * @return Postcategory the loaded model
+     *
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = Postcategory::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
     /**
      * Performs the AJAX validation.
+     *
      * @param Postcategory $model the model to be validated
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'postcategory-form') {
+        if (isset($_POST['ajax']) && 'postcategory-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
@@ -194,18 +200,18 @@ class BlogController extends Controller
             throw new CHttpException(400, 'Категория не найдена');
         }
         // получаем объект связи категория-подписчик
-        $cat2follower = Cat2follower::model()->findByAttributes(array('catId' => $category->id, 'userId' => Yii::app()->user->id));
-        if ($cat2follower !== null) {
+        $cat2follower = Cat2follower::model()->findByAttributes(['catId' => $category->id, 'userId' => Yii::app()->user->id]);
+        if (null !== $cat2follower) {
             // объект найден, удаляем его, чтобы отписать пользователя от категории
-            Cat2follower::model()->deleteAllByAttributes(array('catId' => $category->id, 'userId' => Yii::app()->user->id));
-            $this->redirect(array('blog/view', 'id' => $category->id));
+            Cat2follower::model()->deleteAllByAttributes(['catId' => $category->id, 'userId' => Yii::app()->user->id]);
+            $this->redirect(['blog/view', 'id' => $category->id]);
         } else {
             // объект не найден, создаем и сохраняем его
             $cat2follower = new Cat2follower();
             $cat2follower->userId = Yii::app()->user->id;
             $cat2follower->catId = $category->id;
             if ($cat2follower->save()) {
-                $this->redirect(array('blog/view', 'id' => $category->id));
+                $this->redirect(['blog/view', 'id' => $category->id]);
             } else {
                 throw new CHttpException(500, 'Не удалось сохранить отслеживание категории');
             }

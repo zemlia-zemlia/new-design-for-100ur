@@ -1,19 +1,19 @@
 <?php
 
-$this->setPageTitle("Не заполнен профиль | Публикации" . " | ". Yii::app()->name);
+$this->setPageTitle('Не заполнен профиль | Публикации' . ' | ' . Yii::app()->name);
 
-$this->breadcrumbs  = array(
-    'Публикации'    =>  array('/category'),
+$this->breadcrumbs = [
+    'Публикации' => ['/category'],
     'Не заполнен профиль',
-);
+];
 
 ?>
 <?php
-    $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink'=>CHtml::link('Поиск попутчиков', "/"),
-        'separator'=>' / ',
-        'links'=>$this->breadcrumbs,
-     ));
+    $this->widget('zii.widgets.CBreadcrumbs', [
+        'homeLink' => CHtml::link('Поиск попутчиков', '/'),
+        'separator' => ' / ',
+        'links' => $this->breadcrumbs,
+     ]);
 ?>
 
 <h1>Ваш профиль не заполнен</h1>

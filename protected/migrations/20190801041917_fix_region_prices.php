@@ -4,7 +4,7 @@ use Phinx\Migration\AbstractMigration;
 
 /**
  * Миграция переводит цены лидов региона из рублей в копейки
- * Class FixRegionPrices
+ * Class FixRegionPrices.
  */
 class FixRegionPrices extends AbstractMigration
 {
@@ -12,11 +12,11 @@ class FixRegionPrices extends AbstractMigration
 
     public function up()
     {
-        $this->query("UPDATE `" . self::TABLE . "` SET sellPrice = sellPrice*100, buyPrice = buyPrice*100");
+        $this->query('UPDATE `' . self::TABLE . '` SET sellPrice = sellPrice*100, buyPrice = buyPrice*100');
     }
 
     public function down()
     {
-        $this->query("UPDATE `" . self::TABLE . "` SET sellPrice = sellPrice/100, buyPrice = buyPrice/100");
+        $this->query('UPDATE `' . self::TABLE . '` SET sellPrice = sellPrice/100, buyPrice = buyPrice/100');
     }
 }

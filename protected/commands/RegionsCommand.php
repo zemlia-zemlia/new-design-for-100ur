@@ -8,23 +8,21 @@ class RegionsCommand extends CConsoleCommand
                 ->select('name, id')
                 ->from('{{country}}')
                 ->queryAll();
-        
+
         foreach ($countries as $country) {
-            
             Yii::app()->db->createCommand()
                     ->update(
                         '{{town}}',
-                        array(
-                            'countryId'=>$country['id']
-                        ),
+                        [
+                            'countryId' => $country['id'],
+                        ],
                         'country=:countryName',
-                        array(
-                            ':countryName'       =>  $country['name']
-                        )
+                        [
+                            ':countryName' => $country['name'],
+                        ]
                     );
         }
     }
-
 
     public function actionRegions()
     {
@@ -32,45 +30,42 @@ class RegionsCommand extends CConsoleCommand
                 ->select('name, id')
                 ->from('{{region}}')
                 ->queryAll();
-        
 
-        
         foreach ($regions as $region) {
             Yii::app()->db->createCommand()
                     ->update(
                         '{{town}}',
-                        array(
-                            'regionId'=>$region['id']
-                        ),
+                        [
+                            'regionId' => $region['id'],
+                        ],
                         'ocrug=:regionName',
-                        array(
-                            ':regionName'       =>  $region['name']
-                        )
+                        [
+                            ':regionName' => $region['name'],
+                        ]
                     );
         }
     }
-    
-    
+
     public function actionCountriesRegions()
     {
         $towns = Yii::app()->db->createCommand()
                 ->select('regionId, countryId, ocrug, country')
                 ->from('{{town}}')
                 ->queryAll();
-        
+
         foreach ($towns as $town) {
             $regionAlias = StringHelper::translit($town['ocrug']);
             Yii::app()->db->createCommand()
                     ->update(
                         '{{region}}',
-                        array(
-                            'alias'     =>  $regionAlias,
-                            'countryId' =>  $town['countryId'],
-                        ),
+                        [
+                            'alias' => $regionAlias,
+                            'countryId' => $town['countryId'],
+                        ],
                         'id=:id',
-                        array(
-                            ':id'       =>  $town['regionId']
-                        )
+                        [
+                            ':id' => $town['regionId'],
+                        ]
                     );
         }
     }

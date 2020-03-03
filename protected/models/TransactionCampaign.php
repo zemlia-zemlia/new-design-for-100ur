@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Модель для работы с транзакциями оплаты за лидов
+ * Модель для работы с транзакциями оплаты за лидов.
  *
  * The followings are the available columns in table '{{transactionCampaign}}':
- * @property integer $id
- * @property integer $buyerId
- * @property integer $campaignId
+ *
+ * @property int    $id
+ * @property int    $buyerId
+ * @property int    $campaignId
  * @property string $time
- * @property integer $sum
+ * @property int    $sum
  * @property string $description
- * @property integer $leadId
- * @property integer $type
- * @property integer $status
+ * @property int    $leadId
+ * @property int    $type
+ * @property int    $status
  */
 class TransactionCampaign extends CActiveRecord
 {
@@ -23,8 +24,6 @@ class TransactionCampaign extends CActiveRecord
     const STATUS_COMPLETE = 1; // транзакция совершена
     const STATUS_PENDING = 2; // транзакция на рассмотрении
     const MIN_WITHDRAW = 30000; // минимальная сумма для вывода (в копейках)
-
-
 
     /**
      * @return string the associated database table name
@@ -43,33 +42,33 @@ class TransactionCampaign extends CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('buyerId, sum, description', 'required'),
-            array('campaignId, buyerId, status', 'numerical', 'integerOnly' => true),
-            array('sum', 'numerical'),
+        return [
+            ['buyerId, sum, description', 'required'],
+            ['campaignId, buyerId, status', 'numerical', 'integerOnly' => true],
+            ['sum', 'numerical'],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, campaignId, time, status, sum, description', 'safe', 'on' => 'search'),
-        );
+            ['id, campaignId, time, status, sum, description', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'campaign' => array(self::BELONGS_TO, 'Campaign', 'campaignId'),
+        return [
+            'campaign' => [self::BELONGS_TO, 'Campaign', 'campaignId'],
             'partner' => [self::BELONGS_TO, 'User', 'buyerId'],
-        );
+        ];
     }
 
     /**
@@ -77,13 +76,13 @@ class TransactionCampaign extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'campaignId' => 'ID кампании',
             'time' => 'Время и дата',
             'sum' => 'Сумма',
             'description' => 'Описание',
-        );
+        ];
     }
 
     /**
@@ -96,13 +95,13 @@ class TransactionCampaign extends CActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     *                             based on the search/filter conditions
      */
     public function search()
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('campaignId', $this->campaignId);
@@ -110,15 +109,17 @@ class TransactionCampaign extends CActiveRecord
         $criteria->compare('sum', $this->sum);
         $criteria->compare('description', $this->description, true);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     *
+     * @param string $className active record class name
+     *
      * @return TransactionCampaign the static model class
      */
     public static function model($className = __CLASS__)
@@ -127,17 +128,16 @@ class TransactionCampaign extends CActiveRecord
     }
 
     /**
-     * После сохранения транзакции записываем ее время пользователю
+     * После сохранения транзакции записываем ее время пользователю.
      */
     protected function afterSave()
     {
         if ($this->buyerId) {
             Yii::app()->db->createCommand()
-                ->update("{{user}}", array('lastTransactionTime' => date("Y-m-d H:i:s")), 'id = ' . $this->buyerId);
+                ->update('{{user}}', ['lastTransactionTime' => date('Y-m-d H:i:s')], 'id = ' . $this->buyerId);
         }
         parent::afterSave();
     }
-
 
     /**
      * Возвращает массив типов транзакций.
@@ -199,9 +199,12 @@ class TransactionCampaign extends CActiveRecord
     }
 
     /**
-     * Одобрение заявки на вывод средств юриста
+     * Одобрение заявки на вывод средств юриста.
+     *
      * @param int $accountId С какого счета в кассе списывать средства
+     *
      * @return bool
+     *
      * @throws CException
      */
     public function approveRequest(int $accountId): bool
@@ -215,9 +218,8 @@ class TransactionCampaign extends CActiveRecord
         $trans = Yii::app()->db->beginTransaction();
 
         if ($this->save()) {
-
             // меняем баланс пользователя
-            $userBalanceSave = Yii::app()->db->createCommand("UPDATE {{user}} SET balance = balance-" . abs($this->sum) . " WHERE id=" . $this->buyerId)->query();
+            $userBalanceSave = Yii::app()->db->createCommand('UPDATE {{user}} SET balance = balance-' . abs($this->sum) . ' WHERE id=' . $this->buyerId)->query();
 
             // если одобрили вывод средств, создаем транзакцию в кассе
             $moneyTransaction = new Money();
@@ -226,7 +228,7 @@ class TransactionCampaign extends CActiveRecord
             $moneyTransaction->accountId = $accountId;
             $moneyTransaction->value = abs($this->sum);
             $moneyTransaction->datetime = date('Y-m-d H:i:s');
-            $moneyTransaction->comment = "Выплата юристу id " . $this->buyerId;
+            $moneyTransaction->comment = 'Выплата юристу id ' . $this->buyerId;
             $moneyTransactionSave = $moneyTransaction->save();
 
             if ($userBalanceSave && $moneyTransactionSave) {

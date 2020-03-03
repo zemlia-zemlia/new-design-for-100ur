@@ -1,15 +1,13 @@
 <?php
 /* @var $this UserStatusRequestController */
 /* @var $dataProvider CActiveDataProvider */
-$this->pageTitle = "Заявки на вывод средств. " . Yii::app()->name;
-
+$this->pageTitle = 'Заявки на вывод средств. ' . Yii::app()->name;
 
 $this->breadcrumbs = [
     'Заявки на вывод средств',
 ];
 
 Yii::app()->clientScript->registerScriptFile('/js/admin/campaignTransaction.js');
-
 
 ?>
 <div>

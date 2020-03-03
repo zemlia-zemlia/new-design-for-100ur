@@ -1,19 +1,20 @@
 <?php
 
 /**
- * Модель для работы с файлами пользователей
+ * Модель для работы с файлами пользователей.
  *
  * Используется, например, для хранения сканов документов юристов,
  * претендующих на верификацию своего профиля
  *
  * Поля в таблице '{{userFile}}':
- * @property integer $id
- * @property integer $userId
+ *
+ * @property int    $id
+ * @property int    $userId
  * @property string $datetime
  * @property string $name
- * @property integer $isVerified
+ * @property int    $isVerified
  * @property string $comment
- * @property integer $type
+ * @property int    $type
  * @property string $reason
  */
 class UserFile extends CActiveRecord
@@ -23,17 +24,17 @@ class UserFile extends CActiveRecord
         const TYPE_YURIST = 1; // подтверждение статуса юрист
         const TYPE_ADVOCAT = 2; // подтверждение статуса адвокат
         const TYPE_JUDGE = 3; // подтверждение статуса судья
-        
+
         // статусы файлов
         const STATUS_REVIEW = 0; // на рассмотрении
         const STATUS_CONFIRMED = 1; // одобрен
         const STATUS_DECLINED = 2; // не одобрен
-        
+
         // папка для хранения пользовательских файлов
     const USER_FILES_FOLDER = '/upload/userfiles';
-        
+
     public $userFile; // свойство для хранения данных о загружаемом файле
-        
+
     /**
      * @return string the associated database table name
      */
@@ -51,33 +52,33 @@ class UserFile extends CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-                array('userId, name, type', 'required'),
-                array('userId, isVerified, type', 'numerical', 'integerOnly'=>true),
-                array('name, reason', 'length', 'max'=>255),
-                array('userFile', 'file', 'allowEmpty'=>true, 'types'=>'jpg,pdf,tiff,png', 'maxSize'=>10000000, 'message'=>'Файл должен быть в допустимом формате'),
+        return [
+                ['userId, name, type', 'required'],
+                ['userId, isVerified, type', 'numerical', 'integerOnly' => true],
+                ['name, reason', 'length', 'max' => 255],
+                ['userFile', 'file', 'allowEmpty' => true, 'types' => 'jpg,pdf,tiff,png', 'maxSize' => 10000000, 'message' => 'Файл должен быть в допустимом формате'],
                 // The following rule is used by search().
                 // @todo Please remove those attributes that should not be searched.
-                array('id, userId, datetime, name, isVerified, comment, type, reason', 'safe', 'on'=>'search'),
-            );
+                ['id, userId, datetime, name, isVerified, comment, type, reason', 'safe', 'on' => 'search'],
+            ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-                'user'   =>  array(self::BELONGS_TO, 'User', 'userId'),
-            );
+        return [
+                'user' => [self::BELONGS_TO, 'User', 'userId'],
+            ];
     }
 
     /**
@@ -85,36 +86,36 @@ class UserFile extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
-                'id'            => 'ID',
-                'userId'        => 'ID пользователя',
-                'datetime'      => 'Дата и время загрузки',
-                'name'          => 'Имя файла',
-                'isVerified'    => 'Проверен',
-                'comment'       => 'Комментарий автора',
-                'type'          => 'Тип',
-                'reason'        => 'Причина отказа',
-                'userFile'      => 'Скан или фото разворота диплома (формат jpg, pdf, tiff, png, до 10 МБ)',
-            );
+        return [
+                'id' => 'ID',
+                'userId' => 'ID пользователя',
+                'datetime' => 'Дата и время загрузки',
+                'name' => 'Имя файла',
+                'isVerified' => 'Проверен',
+                'comment' => 'Комментарий автора',
+                'type' => 'Тип',
+                'reason' => 'Причина отказа',
+                'userFile' => 'Скан или фото разворота диплома (формат jpg, pdf, tiff, png, до 10 МБ)',
+            ];
     }
-        
+
     /**
-     * возвращает массив, ключами которого являются коды типов, а значениями - названия
+     * возвращает массив, ключами которого являются коды типов, а значениями - названия.
      *
      * @return array массив типов (код => название)
      */
     public static function getTypesArray()
     {
-        return array(
-                self::TYPE_NOTHING    =>  'без статуса',
-                self::TYPE_YURIST     =>  'юрист',
-                self::TYPE_ADVOCAT    =>  'адвокат',
-                self::TYPE_JUDGE      =>  'судья',
-            );
+        return [
+                self::TYPE_NOTHING => 'без статуса',
+                self::TYPE_YURIST => 'юрист',
+                self::TYPE_ADVOCAT => 'адвокат',
+                self::TYPE_JUDGE => 'судья',
+            ];
     }
-        
+
     /**
-     * Возвращает название типа текущего файла
+     * Возвращает название типа текущего файла.
      *
      * @return string Название типа
      */
@@ -122,25 +123,26 @@ class UserFile extends CActiveRecord
     {
         $typesArray = self::getTypesArray();
         $typeName = $typesArray[$this->type];
+
         return $typeName;
     }
 
     /**
-     * возвращает массив, ключами которого являются коды статусов, а значениями - названия
+     * возвращает массив, ключами которого являются коды статусов, а значениями - названия.
      *
      * @return array Массив статусов (код => название)
      */
     public static function getStatusesArray()
     {
-        return array(
-                self::STATUS_REVIEW      =>  'на проверке',
-                self::STATUS_CONFIRMED   =>  'одобрен',
-                self::STATUS_DECLINED    =>  'не одобрен',
-            );
+        return [
+                self::STATUS_REVIEW => 'на проверке',
+                self::STATUS_CONFIRMED => 'одобрен',
+                self::STATUS_DECLINED => 'не одобрен',
+            ];
     }
-        
+
     /**
-     * Возвращает статус текущего файла
+     * Возвращает статус текущего файла.
      *
      * @return string Статус файла
      */
@@ -148,10 +150,10 @@ class UserFile extends CActiveRecord
     {
         $statusesArray = self::getStatusesArray();
         $statusName = $statusesArray[$this->isVerified];
+
         return $statusName;
     }
 
-        
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      *
@@ -162,13 +164,13 @@ class UserFile extends CActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     *                             based on the search/filter conditions
      */
     public function search()
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('userId', $this->userId);
@@ -179,18 +181,20 @@ class UserFile extends CActiveRecord
         $criteria->compare('type', $this->type);
         $criteria->compare('reason', $this->reason, true);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     *
+     * @param string $className active record class name
+     *
      * @return UserFile the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

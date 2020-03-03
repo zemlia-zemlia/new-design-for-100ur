@@ -3,7 +3,6 @@
 namespace tests\integration\models;
 
 use Answer;
-use Codeception\Test\Unit;
 use DateTime;
 use Money;
 use Question;
@@ -19,7 +18,6 @@ use Yii;
 
 class QuestionTest extends BaseIntegrationTest
 {
-
     protected function _before()
     {
         Yii::app()->db->createCommand()->truncateTable(Question::getFullTableName());
@@ -128,7 +126,7 @@ class QuestionTest extends BaseIntegrationTest
             $questionFactory->generateFew(2, ['status' => Question::STATUS_SPAM]),
             $questionFactory->generateFew(1, [
                 'status' => Question::STATUS_PUBLISHED,
-                'createDate' => (new DateTime())->modify('-1 year')->format('Y-m-d H:i:s')
+                'createDate' => (new DateTime())->modify('-1 year')->format('Y-m-d H:i:s'),
             ])
         );
 
@@ -145,9 +143,10 @@ class QuestionTest extends BaseIntegrationTest
 
     /**
      * @dataProvider providerCreateAuthor
-     * @param array $questionAttributes
+     *
+     * @param array      $questionAttributes
      * @param array|null $userAttributes
-     * @param bool $expectedResult
+     * @param bool       $expectedResult
      */
     public function testCreateAuthor($questionAttributes, $userAttributes, $expectedResult)
     {
@@ -162,7 +161,7 @@ class QuestionTest extends BaseIntegrationTest
 
         $this->assertEquals($expectedResult, $createAuthorResult);
 
-        if ($userAttributes && $expectedResult == true) {
+        if ($userAttributes && true == $expectedResult) {
             $this->assertEquals($userAttributes['id'], $question->authorId);
         }
     }
@@ -228,8 +227,9 @@ class QuestionTest extends BaseIntegrationTest
 
     /**
      * @dataProvider providerPreSave
+     *
      * @param array $questionAttributes
-     * @param boolean $expectedResult
+     * @param bool  $expectedResult
      */
     public function testPreSave($questionAttributes, $expectedResult)
     {

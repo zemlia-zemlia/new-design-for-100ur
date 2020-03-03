@@ -1,5 +1,5 @@
 <?php
-$this->setPageTitle("Звонок юриста заказан". Yii::app()->name);
+$this->setPageTitle('Звонок юриста заказан' . Yii::app()->name);
 ?>
 <div class='panel panel-default'>
     <div class='panel-body'>

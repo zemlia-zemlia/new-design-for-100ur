@@ -2,7 +2,7 @@
 
 /**
  * Класс для хранения и валидации данных, пришедших в запросе подтверждения оплаты от Яндекса
- * Class YaPayConfirmRequest
+ * Class YaPayConfirmRequest.
  */
 class YaPayConfirmRequest extends CFormModel
 {
@@ -72,6 +72,7 @@ class YaPayConfirmRequest extends CFormModel
 
     /**
      * @param string $yandexSecret
+     *
      * @return bool
      */
     public function validateHash(string $yandexSecret): bool
