@@ -26,10 +26,8 @@ class File2Object extends CActiveRecord
     /**
      * @return array validation rules for model attributes
      */
-    public function rules()
+    public function rules(): array
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
         return [
             ['file_id, object_id, object_type', 'required'],
             ['file_id, object_id, object_type', 'numerical', 'integerOnly' => true],
@@ -42,7 +40,7 @@ class File2Object extends CActiveRecord
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -64,7 +62,7 @@ class File2Object extends CActiveRecord
      * @return CActiveDataProvider the data provider that can return the models
      *                             based on the search/filter conditions
      */
-    public function search()
+    public function search(): CActiveDataProvider
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
@@ -88,7 +86,7 @@ class File2Object extends CActiveRecord
      *
      * @return File2Object the static model class
      */
-    public static function model($className = __CLASS__)
+    public static function model($className = __CLASS__): File2Object
     {
         return parent::model($className);
     }
