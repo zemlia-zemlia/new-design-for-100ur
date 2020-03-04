@@ -111,9 +111,11 @@ class BuyerController extends Controller
     public function actionCampaigns()
     {
         $campaigns = Campaign::getCampaignsForBuyer(Yii::app()->user->id);
+        $campaignsNoActive = Campaign::getCampaignsForBuyerNoActive(Yii::app()->user->id);
 
         $this->render('campaigns', [
             'campaigns' => $campaigns,
+            'campaignsNoActive' => $campaignsNoActive,
         ]);
     }
 

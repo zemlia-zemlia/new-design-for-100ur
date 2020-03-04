@@ -356,15 +356,36 @@ class Campaign extends CActiveRecord
     /**
      * Поиск кампаний по id покупателя.
      *
-     * @param type $buyerId id покупателя
+     * @param int $buyerId id покупателя
      *
-     * @return array массив кампаний
+     * @return array массив активных кампаний
      */
     public static function getCampaignsForBuyer($buyerId)
     {
         $criteria = new CDbCriteria();
-        $criteria->order = 'active DESC';
+        $criteria->order = 'id DESC';
+        $criteria->addColumnCondition(['buyerId' => (int) $buyerId, 'active' => 1]);
+
+        $dependency = new CDbCacheDependency('SELECT COUNT(id) FROM {{campaign}}');
+
+        $campaigns = self::model()->cache(600, $dependency)->findAll($criteria);
+
+        return $campaigns;
+    }
+
+    /**
+     * Поиск кампаний по id покупателя.
+     *
+     * @param int $buyerId id покупателя
+     *
+     * @return array массив не активных кампаний
+     */
+    public static function getCampaignsForBuyerNoActive($buyerId)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->order = 'id DESC';
         $criteria->addColumnCondition(['buyerId' => (int) $buyerId]);
+        $criteria->addCondition('active != 1');
 
         $dependency = new CDbCacheDependency('SELECT COUNT(id) FROM {{campaign}}');
 

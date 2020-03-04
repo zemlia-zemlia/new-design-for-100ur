@@ -26,7 +26,29 @@
     <div class="col-md-8">
         <div class="box">
             <div class="box-body">
+                <h1>Активные кампании</h1>
                 <?php foreach ($campaigns
+                               as $campaign): ?>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5><?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/buyer/buyer/leads', ['campaign' => $campaign->id])); ?></h5>
+                        </div>
+                        <div class="col-md-4">
+                            <?php if (Campaign::ACTIVE_MODERATION != $campaign->active): ?>
+                                <!-- <?php echo $campaign->price; ?> руб. -->
+                            <?php endif; ?>
+
+                            <?php echo $campaign->getActiveStatusName(); ?>
+                        </div>
+                        <div class="col-md-4">
+                            <?php echo CHtml::link("Настройки <span class='glyphicon glyphicon-cog'></span>", Yii::app()->createUrl('/buyer/buyer/campaign', ['id' => $campaign->id])); ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+                <hr>
+                <h1>Не активные кампании</h1>
+                <?php foreach ($campaignsNoActive
                                as $campaign): ?>
 
                     <div class="row">
