@@ -12,7 +12,7 @@ $this->pageTitle = 'Личный кабинет вебмастера. ' . Yii::a
 ?>
 
 
-<h1>Кабинет вебмастера</h1>
+<h1 class="text-center">Кабинет вебмастера</h1>
 
 <div class="row">
     <div class="col-lg-3 col-xs-6">
@@ -171,7 +171,13 @@ $this->pageTitle = 'Личный кабинет вебмастера. ' . Yii::a
     </div>
 </div>
 
-<h3>Последние лиды</h3>
+<div class="box">
+    <div class="box-header">
+        <div class="box-title">Последние лиды</div>
+    </div>
+
+</div>
+
 <?php $this->widget('zii.widgets.CListView', [
     'dataProvider' => $dataProvider,
     'itemView' => 'application.modules.webmaster.views.lead._view',
