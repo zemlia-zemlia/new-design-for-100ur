@@ -1,8 +1,8 @@
 <?php
-$this->setPageTitle("Юридическая консультация онлайн - бесплатная помощь юристов и адвокатов круглосуточно");
-Yii::app()->clientScript->registerMetaTag("100 Юристов - круглосуточные бесплатные юридические консультации онлайн.  Вы можете задать любой вопрос юристу или самостоятельно найти ответ в нашей правовой базе.", 'description');
-Yii::app()->clientScript->registerMetaTag("бесплатная юридическая консультация онлайн", 'keywords');
-Yii::app()->clientScript->registerLinkTag("canonical", null, "https://" . $_SERVER['SERVER_NAME']);
+$this->setPageTitle('Юридическая консультация онлайн - бесплатная помощь юристов и адвокатов круглосуточно');
+Yii::app()->clientScript->registerMetaTag('100 Юристов - круглосуточные бесплатные юридические консультации онлайн.  Вы можете задать любой вопрос юристу или самостоятельно найти ответ в нашей правовой базе.', 'description');
+Yii::app()->clientScript->registerMetaTag('бесплатная юридическая консультация онлайн', 'keywords');
+Yii::app()->clientScript->registerLinkTag('canonical', null, 'https://' . $_SERVER['SERVER_NAME']);
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -59,9 +59,9 @@ Yii::app()->clientScript->registerLinkTag("canonical", null, "https://" . $_SERV
         <div class="vert-margin20">
             <?php
             // выводим виджет с формой
-            $this->widget('application.widgets.SimpleForm.SimpleForm', array(
+            $this->widget('application.widgets.SimpleForm.SimpleForm', [
                 'template' => 'gorizont',
-            ));
+            ]);
             ?>
         </div>
     </div>
@@ -85,11 +85,11 @@ Yii::app()->clientScript->registerLinkTag("canonical", null, "https://" . $_SERV
         <div class="vert-margin30">
             <?php
             // выводим виджет с последними ответами
-            $this->widget('application.widgets.RecentAnswers.RecentAnswers', array(
+            $this->widget('application.widgets.RecentAnswers.RecentAnswers', [
                 'template' => 'page',
                 'limit' => 4,
                 'cacheTime' => 3600,
-            ));
+            ]);
             ?>
         </div>
     </div>
@@ -100,11 +100,11 @@ Yii::app()->clientScript->registerLinkTag("canonical", null, "https://" . $_SERV
         <div class="vert-margin30">
             <?php
             // выводим виджет с последними ответами
-            $this->widget('application.widgets.Testimonials.TestimonialsWidget', array(
+            $this->widget('application.widgets.Testimonials.TestimonialsWidget', [
                 'template' => 'default',
                 'limit' => 6,
                 'cacheTime' => 3600,
-            ));
+            ]);
             ?>
         </div>
     </div>
@@ -148,9 +148,9 @@ Yii::app()->clientScript->registerLinkTag("canonical", null, "https://" . $_SERV
                 <h2>Консультации по телефону</h2>
                 <?php
                     // выводим виджет с номером 8800
-                    $this->widget('application.widgets.Hotline.HotlineWidget', array(
+                    $this->widget('application.widgets.Hotline.HotlineWidget', [
                         'showAlways' => true,
-                    ));
+                    ]);
                 ?>
                 <p>Оставьте запрос на консультацию и вам перезванивает наш специалист.</p>
             </div>

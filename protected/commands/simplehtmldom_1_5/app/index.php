@@ -1,23 +1,22 @@
 <?php
 error_reporting(E_ALL);
-include_once('../simple_html_dom.php');
+include_once '../simple_html_dom.php';
 
 $html = file_get_html('google.htm');
 //$html = file_get_html('youtube.htm');
 //$html = file_get_html('Product.ibatis.xml');
 
-
 $lang = '';
-$l=$html->find('html', 0);
-if ($l!==null) {
+$l = $html->find('html', 0);
+if (null !== $l) {
     $lang = $l->lang;
 }
-if ($lang!='') {
-    $lang = 'lang="'.$lang.'"';
+if ('' != $lang) {
+    $lang = 'lang="' . $lang . '"';
 }
 
 $charset = $html->find('meta[http-equiv*=content-type]', 0);
-$target = array();
+$target = [];
 $query = '';
 
 if (isset($_REQUEST['query'])) {
@@ -32,68 +31,69 @@ function stat_dom($dom)
     $count_elem = 0;
     $count_tag_end = 0;
     $count_unknown = 0;
-    
+
     foreach ($dom->nodes as $n) {
-        if ($n->nodetype==HDOM_TYPE_TEXT) {
+        if (HDOM_TYPE_TEXT == $n->nodetype) {
             ++$count_text;
         }
-        if ($n->nodetype==HDOM_TYPE_COMMENT) {
+        if (HDOM_TYPE_COMMENT == $n->nodetype) {
             ++$count_comm;
         }
-        if ($n->nodetype==HDOM_TYPE_ELEMENT) {
+        if (HDOM_TYPE_ELEMENT == $n->nodetype) {
             ++$count_elem;
         }
-        if ($n->nodetype==HDOM_TYPE_ENDTAG) {
+        if (HDOM_TYPE_ENDTAG == $n->nodetype) {
             ++$count_tag_end;
         }
-        if ($n->nodetype==HDOM_TYPE_UNKNOWN) {
+        if (HDOM_TYPE_UNKNOWN == $n->nodetype) {
             ++$count_unknown;
         }
     }
-    
-    echo 'Total: '. count($dom->nodes).
-        ', Text: '.$count_text.
-        ', Commnet: '.$count_comm.
-        ', Tag: '.$count_elem.
-        ', End Tag: '.$count_tag_end.
-        ', Unknown: '.$count_unknown;
+
+    echo 'Total: ' . count($dom->nodes) .
+        ', Text: ' . $count_text .
+        ', Commnet: ' . $count_comm .
+        ', Tag: ' . $count_elem .
+        ', End Tag: ' . $count_tag_end .
+        ', Unknown: ' . $count_unknown;
 }
 
-function dump_my_html_tree($node, $show_attr=true, $deep=0, $last=true)
+function dump_my_html_tree($node, $show_attr = true, $deep = 0, $last = true)
 {
     $count = count($node->nodes);
-    if ($count>0) {
+    if ($count > 0) {
         if ($last) {
-            echo '<li class="expandable lastExpandable"><div class="hitarea expandable-hitarea lastExpandable-hitarea"></div>&lt;<span class="tag">'.htmlspecialchars($node->tag).'</span>';
+            echo '<li class="expandable lastExpandable"><div class="hitarea expandable-hitarea lastExpandable-hitarea"></div>&lt;<span class="tag">' . htmlspecialchars($node->tag) . '</span>';
         } else {
-            echo '<li class="expandable"><div class="hitarea expandable-hitarea"></div>&lt;<span class="tag">'.htmlspecialchars($node->tag).'</span>';
+            echo '<li class="expandable"><div class="hitarea expandable-hitarea"></div>&lt;<span class="tag">' . htmlspecialchars($node->tag) . '</span>';
         }
     } else {
-        $laststr = ($last===false) ? '' : ' class="last"';
-        echo '<li'.$laststr.'>&lt;<span class="tag">'.htmlspecialchars($node->tag).'</span>';
+        $laststr = (false === $last) ? '' : ' class="last"';
+        echo '<li' . $laststr . '>&lt;<span class="tag">' . htmlspecialchars($node->tag) . '</span>';
     }
 
     if ($show_attr) {
-        foreach ($node->attr as $k=>$v) {
-            echo ' '.htmlspecialchars($k).'="<span class="attr">'.htmlspecialchars($node->$k).'</span>"';
+        foreach ($node->attr as $k => $v) {
+            echo ' ' . htmlspecialchars($k) . '="<span class="attr">' . htmlspecialchars($node->$k) . '</span>"';
         }
     }
     echo '&gt;';
-    
-    if ($node->tag==='text' || $node->tag==='comment') {
+
+    if ('text' === $node->tag || 'comment' === $node->tag) {
         echo htmlspecialchars($node->innertext);
+
         return;
     }
 
-    if ($count>0) {
+    if ($count > 0) {
         echo "\n<ul style=\"display: none;\">\n";
     }
-    $i=0;
+    $i = 0;
     foreach ($node->nodes as $c) {
-        $last = (++$i==$count) ? true : false;
-        dump_my_html_tree($c, $show_attr, $deep+1, $last);
+        $last = (++$i == $count) ? true : false;
+        dump_my_html_tree($c, $show_attr, $deep + 1, $last);
     }
-    if ($count>0) {
+    if ($count > 0) {
         echo "</ul>\n";
     }
 
@@ -103,10 +103,10 @@ function dump_my_html_tree($node, $show_attr=true, $deep=0, $last=true)
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<html <?=$lang?>>
+<html <?php echo $lang; ?>>
 <head>
     <?php
-        if ($lang!='') {
+        if ('' != $lang) {
             echo '<meta http-equiv="content-type" content="text/html; charset=utf-8"/>';
         } elseif ($charset) {
             echo $charset;
@@ -137,11 +137,11 @@ function dump_my_html_tree($node, $show_attr=true, $deep=0, $last=true)
 	<div id="main">
 	<h4>Simple HTML DOM Test</h4>
     <form name="form1" method="post" action="">
-        find: <input name="query" type="text" size="60" maxlength="60" value="<?=htmlspecialchars($query)?>">
+        find: <input name="query" type="text" size="60" maxlength="60" value="<?php echo htmlspecialchars($query); ?>">
         <input type="submit" name="Submit" value="Go">
     </form>
     <br>
-	HTML STAT (<?stat_dom($html);?>)<br>
+	HTML STAT (<?stat_dom($html); ?>)<br>
     <br>
 	<div id="sidetreecontrol"><a href="?#">Collapse All</a> | <a href="?#">Expand All</a></div><br>
 	<ul class="treeview" id="html_tree">

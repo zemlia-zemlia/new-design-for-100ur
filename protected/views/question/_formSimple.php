@@ -14,17 +14,17 @@
                 <h2 class="center-align">Задайте вопрос юристу прямо сейчас</h2>
                 <div class="center-align vert-margin30">Не надо ждать  и  искать - просто отправьте свой вопрос</div>
                 
-                <?php $form=$this->beginWidget('CActiveForm', array(
-                        'id'                    =>  'question-form',
-                        'enableAjaxValidation'  =>  false,
-                        'action'                =>  Yii::app()->createUrl('question/create'),
-                )); ?>
+                <?php $form = $this->beginWidget('CActiveForm', [
+                        'id' => 'question-form',
+                        'enableAjaxValidation' => false,
+                        'action' => Yii::app()->createUrl('question/create'),
+                ]); ?>
                 
                 <div class="row">
                     <div class="col-md-7">
                         <div class="form-group">
                                 <?php echo $form->labelEx($model, 'questionText'); ?>
-                                <?php echo $form->textArea($model, 'questionText', array('class'=>'form-control', 'rows'=>6, 'placeholder'=>'Добрый день!...')); ?>
+                                <?php echo $form->textArea($model, 'questionText', ['class' => 'form-control', 'rows' => 6, 'placeholder' => 'Добрый день!...']); ?>
                                 <?php echo $form->error($model, 'questionText'); ?>
                         </div>
                     </div>
@@ -48,13 +48,13 @@
                     <div class="col-md-7">
                         <div class="form-group">
                             <label>Ваше имя *</label>
-                            <?php echo $form->textField($model, 'authorName', array('class'=>'form-control', 'placeholder'=>'Иванов Иван')); ?>
+                            <?php echo $form->textField($model, 'authorName', ['class' => 'form-control', 'placeholder' => 'Иванов Иван']); ?>
                             <?php echo $form->error($model, 'authorName'); ?>
                         </div>
                     </div>
                     <div class="col-md-5">
                         <div class="form-group" id="form-submit-wrapper">
-                                <?php echo CHtml::submitButton($model->isNewRecord ? 'Задать вопрос юристу' : 'Сохранить', array('class'=>'button button-blue-gradient btn-block', 'onclick'=>'yaCounter26550786.reachGoal("simple_form_submit"); return true;')); ?>
+                                <?php echo CHtml::submitButton($model->isNewRecord ? 'Задать вопрос юристу' : 'Сохранить', ['class' => 'button button-blue-gradient btn-block', 'onclick' => 'yaCounter26550786.reachGoal("simple_form_submit"); return true;']); ?>
                         </div>
                     </div>
                 </div>

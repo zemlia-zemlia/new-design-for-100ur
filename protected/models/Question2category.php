@@ -23,7 +23,7 @@ class Question2category extends CActiveRecord
      */
     public static function getFullTableName()
     {
-        return Yii::app()->db->tablePrefix.'question2category';
+        return Yii::app()->db->tablePrefix . 'question2category';
     }
 
     /**

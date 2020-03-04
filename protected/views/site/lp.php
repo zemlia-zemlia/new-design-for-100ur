@@ -1,6 +1,6 @@
 <?php
-    $this->setPageTitle("Клиенты юристам. Удаленная работа для Юриста и Адвоката ". Yii::app()->name);
-    Yii::app()->clientScript->registerMetaTag("Удаленная работа для юриста, дополнительный заработок и повышение репутации.", 'description');
+    $this->setPageTitle('Клиенты юристам. Удаленная работа для Юриста и Адвоката ' . Yii::app()->name);
+    Yii::app()->clientScript->registerMetaTag('Удаленная работа для юриста, дополнительный заработок и повышение репутации.', 'description');
 ?>
 <div class='panel'>
     <div class='panel-body'>

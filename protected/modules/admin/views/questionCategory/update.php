@@ -5,7 +5,7 @@
 $urlToModal = Yii::app()->createUrl('admin/fileCategory/createModalForObject/');
 $urlToAttach = Yii::app()->createUrl('admin/docs/attachFilesToObject/');
 $urlToDeAttach = Yii::app()->createUrl('admin/docs/deAttachFilesToObject/');
-$js = "var urlToModal = '$urlToModal'; objId = '$model->id'; var urlToAttach = '$urlToAttach'; var urlToDeAttach = '$urlToDeAttach';" ;
+$js = "var urlToModal = '$urlToModal'; objId = '$model->id'; var urlToAttach = '$urlToAttach'; var urlToDeAttach = '$urlToDeAttach';";
 $js .= <<<JS
 var catId = Number($('#catId').text());
  urlToModal =  urlToModal + ((catId != 0) ? '?id=' + catId : '');
@@ -113,11 +113,9 @@ $('#fileModal').on('click', '#linkPrev', function() {
 
 JS;
 
-Yii::app()->clientScript->registerScript('myjquery', $js );
+Yii::app()->clientScript->registerScript('myjquery', $js);
 
-
-
-$this->setPageTitle("Редактирование категории вопросов " . $model->id . ". " . Yii::app()->name);
+$this->setPageTitle('Редактирование категории вопросов ' . $model->id . '. ' . Yii::app()->name);
 Yii::app()->clientScript->registerScriptFile('/js/admin/category.js');
 
 $ancestors = $model->ancestors()->findAll();
@@ -126,14 +124,11 @@ foreach ($ancestors as $ancestor) {
 }
 $this->breadcrumbs[] = CHtml::encode($model->name);
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('100 Юристов', "/"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 Юристов', '/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
-
-
-
+]);
 
 ?>
 
@@ -141,18 +136,18 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <h1>Редактирование категории вопросов
 
             <?php
-            if (Yii::app()->user->role == User::ROLE_ROOT) {
-                echo " ";
-                echo CHtml::link("Удалить категорию", Yii::app()->createUrl('/admin/questionCategory/delete', array('id' => $model->id)), array('class' => 'btn btn-danger', 'onclick' => 'if(!confirm("Вы уверены?")) {return false;}else{return true;}'));
-                echo " ";
+            if (User::ROLE_ROOT == Yii::app()->user->role) {
+                echo ' ';
+                echo CHtml::link('Удалить категорию', Yii::app()->createUrl('/admin/questionCategory/delete', ['id' => $model->id]), ['class' => 'btn btn-danger', 'onclick' => 'if(!confirm("Вы уверены?")) {return false;}else{return true;}']);
+                echo ' ';
             }
             ?>
         </h1>
     </div>
 
-<?php echo $this->renderPartial('_form', array(
+<?php echo $this->renderPartial('_form', [
     'model' => $model,
-)); ?>
+]); ?>
 
 
 

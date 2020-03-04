@@ -1,12 +1,12 @@
     <div class="row">
         <?php
-        $form = $this->beginWidget('CActiveForm', array(
+        $form = $this->beginWidget('CActiveForm', [
             'id' => 'lead-search-form',
             'method' => 'GET',
             'action' => Yii::app()->createUrl('admin/lead/index'),
-            'htmlOptions' => array('class' => 'form-inline', 'autocomplete'=>"off"),
+            'htmlOptions' => ['class' => 'form-inline', 'autocomplete' => 'off'],
             'enableAjaxValidation' => false,
-        ));
+        ]);
         ?>
 
         <?php
@@ -18,17 +18,17 @@
                 <?php
                 $this->widget(
             'zii.widgets.jui.CJuiDatePicker',
-            array(
-                        'name' => "Lead[date1]",
+            [
+                        'name' => 'Lead[date1]',
                         'value' => $model['date1'],
                         'language' => 'ru',
-                        'options' => array('dateFormat' => 'dd-mm-yy',
-                        ),
-                        'htmlOptions' => array(
+                        'options' => ['dateFormat' => 'dd-mm-yy',
+                        ],
+                        'htmlOptions' => [
                             'style' => 'text-align:right; width:100%;',
-                            'class' => 'form-control input-sm'
-                        )
-                    )
+                            'class' => 'form-control input-sm',
+                        ],
+                    ]
         );
                 ?>
                 <?php echo $form->error($model, 'date1'); ?>
@@ -42,17 +42,17 @@
                 <?php
                 $this->widget(
                     'zii.widgets.jui.CJuiDatePicker',
-                    array(
-                        'name' => "Lead[date2]",
+                    [
+                        'name' => 'Lead[date2]',
                         'value' => $model['date2'],
                         'language' => 'ru',
-                        'options' => array('dateFormat' => 'dd-mm-yy',
-                        ),
-                        'htmlOptions' => array(
+                        'options' => ['dateFormat' => 'dd-mm-yy',
+                        ],
+                        'htmlOptions' => [
                             'style' => 'text-align:right;  width:100%;',
-                            'class' => 'form-control input-sm'
-                        )
-                    )
+                            'class' => 'form-control input-sm',
+                        ],
+                    ]
                 );
                 ?>
                 <?php echo $form->error($model, 'date2'); ?>
@@ -63,13 +63,13 @@
             <div class="">
                 <?php echo $form->labelEx($model, 'town'); ?><br/>
                 <?php
-                echo CHtml::textField('town', $townName, array(
+                echo CHtml::textField('town', $townName, [
                     'id' => 'town-selector',
-                    'class' => 'form-control input-sm', 'style' => 'width:100%;'
-                ));
+                    'class' => 'form-control input-sm', 'style' => 'width:100%;',
+                ]);
                 ?>
                 <?php
-                echo $form->hiddenField($model, 'townId', array('id' => 'selected-town'));
+                echo $form->hiddenField($model, 'townId', ['id' => 'selected-town']);
                 ?>
             </div>
         </div>
@@ -78,9 +78,9 @@
             <div class="">
                 <?php echo $form->labelEx($model, 'regionId'); ?><br/>
                 <?php
-                echo $form->dropDownList($model, 'regionId', array(0 => 'Все') + Region::getAllRegions(), array(
-                    'class' => 'form-control input-sm', 'style' => 'width:100%;'
-                ));
+                echo $form->dropDownList($model, 'regionId', [0 => 'Все'] + Region::getAllRegions(), [
+                    'class' => 'form-control input-sm', 'style' => 'width:100%;',
+                ]);
                 ?>
             </div>
         </div>
@@ -89,9 +89,9 @@
             <div class="form-group">
                 <?php echo $form->labelEx($model, 'sourceId'); ?><br/>
                 <?php
-                echo $form->dropDownList($model, 'sourceId', array('' => 'Все') + Leadsource::getSourcesArray(true), array(
-                    'class' => 'form-control input-sm', 'style' => 'width:100%;'
-                ));
+                echo $form->dropDownList($model, 'sourceId', ['' => 'Все'] + Leadsource::getSourcesArray(true), [
+                    'class' => 'form-control input-sm', 'style' => 'width:100%;',
+                ]);
                 ?>
             </div>
         </div>
@@ -100,9 +100,9 @@
             <div class="form-group">
                 <?php echo $form->labelEx($model, 'type'); ?><br/>
                 <?php
-                echo $form->dropDownList($model, 'type', array('' => 'Все') + Lead::getLeadTypesArray(), array(
-                    'class' => 'form-control input-sm', 'style' => 'width:100%;'
-                ));
+                echo $form->dropDownList($model, 'type', ['' => 'Все'] + Lead::getLeadTypesArray(), [
+                    'class' => 'form-control input-sm', 'style' => 'width:100%;',
+                ]);
                 ?>
             </div>
         </div>
@@ -111,9 +111,9 @@
             <div class="form-group">
                 <?php echo $form->labelEx($model, 'leadStatus'); ?><br/>
                 <?php
-                echo $form->dropDownList($model, 'leadStatus', array('' => 'Все') + Lead::getLeadStatusesArray(), array(
-                    'class' => 'form-control input-sm', 'style' => 'width:100%;'
-                ));
+                echo $form->dropDownList($model, 'leadStatus', ['' => 'Все'] + Lead::getLeadStatusesArray(), [
+                    'class' => 'form-control input-sm', 'style' => 'width:100%;',
+                ]);
                 ?>
             </div>
         </div>
@@ -121,7 +121,7 @@
         <div class="col-sm-1 col-xs-2">
             <div class="form-group">
                 <?php echo $form->labelEx($model, 'phone'); ?><br/>
-                <?php echo $form->textField($model, 'phone', array('class' => 'form-control input-sm', 'style' => 'width:100%;')); ?>
+                <?php echo $form->textField($model, 'phone', ['class' => 'form-control input-sm', 'style' => 'width:100%;']); ?>
                 <?php echo $form->error($model, 'phone'); ?>
             </div>
         </div>
@@ -129,7 +129,7 @@
 
         <div class="col-sm-2 col-xs-12">
             <div class="buttons left-align"><br/>
-                <?php echo CHtml::submitButton("Найти", array('class' => 'btn btn-block btn-primary input-sm')); ?>
+                <?php echo CHtml::submitButton('Найти', ['class' => 'btn btn-block btn-primary input-sm']); ?>
             </div>
         </div>
     </div>

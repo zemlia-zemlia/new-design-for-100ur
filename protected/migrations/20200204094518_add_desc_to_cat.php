@@ -4,7 +4,6 @@ use Phinx\Migration\AbstractMigration;
 
 class AddDescToCat extends AbstractMigration
 {
-
     public function up()
     {
         $this->table('100_file_category')

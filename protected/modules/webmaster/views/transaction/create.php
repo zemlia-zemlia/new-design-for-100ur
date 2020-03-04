@@ -1,5 +1,5 @@
 <?php
-    $this->pageTitle = "Создание транзакции вебмастера" . Yii::app()->name;
+    $this->pageTitle = 'Создание транзакции вебмастера' . Yii::app()->name;
 ?>
 
 <div  class="vert-margin30">
@@ -7,6 +7,6 @@
 </div>
 
 
-<?php echo $this->renderPartial('_form', array(
+<?php echo $this->renderPartial('_form', [
     'model' => $transaction,
-));?>
+]); ?>

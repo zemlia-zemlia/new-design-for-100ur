@@ -37,7 +37,7 @@ class FileCategoryController extends Controller
                     'allow',
                     'actions' => ['index', 'view',  'create', 'update', 'delete'],
                     'users' => ['@'],
-                    'expression' => 'Yii::app()->user->checkAccess('.User::ROLE_EDITOR.') || Yii::app()->user->checkAccess('.User::ROLE_ROOT.')',
+                    'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ') || Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
                 ],
 
                 [
@@ -68,7 +68,6 @@ class FileCategoryController extends Controller
         $model = new FileCategory();
         $model->active = 1;
 
-
         if (isset($_POST['FileCategory'])) {
             if (0 != $id) {
                 $model->attributes = $_POST['FileCategory'];
@@ -82,7 +81,7 @@ class FileCategoryController extends Controller
 
             Yii::app()->user->setFlash('success', 'Категория добавлена');
             if ($id) {
-                $url =  Yii::app()->createUrl('/admin/fileCategory/view', ['id' => $id]);
+                $url = Yii::app()->createUrl('/admin/fileCategory/view', ['id' => $id]);
             } else {
                 $url = Yii::app()->createUrl('/admin/docs/index');
             }
@@ -104,7 +103,6 @@ class FileCategoryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
-
 
         if (isset($_POST['FileCategory'])) {
             $model->attributes = $_POST['FileCategory'];
@@ -138,7 +136,7 @@ class FileCategoryController extends Controller
         }
 
         if ($parent_id) {
-            $url =  Yii::app()->createUrl('/admin/fileCategory/view', ['id' => $parent_id]);
+            $url = Yii::app()->createUrl('/admin/fileCategory/view', ['id' => $parent_id]);
         } else {
             $url = Yii::app()->createUrl('/admin/docs/index');
         }

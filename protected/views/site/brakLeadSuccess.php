@@ -1,5 +1,5 @@
 <?php
-    $this->setPageTitle("Отбраковка лида прошла успешно". Yii::app()->name);
+    $this->setPageTitle('Отбраковка лида прошла успешно' . Yii::app()->name);
 ?>
 
 

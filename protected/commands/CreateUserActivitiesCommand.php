@@ -1,6 +1,5 @@
 <?php
 
-
 class CreateUserActivitiesCommand extends CConsoleCommand
 {
     public function actionIndex()

@@ -4,7 +4,7 @@ use Phinx\Migration\AbstractMigration;
 
 /**
  * Создание таблицы для хранения данных от FileSystem
- * Class CreateFileTable
+ * Class CreateFileTable.
  */
 class CreateFile2ObjectTable extends AbstractMigration
 {
@@ -25,4 +25,3 @@ class CreateFile2ObjectTable extends AbstractMigration
         $this->dropTable(self::TABLE);
     }
 }
-

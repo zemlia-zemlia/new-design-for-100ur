@@ -22,42 +22,43 @@
 
 /**
  * Wraps a standard PHP array in an interator.
- * @package Swift
- * @subpackage Mailer
+ *
  * @author Chris Corbyn
  */
 class Swift_Mailer_ArrayRecipientIterator implements Swift_Mailer_RecipientIterator
 {
-  
-  /**
-   * The list of recipients.
-   * @var array
-   * @access private
-   */
-    private $_recipients = array();
-  
+    /**
+     * The list of recipients.
+     *
+     * @var array
+     */
+    private $_recipients = [];
+
     /**
      * Create a new ArrayRecipientIterator from $recipients.
+     *
      * @param array $recipients
      */
     public function __construct(array $recipients)
     {
         $this->_recipients = $recipients;
     }
-  
+
     /**
      * Returns true only if there are more recipients to send to.
-     * @return boolean
+     *
+     * @return bool
      */
     public function hasNext()
     {
         return !empty($this->_recipients);
     }
-  
+
     /**
      * Returns an array where the keys are the addresses of recipients and the
      * values are the names.
-     * e.g. ('foo@bar' => 'Foo') or ('foo@bar' => NULL)
+     * e.g. ('foo@bar' => 'Foo') or ('foo@bar' => NULL).
+     *
      * @return array
      */
     public function nextRecipient()

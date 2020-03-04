@@ -2,19 +2,19 @@
 /* @var $this UserStatusRequestController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
+$this->breadcrumbs = [
     'User Status Requests',
-);
+];
 
-$this->menu=array(
-    array('label'=>'Create UserStatusRequest', 'url'=>array('create')),
-    array('label'=>'Manage UserStatusRequest', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'Create UserStatusRequest', 'url' => ['create']],
+    ['label' => 'Manage UserStatusRequest', 'url' => ['admin']],
+];
 ?>
 
 <h1>User Status Requests</h1>
 
-<?php $this->widget('zii.widgets.CListView', array(
-    'dataProvider'=>$dataProvider,
-    'itemView'=>'_view',
-)); ?>
+<?php $this->widget('zii.widgets.CListView', [
+    'dataProvider' => $dataProvider,
+    'itemView' => '_view',
+]); ?>

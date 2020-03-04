@@ -1,17 +1,18 @@
 <?php
 
 /**
- * Модель для работы с постами публикаций
+ * Модель для работы с постами публикаций.
  *
  * The followings are the available columns in table '{{post}}':
- * @property integer $id
- * @property integer $authorId
+ *
+ * @property int    $id
+ * @property int    $authorId
  * @property string $title
  * @property string $alias
  * @property string $text
  * @property string $preview
  * @property string $datetime
- * @property integer $rating
+ * @property int    $rating
  * @property string $datePublication
  * @property string $photo
  * @property string $description
@@ -20,12 +21,14 @@ class Post extends CActiveRecord
 {
     public $photoFile;
 
-    const PHOTO_PATH = "/upload/blogphoto";
-    const PHOTO_THUMB_FOLDER = "/thumbs";
+    const PHOTO_PATH = '/upload/blogphoto';
+    const PHOTO_THUMB_FOLDER = '/thumbs';
 
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     *
+     * @param string $className active record class name
+     *
      * @return Post the static model class
      */
     public static function model($className = __CLASS__)
@@ -50,39 +53,39 @@ class Post extends CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('authorId, title, text, preview', 'required'),
-            array('id, authorId, rating', 'numerical', 'integerOnly' => true),
-            array('title, photo, alias', 'length', 'max' => 256),
-            array('description, datePublication', 'safe'),
-            array('photoFile', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
+        return [
+            ['authorId, title, text, preview', 'required'],
+            ['id, authorId, rating', 'numerical', 'integerOnly' => true],
+            ['title, photo, alias', 'length', 'max' => 256],
+            ['description, datePublication', 'safe'],
+            ['photoFile', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, authorId, title, text, datetime, rating, preview', 'safe', 'on' => 'search'),
-        );
+            ['id, authorId, title, text, datetime, rating, preview', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'comments' => array(self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_POST, 'order' => 'comments.root, comments.lft'),
-            'commentsCount' => array(self::STAT, 'Comment', 'objectId', 'condition' => 'type=' . Comment::TYPE_POST . ' AND status!=' . Comment::STATUS_SPAM),
-            'author' => array(self::BELONGS_TO, 'User', 'authorId'),
-            'ratingHistory' => array(self::HAS_MANY, 'PostRatingHistory', 'postId'),
-            'viewsCount' => array(self::HAS_ONE, 'Postviews', 'postId'),
-            'categories' => array(self::MANY_MANY, 'Postcategory', '{{post2cat}}(postId, catId)'),
-        );
+        return [
+            'comments' => [self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_POST, 'order' => 'comments.root, comments.lft'],
+            'commentsCount' => [self::STAT, 'Comment', 'objectId', 'condition' => 'type=' . Comment::TYPE_POST . ' AND status!=' . Comment::STATUS_SPAM],
+            'author' => [self::BELONGS_TO, 'User', 'authorId'],
+            'ratingHistory' => [self::HAS_MANY, 'PostRatingHistory', 'postId'],
+            'viewsCount' => [self::HAS_ONE, 'Postviews', 'postId'],
+            'categories' => [self::MANY_MANY, 'Postcategory', '{{post2cat}}(postId, catId)'],
+        ];
     }
 
     /**
@@ -90,7 +93,7 @@ class Post extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'authorId' => 'ID автора',
             'title' => 'Заголовок',
@@ -103,19 +106,20 @@ class Post extends CActiveRecord
             'description' => 'SEO description',
             'photo' => 'Фотография',
             'photoFile' => 'Файл с фотографией (минимум 1000х700 пикселей)',
-        );
+        ];
     }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     *
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function search()
     {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('authorId', $this->authorId);
@@ -124,13 +128,14 @@ class Post extends CActiveRecord
         $criteria->compare('datetime', $this->datetime, true);
         $criteria->compare('rating', $this->rating);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     /**
-     * Метод, вызываемый после сохранения записи
+     * Метод, вызываемый после сохранения записи.
+     *
      * @throws CHttpException
      */
     protected function afterSave()
@@ -147,7 +152,7 @@ class Post extends CActiveRecord
     }
 
     /**
-     *  увеличивает число просмотров поста на 1
+     *  увеличивает число просмотров поста на 1.
      */
     public function incrementCounter()
     {
@@ -159,8 +164,10 @@ class Post extends CActiveRecord
     }
 
     /**
-     *  метод возвращает массив похожих постов
+     *  метод возвращает массив похожих постов.
+     *
      * @todo необходимо продумать алгоритм и реализацию выборки
+     *
      * @return array массив похожих постов
      */
     public function getRelatedPosts()
@@ -169,7 +176,7 @@ class Post extends CActiveRecord
         $postCategories = $this->categories;
 
         // заполняем массив $categoriesIds категориями, к которым принадлежит пост
-        $categoriesIds = array();
+        $categoriesIds = [];
         foreach ($postCategories as $category) {
             $categoriesIds[] = $category->id;
         }
@@ -179,28 +186,30 @@ class Post extends CActiveRecord
             ->select('id, title')
             ->from('{{post}} p')
             ->join('{{post2cat}} p2c', 'p.id = p2c.postId')
-            ->where(array('and', 'p.id!=' . $this->id, array('in', 'p2c.catId', $categoriesIds)))
+            ->where(['and', 'p.id!=' . $this->id, ['in', 'p2c.catId', $categoriesIds]])
             ->group('p.id')
             ->order('p.rating DESC')
             ->limit(5);
         $relatedPostsRaw = $relatedPostsCommand->queryAll();
         // получили ассоциативный массив $relatedPostsRaw с информацией о постах
         // в массиве $relatedPosts будем хранить эту информацию в виде объектов класса Post
-        $relatedPosts = array();
+        $relatedPosts = [];
         foreach ($relatedPostsRaw as $postRaw) {
-            $relatedPost = new Post;
+            $relatedPost = new Post();
             $relatedPost->attributes = $postRaw;
             $relatedPost->id = $postRaw['id']; // id не присваивается массово
             $relatedPosts[] = $relatedPost;
         }
+
         return $relatedPosts;
     }
 
     /**
      * статический метод, возвращающий массив самых популярных постов (объекты класса Post)
-     * если указана категория $categoryId, поиск ведется в ней
+     * если указана категория $categoryId, поиск ведется в ней.
      *
      * @param int $categoryId id категории
+     *
      * @return array массив самых популярных постов
      */
     public static function getPopularPosts($categoryId = null)
@@ -213,30 +222,32 @@ class Post extends CActiveRecord
             ->group('p.id')
             ->order('p.rating DESC')
             ->limit(10);
-        if ($categoryId !== null) {
-            $popularPostsCommand->where('p2c.catId = :catId', array(':catId' => (int)$categoryId));
+        if (null !== $categoryId) {
+            $popularPostsCommand->where('p2c.catId = :catId', [':catId' => (int) $categoryId]);
         }
         $popularPostsRaw = $popularPostsCommand->queryAll();
 
         // в массиве $popularPosts будем хранить эту информацию в виде объектов класса Post
-        $popularPosts = array();
+        $popularPosts = [];
         foreach ($popularPostsRaw as $postRaw) {
-            $popularPost = new Post;
+            $popularPost = new Post();
             $popularPost->attributes = $postRaw;
             $popularPost->id = $postRaw['id']; // id не присваивается массово
             $popularPosts[] = $popularPost;
         }
+
         return $popularPosts;
     }
 
     /**
      * статический метод, возвращающий массив последних постов (объекты класса Post)
-     * если указана категория $categoryId, поиск ведется в ней
+     * если указана категория $categoryId, поиск ведется в ней.
      *
-     * @param int $categoryId id категории
-     * @param int $number лимит выборки
-     * @param string $order порядок выборки
-     * @param int $intervalDays за какое количество дней в прошлом искать
+     * @param int    $categoryId   id категории
+     * @param int    $number       лимит выборки
+     * @param string $order        порядок выборки
+     * @param int    $intervalDays за какое количество дней в прошлом искать
+     *
      * @return array массив последних постов
      */
     public static function getRecentPosts($categoryId = null, $number = 4, $order = 'views', $intervalDays = 30)
@@ -253,13 +264,13 @@ class Post extends CActiveRecord
             ])
             ->limit($number);
 
-        $freshPostsCommand = clone($recentPostsCommand);
+        $freshPostsCommand = clone $recentPostsCommand;
         $freshPosts = [];
 
         // Если нужно показать половину свежих и половину популярных
-        if ($order == 'fresh_views') {
-            $freshPostsCommand->limit((int)($number/2));
-            $recentPostsCommand->limit((int)($number/2));
+        if ('fresh_views' == $order) {
+            $freshPostsCommand->limit((int) ($number / 2));
+            $recentPostsCommand->limit((int) ($number / 2));
 
             $freshPostsCommand->order('id DESC');
             $freshPosts = $freshPostsCommand->queryAll();
@@ -278,9 +289,9 @@ class Post extends CActiveRecord
                 break;
         }
 
-        if ($categoryId !== null) {
+        if (null !== $categoryId) {
             $recentPostsCommand->join('{{post2cat}} p2c', 'p.id = p2c.postId');
-            $recentPostsCommand->where('p2c.catId = :catId', array(':catId' => (int)$categoryId));
+            $recentPostsCommand->where('p2c.catId = :catId', [':catId' => (int) $categoryId]);
         }
         $recentPostsRaw = $recentPostsCommand->queryAll();
         $recentPostsRaw = array_merge($freshPosts, $recentPostsRaw); // подмешиваем свежие посты
@@ -290,10 +301,11 @@ class Post extends CActiveRecord
 
     /**
      *  изменение рейтинга поста на величину $delta с записью в таблицу истории изменений рейтингов постов
-     * в случае успеха возвращает новый рейтинг, в противном случае - NULL
+     * в случае успеха возвращает новый рейтинг, в противном случае - NULL.
      *
      * @param int $delta На какую величину изменить рейтинг
-     * @return int|NULL новый рейтинг
+     *
+     * @return int|null новый рейтинг
      */
     public function changeRating($delta = 0)
     {
@@ -301,7 +313,7 @@ class Post extends CActiveRecord
 
         $ratingLog = new PostRatingHistory();
         $ratingLog->postId = $this->id;
-        $ratingLog->delta = (int)$delta;
+        $ratingLog->delta = (int) $delta;
         $ratingLog->userId = Yii::app()->user->id;
 
         if ($ratingLog->save()) {
@@ -312,9 +324,9 @@ class Post extends CActiveRecord
     }
 
     /**
-     * Метод, вызываемый перед сохранением поста
+     * Метод, вызываемый перед сохранением поста.
      *
-     * @return boolean
+     * @return bool
      */
     protected function beforeSave()
     {
@@ -322,7 +334,7 @@ class Post extends CActiveRecord
 
         // при создании поста генерируем алиас из заголовка и id
         if ($this->isNewRecord) {
-            $this->alias = mb_substr(CustomFuncs::translit($this->title), 0, 200, 'utf-8');
+            $this->alias = mb_substr(StringHelper::translit($this->title), 0, 200, 'utf-8');
             $this->alias = preg_replace("/[^a-zA-Z0-9\-]/ui", '', $this->alias);
         }
 
@@ -330,31 +342,33 @@ class Post extends CActiveRecord
     }
 
     /**
-     * возвращает URL фотографии поста относительно корня сайта
+     * возвращает URL фотографии поста относительно корня сайта.
      *
      * @param string $size Размер картинки full - большая, thumb - превью
+     *
      * @return string URL фотографии
      */
     public function getPhotoUrl($size = 'full')
     {
         $photoUrl = '';
 
-        if ($size == 'full') {
+        if ('full' == $size) {
             $photoUrl = self::PHOTO_PATH . '/' . CHtml::encode($this->photo);
-        } elseif ($size == 'thumb') {
+        } elseif ('thumb' == $size) {
             $photoUrl = self::PHOTO_PATH . self::PHOTO_THUMB_FOLDER . '/' . CHtml::encode($this->photo);
         }
+
         return $photoUrl;
     }
 
     /**
-     * Возвращает массив метатегов для страницы категории
+     * Возвращает массив метатегов для страницы категории.
      */
     public function getAdditionalMetaTags()
     {
         $tags = [
             'og:title' => CHtml::encode($this->title),
-            'og:type' => "article",
+            'og:type' => 'article',
             'og:image' => Yii::app()->urlManager->baseUrl . $this->getPhotoUrl(),
             'og:url' => Yii::app()->createUrl('post/view', ['id' => $this->id, 'alias' => $this->alias]),
             'og:description' => CHtml::encode($this->description),

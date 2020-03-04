@@ -36,15 +36,15 @@ switch ($data->leadStatus) {
 
                 <small class="muted">
 
-                    <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo CustomFuncs::niceDate($data->question_date, false, false); ?>
-                    &nbsp
-                    <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo CHtml::encode($data->source->name); ?>
-                    &nbsp
-                    <span class="label <?php echo $statusClass; ?>">
+            <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo DateHelper::niceDate($data->question_date, false, false); ?>&nbsp;&nbsp;
+            <br />
+                <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo CHtml::encode($data->source->name); ?>       
+            <br />
+            <span class="label <?php echo $statusClass; ?>">    
                 <?php echo $data->getLeadStatusName(); ?>
             </span>
                     &nbsp
-                    <?php if ($data->buyPrice > 0 && $data->leadStatus != Lead::LEAD_STATUS_BRAK): ?>
+                    <?php if ($data->buyPrice > 0 && Lead::LEAD_STATUS_BRAK != $data->leadStatus): ?>
                         <?php echo MoneyFormat::rubles($data->buyPrice); ?> руб.
                     <?php endif; ?>
                 </small>
@@ -67,7 +67,7 @@ switch ($data->leadStatus) {
 
                     <?php endif; ?>
 
-                    <?php if ($data->phone && !(Yii::app()->user->role == User::ROLE_JURIST && $data->employeeId != Yii::app()->user->id)): ?>
+                    <?php if ($data->phone && !(User::ROLE_JURIST == Yii::app()->user->role && $data->employeeId != Yii::app()->user->id)): ?>
                         <span class="glyphicon glyphicon-earphone"></span>
                         <?php echo CHtml::encode($data->phone); ?> &nbsp
                     <?php endif; ?>
@@ -77,7 +77,7 @@ switch ($data->leadStatus) {
                     <?php endif; ?>
 
                     <span class="glyphicon glyphicon-user"></span>
-                    <?php echo CHtml::link(CHtml::encode($data->name), array('/webmaster/lead/view', 'id' => $data->id)); ?>
+                    <?php echo CHtml::link(CHtml::encode($data->name), ['/webmaster/lead/view', 'id' => $data->id]); ?>
                 </p>
 
                 <p>

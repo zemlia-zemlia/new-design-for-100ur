@@ -1,8 +1,10 @@
 <?php
 /**
- * EFeedItemAbstract Class file
+ * EFeedItemAbstract Class file.
+ *
  * @author Antonio Ramirez
- * @link http://www.ramirezcobos.com
+ *
+ * @see http://www.ramirezcobos.com
  *
  *
  * THIS SOFTWARE IS PROVIDED BY THE CONTRIBUTORS "AS IS" AND
@@ -18,126 +20,132 @@
  */
 
 /**
- * EFeedItemAbstract is the base class for all Feed Items Adapters
+ * EFeedItemAbstract is the base class for all Feed Items Adapters.
  *
  *
  * @author Antonio Ramirez Cobos <ramirez.cobos@gmail.com>
- * @package rss
  */
 abstract class EFeedItemAbstract extends CComponent
 {
     /**
+     * All element tags of this item collection.
      *
-     * All element tags of this item collection
      * @var CTypedMap('EFeedTag')
      */
     protected $tags;
     /**
+     * CDATAEncoded items for all different adapters.
      *
-     * CDATAEncoded items for all different adapters
      * @var array
      */
-    protected $CDATAEncoded = array('description', 'content:encoded', 'summary');
+    protected $CDATAEncoded = ['description', 'content:encoded', 'summary'];
+
     /**
-     *
-     * Class constructor
+     * Class constructor.
      */
     public function __construct()
     {
         $this->tags = new CTypedMap('EFeedTag');
     }
+
     /**
+     * Adds a tag to collection.
      *
-     * Adds a tag to collection
-     * @param string $tag name of the element
-     * @param string $content of the element
-     * @param array $attributes of the tag
+     * @param string $tag        name of the element
+     * @param string $content    of the element
+     * @param array  $attributes of the tag
      */
-    public function addTag($tag, $content, $attributes = array())
+    public function addTag($tag, $content, $attributes = [])
     {
-        $this->tags->add($tag, new EFeedTag($tag, $content, (!is_array($attributes)? array() : $attributes)));
+        $this->tags->add($tag, new EFeedTag($tag, $content, (!is_array($attributes) ? [] : $attributes)));
     }
+
     /**
+     * Returns specific tag by name.
      *
-     * Returns specific tag by name
      * @param string $name of the tag
+     *
      * @return EFeedTag $tag
      */
     public function getTag($name)
     {
         return $this->tags->itemAt($name);
     }
+
     /**
-     *
      * Property title setter (thanks to CComponent)
      * <pre>
      *    $feed->title = 'mytitle';
-     * </pre>
+     * </pre>.
+     *
      * @param string $title
      */
     public function setTitle($title)
     {
         $this->addTag('title', $title);
     }
+
     /**
-     *
      * @return string title tag
      */
     public function getTitle()
     {
         return $this->tags->itemAt('title');
     }
+
     /**
+     * Property description setter.
      *
-     * Property description setter
      * @param string $description
      */
     public function setDescription($description)
     {
         $this->addTag('description', $description);
     }
+
     /**
-     *
      * @return string description tag
      */
     public function getDescription()
     {
         return $this->tags->itemAt('description');
     }
+
     /**
+     * Property link setter.
      *
-     * Property link setter
      * @param string URI $link
      */
     public function setLink($link)
     {
         $validator = new CUrlValidator();
         $validator->pattern = '/(((f|ht){1}tp(s){0,1}:\/\/)[-a-zA-Z0-9@:%_\+.~#?&\/\/=]+)/i';
-        
+
         if (!$validator->validateValue($link)) {
-            throw new CException(Yii::t('EFeed', $link. ' does not seem to be a valid URL'));
+            throw new CException(Yii::t('EFeed', $link . ' does not seem to be a valid URL'));
         }
         $this->addTag('link', $link);
     }
+
     /**
-     *
      * @return link tag
      */
     public function getLink()
     {
         return $this->tags->itemAt('link');
     }
+
     /**
+     * Abstract property setter Ddte.
      *
-     * Abstract property setter Ddte
      * @param time() integer|string $date
      */
     abstract public function setDate($date);
-    
+
     /**
-    *
-    * Creates a single node as xml format
-    * @return   string  formatted xml tag
-    */
+     * Creates a single node as xml format.
+     *
+     * @return string formatted xml tag
+     */
     abstract public function getNode();
 }

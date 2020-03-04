@@ -1,17 +1,18 @@
 <?php
 
 /**
- * Класс для работы с ответами
+ * Класс для работы с ответами.
  *
  * The followings are the available columns in table '{{answer}}':
- * @property integer $id
- * @property integer $questionId
+ *
+ * @property int    $id
+ * @property int    $questionId
  * @property string $answerText
  * @property string $videoLink
- * @property integer $authorId
- * @property integer $status
+ * @property int    $authorId
+ * @property int    $status
  * @property string $datetime
- * @property integer $transactionId
+ * @property int    $transactionId
  *
  * @author Michael Krutikov m@mkrutikov.pro
  */
@@ -27,7 +28,9 @@ class Answer extends CActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     *
+     * @param string $className active record class name
+     *
      * @return Answer the static model class
      */
     public static function model($className = __CLASS__)
@@ -58,33 +61,33 @@ class Answer extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('questionId', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
-            array('questionId, authorId, status', 'numerical', 'integerOnly' => true),
-            array('videoLink', 'url'),
-            array('answerText', 'required', 'except' => 'addVideo', 'message' => 'Не введен текст ответа'),
-            array('answerText', 'length', 'except' => 'addVideo', 'min' => self::ANSWER_MIN_LENGTH, 'tooShort' => 'Текст ответа слишком короткий (минимум ' . self::ANSWER_MIN_LENGTH . ' символов)'),
-            array('answerText', 'validateText', 'except' => 'addVideo', 'message' => 'Текст ответа содержит запрещенные слова (например, Email адреса)'),
+        return [
+            ['questionId', 'required', 'message' => 'Поле {attribute} должно быть заполнено'],
+            ['questionId, authorId, status', 'numerical', 'integerOnly' => true],
+            ['videoLink', 'url'],
+            ['answerText', 'required', 'except' => 'addVideo', 'message' => 'Не введен текст ответа'],
+            ['answerText', 'length', 'except' => 'addVideo', 'min' => self::ANSWER_MIN_LENGTH, 'tooShort' => 'Текст ответа слишком короткий (минимум ' . self::ANSWER_MIN_LENGTH . ' символов)'],
+            ['answerText', 'validateText', 'except' => 'addVideo', 'message' => 'Текст ответа содержит запрещенные слова (например, Email адреса)'],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, questionId, answerText, authorId', 'safe', 'on' => 'search'),
-        );
+            ['id, questionId, answerText, authorId', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'question' => array(self::BELONGS_TO, 'Question', 'questionId'),
-            'author' => array(self::BELONGS_TO, 'User', 'authorId'),
-            'karmaChanges' => array(self::HAS_MANY, 'KarmaChange', 'answerId'),
-            'comments' => array(self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_ANSWER, 'order' => 'comments.root, comments.lft'),
-            'transaction' => array(self::BELONGS_TO, 'TransactionCampaign', 'transactionId'),
-        );
+        return [
+            'question' => [self::BELONGS_TO, 'Question', 'questionId'],
+            'author' => [self::BELONGS_TO, 'User', 'authorId'],
+            'karmaChanges' => [self::HAS_MANY, 'KarmaChange', 'answerId'],
+            'comments' => [self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_ANSWER, 'order' => 'comments.root, comments.lft'],
+            'transaction' => [self::BELONGS_TO, 'TransactionCampaign', 'transactionId'],
+        ];
     }
 
     /**
@@ -92,7 +95,7 @@ class Answer extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'questionId' => 'ID вопроса',
             'question' => 'Вопрос',
@@ -101,69 +104,73 @@ class Answer extends CActiveRecord
             'status' => 'Статус',
             'videoLink' => 'Ссылка на Youtube видео',
             'transactionId' => 'ID транзакции бонуса',
-        );
+        ];
     }
 
     /**
-     * возвращает массив, ключами которого являются коды статусов, а значениями - названия статусов
+     * возвращает массив, ключами которого являются коды статусов, а значениями - названия статусов.
+     *
      * @return array массив статусов
      */
     public static function getStatusesArray()
     {
-        return array(
+        return [
             self::STATUS_NEW => 'Предварительно опубликован',
             self::STATUS_PUBLISHED => 'Опубликован',
             self::STATUS_SPAM => 'Спам',
-        );
+        ];
     }
 
     /**
-     * возвращает название статуса для объекта
+     * возвращает название статуса для объекта.
      *
      * @return string название статуса
      */
     public function getAnswerStatusName()
     {
         $statusesArray = self::getStatusesArray();
+
         return $statusesArray[$this->status];
     }
 
     /**
-     * статический метод, возвращает название статуса вопроса по коду
+     * статический метод, возвращает название статуса вопроса по коду.
      *
      * @param int $status код статуса
+     *
      * @return string название статуса
      */
     public static function getStatusName($status)
     {
         $statusesArray = self::getStatusesArray();
+
         return $statusesArray[$status];
     }
 
     /**
-     * Возвращает массив объектов на основе критерия поиска
+     * Возвращает массив объектов на основе критерия поиска.
      *
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function search()
     {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('questionId', $this->questionId);
         $criteria->compare('answerText', $this->answerText, true);
         $criteria->compare('authorId', $this->authorId);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     /**
-     * Вызывается после сохранения объекта в базу
+     * Вызывается после сохранения объекта в базу.
      */
     protected function afterSave()
     {
@@ -171,7 +178,7 @@ class Answer extends CActiveRecord
         (new UserActivity())->logActivity($this->author, UserActivity::ACTION_ANSWER_QUESTION);
 
         $questionAuthor = $this->question->author;
-        if ($questionAuthor && $questionAuthor->active100 == 1 && $this->isNewRecord === true) {
+        if ($questionAuthor && 1 == $questionAuthor->active100 && true === $this->isNewRecord) {
             $questionAuthor->sendAnswerNotification($this->question, $this);
         }
 
@@ -179,7 +186,7 @@ class Answer extends CActiveRecord
     }
 
     /**
-     * Получает код видео из ссылки на видео на Youtube
+     * Получает код видео из ссылки на видео на Youtube.
      */
     public function getVideoCode()
     {
@@ -195,7 +202,8 @@ class Answer extends CActiveRecord
     }
 
     /**
-     * Валидатор, проверяющий текст ответа на наличие запрещенных слов
+     * Валидатор, проверяющий текст ответа на наличие запрещенных слов.
+     *
      * @param type $attribute
      * @param type $params
      */
@@ -208,13 +216,14 @@ class Answer extends CActiveRecord
 
     /**
      * @param Question $question
+     *
      * @return CActiveDataProvider
      */
     public function getAnswersDataProviderByQuestion(Question $question)
     {
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
         $criteria->order = 't.id ASC';
-        $criteria->with = "comments";
+        $criteria->with = 'comments';
         $criteria->addColumnCondition(['t.questionId' => $question->id]);
 
         $answersDataProvider = new CActiveDataProvider(Answer::class, [
@@ -245,7 +254,7 @@ class Answer extends CActiveRecord
         $bonusTransaction = new TransactionCampaign();
         $bonusTransaction->sum = $bonusAmount;
         $bonusTransaction->type = TransactionCampaign::TYPE_ANSWER;
-        $bonusTransaction->description = "Вознаграждение за подробный" . ($isFast ? ' и быстрый' : '') . " ответ";
+        $bonusTransaction->description = 'Вознаграждение за подробный' . ($isFast ? ' и быстрый' : '') . ' ответ';
         $bonusTransaction->buyerId = $user->id;
         $bonusTransaction->status = TransactionCampaign::STATUS_COMPLETE;
 
@@ -263,6 +272,7 @@ class Answer extends CActiveRecord
 
     /**
      * @return bool
+     *
      * @throws Exception
      */
     public function isFast(): bool

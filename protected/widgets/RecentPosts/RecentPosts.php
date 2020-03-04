@@ -14,8 +14,8 @@ class RecentPosts extends CWidget
     {
         $recentPosts = Post::getRecentPosts($this->category, $this->number, $this->order, $this->intervalDays);
 
-        $this->render($this->template, array(
-            'recentPosts'  =>  $recentPosts,
-        ));
+        $this->render($this->template, [
+            'recentPosts' => $recentPosts,
+        ]);
     }
 }

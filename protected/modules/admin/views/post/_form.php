@@ -7,13 +7,13 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
 ?>
 
 <?php
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'post-form',
     'enableAjaxValidation' => false,
-    'htmlOptions' => array(
+    'htmlOptions' => [
         'enctype' => 'multipart/form-data',
-    ),
-));
+    ],
+]);
 ?>
 <?php echo $form->errorSummary($model); ?>
 
@@ -23,7 +23,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'title'); ?>
-            <?php echo $form->textField($model, 'title', array('class' => 'form-control', 'maxlength' => 256)); ?>
+            <?php echo $form->textField($model, 'title', ['class' => 'form-control', 'maxlength' => 256]); ?>
             <?php echo $form->error($model, 'title'); ?>
         </div>
 
@@ -56,17 +56,17 @@ $form = $this->beginWidget('CActiveForm', array(
             <?php
             $this->widget(
                 'zii.widgets.jui.CJuiDatePicker',
-                array(
-                    'name' => "Post[datePublication]",
+                [
+                    'name' => 'Post[datePublication]',
                     'value' => $model['datePublication'],
                     'language' => 'ru',
-                    'options' => array('dateFormat' => 'dd-mm-yy',
-                    ),
-                    'htmlOptions' => array(
+                    'options' => ['dateFormat' => 'dd-mm-yy',
+                    ],
+                    'htmlOptions' => [
                         'style' => 'text-align:right;',
-                        'class' => 'form-control'
-                    )
-                )
+                        'class' => 'form-control',
+                    ],
+                ]
             );
             ?>
             <?php echo $form->error($model, 'datePublication'); ?>
@@ -74,13 +74,13 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'description'); ?>
-            <?php echo $form->textArea($model, 'description', array('class' => 'form-control', 'rows' => 5)); ?>
+            <?php echo $form->textArea($model, 'description', ['class' => 'form-control', 'rows' => 5]); ?>
             <?php echo $form->error($model, 'description'); ?>
         </div>
 
         <?php if ($model->photo):?>
-            <img src="<?php echo $model->getPhotoUrl();?>" class="img-responsive" />
-        <?php endif;?>
+            <img src="<?php echo $model->getPhotoUrl(); ?>" class="img-responsive" />
+        <?php endif; ?>
 
         <div class="form-group">
             <?php echo $form->labelEx($model, 'photoFile'); ?>
@@ -90,10 +90,10 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
 </div><!-- form -->
 
-<?php echo CHtml::submitButton($model->isNewRecord ? 'Создать пост' : 'Сохранить пост', array('class' => 'btn btn-primary btn-large')); ?>
+<?php echo CHtml::submitButton($model->isNewRecord ? 'Создать пост' : 'Сохранить пост', ['class' => 'btn btn-primary btn-large']); ?>
 <?php
 if (!$model->isNewRecord) {
-                echo CHtml::link('Не сохранять', Yii::app()->createUrl('/admin/post/view', array('id' => $model->id)), array('class' => 'btn btn-large'));
+                echo CHtml::link('Не сохранять', Yii::app()->createUrl('/admin/post/view', ['id' => $model->id]), ['class' => 'btn btn-large']);
             }
 ?>
 

@@ -1,7 +1,7 @@
 <?php
 /* @var $this MoneyController */
 /* @var $dataProvider CActiveDataProvider */
-$this->setPageTitle("Касса. " . Yii::app()->name);
+$this->setPageTitle('Касса. ' . Yii::app()->name);
 
 $sumBalance = 0;
 
@@ -14,9 +14,9 @@ $sumBalance = 0;
 </style>
 
 <h3>Касса
-    <?php echo CHtml::link("Добавить запись", Yii::app()->createUrl("/admin/money/create"), array('class' => 'btn btn-primary')); ?>
-    <?php echo CHtml::link("Отчет", Yii::app()->createUrl("/admin/money/report"), array('class' => 'btn btn-default')); ?>
-    <?php echo CHtml::link("Внутр. транз.", Yii::app()->createUrl("/admin/money/addTransaction"), array('class' => 'btn btn-primary')); ?>
+    <?php echo CHtml::link('Добавить запись', Yii::app()->createUrl('/admin/money/create'), ['class' => 'btn btn-primary']); ?>
+    <?php echo CHtml::link('Отчет', Yii::app()->createUrl('/admin/money/report'), ['class' => 'btn btn-default']); ?>
+    <?php echo CHtml::link('Внутр. транз.', Yii::app()->createUrl('/admin/money/addTransaction'), ['class' => 'btn btn-primary']); ?>
     <small>
         <abbr title="Сумма балансов вебмастеров">
             <?php echo MoneyFormat::rubles(PartnerTransaction::sumAll()); ?> руб.
@@ -52,7 +52,7 @@ $sumBalance = 0;
 </div>
 
 <div class="vert-margin20">
-    <?php $this->renderPartial('_search', array('model' => $searchModel)); ?>
+    <?php $this->renderPartial('_search', ['model' => $searchModel]); ?>
 </div>
 <div class="box">
     <div class="box-body">
@@ -67,13 +67,13 @@ $sumBalance = 0;
                     <th>Сумма</th>
                     <th style="width: 550px;">Комментарий</th>
                 </tr>
-                <?php $this->widget('zii.widgets.CListView', array(
+                <?php $this->widget('zii.widgets.CListView', [
                     'dataProvider' => $dataProvider,
                     'itemView' => '_view',
                     'emptyText' => 'Не найдено ни одной записи',
                     'summaryText' => 'Показаны записи с {start} до {end}, всего {count}',
-                    'pager' => array('class' => 'GTLinkPager'), //we use own pager with russian words
-                )); ?>
+                    'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+                ]); ?>
             </table>
         </small>
     </div>

@@ -2,7 +2,7 @@
 
 /**
  * Класс, отвечающий за различные уведомления по лидам
- * Class UserNotifier
+ * Class UserNotifier.
  */
 class LeadNotifier
 {
@@ -56,8 +56,10 @@ class LeadNotifier
 
     /**
      * Отправка покупателю уведомления о том, что его лид отправлен в Yurcrm.
+     *
      * @param User $buyer
-     * @param integer $crmLeadId
+     * @param int  $crmLeadId
+     *
      * @return bool
      */
     public function sendYurcrmNotification(User $buyer, $crmLeadId)

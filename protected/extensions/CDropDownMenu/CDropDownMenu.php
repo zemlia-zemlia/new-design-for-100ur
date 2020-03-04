@@ -3,7 +3,8 @@
  * CDropDownMenu class file.
  *
  * @author Herbert Maschke <thyseus@gmail.com>
- * @link http://www.yiiframework.com/
+ *
+ * @see http://www.yiiframework.com/
  */
 
 /**
@@ -12,9 +13,7 @@
  *
  * Please be sure to also read the CMenu API Documentation to understand how this
  * menu works.
- *
  */
-
 Yii::import('zii.widgets.CMenu');
 
 class CDropDownMenu extends CMenu
@@ -36,7 +35,7 @@ class CDropDownMenu extends CMenu
 
     protected function renderDropDownMenu($items)
     {
-        $this->htmlOptions = array_merge($this->htmlOptions, array('class' => 'sf-menu'));
+        $this->htmlOptions = array_merge($this->htmlOptions, ['class' => 'sf-menu']);
         $this->renderMenu($items);
 
         $this->registerClientScript();
@@ -45,7 +44,7 @@ class CDropDownMenu extends CMenu
 
     protected function registerClientScript()
     {
-        $basePath=Yii::getPathOfAlias('application.extensions.CDropDownMenu.vendors');
+        $basePath = Yii::getPathOfAlias('application.extensions.CDropDownMenu.vendors');
         $baseUrl = Yii::app()->getAssetManager()->publish($basePath);
 
         Yii::app()->clientScript->registerCoreScript('jquery');

@@ -24,62 +24,65 @@
 
 /**
  * An embedded file, in a multipart message.
- * @package Swift
- * @subpackage Mime
+ *
  * @author Chris Corbyn
  */
 class Swift_EmbeddedFile extends Swift_Mime_EmbeddedFile
 {
-  
-  /**
-   * Create a new EmbeddedFile.
-   * Details may be optionally provided to the constructor.
-   * @param string|Swift_OutputByteStream $data
-   * @param string $filename
-   * @param string $contentType
-   */
+    /**
+     * Create a new EmbeddedFile.
+     * Details may be optionally provided to the constructor.
+     *
+     * @param string|Swift_OutputByteStream $data
+     * @param string                        $filename
+     * @param string                        $contentType
+     */
     public function __construct(
-      $data = null,
-      $filename = null,
-      $contentType = null
-  ) {
+        $data = null,
+        $filename = null,
+        $contentType = null
+    ) {
         call_user_func_array(
-        array($this, 'Swift_Mime_EmbeddedFile::__construct'),
-        Swift_DependencyContainer::getInstance()
+            [$this, 'Swift_Mime_EmbeddedFile::__construct'],
+            Swift_DependencyContainer::getInstance()
         ->createDependenciesFor('mime.embeddedfile')
-    );
-    
+        );
+
         $this->setBody($data);
         $this->setFilename($filename);
         if ($contentType) {
             $this->setContentType($contentType);
         }
     }
-  
+
     /**
      * Create a new EmbeddedFile.
+     *
      * @param string|Swift_OutputByteStream $data
-     * @param string $filename
-     * @param string $contentType
+     * @param string                        $filename
+     * @param string                        $contentType
+     *
      * @return Swift_Mime_EmbeddedFile
      */
     public static function newInstance(
-      $data = null,
-      $filename = null,
-      $contentType = null
-  ) {
+        $data = null,
+        $filename = null,
+        $contentType = null
+    ) {
         return new self($data, $filename, $contentType);
     }
-  
+
     /**
      * Create a new EmbeddedFile from a filesystem path.
+     *
      * @param string $path
+     *
      * @return Swift_Mime_EmbeddedFile
      */
     public static function fromPath($path)
     {
         return self::newInstance()->setFile(
-        new Swift_ByteStream_FileByteStream($path)
-    );
+            new Swift_ByteStream_FileByteStream($path)
+        );
     }
 }

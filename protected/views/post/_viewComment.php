@@ -1,5 +1,5 @@
 <div class="post-comment">
-    <?php if ($data->status != Comment::STATUS_SPAM): ?>
+    <?php if (Comment::STATUS_SPAM != $data->status): ?>
         <div class="answer-comment" style="margin-left:<?php echo($data->level - 1) * 20; ?>px;">
             <p> <strong><span class="glyphicon glyphicon-comment"></span> 
  
@@ -21,13 +21,13 @@
                 <div class="collapse child-comment-container" id="collapse-comment-<?php echo $data->id; ?>">
                     <strong>Ваш ответ:</strong>
                     <?php
-                    $this->renderPartial('application.views.comment._form', array(
+                    $this->renderPartial('application.views.comment._form', [
                         'type' => Comment::TYPE_POST,
                         'objectId' => $data->objectId,
                         'model' => $commentModel,
                         'hideRating' => true,
                         'parentId' => $data->id,
-                    ));
+                    ]);
                     ?>
                 </div>
         <?php endif; ?>

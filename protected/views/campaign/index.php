@@ -2,19 +2,19 @@
 /* @var $this CampaignController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
+$this->breadcrumbs = [
     'Campaigns',
-);
+];
 
-$this->menu=array(
-    array('label'=>'Create Campaign', 'url'=>array('create')),
-    array('label'=>'Manage Campaign', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'Create Campaign', 'url' => ['create']],
+    ['label' => 'Manage Campaign', 'url' => ['admin']],
+];
 ?>
 
 <h1>Campaigns</h1>
 
-<?php $this->widget('zii.widgets.CListView', array(
-    'dataProvider'=>$dataProvider,
-    'itemView'=>'_view',
-)); ?>
+<?php $this->widget('zii.widgets.CListView', [
+    'dataProvider' => $dataProvider,
+    'itemView' => '_view',
+]); ?>

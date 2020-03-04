@@ -9,64 +9,66 @@ class QuestionController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
             'postOnly + toSpam', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
+     *
      * @return array access control rules
      */
     public function accessRules()
     {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'getRandom', 'nocat', 'vip'),
-                'users' => array('@'),
+        return [
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['index', 'view', 'getRandom', 'nocat', 'vip'],
+                'users' => ['@'],
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_JURIST . ') || Yii::app()->user->checkAccess(' . User::ROLE_SECRETARY . ')',
-            ),
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('update', 'view', 'index', 'byPublisher', 'toSpam', 'setCategory', 'setTitle', 'duplicates'),
-                'users' => array('@'),
+            ],
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['update', 'view', 'index', 'byPublisher', 'toSpam', 'setCategory', 'setTitle', 'duplicates'],
+                'users' => ['@'],
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
-            ),
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'admin', 'delete', 'publish', 'setPubTime', 'setTitles', 'duplicates', 'notifyYurists'),
-                'users' => array('@'),
+            ],
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['create', 'update', 'admin', 'delete', 'publish', 'setPubTime', 'setTitles', 'duplicates', 'notifyYurists'],
+                'users' => ['@'],
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+            ],
+            ['deny', // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     *
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
         $model = Question::model()->findByPk($id);
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
         $criteria->order = 't.id DESC';
-        $criteria->addColumnCondition(array('questionId' => $model->id));
+        $criteria->addColumnCondition(['questionId' => $model->id]);
 
-        $answersDataProvider = new CActiveDataProvider('Answer', array(
+        $answersDataProvider = new CActiveDataProvider('Answer', [
             'criteria' => $criteria,
-            'pagination' => array(
+            'pagination' => [
                 'pageSize' => 20,
-            ),
-        ));
+            ],
+        ]);
 
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $model,
             'answersDataProvider' => $answersDataProvider,
-        ));
+        ]);
     }
 
     /**
@@ -75,7 +77,7 @@ class QuestionController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Question;
+        $model = new Question();
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
@@ -98,7 +100,7 @@ class QuestionController extends Controller
                   $q2cat->cId = QuestionCategory::NO_CATEGORY;
                   if($q2cat->save());
                   } */
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
@@ -112,18 +114,19 @@ class QuestionController extends Controller
 
         $townsArray = Town::getTownsIdsNames();
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model,
             'allCategories' => $allCategories,
             'categoryId' => $categoryId,
             'townsArray' => $townsArray,
-        ));
+        ]);
     }
 
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     *
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -135,14 +138,14 @@ class QuestionController extends Controller
 
         if (isset($_POST['Question'])) {
             $model->attributes = $_POST['Question'];
-            if ($model->status == Question::STATUS_MODERATED && $oldStatus == Question::STATUS_NEW) {
+            if (Question::STATUS_MODERATED == $model->status && Question::STATUS_NEW == $oldStatus) {
                 $model->publishDate = date('Y-m-d H:i:s');
                 $model->publishedBy = Yii::app()->user->id;
             }
             if ($model->save()) {
                 if (isset($_POST['Question']['categories'])) {
                     // удалим старые привязки вопроса к категориям
-                    Question2category::model()->deleteAllByAttributes(array('qId' => $model->id));
+                    Question2category::model()->deleteAllByAttributes(['qId' => $model->id]);
                     // привяжем вопрос к категориям
                     foreach ($_POST['Question']['categories'] as $categoryId) {
                         $q2cat = new Question2category();
@@ -158,7 +161,7 @@ class QuestionController extends Controller
                   if($q2cat->save());
                   } */
 
-                $this->redirect(array('view', 'id' => $model->id, 'question_updated' => 'yes'));
+                $this->redirect(['view', 'id' => $model->id, 'question_updated' => 'yes']);
             }
         }
 
@@ -167,17 +170,18 @@ class QuestionController extends Controller
 
         $townsArray = Town::getTownsIdsNames();
 
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
             'allCategories' => $allCategories,
             'townsArray' => $townsArray,
-        ));
+        ]);
     }
 
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     *
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -185,7 +189,7 @@ class QuestionController extends Controller
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax'])) {
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['index']);
         }
     }
 
@@ -194,93 +198,90 @@ class QuestionController extends Controller
      */
     public function actionIndex()
     {
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
         $criteria->order = 't.id DESC';
 
         if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)) {
-            $answersCountRelation = "answersCount";
+            $answersCountRelation = 'answersCount';
         } else {
-            $answersCountRelation = array('answersCount' => array(
+            $answersCountRelation = ['answersCount' => [
                     'having' => 's=0',
-            ));
+            ]];
         }
 
         if (isset($_GET['moderatedBy'])) {
-            $criteria->addColumnCondition(array('moderatedBy' => (int) $_GET['moderatedBy']));
-            $criteria->order = "moderatedTime DESC";
+            $criteria->addColumnCondition(['moderatedBy' => (int) $_GET['moderatedBy']]);
+            $criteria->order = 'moderatedTime DESC';
             $moderator = User::model()->findByPk((int) $_GET['moderatedBy']);
         } else {
             $moderator = null;
         }
 
-
         if (!isset($_GET['nocat'])) {
-            $criteria->with = array(
+            $criteria->with = [
                 'categories',
                 'town',
                 $answersCountRelation,
                 'bublishUser',
-            );
+            ];
             $nocat = false;
         } else {
             // если нужно показать опубликованные вопросы без категории
-            $criteria->with = array(
-                'categories' => array(
+            $criteria->with = [
+                'categories' => [
                     'on' => 'categories.id IS NULL',
-                ),
+                ],
                 'town',
-                (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)) ? "answersCount" : 'answersCount' => array(
+                (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)) ? 'answersCount' : 'answersCount' => [
                     'having' => 's=0',
-                ),
-            );
+                ],
+            ];
             //$criteria->addColumnCondition(array('t.status' =>  Question::STATUS_PUBLISHED, 't.status' =>  Question::STATUS_CHECK), "OR", "AND");
             $criteria->addCondition('t.status = ' . Question::STATUS_PUBLISHED . ' OR t.status = ' . Question::STATUS_CHECK);
             $nocat = true;
         }
 
         if (isset($_GET['notown'])) {
-            $criteria->addColumnCondition(array('t.status' => Question::STATUS_PUBLISHED));
-            $criteria->addColumnCondition(array('t.townId' => 0));
+            $criteria->addColumnCondition(['t.status' => Question::STATUS_PUBLISHED]);
+            $criteria->addColumnCondition(['t.townId' => 0]);
             $notown = true;
         }
-
 
         if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)) {
             // админу и контент-менеджеру позволяем фильтровать вопросы по статусу
             if (isset($_GET['status'])) {
                 $status = (int) $_GET['status'];
-                $criteria->addColumnCondition(array('t.status' => $status));
-                if ($status === Question::STATUS_NEW && isset($_GET['email_unconfirmed'])) {
-                    $criteria->addColumnCondition(array('t.email!' => ''));
-                } elseif ($status === Question::STATUS_NEW && !isset($_GET['email_unconfirmed'])) {
-                    $criteria->addColumnCondition(array('t.email' => ''));
+                $criteria->addColumnCondition(['t.status' => $status]);
+                if (Question::STATUS_NEW === $status && isset($_GET['email_unconfirmed'])) {
+                    $criteria->addColumnCondition(['t.email!' => '']);
+                } elseif (Question::STATUS_NEW === $status && !isset($_GET['email_unconfirmed'])) {
+                    $criteria->addColumnCondition(['t.email' => '']);
                 }
             } else {
                 $status = null;
             }
         } else {
             // юристу показываем вопросы со статусами Модерирован и Опубликован
-            $criteria->addInCondition('t.status', array(Question::STATUS_MODERATED, Question::STATUS_PUBLISHED));
+            $criteria->addInCondition('t.status', [Question::STATUS_MODERATED, Question::STATUS_PUBLISHED]);
         }
 
-        $dataProvider = new CActiveDataProvider('Question', array(
+        $dataProvider = new CActiveDataProvider('Question', [
             'criteria' => $criteria,
-            'pagination' => array(
+            'pagination' => [
                 'pageSize' => 20,
-            ),
-        ));
+            ],
+        ]);
 
         $allDirections = QuestionCategory::getDirections();
 
-
-        $this->render('index', array(
+        $this->render('index', [
             'dataProvider' => $dataProvider,
             'status' => $status,
             'nocat' => $nocat,
             'notown' => $notown,
             'allDirections' => $allDirections,
             'moderator' => $moderator,
-        ));
+        ]);
     }
 
     // вывод списка вопросов без категорий
@@ -310,32 +311,31 @@ class QuestionController extends Controller
 
         $allDirections = QuestionCategory::getDirections(true, true);
 
-
-        $this->render('nocat', array(
+        $this->render('nocat', [
             'questions' => $questions,
             'allDirections' => $allDirections,
             'questionsCount' => $questionsCount,
-        ));
+        ]);
     }
 
     // вывод списка вопросов без категорий
     public function actionVip()
     {
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
         $criteria->order = 't.id DESC';
 
-        $criteria->addColumnCondition(array('t.payed' => 1));
+        $criteria->addColumnCondition(['t.payed' => 1]);
 
-        $dataProvider = new CActiveDataProvider('Question', array(
+        $dataProvider = new CActiveDataProvider('Question', [
             'criteria' => $criteria,
-            'pagination' => array(
+            'pagination' => [
                 'pageSize' => 20,
-            ),
-        ));
+            ],
+        ]);
 
-        $this->render('vip', array(
+        $this->render('vip', [
             'dataProvider' => $dataProvider,
-        ));
+        ]);
     }
 
     // выводит список вопросов, одобренных заданным пользователем с id=$id
@@ -346,22 +346,22 @@ class QuestionController extends Controller
             throw new CHttpException(404, 'Пользователь не найден');
         }
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
         $criteria->order = 't.id desc';
 
-        $criteria->addColumnCondition(array('publishedBy' => (int) $id));
+        $criteria->addColumnCondition(['publishedBy' => (int) $id]);
 
-        $dataProvider = new CActiveDataProvider('Question', array(
+        $dataProvider = new CActiveDataProvider('Question', [
             'criteria' => $criteria,
-            'pagination' => array(
+            'pagination' => [
                 'pageSize' => 20,
-            ),
-        ));
+            ],
+        ]);
 
-        $this->render('byPublisher', array(
+        $this->render('byPublisher', [
             'dataProvider' => $dataProvider,
             'publisher' => $publisher,
-        ));
+        ]);
     }
 
     /**
@@ -375,9 +375,9 @@ class QuestionController extends Controller
             $model->attributes = $_GET['Question'];
         }
 
-        $this->render('admin', array(
+        $this->render('admin', [
             'model' => $model,
-        ));
+        ]);
     }
 
     public function actionPublish()
@@ -394,10 +394,10 @@ class QuestionController extends Controller
         $model = $this->loadModel($id);
         $model->status = Question::STATUS_SPAM;
         if ($model->save()) {
-            echo CJSON::encode(array('id' => $id, 'status' => 1));
+            echo CJSON::encode(['id' => $id, 'status' => 1]);
         } else {
             //print_r($model->errors);
-            echo CJSON::encode(array('status' => 0));
+            echo CJSON::encode(['status' => 0]);
         }
     }
 
@@ -407,21 +407,19 @@ class QuestionController extends Controller
                 ->select('q.id id, questionText, townId, authorName')
                 ->from('{{question q}}')
                 ->leftJoin('{{answer a}}', 'a.questionId = q.id')
-                ->where('q.status=:status AND a.id IS NULL', array(':status' => Question::STATUS_PUBLISHED))
+                ->where('q.status=:status AND a.id IS NULL', [':status' => Question::STATUS_PUBLISHED])
                 ->order('RAND()')
                 ->limit(1)
                 ->queryRow();
 
-        //CustomFuncs::printr($question);
-
         if ($question) {
-            echo CJSON::encode(array(
+            echo CJSON::encode([
                 'question' => nl2br(mb_substr(CHtml::encode($question['questionText']), 0, 300, 'utf-8')),
                 'name' => $question['authorName'],
                 'town' => Town::getName($question['townId']),
                 'code' => 0,
                 'id' => $question['id'],
-            ));
+            ]);
         } else {
             echo 'NULL';
         }
@@ -430,26 +428,31 @@ class QuestionController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     *
+     * @param int $id the ID of the model to be loaded
+     *
      * @return Question the loaded model
+     *
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = Question::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'Вопрос не найден');
         }
+
         return $model;
     }
 
     /**
      * Performs the AJAX validation.
+     *
      * @param Question $model the model to be validated
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'question-form') {
+        if (isset($_POST['ajax']) && 'question-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
@@ -465,7 +468,7 @@ class QuestionController extends Controller
         foreach ($questions as $question) {
             $oldDate = $question->publishDate;
             $dateArray = explode(' ', $oldDate);
-            //CustomFuncs::printr($dateArray);
+
             $oldTime = $dateArray[1];
             $oldDate = $dateArray[0];
 
@@ -482,13 +485,14 @@ class QuestionController extends Controller
         $catId = ($_POST['catId']) ? (int) $_POST['catId'] : false;
         $questionId = ($_POST['questionId']) ? (int) $_POST['questionId'] : false;
 
-        if ($questionId == false || $catId == false) {
-            echo CJSON::encode(array('questionId' => $questionId, 'status' => 400));
+        if (false == $questionId || false == $catId) {
+            echo CJSON::encode(['questionId' => $questionId, 'status' => 400]);
+
             return;
         }
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
 
-        $q2c = new Question2category;
+        $q2c = new Question2category();
         $q2c->qId = $questionId;
         $q2c->cId = $catId;
 
@@ -510,10 +514,12 @@ class QuestionController extends Controller
                     }
                 }
             }
-            echo CJSON::encode(array('questionId' => $questionId, 'status' => 0));
+            echo CJSON::encode(['questionId' => $questionId, 'status' => 0]);
+
             return;
         } else {
-            echo CJSON::encode(array('questionId' => $questionId, 'status' => 500));
+            echo CJSON::encode(['questionId' => $questionId, 'status' => 500]);
+
             return;
         }
     }
@@ -543,9 +549,9 @@ class QuestionController extends Controller
                 setcookie('lastModeratedQuestionId', $question->id);
                 //Yii::app()->user->setState('lastModeratedQuestionId', $question->id);
                 if ($showMy) {
-                    $this->redirect(array('question/setTitle', 'my' => 1));
+                    $this->redirect(['question/setTitle', 'my' => 1]);
                 } else {
-                    $this->redirect(array('question/setTitle'));
+                    $this->redirect(['question/setTitle']);
                 }
             }
         } elseif (isset($_GET['id'])) {
@@ -557,12 +563,12 @@ class QuestionController extends Controller
             $criteria->limit = 1;
 
             // Если задано показывать модерированные мной вопросы, выбираем 1 вопрос, который был модерирован максимально давно
-            if ($showMy == true) {
-                $criteria->order = "moderatedTime ASC";
-                $criteria->addColumnCondition(array('isModerated' => 1, 'moderatedBy' => Yii::app()->user->id));
+            if (true == $showMy) {
+                $criteria->order = 'moderatedTime ASC';
+                $criteria->addColumnCondition(['isModerated' => 1, 'moderatedBy' => Yii::app()->user->id]);
             } else {
-                $criteria->order = "id DESC";
-                $criteria->addColumnCondition(array('isModerated' => 0));
+                $criteria->order = 'id DESC';
+                $criteria->addColumnCondition(['isModerated' => 0]);
             }
 
             $criteria->addCondition('status IN (' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ', ' . Question::STATUS_MODERATED . ')');
@@ -572,15 +578,15 @@ class QuestionController extends Controller
 
         $questionsCountRow = Yii::app()->db->createCommand()
                 ->select('COUNT(*) counter')
-                ->from("{{question}}")
-                ->where("isModerated=0 AND status IN (:status1, :status2, :status3)", array(':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED, ':status3' => Question::STATUS_MODERATED))
+                ->from('{{question}}')
+                ->where('isModerated=0 AND status IN (:status1, :status2, :status3)', [':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED, ':status3' => Question::STATUS_MODERATED])
                 ->queryRow();
         $questionsCount = $questionsCountRow['counter'];
 
         $questionsModeratedByMe = Yii::app()->db->createCommand()
                 ->select('COUNT(*) counter')
-                ->from("{{question}}")
-                ->where("isModerated=1 AND status IN (:status1, :status2, :status3) AND moderatedBy=:userId", array(':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED, ':status3' => Question::STATUS_MODERATED, ':userId' => Yii::app()->user->id))
+                ->from('{{question}}')
+                ->where('isModerated=1 AND status IN (:status1, :status2, :status3) AND moderatedBy=:userId', [':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED, ':status3' => Question::STATUS_MODERATED, ':userId' => Yii::app()->user->id])
                 ->queryRow();
         $questionsModeratedByMeCount = $questionsModeratedByMe['counter'];
 
@@ -590,26 +596,25 @@ class QuestionController extends Controller
          */
 
         $moderatorsStats = Yii::app()->db->createCommand()
-                ->select("u.id, u.name, u.lastName, COUNT(*) counter")
-                ->from("{{question}} q")
-                ->leftJoin("{{user}} u", "u.id=q.moderatedBy")
-                ->where("q.moderatedBy!=0")
-                ->group("u.id")
+                ->select('u.id, u.name, u.lastName, COUNT(*) counter')
+                ->from('{{question}} q')
+                ->leftJoin('{{user}} u', 'u.id=q.moderatedBy')
+                ->where('q.moderatedBy!=0')
+                ->group('u.id')
                 ->order('counter DESC')
                 ->queryAll();
 
-
-        $this->render('setTitle', array(
+        $this->render('setTitle', [
             'model' => $question,
             'questionsCount' => $questionsCount,
             'questionsModeratedByMeCount' => $questionsModeratedByMeCount,
             'moderatorsStats' => $moderatorsStats,
             'showMy' => $showMy,
-        ));
+        ]);
     }
 
     /**
-     * Находит несколько вопросов с одинаковым текстом и показывает их
+     * Находит несколько вопросов с одинаковым текстом и показывает их.
      */
     public function actionDuplicates()
     {
@@ -634,17 +639,17 @@ class QuestionController extends Controller
                 ->queryRow();
 
         $criteria = new CDbCriteria();
-        $criteria->addColumnCondition(array('MD5(title)' => $md5['hash']));
-        $criteria->addInCondition('status', array(Question::STATUS_CHECK, Question::STATUS_PUBLISHED));
+        $criteria->addColumnCondition(['MD5(title)' => $md5['hash']]);
+        $criteria->addInCondition('status', [Question::STATUS_CHECK, Question::STATUS_PUBLISHED]);
         $dataProvider = new CActiveDataProvider(
             'Question',
-            array(
-            'criteria' => $criteria)
+            [
+            'criteria' => $criteria, ]
         );
 
-        $this->render('duplicates', array(
+        $this->render('duplicates', [
             'dataProvider' => $dataProvider,
-        ));
+        ]);
     }
 
     public function actionNotifyYurists()

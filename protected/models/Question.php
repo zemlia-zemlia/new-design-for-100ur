@@ -80,7 +80,7 @@ class Question extends CActiveRecord
      */
     public static function getFullTableName()
     {
-        return Yii::app()->db->tablePrefix.'question';
+        return Yii::app()->db->tablePrefix . 'question';
     }
 
     /**
@@ -294,7 +294,7 @@ class Question extends CActiveRecord
     protected function afterSave()
     {
         if (self::STATUS_CHECK == $this->status || self::STATUS_PUBLISHED == $this->status) {
-            LoggerFactory::getLogger('db')->log('Сохранен опубликованный вопрос #'.$this->id, 'Question', $this->id);
+            LoggerFactory::getLogger('db')->log('Сохранен опубликованный вопрос #' . $this->id, 'Question', $this->id);
         }
         parent::afterSave();
     }
@@ -308,7 +308,7 @@ class Question extends CActiveRecord
     {
         $text = trim(preg_replace('/[^a-zA-Zа-яА-ЯёЁ0-9 ]/ui', ' ', $this->questionText));
         $text .= ' ';
-        preg_match("/(\w+\s+){0,".($wordsCount).'}/u', $text, $matches);
+        preg_match("/(\w+\s+){0," . ($wordsCount) . '}/u', $text, $matches);
         $this->title = $matches[0];
 
         $this->title = preg_replace('/\s{2,}/', ' ', $this->title);
@@ -327,7 +327,7 @@ class Question extends CActiveRecord
 
         $this->title = preg_replace($patterns, $replacements, $this->title);
         $this->title = trim($this->title);
-        $this->title = mb_strtoupper(mb_substr($this->title, 0, 1, 'UTF-8'), 'UTF-8').mb_substr($this->title, 1, mb_strlen($this->title, 'UTF-8'), 'UTF-8');
+        $this->title = mb_strtoupper(mb_substr($this->title, 0, 1, 'UTF-8'), 'UTF-8') . mb_substr($this->title, 1, mb_strlen($this->title, 'UTF-8'), 'UTF-8');
     }
 
     /**
@@ -351,7 +351,7 @@ class Question extends CActiveRecord
     public function preSave()
     {
         if ('' == $this->sessionId) {
-            $this->sessionId = ''.time().'_'.mt_rand(100, 999);
+            $this->sessionId = '' . time() . '_' . mt_rand(100, 999);
 
             $this->setScenario('preSave');
 
@@ -366,8 +366,6 @@ class Question extends CActiveRecord
 
             if (!$this->save()) {
                 return false;
-                //echo "Ошибки при предсохранении вопроса";
-                //CustomFuncs::printr($this->errors);
             }
         }
 
@@ -404,7 +402,7 @@ class Question extends CActiveRecord
             $author->phone = $this->phone;
             $author->name = $this->authorName;
             $author->password = $author->password2 = User::hashPassword($author->generatePassword());
-            $author->confirm_code = md5($this->email.mt_rand(100000, 999999));
+            $author->confirm_code = md5($this->email . mt_rand(100000, 999999));
             $author->email = $this->email;
             $author->townId = $this->townId;
             $author->registerDate = date('Y-m-d');
@@ -464,7 +462,7 @@ class Question extends CActiveRecord
             ->limit(1);
 
         if ('' != $myCategoriesStr) {
-            $questionCommand->andWhere('q2c.cId IN('.$myCategoriesStr.')');
+            $questionCommand->andWhere('q2c.cId IN(' . $myCategoriesStr . ')');
         }
         $questionRow = $questionCommand->queryRow();
 
@@ -478,23 +476,23 @@ class Question extends CActiveRecord
      */
     public function vipNotification($rateWithoutComission)
     {
-        $paymentLog = fopen(Yii::getPathOfAlias('application').'/..'.YandexKassa::PAYMENT_LOG_FILE, 'a+');
-        fwrite($paymentLog, 'Отправляем уведомление о вип вопросе '.$this->id.PHP_EOL);
-        fwrite($paymentLog, 'На адрес '.Yii::app()->params['adminNotificationsEmail'].PHP_EOL);
-        fwrite($paymentLog, 'Сумма '.$rateWithoutComission.PHP_EOL);
+        $paymentLog = fopen(Yii::getPathOfAlias('application') . '/..' . YandexKassa::PAYMENT_LOG_FILE, 'a+');
+        fwrite($paymentLog, 'Отправляем уведомление о вип вопросе ' . $this->id . PHP_EOL);
+        fwrite($paymentLog, 'На адрес ' . Yii::app()->params['adminNotificationsEmail'] . PHP_EOL);
+        fwrite($paymentLog, 'Сумма ' . $rateWithoutComission . PHP_EOL);
 
         $mailer = new GTMail();
         $mailer->subject = 'Добавлен новый VIP вопрос';
         $mailer->email = Yii::app()->params['adminNotificationsEmail'];
-        $mailer->message = 'На сайт только что добавлен новый VIP вопрос: '.
+        $mailer->message = 'На сайт только что добавлен новый VIP вопрос: ' .
             CHtml::link(Yii::app()->createUrl('question/view', ['id' => $this->id]), Yii::app()->createUrl('question/view', ['id' => $this->id]));
 
         fwrite($paymentLog, print_r($mailer, true));
 
         if ($mailer->sendMail()) {
-            fwrite($paymentLog, 'письмо отправлено'.PHP_EOL);
+            fwrite($paymentLog, 'письмо отправлено' . PHP_EOL);
         } else {
-            fwrite($paymentLog, 'письмо не отправлено'.PHP_EOL);
+            fwrite($paymentLog, 'письмо не отправлено' . PHP_EOL);
         }
 
         $transaction = new Money();
@@ -503,12 +501,12 @@ class Question extends CActiveRecord
         $transaction->accountId = 4;
         $transaction->datetime = date('Y-m-d');
         $transaction->value = $rateWithoutComission;
-        $transaction->comment = 'Оплата вопроса id='.$this->id;
+        $transaction->comment = 'Оплата вопроса id=' . $this->id;
 
         if ($transaction->save()) {
-            fwrite($paymentLog, 'транзакция сохранена'.PHP_EOL);
+            fwrite($paymentLog, 'транзакция сохранена' . PHP_EOL);
         } else {
-            fwrite($paymentLog, 'транзакция не сохранена'.PHP_EOL);
+            fwrite($paymentLog, 'транзакция не сохранена' . PHP_EOL);
             fwrite($paymentLog, print_r($transaction->errors, true));
         }
     }
@@ -547,7 +545,7 @@ class Question extends CActiveRecord
                     LEFT JOIN {{comment}} c ON c.objectId = a.id
                     LEFT JOIN {{user}} u ON u.id = c.authorId
                     SET c.seen=1
-                    WHERE c.type='.Comment::TYPE_ANSWER.' AND c.seen=0 AND a.authorId = '.$userId.' AND q.id='.$this->id)
+                    WHERE c.type=' . Comment::TYPE_ANSWER . ' AND c.seen=0 AND a.authorId = ' . $userId . ' AND q.id=' . $this->id)
             ->execute();
 
         if ($checkResult) {
@@ -565,12 +563,12 @@ class Question extends CActiveRecord
     public static function sendRecentQuestionsNotifications($hours = 12)
     {
         $questionsCriteria = new CDbCriteria();
-        $questionsCriteria->addCondition('publishDate>NOW()-INTERVAL '.$hours.' HOUR');
+        $questionsCriteria->addCondition('publishDate>NOW()-INTERVAL ' . $hours . ' HOUR');
         $questionsCriteria->addInCondition('status', [Question::STATUS_PUBLISHED, Question::STATUS_CHECK]);
 
         $recentQuestions = Question::model()->findAll($questionsCriteria);
 
-        echo sizeof($recentQuestions).' questions found <br />'.PHP_EOL;
+        echo sizeof($recentQuestions) . ' questions found <br />' . PHP_EOL;
 
         if (!sizeof($recentQuestions)) {
             return false;
@@ -582,11 +580,10 @@ class Question extends CActiveRecord
         foreach ($recentQuestions as $recentQuestion) {
             if ($recentQuestion->town && $recentQuestion->town->regionId) {
                 $questions[$recentQuestion->town->regionId][$recentQuestion->townId][] = $recentQuestion;
-                echo 'Регион: '.$recentQuestion->town->regionId.', город: '.$recentQuestion->townId.', вопрос: '.$recentQuestion->title.'<br />';
+                echo 'Регион: ' . $recentQuestion->town->regionId . ', город: ' . $recentQuestion->townId . ', вопрос: ' . $recentQuestion->title . '<br />';
             }
         }
-        //CustomFuncs::printr($questions);
-        //var_dump($questions);
+
         $yurists = [];
         $yuristsRows = Yii::app()->db->createCommand()
             ->select('u.id, u.name, u.lastName, u.email, u.autologin, u.townId, t.regionId, s.subscribeQuestions')
@@ -614,18 +611,17 @@ class Question extends CActiveRecord
                         if (0 == sizeof($questions[$regionId])) {
                             continue;
                         }
-                        echo 'message to Yurist '.$yurist['email'].'<br />'.PHP_EOL;
+                        echo 'message to Yurist ' . $yurist['email'] . '<br />' . PHP_EOL;
                         $mailer = new GTMail();
                         $mailer->email = $yurist['email'];
                         $mailer->subject = 'Свежие вопросы из вашего региона';
-                        $mailer->message = '<h2>'.trim($yurist['name']).', подборка свежих вопросов из вашего региона '.'</h2>';
+                        $mailer->message = '<h2>' . trim($yurist['name']) . ', подборка свежих вопросов из вашего региона ' . '</h2>';
 
                         foreach ($questions[$regionId] as $questionsByRegion) {
                             foreach ($questionsByRegion as $question) {
-                                //CustomFuncs::printr($question);
-                                $mailer->message .= '<p>'.
-                                    CHtml::link($question->title, Yii::app()->createUrl('question/view', ['id' => $question->id, 'autologin' => $yurist['autologin'], 'utm_medium' => 'mail', 'utm_source' => '100yuristov', 'utm_campaign' => 'fresh_questions_notification', 'utm_term' => $yurist['id']])).
-                                    '<br />'.CHtml::encode(CustomFuncs::cutString($question->questionText, 200));
+                                $mailer->message .= '<p>' .
+                                    CHtml::link($question->title, Yii::app()->createUrl('question/view', ['id' => $question->id, 'autologin' => $yurist['autologin'], 'utm_medium' => 'mail', 'utm_source' => '100yuristov', 'utm_campaign' => 'fresh_questions_notification', 'utm_term' => $yurist['id']])) .
+                                    '<br />' . CHtml::encode(StringHelper::cutString($question->questionText, 200));
                                 if (mb_strlen($question->questionText, 'utf-8') > 200) {
                                     $mailer->message .= '...';
                                 }
@@ -643,8 +639,8 @@ class Question extends CActiveRecord
                         ];
 
                         if ($mailer->sendMail(true, $additionalHeaders)) {
-                            echo 'message sent <br />'.PHP_EOL;
-                            Yii::log('Отправлено письмо юристу '.$mailer->email.' с уведомлением о новых вопросах', 'info', 'system.web.User');
+                            echo 'message sent <br />' . PHP_EOL;
+                            Yii::log('Отправлено письмо юристу ' . $mailer->email . ' с уведомлением о новых вопросах', 'info', 'system.web.User');
                         }
                     } else {
                         // вариант, когда юрист подписан на вопросы из города
@@ -659,17 +655,16 @@ class Question extends CActiveRecord
                             continue;
                         }
 
-                        echo 'message to Yurist '.$yurist['email'].'<br />'.PHP_EOL;
+                        echo 'message to Yurist ' . $yurist['email'] . '<br />' . PHP_EOL;
                         $mailer = new GTMail();
                         $mailer->email = $yurist['email'];
                         $mailer->subject = 'Свежие вопросы из вашего города';
-                        $mailer->message = '<h2>'.trim($yurist['name']).', подборка свежих вопросов из вашего города</h2>';
+                        $mailer->message = '<h2>' . trim($yurist['name']) . ', подборка свежих вопросов из вашего города</h2>';
 
                         foreach ($questions[$regionId][$townId] as $question) {
-                            //CustomFuncs::printr($question);
-                            $mailer->message .= '<p>'.
-                                CHtml::link($question->title, Yii::app()->createUrl('question/view', ['id' => $question->id, 'autologin' => $yurist['autologin'], 'utm_medium' => 'mail', 'utm_source' => '100yuristov', 'utm_campaign' => 'fresh_questions_notification', 'utm_term' => $yurist['id']])).
-                                '<br />'.CHtml::encode(CustomFuncs::cutString($question->questionText, 200));
+                            $mailer->message .= '<p>' .
+                                CHtml::link($question->title, Yii::app()->createUrl('question/view', ['id' => $question->id, 'autologin' => $yurist['autologin'], 'utm_medium' => 'mail', 'utm_source' => '100yuristov', 'utm_campaign' => 'fresh_questions_notification', 'utm_term' => $yurist['id']])) .
+                                '<br />' . CHtml::encode(StringHelper::cutString($question->questionText, 200));
                             if (mb_strlen($question->questionText, 'utf-8') > 200) {
                                 $mailer->message .= '...';
                             }
@@ -685,8 +680,8 @@ class Question extends CActiveRecord
 
                         //echo "<div>" . $mailer->message . "</div><hr />";
                         if ($mailer->sendMail(true, $additionalHeaders)) {
-                            echo 'message sent <br />'.PHP_EOL;
-                            Yii::log('Отправлено письмо юристу '.$mailer->email.' с уведомлением о новых вопросах', 'info', 'system.web.User');
+                            echo 'message sent <br />' . PHP_EOL;
+                            Yii::log('Отправлено письмо юристу ' . $mailer->email . ' с уведомлением о новых вопросах', 'info', 'system.web.User');
                         }
                     }
                 }
@@ -759,10 +754,10 @@ class Question extends CActiveRecord
             $webmasterTransaction->sourceId = $this->sourceId;
             $webmasterTransaction->partnerId = $this->source->userId;
             $webmasterTransaction->questionId = $this->id;
-            $webmasterTransaction->comment = 'Начисление за вопрос #'.$this->id;
+            $webmasterTransaction->comment = 'Начисление за вопрос #' . $this->id;
 
             if ($webmasterTransaction->save()) {
-                Yii::log('Не удалось создать транзакцию вебмастеру за вопрос '.$this->id, CLogger::LEVEL_ERROR);
+                Yii::log('Не удалось создать транзакцию вебмастеру за вопрос ' . $this->id, CLogger::LEVEL_ERROR);
             }
         }
     }
@@ -783,7 +778,7 @@ class Question extends CActiveRecord
             ':authorId' => $authorId,
         ];
         if (!empty($statuses)) {
-            $questionCriteria->addCondition('status IN ('.implode(',', $statuses).')');
+            $questionCriteria->addCondition('status IN (' . implode(',', $statuses) . ')');
         }
 
         return self::model()->findAll($questionCriteria);

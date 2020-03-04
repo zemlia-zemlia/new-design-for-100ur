@@ -2,13 +2,13 @@
 
 /**
  * Отправка данных о турбо-сраницах в API яндекса
- * Class YandexTurboCommand
+ * Class YandexTurboCommand.
  */
 class YandexTurboCommand extends CConsoleCommand
 {
     public function actionIndex()
     {
-        $turboApi = new TurboApi('AQAAAAAC0uqLAAUEeoJmgnrmUkc3sEaMzC4JonQ', (YII_DEV == true)?'DEBUG':'PRODUCTION');
+        $turboApi = new TurboApi('AQAAAAAC0uqLAAUEeoJmgnrmUkc3sEaMzC4JonQ', (YII_DEV == true) ? 'DEBUG' : 'PRODUCTION');
         $userId = $turboApi->requestUserId();
         $host = $turboApi->requestHost();
         $turboApi->requestUploadAddress();
@@ -24,7 +24,7 @@ class YandexTurboCommand extends CConsoleCommand
     }
 
     /**
-     * Формирование XML страниц с сохранением в файлы
+     * Формирование XML страниц с сохранением в файлы.
      */
     public function actionTestGetTasks()
     {
@@ -36,7 +36,7 @@ class YandexTurboCommand extends CConsoleCommand
     }
 
     /**
-     * Получение результатов обработки турбостраниц
+     * Получение результатов обработки турбостраниц.
      */
     public function actionGetStatus()
     {
@@ -46,7 +46,7 @@ class YandexTurboCommand extends CConsoleCommand
 
         $taskIds = file(__DIR__ . '/output/tasks.txt');
         foreach ($taskIds as $taskId) {
-            if (trim($taskId) != '') {
+            if ('' != trim($taskId)) {
                 $taskStatus[] = $taskId . ':' . $turboApi->getTask($taskId);
             }
         }
@@ -62,12 +62,15 @@ class YandexTurboCommand extends CConsoleCommand
         $criteria->addCondition('description1 != "" AND seoH1!=""');
 
         $categories = QuestionCategory::model()->findAll($criteria);
+
         return $categories;
     }
 
     /**
-     * Вытаскивает из базы массив вопросов с ответами
+     * Вытаскивает из базы массив вопросов с ответами.
+     *
      * @param int $limit
+     *
      * @return array
      */
     protected function getQuestions($limit = 1000)
@@ -154,6 +157,7 @@ class YandexTurboCommand extends CConsoleCommand
         }
 
         $tasks = $turboPack->getTasks($tasksLimit);
+
         return $tasks;
     }
 }

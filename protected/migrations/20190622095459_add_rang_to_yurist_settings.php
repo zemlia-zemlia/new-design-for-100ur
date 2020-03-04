@@ -4,11 +4,10 @@ use Phinx\Migration\AbstractMigration;
 
 /**
  * Создание в настройках юриста нового поля - ранг
- * Class AddRangToYuristSettings
+ * Class AddRangToYuristSettings.
  */
 class AddRangToYuristSettings extends AbstractMigration
 {
-
     public function up()
     {
         $this->table('100_yuristSettings')

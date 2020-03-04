@@ -3,8 +3,11 @@
  * EJqueryUiConfig class file.
  *
  * @author MetaYii
+ *
  * @version 2.4.1
- * @link http://www.yiiframework.com/
+ *
+ * @see http://www.yiiframework.com/
+ *
  * @copyright Copyright &copy; 2009 MetaYii
  * @license dual GPL (3.0 or later) and MIT, at your choice.
  * @license http://www.opensource.org/licenses/mit-license.php
@@ -63,8 +66,8 @@
  * EJqueryUiConfig is a singleton for storing EJqueryUiWidget's configuration.
  *
  * @author MetaYii
+ *
  * @since 1.0.4
- * @package application.extensions.jui
  */
 class EJqueryUiConfig
 {
@@ -98,7 +101,7 @@ class EJqueryUiConfig
      * minified - minified
      * packed   - packed
      *
-     * @var integer
+     * @var int
      */
     protected $compression = null;
 
@@ -107,7 +110,7 @@ class EJqueryUiConfig
      * use your own CSS stylesheets. In this case, you may include your style
      * sheet elsewhere in the view or widget needed.
      *
-     * @var boolean
+     * @var bool
      */
     protected $useBundledStyleSheet = null;
 
@@ -128,11 +131,11 @@ class EJqueryUiConfig
      *
      * If you want to construct a theme, go to: http://ui.jquery.com/themeroller
      *
-     * @link http://ui.jquery.com/themeroller
+     * @see http://ui.jquery.com/themeroller
      *
      * @var array
      */
-    protected $validThemes = array(
+    protected $validThemes = [
                                  'base',
                                  'black-tie',
                                  'blitzer',
@@ -150,50 +153,51 @@ class EJqueryUiConfig
                                  'trontastic',
                                  'ui-darkness',
                                  'ui-lightness',
-                                 'vader'
-                               );
+                                 'vader',
+                               ];
 
     //***************************************************************************
     // Setters and getters
     //***************************************************************************
 
     /**
-     * Setter
+     * Setter.
      *
      * @param string $value theme
      */
     public function setTheme($value)
     {
-        if ($this->theme === null) {
+        if (null === $this->theme) {
             if (!in_array($value, $this->validThemes)) {
-                throw new CException(Yii::t('EJqueryUiWidget', 'theme must be one of: {t}', array('{t}'=>implode(', ', $this->validThemes))));
+                throw new CException(Yii::t('EJqueryUiWidget', 'theme must be one of: {t}', ['{t}' => implode(', ', $this->validThemes)]));
             }
             $this->theme = $value;
         }
     }
 
     /**
-     * Getter
+     * Getter.
      *
      * @return string theme
      */
     public function getTheme()
     {
-        if ($this->theme === null) {
+        if (null === $this->theme) {
             $this->theme = self::DEFAULT_THEME;
         }
+
         return $this->theme;
     }
 
     /**
-     * Setter
+     * Setter.
      *
      * @param string $value compression
      */
     public function setCompression($value)
     {
-        if ($this->compression === null) {
-            if (!in_array($value, array('none', 'minified', 'packed'))) {
+        if (null === $this->compression) {
+            if (!in_array($value, ['none', 'minified', 'packed'])) {
                 throw new CException(Yii::t('EJqueryUiWidget', 'compression must be one of: "none", "minified", "packed"'));
             }
             $this->compression = $value;
@@ -201,26 +205,27 @@ class EJqueryUiConfig
     }
 
     /**
-     * Getter
+     * Getter.
      *
      * @return string
      */
     public function getCompression()
     {
-        if ($this->compression === null) {
+        if (null === $this->compression) {
             $this->compression = self::DEFAULT_COMPRESSION;
         }
+
         return $this->compression;
     }
 
     /**
-     * Setter
+     * Setter.
      *
-     * @param boolean $value useBundledStyleSheet
+     * @param bool $value useBundledStyleSheet
      */
     public function setUseBundledStyleSheet($value)
     {
-        if ($this->useBundledStyleSheet === null) {
+        if (null === $this->useBundledStyleSheet) {
             if (!is_bool($value)) {
                 throw new CException(Yii::t('EJqueryUiWidget', 'useBundledStyleSheet must be boolean'));
             }
@@ -229,15 +234,16 @@ class EJqueryUiConfig
     }
 
     /**
-     * Getter
+     * Getter.
      *
-     * @return boolean
+     * @return bool
      */
     public function getUseBundledStyleSheet()
     {
-        if ($this->useBundledStyleSheet === null) {
+        if (null === $this->useBundledStyleSheet) {
             $this->useBundledStyleSheet = self::DEFAULT_BUNDLED;
         }
+
         return $this->useBundledStyleSheet;
     }
 
@@ -261,8 +267,9 @@ class EJqueryUiConfig
     {
         if (!isset(self::$instance)) {
             $c = __CLASS__;
-            self::$instance = new $c;
+            self::$instance = new $c();
         }
+
         return self::$instance;
     }
 

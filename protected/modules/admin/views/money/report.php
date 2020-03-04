@@ -1,13 +1,13 @@
 <?php
 /* @var $this MoneyController */
-$this->setPageTitle("Финансовый отчет за период. " . Yii::app()->name);
+$this->setPageTitle('Финансовый отчет за период. ' . Yii::app()->name);
 
 ?>
 
 <h1 class="vert-margin20">Финансовый отчет за период</h1>
 
 <div class="vert-margin30">
-   <?php $this->renderPartial('_searchReportForm', array('model'=>$searchModel));?> 
+   <?php $this->renderPartial('_searchReportForm', ['model' => $searchModel]); ?> 
 </div>
 
 <table class="table">
@@ -15,19 +15,19 @@ $this->setPageTitle("Финансовый отчет за период. " . Yii:
         <h3>Доходы</h3>
         </td>
     </tr>
-    <?php foreach ($reportDataSetFiltered['income']['directions'] as $code=>$value):?>
+    <?php foreach ($reportDataSetFiltered['income']['directions'] as $code => $value):?>
     <tr>
         <td>
-            <?php echo Money::getDirectionByCode($code);?>
+            <?php echo Money::getDirectionByCode($code); ?>
         </td>
         <td>
-            <?php echo $value;?>
+            <?php echo $value; ?>
         </td>
     </tr>
-    <?php endforeach;?>
+    <?php endforeach; ?>
     <tr>
         <td><strong>Всего доходов</strong></td>
-        <td><strong><?php echo $reportDataSetFiltered['income']['sum'];?></strong></td>
+        <td><strong><?php echo $reportDataSetFiltered['income']['sum']; ?></strong></td>
     </tr>
     
     <tr>
@@ -40,19 +40,19 @@ $this->setPageTitle("Финансовый отчет за период. " . Yii:
             <h4>Операционные расходы</h4>
         </td>
     </tr>
-    <?php foreach ($reportDataSetFiltered['expences']['opex']['directions'] as $code=>$value):?>
+    <?php foreach ($reportDataSetFiltered['expences']['opex']['directions'] as $code => $value):?>
     <tr>
         <td>
-            <?php echo Money::getDirectionByCode($code);?>
+            <?php echo Money::getDirectionByCode($code); ?>
         </td>
         <td>
-            <?php echo $value;?>
+            <?php echo $value; ?>
         </td>
     </tr>
-    <?php endforeach;?>
+    <?php endforeach; ?>
     <tr>
         <td><strong>Всего операционных расходов</strong></td>
-        <td><strong><?php echo $reportDataSetFiltered['expences']['opex']['sum'];?></strong></td>
+        <td><strong><?php echo $reportDataSetFiltered['expences']['opex']['sum']; ?></strong></td>
     </tr>
     
     <tr>
@@ -61,24 +61,24 @@ $this->setPageTitle("Финансовый отчет за период. " . Yii:
         </td>
     </tr>
     <?php if ($reportDataSetFiltered['expences']['capex']['directions']):?>
-        <?php foreach ($reportDataSetFiltered['expences']['capex']['directions'] as $code=>$value):?>
+        <?php foreach ($reportDataSetFiltered['expences']['capex']['directions'] as $code => $value):?>
         <tr>
             <td>
-                <?php echo Money::getDirectionByCode($code);?>
+                <?php echo Money::getDirectionByCode($code); ?>
             </td>
             <td>
-                <?php echo $value;?>
+                <?php echo $value; ?>
             </td>
         </tr>
-        <?php endforeach;?>
-    <?php endif;?>
+        <?php endforeach; ?>
+    <?php endif; ?>
     <tr>
         <td><strong>Всего капитальных расходов</strong></td>
-        <td><strong><?php echo $reportDataSetFiltered['expences']['capex']['sum'];?></strong></td>
+        <td><strong><?php echo $reportDataSetFiltered['expences']['capex']['sum']; ?></strong></td>
     </tr>
     <tr>
         <td><strong>Всего расходов</strong></td>
-        <td><strong><?php echo $reportDataSetFiltered['expences']['sum'];?></strong></td>
+        <td><strong><?php echo $reportDataSetFiltered['expences']['sum']; ?></strong></td>
     </tr>
     
     <tr>
@@ -89,11 +89,11 @@ $this->setPageTitle("Финансовый отчет за период. " . Yii:
     
     <tr>
         <td>EBITDA</td>
-        <td><?php echo $reportDataSetFiltered['ebitda'];?></td>
+        <td><?php echo $reportDataSetFiltered['ebitda']; ?></td>
     </tr>
     <tr>
         <td>Чистая прибыль</td>
-        <td><?php echo $reportDataSetFiltered['net_profit'];?></td>
+        <td><?php echo $reportDataSetFiltered['net_profit']; ?></td>
     </tr>
 </table>
       

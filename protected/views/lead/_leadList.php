@@ -4,7 +4,7 @@
 <?php endif; ?>
 
 <?php
-$this->widget('zii.widgets.CListView', array(
+$this->widget('zii.widgets.CListView', [
     'dataProvider' => $dataProvider,
     'itemView' => '_view',
     'viewData' => [
@@ -12,6 +12,6 @@ $this->widget('zii.widgets.CListView', array(
     ],
     'emptyText' => 'Не найдено ни одной заявки',
     'summaryText' => '',
-    'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
-));
+    'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+]);
 ?>

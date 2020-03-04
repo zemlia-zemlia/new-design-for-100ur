@@ -1,9 +1,8 @@
 <?php
 /**
  * Выгрузка вопросов для дальнейшего анализа
- * Class QuestionsToCSVCommand
+ * Class QuestionsToCSVCommand.
  */
-
 class QuestionsToCSVCommand extends CConsoleCommand
 {
     public function actionIndex()
@@ -17,18 +16,18 @@ class QuestionsToCSVCommand extends CConsoleCommand
 
         $command = Yii::app()->db->createCommand()
             ->select('q.id, q.createDate, q.questionText, q.status, c.name cat_name, c.id cat_id')
-            ->from("{{question}} q")
-            ->leftJoin("{{question2category}} q2c", 'q.id = q2c.qId')
-            ->leftJoin("{{questionCategory}} c", 'c.id = q2c.cId')
-            ->where("c.id IS NOT NULL")
+            ->from('{{question}} q')
+            ->leftJoin('{{question2category}} q2c', 'q.id = q2c.qId')
+            ->leftJoin('{{questionCategory}} c', 'c.id = q2c.cId')
+            ->where('c.id IS NOT NULL')
             ->group('q.id')
             ->limit(10000);
 
         $questions = $command->queryAll();
         var_dump($questions);
 
-        $fp = fopen(__DIR__. '/output/questions.csv', 'w');
-        $order   = ["\r\n", "\n", "\r", "\""];
+        $fp = fopen(__DIR__ . '/output/questions.csv', 'w');
+        $order = ["\r\n", "\n", "\r", '"'];
         $replace = '';
         foreach ($questions as $question) {
             $question['questionText'] = str_replace($order, $replace, $question['questionText']);
@@ -43,13 +42,13 @@ class QuestionsToCSVCommand extends CConsoleCommand
     {
         $command = Yii::app()->db->createCommand()
             ->select('q.id, q.questionText, q.status')
-            ->from("{{question}} q")
-            ->where("q.status NOT IN (0, 5)")
+            ->from('{{question}} q')
+            ->where('q.status NOT IN (0, 5)')
             ->limit(100000);
 
         $questions = $command->queryAll();
-        $fp = fopen(__DIR__. '/output/questions_status.csv', 'w');
-        $order   = ["\r\n", "\n", "\r", "\""];
+        $fp = fopen(__DIR__ . '/output/questions_status.csv', 'w');
+        $order = ["\r\n", "\n", "\r", '"'];
         $replace = '';
         foreach ($questions as $question) {
             $question['questionText'] = str_replace($order, $replace, $question['questionText']);

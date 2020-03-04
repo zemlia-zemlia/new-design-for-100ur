@@ -1,6 +1,6 @@
 <?php
-    $this->setPageTitle("Бесплатная юридическая консультация по телефону горячей линии". Yii::app()->name);
-    Yii::app()->clientScript->registerMetaTag("Бесплатная юридическая консультация по телефону. Горячая линия юристов, юридическая поддержка в сложной ситуации", 'description');
+    $this->setPageTitle('Бесплатная юридическая консультация по телефону горячей линии' . Yii::app()->name);
+    Yii::app()->clientScript->registerMetaTag('Бесплатная юридическая консультация по телефону. Горячая линия юристов, юридическая поддержка в сложной ситуации', 'description');
 ?>
 
 
@@ -18,9 +18,9 @@
             <div class="center-align">
             <?php
                 // выводим виджет с номером 8800
-                $this->widget('application.widgets.Hotline.HotlineWidget', array(
-                    'showAlways'    =>  true,
-                ));
+                $this->widget('application.widgets.Hotline.HotlineWidget', [
+                    'showAlways' => true,
+                ]);
             ?>		
             </div>
 	</div>

@@ -23,23 +23,20 @@
 /**
  * Provides quick access to each encoding type.
  *
- * @package Swift
- * @subpackage Encoder
  * @author Chris Corbyn
  */
 class Swift_Encoding
 {
-  
-  /**
-   * Get the Encoder that provides 7-bit encoding.
-   *
-   * @return Swift_Mime_ContentEncoder
-   */
+    /**
+     * Get the Encoder that provides 7-bit encoding.
+     *
+     * @return Swift_Mime_ContentEncoder
+     */
     public static function get7BitEncoding()
     {
         return self::_lookup('mime.7bitcontentencoder');
     }
-  
+
     /**
      * Get the Encoder that provides 8-bit encoding.
      *
@@ -49,7 +46,7 @@ class Swift_Encoding
     {
         return self::_lookup('mime.8bitcontentencoder');
     }
-  
+
     /**
      * Get the Encoder that provides Quoted-Printable (QP) encoding.
      *
@@ -59,7 +56,7 @@ class Swift_Encoding
     {
         return self::_lookup('mime.qpcontentencoder');
     }
-  
+
     /**
      * Get the Encoder that provides Base64 encoding.
      *
@@ -69,9 +66,9 @@ class Swift_Encoding
     {
         return self::_lookup('mime.base64contentencoder');
     }
-  
+
     // -- Private Static Methods
-  
+
     private static function _lookup($key)
     {
         return Swift_DependencyContainer::getInstance()->lookup($key);

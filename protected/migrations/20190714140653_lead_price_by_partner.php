@@ -4,7 +4,7 @@ use Phinx\Migration\AbstractMigration;
 
 /**
  * Добавление в таблицу источников поля, определяющего, принимать ли данные о цене от вебмастера
- * Class LeadPriceByPartner
+ * Class LeadPriceByPartner.
  */
 class LeadPriceByPartner extends AbstractMigration
 {

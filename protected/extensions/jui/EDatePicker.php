@@ -3,8 +3,11 @@
  * EDatePicker class file.
  *
  * @author MetaYii
+ *
  * @version 2.4.2
- * @link http://www.yiiframework.com/
+ *
+ * @see http://www.yiiframework.com/
+ *
  * @copyright Copyright &copy; 2009 MetaYii
  * @license dual GPL (3.0 or later) and MIT, at your choice.
  * @license http://www.opensource.org/licenses/mit-license.php
@@ -58,8 +61,7 @@
  * choice. Please see {@link http://docs.jquery.com/Licensing} for details.
  * MetaYii is not related to the jQuery UI development team.
  */
-
-require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'EJqueryUiWidget.php';
 
 /**
  * EDatePicker is a Yii widget which encapsulates the functionality of the
@@ -67,10 +69,10 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
  *
  * Works with jQuery 1.3 and jQuery UI 1.7
  *
- * @link http://docs.jquery.com/UI/Datepicker
+ * @see http://docs.jquery.com/UI/Datepicker
  *
  * @author MetaYii
- * @package application.extensions.jui
+ *
  * @since 1.0.2
  */
 class EDatePicker extends EJqueryUiWidget
@@ -81,14 +83,14 @@ class EDatePicker extends EJqueryUiWidget
 
     /**
      * In case a button is used, use just the button or both button and focus
-     * methods. Possible values: 'button', 'both'
+     * methods. Possible values: 'button', 'both'.
      *
      * @var string
      */
     private $showOn = 'both';
 
     /**
-     * How to show:
+     * How to show:.
      *
      * focus - show calendar on focus
      * button - show calendar when a button is clicked
@@ -114,7 +116,7 @@ class EDatePicker extends EJqueryUiWidget
 
     /**
      * The date format. This is a string in a date() style, where you can use
-     * these letters as the formatters:
+     * these letters as the formatters:.
      *
      * d - day of month (no leading zero)
      * dd - day of month (two digit)
@@ -148,14 +150,14 @@ class EDatePicker extends EJqueryUiWidget
     private $dateFormat = 'ISO_8601';
 
     /**
-     * Minimun date in a range
+     * Minimun date in a range.
      *
      * @var string
      */
     public $minDate = '';
 
     /**
-     * Maximun date in a range
+     * Maximun date in a range.
      *
      * @var string
      */
@@ -169,15 +171,15 @@ class EDatePicker extends EJqueryUiWidget
     public $fontSize = '0.5em';
 
     /**
-     * Enable or disable the widget
+     * Enable or disable the widget.
      *
-     * @var boolean
+     * @var bool
      */
     private $enabled = true;
 
     /**
      * Display effects.
-     * See {@link http://docs.jquery.com/UI/Datepicker/datepicker#options}
+     * See {@link http://docs.jquery.com/UI/Datepicker/datepicker#options}.
      *
      * Possible values: show, slideDown, fadeIn
      *
@@ -187,118 +189,118 @@ class EDatePicker extends EJqueryUiWidget
 
     /**
      * Optional array of effect options.
-     * See {@link http://docs.jquery.com/UI/Datepicker/datepicker#options}
+     * See {@link http://docs.jquery.com/UI/Datepicker/datepicker#options}.
      *
      * Format: key => value
      *
      * @var array
      */
-    private $effectOptions = array();
+    private $effectOptions = [];
 
     //***************************************************************************
     // Internal properties (not for configuration)
     //***************************************************************************
 
     /**
-     * Whetever to use a special preset format or not
+     * Whetever to use a special preset format or not.
      *
-     * @var boolean
+     * @var bool
      */
     private $useSpecialFormat = true;
 
     /**
-     * Valid effects
+     * Valid effects.
      *
      * @var array
      */
-    private $validEffects = array('show', 'slideDown', 'fadeIn', 'blind', 'clip', 'drop', 'explode', 'fold', 'puff', 'slide', 'scale', 'size', 'pulsate', 'bounce', 'shake');
+    private $validEffects = ['show', 'slideDown', 'fadeIn', 'blind', 'clip', 'drop', 'explode', 'fold', 'puff', 'slide', 'scale', 'size', 'pulsate', 'bounce', 'shake'];
 
     /**
-     * Valid languages
+     * Valid languages.
      *
      * @var array
      */
-    private $validLanguages = array('ar','bg','ca','cs','da','de','el','eo','es','fa','fi','fr','he','hr','hu','hy','id','is','it','ja','ko','lt','lv','ms','nl','no','pl','pt-BR','ro','ru','sk','sl','sq','sv','th','tr','uk','zh-CN','zh-TW');
+    private $validLanguages = ['ar', 'bg', 'ca', 'cs', 'da', 'de', 'el', 'eo', 'es', 'fa', 'fi', 'fr', 'he', 'hr', 'hu', 'hy', 'id', 'is', 'it', 'ja', 'ko', 'lt', 'lv', 'ms', 'nl', 'no', 'pl', 'pt-BR', 'ro', 'ru', 'sk', 'sl', 'sq', 'sv', 'th', 'tr', 'uk', 'zh-CN', 'zh-TW'];
 
     /**
-     * Preset formats (shortcuts)
+     * Preset formats (shortcuts).
      *
      * @var array
      */
-    private $validPresetDateFormats = array('ATOM','COOKIE','ISO_8601','RFC_822','RFC_850','RFC_1036','RFC_1123','RFC_2822','RSS','TIMESTAMP','W3C');
+    private $validPresetDateFormats = ['ATOM', 'COOKIE', 'ISO_8601', 'RFC_822', 'RFC_850', 'RFC_1036', 'RFC_1123', 'RFC_2822', 'RSS', 'TIMESTAMP', 'W3C'];
 
     /**
-     * Valid modes
+     * Valid modes.
      *
      * @var array
      */
-    private $validModes = array('focus', 'button', 'imagebutton');
+    private $validModes = ['focus', 'button', 'imagebutton'];
 
     /**
-     * See @link http://docs.jquery.com/UI/Datepicker/datepicker#options
+     * See @link http://docs.jquery.com/UI/Datepicker/datepicker#options.
      *
      * @var array
      */
-    protected $validOptions = array(
-                                   'altField'=>array('type'=>'string'), // The jQuery selector for another field that is to be updated with the selected date from the datepicker. Use the altFormat setting below to change the format of the date within this field. Leave as blank for no alternate field. Default: ""
-                                   'altFormat'=>array('type'=>'string'), // The dateFormat to be used for the altField option. This allows one date format to be shown to the user for selection purposes, while a different format is actually sent behind the scenes. For a full list of the possible formats see the formatDate function . Default: ""
-                                   'appendText'=>array('type'=>'string'), // The text to display after each date field, e.g. to show the required format. Default: ""
-                                   'buttonImage'=>array('type'=>'string'), // The URL for the popup button image. If set, button text becomes the alt value and is not directly displayed. Default: ""
-                                   'buttonImageOnly'=>array('type'=>'boolean'), // Set to true to place an image after the field to use as the trigger without it appearing on a button. Default: false
-                                   'buttonText'=>array('type'=>'string'), // The text to display on the trigger button. Use in conjunction with showOn equal to 'button' or 'both'. Default: "..."
-                                   'changeMonth'=>array('type'=>'boolean'), // Allows you to change the month by selecting from a drop-down list. You can enable this feature by setting the attribute to true. Default: false
-                                   'changeYear'=>array('type'=>'boolean'), // Allows you to change the year by selecting from a drop-down list. You can enable this feature by setting the attribute to true. Default: true
-                                   'closeText'=>array('type'=>'string'), // The text to display for the close link. This attribute is one of the regionalisation attributes. Use the showButtonPanel to display this button. Default: "Done"
-                                   'constrainInput'=>array('type'=>'boolean'), // Initialize a datepicker with the constrainInput option specified. Default: true
-                                   'currentText'=>array('type'=>'string'), // The text to display for the current day link. This attribute is one of the regionalisation attributes. Use the showButtonPanel to display this button. Default: "Today"
-                                   'dateFormat'=>array('type'=>'string'), // The format for parsed and displayed dates. This attribute is one of the regionalisation attributes. For a full list of the possible formats see the formatDate function. Default: 'mm/dd/yy'
-                                   'dayNames'=>array('type'=>'array'), // The list of long day names, starting from Sunday, for use as requested via the dateFormat setting. They also appear as popup hints when hovering over the corresponding column headings. This attribute is one of the regionalisation attributes. Default: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-                                   'dayNamesMin'=>array('type'=>'array'), // The list of minimised day names, starting from Sunday, for use as column headers within the datepicker. This attribute is one of the regionalisation attributes. Default: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
-                                   'dayNamesShort'=>array('type'=>'array'), // The list of abbreviated day names, starting from Sunday, for use as requested via the dateFormat setting. This attribute is one of the regionalisation attributes. Default ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-                                   'defaultDate'=>array('type'=>array('string', 'integer')), // Set the date to highlight on first opening if the field is blank. Specify either an actual date via a Date object, or a number of days from today (e.g. +7) or a string of values and periods ('y' for years, 'm' for months, 'w' for weeks, 'd' for days, e.g. '+1m +7d'), or null for today. Default: null
-                                   'duration'=>array('type'=>array('string', 'integer')), // Control the speed at which the datepicker appears, it may be a time in milliseconds, a string representing one of the three predefined speeds ("slow", "normal", "fast"), or '' for immediately. Default: 'normal'
-                                   'firstDay'=>array('type'=>'integer'), // Set the first day of the week: Sunday is 0, Monday is 1, ... This attribute is one of the regionalisation attributes. Default: 0
-                                   'gotoCurrent'=>array('type'=>'boolean'), // If true, the current day link moves to the currently selected date instead of today. Default: false
-                                   'hideIfNotPrevNext'=>array('type'=>'boolean'), // Normally the previous and next links are disabled when not applicable (see minDate/maxDate). You can hide them altogether by setting this attribute to true. Default: false
-                                   'isRTL'=>array('type'=>'boolean'), // True if the current language is drawn from right to left. This attribute is one of the regionalisation attributes. Default: false
-                                   'maxDate'=>array('type'=>array('string', 'integer')), // Set a maximum selectable date via a Date object, or a number of days from today (e.g. +7) or a string of values and periods ('y' for years, 'm' for months, 'w' for weeks, 'd' for days, e.g. '+1m +1w'), or null for no limit. Default: null
-                                   'minDate'=>array('type'=>array('string', 'integer')), // Set a minimum selectable date via a Date object, or a number of days from today (e.g. +7) or a string of values and periods ('y' for years, 'm' for months, 'w' for weeks, 'd' for days, e.g. '-1y -1m'), or null for no limit. Default: null
-                                   'monthNames'=>array('type'=>'array'), // The list of full month names, as used in the month header on each datepicker and as requested via the dateFormat setting. This attribute is one of the regionalisation attributes. Default: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-                                   'monthNamesShort'=>array('type'=>'array'), // The list of abbreviated month names, for use as requested via the dateFormat setting. This attribute is one of the regionalisation attributes. Default: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-                                   'navigationAsDateFormat'=>array('type'=>'boolean'), // When true the formatDate function is applied to the prevText, nextText, and currentText values before display, allowing them to display the target month names for example. Default: false
-                                   'nextText'=>array('type'=>'string'), // The text to display for the next month link. This attribute is one of the regionalisation attributes. With the standard ThemeRoller styling, this value is replaced by an icon. Default: "Next"
-                                   'numberOfMonths'=>array('type'=>array('integer', 'array')), // Set how many months to show at once. The value can be a straight integer, or can be a two-element array to define the number of rows and columns to display. Default: 0
-                                   'prevText'=>array('type'=>'string'), // The text to display for the previous month link. This attribute is one of the regionalisation attributes. With the standard ThemeRoller styling, this value is replaced by an icon. Default: "Prev"
-                                   'shortYearCutoff'=>array('type'=>array('string', 'integer')), // Set the cutoff year for determining the century for a date (used in conjunction with dateFormat 'y'). If a numeric value (0-99) is provided then this value is used directly. If a string value is provided then it is converted to a number and added to the current year. Once the cutoff year is calculated, any dates entered with a year value less than or equal to it are considered to be in the current century, while those greater than it are deemed to be in the previous century. Default: "+10"
-                                   'showAnim'=>array('type'=>'string'), // Set the name of the animation used to show/hide the datepicker. Use 'show' (the default), 'slideDown', 'fadeIn', or any of the show/hide jQuery UI effects. Default: "show"
-                                   'showButtonPanel'=>array('type'=>'boolean'), // Whether to show the button panel. Default: false
-                                   'showCurrentAtPos'=>array('type'=>'integer'), // Specify where in a multi-month display the current month shows, starting from 0 at the top/left. Default: 0
-                                   'showMonthsAfterYear'=>array('type'=>'boolean'), // Whether to show the month after the year in the header. Default: false
-                                   'showOn'=>array('type'=>'string', 'possibleValues'=>array('button', 'both')), // Have the datepicker appear automatically when the field receives focus ('focus'), appear only when a button is clicked ('button'), or appear when either event takes place ('both'). Default: "focus"
-                                   'showOptions'=>array('type'=>'array'), // If using one of the jQuery UI effects for showAnim, you can provide additional settings for that animation via this option. Default: {}
-                                   'showOtherMonths'=>array('type'=>'boolean'), // Display dates in other months (non-selectable) at the start or end of the current month. Default: false
-                                   'stepMonths'=>array('type'=>'number'), // Set how many months to move when clicking the Previous/Next links. Default: 1
-                                   'yearRange'=>array('type'=>'string') // Control the range of years displayed in the year drop-down: either relative to current year (-nn:+nn) or absolute (nnnn:nnnn). Default: '-10:+1'
-                                  );
+    protected $validOptions = [
+                                   'altField' => ['type' => 'string'], // The jQuery selector for another field that is to be updated with the selected date from the datepicker. Use the altFormat setting below to change the format of the date within this field. Leave as blank for no alternate field. Default: ""
+                                   'altFormat' => ['type' => 'string'], // The dateFormat to be used for the altField option. This allows one date format to be shown to the user for selection purposes, while a different format is actually sent behind the scenes. For a full list of the possible formats see the formatDate function . Default: ""
+                                   'appendText' => ['type' => 'string'], // The text to display after each date field, e.g. to show the required format. Default: ""
+                                   'buttonImage' => ['type' => 'string'], // The URL for the popup button image. If set, button text becomes the alt value and is not directly displayed. Default: ""
+                                   'buttonImageOnly' => ['type' => 'boolean'], // Set to true to place an image after the field to use as the trigger without it appearing on a button. Default: false
+                                   'buttonText' => ['type' => 'string'], // The text to display on the trigger button. Use in conjunction with showOn equal to 'button' or 'both'. Default: "..."
+                                   'changeMonth' => ['type' => 'boolean'], // Allows you to change the month by selecting from a drop-down list. You can enable this feature by setting the attribute to true. Default: false
+                                   'changeYear' => ['type' => 'boolean'], // Allows you to change the year by selecting from a drop-down list. You can enable this feature by setting the attribute to true. Default: true
+                                   'closeText' => ['type' => 'string'], // The text to display for the close link. This attribute is one of the regionalisation attributes. Use the showButtonPanel to display this button. Default: "Done"
+                                   'constrainInput' => ['type' => 'boolean'], // Initialize a datepicker with the constrainInput option specified. Default: true
+                                   'currentText' => ['type' => 'string'], // The text to display for the current day link. This attribute is one of the regionalisation attributes. Use the showButtonPanel to display this button. Default: "Today"
+                                   'dateFormat' => ['type' => 'string'], // The format for parsed and displayed dates. This attribute is one of the regionalisation attributes. For a full list of the possible formats see the formatDate function. Default: 'mm/dd/yy'
+                                   'dayNames' => ['type' => 'array'], // The list of long day names, starting from Sunday, for use as requested via the dateFormat setting. They also appear as popup hints when hovering over the corresponding column headings. This attribute is one of the regionalisation attributes. Default: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+                                   'dayNamesMin' => ['type' => 'array'], // The list of minimised day names, starting from Sunday, for use as column headers within the datepicker. This attribute is one of the regionalisation attributes. Default: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+                                   'dayNamesShort' => ['type' => 'array'], // The list of abbreviated day names, starting from Sunday, for use as requested via the dateFormat setting. This attribute is one of the regionalisation attributes. Default ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+                                   'defaultDate' => ['type' => ['string', 'integer']], // Set the date to highlight on first opening if the field is blank. Specify either an actual date via a Date object, or a number of days from today (e.g. +7) or a string of values and periods ('y' for years, 'm' for months, 'w' for weeks, 'd' for days, e.g. '+1m +7d'), or null for today. Default: null
+                                   'duration' => ['type' => ['string', 'integer']], // Control the speed at which the datepicker appears, it may be a time in milliseconds, a string representing one of the three predefined speeds ("slow", "normal", "fast"), or '' for immediately. Default: 'normal'
+                                   'firstDay' => ['type' => 'integer'], // Set the first day of the week: Sunday is 0, Monday is 1, ... This attribute is one of the regionalisation attributes. Default: 0
+                                   'gotoCurrent' => ['type' => 'boolean'], // If true, the current day link moves to the currently selected date instead of today. Default: false
+                                   'hideIfNotPrevNext' => ['type' => 'boolean'], // Normally the previous and next links are disabled when not applicable (see minDate/maxDate). You can hide them altogether by setting this attribute to true. Default: false
+                                   'isRTL' => ['type' => 'boolean'], // True if the current language is drawn from right to left. This attribute is one of the regionalisation attributes. Default: false
+                                   'maxDate' => ['type' => ['string', 'integer']], // Set a maximum selectable date via a Date object, or a number of days from today (e.g. +7) or a string of values and periods ('y' for years, 'm' for months, 'w' for weeks, 'd' for days, e.g. '+1m +1w'), or null for no limit. Default: null
+                                   'minDate' => ['type' => ['string', 'integer']], // Set a minimum selectable date via a Date object, or a number of days from today (e.g. +7) or a string of values and periods ('y' for years, 'm' for months, 'w' for weeks, 'd' for days, e.g. '-1y -1m'), or null for no limit. Default: null
+                                   'monthNames' => ['type' => 'array'], // The list of full month names, as used in the month header on each datepicker and as requested via the dateFormat setting. This attribute is one of the regionalisation attributes. Default: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                                   'monthNamesShort' => ['type' => 'array'], // The list of abbreviated month names, for use as requested via the dateFormat setting. This attribute is one of the regionalisation attributes. Default: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                                   'navigationAsDateFormat' => ['type' => 'boolean'], // When true the formatDate function is applied to the prevText, nextText, and currentText values before display, allowing them to display the target month names for example. Default: false
+                                   'nextText' => ['type' => 'string'], // The text to display for the next month link. This attribute is one of the regionalisation attributes. With the standard ThemeRoller styling, this value is replaced by an icon. Default: "Next"
+                                   'numberOfMonths' => ['type' => ['integer', 'array']], // Set how many months to show at once. The value can be a straight integer, or can be a two-element array to define the number of rows and columns to display. Default: 0
+                                   'prevText' => ['type' => 'string'], // The text to display for the previous month link. This attribute is one of the regionalisation attributes. With the standard ThemeRoller styling, this value is replaced by an icon. Default: "Prev"
+                                   'shortYearCutoff' => ['type' => ['string', 'integer']], // Set the cutoff year for determining the century for a date (used in conjunction with dateFormat 'y'). If a numeric value (0-99) is provided then this value is used directly. If a string value is provided then it is converted to a number and added to the current year. Once the cutoff year is calculated, any dates entered with a year value less than or equal to it are considered to be in the current century, while those greater than it are deemed to be in the previous century. Default: "+10"
+                                   'showAnim' => ['type' => 'string'], // Set the name of the animation used to show/hide the datepicker. Use 'show' (the default), 'slideDown', 'fadeIn', or any of the show/hide jQuery UI effects. Default: "show"
+                                   'showButtonPanel' => ['type' => 'boolean'], // Whether to show the button panel. Default: false
+                                   'showCurrentAtPos' => ['type' => 'integer'], // Specify where in a multi-month display the current month shows, starting from 0 at the top/left. Default: 0
+                                   'showMonthsAfterYear' => ['type' => 'boolean'], // Whether to show the month after the year in the header. Default: false
+                                   'showOn' => ['type' => 'string', 'possibleValues' => ['button', 'both']], // Have the datepicker appear automatically when the field receives focus ('focus'), appear only when a button is clicked ('button'), or appear when either event takes place ('both'). Default: "focus"
+                                   'showOptions' => ['type' => 'array'], // If using one of the jQuery UI effects for showAnim, you can provide additional settings for that animation via this option. Default: {}
+                                   'showOtherMonths' => ['type' => 'boolean'], // Display dates in other months (non-selectable) at the start or end of the current month. Default: false
+                                   'stepMonths' => ['type' => 'number'], // Set how many months to move when clicking the Previous/Next links. Default: 1
+                                   'yearRange' => ['type' => 'string'], // Control the range of years displayed in the year drop-down: either relative to current year (-nn:+nn) or absolute (nnnn:nnnn). Default: '-10:+1'
+                                  ];
 
     /**
-     * See @link http://docs.jquery.com/UI/Datepicker/datepicker#options
+     * See @link http://docs.jquery.com/UI/Datepicker/datepicker#options.
      *
      * @var array
      */
-    protected $validCallbacks = array(
+    protected $validCallbacks = [
                                      'beforeShow',
                                      'beforeShowDay',
                                      'onSelect',
                                      'onChangeMonthYear',
                                      'onClose',
-                                    );
+                                    ];
 
     //***************************************************************************
     // Constructor
     //***************************************************************************
 
-    public function __construct($owner=null)
+    public function __construct($owner = null)
     {
         parent::__construct($owner);
         $this->setLanguage(Yii::app()->language);
@@ -309,20 +311,20 @@ class EDatePicker extends EJqueryUiWidget
     //***************************************************************************
 
     /**
-     * Setter
+     * Setter.
      *
      * @param string $value effect
      */
     public function setEffect($value)
     {
         if (!in_array($value, $this->validEffects)) {
-            throw new CException(Yii::t('EJqueryUiWidget', 'effect must be one of: {e}', array('{e}'=>implode(', ', $this->validEffects))));
+            throw new CException(Yii::t('EJqueryUiWidget', 'effect must be one of: {e}', ['{e}' => implode(', ', $this->validEffects)]));
         }
         $this->effect = $value;
     }
 
     /**
-     * Getter
+     * Getter.
      *
      * @return string
      */
@@ -332,7 +334,7 @@ class EDatePicker extends EJqueryUiWidget
     }
 
     /**
-     * Setter
+     * Setter.
      *
      * @param array $value effectOptions
      */
@@ -345,7 +347,7 @@ class EDatePicker extends EJqueryUiWidget
     }
 
     /**
-     * Getter
+     * Getter.
      *
      * @return array
      */
@@ -355,9 +357,9 @@ class EDatePicker extends EJqueryUiWidget
     }
 
     /**
-     * Setter
+     * Setter.
      *
-     * @param boolean $value enabled
+     * @param bool $value enabled
      */
     public function setEnabled($value)
     {
@@ -368,9 +370,9 @@ class EDatePicker extends EJqueryUiWidget
     }
 
     /**
-     * Getter
+     * Getter.
      *
-     * @return boolean
+     * @return bool
      */
     public function getEnabled()
     {
@@ -378,20 +380,20 @@ class EDatePicker extends EJqueryUiWidget
     }
 
     /**
-     * Setter
+     * Setter.
      *
      * @param string $value showOn
      */
     public function setShowOn($value)
     {
-        if ($value !== 'button' && $value !== 'both') {
+        if ('button' !== $value && 'both' !== $value) {
             throw new CException(Yii::t('EJqueryUiWidget', 'showOn must be one of: "button", "both"'));
         }
         $this->showOn = $value;
     }
 
     /**
-     * Getter
+     * Getter.
      *
      * @return string
      */
@@ -401,20 +403,20 @@ class EDatePicker extends EJqueryUiWidget
     }
 
     /**
-     * Setter
+     * Setter.
      *
      * @param string $value mode
      */
     public function setMode($value)
     {
         if (!in_array($value, $this->validModes)) {
-            throw new CException(Yii::t('EJqueryUiWidget', 'mode must be one of: {m}', array('{m}'=>implode(', ', $this->validModes))));
+            throw new CException(Yii::t('EJqueryUiWidget', 'mode must be one of: {m}', ['{m}' => implode(', ', $this->validModes)]));
         }
         $this->mode = $value;
     }
 
     /**
-     * Getter
+     * Getter.
      *
      * @return string
      */
@@ -424,7 +426,7 @@ class EDatePicker extends EJqueryUiWidget
     }
 
     /**
-     * Setter
+     * Setter.
      *
      * @param string $value dateFormat
      */
@@ -438,7 +440,7 @@ class EDatePicker extends EJqueryUiWidget
     }
 
     /**
-     * Getter
+     * Getter.
      *
      * @return string
      */
@@ -448,17 +450,17 @@ class EDatePicker extends EJqueryUiWidget
     }
 
     /**
-     * Setter
+     * Setter.
      *
      * @param string $value language
      */
     public function setLanguage($value)
     {
-        $lang = (($p = strpos($value, '_')) !== false) ? str_replace('_', '-', $value) : $value;
+        $lang = (false !== ($p = strpos($value, '_'))) ? str_replace('_', '-', $value) : $value;
         if (in_array($lang, $this->validLanguages)) {
             $this->language = $lang;
         } else {
-            $suffix = empty($lang) ? 'en' : ($p !== false) ? strtolower(substr($lang, 0, $p)) : strtolower($lang);
+            $suffix = empty($lang) ? 'en' : (false !== $p) ? strtolower(substr($lang, 0, $p)) : strtolower($lang);
             if (in_array($suffix, $this->validLanguages)) {
                 $this->language = $suffix;
             }
@@ -466,7 +468,7 @@ class EDatePicker extends EJqueryUiWidget
     }
 
     /**
-     * Getter
+     * Getter.
      *
      * @return string
      */
@@ -480,50 +482,53 @@ class EDatePicker extends EJqueryUiWidget
     //***************************************************************************
 
     /**
-     * Encode an array into a javascript array
+     * Encode an array into a javascript array.
      *
      * @param array $value
+     *
      * @return string
      */
     private static function encode($value)
     {
-        $es = array();
+        $es = [];
         $n = count($value);
-        if (($n) > 0 && array_keys($value) !== range(0, $n-1)) {
-            foreach ($value as $k=>$v) {
+        if (($n) > 0 && array_keys($value) !== range(0, $n - 1)) {
+            foreach ($value as $k => $v) {
                 if (is_array($v)) {
                     $es[] = $k . ':' . self::encode($v);
-                } elseif ($k === 'yearRange') {
+                } elseif ('yearRange' === $k) {
                     $es[] = $k . ':' . "'" . $v . "'";
                 } else {
                     $es[] = $k . ':' . $v;
                 }
             }
+
             return '{' . implode(',', $es) . '}';
         } else {
             foreach ($value as $v) {
                 $es[] = "'" . $v . "'";
             }
+
             return '[' . implode(',', $es) . ']';
         }
     }
 
     /**
-     * Generates the options for the jQuery widget
+     * Generates the options for the jQuery widget.
      *
      * @return string
      */
     protected function makeOptions()
     {
-        $options = array();
-        if (is_string($this->minDate) && $this->minDate !== '') {
+        $options = [];
+        if (is_string($this->minDate) && '' !== $this->minDate) {
             $options['minDate'] = "'" . $this->minDate . "'";
         }
-        if (is_string($this->maxDate) && $this->maxDate !== '') {
+        if (is_string($this->maxDate) && '' !== $this->maxDate) {
             $options['maxDate'] = "'" . $this->maxDate . "'";
         }
 
-        if ($this->effect !== 'show') {
+        if ('show' !== $this->effect) {
             $options['showAnim'] = "'" . $this->effect . "'";
             if (!empty($this->effectOptions)) {
                 $eo = self::encode($this->effectOptions);
@@ -531,7 +536,7 @@ class EDatePicker extends EJqueryUiWidget
             }
         }
 
-        $options['dateFormat'] = $this->useSpecialFormat ? '$.datepicker.'.$this->dateFormat : "'" . $this->dateFormat . "'";
+        $options['dateFormat'] = $this->useSpecialFormat ? '$.datepicker.' . $this->dateFormat : "'" . $this->dateFormat . "'";
 
         switch ($this->mode) {
          case 'focus':
@@ -542,8 +547,8 @@ class EDatePicker extends EJqueryUiWidget
             break;
 
          case 'imagebutton':
-            if ($this->image === '') {
-                $this->image = $this->baseUrl.'/images/calendar.gif';
+            if ('' === $this->image) {
+                $this->image = $this->baseUrl . '/images/calendar.gif';
             }
             $options['showOn'] = "'" . $this->showOn . "'";
             $options['buttonImage'] = "'" . $this->image . "'";
@@ -551,13 +556,13 @@ class EDatePicker extends EJqueryUiWidget
             break;
       }
 
-        foreach ($this->callbacks as  $key=>$val) {
-            $options['callback_'.$key] = $key;
+        foreach ($this->callbacks as  $key => $val) {
+            $options['callback_' . $key] = $key;
         }
 
         $encodedOptions = self::encode(array_merge($options, $this->options));
-      
-        foreach ($this->callbacks as $key=>$val) {
+
+        foreach ($this->callbacks as $key => $val) {
             $encodedOptions = str_replace("callback_{$key}:{$key}", "{$key}: {$val}", $encodedOptions);
         }
 
@@ -565,9 +570,10 @@ class EDatePicker extends EJqueryUiWidget
     }
 
     /**
-     * Generates the javascript code for the widget
+     * Generates the javascript code for the widget.
      *
      * @param string $id id
+     *
      * @return string
      */
     protected function jsCode($id)
@@ -576,13 +582,13 @@ class EDatePicker extends EJqueryUiWidget
         $fontSize = '';
 
         $options = $this->makeOptions();
- 
-        $js =<<<EOP
+
+        $js = <<<EOP
 $("#{$id}").datepicker({$options}){$enabled};
 EOP;
 
         if (is_string($this->fontSize) && !empty($this->fontSize)) {
-            $fontSize =<<<EOP
+            $fontSize = <<<EOP
 $("#ui-datepicker-div").css("font-size", "{$this->fontSize}");
 EOP;
             $js .= $fontSize;
@@ -592,9 +598,10 @@ EOP;
     }
 
     /**
-     * Generates the HTML markup for the widget
+     * Generates the HTML markup for the widget.
      *
      * @param string $id
+     *
      * @return string
      */
     protected function htmlCode($id, $name)
@@ -615,7 +622,7 @@ EOP;
     public function registerClientScripts()
     {
         parent::registerClientScripts();
-        if ($this->language !== '') {
+        if ('' !== $this->language) {
             $this->clientScript->registerScriptFile("{$this->baseUrl}/js/i18n/ui.datepicker-{$this->language}.js");
         }
     }
@@ -625,7 +632,7 @@ EOP;
     //***************************************************************************
 
     /**
-     * Run the widget
+     * Run the widget.
      */
     public function run()
     {
@@ -633,9 +640,9 @@ EOP;
 
         $this->publishAssets();
         $this->registerClientScripts();
-      
+
         $js = $this->jsCode($id);
-        $this->clientScript->registerScript('Yii.'.get_class($this).'#'.$id, $js);
+        $this->clientScript->registerScript('Yii.' . get_class($this) . '#' . $id, $js);
 
         $html = $this->htmlCode($id, $name);
         echo $html;

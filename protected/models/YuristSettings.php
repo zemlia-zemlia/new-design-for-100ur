@@ -1,32 +1,32 @@
 <?php
 
 /**
- * Модель для работы с дополнительными настройками юриста
+ * Модель для работы с дополнительными настройками юриста.
  *
  * Поля в таблице '{{yuristSettings}}':
- * @property integer $yuristId
+ *
+ * @property int    $yuristId
  * @property string $alias
- * @property integer $startYear
+ * @property int    $startYear
  * @property string $description
  * @property string $hello
- * @property integer $status
- * @property integer $isVerified
- * @property integer $vuz
- * @property integer $facultet
- * @property integer $education
- * @property integer $vuzTownId
- * @property integer $educationYear
- * @property integer $advOrganisation
- * @property integer $advNumber
- * @property integer $position
- * @property integer $site
- * @property integer $priceConsult
- * @property integer $priceDoc
+ * @property int    $status
+ * @property int    $isVerified
+ * @property int    $vuz
+ * @property int    $facultet
+ * @property int    $education
+ * @property int    $vuzTownId
+ * @property int    $educationYear
+ * @property int    $advOrganisation
+ * @property int    $advNumber
+ * @property int    $position
+ * @property int    $site
+ * @property int    $priceConsult
+ * @property int    $priceDoc
  * @property string $phoneVisible
  * @property string $emailVisible
- * @property integer $subscribeQuestions
- * @property integer $rang
- *
+ * @property int    $subscribeQuestions
+ * @property int    $rang
  */
 class YuristSettings extends CActiveRecord
 {
@@ -35,7 +35,7 @@ class YuristSettings extends CActiveRecord
     const STATUS_YURIST = 1; // юрист
     const STATUS_ADVOCAT = 2; // адвокат
     const STATUS_JUDGE = 3; // судья
-    
+
     const SUBSCRIPTION_NOTHING = 0; // нет подписок
     const SUBSCRIPTION_TOWN = 1; // подписка на вопросы своего города
     const SUBSCRIPTION_REGION = 2; // подписка на вопросы региона
@@ -59,39 +59,39 @@ class YuristSettings extends CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-                array('yuristId', 'required'),
-                array('yuristId, startYear, isVerified, status, vuzTownId, educationYear, priceConsult, priceDoc, subscribeQuestions, rang', 'numerical', 'integerOnly'=>true),
-                array('alias', 'length', 'max'=>255),
-                array('alias','match','pattern'=>'/^([а-яa-zА-ЯA-Z0-9ёЁ\-. ])+$/u', 'message'=>'В псевдониме могут присутствовать буквы, цифры, точка, дефис и пробел'),
-                array('site','match','pattern'=>'/^(https?:\/\/)?([\dа-яёЁa-z\.-]+)\.([а-яёЁa-z\.]{2,6})([\/\w \.-]*)*\/?$/u', 'message'=>'В адресе сайта присутствуют недопустимые символы'),
-                array('description, hello, vuz, facultet, education, advOrganisation, advNumber, position', 'safe'),
-                array('emailVisible','email', 'message'=>'В Email допускаются латинские символы, цифры, точка и дефис'),
-                array('phoneVisible','match', 'pattern'=>'/^([0-9\- \(\)\+])+$/u', 'message'=>'В номере телефона разрешены цифры, скобки, пробелы и дефисы'),
+        return [
+                ['yuristId', 'required'],
+                ['yuristId, startYear, isVerified, status, vuzTownId, educationYear, priceConsult, priceDoc, subscribeQuestions, rang', 'numerical', 'integerOnly' => true],
+                ['alias', 'length', 'max' => 255],
+                ['alias', 'match', 'pattern' => '/^([а-яa-zА-ЯA-Z0-9ёЁ\-. ])+$/u', 'message' => 'В псевдониме могут присутствовать буквы, цифры, точка, дефис и пробел'],
+                ['site', 'match', 'pattern' => '/^(https?:\/\/)?([\dа-яёЁa-z\.-]+)\.([а-яёЁa-z\.]{2,6})([\/\w \.-]*)*\/?$/u', 'message' => 'В адресе сайта присутствуют недопустимые символы'],
+                ['description, hello, vuz, facultet, education, advOrganisation, advNumber, position', 'safe'],
+                ['emailVisible', 'email', 'message' => 'В Email допускаются латинские символы, цифры, точка и дефис'],
+                ['phoneVisible', 'match', 'pattern' => '/^([0-9\- \(\)\+])+$/u', 'message' => 'В номере телефона разрешены цифры, скобки, пробелы и дефисы'],
 
                 // The following rule is used by search().
                 // @todo Please remove those attributes that should not be searched.
-                array('yuristId, alias, startYear, description', 'safe', 'on'=>'search'),
-        );
+                ['yuristId, alias, startYear, description', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'user'       =>  array(self::BELONGS_TO, 'User', 'yuristId'),
-            'vuzTown'    =>  array(self::BELONGS_TO, 'Town', 'vuzTownId'),
-        );
+        return [
+            'user' => [self::BELONGS_TO, 'User', 'yuristId'],
+            'vuzTown' => [self::BELONGS_TO, 'Town', 'vuzTownId'],
+        ];
     }
 
     /**
@@ -99,100 +99,99 @@ class YuristSettings extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
-            'yuristId'      => 'Юрист',
-            'alias'         => 'Псевдоним',
-            'startYear'     => 'Год начала работы',
-            'description'   => 'Описание',
-            'hello'         => 'Приветствие',
-            'status'        => 'Статус',
-            'isVerified'    => 'Верифицирован',
-            'vuz'           => 'ВУЗ',
-            'facultet'      =>  'факультет',
-            'education'     =>  'образование',
-            'advOrganisation'   =>  'членство в адвокатском объединении',
-            'advNumber'     =>  'номер в реестре адвокатов',
-            'position'      =>  'должность',
-            'vuzTownId'     =>  'город ВУЗа',
-            'educationYear' =>  'год окончания',
-            'site'          =>  'сайт',
-            'priceConsult'  =>  'консультация от',
-            'priceDoc'      =>  'составление документа от',
-            'phoneVisible'  =>  'Общедоступный телефон',
-            'emailVisible'  =>  'Общедоступный Email',
-            'subscribeQuestions'     =>  'Получать уведомления о вопросах',
-            'rang'     =>  'Звание',
-        );
+        return [
+            'yuristId' => 'Юрист',
+            'alias' => 'Псевдоним',
+            'startYear' => 'Год начала работы',
+            'description' => 'Описание',
+            'hello' => 'Приветствие',
+            'status' => 'Статус',
+            'isVerified' => 'Верифицирован',
+            'vuz' => 'ВУЗ',
+            'facultet' => 'факультет',
+            'education' => 'образование',
+            'advOrganisation' => 'членство в адвокатском объединении',
+            'advNumber' => 'номер в реестре адвокатов',
+            'position' => 'должность',
+            'vuzTownId' => 'город ВУЗа',
+            'educationYear' => 'год окончания',
+            'site' => 'сайт',
+            'priceConsult' => 'консультация от',
+            'priceDoc' => 'составление документа от',
+            'phoneVisible' => 'Общедоступный телефон',
+            'emailVisible' => 'Общедоступный Email',
+            'subscribeQuestions' => 'Получать уведомления о вопросах',
+            'rang' => 'Звание',
+        ];
     }
 
-
     /**
-     * возвращает массив, ключами которого являются коды статусов, а значениями - названия
+     * возвращает массив, ключами которого являются коды статусов, а значениями - названия.
      *
      * @return array Массив статусов профессиональных пользователей (код => название)
      */
     public static function getStatusesArray()
     {
-        return array(
-            self::STATUS_NOTHING    =>  '',
-            self::STATUS_YURIST     =>  'Юрист',
-            self::STATUS_ADVOCAT    =>  'Адвокат',
-            self::STATUS_JUDGE      =>  'Судья',
-
-        );
+        return [
+            self::STATUS_NOTHING => '',
+            self::STATUS_YURIST => 'Юрист',
+            self::STATUS_ADVOCAT => 'Адвокат',
+            self::STATUS_JUDGE => 'Судья',
+        ];
     }
 
     /**
-     * Возвращает название статуса пользователя
+     * Возвращает название статуса пользователя.
      *
      * @return string Название статуса
      */
-
     public function getStatusName()
     {
         $statusesArray = self::getStatusesArray();
         $statusName = $statusesArray[$this->status];
+
         return $statusName;
     }
 
     /**
-     * Статический метод, возвращающий название статуса по коду
+     * Статический метод, возвращающий название статуса по коду.
      *
      * @param int $code Код статуса
+     *
      * @return string Название статуса
      */
     public static function getStatusNameByCode($code)
     {
         $statusesArray = self::getStatusesArray();
         $statusName = $statusesArray[$code];
+
         return $statusName;
     }
-    
+
     /**
-     * возвращает массив, ключами которого являются коды типов подписки на вопросы, а значениями - названия
+     * возвращает массив, ключами которого являются коды типов подписки на вопросы, а значениями - названия.
      *
      * @return array Массив типов подписки (код => название)
      */
     public static function getSubscriptionsArray()
     {
-        return array(
-            self::SUBSCRIPTION_NOTHING      =>  'Не получать уведомления',
-            self::SUBSCRIPTION_TOWN         =>  'Из моего города',
-            self::SUBSCRIPTION_REGION       =>  'Из моего региона',
-
-        );
+        return [
+            self::SUBSCRIPTION_NOTHING => 'Не получать уведомления',
+            self::SUBSCRIPTION_TOWN => 'Из моего города',
+            self::SUBSCRIPTION_REGION => 'Из моего региона',
+        ];
     }
 
     /**
-     * Возвращает название типа подписки на вопросы
+     * Возвращает название типа подписки на вопросы.
      *
      * @return string Название статуса
      */
-
     public function getSubscriptionName()
     {
         $subscriptionsArray = self::getSubscriptionsArray();
         $subscriptionName = $subscriptionsArray[$this->subscribeQuestions];
+
         return $subscriptionName;
     }
 
@@ -206,13 +205,13 @@ class YuristSettings extends CActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     *                             based on the search/filter conditions
      */
     public function search()
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('yuristId', $this->yuristId);
         $criteria->compare('alias', $this->alias, true);
@@ -220,18 +219,20 @@ class YuristSettings extends CActiveRecord
         $criteria->compare('description', $this->description, true);
         $criteria->compare('town', $this->town);
 
-        return new CActiveDataProvider($this, array(
-                'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+                'criteria' => $criteria,
+        ]);
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     *
+     * @param string $className active record class name
+     *
      * @return YuristSettings the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

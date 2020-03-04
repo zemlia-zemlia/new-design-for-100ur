@@ -4,17 +4,16 @@ use Phinx\Migration\AbstractMigration;
 
 /**
  * Таблица почтовых рассылок
- * Class CreateMailTable
+ * Class CreateMailTable.
  */
 class CreateMailTable extends AbstractMigration
 {
-
     public function up()
     {
         $this->table('100_mail', ['comment' => 'Почтовые рассылки'])
             ->addColumn('createDate', 'timestamp', ['default' => 'CURRENT_TIMESTAMP'])
-            ->addColumn('subject' ,'text')
-            ->addColumn('message' ,'text')
+            ->addColumn('subject', 'text')
+            ->addColumn('message', 'text')
             ->save();
     }
 

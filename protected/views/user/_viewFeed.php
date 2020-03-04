@@ -4,13 +4,13 @@
         // Определяем, куда будет вести ссылка
         switch ($data['type']) {
             case Comment::TYPE_ANSWER: default:
-                $route = "question/view";
+                $route = 'question/view';
                 break;
         }
         ?>
         <div class="col-sm-3">
             <?php
-            echo "<strong class='green'>+" . ($data['counter']) . ' ' . CustomFuncs::numForms($data['counter'], 'комментарий', 'комментария', 'комментариев') . "</strong>";
+            echo "<strong class='green'>+" . ($data['counter']) . ' ' . NumbersHelper::numForms($data['counter'], 'комментарий', 'комментария', 'комментариев') . '</strong>';
             ?>
         </div>
         <div class="col-sm-7">

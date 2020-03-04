@@ -3,7 +3,9 @@
  * CNestedSetRecord class file.
  *
  * @author Remko Nolten <remko@nolten.nu>
- * @link http://www.yiiframework.com/
+ *
+ * @see http://www.yiiframework.com/
+ *
  * @copyright Copyright &copy; 2008-2009 Remko Nolten
  */
 
@@ -12,29 +14,28 @@
  * This abstract class defines the default function that every nested set class should have.
  *
  * @author Remko Nolten <remko@nolten.nu>
- * @package extensions.nestedset
  */
- 
 abstract class CNestedSetBehavior extends CActiveRecordBehavior
 {
-   
-   
     /**
      * Returns the childnodes of this node in an array.
-     * This function does not return the children of the child nodes (i.e. grandchildren)
-     * @return array() An array with the child nodes or an empty array when no child nodes are found.
+     * This function does not return the children of the child nodes (i.e. grandchildren).
+     *
+     * @return array() An array with the child nodes or an empty array when no child nodes are found
      */
     abstract public function getChildNodes();
-    
+
     /**
-     * Returns false when the node is a leaf node (i.e. has no child nodes)
-     * @return boolean True when the node has childe nodes, false when the node is a leaf.
+     * Returns false when the node is a leaf node (i.e. has no child nodes).
+     *
+     * @return bool true when the node has childe nodes, false when the node is a leaf
      */
     abstract public function hasChildNodes();
 
     /**
      * Returns the depth of the current node in the complete tree.
-     * @return int The depth of the node, where the root node is always at depth 0.
+     *
+     * @return int the depth of the node, where the root node is always at depth 0
      */
     abstract public function getDepth();
 
@@ -42,101 +43,121 @@ abstract class CNestedSetBehavior extends CActiveRecordBehavior
      * Inserts this node as the last child of the given node.
      * if $brother is specified then this node will be inserted before
      * it's brother.
-     * @param CNestedSetRecord $node The node to which you want to append this node.
-     * @param CNestedSetRecord $brother The node before which you want to insert this node.
-     * @return boolean True on succes or False on failure.
+     *
+     * @param CNestedSetRecord $node    the node to which you want to append this node
+     * @param CNestedSetRecord $brother the node before which you want to insert this node
+     *
+     * @return bool true on succes or False on failure
      */
-    abstract public function appendChild($node, $brother = null) ;
-    
+    abstract public function appendChild($node, $brother = null);
+
     /**
      * Returns an array with all siblings of the current node. The current node is not included in this array.
+     *
      * @return array An array with sibling nodes;
      */
     abstract public function getSiblings();
-    
+
     /**
-     * Returns the next sibling (i.e. the sibling on the right of this node)
+     * Returns the next sibling (i.e. the sibling on the right of this node).
+     *
      * @return CNestedSetRecord The next sibling or null when no sibling is found
      */
     abstract public function getNextSibling();
-    
+
     /**
-     * Returns the previous sibling (i.e. the sibling on the right of this node)
-     * @return CNestedSetRecord The previous sibling or null when no sibling is found.
+     * Returns the previous sibling (i.e. the sibling on the right of this node).
+     *
+     * @return CNestedSetRecord the previous sibling or null when no sibling is found
      */
     abstract public function getPreviousSibling();
-    
+
     /**
      * Returns the parent node of the current node.
+     *
      * @return CNestedSetRecord The parent node or null when there is no parent found (for example, when this node is the root node)
      */
     abstract public function getParentNode();
-    
+
     /**
-     * Insert this node before the given node (as a sibling on the left side)
+     * Insert this node before the given node (as a sibling on the left side).
+     *
      * @param CNestedSetRecord $node The given node
-     * @return boolean True on success or False on failure.
+     *
+     * @return bool true on success or False on failure
      */
     abstract public function insertBefore($node);
-    
+
     /**
-     * Insert this node after the given node (as a sibling on the right side)
+     * Insert this node after the given node (as a sibling on the right side).
+     *
      * @param CNestedSetRecord $node The given node
-     * @return boolean True on success or False on failure.
+     *
+     * @return bool true on success or False on failure
      */
     abstract public function insertAfter($node);
-    
+
     /**
      * Function to delete a node from the tree. The object does still exist, and you can insert it again in the tree.
      * In this case, it will get a new ID value.
      * Remember that when you delete the children as well, they are they are gone forever (even when you insert this node again).
-     * @param boolean $deleteChildren When true, all children will also be deleted. This action CANNOT be undone!!!
-     * @return boolean True on succes, False on failure. (Check the logs when deletion fails)
+     *
+     * @param bool $deleteChildren When true, all children will also be deleted. This action CANNOT be undone!!!
+     *
+     * @return bool True on succes, False on failure. (Check the logs when deletion fails)
      */
     abstract public function deleteNode($deleteChildren = false);
-      
-     
+
     /**
-     * Move a node one level up
-     * @param boolean $after When true, the node is places after the parent node (this is the default behaviour).
-     * When false, the node is places before the parent.
-     * @return boolean Returns true on succes.
-     * @throws TreeException on any error during moving the node.
+     * Move a node one level up.
+     *
+     * @param bool $after When true, the node is places after the parent node (this is the default behaviour).
+     *                    When false, the node is places before the parent.
+     *
+     * @return bool returns true on succes
+     *
+     * @throws TreeException on any error during moving the node
      */
     abstract public function moveUp($after = true);
-    
-    
+
     /**
-     * Move a node below a given node (i.e. appends this node as a child of the given node)
-     * @param $node The node in the tree which becomes the new parent node.
+     * Move a node below a given node (i.e. appends this node as a child of the given node).
+     *
+     * @param $node the node in the tree which becomes the new parent node
      */
     abstract public function moveBelow($node);
-    
+
     /**
      * Move a node to the left (i.e. exchange it with its left sibling)
      * Returns false when the node is in its most left position and there are no left siblings anymore.
-     * @return boolean True on success.
+     *
+     * @return bool true on success
      */
     abstract public function moveLeft();
-    
+
     /**
-     * Move this node to a position before the given node. (i.e. this node becomes the left sibling of the given node)
+     * Move this node to a position before the given node. (i.e. this node becomes the left sibling of the given node).
+     *
      * @param $node The given node
-     * @return boolean True on success.
+     *
+     * @return bool true on success
      */
     abstract public function moveBefore($node);
-    
+
     /**
-     * Move this node to a position after the given node. (i.e. this node becomes the right sibling of the given node)
+     * Move this node to a position after the given node. (i.e. this node becomes the right sibling of the given node).
+     *
      * @param $node The given node
-     * @return boolean True on success.
+     *
+     * @return bool true on success
      */
     abstract public function moveAfter($node);
-    
+
     /**
      * Move a node to the right (i.e. exchange it with its right sibling)
      * Returns false when the node is in its most right position and there are no right siblings anymore.
-     * @return boolean True on success.
+     *
+     * @return bool true on success
      */
     abstract public function moveRight();
 }

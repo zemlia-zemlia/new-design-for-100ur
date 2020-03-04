@@ -4,30 +4,30 @@ class TreeViewTreebehavior extends Treebehavior
 {
     public function getTreeViewData($returnrootnode = true, $keyfield = null)
     {
-        if ($keyfield == null) {
+        if (null == $keyfield) {
             $keyfield = 'id';
         }
         // Fetch the flat tree
         $rawtree = $this->getTree(true);
         // Init variables needed for the array conversion
-        $tree = array();
-        $node =& $tree;
-        $position = array();
+        $tree = [];
+        $node = &$tree;
+        $position = [];
         $lastitem = '';
         $depth = $this->getLevelValue();
 
         foreach ($rawtree as $rawitem) {
             // If its a deeper item, then make it subitems of the current item
             if ($rawitem->getLevelValue() > $depth) {
-                $position[] =& $node; //$lastitem;
+                $position[] = &$node; //$lastitem;
                 $depth = $rawitem->getLevelValue();
-                $node =& $node[$lastitem]['children'];
+                $node = &$node[$lastitem]['children'];
             }
             // If its less deep item, then return to a level up
             else {
                 while ($rawitem->getLevelValue() < $depth) {
                     end($position);
-                    $node =& $position[key($position)];
+                    $node = &$position[key($position)];
                     array_pop($position);
                     $depth = $node[key($node)]['node']->getLevelValue();
                 }
@@ -35,14 +35,14 @@ class TreeViewTreebehavior extends Treebehavior
 
             if (!$rawitem->hasChildNodes()) {
                 //$rawitem->owner->name = '<a href="/cat/'.$rawitem->owner->id.'">'.$rawitem->owner->name.'</a>';  $this->createUrl($route,$params);
-                $rawitem->owner->name = '<a href="'.Yii::app()->createUrl('articles/index', array('id_cat'=>$rawitem->owner->id)).'">'.$rawitem->owner->name.'</a>';
+                $rawitem->owner->name = '<a href="' . Yii::app()->createUrl('articles/index', ['id_cat' => $rawitem->owner->id]) . '">' . $rawitem->owner->name . '</a>';
             } else {
-                $rawitem->owner->name = '<span>'.$rawitem->owner->name.'</span>';
+                $rawitem->owner->name = '<span>' . $rawitem->owner->name . '</span>';
             }
 
             // Add the item to the final array
             $node[$rawitem->$keyfield]['node'] = $rawitem;
-            $node[$rawitem->$keyfield]['id'] = 'node'.$rawitem->owner->id;
+            $node[$rawitem->$keyfield]['id'] = 'node' . $rawitem->owner->id;
             $node[$rawitem->$keyfield]['text'] = $rawitem->owner->name;
             // save the last items' name
             $lastitem = $rawitem->$keyfield;
@@ -51,7 +51,7 @@ class TreeViewTreebehavior extends Treebehavior
         if (!$returnrootnode) {
             reset($tree);
             $tree = $tree[key($tree)];
-            $tree = isset($tree['children']) ? $tree['children'] : array();
+            $tree = isset($tree['children']) ? $tree['children'] : [];
             /*$tree = $tree[key($tree)]['children'];*/
             //array_shift($tree);
         }

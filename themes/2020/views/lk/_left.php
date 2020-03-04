@@ -17,7 +17,7 @@
         <?php if (Yii::app()->user->checkAccess(User::ROLE_BUYER)) : ?>
 
             <li><a href="<?= Yii::app()->createUrl('/buyer/'); ?>"><i class="fa fa-circle-o"></i> Главная</a></li>
-            <li><a href="<?= Yii::app()->createUrl('/buyer/myLeads/'); ?>"><i class="fa fa-bars" aria-hidden="true"></i> Мои лиды</a></li>
+            <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/myLeads/'); ?>"><i class="fa fa-bars" aria-hidden="true"></i> Мои лиды</a></li>
             <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/campaigns/'); ?>"><i class="fa fa-bars" aria-hidden="true"></i> Мои кампании</a></li>
             <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/transactions/'); ?>"><i class="fa fa-money" aria-hidden="true"></i> Финансы</a></li>
             <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/api/'); ?>"><i class="fa fa-wrench" aria-hidden="true"></i> Работа с API</a></li>

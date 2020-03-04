@@ -1,6 +1,6 @@
 <?php
 /**
- * Класс для работы с URL категорий вопросов
+ * Класс для работы с URL категорий вопросов.
  */
 class QuestionCategoryRule extends CBaseUrlRule
 {
@@ -13,37 +13,42 @@ class QuestionCategoryRule extends CBaseUrlRule
      */
 
     /**
-     * Метод создания URL из параметров
+     * Метод создания URL из параметров.
+     *
      * @param type $manager
      * @param type $route
      * @param type $params
      * @param type $ampersand
-     * @return boolean
+     *
+     * @return bool
      */
     public function createUrl($manager, $route, $params, $ampersand)
     {
-        if ($route === 'questionCategory/alias') {
+        if ('questionCategory/alias' === $route) {
             if (isset($params['root'], $params['name'])) {
                 return $this->_prefix . $params['root'] . '/' . $params['name'] . Yii::app()->urlManager->urlSuffix;
             } elseif (isset($params['name'])) {
                 return $this->_prefix . $params['name'] . Yii::app()->urlManager->urlSuffix;
             }
         }
+
         return false;  // не применяем данное правило
     }
 
     /**
-     * Парсинг URL категории
-     * @param CUrlManager $manager
+     * Парсинг URL категории.
+     *
+     * @param CUrlManager  $manager
      * @param CHttpRequest $request
-     * @param string $pathInfo
-     * @param string $rawPathInfo
+     * @param string       $pathInfo
+     * @param string       $rawPathInfo
+     *
      * @return bool|mixed|string
      */
     public function parseUrl($manager, $request, $pathInfo, $rawPathInfo)
     {
         $urlPattern = '/^cat(\/[a-z0-9-]+)(\/[a-z0-9-]+)?$/i';
-        
+
         if (preg_match($urlPattern, $pathInfo, $matches)) {
             $matches = array_reverse($matches);
             array_pop($matches);
@@ -54,6 +59,7 @@ class QuestionCategoryRule extends CBaseUrlRule
 
             return 'questionCategory/alias';
         }
+
         return false;  // не применяем данное правило
     }
 }

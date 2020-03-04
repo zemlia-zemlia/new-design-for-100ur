@@ -12,7 +12,7 @@ class redactor extends CInputWidget
     public $toolbar = 'classic'; // Указание, какой именно тулбар должен отобразиться в этом Редакторе.
     public $upload = ''; // Путь к файлу загрузки изображений.
 
-    protected $element = array();
+    protected $element = [];
 
     public function init()
     {
@@ -26,11 +26,11 @@ class redactor extends CInputWidget
 
         list($this->element['name'], $this->element['id']) = $this->resolveNameID();
 
-        $this->focus = ($this->focus == true) ? 'true' : 'false';
-        $this->resize = ($this->resize == true) ? 'true' : 'false';
+        $this->focus = (true == $this->focus) ? 'true' : 'false';
+        $this->resize = (true == $this->resize) ? 'true' : 'false';
         $js = "$('#" . $this->element['id'] . "').redactor({
-                    focus:   " . $this->focus . ",
-                    resize:  " . $this->resize . ",
+                    focus:   " . $this->focus . ',
+                    resize:  ' . $this->resize . ",
                     toolbar: '" . $this->toolbar . "',
                     upload:  '" . $this->upload . "'
                 });";

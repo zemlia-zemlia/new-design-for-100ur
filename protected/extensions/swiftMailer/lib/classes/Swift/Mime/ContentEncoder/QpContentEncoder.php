@@ -26,22 +26,21 @@
 
 /**
  * Handles Quoted Printable (QP) Transfer Encoding in Swift Mailer.
- * @package Swift
- * @subpackage Mime
+ *
  * @author Chris Corbyn
  */
 class Swift_Mime_ContentEncoder_QpContentEncoder extends Swift_Encoder_QpEncoder implements Swift_Mime_ContentEncoder
 {
-
-  /**
-   * Creates a new QpContentEncoder for the given CharacterStream.
-   * @param Swift_CharacterStream $charStream to use for reading characters
-   * @param Swift_StreamFilter $filter if canonicalization should occur
-   */
+    /**
+     * Creates a new QpContentEncoder for the given CharacterStream.
+     *
+     * @param Swift_CharacterStream $charStream to use for reading characters
+     * @param Swift_StreamFilter    $filter     if canonicalization should occur
+     */
     public function __construct(
-      Swift_CharacterStream $charStream,
-      Swift_StreamFilter $filter = null
-  ) {
+        Swift_CharacterStream $charStream,
+        Swift_StreamFilter $filter = null
+    ) {
         parent::__construct($charStream, $filter);
     }
 
@@ -50,17 +49,18 @@ class Swift_Mime_ContentEncoder_QpContentEncoder extends Swift_Encoder_QpEncoder
      * QP encoded strings have a maximum line length of 76 characters.
      * If the first line needs to be shorter, indicate the difference with
      * $firstLineOffset.
-     * @param Swift_OutputByteStream $os output stream
-     * @param Swift_InputByteStream $is input stream
-     * @param int $firstLineOffset
-     * @param int $maxLineLength
+     *
+     * @param Swift_OutputByteStream $os              output stream
+     * @param Swift_InputByteStream  $is              input stream
+     * @param int                    $firstLineOffset
+     * @param int                    $maxLineLength
      */
     public function encodeByteStream(
-      Swift_OutputByteStream $os,
-      Swift_InputByteStream $is,
-      $firstLineOffset = 0,
-      $maxLineLength = 0
-  ) {
+        Swift_OutputByteStream $os,
+        Swift_InputByteStream $is,
+        $firstLineOffset = 0,
+        $maxLineLength = 0
+    ) {
         if ($maxLineLength > 76 || $maxLineLength <= 0) {
             $maxLineLength = 76;
         }
@@ -72,7 +72,7 @@ class Swift_Mime_ContentEncoder_QpContentEncoder extends Swift_Encoder_QpEncoder
 
         $currentLine = '';
         $prepend = '';
-        $size=$lineLen=0;
+        $size = $lineLen = 0;
 
         while (false !== $bytes = $this->_nextSequence()) {
             //If we're filtering the input
@@ -93,14 +93,14 @@ class Swift_Mime_ContentEncoder_QpContentEncoder extends Swift_Encoder_QpEncoder
             }
 
             $enc = $this->_encodeByteSequence($bytes, $size);
-            if ($currentLine && $lineLen+$size >= $thisLineLength) {
+            if ($currentLine && $lineLen + $size >= $thisLineLength) {
                 $is->write($prepend . $this->_standardize($currentLine));
                 $currentLine = '';
                 $prepend = "=\r\n";
                 $thisLineLength = $maxLineLength;
-                $lineLen=0;
+                $lineLen = 0;
             }
-            $lineLen+=$size;
+            $lineLen += $size;
             $currentLine .= $enc;
         }
         if (strlen($currentLine)) {
@@ -111,6 +111,7 @@ class Swift_Mime_ContentEncoder_QpContentEncoder extends Swift_Encoder_QpEncoder
     /**
      * Get the name of this encoding scheme.
      * Returns the string 'quoted-printable'.
+     *
      * @return string
      */
     public function getName()

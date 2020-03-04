@@ -53,10 +53,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'EJqueryUiWidget.php';
 
 /**
- *
  * EAccordion: some rails for the jQuery UI widget "Accordion".
  *
  * @see: http://jqueryui.com/demos/accordion/
@@ -65,7 +64,6 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
  * @author: ironic
  * @package: application.extensions.jui
  * @since: 1.0.2
- *
  */
 class EAccordion extends EJqueryUiWidget
 {
@@ -74,7 +72,7 @@ class EAccordion extends EJqueryUiWidget
     //***************************************************************************
 
     /**
-     * The body of the widget
+     * The body of the widget.
      *
      * @var string
      */
@@ -82,28 +80,32 @@ class EAccordion extends EJqueryUiWidget
 
     /**
      * The panels of the accordion widget.
+     *
      * @var array
      */
-    private $_panels = array();
+    private $_panels = [];
 
     /**
      * The wrapping html tag for the header-part
      * of a accordion panel.
+     *
      * @var string
      */
     private $_headerHtml = 'h3';
 
     /**
      * The functions supported by the
-     * jquery accordion script
+     * jquery accordion script.
+     *
      * @var array
      */
-    private $_functions = array();
+    private $_functions = [];
 
     /**
      * determines wether to use the jquery.easing
      * plugin or not...
-     * @var boolean
+     *
+     * @var bool
      */
     private $_useEasing = false;
 
@@ -118,32 +120,32 @@ class EAccordion extends EJqueryUiWidget
      *
      * @var array
      */
-    protected $validOptions = array(
-      'active'=>array('type'=>array('boolean', 'number')), // Selector for the active element. Set to false to display none at start. Needs «collapsible: true». Default: first child
-      'animated'=>array('type'=>array('boolean', 'string')), // Choose your favorite animation, or disable them (set to false). In addition to the default, 'bounceslide' and 'easeslide' are supported (both require the easing plugin). Default: false
-      'autoHeight'=>array('type'=>'boolean'), // If set, the highest content part is used as height reference for all other parts. Provides more consistent animations. Default: true
-      'clearStyle'=>array('type'=>'boolean'), // If set, clears height and overflow styles after finishing animations. This enables accordions to work with dynamic content. Won't work together with autoHeight. Default: false
-      'collapsible'=>array('type'=>'boolean'), // Whether all the sections can be closed at once. Allows collapsing the active section by the triggering event (click is the default). Default: false
-      'event'=>array('type'=>'string'), // The event on which to trigger the accordion. Default: 'click'
-      'fillSpace'=>array('type'=>'boolean'), // If set, the accordion completely fills the height of the parent element. Overrides autoheight. Default: false
-      'header'=>array('type'=>'string'), // Selector for the header element. Default: '> li > :first-child,> :not(li):even'
-      'icons'=>array('type'=>'array'), // Icons to use for headers. Icons may be specified for 'header' and 'headerSelected', and we recommend using the icons native to the jQuery UI CSS Framework manipulated by jQuery UI ThemeRoller. Default: { 'header': 'ui-icon-triangle-1-e', 'headerSelected': 'ui-icon-triangle-1-s' }
-      'navigation'=>array('type'=>'boolean'), // If set, looks for the anchor that matches location.href and activates it. Great for href-based state-saving. Use navigationFilter to implement your own matcher. Default: false
-    );
+    protected $validOptions = [
+      'active' => ['type' => ['boolean', 'number']], // Selector for the active element. Set to false to display none at start. Needs «collapsible: true». Default: first child
+      'animated' => ['type' => ['boolean', 'string']], // Choose your favorite animation, or disable them (set to false). In addition to the default, 'bounceslide' and 'easeslide' are supported (both require the easing plugin). Default: false
+      'autoHeight' => ['type' => 'boolean'], // If set, the highest content part is used as height reference for all other parts. Provides more consistent animations. Default: true
+      'clearStyle' => ['type' => 'boolean'], // If set, clears height and overflow styles after finishing animations. This enables accordions to work with dynamic content. Won't work together with autoHeight. Default: false
+      'collapsible' => ['type' => 'boolean'], // Whether all the sections can be closed at once. Allows collapsing the active section by the triggering event (click is the default). Default: false
+      'event' => ['type' => 'string'], // The event on which to trigger the accordion. Default: 'click'
+      'fillSpace' => ['type' => 'boolean'], // If set, the accordion completely fills the height of the parent element. Overrides autoheight. Default: false
+      'header' => ['type' => 'string'], // Selector for the header element. Default: '> li > :first-child,> :not(li):even'
+      'icons' => ['type' => 'array'], // Icons to use for headers. Icons may be specified for 'header' and 'headerSelected', and we recommend using the icons native to the jQuery UI CSS Framework manipulated by jQuery UI ThemeRoller. Default: { 'header': 'ui-icon-triangle-1-e', 'headerSelected': 'ui-icon-triangle-1-s' }
+      'navigation' => ['type' => 'boolean'], // If set, looks for the anchor that matches location.href and activates it. Great for href-based state-saving. Use navigationFilter to implement your own matcher. Default: false
+    ];
 
     /**
-     * See @link http://jqueryui.com/demos/accordion/#options
+     * See @link http://jqueryui.com/demos/accordion/#options.
      *
      * @var array
      */
-    protected $validFunctions = array('navigationFilter');
+    protected $validFunctions = ['navigationFilter'];
 
     /**
-     * See @link http://jqueryui.com/demos/accordion/#events
+     * See @link http://jqueryui.com/demos/accordion/#events.
      *
      * @var array
      */
-    protected $validCallbacks = array('change');
+    protected $validCallbacks = ['change'];
 
     //***************************************************************************
     // Setters and getters
@@ -155,7 +157,8 @@ class EAccordion extends EJqueryUiWidget
      * array(
      *	'Panel 1 Header' => '<p>Panel 1 Content</p>',
      *	'Panel 2 Header' => '<ul><li>Panel 2 Content</li></ul>',
-     * )
+     * ).
+     *
      * @param array
      */
     public function setPanels(array $panels)
@@ -165,6 +168,7 @@ class EAccordion extends EJqueryUiWidget
 
     /**
      * Returns the panels property.
+     *
      * @return array
      */
     public function getPanels()
@@ -174,6 +178,7 @@ class EAccordion extends EJqueryUiWidget
 
     /**
      * Sets the header html tag.
+     *
      * @param string
      */
     public function setHeaderHtml($headerHtml)
@@ -185,6 +190,7 @@ class EAccordion extends EJqueryUiWidget
 
     /**
      * Returns the header html tag.
+     *
      * @return string
      */
     public function getHeaderHtml()
@@ -199,7 +205,8 @@ class EAccordion extends EJqueryUiWidget
      *	'navigationFilter' => 'function() {
      *		return this.href.toLowerCase()==location.href.toLowerCase();
      *	}',
-     * )
+     * ).
+     *
      * @param array
      */
     public function setFunctions(array $functions)
@@ -209,6 +216,7 @@ class EAccordion extends EJqueryUiWidget
 
     /**
      * Returns the functions property.
+     *
      * @return array
      */
     public function getFunctions()
@@ -218,6 +226,7 @@ class EAccordion extends EJqueryUiWidget
 
     /**
      * Sets the useEasing property.
+     *
      * @return array
      */
     public function setUseEasing($useEasing)
@@ -229,6 +238,7 @@ class EAccordion extends EJqueryUiWidget
 
     /**
      * Returns the useEasing property.
+     *
      * @return array
      */
     public function getUseEasing()
@@ -242,38 +252,41 @@ class EAccordion extends EJqueryUiWidget
 
     protected function makeOptions()
     {
-        $options = array();
+        $options = [];
         $options['header'] = $this->_headerHtml;
         $options = CJavaScript::encode(array_merge($options, $this->options));
+
         return $options;
     }
 
     /**
-     * Generates the javascript code for the widget
+     * Generates the javascript code for the widget.
+     *
      * @return string
      */
     protected function jsCode($id)
     {
         $options = $this->makeOptions();
-        $script = '$("#'.$id.'").accordion('.$options.');';
+        $script = '$("#' . $id . '").accordion(' . $options . ');';
 
-        $pattern = array("\r\n", "\n", "\r", "\t");
+        $pattern = ["\r\n", "\n", "\r", "\t"];
 
         foreach ($this->callbacks as $key => $val) {
-            $val = str_replace($pattern, "", $val);
-            $script .= "\n$('#".$id."').accordion('option', '".$key."', ".$val.");";
+            $val = str_replace($pattern, '', $val);
+            $script .= "\n$('#" . $id . "').accordion('option', '" . $key . "', " . $val . ');';
         }
 
         foreach ($this->functions as $key => $val) {
-            $val = str_replace($pattern, "", $val);
-            $script .= "\n$('#".$id."').accordion('option', '".$key."', ".$val.");";
+            $val = str_replace($pattern, '', $val);
+            $script .= "\n$('#" . $id . "').accordion('option', '" . $key . "', " . $val . ');';
         }
 
         return $script;
     }
 
     /**
-     * Generates the html code for the widget
+     * Generates the html code for the widget.
+     *
      * @return string
      */
     public function htmlCode()
@@ -281,16 +294,16 @@ class EAccordion extends EJqueryUiWidget
         $html = '';
         if (!empty($this->_panels)) {
             foreach ($this->_panels as $panelHeader => $panelBody) {
-                $anchor = sprintf("#%s", strtolower(trim($panelHeader)));
-                $anchor = str_replace(array("\r\n", "\n", "\r", "\t", " "), "", $anchor);
+                $anchor = sprintf('#%s', strtolower(trim($panelHeader)));
+                $anchor = str_replace(["\r\n", "\n", "\r", "\t", ' '], '', $anchor);
                 $header_link = CHtml::link($panelHeader, $anchor);
                 $html .= CHtml::openTag('div');
-                $html .= CHtml::tag($this->_headerHtml, array(), $header_link);
-                $html .= CHtml::tag('div', array(), $panelBody);
+                $html .= CHtml::tag($this->_headerHtml, [], $header_link);
+                $html .= CHtml::tag('div', [], $panelBody);
                 $html .= CHtml::closeTag('div');
             }
         } else {
-            $html = CHtml::tag('div', array(), $this->body);
+            $html = CHtml::tag('div', [], $this->body);
         }
 
         return $html;
@@ -300,7 +313,7 @@ class EAccordion extends EJqueryUiWidget
     {
         parent::registerClientScripts();
         if ($this->useEasing) {
-            $this->clientScript->registerScriptFile($this->baseUrl.'/external/easing/jquery.easing.1.3.js');
+            $this->clientScript->registerScriptFile($this->baseUrl . '/external/easing/jquery.easing.1.3.js');
         }
     }
 
@@ -335,11 +348,11 @@ class EAccordion extends EJqueryUiWidget
         $this->registerClientScripts();
 
         $this->clientScript->registerScript(
-            'Yii.'.get_class($this).'#'.$id,
+            'Yii.' . get_class($this) . '#' . $id,
             $this->jsCode($name),
             CClientScript::POS_READY
         );
 
-        echo CHtml::tag('div', array('id'=>$id), $this->htmlCode());
+        echo CHtml::tag('div', ['id' => $id], $this->htmlCode());
     }
 }

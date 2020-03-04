@@ -4,18 +4,19 @@
  * Модель для работы с источниками лидов 100 юристов.
  *
  * The followings are the available columns in table '{{leadsource}}':
- * @property integer $id
- * @property integer $type
+ *
+ * @property int    $id
+ * @property int    $type
  * @property string $name
  * @property string $description
- * @property integer $officeId
- * @property integer $noLead
- * @property integer $active
+ * @property int    $officeId
+ * @property int    $noLead
+ * @property int    $active
  * @property string $appId
  * @property string $secretKey
- * @property integer $userId
- * @property integer $moderation
- * @property integer $priceByPartner
+ * @property int    $userId
+ * @property int    $moderation
+ * @property int    $priceByPartner
  */
 class Leadsource extends CActiveRecord
 {
@@ -24,7 +25,9 @@ class Leadsource extends CActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     *
+     * @param string $className active record class name
+     *
      * @return Leadsource the static model class
      */
     public static function model($className = __CLASS__)
@@ -49,33 +52,33 @@ class Leadsource extends CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('name', 'required', 'message' => 'Поле {attribute} не заполнено'),
-            array('name, description', 'length', 'max' => 255),
-            array('officeId, noLead, active, userId, type, moderation, priceByPartner', 'numerical', 'integerOnly' => true),
+        return [
+            ['name', 'required', 'message' => 'Поле {attribute} не заполнено'],
+            ['name, description', 'length', 'max' => 255],
+            ['officeId, noLead, active, userId, type, moderation, priceByPartner', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, name, description', 'safe', 'on' => 'search'),
+            ['id, name, description', 'safe', 'on' => 'search'],
             ['id', 'safe', 'on' => 'test'],
-        );
+        ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'user' => array(self::BELONGS_TO, 'User', 'userId'),
-        );
+        return [
+            'user' => [self::BELONGS_TO, 'User', 'userId'],
+        ];
     }
 
     /**
@@ -83,7 +86,7 @@ class Leadsource extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'type' => 'Тип',
             'name' => 'Название',
@@ -96,21 +99,22 @@ class Leadsource extends CActiveRecord
             'userId' => 'ID пользователя',
             'moderation' => 'Требуется премодерация лидов',
             'priceByPartner' => 'Вебмастер назначает цену',
-        );
+        ];
     }
 
     /**
-     *  возвращает массив источников лидов, ключами которого являются ID, а значениями - названия
+     *  возвращает массив источников лидов, ключами которого являются ID, а значениями - названия.
      *
-     * @param boolean $showInactive показывать неактивные источники
-     * @param integer $cacheTime на сколько секунд кешировать
+     * @param bool $showInactive показывать неактивные источники
+     * @param int  $cacheTime    на сколько секунд кешировать
+     *
      * @return array массив источников лидов (id => name)
      */
     public static function getSourcesArray($showInactive = true, $cacheTime = 60)
     {
-        $attributes = array();
+        $attributes = [];
 
-        if ($showInactive == false) {
+        if (false == $showInactive) {
             $attributes['active'] = 1;
         }
 
@@ -120,53 +124,57 @@ class Leadsource extends CActiveRecord
         foreach ($sources as $source) {
             $sourcesArray[$source->id] = $source->name;
         }
+
         return $sourcesArray;
     }
 
     /**
-     * Возвращает массив типов источников (code => name)
+     * Возвращает массив типов источников (code => name).
      */
     public static function getTypes()
     {
-        return array(
+        return [
             self::TYPE_LEAD => 'лиды',
             self::TYPE_QUESTION => 'вопросы',
-        );
+        ];
     }
 
     /**
-     * Возвращает название типа источника
+     * Возвращает название типа источника.
+     *
      * @return type
      */
     public function getTypeName()
     {
         $types = self::getTypes();
+
         return $types[$this->type];
     }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     *
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function search()
     {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('office', $this->office, true);
         $criteria->compare('description', $this->description, true);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     /**
-     * Генерирует appId
+     * Генерирует appId.
      */
     public function generateAppId()
     {
@@ -174,7 +182,8 @@ class Leadsource extends CActiveRecord
     }
 
     /**
-     * Генерирует secretKey
+     * Генерирует secretKey.
+     *
      * @return string secretKey
      */
     public function generateSecretKey()
@@ -183,14 +192,16 @@ class Leadsource extends CActiveRecord
     }
 
     /**
-     * Возвращает массив источников, привязанных к пользователю
-     * @param integer $userId ID пользователя
+     * Возвращает массив источников, привязанных к пользователю.
+     *
+     * @param int $userId ID пользователя
+     *
      * @return array Массив источников
      */
     public static function getSourcesByUser($userId)
     {
-        $criteria = new CDbCriteria;
-        $criteria->addColumnCondition(array('userId' => $userId));
+        $criteria = new CDbCriteria();
+        $criteria->addColumnCondition(['userId' => $userId]);
 
         $sources = self::model()->findAll($criteria);
 
@@ -199,28 +210,31 @@ class Leadsource extends CActiveRecord
 
     public static function getSourcesArrayByUser($userId)
     {
-        $criteria = new CDbCriteria;
-        $criteria->addColumnCondition(array('userId' => $userId));
+        $criteria = new CDbCriteria();
+        $criteria->addColumnCondition(['userId' => $userId]);
 
         $sources = self::model()->findAll($criteria);
         foreach ($sources as $source) {
             $sourcesArray[$source->id] = $source->name;
         }
+
         return $sourcesArray;
     }
 
     /**
-     * @param integer $appId
-     * @param integer $cacheTime
+     * @param int $appId
+     * @param int $cacheTime
+     *
      * @return mixed
      */
     public static function getByAppIdAsArray($appId, $cacheTime)
     {
         $source = Yii::app()->db->cache($cacheTime)->createCommand()
-            ->select("*")
-            ->from("{{leadsource}}")
-            ->where("appId=:appId AND active=1", array(":appId" => $appId))
+            ->select('*')
+            ->from('{{leadsource}}')
+            ->where('appId=:appId AND active=1', [':appId' => $appId])
             ->queryRow();
+
         return $source;
     }
 }

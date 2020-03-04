@@ -6,7 +6,7 @@
                 <div class="col-md-10">
                     <p>
                         <?php if ($data['title']): ?>
-                            <strong><?php echo CHtml::link(CHtml::encode($data['title']), Yii::app()->createUrl('question/view', array('id' => $data['id']))); ?></strong>
+                            <strong><?php echo CHtml::link(CHtml::encode($data['title']), Yii::app()->createUrl('question/view', ['id' => $data['id']])); ?></strong>
                         <?php endif; ?>
                     </p>
 
@@ -23,16 +23,16 @@
                 <div class="col-md-2">
                     <p class="small text-center">
                         <?php
-                        if ($data['answersCount'] == 1) {
+                        if (1 == $data['answersCount']) {
                             echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> Есть ответ</span>";
                         } elseif ($data['answersCount'] > 1) {
-                            echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $data['answersCount'] . ' ' . CustomFuncs::numForms($data['answersCount'], 'ответ', 'ответа', 'ответов') . "</span>";
-                        } elseif ($data['answersCount'] == 0) {
+                            echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $data['answersCount'] . ' ' . NumbersHelper::numForms($data['answersCount'], 'ответ', 'ответа', 'ответов') . '</span>';
+                        } elseif (0 == $data['answersCount']) {
                             echo "<span class='text-muted'>Нет ответа</span>";
                         }
                         ?>
                     </p>
-                    <?php echo CHtml::link('Открыть', Yii::app()->createUrl('question/view', array('id' => $data['id'])), array('class' => 'btn btn-xs btn-default btn-block')); ?>
+                    <?php echo CHtml::link('Открыть', Yii::app()->createUrl('question/view', ['id' => $data['id']]), ['class' => 'btn btn-xs btn-default btn-block']); ?>
                 </div>
             </div>
         </div>

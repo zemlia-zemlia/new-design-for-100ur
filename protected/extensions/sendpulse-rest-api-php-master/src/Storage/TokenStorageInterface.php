@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Interface TokenStorageInterface
+ * Interface TokenStorageInterface.
  */
 
 namespace Sendpulse\RestApi\Storage;

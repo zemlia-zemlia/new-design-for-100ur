@@ -2,18 +2,18 @@
 /* @var $this DocTypeController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->pageTitle = "Типы документов. " . Yii::app()->name;
+$this->pageTitle = 'Типы документов. ' . Yii::app()->name;
 
-$this->breadcrumbs=array(
+$this->breadcrumbs = [
     'Типы документов',
-);
+];
 
 ?>
 
 <h1>Типы документов для заказа</h1>
 
 <div class="right-align vert-margin30">
-    <?php echo CHtml::link('Добавить тип', Yii::app()->createUrl('admin/docType/create'), ['class' => 'btn btn-primary']);?>
+    <?php echo CHtml::link('Добавить тип', Yii::app()->createUrl('admin/docType/create'), ['class' => 'btn btn-primary']); ?>
 </div>
 
 <table class="table table-bordered">
@@ -24,8 +24,8 @@ $this->breadcrumbs=array(
         <th>Мин.цена</th>
     </tr>
 
-    <?php $this->widget('zii.widgets.CListView', array(
-            'dataProvider'=>$dataProvider,
-            'itemView'=>'_view',
-    )); ?>
+    <?php $this->widget('zii.widgets.CListView', [
+            'dataProvider' => $dataProvider,
+            'itemView' => '_view',
+    ]); ?>
 </table>

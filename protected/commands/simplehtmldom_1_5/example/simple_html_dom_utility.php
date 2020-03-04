@@ -1,5 +1,6 @@
 <?php
-include_once('../simple_html_dom.php');
+
+include_once '../simple_html_dom.php';
 
 // -----------------------------------------------------------------------------
 // remove HTML comments
@@ -24,17 +25,18 @@ function html_no_comment($url)
 
 // -----------------------------------------------------------------------------
 // search elements that contains an specific text
-function find_contains($html, $selector, $keyword, $index=-1)
+function find_contains($html, $selector, $keyword, $index = -1)
 {
-    $ret = array();
+    $ret = [];
     foreach ($html->find($selector) as $e) {
-        if (strpos($e->innertext, $keyword)!==false) {
+        if (false !== strpos($e->innertext, $keyword)) {
             $ret[] = $e;
         }
     }
 
-    if ($index<0) {
+    if ($index < 0) {
         return $ret;
     }
+
     return (isset($ret[$index])) ? $ret[$index] : null;
 }

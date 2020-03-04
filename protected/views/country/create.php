@@ -2,17 +2,17 @@
 /* @var $this CountryController */
 /* @var $model Country */
 
-$this->breadcrumbs=array(
-    'Countries'=>array('index'),
+$this->breadcrumbs = [
+    'Countries' => ['index'],
     'Create',
-);
+];
 
-$this->menu=array(
-    array('label'=>'List Country', 'url'=>array('index')),
-    array('label'=>'Manage Country', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List Country', 'url' => ['index']],
+    ['label' => 'Manage Country', 'url' => ['admin']],
+];
 ?>
 
 <h1>Create Country</h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', ['model' => $model]); ?>

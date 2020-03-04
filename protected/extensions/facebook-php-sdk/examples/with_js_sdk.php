@@ -2,10 +2,10 @@
 
 require '../src/facebook.php';
 
-$facebook = new Facebook(array(
-  'appId'  => '344617158898614',
+$facebook = new Facebook([
+  'appId' => '344617158898614',
   'secret' => '6dc8ac871858b34798bc2488200e503d',
-));
+]);
 
 // See if there is a user from a cookie
 $user = $facebook->getUser();
@@ -15,7 +15,7 @@ if ($user) {
         // Proceed knowing you have a logged in user who's authenticated.
         $user_profile = $facebook->api('/me');
     } catch (FacebookApiException $e) {
-        echo '<pre>'.htmlspecialchars(print_r($e, true)).'</pre>';
+        echo '<pre>' . htmlspecialchars(print_r($e, true)) . '</pre>';
         $user = null;
     }
 }
@@ -27,7 +27,7 @@ if ($user) {
     <?php if ($user) { ?>
       Your user profile is
       <pre>
-        <?php print htmlspecialchars(print_r($user_profile, true)) ?>
+        <?php echo htmlspecialchars(print_r($user_profile, true)); ?>
       </pre>
     <?php } else { ?>
       <fb:login-button></fb:login-button>
@@ -36,7 +36,7 @@ if ($user) {
     <script>
       window.fbAsyncInit = function() {
         FB.init({
-          appId: '<?php echo $facebook->getAppID() ?>',
+          appId: '<?php echo $facebook->getAppID(); ?>',
           cookie: true,
           xfbml: true,
           oauth: true

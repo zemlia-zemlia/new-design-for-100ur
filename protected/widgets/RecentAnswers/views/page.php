@@ -5,8 +5,8 @@
     <div class="inside">
         <?php
         $index = 0;
-        if (empty($answers) || sizeof($answers) == 0) {
-            echo "Не найдено ни одного ответа";
+        if (empty($answers) || 0 == sizeof($answers)) {
+            echo 'Не найдено ни одного ответа';
         }
         ?>
 
@@ -16,13 +16,13 @@
             $author = User::model()->cache(600)->findByPk($answer['authorId']);
             ?>
 
-            <?php if ($index % 2 == 0) : ?>
+            <?php if (0 == $index % 2) : ?>
                 <div class="row">
             <?php endif; ?>
 
             <div class="col-md-6">
                 <p>
-                    <?php echo CHtml::link(CHtml::encode(CustomFuncs::mb_ucfirst($answer['questionTitle'], 'utf-8')), Yii::app()->createUrl('question/view', array('id' => $answer['questionId']))); ?>
+                    <?php echo CHtml::link(CHtml::encode(StringHelper::mb_ucfirst($answer['questionTitle'], 'utf-8')), Yii::app()->createUrl('question/view', ['id' => $answer['questionId']])); ?>
 
                 </p>
 
@@ -71,23 +71,23 @@
             </div>
 
 
-            <?php if ($index % 2 == 0): ?>
+            <?php if (0 == $index % 2): ?>
                 <hr class="visible-xs-block"/>
             <?php endif; ?>
 
-            <?php if ($index % 2 == 1) : ?>
+            <?php if (1 == $index % 2) : ?>
                 </div>
 
-                <?php if ($index != 5): ?>
+                <?php if (5 != $index): ?>
                     <hr/>
                 <?php endif; ?>
             <?php endif; ?>
 
-            <?php $index++; ?>
+            <?php ++$index; ?>
 
         <?php endforeach; ?>
 
-        <?php if ($index % 2 == 1) : ?>
+        <?php if (1 == $index % 2) : ?>
     </div> <!-- .row -->
 <?php endif; ?>
     </div> <!-- .inside -->
@@ -97,6 +97,6 @@
 <?php endif; ?>
 
 <p class="right-align">
-    <?php echo CHtml::link('Все вопросы', Yii::app()->createUrl('/question/index'), array('class' => 'text-muted')); ?> &nbsp; &nbsp;
-    <?php echo CHtml::link('Задать свой вопрос юристам', Yii::app()->createUrl('question/create'), array('class' => 'yellow-button arrow')); ?>
+    <?php echo CHtml::link('Все вопросы', Yii::app()->createUrl('/question/index'), ['class' => 'text-muted']); ?> &nbsp; &nbsp;
+    <?php echo CHtml::link('Задать свой вопрос юристам', Yii::app()->createUrl('question/create'), ['class' => 'yellow-button arrow']); ?>
 </p>

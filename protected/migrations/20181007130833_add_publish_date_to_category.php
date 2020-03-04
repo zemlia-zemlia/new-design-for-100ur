@@ -4,11 +4,10 @@ use Phinx\Migration\AbstractMigration;
 
 /**
  * Добавляет категории дату публикации
- * Class AddPublishDateToCategory
+ * Class AddPublishDateToCategory.
  */
 class AddPublishDateToCategory extends AbstractMigration
 {
-
     public function up()
     {
         $this->table('100_questionCategory')
@@ -23,5 +22,4 @@ class AddPublishDateToCategory extends AbstractMigration
             ->removeColumn('publish_date')
             ->save();
     }
-
 }

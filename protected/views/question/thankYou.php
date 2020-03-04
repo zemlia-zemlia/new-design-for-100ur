@@ -1,5 +1,5 @@
 <?php
-$this->setPageTitle("Вопрос отправлен юристу." . Yii::app()->name);
+$this->setPageTitle('Вопрос отправлен юристу.' . Yii::app()->name);
 
 ?>
 <h1 class="text-uppercase">Осталось совсем немного</h1>

@@ -1,7 +1,5 @@
 <?php
 
-use YurcrmClient\YurcrmClient;
-
 class UserController extends Controller
 {
     public $layout = '//frontend/question';
@@ -12,52 +10,53 @@ class UserController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
-        );
+        ];
     }
 
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
+     *
      * @return array access control rules
      */
     public function accessRules()
     {
-        return array(
-            array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view', 'create', 'balanceAddRequest', 'confirmationSent', 'restorePassword', 'setNewPassword', 'captcha', 'unsubscribe'),
-                'users' => array('*'),
-            ),
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('update', 'profile', 'changePassword', 'updateAvatar', 'invites', 'deleteAvatar', 'clearInfo', 'requestConfirmation', 'karmaPlus', 'stats', 'sendAnswerNotification', 'testimonial', 'testimonials'),
-                'users' => array('@'),
-            ),
+        return [
+            ['allow', // allow all users to perform 'index' and 'view' actions
+                'actions' => ['index', 'view', 'create', 'balanceAddRequest', 'confirmationSent', 'restorePassword', 'setNewPassword', 'captcha', 'unsubscribe'],
+                'users' => ['*'],
+            ],
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['update', 'profile', 'changePassword', 'updateAvatar', 'invites', 'deleteAvatar', 'clearInfo', 'requestConfirmation', 'karmaPlus', 'stats', 'sendAnswerNotification', 'testimonial', 'testimonials'],
+                'users' => ['@'],
+            ],
             ['allow',
                 'actions' => ['confirm'],
-                'users' => array('?'),
+                'users' => ['?'],
             ],
-            array('allow',
+            ['allow',
                 'actions' => ['feed'],
-                'users' => array('@'),
+                'users' => ['@'],
                 'expression' => 'Yii::app()->user->role == User::ROLE_JURIST',
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+            ],
+            ['deny', // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     public function actions()
     {
-        return array(
-            'captcha' => array(
+        return [
+            'captcha' => [
                 'class' => 'CCaptchaAction',
                 'foreColor' => 0xff0000,
                 'minLength' => 6,
                 'maxLength' => 8,
-            ),
-        );
+            ],
+        ];
     }
 
     public function actionProfile()
@@ -68,11 +67,11 @@ class UserController extends Controller
         $questionRepository = new QuestionRepository();
         $questionRepository->setCacheTime(600)->setLimit(10);
 
-        $ordersCriteria = new CDbCriteria; // мои заказы документов
+        $ordersCriteria = new CDbCriteria(); // мои заказы документов
 
-        if (Yii::app()->user->role == User::ROLE_CLIENT) {
+        if (User::ROLE_CLIENT == Yii::app()->user->role) {
             $questions = $questionRepository->findRecentQuestionsByClient($user);
-            $ordersCriteria->addColumnCondition(array('t.userId' => Yii::app()->user->id));
+            $ordersCriteria->addColumnCondition(['t.userId' => Yii::app()->user->id]);
             $ordersCriteria->order = 't.id DESC';
 
             $ordersDataProvider = new CActiveDataProvider('Order', [
@@ -86,53 +85,52 @@ class UserController extends Controller
         // найдем последний запрос на смену статуса
         $lastRequest = Yii::app()->db->createCommand()
             ->select('isVerified, status')
-            ->from("{{userStatusRequest}}")
-            ->where("yuristId=:id", array(':id' => $user->id))
+            ->from('{{userStatusRequest}}')
+            ->where('yuristId=:id', [':id' => $user->id])
             ->order('id DESC')
             ->limit(1)
             ->queryRow();
 
         $testimonialsDataProvider = $user->getTestimonialsDataProvider(5, false);
 
-        $this->render('profile', array(
+        $this->render('profile', [
             'questions' => $questions,
             'user' => $user,
             'lastRequest' => $lastRequest,
             'ordersDataProvider' => $ordersDataProvider,
             'testimonialsDataProvider' => $testimonialsDataProvider,
-        ));
+        ]);
     }
 
     // creating a new user by registration form
     public function actionCreate()
     {
         $this->layout = '//frontend/smart';
-        $model = new User;
-        $yuristSettings = new YuristSettings;
+        $model = new User();
+        $yuristSettings = new YuristSettings();
         $model->setScenario('register');
 
-
-        $model->role = (isset($_GET['role'])) ? (int)$_GET['role'] : 0;
+        $model->role = (isset($_GET['role'])) ? (int) $_GET['role'] : 0;
 
         // при регистрации юриста действуют отдельные правила проверки полей
-        if ($model->role == User::ROLE_JURIST) {
+        if (User::ROLE_JURIST == $model->role) {
             $model->setScenario('createJurist');
         }
-        if ($model->role == User::ROLE_BUYER) {
+        if (User::ROLE_BUYER == $model->role) {
             $model->setScenario('createBuyer');
         }
 
-        $rolesNames = array(
+        $rolesNames = [
             User::ROLE_CLIENT => 'Пользователь',
             User::ROLE_JURIST => 'Юрист',
-        );
+        ];
 
         if (isset($_POST['User'])) {
             $model->attributes = $_POST['User'];
 
             // можно зарегистрироваться с ролью Юрист, Пользователь, покупатель
             // все, кто не юристы и покупатели - пользователи
-            if ($model->role != User::ROLE_JURIST && $model->role != User::ROLE_BUYER && $model->role != User::ROLE_PARTNER) {
+            if (User::ROLE_JURIST != $model->role && User::ROLE_BUYER != $model->role && User::ROLE_PARTNER != $model->role) {
                 $model->role = User::ROLE_CLIENT;
             }
 
@@ -141,12 +139,12 @@ class UserController extends Controller
 
             if ($model->save()) {
                 // после сохранения юриста сохраним запись о его настройках
-                if ($model->role == User::ROLE_JURIST) {
+                if (User::ROLE_JURIST == $model->role) {
                     $yuristSettings->yuristId = $model->id;
                     $yuristSettings->save();
                 }
                 if ($model->sendConfirmation()) {
-                    $this->redirect(array('ConfirmationSent', 'role' => $model->role));
+                    $this->redirect(['ConfirmationSent', 'role' => $model->role]);
                 } else {
                     throw new CHttpException(500, 'Что-то пошло не так. Мы не смогли отправить Вам письмо с подтверждением регистрации на сайте. Не беспокойтесь, с вашим аккаунтом все в порядке, просто письмо с подтверждением придет немного позже.');
                 }
@@ -155,12 +153,12 @@ class UserController extends Controller
 
         $townsArray = Town::getTownsIdsNames();
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model,
             'yuristSettings' => $yuristSettings,
             'townsArray' => $townsArray,
             'rolesNames' => $rolesNames,
-        ));
+        ]);
     }
 
     // страница редактирования пользователя
@@ -176,11 +174,11 @@ class UserController extends Controller
             throw new CHttpException(404, 'Пользователь не найден');
         }
 
-        if ($model->id != Yii::app()->user->id && Yii::app()->user->role != User::ROLE_ROOT) {
+        if ($model->id != Yii::app()->user->id && User::ROLE_ROOT != Yii::app()->user->role) {
             throw new CHttpException(403, 'Ошибка доступа: вы не можете редактировать чужой профиль');
         }
 
-        if ($model->role == User::ROLE_JURIST) {
+        if (User::ROLE_JURIST == $model->role) {
             $model->setScenario('updateJurist');
         } else {
             $model->setScenario('update');
@@ -189,10 +187,9 @@ class UserController extends Controller
         $newUser = (isset($_GET['newUser'])) ? true : false;
 
         // модель для работы со сканом
-        $userFile = new UserFile;
+        $userFile = new UserFile();
 
-
-        if ($model->role == User::ROLE_JURIST) {
+        if (User::ROLE_JURIST == $model->role) {
             if ($model->settings) {
                 $yuristSettings = $model->settings;
             } else {
@@ -203,10 +200,10 @@ class UserController extends Controller
             $yuristSettings = new YuristSettings();
         }
 
-        $rolesNames = array(
+        $rolesNames = [
             User::ROLE_CLIENT => 'Пользователь',
             User::ROLE_JURIST => 'Юрист',
-        );
+        ];
 
         if (isset($_POST['User'])) {
             // присваивание атрибутов пользователя
@@ -223,7 +220,7 @@ class UserController extends Controller
 
             if (isset($_POST['User']['categories'])) {
                 // удалим старые привязки пользователя к категориям
-                User2category::model()->deleteAllByAttributes(array('uId' => $model->id));
+                User2category::model()->deleteAllByAttributes(['uId' => $model->id]);
                 // привяжем пользователя к категориям
                 foreach ($_POST['User']['categories'] as $categoryId) {
                     $u2cat = new User2category();
@@ -238,36 +235,34 @@ class UserController extends Controller
             if (!empty($_FILES)) {
                 $file = CUploadedFile::getInstance($model, 'avatarFile');
 
-                if ($file && $file->getError() == 0) { // если файл нормально загрузился
+                if ($file && 0 == $file->getError()) { // если файл нормально загрузился
                     // определяем имя файла для хранения на сервере
-                    $newFileName = md5($file->getName() . $file->getSize() . mt_rand(10000, 100000)) . "." . $file->getExtensionName();
+                    $newFileName = md5($file->getName() . $file->getSize() . mt_rand(10000, 100000)) . '.' . $file->getExtensionName();
                     Yii::app()->ih
                         ->load($file->tempName)
                         ->resize(600, 600, true)
                         ->save(Yii::getPathOfAlias('webroot') . User::USER_PHOTO_PATH . '/' . $newFileName)
                         ->reload()
-                        ->adaptiveThumb(120, 120, array(255, 255, 255))
+                        ->adaptiveThumb(120, 120, [255, 255, 255])
                         ->save(Yii::getPathOfAlias('webroot') . User::USER_PHOTO_PATH . User::USER_PHOTO_THUMB_FOLDER . '/' . $newFileName);
 
                     $model->avatar = $newFileName;
                 }
 
                 $scan = CUploadedFile::getInstance($userFile, 'userFile');
-                if ($scan && $scan->getError() == 0) { // если файл нормально загрузился
-                    $scanFileName = md5($scan->getName() . $scan->getSize() . mt_rand(10000, 100000)) . "." . $scan->getExtensionName();
+                if ($scan && 0 == $scan->getError()) { // если файл нормально загрузился
+                    $scanFileName = md5($scan->getName() . $scan->getSize() . mt_rand(10000, 100000)) . '.' . $scan->getExtensionName();
                     Yii::app()->ih
                         ->load($scan->tempName)
                         ->save(Yii::getPathOfAlias('webroot') . UserFile::USER_FILES_FOLDER . '/' . $scanFileName);
-                    // CustomFuncs::printr($scan);
-                    // Yii::app()->end();
 
                     $userFile->userId = Yii::app()->user->id;
                     $userFile->name = $scanFileName;
                     $userFile->type = $yuristSettings->status;
 
                     if (!$userFile->save()) {
-                        echo "Не удалось сохранить скан";
-                        CustomFuncs::printr($userFile->errors);
+                        echo 'Не удалось сохранить скан';
+                        StringHelper::printr($userFile->errors);
                         Yii::app()->end();
                     }
                 }
@@ -277,14 +272,13 @@ class UserController extends Controller
                 LoggerFactory::getLogger('db')->log('Пользователь ' . $model->getShortName() . ' обновил свой профиль', 'User', $model->id);
                 (new UserActivity())->logActivity($model, UserActivity::ACTION_PROFILE_UPDATE);
 
-
-                if ($model->role == User::ROLE_JURIST && $yuristSettings->hasErrors() == false) {
-                    $this->redirect(array('profile'));
+                if (User::ROLE_JURIST == $model->role && false == $yuristSettings->hasErrors()) {
+                    $this->redirect(['profile']);
                 }
-                if ($model->role == User::ROLE_BUYER) {
-                    $this->redirect(array('/buyer'));
+                if (User::ROLE_BUYER == $model->role) {
+                    $this->redirect(['/buyer']);
                 } else {
-                    $this->redirect(array('profile'));
+                    $this->redirect(['profile']);
                 }
             } else {
             }
@@ -294,7 +288,7 @@ class UserController extends Controller
 
         $townsArray = Town::getTownsIdsNames();
 
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
             'yuristSettings' => $yuristSettings,
             'userFile' => $userFile,
@@ -302,7 +296,7 @@ class UserController extends Controller
             'rolesNames' => $rolesNames,
             'allDirections' => $allDirections,
             'newUser' => $newUser,
-        ));
+        ]);
     }
 
     public function actionChangePassword($id)
@@ -326,28 +320,29 @@ class UserController extends Controller
                 $model->password = User::hashPassword($model->password);
                 $model->password2 = $model->password;
                 if ($model->save()) {
-                    $this->redirect(array('profile'));
+                    $this->redirect(['profile']);
                 }
             }
         }
-        $this->render('changePassword', array(
+        $this->render('changePassword', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
-     * Отображение страницы с результатом отправки ссылки на подтверждение профиля
+     * Отображение страницы с результатом отправки ссылки на подтверждение профиля.
      */
     public function actionConfirmationSent()
     {
         $this->layout = '//frontend/smart';
 
-        $role = ($_GET['role'] == User::ROLE_JURIST) ? User::ROLE_JURIST : User::ROLE_CLIENT;
-        $this->render('confirmationSent', array('role' => $role));
+        $role = (User::ROLE_JURIST == $_GET['role']) ? User::ROLE_JURIST : User::ROLE_CLIENT;
+        $this->render('confirmationSent', ['role' => $role]);
     }
 
     /**
-     * Подтверждение Email пользователя
+     * Подтверждение Email пользователя.
+     *
      * @throws CHttpException
      */
     public function actionConfirm()
@@ -357,9 +352,9 @@ class UserController extends Controller
         $email = CHtml::encode($_GET['email']);
         $code = CHtml::encode($_GET['code']);
 
-        $criteria = new CDbCriteria;
-        $criteria->addColumnCondition(array('email' => $email));
-        $criteria->addColumnCondition(array('confirm_code' => $code));
+        $criteria = new CDbCriteria();
+        $criteria->addColumnCondition(['email' => $email]);
+        $criteria->addColumnCondition(['confirm_code' => $code]);
         $criteria->limit = 1;
 
         //находим пользователя с данным мейлом и кодом подтверждения
@@ -367,7 +362,7 @@ class UserController extends Controller
 
         if (!empty($user)) {
             $user->setScenario('confirm');
-            if ($user->active100 == 0) {
+            if (0 == $user->active100) {
                 $user->activate();
                 $user->registerDate = date('Y-m-d');
                 // при активации пользователя заменяем у него confirm_code, чтобы он смог сменить пароль, перейдя по ссылке в письме
@@ -384,6 +379,7 @@ class UserController extends Controller
                 if (in_array($user->role, [User::ROLE_BUYER, User::ROLE_JURIST])) {
                     // покупателя и юриста перекинем на страницу установки пароля
                     $changePasswordLink = $user->getChangePasswordLink();
+
                     return $this->redirect($changePasswordLink);
                 } else {
                     // после активации и сохранения пользователя, отправим ему на почту ссылку на смену временного пароля
@@ -393,42 +389,41 @@ class UserController extends Controller
                 }
 
                 // логиним пользователя
-                $loginModel = new LoginForm;
+                $loginModel = new LoginForm();
                 $loginModel->email = $email;
                 $loginModel->password = $newPassword;
 
                 if ($loginModel->login()) {
                     // если залогинили, находим последний вопрос и перенаправляем на страницу вопроса
 
-                    $questionCriteria = new CDbCriteria;
+                    $questionCriteria = new CDbCriteria();
                     $questionCriteria->addCondition('authorId=' . $user->id);
                     $questionCriteria->order = 'id DESC';
                     $questionCriteria->limit = 1;
 
                     $question = Question::model()->find($questionCriteria);
 
-
                     if ($question) {
                         if ($publishedQuestionsNumber) {
-                            $this->redirect(array('question/view', 'id' => $question->id, 'justPublished' => 1));
+                            $this->redirect(['question/view', 'id' => $question->id, 'justPublished' => 1]);
                         } else {
-                            $this->redirect(array('question/view', 'id' => $question->id));
+                            $this->redirect(['question/view', 'id' => $question->id]);
                         }
                     }
 
                     // если активированный пользователь - юрист, направляем его в форму редактирования профиля
-                    if (Yii::app()->user->role == User::ROLE_JURIST) {
-                        $this->redirect(array('user/update', 'id' => Yii::app()->user->id, 'newUser' => 1));
-                    } elseif (Yii::app()->user->role == User::ROLE_BUYER) {
-                        $this->redirect(array('/buyer'));
-                    } elseif (Yii::app()->user->role == User::ROLE_PARTNER) {
-                        $this->redirect(array('/webmaster'));
+                    if (User::ROLE_JURIST == Yii::app()->user->role) {
+                        $this->redirect(['user/update', 'id' => Yii::app()->user->id, 'newUser' => 1]);
+                    } elseif (User::ROLE_BUYER == Yii::app()->user->role) {
+                        $this->redirect(['/buyer']);
+                    } elseif (User::ROLE_PARTNER == Yii::app()->user->role) {
+                        $this->redirect(['/webmaster']);
                     }
-                    $this->render('activationSuccess', array(
+                    $this->render('activationSuccess', [
                         'user' => $user,
                         'loginModel' => $loginModel,
                         'question' => $question,
-                    ));
+                    ]);
                 } else {
                     throw new CHttpException(400, 'Не удалось автоматически залогиниться на сайте');
                 }
@@ -441,73 +436,73 @@ class UserController extends Controller
                 }
 
                 $this->layout = '//frontend/smart';
-                $this->render('activationFailed', array('message' => 'Ошибка - не удалось активировать аккаунт из-за ошибки в программе.<br />
-                      Обратитесь, пожалуйста, к администратору сайта через E-mail info@100yuristov.com'));
+                $this->render('activationFailed', ['message' => 'Ошибка - не удалось активировать аккаунт из-за ошибки в программе.<br />
+                      Обратитесь, пожалуйста, к администратору сайта через E-mail info@100yuristov.com']);
             }
         } else {
             $this->layout = '//frontend/smart';
-            $this->render('activationFailed', array('message' => 'Пользователь с данным мейлом не найден или уже активирован'));
+            $this->render('activationFailed', ['message' => 'Пользователь с данным мейлом не найден или уже активирован']);
         }
     }
 
     /**
      *  восстановление пароля пользователя
-     * Страница с формой, где пользователь вводит свою почту, на которую отправляется ссылка для восстановления пароля
+     * Страница с формой, где пользователь вводит свою почту, на которую отправляется ссылка для восстановления пароля.
      */
     public function actionRestorePassword()
     {
-        $this->layout = "//frontend/smart";
+        $this->layout = '//frontend/smart';
         // $model - модель с формой восстановления пароля
-        $model = new RestorePasswordForm;
+        $model = new RestorePasswordForm();
 
         if (isset($_POST['RestorePasswordForm'])) {
             // получили данные из формы восстановления пароля
             $model->attributes = $_POST['RestorePasswordForm'];
             $email = trim(strtolower(CHtml::encode($model->email)));
             // ищем пользователя по введенному Email, если не найден, получим NULL
-            $user = User::model()->find('LOWER(email)=?', array($email));
+            $user = User::model()->find('LOWER(email)=?', [$email]);
 
             if ($user) {
                 // если пользователь существует, отправим ему ссылку на смену пароля
                 //$newPassword = User::generatePassword(6);
-                $user->setScenario("restorePassword");
+                $user->setScenario('restorePassword');
                 if ($user->sendChangePasswordLink()) {
                     // если удалось изменить пароль
-                    $message = "Ссылка на изменение пароля отправлена на Ваш E-mail";
+                    $message = 'Ссылка на изменение пароля отправлена на Ваш E-mail';
                 } else {
                     // если не удалось изменить пароль
-                    $message = "Ошибка! Не удалось изменить пароль";
+                    $message = 'Ошибка! Не удалось изменить пароль';
                 }
 
-                $this->render('restorePassword', array('model' => $model, 'message' => $message));
+                $this->render('restorePassword', ['model' => $model, 'message' => $message]);
             } else {
                 // форма не была отправлена, отображаем форму
                 $model->addError('email', 'Пользователь не найден');
-                $this->render('restorePassword', array('model' => $model));
+                $this->render('restorePassword', ['model' => $model]);
             }
         } else {
             // форма не была отправлена, отображаем форму
-            $this->render('restorePassword', array('model' => $model));
+            $this->render('restorePassword', ['model' => $model]);
         }
     }
 
     /**
-     * Форма установки нового пароля при восстановлении пароля
+     * Форма установки нового пароля при восстановлении пароля.
      */
     public function actionSetNewPassword()
     {
         // если пользователь уже залогинен, перенаправляем его на страницу смены пароля в его профиле
         if (!Yii::app()->user->isGuest) {
-            $this->redirect(array("user/changePassword", 'id' => Yii::app()->user->id));
+            $this->redirect(['user/changePassword', 'id' => Yii::app()->user->id]);
         }
 
-        $this->layout = "//frontend/smart";
+        $this->layout = '//frontend/smart';
 
         $email = strtolower(CHtml::encode($_GET['email']));
         $code = CHtml::encode($_GET['code']);
 
         $criteria = new CDbCriteria();
-        $criteria->addColumnCondition(array('email' => $email, 'confirm_code' => $code));
+        $criteria->addColumnCondition(['email' => $email, 'confirm_code' => $code]);
         // находим пользователя по присланным параметрам
         $user = User::model()->find($criteria);
 
@@ -530,7 +525,7 @@ class UserController extends Controller
                 $user->password2 = $user->password;
                 $user->confirm_code = '';
 
-                if ($user->role == User::ROLE_BUYER && is_null($user->yurcrmToken)) {
+                if (User::ROLE_BUYER == $user->role && is_null($user->yurcrmToken)) {
                     // покупателя лидов добавляем в CRM
                     $crmResponse = $user->createUserInYurcrm($passwordRaw);
                     LoggerFactory::getLogger('db')->log('Создание пользователя в YurCRM. Ответ от API:' . $crmResponse->getResponse(), 'User', $user->id);
@@ -539,7 +534,7 @@ class UserController extends Controller
                 }
 
                 if ($user->save()) {
-                    if ($user->yurcrmToken != '') {
+                    if ('' != $user->yurcrmToken) {
                         $this->redirect(['site/passwordChanged', 'yurcrm' => 1]);
                     } else {
                         $this->redirect(['site/passwordChanged']);
@@ -550,14 +545,14 @@ class UserController extends Controller
             }
         }
 
-        $this->render('changePassword', array(
+        $this->render('changePassword', [
             'model' => $user,
-        ));
+        ]);
     }
 
     /**
-     *
      * @param int $id
+     *
      * @throws CHttpException
      */
     public function actionView($id)
@@ -566,19 +561,19 @@ class UserController extends Controller
 
         $user = $this->loadModel($id);
 
-        if (!$user || $user->role != User::ROLE_JURIST) {
+        if (!$user || User::ROLE_JURIST != $user->role) {
             throw new CHttpException(404, 'Пользователь не найден');
         }
 
-        $questions = (new QuestionRepository)->findRecentQuestionsByJuristAnswers($user);
+        $questions = (new QuestionRepository())->findRecentQuestionsByJuristAnswers($user);
 
         $testimonialsDataProvider = $user->getTestimonialsDataProvider(5, false);
 
-        $this->render('profile', array(
+        $this->render('profile', [
             'questions' => $questions,
             'user' => $user,
             'testimonialsDataProvider' => $testimonialsDataProvider,
-        ));
+        ]);
     }
 
     /**
@@ -604,18 +599,18 @@ class UserController extends Controller
         $email = CHtml::encode($_GET['email']);
         $code = CHtml::encode($_GET['code']);
 
-        if (User::verifyUnsubscribeCode($code, $email) === false) {
+        if (false === User::verifyUnsubscribeCode($code, $email)) {
             throw new CHttpException(403, 'Неверный код проверки адреса электронной почты');
         }
 
-        $model = User::model()->findByAttributes(array('email' => $email));
+        $model = User::model()->findByAttributes(['email' => $email]);
         if (!$model) {
             throw new CHttpException(400, 'Не удалось отписаться от рассылки, т.к. не найден пользователь с таким Email');
         }
         $model->setScenario('unsubscribe');
         $model->isSubscribed = 0;
         if (!$model->save()) {
-            CustomFuncs::printr($model->errors);
+            StringHelper::printr($model->errors);
         //throw new CHttpException(400, 'Не удалось отписаться от рассылки. Возможно, ваш профиль не заполнен. Войдите и проверьте заполненность профиля.');
         } else {
             $this->render('unsubscribeSuccess');
@@ -630,8 +625,7 @@ class UserController extends Controller
             throw new CHttpException(400, 'Only POST requests allowed');
         }
 
-
-        $answerId = isset($_POST['answerId']) ? (int)$_POST['answerId'] : false;
+        $answerId = isset($_POST['answerId']) ? (int) $_POST['answerId'] : false;
 
         // если не передан id ответа
         if (!$answerId) {
@@ -649,41 +643,41 @@ class UserController extends Controller
 
         // проверим, не ставил ли плюс текущий пользователь заданному ответу
         $existingPluses = Yii::app()->db->createCommand()
-            ->select("COUNT(*) counter")
-            ->from("{{karmaChange}}")
-            ->where("answerId=:answerId AND authorId=:authorId", array(':answerId' => $answerId, ':authorId' => Yii::app()->user->id))
+            ->select('COUNT(*) counter')
+            ->from('{{karmaChange}}')
+            ->where('answerId=:answerId AND authorId=:authorId', [':answerId' => $answerId, ':authorId' => Yii::app()->user->id])
             ->queryRow();
 
-        if ($existingPluses['counter'] != 0) {
+        if (0 != $existingPluses['counter']) {
             throw new CHttpException(400, 'You have already voted for this user');
         }
 
         // делаем запись в таблице karmaChange
         $karmaInsertResult = Yii::app()->db->createCommand()
-            ->insert("{{karmaChange}}", array(
+            ->insert('{{karmaChange}}', [
                 'userId' => $userId,
                 'answerId' => $answerId,
                 'authorId' => Yii::app()->user->id,
-            ));
+            ]);
 
         // обновляем запись в таблице пользователей
         $userKarmaUpdateResult = Yii::app()->db->createCommand()
-            ->update("{{user}}", array(
+            ->update('{{user}}', [
                 'karma' => ($answer->author->karma + 1),
-            ), "id=:id", array(
+            ], 'id=:id', [
                 ':id' => $userId,
-            ));
+            ]);
         // обновляем запись в таблице ответов
         $answerKarmaUpdateResult = Yii::app()->db->createCommand()
-            ->update("{{answer}}", array(
+            ->update('{{answer}}', [
                 'karma' => ($answer->karma + 1),
-            ), "id=:id", array(
+            ], 'id=:id', [
                 ':id' => $answerId,
-            ));
+            ]);
         if ($karmaInsertResult && $answerKarmaUpdateResult && $userKarmaUpdateResult) {
-            echo CJSON::encode(array('answerId' => $answerId, 'status' => 1));
+            echo CJSON::encode(['answerId' => $answerId, 'status' => 1]);
         } else {
-            echo CJSON::encode(array('answerId' => $answerId, 'status' => 0, 'message' => 'Ошибка!'));
+            echo CJSON::encode(['answerId' => $answerId, 'status' => 0, 'message' => 'Ошибка!']);
         }
     }
 
@@ -694,9 +688,9 @@ class UserController extends Controller
             throw new CHttpException(403, 'Доступ к этой странице для Вас закрыт');
         }
 
-        $userId = (isset($_GET['userId'])) ? (int)$_GET['userId'] : 0;
+        $userId = (isset($_GET['userId'])) ? (int) $_GET['userId'] : 0;
 
-        if (!$userId && (Yii::app()->user->role == User::ROLE_OPERATOR || Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->role == User::ROLE_CALL_MANAGER)) {
+        if (!$userId && (User::ROLE_OPERATOR == Yii::app()->user->role || User::ROLE_JURIST == Yii::app()->user->role || User::ROLE_CALL_MANAGER == Yii::app()->user->role)) {
             // без указания id пользователя к странице могут обратиться только роли, отвечающие на вопросы
             $userId = Yii::app()->user->id;
         }
@@ -708,7 +702,7 @@ class UserController extends Controller
 
         $user = $this->loadModel($userId);
 
-        if (!(Yii::app()->user->checkAccess(User::ROLE_MANAGER) || Yii::app()->user->role == User::ROLE_JURIST || Yii::app()->user->checkAccess(User::ROLE_OPERATOR))) {
+        if (!(Yii::app()->user->checkAccess(User::ROLE_MANAGER) || User::ROLE_JURIST == Yii::app()->user->role || Yii::app()->user->checkAccess(User::ROLE_OPERATOR))) {
             // запрет всем кроме менеджер+, операторов, юристов
             throw new CHttpException(403, 'Доступ к этой странице для Вас закрыт');
         }
@@ -723,17 +717,17 @@ class UserController extends Controller
         //WHERE authorId=8 AND status IN (0,1) AND datetime IS NOT NULL
         //GROUP BY year, month
         $statsRows = Yii::app()->db->createCommand()
-            ->select("COUNT(*) counter, MONTH(`datetime`) month, YEAR(`datetime`) year")
-            ->from("{{answer}}")
-            ->where("authorId=:userId AND status IN (:status1, :status2) AND datetime IS NOT NULL", array(':userId' => $userId, ":status1" => Answer::STATUS_NEW, "status2" => Answer::STATUS_PUBLISHED))
-            ->group("year, month")
-            ->order("datetime DESC")
+            ->select('COUNT(*) counter, MONTH(`datetime`) month, YEAR(`datetime`) year')
+            ->from('{{answer}}')
+            ->where('authorId=:userId AND status IN (:status1, :status2) AND datetime IS NOT NULL', [':userId' => $userId, ':status1' => Answer::STATUS_NEW, 'status2' => Answer::STATUS_PUBLISHED])
+            ->group('year, month')
+            ->order('datetime DESC')
             ->queryAll();
 
-        $this->render('stats', array(
+        $this->render('stats', [
             'statsRows' => $statsRows,
             'user' => $user,
-        ));
+        ]);
     }
 
     /**
@@ -751,7 +745,7 @@ class UserController extends Controller
         $feedDataProvider = new CArrayDataProvider($feedArray, [
             'pagination' => [
                 'pageSize' => 20,
-            ]
+            ],
         ]);
 
         $this->render('feed', [
@@ -761,7 +755,7 @@ class UserController extends Controller
 
     /**
      * На этот адрес будут приходить запросы от Яндекса о пополнении кошелька
-     * https://100yuristov.com/user/balanceAddRequest
+     * https://100yuristov.com/user/balanceAddRequest.
      */
     public function actionBalanceAddRequest()
     {
@@ -773,14 +767,15 @@ class UserController extends Controller
         $secret = Yii::app()->params['yandexMoneySecret'];
         $paymentProcessor = new YandexPaymentResponseProcessor($yandexRequestData, $secret);
 
-        if ($paymentProcessor->process() != true) {
+        if (true != $paymentProcessor->process()) {
             Yii::log('Ошибка при обработке платежа: ' . print_r($paymentProcessor->getErrors(), true), 'error', 'system.web');
             throw new CHttpException(400, 'Cannot process payment');
         }
     }
 
     /**
-     * Создание отзыва на юриста
+     * Создание отзыва на юриста.
+     *
      * @param $id
      */
     public function actionTestimonial($id)
@@ -790,7 +785,7 @@ class UserController extends Controller
         if ($yurist->id === Yii::app()->user->id) {
             throw new CHttpException(400, 'Вы не можете оставлять отзывы на себя');
         }
-        $questionId = (int)Yii::app()->request->getParam('questionId');
+        $questionId = (int) Yii::app()->request->getParam('questionId');
 
         $commentModel = new Comment();
         $commentModel->setScenario('user');
@@ -814,7 +809,9 @@ class UserController extends Controller
 
     /**
      * @param $id
+     *
      * @return array|mixed|null
+     *
      * @throws CHttpException
      */
     private function loadModel($id)
@@ -823,6 +820,7 @@ class UserController extends Controller
         if (!$model) {
             throw new CHttpException(404, 'Пользователь не найден');
         }
+
         return $model;
     }
 }

@@ -1,5 +1,5 @@
 <?php
-    $this->setPageTitle("Отбраковка лида ". Yii::app()->name);
+    $this->setPageTitle('Отбраковка лида ' . Yii::app()->name);
 ?>
 
 <h1>Отбраковка лида</h1>
@@ -29,7 +29,7 @@
 
     <tr>
         <td><strong><?php echo $lead->getAttributeLabel('deliveryTime'); ?></strong></td>
-        <td><?php echo CustomFuncs::niceDate($lead->deliveryTime); ?></td>
+        <td><?php echo DateHelper::niceDate($lead->deliveryTime); ?></td>
     </tr>
     <tr>
         <td><strong><?php echo $lead->getAttributeLabel('question'); ?></strong></td>
@@ -41,6 +41,6 @@
   <strong>Внимание!</strong> Отбраковка модерируется в ручном режиме, пожалуйста указывайте реальную причину и уточняйте в комментарии. 
 </div>
 
-<?php $this->renderPartial('_brakLeadForm', array(
-    'lead'  =>  $lead,
-));?>
+<?php $this->renderPartial('_brakLeadForm', [
+    'lead' => $lead,
+]); ?>

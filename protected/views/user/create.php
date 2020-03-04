@@ -2,45 +2,45 @@
 /* @var $this UserController */
 /* @var $model User */
 
-$this->breadcrumbs=array(
+$this->breadcrumbs = [
     'Регистрация',
-);
+];
 
-$title = "Регистрация нового ";
+$title = 'Регистрация нового ';
 
-if ($model->role == User::ROLE_CLIENT) {
-    $title .= "клиента";
-} elseif ($model->role == User::ROLE_JURIST) {
-    $title .= "юриста";
-} elseif ($model->role == User::ROLE_BUYER) {
-    $title .= "покупателя лидов";
-} elseif ($model->role == User::ROLE_PARTNER) {
-    $title .= "вебмастера";
+if (User::ROLE_CLIENT == $model->role) {
+    $title .= 'клиента';
+} elseif (User::ROLE_JURIST == $model->role) {
+    $title .= 'юриста';
+} elseif (User::ROLE_BUYER == $model->role) {
+    $title .= 'покупателя лидов';
+} elseif (User::ROLE_PARTNER == $model->role) {
+    $title .= 'вебмастера';
 } else {
-    $title .= "клиента";
+    $title .= 'клиента';
 }
 
 $this->setPageTitle($title . '. ' . Yii::app()->name);
-        
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('100 Юристов', "/"),
-    'separator'=>' / ',
-    'links'=>$this->breadcrumbs,
- ));
-            
+
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 Юристов', '/'),
+    'separator' => ' / ',
+    'links' => $this->breadcrumbs,
+ ]);
+
 ?>
 
 
 <div class="flat-panel inside">
         
-<h1><?php echo $title;?></h1>
+<h1><?php echo $title; ?></h1>
 
-        <?php echo $this->renderPartial('_registerForm', array(
-            'model'             =>  $model,
-            'yuristSettings'    =>  $yuristSettings,
-            'townsArray'        =>  $townsArray,
-            'rolesNames'        =>  $rolesNames,
-        )); ?>
+        <?php echo $this->renderPartial('_registerForm', [
+            'model' => $model,
+            'yuristSettings' => $yuristSettings,
+            'townsArray' => $townsArray,
+            'rolesNames' => $rolesNames,
+        ]); ?>
 
 </div>
 

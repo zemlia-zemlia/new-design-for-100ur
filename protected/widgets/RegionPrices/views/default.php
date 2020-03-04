@@ -10,13 +10,13 @@
     <?php foreach ($campaignsArray as $region => $price):?>
     <tr>
         <td>
-            <?php echo $region;?>
+            <?php echo $region; ?>
         </td>
         <td class="text-left">
-            <?php echo $price;?> руб.
+            <?php echo $price; ?> руб.
         </td>
     </tr>
-    <?php endforeach;?>
+    <?php endforeach; ?>
 </table>
 
 

@@ -4,11 +4,10 @@ use Phinx\Migration\AbstractMigration;
 
 /**
  * Миграция умножает значения всех денежных сумм на 100 и делает поля, их хранящие, целыми
- * Class MoneyMigration
+ * Class MoneyMigration.
  */
 class MoneyMigration extends AbstractMigration
 {
-
     public function up()
     {
         $tables = $this->getTablesWithFields();
@@ -26,32 +25,34 @@ class MoneyMigration extends AbstractMigration
     }
 
     /**
-     * Мигрирует таблицу
+     * Мигрирует таблицу.
+     *
      * @param string $tableName
-     * @param array $fields
+     * @param array  $fields
      */
     private function migrateTable($tableName, $fields)
     {
         $table = $this->table($tableName);
         foreach ($fields as $field) {
             $table->changeColumn($field, 'decimal', ['precision' => 10, 'scale' => 2]);
-            $this->execute("update `" . $tableName . "` SET `{$field}` = `{$field}` * 100");
+            $this->execute('update `' . $tableName . "` SET `{$field}` = `{$field}` * 100");
             $table->changeColumn($field, 'integer');
         }
         $table->save();
     }
 
     /**
-     * Откатывает таблицу
+     * Откатывает таблицу.
+     *
      * @param string $tableName
-     * @param array $fields
+     * @param array  $fields
      */
     private function rollbackTable($tableName, $fields)
     {
         $table = $this->table($tableName);
         foreach ($fields as $field) {
             $table->changeColumn($field, 'decimal', ['precision' => 10, 'scale' => 2]);
-            $this->execute("update `" . $tableName . "` SET `{$field}` = `{$field}` / 100");
+            $this->execute('update `' . $tableName . "` SET `{$field}` = `{$field}` / 100");
         }
         $table->save();
     }

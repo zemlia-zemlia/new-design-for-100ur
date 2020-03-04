@@ -4,11 +4,10 @@ use Phinx\Migration\AbstractMigration;
 
 /**
  * Добавление поля questionId в таблицу комментариев
- * Class AddQuestionIdToComments
+ * Class AddQuestionIdToComments.
  */
 class AddQuestionIdToComments extends AbstractMigration
 {
-
     public function up()
     {
         $this->table('100_comment')

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Установка базы из эталонного дампа
+ * Установка базы из эталонного дампа.
  */
 class SetupDatabaseCommand extends CConsoleCommand
 {
     public function actionIndex()
     {
-        $currentDSN  = explode('=', Yii::app()->db->connectionString);
+        $currentDSN = explode('=', Yii::app()->db->connectionString);
         $dbname = $currentDSN[2];
         echo $dbname . PHP_EOL;
         echo dirname(__FILE__) . '/../db/100yuristov_etalon.sql' . PHP_EOL;

@@ -18,11 +18,13 @@ class YandexPaymentUser implements YandexPaymentProcessorInterface
     }
 
     /**
-     * Обработка запроса
+     * Обработка запроса.
+     *
      * @return bool
+     *
      * @throws CHttpException
      */
-    public function process():bool
+    public function process(): bool
     {
         if (is_null($this->user)) {
             return false;
@@ -30,7 +32,7 @@ class YandexPaymentUser implements YandexPaymentProcessorInterface
         $amount = $this->request->amount * 100;
         Yii::log('Пополняем баланс пользователя: ' . $this->user->getShortName(), 'info', 'system.web');
         $this->user->balance += $amount;
-        $transaction = new TransactionCampaign;
+        $transaction = new TransactionCampaign();
         $transaction->buyerId = $this->user->id;
         $transaction->sum = $amount;
         $transaction->description = 'Пополнение баланса пользователя';
@@ -43,7 +45,6 @@ class YandexPaymentUser implements YandexPaymentProcessorInterface
         $moneyTransaction->datetime = date('Y-m-d');
         $moneyTransaction->comment = 'Пополнение баланса пользователя ' . $this->user->id;
 
-
         $saveTransaction = $transaction->dbConnection->beginTransaction();
         try {
             if ($transaction->save() && $moneyTransaction->save() && $this->user->save(false)) {
@@ -51,9 +52,11 @@ class YandexPaymentUser implements YandexPaymentProcessorInterface
                 Yii::log('Транзакция сохранена, id: ' . $transaction->id, 'info', 'system.web');
                 Yii::log('Пришло бабло от пользователя ' . $this->user->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'info', 'system.web');
                 LoggerFactory::getLogger('db')->log('Пополнение баланса пользователя #' . $this->user->id . '(' . $this->user->getShortName() . ') на ' . MoneyFormat::rubles($amount) . ' руб.', 'User', $this->user->id);
+
                 return true;
             } else {
                 $saveTransaction->rollback();
+
                 return false;
             }
         } catch (Exception $e) {

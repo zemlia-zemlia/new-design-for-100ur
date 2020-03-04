@@ -4,7 +4,7 @@ use Phinx\Migration\AbstractMigration;
 
 /**
  * Добавление заголовка в таблицу комментариев
- * Class AddTitleToComments
+ * Class AddTitleToComments.
  */
 class AddTitleToComments extends AbstractMigration
 {

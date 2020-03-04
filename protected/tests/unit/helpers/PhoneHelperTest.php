@@ -9,6 +9,7 @@ class PhoneHelperTest extends Unit
 {
     /**
      * @dataProvider providerNormalize
+     *
      * @param string $phone
      * @param string $expectedResult
      */
@@ -17,7 +18,7 @@ class PhoneHelperTest extends Unit
         $this->assertEquals($expectedResult, PhoneHelper::normalizePhone($phone));
     }
 
-    public function providerNormalize():array
+    public function providerNormalize(): array
     {
         return [
             [

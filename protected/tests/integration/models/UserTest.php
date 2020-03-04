@@ -5,7 +5,6 @@ namespace Tests\Integration\Models;
 use Answer;
 use CActiveDataProvider;
 use CHttpException;
-use Codeception\Test\Unit;
 use Comment;
 use DateTime;
 use Exception;
@@ -22,23 +21,23 @@ use Tests\Factories\YuristSettingsFactory;
 use Tests\integration\BaseIntegrationTest;
 use User;
 use UserNotifier;
-use UserStatusRequest;
 use Yii;
 use YuristSettings;
 
 class UserTest extends BaseIntegrationTest
 {
-
     protected function _before()
     {
         Yii::app()->db->createCommand()->truncateTable(User::getFullTableName());
     }
 
     /**
-     * Тест создания пользователя
+     * Тест создания пользователя.
+     *
      * @dataProvider providerTestCreate
+     *
      * @param array $userParams
-     * @param bool $expectedSaveResult
+     * @param bool  $expectedSaveResult
      */
     public function testCreate($userParams, $expectedSaveResult)
     {
@@ -47,7 +46,7 @@ class UserTest extends BaseIntegrationTest
 
         $saveResult = $user->save();
 
-        if ($expectedSaveResult === true) {
+        if (true === $expectedSaveResult) {
             $this->assertEquals([], $user->getErrors());
         } else {
             $this->tester->dontSeeInDatabase(User::getFullTableName(), ['name' => $userParams['name']]);
@@ -81,7 +80,7 @@ class UserTest extends BaseIntegrationTest
     }
 
     /**
-     *  Тест получения роли
+     *  Тест получения роли.
      */
     public function testGetRoleName()
     {
@@ -94,7 +93,7 @@ class UserTest extends BaseIntegrationTest
     }
 
     /**
-     * Тестирование получения менеджеров из базы
+     * Тестирование получения менеджеров из базы.
      */
     public function testGetManagers()
     {
@@ -103,19 +102,19 @@ class UserTest extends BaseIntegrationTest
                 'name' => 'Манагер',
                 'id' => 10000,
                 'role' => User::ROLE_MANAGER,
-                'active100' => 1
+                'active100' => 1,
             ],
             [
                 'name' => 'Манагер неактивный',
                 'id' => 10001,
                 'role' => User::ROLE_MANAGER,
-                'active100' => 0
+                'active100' => 0,
             ],
             [
                 'name' => 'Покупатель',
                 'id' => 10002,
                 'role' => User::ROLE_BUYER,
-                'active100' => 1
+                'active100' => 1,
             ],
         ];
 
@@ -131,13 +130,13 @@ class UserTest extends BaseIntegrationTest
                 'name' => 'Манагер',
                 'id' => 10000,
                 'role' => User::ROLE_MANAGER,
-                'active100' => 1
+                'active100' => 1,
             ],
             [
                 'name' => 'Манагер неактивный',
                 'id' => 10001,
                 'role' => User::ROLE_MANAGER,
-                'active100' => 0
+                'active100' => 0,
             ],
         ];
 
@@ -149,7 +148,7 @@ class UserTest extends BaseIntegrationTest
     }
 
     /**
-     * Тестирование получения юристов из базы
+     * Тестирование получения юристов из базы.
      */
     public function testGetAllJuristsIdsNames()
     {
@@ -181,7 +180,7 @@ class UserTest extends BaseIntegrationTest
     }
 
     /**
-     * Тестирование получения юристов из базы
+     * Тестирование получения юристов из базы.
      */
     public function testGetAllBuyersIdsNames()
     {
@@ -236,6 +235,7 @@ class UserTest extends BaseIntegrationTest
 
     /**
      * @dataProvider providerChangePassword
+     *
      * @param $newPassword
      */
     public function testChangePassword(
@@ -245,8 +245,7 @@ class UserTest extends BaseIntegrationTest
         $sendResult,
         $sendInvokedTimes,
         $expectedResult
-    )
-    {
+    ) {
         $notifierMock = $this->createMock(UserNotifier::class);
         $notifierMock->method('sendChangedPassword')->willReturn($sendResult);
         if ($sendInvokedTimes > 0) {
@@ -268,6 +267,7 @@ class UserTest extends BaseIntegrationTest
     public function providerChangePassword(): array
     {
         $userFactory = new UserFactory();
+
         return [
             [
                 'userAttributes' => $userFactory->generateOne(),
@@ -308,8 +308,9 @@ class UserTest extends BaseIntegrationTest
 
     /**
      * @dataProvider providerGetReferalBonus
+     *
      * @param array $userAttributes
-     * @param integer $expectedBonus
+     * @param int   $expectedBonus
      */
     public function testGetReferalBonus($userAttributes, $expectedBonus)
     {
@@ -344,7 +345,7 @@ class UserTest extends BaseIntegrationTest
 
         $this->assertEquals($userAttributes['id'], $user->id);
 
-        if ($userAttributes['role'] == User::ROLE_JURIST) {
+        if (User::ROLE_JURIST == $userAttributes['role']) {
             $this->assertInstanceOf(YuristSettings::class, $user->settings);
         }
 
@@ -446,9 +447,10 @@ class UserTest extends BaseIntegrationTest
 
     /**
      * @dataProvider providerGetProfileNotification
-     * @param string|boolean $expectedResult
-     * @param array $userAttributes
-     * @param array $yuristSettings
+     *
+     * @param string|bool $expectedResult
+     * @param array       $userAttributes
+     * @param array       $yuristSettings
      */
     public function testGetProfileNotification($expectedResult, $userAttributes, $yuristSettings)
     {
@@ -461,7 +463,7 @@ class UserTest extends BaseIntegrationTest
         $user->attributes = $userAttributes;
         $user->save();
 
-        if ($expectedResult === false) {
+        if (false === $expectedResult) {
             $this->assertFalse($user->getProfileNotification());
         }
 
@@ -629,9 +631,11 @@ class UserTest extends BaseIntegrationTest
 
     /**
      * @dataProvider providerSendChangePasswordLink
-     * @param array $userAttributes
-     * @param boolean $sendResult
-     * @param boolean|Exception $expectedResult
+     *
+     * @param array          $userAttributes
+     * @param bool           $sendResult
+     * @param bool|Exception $expectedResult
+     *
      * @throws CHttpException
      */
     public function testSendChangePasswordLink($userAttributes, $sendResult, $expectedResult)
@@ -710,11 +714,12 @@ class UserTest extends BaseIntegrationTest
 
     /**
      * @dataProvider providerSendAnswerNotification
-     * @param array $userAttributes
+     *
+     * @param array         $userAttributes
      * @param Question|null $question
-     * @param Answer|null $answer
-     * @param boolean $sendResult
-     * @param boolean $expectedResult
+     * @param Answer|null   $answer
+     * @param bool          $sendResult
+     * @param bool          $expectedResult
      */
     public function testSendAnswerNotification(
         $userAttributes,
@@ -722,8 +727,7 @@ class UserTest extends BaseIntegrationTest
         ?Answer $answer,
         $sendResult,
         $expectedResult
-    )
-    {
+    ) {
         $notifierMock = $this->createMock(UserNotifier::class);
         $notifierMock->method('sendAnswerNotification')->willReturn($sendResult);
 
@@ -783,11 +787,12 @@ class UserTest extends BaseIntegrationTest
 
     /**
      * @dataProvider providerSendCommentNotification
-     * @param array $userAttributes
+     *
+     * @param array         $userAttributes
      * @param Question|null $question
-     * @param Comment|null $comment
-     * @param boolean $sendResult
-     * @param boolean $expectedResult
+     * @param Comment|null  $comment
+     * @param bool          $sendResult
+     * @param bool          $expectedResult
      */
     public function testSendCommentNotification(
         $userAttributes,
@@ -795,8 +800,7 @@ class UserTest extends BaseIntegrationTest
         ?Comment $comment,
         $sendResult,
         $expectedResult
-    )
-    {
+    ) {
         $notifierMock = $this->createMock(UserNotifier::class);
         $notifierMock->method('sendCommentNotification')->willReturn($sendResult);
 
@@ -896,8 +900,10 @@ class UserTest extends BaseIntegrationTest
 
     /**
      * @dataProvider providerGetRangName
-     * @param int $rang
+     *
+     * @param int    $rang
      * @param string $expectedName
+     *
      * @throws Exception
      */
     public function testGetRangName($rang, $expectedName)
@@ -977,7 +983,7 @@ class UserTest extends BaseIntegrationTest
         $user = new User();
         $user->scenario = 'test';
         $user->attributes = (new UserFactory())->generateOne([
-            'id' => 100
+            'id' => 100,
         ]);
         $user->save(false);
 

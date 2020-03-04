@@ -1,12 +1,12 @@
 <?php
 
 return CMap::mergeArray(
-	require(dirname(__FILE__).'/main.php'),
-	array(
-		'components'=>array(
-			'fixture'=>array(
-				'class'=>'system.test.CDbFixtureManager',
-			),
+    require(dirname(__FILE__) . '/main.php'),
+    [
+        'components' => [
+            'fixture' => [
+                'class' => 'system.test.CDbFixtureManager',
+            ],
             'request' => [
                 'enableCsrfValidation' => false,
                 'enableCookieValidation' => false,
@@ -30,6 +30,6 @@ return CMap::mergeArray(
                 'urlFormat' => 'path',
                 'showScriptName' => true,
             ],
-		),
-	)
+        ],
+    ]
 );

@@ -1,9 +1,9 @@
 <?php
-    $this->setPageTitle("Расходы. ". Yii::app()->name);
+    $this->setPageTitle('Расходы. ' . Yii::app()->name);
 ?>
 
 <h1 class="vert-margin30">Расходы 
-    <?php echo CHtml::link('добавить', Yii::app()->createUrl('admin/expence/create'), array('class' => 'btn btn-success'));?>
+    <?php echo CHtml::link('добавить', Yii::app()->createUrl('admin/expence/create'), ['class' => 'btn btn-success']); ?>
 </h1>
 
 <table class="table table-bordered table-hover table-striped">
@@ -16,11 +16,11 @@
         <th></th>
     </tr>
     </thead>
-<?php $this->widget('zii.widgets.CListView', array(
-    'dataProvider'  =>  $dataProvider,
-    'itemView'      =>  '_view',
-        'emptyText'     =>  'Не найдено ни одного расхода',
-        'summaryText'   =>  'Показаны расходы с {start} до {end}, всего {count}',
-        'pager'         =>  array('class'=>'GTLinkPager') //we use own pager with russian words
-)); ?>
+<?php $this->widget('zii.widgets.CListView', [
+    'dataProvider' => $dataProvider,
+    'itemView' => '_view',
+        'emptyText' => 'Не найдено ни одного расхода',
+        'summaryText' => 'Показаны расходы с {start} до {end}, всего {count}',
+        'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+]); ?>
 </table>

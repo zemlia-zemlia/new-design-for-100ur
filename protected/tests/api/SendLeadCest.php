@@ -3,12 +3,10 @@
 namespace Tests\Api;
 
 use ApiTester;
-use Campaign;
 use Codeception\Example;
 use Codeception\Util\HttpCode;
 use Faker\Factory;
 use Lead;
-use Leadsource;
 use Tests\Factories\CampaignFactory;
 use Tests\Factories\LeadFactory;
 use Tests\Factories\LeadSourceFactory;
@@ -17,7 +15,7 @@ use User;
 use Yii;
 
 /**
- * Class SendLeadCest
+ * Class SendLeadCest.
  */
 class SendLeadCest
 {
@@ -62,7 +60,7 @@ class SendLeadCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
             'code' => 400,
-            'message' => 'No input data'
+            'message' => 'No input data',
         ]);
     }
 
@@ -72,12 +70,13 @@ class SendLeadCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
             'code' => 400,
-            'message' => 'Unknown sender. Check appId parameter'
+            'message' => 'Unknown sender. Check appId parameter',
         ]);
     }
 
     /**
-     * Отправка лида, для которого нет кампании и он не будет автоматически продан
+     * Отправка лида, для которого нет кампании и он не будет автоматически продан.
+     *
      * @param ApiTester $I
      */
     public function sendValidLeadWithoutCampaign(ApiTester $I)
@@ -105,7 +104,8 @@ class SendLeadCest
     }
 
     /**
-     * Тест отправки лида в тестовом режиме: возвращается ответ, но лид не сохраняется
+     * Тест отправки лида в тестовом режиме: возвращается ответ, но лид не сохраняется.
+     *
      * @param ApiTester $I
      */
     public function sendCorrectLeadInTestMode(ApiTester $I)
@@ -126,7 +126,8 @@ class SendLeadCest
     }
 
     /**
-     * Лид, который должен быть продан в кампанию
+     * Лид, который должен быть продан в кампанию.
+     *
      * @param ApiTester $I
      */
     public function sendLeadWithCampaign(ApiTester $I)
@@ -155,11 +156,11 @@ class SendLeadCest
             'buyerId' => $buyerAttributes['id'],
             'campaignId' => $campaignAttributes['id'],
         ]);
-
     }
 
     /**
-     * Попытка отправить лид с неправильной сигнатурой
+     * Попытка отправить лид с неправильной сигнатурой.
+     *
      * @param ApiTester $I
      */
     public function sendLeadWithIncorrectSignature(ApiTester $I)
@@ -181,7 +182,8 @@ class SendLeadCest
     }
 
     /**
-     * Отправка лида из несуществующего города
+     * Отправка лида из несуществующего города.
+     *
      * @param ApiTester $I
      */
     public function sendLeadWithIncorrectTown(ApiTester $I)
@@ -205,7 +207,8 @@ class SendLeadCest
     }
 
     /**
-     * Отправка лида повторно
+     * Отправка лида повторно.
+     *
      * @param ApiTester $I
      */
     public function sendDuplicate(ApiTester $I)
@@ -235,15 +238,17 @@ class SendLeadCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
             'code' => 400,
-            'message' => 'Dublicates found'
+            'message' => 'Dublicates found',
         ]);
     }
 
     /**
-     * Отправка лида от вебмастера. Проверяем, что вебмастеру создалась/не создалась транзакция
+     * Отправка лида от вебмастера. Проверяем, что вебмастеру создалась/не создалась транзакция.
+     *
      * @dataProvider providerCampaignWithUser
+     *
      * @param ApiTester $I
-     * @param Example $example
+     * @param Example   $example
      */
     public function sendLeadFromSourceWithUser(ApiTester $I, Example $example)
     {
@@ -287,7 +292,6 @@ class SendLeadCest
             'sum' => $example['partnerTransactionSum'],
         ]);
 
-
         // лид продан
         $I->seeInDatabase(self::LEADS_TABLE, [
             'phone' => $sendLeadRequestParams['phone'],
@@ -306,12 +310,12 @@ class SendLeadCest
         return [
             'regular webmaster' => [
                 'partnerId' => null,
-                'buyPrice' => "95.00",
+                'buyPrice' => '95.00',
                 'partnerTransactionSum' => 9500,
             ],
             '100yuristov internal webmaster' => [
                 'partnerId' => Yii::app()->params['webmaster100yuristovId'],
-                'buyPrice' => "95.00",
+                'buyPrice' => '95.00',
                 'partnerTransactionSum' => 0,
             ],
         ];
@@ -319,6 +323,7 @@ class SendLeadCest
 
     /**
      * @param array $forcedFields Массив атрибутов, которые нужно переопределить вручную
+     *
      * @return array
      */
     protected function generateValidLeadRequestData($forcedFields = []): array

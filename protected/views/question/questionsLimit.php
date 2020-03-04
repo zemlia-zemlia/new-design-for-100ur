@@ -1,7 +1,7 @@
 <?php
-$this->setPageTitle("Достигнут лимит вопросов");
+$this->setPageTitle('Достигнут лимит вопросов');
 
-Yii::app()->clientScript->registerMetaTag("Достигнут лимит вопросов", 'description');
+Yii::app()->clientScript->registerMetaTag('Достигнут лимит вопросов', 'description');
 
 ?>
 

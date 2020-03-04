@@ -2,15 +2,15 @@
 /* @var $this AnswerController */
 /* @var $model Answer */
 
-$this->breadcrumbs=array(
-    'Answers'=>array('index'),
+$this->breadcrumbs = [
+    'Answers' => ['index'],
     'Manage',
-);
+];
 
-$this->menu=array(
-    array('label'=>'List Answer', 'url'=>array('index')),
-    array('label'=>'Create Answer', 'url'=>array('create')),
-);
+$this->menu = [
+    ['label' => 'List Answer', 'url' => ['index']],
+    ['label' => 'Create Answer', 'url' => ['create']],
+];
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -33,24 +33,24 @@ You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&g
 or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
 </p>
 
-<?php echo CHtml::link('Advanced Search', '#', array('class'=>'search-button')); ?>
+<?php echo CHtml::link('Advanced Search', '#', ['class' => 'search-button']); ?>
 <div class="search-form" style="display:none">
-<?php $this->renderPartial('_search', array(
-    'model'=>$model,
-)); ?>
+<?php $this->renderPartial('_search', [
+    'model' => $model,
+]); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-    'id'=>'answer-grid',
-    'dataProvider'=>$model->search(),
-    'filter'=>$model,
-    'columns'=>array(
+<?php $this->widget('zii.widgets.grid.CGridView', [
+    'id' => 'answer-grid',
+    'dataProvider' => $model->search(),
+    'filter' => $model,
+    'columns' => [
         'id',
         'questionId',
         'answerText',
         'authorId',
-        array(
-            'class'=>'CButtonColumn',
-        ),
-    ),
-)); ?>
+        [
+            'class' => 'CButtonColumn',
+        ],
+    ],
+]); ?>

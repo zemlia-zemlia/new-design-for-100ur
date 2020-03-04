@@ -8,7 +8,7 @@ $usersCount = 0;
         <div class="row row-yurist yurist-list-item">
 
             <div class="col-xs-3 text-center">
-                <a href="<?php echo Yii::app()->createUrl('user/view', array('id' => $user['id'])); ?>" rel="nofollow">
+                <a href="<?php echo Yii::app()->createUrl('user/view', ['id' => $user['id']]); ?>" rel="nofollow">
                     <img src="<?php echo User::USER_PHOTO_PATH . User::USER_PHOTO_THUMB_FOLDER . '/' . $user['avatar']; ?>" alt="<?php echo CHtml::encode($user['name'] . ' ' . $user['lastName']); ?>" class="img-responsive center-block gray-panel" />
                 </a>
 
@@ -25,7 +25,7 @@ $usersCount = 0;
                         </div>
                     <?php endif; ?>
 
-                    <a href="<?php echo Yii::app()->createUrl('user/view', array('id' => $user['id'])); ?>" rel="nofollow">
+                    <a href="<?php echo Yii::app()->createUrl('user/view', ['id' => $user['id']]); ?>" rel="nofollow">
                         <?php echo CHtml::encode($user['name'] . ' ' . $user['lastName']); ?>
                     </a>
                     <span class="text-muted"><em>

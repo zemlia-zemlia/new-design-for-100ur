@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Tests\unit\models;
-
 
 use Codeception\Test\Unit;
 use Question;
@@ -11,6 +9,7 @@ class QuestionTest extends Unit
 {
     /**
      * @dataProvider providerFormTitle
+     *
      * @param string $questionText
      * @param string $expectedTitle
      */
@@ -50,6 +49,7 @@ class QuestionTest extends Unit
 
     /**
      * @dataProvider providerPriceLevel
+     *
      * @param int $level
      * @param int $expectedPrice
      */
@@ -61,7 +61,7 @@ class QuestionTest extends Unit
     /**
      * @return array
      */
-    public function providerPriceLevel():array
+    public function providerPriceLevel(): array
     {
         return [
             [

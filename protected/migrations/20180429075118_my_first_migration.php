@@ -1,6 +1,5 @@
 <?php
 
-
 use Phinx\Migration\AbstractMigration;
 
 class MyFirstMigration extends AbstractMigration
@@ -28,6 +27,5 @@ class MyFirstMigration extends AbstractMigration
      */
     public function change()
     {
-
     }
 }

@@ -2,7 +2,6 @@
 
 class RandomStringHelper
 {
-
     public static function generateRandomString($legth = 10)
     {
         $charaters = '01234567890abcdefghijklmnopqrstuvwxyz';

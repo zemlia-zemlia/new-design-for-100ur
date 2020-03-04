@@ -1,6 +1,6 @@
 <?php
-$this->setPageTitle("Для юристов.");
-Yii::app()->clientScript->registerMetaTag("", 'description');
+$this->setPageTitle('Для юристов.');
+Yii::app()->clientScript->registerMetaTag('', 'description');
 ?>
 
 <h1>

@@ -2,17 +2,17 @@
 /* @var $this TownController */
 /* @var $model Town */
 
-$this->breadcrumbs=array(
-    'Towns'=>array('index'),
+$this->breadcrumbs = [
+    'Towns' => ['index'],
     'Create',
-);
+];
 
-$this->menu=array(
-    array('label'=>'List Town', 'url'=>array('index')),
-    array('label'=>'Manage Town', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List Town', 'url' => ['index']],
+    ['label' => 'Manage Town', 'url' => ['admin']],
+];
 ?>
 
 <h1>Create Town</h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', ['model' => $model]); ?>

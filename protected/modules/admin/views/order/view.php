@@ -1,18 +1,18 @@
 <?php
 /* @var $this OrderController */
 /* @var $model Order */
-$this->setPageTitle("Заказ документов #" . $order->id . '. ' . Yii::app()->name);
+$this->setPageTitle('Заказ документов #' . $order->id . '. ' . Yii::app()->name);
 
-$this->breadcrumbs = array(
-    'Заказы документов' => array('index'),
+$this->breadcrumbs = [
+    'Заказы документов' => ['index'],
     $order->id,
-);
+];
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('100 Юристов', "/admin"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 Юристов', '/admin'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 ?>
 
 <h1>Заказ документов #<?php echo $order->id; ?>
@@ -27,7 +27,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <strong>Дата заказа</strong>
             </td>
             <td>
-                <?php echo CustomFuncs::niceDate($order->createDate, true, false); ?>
+                <?php echo DateHelper::niceDate($order->createDate, true, false); ?>
             </td>
         </tr>
         <?php if ($order->author): ?>
@@ -64,7 +64,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     <strong>Срок</strong>
                 </td>
                 <td>
-                    <?php echo CustomFuncs::invertDate($order->term); ?>
+                    <?php echo DateHelper::invertDate($order->term); ?>
                 </td>
             </tr>
         <?php endif; ?>
@@ -108,7 +108,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 </div>
 <h3>Предложения юристов</h3>
 <div class="box">
-    <?php if (Yii::app()->user->role == User::ROLE_CLIENT && sizeof($order->responses) == 0): ?>
+    <?php if (User::ROLE_CLIENT == Yii::app()->user->role && 0 == sizeof($order->responses)): ?>
         <p class="center-align">
             Юристы пока не прислали ни одного предложения.
         </p>
@@ -117,17 +117,17 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <?php $myResponses = 0; ?>
 
     <?php foreach ($order->responses as $response): ?>
-        <?php if (Yii::app()->user->role == User::ROLE_JURIST && $response->authorId != Yii::app()->user->id) {
+        <?php if (User::ROLE_JURIST == Yii::app()->user->role && $response->authorId != Yii::app()->user->id) {
     continue;
 }
         ?>
 
-        <?php if (Yii::app()->user->role == User::ROLE_JURIST && $response->authorId == Yii::app()->user->id) {
-            $myResponses++;
+        <?php if (User::ROLE_JURIST == Yii::app()->user->role && $response->authorId == Yii::app()->user->id) {
+            ++$myResponses;
         }
         ?>
 
-        <?php if ($response->status != Comment::STATUS_SPAM): ?>
+        <?php if (Comment::STATUS_SPAM != $response->status): ?>
             <div class="answer-comment" style="margin-left:<?php echo($response->level - 1) * 20; ?>px;">
 
                 <div class="row">
@@ -200,13 +200,13 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                          id="collapse-comment-<?php echo $comment->id; ?>">
                                         <strong>Ваш ответ:</strong>
                                         <?php
-                                        $this->renderPartial('application.views.comment._form', array(
+                                        $this->renderPartial('application.views.comment._form', [
                                             'type' => Comment::TYPE_RESPONSE,
                                             'objectId' => $response->id,
                                             'model' => $commentModel,
                                             'hideRating' => true,
                                             'parentId' => $comment->id,
-                                        ));
+                                        ]);
                                         ?>
                                     </div>
                                 <?php endif; ?>
@@ -226,13 +226,13 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     <div class="collapse child-comment-container" id="collapse-response-<?php echo $response->id; ?>">
                         <strong>Ваш ответ:</strong>
                         <?php
-                        $this->renderPartial('application.views.comment._form', array(
+                        $this->renderPartial('application.views.comment._form', [
                             'type' => Comment::TYPE_RESPONSE,
                             'objectId' => $response->id,
                             'model' => $commentModel,
                             'hideRating' => true,
                             'parentId' => 0,
-                        ));
+                        ]);
                         ?>
                     </div>
                 <?php endif; ?>
@@ -241,15 +241,15 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <?php endforeach; ?>
 
 
-    <?php if (!is_null($orderResponse) && Yii::app()->user->role == User::ROLE_JURIST && $myResponses == 0): ?>
+    <?php if (!is_null($orderResponse) && User::ROLE_JURIST == Yii::app()->user->role && 0 == $myResponses): ?>
         <?php
-        $this->renderPartial('application.views.orderResponse._form', array(
+        $this->renderPartial('application.views.orderResponse._form', [
             'type' => Comment::TYPE_RESPONSE,
             'objectId' => $order->id,
             'model' => $orderResponse,
             'hideRating' => true,
             'parentId' => 0,
-        ));
+        ]);
 
         ?>
     <?php endif; ?>

@@ -4,10 +4,8 @@ use Phinx\Migration\AbstractMigration;
 
 class RenameFilesToDocs extends AbstractMigration
 {
-
     public function up()
     {
-
         $table = $this->table('100_file2category');
         $table
             ->rename('100_docs2category')
@@ -23,9 +21,6 @@ class RenameFilesToDocs extends AbstractMigration
             ->rename('100_docs_category')
             ->update();
     }
-
-
-
 
     public function down()
     {
@@ -43,6 +38,5 @@ class RenameFilesToDocs extends AbstractMigration
         $table
             ->rename('100_file_category')
             ->update();
-
     }
 }

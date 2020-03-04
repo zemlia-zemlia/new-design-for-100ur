@@ -2,20 +2,20 @@
 /* @var $this CampaignController */
 /* @var $model Campaign */
 
-$this->breadcrumbs = array(
-    'Кампании' => array('index'),
+$this->breadcrumbs = [
+    'Кампании' => ['index'],
     $model->id,
-);
+];
 
 ?>
 
 <?php
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('100 юристов', "/admin"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 юристов', '/admin'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 
 ?>
 
@@ -26,7 +26,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 </style>
 
 <h3>Кампания #<?php echo $model->id; ?>
-    <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/campaign/update', array('id' => $model->id)), array('class' => 'btn btn-primary')); ?>
+    <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('/admin/campaign/update', ['id' => $model->id]), ['class' => 'btn btn-primary']); ?>
 </h3>
 <div class="box">
     <div class="row">
@@ -45,7 +45,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         Покупатель
                     </td>
                     <td>
-                        <?php echo CHtml::link(CHtml::encode($model->buyer->lastName . ' ' . $model->buyer->name), Yii::app()->createUrl('/admin/user/view', array('id' => $model->buyer->id))); ?>
+                        <?php echo CHtml::link(CHtml::encode($model->buyer->lastName . ' ' . $model->buyer->name), Yii::app()->createUrl('/admin/user/view', ['id' => $model->buyer->id])); ?>
                         <?php echo CHtml::encode($model->buyer->email); ?>
                     </td>
                 </tr>
@@ -88,10 +88,10 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     </td>
                     <td>
                         <?php
-                        $workDays = array();
+                        $workDays = [];
                         $workDays = explode(',', $model->days);
                         ?>
-                        <?php for ($dayNumber = 1; $dayNumber <= 7; $dayNumber++): ?>
+                        <?php for ($dayNumber = 1; $dayNumber <= 7; ++$dayNumber): ?>
                             <?php
                             if (!in_array($dayNumber, $workDays)) {
                                 $labelClass = 'label-default';
@@ -100,7 +100,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             }
                             ?>
                             <span class="label <?php echo $labelClass; ?>">
-                    <?php echo CustomFuncs::getWeekDays()[$dayNumber]; ?>
+                    <?php echo DateHelper::getWeekDays()[$dayNumber]; ?>
                 </span> &nbsp;
                         <?php endfor; ?>
                     </td>
@@ -151,14 +151,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 <div class="row">
     <div class="col-sm-8">
         <h3>Лиды</h3>
-            <?php $this->widget('zii.widgets.CListView', array(
+            <?php $this->widget('zii.widgets.CListView', [
                 'dataProvider' => $leadsDataProvider,
                 'itemView' => 'application.modules.admin.views.lead._view',
                 'template' => '{summary}{pager}{items}{pager}',
                 'emptyText' => 'Не найдено ни одного лида',
                 'summaryText' => 'Показаны лиды с {start} до {end}, всего {count}',
-                'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
-            )); ?>
+                'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+            ]); ?>
     </div>
 
     <div class="col-sm-4">
@@ -167,10 +167,10 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <div class="box-title">Статистика продаж по дням</div>
             </div>
             <div class="box-body">
-                <?php $this->renderPartial('application.modules.admin.views.lead._searchFormDates', array(
+                <?php $this->renderPartial('application.modules.admin.views.lead._searchFormDates', [
                     'model' => $searchModel,
-                    'action' => Yii::app()->createUrl('admin/campaign/view', array('id' => $model->id)),
-                )); ?>
+                    'action' => Yii::app()->createUrl('admin/campaign/view', ['id' => $model->id]),
+                ]); ?>
 
                 <?php if (is_array($leadsStats) && is_array($leadsStats['dates'])): ?>
 
@@ -182,7 +182,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         </tr>
                         <?php foreach ($leadsStats['dates'] as $date => $leadsByDate): ?>
                             <tr>
-                                <td><?php echo CustomFuncs::niceDate($date, false, false); ?></td>
+                                <td><?php echo DateHelper::niceDate($date, false, false); ?></td>
                                 <td class="text-right"><?php echo $leadsByDate['count']; ?></td>
                                 <td class="text-right"><?php echo MoneyFormat::rubles($leadsByDate['sum']); ?> руб.</td>
                             </tr>

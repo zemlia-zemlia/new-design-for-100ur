@@ -2,16 +2,16 @@
 /* @var $this LeadsourceController */
 /* @var $model Leadsource */
 
-$this->breadcrumbs = array(
-    'Источники' => array('index'),
+$this->breadcrumbs = [
+    'Источники' => ['index'],
     CHtml::encode($model->name),
-);
+];
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('Кабинет вебмастера', "/webmaster/"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('Кабинет вебмастера', '/webmaster/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 
 ?>
 
@@ -53,7 +53,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     <?php echo CHtml::encode($model->description); ?>
                 </td>
             </tr>
-            <?php if ($model->type == Leadsource::TYPE_LEAD): ?>
+            <?php if (Leadsource::TYPE_LEAD == $model->type): ?>
                 <tr>
                     <td>
                         <?php echo $model->getAttributeLabel('appId'); ?>

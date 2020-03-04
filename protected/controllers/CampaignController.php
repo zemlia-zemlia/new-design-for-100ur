@@ -2,10 +2,9 @@
 
 class CampaignController extends Controller
 {
-
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     * using two-column layout. See 'protected/views/layouts/column2.php'.
+     *             using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = '//lk/main';
 
@@ -14,57 +13,59 @@ class CampaignController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
+     *
      * @return array access control rules
      */
     public function accessRules()
     {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create'),
-                'users' => array('@'),
+        return [
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['index', 'view', 'create'],
+                'users' => ['@'],
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_BUYER . ')',
-            ),
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('update'),
-                'users' => array('@'),
+            ],
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['update'],
+                'users' => ['@'],
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
-            ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin', 'delete'),
-                'users' => array('admin'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+            ],
+            ['allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions' => ['admin', 'delete'],
+                'users' => ['admin'],
+            ],
+            ['deny', // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     *
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
         $campaign = Campaign::model()->with('transactions')->findByPk($id);
         $transactionsDataProvider = new CArrayDataProvider($campaign->transactions);
 
-        if (!(Yii::app()->user->role == User::ROLE_ROOT || (Yii::app()->user->role == User::ROLE_BUYER && $campaign->buyerId == Yii::app()->user->id))) {
+        if (!(User::ROLE_ROOT == Yii::app()->user->role || (User::ROLE_BUYER == Yii::app()->user->role && $campaign->buyerId == Yii::app()->user->id))) {
             throw new CHttpException(403, 'Вы не можете просматривать данную кампанию');
         }
 
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $campaign,
             'transactionsDataProvider' => $transactionsDataProvider,
-        ));
+        ]);
     }
 
     /**
@@ -74,13 +75,13 @@ class CampaignController extends Controller
     public function actionCreate()
     {
         $this->layout = '//lk/main';
-        $model = new Campaign;
+        $model = new Campaign();
 
         $model->active = Campaign::ACTIVE_MODERATION; // статус по умолчанию - На рассмотрении
 
         if (isset($_POST['Campaign'])) {
             $model->attributes = $_POST['Campaign'];
-            if (Yii::app()->user->role != User::ROLE_ROOT) {
+            if (User::ROLE_ROOT != Yii::app()->user->role) {
                 $model->buyerId = Yii::app()->user->id;
             }
             $model->price = 9000;
@@ -90,14 +91,14 @@ class CampaignController extends Controller
             $existingCampaignsFromSameRegionCommand = Yii::app()->db->createCommand()
                     ->select('id')
                     ->from('{{campaign}}')
-                    ->where("buyerId=:userId", array(':userId' => Yii::app()->user->id));
+                    ->where('buyerId=:userId', [':userId' => Yii::app()->user->id]);
 
             if ($model->townId) {
-                $existingCampaignsFromSameRegionCommand->andWhere('townId=:townId', array(':townId' => $model->townId));
+                $existingCampaignsFromSameRegionCommand->andWhere('townId=:townId', [':townId' => $model->townId]);
             }
 
             if ($model->regionId) {
-                $existingCampaignsFromSameRegionCommand->andWhere('regionId=:regionId', array(':regionId' => $model->regionId));
+                $existingCampaignsFromSameRegionCommand->andWhere('regionId=:regionId', [':regionId' => $model->regionId]);
             }
 
             $existingCampaignsFromSameRegion = $existingCampaignsFromSameRegionCommand->queryAll();
@@ -106,24 +107,24 @@ class CampaignController extends Controller
                 $model->addError('townId', 'Вы уже создали кампанию в этом городе/регионе');
             }
 
-
             if (!$model->errors && $model->save()) {
-                $this->redirect(array('/buyer/buyer/campaign', 'id' => $model->id));
+                $this->redirect(['/buyer/buyer/campaign', 'id' => $model->id]);
             }
         }
 
-        $regions = array('0' => 'Не выбран') + Region::getAllRegions();
+        $regions = ['0' => 'Не выбран'] + Region::getAllRegions();
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model,
             'regions' => $regions,
-        ));
+        ]);
     }
 
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     *
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -136,23 +137,23 @@ class CampaignController extends Controller
             $model->attributes = $_POST['Campaign'];
 
             if ($model->save()) {
-                $this->redirect(array('/buyer/buyer/campaign', 'id' => $model->id));
+                $this->redirect(['/buyer/buyer/campaign', 'id' => $model->id]);
             }
         }
 
-        $regions = array('0' => 'Не выбран') + Region::getAllRegions();
+        $regions = ['0' => 'Не выбран'] + Region::getAllRegions();
 
-
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
             'regions' => $regions,
-        ));
+        ]);
     }
 
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     *
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -160,7 +161,7 @@ class CampaignController extends Controller
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax'])) {
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['admin']);
         }
     }
 
@@ -170,9 +171,9 @@ class CampaignController extends Controller
     public function actionIndex()
     {
         $dataProvider = new CActiveDataProvider('Campaign');
-        $this->render('index', array(
+        $this->render('index', [
             'dataProvider' => $dataProvider,
-        ));
+        ]);
     }
 
     /**
@@ -186,34 +187,39 @@ class CampaignController extends Controller
             $model->attributes = $_GET['Campaign'];
         }
 
-        $this->render('admin', array(
+        $this->render('admin', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     *
+     * @param int $id the ID of the model to be loaded
+     *
      * @return Campaign the loaded model
+     *
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = Campaign::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
     /**
      * Performs the AJAX validation.
+     *
      * @param Campaign $model the model to be validated
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'campaign-form') {
+        if (isset($_POST['ajax']) && 'campaign-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

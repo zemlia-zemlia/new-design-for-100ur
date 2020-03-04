@@ -2,7 +2,7 @@
 /* @var $this UserController */
 /* @var $model User */
 /**
- * Просмотр профиля юриста
+ * Просмотр профиля юриста.
  */
 // Построим цепочку хлебных крошек из ссылок на город и регион юриста
 
@@ -26,7 +26,6 @@ if ($town && $region && $country) {
 
 $this->breadcrumbs[] = CHtml::encode($user->name . ' ' . $user->lastName);
 
-
 $title = CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
 
 if ($user->settings) {
@@ -49,13 +48,12 @@ if ($user->town) {
 }
 Yii::app()->clientScript->registerMetaTag($pageDescription, 'description');
 
-
 if (Yii::app()->user->id != $user->id) {
-    $this->widget('zii.widgets.CBreadcrumbs', array(
-        'homeLink' => CHtml::link('100 Юристов', "/"),
+    $this->widget('zii.widgets.CBreadcrumbs', [
+        'homeLink' => CHtml::link('100 Юристов', '/'),
         'separator' => ' / ',
         'links' => $this->breadcrumbs,
-    ));
+    ]);
 }
 ?>
 
@@ -80,8 +78,8 @@ if (Yii::app()->user->id != $user->id) {
                 <div class="row">
                     <div class="col-md-12">
                         <?php if ($user->id == Yii::app()->user->id): ?>
-                            <?php if (Yii::app()->user->role == User::ROLE_JURIST): ?>
-                                <?php if ($lastRequest && $lastRequest['isVerified'] == 0): ?>
+                            <?php if (User::ROLE_JURIST == Yii::app()->user->role): ?>
+                                <?php if ($lastRequest && 0 == $lastRequest['isVerified']): ?>
                                     <div class='alert alert-success'>
                                         <p>Активна заявка на подтверждение
                                             статуса <?php echo YuristSettings::getStatusNameByCode($lastRequest['status']); ?>
@@ -89,11 +87,11 @@ if (Yii::app()->user->id != $user->id) {
                                             проверки заявки модератором.</p>
                                     </div>
                                 <?php else: ?>
-                                    <?php if ($user->settings->status == 0): ?>
+                                    <?php if (0 == $user->settings->status): ?>
                                         <div class='alert alert-danger'>
                                             Вам пока не доступны все возможности сайта т.к. ваша квалификация не
                                             подтверждена.
-                                            <?php echo CHtml::link('Подтвердить квалификацию', Yii::app()->createUrl('userStatusRequest/create'), array('class' => 'btn btn-xs btn-default')); ?>
+                                            <?php echo CHtml::link('Подтвердить квалификацию', Yii::app()->createUrl('userStatusRequest/create'), ['class' => 'btn btn-xs btn-default']); ?>
 
                                         </div>
                                     <?php else: ?>
@@ -102,7 +100,7 @@ if (Yii::app()->user->id != $user->id) {
                                             <strong>
                                                 <?php echo $user->settings->getStatusName(); ?>
                                             </strong>
-                                            <?php echo CHtml::link('Сменить статус', Yii::app()->createUrl('userStatusRequest/create'), array('class' => 'btn btn-xs btn-default')); ?>
+                                            <?php echo CHtml::link('Сменить статус', Yii::app()->createUrl('userStatusRequest/create'), ['class' => 'btn btn-xs btn-default']); ?>
                                         </div>
                                     <?php endif; ?>
                                 <?php endif; ?>
@@ -126,10 +124,10 @@ if (Yii::app()->user->id != $user->id) {
                     ?>" itemprop="image"/>
                 </p>
                 <?php if ($user->id == Yii::app()->user->id): ?>
-                    <?php if (Yii::app()->user->role == User::ROLE_CLIENT): ?>
-                        <?php echo CHtml::link('Изменить пароль', Yii::app()->createUrl('user/changePassword', array('id' => Yii::app()->user->id))); ?>
+                    <?php if (User::ROLE_CLIENT == Yii::app()->user->role): ?>
+                        <?php echo CHtml::link('Изменить пароль', Yii::app()->createUrl('user/changePassword', ['id' => Yii::app()->user->id])); ?>
                     <?php else: ?>
-                        <?php echo CHtml::link('Редактировать свой профиль', Yii::app()->createUrl('user/update', array('id' => Yii::app()->user->id)), ['class' => 'btn btn-default btn-block']); ?>
+                        <?php echo CHtml::link('Редактировать свой профиль', Yii::app()->createUrl('user/update', ['id' => Yii::app()->user->id]), ['class' => 'btn btn-default btn-block']); ?>
                     <?php endif; ?>
                 <?php endif; ?>
 
@@ -138,8 +136,8 @@ if (Yii::app()->user->id != $user->id) {
                 <?php endif; ?>
 
                 <?php
-                if (Yii::app()->user->role == User::ROLE_ROOT) {
-                    echo CHtml::link('Смотреть статистику ответов по месяцам', Yii::app()->createUrl('user/stats', array('userId' => $user->id)), array('class' => 'btn btn-block btn-default'));
+                if (User::ROLE_ROOT == Yii::app()->user->role) {
+                    echo CHtml::link('Смотреть статистику ответов по месяцам', Yii::app()->createUrl('user/stats', ['userId' => $user->id]), ['class' => 'btn btn-block btn-default']);
                 }
                 ?>
 
@@ -165,19 +163,19 @@ if (Yii::app()->user->id != $user->id) {
 
                 <div class="row vert-margin30">
 
-                    <?php if ($user->role == User::ROLE_JURIST): ?>
+                    <?php if (User::ROLE_JURIST == $user->role): ?>
                         <div class="col-sm-3 col-xs-6 center-align">
                             <p>Консультаций:</p>
                             <?php
                             $answersCountInt = $user->answersCount;
-                            $answersCount = str_pad((string)$answersCountInt, (strlen($answersCountInt) > 4) ? strlen($answersCountInt) : 4, '0', STR_PAD_LEFT);
+                            $answersCount = str_pad((string) $answersCountInt, (strlen($answersCountInt) > 4) ? strlen($answersCountInt) : 4, '0', STR_PAD_LEFT);
                             $numbers = str_split($answersCount);
 
-                            $karmaCount = str_pad((string)$user->karma, (strlen($user->karma) > 3) ? strlen($user->karma) : 3, '0', STR_PAD_LEFT);;
+                            $karmaCount = str_pad((string) $user->karma, (strlen($user->karma) > 3) ? strlen($user->karma) : 3, '0', STR_PAD_LEFT);
                             $numbersKarma = str_split($karmaCount);
 
                             $testimonialsCount = $user->commentsCount;
-                            $testimonialsCount = str_pad((string)$testimonialsCount, (strlen($testimonialsCount) > 4) ? strlen($testimonialsCount) : 3, '0', STR_PAD_LEFT);
+                            $testimonialsCount = str_pad((string) $testimonialsCount, (strlen($testimonialsCount) > 4) ? strlen($testimonialsCount) : 3, '0', STR_PAD_LEFT);
                             $numbersTestimonials = str_split($testimonialsCount);
 
                             $rating = $user->getRating();
@@ -217,7 +215,7 @@ if (Yii::app()->user->id != $user->id) {
                 </div>
 
 
-                <?php if ($user->role == User::ROLE_JURIST): ?>
+                <?php if (User::ROLE_JURIST == $user->role): ?>
 
                     <h3 class="left-align">Контакты</h3>
                     <div class='row'>
@@ -253,7 +251,7 @@ if (Yii::app()->user->id != $user->id) {
                             <div class="col-md-4">
                                 <p>
                                     <strong><span class="glyphicon glyphicon-globe"
-                                                  aria-hidden="true"></span></strong> <?php echo CHtml::link(CHtml::encode($user->settings->site), CHtml::encode($user->settings->site), array('target' => '_blank', 'rel' => 'nofollow')); ?>
+                                                  aria-hidden="true"></span></strong> <?php echo CHtml::link(CHtml::encode($user->settings->site), CHtml::encode($user->settings->site), ['target' => '_blank', 'rel' => 'nofollow']); ?>
                                 </p>
                             </div>
                         <?php endif; ?>
@@ -271,7 +269,7 @@ if (Yii::app()->user->id != $user->id) {
                         <p><?php echo CHtml::encode($user->settings->description); ?></p>
 
                         <?php if ($user->registerDate): ?>
-                            <p>На сайте с: <?php echo CustomFuncs::invertDate($user->registerDate); ?></p>
+                            <p>На сайте с: <?php echo DateHelper::invertDate($user->registerDate); ?></p>
                         <?php endif; ?>
 
                         <hr/>
@@ -279,7 +277,7 @@ if (Yii::app()->user->id != $user->id) {
 
                 <?php endif; ?>
 
-                <?php if ($user->role == User::ROLE_JURIST): ?>
+                <?php if (User::ROLE_JURIST == $user->role): ?>
                     <div class="row">
                         <div class="col-sm-12">
                             <?php if ($user->settings->education): ?>
@@ -334,7 +332,7 @@ if (Yii::app()->user->id != $user->id) {
                             <?php endif; ?>
                             <?php if ($user->settings->priceDoc > 0): ?>
                                 <p>Составление документа от <?php echo MoneyFormat::rubles($user->settings->priceDoc); ?> руб.
-                                    <?php if ($user->id == 8): ?>
+                                    <?php if (8 == $user->id): ?>
                                         <?php echo CHtml::link('Заказать документ', Yii::app()->createUrl('question/docs', ['juristId' => $user->id])); ?>
                                     <?php endif; ?>
                                 </p>
@@ -342,16 +340,16 @@ if (Yii::app()->user->id != $user->id) {
                         </div>
                     <?php endif; ?>
 
-                    <?php if (isset(Yii::app()->params['donatesEnabled']) && Yii::app()->params['donatesEnabled'] == true): ?>
-                        <?php if (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT): ?>
+                    <?php if (isset(Yii::app()->params['donatesEnabled']) && true == Yii::app()->params['donatesEnabled']): ?>
+                        <?php if (User::ROLE_CLIENT == Yii::app()->user->role || User::ROLE_ROOT == Yii::app()->user->role): ?>
                             <div class="vert-margin30"></div>
                             <div class='donate-block'>
                                 <h3>Оплатить услуги юриста</h3>
-                                <?php $this->renderPartial("application.views.question._donateForm", array(
-                                    'target' => 'Благодарность юристу ' . CHtml::encode($user->name) . " " . CHtml::encode($user->lastName),
-                                    'successUrl' => Yii::app()->createUrl('user/view', array('id' => $user->id)),
+                                <?php $this->renderPartial('application.views.question._donateForm', [
+                                    'target' => 'Благодарность юристу ' . CHtml::encode($user->name) . ' ' . CHtml::encode($user->lastName),
+                                    'successUrl' => Yii::app()->createUrl('user/view', ['id' => $user->id]),
                                     'donateSum' => ($user->settings->priceConsult > 0) ? MoneyFormat::rubles($user->settings->priceConsult) : 500,
-                                )); ?>
+                                ]); ?>
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
@@ -362,7 +360,7 @@ if (Yii::app()->user->id != $user->id) {
                 <div class="row">
                     <div class="col-sm-12">
                         <?php if (sizeof($questions) > 0): ?>
-                            <?php if ($user->role == User::ROLE_CLIENT): ?>
+                            <?php if (User::ROLE_CLIENT == $user->role): ?>
                                 <hr>
                                 <h2 class="vert-margin20">Мои вопросы</h2>
                             <?php else: ?>
@@ -377,7 +375,7 @@ if (Yii::app()->user->id != $user->id) {
                                     <div class="col-sm-12">
                                         <p style="font-size:1.1em;">
                                             <small>
-                                                <?php echo CHtml::link(CHtml::encode(CustomFuncs::mb_ucfirst($question['title'])), Yii::app()->createUrl('question/view', array('id' => $question['id']))); ?>
+                                                <?php echo CHtml::link(CHtml::encode(StringHelper::mb_ucfirst($question['title'])), Yii::app()->createUrl('question/view', ['id' => $question['id']])); ?>
                                             </small>
                                         </p>
                                     </div>
@@ -390,31 +388,31 @@ if (Yii::app()->user->id != $user->id) {
                 <?php if ($testimonialsDataProvider->totalItemCount > 0): ?>
                     <h2>Последние отзывы</h2>
                     <?php
-                    $this->widget('zii.widgets.CListView', array(
+                    $this->widget('zii.widgets.CListView', [
                         'dataProvider' => $testimonialsDataProvider,
                         'itemView' => 'application.views.comment._viewUser',
                         'emptyText' => 'Не найдено ни одного отзыва',
                         'summaryText' => '',
-                        'pager' => array('class' => 'GTLinkPager'), //we use own pager with russian words
-                    ));
+                        'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+                    ]);
                     ?>
                     <p class="text-center">
                         <?php echo CHtml::link('Все отзывы', Yii::app()->createUrl('user/testimonials', ['id' => $user->id])); ?>
                     </p>
                 <?php endif; ?>
 
-                <?php if (Yii::app()->user->role == User::ROLE_CLIENT && Yii::app()->user->id == $user->id): ?>
+                <?php if (User::ROLE_CLIENT == Yii::app()->user->role && Yii::app()->user->id == $user->id): ?>
                     <hr>
                     <h2>Мои заказы документов</h2>
                     <table class="table table-bordered">
                         <?php
-                        $this->widget('zii.widgets.CListView', array(
+                        $this->widget('zii.widgets.CListView', [
                             'dataProvider' => $ordersDataProvider,
                             'itemView' => 'application.views.order._view',
                             'emptyText' => 'Не найдено ни одного заказа',
                             'summaryText' => 'Показаны заказы с {start} до {end}, всего {count}',
-                            'pager' => array('class' => 'GTLinkPager'), //we use own pager with russian words
-                        ));
+                            'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+                        ]);
                         ?>
                     </table>
                 <?php endif; ?>

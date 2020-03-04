@@ -15,7 +15,7 @@ class ApiHandler
     protected $_response; // массив с ответом
 
     /**
-     * При создании объекта сохраняем время, чтобы в конце обработки сохранить время исполнения
+     * При создании объекта сохраняем время, чтобы в конце обработки сохранить время исполнения.
      */
     public function __construct()
     {
@@ -24,7 +24,8 @@ class ApiHandler
     }
 
     /**
-     * Возвращает разницу между временем инициализации объекта и текущим временем (продолжительность обработки запроса)
+     * Возвращает разницу между временем инициализации объекта и текущим временем (продолжительность обработки запроса).
+     *
      * @return float Description Разница между временем инициализации объекта и текущим временем
      */
     public function getDuration()
@@ -32,12 +33,13 @@ class ApiHandler
         if (!$this->_requestStart) {
             return 0;
         }
-        
+
         return microtime(true) - $this->_requestStart;
     }
 
     /**
-     * Выводит массив с ответом в формате JSON
+     * Выводит массив с ответом в формате JSON.
+     *
      * @param array $response Массив с параметрами ответа
      */
     public function respond($response)
@@ -50,30 +52,31 @@ class ApiHandler
     }
 
     /**
-     * Запись результата запроса в лог
+     * Запись результата запроса в лог.
+     *
      * @param int $mode Писать в файл или в базу
      */
     public function log($mode = self::MODE_FILE)
     {
         // определяем IP адрес клиента
         $clientIp = $this->_request->getUserHostAddress();
-        
+
         // записываем данные в лог в зависимости от заданного способа
-        
+
         switch ($mode) {
             case self::MODE_DB:
                 Yii::app()->db->createCommand()
-                    ->insert(self::LOG_TABLE, array(
-                        'ip'         => $clientIp,
-                        'duration'   => $this->getDuration(),
-                        'response'   => json_encode($this->_response),
-                        'responseCode'   => $this->_response['code'],
-                        'route'      => $this->_request->getPathInfo(),
+                    ->insert(self::LOG_TABLE, [
+                        'ip' => $clientIp,
+                        'duration' => $this->getDuration(),
+                        'response' => json_encode($this->_response),
+                        'responseCode' => $this->_response['code'],
+                        'route' => $this->_request->getPathInfo(),
                         'requestData' => CHtml::encode($this->_request->getRawBody()),
-                    ));
+                    ]);
                 break;
             case self::MODE_FILE: default:
-                
+
                 break;
         }
     }

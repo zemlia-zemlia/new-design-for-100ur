@@ -8,11 +8,11 @@ class AdminModule extends CWebModule
         // you may place code here to customize the module or the application
 
         // import the module-level models and components
-        $this->setImport(array(
+        $this->setImport([
             'admin.models.*',
             'admin.components.*',
             'admin.services.*',
-        ));
+        ]);
     }
 
     public function beforeControllerAction($controller, $action)
@@ -22,15 +22,16 @@ class AdminModule extends CWebModule
             // this method is called before any module controller action is performed
             // you may place customized code here
 
-            if (!(isset(Yii::app()->user) && !Yii::app()->user->isGuest && in_array(Yii::app()->user->role, array(
+            if (!(isset(Yii::app()->user) && !Yii::app()->user->isGuest && in_array(Yii::app()->user->role, [
                             User::ROLE_ROOT,
                             User::ROLE_SECRETARY,
                             User::ROLE_EDITOR,
-                        )))) {
+                        ]))) {
                 throw new CHttpException(403, 'У Вас недостаточно прав для доступа к этой странице');
                 //Yii::app()->user->setReturnUrl(Yii::app()->createUrl($controller->getRoute()));
                         //$controller->redirect('/site/login');
             }
+
             return true;
         } else {
             return false;

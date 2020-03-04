@@ -1,4 +1,5 @@
 <?php
+
 return [
     'application.models.*',
     'application.components.*',
@@ -7,12 +8,12 @@ return [
     'application.components.yandexPayment.*',
     'application.extensions.*',
     'application.extensions.XWebDebugRouter.*',
-    'application.extensions.CustomFuncs.*',
     'application.extensions.cleditor.ECLEditor',
     'application.extensions.StoYuristovClient.StoYuristovClient',
     'application.extensions.imperavi-redactor-widget.ImperaviRedactorWidget',
     'application.extensions.Logger.*',
     'application.notifiers.*',
     'application.helpers.*',
+    'application.repositories.*',
     'application.widgets.TopYurists.*',
 ];

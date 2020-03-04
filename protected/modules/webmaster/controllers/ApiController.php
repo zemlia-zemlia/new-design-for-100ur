@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Страницы раздела API вебмастера
+ * Страницы раздела API вебмастера.
  */
 class ApiController extends Controller
 {
-    public $layout='//lk/main';
-    
+    public $layout = '//lk/main';
+
     /**
-     * Описание работы API
+     * Описание работы API.
      */
     public function actionIndex()
     {

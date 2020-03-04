@@ -2,19 +2,19 @@
 /* @var $this AnswerController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
+$this->breadcrumbs = [
     'Answers',
-);
+];
 
-$this->menu=array(
-    array('label'=>'Create Answer', 'url'=>array('create')),
-    array('label'=>'Manage Answer', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'Create Answer', 'url' => ['create']],
+    ['label' => 'Manage Answer', 'url' => ['admin']],
+];
 ?>
 
 <h1>Answers</h1>
 
-<?php $this->widget('zii.widgets.CListView', array(
-    'dataProvider'=>$dataProvider,
-    'itemView'=>'_view',
-)); ?>
+<?php $this->widget('zii.widgets.CListView', [
+    'dataProvider' => $dataProvider,
+    'itemView' => '_view',
+]); ?>

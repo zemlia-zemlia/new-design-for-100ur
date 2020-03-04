@@ -64,34 +64,38 @@ class arrayDumper
      * Displays a variable.
      * This method achieves the similar functionality as var_dump and print_r
      * but is more robust when handling complex objects such as Yii controllers.
+     *
      * @param mixed variable to be dumped
-     * @param integer maximum depth that the dumper should go into the variable. Defaults to 10.
-     * @param boolean whether the result should be syntax-highlighted
+     * @param int maximum depth that the dumper should go into the variable. Defaults to 10.
+     * @param bool whether the result should be syntax-highlighted
      */
-    public static function dump($var, $depth=10, $highlight=false, $yamlStyle = false)
+    public static function dump($var, $depth = 10, $highlight = false, $yamlStyle = false)
     {
-        return $yamlStyle == false ? CVarDumper::dumpAsString($var, $depth, $highlight) : self::dumpAsString($var, $depth, $highlight);
+        return false == $yamlStyle ? CVarDumper::dumpAsString($var, $depth, $highlight) : self::dumpAsString($var, $depth, $highlight);
     }
 
     /**
      * Dumps a variable in terms of a string.
      * This method achieves the similar functionality as var_dump and print_r
      * but is more robust when handling complex objects such as Yii controllers.
+     *
      * @param mixed variable to be dumped
-     * @param integer maximum depth that the dumper should go into the variable. Defaults to 10.
-     * @param boolean whether the result should be syntax-highlighted
+     * @param int maximum depth that the dumper should go into the variable. Defaults to 10.
+     * @param bool whether the result should be syntax-highlighted
+     *
      * @return string the string representation of the variable
      */
-    public static function dumpAsString($var, $depth=10, $highlight=false)
+    public static function dumpAsString($var, $depth = 10, $highlight = false)
     {
-        self::$_output='';
-        self::$_objects=array();
-        self::$_depth=$depth;
+        self::$_output = '';
+        self::$_objects = [];
+        self::$_depth = $depth;
         self::dumpInternal($var, 0);
         if ($highlight) {
-            $result=highlight_string("<?php\n".self::$_output, true);
-            self::$_output=preg_replace('/&lt;\\?php<br \\/>/', '', $result, 1);
+            $result = highlight_string("<?php\n" . self::$_output, true);
+            self::$_output = preg_replace('/&lt;\\?php<br \\/>/', '', $result, 1);
         }
+
         return self::$_output;
     }
 
@@ -99,86 +103,85 @@ class arrayDumper
     {
         switch (gettype($var)) {
             case 'boolean':
-                self::$_output.=$var?'true':'false';
+                self::$_output .= $var ? 'true' : 'false';
                 break;
             case 'integer':
-                self::$_output.="$var";
+                self::$_output .= "$var";
                 break;
             case 'double':
-                self::$_output.="$var";
+                self::$_output .= "$var";
                 break;
             case 'string':
-                self::$_output.="'$var'";
+                self::$_output .= "'$var'";
                 break;
             case 'resource':
-                self::$_output.='{resource}';
+                self::$_output .= '{resource}';
                 break;
             case 'NULL':
-                self::$_output.="null";
+                self::$_output .= 'null';
                 break;
             case 'unknown type':
-                self::$_output.='{unknown}';
+                self::$_output .= '{unknown}';
                 break;
             case 'array':
-                if (self::$_depth<=$level) {
-                    self::$_output.='array(...)';
+                if (self::$_depth <= $level) {
+                    self::$_output .= 'array(...)';
                 } elseif (empty($var)) {
-                    self::$_output.='{ }';
+                    self::$_output .= '{ }';
                 } else {
-                    $keys=array_keys($var);
-                    $spaces=str_repeat(' ', $level*2);
-                    self::$_output.=$spaces.'';
+                    $keys = array_keys($var);
+                    $spaces = str_repeat(' ', $level * 2);
+                    self::$_output .= $spaces . '';
                     foreach ($keys as $key) {
-                        self::$_output.=($level == 0 ? '' : "\n").$spaces."  $key: ";
-                        self::$_output.=self::dumpInternal($var[$key], $level+1);
-                        self::$_output.=($level == 0 ? "\n" : '');
+                        self::$_output .= (0 == $level ? '' : "\n") . $spaces . "  $key: ";
+                        self::$_output .= self::dumpInternal($var[$key], $level + 1);
+                        self::$_output .= (0 == $level ? "\n" : '');
                     }
-                    self::$_output.="";
+                    self::$_output .= '';
                 }
                 break;
             case 'object':
-                if (($id=array_search($var, self::$_objects, true))!==false) {
-                    self::$_output.=get_class($var).'#'.($id+1).'(...)';
-                } elseif (self::$_depth<=$level) {
-                    self::$_output.=get_class($var).'(...)';
+                if (false !== ($id = array_search($var, self::$_objects, true))) {
+                    self::$_output .= get_class($var) . '#' . ($id + 1) . '(...)';
+                } elseif (self::$_depth <= $level) {
+                    self::$_output .= get_class($var) . '(...)';
                 } else {
-                    $id=array_push(self::$_objects, $var);
-                    $className=get_class($var);
-                    $members=(array)$var;
-                    $keys=array_keys($members);
-                    $spaces=str_repeat(' ', $level*2);
-                    self::$_output.="$className ID:#$id";//\n".$spaces.'(';
+                    $id = array_push(self::$_objects, $var);
+                    $className = get_class($var);
+                    $members = (array) $var;
+                    $keys = array_keys($members);
+                    $spaces = str_repeat(' ', $level * 2);
+                    self::$_output .= "$className ID:#$id"; //\n".$spaces.'(';
                     foreach ($keys as $key) {
-                        $keyDisplay=strtr(trim($key), array("\0"=>'->'));
-                        self::$_output.="\n".$spaces."  $keyDisplay: ";
-                        self::$_output.=self::dumpInternal($members[$key], $level+1);
+                        $keyDisplay = strtr(trim($key), ["\0" => '->']);
+                        self::$_output .= "\n" . $spaces . "  $keyDisplay: ";
+                        self::$_output .= self::dumpInternal($members[$key], $level + 1);
                     }
-                    self::$_output.="\n".$spaces.')';
+                    self::$_output .= "\n" . $spaces . ')';
                 }
                 break;
                 default:
-                     self::$_output.="\n".$spaces.'~'.$var;
+                     self::$_output .= "\n" . $spaces . '~' . $var;
         }
     }
 }
 
 /**
- * Render debug panel to document using view and configuration parameters
+ * Render debug panel to document using view and configuration parameters.
  */
 class yiiDebugPanel
 {
-    public function render($items = array(), $config = array())
+    public function render($items = [], $config = [])
     {
         $msg = "Run rendering...\n";
         $alignLeft = isset($config['alignLeft']) ? true : false;
         $opaque = isset($config['opaque']) ? true : false;
-        ;
+
         $fixedPos = isset($config['fixedPos']) ? true : false;
         $collapsed = isset($config['collapsed']) ? true : false;
-        ;
 
-        $viewFile=dirname(__FILE__).DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.'debugPanel.php';
-        include(Yii::app()->findLocalizedFile($viewFile, 'en'));
+        $viewFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'debugPanel.php';
+        include Yii::app()->findLocalizedFile($viewFile, 'en');
     }
 }
 
@@ -188,11 +191,11 @@ class yiiDebugPanel
  */
 class yiiDebugClass
 {
-    protected static $_config = array();
+    protected static $_config = [];
 
     public static function timestampToTime($timestamp)
     {
-        return date('H:i:s.', $timestamp).(int)(($timestamp-(int)$timestamp)*1000000);
+        return date('H:i:s.', $timestamp) . (int) (($timestamp - (int) $timestamp) * 1000000);
     }
 
     public static function render($items)
@@ -202,17 +205,17 @@ class yiiDebugClass
         foreach ($items as $item) {
             list($message, $level, $category, $timestamp) = $item;
             $message = CHtml::encode($message);
-            $time=yiiDebugTrace::timestampToTime($timestamp);
+            $time = yiiDebugTrace::timestampToTime($timestamp);
             $odd = !$odd;
 
-            $result .= '<tr'.($odd ? ' class="odd"' : '').'><td>'.$time.'</td><td>'.$level.'</td><td>'.$category.'</td><td>'.$message.'</td></tr>';
+            $result .= '<tr' . ($odd ? ' class="odd"' : '') . '><td>' . $time . '</td><td>' . $level . '</td><td>' . $category . '</td><td>' . $message . '</td></tr>';
         }
 
-        if ($result !== '') {
-            $result = '<tbody>'.$result.'</tbody>';
+        if ('' !== $result) {
+            $result = '<tbody>' . $result . '</tbody>';
         }
 
-        $result = '<table><thead><tr><th>Time</th><th>Level</th><th>Category</th><th width="100%">Message</th></tr></thead>'.$result.'</table>';
+        $result = '<table><thead><tr><th>Time</th><th>Level</th><th>Category</th><th width="100%">Message</th></tr></thead>' . $result . '</table>';
 
         return $result;
     }
@@ -230,15 +233,15 @@ class yiiDebugDB extends yiiDebugClass
     public static function getInfo($data, $config = null)
     {
         parent::getInfo($data);
-        $result = array();
+        $result = [];
         $result['panelTitle'] = 'Database Queries';
         $count = 0;
-        $items = array();
+        $items = [];
         foreach ($data as $row) {
-            if (substr($row[2], 0, 9) == 'system.db') {
+            if ('system.db' == substr($row[2], 0, 9)) {
                 $items[] = $row;
-                if ($row[2] == 'system.db.CDbCommand') {
-                    $count++;
+                if ('system.db.CDbCommand' == $row[2]) {
+                    ++$count;
                 }
             }
         }
@@ -247,7 +250,7 @@ class yiiDebugDB extends yiiDebugClass
             $result['content'] = yiiDebugTrace::render($items);
         }
 
-        $result['title'] = 'DB Query: '.$count;
+        $result['title'] = 'DB Query: ' . $count;
 
         return $result;
     }
@@ -258,12 +261,12 @@ class yiiDebugTrace extends yiiDebugClass
     public static function getInfo($data, $config = null)
     {
         parent::getInfo($data);
-        $result = array();
+        $result = [];
         $result['title'] = 'App Log';
         $result['panelTitle'] = 'Application Log';
-        $items = array();
+        $items = [];
         foreach ($data as $row) {
-            if (substr($row[2], 0, 9) != 'system.db') {
+            if ('system.db' != substr($row[2], 0, 9)) {
                 $items[] = $row;
             }
         }
@@ -281,8 +284,8 @@ class yiiDebugTime extends yiiDebugClass
     public static function getInfo($data, $config = null)
     {
         parent::getInfo($data);
-        $result = array();
-        $result['title'] = 'Time: '.(round(Yii::getLogger()->getExecutionTime(), 3));
+        $result = [];
+        $result['title'] = 'Time: ' . (round(Yii::getLogger()->getExecutionTime(), 3));
 
         return $result;
     }
@@ -293,9 +296,9 @@ class yiiDebugMem extends yiiDebugClass
     public static function getInfo($data, $config = null)
     {
         parent::getInfo($data);
-        $result = array();
+        $result = [];
         //round it for two digits after point
-        $result['title'] = 'Memory: '.(round(Yii::getLogger()->getMemoryUsage() / 1024, 2)).'Kb';
+        $result['title'] = 'Memory: ' . (round(Yii::getLogger()->getMemoryUsage() / 1024, 2)) . 'Kb';
 
         return $result;
     }
@@ -309,18 +312,18 @@ class yiiDebugConfig extends yiiDebugClass
     {
         $result = '';
 
-        $config = array(
-            'debug'			=> (DEFINED('YII_DEBUG') && YII_DEBUG != false) ? 'on' : 'off',
-            'xdebug'		=> extension_loaded('xdebug') ? 'on' : 'off',
-            'tokenizer'		=> function_exists('token_get_all') ? 'on' : 'off',
-            'eaccelerator'	=> extension_loaded('eaccelerator') && ini_get('eaccelerator.enable') ? 'on' : 'off',
-            'apc'			=> extension_loaded('apc') && ini_get('apc.enabled') ? 'on' : 'off',
-            'xcache'		=> extension_loaded('xcache') && ini_get('xcache.cacher') ? 'on' : 'off',
-        );
+        $config = [
+            'debug' => (defined('YII_DEBUG') && YII_DEBUG != false) ? 'on' : 'off',
+            'xdebug' => extension_loaded('xdebug') ? 'on' : 'off',
+            'tokenizer' => function_exists('token_get_all') ? 'on' : 'off',
+            'eaccelerator' => extension_loaded('eaccelerator') && ini_get('eaccelerator.enable') ? 'on' : 'off',
+            'apc' => extension_loaded('apc') && ini_get('apc.enabled') ? 'on' : 'off',
+            'xcache' => extension_loaded('xcache') && ini_get('xcache.cacher') ? 'on' : 'off',
+        ];
 
         $result = '<ul class="yiiDebugInfoInline">';
         foreach ($config as $key => $value) {
-            $result .= '<li class="is'.$value.'">'.$key.'</li>';
+            $result .= '<li class="is' . $value . '">' . $key . '</li>';
         }
         $result .= '</ul>';
 
@@ -330,12 +333,12 @@ class yiiDebugConfig extends yiiDebugClass
     public static function sessionAsArray()
     {
         if (isset($_SESSION)) {
-            $phpSession = array();
+            $phpSession = [];
             $sessKeyLen = null;
-            foreach ($_SESSION as $key=>$value) {
+            foreach ($_SESSION as $key => $value) {
                 if (is_null($sessKeyLen)) {
-                    $values['PHP']['Key'] = substr($key, 1, strpos($key, '_')-1);
-                    $sessKeyLen = strlen($values['PHP']['Key'])+2;
+                    $values['PHP']['Key'] = substr($key, 1, strpos($key, '_') - 1);
+                    $sessKeyLen = strlen($values['PHP']['Key']) + 2;
                 }
                 $phpSession[substr($key, $sessKeyLen)] = $value;
             }
@@ -345,19 +348,20 @@ class yiiDebugConfig extends yiiDebugClass
             $values['Cookie'] = $_COOKIE;
         }
         $values['Yii'] = Yii::app()->session;
+
         return $values;
     }
 
     public static function globalsAsArray()
     {
-        $values = array();
-        foreach (array('server', 'files', 'env') as $name) {
-            if (!isset($GLOBALS['_'.strtoupper($name)])) {
+        $values = [];
+        foreach (['server', 'files', 'env'] as $name) {
+            if (!isset($GLOBALS['_' . strtoupper($name)])) {
                 continue;
             }
 
-            $values[$name] = array();
-            foreach ($GLOBALS['_'.strtoupper($name)] as $key => $value) {
+            $values[$name] = [];
+            foreach ($GLOBALS['_' . strtoupper($name)] as $key => $value) {
                 $values[$name][$key] = $value;
             }
             ksort($values[$name]);
@@ -370,11 +374,11 @@ class yiiDebugConfig extends yiiDebugClass
 
     public static function phpInfoAsArray()
     {
-        $values = array(
-            'php'			=> phpversion(),
-            'os'			=> php_uname(),
-            'extensions'	=> get_loaded_extensions(),
-        );
+        $values = [
+            'php' => phpversion(),
+            'os' => php_uname(),
+            'extensions' => get_loaded_extensions(),
+        ];
 
         // assign extension version
         if ($values['extensions']) {
@@ -388,7 +392,7 @@ class yiiDebugConfig extends yiiDebugClass
 
     public static function requestAsArray()
     {
-        $values = array();
+        $values = [];
         if (isset($_GET)) {
             $values['Get'] = $_GET;
         }
@@ -396,12 +400,14 @@ class yiiDebugConfig extends yiiDebugClass
             $values['Post'] = $_POST;
         }
         $values['Yii'] = Yii::app()->request;
+
         return $values;
     }
 
     public static function yiiAppAsArray()
     {
         $result = Yii::app();
+
         return Yii::app();
     }
 
@@ -411,16 +417,16 @@ class yiiDebugConfig extends yiiDebugClass
 
         return '
 		<div style="text-align: left" class="yiiDebugInfoList">
-		<h2> <a href="#" onclick="yiiWebDebugToggleVisible(\'yiiWDCFG'.$id.'\'); return false;">+</a>'.$id.'</h2>'.
+		<h2> <a href="#" onclick="yiiWebDebugToggleVisible(\'yiiWDCFG' . $id . '\'); return false;">+</a>' . $id . '</h2>' .
         //'<div id="yiiWDCFG'.$id.'" style="display: none;"><pre>' .($formatted ? $values : arrayDumper::dump(arrayDumper::removeObjects($values),$highlight)) . '</pre></div></div>';
-        '<div id="yiiWDCFG'.$id.'" style="display: none;"><pre>' .arrayDumper::dump($values, 10, $highlight, isset(self::$_config['yamlStyle'])) . '</pre></div></div>';
+        '<div id="yiiWDCFG' . $id . '" style="display: none;"><pre>' . arrayDumper::dump($values, 10, $highlight, isset(self::$_config['yamlStyle'])) . '</pre></div></div>';
     }
 
     public static function getInfo($data, $config = null)
     {
         parent::getInfo($data, $config);
-        $result = array();
-        $result['title'] = 'Yii ver: '.(Yii::getVersion());
+        $result = [];
+        $result['title'] = 'Yii ver: ' . (Yii::getVersion());
         $result['headinfo'] = self::getHeadInfo();
         $result['panelTitle'] = 'Configuration';
         $result['content'] = self::formatArrayAsHtml('globals', self::globalsAsArray(), true);
@@ -435,7 +441,7 @@ class yiiDebugConfig extends yiiDebugClass
 }
 
 /**
- * Main class for using inside an Yii application
+ * Main class for using inside an Yii application.
  *
  * It processes the logs of running instance of application
  * and renders self output to the end of server output (after </html> tag of document).
@@ -443,26 +449,26 @@ class yiiDebugConfig extends yiiDebugClass
 class XWebDebugRouter extends CLogRoute
 {
     public $config = '';
-    public $allowedIPs = array('127.0.0.1');
+    public $allowedIPs = ['127.0.0.1'];
 
     public function collectLogs($logger, $processLogs = false)
     {
-        $logs=$logger->getLogs($this->levels, $this->categories);
+        $logs = $logger->getLogs($this->levels, $this->categories);
         if (empty($logs)) {
-            $logs = array();
+            $logs = [];
         }
         $this->processLogs($logs);
     }
 
     public function processLogs($logs)
     {
-        $app=Yii::app();
-        $config = array();
-        
+        $app = Yii::app();
+        $config = [];
+
         if (!in_array($app->request->getUserHostAddress(), $this->allowedIPs)) {
             return;
         }
-            
+
         foreach (explode(',', $this->config) as $value) {
             $value = trim($value);
             $config[$value] = true;
@@ -474,11 +480,11 @@ class XWebDebugRouter extends CLogRoute
         }
 
         //Checking for an DEBUG mode of running app
-        if (isset($config['runInDebug']) && (!DEFINED('YII_DEBUG') || YII_DEBUG == false)) {
+        if (isset($config['runInDebug']) && (!defined('YII_DEBUG') || YII_DEBUG == false)) {
             return;
         }
 
-        $items = array();
+        $items = [];
 
         $items[] = yiiDebugConfig::getInfo($logs, $config);
         $items[] = yiiDebugMem::getInfo($logs);

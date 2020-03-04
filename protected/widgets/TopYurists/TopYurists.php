@@ -26,13 +26,14 @@ class TopYurists extends CWidget
                 break;
         }
 
-        $this->render($this->template, array(
+        $this->render($this->template, [
             'users' => $users,
-        ));
+        ]);
     }
 
     /**
-     * найдем рандомных юристов
+     * найдем рандомных юристов.
+     *
      * @return array
      */
     protected function getRandom(): array
@@ -50,7 +51,8 @@ class TopYurists extends CWidget
     }
 
     /**
-     * поиск юристов, ранжированный
+     * поиск юристов, ранжированный.
+     *
      * @return array
      */
     protected function getRanked(): array

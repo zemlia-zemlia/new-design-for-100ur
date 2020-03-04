@@ -2,7 +2,6 @@
 
 class WebmasterModule extends CWebModule
 {
-
     public function beforeControllerAction($controller, $action)
     {
         if (parent::beforeControllerAction($controller, $action)) {

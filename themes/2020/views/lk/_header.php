@@ -1,6 +1,6 @@
 <header class="main-header">
     <!-- Logo -->
-    <a href="#" class="logo">
+    <a href="<?php echo Yii::app()->user->getHomeUrl();?>" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>100</b></span>
         <!-- logo for regular state and mobile devices -->
@@ -31,7 +31,7 @@
 
                 <?php if (Yii::app()->user->checkAccess(User::ROLE_BUYER)) : ?>
                     <li>
-                        <a href="/buyer/transactions/">
+                        <a href="<?php echo Yii::app()->createUrl('buyer/buyer/transactions');?>">
                             <i class="fa fa-rub" aria-hidden="true"></i> <?php echo MoneyFormat::rubles(Yii::app()->user->balance); ?> </a>
                     </li>
                 <?php endif; ?>

@@ -2,15 +2,15 @@
 /* @var $this CampaignController */
 /* @var $model Campaign */
 
-$this->breadcrumbs=array(
-    'Campaigns'=>array('index'),
+$this->breadcrumbs = [
+    'Campaigns' => ['index'],
     'Manage',
-);
+];
 
-$this->menu=array(
-    array('label'=>'List Campaign', 'url'=>array('index')),
-    array('label'=>'Create Campaign', 'url'=>array('create')),
-);
+$this->menu = [
+    ['label' => 'List Campaign', 'url' => ['index']],
+    ['label' => 'Create Campaign', 'url' => ['create']],
+];
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -33,18 +33,18 @@ You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&g
 or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
 </p>
 
-<?php echo CHtml::link('Advanced Search', '#', array('class'=>'search-button')); ?>
+<?php echo CHtml::link('Advanced Search', '#', ['class' => 'search-button']); ?>
 <div class="search-form" style="display:none">
-<?php $this->renderPartial('_search', array(
-    'model'=>$model,
-)); ?>
+<?php $this->renderPartial('_search', [
+    'model' => $model,
+]); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-    'id'=>'campaign-grid',
-    'dataProvider'=>$model->search(),
-    'filter'=>$model,
-    'columns'=>array(
+<?php $this->widget('zii.widgets.grid.CGridView', [
+    'id' => 'campaign-grid',
+    'dataProvider' => $model->search(),
+    'filter' => $model,
+    'columns' => [
         'id',
         'regionId',
         'townId',
@@ -58,8 +58,8 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
         'buyerId',
         'active',
         */
-        array(
-            'class'=>'CButtonColumn',
-        ),
-    ),
-)); ?>
+        [
+            'class' => 'CButtonColumn',
+        ],
+    ],
+]); ?>

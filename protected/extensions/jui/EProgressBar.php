@@ -53,10 +53,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'EJqueryUiWidget.php';
 
 /**
- *
  * EProgressBar: some rails for the jQuery UI widget "ProgressBar".
  *
  * @see: http://jqueryui.com/demos/progressbar/
@@ -64,7 +63,6 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'EJqueryUiWidget.php');
  * @author: ironic
  * @package: application.extensions.jui
  * @since: 1.0.2
- *
  */
 class EProgressBar extends EJqueryUiWidget
 {
@@ -78,35 +76,37 @@ class EProgressBar extends EJqueryUiWidget
      *
      * @var array
      */
-    protected $validOptions = array(
-        'value'	=> array('type' => 'integer'),
-    );
+    protected $validOptions = [
+        'value' => ['type' => 'integer'],
+    ];
 
     /**
-     * See @link http://jqueryui.com/demos/progressbar/#events
+     * See @link http://jqueryui.com/demos/progressbar/#events.
      *
      * @var array
      */
-    protected $validCallbacks = array('change');
+    protected $validCallbacks = ['change'];
 
     //***************************************************************************
     // Utilities
     //***************************************************************************
+
     /**
-     * Generates the javascript code for the widget
+     * Generates the javascript code for the widget.
+     *
      * @return string
      */
     protected function jsCode($id)
     {
         if (!empty($this->options)) {
             $options = CJavaScript::encode($this->options);
-            $script = '$("#'.$id.'").progressbar('.$options.');';
+            $script = '$("#' . $id . '").progressbar(' . $options . ');';
         } else {
-            $script = '$("#'.$id.'").progressbar();';
+            $script = '$("#' . $id . '").progressbar();';
         }
 
         if (!empty($this->callbacks['change'])) {
-            $script .= "\n$('#".$id."').bind('progressbarchange', ".$this->callbacks['change'].");";
+            $script .= "\n$('#" . $id . "').bind('progressbarchange', " . $this->callbacks['change'] . ');';
         }
 
         return $script;
@@ -115,7 +115,7 @@ class EProgressBar extends EJqueryUiWidget
     //***************************************************************************
     // Run Lola, Run
     //***************************************************************************
-   
+
     /**
      * Executes the widget.
      * This method is called by {@link CBaseController::endWidget}.
@@ -128,11 +128,11 @@ class EProgressBar extends EJqueryUiWidget
         $this->registerClientScripts();
 
         $this->clientScript->registerScript(
-            'Yii.'.get_class($this).'#'.$id,
+            'Yii.' . get_class($this) . '#' . $id,
             $this->jsCode($id),
             CClientScript::POS_READY
         );
 
-        echo CHtml::tag('div', array('id'=>$id), "");
+        echo CHtml::tag('div', ['id' => $id], '');
     }
 }

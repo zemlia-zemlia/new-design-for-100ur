@@ -2,17 +2,17 @@
 /* @var $this TransactionCampaignController */
 /* @var $model TransactionCampaign */
 
-$this->breadcrumbs=array(
-    'Transaction Campaigns'=>array('index'),
+$this->breadcrumbs = [
+    'Transaction Campaigns' => ['index'],
     'Create',
-);
+];
 
-$this->menu=array(
-    array('label'=>'List TransactionCampaign', 'url'=>array('index')),
-    array('label'=>'Manage TransactionCampaign', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List TransactionCampaign', 'url' => ['index']],
+    ['label' => 'Manage TransactionCampaign', 'url' => ['admin']],
+];
 ?>
 
 <h1>Create TransactionCampaign</h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', ['model' => $model]); ?>

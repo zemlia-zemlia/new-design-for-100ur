@@ -2,20 +2,20 @@
 /* @var $this TransactionCampaignController */
 /* @var $model TransactionCampaign */
 
-$this->breadcrumbs=array(
-    'Transaction Campaigns'=>array('index'),
-    $model->id=>array('view','id'=>$model->id),
+$this->breadcrumbs = [
+    'Transaction Campaigns' => ['index'],
+    $model->id => ['view', 'id' => $model->id],
     'Update',
-);
+];
 
-$this->menu=array(
-    array('label'=>'List TransactionCampaign', 'url'=>array('index')),
-    array('label'=>'Create TransactionCampaign', 'url'=>array('create')),
-    array('label'=>'View TransactionCampaign', 'url'=>array('view', 'id'=>$model->id)),
-    array('label'=>'Manage TransactionCampaign', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List TransactionCampaign', 'url' => ['index']],
+    ['label' => 'Create TransactionCampaign', 'url' => ['create']],
+    ['label' => 'View TransactionCampaign', 'url' => ['view', 'id' => $model->id]],
+    ['label' => 'Manage TransactionCampaign', 'url' => ['admin']],
+];
 ?>
 
 <h1>Update TransactionCampaign <?php echo $model->id; ?></h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', ['model' => $model]); ?>

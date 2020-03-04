@@ -1,6 +1,7 @@
 <?php
+
 // example of how to use advanced selector features
-include('../simple_html_dom.php');
+include '../simple_html_dom.php';
 
 // -----------------------------------------------------------------------------
 // descendant selector

@@ -4,11 +4,10 @@ use Phinx\Migration\AbstractMigration;
 
 /**
  * Добавляет поле leadId в таблицу 100_transactionCampaign
- * Class AddLeadIdToTransactionCampaign
+ * Class AddLeadIdToTransactionCampaign.
  */
 class AddLeadIdToTransactionCampaign extends AbstractMigration
 {
-
     const TRANSACTION_TABLE_NAME = '100_transactionCampaign';
     const LEADID_FIELD = 'leadId';
 
