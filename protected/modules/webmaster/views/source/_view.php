@@ -17,6 +17,9 @@
 	<?php echo CHtml::encode($data->description); ?>
     </td>
     <td>
+        <?php echo Yii::app()->urlManager->baseUrl . '/?partnerAppId=' . $data->appId; ?>
+    </td>
+    <td>
 	<?php echo CHtml::link('Изменить', Yii::app()->createUrl('webmaster/source/update', ['id' => $data->id])); ?> &nbsp;&nbsp;
     </td>
 
