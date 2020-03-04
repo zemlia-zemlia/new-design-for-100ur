@@ -31,6 +31,7 @@ $this->widget('zii.widgets.CBreadcrumbs', [
                         <th>ID</th>
                         <th>Название</th>
                         <th>Описание</th>
+                        <th>Реферальная ссылка</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -57,6 +58,7 @@ $this->widget('zii.widgets.CBreadcrumbs', [
                         <th>ID</th>
                         <th>Название</th>
                         <th>Описание</th>
+                        <th>Реферальная ссылка</th>
                         <th></th>
                     </tr>
                     </thead>
