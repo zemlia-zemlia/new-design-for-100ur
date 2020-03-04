@@ -1,7 +1,8 @@
 <?php
+
 // example of how to use basic selector to retrieve HTML contents
-include('../simple_html_dom.php');
- 
+include '../simple_html_dom.php';
+
 // get DOM from URL or file
 $html = file_get_html('http://www.google.com/');
 
@@ -34,9 +35,9 @@ foreach ($html->find('span.gb1') as $e) {
 foreach ($html->find('td[align=center]') as $e) {
     echo $e->innertext . '<br>';
 }
-    
+
 // extract text from table
-echo $html->find('td[align="center"]', 1)->plaintext.'<br><hr>';
+echo $html->find('td[align="center"]', 1)->plaintext . '<br><hr>';
 
 // extract text from HTML
 echo $html->plaintext;

@@ -2,17 +2,17 @@
 /* @var $this CommentController */
 /* @var $model Comment */
 
-$this->breadcrumbs=array(
-    'Comments'=>array('index'),
+$this->breadcrumbs = [
+    'Comments' => ['index'],
     'Create',
-);
+];
 
-$this->menu=array(
-    array('label'=>'List Comment', 'url'=>array('index')),
-    array('label'=>'Manage Comment', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List Comment', 'url' => ['index']],
+    ['label' => 'Manage Comment', 'url' => ['admin']],
+];
 ?>
 
 <h1>Create Comment</h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', ['model' => $model]); ?>

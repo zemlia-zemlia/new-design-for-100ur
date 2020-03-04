@@ -1,25 +1,25 @@
 <?php
-$services = array(
+$services = [
     'Защита в суде' => 'Защита в суде',
     'Представление интересов' => 'Представление интересов',
     'Сопровождение сделки' => 'Сопровождение сделки',
     'Юридическая экспертиза документов' => 'Юридическая экспертиза документов',
-);
+];
 ?>
 
 <?php
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'services-form',
     'enableAjaxValidation' => false,
     'action' => Yii::app()->createUrl('question/services'),
-        ));
+        ]);
 ?>
 
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
             <?php echo $form->labelEx($model, 'name'); ?>
-            <?php echo $form->textField($model, 'name', array('class' => 'form-control', 'placeholder' => 'Иванов Иван')); ?>
+            <?php echo $form->textField($model, 'name', ['class' => 'form-control', 'placeholder' => 'Иванов Иван']); ?>
             <?php echo $form->error($model, 'name'); ?>
         </div>
     </div>
@@ -30,12 +30,12 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="form-group">
             <?php echo $form->labelEx($model, 'phone'); ?>
             <?php
-            echo $form->textField($model, 'phone', array(
+            echo $form->textField($model, 'phone', [
                 'class' => 'form-control phone-mask',
-                'data-toggle' => "tooltip",
-                'data-placement' => "bottom",
-                'title' => "Номер телефона необходим, чтобы юрист смог с Вами связаться. Нигде не публикуется.",
-            ));
+                'data-toggle' => 'tooltip',
+                'data-placement' => 'bottom',
+                'title' => 'Номер телефона необходим, чтобы юрист смог с Вами связаться. Нигде не публикуется.',
+            ]);
             ?>
 <?php echo $form->error($model, 'phone'); ?>
         </div>
@@ -55,7 +55,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="col-md-6">
         <div class="form-group">
             <label>Вид услуги:</label>
-<?php echo $form->dropDownList($model, 'question', $services, array('class' => 'form-control')); ?>
+<?php echo $form->dropDownList($model, 'question', $services, ['class' => 'form-control']); ?>
 <?php echo $form->error($model, 'question'); ?>
         </div>
     </div>
@@ -66,17 +66,17 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="form-group">  
             <?php echo $form->labelEx($model, 'town'); ?>
             <?php
-            echo CHtml::textField('town', $currenTownName, array(
+            echo CHtml::textField('town', $currenTownName, [
                 'id' => 'town-selector',
                 'class' => 'form-control',
-                'data-toggle' => "tooltip",
-                'data-placement' => "bottom",
-                'title' => "Необходим для уточнения регионального законодательства",
-            ));
+                'data-toggle' => 'tooltip',
+                'data-placement' => 'bottom',
+                'title' => 'Необходим для уточнения регионального законодательства',
+            ]);
             ?>
 
 <?php
-echo $form->hiddenField($model, 'townId', array('id' => 'selected-town'));
+echo $form->hiddenField($model, 'townId', ['id' => 'selected-town']);
 ?>
 <?php echo $form->error($model, 'townId'); ?>
         </div>
@@ -87,14 +87,14 @@ echo $form->hiddenField($model, 'townId', array('id' => 'selected-town'));
     <small class="text-muted">
         <label>
             <?php echo $form->checkBox($model, 'agree'); ?>
-            Отправляя вопрос, вы соглашаетесь с условиями <?php echo CHtml::link('пользовательского соглашения', Yii::app()->createUrl('site/offer'), array('target' => '_blank')); ?>
+            Отправляя вопрос, вы соглашаетесь с условиями <?php echo CHtml::link('пользовательского соглашения', Yii::app()->createUrl('site/offer'), ['target' => '_blank']); ?>
         </label>
         <?php echo $form->error($model, 'agree'); ?>
     </small>
 </div>
 
 <div class="form-group" id="form-submit-wrapper">
-<?php echo CHtml::submitButton('Отправить', array('class' => 'yellow-button center-block')); ?>
+<?php echo CHtml::submitButton('Отправить', ['class' => 'yellow-button center-block']); ?>
 </div>
 
 <?php $this->endWidget(); ?>

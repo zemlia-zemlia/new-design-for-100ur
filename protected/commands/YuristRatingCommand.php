@@ -7,7 +7,6 @@ class YuristRatingCommand extends CConsoleCommand
 {
     public function actionIndex()
     {
-        
         /*
          * Вычисляем отношение кармы к числу ответов юриста
          *
@@ -19,7 +18,7 @@ class YuristRatingCommand extends CConsoleCommand
             HAVING answers>30
             ORDER BY ratio DESC
          */
-        
+
         $ratingRows = Yii::app()->db->createCommand()
                 ->select('u.id, u.karma, COUNT(u.id) answers, (u.karma/COUNT(u.id)) ratio')
                 ->from('{{user}} u')
@@ -29,16 +28,16 @@ class YuristRatingCommand extends CConsoleCommand
                 ->having('answers>30')
                 ->order('ratio DESC')
                 ->queryAll();
-        
+
         // обновляем записи юристов
         foreach ($ratingRows as $row) {
             Yii::app()->db->createCommand()
-                    ->update('{{user}}', ['rating' => $row['ratio']], 'id=:id', [':id'=>$row['id']]);
+                    ->update('{{user}}', ['rating' => $row['ratio']], 'id=:id', [':id' => $row['id']]);
         }
     }
 
     /**
-     * Пересчет званий юристов
+     * Пересчет званий юристов.
      */
     public function actionRang()
     {

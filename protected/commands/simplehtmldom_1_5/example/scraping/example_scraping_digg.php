@@ -1,5 +1,6 @@
 <?php
-include_once('../../simple_html_dom.php');
+
+include_once '../../simple_html_dom.php';
 
 function scraping_digg()
 {
@@ -17,14 +18,13 @@ function scraping_digg()
 
         $ret[] = $item;
     }
-    
+
     // clean up memory
     $html->clear();
     unset($html);
 
     return $ret;
 }
-
 
 // -----------------------------------------------------------------------------
 // test it!
@@ -35,9 +35,9 @@ ini_set('user_agent', 'My-Application/2.5');
 $ret = scraping_digg();
 
 foreach ($ret as $v) {
-    echo $v['title'].'<br>';
+    echo $v['title'] . '<br>';
     echo '<ul>';
-    echo '<li>'.$v['details'].'</li>';
-    echo '<li>Diggs: '.$v['diggs'].'</li>';
+    echo '<li>' . $v['details'] . '</li>';
+    echo '<li>Diggs: ' . $v['diggs'] . '</li>';
     echo '</ul>';
 }

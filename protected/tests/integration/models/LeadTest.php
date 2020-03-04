@@ -19,14 +19,11 @@ use YurcrmClient\YurcrmClient;
 use YurcrmClient\YurcrmResponse;
 
 /**
- * Class LeadTest
- * @package Tests\Integration\Models
+ * Class LeadTest.
  *
  * @todo Покрыть тестами следующий функционал:
  * - Перевод лида в статус Брак из другого статуса с удалением транзакции вебмастера
  */
-
-
 class LeadTest extends BaseIntegrationTest
 {
     const LEAD_TABLE = '100_lead';
@@ -51,7 +48,7 @@ class LeadTest extends BaseIntegrationTest
     }
 
     /**
-     * Проверка, что в изначально загруженном дампе есть города и регионы
+     * Проверка, что в изначально загруженном дампе есть города и регионы.
      */
     public function testTownAndRegionLoaded()
     {
@@ -59,7 +56,8 @@ class LeadTest extends BaseIntegrationTest
     }
 
     /**
-     * Попытка продать лид в нулевую кампанию и нулевому покупателю
+     * Попытка продать лид в нулевую кампанию и нулевому покупателю.
+     *
      * @throws Exception
      */
     public function testSellLeadToIncorrectCampaignAndBuyer()
@@ -74,8 +72,10 @@ class LeadTest extends BaseIntegrationTest
     }
 
     /**
-     * Продажа лида в партнерскую программу
+     * Продажа лида в партнерскую программу.
+     *
      * @dataProvider providerPartner
+     *
      * @throws Exception
      */
     public function testSellLeadToPartnerProgram($partnerResult, $expectedResult)
@@ -104,7 +104,7 @@ class LeadTest extends BaseIntegrationTest
 
         $this->assertEquals($expectedResult, $sellResult);
 
-        if ($expectedResult == true) {
+        if (true == $expectedResult) {
             $this->tester->seeInDatabase(self::LEAD_TABLE, [
                 'id' => $lead->id,
                 'price' => 0,
@@ -163,10 +163,12 @@ class LeadTest extends BaseIntegrationTest
 
     /**
      * @dataProvider providerSellLead
+     *
      * @param array $leadAttributes
-     * @param integer $buyerId
-     * @param integer $campaignId
-     * @param bool $expectedResult
+     * @param int   $buyerId
+     * @param int   $campaignId
+     * @param bool  $expectedResult
+     *
      * @throws Exception
      */
     public function testSellLead(
@@ -174,8 +176,7 @@ class LeadTest extends BaseIntegrationTest
         $buyerId,
         $campaignId,
         $expectedResult
-    )
-    {
+    ) {
         $this->loadFixtures();
 
         $buyer = User::model()->findByPk($buyerId);
@@ -187,7 +188,7 @@ class LeadTest extends BaseIntegrationTest
 
         $this->assertEquals($expectedResult, $sellResult);
 
-        if ($expectedResult == true) {
+        if (true == $expectedResult) {
             $this->tester->seeInDatabase(self::PARTNER_TRANSACTIONS_TABLE, [
                 'leadId' => $lead->id,
             ]);
@@ -200,7 +201,8 @@ class LeadTest extends BaseIntegrationTest
     }
 
     /**
-     * Аттрибуты лида
+     * Аттрибуты лида.
+     *
      * @return array
      */
     public function providerSellLead(): array
@@ -261,6 +263,7 @@ class LeadTest extends BaseIntegrationTest
 
     /**
      * @dataProvider providerCalculatePrices
+     *
      * @param $leadAttributes
      * @param $expectedBuyPrice
      * @param $expectedSellPrice
@@ -339,8 +342,8 @@ class LeadTest extends BaseIntegrationTest
                 'name' => 'Партнерка',
                 'active' => 1,
                 'userId' => 10000,
-                'priceByPartner' => 1
-            ])
+                'priceByPartner' => 1,
+            ]),
         ];
 
         $campaignsFixture = [
@@ -452,22 +455,22 @@ class LeadTest extends BaseIntegrationTest
             [
                 'phone' => '1234567',
                 'townId' => 100,
-                'question_date' => (new \DateTime())->modify('-1 hour')->format('Y-m-d H:i:s')
+                'question_date' => (new \DateTime())->modify('-1 hour')->format('Y-m-d H:i:s'),
             ],
             [
                 'phone' => '1234567',
                 'townId' => 100,
-                'question_date' => (new \DateTime())->modify('-12 hour')->format('Y-m-d H:i:s')
+                'question_date' => (new \DateTime())->modify('-12 hour')->format('Y-m-d H:i:s'),
             ],
             [
                 'phone' => '1234567',
                 'townId' => 101,
-                'question_date' => (new \DateTime())->modify('-1 hour')->format('Y-m-d H:i:s')
+                'question_date' => (new \DateTime())->modify('-1 hour')->format('Y-m-d H:i:s'),
             ],
             [
                 'phone' => '1234567',
                 'townId' => 100,
-                'question_date' => (new \DateTime())->modify('-1 month')->format('Y-m-d H:i:s')
+                'question_date' => (new \DateTime())->modify('-1 month')->format('Y-m-d H:i:s'),
             ],
         ];
 

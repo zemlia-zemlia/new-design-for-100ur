@@ -2,7 +2,7 @@
 
 /**
  * Memcache storage
- * Class Session
+ * Class Session.
  */
 
 namespace Sendpulse\RestApi\Storage;
@@ -17,7 +17,7 @@ class MemcacheStorage implements TokenStorageInterface
     protected $instance;
 
     /**
-     * 30 days
+     * 30 days.
      *
      * @var int
      */
@@ -71,8 +71,6 @@ class MemcacheStorage implements TokenStorageInterface
     /**
      * @param $key string
      * @param $token
-     *
-     * @return void
      */
     public function set($key, $token)
     {

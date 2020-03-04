@@ -25,31 +25,27 @@
 /**
  * Redudantly and rotationally uses several Transports when sending.
  *
- * @package Swift
- * @subpackage Transport
  * @author Chris Corbyn
  */
 class Swift_Transport_LoadBalancedTransport implements Swift_Transport
 {
-  
-  /** Transports which are deemed useless */
-    private $_deadTransports = array();
-  
+    /** Transports which are deemed useless */
+    private $_deadTransports = [];
+
     /**
      * The Transports which are used in rotation.
      *
      * @var array Swift_Transport
-     * @access protected
      */
-    protected $_transports = array();
-  
+    protected $_transports = [];
+
     /**
      * Creates a new LoadBalancedTransport.
      */
     public function __construct()
     {
     }
-  
+
     /**
      * Set $transports to delegate to.
      *
@@ -58,9 +54,9 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
     public function setTransports(array $transports)
     {
         $this->_transports = $transports;
-        $this->_deadTransports = array();
+        $this->_deadTransports = [];
     }
-  
+
     /**
      * Get $transports to delegate to.
      *
@@ -70,17 +66,17 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
     {
         return array_merge($this->_transports, $this->_deadTransports);
     }
-  
+
     /**
      * Test if this Transport mechanism has started.
      *
-     * @return boolean
+     * @return bool
      */
     public function isStarted()
     {
         return count($this->_transports) > 0;
     }
-  
+
     /**
      * Start this Transport mechanism.
      */
@@ -88,7 +84,7 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
     {
         $this->_transports = array_merge($this->_transports, $this->_deadTransports);
     }
-  
+
     /**
      * Stop this Transport mechanism.
      */
@@ -98,7 +94,7 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
             $transport->stop();
         }
     }
-  
+
     /**
      * Send the given Message.
      *
@@ -106,14 +102,15 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
      * The return value is the number of recipients who were accepted for delivery.
      *
      * @param Swift_Mime_Message $message
-     * @param string[] &$failedRecipients to collect failures by-reference
+     * @param string[]           &$failedRecipients to collect failures by-reference
+     *
      * @return int
      */
     public function send(Swift_Mime_Message $message, &$failedRecipients = null)
     {
         $maxTransports = count($this->_transports);
         $sent = 0;
-    
+
         for ($i = 0; $i < $maxTransports
       && $transport = $this->_getNextTransport(); ++$i) {
             try {
@@ -127,16 +124,16 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
                 $this->_killCurrentTransport();
             }
         }
-    
-        if (count($this->_transports) == 0) {
+
+        if (0 == count($this->_transports)) {
             throw new Swift_TransportException(
-          'All Transports in LoadBalancedTransport failed, or no Transports available'
-      );
+                'All Transports in LoadBalancedTransport failed, or no Transports available'
+            );
         }
-    
+
         return $sent;
     }
-  
+
     /**
      * Register a plugin.
      *
@@ -148,27 +145,25 @@ class Swift_Transport_LoadBalancedTransport implements Swift_Transport
             $transport->registerPlugin($plugin);
         }
     }
-  
+
     // -- Protected methods
-  
+
     /**
      * Rotates the transport list around and returns the first instance.
      *
      * @return Swift_Transport
-     * @access protected
      */
     protected function _getNextTransport()
     {
         if ($next = array_shift($this->_transports)) {
             $this->_transports[] = $next;
         }
+
         return $next;
     }
-  
+
     /**
      * Tag the currently used (top of stack) transport as dead/useless.
-     *
-     * @access protected
      */
     protected function _killCurrentTransport()
     {

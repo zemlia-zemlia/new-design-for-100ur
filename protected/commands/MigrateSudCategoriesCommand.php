@@ -1,8 +1,7 @@
 <?php
 /**
- * Перенос категорий раздела судопроизводство, у которых криво сохранилась иерархия из временной таблицы
+ * Перенос категорий раздела судопроизводство, у которых криво сохранилась иерархия из временной таблицы.
  */
-
 class MigrateSudCategoriesCommand extends CConsoleCommand
 {
     public function actionIndex()
@@ -32,7 +31,7 @@ class MigrateSudCategoriesCommand extends CConsoleCommand
             $category->appendTo($parent);
 
             if ($category->saveNode()) {
-                $processedCout++;
+                ++$processedCout;
                 echo $processedCout . ' / ' . $totalCount . PHP_EOL;
             }
         }

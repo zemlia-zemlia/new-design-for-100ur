@@ -1,16 +1,15 @@
 <?php
 
-
 class UserActivity extends CActiveRecord
 {
     /**
-     * Модель для работы с пользователями
-     * @property integer $id
-     * @property integer $userId
-     * @property integer $action
+     * Модель для работы с пользователями.
+     *
+     * @property int      $id
+     * @property int      $userId
+     * @property int      $action
      * @property DateTime $ts
      */
-
     const ACTION_LOGIN = 1;
     const ACTION_AUTOLOGIN = 2;
     const ACTION_CREATE_ACCOUNT = 5;
@@ -26,9 +25,9 @@ class UserActivity extends CActiveRecord
 
     const ACTION_TOPUP_BALANCE = 33;
 
-
     /**
-     * Возвращает массив названий действий и их кодов
+     * Возвращает массив названий действий и их кодов.
+     *
      * @return array
      */
     public function getActions()
@@ -67,7 +66,9 @@ class UserActivity extends CActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     *
+     * @param string $className active record class name
+     *
      * @return UserActivity the static model class
      */
     public static function model($className = __CLASS__)
@@ -92,7 +93,7 @@ class UserActivity extends CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -112,8 +113,10 @@ class UserActivity extends CActiveRecord
     }
 
     /**
-     * Возвращает название действия по коду
+     * Возвращает название действия по коду.
+     *
      * @return string
+     *
      * @throws Exception
      */
     public function getActionName()
@@ -127,10 +130,13 @@ class UserActivity extends CActiveRecord
     }
 
     /**
-     * Логирует активность пользователя
+     * Логирует активность пользователя.
+     *
      * @param User $user
-     * @param integer $actionId Код активности
-     * @return boolean Результат сохранения
+     * @param int  $actionId Код активности
+     *
+     * @return bool Результат сохранения
+     *
      * @throws Exception
      */
     public function logActivity(User $user, $actionId)
@@ -138,14 +144,16 @@ class UserActivity extends CActiveRecord
         $this->userId = $user->id;
         $this->action = $actionId;
         $this->ts = (new DateTime())->format('Y-m-d H:i:s');
-        $this->ip = CustomFuncs::getUserIP();
+        $this->ip = IpHelper::getUserIP();
 
         return $this->save();
     }
 
     /**
-     * Возвращает оттенок зеленого согласно баллу
+     * Возвращает оттенок зеленого согласно баллу.
+     *
      * @param int $rank
+     *
      * @return string "#ff09ff"
      */
     public static function getColorByRank($rank)

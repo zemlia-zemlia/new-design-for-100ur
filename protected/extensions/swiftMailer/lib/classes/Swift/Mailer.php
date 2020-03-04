@@ -26,15 +26,13 @@
 /**
  * Swift Mailer class.
  *
- * @package Swift
  * @author Chris Corbyn
  */
 class Swift_Mailer
 {
-  
-  /** The Transport used to send messages */
+    /** The Transport used to send messages */
     private $_transport;
-  
+
     /**
      * Create a new Mailer using $transport for delivery.
      *
@@ -49,13 +47,14 @@ class Swift_Mailer
      * Create a new Mailer instance.
      *
      * @param Swift_Transport $transport
+     *
      * @return Swift_Mailer
      */
     public static function newInstance(Swift_Transport $transport)
     {
         return new self($transport);
     }
-  
+
     /**
      * Send the given Message like it would be sent in a mail client.
      *
@@ -71,21 +70,23 @@ class Swift_Mailer
      * delivery.
      *
      * @param Swift_Mime_Message $message
-     * @param array &$failedRecipients, optional
+     * @param array              &$failedRecipients, optional
+     *
      * @return int
+     *
      * @see batchSend()
      */
     public function send(Swift_Mime_Message $message, &$failedRecipients = null)
     {
         $failedRecipients = (array) $failedRecipients;
-    
+
         if (!$this->_transport->isStarted()) {
             $this->_transport->start();
         }
-    
+
         return $this->_transport->send($message, $failedRecipients);
     }
-  
+
     /**
      * Send the given Message to all recipients individually.
      *
@@ -102,31 +103,33 @@ class Swift_Mailer
      * The return value is the number of recipients who were accepted for
      * delivery.
      *
-     * @param Swift_Mime_Message $message
-     * @param array &$failedRecipients, optional
-     * @param Swift_Mailer_RecipientIterator $it, optional
+     * @param Swift_Mime_Message             $message
+     * @param array                          &$failedRecipients, optional
+     * @param Swift_Mailer_RecipientIterator $it,                optional
+     *
      * @return int
+     *
      * @see send()
      */
     public function batchSend(
-      Swift_Mime_Message $message,
-      &$failedRecipients = null,
-      Swift_Mailer_RecipientIterator $it = null
-  ) {
+        Swift_Mime_Message $message,
+        &$failedRecipients = null,
+        Swift_Mailer_RecipientIterator $it = null
+    ) {
         $failedRecipients = (array) $failedRecipients;
-    
+
         $sent = 0;
         $to = $message->getTo();
         $cc = $message->getCc();
         $bcc = $message->getBcc();
-    
+
         if (!empty($cc)) {
-            $message->setCc(array());
+            $message->setCc([]);
         }
         if (!empty($bcc)) {
-            $message->setBcc(array());
+            $message->setBcc([]);
         }
-    
+
         //Use an iterator if set
         if (isset($it)) {
             while ($it->hasNext()) {
@@ -135,36 +138,37 @@ class Swift_Mailer
             }
         } else {
             foreach ($to as $address => $name) {
-                $message->setTo(array($address => $name));
+                $message->setTo([$address => $name]);
                 $sent += $this->send($message, $failedRecipients);
             }
         }
-    
+
         $message->setTo($to);
-    
+
         if (!empty($cc)) {
             $message->setCc($cc);
         }
         if (!empty($bcc)) {
             $message->setBcc($bcc);
         }
-    
+
         return $sent;
     }
-  
+
     /**
      * Register a plugin using a known unique key (e.g. myPlugin).
      *
      * @param Swift_Events_EventListener $plugin
-     * @param string $key
+     * @param string                     $key
      */
     public function registerPlugin(Swift_Events_EventListener $plugin)
     {
         $this->_transport->registerPlugin($plugin);
     }
-  
+
     /**
      * The Transport used to send messages.
+     *
      * @return Swift_Transport
      */
     public function getTransport()

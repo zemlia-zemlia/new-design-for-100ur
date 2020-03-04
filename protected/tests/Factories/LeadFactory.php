@@ -12,7 +12,7 @@ class LeadFactory extends BaseFactory
             'name' => $this->faker->name,
             'phone' => PhoneHelper::normalizePhone($this->faker->phoneNumber),
             'email' => $this->faker->numberBetween(100, 1000) . '@yurcrm.ru',
-            'townId' => $this->faker->numberBetween(1,1000),
+            'townId' => $this->faker->numberBetween(1, 1000),
             'question' => $this->faker->paragraph,
             'price' => 95,
         ];

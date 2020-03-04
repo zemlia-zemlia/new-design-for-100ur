@@ -3,8 +3,8 @@ $purifier = new CHtmlPurifier();
 ?>
 <?php
 
-if (empty($recentPosts) || sizeof($recentPosts) == 0) {
-    echo "Не найдено ни одного поста";
+if (empty($recentPosts) || 0 == sizeof($recentPosts)) {
+    echo 'Не найдено ни одного поста';
 }
 ?>
 
@@ -12,7 +12,7 @@ if (empty($recentPosts) || sizeof($recentPosts) == 0) {
     <div class="post-widget-item">
         <h5 class="text-left">
             <strong>
-                <?php echo CHtml::link(CHtml::encode($recentPost['title']), Yii::app()->createUrl('post/view', array('id' => $recentPost['id'], 'alias' => $recentPost['alias']))); ?>
+                <?php echo CHtml::link(CHtml::encode($recentPost['title']), Yii::app()->createUrl('post/view', ['id' => $recentPost['id'], 'alias' => $recentPost['alias']])); ?>
             </strong>
         </h5>
         <p>

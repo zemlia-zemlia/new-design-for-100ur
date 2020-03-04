@@ -22,29 +22,29 @@
  * An abstract means of writing data.
  * Classes implementing this interface may use a subsystem which requires less
  * memory than working with large strings of data.
- * @package Swift
- * @subpackage ByteStream
+ *
  * @author Chris Corbyn
  */
 interface Swift_InputByteStream
 {
-  
-  /**
-   * Writes $bytes to the end of the stream.
-   *
-   * Writing may not happen immediately if the stream chooses to buffer.  If
-   * you want to write these bytes with immediate effect, call {@link commit()}
-   * after calling write().
-   *
-   * This method returns the sequence ID of the write (i.e. 1 for first, 2 for
-   * second, etc etc).
-   *
-   * @param string $bytes
-   * @return int
-   * @throws Swift_IoException
-   */
+    /**
+     * Writes $bytes to the end of the stream.
+     *
+     * Writing may not happen immediately if the stream chooses to buffer.  If
+     * you want to write these bytes with immediate effect, call {@link commit()}
+     * after calling write().
+     *
+     * This method returns the sequence ID of the write (i.e. 1 for first, 2 for
+     * second, etc etc).
+     *
+     * @param string $bytes
+     *
+     * @return int
+     *
+     * @throws Swift_IoException
+     */
     public function write($bytes);
-  
+
     /**
      * For any bytes that are currently buffered inside the stream, force them
      * off the buffer.
@@ -52,7 +52,7 @@ interface Swift_InputByteStream
      * @throws Swift_IoException
      */
     public function commit();
-  
+
     /**
      * Attach $is to this stream.
      * The stream acts as an observer, receiving all data that is written.
@@ -61,7 +61,7 @@ interface Swift_InputByteStream
      * @param Swift_InputByteStream $is
      */
     public function bind(Swift_InputByteStream $is);
-  
+
     /**
      * Remove an already bound stream.
      * If $is is not bound, no errors will be raised.
@@ -71,10 +71,11 @@ interface Swift_InputByteStream
      * @param Swift_InputByteStream $is
      */
     public function unbind(Swift_InputByteStream $is);
-  
+
     /**
      * Flush the contents of the stream (empty it) and set the internal pointer
      * to the beginning.
+     *
      * @throws Swift_IoException
      */
     public function flushBuffers();

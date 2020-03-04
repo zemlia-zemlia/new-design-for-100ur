@@ -4,8 +4,10 @@ class FileSystemHelper
 {
     /**
      * Удаляет папку со всем ее содержимым
+     *
      * @param string $dir
-     * @param bool $deleteFolder Удалять ли саму папку
+     * @param bool   $deleteFolder Удалять ли саму папку
+     *
      * @return bool|void
      */
     public static function delTree($dir, $deleteFolder = true)
@@ -14,12 +16,12 @@ class FileSystemHelper
             return;
         }
 
-        $files = array_diff(scandir($dir), array('.', '..'));
+        $files = array_diff(scandir($dir), ['.', '..']);
         foreach ($files as $file) {
             (is_dir("$dir/$file")) ? static::delTree("$dir/$file") : unlink("$dir/$file");
         }
 
-        return ($deleteFolder == true) ? rmdir($dir) : null;
+        return (true == $deleteFolder) ? rmdir($dir) : null;
     }
 
     public static function delFolderContent($dir)

@@ -3,8 +3,11 @@
  * ETabs class file.
  *
  * @author MetaYii
+ *
  * @version 2.4.1
- * @link http://www.yiiframework.com/
+ *
+ * @see http://www.yiiframework.com/
+ *
  * @copyright Copyright &copy; 2009 MetaYii
  * @license dual GPL (3.0 or later) and MIT, at your choice.
  * @license http://www.opensource.org/licenses/mit-license.php
@@ -60,7 +63,7 @@
  */
 
 /**
- * ETab is a class with abstracts a panel in a tabpanel
+ * ETab is a class with abstracts a panel in a tabpanel.
  *
  * @author MetaYii
  */
@@ -71,7 +74,7 @@ class ETab extends EJqueryUiWidget
     //***************************************************************************
 
     /**
-     * Tab title
+     * Tab title.
      *
      * @var string
      */
@@ -82,7 +85,7 @@ class ETab extends EJqueryUiWidget
     //***************************************************************************
 
     /**
-     * Panel body
+     * Panel body.
      *
      * @var string
      */
@@ -93,7 +96,7 @@ class ETab extends EJqueryUiWidget
     //***************************************************************************
 
     /**
-     * Setter
+     * Setter.
      *
      * @param string $value the title
      */
@@ -103,7 +106,7 @@ class ETab extends EJqueryUiWidget
     }
 
     /**
-     * Getter
+     * Getter.
      *
      * @return string
      */
@@ -118,7 +121,8 @@ class ETab extends EJqueryUiWidget
 
     protected function htmlCode($id)
     {
-        $html = CHtml::tag('div', array('id'=>$id, 'title'=>$this->title), $this->body);
+        $html = CHtml::tag('div', ['id' => $id, 'title' => $this->title], $this->body);
+
         return $html;
     }
 
@@ -127,7 +131,7 @@ class ETab extends EJqueryUiWidget
     //***************************************************************************
 
     /**
-     * Get the panel contents
+     * Get the panel contents.
      */
     public function init()
     {
@@ -137,9 +141,6 @@ class ETab extends EJqueryUiWidget
         ob_start();
     }
 
-    /**
-     *
-     */
     public function run()
     {
         if (is_null($this->body)) {

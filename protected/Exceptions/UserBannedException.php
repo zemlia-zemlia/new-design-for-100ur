@@ -2,5 +2,4 @@
 
 class UserBannedException extends Exception
 {
-
 }

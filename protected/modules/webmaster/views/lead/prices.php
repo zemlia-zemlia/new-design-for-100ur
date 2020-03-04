@@ -6,7 +6,7 @@
     <div class="box-body">
         <?php
         // выводим виджет с ценами по регионам
-        $this->widget('application.widgets.RegionPrices.RegionPrices', array());
+        $this->widget('application.widgets.RegionPrices.RegionPrices', []);
         ?>
     </div>
 </div>

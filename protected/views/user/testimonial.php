@@ -4,20 +4,20 @@ $title = 'Отзыв на юриста ' . CHtml::encode($yurist->name . ' ' . $
 $this->setPageTitle($title . '. ' . Yii::app()->name);
 
 $this->breadcrumbs = [
-    CHtml::encode($yurist->name . ' ' . $yurist->lastName)  => ['user/view', 'id' => $yurist->id],
+    CHtml::encode($yurist->name . ' ' . $yurist->lastName) => ['user/view', 'id' => $yurist->id],
 ];
 ?>
 
 <?php
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('100 Юристов', "/"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 Юристов', '/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 ?>
     <h1><?php echo $title; ?></h1>
 <?php
-$this->renderPartial('application.views.comment._form', array(
+$this->renderPartial('application.views.comment._form', [
     'type' => Comment::TYPE_USER,
     'objectId' => $yurist->id,
     'model' => $commentModel,
@@ -25,6 +25,6 @@ $this->renderPartial('application.views.comment._form', array(
     'parentId' => 0,
     'buttonText' => 'Оставить отзыв',
     'showTitle' => true,
-));
+]);
 
 ?>

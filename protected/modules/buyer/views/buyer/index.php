@@ -1,14 +1,13 @@
 <?php
 /**
- * @var $soldLeadsCount int
+ * @var int
  * @var $averageExpencesPerDay int
  */
-
-$this->setPageTitle("Кабинет покупателя лидов. " . Yii::app()->name);
+$this->setPageTitle('Кабинет покупателя лидов. ' . Yii::app()->name);
 
 ?>
 
-<?php if (sizeof(Yii::app()->user->getModel()->campaigns) == 0): ?>
+<?php if (0 == sizeof(Yii::app()->user->getModel()->campaigns)): ?>
     <div class="alert alert-danger">
         <p>
             Для того, чтобы начать покупать лиды, Вам
@@ -23,13 +22,13 @@ $this->setPageTitle("Кабинет покупателя лидов. " . Yii::ap
 <div class="row">
     <div class="col-md-8">
         <h2>Мои лиды</h2>
-        <?php $this->widget('zii.widgets.CListView', array(
+        <?php $this->widget('zii.widgets.CListView', [
             'dataProvider' => $dataProvider,
             'itemView' => '_viewLead',
             'emptyText' => 'Не найдено ни одного лида',
             'summaryText' => 'Показаны лиды с {start} до {end}, всего {count}',
-            'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
-        )); ?>
+            'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+        ]); ?>
     </div>
     <div class="col-md-4">
         <h2>Статистика:</h2>
@@ -38,7 +37,7 @@ $this->setPageTitle("Кабинет покупателя лидов. " . Yii::ap
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3><?php echo $soldLeadsCount;?></h3>
+                        <h3><?php echo $soldLeadsCount; ?></h3>
                         <p>Лидов за 30 дней</p>
                     </div>
                     <div class="icon">
@@ -50,7 +49,7 @@ $this->setPageTitle("Кабинет покупателя лидов. " . Yii::ap
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3><?php echo MoneyFormat::rubles($averageExpencesPerDay);?> </h3>
+                        <h3><?php echo MoneyFormat::rubles($averageExpencesPerDay); ?> </h3>
 
                         <p>Средний расход в день</p>
                     </div>
@@ -66,7 +65,7 @@ $this->setPageTitle("Кабинет покупателя лидов. " . Yii::ap
 
 <?php
 if (!$showInactive) {
-    echo CHtml::link('Показать неактивные', $this->createUrl('?show_inactive=true'));
-}
+            echo CHtml::link('Показать неактивные', $this->createUrl('?show_inactive=true'));
+        }
 ?>
 

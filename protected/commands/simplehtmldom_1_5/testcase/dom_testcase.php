@@ -1,31 +1,32 @@
 <?php
+
 // $Rev: 180 $
 // -----------------------------------------------------------------------------
 // setup
 error_reporting(E_ALL);
-require_once('../simple_html_dom.php');
-$html = new simple_html_dom;
+require_once '../simple_html_dom.php';
+$html = new simple_html_dom();
 
 // -----------------------------------------------------------------------------
 // DOM tree test
 $html->load('');
 $e = $html->root;
-assert($e->first_child()==null);
-assert($e->last_child()==null);
-assert($e->next_sibling()==null);
-assert($e->prev_sibling()==null);
+assert(null == $e->first_child());
+assert(null == $e->last_child());
+assert(null == $e->next_sibling());
+assert(null == $e->prev_sibling());
 // -----------------------------------------------
 $str = '<div id="div1"></div>';
 $html->load($str);
 
 $e = $html->root;
-assert($e->first_child()->id=='div1');
-assert($e->last_child()->id=='div1');
-assert($e->next_sibling()==null);
-assert($e->prev_sibling()==null);
-assert($e->plaintext=='');
-assert($e->innertext=='<div id="div1"></div>');
-assert($e->outertext==$str);
+assert('div1' == $e->first_child()->id);
+assert('div1' == $e->last_child()->id);
+assert(null == $e->next_sibling());
+assert(null == $e->prev_sibling());
+assert('' == $e->plaintext);
+assert('<div id="div1"></div>' == $e->innertext);
+assert($e->outertext == $str);
 // -----------------------------------------------
 $str = <<<HTML
 <div id="div1">
@@ -35,15 +36,15 @@ $str = <<<HTML
 </div>
 HTML;
 $html->load($str);
-assert($html==$str);
+assert($html == $str);
 
 $e = $html->find('div#div1', 0);
-assert(isset($e->id)==true);
-assert(isset($e->_not_exist)==false);
-assert($e->first_child()->id=='div10');
-assert($e->last_child()->id=='div12');
-assert($e->next_sibling()==null);
-assert($e->prev_sibling()==null);
+assert(true == isset($e->id));
+assert(false == isset($e->_not_exist));
+assert('div10' == $e->first_child()->id);
+assert('div12' == $e->last_child()->id);
+assert(null == $e->next_sibling());
+assert(null == $e->prev_sibling());
 // -----------------------------------------------
 $str = <<<HTML
 <div id="div0">
@@ -57,23 +58,23 @@ $str = <<<HTML
 <div id="div2"></div>
 HTML;
 $html->load($str);
-assert($html==$str);
+assert($html == $str);
 
 $e = $html->find('div#div1', 0);
-assert($e->first_child()->id=='div10');
-assert($e->last_child()->id=='div12');
-assert($e->next_sibling()->id=='div2');
-assert($e->prev_sibling()->id=='div0');
+assert('div10' == $e->first_child()->id);
+assert('div12' == $e->last_child()->id);
+assert('div2' == $e->next_sibling()->id);
+assert('div0' == $e->prev_sibling()->id);
 
 $e = $html->find('div#div2', 0);
-assert($e->first_child()==null);
-assert($e->last_child()==null);
+assert(null == $e->first_child());
+assert(null == $e->last_child());
 
 $e = $html->find('div#div0 div#div00', 0);
-assert($e->first_child()==null);
-assert($e->last_child()==null);
-assert($e->next_sibling()==null);
-assert($e->prev_sibling()==null);
+assert(null == $e->first_child());
+assert(null == $e->last_child());
+assert(null == $e->next_sibling());
+assert(null == $e->prev_sibling());
 // -----------------------------------------------
 $str = <<<HTML
 <div id="div0">
@@ -95,12 +96,12 @@ $str = <<<HTML
 <div id="div2"></div>
 HTML;
 $html->load($str);
-assert($html==$str);
+assert($html == $str);
 
-assert($html->find("#div1", 0)->id=='div1');
-assert($html->find("#div1", 0)->children(0)->id=='div10');
-assert($html->find("#div1", 0)->children(1)->children(1)->id=='div111');
-assert($html->find("#div1", 0)->children(1)->children(1)->children(2)->id=='div1112');
+assert('div1' == $html->find('#div1', 0)->id);
+assert('div10' == $html->find('#div1', 0)->children(0)->id);
+assert('div111' == $html->find('#div1', 0)->children(1)->children(1)->id);
+assert('div1112' == $html->find('#div1', 0)->children(1)->children(1)->children(2)->id);
 
 // -----------------------------------------------------------------------------
 // no value attr test
@@ -112,12 +113,12 @@ $str = <<<HTML
 </form>
 HTML;
 $html->load($str);
-assert($html==$str);
+assert($html == $str);
 
 $counter = 0;
 foreach ($html->find('input[type=checkbox]') as $checkbox) {
     if (isset($checkbox->checked)) {
-        assert($checkbox->value=="checkbox$counter");
+        assert($checkbox->value == "checkbox$counter");
         $counter += 2;
     }
 }
@@ -125,18 +126,18 @@ foreach ($html->find('input[type=checkbox]') as $checkbox) {
 $counter = 0;
 foreach ($html->find('input[type=checkbox]') as $checkbox) {
     if ($checkbox->checked) {
-        assert($checkbox->value=="checkbox$counter");
+        assert($checkbox->value == "checkbox$counter");
         $counter += 2;
     }
 }
 
 $es = $html->find('input[type=checkbox]');
 $es[1]->checked = true;
-assert($es[1]->outertext=='<input type="checkbox" name="checkbox1" value="checkbox1" checked>');
+assert('<input type="checkbox" name="checkbox1" value="checkbox1" checked>' == $es[1]->outertext);
 $es[0]->checked = false;
-assert($es[0]=='<input type="checkbox" name="checkbox0" value="checkbox0">');
+assert('<input type="checkbox" name="checkbox0" value="checkbox0">' == $es[0]);
 $es[0]->checked = true;
-assert($es[0]->outertext=='<input type="checkbox" name="checkbox0" checked value="checkbox0">');
+assert('<input type="checkbox" name="checkbox0" checked value="checkbox0">' == $es[0]->outertext);
 
 // -----------------------------------------------------------------------------
 // remove attr test
@@ -146,42 +147,42 @@ $str = <<<HTML
 HTML;
 
 $html->load($str);
-assert($html==$str);
+assert($html == $str);
 $e = $html->find('[name=checkbox0]', 0);
 $e->name = null;
-assert($e=='<input type="checkbox">');
+assert('<input type="checkbox">' == $e);
 $e->type = null;
-assert($e=='<input>');
+assert('<input>' == $e);
 
 // -----------------------------------------------
 $html->load($str);
-assert($html==$str);
+assert($html == $str);
 $e = $html->find('[name=checkbox0]', 0);
 $e->name = null;
-assert($e=='<input type="checkbox">');
+assert('<input type="checkbox">' == $e);
 $e->type = null;
-assert($e=='<input>');
+assert('<input>' == $e);
 
 // -----------------------------------------------
 $html->load($str);
-assert($html==$str);
+assert($html == $str);
 $e = $html->find('[name=checkbox1]', 0);
 $e->value = null;
-assert($e=="<input type = \"checkbox\" name = 'checkbox1'>");
+assert("<input type = \"checkbox\" name = 'checkbox1'>" == $e);
 $e->type = null;
-assert($e=="<input name = 'checkbox1'>");
+assert("<input name = 'checkbox1'>" == $e);
 $e->name = null;
-assert($e=='<input>');
+assert('<input>' == $e);
 
 $html->load($str);
-assert($html==$str);
+assert($html == $str);
 $e = $html->find('[name=checkbox1]', 0);
 $e->type = null;
-assert($e=="<input name = 'checkbox1' value = \"checkbox1\">");
+assert("<input name = 'checkbox1' value = \"checkbox1\">" == $e);
 $e->name = null;
-assert($e=='<input value = "checkbox1">');
+assert('<input value = "checkbox1">' == $e);
 $e->value = null;
-assert($e=='<input>');
+assert('<input>' == $e);
 
 // -----------------------------------------------------------------------------
 // remove no value attr test
@@ -190,35 +191,35 @@ $str = <<<HTML
 <input type="checkbox" name='checkbox1' checked>
 HTML;
 $html->load($str);
-assert($html==$str);
+assert($html == $str);
 $e = $html->find('[name=checkbox1]', 0);
 $e->type = null;
-assert($e=="<input name='checkbox1' checked>");
+assert("<input name='checkbox1' checked>" == $e);
 $e->name = null;
-assert($e=="<input checked>");
+assert('<input checked>' == $e);
 $e->checked = null;
-assert($e=="<input>");
+assert('<input>' == $e);
 
 // -----------------------------------------------
 $html->load($str);
-assert($html==$str);
+assert($html == $str);
 $e = $html->find('[name=checkbox0]', 0);
 $e->type = null;
-assert($e=="<input checked name='checkbox0'>");
+assert("<input checked name='checkbox0'>" == $e);
 $e->name = null;
-assert($e=='<input checked>');
+assert('<input checked>' == $e);
 $e->checked = null;
-assert($e=='<input>');
+assert('<input>' == $e);
 
 $html->load($str);
-assert($html==$str);
+assert($html == $str);
 $e = $html->find('[name=checkbox0]', 0);
 $e->checked = null;
-assert($e=="<input type=\"checkbox\" name='checkbox0'>");
+assert("<input type=\"checkbox\" name='checkbox0'>" == $e);
 $e->name = null;
-assert($e=='<input type="checkbox">');
+assert('<input type="checkbox">' == $e);
 $e->type = null;
-assert($e=="<input>");
+assert('<input>' == $e);
 
 // -----------------------------------------------------------------------------
 // extract text
@@ -226,30 +227,29 @@ $str = <<<HTML
 <b>okok</b>
 HTML;
 $html->load($str);
-assert($html==$str);
-assert($html->plaintext=='okok');
+assert($html == $str);
+assert('okok' == $html->plaintext);
 
 $str = <<<HTML
 <div><b>okok</b></div>
 HTML;
 $html->load($str);
-assert($html==$str);
-assert($html->plaintext=='okok');
+assert($html == $str);
+assert('okok' == $html->plaintext);
 
 $str = <<<HTML
 <div><b>okok</b>
 HTML;
 $html->load($str);
-assert($html==$str);
-assert($html->plaintext=='okok');
+assert($html == $str);
+assert('okok' == $html->plaintext);
 
 $str = <<<HTML
 <b>okok</b></div>
 HTML;
 $html->load($str);
-assert($html==$str);
-assert($html->plaintext=='okok</div>');
-
+assert($html == $str);
+assert('okok</div>' == $html->plaintext);
 
 // -----------------------------------------------------------------------------
 // old fashion camel naming conventions test
@@ -259,37 +259,37 @@ $str = <<<HTML
 <input type="checkbox" id="checkbox2" name="checkbox2" value="checkbox2" checked>
 HTML;
 $html->load($str);
-assert($html==$str);
+assert($html == $str);
 
-assert($html->getElementByTagName('input')->hasAttribute('checked')==true);
-assert($html->getElementsByTagName('input', 1)->hasAttribute('checked')==false);
-assert($html->getElementsByTagName('input', 1)->hasAttribute('not_exist')==false);
+assert(true == $html->getElementByTagName('input')->hasAttribute('checked'));
+assert(false == $html->getElementsByTagName('input', 1)->hasAttribute('checked'));
+assert(false == $html->getElementsByTagName('input', 1)->hasAttribute('not_exist'));
 
-assert($html->find('input', 0)->value==$html->getElementByTagName('input')->getAttribute('value'));
-assert($html->find('input', 1)->value==$html->getElementsByTagName('input', 1)->getAttribute('value'));
+assert($html->find('input', 0)->value == $html->getElementByTagName('input')->getAttribute('value'));
+assert($html->find('input', 1)->value == $html->getElementsByTagName('input', 1)->getAttribute('value'));
 
-assert($html->find('#checkbox1', 0)->value==$html->getElementById('checkbox1')->getAttribute('value'));
-assert($html->find('#checkbox2', 0)->value==$html->getElementsById('checkbox2', 0)->getAttribute('value'));
+assert($html->find('#checkbox1', 0)->value == $html->getElementById('checkbox1')->getAttribute('value'));
+assert($html->find('#checkbox2', 0)->value == $html->getElementsById('checkbox2', 0)->getAttribute('value'));
 
 $e = $html->find('[name=checkbox]', 0);
-assert($e->getAttribute('value')=='checkbox');
-assert($e->getAttribute('checked')==true);
-assert($e->getAttribute('not_exist')=='');
+assert('checkbox' == $e->getAttribute('value'));
+assert(true == $e->getAttribute('checked'));
+assert('' == $e->getAttribute('not_exist'));
 
 $e->setAttribute('value', 'okok');
-assert($e=='<input type="checkbox" id="checkbox" name="checkbox" value="okok" checked>');
+assert('<input type="checkbox" id="checkbox" name="checkbox" value="okok" checked>' == $e);
 
 $e->setAttribute('checked', false);
-assert($e=='<input type="checkbox" id="checkbox" name="checkbox" value="okok">');
+assert('<input type="checkbox" id="checkbox" name="checkbox" value="okok">' == $e);
 
 $e->setAttribute('checked', true);
-assert($e=='<input type="checkbox" id="checkbox" name="checkbox" value="okok" checked>');
+assert('<input type="checkbox" id="checkbox" name="checkbox" value="okok" checked>' == $e);
 
 $e->removeAttribute('value');
-assert($e=='<input type="checkbox" id="checkbox" name="checkbox" checked>');
+assert('<input type="checkbox" id="checkbox" name="checkbox" checked>' == $e);
 
 $e->removeAttribute('checked');
-assert($e=='<input type="checkbox" id="checkbox" name="checkbox">');
+assert('<input type="checkbox" id="checkbox" name="checkbox">' == $e);
 
 // -----------------------------------------------
 $str = <<<HTML
@@ -300,13 +300,13 @@ $str = <<<HTML
 </div>
 HTML;
 $html->load($str);
-assert($html==$str);
+assert($html == $str);
 
 $e = $html->find('div#div1', 0);
-assert($e->firstChild()->getAttribute('id')=='div10');
-assert($e->lastChild()->getAttribute('id')=='div12');
-assert($e->nextSibling()==null);
-assert($e->previousSibling()==null);
+assert('div10' == $e->firstChild()->getAttribute('id'));
+assert('div12' == $e->lastChild()->getAttribute('id'));
+assert(null == $e->nextSibling());
+assert(null == $e->previousSibling());
 
 // -----------------------------------------------
 $str = <<<HTML
@@ -329,19 +329,19 @@ $str = <<<HTML
 <div id="div2"></div>
 HTML;
 $html->load($str);
-assert($html==$str);
+assert($html == $str);
 
-assert($html->getElementById("div1")->hasAttribute('id')==true);
-assert($html->getElementById("div1")->hasAttribute('not_exist')==false);
+assert(true == $html->getElementById('div1')->hasAttribute('id'));
+assert(false == $html->getElementById('div1')->hasAttribute('not_exist'));
 
-assert($html->getElementById("div1")->getAttribute('id')=='div1');
-assert($html->getElementById("div1")->childNodes(0)->getAttribute('id')=='div10');
-assert($html->getElementById("div1")->childNodes(1)->childNodes(1)->getAttribute('id')=='div111');
-assert($html->getElementById("div1")->childNodes(1)->childNodes(1)->childNodes(2)->getAttribute('id')=='div1112');
+assert('div1' == $html->getElementById('div1')->getAttribute('id'));
+assert('div10' == $html->getElementById('div1')->childNodes(0)->getAttribute('id'));
+assert('div111' == $html->getElementById('div1')->childNodes(1)->childNodes(1)->getAttribute('id'));
+assert('div1112' == $html->getElementById('div1')->childNodes(1)->childNodes(1)->childNodes(2)->getAttribute('id'));
 
-assert($html->getElementsById("div1", 0)->childNodes(1)->id=='div11');
-assert($html->getElementsById("div1", 0)->childNodes(1)->childNodes(1)->getAttribute('id')=='div111');
-assert($html->getElementsById("div1", 0)->childNodes(1)->childNodes(1)->childNodes(1)->getAttribute('id')=='div1111');
+assert('div11' == $html->getElementsById('div1', 0)->childNodes(1)->id);
+assert('div111' == $html->getElementsById('div1', 0)->childNodes(1)->childNodes(1)->getAttribute('id'));
+assert('div1111' == $html->getElementsById('div1', 0)->childNodes(1)->childNodes(1)->childNodes(1)->getAttribute('id'));
 
 // -----------------------------------------------
 $str = <<<HTML
@@ -358,7 +358,7 @@ HTML;
 $html->load($str);
 
 $ul = $html->find('ul', 0);
-assert($ul->first_child()->tag==='ul');
+assert('ul' === $ul->first_child()->tag);
 
 // -----------------------------------------------
 $str = <<<HTML
@@ -374,11 +374,11 @@ $str = <<<HTML
 HTML;
 
 $html->load($str);
-assert($html==$str);
+assert($html == $str);
 
 $ul = $html->find('ul', 0);
-assert($ul->first_child()->tag==='li');
-assert($ul->first_child()->next_sibling()->tag==='li');
+assert('li' === $ul->first_child()->tag);
+assert('li' === $ul->first_child()->next_sibling()->tag);
 // -----------------------------------------------------------------------------
 // tear down
 $html->clear();

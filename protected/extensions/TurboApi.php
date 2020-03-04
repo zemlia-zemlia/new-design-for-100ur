@@ -2,7 +2,7 @@
 
 /**
  * Класс для работы с API турбостраниц Яндекса
- * Class TurboApi
+ * Class TurboApi.
  */
 class TurboApi
 {
@@ -25,13 +25,16 @@ class TurboApi
 
     /**
      * @param mixed $mode
+     *
      * @return TurboApi
      */
     public function setMode($mode)
     {
         $this->mode = $mode;
+
         return $this;
     }
+
     private $token;
     private $authHeader;
     private $curlLink;
@@ -56,11 +59,13 @@ class TurboApi
 
     /**
      * @param mixed $curlLink
+     *
      * @return TurboApi
      */
     public function setCurlLink($curlLink)
     {
         $this->curlLink = $curlLink;
+
         return $this;
     }
 
@@ -74,11 +79,13 @@ class TurboApi
 
     /**
      * @param mixed $uploadAddress
+     *
      * @return TurboApi
      */
     public function setUploadAddress($uploadAddress)
     {
         $this->uploadAddress = $uploadAddress;
+
         return $this;
     }
 
@@ -92,11 +99,13 @@ class TurboApi
 
     /**
      * @param mixed $userId
+     *
      * @return TurboApi
      */
     public function setUserId($userId)
     {
         $this->userId = $userId;
+
         return $this;
     }
 
@@ -110,11 +119,13 @@ class TurboApi
 
     /**
      * @param mixed $hostId
+     *
      * @return TurboApi
      */
     public function setHostId($hostId)
     {
         $this->hostId = $hostId;
+
         return $this;
     }
 
@@ -128,11 +139,13 @@ class TurboApi
 
     /**
      * @param mixed $isDebug
+     *
      * @return TurboApi
      */
     public function setIsDebug($isDebug)
     {
         $this->isDebug = $isDebug;
+
         return $this;
     }
 
@@ -146,11 +159,13 @@ class TurboApi
 
     /**
      * @param mixed $token
+     *
      * @return TurboApi
      */
     public function setToken($token)
     {
         $this->token = $token;
+
         return $this;
     }
 
@@ -164,23 +179,25 @@ class TurboApi
 
     /**
      * @param string $authHeader
+     *
      * @return TurboApi
      */
     public function setAuthHeader($authHeader)
     {
         $this->authHeader = $authHeader;
+
         return $this;
     }
 
     /**
-     * Возвращает адрес API
+     * Возвращает адрес API.
+     *
      * @return string
      */
     public function getApiURL()
     {
         return self::API_BASE_URL . '/' . self::API_VERSION;
     }
-
 
     public function __construct($token, $mode = 'DEBUG')
     {
@@ -190,11 +207,13 @@ class TurboApi
     }
 
     /**
-     * Отправка запроса в API
+     * Отправка запроса в API.
+     *
      * @param string $method
      * @param string $route
-     * @param mixed $data
-     * @param array $headers
+     * @param mixed  $data
+     * @param array  $headers
+     *
      * @return array
      */
     private function sendRequest($method, $route, $headers = [], $data = null)
@@ -214,7 +233,7 @@ class TurboApi
         curl_setopt($ch, CURLOPT_HTTPHEADER, $requestHeaders);
         curl_setopt($this->curlLink, CURLOPT_URL, $url);
 
-        if ($method === 'POST') {
+        if ('POST' === $method) {
             curl_setopt($this->curlLink, CURLOPT_POST, 1);
             curl_setopt($this->curlLink, CURLOPT_POSTFIELDS, $data);
         }
@@ -226,7 +245,8 @@ class TurboApi
     }
 
     /**
-     * Получение ID пользователя в вебмастере
+     * Получение ID пользователя в вебмастере.
+     *
      * @return mixed
      */
     public function requestUserId()
@@ -235,11 +255,13 @@ class TurboApi
         $apiResponse = $responseRaw['response'];
         $userId = json_decode($apiResponse, true)['user_id'];
         $this->userId = $userId;
+
         return $userId;
     }
 
     /**
-     * Получение id хоста в вебмастере
+     * Получение id хоста в вебмастере.
+     *
      * @return string|null
      */
     public function requestHost()
@@ -253,16 +275,18 @@ class TurboApi
         $apiResponseArray = json_decode($apiResponse, true);
 
         foreach ($apiResponseArray['hosts'] as $host) {
-            if (strcmp($host['ascii_host_url'], self::HOST_ADDRESS) === 0) {
+            if (0 === strcmp($host['ascii_host_url'], self::HOST_ADDRESS)) {
                 $this->hostId = $host['host_id'];
+
                 return $host['host_id'];
             }
         }
+
         return null;
     }
 
     /**
-     * Получение адреса для загрузки RSS
+     * Получение адреса для загрузки RSS.
      */
     public function requestUploadAddress()
     {
@@ -279,9 +303,12 @@ class TurboApi
     }
 
     /**
-     *  Отправка RSS в турбо страницы
+     *  Отправка RSS в турбо страницы.
+     *
      * @param mixed $data
+     *
      * @return string ID задачи
+     *
      * @throws Exception
      */
     public function uploadRss($data)
@@ -299,14 +326,16 @@ class TurboApi
         print_r($responseStatus);
         print_r($apiResponse);
 
-        if ((int)$responseStatus == 202) {
+        if (202 == (int) $responseStatus) {
             return json_decode($apiResponse, true)['task_id'] . PHP_EOL;
         }
     }
 
     /**
-     * Запрос информации об обработке задачи
+     * Запрос информации об обработке задачи.
+     *
      * @param $taskId
+     *
      * @return string Статус обработки
      */
     public function getTask($taskId)

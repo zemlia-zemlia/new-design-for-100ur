@@ -2,19 +2,18 @@
 /* @var $this QuestionController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->setPageTitle("Вопросы и ответы." . Yii::app()->name);
+$this->setPageTitle('Вопросы и ответы.' . Yii::app()->name);
 Yii::app()->clientScript->registerScriptFile('/js/question.js');
 Yii::app()->clientScript->registerScriptFile('/js/admin/question.js');
 
-
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     'Вопросы и ответы',
-);
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('100 юристов', "/admin/"),
+];
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 юристов', '/admin/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 ?>
 <div>
     <h3>Вопросы.
@@ -35,8 +34,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <?php if (!is_null($status)): ?>
 
             <?php echo Question::getStatusName($status); ?>
-            <?php if ($status == Question::STATUS_MODERATED): ?>
-                <?php echo CHtml::link('Опубликовать все одобренные', Yii::app()->createUrl('question/publish'), array('class' => 'btn btn-success')); ?>
+            <?php if (Question::STATUS_MODERATED == $status): ?>
+                <?php echo CHtml::link('Опубликовать все одобренные', Yii::app()->createUrl('question/publish'), ['class' => 'btn btn-success']); ?>
             <?php endif; ?>
 
         <?php endif; ?>
@@ -58,15 +57,15 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <?php endif; ?>
     </tr>
     </thead>
-    <?php $this->widget('zii.widgets.CListView', array(
+    <?php $this->widget('zii.widgets.CListView', [
         'dataProvider' => $dataProvider,
         'itemView' => '_view',
         'emptyText' => 'Не найдено ни одного вопроса',
         'summaryText' => 'Показаны вопросы с {start} до {end}, всего {count}',
-        'pager' => array('class' => 'GTLinkPager'), //we use own pager with russian words
-        'viewData' => array(
+        'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+        'viewData' => [
             'allDirections' => $allDirections,
             'nocat' => $nocat,
-        ),
-    )); ?>
+        ],
+    ]); ?>
 </table>

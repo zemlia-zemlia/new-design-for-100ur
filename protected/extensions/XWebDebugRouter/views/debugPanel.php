@@ -4,7 +4,7 @@
 		position: fixed;
 		<?php else: ?>
 		position: absolute;
-		<?php endif ?>
+		<?php endif; ?>
 		
 		<?php if ($alignLeft): ?>
 		float: left;
@@ -16,7 +16,7 @@
 		right: 0;
 		border-left: solid 1px #000;
 		border-bottom: solid 1px #000;
-		<?php endif ?>
+		<?php endif; ?>
 		
 		top: 0;
 		height: 16px;
@@ -71,7 +71,7 @@
 		margin-right: 5px;
 		<?php else: ?>
 		margin-left: 5px;
-		<?php endif ?>
+		<?php endif; ?>
 	}
 	
 	ul#yiiWebDebugToolbarItems li {
@@ -196,24 +196,24 @@
 	<ul>
 		<li><a href="#" class="yiiLink" onclick="return yiiWebDebugToggle('yiiWebDebugToolbarItems');">Yii</a></li>
 	</ul>
-	<?php endif ?>
+	<?php endif; ?>
 	
 	<ul id="yiiWebDebugToolbarItems">
 		<?php $index = 0; foreach ($items as $item): ?>
 		<li>[&nbsp;
-			<?php echo (isset($item['content']) && !is_null($item['content'])) ? '<a href="#" class="yiiLinkItem" onclick="return yiiWebDebugToggle(\'__yiiWDP'.$index.'\');">'.$item['title'].'</a>' : $item['title'] ?>
+			<?php echo (isset($item['content']) && !is_null($item['content'])) ? '<a href="#" class="yiiLinkItem" onclick="return yiiWebDebugToggle(\'__yiiWDP' . $index . '\');">' . $item['title'] . '</a>' : $item['title']; ?>
 			&nbsp;]
 		</li>
 		<?php if (isset($item['content']) && !is_null($item['content'])) {
-    $index++;
-} endforeach ?>
+    ++$index;
+} endforeach; ?>
 	</ul>
 	
 	<?php if ($alignLeft): ?>
 	<ul>
 		<li><a href="#" class="yiiLink" onclick="return yiiWebDebugToggle('yiiWebDebugToolbarItems');">Yii</a></li>
 	</ul>
-	<?php endif ?>
+	<?php endif; ?>
 </div>
 
 <div id="yiiWebDebugPanel">
@@ -223,11 +223,11 @@
         continue;
     } ?>
 	
-	<div id="__yiiWDP<?php echo $index ?>" style="display: none">
+	<div id="__yiiWDP<?php echo $index; ?>" style="display: none">
 		<div class="panelHeadInfo">
 			<?php if ($alignLeft) {
-        echo "<br/>";
-    } ?> <?php echo (isset($item['headinfo']) && !is_null($item['headinfo'])) ? $item['headinfo'] : '<br/><br/>' ?>
+        echo '<br/>';
+    } ?> <?php echo (isset($item['headinfo']) && !is_null($item['headinfo'])) ? $item['headinfo'] : '<br/><br/>'; ?>
 		</div>
 		
 		<center>
@@ -238,9 +238,9 @@
     } ?>
 				</div>
 				
-				<div class="panelGrid" id="panelGridH__yiiWDP<?php echo $index ?>">
-					<div id="panelGH__yiiWDP<?php echo $index ?>">
-						<?php echo $item['content'] ?>
+				<div class="panelGrid" id="panelGridH__yiiWDP<?php echo $index; ?>">
+					<div id="panelGH__yiiWDP<?php echo $index; ?>">
+						<?php echo $item['content']; ?>
 					</div>
 				</div>
 			</div>
@@ -248,7 +248,7 @@
 	</div>
 	
 	<?php
-        $index++;
+        ++$index;
         endforeach;
     ?>
 </div>
@@ -270,7 +270,7 @@
 			if (_curPanel != '' && disp == 'none') _$(_curPanel).style.display = 'none';
 			<?php if ($opaque): ?>
 			_$('yiiWebDebugToolbar').className = (disp == 'none') ? 'yiiWebDebugOpacity' : '';
-			<?php endif ?>
+			<?php endif; ?>
 		}
 		else
 		{
@@ -287,12 +287,12 @@
 	{
 		<?php if ($opaque): ?>
 		_$('yiiWebDebugToolbar').className = (!over && _$('yiiWebDebugToolbarItems').style.display == 'none') ? 'yiiWebDebugOpacity' : '';
-		<?php endif ?>
+		<?php endif; ?>
 		
 		return false;
 	}
 	
 	<?php if ($collapsed): ?>
 	yiiWebDebugToggle('yiiWebDebugToolbarItems');
-	<?php endif ?>
+	<?php endif; ?>
 </script>

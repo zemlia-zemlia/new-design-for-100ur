@@ -24,9 +24,11 @@ class UserNotifierTest extends Unit
 
     /**
      * @dataProvider confirmationProvider
-     * @param int $role
+     *
+     * @param int    $role
      * @param string $newPassword
      * @param string $expectedMailFragment
+     *
      * @throws Exception
      */
     public function testSendUserConfirmationMail($role, $newPassword, $expectedMailFragment)

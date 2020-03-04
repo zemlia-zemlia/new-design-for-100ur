@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\integration;
 
 use Codeception\Test\Unit;
@@ -25,9 +24,10 @@ class BaseIntegrationTest extends Unit
     }
 
     /**
-     * Записывает в базу массив из нескольких записей
+     * Записывает в базу массив из нескольких записей.
+     *
      * @param string $tableName
-     * @param array $data
+     * @param array  $data
      */
     protected function loadToDatabase($tableName, $data)
     {

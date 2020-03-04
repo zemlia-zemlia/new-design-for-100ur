@@ -2,20 +2,20 @@
 /* @var $this ContactController */
 /* @var $model Contact */
 
-$this->setPageTitle("Лид #" . CHtml::encode($model->name) . '. ' . Yii::app()->name);
+$this->setPageTitle('Лид #' . CHtml::encode($model->name) . '. ' . Yii::app()->name);
 
-$this->breadcrumbs = array(
-    'Кабинет' => array('/buyer'),
-    'Кампания' => array('/buyer/campaign', 'id' => $model->campaign->id),
-    'Лиды' => array('/buyer/leads', 'campaign' => $model->campaign->id),
+$this->breadcrumbs = [
+    'Кабинет' => ['/buyer'],
+    'Кампания' => ['/buyer/campaign', 'id' => $model->campaign->id],
+    'Лиды' => ['/buyer/leads', 'campaign' => $model->campaign->id],
     CHtml::encode($model->name),
-);
+];
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('100 юристов', "/buyer/"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 юристов', '/buyer/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 
 ?>
 
@@ -37,11 +37,11 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                         <td><?php echo $model->getLeadStatusName(); ?></td>
                     </tr>
 
-                    <?php if (Yii::app()->user->role != User::ROLE_JURIST || $model->employeeId): ?>
+                    <?php if (User::ROLE_JURIST != Yii::app()->user->role || $model->employeeId): ?>
                         <tr>
                             <td><strong><?php echo $model->getAttributeLabel('phone'); ?></strong></td>
                             <td>
-                                <?php if ($model->phone && !(Yii::app()->user->role == User::ROLE_JURIST && $model->employeeId != Yii::app()->user->id)): ?>
+                                <?php if ($model->phone && !(User::ROLE_JURIST == Yii::app()->user->role && $model->employeeId != Yii::app()->user->id)): ?>
                                     <?php echo $model->phone; ?><br/>
                                 <?php endif; ?>
                             </td>
@@ -58,7 +58,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     </tr>
                     <tr>
                         <td><strong>Дата</strong></td>
-                        <td><?php echo CustomFuncs::niceDate($model->deliveryTime); ?></td>
+                        <td><?php echo DateHelper::niceDate($model->deliveryTime); ?></td>
                     </tr>
                     <tr>
                         <td><strong><?php echo $model->getAttributeLabel('question'); ?></strong></td>

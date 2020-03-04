@@ -4,19 +4,22 @@
  * This is the model class for table "ulogin_user".
  *
  * The followings are the available columns in table 'user':
- * @property integer $id
+ *
+ * @property int    $id
  * @property string $identity
  * @property string $network
  * @property string $email
  * @property string $full_name
- * @property integer $state
- * @property integer $user_id
+ * @property int    $state
+ * @property int    $user_id
  */
 class UloginUser extends CActiveRecord
 {
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     *
+     * @param string $className active record class name
+     *
      * @return User the static model class
      */
     public static function model($className = __CLASS__)
@@ -41,24 +44,24 @@ class UloginUser extends CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('identity, network', 'required'),
-            array('identity, network, email', 'length', 'max' => 255),
-            array('full_name', 'length', 'max' => 255),
+        return [
+            ['identity, network', 'required'],
+            ['identity, network, email', 'length', 'max' => 255],
+            ['full_name', 'length', 'max' => 255],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, identity, network, email, full_name, state', 'safe', 'on' => 'search'),
-        );
+            ['id, identity, network, email, full_name, state', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -72,26 +75,27 @@ class UloginUser extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'identity' => 'Identity',
             'network' => 'Network',
             'email' => 'Email',
             'full_name' => 'Full Name',
             'state' => 'State',
-        );
+        ];
     }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     *
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function search()
     {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('identity', $this->identity, true);
@@ -100,16 +104,19 @@ class UloginUser extends CActiveRecord
         $criteria->compare('full_name', $this->full_name, true);
         $criteria->compare('state', $this->state);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     /**
-     * Создает новый объект UloginUser
+     * Создает новый объект UloginUser.
+     *
      * @param UloginModel $uloginModel
-     * @param User|null $user Пользователь 100 Юристов, если не указан, создадим нового
+     * @param User|null   $user        Пользователь 100 Юристов, если не указан, создадим нового
+     *
      * @return UloginUser
+     *
      * @throws UserBannedException
      * @throws Exception
      */
@@ -122,7 +129,7 @@ class UloginUser extends CActiveRecord
                 ':email' => $uloginModel->email,
             ]);
 
-            if ($user instanceof User && $user->active100 == 0) {
+            if ($user instanceof User && 0 == $user->active100) {
                 throw new UserBannedException('Пользователь заблокирован на сайте 100 Юристов, логин невозможен');
             }
             if (is_null($user)) {

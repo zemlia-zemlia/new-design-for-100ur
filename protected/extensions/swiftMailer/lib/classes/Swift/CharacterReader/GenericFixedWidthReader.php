@@ -22,22 +22,21 @@
 
 /**
  * Provides fixed-width byte sizes for reading fixed-width character sets.
- * @package Swift
- * @subpackage Encoder
+ *
  * @author Chris Corbyn
  */
 class Swift_CharacterReader_GenericFixedWidthReader implements Swift_CharacterReader
 {
-
-  /**
-   * The number of bytes in a single character.
-   * @var int
-   * @access private
-   */
+    /**
+     * The number of bytes in a single character.
+     *
+     * @var int
+     */
     private $_width;
 
     /**
      * Creates a new GenericFixedWidthReader using $width bytes per character.
+     *
      * @param int $width
      */
     public function __construct($width)
@@ -51,12 +50,15 @@ class Swift_CharacterReader_GenericFixedWidthReader implements Swift_CharacterRe
      * this method again.
      * A value of zero means this is already a valid character.
      * A value of -1 means this cannot possibly be a valid character.
+     *
      * @param string $bytes
+     *
      * @return int
      */
     public function validateByteSequence($bytes, $size)
     {
         $needed = $this->_width - $size;
+
         return ($needed > -1)
       ? $needed
       : -1
@@ -65,6 +67,7 @@ class Swift_CharacterReader_GenericFixedWidthReader implements Swift_CharacterRe
 
     /**
      * Returns the number of bytes which should be read to start each character.
+     *
      * @return int
      */
     public function getInitialByteSize()

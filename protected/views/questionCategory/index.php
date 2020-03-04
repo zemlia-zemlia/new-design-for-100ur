@@ -2,13 +2,13 @@
 /* @var $this QuestionCategoryController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->setPageTitle("Темы вопросов");
-Yii::app()->clientScript->registerMetaTag("Выберите интересующую вас категорию вопроса или задайте свой через специальную форму", 'description');
+$this->setPageTitle('Темы вопросов');
+Yii::app()->clientScript->registerMetaTag('Выберите интересующую вас категорию вопроса или задайте свой через специальную форму', 'description');
 
-$this->breadcrumbs = array(
-    'Вопросы и ответы' => array('/question'),
+$this->breadcrumbs = [
+    'Вопросы и ответы' => ['/question'],
     'Темы',
-);
+];
 
 ?>
 <div class="vert-margin30">
@@ -16,14 +16,14 @@ $this->breadcrumbs = array(
 </div>
 <div class="vert-margin40">
     <div class="row">
-        <?php $this->widget('zii.widgets.CListView', array(
+        <?php $this->widget('zii.widgets.CListView', [
             'dataProvider' => $dataProvider,
             'itemView' => '_view',
             'emptyText' => 'Не найдено ни одной темы',
             'summaryText' => '',
-            'pager' => array('class' => 'GTLinkPager'), //we use own pager with russian words
-            'viewData' => array('itemsCount' => $dataProvider->totalItemCount),
-        )); ?>
+            'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+            'viewData' => ['itemsCount' => $dataProvider->totalItemCount],
+        ]); ?>
     </div>
 </div>
 

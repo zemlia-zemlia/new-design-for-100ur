@@ -4,7 +4,6 @@ use Phinx\Migration\AbstractMigration;
 
 class CreateMailTaskTable extends AbstractMigration
 {
-
     public function up()
     {
         $this->table('100_mailtask', ['comment' => 'Задания по отправке рассылок'])

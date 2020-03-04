@@ -2,18 +2,17 @@
 /* @var $this QuestionController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->setPageTitle("Ответы." . Yii::app()->name);
+$this->setPageTitle('Ответы.' . Yii::app()->name);
 Yii::app()->clientScript->registerScriptFile('/js/answer.js');
 
-
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     'Ответы',
-);
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('CRM', "/"),
+];
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('CRM', '/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 ?>
 <h2>Ответы.
     <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
@@ -25,11 +24,11 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 
 
-<?php $this->widget('zii.widgets.CListView', array(
+<?php $this->widget('zii.widgets.CListView', [
     'dataProvider' => $dataProvider,
     'itemView' => '_view',
     'emptyText' => 'Не найдено ни одного ответа',
     'summaryText' => 'Показаны ответы с {start} до {end}, всего {count}',
-    'pager' => array('class' => 'GTLinkPager'), //we use own pager with russian words
-    'ajaxUpdate'=>false,
-)); ?>
+    'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+    'ajaxUpdate' => false,
+]); ?>

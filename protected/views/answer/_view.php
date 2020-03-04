@@ -4,7 +4,7 @@
 ?>
 
 <?php $videoCode = $data->getVideoCode(); ?>
-<?php if ($data->status != Answer::STATUS_SPAM && !is_null($data->author) && $data->author->role == User::ROLE_JURIST): ?>
+<?php if (Answer::STATUS_SPAM != $data->status && !is_null($data->author) && User::ROLE_JURIST == $data->author->role): ?>
 
     <div class='answer-item'>
 
@@ -25,7 +25,7 @@
                             </div>
                             <?php if ($data->authorId != Yii::app()->user->id): ?>
                                 <div class="center-align vert-margin10">
-                                    <a href="<?php echo Yii::app()->createUrl('user/view', array('id' => $data->authorId)); ?>"
+                                    <a href="<?php echo Yii::app()->createUrl('user/view', ['id' => $data->authorId]); ?>"
                                        rel="nofollow" class='btn btn-block btn-xs btn-default'>В профиль</a>
                                 </div>
                             <?php endif; ?>
@@ -58,9 +58,9 @@
                                 <span class="glyphicon glyphicon-user"></span>
                                 <strong>
                             <span itemprop="name">
-                                <a href="<?php echo Yii::app()->createUrl('user/view', array('id' => $data->authorId)); ?>"
+                                <a href="<?php echo Yii::app()->createUrl('user/view', ['id' => $data->authorId]); ?>"
                                    rel="nofollow">
-                                    <?php echo CHtml::encode($data->author->name . " " . $data->author->name2 . " " . $data->author->lastName); ?>
+                                    <?php echo CHtml::encode($data->author->name . ' ' . $data->author->name2 . ' ' . $data->author->lastName); ?>
                                 </a>
                             </span>
                                 </strong>
@@ -71,7 +71,7 @@
 
                                 &nbsp;|&nbsp;
 
-                                <span class="glyphicon glyphicon-signal"></span>&nbsp;<?php echo $data->author->answersCount . ' ' . CustomFuncs::numForms($data->author->answersCount, 'ответ', "ответа", "ответов"); ?>
+                                <span class="glyphicon glyphicon-signal"></span>&nbsp;<?php echo $data->author->answersCount . ' ' . NumbersHelper::numForms($data->author->answersCount, 'ответ', 'ответа', 'ответов'); ?>
                                 &nbsp;|&nbsp;
                                 <span class='glyphicon glyphicon-thumbs-up'></span>&nbsp;<?php echo $data->author->karma; ?>
 
@@ -112,7 +112,7 @@
                     <div class="vert-margin20 answer-karma-string">
 
                         <?php if ($data->authorId == Yii::app()->user->id && time() - strtotime($data->datetime) < Answer::EDIT_TIMEOUT): ?>
-                            <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('question/updateAnswer', array('id' => $data->id)), array('class' => 'btn btn-default btn-xs')); ?>
+                            <?php echo CHtml::link('Редактировать', Yii::app()->createUrl('question/updateAnswer', ['id' => $data->id]), ['class' => 'btn btn-default btn-xs']); ?>
                         <?php endif; ?>
 
                         <?php if (!Yii::app()->user->isGuest && $data->authorId != Yii::app()->user->id): ?>
@@ -129,13 +129,13 @@
 
                             <?php if ($data->datetime): ?>
                                 <span class="text-muted small">
-                                <?php echo CustomFuncs::niceDate($data->datetime, false); ?>
+                                <?php echo DateHelper::niceDate($data->datetime, false); ?>
                                 </span>
                             <?php endif; ?>
 
-                            <?php if ($showKarmaLink === true): ?>
+                            <?php if (true === $showKarmaLink): ?>
                                 <span id="answer-karma-<?php echo $data->id; ?>">
-                                <?php echo CHtml::link("<span class='glyphicon glyphicon-thumbs-up'></span> Ответ полезен", Yii::app()->createUrl('user/karmaPlus'), array('class' => 'link-karma-plus btn-default btn btn-xs', 'data-id' => $data->id)); ?>
+                                <?php echo CHtml::link("<span class='glyphicon glyphicon-thumbs-up'></span> Ответ полезен", Yii::app()->createUrl('user/karmaPlus'), ['class' => 'link-karma-plus btn-default btn btn-xs', 'data-id' => $data->id]); ?>
                             </span>
                             <?php endif; ?>
 
@@ -148,7 +148,7 @@
                     <?php endif; ?>
 
                     <?php foreach ($data->comments as $comment): ?>
-                        <?php if ($comment->status != Comment::STATUS_SPAM): ?>
+                        <?php if (Comment::STATUS_SPAM != $comment->status): ?>
 
                             <?php $commentBlockClass = ($data->question->authorId == $comment->authorId) ? 'comment-author' : 'comment-yurist'; ?>
 
@@ -178,13 +178,13 @@
                                          id="collapse-comment-<?php echo $comment->id; ?>">
                                         <strong>Ваш ответ:</strong>
                                         <?php
-                                        $this->renderPartial('application.views.comment._form', array(
+                                        $this->renderPartial('application.views.comment._form', [
                                             'type' => Comment::TYPE_ANSWER,
                                             'objectId' => $data->id,
                                             'model' => $commentModel,
                                             'hideRating' => true,
                                             'parentId' => $comment->id,
-                                        ));
+                                        ]);
                                         ?>
                                     </div>
                                 <?php endif; ?>
@@ -196,28 +196,28 @@
                     <?php if (!is_null($commentModel) && ($data->question->authorId == Yii::app()->user->id)): ?>
                         <strong>Ваш комментарий:</strong>
                         <?php
-                        $this->renderPartial('application.views.comment._form', array(
+                        $this->renderPartial('application.views.comment._form', [
                             'type' => Comment::TYPE_ANSWER,
                             'objectId' => $data->id,
                             'model' => $commentModel,
                             'hideRating' => true,
                             'parentId' => 0,
-                        ));
+                        ]);
 
                         ?>
                     <?php endif; ?>
 
-                    <?php if (isset(Yii::app()->params['donatesEnabled']) && Yii::app()->params['donatesEnabled'] == true): ?>
-                        <?php if (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->role == User::ROLE_ROOT): ?>
+                    <?php if (isset(Yii::app()->params['donatesEnabled']) && true == Yii::app()->params['donatesEnabled']): ?>
+                        <?php if (User::ROLE_CLIENT == Yii::app()->user->role || User::ROLE_ROOT == Yii::app()->user->role): ?>
                             <div class='donate-block'>
                                 <h3>Поблагодарите
-                                    юриста <?php echo CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->lastName); ?>
+                                    юриста <?php echo CHtml::encode($data->author->name) . ' ' . CHtml::encode($data->author->lastName); ?>
                                     за консультацию</h3>
-                                <?php $this->renderPartial("application.views.question._donateForm", array(
-                                    'target' => 'Благодарность юристу ' . CHtml::encode($data->author->name) . " " . CHtml::encode($data->author->lastName),
-                                    'successUrl' => Yii::app()->createUrl('question/view', array('id' => $data->questionId, 'answer_payed_id' => $data->id)),
+                                <?php $this->renderPartial('application.views.question._donateForm', [
+                                    'target' => 'Благодарность юристу ' . CHtml::encode($data->author->name) . ' ' . CHtml::encode($data->author->lastName),
+                                    'successUrl' => Yii::app()->createUrl('question/view', ['id' => $data->questionId, 'answer_payed_id' => $data->id]),
                                     'answer' => $data,
-                                )); ?>
+                                ]); ?>
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>

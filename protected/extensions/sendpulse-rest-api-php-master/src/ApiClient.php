@@ -27,13 +27,12 @@ class ApiClient implements ApiInterface
     private $refreshToken = 0;
 
     /**
-     * @var null|TokenStorageInterface
+     * @var TokenStorageInterface|null
      */
     private $tokenStorage;
 
-
     /**
-     * Sendpulse API constructor
+     * Sendpulse API constructor.
      *
      * @param                       $userId
      * @param                       $secret
@@ -43,7 +42,7 @@ class ApiClient implements ApiInterface
      */
     public function __construct($userId, $secret, TokenStorageInterface $tokenStorage = null)
     {
-        if ($tokenStorage === null) {
+        if (null === $tokenStorage) {
             $tokenStorage = new FileStorage();
         }
         if (empty($userId) || empty($secret)) {
@@ -55,7 +54,7 @@ class ApiClient implements ApiInterface
         $this->tokenStorage = $tokenStorage;
         $hashName = md5($userId . '::' . $secret);
 
-        /** load token from storage */
+        /* load token from storage */
         $this->token = $this->tokenStorage->get($hashName);
 
         if (empty($this->token) && !$this->getToken()) {
@@ -64,21 +63,21 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get token and store it
+     * Get token and store it.
      *
      * @return bool
      */
     private function getToken()
     {
-        $data = array(
+        $data = [
             'grant_type' => 'client_credentials',
             'client_id' => $this->userId,
             'client_secret' => $this->secret,
-        );
+        ];
 
         $requestResult = $this->sendRequest('oauth/access_token', 'POST', $data, false);
 
-        if ($requestResult->http_code !== 200) {
+        if (200 !== $requestResult->http_code) {
             return false;
         }
 
@@ -86,30 +85,30 @@ class ApiClient implements ApiInterface
         $this->token = $requestResult->data->access_token;
 
         $hashName = md5($this->userId . '::' . $this->secret);
-        /** Save token to storage */
+        /* Save token to storage */
         $this->tokenStorage->set($hashName, $this->token);
 
         return true;
     }
 
     /**
-     * Form and send request to API service
+     * Form and send request to API service.
      *
      * @param        $path
      * @param string $method
-     * @param array $data
-     * @param bool $useToken
+     * @param array  $data
+     * @param bool   $useToken
      *
      * @return stdClass
      */
-    private function sendRequest($path, $method = 'GET', $data = array(), $useToken = true)
+    private function sendRequest($path, $method = 'GET', $data = [], $useToken = true)
     {
         $url = $this->apiUrl . '/' . $path;
         $method = strtoupper($method);
         $curl = curl_init();
 
         if ($useToken && !empty($this->token)) {
-            $headers = array('Authorization: Bearer ' . $this->token);
+            $headers = ['Authorization: Bearer ' . $this->token];
             curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         }
 
@@ -147,7 +146,7 @@ class ApiClient implements ApiInterface
 
         curl_close($curl);
 
-        if ($headerCode === 401 && $this->refreshToken === 0) {
+        if (401 === $headerCode && 0 === $this->refreshToken) {
             ++$this->refreshToken;
             $this->getToken();
             $retval = $this->sendRequest($path, $method, $data);
@@ -161,7 +160,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Process results
+     * Process results.
      *
      * @param $data
      *
@@ -172,7 +171,7 @@ class ApiClient implements ApiInterface
         if (empty($data->data)) {
             $data->data = new stdClass();
         }
-        if ($data->http_code !== 200) {
+        if (200 !== $data->http_code) {
             $data->data->is_error = true;
             $data->data->http_code = $data->http_code;
         }
@@ -181,7 +180,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Process errors
+     * Process errors.
      *
      * @param null $customMessage
      *
@@ -198,14 +197,12 @@ class ApiClient implements ApiInterface
         return $message;
     }
 
-
     /*
      * API interface implementation
      */
 
-
     /**
-     * Create address book
+     * Create address book.
      *
      * @param $bookName
      *
@@ -217,14 +214,14 @@ class ApiClient implements ApiInterface
             return $this->handleError('Empty book name');
         }
 
-        $data = array('bookName' => $bookName);
+        $data = ['bookName' => $bookName];
         $requestResult = $this->sendRequest('addressbooks', 'POST', $data);
 
         return $this->handleResult($requestResult);
     }
 
     /**
-     * Edit address book name
+     * Edit address book name.
      *
      * @param $id
      * @param $newName
@@ -237,14 +234,14 @@ class ApiClient implements ApiInterface
             return $this->handleError('Empty new name or book id');
         }
 
-        $data = array('name' => $newName);
+        $data = ['name' => $newName];
         $requestResult = $this->sendRequest('addressbooks/' . $id, 'PUT', $data);
 
         return $this->handleResult($requestResult);
     }
 
     /**
-     * Remove address book
+     * Remove address book.
      *
      * @param $id
      *
@@ -262,7 +259,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get list of address books
+     * Get list of address books.
      *
      * @param null $limit
      * @param null $offset
@@ -271,7 +268,7 @@ class ApiClient implements ApiInterface
      */
     public function listAddressBooks($limit = null, $offset = null)
     {
-        $data = array();
+        $data = [];
         if (null !== $limit) {
             $data['limit'] = $limit;
         }
@@ -285,7 +282,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get information about book
+     * Get information about book.
      *
      * @param $id
      *
@@ -303,10 +300,10 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get variables from book
+     * Get variables from book.
      *
      * @param $id
-     *   Address book id.
+     *   Address book id
      *
      * @return stdClass
      */
@@ -322,7 +319,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * List email addresses from book
+     * List email addresses from book.
      *
      * @param $id
      * @param $limit
@@ -336,7 +333,7 @@ class ApiClient implements ApiInterface
             return $this->handleError('Empty book id');
         }
 
-        $data = array();
+        $data = [];
         if (null !== $limit) {
             $data['limit'] = $limit;
         }
@@ -350,7 +347,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Add new emails to address book
+     * Add new emails to address book.
      *
      * @param $bookID
      * @param $emails
@@ -363,9 +360,9 @@ class ApiClient implements ApiInterface
             return $this->handleError('Empty book id or emails');
         }
 
-        $data = array(
+        $data = [
             'emails' => serialize($emails),
-        );
+        ];
 
         $requestResult = $this->sendRequest('addressbooks/' . $bookID . '/emails', 'POST', $data);
 
@@ -373,7 +370,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Remove email addresses from book
+     * Remove email addresses from book.
      *
      * @param $bookID
      * @param $emails
@@ -386,9 +383,9 @@ class ApiClient implements ApiInterface
             return $this->handleError('Empty book id or emails');
         }
 
-        $data = array(
+        $data = [
             'emails' => serialize($emails),
-        );
+        ];
 
         $requestResult = $this->sendRequest('addressbooks/' . $bookID . '/emails', 'DELETE', $data);
 
@@ -396,7 +393,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get information about email address from book
+     * Get information about email address from book.
      *
      * @param $bookID
      * @param $email
@@ -415,7 +412,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get cost of campaign based on address book
+     * Get cost of campaign based on address book.
      *
      * @param $bookID
      *
@@ -433,7 +430,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get list of campaigns
+     * Get list of campaigns.
      *
      * @param null $limit
      * @param null $offset
@@ -442,7 +439,7 @@ class ApiClient implements ApiInterface
      */
     public function listCampaigns($limit = null, $offset = null)
     {
-        $data = array();
+        $data = [];
         if (!empty($limit)) {
             $data['limit'] = $limit;
         }
@@ -455,7 +452,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get information about campaign
+     * Get information about campaign.
      *
      * @param $id
      *
@@ -473,7 +470,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get campaign statistic by countries
+     * Get campaign statistic by countries.
      *
      * @param $id
      *
@@ -491,7 +488,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get campaign statistic by referrals
+     * Get campaign statistic by referrals.
      *
      * @param $id
      *
@@ -509,7 +506,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Create new campaign
+     * Create new campaign.
      *
      * @param        $senderName
      * @param        $senderEmail
@@ -539,7 +536,7 @@ class ApiClient implements ApiInterface
         if (!empty($attachments)) {
             $attachments = serialize($attachments);
         }
-        $data = array(
+        $data = [
             'sender_name' => $senderName,
             'sender_email' => $senderEmail,
             'subject' => $subject,
@@ -548,7 +545,7 @@ class ApiClient implements ApiInterface
             'name' => $name,
             'attachments' => $attachments,
             'type' => $type,
-        );
+        ];
 
         $requestResult = $this->sendRequest('campaigns', 'POST', $data);
 
@@ -556,7 +553,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Cancel campaign
+     * Cancel campaign.
      *
      * @param $id
      *
@@ -574,7 +571,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * List all senders
+     * List all senders.
      *
      * @return mixed
      */
@@ -586,7 +583,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Add new sender
+     * Add new sender.
      *
      * @param $senderName
      * @param $senderEmail
@@ -599,10 +596,10 @@ class ApiClient implements ApiInterface
             return $this->handleError('Empty sender name or email');
         }
 
-        $data = array(
+        $data = [
             'email' => $senderEmail,
             'name' => $senderName,
-        );
+        ];
 
         $requestResult = $this->sendRequest('senders', 'POST', $data);
 
@@ -610,7 +607,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Remove sender
+     * Remove sender.
      *
      * @param $email
      *
@@ -622,9 +619,9 @@ class ApiClient implements ApiInterface
             return $this->handleError('Empty email');
         }
 
-        $data = array(
+        $data = [
             'email' => $email,
-        );
+        ];
 
         $requestResult = $this->sendRequest('senders', 'DELETE', $data);
 
@@ -632,7 +629,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Activate sender using code
+     * Activate sender using code.
      *
      * @param $email
      * @param $code
@@ -645,9 +642,9 @@ class ApiClient implements ApiInterface
             return $this->handleError('Empty email or activation code');
         }
 
-        $data = array(
+        $data = [
             'code' => $code,
-        );
+        ];
 
         $requestResult = $this->sendRequest('senders/' . $email . '/code', 'POST', $data);
 
@@ -655,7 +652,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Request mail with activation code
+     * Request mail with activation code.
      *
      * @param $email
      *
@@ -673,7 +670,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get global information about email
+     * Get global information about email.
      *
      * @param $email
      *
@@ -691,7 +688,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Remove email from all books
+     * Remove email from all books.
      *
      * @param $email
      *
@@ -709,7 +706,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get email statistic by all campaigns
+     * Get email statistic by all campaigns.
      *
      * @param $email
      *
@@ -727,7 +724,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get all emails from blacklist
+     * Get all emails from blacklist.
      *
      * @return mixed
      */
@@ -739,9 +736,9 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Add email to blacklist
+     * Add email to blacklist.
      *
-     * @param        $emails - string with emails, separator - ,
+     * @param        $emails  - string with emails, separator - ,
      * @param string $comment
      *
      * @return stdClass
@@ -752,10 +749,10 @@ class ApiClient implements ApiInterface
             return $this->handleError('Empty email');
         }
 
-        $data = array(
+        $data = [
             'emails' => base64_encode($emails),
             'comment' => $comment,
-        );
+        ];
 
         $requestResult = $this->sendRequest('blacklist', 'POST', $data);
 
@@ -763,7 +760,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Remove emails from blacklist
+     * Remove emails from blacklist.
      *
      * @param $emails - string with emails, separator - ,
      *
@@ -775,9 +772,9 @@ class ApiClient implements ApiInterface
             return $this->handleError('Empty email');
         }
 
-        $data = array(
+        $data = [
             'emails' => base64_encode($emails),
-        );
+        ];
 
         $requestResult = $this->sendRequest('blacklist', 'DELETE', $data);
 
@@ -785,7 +782,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get balance
+     * Get balance.
      *
      * @param string $currency
      *
@@ -805,10 +802,10 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * SMTP: get list of emails
+     * SMTP: get list of emails.
      *
-     * @param int $limit
-     * @param int $offset
+     * @param int    $limit
+     * @param int    $offset
      * @param string $fromDate
      * @param string $toDate
      * @param string $sender
@@ -818,14 +815,14 @@ class ApiClient implements ApiInterface
      */
     public function smtpListEmails($limit = 0, $offset = 0, $fromDate = '', $toDate = '', $sender = '', $recipient = '')
     {
-        $data = array(
+        $data = [
             'limit' => $limit,
             'offset' => $offset,
             'from' => $fromDate,
             'to' => $toDate,
             'sender' => $sender,
             'recipient' => $recipient,
-        );
+        ];
 
         $requestResult = $this->sendRequest('/smtp/emails', 'GET', $data);
 
@@ -833,7 +830,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get information about email by id
+     * Get information about email by id.
      *
      * @param $id
      *
@@ -851,7 +848,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * SMTP: add emails to unsubscribe list
+     * SMTP: add emails to unsubscribe list.
      *
      * @param $emails
      *
@@ -863,9 +860,9 @@ class ApiClient implements ApiInterface
             return $this->handleError('Empty emails');
         }
 
-        $data = array(
+        $data = [
             'emails' => serialize($emails),
-        );
+        ];
 
         $requestResult = $this->sendRequest('/smtp/unsubscribe', 'POST', $data);
 
@@ -873,7 +870,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * SMTP: remove emails from unsubscribe list
+     * SMTP: remove emails from unsubscribe list.
      *
      * @param $emails
      *
@@ -885,9 +882,9 @@ class ApiClient implements ApiInterface
             return $this->handleError('Empty emails');
         }
 
-        $data = array(
+        $data = [
             'emails' => serialize($emails),
-        );
+        ];
 
         $requestResult = $this->sendRequest('/smtp/unsubscribe', 'DELETE', $data);
 
@@ -895,7 +892,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get list of IP
+     * Get list of IP.
      *
      * @return mixed
      */
@@ -907,7 +904,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * SMTP: get list of allowed domains
+     * SMTP: get list of allowed domains.
      *
      * @return mixed
      */
@@ -919,7 +916,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * SMTP: add new domain
+     * SMTP: add new domain.
      *
      * @param $email
      *
@@ -931,9 +928,9 @@ class ApiClient implements ApiInterface
             return $this->handleError('Empty email');
         }
 
-        $data = array(
+        $data = [
             'email' => $email,
-        );
+        ];
 
         $requestResult = $this->sendRequest('smtp/domains', 'POST', $data);
 
@@ -941,7 +938,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * SMTP: verify domain
+     * SMTP: verify domain.
      *
      * @param $email
      *
@@ -959,7 +956,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * SMTP: send mail
+     * SMTP: send mail.
      *
      * @param $email
      *
@@ -972,9 +969,9 @@ class ApiClient implements ApiInterface
         }
 
         $email['html'] = base64_encode($email['html']);
-        $data = array(
+        $data = [
             'email' => serialize($email),
-        );
+        ];
 
         $requestResult = $this->sendRequest('smtp/emails', 'POST', $data);
 
@@ -982,7 +979,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get list of push campaigns
+     * Get list of push campaigns.
      *
      * @param null $limit
      * @param null $offset
@@ -991,7 +988,7 @@ class ApiClient implements ApiInterface
      */
     public function pushListCampaigns($limit = null, $offset = null)
     {
-        $data = array();
+        $data = [];
         if (null !== $limit) {
             $data['limit'] = $limit;
         }
@@ -1005,7 +1002,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get list of websites
+     * Get list of websites.
      *
      * @param null $limit
      * @param null $offset
@@ -1014,7 +1011,7 @@ class ApiClient implements ApiInterface
      */
     public function pushListWebsites($limit = null, $offset = null)
     {
-        $data = array();
+        $data = [];
         if (null !== $limit) {
             $data['limit'] = $limit;
         }
@@ -1028,7 +1025,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get amount of websites
+     * Get amount of websites.
      *
      * @return mixed
      */
@@ -1040,7 +1037,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get list of all variables for website
+     * Get list of all variables for website.
      *
      * @param $websiteId
      *
@@ -1054,10 +1051,9 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get list of subscriptions for the website
+     * Get list of subscriptions for the website.
      *
      * @param      $websiteID
-     *
      * @param null $limit
      * @param null $offset
      *
@@ -1065,7 +1061,7 @@ class ApiClient implements ApiInterface
      */
     public function pushListWebsiteSubscriptions($websiteID, $limit = null, $offset = null)
     {
-        $data = array();
+        $data = [];
         if (null !== $limit) {
             $data['limit'] = $limit;
         }
@@ -1079,7 +1075,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get amount of subscriptions for the site
+     * Get amount of subscriptions for the site.
      *
      * @param $websiteID
      *
@@ -1093,7 +1089,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Set state for subscription
+     * Set state for subscription.
      *
      * @param $subscriptionID
      * @param $stateValue
@@ -1102,10 +1098,10 @@ class ApiClient implements ApiInterface
      */
     public function pushSetSubscriptionState($subscriptionID, $stateValue)
     {
-        $data = array(
+        $data = [
             'id' => $subscriptionID,
             'state' => $stateValue,
-        );
+        ];
 
         $requestResult = $this->sendRequest('push/subscriptions/state', 'POST', $data);
 
@@ -1113,14 +1109,14 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Create new push campaign
+     * Create new push campaign.
      *
      * @param       $taskInfo
      * @param array $additionalParams
      *
      * @return stdClass
      */
-    public function createPushTask($taskInfo, array $additionalParams = array())
+    public function createPushTask($taskInfo, array $additionalParams = [])
     {
         $data = $taskInfo;
         if (!isset($data['ttl'])) {
@@ -1159,7 +1155,7 @@ class ApiClient implements ApiInterface
     }
 
     /**
-     * Get stats for push campaign
+     * Get stats for push campaign.
      *
      * @param $campaignID
      *

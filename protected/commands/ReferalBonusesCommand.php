@@ -2,7 +2,7 @@
 
 /**
  * Консольный скрипт, начисляющий пользователям бонусы за привлеченных пользователей
- * по реферальной программе
+ * по реферальной программе.
  */
 class ReferalBonusesCommand extends CConsoleCommand
 {
@@ -29,7 +29,7 @@ class ReferalBonusesCommand extends CConsoleCommand
 
         $criteria = new CDbCriteria();
         $criteria->addInCondition('id', $referalsIds);
-        $criteria->with = ["answersCount", "questionsCount"];
+        $criteria->with = ['answersCount', 'questionsCount'];
         $referals = User::model()->findAll($criteria);
 
         //print_r($referals);
@@ -39,17 +39,17 @@ class ReferalBonusesCommand extends CConsoleCommand
             $bonus = (int) $referal->referalOk();
 
             // если бонус пока не положен, проверяем следующего
-            if ($bonus == 0) {
+            if (0 == $bonus) {
                 continue;
             }
 
-            $transaction = new PartnerTransaction;
+            $transaction = new PartnerTransaction();
             $transaction->userId = $referal->id;
             $transaction->sum = $bonus;
-            $transaction->comment = "Реферальный бонус";
+            $transaction->comment = 'Реферальный бонус';
             $transaction->partnerId = $referal->refId; // кто пригласил
             if ($transaction->save()) {
-                if (Yii::app()->db->createCommand("UPDATE {{user}} SET balance = balance+" . $bonus . " WHERE id=" . $referal->refId)->query()) {
+                if (Yii::app()->db->createCommand('UPDATE {{user}} SET balance = balance+' . $bonus . ' WHERE id=' . $referal->refId)->query()) {
                     echo 'баланс пополнен' . PHP_EOL;
                 }
             }

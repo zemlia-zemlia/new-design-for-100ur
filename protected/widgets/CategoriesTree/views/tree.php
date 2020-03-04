@@ -1,6 +1,6 @@
 <?php if (stristr($_SERVER['REQUEST_URI'], '/q/')):?>
 <noindex>
-<?php endif;?>
+<?php endif; ?>
 
 <ul id="left-menu">
     
@@ -19,8 +19,7 @@
         $active = false;
         $showLink = true;
     }
-    
-    
+
     ?>
 
     <li
@@ -32,13 +31,13 @@
 
         >
 
-        <?php echo ($showLink==true) ? CHtml::link(CHtml::encode($cat['name']), array('questionCategory/alias', 'name'=>CHtml::encode($cat['alias']))):CHtml::encode($cat['name']); ?>
+        <?php echo (true == $showLink) ? CHtml::link(CHtml::encode($cat['name']), ['questionCategory/alias', 'name' => CHtml::encode($cat['alias'])]) : CHtml::encode($cat['name']); ?>
         
     </li>
 
-<?php endforeach;?>
+<?php endforeach; ?>
 </ul>
 
 <?php if (stristr($_SERVER['REQUEST_URI'], '/q/')):?>
 </noindex>
-<?php endif;?>
+<?php endif; ?>

@@ -11,8 +11,8 @@ class RegionPrices extends CWidget
     {
         $campaignsArray = (new CampaignRepository())->getActiveCampaigns();
 
-        $this->render($this->template, array(
+        $this->render($this->template, [
             'campaignsArray' => $campaignsArray,
-        ));
+        ]);
     }
 }

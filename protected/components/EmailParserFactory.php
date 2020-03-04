@@ -1,14 +1,16 @@
 <?php
 
 /**
- * Фабрика для классов парсинга лидов из почты
+ * Фабрика для классов парсинга лидов из почты.
  */
 class EmailParserFactory
 {
     /**
      * @param string $configMailBoxName
      * @param string $configFoldersName
+     *
      * @return EmailParser
+     *
      * @throws Exception
      */
     public function getParser($configMailBoxName, $configFoldersName)

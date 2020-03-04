@@ -6,10 +6,10 @@
 
 <div class="wide form">
 
-<?php $form=$this->beginWidget('CActiveForm', array(
-    'action'=>Yii::app()->createUrl($this->route),
-    'method'=>'get',
-)); ?>
+<?php $form = $this->beginWidget('CActiveForm', [
+    'action' => Yii::app()->createUrl($this->route),
+    'method' => 'get',
+]); ?>
 
 	<div class="row">
 		<?php echo $form->label($model, 'id'); ?>
@@ -23,7 +23,7 @@
 
 	<div class="row">
 		<?php echo $form->label($model, 'questionText'); ?>
-		<?php echo $form->textArea($model, 'questionText', array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->textArea($model, 'questionText', ['rows' => 6, 'cols' => 50]); ?>
 	</div>
 
 	<div class="row">
@@ -33,7 +33,7 @@
 
 	<div class="row">
 		<?php echo $form->label($model, 'categoryName'); ?>
-		<?php echo $form->textField($model, 'categoryName', array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->textField($model, 'categoryName', ['size' => 60, 'maxlength' => 255]); ?>
 	</div>
 
 	<div class="row buttons">

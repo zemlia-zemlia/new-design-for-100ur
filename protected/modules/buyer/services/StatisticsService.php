@@ -2,12 +2,13 @@
 
 namespace buyer\services;
 
+use CException;
 use DateTime;
 use Lead;
 use Yii;
 
 /**
- * Класс для получения различных статистик
+ * Класс для получения различных статистик.
  */
 class StatisticsService
 {
@@ -30,18 +31,20 @@ class StatisticsService
         $this->userId = $userId;
     }
 
-
     /**
-     * Возвращает количество лидов, проданных покупателю (с учетом статусов)
+     * Возвращает количество лидов, проданных покупателю (с учетом статусов).
+     *
      * @param DateTime|null $fromDate
+     *
      * @return int
-     * @throws \CException
+     *
+     * @throws CException
      */
     public function getSoldLeadsCount(DateTime $fromDate = null): int
     {
         $queryCommand = Yii::app()->db->createCommand()
             ->select('count(*) counter')
-            ->from("{{lead}} l")
+            ->from('{{lead}} l')
             ->where('l.buyerId = :userId', [
                 ':userId' => $this->userId,
             ])
@@ -57,16 +60,19 @@ class StatisticsService
     }
 
     /**
-     * Сумма расходов на купленные лиды в копейках
+     * Сумма расходов на купленные лиды в копейках.
+     *
      * @param DateTime|null $fromDate
+     *
      * @return int
-     * @throws \CException
+     *
+     * @throws CException
      */
     public function getTotalExpences(DateTime $fromDate = null): int
     {
         $queryCommand = Yii::app()->db->createCommand()
             ->select('sum(price) sum_price')
-            ->from("{{lead}} l")
+            ->from('{{lead}} l')
             ->where('l.buyerId = :userId', [
                 ':userId' => $this->userId,
             ])
@@ -80,7 +86,6 @@ class StatisticsService
 
         return $queryCommand->queryScalar();
     }
-
 
     /**
      * @return int
@@ -92,12 +97,13 @@ class StatisticsService
 
     /**
      * @param int $userId
+     *
      * @return StatisticsService
      */
     public function setUserId($userId): StatisticsService
     {
         $this->userId = $userId;
+
         return $this;
     }
-
 }

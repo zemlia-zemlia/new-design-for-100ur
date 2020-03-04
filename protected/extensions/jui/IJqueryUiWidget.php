@@ -3,8 +3,11 @@
  * IJqueryUiWidget class file.
  *
  * @author MetaYii
+ *
  * @version 2.4.1
- * @link http://www.yiiframework.com/
+ *
+ * @see http://www.yiiframework.com/
+ *
  * @copyright Copyright &copy; 2009 MetaYii
  * @license dual GPL (3.0 or later) and MIT, at your choice.
  * @license http://www.opensource.org/licenses/mit-license.php
@@ -63,11 +66,12 @@
  * IJqueryUiWidget is an interface for EJqueryUiWidgets.
  *
  * @author MetaYii
- * @package application.extensions.jui
+ *
  * @since 1.0.2
  */
 interface IJqueryUiWidget
 {
     public function publishAssets();
+
     public function registerClientScripts();
 }

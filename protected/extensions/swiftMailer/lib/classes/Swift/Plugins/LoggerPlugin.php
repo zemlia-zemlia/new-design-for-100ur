@@ -32,8 +32,6 @@
 /**
  * Does real time logging of Transport level information.
  *
- * @package Swift
- * @subpackage Plugins
  *
  * @author Chris Corbyn
  */
@@ -44,10 +42,9 @@ class Swift_Plugins_LoggerPlugin implements
     Swift_Events_TransportExceptionListener,
   Swift_Plugins_Logger
 {
-  
-  /** The logger which is delegated to */
+    /** The logger which is delegated to */
     private $_logger;
-  
+
     /**
      * Create a new LoggerPlugin using $logger.
      *
@@ -57,7 +54,7 @@ class Swift_Plugins_LoggerPlugin implements
     {
         $this->_logger = $logger;
     }
-  
+
     /**
      * Add a log entry.
      *
@@ -67,7 +64,7 @@ class Swift_Plugins_LoggerPlugin implements
     {
         $this->_logger->add($entry);
     }
-  
+
     /**
      * Clear the log contents.
      */
@@ -75,7 +72,7 @@ class Swift_Plugins_LoggerPlugin implements
     {
         $this->_logger->clear();
     }
-  
+
     /**
      * Get this log as a string.
      *
@@ -85,7 +82,7 @@ class Swift_Plugins_LoggerPlugin implements
     {
         return $this->_logger->dump();
     }
-  
+
     /**
      * Invoked immediately following a command being sent.
      *
@@ -94,9 +91,9 @@ class Swift_Plugins_LoggerPlugin implements
     public function commandSent(Swift_Events_CommandEvent $evt)
     {
         $command = $evt->getCommand();
-        $this->_logger->add(sprintf(">> %s", $command));
+        $this->_logger->add(sprintf('>> %s', $command));
     }
-  
+
     /**
      * Invoked immediately following a response coming back.
      *
@@ -105,9 +102,9 @@ class Swift_Plugins_LoggerPlugin implements
     public function responseReceived(Swift_Events_ResponseEvent $evt)
     {
         $response = $evt->getResponse();
-        $this->_logger->add(sprintf("<< %s", $response));
+        $this->_logger->add(sprintf('<< %s', $response));
     }
-  
+
     /**
      * Invoked just before a Transport is started.
      *
@@ -116,9 +113,9 @@ class Swift_Plugins_LoggerPlugin implements
     public function beforeTransportStarted(Swift_Events_TransportChangeEvent $evt)
     {
         $transportName = get_class($evt->getSource());
-        $this->_logger->add(sprintf("++ Starting %s", $transportName));
+        $this->_logger->add(sprintf('++ Starting %s', $transportName));
     }
-  
+
     /**
      * Invoked immediately after the Transport is started.
      *
@@ -127,9 +124,9 @@ class Swift_Plugins_LoggerPlugin implements
     public function transportStarted(Swift_Events_TransportChangeEvent $evt)
     {
         $transportName = get_class($evt->getSource());
-        $this->_logger->add(sprintf("++ %s started", $transportName));
+        $this->_logger->add(sprintf('++ %s started', $transportName));
     }
-  
+
     /**
      * Invoked just before a Transport is stopped.
      *
@@ -138,9 +135,9 @@ class Swift_Plugins_LoggerPlugin implements
     public function beforeTransportStopped(Swift_Events_TransportChangeEvent $evt)
     {
         $transportName = get_class($evt->getSource());
-        $this->_logger->add(sprintf("++ Stopping %s", $transportName));
+        $this->_logger->add(sprintf('++ Stopping %s', $transportName));
     }
-  
+
     /**
      * Invoked immediately after the Transport is stopped.
      *
@@ -149,9 +146,9 @@ class Swift_Plugins_LoggerPlugin implements
     public function transportStopped(Swift_Events_TransportChangeEvent $evt)
     {
         $transportName = get_class($evt->getSource());
-        $this->_logger->add(sprintf("++ %s stopped", $transportName));
+        $this->_logger->add(sprintf('++ %s stopped', $transportName));
     }
-  
+
     /**
      * Invoked as a TransportException is thrown in the Transport system.
      *
@@ -161,7 +158,7 @@ class Swift_Plugins_LoggerPlugin implements
     {
         $e = $evt->getException();
         $message = $e->getMessage();
-        $this->_logger->add(sprintf("!! %s", $message));
+        $this->_logger->add(sprintf('!! %s', $message));
         $message .= PHP_EOL;
         $message .= 'Log data:' . PHP_EOL;
         $message .= $this->_logger->dump();

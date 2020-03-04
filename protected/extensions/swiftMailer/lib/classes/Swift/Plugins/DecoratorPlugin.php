@@ -25,17 +25,14 @@
 /**
  * Allows customization of Messages on-the-fly.
  *
- * @package Swift
- * @subpackage Plugins
  *
  * @author Chris Corbyn
  */
 class Swift_Plugins_DecoratorPlugin implements Swift_Events_SendListener, Swift_Plugins_Decorator_Replacements
 {
-
-  /** The replacement map */
+    /** The replacement map */
     private $_replacements;
-  
+
     /** The body as it was before replacements */
     private $_orginalBody;
 
@@ -43,7 +40,7 @@ class Swift_Plugins_DecoratorPlugin implements Swift_Events_SendListener, Swift_
     private $_originalSubject;
 
     /** Bodies of children before they are replaced */
-    private $_originalChildBodies = array();
+    private $_originalChildBodies = [];
 
     /** The Message that was last replaced */
     private $_lastMessage;
@@ -93,34 +90,34 @@ class Swift_Plugins_DecoratorPlugin implements Swift_Events_SendListener, Swift_
             $search = array_keys($replacements);
             $replace = array_values($replacements);
             $bodyReplaced = str_replace(
-          $search,
-          $replace,
-          $body
-      );
+                $search,
+                $replace,
+                $body
+            );
             if ($body != $bodyReplaced) {
                 $this->_originalBody = $body;
                 $message->setBody($bodyReplaced);
             }
             $subject = $message->getSubject();
             $subjectReplaced = str_replace(
-          $search,
-          $replace,
-          $subject
-      );
+                $search,
+                $replace,
+                $subject
+            );
             if ($subject != $subjectReplaced) {
                 $this->_originalSubject = $subject;
                 $message->setSubject($subjectReplaced);
             }
             $children = (array) $message->getChildren();
             foreach ($children as $child) {
-                list($type, ) = sscanf($child->getContentType(), '%[^/]/%s');
+                list($type) = sscanf($child->getContentType(), '%[^/]/%s');
                 if ('text' == $type) {
                     $body = $child->getBody();
                     $bodyReplaced = str_replace(
-              $search,
-              $replace,
-              $body
-          );
+                        $search,
+                        $replace,
+                        $body
+                    );
                     if ($body != $bodyReplaced) {
                         $child->setBody($bodyReplaced);
                         $this->_originalChildBodies[$child->getId()] = $body;
@@ -130,7 +127,7 @@ class Swift_Plugins_DecoratorPlugin implements Swift_Events_SendListener, Swift_
             $this->_lastMessage = $message;
         }
     }
-  
+
     /**
      * Find a map of replacements for the address.
      *
@@ -189,7 +186,7 @@ class Swift_Plugins_DecoratorPlugin implements Swift_Events_SendListener, Swift_
                         $child->setBody($this->_originalChildBodies[$id]);
                     }
                 }
-                $this->_originalChildBodies = array();
+                $this->_originalChildBodies = [];
             }
             $this->_lastMessage = null;
         }

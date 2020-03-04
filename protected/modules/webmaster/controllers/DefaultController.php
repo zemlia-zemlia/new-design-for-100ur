@@ -8,15 +8,15 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
-        $criteria->with = "source";
+        $criteria->with = 'source';
 
-        $mySourcesIds = array();
+        $mySourcesIds = [];
         $mySourcesIdsRows = Yii::app()->db->createCommand()
             ->select('id')
             ->from('{{leadsource}}')
-            ->where('userId = :userId', array(':userId' => Yii::app()->user->id))
+            ->where('userId = :userId', [':userId' => Yii::app()->user->id])
             ->queryAll();
         foreach ($mySourcesIdsRows as $row) {
             $mySourcesIds[] = $row['id'];
@@ -27,10 +27,10 @@ class DefaultController extends Controller
         $criteria->addInCondition('sourceId', $mySourcesIds);
         $criteria->limit = 10;
 
-        $leadsDataProvider = new CActiveDataProvider('Lead', array(
+        $leadsDataProvider = new CActiveDataProvider('Lead', [
             'criteria' => $criteria,
             'pagination' => false,
-        ));
+        ]);
 
         // Найдем вопросы, которые пришли из источников, которые привязаны к текущему пользователю
         $questionCriteria = new CDbCriteria();
@@ -38,10 +38,10 @@ class DefaultController extends Controller
         $questionCriteria->order = 't.id DESC';
         $questionCriteria->addInCondition('sourceId', $mySourcesIds);
 
-        $questionsDataProvider = new CActiveDataProvider('Question', array(
+        $questionsDataProvider = new CActiveDataProvider('Question', [
             'criteria' => $questionCriteria,
             'pagination' => false,
-        ));
+        ]);
 
         $webmasterStat = new StatisticsService(Yii::app()->user->id);
         $leadStatsByDates = $webmasterStat->getLeadsStatisticsByField('lead_date', (new DateTime())->modify('-14 day')->modify('midnight'), 'desc');
@@ -52,13 +52,13 @@ class DefaultController extends Controller
         // @todo заменить создание объекта на инъекцию при переходе на новый фреймворк
         $activeCampaignsCount = sizeof((new CampaignRepository())->getActiveCampaigns());
 
-        $this->render('index', array(
+        $this->render('index', [
             'dataProvider' => $leadsDataProvider,
             'questionsDataProvider' => $questionsDataProvider,
             'leadStatsByDates' => $leadStatsByDates,
             'leadStatsByRegions' => $leadStatsByRegions,
             'statsFor30Days' => $statsFor30Days,
             'activeCampaignsCount' => $activeCampaignsCount,
-        ));
+        ]);
     }
 }

@@ -1,5 +1,6 @@
 <?php
-include_once('../../simple_html_dom.php');
+
+include_once '../../simple_html_dom.php';
 
 function scraping_slashdot()
 {
@@ -15,7 +16,7 @@ function scraping_slashdot()
 
         $ret[] = $item;
     }
-    
+
     // clean up memory
     $html->clear();
     unset($html);
@@ -28,8 +29,8 @@ function scraping_slashdot()
 $ret = scraping_slashdot();
 
 foreach ($ret as $v) {
-    echo $v['title'].'<br>';
+    echo $v['title'] . '<br>';
     echo '<ul>';
-    echo '<li>'.$v['body'].'</li>';
+    echo '<li>' . $v['body'] . '</li>';
     echo '</ul>';
 }

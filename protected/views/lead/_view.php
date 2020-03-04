@@ -7,7 +7,7 @@
     <div class="col-sm-9">
         <p>
             <span class="muted" > 
-                <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo CustomFuncs::niceDate($data->question_date, false, false); ?>&nbsp;&nbsp;
+                <span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo DateHelper::niceDate($data->question_date, false, false); ?>&nbsp;&nbsp;
             </span>
             &nbsp; 
             <?php if ($data->townId): ?>
@@ -17,18 +17,18 @@
             &nbsp;
 
             <span class="glyphicon glyphicon-user"></span>    
-            <?php echo CHtml::link(CHtml::encode($data->name), array('lead/view', 'id' => $data->id)); ?>
+            <?php echo CHtml::link(CHtml::encode($data->name), ['lead/view', 'id' => $data->id]); ?>
         </p>
 
         <p>
             <?php
-            $questionTextCutted = CustomFuncs::cutString($data->question, 300);
+            $questionTextCutted = StringHelper::cutString($data->question, 300);
             ?>
             <?php echo nl2br(CHtml::encode($questionTextCutted)); ?>
             <?php
             if (mb_strlen($data->question, 'utf-8') > 300) {
                 echo '...';
-            };
+            }
             ?>
         </p>
     </div>
@@ -48,7 +48,7 @@
                 <?php echo CHtml::link('Купить', Yii::app()->createUrl('lead/buy', ['id' => $data->id]), $buyLinkAttributes); ?>
 
                 <?php if ($sellPrice > Yii::app()->user->balance): ?>
-                    <div><small><?php echo CHtml::link('Пополните баланс', Yii::app()->createUrl('transaction/index'));?></small></div>
+                    <div><small><?php echo CHtml::link('Пополните баланс', Yii::app()->createUrl('transaction/index')); ?></small></div>
                 <?php endif; ?>
             <?php endif; ?>
         <?php endif; ?>

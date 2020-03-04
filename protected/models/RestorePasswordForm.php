@@ -1,6 +1,6 @@
 <?php
 /**
- * Модель для формы восстановления пароля
+ * Модель для формы восстановления пароля.
  */
 class RestorePasswordForm extends CFormModel
 {
@@ -9,19 +9,19 @@ class RestorePasswordForm extends CFormModel
 
     public function rules()
     {
-        return array(
+        return [
             // username and password are required
-            array('email', 'required'),
-            array('verifyCode','captcha','allowEmpty'=>!extension_loaded('gd')),
-            array('email','email'),
-        );
+            ['email', 'required'],
+            ['verifyCode', 'captcha', 'allowEmpty' => !extension_loaded('gd')],
+            ['email', 'email'],
+        ];
     }
-    
+
     public function attributeLabels()
     {
-        return array(
-            'email'=>'Ваш E-mail, с которым Вы зарегистрировались на сайте',
-            'verifyCode'=>'Введите код с картинки. Робот не сможет это сделать, а человек - сможет',
-        );
+        return [
+            'email' => 'Ваш E-mail, с которым Вы зарегистрировались на сайте',
+            'verifyCode' => 'Введите код с картинки. Робот не сможет это сделать, а человек - сможет',
+        ];
     }
 }

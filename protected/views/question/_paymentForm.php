@@ -1,11 +1,11 @@
-<form action = "<?php echo Yii::app()->params['yandexPaymentAction'];?>" method="POST" class="vert-margin30">
-    <input type="hidden" name="shopId" value="<?php echo Yii::app()->params['yandexShopId'];?>" />
-    <input type="hidden" name="scid" value="<?php echo Yii::app()->params['yandexScid'];?>" />
-    <input type="hidden" name="sum" value="<?php echo $question->price;?>" />
-    <input type="hidden" name="customerNumber" value="<?php echo $question->id;?>" />
+<form action = "<?php echo Yii::app()->params['yandexPaymentAction']; ?>" method="POST" class="vert-margin30">
+    <input type="hidden" name="shopId" value="<?php echo Yii::app()->params['yandexShopId']; ?>" />
+    <input type="hidden" name="scid" value="<?php echo Yii::app()->params['yandexScid']; ?>" />
+    <input type="hidden" name="sum" value="<?php echo $question->price; ?>" />
+    <input type="hidden" name="customerNumber" value="<?php echo $question->id; ?>" />
     <!--<input name="paymentType" value="ac" type="hidden">-->
     <input name="paymentType" value="" type="hidden">
-    <input type="submit" value="Перейти к оплате <?php echo $question->price;?> рублей" class="btn btn-success btn-lg" />
+    <input type="submit" value="Перейти к оплате <?php echo $question->price; ?> рублей" class="btn btn-success btn-lg" />
     
 </form>
 <div class="flat-panel">

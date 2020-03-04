@@ -5,7 +5,7 @@ use Phinx\Migration\AbstractMigration;
 /**
  * Миграция добавляет таблицу для хранения данных об активности пользователей
  * которая заменит таблицу log
- * Class AddUserActivityTable
+ * Class AddUserActivityTable.
  */
 class AddUserActivityTable extends AbstractMigration
 {

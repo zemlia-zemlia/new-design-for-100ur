@@ -7,10 +7,10 @@
 <div>
 
     <?php
-    $form = $this->beginWidget('CActiveForm', array(
+    $form = $this->beginWidget('CActiveForm', [
         'id' => 'post-form',
         'enableAjaxValidation' => false,
-    ));
+    ]);
     ?>
 
     <p class="note"><span class="required">*</span> обязательные поля</p>
@@ -19,7 +19,7 @@
 
     <div class="form-group">
         <?php echo $form->labelEx($model, 'title'); ?>
-        <?php echo $form->textField($model, 'title', array('class' => 'form-control', 'maxlength' => 256)); ?>
+        <?php echo $form->textField($model, 'title', ['class' => 'form-control', 'maxlength' => 256]); ?>
         <?php echo $form->error($model, 'title'); ?>
     </div>
 
@@ -27,18 +27,18 @@
         <?php echo $form->labelEx($model, 'preview'); ?>
 
         <?php
-        $this->widget('ImperaviRedactorWidget', array(
+        $this->widget('ImperaviRedactorWidget', [
             // You can either use it for model attribute
             'model' => $model,
             'attribute' => 'preview',
             // Some options, see http://imperavi.com/redactor/docs/
-            'options' => array(
+            'options' => [
                 'lang' => 'en',
                 'imageUpload' => Yii::app()->createUrl('site/upload'),
                 'toolbar' => true,
                 'iframe' => true,
-            ),
-        ));
+            ],
+        ]);
         ?>
         <?php echo $form->error($model, 'preview'); ?>
     </div>
@@ -47,18 +47,18 @@
         <?php echo $form->labelEx($model, 'text'); ?>
 
         <?php
-        $this->widget('ImperaviRedactorWidget', array(
+        $this->widget('ImperaviRedactorWidget', [
             // You can either use it for model attribute
             'model' => $model,
             'attribute' => 'text',
             // Some options, see http://imperavi.com/redactor/docs/
-            'options' => array(
+            'options' => [
                 'lang' => 'en',
                 'imageUpload' => Yii::app()->createUrl('site/upload'),
                 'toolbar' => true,
                 'iframe' => false,
-            ),
-        ));
+            ],
+        ]);
         ?>
 
         <?php echo $form->error($model, 'text'); ?>
@@ -66,15 +66,15 @@
     
     <div class="form-group">
         <?php echo $form->labelEx($model, 'description'); ?>
-        <?php echo $form->textArea($model, 'description', array('class' => 'form-control', 'rows' => 3)); ?>
+        <?php echo $form->textArea($model, 'description', ['class' => 'form-control', 'rows' => 3]); ?>
         <?php echo $form->error($model, 'description'); ?>
     </div>
 
 
-<?php echo CHtml::submitButton($model->isNewRecord ? 'Создать пост' : 'Сохранить пост', array('class' => 'btn btn-primary btn-large')); ?>
+<?php echo CHtml::submitButton($model->isNewRecord ? 'Создать пост' : 'Сохранить пост', ['class' => 'btn btn-primary btn-large']); ?>
     <?php
     if (!$model->isNewRecord) {
-        echo CHtml::link('Не сохранять', Yii::app()->createUrl('post/view', array('id' => $model->id)), array('class' => 'btn btn-large'));
+        echo CHtml::link('Не сохранять', Yii::app()->createUrl('post/view', ['id' => $model->id]), ['class' => 'btn btn-large']);
     }
     ?>
 
@@ -83,7 +83,7 @@
     <p>Каждый пост может относиться к нескольким категориям. Отметьте нужные категории, зажав клавишу Ctrl (Command в MacOS)</p>
     <div class="form-group"> 
 <?php
-echo $form->dropDownList($model, 'categories', $categoriesArray, array('multiple' => 'multiple', 'style' => 'width:100%; height:10em; text-align:left;', 'class' => 'form-control'));
+echo $form->dropDownList($model, 'categories', $categoriesArray, ['multiple' => 'multiple', 'style' => 'width:100%; height:10em; text-align:left;', 'class' => 'form-control']);
 ?>
     </div>
 

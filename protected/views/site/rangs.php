@@ -1,6 +1,6 @@
 <?php
-$this->setPageTitle("Звания юристов. ");
-Yii::app()->clientScript->registerMetaTag("", 'description');
+$this->setPageTitle('Звания юристов. ');
+Yii::app()->clientScript->registerMetaTag('', 'description');
 
 $answersCount = $user->answersCount;
 $testimonialsCount = $user->commentsCount;

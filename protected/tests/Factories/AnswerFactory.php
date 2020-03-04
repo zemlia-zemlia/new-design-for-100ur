@@ -14,7 +14,7 @@ class AnswerFactory extends BaseFactory
             'answerText' => $this->faker->paragraph(),
             'authorId' => $this->faker->randomNumber(),
             'status' => Answer::STATUS_PUBLISHED,
-            'karma' => $this->faker->numberBetween(0,10),
+            'karma' => $this->faker->numberBetween(0, 10),
         ];
 
         $requestParams = array_merge($requestParams, $forcedParams);

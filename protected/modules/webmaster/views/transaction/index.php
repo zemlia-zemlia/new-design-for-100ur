@@ -1,9 +1,9 @@
 <?php
-$this->pageTitle = "Транзакции. " . Yii::app()->name;
+$this->pageTitle = 'Транзакции. ' . Yii::app()->name;
 ?>
 
 
-<?php if ($justCreated == true): ?>
+<?php if (true == $justCreated): ?>
     <div class="alert alert-success text-center">
         <h4>Заявка на вывод средств создана</h4>
         <p>Заявка создана и отправлена на рассмотрение модератору</p>
@@ -30,9 +30,9 @@ $this->pageTitle = "Транзакции. " . Yii::app()->name;
                     <?php endif; ?>
                 </td>
                 <td>
-                    <?php echo $this->renderPartial('_form', array(
+                    <?php echo $this->renderPartial('_form', [
                         'model' => $transaction,
-                    )); ?>
+                    ]); ?>
                     <div class="text-center">
                         <small><strong>Заявки на вывод средств обрабатываются в течении 3 (трёх) рабочих дней.</strong></small>
                     </div>
@@ -58,13 +58,13 @@ $this->pageTitle = "Транзакции. " . Yii::app()->name;
                     <th>Статус</th>
                 </tr>
                 </thead>
-                <?php $this->widget('zii.widgets.CListView', array(
+                <?php $this->widget('zii.widgets.CListView', [
                     'dataProvider' => $requestsDataProvider,
                     'itemView' => '_viewRequest',
                     'emptyText' => 'Не найдено ни одной заявки',
                     'summaryText' => 'Показаны заявки с {start} до {end}, всего {count}',
-                    'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
-                )); ?>
+                    'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+                ]); ?>
             </table>
         </div>
     </div>
@@ -84,13 +84,13 @@ $this->pageTitle = "Транзакции. " . Yii::app()->name;
                 <th>Комментарий</th>
             </tr>
             </thead>
-            <?php $this->widget('zii.widgets.CListView', array(
+            <?php $this->widget('zii.widgets.CListView', [
                 'dataProvider' => $dataProvider,
                 'itemView' => '_view',
                 'emptyText' => 'Не найдено ни одной транзакции',
                 'summaryText' => 'Показаны транзакции с {start} до {end}, всего {count}',
-                'pager' => array('class' => 'GTLinkPager') //we use own pager with russian words
-            )); ?>
+                'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+            ]); ?>
         </table>
     </div>
 </div>

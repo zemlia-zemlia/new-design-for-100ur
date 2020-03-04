@@ -2,7 +2,7 @@
 
 /**
  * Отображение недавних вопросов с максимальным числом ответов
- * Class PopularQuestions
+ * Class PopularQuestions.
  */
 class PopularQuestions extends CWidget
 {
@@ -13,7 +13,7 @@ class PopularQuestions extends CWidget
 
     public function run()
     {
-        $priceCondition = ($this->showPayed === true) ? 'price > 0' : 'price = 0';
+        $priceCondition = (true === $this->showPayed) ? 'price > 0' : 'price = 0';
         $questionsRows = Yii::app()->db->cache($this->cacheTime)->createCommand()
             ->select('q.id, q.title, q.createDate, q.price, a.id answerId, COUNT(a.id) counter')
             ->from('{{question}} q')

@@ -1,6 +1,6 @@
 <?php
 /**
- * @var integer $questionId
+ * @var int
  * @var float $questionPrice
  */
 ?>

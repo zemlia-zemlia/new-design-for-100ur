@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Models;
 
-use \Codeception\Test\Unit;
+use Codeception\Test\Unit;
 use Faker\Factory;
 use Lead;
 use PhoneHelper;
@@ -18,7 +18,8 @@ class LeadTest extends Unit
     }
 
     /**
-     * Проверка работы правил валидации
+     * Проверка работы правил валидации.
+     *
      * @dataProvider providerValidation
      */
     public function testValidation(array $attributes, bool $expectedResult, ?string $scenario = null)
@@ -34,7 +35,7 @@ class LeadTest extends Unit
 
         $validationResult = $lead->validate();
 
-        if ($expectedResult == true) {
+        if (true == $expectedResult) {
             $this->assertEquals([], $lead->getErrors());
         }
 
@@ -104,7 +105,8 @@ class LeadTest extends Unit
     }
 
     /**
-     * Возвращает набор атрибутов валидного лида
+     * Возвращает набор атрибутов валидного лида.
+     *
      * @return array
      */
     protected function createValidLeadAttributes(): array

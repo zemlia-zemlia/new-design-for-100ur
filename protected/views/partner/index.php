@@ -1,5 +1,5 @@
 <?php
-$this->setPageTitle("Кабинет поставщика лидов. ". Yii::app()->name);
+$this->setPageTitle('Кабинет поставщика лидов. ' . Yii::app()->name);
 
 ?>
 

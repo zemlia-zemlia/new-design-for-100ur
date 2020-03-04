@@ -1,9 +1,9 @@
 <div class="form">
 
-    <?php $form = $this->beginWidget('CActiveForm', array(
+    <?php $form = $this->beginWidget('CActiveForm', [
         'id' => 'transaction-form',
         'enableAjaxValidation' => false,
-    )); ?>
+    ]); ?>
     <h3>Вывести</h3>
     <div class="row">
         <div class="col-sm-7">
@@ -23,7 +23,7 @@
     </div>
     <div class="center-align">
         <p class="small"><strong>Внимание!</strong> Вывод средств возможен только на баланс любого мобильного телефона.</p>
-        <?php echo CHtml::submitButton('Вывести средства', array('class' => 'btn btn-default')); ?>
+        <?php echo CHtml::submitButton('Вывести средства', ['class' => 'btn btn-default']); ?>
     </div>
     <?php $this->endWidget(); ?>
 

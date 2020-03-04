@@ -4,41 +4,40 @@
 
 $pageTitle = $model->createPageTitle();
 
-if (isset($_GET) && (int)$_GET['Question_page'] && $dataProvider->pagination) {
-    $pageNumber = (int)$_GET['Question_page'];
+if (isset($_GET) && (int) $_GET['Question_page'] && $dataProvider->pagination) {
+    $pageNumber = (int) $_GET['Question_page'];
     $pagesTotal = ceil($dataProvider->totalItemCount / $dataProvider->pagination->getPageSize());
     $pageTitle .= '. Страница ' . $pageNumber . ' из ' . $pagesTotal . '. ';
 }
 $this->setPageTitle($pageTitle);
 Yii::app()->clientScript->registerMetaTag($model->createPageDescription(), 'description');
 Yii::app()->clientScript->registerMetaTag($model->createPageKeywords(), 'keywords');
-Yii::app()->clientScript->registerLinkTag("canonical", null, Yii::app()->createUrl('town/alias', array(
+Yii::app()->clientScript->registerLinkTag('canonical', null, Yii::app()->createUrl('town/alias', [
     'name' => $model->alias,
     'countryAlias' => $model->country->alias,
     'regionAlias' => $model->region->alias,
-)));
+]));
 
-
-$this->breadcrumbs = array(
-    CHtml::encode($model->country->name) => array(
+$this->breadcrumbs = [
+    CHtml::encode($model->country->name) => [
         'region/country',
         'countryAlias' => $model->country->alias,
-    ),
-    CHtml::encode($model->region->name) => array(
+    ],
+    CHtml::encode($model->region->name) => [
         'region/view',
         'regionAlias' => $model->region->alias,
         'countryAlias' => $model->country->alias,
-    ),
+    ],
     $model->name,
-);
+];
 ?>
 
 <?php
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink' => CHtml::link('100 Юристов', "/"),
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 Юристов', '/'),
     'separator' => ' / ',
     'links' => $this->breadcrumbs,
-));
+]);
 ?>
 
 <div class="row">
@@ -49,11 +48,11 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 <?php foreach ($closeTowns as $town): ?>
                     <li>
                         <?php
-                        echo CHtml::link($town->name, Yii::app()->createUrl('town/alias', array(
+                        echo CHtml::link($town->name, Yii::app()->createUrl('town/alias', [
                             'name' => $town->alias,
                             'countryAlias' => $town->country->alias,
                             'regionAlias' => $town->region->alias,
-                        )));
+                        ]));
                         ?>
                     </li>
                 <?php endforeach; ?>
@@ -68,14 +67,14 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <div class="row">
             <div class="col-sm-8">
                 <?php
-                $this->widget('zii.widgets.CListView', array(
+                $this->widget('zii.widgets.CListView', [
                     'dataProvider' => $yuristsDataProvider,
                     'itemView' => 'application.views.yurist._viewLine',
                     'emptyText' => '<div class="text-center vert-margin40 alert alert-info">Не найдено ни одного юриста из этого города. <br />Рассмотрите других юристов нашего портала</div>',
                     'summaryText' => '',
-                    'pager' => array('class' => 'GTLinkPager'),
-                    'viewData' => array('onPage' => $yuristsDataProvider->getItemCount()),
-                ));
+                    'pager' => ['class' => 'GTLinkPager'],
+                    'viewData' => ['onPage' => $yuristsDataProvider->getItemCount()],
+                ]);
                 ?>
 
                 <?php if ($yuristsDataProvider->itemCount): ?>
@@ -85,11 +84,11 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     <div class='vert-margin30'>
                         <?php
                         // выводим виджет с топовыми юристами
-                        $this->widget('application.widgets.TopYurists.TopYurists', array(
+                        $this->widget('application.widgets.TopYurists.TopYurists', [
                             'cacheTime' => 300,
                             'limit' => 6,
                             'template' => 'list',
-                        ));
+                        ]);
                         ?>
                     </div>
                 <?php endif; ?>
@@ -108,7 +107,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                     </div>
                 <?php endif; ?>
                 </div>
-                <?php if (Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_CLIENT): ?>
+                <?php if (Yii::app()->user->isGuest || User::ROLE_CLIENT == Yii::app()->user->role): ?>
                     <div class="vert-margin30 blue-block inside">
                         <div class="row">
                             <div class="col-sm-8 center-align">
@@ -125,7 +124,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
             </div>
             <div class="col-sm-4">
-                <?php if (Yii::app()->user->isGuest || Yii::app()->user->role == User::ROLE_ROOT): ?>
+                <?php if (Yii::app()->user->isGuest || User::ROLE_ROOT == Yii::app()->user->role): ?>
                     <div class="grey-panel inside">
                         <h4>Вы специалист в области права?</h4>
                         <p>
@@ -133,7 +132,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                             квалификации.
                         </p>
                         <p class="right-align">
-                            <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', array('role' => User::ROLE_JURIST))); ?>
+                            <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', ['role' => User::ROLE_JURIST])); ?>
                         </p>
                     </div>
                 <?php endif; ?>

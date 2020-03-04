@@ -9,91 +9,90 @@ class LeadsourceController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
                 //'postOnly + delete', // we only allow deletion via POST request
-        );
+        ];
     }
 
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
+     *
      * @return array access control rules
      */
     public function accessRules()
     {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'delete'),
-                'users' => array('@'),
+        return [
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                'users' => ['@'],
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+            ],
+            ['deny', // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     *
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
         $model = $this->loadModel($id);
-        
+
         // загружаем статистику по лидам из заданного источника
-        $year = (isset($_GET['year']))?(int)$_GET['year'] : date('Y');
-        $month = (isset($_GET['month']))?(int)$_GET['month'] : date('m');
-        
+        $year = (isset($_GET['year'])) ? (int) $_GET['year'] : date('Y');
+        $month = (isset($_GET['month'])) ? (int) $_GET['month'] : date('m');
+
         // массив лет, за которые есть лиды из данного источника
-        $yearsArray = array();
+        $yearsArray = [];
         $yearsRows = Yii::app()->db->createCommand()
                 ->select('DISTINCT(YEAR(question_date))')
                 ->from('{{lead}} l')
-                ->where('l.sourceId=:sourceId', array(
+                ->where('l.sourceId=:sourceId', [
                     ':sourceId' => $model->id,
-                ))
+                ])
                 ->queryColumn();
         foreach ($yearsRows as $row) {
             $yearsArray[$row] = $row;
         }
-        //CustomFuncs::printr($yearsArray);
-        
+
         // лиды из данного источника за заданный месяц
-        $leadsStats = array();
+        $leadsStats = [];
         $leadsRows = Yii::app()->db->createCommand()
                 ->select('l.id, l.buyPrice, l.price, l.leadStatus, t.name townName')
                 ->from('{{lead}} l')
                 ->leftJoin('{{town}} t', 'l.townId=t.id')
-                ->where('l.sourceId=:sourceId AND YEAR(l.question_date)=:year AND MONTH(l.question_date)=:month', array(
+                ->where('l.sourceId=:sourceId AND YEAR(l.question_date)=:year AND MONTH(l.question_date)=:month', [
                     ':sourceId' => $model->id,
-                    ':year'     => $year,
-                    ':month'    => $month,
-                ))
+                    ':year' => $year,
+                    ':month' => $month,
+                ])
                 ->queryAll();
-        
+
         foreach ($leadsRows as $row) {
-            $leadsStats[$row['townName']]['total']++;
-            $leadsStats[$row['townName']]['expences']+=$row['buyPrice'];
-            
-            if ($row['leadStatus'] == Lead::LEAD_STATUS_BRAK) {
-                $leadsStats[$row['townName']]['brak']++;
+            ++$leadsStats[$row['townName']]['total'];
+            $leadsStats[$row['townName']]['expences'] += $row['buyPrice'];
+
+            if (Lead::LEAD_STATUS_BRAK == $row['leadStatus']) {
+                ++$leadsStats[$row['townName']]['brak'];
             } else {
-                $leadsStats[$row['townName']]['sold']++;
-                $leadsStats[$row['townName']]['revenue']+=$row['price'];
+                ++$leadsStats[$row['townName']]['sold'];
+                $leadsStats[$row['townName']]['revenue'] += $row['price'];
             }
         }
-        
-        //CustomFuncs::printr($leadsStats);
-        
-        $this->render('view', array(
-            'model'         =>  $model,
-            'year'          =>  $year,
-            'month'         =>  $month,
-            'yearsArray'    =>  $yearsArray,
-            'leadsStats'    =>  $leadsStats,
-        ));
+
+        $this->render('view', [
+            'model' => $model,
+            'year' => $year,
+            'month' => $month,
+            'yearsArray' => $yearsArray,
+            'leadsStats' => $leadsStats,
+        ]);
     }
 
     /**
@@ -102,34 +101,35 @@ class LeadsourceController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Leadsource;
+        $model = new Leadsource();
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
         if (isset($_POST['Leadsource'])) {
             $model->attributes = $_POST['Leadsource'];
-            if (Yii::app()->user->role == User::ROLE_MANAGER) {
+            if (User::ROLE_MANAGER == Yii::app()->user->role) {
                 $model->officeId = Yii::app()->user->officeId;
             }
-            
+
             $model->generateAppId();
             $model->generateSecretKey();
-            
+
             if ($model->save()) {
-                $this->redirect(array('index', 'officeId' => $model->officeId));
+                $this->redirect(['index', 'officeId' => $model->officeId]);
             }
         }
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     *
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -140,7 +140,7 @@ class LeadsourceController extends Controller
 
         if (isset($_POST['Leadsource'])) {
             $model->attributes = $_POST['Leadsource'];
-            
+
             if (!$model->appId) {
                 $model->generateAppId();
             }
@@ -149,19 +149,20 @@ class LeadsourceController extends Controller
             }
 
             if ($model->save()) {
-                $this->redirect(array('index'));
+                $this->redirect(['index']);
             }
         }
 
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     *
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -169,7 +170,7 @@ class LeadsourceController extends Controller
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax'])) {
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['index']);
         }
     }
 
@@ -178,8 +179,8 @@ class LeadsourceController extends Controller
      */
     public function actionIndex()
     {
-        $criteria = new CDbCriteria;
-        
+        $criteria = new CDbCriteria();
+
         $criteria->with = 'user';
 
         // добавим условие выборки контактов по офису
@@ -188,22 +189,21 @@ class LeadsourceController extends Controller
         } else {
             $officeId = 0;
         }
-        if (Yii::app()->user->role != User::ROLE_ROOT) {
+        if (User::ROLE_ROOT != Yii::app()->user->role) {
             $officeId = Yii::app()->user->officeId;
         }
 
-
         $dataProvider = new CActiveDataProvider(
             'Leadsource',
-            array(
+            [
             'criteria' => $criteria,
-            'pagination' => array(
+            'pagination' => [
                 'pageSize' => 50,
-            ))
+            ], ]
         );
-        $this->render('index', array(
+        $this->render('index', [
             'dataProvider' => $dataProvider,
-        ));
+        ]);
     }
 
     /**
@@ -217,34 +217,39 @@ class LeadsourceController extends Controller
             $model->attributes = $_GET['Leadsource'];
         }
 
-        $this->render('admin', array(
+        $this->render('admin', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     *
+     * @param int $id the ID of the model to be loaded
+     *
      * @return Leadsource the loaded model
+     *
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = Leadsource::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
     /**
      * Performs the AJAX validation.
+     *
      * @param Leadsource $model the model to be validated
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'leadsource-form') {
+        if (isset($_POST['ajax']) && 'leadsource-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

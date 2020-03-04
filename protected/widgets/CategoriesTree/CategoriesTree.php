@@ -1,12 +1,12 @@
 <?php
+
 class CategoriesTree extends CWidget
 {
     public $template = 'tree'; // представление виджета по умолчанию
     public $cacheTime = 300; // по умолчанию кэшируем  на 5 минут
-    
+
     public function run()
     {
-                
         // вытаскиваем из базы список категорий верхнего уровня
         $topCategories = Yii::app()->db->cache($this->cacheTime)->createCommand()
                 ->select('id, alias, name')
@@ -14,7 +14,7 @@ class CategoriesTree extends CWidget
                 ->where('lft=1') // категории верхнего уровня
                 ->order('name')
                 ->queryAll();
-        
+
         /*
          *  SELECT c.root, COUNT(*) counter FROM `100_questioncategory` c
             LEFT JOIN `100_question2category` q2c ON q2c.cId=c.id
@@ -23,7 +23,7 @@ class CategoriesTree extends CWidget
             GROUP BY c.root
             ORDER BY c.id ASC
          */
-        $questionsByCategoriesArray = array();
+        $questionsByCategoriesArray = [];
         /*$questionsByCategories = Yii::app()->db->cache($this->cacheTime)->createCommand()
                 ->select('c.root, COUNT(*) counter')
                 ->from('{{questionCategory}} c')
@@ -37,10 +37,10 @@ class CategoriesTree extends CWidget
         foreach($questionsByCategories as $row) {
             $questionsByCategoriesArray[$row['root']] = $row['counter'];
         }*/
-        
-        $this->render($this->template, array(
-            'topCategories'                 =>  $topCategories,
-            'questionsByCategoriesArray'    =>  $questionsByCategoriesArray,
-        ));
+
+        $this->render($this->template, [
+            'topCategories' => $topCategories,
+            'questionsByCategoriesArray' => $questionsByCategoriesArray,
+        ]);
     }
 }

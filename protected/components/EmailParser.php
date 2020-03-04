@@ -1,7 +1,7 @@
 <?php
 
 /**
- * абстрактный класс парсинга лидов из почты
+ * абстрактный класс парсинга лидов из почты.
  */
 abstract class EmailParser
 {
@@ -13,9 +13,11 @@ abstract class EmailParser
     protected $_messages = []; // массив объектов ParsedEmail
 
     /**
-     * Загружает настройки из конфиг файлов с параметрами доступа к ящику и списком папок для парсинга
+     * Загружает настройки из конфиг файлов с параметрами доступа к ящику и списком папок для парсинга.
+     *
      * @param string $configMailBoxName
      * @param string $configFoldersName
+     *
      * @throws Exception
      */
     public function __construct($configMailBoxName, $configFoldersName)
@@ -25,26 +27,30 @@ abstract class EmailParser
     }
 
     /**
-     * Загрузка настроек папок и источников из конфиг файла
+     * Загрузка настроек папок и источников из конфиг файла.
+     *
      * @param string $configFoldersName
+     *
      * @throws Exception
      */
     protected function loadFoldersSettings($configFoldersName)
     {
-        $this->_folderSettings = require(Yii::getPathOfAlias('application.config.parsers.folders.' . $configFoldersName) . '.php');
+        $this->_folderSettings = require Yii::getPathOfAlias('application.config.parsers.folders.' . $configFoldersName) . '.php';
         if (!is_array($this->_folderSettings)) {
             throw new CException('Invalid folders config file');
         }
     }
 
     /**
-     * Загрузка настроек подключения к почтовому ящику из конфиг файла
+     * Загрузка настроек подключения к почтовому ящику из конфиг файла.
+     *
      * @param string $configFoldersName
+     *
      * @throws Exception
      */
     protected function loadAccessConfig($configMailBoxName)
     {
-        $this->_accessConfig = require(Yii::getPathOfAlias('application.config.parsers.servers.' . $configMailBoxName) . '.php');
+        $this->_accessConfig = require Yii::getPathOfAlias('application.config.parsers.servers.' . $configMailBoxName) . '.php';
         if (!is_array($this->_accessConfig)) {
             throw new CException('Invalid access config file');
         }
@@ -52,10 +58,13 @@ abstract class EmailParser
 
     /**
      * Извлекаем массив текстов непрочитанных писем из указанной папки
-     * Письма берутся не старше чем $period дней
+     * Письма берутся не старше чем $period дней.
+     *
      * @param string $folderName имя папки
-     * @param integer $period за сколько последних дней собирать письма
+     * @param int    $period     за сколько последних дней собирать письма
+     *
      * @throws CException
+     *
      * @return array Массив объектов ParsedEmail
      */
     protected function getMessagesFromFolder($folderName, $period = 2)
@@ -71,23 +80,23 @@ abstract class EmailParser
 
         // подключаемся к папке в почтовом ящике
         try {
-            $mbox = @imap_open("{" . "{$host}:{$port}{$param}" . "}$folder", $login, $pass);
+            $mbox = @imap_open('{' . "{$host}:{$port}{$param}" . "}$folder", $login, $pass);
         } catch (\Exception $e) {
             throw new CException("Couldn't open the inbox");
         }
 
-        if ($mbox === false) {
+        if (false === $mbox) {
             throw new CException("Couldn't open the inbox");
-        };
+        }
 
         // извлекаем письма из папки в ящике
-        $emails = imap_search($mbox, 'UNSEEN SINCE ' . date('d-M-Y', strtotime("-" . $period . " day")));
-        if ($emails == false && imap_errors()) {
-            throw new CException("Messages search wrong criteria");
+        $emails = imap_search($mbox, 'UNSEEN SINCE ' . date('d-M-Y', strtotime('-' . $period . ' day')));
+        if (false == $emails && imap_errors()) {
+            throw new CException('Messages search wrong criteria');
         }
 
         // Сообщений не найдено
-        if ($emails === false) {
+        if (false === $emails) {
             return $parsedMessages;
         }
 
@@ -110,35 +119,37 @@ abstract class EmailParser
     }
 
     /**
-     * Вывод сообщения, при условии, что парсер запущен в режиме отладки
+     * Вывод сообщения, при условии, что парсер запущен в режиме отладки.
+     *
      * @param mixed $message Текст сообщения или значение
      */
     protected function echoDebug($message)
     {
-        if ($this->_debugMode == true) {
+        if (true == $this->_debugMode) {
             print_r($message . PHP_EOL);
         }
     }
 
     /**
-     * Классы-наследники должны реализовать метод парсинга текста письма
+     * Классы-наследники должны реализовать метод парсинга текста письма.
      */
     abstract protected function parseMessage(ParsedEmail $message, Lead $lead, $folderSettings);
 
     /**
-     * Возвращает, какую секцию письма считать телом (третий параметр функции imap_fetchbody)
+     * Возвращает, какую секцию письма считать телом (третий параметр функции imap_fetchbody).
      */
     abstract protected function getFetchBodySection();
 
     /**
-     * Поиск в базе телефонов существующих лидов
-     * @param integer $period За сколько суток собирать лиды
+     * Поиск в базе телефонов существующих лидов.
+     *
+     * @param int $period За сколько суток собирать лиды
      */
     protected function setExistingPhones($period = 2)
     {
-        $existingLeads = Lead::model()->findAll(array(
+        $existingLeads = Lead::model()->findAll([
             'condition' => 'question_date>NOW()- INTERVAL ' . $period . ' DAY AND sourceId IN(' . implode(', ', $this->_leadSourceIds) . ')',
-        ));
+        ]);
 
         foreach ($existingLeads as $existingLead) {
             $this->_existingPhones[] = PhoneHelper::normalizePhone($existingLead->phone);
@@ -148,7 +159,7 @@ abstract class EmailParser
     }
 
     /**
-     * Записывает в свойство _leadSourceIds уникальные id источников лидов из конфига папок
+     * Записывает в свойство _leadSourceIds уникальные id источников лидов из конфига папок.
      */
     protected function setLeadSourcesIds()
     {
@@ -159,9 +170,11 @@ abstract class EmailParser
     }
 
     /**
-     * Метод, вызывающий цепочку методов парсинга, является фасадом для клиентского кода
-     * @param boolean $debugMode Работает ли скрипт в режиме отладки
-     * @param integer $period период в сутках, за который парсим лиды
+     * Метод, вызывающий цепочку методов парсинга, является фасадом для клиентского кода.
+     *
+     * @param bool $debugMode Работает ли скрипт в режиме отладки
+     * @param int  $period    период в сутках, за который парсим лиды
+     *
      * @throws Exception
      */
     public function run($debugMode = false, $period = 2)
@@ -175,13 +188,13 @@ abstract class EmailParser
             $this->_messages = $this->getMessagesFromFolder($folderName, $period);
 
             foreach ($this->_messages as $message) {
-                $this->parseMessage($message, new Lead, $folderSettings);
+                $this->parseMessage($message, new Lead(), $folderSettings);
             }
         }
     }
 
     /**
-     * подключаем библиотеку для парсинга текста письма
+     * подключаем библиотеку для парсинга текста письма.
      */
     protected function loadHtmlParser()
     {

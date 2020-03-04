@@ -6,7 +6,7 @@ $purifier = new CHtmlPurifier();
 
     <h2 class="vert-margin30">Свежие отзывы</h2>
     <?php foreach ($testimonials as $index => $testimonial): ?>
-        <?php if ($index % 3 == 0): ?>
+        <?php if (0 == $index % 3): ?>
             <div class="row vert-margin30">
         <?php endif; ?>
 
@@ -24,16 +24,16 @@ $purifier = new CHtmlPurifier();
                 </p>
             <?php endif; ?>
                             <span class="text-muted small right-align">
-                        <?php echo CustomFuncs::niceDate($testimonial->dateTime, false, false); ?>
+                        <?php echo DateHelper::niceDate($testimonial->dateTime, false, false); ?>
                     </span>
         </div>
-        <?php if ($index % 3 == 2): ?>
+        <?php if (2 == $index % 3): ?>
             </div>
         <?php endif; ?>
 
     <?php endforeach; ?>
 
-    <?php if ($index % 3 != 2): ?>
+    <?php if (2 != $index % 3): ?>
         </div>
     <?php endif; ?>
 

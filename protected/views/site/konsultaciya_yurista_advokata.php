@@ -1,6 +1,6 @@
 <?php
-    $this->setPageTitle("Вопрос юристу - задать вопрос юристу онлайн. Вопрос адвокату на 100yuristov.com " . Yii::app()->name);
-    Yii::app()->clientScript->registerMetaTag("Задайте вопрос юристу онлайн на 100yuristov.com. Любые вопросы - профессионально, быстро, гарантированно!", 'description');
+    $this->setPageTitle('Вопрос юристу - задать вопрос юристу онлайн. Вопрос адвокату на 100yuristov.com ' . Yii::app()->name);
+    Yii::app()->clientScript->registerMetaTag('Задайте вопрос юристу онлайн на 100yuristov.com. Любые вопросы - профессионально, быстро, гарантированно!', 'description');
 
 ?>
 
@@ -10,17 +10,17 @@
             <div class="center-align">
             <?php
                 // выводим виджет с номером 8800
-                $this->widget('application.widgets.Hotline.HotlineWidget', array(
-                    'showAlways'    =>  true,
-                ));
+                $this->widget('application.widgets.Hotline.HotlineWidget', [
+                    'showAlways' => true,
+                ]);
             ?>		
             </div>
             <div class="form-container-content form-container ">
                 <h3 class="center-align header-block header-block-light-grey">Задать вопрос on-line<br/>доступно для ВСЕХ регионов РФ</h3>
                                 
-                <?php echo $this->renderPartial('application.views.question._formBrief', array(
-                    'newQuestionModel'  =>  $newQuestionModel,
-                ));?>
+                <?php echo $this->renderPartial('application.views.question._formBrief', [
+                    'newQuestionModel' => $newQuestionModel,
+                ]); ?>
                               
             </div>
 	</div>
@@ -73,9 +73,9 @@
 		
 		<?php
             // выводим виджет с топовыми юристами
-            $this->widget('application.widgets.TopYurists.TopYurists', array(
-                'cacheTime' =>  0,
-            ));
+            $this->widget('application.widgets.TopYurists.TopYurists', [
+                'cacheTime' => 0,
+            ]);
         ?>
 		
 	</div>

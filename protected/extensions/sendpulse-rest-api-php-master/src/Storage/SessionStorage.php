@@ -2,7 +2,7 @@
 
 /**
  * Session token storage
- * Class SessionStorage
+ * Class SessionStorage.
  */
 
 namespace Sendpulse\RestApi\Storage;
@@ -12,8 +12,6 @@ class SessionStorage implements TokenStorageInterface
     /**
      * @param string $key
      * @param        $token
-     *
-     * @return void
      */
     public function set($key, $token)
     {

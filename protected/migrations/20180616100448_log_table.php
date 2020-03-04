@@ -5,6 +5,7 @@ use Phinx\Migration\AbstractMigration;
 class LogTable extends AbstractMigration
 {
     const TABLE_NAME = '100_log';
+
     public function up()
     {
         $table = $this->table(self::TABLE_NAME, ['collation' => 'utf8_general_ci']);
@@ -17,7 +18,7 @@ class LogTable extends AbstractMigration
             ->addIndex(['created'])
             ->save();
     }
-    
+
     public function down()
     {
         $table = $this->table(self::TABLE_NAME);

@@ -1,10 +1,11 @@
 <?php
 /**
-  * Image handler
+  * Image handler.
+  *
   * @author Pelesh Yaroslav aka Tokolist (http://tokolist.com)
+  *
   * @version 0.9 beta
   */
-
 class CImageHandler extends CApplicationComponent
 {
     private $image = null;
@@ -18,8 +19,7 @@ class CImageHandler extends CApplicationComponent
 
     private $fileName = '';
 
-    public $transparencyColor = array(0, 0, 0);
-
+    public $transparencyColor = [0, 0, 0];
 
     const IMG_GIF = 1;
     const IMG_JPEG = 2;
@@ -31,11 +31,9 @@ class CImageHandler extends CApplicationComponent
     const CORNER_RIGHT_BOTTOM = 4;
     const CORNER_CENTER = 5;
 
-
     const FLIP_HORIZONTAL = 1;
     const FLIP_VERTICAL = 2;
     const FLIP_BOTH = 3;
-
 
     public function getImage()
     {
@@ -83,9 +81,7 @@ class CImageHandler extends CApplicationComponent
 
     private function loadImage($file)
     {
-        $result = array();
-
-
+        $result = [];
 
         if ($imageInfo = @getimagesize($file)) {
             $result['width'] = $imageInfo[0];
@@ -136,7 +132,6 @@ class CImageHandler extends CApplicationComponent
 
             $this->fileName = $file;
 
-
             return $this;
         } else {
             return false;
@@ -147,7 +142,7 @@ class CImageHandler extends CApplicationComponent
     {
         $this->checkLoaded();
 
-        if ($this->fileName != '') {
+        if ('' != $this->fileName) {
             return $this->load($this->fileName);
         }
     }
@@ -186,15 +181,14 @@ class CImageHandler extends CApplicationComponent
     public function resize($toWidth, $toHeight, $proportional = true)
     {
         $this->checkLoaded();
-        
-        $toWidth = $toWidth !== false ? $toWidth : $this->width;
-        $toHeight = $toHeight !== false ? $toHeight : $this->height;
+
+        $toWidth = false !== $toWidth ? $toWidth : $this->width;
+        $toHeight = false !== $toHeight ? $toHeight : $this->height;
 
         if ($proportional) {
             $newHeight = $toHeight;
             $newWidth = round($newHeight / $this->height * $this->width);
-            
-            
+
             if ($newWidth > $toWidth) {
                 $newWidth = $toWidth;
                 $newHeight = round($newWidth / $this->width * $this->height);
@@ -210,8 +204,6 @@ class CImageHandler extends CApplicationComponent
 
         imagecopyresampled($newImage, $this->image, 0, 0, 0, 0, $newWidth, $newHeight, $this->width, $this->height);
 
-
-
         imagedestroy($this->image);
 
         $this->image = $newImage;
@@ -225,14 +217,13 @@ class CImageHandler extends CApplicationComponent
     {
         $this->checkLoaded();
 
-        if ($toWidth !== false) {
+        if (false !== $toWidth) {
             $toWidth = min($toWidth, $this->width);
         }
-        
-        if ($toHeight !== false) {
+
+        if (false !== $toHeight) {
             $toHeight = min($toHeight, $this->height);
         }
-
 
         $this->resize($toWidth, $toHeight, $proportional);
 
@@ -274,7 +265,6 @@ class CImageHandler extends CApplicationComponent
 
             imagecopy($this->image, $wImg['image'], $posX, $posY, 0, 0, $wImg['width'], $wImg['height']);
 
-
             imagedestroy($wImg['image']);
 
             return $this;
@@ -282,7 +272,6 @@ class CImageHandler extends CApplicationComponent
             return false;
         }
     }
-
 
     public function flip($mode)
     {
@@ -346,15 +335,14 @@ class CImageHandler extends CApplicationComponent
         $height = (int) $height;
 
         //Centered crop
-        $startX = $startX === false ? floor(($this->width - $width) / 2) : intval($startX);
-        $startY = $startY === false ? floor(($this->height - $height) / 2) : intval($startY);
+        $startX = false === $startX ? floor(($this->width - $width) / 2) : intval($startX);
+        $startY = false === $startY ? floor(($this->height - $height) / 2) : intval($startY);
 
         //Check dimensions
         $startX = max(0, min($this->width, $startX));
         $startY = max(0, min($this->height, $startY));
         $width = min($width, $this->width - $startX);
         $height = min($height, $this->height - $startY);
-
 
         $newImage = imagecreatetruecolor($width, $height);
 
@@ -374,12 +362,12 @@ class CImageHandler extends CApplicationComponent
     public function text(
         $text,
         $fontFile,
-        $size=12,
-        $color=array(0, 0, 0),
-        $corner=self::CORNER_LEFT_TOP,
-        $offsetX=0,
-        $offsetY=0,
-        $angle=0
+        $size = 12,
+        $color = [0, 0, 0],
+        $corner = self::CORNER_LEFT_TOP,
+        $offsetX = 0,
+        $offsetY = 0,
+        $angle = 0
     ) {
         $this->checkLoaded();
 
@@ -388,8 +376,6 @@ class CImageHandler extends CApplicationComponent
         $textWidth = $bBox[2] - $bBox[0];
 
         $color = imagecolorallocate($this->image, $color[0], $color[1], $color[2]);
-
-
 
         switch ($corner) {
             case self::CORNER_LEFT_TOP:
@@ -415,8 +401,6 @@ class CImageHandler extends CApplicationComponent
             default:
                 throw new Exception('Invalid $corner value');
         }
-
-
 
         imagettftext($this->image, $size, $angle, $posX, $posY + $textHeight, $color, $fontFile, $text);
 
@@ -448,7 +432,7 @@ class CImageHandler extends CApplicationComponent
         return $this;
     }
 
-    public function resizeCanvas($toWidth, $toHeight, $backgroundColor = array(255, 255, 255))
+    public function resizeCanvas($toWidth, $toHeight, $backgroundColor = [255, 255, 255])
     {
         $this->checkLoaded();
 
@@ -463,7 +447,6 @@ class CImageHandler extends CApplicationComponent
 
         $posX = floor(($toWidth - $newWidth) / 2);
         $posY = floor(($toHeight - $newHeight) / 2);
-
 
         $newImage = imagecreatetruecolor($toWidth, $toHeight);
 

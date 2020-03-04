@@ -9,20 +9,20 @@ class UpdateAllPasswordsCommand extends CConsoleCommand
 {
     public function actionIndex()
     {
-        echo "======= Resetting all users passwords =========" . PHP_EOL;
+        echo '======= Resetting all users passwords =========' . PHP_EOL;
         $users = Yii::app()->db->createCommand()
                 ->select('id')
                 ->from('{{user}}')
                 ->queryAll();
         echo 'Users found: ' . sizeof($users) . PHP_EOL;
-        
+
         foreach ($users as $user) {
-            $newPassword =  User::hashPassword(User::generatePassword(8));
+            $newPassword = User::hashPassword(User::generatePassword(8));
             $updateResult = Yii::app()
                     ->db
                     ->createCommand()
                     ->update('{{user}}', ['password' => $newPassword], 'id=:id', [':id' => $user['id']]);
-            
+
             if ($updateResult) {
                 echo 'User id ' . $user['id'] . ' updated' . PHP_EOL;
             } else {
@@ -30,7 +30,7 @@ class UpdateAllPasswordsCommand extends CConsoleCommand
             }
         }
     }
-    
+
     public function actionTest()
     {
         $password = '123456';

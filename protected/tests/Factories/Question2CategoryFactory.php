@@ -2,8 +2,6 @@
 
 namespace Tests\Factories;
 
-use Question2Category;
-
 class Question2CategoryFactory extends BaseFactory
 {
     public function generateOne($forcedParams = []): array

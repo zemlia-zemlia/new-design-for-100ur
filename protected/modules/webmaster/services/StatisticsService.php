@@ -2,12 +2,13 @@
 
 namespace webmaster\services;
 
+use CException;
 use DateTime;
 use Lead;
 use Yii;
 
 /**
- * Класс для получения различных статистик
+ * Класс для получения различных статистик.
  */
 class StatisticsService
 {
@@ -45,17 +46,18 @@ class StatisticsService
         return $sourceIds;
     }
 
-
     /**
      * @param DateTime|null $fromDate
+     *
      * @return int
-     * @throws \CException
+     *
+     * @throws CException
      */
     public function getAllLeadsCount(DateTime $fromDate = null): int
     {
         $queryCommand = Yii::app()->db->createCommand()
             ->select('count(*) counter')
-            ->from("{{lead}} l")
+            ->from('{{lead}} l')
             ->leftJoin('{{leadsource}} s', 'l.sourceId = s.id')
             ->where('s.userId = :userId', [
                 ':userId' => $this->userId,
@@ -72,11 +74,14 @@ class StatisticsService
 
     /**
      * Статистика лидов вебмастера по датам
-     * @param string $groupByFieldName
+     *
+     * @param string        $groupByFieldName
      * @param DateTime|null $fromDate
-     * @param string $order asc|desc
+     * @param string        $order            asc|desc
+     *
      * @return array
-     * @throws \CException
+     *
+     * @throws CException
      */
     public function getLeadsStatisticsByField($groupByFieldName = 'lead_date', DateTime $fromDate = null, $order = 'asc'): array
     {
@@ -94,23 +99,23 @@ class StatisticsService
         $averageLeadPrice = [];
 
         foreach ($rawStatistics as $row) {
-            $totalLeadsCount[$row[$groupByFieldName]]++;
+            ++$totalLeadsCount[$row[$groupByFieldName]];
 
             if (in_array($row['leadStatus'], $this->getSoldLeadStatuses())) {
-                $soldLeadsCount[$row[$groupByFieldName]]++;
+                ++$soldLeadsCount[$row[$groupByFieldName]];
                 $totalRevenue[$row[$groupByFieldName]] += $row['buyPrice'];
             }
 
-            if ($row['leadStatus'] == Lead::LEAD_STATUS_DEFAULT) {
-                $notSoldLeadsCount[$row[$groupByFieldName]]++;
+            if (Lead::LEAD_STATUS_DEFAULT == $row['leadStatus']) {
+                ++$notSoldLeadsCount[$row[$groupByFieldName]];
             }
 
-            if ($row['leadStatus'] == Lead::LEAD_STATUS_BRAK) {
-                $brakLeadsCount[$row[$groupByFieldName]]++;
+            if (Lead::LEAD_STATUS_BRAK == $row['leadStatus']) {
+                ++$brakLeadsCount[$row[$groupByFieldName]];
             }
 
-            if ($row['leadStatus'] == Lead::LEAD_STATUS_DUPLICATE) {
-                $duplicateLeadsCount[$row[$groupByFieldName]]++;
+            if (Lead::LEAD_STATUS_DUPLICATE == $row['leadStatus']) {
+                ++$duplicateLeadsCount[$row[$groupByFieldName]];
             }
         }
 
@@ -143,7 +148,7 @@ class StatisticsService
             $statsByField['totalRevenue'] += $totalRevenue[$fieldToGroup];
         }
 
-        if ($order == 'asc') {
+        if ('asc' == $order) {
             ksort($statsByField['data']);
         } else {
             krsort($statsByField['data']);
@@ -157,10 +162,13 @@ class StatisticsService
     }
 
     /**
-     * Выборка лидов со статусами, датами и регионами
+     * Выборка лидов со статусами, датами и регионами.
+     *
      * @param DateTime|null $fromDate
+     *
      * @return array
-     * @throws \CException
+     *
+     * @throws CException
      */
     private function getLeadsWithStatusesAndRegions(DateTime $fromDate = null): array
     {
@@ -193,12 +201,13 @@ class StatisticsService
 
     /**
      * @param int $userId
+     *
      * @return StatisticsService
      */
     public function setUserId($userId): StatisticsService
     {
         $this->userId = $userId;
+
         return $this;
     }
-
 }

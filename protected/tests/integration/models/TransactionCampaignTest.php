@@ -2,8 +2,6 @@
 
 namespace Tests\integration\models;
 
-use Tests\Factories\CampaignFactory;
-use Tests\Factories\LeadSourceFactory;
 use Tests\Factories\UserFactory;
 use Tests\integration\BaseIntegrationTest;
 use TransactionCampaign;
@@ -43,14 +41,15 @@ class TransactionCampaignTest extends BaseIntegrationTest
         $this->loadToDatabase(self::USER_TABLE, $usersFixture);
     }
 
-
     /**
      * @dataProvider providerApproveRequest
-     * @param int $userId
-     * @param int $requestAmount
-     * @param int $accountId
+     *
+     * @param int  $userId
+     * @param int  $requestAmount
+     * @param int  $accountId
      * @param bool $expectedResult
-     * @param int $expectedBalance
+     * @param int  $expectedBalance
+     *
      * @throws \CException
      */
     public function testApproveRequest($userId, $requestAmount, $accountId, $expectedResult, $expectedBalance)
@@ -66,7 +65,7 @@ class TransactionCampaignTest extends BaseIntegrationTest
         $approveRequestResult = $transaction->approveRequest($accountId);
 
         $this->assertEquals($expectedResult, $approveRequestResult);
-        if ($expectedResult == true) {
+        if (true == $expectedResult) {
             $this->tester->seeInDatabase(self::MONEY_TABLE, ['value' => $transaction->sum]);
         }
         $this->tester->seeInDatabase(self::USER_TABLE, ['balance' => $expectedBalance]);

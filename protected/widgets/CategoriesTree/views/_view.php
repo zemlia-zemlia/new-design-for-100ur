@@ -11,8 +11,7 @@
         $active = false;
         $showLink = true;
     }
-    
-    
+
 ?>
 
 <li
@@ -24,7 +23,7 @@
 
     >
     
-    <?php echo ($showLink==true)?CHtml::link(CHtml::encode($data->name), array('questionCategory/alias', 'name'=>CHtml::encode($data->alias))):CHtml::encode($data->name); ?>
+    <?php echo (true == $showLink) ? CHtml::link(CHtml::encode($data->name), ['questionCategory/alias', 'name' => CHtml::encode($data->alias)]) : CHtml::encode($data->name); ?>
     <?php /*
     <?php if((sizeof($data->children) && isset($_GET['name']) && $_GET['name'] == $data->alias) || hasActiveChild($data, $_GET['name'])):?>
         <ul>

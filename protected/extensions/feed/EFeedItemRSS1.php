@@ -1,8 +1,10 @@
 <?php
 /**
- * EFeedItemRSS1 Class file
+ * EFeedItemRSS1 Class file.
+ *
  * @author Antonio Ramirez
- * @link http://www.ramirezcobos.com
+ *
+ * @see http://www.ramirezcobos.com
  *
  *
  * THIS SOFTWARE IS PROVIDED BY THE CONTRIBUTORS "AS IS" AND
@@ -17,17 +19,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * EFeedItemRSS1 is an element of an RSS 1.0 Feed
+ * EFeedItemRSS1 is an element of an RSS 1.0 Feed.
  *
  * @author		Antonio Ramirez <ramirez.cobos@gmail.com>
- * @package   	rss
+ *
  * @uses 		CUrlValidator
- * @throws 		CException
+ *
+ * @throws CException
  */
 class EFeedItemRSS1 extends EFeedItemAbstract
 {
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see EFeedItemAbstract::setDate()
      */
     public function setDate($date)
@@ -36,21 +40,24 @@ class EFeedItemRSS1 extends EFeedItemAbstract
             $date = strtotime($date);
         }
 
-        $date  = date("Y-m-d", $date);
-        
+        $date = date('Y-m-d', $date);
+
         $this->addTag('dc:date', $date);
     }
+
     /**
+     * Property getter date.
      *
-     * Property getter date
      * @return date element | null
      */
     public function getDate()
     {
         return $this->tags->itemAt('dc:date');
     }
+
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see EFeedItemAbstract::getNode()
      */
     public function getNode()
@@ -58,30 +65,31 @@ class EFeedItemRSS1 extends EFeedItemAbstract
         if (null === $this->link || null === $this->link->content) {
             throw new CException(Yii::t('EFeed', 'Link Element is not set and it is required for RSS 1.0 to be used as about attribute of item'));
         }
-        
-        $node = CHtml::openTag('item', array('rdf:about'=>$this->link->content)).PHP_EOL;
-        
+
+        $node = CHtml::openTag('item', ['rdf:about' => $this->link->content]) . PHP_EOL;
+
         foreach ($this->tags as $tag) {
             $node .= $this->getElement($tag);
         }
 
         $node .= CHtml::closeTag('item');
-        
-        return $node.PHP_EOL;
+
+        return $node . PHP_EOL;
     }
+
     /**
-     *
      * @returns well formatted xml element
+     *
      * @param EFeedTag $tag
      */
     private function getElement(EFeedTag $tag)
     {
         $element = '';
-        
+
         if (is_array($tag->content)) {
-            $tag->attributes['rdf:parseType']="Resource";
+            $tag->attributes['rdf:parseType'] = 'Resource';
         }
-        
+
         if (in_array($tag->name, $this->CDATAEncoded)) {
             $element .= CHtml::openTag($tag->name, $tag->attributes);
             $element .= '<![CDATA[';
@@ -89,21 +97,21 @@ class EFeedItemRSS1 extends EFeedItemAbstract
             $element .= CHtml::openTag($tag->name, $tag->attributes);
         }
         $element .= PHP_EOL;
-        
+
         if (is_array($tag->content)) {
             foreach ($tag->content as $tag => $content) {
                 $tmpTag = new EFeedTag($tag, $content);
-                
+
                 $element .= $this->getElement($tmpTag);
             }
         } else {
-            $element .= (in_array($tag->name, $this->CDATAEncoded))? $tag->content : CHtml::encode($tag->content);
+            $element .= (in_array($tag->name, $this->CDATAEncoded)) ? $tag->content : CHtml::encode($tag->content);
         }
-            
-        $element .= (in_array($tag->name, $this->CDATAEncoded))? PHP_EOL.']]>':"";
-        
-        $element .= CHtml::closeTag($tag->name).PHP_EOL;
-        
+
+        $element .= (in_array($tag->name, $this->CDATAEncoded)) ? PHP_EOL . ']]>' : '';
+
+        $element .= CHtml::closeTag($tag->name) . PHP_EOL;
+
         return $element;
     }
 }

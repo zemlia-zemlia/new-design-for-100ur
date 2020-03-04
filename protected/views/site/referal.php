@@ -1,6 +1,6 @@
 <?php
-$this->setPageTitle("Реферальная программа." . Yii::app()->name);
-Yii::app()->clientScript->registerMetaTag("Получайте деньги за каждого приглашенного зарегистрировавшегося пользователя", 'description');
+$this->setPageTitle('Реферальная программа.' . Yii::app()->name);
+Yii::app()->clientScript->registerMetaTag('Получайте деньги за каждого приглашенного зарегистрировавшегося пользователя', 'description');
 ?>
 
 <script src="https://yastatic.net/share2/share.js" async="async"></script>
@@ -123,14 +123,14 @@ Yii::app()->clientScript->registerMetaTag("Получайте деньги за 
 <?php if (!Yii::app()->user->isGuest): ?>
     <h2 class="vert-margin20">Приглашённые вами пользователи</h2>
 
-    <?php if (sizeof($referals) == 0): ?>
+    <?php if (0 == sizeof($referals)): ?>
         <p>По вашей реферальной ссылке пока никто не зарегистрировался</p>
     <?php else: ?>
         <table class="table table-bordered">
             <?php foreach ($referals as $referal): ?>
                 <tr>
                     <td>
-                        <?php echo CustomFuncs::niceDate($referal->registerDate, false, false); ?>
+                        <?php echo DateHelper::niceDate($referal->registerDate, false, false); ?>
                     </td>
                     <td>
                         <?php echo CHtml::encode($referal->name); ?>
@@ -138,16 +138,16 @@ Yii::app()->clientScript->registerMetaTag("Получайте деньги за 
                     <td>
                         <p><?php echo $referal->getRoleName(); ?>
                             <small>
-                                <?php if ($referal->role == User::ROLE_JURIST): ?>
+                                <?php if (User::ROLE_JURIST == $referal->role): ?>
                                     <?php
                                     $answersCount = $referal->answersCount;
                                     $isVerified = $referal->settings->isVerified;
                                     ?>
                                     <br />
-                                    Подтверждение статуса: <?php echo ($isVerified == 1) ? 'да' : 'нет'; ?><br />
+                                    Подтверждение статуса: <?php echo (1 == $isVerified) ? 'да' : 'нет'; ?><br />
                                     Ответов: <?php echo $answersCount; ?>
                                 <?php endif; ?>
-                                <?php if ($referal->role == User::ROLE_CLIENT): ?>
+                                <?php if (User::ROLE_CLIENT == $referal->role): ?>
                                     <br />
                                     Вопросов: <?php echo $referal->questionsCount; ?>
                                 <?php endif; ?>

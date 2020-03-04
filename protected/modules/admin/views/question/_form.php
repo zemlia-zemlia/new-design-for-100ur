@@ -10,38 +10,38 @@
     Yii::app()->clientScript->registerScriptFile('/js/question_form.js');
 ?>
 
-<?php $form=$this->beginWidget('CActiveForm', array(
-    'id'=>'question-form',
-    'enableAjaxValidation'=>false,
-)); ?>
+<?php $form = $this->beginWidget('CActiveForm', [
+    'id' => 'question-form',
+    'enableAjaxValidation' => false,
+]); ?>
 
 	<p class="note"><span class="required">*</span> - обязательные поля</p>
 
-	<?php echo $form->errorSummary($model, "Исправьте ошибки"); ?>
+	<?php echo $form->errorSummary($model, 'Исправьте ошибки'); ?>
        
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
 		<?php echo $form->labelEx($model, 'title'); ?>
-		<?php echo $form->textField($model, 'title', array('class'=>'form-control')); ?>
+		<?php echo $form->textField($model, 'title', ['class' => 'form-control']); ?>
 		<?php echo $form->error($model, 'title'); ?>
 	</div>
         
 	<div class="form-group">
 		<?php echo $form->labelEx($model, 'questionText'); ?>
-		<?php echo $form->textArea($model, 'questionText', array('class'=>'form-control', 'rows'=>10)); ?>
+		<?php echo $form->textArea($model, 'questionText', ['class' => 'form-control', 'rows' => 10]); ?>
 		<?php echo $form->error($model, 'questionText'); ?>
 	</div>
         
         <div class="form-group">
 		<?php echo $form->labelEx($model, 'status'); ?><br />
-		<?php echo $form->radioButtonList($model, 'status', Question::getStatusesArray(), array('class'=>'', 'separator'=>'&nbsp;&nbsp;')); ?>
+		<?php echo $form->radioButtonList($model, 'status', Question::getStatusesArray(), ['class' => '', 'separator' => '&nbsp;&nbsp;']); ?>
 		<?php echo $form->error($model, 'status'); ?>
 	</div>
         
         <div class="form-group">
 		<?php echo $form->labelEx($model, 'authorName'); ?>
-		<?php echo $form->textField($model, 'authorName', array('class'=>'form-control')); ?>
+		<?php echo $form->textField($model, 'authorName', ['class' => 'form-control']); ?>
 		<?php echo $form->error($model, 'authorName'); ?>
 	</div>
         
@@ -54,14 +54,14 @@
         <div class="collapse" id="extra-collapse">
             <div class="form-group">
 		<?php echo $form->labelEx($model, 'town'); ?>
-		<?php echo $form->dropDownList($model, 'townId', $townsArray, array('class'=>'form-control')); ?>
+		<?php echo $form->dropDownList($model, 'townId', $townsArray, ['class' => 'form-control']); ?>
 		<?php echo $form->error($model, 'townId'); ?>
             </div>
         </div>
         
 
 	<div class="form-group">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-primary btn-block btn-lg')); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', ['class' => 'btn btn-primary btn-block btn-lg']); ?>
 	</div>
     </div>
     
@@ -82,7 +82,7 @@
             <div id="selected-categories">
                 <?php if ($model->categories) {
     foreach ($model->categories as $cat) {
-        echo "<p><input type='checkbox' name='Question[categories][]' checked value='" . $cat->id . "'>" . $cat->name . "</input></p>";
+        echo "<p><input type='checkbox' name='Question[categories][]' checked value='" . $cat->id . "'>" . $cat->name . '</input></p>';
     }
 }
                 ?>

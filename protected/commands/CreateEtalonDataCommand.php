@@ -2,7 +2,7 @@
 
 /**
  * Создание эталонной таблицы пользователей
- * первые 100 и последние 200 активных
+ * первые 100 и последние 200 активных.
  */
 class CreateEtalonDataCommand extends CConsoleCommand
 {
@@ -50,7 +50,7 @@ class CreateEtalonDataCommand extends CConsoleCommand
         'Павлов',
         'Семенов',
     ];
-    
+
     private function generateFioField($fieldName)
     {
         $sourceArray = [];
@@ -65,12 +65,12 @@ class CreateEtalonDataCommand extends CConsoleCommand
                 $sourceArray = $this->lastNames;
                 break;
         }
-        
+
         return $sourceArray[mt_rand(0, sizeof($sourceArray) - 1)];
     }
-    
+
     /**
-     * Удаляем у пользователей персональные данные, ставим всем пароль 12345 и рандомные имена
+     * Удаляем у пользователей персональные данные, ставим всем пароль 12345 и рандомные имена.
      */
     public function actionUsers()
     {
@@ -80,9 +80,9 @@ class CreateEtalonDataCommand extends CConsoleCommand
                 ->from('{{user}}')
                 ->order('id ASC')
                 ->queryAll();
-        
+
         echo 'Нашлось пользователей: ' . sizeof($users) . PHP_EOL;
-        
+
         foreach ($users as $counter => $user) {
             $newName = $this->generateFioField('name');
             $newName2 = $this->generateFioField('name2');
@@ -90,11 +90,11 @@ class CreateEtalonDataCommand extends CConsoleCommand
             $newEmail = $user['id'] . '.test@100yuristov.com';
             $newPassword = User::hashPassword('12345'); // у всех будет один пароль
             $newPhone = '7999' . mt_rand(1000000, 9999999);
-            
+
             echo $user['id'] . ' | ' . $newName . ' | ' .
                     $newName2 . ' | ' . $newLastName . ' | ' .
                     $newEmail . ' | ' . $newPhone . PHP_EOL;
-            
+
             if (Yii::app()->db->createCommand()->update('{{user}}', [
                     'name' => $newName,
                     'name2' => $newName2,

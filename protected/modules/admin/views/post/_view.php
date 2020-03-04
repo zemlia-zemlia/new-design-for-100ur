@@ -9,14 +9,14 @@
     
     <?php if ($data->photo):?>
     <div>
-    <img src="<?php echo $data->getPhotoUrl('thumb');?>" alt="" style="float:left; margin-right:20px;" />
+    <img src="<?php echo $data->getPhotoUrl('thumb'); ?>" alt="" style="float:left; margin-right:20px;" />
     </div>
-    <?php endif;?>
+    <?php endif; ?>
     
     <div class="category-post-header">
         
         <h3>
-            <?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('/admin/post/view', array('id'=>$data->id)));?>
+            <?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('/admin/post/view', ['id' => $data->id])); ?>
         </h3>
     </div>
     
@@ -31,13 +31,13 @@
         </div>
         
         <div class="post-stats">
-            <i class="glyphicon glyphicon-comment"></i>&nbsp;<?php echo $data->commentsCount;?>
+            <i class="glyphicon glyphicon-comment"></i>&nbsp;<?php echo $data->commentsCount; ?>
             &nbsp; 
             <i class="glyphicon glyphicon-heart"></i>&nbsp;<?php echo $data->rating; ?> &nbsp; 
-            <i class="glyphicon glyphicon-eye-open"></i>&nbsp;<?php echo $data->viewsCount->views;?>
+            <i class="glyphicon glyphicon-eye-open"></i>&nbsp;<?php echo $data->viewsCount->views; ?>
 			&nbsp;&nbsp;
-			<?php echo $data->author->name;?>
-            <span class="muted"><?php echo CustomFuncs::invertDate($data->datePublication);?></span>
+			<?php echo $data->author->name; ?>
+            <span class="muted"><?php echo DateHelper::invertDate($data->datePublication); ?></span>
             
             <?php
                 $now = time();
@@ -45,7 +45,7 @@
                 if ($pubTime > $now) {
                     echo "<span class='label label-warning'>Отложенная публикация</span>";
                 }
-           
+
             ?>
         </div>
         

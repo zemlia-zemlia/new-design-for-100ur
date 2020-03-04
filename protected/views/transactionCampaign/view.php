@@ -2,29 +2,29 @@
 /* @var $this TransactionCampaignController */
 /* @var $model TransactionCampaign */
 
-$this->breadcrumbs=array(
-    'Transaction Campaigns'=>array('index'),
+$this->breadcrumbs = [
+    'Transaction Campaigns' => ['index'],
     $model->id,
-);
+];
 
-$this->menu=array(
-    array('label'=>'List TransactionCampaign', 'url'=>array('index')),
-    array('label'=>'Create TransactionCampaign', 'url'=>array('create')),
-    array('label'=>'Update TransactionCampaign', 'url'=>array('update', 'id'=>$model->id)),
-    array('label'=>'Delete TransactionCampaign', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-    array('label'=>'Manage TransactionCampaign', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List TransactionCampaign', 'url' => ['index']],
+    ['label' => 'Create TransactionCampaign', 'url' => ['create']],
+    ['label' => 'Update TransactionCampaign', 'url' => ['update', 'id' => $model->id]],
+    ['label' => 'Delete TransactionCampaign', 'url' => '#', 'linkOptions' => ['submit' => ['delete', 'id' => $model->id], 'confirm' => 'Are you sure you want to delete this item?']],
+    ['label' => 'Manage TransactionCampaign', 'url' => ['admin']],
+];
 ?>
 
 <h1>View TransactionCampaign #<?php echo $model->id; ?></h1>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
-    'data'=>$model,
-    'attributes'=>array(
+<?php $this->widget('zii.widgets.CDetailView', [
+    'data' => $model,
+    'attributes' => [
         'id',
         'campaignId',
         'time',
         'sum',
         'description',
-    ),
-)); ?>
+    ],
+]); ?>

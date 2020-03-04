@@ -1,10 +1,9 @@
 <?php
 /**
- * Отправка рассылок
+ * Отправка рассылок.
  *
  * Class SendMailTasksCommand
  */
-
 class SendMailTasksCommand extends CConsoleCommand
 {
     public function actionIndex($limit = 100)

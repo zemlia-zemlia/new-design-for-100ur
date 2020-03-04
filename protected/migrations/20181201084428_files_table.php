@@ -4,11 +4,10 @@ use Phinx\Migration\AbstractMigration;
 
 /**
  * Создание таблицы для хранения файлов, прикрепляемых к сущностям
- * Class FilesTable
+ * Class FilesTable.
  */
 class FilesTable extends AbstractMigration
 {
-
     public function up()
     {
         $this->table('100_file')

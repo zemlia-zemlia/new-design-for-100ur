@@ -4,10 +4,11 @@
  * This is the model class for table "{{docType}}".
  *
  * The followings are the available columns in table '{{docType}}':
- * @property integer $id
- * @property integer $class
+ *
+ * @property int    $id
+ * @property int    $class
  * @property string $name
- * @property integer $minPrice
+ * @property int    $minPrice
  */
 class DocType extends CActiveRecord
 {
@@ -17,6 +18,7 @@ class DocType extends CActiveRecord
     const CLASS_COMPLAIN = 4; // Претензии потребителей
     const CLASS_AUTHORITY = 5; // Жалоба на чиновника
     const CLASS_OTHER = 6; // Другое
+
     /**
      * @return string the associated database table name
      */
@@ -34,31 +36,31 @@ class DocType extends CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('name, class', 'required', 'message' => 'Поле {attribute} должно быть заполнено'),
-            array('minPrice, class', 'numerical', 'integerOnly' => true),
-            array('name', 'length', 'max' => 255),
+        return [
+            ['name, class', 'required', 'message' => 'Поле {attribute} должно быть заполнено'],
+            ['minPrice, class', 'numerical', 'integerOnly' => true],
+            ['name', 'length', 'max' => 255],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name, minPrice', 'safe', 'on' => 'search'),
-        );
+            ['id, name, minPrice', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-        );
+        return [
+        ];
     }
 
     /**
@@ -66,59 +68,60 @@ class DocType extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
-            'id'        => 'ID',
-            'class'     => 'Раздел',
-            'name'      => 'Наименование',
-            'minPrice'  => 'Минимальная цена',
-        );
+        return [
+            'id' => 'ID',
+            'class' => 'Раздел',
+            'name' => 'Наименование',
+            'minPrice' => 'Минимальная цена',
+        ];
     }
-    
+
     /**
-     * возвращает массив, ключами которого являются коды классов, а значениями - названия
-     * @return Array массив классов
+     * возвращает массив, ключами которого являются коды классов, а значениями - названия.
+     *
+     * @return array массив классов
      */
     public static function getClassesArray()
     {
-        return array(
-            self::CLASS_BUSINESS     => [
-                'name'          =>  'Регистрация бизнеса',
-                'description'   =>  'Комплекты документов для регистрации ООО, ИП, ТСЖ и др.',
+        return [
+            self::CLASS_BUSINESS => [
+                'name' => 'Регистрация бизнеса',
+                'description' => 'Комплекты документов для регистрации ООО, ИП, ТСЖ и др.',
             ],
-            self::CLASS_DEAL         => [
-                'name'          =>  'Договоры и соглашения',
-                'description'   =>  'Договоры аренды, подряда, купли-продажи, займа, комиссии и др',
+            self::CLASS_DEAL => [
+                'name' => 'Договоры и соглашения',
+                'description' => 'Договоры аренды, подряда, купли-продажи, займа, комиссии и др',
             ],
-            self::CLASS_COURT        => [
-                'name'          =>  'Документы в суд',
-                'description'   =>  'Исковое заявление, отзыв на исковое заявление, ходатайство, жалоба на решение суда и др.',
+            self::CLASS_COURT => [
+                'name' => 'Документы в суд',
+                'description' => 'Исковое заявление, отзыв на исковое заявление, ходатайство, жалоба на решение суда и др.',
             ],
-            self::CLASS_COMPLAIN     => [
-                'name'          =>  'Претензии потребителей',
-                'description'   =>  'Претензии на возврат денег за товар. Претензии в страховую, в банк, к ЖКХ и др.',
+            self::CLASS_COMPLAIN => [
+                'name' => 'Претензии потребителей',
+                'description' => 'Претензии на возврат денег за товар. Претензии в страховую, в банк, к ЖКХ и др.',
             ],
-            self::CLASS_AUTHORITY    => [
-                'name'          =>  'Жалоба на чиновника',
-                'description'   =>  'Жалоба на действия должностного лица, судебного пристава, сотрудника ГИБДД и др.',
+            self::CLASS_AUTHORITY => [
+                'name' => 'Жалоба на чиновника',
+                'description' => 'Жалоба на действия должностного лица, судебного пристава, сотрудника ГИБДД и др.',
             ],
-            self::CLASS_OTHER        => [
-                'name'          =>  'Другое',
-                'description'   =>  'Любой другой документ. Вы можете описать его самостоятельно.',
+            self::CLASS_OTHER => [
+                'name' => 'Другое',
+                'description' => 'Любой другой документ. Вы можете описать его самостоятельно.',
             ],
-        );
+        ];
     }
-    
+
     /**
-     * возвращает название класса для объекта
+     * возвращает название класса для объекта.
      *
      * @return string название статуса
      */
     public function getClassName()
     {
         $classesArray = self::getClassesArray();
+
         return $classesArray[$this->class]['name'];
     }
-
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
@@ -130,27 +133,29 @@ class DocType extends CActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     *                             based on the search/filter conditions
      */
     public function search()
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('minPrice', $this->minPrice);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     *
+     * @param string $className active record class name
+     *
      * @return DocType the static model class
      */
     public static function model($className = __CLASS__)

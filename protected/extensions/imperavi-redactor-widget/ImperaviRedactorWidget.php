@@ -4,13 +4,14 @@
  *
  * @property string $assetsPath
  * @property string $assetsUrl
- * @property array $plugins
+ * @property array  $plugins
  *
  * @author Veaceslav Medvedev <slavcopost@gmail.com>
  * @author Alexander Makarov <sam@rmcreative.ru>
  *
- * @link https://github.com/yiiext/imperavi-redactor-widget
- * @link http://imperavi.com/redactor
+ * @see https://github.com/yiiext/imperavi-redactor-widget
+ * @see http://imperavi.com/redactor
+ *
  * @license https://github.com/yiiext/imperavi-redactor-widget/blob/master/license.md
  */
 class ImperaviRedactorWidget extends CInputWidget
@@ -23,24 +24,24 @@ class ImperaviRedactorWidget extends CInputWidget
     /**
      * @var array {@link http://imperavi.com/redactor/docs/ redactor options}.
      */
-    public $options = array();
+    public $options = [];
 
     /**
      * @var string|null Selector pointing to textarea to initialize redactor for.
-     * Defaults to null meaning that textarea does not exist yet and will be
-     * rendered by this widget.
+     *                  Defaults to null meaning that textarea does not exist yet and will be
+     *                  rendered by this widget.
      */
     public $selector;
 
     /**
      * @var array
      */
-    public $package = array();
+    public $package = [];
 
     /**
      * @var array
      */
-    private $_plugins = array();
+    private $_plugins = [];
 
     /**
      * Init widget.
@@ -49,7 +50,7 @@ class ImperaviRedactorWidget extends CInputWidget
     {
         parent::init();
 
-        if ($this->selector === null) {
+        if (null === $this->selector) {
             list($this->name, $this->id) = $this->resolveNameID();
             $this->htmlOptions['id'] = $this->getId();
             $this->selector = '#' . $this->getId();
@@ -70,31 +71,31 @@ class ImperaviRedactorWidget extends CInputWidget
     protected function registerClientScript()
     {
         // Prepare script package.
-        $this->package = array_merge(array(
+        $this->package = array_merge([
                 'baseUrl' => $this->getAssetsUrl(),
-                'js' => array(
+                'js' => [
                     YII_DEBUG ? 'redactor.js' : 'redactor.min.js',
-                ),
-                'css' => array(
+                ],
+                'css' => [
                     'redactor.css',
-                ),
-                'depends' => array(
+                ],
+                'depends' => [
                     'jquery',
-                ),
-            ), $this->package);
+                ],
+            ], $this->package);
 
         // Append language file to script package.
-        if (isset($this->options['lang']) && $this->options['lang'] !== 'en') {
+        if (isset($this->options['lang']) && 'en' !== $this->options['lang']) {
             $this->package['js'][] = 'lang/' . $this->options['lang'] . '.js';
         }
 
         // Add assets url to relative css.
         if (isset($this->options['css'])) {
             if (!is_array($this->options['css'])) {
-                $this->options['css'] = array($this->options['css']);
+                $this->options['css'] = [$this->options['css']];
             }
             foreach ($this->options['css'] as $i => $css) {
-                if (strpos($css, '/') === false) {
+                if (false === strpos($css, '/')) {
                     $this->options['css'][$i] = $this->getAssetsUrl() . '/' . $css;
                 }
             }
@@ -127,6 +128,7 @@ class ImperaviRedactorWidget extends CInputWidget
 
     /**
      * Get the assets path.
+     *
      * @return string
      */
     public function getAssetsPath()
@@ -136,6 +138,7 @@ class ImperaviRedactorWidget extends CInputWidget
 
     /**
      * Publish assets and return url.
+     *
      * @return string
      */
     public function getAssetsUrl()

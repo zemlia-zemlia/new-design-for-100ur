@@ -61,7 +61,7 @@ class QuestionCategory extends CActiveRecord
      */
     public static function getFullTableName()
     {
-        return Yii::app()->db->tablePrefix.'questionCategory';
+        return Yii::app()->db->tablePrefix . 'questionCategory';
     }
 
     /**
@@ -113,7 +113,7 @@ class QuestionCategory extends CActiveRecord
             'questions' => [self::MANY_MANY, 'Question', '{{question2category}}(cId, qId)'],
             'parent' => [self::BELONGS_TO, 'QuestionCategory', 'parentId'],
             'children' => [self::HAS_MANY, 'QuestionCategory', 'parentId', 'order' => 'children.name ASC'],
-            'files' => [self::HAS_MANY, 'File', 'objectId', 'condition' => 'files.objectType = '.File::ITEM_TYPE_OBJECT_CATEGORY],
+            'files' => [self::HAS_MANY, 'File', 'objectId', 'condition' => 'files.objectType = ' . File::ITEM_TYPE_OBJECT_CATEGORY],
             'docs' => [self::MANY_MANY, 'Docs', '{{docs2object}}(object_id, file_id)'],
         ];
     }
@@ -164,7 +164,7 @@ class QuestionCategory extends CActiveRecord
             $allCategories[$topCat->id] = $topCat->name;
             if (sizeof($topCat->children)) {
                 foreach ($topCat->children as $childCat) {
-                    $allCategories[$childCat->id] = '- '.$childCat->name;
+                    $allCategories[$childCat->id] = '- ' . $childCat->name;
                 }
             }
         }
@@ -202,7 +202,7 @@ class QuestionCategory extends CActiveRecord
     {
         if (parent::beforeSave()) {
             if ('' == $this->alias) {
-                $this->alias = CustomFuncs::translit($this->name);
+                $this->alias = StringHelper::translit($this->name);
             }
 
             return true;
@@ -267,7 +267,6 @@ class QuestionCategory extends CActiveRecord
             ->where('isDirection = 1')
             ->order('parentDirectionId ASC, name ASC')
             ->queryAll();
-        //CustomFuncs::printr($categoriesRows);
         $categories = [];
         $categoriesHierarchy = [];
 
@@ -285,8 +284,6 @@ class QuestionCategory extends CActiveRecord
                 ];
             }
         }
-
-//            CustomFuncs::printr($categories);exit;
 
         if (true === $withHierarchy && true === $withAlias) {
             // перебираем все категории-направления
@@ -313,8 +310,6 @@ class QuestionCategory extends CActiveRecord
                 }
             }
 
-//                CustomFuncs::printr($categoriesHierarchy);exit;
-
             return $categoriesHierarchy;
         }
 
@@ -338,7 +333,7 @@ class QuestionCategory extends CActiveRecord
 
             if ($direction['children']) {
                 foreach ($direction['children'] as $childId => $child) {
-                    $directions[$childId] = '-- '.$child['name'];
+                    $directions[$childId] = '-- ' . $child['name'];
                 }
             }
         }
@@ -444,15 +439,15 @@ class QuestionCategory extends CActiveRecord
 
         $categoriesRows = Yii::app()->db->createCommand()
             ->select('c.id c_id, '
-                .'c.name c_name, '
-                .'LENGTH(c.description1) c_description1,  '
-                .'LENGTH(c.description2) c_description2, '
-                .'LENGTH(c.seoTitle) c_seoTitle, '
-                .'LENGTH(c.seoDescription) c_seoDescription, '
-                .'LENGTH(c.seoKeywords) c_seoKeywords, '
-                .'LENGTH(c.seoH1) c_seoH1, '
-                .'c.isDirection c_isDirection, '
-                .'c.level')
+                . 'c.name c_name, '
+                . 'LENGTH(c.description1) c_description1,  '
+                . 'LENGTH(c.description2) c_description2, '
+                . 'LENGTH(c.seoTitle) c_seoTitle, '
+                . 'LENGTH(c.seoDescription) c_seoDescription, '
+                . 'LENGTH(c.seoKeywords) c_seoKeywords, '
+                . 'LENGTH(c.seoH1) c_seoH1, '
+                . 'c.isDirection c_isDirection, '
+                . 'c.level')
             ->from('{{questionCategory}} c')
             ->order('c.name, c.root, c.lft')
             ->where('c.parentId = :parentId', [':parentId' => $parentId])
@@ -480,9 +475,9 @@ class QuestionCategory extends CActiveRecord
      */
     public function getImagePath()
     {
-        if ('' != $this->image && is_file(Yii::getPathOfAlias('webroot').self::IMAGES_DIRECTORY.$this->image)) {
-            return self::IMAGES_DIRECTORY.$this->image;
-        } elseif ('' != $this->image && !is_file(Yii::getPathOfAlias('webroot').self::IMAGES_DIRECTORY.$this->image)) {
+        if ('' != $this->image && is_file(Yii::getPathOfAlias('webroot') . self::IMAGES_DIRECTORY . $this->image)) {
+            return self::IMAGES_DIRECTORY . $this->image;
+        } elseif ('' != $this->image && !is_file(Yii::getPathOfAlias('webroot') . self::IMAGES_DIRECTORY . $this->image)) {
             return self::DEFAULT_IMAGE;
         } else {
             return self::DEFAULT_IMAGE;
@@ -525,7 +520,7 @@ class QuestionCategory extends CActiveRecord
         $tags = [
             'og:title' => CHtml::encode($this->seoTitle),
             'og:type' => 'article',
-            'og:image' => Yii::app()->urlManager->baseUrl.$this->getImagePath(),
+            'og:image' => Yii::app()->urlManager->baseUrl . $this->getImagePath(),
             'og:url' => Yii::app()->createUrl('/questionCategory/alias', $this->getUrl()),
             'og:description' => CHtml::encode($this->seoDescription),
         ];

@@ -2,14 +2,13 @@
 
 /**
  * File token storage
- * Class File
+ * Class File.
  */
 
 namespace Sendpulse\RestApi\Storage;
 
 class FileStorage implements TokenStorageInterface
 {
-
     /**
      * @var string
      */
@@ -28,8 +27,6 @@ class FileStorage implements TokenStorageInterface
     /**
      * @param $key string
      * @param $token
-     *
-     * @return void
      */
     public function set($key, $token)
     {

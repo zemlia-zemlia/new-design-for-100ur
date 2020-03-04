@@ -54,7 +54,7 @@ switch ($data->leadStatus) {
                     <?php echo CHtml::encode($data->phone); ?> &nbsp;
 
                     <span class="glyphicon glyphicon-user"></span>
-                    <?php echo CHtml::link(CHtml::encode($data->name), array('/admin/lead/view', 'id' => $data->id)); ?>
+                    <?php echo CHtml::link(CHtml::encode($data->name), ['/admin/lead/view', 'id' => $data->id]); ?>
 
                 </p>
 
@@ -103,58 +103,58 @@ switch ($data->leadStatus) {
 
                     <span>id:&nbsp;<?php echo $data->id; ?></span> &nbsp;
 
-                    <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->role == User::ROLE_SECRETARY): ?>
+                    <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || User::ROLE_SECRETARY == Yii::app()->user->role): ?>
                         <span class="glyphicon glyphicon-log-in"></span>&nbsp;<?php echo $data->source->name; ?>
                     <?php endif; ?>
                     &nbsp
 
-                    <span class="glyphicon glyphicon-calendar"></span>&nbsp<?php echo CustomFuncs::niceDate($data->question_date, false, false); ?>
+                    <span class="glyphicon glyphicon-calendar"></span>&nbsp<?php echo DateHelper::niceDate($data->question_date, false, false); ?>
                     &nbsp
                     <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
                         <?php if ($data->questionObject->ip): ?>
-                            <?php echo "IP:&nbsp;" . $data->questionObject->ip; ?>
+                            <?php echo 'IP:&nbsp;' . $data->questionObject->ip; ?>
                         <?php endif; ?>&nbsp;
 
                         <?php if ($data->questionObject->townIdByIP): ?>
-                            <?php echo "IPGeo: " . $data->questionObject->townByIP->name; ?>
+                            <?php echo 'IPGeo: ' . $data->questionObject->townByIP->name; ?>
                         <?php endif; ?>
                     <?php endif; ?>
                 </small>
 
                 <?php if ($data->questionId): ?>
                     <p id="lead_<?php echo $data->id; ?>" class="small">
-                        <?php echo CHtml::link($data->questionId, Yii::app()->createUrl('/admin/question/view', array('id' => $data->questionId))); ?>
+                        <?php echo CHtml::link($data->questionId, Yii::app()->createUrl('/admin/question/view', ['id' => $data->questionId])); ?>
                     </p>
                 <?php endif; ?>
 
-                <?php if ($data->leadStatus == Lead::LEAD_STATUS_NABRAK): ?>
+                <?php if (Lead::LEAD_STATUS_NABRAK == $data->leadStatus): ?>
                     <p>
-                        <?php echo CHtml::link('В брак', '#', array('class' => 'btn btn-warning btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_BRAK, 'data-refund' => 1)); ?>
+                        <?php echo CHtml::link('В брак', '#', ['class' => 'btn btn-warning btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_BRAK, 'data-refund' => 1]); ?>
                     </p>
                     <p>
-                        <?php echo CHtml::link('Возврат', '#', array('class' => 'btn btn-success btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_RETURN)); ?>
+                        <?php echo CHtml::link('Возврат', '#', ['class' => 'btn btn-success btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_RETURN]); ?>
                     </p>
                     <div id="lead-status-message-<?php echo $data->id; ?>"></div>
                 <?php endif; ?>
 
-                <?php if ($data->leadStatus == Lead::LEAD_STATUS_PREMODERATION): ?>
+                <?php if (Lead::LEAD_STATUS_PREMODERATION == $data->leadStatus): ?>
                     <p>
-                        <?php echo CHtml::link('В брак', '#', array('class' => 'btn btn-warning btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_BRAK, 'data-refund' => 1)); ?>
+                        <?php echo CHtml::link('В брак', '#', ['class' => 'btn btn-warning btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_BRAK, 'data-refund' => 1]); ?>
                     </p>
                     <p>
-                        <?php echo CHtml::link('На продажу', '#', array('class' => 'btn btn-success btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_DEFAULT)); ?>
+                        <?php echo CHtml::link('На продажу', '#', ['class' => 'btn btn-success btn-xs btn-block lead-change-status', 'data-id' => $data->id, 'data-status' => Lead::LEAD_STATUS_DEFAULT]); ?>
                     </p>
                     <div id="lead-status-message-<?php echo $data->id; ?>"></div>
                 <?php endif; ?>
 
-                <?php if ($data->leadStatus == Lead::LEAD_STATUS_SENT): ?>
+                <?php if (Lead::LEAD_STATUS_SENT == $data->leadStatus): ?>
                     <?php
-                    $holdExpiration = (new \DateTime($data->deliveryTime))->add(new \DateInterval('P' . Yii::app()->params['leadHoldPeriodDays'] . 'D'));
-                    $now = new \DateTime();
+                    $holdExpiration = (new DateTime($data->deliveryTime))->add(new DateInterval('P' . Yii::app()->params['leadHoldPeriodDays'] . 'D'));
+                    $now = new DateTime();
                     if ($holdExpiration > $now) {
                         $daysLeftInHold = $holdExpiration->diff($now, true)->format('%a');
                         $hoursLeftInHold = $holdExpiration->diff($now, true)->format('%h');
-                        echo "<span class='label label-danger'>" . $daysLeftInHold . 'д ' . $hoursLeftInHold . 'ч' . "</span>";
+                        echo "<span class='label label-danger'>" . $daysLeftInHold . 'д ' . $hoursLeftInHold . 'ч' . '</span>';
                     }
                     ?>
                 <?php endif; ?>

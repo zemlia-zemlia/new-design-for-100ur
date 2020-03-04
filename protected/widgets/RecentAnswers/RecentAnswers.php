@@ -1,21 +1,19 @@
 <?php
 
 /**
- *  виджет для вывода последних ответов, юристы должны быть уникальными
+ *  виджет для вывода последних ответов, юристы должны быть уникальными.
  */
-
 class RecentAnswers extends CWidget
 {
     public $template = 'default'; // представление виджета по умолчанию
     public $cacheTime = 600; // время кеширования
     public $limit = 6;
-    
+
     public function run()
     {
         $answers = Yii::app()->cache->get('recentAnswers');
-        
-        if ($answers === false) {
-            
+
+        if (false === $answers) {
             // выберем ответы за последний месяц, с вопросами и авторами
             $answersRows = Yii::app()->db->createCommand()
                     ->select('q.title questionTitle, q.id questionId, q.price questionPrice, q.payed questionPayed, a.answerText, a.datetime answerTime, a.authorId, u.name authorName, u.name2 authorName2, u.lastName authorLastName, u.lastActivity')
@@ -27,16 +25,16 @@ class RecentAnswers extends CWidget
                     ->limit($this->limit)
                     ->queryAll();
 
-            $answers = array();
-            
+            $answers = [];
+
             foreach ($answersRows as $row) {
                 $answers[$row['authorId']] = $row;
             }
             // храним результаты выборки ответов в кеше
             Yii::app()->cache->set('recentAnswers', $answers, $this->cacheTime);
         }
-        $this->render($this->template, array(
-            'answers'  =>  $answers,
-        ));
+        $this->render($this->template, [
+            'answers' => $answers,
+        ]);
     }
 }

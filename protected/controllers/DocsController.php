@@ -2,17 +2,12 @@
 
 class DocsController extends Controller
 {
-
-
-
     public function actionDownload($id)
     {
         $model = $this->loadModel($id);
 
         return $this->redirect($model->getDownloadLink());
     }
-
-
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
@@ -33,5 +28,4 @@ class DocsController extends Controller
 
         return $model;
     }
-
 }

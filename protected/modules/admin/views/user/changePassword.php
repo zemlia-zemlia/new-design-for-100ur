@@ -3,22 +3,22 @@
 /* @var $model User */
 $this->pageTitle = 'Изменение пароля пользователя ' . CHtml::encode($model->name . ' ' . $model->lastName) . '. ' . Yii::app()->name;
 
-$this->breadcrumbs=array(
-    'Пользователи'              =>  array('index'),
-    CHtml::encode($model->name . ' ' . $model->lastName) =>  array('view','id'=>$model->id),
+$this->breadcrumbs = [
+    'Пользователи' => ['index'],
+    CHtml::encode($model->name . ' ' . $model->lastName) => ['view', 'id' => $model->id],
     'Смена пароля',
-);
+];
 
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'homeLink'=>CHtml::link('CRM', "/"),
-    'separator'=>' / ',
-    'links'=>$this->breadcrumbs,
- ));
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('CRM', '/'),
+    'separator' => ' / ',
+    'links' => $this->breadcrumbs,
+ ]);
 ?>
 
 <h1>Изменение пароля</h1>
 
-<?php echo $this->renderPartial('_formPassword', array(
-        'model'             =>  $model,
-    )); ?>
+<?php echo $this->renderPartial('_formPassword', [
+        'model' => $model,
+    ]); ?>
 

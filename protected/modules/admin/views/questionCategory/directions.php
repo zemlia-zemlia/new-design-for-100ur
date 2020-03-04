@@ -1,5 +1,5 @@
 <?php
-$this->setPageTitle("Направления вопросов. ". Yii::app()->name);
+$this->setPageTitle('Направления вопросов. ' . Yii::app()->name);
 Yii::app()->clientScript->registerScriptFile('/js/admin/directions.js');
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,10 +16,10 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/directions.js');
 <?php foreach ($directions as $catId => $cat):?>
     <tr>
         <td>
-            <?php echo $catId;?>
+            <?php echo $catId; ?>
         </td>
         <td>
-            <p><strong><?php echo $cat['name'];?></strong></p>
+            <p><strong><?php echo $cat['name']; ?></strong></p>
             <div class="set-parent-result"></div>
 
             
@@ -33,28 +33,28 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/directions.js');
                 <?php foreach ($cat['children'] as $childId => $child):?>
                     <tr>
                         <td style="width:15%">
-                            <?php echo $child['id'];?>
+                            <?php echo $child['id']; ?>
                         </td>
                         <td style="width:75%">
-                            <?php echo $child['name'];?>
+                            <?php echo $child['name']; ?>
                             <div class="set-parent-result"></div>
                         </td>
                         <td style="width:10%">
-                            <?php echo CHtml::textField('parent[' . $child['id'] . ']', $child['parentDirectionId'], ['class' => 'form-control change-direction-parent', 'data-id' => $child['id']]);?>
+                            <?php echo CHtml::textField('parent[' . $child['id'] . ']', $child['parentDirectionId'], ['class' => 'form-control change-direction-parent', 'data-id' => $child['id']]); ?>
                             <?php //echo $child['parentDirectionId'];?>
                         </td>
                     </tr>
-                <?php endforeach;?>
+                <?php endforeach; ?>
                 </table>
-            <?php endif;?>
+            <?php endif; ?>
         
         </td>
         <td style="width:10%">
-            <?php echo CHtml::textField('parent[' . $catId . ']', 0, ['class' => 'form-control change-direction-parent', 'data-id' => $catId]);?>
+            <?php echo CHtml::textField('parent[' . $catId . ']', 0, ['class' => 'form-control change-direction-parent', 'data-id' => $catId]); ?>
             <?php //echo $child['parentDirectionId'];?>
         </td>
     </tr>
     
 
-<?php endforeach;?>
+<?php endforeach; ?>
 </table>

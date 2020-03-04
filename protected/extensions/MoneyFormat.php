@@ -1,4 +1,5 @@
 <?php
+
 use Money\Currencies\ISOCurrencies;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money as MoneyLib;
@@ -10,8 +11,8 @@ class MoneyFormat
         $currencies = new ISOCurrencies();
         $moneyFormatter = new DecimalMoneyFormatter($currencies);
 
-        return ($withThousandsSeparator == true) ?
-            number_format((float)$moneyFormatter->format(MoneyLib::RUB($valueMinor)), 2, '.', ' ') :
+        return (true == $withThousandsSeparator) ?
+            number_format((float) $moneyFormatter->format(MoneyLib::RUB($valueMinor)), 2, '.', ' ') :
             $moneyFormatter->format(MoneyLib::RUB($valueMinor))
             ;
     }

@@ -1,10 +1,8 @@
 <?php
 
-
 namespace Tests\unit\models;
 
 use Codeception\Test\Unit;
-use GTMail;
 use Tests\Factories\UserFactory;
 use User;
 use UserNotifier;
@@ -15,6 +13,7 @@ class UserTest extends Unit
 {
     /**
      * @dataProvider providerTestSendNewPassword
+     *
      * @param bool $sendResult
      * @param bool $expectedResult
      */
@@ -49,6 +48,7 @@ class UserTest extends Unit
 
     /**
      * @dataProvider providerTestGetAvatarUrl
+     *
      * @param string $avatar
      * @param string $size
      * @param string $expectedResult
@@ -92,6 +92,7 @@ class UserTest extends Unit
 
     /**
      * @dataProvider providerTestGetShortName
+     *
      * @param string $name
      * @param string $name2
      * @param string $lastName
@@ -150,7 +151,7 @@ class UserTest extends Unit
     }
 
     /**
-     * Зашифруем пароль и проверим его
+     * Зашифруем пароль и проверим его.
      */
     public function testHashAndValidatePassword()
     {
@@ -239,7 +240,8 @@ class UserTest extends Unit
 
     /**
      * @dataProvider providerCreateUserInYurcrm
-     * @param array $userAttributes
+     *
+     * @param array      $userAttributes
      * @param array|null $expectedResult
      */
     public function testCreateUserInYurcrm($userAttributes, $yurcrmResult, $expectedResult)
@@ -258,6 +260,7 @@ class UserTest extends Unit
     {
         $userFactory = new UserFactory();
         $yurCrmResult = $this->createMock(YurcrmResponse::class);
+
         return [
             'not buyer' => [
                 'userAttributes' => $userFactory->generateOne([

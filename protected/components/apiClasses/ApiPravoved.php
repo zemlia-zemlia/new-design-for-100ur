@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Класс для работы с API партнерки Pravoved
+ * Класс для работы с API партнерки Pravoved.
  */
 class ApiPravoved implements ApiClassInterface
 {
-    protected $url = "https://pravoved.ru/polling/";
-    protected $townApiUrl = "https://pravoved.ru/rest/cities/";
+    protected $url = 'https://pravoved.ru/polling/';
+    protected $townApiUrl = 'https://pravoved.ru/rest/cities/';
     protected $key = '24b554b143cf6c8dbbd0b55c4e7bd395'; // наш id в партнерской системе
     protected $curl;
     protected $lead;
@@ -19,13 +19,14 @@ class ApiPravoved implements ApiClassInterface
     }
 
     /**
-     * отправка лида
+     * отправка лида.
+     *
      * @param Lead $lead
      */
     public function send(Lead $lead)
     {
         $townId = $this->getTownId($lead->town->name);
-        
+
         $requestData = [
             'd' => 'jsonp',
             'event_type' => 'lead_market_lead',
@@ -40,7 +41,7 @@ class ApiPravoved implements ApiClassInterface
             'putm_content' => '',
             'putm_medium' => '',
         ];
-        
+
         LoggerFactory::getLogger()->log('Отправляем лид #' . $lead->id . ' в партнерку Pravoved', 'Lead', $lead->id);
 
         $apiUrl = $this->url . '?' . http_build_query($requestData);
@@ -48,39 +49,44 @@ class ApiPravoved implements ApiClassInterface
 
         // получаем ответ от Правоведа GET запросом
         $apiResponse = curl_exec($this->curl);
-                
+
         LoggerFactory::getLogger()->log('Ответ API Pravoved: ' . CHtml::encode($apiResponse), 'Lead', $lead->id);
-        
+
         curl_close($this->curl);
-        
+
         return $this->checkResponse($apiResponse, $lead);
     }
-    
+
     /**
-     * Возвращает id города в базе Правоведа
+     * Возвращает id города в базе Правоведа.
+     *
      * @param type $townName Название города
      */
     private function getTownId($townName)
     {
         $pravovedTownGetter = PravovedGetTown::getInstance();
-        
+
         return $pravovedTownGetter->getTownId($townName);
     }
 
     /**
-     * Анализирует ответ от API
+     * Анализирует ответ от API.
+     *
      * @param string $apiResponse
-     * @param Lead $lead
-     * @return boolean
+     * @param Lead   $lead
+     *
+     * @return bool
      */
     private function checkResponse($apiResponse, $lead)
     {
-        if (strlen($apiResponse) == 41) {
+        if (41 == strlen($apiResponse)) {
             LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Pravoved', 'Lead', $lead->id);
+
             return true;
         }
-        
+
         LoggerFactory::getLogger()->log('Ошибка при отправке лида #' . $lead->id . ' в партнерку Pravoved', 'Lead', $lead->id);
+
         return false;
     }
 }

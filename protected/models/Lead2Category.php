@@ -1,12 +1,13 @@
 <?php
 
 /**
- * Модель для работы со связью вопросов и категорий вопросов
+ * Модель для работы со связью вопросов и категорий вопросов.
  *
  * The followings are the available columns in table '{{lead2category}}':
- * @property integer $id
- * @property integer $leadId
- * @property integer $cId
+ *
+ * @property int $id
+ * @property int $leadId
+ * @property int $cId
  */
 class Lead2Category extends CActiveRecord
 {
@@ -27,30 +28,30 @@ class Lead2Category extends CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-                array('leadId, cId', 'required'),
-                array('leadId, cId', 'numerical', 'integerOnly'=>true),
+        return [
+                ['leadId, cId', 'required'],
+                ['leadId, cId', 'numerical', 'integerOnly' => true],
                 // The following rule is used by search().
                 // @todo Please remove those attributes that should not be searched.
-                array('leadId, cId', 'safe', 'on'=>'search'),
-        );
+                ['leadId, cId', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-        );
+        return [
+        ];
     }
 
     /**
@@ -58,10 +59,10 @@ class Lead2Category extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
-            'leadId'    => 'ID лида',
-            'cId'       => 'ID категории',
-        );
+        return [
+            'leadId' => 'ID лида',
+            'cId' => 'ID категории',
+        ];
     }
 
     /**
@@ -74,29 +75,31 @@ class Lead2Category extends CActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     *                             based on the search/filter conditions
      */
     public function search()
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('leadId', $this->leadId);
         $criteria->compare('cId', $this->cId);
 
-        return new CActiveDataProvider($this, array(
-                'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+                'criteria' => $criteria,
+        ]);
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     *
+     * @param string $className active record class name
+     *
      * @return Question2category the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

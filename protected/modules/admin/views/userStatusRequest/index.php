@@ -1,15 +1,13 @@
 <?php
 /* @var $this UserStatusRequestController */
 /* @var $dataProvider CActiveDataProvider */
-$this->pageTitle = "Запросы на изменение статуса. " . Yii::app()->name;
+$this->pageTitle = 'Запросы на изменение статуса. ' . Yii::app()->name;
 
-
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     'Запросы на изменение статуса',
-);
+];
 
 Yii::app()->clientScript->registerScriptFile('/js/admin/statusRequest.js');
-
 
 ?>
 <div>
@@ -19,13 +17,13 @@ Yii::app()->clientScript->registerScriptFile('/js/admin/statusRequest.js');
 <div class="box">
     <div class="box-body">
         <table class="table table-bordered">
-            <?php $this->widget('zii.widgets.CListView', array(
+            <?php $this->widget('zii.widgets.CListView', [
                 'dataProvider' => $dataProvider,
                 'itemView' => '_view',
                 'emptyText' => 'Не найдено ни одного запроса',
                 'summaryText' => 'Показаны запросы с {start} до {end}, всего {count}',
-                'pager' => array('class' => 'GTLinkPager'), //we use own pager with russian words
-            )); ?>
+                'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+            ]); ?>
         </table>
     </div>
 </div>
