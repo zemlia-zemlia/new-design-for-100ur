@@ -51,7 +51,16 @@
 
     </div>
     <div class="col-md-4">
-        <?php echo CHtml::link('Создать кампанию', Yii::app()->createUrl('campaign/create'), ['class' => 'btn btn-primary btn-block']); ?>
-
+        <div class="box">
+            <div class="box-body">
+                <p>Если вам нужны заявки из разных регионов или городов, необходимо создать кампании на каждый из
+                    них.</p>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <?php echo CHtml::link('Создать кампанию', Yii::app()->createUrl('campaign/create'), ['class' => 'btn btn-primary btn-block']); ?>
+            </div>
+        </div>
     </div>
 </div>
