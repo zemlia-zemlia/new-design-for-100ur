@@ -147,7 +147,7 @@ class StatisticsService
             $statsByField['duplicateLeads'] += $duplicateLeadsCount[$fieldToGroup];
             $statsByField['totalRevenue'] += $totalRevenue[$fieldToGroup];
         }
-        var_dump($statsByField);die;
+
 
         if ('asc' == $order) {
             ksort($statsByField['data']);
