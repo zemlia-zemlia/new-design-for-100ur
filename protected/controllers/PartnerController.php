@@ -9,6 +9,7 @@ class PartnerController extends Controller
 
     /*
      * TODO почепму тут грузится шаблон кабинет а функционал вебмастера?
+     * TODO Проверить, что контроллер не используется и удалить
      */
 
     public function filters()
