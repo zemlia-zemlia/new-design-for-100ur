@@ -62,7 +62,7 @@ $this->widget('zii.widgets.CBreadcrumbs', [
                     </thead>
 
                     <?php $this->widget('zii.widgets.CListView', [
-                        'dataProvider' => $dataProvider,
+                        'dataProvider' => $dataProviderQ,
                         'itemView' => '_view',
                         'emptyText' => 'Не найдено ни одного источника',
                         'summaryText' => 'Показаны источники с {start} до {end}, всего {count}',
