@@ -1,4 +1,6 @@
 .idea/
+*/.DS_Store
+
 /assets/*
 /netbeans/
 /protected/extensions/imperavi/assets/
