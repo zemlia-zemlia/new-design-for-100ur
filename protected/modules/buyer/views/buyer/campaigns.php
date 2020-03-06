@@ -9,24 +9,28 @@
  -->
 </p>
 
-<?php if (0 == sizeof(Yii::app()->user->getModel()->campaigns)): ?>
-    <div class="alert alert-danger">
-        <p>
-            Для того, чтобы начать покупать лиды, Вам
-            необходимо <?php echo CHtml::link('создать кампанию', Yii::app()->createUrl('campaign/create')); ?> и
-            дождаться ее проверки.<br/>
-            Цена лида будет определена модератором при одобрении кампании.<br/>
-            После этого Вы сможете пополнить баланс и получать лиды.
-        </p>
-    </div>
-<?php endif; ?>
+
 
 
 <div class="row">
     <div class="col-md-8">
+        <?php if (0 == sizeof(Yii::app()->user->getModel()->campaigns)): ?>
+            <div class="callout callout-danger">
+                <p>
+                    Для того, чтобы начать покупать лиды, Вам
+                    необходимо <?php echo CHtml::link('создать кампанию', Yii::app()->createUrl('campaign/create')); ?> и
+                    дождаться ее проверки.<br/>
+                    Цена лида будет определена модератором при одобрении кампании.<br/>
+                    После этого Вы сможете пополнить баланс и получать лиды.
+                </p>
+            </div>
+        <?php endif; ?>
+
         <div class="box">
+            <div class="box-header">
+                <div class="box-title">Активные кампании</div>
+            </div>
             <div class="box-body">
-                <h1>Активные кампании</h1>
                 <?php foreach ($campaigns
                                as $campaign): ?>
 
@@ -46,8 +50,16 @@
                         </div>
                     </div>
                 <?php endforeach; ?>
-                <hr>
-                <h1>Не активные кампании</h1>
+
+
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="box-header">
+                <div class="box-title"> Кампании с другими статусами</div>
+            </div>
+            <div class="box-body">
                 <?php foreach ($campaignsNoActive
                                as $campaign): ?>
 
@@ -76,7 +88,7 @@
         <div class="box">
             <div class="box-body">
                 <p>Если вам нужны заявки из разных регионов или городов, необходимо создать кампании на каждый из
-                    них.</p>
+                    них. При этом у всех кампаний будет один единый баланс, с которого будет списываться стоимость лидов.</p>
             </div>
         </div>
         <div class="box">
