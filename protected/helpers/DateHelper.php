@@ -194,11 +194,16 @@ class DateHelper
      * @return string
      */
     public static function niceDate(
-        string $date,
+        ?string $date,
         bool $showTime = true,
         bool $showWeekday = true,
         bool $showYear = true
     ): string {
+
+        if (is_null($date)) {
+            return '';
+        }
+
         $monthsArray = ['', 'янв.', 'фев.', 'мар.', 'апр.', 'мая', 'июн.', 'июл.', 'авг.', 'сен.', 'окт.', 'ноя.', 'дек.'];
         $weekDaysArray = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
         $timestamp = strtotime($date);
