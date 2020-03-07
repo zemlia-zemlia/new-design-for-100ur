@@ -8,7 +8,7 @@ class RecalculateBalancesCommand extends CConsoleCommand
 {
     /*
     Запрос для поиска расхождений баланса и суммы транзакций:
-    
+
     SELECT u.id, u.name, u.lastName, u.balance, SUM(t.sum) transactionSum
     FROM 100_transactionCampaign t
     LEFT JOIN 100_user u ON u.id = t.buyerId

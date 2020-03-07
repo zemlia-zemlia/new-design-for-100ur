@@ -75,9 +75,9 @@ class StatisticsService
     /**
      * Статистика лидов вебмастера по датам
      *
-     * @param string $groupByFieldName
+     * @param string        $groupByFieldName
      * @param DateTime|null $fromDate
-     * @param string $order asc|desc
+     * @param string        $order            asc|desc
      *
      * @return array
      *
@@ -148,7 +148,7 @@ class StatisticsService
             $statsByField['totalRevenue'] += $totalRevenue[$fieldToGroup];
         }
 
-        if (sizeof($statsByField) == 0) {
+        if (0 == sizeof($statsByField)) {
             return [];
         }
 

@@ -129,10 +129,10 @@ class Swift_Mime_SimpleHeaderSet implements Swift_Mime_HeaderSet
         $this->_storeHeader(
             $name,
             $this->_factory->createParameterizedHeader(
-            $name,
-            $value,
-            $params
-        )
+                $name,
+                $value,
+                $params
+            )
         );
     }
 

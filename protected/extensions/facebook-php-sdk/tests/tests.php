@@ -1797,9 +1797,9 @@ class PHPSDKTestCase extends PHPUnit_Framework_TestCase
         $fb->publicSetPersistentData($key, $val);
         $this->assertFalse(
             array_key_exists(
-            sprintf('fb_%s_%s', self::APP_ID, $key),
-            $_SESSION
-        )
+                sprintf('fb_%s_%s', self::APP_ID, $key),
+                $_SESSION
+            )
         );
         $this->assertFalse($fb->publicGetPersistentData($key));
     }
@@ -1824,9 +1824,9 @@ class PHPSDKTestCase extends PHPUnit_Framework_TestCase
         $fb->publicClearPersistentData($key);
         $this->assertFalse(
             array_key_exists(
-            sprintf('fb_%s_%s', self::APP_ID, $key),
-            $_SESSION
-        )
+                sprintf('fb_%s_%s', self::APP_ID, $key),
+                $_SESSION
+            )
         );
         $this->assertFalse($fb->publicGetPersistentData($key));
     }
