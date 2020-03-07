@@ -1,5 +1,5 @@
 <?php
-CController::renderPartial('webroot.themes.2017.views.frontend.include._header');
+CController::renderPartial('webroot.themes.2020.views.frontend.include._header');
 ?>
 
 <div class="container">
