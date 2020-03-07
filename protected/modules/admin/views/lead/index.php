@@ -4,7 +4,7 @@
 
 $this->pageTitle = 'Лиды. ' . Yii::app()->name;
 
-Yii::app()->clientScript->registerScriptFile('/js/ .js');
+Yii::app()->clientScript->registerScriptFile('/js/lead.js');
 Yii::app()->clientScript->registerScriptFile('/js/admin/lead.js');
 
 $this->breadcrumbs = [
