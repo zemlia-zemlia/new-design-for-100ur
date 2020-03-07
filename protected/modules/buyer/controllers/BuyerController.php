@@ -43,7 +43,7 @@ class BuyerController extends Controller
 
         $buyerStatisticService = new StatisticsService(Yii::app()->user->id);
 
-        $statPeriodDays = 5;
+        $statPeriodDays = 30;
         $statsFromDate = (new DateTime())->modify('-' . ($statPeriodDays - 1) . ' day')->modify('midnight');
         $soldLeadsCount = $buyerStatisticService->getSoldLeadsCount($statsFromDate);
         $soldLeadsTotalExpences = $buyerStatisticService->getTotalExpences($statsFromDate);

@@ -14,9 +14,9 @@ class SourceController extends Controller
     {
         // выбираем источники, связанные с текущим пользователем
         $criteria = new CDbCriteria();
-        $criteria->addColumnCondition(['userId' => Yii::app()->user->id, 'type' => 1]);
+        $criteria->addColumnCondition(['userId' => Yii::app()->user->id, 'type' => Leadsource::TYPE_LEAD]);
         $criteriaQ = new CDbCriteria();
-        $criteriaQ->addColumnCondition(['userId' => Yii::app()->user->id, 'type' => 2]);
+        $criteriaQ->addColumnCondition(['userId' => Yii::app()->user->id, 'type' => Leadsource::TYPE_QUESTION]);
 
         $dataProvider = new CActiveDataProvider(
             'Leadsource',
