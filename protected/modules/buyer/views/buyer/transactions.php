@@ -18,9 +18,9 @@ $this->widget('zii.widgets.CBreadcrumbs', [
             padding: 1px 1px;
         }
     </style>
-<div class="text-center">
-    <h2>Ваш баланс: <?php echo MoneyFormat::rubles(Yii::app()->user->balance); ?> руб.</h2>
-</div>
+    <div class="text-center">
+        <h2>Ваш баланс: <?php echo MoneyFormat::rubles(Yii::app()->user->balance); ?> руб.</h2>
+    </div>
 
     <p>
 <?php if (Yii::app()->user->campaignsModeratedCount > 0): ?>
@@ -41,8 +41,11 @@ $this->widget('zii.widgets.CBreadcrumbs', [
                             для карт других регионов от 1% (у каждого банка индивидуально)
                             зачисление на баланс в течении 30 минут</strong></p>
                     <div class="callout callout-info">
-                            <strong>ВНИМАНИЕ!</strong><br/> При оплате c карты сбербанка в сообщении к платежу укажите <strong>"Аккаунт
-                                ID <?php echo Yii::app()->user->id; ?>" </strong> Если отправляете платеж с другого банка, просим скинуть чек или скрин платежа нам на почту admin@100yuristov.com с указанием ID вашего аккаунта.
+                        <strong>ВНИМАНИЕ!</strong><br/> При оплате c карты сбербанка в сообщении к платежу укажите
+                        <strong>"Аккаунт
+                            ID <?php echo Yii::app()->user->id; ?>" </strong> Если отправляете платеж с другого банка,
+                        просим скинуть чек или скрин платежа нам на почту admin@100yuristov.com с указанием ID вашего
+                        аккаунта.
                     </div>
                 </div>
             </div>
@@ -55,7 +58,7 @@ $this->widget('zii.widgets.CBreadcrumbs', [
                 <div class="box-body">
                     <p class="text-center">зачисление - мгновенно</p>
                     <div class="buyer-yandex-form align-center">
-                    <?php echo $this->renderPartial('application.views.transaction._yandexForm'); ?>
+                        <?php echo $this->renderPartial('application.views.transaction._yandexForm'); ?>
                     </div>
                 </div>
             </div>
@@ -85,7 +88,10 @@ $this->widget('zii.widgets.CBreadcrumbs', [
 
 
 <?php else: ?>
-    <span class="text-warning">для пополнения счета у Вас должна быть хотя бы одна активная кампания, одобренная модератором</span>
+    <div class="callout callout-success">
+        <h4>Внимание!</h4>
+        <p>Для пополнения счета у Вас должна быть хотя бы одна активная кампания, одобренная модератором</p>
+    </div>
 <?php endif; ?>
     </p>
 <?php if (!in_array(Yii::app()->user->id, [5379])): ?>

@@ -4,7 +4,7 @@
 $this->pageTitle = 'API для отправки лидов.' . Yii::app()->name;
 ?>
 
-<h1>Инструкция по отправке лидов через API</h1>
+<h1>Отправка лидов через API</h1>
 <div class="box">
     <div class="box-body">
         <p>

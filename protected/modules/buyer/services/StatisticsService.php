@@ -83,8 +83,9 @@ class StatisticsService
                 ':fromDate' => $fromDate->format('Y-m-d'),
             ]);
         }
+        $expencesResult = $queryCommand->queryScalar();
 
-        return $queryCommand->queryScalar();
+        return $expencesResult ?? 0;
     }
 
     /**

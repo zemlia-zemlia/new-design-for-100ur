@@ -211,7 +211,7 @@ class Leadsource extends CActiveRecord
     public static function getSourcesArrayByUser($userId)
     {
         $criteria = new CDbCriteria();
-        $criteria->addColumnCondition(['userId' => $userId]);
+        $criteria->addColumnCondition(['userId' => $userId, 'type' => 1]);
 
         $sources = self::model()->findAll($criteria);
         foreach ($sources as $source) {

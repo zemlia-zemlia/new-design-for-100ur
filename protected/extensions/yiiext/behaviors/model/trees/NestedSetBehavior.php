@@ -595,7 +595,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
      *
      * @param CEvent $event event parameter
      *
-     * @return boolean
+     * @return bool
      *
      * @throws CDbException
      */
@@ -613,7 +613,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
      *
      * @param CEvent $event event parameter
      *
-     * @return boolean
+     * @return bool
      *
      * @throws CDbException
      */
@@ -655,7 +655,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
      * @param bool          $runValidation
      * @param array         $attributes
      *
-     * @return boolean
+     * @return bool
      *
      * @throws CDbException
      * @throws CException
@@ -735,7 +735,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
     /**
      * @param array $attributes
      *
-     * @return boolean
+     * @return bool
      *
      * @throws CException
      * @throws Exception
@@ -802,7 +802,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
      * @param int           $key
      * @param int           $levelUp
      *
-     * @return boolean
+     * @return bool
      *
      * @throws CDbException
      * @throws CException

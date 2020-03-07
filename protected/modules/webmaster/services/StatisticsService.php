@@ -148,6 +148,10 @@ class StatisticsService
             $statsByField['totalRevenue'] += $totalRevenue[$fieldToGroup];
         }
 
+        if (0 == sizeof($statsByField)) {
+            return [];
+        }
+
         if ('asc' == $order) {
             ksort($statsByField['data']);
         } else {

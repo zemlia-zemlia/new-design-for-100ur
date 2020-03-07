@@ -47,7 +47,7 @@ class BuyerController extends Controller
         $statsFromDate = (new DateTime())->modify('-' . ($statPeriodDays - 1) . ' day')->modify('midnight');
         $soldLeadsCount = $buyerStatisticService->getSoldLeadsCount($statsFromDate);
         $soldLeadsTotalExpences = $buyerStatisticService->getTotalExpences($statsFromDate);
-        $averageExpencesPerDay = $soldLeadsTotalExpences / $statPeriodDays;
+        $averageExpencesPerDay = round($soldLeadsTotalExpences / $statPeriodDays);
 
         $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -111,9 +111,11 @@ class BuyerController extends Controller
     public function actionCampaigns()
     {
         $campaigns = Campaign::getCampaignsForBuyer(Yii::app()->user->id);
+        $campaignsNoActive = Campaign::getCampaignsForBuyerNoActive(Yii::app()->user->id);
 
         $this->render('campaigns', [
             'campaigns' => $campaigns,
+            'campaignsNoActive' => $campaignsNoActive,
         ]);
     }
 
