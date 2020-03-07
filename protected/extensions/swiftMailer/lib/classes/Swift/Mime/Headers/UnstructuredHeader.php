@@ -113,12 +113,12 @@ class Swift_Mime_Headers_UnstructuredHeader extends Swift_Mime_Headers_AbstractH
         if (!$this->getCachedValue()) {
             $this->setCachedValue(
                 str_replace('\\', '\\\\', $this->encodeWords(
-              $this,
-              $this->_value,
-              -1,
-              $this->getCharset(),
-              $this->getEncoder()
-          ))
+                    $this,
+                    $this->_value,
+                    -1,
+                    $this->getCharset(),
+                    $this->getEncoder()
+                ))
             );
         }
 

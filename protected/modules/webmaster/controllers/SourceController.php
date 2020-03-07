@@ -35,7 +35,6 @@ class SourceController extends Controller
                 ], ]
         );
 
-
         $this->render('index', [
             'dataProvider' => $dataProvider,
             'dataProviderQ' => $dataProviderQ,

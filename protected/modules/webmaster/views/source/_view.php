@@ -16,7 +16,7 @@
     <td>
 	<?php echo CHtml::encode($data->description); ?>
     </td>
-    <?php if ($data->type == 2) : ?>
+    <?php if (2 == $data->type) : ?>
     <td>
         <?php echo Yii::app()->urlManager->baseUrl . '/?partnerAppId=' . $data->appId; ?>
     </td>
