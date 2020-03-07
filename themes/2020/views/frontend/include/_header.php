@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="detectify-verification" content="9f97b18d45029185ceeda96efa4377e5" />
+    <meta name="detectify-verification" content="9f97b18d45029185ceeda96efa4377e5"/>
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=latin,cyrillic' rel='stylesheet'
           type='text/css'>
@@ -75,39 +75,13 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
             <?php else: ?>
                 <div class="col-md-8 col-sm-8 right-align">
                     <ul class="hor-list-menu">
-                        <li><?php echo CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER) ? '/buyer' : '/user')); ?></li>
                         <?php if (Yii::app()->user->role == User::ROLE_PARTNER): ?>
-                            <li><?php echo CHtml::link('Кабинет вебмастера', Yii::app()->createUrl('/webmaster'), array('class' => '')); ?></li>
-                        <?php endif; ?>
-
-                        <?php if (Yii::app()->user->role == User::ROLE_BUYER || Yii::app()->user->role == User::ROLE_PARTNER): ?>
-                            <li>
-                                <?php
-                                // найдем баланс пользователя. если это не вебмастер:
-                                if (Yii::app()->user->role != User::ROLE_PARTNER) {
-                                    $balance = Yii::app()->user->balance;
-                                    $transactionPage = '/buyer/transactions';
-                                } else {
-                                    $currentUser = User::model()->findByPk(Yii::app()->user->id);
-
-                                    // если это вебмастер, кешируем баланс, рассчитанный из транзакций вебмастера
-                                    if ($cachedBalance = Yii::app()->cache->get('webmaster_' . Yii::app()->user->id . '_balance')) {
-                                        $balance = $cachedBalance;
-                                    } else {
-                                        $balance = $currentUser->calculateWebmasterBalance();
-                                        Yii::app()->cache->set('webmaster_' . Yii::app()->user->id . '_balance', $balance, 3600);
-                                    }
-                                    $transactionPage = '/webmaster/transaction/index';
-                                }
-                                ?>
-                                Баланс: <?php echo CHtml::link(MoneyFormat::rubles($balance), Yii::app()->createUrl($transactionPage)); ?>
-                                руб.
-                                <?php if (Yii::app()->user->campaignsModeratedCount > 0): ?>
-                                    <?php echo CHtml::link("Пополнить", Yii::app()->createUrl('buyer/transactions'), array('title' => 'Пополнить', 'class' => 'btn btn-default btn-xs')); ?>
-                                <?php endif; ?>
-
-                            </li>
+                            <?php echo CHtml::link('Перейти в панель вебмастера', Yii::app()->user->homeUrl);?>
+                        <?php elseif (Yii::app()->user->role == User::ROLE_BUYER): ?>
+                            <?php echo CHtml::link('Перейти в панель покупателя', Yii::app()->user->homeUrl);?>
                         <?php else: ?>
+
+                            <li><?php echo CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER) ? '/buyer' : '/user')); ?></li>
                             <li>
                                 <?php
                                 $balance = Yii::app()->user->balance;
@@ -118,10 +92,9 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                                 </small>
                             </li>
 
+
+                            <li><?php echo CHtml::link('<span class="glyphicon glyphicon-log-out"></span>', Yii::app()->createUrl('site/logout'), array()); ?></li>
                         <?php endif; ?>
-
-                        <li><?php echo CHtml::link('<span class="glyphicon glyphicon-log-out"></span>', Yii::app()->createUrl('site/logout'), array()); ?></li>
-
                     </ul>
                 </div>
 
