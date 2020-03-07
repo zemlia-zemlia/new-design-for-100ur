@@ -36,7 +36,9 @@
 
 
 
+
       <?php
+      Yii::app()->clientScript->registerCssFile('/css/2017/jquery-ui.css');
       Yii::app()->clientScript->registerScriptFile("/js/respond.min.js");
       Yii::app()->clientScript->registerScriptFile("jquery.js");
       Yii::app()->clientScript->registerScriptFile("/js/jquery-ui/jquery-ui.min.js");
