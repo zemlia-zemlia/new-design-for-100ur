@@ -24,9 +24,9 @@ if ($town && $region && $country) {
     $this->breadcrumbs[$town->name] = Yii::app()->createUrl('town/alias', ['countryAlias' => $country->alias, 'regionAlias' => $region->alias, 'name' => $town->alias]);
 }
 
-$this->breadcrumbs[] = CHtml::encode($user->name . ' ' . $user->lastName);
+$this->breadcrumbs[] = CHtml::encode($user->nameOrCompany);
 
-$title = CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
+$title = CHtml::encode($user->nameOrCompany);
 
 if ($user->settings) {
     $title = $user->settings->getStatusName() . ' ' . $title;
@@ -42,7 +42,7 @@ if ($user->settings) {
     // для юриста выведем его статус (юрист/адвокат)
     $pageDescription .= $user->settings->getStatusName() . ' ';
 }
-$pageDescription .= CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName) . '. ';
+$pageDescription .= CHtml::encode($user->nameOrCompany) . '. ';
 if ($user->town) {
     $pageDescription .= $user->town->name;
 }
@@ -61,7 +61,7 @@ if (Yii::app()->user->id != $user->id) {
     <h1 class='vert-margin30'>
         <span itemprop="name">
             <?php
-            echo CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
+            echo CHtml::encode($user->nameOrCompany);
             ?>
         </span>
 
@@ -118,9 +118,9 @@ if (Yii::app()->user->id != $user->id) {
 
                 <p>
                     <img src="<?php echo $user->getAvatarUrl('big'); ?>" class='img-bordered' alt="<?php
-                    echo CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
+                    echo CHtml::encode($user->nameOrCompany);
                     ?>" title="<?php
-                    echo CHtml::encode($user->name . ' ' . $user->name2 . ' ' . $user->lastName);
+                    echo CHtml::encode($user->nameOrCompany);
                     ?>" itemprop="image"/>
                 </p>
                 <?php if ($user->id == Yii::app()->user->id): ?>
@@ -256,8 +256,18 @@ if (Yii::app()->user->id != $user->id) {
                             </div>
                         <?php endif; ?>
 
-                        <?php if (!$user->settings->site && !$user->settings->emailVisible && !$user->settings->phoneVisible): ?>
+                        <?php if (!$user->settings->site && !$user->settings->emailVisible && !$user->settings->phoneVisible && $user->settings->status != YuristSettings::STATUS_COMPANY): ?>
                             К сожалению, юрист не указал своих контактных данных
+
+                        <?php endif; ?>
+                        <?php if ($user->settings->status == YuristSettings::STATUS_COMPANY):?>
+                            <div class="col-md-4">
+                                <p>
+                                    <strong><span class="glyphicon glyphicon-home"
+                                                  aria-hidden="true"></span></strong> <?php echo CHtml::encode($user->settings->address); ?>
+                                </p>
+                            </div>
+
                         <?php endif; ?>
 
                     </div>

@@ -5,6 +5,7 @@
 
 $statusesArray = YuristSettings::getStatusesArray();
 unset($statusesArray[0]);
+unset($statusesArray[3]);
 ?>
 
 <div class="form">
@@ -27,7 +28,7 @@ unset($statusesArray[0]);
         $("input[name='UserStatusRequest[status]']").on('change', function(){
             var yuristStatus = $(this).val();
             
-            $("#user-profile-advocat, #user-profile-yurist, #user-profile-judge").hide();
+            $("#user-profile-advocat, #user-profile-yurist, #user-profile-company").hide();
             
             $("#submitStatusRequest").removeAttr('disabled');
             
@@ -41,9 +42,9 @@ unset($statusesArray[0]);
                     $("#user-profile-advocat").show();
                     $("#form-submit").show();
                     break;
-                case '3':
-                    $("#user-profile-judge").show();
-                    $("#form-submit").hide();
+                case '4':
+                    $("#user-profile-company").show();
+                    $("#form-submit").show();
                     break;
             }
             
@@ -63,12 +64,12 @@ unset($statusesArray[0]);
             case YuristSettings::STATUS_ADVOCAT:
                 echo 'advocat';
                 break;
-            case YuristSettings::STATUS_JUDGE:
-                echo 'judge';
+            case YuristSettings::STATUS_COMPANY:
+                echo 'company';
                 break;
         }
         ?>').show();
-        <?php if (sizeof($model->errors)):?>                    
+        <?php if (count($model->errors)):?>
             $('#form-submit').show();
         <?php endif; ?>
     })
@@ -188,10 +189,34 @@ unset($statusesArray[0]);
             </div>
 
 
-            <div id="user-profile-judge">
+            <div id="user-profile-company">
                 <p>
-                    Функция подтверждения статуса судьи пока в разработке..
+                    Для подтверждения статуса фирмы необходимо отправить дополнительные данные.
                 </p>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <?php echo $form->labelEx($model, 'inn'); ?>
+                            <?php echo $form->textField($model, 'inn', ['class' => 'form-control']); ?>
+                            <?php echo $form->error($model, 'inn'); ?>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <?php echo $form->labelEx($model, 'companyName'); ?>
+                            <?php echo $form->textField($model, 'companyName', ['class' => 'form-control']); ?>
+                            <?php echo $form->error($model, 'companyName'); ?>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <?php echo $form->labelEx($model, 'address'); ?>
+                            <?php echo $form->textField($model, 'address', ['class' => 'form-control']); ?>
+                            <?php echo $form->error($model, 'address'); ?>
+                        </div>
+                    </div>
+                </div>
             </div>   
 
 	<div id='form-submit' class="row buttons inside center-align">

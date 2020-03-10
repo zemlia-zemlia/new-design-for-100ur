@@ -17,6 +17,9 @@
  * @property string $advOrganisation
  * @property string $advNumber
  * @property string $position
+ * @property string $inn
+ * @property string $companyName
+ * @property string $address
  */
 class UserStatusRequest extends CActiveRecord
 {
@@ -24,6 +27,10 @@ class UserStatusRequest extends CActiveRecord
     const STATUS_NEW = 0; // новая заявка
     const STATUS_ACCEPTED = 1; // одобрено
     const STATUS_DECLINED = 2; // отклонено
+
+    public $inn;
+    public $companyName;
+    public $address;
 
     /**
      * @return string the associated database table name
@@ -52,7 +59,7 @@ class UserStatusRequest extends CActiveRecord
             ['yuristId', 'required', 'message' => 'Поле {attribute} должно быть заполнено'],
             ['vuz, facultet, education, vuzTownId, educationYear', 'required', 'on' => 'createYurist', 'message' => 'Поле {attribute} должно быть заполнено'],
             ['advOrganisation, advNumber, position', 'required', 'on' => 'createAdvocat', 'message' => 'Поле {attribute} должно быть заполнено'],
-            //array('', 'required', 'on'=>'createJudge', 'message' => 'Поле {attribute} должно быть заполнено'),
+            ['inn, companyName, address', 'required', 'on'=>'createCompany', 'message' => 'Поле {attribute} должно быть заполнено'],
             ['yuristId, status, isVerified, vuzTownId, educationYear', 'numerical', 'integerOnly' => true],
             ['vuz, facultet, education, advOrganisation, advNumber, position', 'length', 'max' => 255],
             ['userFile', 'file', 'types' => 'jpg,gif,png,tiff,pdf', 'maxSize' => '10000000', 'allowEmpty' => true, 'message' => 'Неправильный формат загруженного файла'],
@@ -73,6 +80,7 @@ class UserStatusRequest extends CActiveRecord
             'user' => [self::BELONGS_TO, 'User', 'yuristId'],
             'vuzTown' => [self::BELONGS_TO, 'Town', 'vuzTownId'],
             'userFile' => [self::BELONGS_TO, 'UserFile', 'fileId'],
+            'settings' => [self::BELONGS_TO, 'YuristSettings', 'yuristId']
         ];
     }
 
@@ -94,6 +102,9 @@ class UserStatusRequest extends CActiveRecord
             'advOrganisation' => 'членство в адвокатском объединении',
             'advNumber' => 'номер в реестре адвокатов',
             'position' => 'должность',
+            'inn' => 'ИНН',
+            'companyName' => 'Название компании',
+            'address' => 'Адрес',
         ];
     }
 
@@ -245,5 +256,20 @@ class UserStatusRequest extends CActiveRecord
                 ->queryRow();
 
         return $counterRow['counter'];
+    }
+
+    public function createCompany()
+    {
+        $settings = YuristSettings::model()->find('yuristId = ' . $this->user->id);
+        $settings->inn = $this->inn;
+        $settings->companyName = $this->companyName;
+        $settings->address = $this->address;
+        if ($settings->save()){
+            return true;
+        }
+        else {
+            return false;
+        }
+
     }
 }

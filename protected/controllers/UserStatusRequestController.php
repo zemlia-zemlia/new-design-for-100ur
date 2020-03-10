@@ -67,8 +67,14 @@ class UserStatusRequestController extends Controller
         $userFile = new UserFile();
 
         if (isset($_POST['UserStatusRequest'])) {
+            $post = $_POST['UserStatusRequest'];
             $model->attributes = $_POST['UserStatusRequest'];
+
             $model->yuristId = Yii::app()->user->id;
+            $model->inn = $post['inn'];
+            $model->companyName = $post['companyName'];
+            $model->address = $post['address'];
+
 
             switch ($model->status) {
                 case YuristSettings::STATUS_YURIST:
@@ -77,8 +83,8 @@ class UserStatusRequestController extends Controller
                 case YuristSettings::STATUS_ADVOCAT:
                     $model->scenario = 'createAdvocat';
                     break;
-                case YuristSettings::STATUS_JUDGE:
-                    $model->scenario = 'createJudge';
+                case YuristSettings::STATUS_COMPANY:
+                    $model->scenario = 'createCompany';
                     break;
             }
 
@@ -108,11 +114,18 @@ class UserStatusRequestController extends Controller
                 }
             }
 
+
             // Если подтверждаем юриста, проверим, что он загрузил скан
             if ('createYurist' == $model->scenario && !$scan) {
                 $userFile->addError('userFile', 'Не загружен файл со сканом/фото диплома');
                 $modelHasErrors = true;
             }
+
+            // Если подтверждаем фирму, меняем сеттингс
+            if ('createCompany' == $model->scenario ) {
+               $model->createCompany();
+            }
+
 
             if (!$model->errors && !$modelHasErrors && $model->save()) {
                 $this->redirect(['/user']);
