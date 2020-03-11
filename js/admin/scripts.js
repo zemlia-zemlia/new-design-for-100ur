@@ -5,6 +5,7 @@ $(function () {
 
     $(".field-phone").mask("+7 (999) 999-9999");
 
+    console.log('page is loaded');
     $("#town-selector").autocomplete({
         source: '/town/ajaxGetList/',
         select: function (event, ui) {

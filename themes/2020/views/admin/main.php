@@ -38,7 +38,8 @@
     <?php
     Yii::app()->clientScript->registerScriptFile("/js/respond.min.js");
     Yii::app()->clientScript->registerScriptFile("jquery.js");
-    Yii::app()->clientScript->registerScriptFile("/js/jquery-ui/jquery-ui.min.js");
+    Yii::app()->clientScript->registerCssFile('/css/2017/jquery-ui.css');
+    Yii::app()->clientScript->registerScriptFile("/js/jquery-ui.min.js");
     Yii::app()->clientScript->registerScriptFile("/bootstrap/js/bootstrap.min.js", CClientScript::POS_END);
     Yii::app()->clientScript->registerScriptFile("/js/admin/scripts.js", CClientScript::POS_END);
     Yii::app()->ClientScript->registerScriptFile('/js/jquery.maskedinput.min.js', CClientScript::POS_END);
