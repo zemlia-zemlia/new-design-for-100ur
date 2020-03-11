@@ -435,19 +435,3 @@ tr:hover .table-links-hovered-container {
     padding-left: 5px;
     padding-right: 5px;
 }
-#ui-id-1 {
-    background-color: white;
-    width: 470px;
-    z-index: 9000;
-
-}
-
-#ui-id-1 li {
-    list-style: none;
-    padding: 4px;
-}
-
-#ui-id-1 li:hover {
-   background-color: #999;
-
-}
