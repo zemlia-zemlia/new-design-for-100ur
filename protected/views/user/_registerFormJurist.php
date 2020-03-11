@@ -1,4 +1,5 @@
-
+<div class="row">
+    <div class="col-lg-8">
 <div class='row'>
     <div class='col-md-8 col-md-offset-2 center-align'>
         <div class="form-group">
@@ -60,4 +61,10 @@
     </div>
 </div>
 
+    </div>
+
+    <div class="col-lg-4">
+        Если вы представляете юридическию фирму, проходите регистрацию с указанием контактного лица. После регистрации вы сможете указать название своей фирмы и работать от ее имени
+    </div>
+</div>
 
