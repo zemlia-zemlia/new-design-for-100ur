@@ -80,7 +80,7 @@ class UserStatusRequestController extends Controller
             $model->address = $post['address'];
 
 
-//            CVarDumper::dump($model->getAttributes(),5,true);
+
 
             switch ($model->status) {
                 case YuristSettings::STATUS_YURIST:
