@@ -2,7 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class AddColumnToYurist extends AbstractMigration
+class AddColumnToYurist1 extends AbstractMigration
 {
     public function up()
     {
