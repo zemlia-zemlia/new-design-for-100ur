@@ -76,7 +76,7 @@ class UserStatusRequestController extends Controller
 
             $model->yuristId = Yii::app()->user->id;
 
-
+            CVarDumper::dump($model->getAttributes(),5,true);
 
             switch ($model->status) {
                 case YuristSettings::STATUS_YURIST:
@@ -89,9 +89,9 @@ class UserStatusRequestController extends Controller
                     $model->scenario = 'createCompany';
                     break;
             }
-            $model->inn = $post['inn'];
-            $model->companyName = $post['companyName'];
-            $model->address = $post['address'];
+//            $model->inn = $post['inn'];
+//            $model->companyName = $post['companyName'];
+//            $model->address = $post['address'];
 
            if ($model->validate()) {
                // загрузка скана

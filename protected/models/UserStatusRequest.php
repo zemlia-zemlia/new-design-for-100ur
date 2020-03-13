@@ -28,9 +28,9 @@ class UserStatusRequest extends CActiveRecord
     const STATUS_ACCEPTED = 1; // одобрено
     const STATUS_DECLINED = 2; // отклонено
 
-    public $inn;
-    public $companyName;
-    public $address;
+//    public $inn;
+//    public $companyName;
+//    public $address;
 
     /**
      * @return string the associated database table name
@@ -65,7 +65,7 @@ class UserStatusRequest extends CActiveRecord
             ['userFile', 'file', 'types' => 'jpg,gif,png,tiff,pdf', 'maxSize' => '10000000', 'allowEmpty' => true, 'message' => 'Неправильный формат загруженного файла'],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            ['id, yuristId, status, isVerified, vuz, facultet, education, vuzTownId, educationYear, advOrganisation, advNumber, position', 'safe', 'on' => 'search'],
+            ['id, yuristId, status, isVerified, vuz, facultet, education, vuzTownId, educationYear, advOrganisation, advNumber, position, inn, companyName, address', 'safe', 'on' => 'search'],
         ];
     }
 
