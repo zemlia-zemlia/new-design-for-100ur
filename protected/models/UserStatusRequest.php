@@ -213,8 +213,20 @@ class UserStatusRequest extends CActiveRecord
                     $this->addError('position', 'Не указана должность');
                 }
                 break;
+            case YuristSettings::STATUS_COMPANY:
+                if ('' == $this->inn) {
+                    $this->addError('inn', 'Не указан ИНН');
+                }
+                if ('' == $this->companyName) {
+                    $this->addError('companyName', 'Не указано название');
+                }
+                if ('' == $this->address) {
+                    $this->addError('address', 'Не указан адрес');
+                }
+                break;
         }
     }
+
 
     /**
      * Отправка уведомления о смене статуса.

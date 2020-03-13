@@ -60,6 +60,10 @@ class UserStatusRequestController extends Controller
      */
     public function actionCreate()
     {
+        if (Yii::app()->user->role != User::ROLE_JURIST) {
+            throw new CHttpException(404, 'Авторизуйтесь под юристом.');
+        }
+
         ini_set('upload_max_filesize', '10M');
         $model = new UserStatusRequest();
 
@@ -88,43 +92,44 @@ class UserStatusRequestController extends Controller
                     break;
             }
 
-            $model->validate();
-            // загрузка скана
-            if (!empty($_FILES) && !$model->errors && 'createYurist' == $model->scenario) {
-                $scan = CUploadedFile::getInstance($userFile, 'userFile');
-                if ($scan && 0 == $scan->getError()) { // если файл нормально загрузился
-                    $scanFileName = md5($scan->getName() . $scan->getSize() . mt_rand(10000, 100000)) . '.' . $scan->getExtensionName();
+           if ($model->validate()) {
+               // загрузка скана
+               if (!empty($_FILES) && !$model->errors && 'createYurist' == $model->scenario) {
+                   $scan = CUploadedFile::getInstance($userFile, 'userFile');
+                   if ($scan && 0 == $scan->getError()) { // если файл нормально загрузился
+                       $scanFileName = md5($scan->getName() . $scan->getSize() . mt_rand(10000, 100000)) . '.' . $scan->getExtensionName();
 
-                    $scan->saveAs(Yii::getPathOfAlias('webroot') . UserFile::USER_FILES_FOLDER . '/' . $scanFileName);
+                       $scan->saveAs(Yii::getPathOfAlias('webroot') . UserFile::USER_FILES_FOLDER . '/' . $scanFileName);
 
-                    $userFile->userId = Yii::app()->user->id;
-                    $userFile->name = $scanFileName;
-                    $userFile->type = $model->status;
+                       $userFile->userId = Yii::app()->user->id;
+                       $userFile->name = $scanFileName;
+                       $userFile->type = $model->status;
 
-                    if (!$userFile->save()) {
-                        echo 'Не удалось сохранить скан';
-                        StringHelper::printr($userFile->errors);
-                        Yii::app()->end();
-                    } else {
-                        // после сохранения файла сохраним ссылку на него в объекте запроса
-                        $model->fileId = $userFile->id;
-                    }
-                } else {
-                    $modelHasErrors = true;
-                }
-            }
+                       if (!$userFile->save()) {
+                           echo 'Не удалось сохранить скан';
+                           StringHelper::printr($userFile->errors);
+                           Yii::app()->end();
+                       } else {
+                           // после сохранения файла сохраним ссылку на него в объекте запроса
+                           $model->fileId = $userFile->id;
+                       }
+                   } else {
+                       $modelHasErrors = true;
+                   }
+               }
 
 
-            // Если подтверждаем юриста, проверим, что он загрузил скан
-            if ('createYurist' == $model->scenario && !$scan) {
-                $userFile->addError('userFile', 'Не загружен файл со сканом/фото диплома');
-                $modelHasErrors = true;
-            }
+               // Если подтверждаем юриста, проверим, что он загрузил скан
+               if ('createYurist' == $model->scenario && !$scan) {
+                   $userFile->addError('userFile', 'Не загружен файл со сканом/фото диплома');
+                   $modelHasErrors = true;
+               }
 
-            // Если подтверждаем фирму, меняем сеттингс
-            if ('createCompany' == $model->scenario ) {
-               $model->createCompany();
-            }
+               // Если подтверждаем фирму, меняем сеттингс
+               if ('createCompany' == $model->scenario) {
+                   $model->createCompany();
+               }
+           }
 
 
             if (!$model->errors && !$modelHasErrors && $model->save()) {
