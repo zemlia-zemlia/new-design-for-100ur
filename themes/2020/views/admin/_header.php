@@ -14,6 +14,8 @@
         </a>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
+                <li><a href="<?= Yii::app()->createUrl('/admin/question/setTitle/') ?>" >'Модерировать: ' <?= QuestionHelpers::countForModerate() ?></a></li>
+                <li><a href="<?= Yii::app()->createUrl('/admin/question/nocat/') ?>" >Без категории: <?= QuestionHelpers::countNoCat() ?></a></li>
                 <li class="dropdown notifications-menu">
                     <?php
                     echo CHtml::ajaxLink("<span class='glyphicon glyphicon-refresh'></span>", Yii::app()->createUrl('site/clearCache'), array(
