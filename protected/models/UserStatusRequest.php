@@ -28,9 +28,9 @@ class UserStatusRequest extends CActiveRecord
     const STATUS_ACCEPTED = 1; // одобрено
     const STATUS_DECLINED = 2; // отклонено
 
-//    public $inn;
-//    public $companyName;
-//    public $address;
+    public $inn;
+    public $companyName;
+    public $address;
 
     /**
      * @return string the associated database table name

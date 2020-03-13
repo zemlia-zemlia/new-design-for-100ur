@@ -75,6 +75,10 @@ class UserStatusRequestController extends Controller
             $model->attributes = $_POST['UserStatusRequest'];
 
             $model->yuristId = Yii::app()->user->id;
+            $model->inn = $post['inn'];
+            $model->companyName = $post['companyName'];
+            $model->address = $post['address'];
+
 
 //            CVarDumper::dump($model->getAttributes(),5,true);
 
@@ -89,9 +93,7 @@ class UserStatusRequestController extends Controller
                     $model->scenario = 'createCompany';
                     break;
             }
-//            $model->inn = $post['inn'];
-//            $model->companyName = $post['companyName'];
-//            $model->address = $post['address'];
+
 
            if ($model->validate()) {
                // загрузка скана
