@@ -1,61 +1,56 @@
 <?php
-$this->setPageTitle('Отзывы клиентов');
-Yii::app()->clientScript->registerMetaTag('Отзывы', 'description');
+$this->setPageTitle('Отзывы наших клиентов - "100 Юристов"');
+Yii::app()->clientScript->registerMetaTag('Отзывы наших клиентов о нашей работе - Юридический портал "100 Юристов"', 'description');
 $purifier = new CHtmlPurifier();
 ?>
 
+
+<h1>Отзывы наших клиентов</h1>
+
 <div class="container">
-<?php if (count($testimonials)) :
-    $i = 1;
-    foreach ($testimonials as $t) :
-        if ($i % 2 != 0) :?>
- <div class="row">
-
-     <div class="col-lg-6">
-
-             <h4 class="text-left">
-                 <strong><?php echo CHtml::encode($t->author->name); ?></strong>
-
-             </h4>
-             <p class="vert-margin30">
-                 <?php echo $purifier->purify($t->text); ?>
-             </p>
-             <?php if ($t->question): ?>
-                 <p class="small">
-                     Вопрос: <?php echo CHtml::link(CHtml::encode($t->question->title), Yii::app()->createUrl('question/view', ['id' => $t->question->id])); ?>
-                 </p>
-             <?php endif; ?>
-             <span class="text-muted small right-align">
+    <?php if (count($testimonials)) :
+        $i = 1;
+        foreach ($testimonials as $t) :
+            if ($i % 2 != 0) :?>
+                <div class="row vert-margin40">
+                <div class="col-lg-6">
+                    <h4 class="text-left">
+                        <strong><?php echo CHtml::encode($t->author->name); ?></strong>
+                    </h4>
+                    <p class="vert-margin30">
+                        <?php echo $purifier->purify($t->text); ?>
+                    </p>
+                    <?php if ($t->question): ?>
+                        <p class="small">
+                            Вопрос: <?php echo CHtml::link(CHtml::encode($t->question->title), Yii::app()->createUrl('question/view', ['id' => $t->question->id])); ?>
+                        </p>
+                    <?php endif; ?>
+                    <span class="text-muted small right-align">
                         <?php echo DateHelper::niceDate($t->dateTime, false, false); ?>
                     </span>
+                </div>
 
-     </div>
+            <?php else  : ?>
 
-
-
-     <?php else  :?>
-
-
-         <div class="col-lg-6">
-             <h4 class="text-left">
-                 <strong><?php echo CHtml::encode($t->author->name); ?></strong>
-
-             </h4>
-             <p class="vert-margin30">
-                 <?php echo $purifier->purify($t->text); ?>
-             </p>
-             <?php if ($t->question): ?>
-                 <p class="small">
-                     Вопрос: <?php echo CHtml::link(CHtml::encode($t->question->title), Yii::app()->createUrl('question/view', ['id' => $t->question->id])); ?>
-                 </p>
-             <?php endif; ?>
-             <span class="text-muted small right-align">
+                <div class="col-lg-6">
+                    <h4 class="text-left">
+                        <strong><?php echo CHtml::encode($t->author->name); ?></strong>
+                    </h4>
+                    <p class="vert-margin30">
+                        <?php echo $purifier->purify($t->text); ?>
+                    </p>
+                    <?php if ($t->question): ?>
+                        <p class="small">
+                            Вопрос: <?php echo CHtml::link(CHtml::encode($t->question->title), Yii::app()->createUrl('question/view', ['id' => $t->question->id])); ?>
+                        </p>
+                    <?php endif; ?>
+                    <span class="text-muted small right-align">
                         <?php echo DateHelper::niceDate($t->dateTime, false, false); ?>
                     </span>
-         </div>
-        </div>
-         <?php endif; ?>
-        <?php $i++;?>
-<?php endforeach; ?>
-<?php endif; ?>
+                </div>
+                </div>
+            <?php endif; ?>
+            <?php $i++; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </div>
