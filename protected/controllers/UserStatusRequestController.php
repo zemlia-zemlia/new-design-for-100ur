@@ -76,7 +76,7 @@ class UserStatusRequestController extends Controller
 
             $model->yuristId = Yii::app()->user->id;
 
-            CVarDumper::dump($model->getAttributes(),5,true);
+//            CVarDumper::dump($model->getAttributes(),5,true);
 
             switch ($model->status) {
                 case YuristSettings::STATUS_YURIST:
