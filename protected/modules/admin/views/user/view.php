@@ -175,6 +175,35 @@ $this->widget('zii.widgets.CBreadcrumbs', [
                 </div>
             <?php endif; ?>
         <?php endif; ?>
+        <?php if (User::ROLE_JURIST == $model->role): ?>
+            <?php if ($transactionsDataProvider->totalItemCount): ?>
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-title">Транзакции юриста</div>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Время</th>
+                                <th>Кампания</th>
+                                <th>Сумма</th>
+                                <th>Описание</th>
+                            </tr>
+
+                            <?php
+                            $this->widget('zii.widgets.CListView', [
+                                'dataProvider' => $transactionsDataProvider,
+                                'itemView' => 'application.views.transactionCampaign._view',
+                                'emptyText' => 'Не найдено ни одной транзакции',
+                                'summaryText' => 'Показаны транзакции с {start} до {end}, всего {count}',
+                                'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+                            ]);
+                            ?>
+                        </table>
+                    </div>
+                </div>
+            <?php endif; ?>
+        <?php endif; ?>
 
 
         <?php if (User::ROLE_BUYER == $model->role && $model->campaigns): ?>
