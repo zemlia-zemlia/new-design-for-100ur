@@ -1,7 +1,7 @@
 <?php
+namespace repositories;
 
-
-class QuestionHelpers
+class QuestionRepositoryBack
 {
     public static function countForModerate(){
        $allQuestion =  Yii::app()->db->createCommand()

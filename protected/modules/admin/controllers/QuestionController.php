@@ -1,5 +1,6 @@
 <?php
 
+
 class QuestionController extends Controller
 {
     public $layout = '//admin/main';
@@ -298,9 +299,10 @@ class QuestionController extends Controller
                 ->order('q.id DESC')
                 ->limit(30)
                 ->queryAll();
+        $questionRepository = new QuestionRepository();
+        $questionRepository->setCacheTime(600)->setLimit(10);
 
-
-        $questionsCount = QuestionHelpers::countNoCat();
+        $questionsCount = $questionRepository->countNoCat();
 
         $allDirections = QuestionCategory::getDirections(true, true);
 
@@ -568,8 +570,10 @@ class QuestionController extends Controller
 
             $question = Question::model()->find($criteria);
         }
+        $questionRepository = new QuestionRepository();
+        $questionRepository->setCacheTime(600)->setLimit(10);
 
-        $questionsCount = QuestionHelpers::countForModerate();
+        $questionsCount = $questionRepository->countForModerate();
 
 
         $questionsModeratedByMe = Yii::app()->db->createCommand()

@@ -12,14 +12,24 @@
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
+        <?php
+        $questionRepository = new QuestionRepository();
+        $questionRepository->setCacheTime(600)->setLimit(10);
+        $questionsCountNoCat = $questionRepository->countNoCat();
+        $questionsCountForModerate = $questionRepository->countForModerate();
+
+
+
+
+        ?>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="<?= Yii::app()->createUrl('/admin/question/setTitle/') ?>">Модерировать: <?= QuestionHelpers::countForModerate() ?></a>
+                    <a href="<?= Yii::app()->createUrl('/admin/question/setTitle/') ?>">Модерировать: <?= $questionsCountForModerate ?></a>
                 </li>
 
                 <li>
-                    <a href="<?= Yii::app()->createUrl('/admin/question/nocat/') ?>">Без категории: <?= QuestionHelpers::countNoCat() ?></a>
+                    <a href="<?= Yii::app()->createUrl('/admin/question/nocat/') ?>">Без категории: <?= $questionsCountNoCat ?></a>
                 </li>
 
                 <li class="dropdown notifications-menu">
