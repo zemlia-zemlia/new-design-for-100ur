@@ -81,20 +81,21 @@ class SiteController extends Controller
             'questionModel' => $questionModel]);
     }
 
-    // отзывы
+
+    /**
+     * Отзывы клиентов
+     */
     public function actionFeedback()
     {
-       $this->layout = '//frontend/feedback';
+        $this->layout = '//frontend/lp';
         $criteria = new CDbCriteria();
         $criteria->order = 't.id DESC';
         $criteria->with = ['question', 'author'];
         $criteria->addColumnCondition(['t.status' => Comment::STATUS_CHECKED, 't.type' => Comment::TYPE_USER]);
-
         $testimonials = Comment::model()->findAll($criteria);
-
         $this->render('feedback', [
-
-            'testimonials' => $testimonials]);
+            'testimonials' => $testimonials
+        ]);
     }
 
     public function actionContacts()

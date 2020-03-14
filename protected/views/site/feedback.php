@@ -10,23 +10,23 @@ $purifier = new CHtmlPurifier();
 <div class="container">
     <?php if (count($testimonials)) :
         $i = 1;
-        foreach ($testimonials as $t) :
+        foreach ($testimonials as $testimonial) :
             if ($i % 2 != 0) :?>
                 <div class="row vert-margin40">
                 <div class="col-lg-6">
                     <h4 class="text-left">
-                        <strong><?php echo CHtml::encode($t->author->name); ?></strong>
+                        <strong><?php echo CHtml::encode($testimonial->author->name); ?></strong>
                     </h4>
                     <p class="vert-margin30">
-                        <?php echo $purifier->purify($t->text); ?>
+                        <?php echo $purifier->purify($testimonial->text); ?>
                     </p>
-                    <?php if ($t->question): ?>
+                    <?php if ($testimonial->question): ?>
                         <p class="small">
-                            Вопрос: <?php echo CHtml::link(CHtml::encode($t->question->title), Yii::app()->createUrl('question/view', ['id' => $t->question->id])); ?>
+                            Вопрос: <?php echo CHtml::link(CHtml::encode($testimonial->question->title), Yii::app()->createUrl('question/view', ['id' => $testimonial->question->id])); ?>
                         </p>
                     <?php endif; ?>
                     <span class="text-muted small right-align">
-                        <?php echo DateHelper::niceDate($t->dateTime, false, false); ?>
+                        <?php echo DateHelper::niceDate($testimonial->dateTime, false, false); ?>
                     </span>
                 </div>
 
@@ -34,18 +34,18 @@ $purifier = new CHtmlPurifier();
 
                 <div class="col-lg-6">
                     <h4 class="text-left">
-                        <strong><?php echo CHtml::encode($t->author->name); ?></strong>
+                        <strong><?php echo CHtml::encode($testimonial->author->name); ?></strong>
                     </h4>
                     <p class="vert-margin30">
-                        <?php echo $purifier->purify($t->text); ?>
+                        <?php echo $purifier->purify($testimonial->text); ?>
                     </p>
-                    <?php if ($t->question): ?>
+                    <?php if ($testimonial->question): ?>
                         <p class="small">
-                            Вопрос: <?php echo CHtml::link(CHtml::encode($t->question->title), Yii::app()->createUrl('question/view', ['id' => $t->question->id])); ?>
+                            Вопрос: <?php echo CHtml::link(CHtml::encode($testimonial->question->title), Yii::app()->createUrl('question/view', ['id' => $testimonial->question->id])); ?>
                         </p>
                     <?php endif; ?>
                     <span class="text-muted small right-align">
-                        <?php echo DateHelper::niceDate($t->dateTime, false, false); ?>
+                        <?php echo DateHelper::niceDate($testimonial->dateTime, false, false); ?>
                     </span>
                 </div>
                 </div>
