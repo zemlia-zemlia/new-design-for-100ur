@@ -32,6 +32,11 @@ class UserStatusRequestController extends Controller
                 'actions' => ['index', 'view', 'create', 'update'],
                 'users' => ['@'],
             ],
+            ['allow',
+                'actions' => ['create'],
+                'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_JURIST . ')',
+            ],
+//
             ['allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => ['admin', 'delete'],
                 'users' => ['admin'],
@@ -60,9 +65,7 @@ class UserStatusRequestController extends Controller
      */
     public function actionCreate()
     {
-        if (Yii::app()->user->role != User::ROLE_JURIST) {
-            throw new CHttpException(404, 'Авторизуйтесь под юристом.');
-        }
+
 
         ini_set('upload_max_filesize', '10M');
         $model = new UserStatusRequest();
@@ -70,14 +73,14 @@ class UserStatusRequestController extends Controller
         // модель для работы со сканом
         $userFile = new UserFile();
 
-        if (isset($_POST['UserStatusRequest'])) {
-            $post = $_POST['UserStatusRequest'];
-            $model->attributes = $_POST['UserStatusRequest'];
+        if (Yii::app()->request->getParam('UserStatusRequest') !== NULL) {
+            $post = Yii::app()->request->getParam('UserStatusRequest');
+            $model->attributes = Yii::app()->request->getParam('UserStatusRequest');
 
             $model->yuristId = Yii::app()->user->id;
-            $model->inn = $post['inn'];
-            $model->companyName = $post['companyName'];
-            $model->address = $post['address'];
+            $model->inn = $post['inn'] ? $post['inn'] : '';
+            $model->companyName = $post['companyName'] ? $post['companyName'] : '';
+            $model->address = $post['address'] ? $post['address'] : '';
 
 
 
@@ -128,10 +131,6 @@ class UserStatusRequestController extends Controller
                    $modelHasErrors = true;
                }
 
-               // Если подтверждаем фирму, меняем сеттингс
-               if ('createCompany' == $model->scenario) {
-                   $model->createCompany();
-               }
            }
 
 

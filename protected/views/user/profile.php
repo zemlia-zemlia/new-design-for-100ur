@@ -24,9 +24,9 @@ if ($town && $region && $country) {
     $this->breadcrumbs[$town->name] = Yii::app()->createUrl('town/alias', ['countryAlias' => $country->alias, 'regionAlias' => $region->alias, 'name' => $town->alias]);
 }
 
-$this->breadcrumbs[] = CHtml::encode($user->nameOrCompany);
+$this->breadcrumbs[] = CHtml::encode($user->getNameOrCompany());
 
-$title = CHtml::encode($user->nameOrCompany);
+$title = CHtml::encode($user->getNameOrCompany());
 
 if ($user->settings) {
     $title = $user->settings->getStatusName() . ' ' . $title;
@@ -42,7 +42,7 @@ if ($user->settings) {
     // для юриста выведем его статус (юрист/адвокат)
     $pageDescription .= $user->settings->getStatusName() . ' ';
 }
-$pageDescription .= CHtml::encode($user->nameOrCompany) . '. ';
+$pageDescription .= CHtml::encode($user->getNameOrCompany()) . '. ';
 if ($user->town) {
     $pageDescription .= $user->town->name;
 }
@@ -61,7 +61,7 @@ if (Yii::app()->user->id != $user->id) {
     <h1 class='vert-margin30'>
         <span itemprop="name">
             <?php
-            echo CHtml::encode($user->nameOrCompany);
+            echo CHtml::encode($user->getNameOrCompany());
             ?>
         </span>
 
@@ -118,9 +118,9 @@ if (Yii::app()->user->id != $user->id) {
 
                 <p>
                     <img src="<?php echo $user->getAvatarUrl('big'); ?>" class='img-bordered' alt="<?php
-                    echo CHtml::encode($user->nameOrCompany);
+                    echo CHtml::encode($user->getNameOrCompany());
                     ?>" title="<?php
-                    echo CHtml::encode($user->nameOrCompany);
+                    echo CHtml::encode($user->getNameOrCompany());
                     ?>" itemprop="image"/>
                 </p>
                 <?php if ($user->id == Yii::app()->user->id): ?>

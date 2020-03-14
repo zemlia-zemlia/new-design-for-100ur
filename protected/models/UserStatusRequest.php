@@ -28,9 +28,6 @@ class UserStatusRequest extends CActiveRecord
     const STATUS_ACCEPTED = 1; // одобрено
     const STATUS_DECLINED = 2; // отклонено
 
-    public $inn;
-    public $companyName;
-    public $address;
 
     /**
      * @return string the associated database table name
@@ -80,7 +77,7 @@ class UserStatusRequest extends CActiveRecord
             'user' => [self::BELONGS_TO, 'User', 'yuristId'],
             'vuzTown' => [self::BELONGS_TO, 'Town', 'vuzTownId'],
             'userFile' => [self::BELONGS_TO, 'UserFile', 'fileId'],
-            'settings' => [self::BELONGS_TO, 'YuristSettings', 'yuristId']
+
         ];
     }
 
@@ -276,12 +273,9 @@ class UserStatusRequest extends CActiveRecord
         $settings->inn = $this->inn;
         $settings->companyName = $this->companyName;
         $settings->address = $this->address;
-        if ($settings->save()){
-            return true;
-        }
-        else {
-            return false;
-        }
+
+        return $settings->save();
+
 
     }
 }
