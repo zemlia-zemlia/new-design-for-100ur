@@ -79,8 +79,8 @@ class QuestionRepository
         return $questions;
     }
 
-    public static function countForModerate(){
-        $allQuestion =  Yii::app()->db->createCommand()
+    public  function countForModerate(){
+        $allQuestion =  Yii::app()->db->cache($this->cacheTime)->createCommand()
             ->select('COUNT(*) counter')
             ->from('{{question}}')
             ->where('isModerated=0 AND status IN (:status1, :status2, :status3)', [':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED, ':status3' => Question::STATUS_MODERATED])
@@ -89,8 +89,8 @@ class QuestionRepository
 
     }
 
-    public static function countNoCat(){
-        $questionsCountRows = Yii::app()->db->createCommand()
+    public  function countNoCat(){
+        $questionsCountRows = Yii::app()->db->cache($this->cacheTime)->createCommand()
             ->select('COUNT(*) counter')
             ->from('{{question}} q')
             ->leftJoin('{{question2category}} q2c', 'q.id=q2c.qId')
