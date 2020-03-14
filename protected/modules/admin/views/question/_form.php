@@ -13,6 +13,7 @@
 <?php $form = $this->beginWidget('CActiveForm', [
     'id' => 'question-form',
     'enableAjaxValidation' => false,
+
 ]); ?>
 
 	<p class="note"><span class="required">*</span> - обязательные поля</p>

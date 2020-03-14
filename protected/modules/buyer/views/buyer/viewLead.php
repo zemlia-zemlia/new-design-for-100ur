@@ -6,8 +6,8 @@ $this->setPageTitle('Лид #' . CHtml::encode($model->name) . '. ' . Yii::app()
 
 $this->breadcrumbs = [
     'Кабинет' => ['/buyer'],
-    'Кампания' => ['/buyer/campaign', 'id' => $model->campaign->id],
-    'Лиды' => ['/buyer/leads', 'campaign' => $model->campaign->id],
+    'Кампания' => ['/buyer/buyer/campaign', 'id' => $model->campaign->id],
+    'Лиды' => ['/buyer/buyer/leads', 'campaign' => $model->campaign->id],
     CHtml::encode($model->name),
 ];
 
