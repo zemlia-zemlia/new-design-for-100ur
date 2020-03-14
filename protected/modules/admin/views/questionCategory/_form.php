@@ -32,7 +32,7 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
 
         <h2>Теги для редактирования текста статей:</h2>
         <h4>
-            Рашифровка оббривиатур -
+            Рашифровка аббревиатур -
             <code><?php echo htmlspecialchars('<abbr title="Дорожно-патрульная служба"> ДПС </abbr> '); ?></code> <br/>
             Тег для цитат и выделения ключевых блоков -
             <code><?php echo htmlspecialchars('<blockquote></blockquote>'); ?></code><br/>
