@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Репозиторий для выборок вопросов из базы
  * Class QuestionRepository.
@@ -38,6 +39,7 @@ class QuestionRepository
      * @param User $user
      *
      * @return array
+     * @throws CException
      */
     public function findRecentQuestionsByJuristAnswers(User $user): array
     {
@@ -48,7 +50,7 @@ class QuestionRepository
             ->where('a.id IS NOT NULL AND q.status IN (:status1, :status2) AND a.authorId = :authorId', [
                 ':status1' => Question::STATUS_PUBLISHED,
                 ':status2' => Question::STATUS_CHECK,
-                ':authorId' => $user->id, ])
+                ':authorId' => $user->id,])
             ->limit($this->limit)
             ->order('a.datetime DESC')
             ->queryAll();
@@ -62,6 +64,7 @@ class QuestionRepository
      * @param User $user
      *
      * @return array
+     * @throws CException
      */
     public function findRecentQuestionsByClient(User $user): array
     {
@@ -71,7 +74,7 @@ class QuestionRepository
             ->where('q.authorId=:authorId AND q.status IN (:status1, :status2)', [
                 ':status1' => Question::STATUS_PUBLISHED,
                 ':status2' => Question::STATUS_CHECK,
-                ':authorId' => $user->id, ])
+                ':authorId' => $user->id,])
             ->limit($this->limit)
             ->order('q.publishDate DESC')
             ->queryAll();
@@ -79,17 +82,31 @@ class QuestionRepository
         return $questions;
     }
 
-    public  function countForModerate(){
-        $allQuestion =  Yii::app()->db->cache($this->cacheTime)->createCommand()
+    /**
+     * @return int
+     * @throws CException
+     */
+    public function countForModerate(): int
+    {
+        $allQuestion = Yii::app()->db->cache($this->cacheTime)->createCommand()
             ->select('COUNT(*) counter')
             ->from('{{question}}')
-            ->where('isModerated=0 AND status IN (:status1, :status2, :status3)', [':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED, ':status3' => Question::STATUS_MODERATED])
+            ->where('isModerated=0 AND status IN (:status1, :status2, :status3)', [
+                ':status1' => Question::STATUS_CHECK,
+                ':status2' => Question::STATUS_PUBLISHED,
+                ':status3' => Question::STATUS_MODERATED,
+            ])
             ->queryRow();
-        return  $allQuestion['counter'] ;
 
+        return $allQuestion['counter'];
     }
 
-    public  function countNoCat(){
+    /**
+     * @return int
+     * @throws CException
+     */
+    public function countNoCat():int
+    {
         $questionsCountRows = Yii::app()->db->cache($this->cacheTime)->createCommand()
             ->select('COUNT(*) counter')
             ->from('{{question}} q')
@@ -97,7 +114,6 @@ class QuestionRepository
             ->where('q2c.cId IS NULL AND q.status IN(' . Question::STATUS_PUBLISHED . ',' . Question::STATUS_CHECK . ', ' . Question::STATUS_MODERATED . ')')
             ->queryRow();
 
-        return  $questionsCountRows['counter'];
-
+        return $questionsCountRows['counter'];
     }
 }
