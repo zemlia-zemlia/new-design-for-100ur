@@ -32,7 +32,7 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
 
         <h2>Теги для редактирования текста статей:</h2>
         <h4>
-            Рашифровка оббривиатур -
+            Рашифровка аббревиатур -
             <code><?php echo htmlspecialchars('<abbr title="Дорожно-патрульная служба"> ДПС </abbr> '); ?></code> <br/>
             Тег для цитат и выделения ключевых блоков -
             <code><?php echo htmlspecialchars('<blockquote></blockquote>'); ?></code><br/>
@@ -47,6 +47,14 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
             <?php echo $form->labelEx($model, 'name'); ?>
             <?php echo $form->textField($model, 'name', ['class' => 'form-control']); ?>
             <?php echo $form->error($model, 'name'); ?>
+        </div>
+        <div class="form-group">
+            <?php if ($model->icon) : ?>
+            <img src="<?= $model->getIconUrl() ?>" alt="<?= $model->name ?>">
+            <?php endif; ?>
+            <?php echo $form->labelEx($model, 'fileIcon'); ?>
+            <?php echo $form->fileField($model, 'fileIcon', ['size' => 60, 'maxlength' => 255, 'class' => 'form-control']); ?>
+            <?php echo $form->error($model, 'fileIcon'); ?>
         </div>
 
         <div class="row">
