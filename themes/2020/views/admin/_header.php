@@ -12,8 +12,26 @@
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
+        <?php
+        $questionRepository = new QuestionRepository();
+        $questionRepository->setCacheTime(600)->setLimit(10);
+        $questionsCountNoCat = $questionRepository->countNoCat();
+        $questionsCountForModerate = $questionRepository->countForModerate();
+
+
+
+
+        ?>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
+                <li>
+                    <a href="<?= Yii::app()->createUrl('/admin/question/setTitle/') ?>">Модерировать: <?= $questionsCountForModerate ?></a>
+                </li>
+
+                <li>
+                    <a href="<?= Yii::app()->createUrl('/admin/question/nocat/') ?>">Без категории: <?= $questionsCountNoCat ?></a>
+                </li>
+
                 <li class="dropdown notifications-menu">
                     <?php
                     echo CHtml::ajaxLink("<span class='glyphicon glyphicon-refresh'></span>", Yii::app()->createUrl('site/clearCache'), array(
@@ -25,7 +43,6 @@
                                 }'
                     ), array('title' => 'Очистить кеш страницы'));
                     ?>
-
                 </li>
 
                 <li class="dropdown tasks-menu">
@@ -33,16 +50,12 @@
                         <i class="fa fa-user"></i>
 
                     </a>
-
                 </li>
-                <!-- User Account: style can be found in dropdown.less -->
+
                 <li class="user">
-
-                    <?php echo CHtml::link(CHtml::encode(Yii::app()->user->shortName) , Yii::app()->createUrl('user')); ?>
-
-                         <?php echo CHtml::link('<i class="glyphicon glyphicon-log-out"></i>', Yii::app()->createUrl('site/logout')); ?>
-
-
+                    <?php echo CHtml::link(CHtml::encode(Yii::app()->user->shortName), Yii::app()->createUrl('user')); ?>
+                    <?php echo CHtml::link('<i class="glyphicon glyphicon-log-out"></i>', Yii::app()->createUrl('site/logout')); ?>
+                </li>
             </ul>
         </div>
     </nav>
