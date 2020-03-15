@@ -752,7 +752,7 @@ div.errorSummary {
 }
 
 /*-------------- yurist profile ----------------------*/
-#user-profile-advocat, #user-profile-yurist, #user-profile-judge, #form-submit {
+#user-profile-advocat, #user-profile-yurist, #user-profile-company, #form-submit {
     display: none;
 }
 

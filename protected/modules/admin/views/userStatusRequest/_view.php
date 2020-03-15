@@ -27,6 +27,11 @@
     <td>
         <p> 
 		<small>
+            <?php  if ($data->status == YuristSettings::STATUS_COMPANY) {
+                echo 'Инн: ' . CHtml::encode($data->inn) . '<br>';
+                echo 'Название компании: ' . CHtml::encode($data->companyName) . '<br>';
+                echo 'Адрес: ' . CHtml::encode($data->address) . '<br>';
+            } ?> <br/>
             <?php if ($data->education) {
             echo 'Образование: ' . CHtml::encode($data->education);
         } ?> <br/>

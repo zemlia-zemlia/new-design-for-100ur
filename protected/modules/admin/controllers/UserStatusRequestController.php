@@ -186,6 +186,11 @@ class UserStatusRequestController extends Controller
                     Yii::app()->end();
                 }
 
+               // Если подтверждаем фирму, меняем сеттингс
+               if ('createCompany' == $request->status) {
+                   $request->createCompany();
+               }
+
                 // присваиваем пользователю новый статус, помечаем его как верифицированный
                 $yuristSettings->status = $request->status;
                 $yuristSettings->isVerified = 1;

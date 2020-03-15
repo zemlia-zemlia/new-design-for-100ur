@@ -17,6 +17,9 @@
  * @property string $advOrganisation
  * @property string $advNumber
  * @property string $position
+ * @property string $inn
+ * @property string $companyName
+ * @property string $address
  */
 class UserStatusRequest extends CActiveRecord
 {
@@ -24,6 +27,7 @@ class UserStatusRequest extends CActiveRecord
     const STATUS_NEW = 0; // новая заявка
     const STATUS_ACCEPTED = 1; // одобрено
     const STATUS_DECLINED = 2; // отклонено
+
 
     /**
      * @return string the associated database table name
@@ -52,13 +56,13 @@ class UserStatusRequest extends CActiveRecord
             ['yuristId', 'required', 'message' => 'Поле {attribute} должно быть заполнено'],
             ['vuz, facultet, education, vuzTownId, educationYear', 'required', 'on' => 'createYurist', 'message' => 'Поле {attribute} должно быть заполнено'],
             ['advOrganisation, advNumber, position', 'required', 'on' => 'createAdvocat', 'message' => 'Поле {attribute} должно быть заполнено'],
-            //array('', 'required', 'on'=>'createJudge', 'message' => 'Поле {attribute} должно быть заполнено'),
+            ['inn, companyName, address', 'required', 'on'=>'createCompany', 'message' => 'Поле {attribute} должно быть заполнено'],
             ['yuristId, status, isVerified, vuzTownId, educationYear', 'numerical', 'integerOnly' => true],
             ['vuz, facultet, education, advOrganisation, advNumber, position', 'length', 'max' => 255],
             ['userFile', 'file', 'types' => 'jpg,gif,png,tiff,pdf', 'maxSize' => '10000000', 'allowEmpty' => true, 'message' => 'Неправильный формат загруженного файла'],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            ['id, yuristId, status, isVerified, vuz, facultet, education, vuzTownId, educationYear, advOrganisation, advNumber, position', 'safe', 'on' => 'search'],
+            ['id, yuristId, status, isVerified, vuz, facultet, education, vuzTownId, educationYear, advOrganisation, advNumber, position, inn, companyName, address', 'safe', 'on' => 'search'],
         ];
     }
 
@@ -73,6 +77,7 @@ class UserStatusRequest extends CActiveRecord
             'user' => [self::BELONGS_TO, 'User', 'yuristId'],
             'vuzTown' => [self::BELONGS_TO, 'Town', 'vuzTownId'],
             'userFile' => [self::BELONGS_TO, 'UserFile', 'fileId'],
+
         ];
     }
 
@@ -94,6 +99,9 @@ class UserStatusRequest extends CActiveRecord
             'advOrganisation' => 'членство в адвокатском объединении',
             'advNumber' => 'номер в реестре адвокатов',
             'position' => 'должность',
+            'inn' => 'ИНН',
+            'companyName' => 'Название компании',
+            'address' => 'Адрес',
         ];
     }
 
@@ -202,8 +210,20 @@ class UserStatusRequest extends CActiveRecord
                     $this->addError('position', 'Не указана должность');
                 }
                 break;
+            case YuristSettings::STATUS_COMPANY:
+                if ('' == $this->inn) {
+                    $this->addError('inn', 'Не указан ИНН');
+                }
+                if ('' == $this->companyName) {
+                    $this->addError('companyName', 'Не указано название');
+                }
+                if ('' == $this->address) {
+                    $this->addError('address', 'Не указан адрес');
+                }
+                break;
         }
     }
+
 
     /**
      * Отправка уведомления о смене статуса.
@@ -245,5 +265,17 @@ class UserStatusRequest extends CActiveRecord
                 ->queryRow();
 
         return $counterRow['counter'];
+    }
+
+    public function createCompany()
+    {
+        $settings = YuristSettings::model()->find('yuristId = ' . $this->user->id);
+        $settings->inn = $this->inn;
+        $settings->companyName = $this->companyName;
+        $settings->address = $this->address;
+
+        return $settings->save();
+
+
     }
 }
