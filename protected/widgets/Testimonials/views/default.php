@@ -2,7 +2,7 @@
 $purifier = new CHtmlPurifier();
 ?>
 
-<?php if (sizeof($testimonials) > 0): ?>
+<?php if (count($testimonials) > 0): ?>
 
     <h2 class="vert-margin30">Свежие отзывы</h2>
     <?php foreach ($testimonials as $index => $testimonial): ?>
