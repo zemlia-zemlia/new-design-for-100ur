@@ -1,5 +1,6 @@
 <?php
 
+use App\Repositories\BuyerRepository;
 use buyer\services\StatisticsService;
 
 class BuyerController extends Controller

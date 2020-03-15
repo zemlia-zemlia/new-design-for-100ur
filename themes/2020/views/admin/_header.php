@@ -19,9 +19,7 @@
         $questionsCountForModerate = $questionRepository->countForModerate();
 
 
-
-
-        ?>
+        use App\Repositories\QuestionRepository; ?>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <li>

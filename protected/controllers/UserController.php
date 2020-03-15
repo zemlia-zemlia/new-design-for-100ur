@@ -1,5 +1,7 @@
 <?php
 
+use App\Repositories\QuestionRepository;
+
 class UserController extends Controller
 {
     public $layout = '//frontend/question';

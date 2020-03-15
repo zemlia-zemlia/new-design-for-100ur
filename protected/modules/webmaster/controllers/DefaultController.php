@@ -1,5 +1,6 @@
 <?php
 
+use App\Repositories\CampaignRepository;
 use webmaster\services\StatisticsService;
 
 class DefaultController extends Controller

@@ -2,6 +2,8 @@
 
 // виджет для вывода регионов и цен покупки лидов по ним
 
+use App\Repositories\CampaignRepository;
+
 class RegionPrices extends CWidget
 {
     public $template = 'default'; // представление виджета по умолчанию

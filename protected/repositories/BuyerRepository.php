@@ -1,5 +1,11 @@
 <?php
 
+namespace App\Repositories;
+
+use CActiveDataProvider;
+use Campaign;
+use CDbCriteria;
+
 class BuyerRepository
 {
     public function getBuyersCampaignsDataProvider($buyerId)

@@ -1,6 +1,8 @@
 <?php
 
 
+use App\Repositories\QuestionRepository;
+
 class QuestionController extends Controller
 {
     public $layout = '//admin/main';
