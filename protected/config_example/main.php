@@ -59,6 +59,7 @@ return [
                 '/q/<id:\d+>' => '/question/view',
                 '/q/<date:[\w\-]+>' => '/question/archive',
                 '/cat' => '/questionCategory/index',
+                '/feedback' => '/site/feedback',
                 [
                     'class' => 'application.components.QuestionCategoryRule',
                 ],

@@ -1,5 +1,6 @@
 <?php
 
+
 class QuestionController extends Controller
 {
     public $layout = '//admin/main';
@@ -298,16 +299,10 @@ class QuestionController extends Controller
                 ->order('q.id DESC')
                 ->limit(30)
                 ->queryAll();
+        $questionRepository = new QuestionRepository();
+        $questionRepository->setCacheTime(600)->setLimit(10);
 
-        $questionsCountRows = Yii::app()->db->createCommand()
-                ->select('q.id')
-                ->from('{{question}} q')
-                ->leftJoin('{{question2category}} q2c', 'q.id=q2c.qId')
-                ->where('q2c.cId IS NULL AND q.status IN(' . Question::STATUS_PUBLISHED . ',' . Question::STATUS_CHECK . ', ' . Question::STATUS_MODERATED . ')')
-                ->group('q.id')
-                ->queryAll();
-
-        $questionsCount = sizeof($questionsCountRows);
+        $questionsCount = $questionRepository->countNoCat();
 
         $allDirections = QuestionCategory::getDirections(true, true);
 
@@ -575,13 +570,11 @@ class QuestionController extends Controller
 
             $question = Question::model()->find($criteria);
         }
+        $questionRepository = new QuestionRepository();
+        $questionRepository->setCacheTime(600)->setLimit(10);
 
-        $questionsCountRow = Yii::app()->db->createCommand()
-                ->select('COUNT(*) counter')
-                ->from('{{question}}')
-                ->where('isModerated=0 AND status IN (:status1, :status2, :status3)', [':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED, ':status3' => Question::STATUS_MODERATED])
-                ->queryRow();
-        $questionsCount = $questionsCountRow['counter'];
+        $questionsCount = $questionRepository->countForModerate();
+
 
         $questionsModeratedByMe = Yii::app()->db->createCommand()
                 ->select('COUNT(*) counter')

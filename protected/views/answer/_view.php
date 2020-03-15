@@ -60,7 +60,7 @@
                             <span itemprop="name">
                                 <a href="<?php echo Yii::app()->createUrl('user/view', ['id' => $data->authorId]); ?>"
                                    rel="nofollow">
-                                    <?php echo CHtml::encode($data->author->name . ' ' . $data->author->name2 . ' ' . $data->author->lastName); ?>
+                                    <?php echo CHtml::encode($data->author->getNameOrCompany()); ?>
                                 </a>
                             </span>
                                 </strong>

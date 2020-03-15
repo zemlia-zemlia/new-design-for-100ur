@@ -4,7 +4,10 @@
 /* @var $form CActiveForm */
 Yii::app()->clientScript->registerScriptFile('/js/user.js');
 
+
+
 ?>
+
 <div class="container-fluid">
 <div class="form">
 
@@ -81,4 +84,11 @@ Yii::app()->clientScript->registerScriptFile('/js/user.js');
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+
+
 </div>
+
+
+
+
+
