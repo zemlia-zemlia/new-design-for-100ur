@@ -1,5 +1,8 @@
 <?php
 /* @var $this UserController */
+
+use App\helpers\StringHelper;
+
 /* @var $model User */
 
 $userDisplayName = CHtml::encode($model->name . ' ' . $model->lastName);

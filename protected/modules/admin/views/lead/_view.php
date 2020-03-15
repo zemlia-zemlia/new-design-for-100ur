@@ -1,5 +1,8 @@
 <?php
 /* @var $this ContactController */
+
+use App\helpers\DateHelper;
+
 /* @var $data Contact */
 
 switch ($data->leadStatus) {

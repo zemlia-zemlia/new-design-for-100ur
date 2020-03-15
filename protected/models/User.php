@@ -1,6 +1,7 @@
 <?php
 
 // Загрузка библиотек для работы с API Sendpulse
+use App\notifiers\UserNotifier;
 use Sendpulse\RestApi\ApiClient;
 use Sendpulse\RestApi\Storage\FileStorage;
 use YurcrmClient\YurcrmClient;

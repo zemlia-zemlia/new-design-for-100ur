@@ -1,5 +1,7 @@
 <?php
 
+use App\helpers\PhoneHelper;
+
 class LeadController extends Controller
 {
     public $layout = '//lk/main';

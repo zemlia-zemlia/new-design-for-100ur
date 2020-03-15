@@ -1,6 +1,6 @@
 <?php
 
-use RandomStringHelper;
+use App\helpers\RandomStringHelper;
 
 /**
  * This is the model class for table "{{docs}}".

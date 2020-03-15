@@ -1,4 +1,7 @@
 <?php
+
+use App\helpers\DateHelper;
+
 $purifier = new CHtmlPurifier();
 ?>
 

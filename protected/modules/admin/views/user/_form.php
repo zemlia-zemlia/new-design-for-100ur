@@ -1,5 +1,8 @@
 <?php
 /* @var $this UserController */
+
+use App\helpers\DateHelper;
+
 /* @var $model User */
 /* @var $form CActiveForm */
 Yii::app()->clientScript->registerScriptFile('/js/admin/user.js');

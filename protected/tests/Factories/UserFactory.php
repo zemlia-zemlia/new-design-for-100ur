@@ -2,7 +2,7 @@
 
 namespace Tests\Factories;
 
-use PhoneHelper;
+use App\helpers\PhoneHelper;
 use User;
 
 class UserFactory extends BaseFactory

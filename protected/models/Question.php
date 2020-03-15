@@ -1,5 +1,7 @@
 <?php
 
+use App\helpers\StringHelper;
+
 /**
  * Модель для работы с вопросами.
  *

@@ -1,6 +1,8 @@
 <?php
 /* @var $this CategoryController */
 
+use App\helpers\DateHelper;
+
 switch ($index) {
     case 0:
         $postWrapperClass = 'row post-hero';

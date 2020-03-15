@@ -1,5 +1,7 @@
 <?php
 
+use App\helpers\DateHelper;
+
 class DefaultController extends Controller
 {
     public $layout = '//admin/main';

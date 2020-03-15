@@ -2,6 +2,9 @@
 /*
  * собирает лиды из писем, расположенных в почтовом ящике admin@100yuristov.com
  */
+
+use App\helpers\PhoneHelper;
+
 class GetLeadsFrom140Command extends CConsoleCommand
 {
     // Настройки парсинга лидов из папок

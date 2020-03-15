@@ -1,4 +1,7 @@
 <?php
+
+use App\helpers\NumbersHelper;
+
 $usersCount = 0;
 ?>
 

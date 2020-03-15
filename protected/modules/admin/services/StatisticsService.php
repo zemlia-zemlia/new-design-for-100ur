@@ -1,5 +1,7 @@
 <?php
 
+use App\helpers\DateHelper;
+
 /**
  * Класс для получения различных статистик
  * Class StatisticsService.

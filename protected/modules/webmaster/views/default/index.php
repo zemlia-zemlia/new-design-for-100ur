@@ -1,5 +1,8 @@
 <?php
 /* @var $this ContactController */
+
+use App\helpers\DateHelper;
+
 /* @var $dataProvider CActiveDataProvider */
 /* @var $leadStatsByDates array */
 /* @var $leadStatsByRegions array */

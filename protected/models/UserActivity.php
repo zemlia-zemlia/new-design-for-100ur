@@ -1,5 +1,7 @@
 <?php
 
+use App\helpers\IpHelper;
+
 class UserActivity extends CActiveRecord
 {
     /**

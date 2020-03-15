@@ -1,5 +1,8 @@
 <?php
 /* @var $this MoneyController */
+
+use App\helpers\DateHelper;
+
 /* @var $model Money */
 
 $this->setPageTitle('Запись в кассе #' . $model->id . '. ' . Yii::app()->name);

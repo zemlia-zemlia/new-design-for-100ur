@@ -1,6 +1,8 @@
 <tr>
     <td>
-        <?php echo $data->id; ?>
+        <?php use App\helpers\DateHelper;
+
+        echo $data->id; ?>
     </td>
     <td>
         <?php echo CHtml::link(CHtml::encode($data->name . ' ' . $data->name2 . ' ' . $data->lastName), ['view', 'id' => $data->id]); ?>

@@ -1,5 +1,8 @@
 <?php
 /* @var $this ContactController */
+
+use App\helpers\DateHelper;
+
 /* @var $model Contact */
 
 $this->setPageTitle('Лид #' . CHtml::encode($model->name) . '. ' . Yii::app()->name);

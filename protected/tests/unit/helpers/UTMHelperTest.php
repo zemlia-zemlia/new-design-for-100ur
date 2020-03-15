@@ -3,7 +3,7 @@
 namespace Tests\Unit\Helpers;
 
 use Codeception\Test\Unit;
-use UTMHelper;
+use App\helpers\UTMHelper;
 
 class UTMHelperTest extends Unit
 {

@@ -1,4 +1,7 @@
-<?php if (stristr($_SERVER['REQUEST_URI'], '/q/')):?>
+<?php use App\helpers\DateHelper;
+use App\helpers\StringHelper;
+
+if (stristr($_SERVER['REQUEST_URI'], '/q/')):?>
 <noindex>
 <?php endif; ?>
     

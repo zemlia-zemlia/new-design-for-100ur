@@ -1,5 +1,8 @@
 <?php
 
+use App\helpers\PhoneHelper;
+use App\helpers\StringHelper;
+
 class LeadController extends Controller
 {
     /**

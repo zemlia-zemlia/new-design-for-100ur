@@ -1,5 +1,7 @@
 <?php
 
+namespace App\helpers;
+
 class RandomStringHelper
 {
     public static function generateRandomString($legth = 10)

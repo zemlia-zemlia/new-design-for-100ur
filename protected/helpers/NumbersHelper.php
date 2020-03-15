@@ -1,5 +1,7 @@
 <?php
 
+namespace App\helpers;
+
 /**
  * Хелпер для работы с числами.
  */
@@ -9,7 +11,7 @@ class NumbersHelper
      * Возвращает слово в форме, соответствующей числу
      * Например: 1 яблоко, 2 яблока, 5 яблок.
      *
-     * @param int    $num
+     * @param int $num
      * @param string $form1
      * @param string $form2
      * @param string $form5

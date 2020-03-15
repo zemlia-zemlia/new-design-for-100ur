@@ -1,4 +1,7 @@
 <?php
+
+use App\helpers\DateHelper;
+
 $this->setPageTitle('Заказ документа #' . $order->id . '. ' . Yii::app()->name);
 
 $this->breadcrumbs = [];

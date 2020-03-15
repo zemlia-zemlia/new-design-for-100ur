@@ -1,5 +1,7 @@
 <?php
 
+use App\helpers\DateHelper;
+
 /**
  * Модель для работы с записями кассы.
  *

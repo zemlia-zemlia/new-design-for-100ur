@@ -1,5 +1,7 @@
 <?php
 
+use App\helpers\UTMHelper;
+
 class NewsletterCommand extends CConsoleCommand
 {
     // почтовая рассылка новых постов блога

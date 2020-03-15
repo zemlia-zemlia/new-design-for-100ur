@@ -1,5 +1,7 @@
 <?php
 // раскрашиваем бейджи статусов
+use App\helpers\DateHelper;
+
 switch ($data->status) {
     case Order::STATUS_NEW:
         $statusClass = 'label-default';

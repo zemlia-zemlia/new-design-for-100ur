@@ -1,5 +1,8 @@
 <?php
 /* @var $this CampaignController */
+
+use App\helpers\DateHelper;
+
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs = [

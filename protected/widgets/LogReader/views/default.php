@@ -1,6 +1,8 @@
 <div class="table-responsive">
     <table class="table table-bordered">
-        <?php foreach ($records as $record): ?>
+        <?php use App\helpers\DateHelper;
+
+        foreach ($records as $record): ?>
             <tr>
                 <td><?php echo LogReader::createLink($record); ?></td>
                 <td><?php echo CHtml::encode(str_replace(':', ': ', $record['message'])); ?></td>

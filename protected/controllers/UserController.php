@@ -1,5 +1,6 @@
 <?php
 
+use App\helpers\StringHelper;
 use App\Repositories\QuestionRepository;
 
 class UserController extends Controller

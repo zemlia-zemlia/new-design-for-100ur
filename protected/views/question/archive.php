@@ -1,5 +1,7 @@
 <?php
 
+use App\helpers\DateHelper;
+
 $monthsNames = DateHelper::getMonthsNames();
 
 $pageTitle = 'Архив вопросов за ' . $monthsNames[$month] . ' ' . $year . ' года. ';

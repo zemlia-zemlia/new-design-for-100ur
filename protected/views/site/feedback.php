@@ -1,4 +1,7 @@
 <?php
+
+use App\helpers\DateHelper;
+
 $this->setPageTitle('Отзывы наших клиентов - "100 Юристов"');
 Yii::app()->clientScript->registerMetaTag('Отзывы наших клиентов о нашей работе - Юридический портал "100 Юристов"', 'description');
 $purifier = new CHtmlPurifier();

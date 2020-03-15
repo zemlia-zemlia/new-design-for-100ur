@@ -2,6 +2,8 @@
     <div class="row">
         <?php
         // Определяем, куда будет вести ссылка
+        use App\helpers\NumbersHelper;
+
         switch ($data['type']) {
             case Comment::TYPE_ANSWER: default:
                 $route = 'question/view';

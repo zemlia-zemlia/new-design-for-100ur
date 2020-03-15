@@ -1,4 +1,7 @@
-<div class="row question-list-item  <?php if (1 == $data->payed):?> vip-question<?endif; ?>">
+<div class="row question-list-item  <?php use App\helpers\NumbersHelper;
+use App\helpers\StringHelper;
+
+if (1 == $data->payed):?> vip-question<?endif; ?>">
     <div class="col-sm-10">
         <p style="font-size:0.9em;">
             <?php if (1 == $data->payed) {

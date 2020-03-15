@@ -5,7 +5,7 @@ namespace Tests\Unit\Models;
 use Codeception\Test\Unit;
 use Faker\Factory;
 use Lead;
-use PhoneHelper;
+use App\helpers\PhoneHelper;
 
 class LeadTest extends Unit
 {

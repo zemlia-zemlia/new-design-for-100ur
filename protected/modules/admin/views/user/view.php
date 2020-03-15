@@ -1,6 +1,9 @@
 <?php
 /* @var $this UserController */
 
+use App\helpers\DateHelper;
+use App\helpers\NumbersHelper;
+use App\helpers\StringHelper;
 use DateHelper as DateHelperAlias;
 
 /* @var $model User */

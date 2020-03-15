@@ -1,5 +1,8 @@
 <?php
 
+use App\helpers\RandomStringHelper;
+use App\helpers\StringHelper;
+
 /**
  * Модель для работы с категориями вопросов.
  *

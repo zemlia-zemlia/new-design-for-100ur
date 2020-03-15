@@ -1,5 +1,7 @@
 <?php
 
+use App\helpers\StringHelper;
+
 class UserStatusRequestController extends Controller
 {
     /**

@@ -4,6 +4,9 @@
  * @var QuestionCategory[] $children
  * @var QuestionCategory   $category
  */
+
+use App\helpers\StringHelper;
+
 ?>
 <ul id="left-menu">
     <?php if (sizeof($children) > 0): ?>

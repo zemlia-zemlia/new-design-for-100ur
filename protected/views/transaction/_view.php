@@ -1,6 +1,8 @@
 <tr>
     <td>
-        <?php if ($data instanceof PartnerTransaction): ?>
+        <?php use App\helpers\DateHelper;
+
+        if ($data instanceof PartnerTransaction): ?>
             <?php echo DateHelper::niceDate($data->datetime); ?>
             <?php if (0 != $data->leadId && time() - strtotime($data->datetime) < 86400 * 3): ?>
                 <span class="label label-warning">холд</span>

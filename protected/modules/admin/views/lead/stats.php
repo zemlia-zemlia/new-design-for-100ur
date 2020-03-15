@@ -1,4 +1,7 @@
 <?php
+
+use App\helpers\DateHelper;
+
 $this->setPageTitle('Статистика продаж. ' . Yii::app()->name);
 
 $monthsArray = [

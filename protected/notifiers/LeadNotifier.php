@@ -1,8 +1,17 @@
 <?php
 
+namespace App\notifiers;
+
+use Campaign;
+use CHtml;
+use GTMail;
+use Lead;
+use User;
+use Yii;
+
 /**
  * Класс, отвечающий за различные уведомления по лидам
- * Class UserNotifier.
+ * Class App\notifiers\UserNotifier.
  */
 class LeadNotifier
 {
@@ -58,7 +67,7 @@ class LeadNotifier
      * Отправка покупателю уведомления о том, что его лид отправлен в Yurcrm.
      *
      * @param User $buyer
-     * @param int  $crmLeadId
+     * @param int $crmLeadId
      *
      * @return bool
      */

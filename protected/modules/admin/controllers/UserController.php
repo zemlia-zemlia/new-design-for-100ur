@@ -1,5 +1,8 @@
 <?php
 
+use App\helpers\DateHelper;
+use App\helpers\StringHelper;
+
 class UserController extends Controller
 {
     /**

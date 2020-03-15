@@ -6,7 +6,7 @@ use Codeception\Test\Unit;
 use Exception;
 use GTMail;
 use User;
-use UserNotifier;
+use App\notifiers\UserNotifier;
 use Yii;
 
 class UserNotifierTest extends Unit

@@ -20,7 +20,7 @@ use Tests\Factories\UserFactory;
 use Tests\Factories\YuristSettingsFactory;
 use Tests\integration\BaseIntegrationTest;
 use User;
-use UserNotifier;
+use App\notifiers\UserNotifier;
 use Yii;
 use YuristSettings;
 

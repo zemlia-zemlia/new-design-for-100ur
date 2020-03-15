@@ -1,5 +1,9 @@
 <?php
 /* @var $this PostController */
+
+use App\helpers\DateHelper;
+use App\helpers\NumbersHelper;
+
 /* @var $model Post */
 $purifier = new Purifier();
 

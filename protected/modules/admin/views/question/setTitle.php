@@ -1,4 +1,7 @@
 <?php
+
+use App\helpers\NumbersHelper;
+
 $this->setPageTitle('Быстрое редактирование вопроса ' . $model->id);
 Yii::app()->clientScript->registerScriptFile('/js/admin/question.js');
 

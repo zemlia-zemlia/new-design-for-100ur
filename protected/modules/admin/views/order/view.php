@@ -1,5 +1,8 @@
 <?php
 /* @var $this OrderController */
+
+use App\helpers\DateHelper;
+
 /* @var $model Order */
 $this->setPageTitle('Заказ документов #' . $order->id . '. ' . Yii::app()->name);
 

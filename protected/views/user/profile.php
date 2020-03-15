@@ -1,5 +1,9 @@
 <?php
 /* @var $this UserController */
+
+use App\helpers\DateHelper;
+use App\helpers\StringHelper;
+
 /* @var $model User */
 /**
  * Просмотр профиля юриста.

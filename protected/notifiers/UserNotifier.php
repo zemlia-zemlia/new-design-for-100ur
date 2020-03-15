@@ -1,8 +1,19 @@
 <?php
 
+namespace App\notifiers;
+
+use Answer;
+use CHtml;
+use Comment;
+use GTMail;
+use MoneyFormat;
+use Question;
+use User;
+use Yii;
+
 /**
  * Класс, отвечающий за различные уведомления пользователям
- * Class UserNotifier.
+ * Class App\notifiers\UserNotifier.
  */
 class UserNotifier
 {
@@ -158,7 +169,7 @@ class UserNotifier
     /**
      * отправка письма пользователю, на вопрос которого дан ответ
      *
-     * @param Answer   $answer
+     * @param Answer $answer
      * @param Question $question
      * @param $questionLink
      * @param $testimonialLink
@@ -211,7 +222,7 @@ class UserNotifier
      * функция отправки уведомления юристу или клиенту о новом комментарии на его ответ / комментарий.
      *
      * @param Question $question
-     * @param Comment  $comment
+     * @param Comment $comment
      *
      * @return bool
      */
@@ -314,7 +325,7 @@ class UserNotifier
      * Отправка юристу уведомления о зачислении благодарности за консультацию.
      *
      * @param Answer $answer
-     * @param int    $yuristBonus В копейках
+     * @param int $yuristBonus В копейках
      *
      * @return bool
      */

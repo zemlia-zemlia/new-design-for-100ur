@@ -1,4 +1,8 @@
 <?php
+
+use App\helpers\NumbersHelper;
+use App\helpers\StringHelper;
+
 $this->setPageTitle('Мои вопросы');
 
 Yii::app()->clientScript->registerMetaTag('Мои вопросы', 'description');

@@ -1,5 +1,8 @@
 <?php
 /* @var $this UserStatusRequestController */
+
+use App\helpers\DateHelper;
+
 /* @var $data UserStatusRequest */
 ?>
 

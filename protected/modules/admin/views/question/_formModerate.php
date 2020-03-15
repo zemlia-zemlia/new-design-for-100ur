@@ -1,4 +1,6 @@
-<?php $form = $this->beginWidget('CActiveForm', [
+<?php use App\helpers\DateHelper;
+
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'question-form',
     'enableAjaxValidation' => false,
 ]); ?>
