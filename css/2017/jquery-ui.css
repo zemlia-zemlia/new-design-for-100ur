@@ -6,6 +6,7 @@
 
 /* Layout helpers
 ----------------------------------*/
+
 .ui-helper-hidden {
 	display: none;
 }
@@ -555,3 +556,5 @@
 	filter: Alpha(Opacity=30); /* support: IE8 */
 	border-radius: 8px;
 }
+
+

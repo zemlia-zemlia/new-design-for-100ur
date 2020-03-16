@@ -25,9 +25,16 @@
  * @property int    $priceDoc
  * @property string $phoneVisible
  * @property string $emailVisible
+ * @property string $inn
+ * @property string $companyName
+ * @property string $address
  * @property int    $subscribeQuestions
  * @property int    $rang
  */
+
+
+
+
 class YuristSettings extends CActiveRecord
 {
     // статусы пользователя
@@ -35,6 +42,7 @@ class YuristSettings extends CActiveRecord
     const STATUS_YURIST = 1; // юрист
     const STATUS_ADVOCAT = 2; // адвокат
     const STATUS_JUDGE = 3; // судья
+    const STATUS_COMPANY = 4; // Юр. Фирма
 
     const SUBSCRIPTION_NOTHING = 0; // нет подписок
     const SUBSCRIPTION_TOWN = 1; // подписка на вопросы своего города
@@ -67,6 +75,7 @@ class YuristSettings extends CActiveRecord
         // will receive user inputs.
         return [
                 ['yuristId', 'required'],
+                ['inn, companyName, address', 'safe'],
                 ['yuristId, startYear, isVerified, status, vuzTownId, educationYear, priceConsult, priceDoc, subscribeQuestions, rang', 'numerical', 'integerOnly' => true],
                 ['alias', 'length', 'max' => 255],
                 ['alias', 'match', 'pattern' => '/^([а-яa-zА-ЯA-Z0-9ёЁ\-. ])+$/u', 'message' => 'В псевдониме могут присутствовать буквы, цифры, точка, дефис и пробел'],
@@ -122,6 +131,9 @@ class YuristSettings extends CActiveRecord
             'emailVisible' => 'Общедоступный Email',
             'subscribeQuestions' => 'Получать уведомления о вопросах',
             'rang' => 'Звание',
+            'inn' => 'ИНН',
+            'companyName' => 'Название компании',
+            'address' => 'Адрес',
         ];
     }
 
@@ -136,7 +148,7 @@ class YuristSettings extends CActiveRecord
             self::STATUS_NOTHING => '',
             self::STATUS_YURIST => 'Юрист',
             self::STATUS_ADVOCAT => 'Адвокат',
-            self::STATUS_JUDGE => 'Судья',
+            self::STATUS_COMPANY => 'Юридическая фирма',
         ];
     }
 

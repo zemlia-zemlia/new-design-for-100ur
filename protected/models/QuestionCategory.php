@@ -23,6 +23,7 @@
  * @property string $path
  * @property string $image
  * @property string $publish_date
+ * @property string $icon
  */
 class QuestionCategory extends CActiveRecord
 {
@@ -32,9 +33,13 @@ class QuestionCategory extends CActiveRecord
 
     const DEFAULT_IMAGE = '/pics/2017/head_default.jpg';
 
+    const RANDOM_NAME_LENGTH = 10;
+
     public $imageFile; // для загрузки через форму
 
     public $attachments = []; // прикрепленные файлы
+
+    public $fileIcon;
 
     /**
      * Returns the static model of the specified AR class.
@@ -94,7 +99,8 @@ class QuestionCategory extends CActiveRecord
             ['parentId, isDirection', 'numerical', 'integerOnly' => true],
             ['name, publish_date', 'length', 'max' => 255],
             ['alias', 'match', 'pattern' => '/^([a-z0-9\-])+$/'],
-            ['description1, description2, seoTitle, seoDescription, seoKeywords, seoH1', 'safe'],
+            ['description1, description2, seoTitle, seoDescription, seoKeywords, seoH1, icon', 'safe'],
+            ['fileIcon', 'file', 'types' => 'png', 'allowEmpty' => true],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             ['id, name, parentId', 'safe', 'on' => 'search'],
@@ -139,6 +145,8 @@ class QuestionCategory extends CActiveRecord
             'imageFile' => 'Изображение категории',
             'publish_date' => 'Дата публикации',
             'attachments' => 'Прикрепленные файлы',
+            'icon'  => 'Иконка категории',
+            'fileIcon'  => 'Иконка категории'
         ];
     }
 
@@ -527,4 +535,47 @@ class QuestionCategory extends CActiveRecord
 
         return $tags;
     }
+
+
+    /**
+     * Генерирует имя файла иконки
+     * @return string
+     */
+    public function generateName(): string
+    {
+        return RandomStringHelper::generateRandomString(self::RANDOM_NAME_LENGTH) . '_' . time() . '.' . $this->fileIcon->getExtensionName();
+    }
+
+    /**
+     * Возвращает имя файла иконки
+     * @return string
+     */
+    public function  getIconUrl()
+    {
+        return $this->icon ? ('/upload/category_icons/' . $this->icon) : NULL;
+    }
+
+    public function uploadIcon()
+    {
+
+        $name = $this->generateName();
+        $path = Yii::getPathOfAlias('webroot') . '/upload/category_icons/' . $name ;
+        $this->fileIcon->saveAs($path);
+        if (getimagesize($path)[0] > 250 || getimagesize($path)[1] > 250  ){
+            Yii::app()->user->setFlash('error', 'Ошибка. Размер изображения больше 250 пикс.');
+            unlink($path);
+            return false;
+        }
+        elseif ($this->fileIcon->extensionName != 'png'){
+            Yii::app()->user->setFlash('error', 'Ошибка. Можно загрузить только файл PNG');
+            unlink($path);
+            return false;
+        }
+        else {
+            $this->icon = $name;
+            return true;
+        }
+
+    }
+
 }

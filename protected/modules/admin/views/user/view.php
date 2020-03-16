@@ -177,6 +177,8 @@ $this->widget('zii.widgets.CBreadcrumbs', [
         <?php endif; ?>
 
 
+
+
         <?php if (User::ROLE_BUYER == $model->role && $model->campaigns): ?>
             <div class="box">
                 <div class="box-header">
@@ -437,6 +439,53 @@ $this->widget('zii.widgets.CBreadcrumbs', [
         <?php endif; ?>
     <?php endif; ?>
 
+    <?php if (User::ROLE_PARTNER == $model->role): ?>
+        <div class="col-md-6">
+            <h2>Лиды вебмастера</h2>
+            <?php
+            $this->widget('zii.widgets.CListView', [
+                'dataProvider' => $leadsDataProvider,
+                'itemView' => 'application.modules.admin.views.lead._view',
+                'emptyText' => 'Не найдено ни одного лида',
+                'summaryText' => 'Показаны лиды с {start} до {end}, всего {count}',
+                'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+            ]);
+            ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (User::ROLE_JURIST == $model->role): ?>
+        <?php if ($transactionsDataProvider->totalItemCount): ?>
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-title">Транзакции юриста</div>
+                </div>
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Время</th>
+                            <th>Кампания</th>
+                            <th>Сумма</th>
+                            <th>Описание</th>
+                        </tr>
+
+                        <?php
+                        $this->widget('zii.widgets.CListView', [
+                            'dataProvider' => $transactionsDataProvider,
+                            'itemView' => 'application.views.transactionCampaign._view',
+                            'emptyText' => 'Не найдено ни одной транзакции',
+                            'summaryText' => 'Показаны транзакции с {start} до {end}, всего {count}',
+                            'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+                        ]);
+                        ?>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+    <?php endif; ?>
+
     <div class="col-md-6 small">
         <div class="box">
             <div class="box-header">
@@ -454,20 +503,7 @@ $this->widget('zii.widgets.CBreadcrumbs', [
         </div>
     </div>
 
-    <?php if (User::ROLE_PARTNER == $model->role): ?>
-        <div class="col-md-6">
-            <h2>Лиды вебмастера</h2>
-            <?php
-            $this->widget('zii.widgets.CListView', [
-                'dataProvider' => $leadsDataProvider,
-                'itemView' => 'application.modules.admin.views.lead._view',
-                'emptyText' => 'Не найдено ни одного лида',
-                'summaryText' => 'Показаны лиды с {start} до {end}, всего {count}',
-                'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
-            ]);
-            ?>
-        </div>
-    <?php endif; ?>
+
 
 
 </div>
