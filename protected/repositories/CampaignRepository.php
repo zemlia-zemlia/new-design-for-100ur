@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\repositories;
 
 use App\models\Campaign;
 use CException;

@@ -3,7 +3,7 @@
 use App\models\Campaign;
 use App\models\Lead;
 use App\models\User;
-use App\Repositories\BuyerRepository;
+use App\repositories\BuyerRepository;
 use buyer\services\StatisticsService;
 
 class BuyerController extends Controller
