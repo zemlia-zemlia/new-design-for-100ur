@@ -1,6 +1,7 @@
 <tr>
     <td>
         <?php use App\helpers\DateHelper;
+        use App\models\User;
 
         echo $data->id; ?>
     </td>

@@ -1,5 +1,7 @@
 <?php
 
+use App\models\TransactionCampaign;
+
 class TransactionCampaignController extends Controller
 {
     /**
@@ -69,8 +71,8 @@ class TransactionCampaignController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['TransactionCampaign'])) {
-            $model->attributes = $_POST['TransactionCampaign'];
+        if (isset($_POST['App\models\TransactionCampaign'])) {
+            $model->attributes = $_POST['App\models\TransactionCampaign'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -94,8 +96,8 @@ class TransactionCampaignController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['TransactionCampaign'])) {
-            $model->attributes = $_POST['TransactionCampaign'];
+        if (isset($_POST['App\models\TransactionCampaign'])) {
+            $model->attributes = $_POST['App\models\TransactionCampaign'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -127,7 +129,7 @@ class TransactionCampaignController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('TransactionCampaign');
+        $dataProvider = new CActiveDataProvider('App\models\TransactionCampaign');
         $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
@@ -140,8 +142,8 @@ class TransactionCampaignController extends Controller
     {
         $model = new TransactionCampaign('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['TransactionCampaign'])) {
-            $model->attributes = $_GET['TransactionCampaign'];
+        if (isset($_GET['App\models\TransactionCampaign'])) {
+            $model->attributes = $_GET['App\models\TransactionCampaign'];
         }
 
         $this->render('admin', [

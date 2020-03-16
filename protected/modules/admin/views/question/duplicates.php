@@ -1,5 +1,8 @@
 <?php
 /* @var $this QuestionController */
+
+use App\models\User;
+
 /* @var $dataProvider CActiveDataProvider */
 
 $this->setPageTitle('Дубли вопросов. ' . Yii::app()->name);

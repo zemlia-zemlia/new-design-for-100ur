@@ -1,5 +1,8 @@
 <?php
 /* @var $this MoneyController */
+
+use App\models\Money;
+
 /* @var $model Money */
 /* @var $form CActiveForm */
 
@@ -49,7 +52,7 @@ Yii::app()->clientScript->registerScript('myjquery', $js);
                             <?php $this->widget(
                     'zii.widgets.jui.CJuiDatePicker',
                     [
-                                    'name' => 'Money[datetime]',
+                                    'name' => 'App\models\Money[datetime]',
                                     'value' => $model['datetime'],
                                     'language' => 'ru',
                                     'options' => ['dateFormat' => 'dd-mm-yy',

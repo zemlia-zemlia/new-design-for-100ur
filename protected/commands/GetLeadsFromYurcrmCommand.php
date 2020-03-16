@@ -5,6 +5,7 @@
  */
 
 use App\helpers\PhoneHelper;
+use App\models\Lead;
 
 class GetLeadsFromYurcrmCommand extends CConsoleCommand
 {

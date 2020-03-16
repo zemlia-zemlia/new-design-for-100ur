@@ -1,19 +1,28 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use CHtml;
+use GTMail;
+use Yii;
+
 /**
  * Модель для работы с заявками на изменение статусов пользователей.
  *
  * Доступные поля в таблице '{{userStatusRequest}}':
  *
- * @property int    $id
- * @property int    $yuristId
- * @property int    $status
- * @property int    $isVerified
+ * @property int $id
+ * @property int $yuristId
+ * @property int $status
+ * @property int $isVerified
  * @property string $vuz
  * @property string $facultet
  * @property string $education
- * @property int    $vuzTownId
- * @property int    $educationYear
+ * @property int $vuzTownId
+ * @property int $educationYear
  * @property string $advOrganisation
  * @property string $advNumber
  * @property string $position
@@ -56,7 +65,7 @@ class UserStatusRequest extends CActiveRecord
             ['yuristId', 'required', 'message' => 'Поле {attribute} должно быть заполнено'],
             ['vuz, facultet, education, vuzTownId, educationYear', 'required', 'on' => 'createYurist', 'message' => 'Поле {attribute} должно быть заполнено'],
             ['advOrganisation, advNumber, position', 'required', 'on' => 'createAdvocat', 'message' => 'Поле {attribute} должно быть заполнено'],
-            ['inn, companyName, address', 'required', 'on'=>'createCompany', 'message' => 'Поле {attribute} должно быть заполнено'],
+            ['inn, companyName, address', 'required', 'on' => 'createCompany', 'message' => 'Поле {attribute} должно быть заполнено'],
             ['yuristId, status, isVerified, vuzTownId, educationYear', 'numerical', 'integerOnly' => true],
             ['vuz, facultet, education, advOrganisation, advNumber, position', 'length', 'max' => 255],
             ['userFile', 'file', 'types' => 'jpg,gif,png,tiff,pdf', 'maxSize' => '10000000', 'allowEmpty' => true, 'message' => 'Неправильный формат загруженного файла'],
@@ -69,14 +78,12 @@ class UserStatusRequest extends CActiveRecord
     /**
      * @return array relational rules
      */
-    public function relations()
+    public function relations(): array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'user' => [self::BELONGS_TO, 'User', 'yuristId'],
-            'vuzTown' => [self::BELONGS_TO, 'Town', 'vuzTownId'],
-            'userFile' => [self::BELONGS_TO, 'UserFile', 'fileId'],
+            'user' => [self::BELONGS_TO, User::class, 'yuristId'],
+            'vuzTown' => [self::BELONGS_TO, Town::class, 'vuzTownId'],
+            'userFile' => [self::BELONGS_TO, UserFile::class, 'fileId'],
 
         ];
     }
@@ -239,7 +246,7 @@ class UserStatusRequest extends CActiveRecord
 
         $mailer->subject = '100 Юристов - Смена Вашего статуса';
         $mailer->message = '<p>' . CHtml::encode($user->name) . ', Ваша заявка на изменение статуса была проверена модератором.</p>'
-                . '<p>Ваша заявка ';
+            . '<p>Ваша заявка ';
 
         $mailer->message .= (self::STATUS_ACCEPTED == $this->isVerified) ? 'одобрена' : 'отклонена' . '</p>';
 
@@ -259,10 +266,10 @@ class UserStatusRequest extends CActiveRecord
     public static function getNewRequestsCount()
     {
         $counterRow = Yii::app()->db->cache(600)->createCommand()
-                ->select('COUNT(*) counter')
-                ->from('{{userStatusRequest}}')
-                ->where('isVerified = 0')
-                ->queryRow();
+            ->select('COUNT(*) counter')
+            ->from('{{userStatusRequest}}')
+            ->where('isVerified = 0')
+            ->queryRow();
 
         return $counterRow['counter'];
     }

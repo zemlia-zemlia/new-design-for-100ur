@@ -1,15 +1,20 @@
 <?php
 
+namespace App\models;
+
 use App\helpers\StringHelper;
+use CActiveRecord;
+use CUploadedFile;
+use Yii;
 
 /**
  * Класс для работы с прикрепляемыми к заявкам файлами.
  *
- * @property int    $id
+ * @property int $id
  * @property string $name
  * @property string $filename
- * @property int    $itemId
- * @property int    $itemType
+ * @property int $itemId
+ * @property int $itemType
  */
 class File extends CActiveRecord
 {
@@ -81,7 +86,7 @@ class File extends CActiveRecord
     /**
      * Создает имя файла из пути существующего файла на диске.
      *
-     * @param $path Путь к существующему файлу
+     * @param string $path Путь к существующему файлу
      *
      * @return string Имя файла для хранения на диске
      */

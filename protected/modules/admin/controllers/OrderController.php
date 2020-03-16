@@ -1,5 +1,7 @@
 <?php
 
+use App\models\Order;
+
 class OrderController extends Controller
 {
     public $layout = '//admin/main';
@@ -30,7 +32,7 @@ class OrderController extends Controller
             ],
             ['allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => ['update', 'delete'],
-                'expression' => 'Yii::app()->user->checkAccess(User::ROLE_ROOT)',
+                'expression' => 'Yii::app()->user->checkAccess(App\models\User::ROLE_ROOT)',
             ],
 
             ['deny', // deny all users

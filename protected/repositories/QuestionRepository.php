@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 use CException;
-use Question;
-use User;
+use App\models\Question;
+use App\models\User;
 use Yii;
 
 /**
@@ -68,7 +68,7 @@ class QuestionRepository
     /**
      * Возвращает массив вопросов, заданных пользователем
      *
-     * @param User $user
+     * @param \App\models\User $user
      *
      * @return array
      * @throws CException

@@ -1,5 +1,8 @@
 <?php
 
+use App\models\FileCategory;
+use App\models\User;
+
 class FileCategoryController extends Controller
 {
     /**

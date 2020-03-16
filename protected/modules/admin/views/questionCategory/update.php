@@ -1,5 +1,9 @@
 <?php
 /* @var $this QuestionCategoryController */
+
+use App\models\QuestionCategory;
+use App\models\User;
+
 /* @var $model QuestionCategory */
 //Yii::app()->clientScript
 $urlToModal = Yii::app()->createUrl('admin/fileCategory/createModalForObject/');

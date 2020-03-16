@@ -1,5 +1,12 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Yii;
+
 /**
  * Модель для работы с просмотрами постов.
  *
@@ -57,17 +64,6 @@ class Postviews extends CActiveRecord
     }
 
     /**
-     * @return array relational rules
-     */
-    public function relations()
-    {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return [
-        ];
-    }
-
-    /**
      * @return array customized attribute labels (name=>label)
      */
     public function attributeLabels()
@@ -94,7 +90,7 @@ class Postviews extends CActiveRecord
         $criteria->compare('views', $this->views, true);
 
         return new CActiveDataProvider($this, [
-                'criteria' => $criteria,
+            'criteria' => $criteria,
         ]);
     }
 }

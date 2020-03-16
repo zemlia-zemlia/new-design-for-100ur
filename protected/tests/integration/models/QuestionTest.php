@@ -2,18 +2,18 @@
 
 namespace tests\integration\models;
 
-use Answer;
+use App\models\Answer;
 use DateTime;
-use Money;
-use Question;
-use Question2category;
-use QuestionCategory;
+use App\models\Money;
+use App\models\Question;
+use App\models\Question2category;
+use App\models\QuestionCategory;
 use Tests\Factories\AnswerFactory;
 use Tests\Factories\QuestionCategoryFactory;
 use Tests\Factories\QuestionFactory;
 use Tests\Factories\UserFactory;
 use Tests\integration\BaseIntegrationTest;
-use User;
+use App\models\User;
 use Yii;
 
 class QuestionTest extends BaseIntegrationTest

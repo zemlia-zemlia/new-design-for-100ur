@@ -1,22 +1,29 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Yii;
+
 /**
  * Модель для работы с источниками лидов 100 юристов.
  *
  * The followings are the available columns in table '{{leadsource}}':
  *
- * @property int    $id
- * @property int    $type
+ * @property int $id
+ * @property int $type
  * @property string $name
  * @property string $description
- * @property int    $officeId
- * @property int    $noLead
- * @property int    $active
+ * @property int $officeId
+ * @property int $noLead
+ * @property int $active
  * @property string $appId
  * @property string $secretKey
- * @property int    $userId
- * @property int    $moderation
- * @property int    $priceByPartner
+ * @property int $userId
+ * @property int $moderation
+ * @property int $priceByPartner
  */
 class Leadsource extends CActiveRecord
 {
@@ -74,10 +81,8 @@ class Leadsource extends CActiveRecord
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'user' => [self::BELONGS_TO, 'User', 'userId'],
+            'user' => [self::BELONGS_TO, User::class, 'userId'],
         ];
     }
 
@@ -106,7 +111,7 @@ class Leadsource extends CActiveRecord
      *  возвращает массив источников лидов, ключами которого являются ID, а значениями - названия.
      *
      * @param bool $showInactive показывать неактивные источники
-     * @param int  $cacheTime    на сколько секунд кешировать
+     * @param int $cacheTime на сколько секунд кешировать
      *
      * @return array массив источников лидов (id => name)
      */
@@ -142,7 +147,7 @@ class Leadsource extends CActiveRecord
     /**
      * Возвращает название типа источника.
      *
-     * @return type
+     * @return string
      */
     public function getTypeName()
     {
@@ -225,9 +230,10 @@ class Leadsource extends CActiveRecord
      * @param int $appId
      * @param int $cacheTime
      *
-     * @return mixed
+     * @return array|null
+     * @throws \CException
      */
-    public static function getByAppIdAsArray($appId, $cacheTime)
+    public static function getByAppIdAsArray($appId, $cacheTime):?array
     {
         $source = Yii::app()->db->cache($cacheTime)->createCommand()
             ->select('*')

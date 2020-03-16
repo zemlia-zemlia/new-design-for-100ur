@@ -1,6 +1,10 @@
 <?php
 /* @var $this DefaultController */
 
+use App\models\Lead;
+use App\models\Money;
+use App\models\User;
+
 $this->breadcrumbs = [
     $this->module->id,
 ];
@@ -222,7 +226,7 @@ $endYear = 2019;
             <div class="box-title">Активность юристов по дням</div>
         </div>
         <div class="box-body">
-            <?php $this->widget('application.widgets.UserActivity.UserActivityWidget', [
+            <?php $this->widget('application.widgets.App\models\UserActivity.UserActivityWidget', [
                 'userId' => null,
                 'role' => User::ROLE_JURIST,
             ]); ?>

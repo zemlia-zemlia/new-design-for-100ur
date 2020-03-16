@@ -1,5 +1,8 @@
 <?php
 /* @var $this AnswerController */
+
+use App\models\Answer;
+
 /* @var $model Answer */
 $this->setPageTitle('Редактирование текста ответа ' . $model->id . '. ' . Yii::app()->name);
 

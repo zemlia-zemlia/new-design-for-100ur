@@ -1,5 +1,8 @@
 <?php
 /* @var $this CodecsController */
+
+use App\models\Codecs;
+
 /* @var $model Codecs */
 $this->setPageTitle(CHtml::encode($model->longtitle) . '. Кодексы РФ. ' . Yii::app()->name);
 

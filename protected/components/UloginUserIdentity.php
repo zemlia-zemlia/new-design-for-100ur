@@ -1,5 +1,9 @@
 <?php
 
+use App\models\UloginModel;
+use App\models\UloginUser;
+use App\models\User;
+
 /**
  * Класс, ответственный за аутентификацию пользователей по данным из Ulogin (провайдер соц логина)
  * Class UloginUserIdentity.

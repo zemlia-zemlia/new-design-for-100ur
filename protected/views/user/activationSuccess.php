@@ -1,4 +1,7 @@
 <?php
+
+use App\models\User;
+
 $this->pageTitle = Yii::app()->name . ' - Аккаунт успешно активирован';
 ?>
 

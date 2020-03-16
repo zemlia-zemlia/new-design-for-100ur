@@ -1,5 +1,6 @@
 <?php
 
+use App\models\Lead;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Psr\Http\Message\ResponseInterface;
@@ -78,12 +79,12 @@ class ApiSovinform implements ApiClassInterface
     {
         if (200 == $apiResponse->getStatusCode()) {
             if (!stristr($apiResponse->getBody(), 'error')) {
-                LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Sovinform', 'Lead', $lead->id);
+                LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Sovinform', 'App\models\Lead', $lead->id);
 
                 return true;
             }
 
-            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' НЕ отправлен в партнерку Sovinform, ответ:' . CHtml::encode($apiResponse->getBody()), 'Lead', $lead->id);
+            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' НЕ отправлен в партнерку Sovinform, ответ:' . CHtml::encode($apiResponse->getBody()), 'App\models\Lead', $lead->id);
         }
 
         return false;

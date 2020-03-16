@@ -1,5 +1,9 @@
 <?php
 
+use App\models\Cat2follower;
+use App\models\Postcategory;
+use App\models\User;
+
 class BlogController extends Controller
 {
     /**

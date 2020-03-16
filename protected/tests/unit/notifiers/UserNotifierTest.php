@@ -5,7 +5,7 @@ namespace Tests\Unit\Notifiers;
 use Codeception\Test\Unit;
 use Exception;
 use GTMail;
-use User;
+use App\models\User;
 use App\notifiers\UserNotifier;
 use Yii;
 

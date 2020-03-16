@@ -1,4 +1,5 @@
 <?php use App\helpers\StringHelper;
+use App\models\User;
 
 if (stristr($_SERVER['REQUEST_URI'], '/q/')): ?>
 <noindex>

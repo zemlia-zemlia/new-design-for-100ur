@@ -2,6 +2,8 @@
 /* @var $this UserStatusRequestController */
 
 use App\helpers\DateHelper;
+use App\models\PartnerTransaction;
+use App\models\UserStatusRequest;
 
 /* @var $data UserStatusRequest */
 ?>

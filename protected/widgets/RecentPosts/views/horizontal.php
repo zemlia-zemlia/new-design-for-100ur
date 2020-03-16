@@ -1,5 +1,7 @@
 <?php
 
+use App\models\Post;
+
 if (empty($recentPosts) || 0 == sizeof($recentPosts)) {
     echo 'Не найдено ни одного поста';
 }

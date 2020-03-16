@@ -4,7 +4,10 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+<title><?php use App\models\Campaign;
+    use App\models\Lead;
+
+    echo CHtml::encode($this->pageTitle); ?></title>
 <?php 
     Yii::app()->clientScript->registerCssFile("/bootstrap/css/bootstrap.min.css");
     Yii::app()->clientScript->registerCssFile("/css/2015/style.css");

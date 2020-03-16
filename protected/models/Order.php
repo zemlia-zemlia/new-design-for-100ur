@@ -1,18 +1,27 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use CHtml;
+use GTMail;
+use Yii;
+
 /**
  * This is the model class for table "{{order}}".
  *
  * The followings are the available columns in table '{{order}}':
  *
- * @property int    $id
- * @property int    $status
+ * @property int $id
+ * @property int $status
  * @property string $createDate
- * @property int    $itemType
- * @property int    $price
+ * @property int $itemType
+ * @property int $price
  * @property string $description
- * @property int    $userId
- * @property int    $juristId
+ * @property int $userId
+ * @property int $juristId
  * @property string $term
  */
 class Order extends CActiveRecord
@@ -69,16 +78,14 @@ class Order extends CActiveRecord
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'author' => [self::BELONGS_TO, 'User', 'userId'],
-            'jurist' => [self::BELONGS_TO, 'User', 'juristId'],
-            'docType' => [self::BELONGS_TO, 'DocType', 'itemType'],
-            'comments' => [self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_ORDER, 'order' => 'comments.root, comments.lft'],
-            'commentsCount' => [self::STAT, 'Comment', 'objectId', 'condition' => 't.type=' . Comment::TYPE_ORDER, 'order' => 't.root, t.lft'],
-            'responses' => [self::HAS_MANY, 'OrderResponse', 'objectId', 'condition' => 'responses.type=' . Comment::TYPE_RESPONSE, 'order' => 'responses.id ASC'],
-            'responsesCount' => [self::STAT, 'OrderResponse', 'objectId', 'condition' => 't.type=' . Comment::TYPE_RESPONSE, 'order' => 't.root, t.lft'],
+            'author' => [self::BELONGS_TO, User::class, 'userId'],
+            'jurist' => [self::BELONGS_TO, User::class, 'juristId'],
+            'docType' => [self::BELONGS_TO, DocType::class, 'itemType'],
+            'comments' => [self::HAS_MANY, Comment::class, 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_ORDER, 'order' => 'comments.root, comments.lft'],
+            'commentsCount' => [self::STAT, Comment::class, 'objectId', 'condition' => 't.type=' . Comment::TYPE_ORDER, 'order' => 't.root, t.lft'],
+            'responses' => [self::HAS_MANY, OrderResponse::class, 'objectId', 'condition' => 'responses.type=' . Comment::TYPE_RESPONSE, 'order' => 'responses.id ASC'],
+            'responsesCount' => [self::STAT, OrderResponse::class, 'objectId', 'condition' => 't.type=' . Comment::TYPE_RESPONSE, 'order' => 't.root, t.lft'],
         ];
     }
 
@@ -198,17 +205,17 @@ class Order extends CActiveRecord
     /**
      *  Возвращает количество заказов в формате Подтвержден.
      *
-     * @param intefer $cacheTime Длительность хранения результата запроса в кеше
+     * @param int $cacheTime Длительность хранения результата запроса в кеше
      *
      * @return int количество заказов
      */
     public static function calculateNewOrders($cacheTime = 600)
     {
         $countRow = Yii::app()->db->cache($cacheTime)->createCommand()
-                ->select('COUNT(*) counter')
-                ->from('{{order}}')
-                ->where('status=:status', [':status' => self::STATUS_CONFIRMED])
-                ->queryRow();
+            ->select('COUNT(*) counter')
+            ->from('{{order}}')
+            ->where('status=:status', [':status' => self::STATUS_CONFIRMED])
+            ->queryRow();
         if ($countRow && $countRow['counter']) {
             return $countRow['counter'];
         } else {
@@ -323,13 +330,13 @@ class Order extends CActiveRecord
         $mailer->subject = CHtml::encode($client->name) . ', Ваш заказ документа отправлен в архив';
         $mailer->message = '<h1>Ваш заказ документа отправлен в архив</h1>
             <p>Здравствуйте, ' . CHtml::encode($client->name) . '<br /><br />' .
-                CHtml::link('Ваш заказ', $questionLink) . ' отправлен в архив, так как по нему не совершалось никаких действий несколько дней.</p>';
+            CHtml::link('Ваш заказ', $questionLink) . ' отправлен в архив, так как по нему не совершалось никаких действий несколько дней.</p>';
 
         $mailer->message .= '<p><strong>Помогите нам улучшить сервис</strong><br />'
-                . 'Будем рады получить от Вас обратную связь. Что не устроило Вас в предложениях юристов? '
-                . 'Может быть, у Вас возникли трудности в пользовании сайтом?<br />'
-                . '<strong>Просто ответьте на это письмо.</strong>'
-                . '</p>';
+            . 'Будем рады получить от Вас обратную связь. Что не устроило Вас в предложениях юристов? '
+            . 'Может быть, у Вас возникли трудности в пользовании сайтом?<br />'
+            . '<strong>Просто ответьте на это письмо.</strong>'
+            . '</p>';
 
         // отправляем письмо на почту пользователя
         $mailer->email = $client->email;

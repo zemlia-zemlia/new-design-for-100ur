@@ -1,5 +1,10 @@
 <?php
 
+use App\models\Comment;
+use App\models\Order;
+use App\models\OrderResponse;
+use App\models\User;
+
 /**
  * Контроллер для раздела работы с заказами документов.
  */
@@ -38,12 +43,12 @@ class OrderController extends Controller
             ['allow', // allow all users
                 'actions' => ['index', 'changeStatus'],
                 'users' => ['@'],
-                'expression' => 'Yii::app()->user->checkAccess(User::ROLE_JURIST)',
+                'expression' => 'Yii::app()->user->checkAccess(App\models\User::ROLE_JURIST)',
             ],
             ['allow',
                 'actions' => ['setJurist', 'cancel', 'update', 'toArchive'],
                 'users' => ['@'],
-                'expression' => 'Yii::app()->user->checkAccess(User::ROLE_CLIENT)',
+                'expression' => 'Yii::app()->user->checkAccess(App\models\User::ROLE_CLIENT)',
             ],
             ['deny', // deny all users
                 'users' => ['*'],
@@ -133,9 +138,9 @@ class OrderController extends Controller
         }
 
         // Обработка отклика юриста
-        if (isset($_POST['OrderResponse'])) {
+        if (isset($_POST['App\models\OrderResponse'])) {
             // отправлен ответ, сохраним его
-            $orderResponse->attributes = $_POST['OrderResponse'];
+            $orderResponse->attributes = $_POST['App\models\OrderResponse'];
             $orderResponse->authorId = Yii::app()->user->id;
             $orderResponse->price *= 100;
 

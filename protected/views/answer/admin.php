@@ -1,5 +1,8 @@
 <?php
 /* @var $this AnswerController */
+
+use App\models\Answer;
+
 /* @var $model Answer */
 
 $this->breadcrumbs = [
@@ -8,8 +11,8 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'List Answer', 'url' => ['index']],
-    ['label' => 'Create Answer', 'url' => ['create']],
+    ['label' => 'List App\models\Answer', 'url' => ['index']],
+    ['label' => 'Create App\models\Answer', 'url' => ['create']],
 ];
 
 Yii::app()->clientScript->registerScript('search', "

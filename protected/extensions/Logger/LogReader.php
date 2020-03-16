@@ -37,7 +37,7 @@ class LogReader
         }
 
         switch ($logRow['class']) {
-            case 'Lead':
+            case 'App\models\Lead':
                 return CHtml::link('Лид #' . $logRow['subjectId'], Yii::app()->createUrl('admin/lead/view', ['id' => $logRow['subjectId']]));
 
             case 'User':

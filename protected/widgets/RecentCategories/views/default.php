@@ -1,5 +1,8 @@
 <?php
 /** @var QuestionCategory $recentCategory */
+
+use App\models\QuestionCategory;
+
 if (empty($recentCategories) || 0 == sizeof($recentCategories)) {
     echo 'Не найдено ни одной категории';
 }

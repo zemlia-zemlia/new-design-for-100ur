@@ -1,6 +1,8 @@
 <tr>
     <td>
         <?php use App\helpers\DateHelper;
+        use App\models\PartnerTransaction;
+        use App\models\TransactionCampaign;
 
         if ($data instanceof PartnerTransaction): ?>
             <?php echo DateHelper::niceDate($data->datetime); ?>

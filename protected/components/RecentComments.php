@@ -1,5 +1,7 @@
 <?php
 
+use App\models\Comment;
+
 Yii::import('zii.widgets.CPortlet');
 
 class RecentComments extends CPortlet

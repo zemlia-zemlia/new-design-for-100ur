@@ -1,5 +1,9 @@
 <?php
 /* @var $this RegionController */
+
+use App\models\Region;
+use App\models\User;
+
 /* @var $model Region */
 
 $pageTitle = 'Юристы и Адвокаты ' . CHtml::encode($model->name) . '.';

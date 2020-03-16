@@ -1,8 +1,12 @@
 <?php
 
+namespace App\models;
+
+use Exception;
+
 /**
  * Логика работы с рангами юристов
- * Class YuristRang.
+ * Class App\models\YuristRang.
  */
 class YuristRang
 {

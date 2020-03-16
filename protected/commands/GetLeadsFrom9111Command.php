@@ -7,6 +7,8 @@
  */
 
 use App\helpers\PhoneHelper;
+use App\models\Lead;
+use App\models\Leadsource;
 
 class GetLeadsFrom9111Command extends CConsoleCommand
 {

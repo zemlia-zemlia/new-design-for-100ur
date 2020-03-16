@@ -1,5 +1,8 @@
 <?php
 /* @var $this ContactController */
+
+use App\models\Campaign;
+
 /* @var $model Contact */
 
 $this->setPageTitle('Кампания #' . $model->id . '. ' . Yii::app()->name);

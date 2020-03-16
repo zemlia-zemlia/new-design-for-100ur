@@ -1,5 +1,12 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Yii;
+
 /**
  * Модель для работы с файлами пользователей.
  *
@@ -8,29 +15,29 @@
  *
  * Поля в таблице '{{userFile}}':
  *
- * @property int    $id
- * @property int    $userId
+ * @property int $id
+ * @property int $userId
  * @property string $datetime
  * @property string $name
- * @property int    $isVerified
+ * @property int $isVerified
  * @property string $comment
- * @property int    $type
+ * @property int $type
  * @property string $reason
  */
 class UserFile extends CActiveRecord
 {
     // типы файлов
-        const TYPE_NOTHING = 0; // нет статуса
-        const TYPE_YURIST = 1; // подтверждение статуса юрист
-        const TYPE_ADVOCAT = 2; // подтверждение статуса адвокат
-        const TYPE_JUDGE = 3; // подтверждение статуса судья
+    const TYPE_NOTHING = 0; // нет статуса
+    const TYPE_YURIST = 1; // подтверждение статуса юрист
+    const TYPE_ADVOCAT = 2; // подтверждение статуса адвокат
+    const TYPE_JUDGE = 3; // подтверждение статуса судья
 
-        // статусы файлов
-        const STATUS_REVIEW = 0; // на рассмотрении
-        const STATUS_CONFIRMED = 1; // одобрен
-        const STATUS_DECLINED = 2; // не одобрен
+    // статусы файлов
+    const STATUS_REVIEW = 0; // на рассмотрении
+    const STATUS_CONFIRMED = 1; // одобрен
+    const STATUS_DECLINED = 2; // не одобрен
 
-        // папка для хранения пользовательских файлов
+    // папка для хранения пользовательских файлов
     const USER_FILES_FOLDER = '/upload/userfiles';
 
     public $userFile; // свойство для хранения данных о загружаемом файле
@@ -59,26 +66,24 @@ class UserFile extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return [
-                ['userId, name, type', 'required'],
-                ['userId, isVerified, type', 'numerical', 'integerOnly' => true],
-                ['name, reason', 'length', 'max' => 255],
-                ['userFile', 'file', 'allowEmpty' => true, 'types' => 'jpg,pdf,tiff,png', 'maxSize' => 10000000, 'message' => 'Файл должен быть в допустимом формате'],
-                // The following rule is used by search().
-                // @todo Please remove those attributes that should not be searched.
-                ['id, userId, datetime, name, isVerified, comment, type, reason', 'safe', 'on' => 'search'],
-            ];
+            ['userId, name, type', 'required'],
+            ['userId, isVerified, type', 'numerical', 'integerOnly' => true],
+            ['name, reason', 'length', 'max' => 255],
+            ['userFile', 'file', 'allowEmpty' => true, 'types' => 'jpg,pdf,tiff,png', 'maxSize' => 10000000, 'message' => 'Файл должен быть в допустимом формате'],
+            // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
+            ['id, userId, datetime, name, isVerified, comment, type, reason', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
      * @return array relational rules
      */
-    public function relations()
+    public function relations(): array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-                'user' => [self::BELONGS_TO, 'User', 'userId'],
-            ];
+            'user' => [self::BELONGS_TO, User::class, 'userId'],
+        ];
     }
 
     /**
@@ -87,16 +92,16 @@ class UserFile extends CActiveRecord
     public function attributeLabels()
     {
         return [
-                'id' => 'ID',
-                'userId' => 'ID пользователя',
-                'datetime' => 'Дата и время загрузки',
-                'name' => 'Имя файла',
-                'isVerified' => 'Проверен',
-                'comment' => 'Комментарий автора',
-                'type' => 'Тип',
-                'reason' => 'Причина отказа',
-                'userFile' => 'Скан или фото разворота диплома (формат jpg, pdf, tiff, png, до 10 МБ)',
-            ];
+            'id' => 'ID',
+            'userId' => 'ID пользователя',
+            'datetime' => 'Дата и время загрузки',
+            'name' => 'Имя файла',
+            'isVerified' => 'Проверен',
+            'comment' => 'Комментарий автора',
+            'type' => 'Тип',
+            'reason' => 'Причина отказа',
+            'userFile' => 'Скан или фото разворота диплома (формат jpg, pdf, tiff, png, до 10 МБ)',
+        ];
     }
 
     /**
@@ -107,11 +112,11 @@ class UserFile extends CActiveRecord
     public static function getTypesArray()
     {
         return [
-                self::TYPE_NOTHING => 'без статуса',
-                self::TYPE_YURIST => 'юрист',
-                self::TYPE_ADVOCAT => 'адвокат',
-                self::TYPE_JUDGE => 'судья',
-            ];
+            self::TYPE_NOTHING => 'без статуса',
+            self::TYPE_YURIST => 'юрист',
+            self::TYPE_ADVOCAT => 'адвокат',
+            self::TYPE_JUDGE => 'судья',
+        ];
     }
 
     /**
@@ -135,10 +140,10 @@ class UserFile extends CActiveRecord
     public static function getStatusesArray()
     {
         return [
-                self::STATUS_REVIEW => 'на проверке',
-                self::STATUS_CONFIRMED => 'одобрен',
-                self::STATUS_DECLINED => 'не одобрен',
-            ];
+            self::STATUS_REVIEW => 'на проверке',
+            self::STATUS_CONFIRMED => 'одобрен',
+            self::STATUS_DECLINED => 'не одобрен',
+        ];
     }
 
     /**

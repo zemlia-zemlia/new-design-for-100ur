@@ -1,5 +1,8 @@
 <?php
 /* @var $this RegionController */
+
+use App\models\Region;
+
 /* @var $model Region */
 
 $this->breadcrumbs = [

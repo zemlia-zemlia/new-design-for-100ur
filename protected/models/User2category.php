@@ -1,5 +1,12 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Yii;
+
 /**
  * This is the model class for table "{{user2category}}".
  *
@@ -39,17 +46,6 @@ class User2category extends CActiveRecord
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             ['uId, cId', 'safe', 'on' => 'search'],
-        ];
-    }
-
-    /**
-     * @return array relational rules
-     */
-    public function relations()
-    {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return [
         ];
     }
 

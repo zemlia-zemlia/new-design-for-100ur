@@ -4,6 +4,8 @@
  * Класс для работы с Яндекс кассой
  */
 
+use App\models\Question;
+
 class YandexKassa
 {
     // параметры, полученные POST запросом от Яндекс кассы

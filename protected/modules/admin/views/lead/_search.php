@@ -1,5 +1,8 @@
 <?php
 /* @var $this LeadController */
+
+use App\models\Lead;
+
 /* @var $model Lead */
 /* @var $form CActiveForm */
 ?>

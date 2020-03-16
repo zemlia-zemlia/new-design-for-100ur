@@ -1,5 +1,9 @@
 <?php
 
+use App\models\Answer;
+use App\models\Question;
+use App\models\User;
+
 class AnswerController extends Controller
 {
     public $layout = '//admin/main';
@@ -73,8 +77,8 @@ class AnswerController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Answer'])) {
-            $model->attributes = $_POST['Answer'];
+        if (isset($_POST['App\models\Answer'])) {
+            $model->attributes = $_POST['App\models\Answer'];
 
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id, 'question_updated' => 'yes']);
@@ -118,7 +122,7 @@ class AnswerController extends Controller
             $criteria->with = ['question', 'transaction'];
         }
 
-        $dataProvider = new CActiveDataProvider('Answer', [
+        $dataProvider = new CActiveDataProvider('App\models\Answer', [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 20,

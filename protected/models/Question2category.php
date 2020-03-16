@@ -1,5 +1,12 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Yii;
+
 /**
  * Модель для работы со связью вопросов и категорий вопросов.
  *
@@ -34,22 +41,11 @@ class Question2category extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return [
-                ['qId, cId', 'required'],
-                ['qId, cId', 'numerical', 'integerOnly' => true],
-                // The following rule is used by search().
-                // @todo Please remove those attributes that should not be searched.
-                ['qId, cId', 'safe', 'on' => 'search'],
-        ];
-    }
-
-    /**
-     * @return array relational rules
-     */
-    public function relations()
-    {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return [
+            ['qId, cId', 'required'],
+            ['qId, cId', 'numerical', 'integerOnly' => true],
+            // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
+            ['qId, cId', 'safe', 'on' => 'search'],
         ];
     }
 
@@ -86,7 +82,7 @@ class Question2category extends CActiveRecord
         $criteria->compare('cId', $this->cId);
 
         return new CActiveDataProvider($this, [
-                'criteria' => $criteria,
+            'criteria' => $criteria,
         ]);
     }
 

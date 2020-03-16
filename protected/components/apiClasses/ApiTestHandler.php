@@ -1,5 +1,6 @@
 <?php
 
+use App\models\Lead;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 

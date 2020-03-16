@@ -1,5 +1,7 @@
 <?php
 
+use App\models\YaPayConfirmRequest;
+
 class YandexPaymentFactory
 {
     private $entityId;

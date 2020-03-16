@@ -1,6 +1,11 @@
 <?php
 
 
+use App\models\Question;
+use App\models\Question2category;
+use App\models\QuestionCategory;
+use App\models\Town;
+use App\models\User;
 use App\Repositories\QuestionRepository;
 
 class QuestionController extends Controller
@@ -61,7 +66,7 @@ class QuestionController extends Controller
         $criteria->order = 't.id DESC';
         $criteria->addColumnCondition(['questionId' => $model->id]);
 
-        $answersDataProvider = new CActiveDataProvider('Answer', [
+        $answersDataProvider = new CActiveDataProvider('App\models\Answer', [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 20,
@@ -100,7 +105,7 @@ class QuestionController extends Controller
                   // если не указана категория поста
                   $q2cat = new Question2category();
                   $q2cat->qId = $model->id;
-                  $q2cat->cId = QuestionCategory::NO_CATEGORY;
+                  $q2cat->cId = App\models\QuestionCategory::NO_CATEGORY;
                   if($q2cat->save());
                   } */
                 $this->redirect(['view', 'id' => $model->id]);
@@ -160,7 +165,7 @@ class QuestionController extends Controller
                 } /* else {
                   $q2cat = new Question2category();
                   $q2cat->qId = $model->id;
-                  $q2cat->cId = QuestionCategory::NO_CATEGORY;
+                  $q2cat->cId = App\models\QuestionCategory::NO_CATEGORY;
                   if($q2cat->save());
                   } */
 

@@ -1,5 +1,15 @@
 <?php
 
+namespace App\models;
+
+use CHttpException;
+use CModel;
+use Exception;
+use LoggerFactory;
+use UloginUserIdentity;
+use UserBannedException;
+use Yii;
+
 class UloginModel extends CModel
 {
     public $identity;

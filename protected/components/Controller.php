@@ -1,6 +1,7 @@
 <?php
 
 use App\helpers\GeoHelper;
+use App\models\User;
 
 /**
  * Кастомизированный класс контроллера.

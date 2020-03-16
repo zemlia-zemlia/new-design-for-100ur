@@ -2,12 +2,12 @@
 
 namespace App\Repositories;
 
-use Campaign;
+use App\models\Campaign;
 use CException;
-use Lead;
+use App\models\Lead;
 use MoneyFormat;
-use Region;
-use User;
+use App\models\Region;
+use App\models\User;
 use Yii;
 
 class CampaignRepository

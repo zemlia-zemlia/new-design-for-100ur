@@ -1,5 +1,8 @@
 <?php
 /* @var $this PostController */
+
+use App\models\Post;
+
 /* @var $model Post */
 
 $this->setPageTitle('Редактирование поста ' . CHtml::encode($model->title) . ' | Публикации' . ' | ' . Yii::app()->name);

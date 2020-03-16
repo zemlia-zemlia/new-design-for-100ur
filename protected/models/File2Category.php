@@ -1,5 +1,11 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+
 /**
  * This is the model class for table "{{file2category}}".
  *
@@ -10,7 +16,7 @@
  * @property int $category_id
  *
  * The followings are the available model relations:
- * @property Docs         $file
+ * @property Docs $file
  * @property FileCategory $category
  */
 class File2Category extends CActiveRecord
@@ -44,11 +50,9 @@ class File2Category extends CActiveRecord
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'file' => [self::BELONGS_TO, 'Docs', 'file_id'],
-            'category' => [self::BELONGS_TO, 'FileCategory', 'category_id'],
+            'file' => [self::BELONGS_TO, Docs::class, 'file_id'],
+            'category' => [self::BELONGS_TO, FileCategory::class, 'category_id'],
         ];
     }
 

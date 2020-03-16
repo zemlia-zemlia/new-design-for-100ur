@@ -1,5 +1,8 @@
 <?php
 /* @var $this CountryController */
+
+use App\models\Country;
+
 /* @var $model Country */
 
 $this->breadcrumbs = [
@@ -8,11 +11,11 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'List Country', 'url' => ['index']],
-    ['label' => 'Create Country', 'url' => ['create']],
-    ['label' => 'Update Country', 'url' => ['update', 'id' => $model->id]],
-    ['label' => 'Delete Country', 'url' => '#', 'linkOptions' => ['submit' => ['delete', 'id' => $model->id], 'confirm' => 'Are you sure you want to delete this item?']],
-    ['label' => 'Manage Country', 'url' => ['admin']],
+    ['label' => 'List App\models\Country', 'url' => ['index']],
+    ['label' => 'Create App\models\Country', 'url' => ['create']],
+    ['label' => 'Update App\models\Country', 'url' => ['update', 'id' => $model->id]],
+    ['label' => 'Delete App\models\Country', 'url' => '#', 'linkOptions' => ['submit' => ['delete', 'id' => $model->id], 'confirm' => 'Are you sure you want to delete this item?']],
+    ['label' => 'Manage App\models\Country', 'url' => ['admin']],
 ];
 ?>
 

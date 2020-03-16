@@ -1,6 +1,8 @@
 <?php
 
 use App\helpers\PhoneHelper;
+use App\models\Lead;
+use App\models\Leadsource;
 
 class LeadController extends Controller
 {
@@ -26,7 +28,7 @@ class LeadController extends Controller
         $criteria->order = 't.id DESC';
         $criteria->addInCondition('sourceId', $mySourcesIds);
 
-        $dataProvider = new CActiveDataProvider('Lead', [
+        $dataProvider = new CActiveDataProvider('App\models\Lead', [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 50,
@@ -72,8 +74,8 @@ class LeadController extends Controller
             $model->sourceId = (int) $_GET['sourceId'];
         }
 
-        if (isset($_POST['Lead'])) {
-            $model->attributes = $_POST['Lead'];
+        if (isset($_POST['App\models\Lead'])) {
+            $model->attributes = $_POST['App\models\Lead'];
             $model->phone = PhoneHelper::normalizePhone($model->phone);
 
             // посчитаем цену покупки лида, исходя из города и региона

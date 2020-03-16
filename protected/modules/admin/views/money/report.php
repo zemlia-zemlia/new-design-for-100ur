@@ -1,5 +1,8 @@
 <?php
 /* @var $this MoneyController */
+
+use App\models\Money;
+
 $this->setPageTitle('Финансовый отчет за период. ' . Yii::app()->name);
 
 ?>

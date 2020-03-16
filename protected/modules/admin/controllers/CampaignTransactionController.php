@@ -1,5 +1,8 @@
 <?php
 
+use App\models\TransactionCampaign;
+use App\models\UserStatusRequest;
+
 class CampaignTransactionController extends Controller
 {
     public $layout = '//admin/main';
@@ -72,7 +75,7 @@ class CampaignTransactionController extends Controller
         $criteria->addCondition('sum<0');
         $criteria->addCondition(['type =' . TransactionCampaign::TYPE_JURIST_MONEYOUT]);
 
-        $dataProvider = new CActiveDataProvider('TransactionCampaign', [
+        $dataProvider = new CActiveDataProvider('App\models\TransactionCampaign', [
             'criteria' => $criteria,
         ]);
 

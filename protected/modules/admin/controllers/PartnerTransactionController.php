@@ -1,5 +1,9 @@
 <?php
 
+use App\models\Money;
+use App\models\PartnerTransaction;
+use App\models\UserStatusRequest;
+
 class PartnerTransactionController extends Controller
 {
     public $layout = '//admin/main';
@@ -72,7 +76,7 @@ class PartnerTransactionController extends Controller
         $criteria->addCondition('sum<0');
         //$criteria->with = array('partner');
 
-        $dataProvider = new CActiveDataProvider('PartnerTransaction', [
+        $dataProvider = new CActiveDataProvider('App\models\PartnerTransaction', [
             'criteria' => $criteria,
         ]);
 

@@ -1,6 +1,9 @@
 <?php
 
 use App\helpers\DateHelper;
+use App\models\Comment;
+use App\models\Order;
+use App\models\User;
 
 $this->setPageTitle('Заказ документа #' . $order->id . '. ' . Yii::app()->name);
 

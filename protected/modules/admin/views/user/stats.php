@@ -1,4 +1,7 @@
 <?php
+
+use App\models\User;
+
 $this->pageTitle = 'Статистика пользователя ' . $model->name . ' ' . $model->lastName . '. ' . Yii::app()->name;
 
 $monthsArray = [

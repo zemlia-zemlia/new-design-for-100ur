@@ -1,5 +1,7 @@
 <?php
 
+use App\models\Lead;
+
 class LeadStatCommand extends CConsoleCommand
 {
     public $daysInterval = 10; // за сколько дней выбирать статистику

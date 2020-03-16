@@ -1,5 +1,16 @@
 <?php
 
+use App\models\Comment;
+use App\models\ContactForm;
+use App\models\Lead;
+use App\models\LoginForm;
+use App\models\Post;
+use App\models\Question;
+use App\models\QuestionCategory;
+use App\models\User;
+use App\models\UserActivity;
+use App\models\YuristRang;
+
 class SiteController extends Controller
 {
     public $layout = '//frontend/index';
@@ -103,8 +114,8 @@ class SiteController extends Controller
         $contactForm = new ContactForm();
         // в массиве $formResult будем хранить результат отправки формы
         $formResult = [];
-        if (isset($_POST['ContactForm'])) {
-            $contactForm->attributes = $_POST['ContactForm'];
+        if (isset($_POST['App\models\ContactForm'])) {
+            $contactForm->attributes = $_POST['App\models\ContactForm'];
             if ($contactForm->validate()) {
                 // Пытаемся отправить письмо
                 $mailer = new GTMail();
@@ -183,8 +194,8 @@ class SiteController extends Controller
         $this->layout = '//frontend/smart';
         $model = new LoginForm();
         // если использовался вход по мейлу и паролю
-        if (isset($_POST['LoginForm'])) {
-            $model->attributes = $_POST['LoginForm'];
+        if (isset($_POST['App\models\LoginForm'])) {
+            $model->attributes = $_POST['App\models\LoginForm'];
             // validate user input and redirect to the previous page if valid
             if ($model->validate() && $model->login()) {
                 LoggerFactory::getLogger('db')->log(Yii::app()->user->roleName . ' #' . Yii::app()->user->id . ' (' . Yii::app()->user->shortName . ') залогинился на сайте', 'User', Yii::app()->user->id);
@@ -279,8 +290,8 @@ class SiteController extends Controller
             }
         }
 
-        if (isset($_POST['Lead'])) {
-            $lead->attributes = $_POST['Lead'];
+        if (isset($_POST['App\models\Lead'])) {
+            $lead->attributes = $_POST['App\models\Lead'];
             if (!$lead->brakReason) {
                 $lead->addError('brakReason', 'Не указана причина отбраковки');
             }

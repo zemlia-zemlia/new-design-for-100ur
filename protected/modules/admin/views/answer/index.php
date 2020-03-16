@@ -1,5 +1,9 @@
 <?php
 /* @var $this QuestionController */
+
+use App\models\Answer;
+use App\models\User;
+
 /* @var $dataProvider CActiveDataProvider */
 
 $this->setPageTitle('Ответы.' . Yii::app()->name);

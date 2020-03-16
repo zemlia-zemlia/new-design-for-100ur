@@ -1,15 +1,21 @@
 <?php
 
+namespace App\models;
+
 use App\helpers\IpHelper;
+use CActiveRecord;
+use DateTime;
+use Exception;
+use Yii;
 
 class UserActivity extends CActiveRecord
 {
     /**
      * Модель для работы с пользователями.
      *
-     * @property int      $id
-     * @property int      $userId
-     * @property int      $action
+     * @property int $id
+     * @property int $userId
+     * @property int $action
      * @property DateTime $ts
      */
     const ACTION_LOGIN = 1;
@@ -107,10 +113,10 @@ class UserActivity extends CActiveRecord
     /**
      * @return array
      */
-    public function relations()
+    public function relations(): array
     {
         return [
-            'user' => [self::BELONGS_TO, 'User', 'userId'],
+            'user' => [self::BELONGS_TO, User::class, 'userId'],
         ];
     }
 
@@ -135,7 +141,7 @@ class UserActivity extends CActiveRecord
      * Логирует активность пользователя.
      *
      * @param User $user
-     * @param int  $actionId Код активности
+     * @param int $actionId Код активности
      *
      * @return bool Результат сохранения
      *

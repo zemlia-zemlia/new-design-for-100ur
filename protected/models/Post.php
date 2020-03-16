@@ -1,20 +1,28 @@
 <?php
 
+namespace App\models;
+
 use App\helpers\StringHelper;
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use CHtml;
+use CHttpException;
+use Yii;
 
 /**
  * Модель для работы с постами публикаций.
  *
  * The followings are the available columns in table '{{post}}':
  *
- * @property int    $id
- * @property int    $authorId
+ * @property int $id
+ * @property int $authorId
  * @property string $title
  * @property string $alias
  * @property string $text
  * @property string $preview
  * @property string $datetime
- * @property int    $rating
+ * @property int $rating
  * @property string $datePublication
  * @property string $photo
  * @property string $description
@@ -76,17 +84,15 @@ class Post extends CActiveRecord
     /**
      * @return array relational rules
      */
-    public function relations()
+    public function relations():array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'comments' => [self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_POST, 'order' => 'comments.root, comments.lft'],
-            'commentsCount' => [self::STAT, 'Comment', 'objectId', 'condition' => 'type=' . Comment::TYPE_POST . ' AND status!=' . Comment::STATUS_SPAM],
-            'author' => [self::BELONGS_TO, 'User', 'authorId'],
-            'ratingHistory' => [self::HAS_MANY, 'PostRatingHistory', 'postId'],
-            'viewsCount' => [self::HAS_ONE, 'Postviews', 'postId'],
-            'categories' => [self::MANY_MANY, 'Postcategory', '{{post2cat}}(postId, catId)'],
+            'comments' => [self::HAS_MANY, Comment::class, 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_POST, 'order' => 'comments.root, comments.lft'],
+            'commentsCount' => [self::STAT, Comment::class, 'objectId', 'condition' => 'type=' . Comment::TYPE_POST . ' AND status!=' . Comment::STATUS_SPAM],
+            'author' => [self::BELONGS_TO, User::class, 'authorId'],
+            'ratingHistory' => [self::HAS_MANY, PostRatingHistory::class, 'postId'],
+            'viewsCount' => [self::HAS_ONE, Postviews::class, 'postId'],
+            'categories' => [self::MANY_MANY, Postcategory::class, '{{post2cat}}(postId, catId)'],
         ];
     }
 
@@ -168,9 +174,9 @@ class Post extends CActiveRecord
     /**
      *  метод возвращает массив похожих постов.
      *
+     * @return array массив похожих постов
      * @todo необходимо продумать алгоритм и реализацию выборки
      *
-     * @return array массив похожих постов
      */
     public function getRelatedPosts()
     {
@@ -225,7 +231,7 @@ class Post extends CActiveRecord
             ->order('p.rating DESC')
             ->limit(10);
         if (null !== $categoryId) {
-            $popularPostsCommand->where('p2c.catId = :catId', [':catId' => (int) $categoryId]);
+            $popularPostsCommand->where('p2c.catId = :catId', [':catId' => (int)$categoryId]);
         }
         $popularPostsRaw = $popularPostsCommand->queryAll();
 
@@ -245,10 +251,10 @@ class Post extends CActiveRecord
      * статический метод, возвращающий массив последних постов (объекты класса Post)
      * если указана категория $categoryId, поиск ведется в ней.
      *
-     * @param int    $categoryId   id категории
-     * @param int    $number       лимит выборки
-     * @param string $order        порядок выборки
-     * @param int    $intervalDays за какое количество дней в прошлом искать
+     * @param int $categoryId id категории
+     * @param int $number лимит выборки
+     * @param string $order порядок выборки
+     * @param int $intervalDays за какое количество дней в прошлом искать
      *
      * @return array массив последних постов
      */
@@ -271,8 +277,8 @@ class Post extends CActiveRecord
 
         // Если нужно показать половину свежих и половину популярных
         if ('fresh_views' == $order) {
-            $freshPostsCommand->limit((int) ($number / 2));
-            $recentPostsCommand->limit((int) ($number / 2));
+            $freshPostsCommand->limit((int)($number / 2));
+            $recentPostsCommand->limit((int)($number / 2));
 
             $freshPostsCommand->order('id DESC');
             $freshPosts = $freshPostsCommand->queryAll();
@@ -293,7 +299,7 @@ class Post extends CActiveRecord
 
         if (null !== $categoryId) {
             $recentPostsCommand->join('{{post2cat}} p2c', 'p.id = p2c.postId');
-            $recentPostsCommand->where('p2c.catId = :catId', [':catId' => (int) $categoryId]);
+            $recentPostsCommand->where('p2c.catId = :catId', [':catId' => (int)$categoryId]);
         }
         $recentPostsRaw = $recentPostsCommand->queryAll();
         $recentPostsRaw = array_merge($freshPosts, $recentPostsRaw); // подмешиваем свежие посты
@@ -315,7 +321,7 @@ class Post extends CActiveRecord
 
         $ratingLog = new PostRatingHistory();
         $ratingLog->postId = $this->id;
-        $ratingLog->delta = (int) $delta;
+        $ratingLog->delta = (int)$delta;
         $ratingLog->userId = Yii::app()->user->id;
 
         if ($ratingLog->save()) {

@@ -4,6 +4,10 @@
  * команда ищет вопросы, подходящие к категориям по ключевым словам и создает
  * связки вопрос-категория
  */
+
+use App\models\Question;
+use App\models\QuestionCategory;
+
 class SetCategoriesCommand extends CConsoleCommand
 {
     public $keys2categories;

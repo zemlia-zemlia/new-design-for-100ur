@@ -1,5 +1,8 @@
 <?php
 
+use App\models\UserFile;
+use App\models\UserStatusRequest;
+
 class UserStatusRequestController extends Controller
 {
     /**
@@ -63,8 +66,8 @@ class UserStatusRequestController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['UserStatusRequest'])) {
-            $model->attributes = $_POST['UserStatusRequest'];
+        if (isset($_POST['App\models\UserStatusRequest'])) {
+            $model->attributes = $_POST['App\models\UserStatusRequest'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -89,8 +92,8 @@ class UserStatusRequestController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['UserStatusRequest'])) {
-            $model->attributes = $_POST['UserStatusRequest'];
+        if (isset($_POST['App\models\UserStatusRequest'])) {
+            $model->attributes = $_POST['App\models\UserStatusRequest'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -122,7 +125,7 @@ class UserStatusRequestController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('UserStatusRequest', [
+        $dataProvider = new CActiveDataProvider('App\models\UserStatusRequest', [
             'criteria' => [
                 'order' => 'id DESC',
             ],
@@ -140,8 +143,8 @@ class UserStatusRequestController extends Controller
     {
         $model = new UserStatusRequest('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['UserStatusRequest'])) {
-            $model->attributes = $_GET['UserStatusRequest'];
+        if (isset($_GET['App\models\UserStatusRequest'])) {
+            $model->attributes = $_GET['App\models\UserStatusRequest'];
         }
 
         $this->render('admin', [

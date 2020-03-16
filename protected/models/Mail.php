@@ -1,11 +1,20 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use CHtml;
+use GTMail;
+use Yii;
+
 /**
  * This is the model class for table "{{mail}}".
  *
  * The followings are the available columns in table '{{mail}}':
  *
- * @property int    $id
+ * @property int $id
  * @property string $createDate
  * @property string $subject
  * @property string $message
@@ -48,10 +57,7 @@ class Mail extends CActiveRecord
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -111,7 +117,7 @@ class Mail extends CActiveRecord
     /**
      * Отправка рассылки.
      *
-     * @param int  $limit   Сколько писем отправлять
+     * @param int $limit Сколько писем отправлять
      * @param bool $useSMTP Использовать ли SMTP сервер
      *
      * @return int Количество отправленных писем

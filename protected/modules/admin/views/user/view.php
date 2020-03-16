@@ -4,6 +4,8 @@
 use App\helpers\DateHelper;
 use App\helpers\NumbersHelper;
 use App\helpers\StringHelper;
+use App\models\Comment;
+use App\models\User;
 use DateHelper as DateHelperAlias;
 
 /* @var $model User */
@@ -139,7 +141,7 @@ $this->widget('zii.widgets.CBreadcrumbs', [
                         </div>
                         <div class="box-body">
                             <?php if (User::ROLE_JURIST == $model->role): ?>
-                                <?php $this->widget('application.widgets.UserActivity.UserActivityWidget', [
+                                <?php $this->widget('application.widgets.App\models\UserActivity.UserActivityWidget', [
                                     'userId' => $model->id,
                                 ]); ?>
                             <?php endif; ?>

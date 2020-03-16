@@ -2,11 +2,11 @@
 
 namespace App\notifiers;
 
-use Campaign;
+use App\models\Campaign;
 use CHtml;
 use GTMail;
-use Lead;
-use User;
+use App\models\Lead;
+use App\models\User;
 use Yii;
 
 /**

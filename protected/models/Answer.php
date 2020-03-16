@@ -1,18 +1,30 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use CHttpException;
+use CLogger;
+use DateTime;
+use Exception;
+use LoggerFactory;
+use Yii;
+
 /**
  * Класс для работы с ответами.
  *
  * The followings are the available columns in table '{{answer}}':
  *
- * @property int    $id
- * @property int    $questionId
+ * @property int $id
+ * @property int $questionId
  * @property string $answerText
  * @property string $videoLink
- * @property int    $authorId
- * @property int    $status
+ * @property int $authorId
+ * @property int $status
  * @property string $datetime
- * @property int    $transactionId
+ * @property int $transactionId
  *
  * @author Michael Krutikov m@mkrutikov.pro
  */
@@ -82,11 +94,11 @@ class Answer extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return [
-            'question' => [self::BELONGS_TO, 'Question', 'questionId'],
-            'author' => [self::BELONGS_TO, 'User', 'authorId'],
-            'karmaChanges' => [self::HAS_MANY, 'KarmaChange', 'answerId'],
-            'comments' => [self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_ANSWER, 'order' => 'comments.root, comments.lft'],
-            'transaction' => [self::BELONGS_TO, 'TransactionCampaign', 'transactionId'],
+            'question' => [self::BELONGS_TO, Question::class, 'questionId'],
+            'author' => [self::BELONGS_TO, User::class, 'authorId'],
+            'karmaChanges' => [self::HAS_MANY, KarmaChange::class, 'answerId'],
+            'comments' => [self::HAS_MANY, Comment::class, 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_ANSWER, 'order' => 'comments.root, comments.lft'],
+            'transaction' => [self::BELONGS_TO, TransactionCampaign::class, 'transactionId'],
         ];
     }
 
@@ -204,8 +216,8 @@ class Answer extends CActiveRecord
     /**
      * Валидатор, проверяющий текст ответа на наличие запрещенных слов.
      *
-     * @param type $attribute
-     * @param type $params
+     * @param string $attribute
+     * @param array $params
      */
     public function validateText($attribute, $params)
     {

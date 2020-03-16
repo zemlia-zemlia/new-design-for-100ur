@@ -1,5 +1,7 @@
 <?php
 
+use App\models\User;
+
 class YuristController extends Controller
 {
     public $layout = '//frontend/question';

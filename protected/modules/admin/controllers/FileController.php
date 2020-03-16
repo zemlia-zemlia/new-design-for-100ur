@@ -1,5 +1,8 @@
 <?php
 
+use App\models\File;
+use App\models\User;
+
 class FileController extends Controller
 {
     /**

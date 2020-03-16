@@ -1,5 +1,9 @@
 <?php
 
+use App\models\Lead;
+use App\models\Leadsource;
+use App\models\User;
+
 class LeadsourceController extends Controller
 {
     public $layout = '//admin/main';
@@ -106,8 +110,8 @@ class LeadsourceController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Leadsource'])) {
-            $model->attributes = $_POST['Leadsource'];
+        if (isset($_POST['App\models\Leadsource'])) {
+            $model->attributes = $_POST['App\models\Leadsource'];
             if (User::ROLE_MANAGER == Yii::app()->user->role) {
                 $model->officeId = Yii::app()->user->officeId;
             }
@@ -138,8 +142,8 @@ class LeadsourceController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Leadsource'])) {
-            $model->attributes = $_POST['Leadsource'];
+        if (isset($_POST['App\models\Leadsource'])) {
+            $model->attributes = $_POST['App\models\Leadsource'];
 
             if (!$model->appId) {
                 $model->generateAppId();
@@ -194,7 +198,7 @@ class LeadsourceController extends Controller
         }
 
         $dataProvider = new CActiveDataProvider(
-            'Leadsource',
+            'App\models\Leadsource',
             [
             'criteria' => $criteria,
             'pagination' => [
@@ -213,8 +217,8 @@ class LeadsourceController extends Controller
     {
         $model = new Leadsource('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Leadsource'])) {
-            $model->attributes = $_GET['Leadsource'];
+        if (isset($_GET['App\models\Leadsource'])) {
+            $model->attributes = $_GET['App\models\Leadsource'];
         }
 
         $this->render('admin', [

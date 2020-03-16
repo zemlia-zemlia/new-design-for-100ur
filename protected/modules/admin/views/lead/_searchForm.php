@@ -1,5 +1,11 @@
     <div class="row">
         <?php
+
+        use App\models\Lead;
+        use App\models\Leadsource;
+        use App\models\Region;
+        use App\models\Town;
+
         $form = $this->beginWidget('CActiveForm', [
             'id' => 'lead-search-form',
             'method' => 'GET',
@@ -19,7 +25,7 @@
                 $this->widget(
             'zii.widgets.jui.CJuiDatePicker',
             [
-                        'name' => 'Lead[date1]',
+                        'name' => 'App\models\Lead[date1]',
                         'value' => $model['date1'],
                         'language' => 'ru',
                         'options' => ['dateFormat' => 'dd-mm-yy',
@@ -43,7 +49,7 @@
                 $this->widget(
                     'zii.widgets.jui.CJuiDatePicker',
                     [
-                        'name' => 'Lead[date2]',
+                        'name' => 'App\models\Lead[date2]',
                         'value' => $model['date2'],
                         'language' => 'ru',
                         'options' => ['dateFormat' => 'dd-mm-yy',

@@ -1,5 +1,8 @@
 <?php
 /* @var $this MoneyController */
+
+use App\models\PartnerTransaction;
+
 /* @var $dataProvider CActiveDataProvider */
 $this->setPageTitle('Касса. ' . Yii::app()->name);
 

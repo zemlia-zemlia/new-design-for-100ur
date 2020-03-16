@@ -1,5 +1,7 @@
 <?php
 
+use App\models\Country;
+
 class CountryController extends Controller
 {
     /**
@@ -69,8 +71,8 @@ class CountryController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Country'])) {
-            $model->attributes = $_POST['Country'];
+        if (isset($_POST['App\models\Country'])) {
+            $model->attributes = $_POST['App\models\Country'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -94,8 +96,8 @@ class CountryController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Country'])) {
-            $model->attributes = $_POST['Country'];
+        if (isset($_POST['App\models\Country'])) {
+            $model->attributes = $_POST['App\models\Country'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -139,8 +141,8 @@ class CountryController extends Controller
     {
         $model = new Country('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Country'])) {
-            $model->attributes = $_GET['Country'];
+        if (isset($_GET['App\models\Country'])) {
+            $model->attributes = $_GET['App\models\Country'];
         }
 
         $this->render('admin', [

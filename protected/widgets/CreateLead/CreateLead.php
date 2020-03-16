@@ -1,5 +1,7 @@
 <?php
 
+use App\models\Lead;
+
 class CreateLead extends CWidget
 {
     public $template = 'default'; // представление виджета по умолчанию

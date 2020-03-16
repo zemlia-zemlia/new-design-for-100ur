@@ -1,5 +1,8 @@
 <?php
 /* @var $this CategoryController */
+
+use App\models\Postcategory;
+
 /* @var $model Postcategory */
 /* @var $form CActiveForm */
 ?>

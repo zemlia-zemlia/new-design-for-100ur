@@ -3,6 +3,9 @@
 /*
  * публикация вопросов, готовых к публикации
  */
+
+use App\models\Question;
+
 class PublishQuestionsCommand extends CConsoleCommand
 {
     public function actionIndex()

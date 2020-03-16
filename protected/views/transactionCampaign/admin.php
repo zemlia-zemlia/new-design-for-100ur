@@ -1,5 +1,8 @@
 <?php
 /* @var $this TransactionCampaignController */
+
+use App\models\TransactionCampaign;
+
 /* @var $model TransactionCampaign */
 
 $this->breadcrumbs = [
@@ -8,8 +11,8 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'List TransactionCampaign', 'url' => ['index']],
-    ['label' => 'Create TransactionCampaign', 'url' => ['create']],
+    ['label' => 'List App\models\TransactionCampaign', 'url' => ['index']],
+    ['label' => 'Create App\models\TransactionCampaign', 'url' => ['create']],
 ];
 
 Yii::app()->clientScript->registerScript('search', "

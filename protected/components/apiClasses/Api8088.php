@@ -1,5 +1,7 @@
 <?php
 
+use App\models\Lead;
+
 /**
  * Класс для работы с API партнерки 8088.ru
  * Документация по API: https://partner.8088.ru/pub/send.txt.
@@ -39,8 +41,8 @@ class Api8088 implements ApiClassInterface
 
         $apiResponse = curl_exec($this->curl);
 
-        LoggerFactory::getLogger()->log('Отправляем лид #' . $lead->id . ' в партнерку 8088: ' . json_encode($data), 'Lead', $lead->id);
-        LoggerFactory::getLogger()->log('Ответ API 8088: ' . mb_strlen((string) $apiResponse) . ' символов', 'Lead', $lead->id);
+        LoggerFactory::getLogger()->log('Отправляем лид #' . $lead->id . ' в партнерку 8088: ' . json_encode($data), 'App\models\Lead', $lead->id);
+        LoggerFactory::getLogger()->log('Ответ API 8088: ' . mb_strlen((string) $apiResponse) . ' символов', 'App\models\Lead', $lead->id);
 
         curl_close($this->curl);
 
@@ -58,11 +60,11 @@ class Api8088 implements ApiClassInterface
     private function checkResponse($apiResponse, $lead)
     {
         if (!$apiResponse) {
-            LoggerFactory::getLogger()->log('Ошибка при отправке лида #' . $lead->id . ' в партнерку 8088', 'Lead', $lead->id);
+            LoggerFactory::getLogger()->log('Ошибка при отправке лида #' . $lead->id . ' в партнерку 8088', 'App\models\Lead', $lead->id);
 
             return false;
         } else {
-            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку 8088', 'Lead', $lead->id);
+            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку 8088', 'App\models\Lead', $lead->id);
 
             return true;
         }

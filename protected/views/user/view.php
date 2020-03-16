@@ -2,6 +2,7 @@
 /* @var $this UserController */
 
 use App\helpers\StringHelper;
+use App\models\User;
 
 /* @var $model User */
 

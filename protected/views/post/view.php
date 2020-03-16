@@ -3,6 +3,9 @@
 
 use App\helpers\DateHelper;
 use App\helpers\NumbersHelper;
+use App\models\Comment;
+use App\models\Post;
+use App\models\User;
 
 /* @var $model Post */
 $purifier = new Purifier();

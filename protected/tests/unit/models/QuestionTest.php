@@ -3,7 +3,7 @@
 namespace Tests\unit\models;
 
 use Codeception\Test\Unit;
-use Question;
+use App\models\Question;
 
 class QuestionTest extends Unit
 {

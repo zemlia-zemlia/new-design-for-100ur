@@ -1,5 +1,9 @@
 <?php
 /* @var $this QuestionController */
+
+use App\models\Question;
+use App\models\User;
+
 /* @var $model Question */
 
 $this->setPageTitle('Задать вопрос юристу бесплатно онлайн и без регистрации ' . Yii::app()->name);

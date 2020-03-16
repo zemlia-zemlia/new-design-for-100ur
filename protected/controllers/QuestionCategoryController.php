@@ -1,5 +1,8 @@
 <?php
 
+use App\models\Question;
+use App\models\QuestionCategory;
+
 class QuestionCategoryController extends Controller
 {
     public $layout = '//frontend/category';

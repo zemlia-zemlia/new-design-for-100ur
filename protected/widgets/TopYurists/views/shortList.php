@@ -1,6 +1,8 @@
 <?php
 
 use App\helpers\NumbersHelper;
+use App\models\User;
+use App\models\YuristSettings;
 
 $usersCount = 0;
 ?>

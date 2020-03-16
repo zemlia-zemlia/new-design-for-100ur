@@ -1,5 +1,8 @@
 <?php
 /* @var $this QuestionCategoryController */
+
+use App\models\QuestionCategory;
+
 /* @var $data QuestionCategory */
 ?>
 <?php //echo $index;?>

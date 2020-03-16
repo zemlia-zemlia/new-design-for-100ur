@@ -2,6 +2,12 @@
 
 use App\helpers\DateHelper;
 use App\helpers\StringHelper;
+use App\models\Campaign;
+use App\models\File;
+use App\models\Question;
+use App\models\QuestionCategory;
+use App\models\Town;
+use App\models\User;
 
 class QuestionCategoryController extends Controller
 {
@@ -93,8 +99,8 @@ class QuestionCategoryController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['QuestionCategory'])) {
-            $model->attributes = $_POST['QuestionCategory'];
+        if (isset($_POST['App\models\QuestionCategory'])) {
+            $model->attributes = $_POST['App\models\QuestionCategory'];
 
             // загрузка иконки
 //            $model->fileIcon = CUploadedFile::getInstance($model, 'fileIcon');
@@ -145,8 +151,8 @@ class QuestionCategoryController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['QuestionCategory'])) {
-            $model->attributes = $_POST['QuestionCategory'];
+        if (isset($_POST['App\models\QuestionCategory'])) {
+            $model->attributes = $_POST['App\models\QuestionCategory'];
             $now = new DateTime();
             $model->publish_date = (new DateTime($model->publish_date))->setTime($now->format('H'), $now->format('i'), $now->format('s'))->format('Y-m-d H:i:s');
 
@@ -335,8 +341,8 @@ class QuestionCategoryController extends Controller
     {
         $model = new QuestionCategory('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['QuestionCategory'])) {
-            $model->attributes = $_GET['QuestionCategory'];
+        if (isset($_GET['App\models\QuestionCategory'])) {
+            $model->attributes = $_GET['App\models\QuestionCategory'];
         }
 
         $this->render('admin', [

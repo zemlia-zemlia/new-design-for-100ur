@@ -2,6 +2,16 @@
 
 use App\helpers\DateHelper;
 use App\helpers\StringHelper;
+use App\models\Comment;
+use App\models\Lead;
+use App\models\Question;
+use App\models\QuestionCategory;
+use App\models\RestorePasswordForm;
+use App\models\Town;
+use App\models\User;
+use App\models\User2category;
+use App\models\UserFile;
+use App\models\YuristSettings;
 
 class UserController extends Controller
 {
@@ -87,7 +97,7 @@ class UserController extends Controller
         $commentModel = new Comment();
 
         if (User::ROLE_BUYER == $model->role) {
-            $leadSearchModel->attributes = $_GET['Lead'];
+            $leadSearchModel->attributes = $_GET['App\models\Lead'];
 
             // по умолчанию собираем статистику по проданным лидам за последние 30 дней
             $dateTo = ('' != $leadSearchModel->date2) ? DateHelper::invertDate($leadSearchModel->date2) : date('Y-m-d');
@@ -100,7 +110,7 @@ class UserController extends Controller
             $criteria->addColumnCondition(['partnerId' => $model->id]);
             $criteria->order = 'id DESC';
 
-            $partnerTransactionsDataProvider = new CActiveDataProvider('PartnerTransaction', [
+            $partnerTransactionsDataProvider = new CActiveDataProvider('App\models\PartnerTransaction', [
                 'criteria' => $criteria,
                 'pagination' => [
                     'pageSize' => 20,
@@ -116,7 +126,7 @@ class UserController extends Controller
             $leadsCriteria = new CDbCriteria();
             $leadsCriteria->order = 'id DESC';
             $leadsCriteria->addInCondition('sourceId', $mySourcesIds);
-            $leadsDataProvider = new CActiveDataProvider('Lead', [
+            $leadsDataProvider = new CActiveDataProvider('App\models\Lead', [
                 'criteria' => $leadsCriteria,
                 'pagination' => [
                     'pageSize' => 20,
@@ -234,8 +244,8 @@ class UserController extends Controller
                 }
 
                 // если мы добавили юриста
-                if (User::ROLE_JURIST == $model->role && isset($_POST['YuristSettings'])) {
-                    $yuristSettings->attributes = $_POST['YuristSettings'];
+                if (User::ROLE_JURIST == $model->role && isset($_POST['App\models\YuristSettings'])) {
+                    $yuristSettings->attributes = $_POST['App\models\YuristSettings'];
                     $yuristSettings->yuristId = $model->id;
                     $yuristSettings->save();
                 }
@@ -297,11 +307,11 @@ class UserController extends Controller
         if (isset($_POST['User'])) {
             // присваивание атрибутов пользователя
             $model->attributes = $_POST['User'];
-            $yuristSettings->attributes = $_POST['YuristSettings'];
+            $yuristSettings->attributes = $_POST['App\models\YuristSettings'];
 
             // если мы редактировали юриста
-            if (isset($_POST['YuristSettings'])) {
-                $yuristSettings->attributes = $_POST['YuristSettings'];
+            if (isset($_POST['App\models\YuristSettings'])) {
+                $yuristSettings->attributes = $_POST['App\models\YuristSettings'];
 
                 $yuristSettings->save();
             }
@@ -504,9 +514,9 @@ class UserController extends Controller
         // $model - модель с формой восстановления пароля
         $model = new RestorePasswordForm();
 
-        if (isset($_POST['RestorePasswordForm'])) {
+        if (isset($_POST['App\models\RestorePasswordForm'])) {
             // получили данные из формы восстановления пароля
-            $model->attributes = $_POST['RestorePasswordForm'];
+            $model->attributes = $_POST['App\models\RestorePasswordForm'];
             $email = CHtml::encode($model->email);
             // ищем пользователя по введенному Email, если не найден, получим NULL
             $user = User::model()->findByAttributes(['email' => $email]);

@@ -1,4 +1,7 @@
 <?php
+
+use App\models\Expence;
+
 /**
 * Управление информацией о расходах.
 */
@@ -15,7 +18,7 @@ class ExpenceController extends Controller
 
         $criteria->order = 'date DESC';
 
-        $dataProvider = new CActiveDataProvider('Expence', [
+        $dataProvider = new CActiveDataProvider('App\models\Expence', [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 50,
@@ -34,8 +37,8 @@ class ExpenceController extends Controller
         $model->type = Expence::TYPE_CALLS;
         $model->date = date('Y-m-d');
 
-        if (isset($_POST['Expence'])) {
-            $model->attributes = $_POST['Expence'];
+        if (isset($_POST['App\models\Expence'])) {
+            $model->attributes = $_POST['App\models\Expence'];
             $model->expences *= 100;
             try {
                 if ($model->save()) {
@@ -60,8 +63,8 @@ class ExpenceController extends Controller
             throw new CHttpException(404, 'Расход не найден');
         }
 
-        if (isset($_POST['Expence'])) {
-            $model->attributes = $_POST['Expence'];
+        if (isset($_POST['App\models\Expence'])) {
+            $model->attributes = $_POST['App\models\Expence'];
             $model->expences *= 100;
 
             try {

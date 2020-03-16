@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use CActiveDataProvider;
-use Campaign;
+use App\models\Campaign;
 use CDbCriteria;
 
 class BuyerRepository
@@ -23,7 +23,7 @@ class BuyerRepository
         $criteria->addColumnCondition(['buyerId' => $buyerId], 'AND', 'OR');
         $criteria->order = 'deliveryTime DESC';
 
-        $dataProvider = new CActiveDataProvider('Lead', [
+        $dataProvider = new CActiveDataProvider('App\models\Lead', [
             'criteria' => $criteria,
         ]);
 

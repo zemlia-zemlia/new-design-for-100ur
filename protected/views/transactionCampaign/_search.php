@@ -1,5 +1,8 @@
 <?php
 /* @var $this TransactionCampaignController */
+
+use App\models\TransactionCampaign;
+
 /* @var $model TransactionCampaign */
 /* @var $form CActiveForm */
 ?>

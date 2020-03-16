@@ -1,5 +1,8 @@
 <?php
 
+use App\models\User;
+use App\models\UserActivity;
+
 /**
  * Класс для работы с User identity, используется при аутентификации.
  */

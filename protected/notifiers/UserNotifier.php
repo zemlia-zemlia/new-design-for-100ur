@@ -2,13 +2,13 @@
 
 namespace App\notifiers;
 
-use Answer;
+use App\models\Answer;
 use CHtml;
-use Comment;
+use App\models\Comment;
 use GTMail;
 use MoneyFormat;
-use Question;
-use User;
+use App\models\Question;
+use App\models\User;
 use Yii;
 
 /**
@@ -20,7 +20,7 @@ class UserNotifier
     /** @var GTMail $mailer */
     private $mailer;
 
-    /** @var User $user */
+    /** @var \App\models\User $user */
     private $user;
 
     public function __construct(GTMail $mailer, User $user)
@@ -324,7 +324,7 @@ class UserNotifier
     /**
      * Отправка юристу уведомления о зачислении благодарности за консультацию.
      *
-     * @param Answer $answer
+     * @param \App\models\Answer $answer
      * @param int $yuristBonus В копейках
      *
      * @return bool

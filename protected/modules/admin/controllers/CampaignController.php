@@ -2,6 +2,12 @@
 
 use App\helpers\DateHelper;
 use App\helpers\StringHelper;
+use App\models\Campaign;
+use App\models\Lead;
+use App\models\Money;
+use App\models\Region;
+use App\models\TransactionCampaign;
+use App\models\User;
 
 class CampaignController extends Controller
 {
@@ -64,7 +70,7 @@ class CampaignController extends Controller
         $leadSearchModel = new Lead();
         $leadSearchModel->scenario = 'search';
 
-        $leadSearchModel->attributes = $_GET['Lead'];
+        $leadSearchModel->attributes = $_GET['App\models\Lead'];
 
         // по умолчанию собираем статистику по проданным лидам за последние 30 дней
         $dateTo = ('' != $leadSearchModel->date2) ? DateHelper::invertDate($leadSearchModel->date2) : date('Y-m-d');
@@ -76,7 +82,7 @@ class CampaignController extends Controller
         $leadsCriteria->addColumnCondition(['campaignId' => $model->id]);
         $leadsCriteria->order = 'id DESC';
         $leadsDataProvider = new CActiveDataProvider(
-            'Lead',
+            'App\models\Lead',
             [
                 'criteria' => $leadsCriteria,
             ]
@@ -108,8 +114,8 @@ class CampaignController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Campaign'])) {
-            $model->attributes = $_POST['Campaign'];
+        if (isset($_POST['App\models\Campaign'])) {
+            $model->attributes = $_POST['App\models\Campaign'];
             $model->buyerId = $buyerId;
             $model->price *= 100;
 
@@ -141,10 +147,10 @@ class CampaignController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Campaign'])) {
+        if (isset($_POST['App\models\Campaign'])) {
             $oldActivity = $model->active; // запомним статус активности кампании
 
-            $model->attributes = $_POST['Campaign'];
+            $model->attributes = $_POST['App\models\Campaign'];
             $model->price *= 100;
 
             $buyer = $model->buyer; // покупатель
@@ -360,8 +366,8 @@ class CampaignController extends Controller
     {
         $model = new Campaign('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Campaign'])) {
-            $model->attributes = $_GET['Campaign'];
+        if (isset($_GET['App\models\Campaign'])) {
+            $model->attributes = $_GET['App\models\Campaign'];
         }
 
         $this->render('admin', [

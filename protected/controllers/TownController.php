@@ -1,5 +1,10 @@
 <?php
 
+use App\models\Question;
+use App\models\QuestionCategory;
+use App\models\Town;
+use App\models\User;
+
 class TownController extends Controller
 {
     public $layout = '//frontend/question';

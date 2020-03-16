@@ -1,6 +1,8 @@
 <?php
 
 use App\helpers\PhoneHelper;
+use App\models\Lead;
+use App\models\ParsedEmail;
 
 /**
  * абстрактный класс парсинга лидов из почты.
@@ -12,7 +14,7 @@ abstract class EmailParser
     protected $_debugMode = false;
     protected $_accessConfig;
     protected $_leadSourceIds = [];
-    protected $_messages = []; // массив объектов ParsedEmail
+    protected $_messages = []; // массив объектов App\models\ParsedEmail
 
     /**
      * Загружает настройки из конфиг файлов с параметрами доступа к ящику и списком папок для парсинга.
@@ -67,7 +69,7 @@ abstract class EmailParser
      *
      * @throws CException
      *
-     * @return array Массив объектов ParsedEmail
+     * @return array Массив объектов App\models\ParsedEmail
      */
     protected function getMessagesFromFolder($folderName, $period = 2)
     {

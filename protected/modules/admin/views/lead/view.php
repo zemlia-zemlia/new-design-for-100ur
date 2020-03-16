@@ -2,6 +2,8 @@
 /* @var $this ContactController */
 
 use App\helpers\DateHelper;
+use App\models\Lead;
+use App\models\User;
 
 /* @var $model Contact */
 
@@ -112,7 +114,7 @@ $this->widget('zii.widgets.CBreadcrumbs', [
                 <?php
                 // выводим виджет с последними записями лога
                 $this->widget('application.widgets.LogReader.LogReaderWidget', [
-                    'class' => 'Lead',
+                    'class' => 'App\models\Lead',
                     'subjectId' => $model->id,
                 ]);
                 ?>

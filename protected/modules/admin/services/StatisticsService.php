@@ -1,6 +1,9 @@
 <?php
 
 use App\helpers\DateHelper;
+use App\models\Answer;
+use App\models\Question;
+use App\models\User;
 
 /**
  * Класс для получения различных статистик

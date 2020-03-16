@@ -1,20 +1,26 @@
 <?php
 
+namespace App\models;
+
 use App\helpers\DateHelper;
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Yii;
 
 /**
  * Модель для работы с записями кассы.
  *
  * Поля, доступные в таблице '{{money}}':
  *
- * @property int    $id
- * @property int    $accountId
+ * @property int $id
+ * @property int $accountId
  * @property string $datetime
- * @property int    $type
+ * @property int $type
  * @property string $value
  * @property string $comment
- * @property int    $direction
- * @property int    $isInternal
+ * @property int $direction
+ * @property int $isInternal
  */
 class Money extends CActiveRecord
 {
@@ -58,17 +64,6 @@ class Money extends CActiveRecord
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             ['id, accountId, datetime, type, value, comment, direction', 'safe', 'on' => 'search'],
-        ];
-    }
-
-    /**
-     * @return array relational rules
-     */
-    public function relations()
-    {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return [
         ];
     }
 
@@ -237,10 +232,10 @@ class Money extends CActiveRecord
         $criteria->order = 'datetime DESC, id DESC';
 
         return new CActiveDataProvider($this, [
-                'criteria' => $criteria,
-                'pagination' => [
-                        'pageSize' => 20,
-                    ],
+            'criteria' => $criteria,
+            'pagination' => [
+                'pageSize' => 20,
+            ],
         ]);
     }
 
@@ -252,8 +247,8 @@ class Money extends CActiveRecord
     public function getReportSet()
     {
         $command = Yii::app()->db->createCommand()
-        ->select('*')
-        ->from('{{money}}');
+            ->select('*')
+            ->from('{{money}}');
 
         if ($this->date1) {
             $command->andWhere('`datetime`>=:date1', [':date1' => DateHelper::invertDate($this->date1)]);

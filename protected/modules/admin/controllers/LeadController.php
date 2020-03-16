@@ -2,6 +2,15 @@
 
 use App\helpers\PhoneHelper;
 use App\helpers\StringHelper;
+use App\models\Campaign;
+use App\models\Expence;
+use App\models\Lead;
+use App\models\Lead2Category;
+use App\models\Money;
+use App\models\Question;
+use App\models\QuestionCategory;
+use App\models\TransactionCampaign;
+use App\models\User;
 
 class LeadController extends Controller
 {
@@ -84,8 +93,8 @@ class LeadController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Lead'])) {
-            $model->attributes = $_POST['Lead'];
+        if (isset($_POST['App\models\Lead'])) {
+            $model->attributes = $_POST['App\models\Lead'];
             $model->phone = PhoneHelper::normalizePhone($model->phone);
             $model->buyPrice *= 100;
 
@@ -148,8 +157,8 @@ class LeadController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Lead'])) {
-            $model->attributes = $_POST['Lead'];
+        if (isset($_POST['App\models\Lead'])) {
+            $model->attributes = $_POST['App\models\Lead'];
             $model->phone = PhoneHelper::normalizePhone($model->phone);
             $model->buyPrice *= 100;
 
@@ -211,17 +220,17 @@ class LeadController extends Controller
             $criteria->addCondition('campaignId IS NOT NULL');
         }
 
-        if (isset($_GET['Lead'])) {
+        if (isset($_GET['App\models\Lead'])) {
             // если используется форма поиска по контактам
-            $searchModel->attributes = $_GET['Lead'];
+            $searchModel->attributes = $_GET['App\models\Lead'];
             $dataProvider = $searchModel->search();
         } else {
             // если форма не использовалась
-            $dataProvider = new CActiveDataProvider('Lead', [
+            $dataProvider = new CActiveDataProvider('App\models\Lead', [
                 'criteria' => $criteria,
                 'pagination' => [
                     'pageSize' => 50,
-                    'params' => $_GET['Lead'],
+                    'params' => $_GET['App\models\Lead'],
                 ],
             ]);
         }
@@ -381,7 +390,7 @@ class LeadController extends Controller
         $lead = Lead::model()->findByPk($leadId);
 
         if (!$lead) {
-            echo json_encode(['code' => 404, 'message' => 'Lead not found']);
+            echo json_encode(['code' => 404, 'message' => 'App\models\Lead not found']);
             Yii::app()->end();
         }
 

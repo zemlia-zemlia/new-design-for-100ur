@@ -1,5 +1,8 @@
 <?php
 /* @var $this UserController */
+
+use App\models\User;
+
 /* @var $model User */
 /* @var $form CActiveForm */
 Yii::app()->clientScript->registerScriptFile('/js/user.js');

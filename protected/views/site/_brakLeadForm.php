@@ -1,4 +1,6 @@
-<?php $form = $this->beginWidget('CActiveForm', [
+<?php use App\models\Lead;
+
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'brak-lead-form',
     'enableAjaxValidation' => false,
 ]); ?>

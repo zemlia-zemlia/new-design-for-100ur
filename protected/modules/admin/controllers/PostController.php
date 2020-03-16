@@ -2,6 +2,11 @@
 
 use App\helpers\DateHelper;
 use App\helpers\StringHelper;
+use App\models\Comment;
+use App\models\Post;
+use App\models\Postcategory;
+use App\models\PostRatingHistory;
+use App\models\User;
 
 class PostController extends Controller
 {

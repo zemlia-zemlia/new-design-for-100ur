@@ -3,6 +3,8 @@
 
 use App\helpers\DateHelper;
 use App\helpers\StringHelper;
+use App\models\Question;
+use App\models\User;
 
 /* @var $model Question */
 

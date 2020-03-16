@@ -1,5 +1,8 @@
 <?php
 
+use App\models\Comment;
+use App\models\User;
+
 class CommentController extends Controller
 {
     public $layout = '//admin/main';

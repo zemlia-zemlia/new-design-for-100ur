@@ -1,11 +1,18 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Yii;
+
 /**
  * Модель для работы с государствами.
  *
  * Поля из таблицы '{{country}}':
  *
- * @property int    $id
+ * @property int $id
  * @property string $name
  * @property string $alias
  */
@@ -48,11 +55,9 @@ class Country extends CActiveRecord
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-                    'towns' => [self::HAS_MANY, 'Town', 'countryId'],
-                    'regions' => [self::HAS_MANY, 'Region', 'countryId'],
+            'towns' => [self::HAS_MANY, Town::class, 'countryId'],
+            'regions' => [self::HAS_MANY, Region::class, 'countryId'],
         ];
     }
 

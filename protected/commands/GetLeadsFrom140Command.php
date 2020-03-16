@@ -4,6 +4,7 @@
  */
 
 use App\helpers\PhoneHelper;
+use App\models\Lead;
 
 class GetLeadsFrom140Command extends CConsoleCommand
 {

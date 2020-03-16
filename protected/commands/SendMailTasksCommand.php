@@ -1,4 +1,7 @@
 <?php
+
+use App\models\Mail;
+
 /**
  * Отправка рассылок.
  *

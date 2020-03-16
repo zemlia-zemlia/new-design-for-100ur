@@ -1,5 +1,8 @@
 <?php
 /** @var Answer $answer */
+
+use App\models\Answer;
+
 $donateSum = (isset($donateSum)) ? $donateSum : 190;
 $successUrl = (isset($successUrl)) ? urlencode($successUrl) : urlencode(Yii::app()->urlManager->baseUrl);
 ?>

@@ -1,11 +1,19 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use CHtml;
+use Yii;
+
 /**
  * Модель для работы с городами.
  *
  * Поля в таблице '{{town}}':
  *
- * @property int    $id
+ * @property int $id
  * @property string $name
  * @property string $description1
  * @property string $description2
@@ -13,11 +21,11 @@
  * @property string $seoDescription
  * @property string $seoKeywords
  * @property string $photo
- * @property int    $regionId
- * @property int    $countryId
- * @property int    $isCapital
- * @property int    $buyPrice
- * @property int    $sellPrice
+ * @property int $regionId
+ * @property int $countryId
+ * @property int $isCapital
+ * @property int $buyPrice
+ * @property int $sellPrice
  */
 class Town extends CActiveRecord
 {
@@ -78,16 +86,14 @@ class Town extends CActiveRecord
     /**
      * @return array relational rules
      */
-    public function relations()
+    public function relations(): array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'questions' => [self::HAS_MANY, 'Question', 'townId'],
-            'questionsCount' => [self::STAT, 'Question', 'townId'],
-            'yurists' => [self::HAS_MANY, 'User', 'townId', 'condition' => 'role=' . User::ROLE_JURIST],
-            'region' => [self::BELONGS_TO, 'Region', 'regionId'],
-            'country' => [self::BELONGS_TO, 'Country', 'countryId'],
+            'questions' => [self::HAS_MANY, Question::class, 'townId'],
+            'questionsCount' => [self::STAT, Question::class, 'townId'],
+            'yurists' => [self::HAS_MANY, User::class, 'townId', 'condition' => 'role=' . User::ROLE_JURIST],
+            'region' => [self::BELONGS_TO, Region::class, 'regionId'],
+            'country' => [self::BELONGS_TO, Country::class, 'countryId'],
         ];
     }
 
@@ -127,7 +133,7 @@ class Town extends CActiveRecord
      */
     public static function getName($id)
     {
-        $model = self::model()->with('region')->findByPk((int) $id);
+        $model = self::model()->with('region')->findByPk((int)$id);
 
         return $model->name . ' (' . $model->region->name . ')';
     }
@@ -135,18 +141,18 @@ class Town extends CActiveRecord
     /**
      *   возвращает массив городов, отсортированный по уменьшению населения.
      *
-     *   @return array массив. ключи - id городов, значения - названия + названия регионов
+     * @return array массив. ключи - id городов, значения - названия + названия регионов
      */
     public static function getTownsIdsNames()
     {
         $townsArray = [];
 
         $towns = Yii::app()->db->cache(300)->createCommand()
-                ->select('t.id, t.name, r.name regionName')
-                ->from('{{town}} t')
-                ->leftJoin('{{region}} r', 'r.id = t.regionId')
-                ->order('t.size DESC')
-                ->queryAll();
+            ->select('t.id, t.name, r.name regionName')
+            ->from('{{town}} t')
+            ->leftJoin('{{region}} r', 'r.id = t.regionId')
+            ->order('t.size DESC')
+            ->queryAll();
 
         $townsArray = [];
 
@@ -183,11 +189,11 @@ class Town extends CActiveRecord
         }
 
         return new CActiveDataProvider($this, [
-                    'criteria' => $criteria,
-                    'pagination' => [
-                        'pageSize' => 30,
-                    ],
-            ]);
+            'criteria' => $criteria,
+            'pagination' => [
+                'pageSize' => 30,
+            ],
+        ]);
     }
 
     /**
@@ -265,7 +271,7 @@ class Town extends CActiveRecord
      *
      * @param float $radius Радиус поиска (км)
      *
-     * @return array массив объектов Town
+     * @return array массив объектов App\models\Town
      */
     public function getCloseTowns($radius = 100, $limit = 10)
     {

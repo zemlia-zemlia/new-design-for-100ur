@@ -1,6 +1,7 @@
 <?php
 
 use App\helpers\PhoneHelper;
+use App\models\Lead;
 
 /**
  * собирает лиды из писем, расположенных в почтовом ящике admin@100yuristov.com

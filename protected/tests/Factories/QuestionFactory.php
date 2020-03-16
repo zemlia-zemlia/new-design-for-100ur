@@ -2,7 +2,7 @@
 
 namespace Tests\Factories;
 
-use Question;
+use App\models\Question;
 
 class QuestionFactory extends BaseFactory
 {

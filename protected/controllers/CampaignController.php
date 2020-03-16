@@ -1,5 +1,9 @@
 <?php
 
+use App\models\Campaign;
+use App\models\Region;
+use App\models\User;
+
 class CampaignController extends Controller
 {
     /**
@@ -79,8 +83,8 @@ class CampaignController extends Controller
 
         $model->active = Campaign::ACTIVE_MODERATION; // статус по умолчанию - На рассмотрении
 
-        if (isset($_POST['Campaign'])) {
-            $model->attributes = $_POST['Campaign'];
+        if (isset($_POST['App\models\Campaign'])) {
+            $model->attributes = $_POST['App\models\Campaign'];
             if (User::ROLE_ROOT != Yii::app()->user->role) {
                 $model->buyerId = Yii::app()->user->id;
             }
@@ -133,8 +137,8 @@ class CampaignController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Campaign'])) {
-            $model->attributes = $_POST['Campaign'];
+        if (isset($_POST['App\models\Campaign'])) {
+            $model->attributes = $_POST['App\models\Campaign'];
 
             if ($model->save()) {
                 $this->redirect(['/buyer/buyer/campaign', 'id' => $model->id]);
@@ -170,7 +174,7 @@ class CampaignController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('Campaign');
+        $dataProvider = new CActiveDataProvider('App\models\Campaign');
         $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
@@ -183,8 +187,8 @@ class CampaignController extends Controller
     {
         $model = new Campaign('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Campaign'])) {
-            $model->attributes = $_GET['Campaign'];
+        if (isset($_GET['App\models\Campaign'])) {
+            $model->attributes = $_GET['App\models\Campaign'];
         }
 
         $this->render('admin', [

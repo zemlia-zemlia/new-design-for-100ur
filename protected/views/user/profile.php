@@ -3,6 +3,8 @@
 
 use App\helpers\DateHelper;
 use App\helpers\StringHelper;
+use App\models\User;
+use App\models\YuristSettings;
 
 /* @var $model User */
 /**

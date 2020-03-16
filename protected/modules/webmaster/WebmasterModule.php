@@ -1,5 +1,7 @@
 <?php
 
+use App\models\User;
+
 class WebmasterModule extends CWebModule
 {
     public function beforeControllerAction($controller, $action)

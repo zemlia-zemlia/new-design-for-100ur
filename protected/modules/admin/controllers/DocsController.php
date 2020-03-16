@@ -1,5 +1,12 @@
 <?php
 
+use App\models\Docs;
+use App\models\File2Category;
+use App\models\File2Object;
+use App\models\FileCategory;
+use App\models\QuestionCategory;
+use App\models\User;
+
 class DocsController extends Controller
 {
     /**
@@ -65,8 +72,8 @@ class DocsController extends Controller
         $model->setScenario('pull');
         $category = FileCategory::model()->findByPk($id);
 
-        if (isset($_POST['Docs'])) {
-            $model->attributes = $_POST['Docs'];
+        if (isset($_POST['App\models\Docs'])) {
+            $model->attributes = $_POST['App\models\Docs'];
             $model->file = CUploadedFile::getInstance($model, 'file');
             if (!$model->file && $model->getIsNewRecord()) {
                 Yii::app()->user->setFlash('error', 'Ошибка');
@@ -112,8 +119,8 @@ class DocsController extends Controller
     {
         $model = $this->loadModel($id);
 
-        if (isset($_POST['Docs'])) {
-            $model->attributes = $_POST['Docs'];
+        if (isset($_POST['App\models\Docs'])) {
+            $model->attributes = $_POST['App\models\Docs'];
             $model->file = CUploadedFile::getInstance($model, 'file');
             if ($model->file) {
                 $name = $model->generateName();

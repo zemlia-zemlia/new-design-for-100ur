@@ -1,8 +1,13 @@
 <?php
 
+namespace App\models;
+
+use CFormModel;
+use Yii;
+
 /**
  * Класс для хранения и валидации данных, пришедших в запросе подтверждения оплаты от Яндекса
- * Class YaPayConfirmRequest.
+ * Class App\models\YaPayConfirmRequest.
  */
 class YaPayConfirmRequest extends CFormModel
 {

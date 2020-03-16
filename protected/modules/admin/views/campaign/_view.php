@@ -1,5 +1,8 @@
 <?php
 /* @var $this CampaignController */
+
+use App\models\User;
+
 /* @var $data User */
 ?>
 <?php if (true == $showInactive || $data->campaignsActiveCount > 0):?>

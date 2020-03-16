@@ -2,6 +2,7 @@
 /* @var $this CampaignController */
 
 use App\helpers\DateHelper;
+use App\models\Campaign;
 
 /* @var $model Campaign */
 

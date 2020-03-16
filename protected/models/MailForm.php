@@ -1,5 +1,12 @@
 <?php
 
+namespace App\models;
+
+use CFormModel;
+use CHtml;
+use GTMail;
+use Yii;
+
 /**
  * Класс почтовой рассылки.
  */

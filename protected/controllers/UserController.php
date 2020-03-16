@@ -1,6 +1,19 @@
 <?php
 
 use App\helpers\StringHelper;
+use App\models\Answer;
+use App\models\Comment;
+use App\models\LoginForm;
+use App\models\Question;
+use App\models\QuestionCategory;
+use App\models\RestorePasswordForm;
+use App\models\Town;
+use App\models\User;
+use App\models\User2category;
+use App\models\UserActivity;
+use App\models\UserFile;
+use App\models\YaPayConfirmRequest;
+use App\models\YuristSettings;
 use App\Repositories\QuestionRepository;
 
 class UserController extends Controller
@@ -42,7 +55,7 @@ class UserController extends Controller
             ['allow',
                 'actions' => ['feed'],
                 'users' => ['@'],
-                'expression' => 'Yii::app()->user->role == User::ROLE_JURIST',
+                'expression' => 'Yii::app()->user->role == App\models\User::ROLE_JURIST',
             ],
             ['deny', // deny all users
                 'users' => ['*'],
@@ -211,11 +224,11 @@ class UserController extends Controller
         if (isset($_POST['User'])) {
             // присваивание атрибутов пользователя
             $model->attributes = $_POST['User'];
-            $yuristSettings->attributes = $_POST['YuristSettings'];
+            $yuristSettings->attributes = $_POST['App\models\YuristSettings'];
 
             // если мы редактировали юриста
-            if (isset($_POST['YuristSettings'])) {
-                $yuristSettings->attributes = $_POST['YuristSettings'];
+            if (isset($_POST['App\models\YuristSettings'])) {
+                $yuristSettings->attributes = $_POST['App\models\YuristSettings'];
                 $yuristSettings->priceDoc *= 100;
                 $yuristSettings->priceConsult *= 100;
                 $yuristSettings->save();
@@ -458,9 +471,9 @@ class UserController extends Controller
         // $model - модель с формой восстановления пароля
         $model = new RestorePasswordForm();
 
-        if (isset($_POST['RestorePasswordForm'])) {
+        if (isset($_POST['App\models\RestorePasswordForm'])) {
             // получили данные из формы восстановления пароля
-            $model->attributes = $_POST['RestorePasswordForm'];
+            $model->attributes = $_POST['App\models\RestorePasswordForm'];
             $email = trim(strtolower(CHtml::encode($model->email)));
             // ищем пользователя по введенному Email, если не найден, получим NULL
             $user = User::model()->find('LOWER(email)=?', [$email]);
@@ -632,13 +645,13 @@ class UserController extends Controller
 
         // если не передан id ответа
         if (!$answerId) {
-            throw new CHttpException(400, 'Answer id not specified');
+            throw new CHttpException(400, 'App\models\Answer id not specified');
         }
 
         $answer = Answer::model()->findByPk($answerId);
 
         if (!$answer) {
-            throw new CHttpException(404, 'Answer not found');
+            throw new CHttpException(404, 'App\models\Answer not found');
         }
 
         // id пользователя, написавшего ответ

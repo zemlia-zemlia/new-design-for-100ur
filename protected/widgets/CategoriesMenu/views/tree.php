@@ -6,6 +6,7 @@
  */
 
 use App\helpers\StringHelper;
+use App\models\QuestionCategory;
 
 ?>
 <ul id="left-menu">

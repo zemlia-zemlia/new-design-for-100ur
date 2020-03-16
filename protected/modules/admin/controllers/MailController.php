@@ -1,5 +1,9 @@
 <?php
 
+use App\models\Mail;
+use App\models\MailForm;
+use App\models\User;
+
 /**
  * Раздел для работы с Email рассылками.
  */
@@ -43,8 +47,8 @@ class MailController extends Controller
     {
         $mailFormModel = new MailForm();
 
-        if (isset($_POST['MailForm'])) {
-            $mailFormModel->attributes = $_POST['MailForm'];
+        if (isset($_POST['App\models\MailForm'])) {
+            $mailFormModel->attributes = $_POST['App\models\MailForm'];
 
             $mailFormModel->validate();
             if ('' == $mailFormModel->recipientEmail && '' == $mailFormModel->roleId) {

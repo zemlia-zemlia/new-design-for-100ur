@@ -4,7 +4,7 @@ namespace Tests\unit\models;
 
 use Codeception\Test\Unit;
 use Tests\Factories\UserFactory;
-use User;
+use App\models\User;
 use App\notifiers\UserNotifier;
 use YurcrmClient\YurcrmClient;
 use YurcrmClient\YurcrmResponse;

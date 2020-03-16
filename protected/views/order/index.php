@@ -1,4 +1,7 @@
 <?php
+
+use App\models\Order;
+
 $this->setPageTitle('Заказы документов' . '. ' . Yii::app()->name);
 ?>
 

@@ -1,5 +1,8 @@
 <?php
 /* @var $this ContactController */
+
+use App\models\User;
+
 /* @var $dataProvider CActiveDataProvider */
 
 $this->pageTitle = 'Лиды. ' . Yii::app()->name;

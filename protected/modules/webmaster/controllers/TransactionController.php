@@ -1,5 +1,8 @@
 <?php
 
+use App\models\PartnerTransaction;
+use App\models\User;
+
 /**
  * Страницы раздела транзакций вебмастера.
  */
@@ -19,7 +22,7 @@ class TransactionController extends Controller
         $criteria->addColumnCondition(['partnerId' => Yii::app()->user->id, 'status' => PartnerTransaction::STATUS_COMPLETE]);
         $criteria->order = 'id DESC';
 
-        $dataProvider = new CActiveDataProvider('PartnerTransaction', [
+        $dataProvider = new CActiveDataProvider('App\models\PartnerTransaction', [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 50,
@@ -31,7 +34,7 @@ class TransactionController extends Controller
         $requestsCriteria->addCondition('sum<0');
         $requestsCriteria->order = 'id DESC';
 
-        $requestsDataProvider = new CActiveDataProvider('PartnerTransaction', [
+        $requestsDataProvider = new CActiveDataProvider('App\models\PartnerTransaction', [
             'criteria' => $requestsCriteria,
             'pagination' => [
                 'pageSize' => 10,
@@ -44,8 +47,8 @@ class TransactionController extends Controller
         $balance = $currentUser->calculateWebmasterBalance(30);
         $hold = $currentUser->calculateWebmasterHold(30);
 
-        if (isset($_POST['PartnerTransaction'])) {
-            $transaction->attributes = $_POST['PartnerTransaction'];
+        if (isset($_POST['App\models\PartnerTransaction'])) {
+            $transaction->attributes = $_POST['App\models\PartnerTransaction'];
             $transaction->partnerId = Yii::app()->user->id;
             $transaction->status = PartnerTransaction::STATUS_PENDING;
             $transaction->sum *= 100;

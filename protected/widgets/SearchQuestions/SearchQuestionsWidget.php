@@ -1,5 +1,9 @@
 <?php
 
+use App\models\Question;
+use App\models\QuestionSearch;
+use App\models\Town;
+
 class SearchQuestionsWidget extends CWidget
 {
     public $template = 'default'; // представление виджета по умолчанию

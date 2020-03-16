@@ -1,16 +1,22 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+
 /**
  * This is the model class for table "{{file_category}}".
  *
  * The followings are the available columns in table '{{file_category}}':
  *
- * @property int    $id
+ * @property int $id
  * @property string $name
- * @property int    $lft
- * @property int    $rgt
- * @property int    $root
- * @property int    $level
+ * @property int $lft
+ * @property int $rgt
+ * @property int $root
+ * @property int $level
  * @property string $description
  *
  * The followings are the available model relations:
@@ -63,11 +69,9 @@ class FileCategory extends CActiveRecord
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'file2categories' => [self::HAS_MANY, 'File2Category', 'category_id'],
-            'files' => [self::HAS_MANY, 'Docs', 'file_id', 'through' => 'file2categories'],
+            'file2categories' => [self::HAS_MANY, File2Category::class, 'category_id'],
+            'files' => [self::HAS_MANY, Docs::class, 'file_id', 'through' => 'file2categories'],
         ];
     }
 

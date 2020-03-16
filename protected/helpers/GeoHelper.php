@@ -5,7 +5,7 @@ namespace App\helpers;
 use PhoneHelper;
 use CHtml;
 use App\helpers\IpHelper;
-use Town;
+use App\models\Town;
 use Yii;
 
 class GeoHelper

@@ -2,6 +2,7 @@
 /* @var $this ContactController */
 
 use App\helpers\DateHelper;
+use App\models\User;
 
 /* @var $model Contact */
 

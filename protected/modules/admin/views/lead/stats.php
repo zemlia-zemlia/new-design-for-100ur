@@ -1,6 +1,7 @@
 <?php
 
 use App\helpers\DateHelper;
+use App\models\Campaign;
 
 $this->setPageTitle('Статистика продаж. ' . Yii::app()->name);
 

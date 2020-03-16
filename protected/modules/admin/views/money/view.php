@@ -2,6 +2,7 @@
 /* @var $this MoneyController */
 
 use App\helpers\DateHelper;
+use App\models\Money;
 
 /* @var $model Money */
 

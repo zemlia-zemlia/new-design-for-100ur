@@ -1,4 +1,6 @@
-<?php $form = $this->beginWidget('CActiveForm', [
+<?php use App\models\LoginForm;
+
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'login-form',
         'action' => Yii::app()->createUrl('site/login'),
     'enableAjaxValidation' => false,

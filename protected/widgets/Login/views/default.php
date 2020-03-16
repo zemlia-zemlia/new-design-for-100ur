@@ -1,4 +1,7 @@
-<?php if (Yii::app()->user->isGuest):?>
+<?php use App\models\LoginForm;
+use App\models\User;
+
+if (Yii::app()->user->isGuest):?>
 
 
         <?php $form = $this->beginWidget('CActiveForm', [

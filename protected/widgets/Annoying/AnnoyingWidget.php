@@ -1,4 +1,9 @@
 <?php
+
+use App\models\Campaign;
+use App\models\Region;
+use App\models\Town;
+
 /**
  * Виджет с номером телефона и завлекаловкой для юриста, вылезающий на краю экрана.
  */

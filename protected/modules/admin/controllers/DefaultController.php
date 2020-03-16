@@ -1,6 +1,8 @@
 <?php
 
 use App\helpers\DateHelper;
+use App\models\Lead;
+use App\models\Money;
 
 class DefaultController extends Controller
 {

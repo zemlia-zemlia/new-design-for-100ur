@@ -1,5 +1,8 @@
 <?php
 
+use App\models\Region;
+use App\models\User;
+
 class RegionController extends Controller
 {
     /**

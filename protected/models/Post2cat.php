@@ -1,5 +1,12 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Yii;
+
 /**
  * Модель для хранения связей между постами и категориями постов.
  *
@@ -46,23 +53,12 @@ class Post2cat extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return [
-                ['postId, catId', 'required'],
-                ['postId, catId', 'numerical', 'integerOnly' => true],
-                // The following rule is used by search().
-                // Please remove those attributes that should not be searched.
-                ['postId, catId', 'safe', 'on' => 'search'],
-            ];
-    }
-
-    /**
-     * @return array relational rules
-     */
-    public function relations()
-    {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return [
-            ];
+            ['postId, catId', 'required'],
+            ['postId, catId', 'numerical', 'integerOnly' => true],
+            // The following rule is used by search().
+            // Please remove those attributes that should not be searched.
+            ['postId, catId', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -71,9 +67,9 @@ class Post2cat extends CActiveRecord
     public function attributeLabels()
     {
         return [
-                    'postId' => 'Post',
-                    'catId' => 'Cat',
-            ];
+            'postId' => 'Post',
+            'catId' => 'Cat',
+        ];
     }
 
     /**
@@ -92,7 +88,7 @@ class Post2cat extends CActiveRecord
         $criteria->compare('catId', $this->catId);
 
         return new CActiveDataProvider($this, [
-                    'criteria' => $criteria,
-            ]);
+            'criteria' => $criteria,
+        ]);
     }
 }

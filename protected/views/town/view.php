@@ -1,5 +1,9 @@
 <?php
 /* @var $this TownController */
+
+use App\models\Town;
+use App\models\User;
+
 /* @var $model Town */
 
 $pageTitle = $model->createPageTitle();

@@ -1,5 +1,8 @@
 <?php
 /* @var $this CommentController */
+
+use App\models\Comment;
+
 /* @var $model Comment */
 $this->setPageTitle('Редактирование отзыва.' . Yii::app()->name);
 

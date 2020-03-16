@@ -1,5 +1,8 @@
 <?php
 /* @var $this OrderController */
+
+use App\models\Order;
+
 /* @var $model Order */
 /* @var $form CActiveForm */
 ?>

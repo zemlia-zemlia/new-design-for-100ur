@@ -1,4 +1,7 @@
 <?php
+
+use App\models\Leadsource;
+
 $sources = Leadsource::getSourcesByUser(Yii::app()->user->id); ?>
 
     <div class="">

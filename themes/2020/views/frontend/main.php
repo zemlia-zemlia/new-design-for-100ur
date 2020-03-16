@@ -1,7 +1,9 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+<title><?php use App\models\User;
+
+    echo CHtml::encode($this->pageTitle); ?></title>
 
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
