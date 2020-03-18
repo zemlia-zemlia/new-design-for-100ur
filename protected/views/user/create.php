@@ -43,4 +43,3 @@ $this->widget('zii.widgets.CBreadcrumbs', [
         ]); ?>
 
 </div>
-

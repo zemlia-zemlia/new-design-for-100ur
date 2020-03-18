@@ -43,6 +43,7 @@ $('#exampleModal').modal('show');
                 <?php echo $form->textField($model, 'name', ['size' => 60, 'maxlength' => 255, 'class' => 'form-control']); ?>
                 <?php echo $form->error($model, 'name'); ?>
             </div>
+
             <div class="form-group">
                 <?php echo $form->labelEx($model, 'description'); ?>
                 <?php echo $form->textArea($model, 'description', ['rows' => 6, 'class' => 'form-control']); ?>

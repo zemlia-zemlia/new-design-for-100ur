@@ -93,6 +93,14 @@ class QuestionCategoryController extends Controller
         if (isset($_POST['QuestionCategory'])) {
             $model->attributes = $_POST['QuestionCategory'];
 
+            // загрузка иконки
+//            $model->fileIcon = CUploadedFile::getInstance($model, 'fileIcon');
+//            if ($model->fileIcon){
+//                if (!$model->uploadIcon()){
+//                    $this->redirect(['update', 'id' => $model->id]);
+//                }
+//            }// раскоментировать, если необходимо и при создании категории грузить иконку.
+
             if ($model->parentId) {
                 $parent = QuestionCategory::model()->findByPk($model->parentId);
                 if (!$parent) {
@@ -159,6 +167,17 @@ class QuestionCategoryController extends Controller
                     ->save(Yii::getPathOfAlias('webroot') . QuestionCategory::IMAGES_DIRECTORY . '/' . $newFileName);
                 $model->image = $newFileName;
             }
+
+            // загрузка иконки
+            $model->fileIcon = CUploadedFile::getInstance($model, 'fileIcon');
+            if ($model->fileIcon){
+                if (!$model->uploadIcon()){
+                    $this->redirect(['update', 'id' => $model->id]);
+                }
+            }
+
+
+
 
             $attachment = CUploadedFile::getInstance($model, 'attachments');
 

@@ -109,6 +109,7 @@ Yii::app()->clientScript->registerLinkTag('canonical', null, 'https://' . $_SERV
         </div>
     </div>
 </div>
+<p class="text-center"><a class="yellow-button arrow" href="<?= Yii::app()->createUrl('/site/feedback'); ?>">Все отзывы наших клиентов</a></p>
 
 
 <div class="row">

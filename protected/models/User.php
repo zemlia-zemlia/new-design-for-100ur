@@ -596,6 +596,24 @@ class User extends CActiveRecord
     }
 
     /**
+     * Возвращает фамилию и имя  пользователя, или название компании
+     *
+     * @return string
+     */
+    public function getNameOrCompany()
+    {
+        if ($this->settings && $this->settings->status == YuristSettings::STATUS_COMPANY){
+            $name = $this->settings->companyName;
+        }
+        else {
+            $name = $this->name . ' ' . $this->name2 . ' ' . $this->lastName;
+        }
+
+
+        return $name;
+    }
+
+    /**
      * Переводит вопросы, автором которых является данный пользователь, из статуса "Новый"
      * в статус "Предварительно опубликован"
      * При этом, если у вопроса указан источник, создаем транзакции вебмастера.
