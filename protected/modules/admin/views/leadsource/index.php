@@ -23,7 +23,7 @@ $this->widget('zii.widgets.CBreadcrumbs', [
 
 
 <h3>Источники лидов.
-    <?php echo CHtml::encode($office->name); ?>
+
     <?php echo CHtml::link('Добавить новый', Yii::app()->createUrl('admin/leadsource/create'), ['class' => 'btn btn-primary']); ?>
 </h3>
 

@@ -78,6 +78,7 @@ class Leadsource extends CActiveRecord
         // class name for the relations automatically generated below.
         return [
             'user' => [self::BELONGS_TO, 'User', 'userId'],
+            'leads' => [self::HAS_MANY, 'Lead', 'sourceId'],
         ];
     }
 
@@ -237,4 +238,31 @@ class Leadsource extends CActiveRecord
 
         return $source;
     }
+
+    public static function getSourcesOrderByUser($active = false){
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'source';
+
+        $criteria->with = 'user';
+
+        $criteria->join = 'LEFT JOIN 100_lead as lead ON lead.sourceId = source.id';
+        $criteria->order = 'userId ASC';
+//        $criteria->addCondition('question_date  > NOW()');
+
+
+        $dataProvider = new CActiveDataProvider(
+            'Leadsource',
+            [
+                'criteria' => $criteria,
+                'pagination' => [
+                    'pageSize' => 50,
+                ], ]
+        );
+
+        return $dataProvider;
+
+    }
+
+
+
 }
