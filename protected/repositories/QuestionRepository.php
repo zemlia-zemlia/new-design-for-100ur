@@ -47,9 +47,11 @@ class QuestionRepository
             ->select('q.id id, q.publishDate date, q.title title')
             ->from('{{question}} q')
             ->leftJoin('{{answer}} a', 'q.id=a.questionId')
-            ->where('a.id IS NOT NULL AND q.status IN (:status1, :status2) AND a.authorId = :authorId', [
+            ->where('a.id IS NOT NULL AND q.status IN (:status1, :status2) AND a.authorId = :authorId AND a.status IN (:status3, :status4)', [
                 ':status1' => Question::STATUS_PUBLISHED,
                 ':status2' => Question::STATUS_CHECK,
+                ':status3' => Answer::STATUS_NEW,
+                ':status4' => Answer::STATUS_PUBLISHED,
                 ':authorId' => $user->id,])
             ->limit($this->limit)
             ->order('a.datetime DESC')
