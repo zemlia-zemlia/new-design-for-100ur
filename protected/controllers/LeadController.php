@@ -43,7 +43,7 @@ class LeadController extends Controller
      */
     public function actionIndex()
     {
-        $this->layout = (User::ROLE_BUYER == Yii::app()->user->role) ? '//lk/main' : '//frontend/question';
+        $this->layout = (User::ROLE_BUYER == Yii::app()->user->role) ? '//admin/main' : '//frontend/question';
 
         $criteria = new CDbCriteria();
         $showMy = false;
@@ -96,7 +96,7 @@ class LeadController extends Controller
      */
     public function actionView($id)
     {
-        $this->layout = (User::ROLE_BUYER == Yii::app()->user->role) ? '//lk/main' : '//frontend/question';
+        $this->layout = (User::ROLE_BUYER == Yii::app()->user->role) ? '//admin/main' : '//frontend/question';
 
         // если передан GET параметр autologin, попытаемся залогинить пользователя
         User::autologin($_GET);
