@@ -28,9 +28,9 @@ class SiteController extends Controller
     }
 
     /**
-         * Specifies the access control rules.
-         * This method is used by the 'accessControl' filter.
-         * @return array access control rules
+     * Specifies the access control rules.
+     * This method is used by the 'accessControl' filter.
+     * @return array access control rules
      */
     public function accessRules()
     {
@@ -65,8 +65,8 @@ class SiteController extends Controller
     }
 
     /**
-         * This is the action to handle external exceptions.
-         */
+     * This is the action to handle external exceptions.
+     */
     public function actionError()
     {
         $this->layout = '//frontend/smart';
@@ -181,7 +181,7 @@ class SiteController extends Controller
     }
 
     /**
-         * Страница с описанием работы для юриста.
+     * Страница с описанием работы для юриста.
      */
     public function actionYuristam()
     {
@@ -247,9 +247,9 @@ class SiteController extends Controller
     }
 
     /**
-         * отбраковка лида.
+     * отбраковка лида.
      *
-         * @param string $code секретный код, который позволяет 1 раз забраковать лида,
+     * @param string $code секретный код, который позволяет 1 раз забраковать лида,
      *                     перейдя по ссылке без авторизации
      *
      * @throws CHttpException
@@ -352,7 +352,7 @@ class SiteController extends Controller
     }
 
     /**
-         * Реферальная программа.
+     * Реферальная программа.
      */
     public function actionReferal()
     {
@@ -371,7 +371,7 @@ class SiteController extends Controller
     }
 
     /**
-         * Страница результат успешной смены пароля.
+     * Страница результат успешной смены пароля.
      */
     public function actionPasswordChanged()
     {
