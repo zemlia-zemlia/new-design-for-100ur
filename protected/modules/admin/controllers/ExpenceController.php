@@ -18,7 +18,7 @@ class ExpenceController extends Controller
 
         $criteria->order = 'date DESC';
 
-        $dataProvider = new CActiveDataProvider('App\models\Expence', [
+        $dataProvider = new CActiveDataProvider(Expence::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 50,

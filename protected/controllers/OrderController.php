@@ -73,7 +73,7 @@ class OrderController extends Controller
             $showMyOrders = false;
         }
 
-        $ordersDataProvider = new CActiveDataProvider('Order', [
+        $ordersDataProvider = new CActiveDataProvider(Order::class, [
             'criteria' => $ordersCriteria,
         ]);
 

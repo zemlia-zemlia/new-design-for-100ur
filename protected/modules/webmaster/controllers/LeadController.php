@@ -28,7 +28,7 @@ class LeadController extends Controller
         $criteria->order = 't.id DESC';
         $criteria->addInCondition('sourceId', $mySourcesIds);
 
-        $dataProvider = new CActiveDataProvider('App\models\Lead', [
+        $dataProvider = new CActiveDataProvider(Lead::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 50,

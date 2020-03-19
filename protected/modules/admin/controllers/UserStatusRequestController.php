@@ -125,7 +125,7 @@ class UserStatusRequestController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('App\models\UserStatusRequest', [
+        $dataProvider = new CActiveDataProvider(UserStatusRequest::class, [
             'criteria' => [
                 'order' => 'id DESC',
             ],

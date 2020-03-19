@@ -127,7 +127,7 @@ class OrderController extends Controller
         $ordersCriteria->order = 't.id DESC';
         $ordersCriteria->with = ['author', 'jurist', 'responsesCount'];
 
-        $ordersDataProvider = new CActiveDataProvider('Order', [
+        $ordersDataProvider = new CActiveDataProvider(Order::class, [
             'criteria' => $ordersCriteria,
         ]);
 

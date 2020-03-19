@@ -1,5 +1,6 @@
 <?php
 
+use App\models\Lead;
 use App\models\Question;
 use App\repositories\CampaignRepository;
 use webmaster\services\StatisticsService;
@@ -29,7 +30,7 @@ class DefaultController extends Controller
         $criteria->addInCondition('sourceId', $mySourcesIds);
         $criteria->limit = 10;
 
-        $leadsDataProvider = new CActiveDataProvider('App\models\Lead', [
+        $leadsDataProvider = new CActiveDataProvider(Lead::class, [
             'criteria' => $criteria,
             'pagination' => false,
         ]);

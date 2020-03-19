@@ -1112,7 +1112,7 @@ class QuestionController extends Controller
             throw new CHttpException(400, 'Некорректная дата');
         }
 
-        $questionsDataProvider = new CActiveDataProvider('Question', [
+        $questionsDataProvider = new CActiveDataProvider(Question::class, [
             'criteria' => [
                 'condition' => 'YEAR(publishDate)=' . $year . ' AND MONTH(publishDate)=' . $month . ' AND status IN (' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')',
                 'order' => 'publishDate DESC',

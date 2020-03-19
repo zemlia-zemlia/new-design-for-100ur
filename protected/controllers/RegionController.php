@@ -85,7 +85,7 @@ class RegionController extends Controller
         $criteria->addInCondition('t.townId', $towns);
         $criteria->addCondition('role = ' . User::ROLE_JURIST);
 
-        $yuristsDataProvider = new CActiveDataProvider('User', [
+        $yuristsDataProvider = new CActiveDataProvider(User::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 10,
@@ -148,7 +148,7 @@ class RegionController extends Controller
         $criteria->addCondition('role = ' . User::ROLE_JURIST);
         $criteria->limit = 20;
 
-        $yuristsDataProvider = new CActiveDataProvider('User', [
+        $yuristsDataProvider = new CActiveDataProvider(User::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 12,

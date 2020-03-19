@@ -22,7 +22,7 @@ class TransactionController extends Controller
         $criteria->addColumnCondition(['partnerId' => Yii::app()->user->id, 'status' => PartnerTransaction::STATUS_COMPLETE]);
         $criteria->order = 'id DESC';
 
-        $dataProvider = new CActiveDataProvider('App\models\PartnerTransaction', [
+        $dataProvider = new CActiveDataProvider(PartnerTransaction::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 50,
@@ -34,7 +34,7 @@ class TransactionController extends Controller
         $requestsCriteria->addCondition('sum<0');
         $requestsCriteria->order = 'id DESC';
 
-        $requestsDataProvider = new CActiveDataProvider('App\models\PartnerTransaction', [
+        $requestsDataProvider = new CActiveDataProvider(PartnerTransaction::class, [
             'criteria' => $requestsCriteria,
             'pagination' => [
                 'pageSize' => 10,

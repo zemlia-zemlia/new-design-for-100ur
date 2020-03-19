@@ -159,7 +159,7 @@ class MoneyController extends Controller
             $searchModel->attributes = $_GET['App\models\Money'];
             $dataProvider = $searchModel->search();
         } else {
-            $dataProvider = new CActiveDataProvider('App\models\Money', ['criteria' => [
+            $dataProvider = new CActiveDataProvider(Money::class, ['criteria' => [
                     'order' => 'datetime DESC, id DESC',
                     ],
                     'pagination' => [

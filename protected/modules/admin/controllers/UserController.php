@@ -4,6 +4,7 @@ use App\helpers\DateHelper;
 use App\helpers\StringHelper;
 use App\models\Comment;
 use App\models\Lead;
+use App\models\PartnerTransaction;
 use App\models\Question;
 use App\models\QuestionCategory;
 use App\models\RestorePasswordForm;
@@ -110,7 +111,7 @@ class UserController extends Controller
             $criteria->addColumnCondition(['partnerId' => $model->id]);
             $criteria->order = 'id DESC';
 
-            $partnerTransactionsDataProvider = new CActiveDataProvider('App\models\PartnerTransaction', [
+            $partnerTransactionsDataProvider = new CActiveDataProvider(PartnerTransaction::class, [
                 'criteria' => $criteria,
                 'pagination' => [
                     'pageSize' => 20,
@@ -126,7 +127,7 @@ class UserController extends Controller
             $leadsCriteria = new CDbCriteria();
             $leadsCriteria->order = 'id DESC';
             $leadsCriteria->addInCondition('sourceId', $mySourcesIds);
-            $leadsDataProvider = new CActiveDataProvider('App\models\Lead', [
+            $leadsDataProvider = new CActiveDataProvider(Lead::class, [
                 'criteria' => $leadsCriteria,
                 'pagination' => [
                     'pageSize' => 20,
@@ -431,7 +432,7 @@ class UserController extends Controller
         }
         $criteria->addColumnCondition(['t.role' => $role]);
 
-        $usersDataProvider = new CActiveDataProvider('User', [
+        $usersDataProvider = new CActiveDataProvider(User::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 20,

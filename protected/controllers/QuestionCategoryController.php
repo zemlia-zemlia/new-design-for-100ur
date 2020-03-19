@@ -58,7 +58,7 @@ class QuestionCategoryController extends Controller
         $questionsCriteria->addColumnCondition(['status' => Question::STATUS_PUBLISHED]);
         $questionsCriteria->order = 'id DESC';
 
-        $questionsDataProvider = new CActiveDataProvider('Question', [
+        $questionsDataProvider = new CActiveDataProvider(Question::class, [
             'criteria' => $questionsCriteria,
             'pagination' => [
                 'pageSize' => 20,
@@ -190,7 +190,7 @@ class QuestionCategoryController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider(QuestionCategory::model(), [
+        $dataProvider = new CActiveDataProvider(QuestionCategory::class, [
             'criteria' => [
                 'order' => 't.name',
                 /*'with' => 'children',*/

@@ -154,7 +154,7 @@ class FileCategoryController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('FileCategory');
+        $dataProvider = new CActiveDataProvider(FileCategory::class);
         $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);

@@ -2,6 +2,7 @@
 
 use App\models\Campaign;
 use App\models\Lead;
+use App\models\TransactionCampaign;
 use App\models\User;
 use App\repositories\BuyerRepository;
 use buyer\services\StatisticsService;
@@ -86,7 +87,7 @@ class BuyerController extends Controller
             $criteria->addColumnCondition(['buyerId' => Yii::app()->user->id]);
         }
 
-        $dataProvider = new CActiveDataProvider('App\models\Lead', [
+        $dataProvider = new CActiveDataProvider(Lead::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 50,
@@ -155,7 +156,7 @@ class BuyerController extends Controller
 
         $currentUser = User::model()->findByPk(Yii::app()->user->id);
 
-        $transactionsDataProvider = new CActiveDataProvider('App\models\TransactionCampaign', [
+        $transactionsDataProvider = new CActiveDataProvider(TransactionCampaign::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 50,

@@ -75,7 +75,7 @@ class CampaignTransactionController extends Controller
         $criteria->addCondition('sum<0');
         $criteria->addCondition(['type =' . TransactionCampaign::TYPE_JURIST_MONEYOUT]);
 
-        $dataProvider = new CActiveDataProvider('App\models\TransactionCampaign', [
+        $dataProvider = new CActiveDataProvider(TransactionCampaign::class, [
             'criteria' => $criteria,
         ]);
 

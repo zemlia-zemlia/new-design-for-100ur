@@ -21,7 +21,7 @@ class SourceController extends Controller
         $criteriaQ->addColumnCondition(['userId' => Yii::app()->user->id, 'type' => Leadsource::TYPE_QUESTION]);
 
         $dataProvider = new CActiveDataProvider(
-            'App\models\Leadsource',
+            Leadsource::class,
             [
             'criteria' => $criteria,
             'pagination' => [
@@ -29,7 +29,7 @@ class SourceController extends Controller
             ], ]
         );
         $dataProviderQ = new CActiveDataProvider(
-            'App\models\Leadsource',
+            Leadsource::class,
             [
                 'criteria' => $criteriaQ,
                 'pagination' => [

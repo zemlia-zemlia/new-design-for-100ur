@@ -14,7 +14,7 @@ use App\models\UserActivity;
 use App\models\UserFile;
 use App\models\YaPayConfirmRequest;
 use App\models\YuristSettings;
-use App\Repositories\QuestionRepository;
+use App\repositories\QuestionRepository;
 
 class UserController extends Controller
 {
@@ -90,7 +90,7 @@ class UserController extends Controller
             $ordersCriteria->addColumnCondition(['t.userId' => Yii::app()->user->id]);
             $ordersCriteria->order = 't.id DESC';
 
-            $ordersDataProvider = new CActiveDataProvider('Order', [
+            $ordersDataProvider = new CActiveDataProvider(Order::class, [
                 'criteria' => $ordersCriteria,
             ]);
         } else {

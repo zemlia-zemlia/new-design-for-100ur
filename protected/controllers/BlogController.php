@@ -147,7 +147,7 @@ class BlogController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('Post', [
+        $dataProvider = new CActiveDataProvider(Post::class, [
             'criteria' => [
                 'with' => ['commentsCount', 'author', 'viewsCount'],
                 'order' => 't.datePublication DESC',

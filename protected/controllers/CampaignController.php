@@ -174,7 +174,7 @@ class CampaignController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('App\models\Campaign');
+        $dataProvider = new CActiveDataProvider(Campaign::class);
         $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);

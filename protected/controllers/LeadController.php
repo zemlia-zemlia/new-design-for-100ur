@@ -79,7 +79,7 @@ class LeadController extends Controller
             $criteria->addColumnCondition(['leadStatus' => Lead::LEAD_STATUS_DEFAULT]);
         }
 
-        $dataProvider = new CActiveDataProvider('App\models\Lead', [
+        $dataProvider = new CActiveDataProvider(Lead::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 30,

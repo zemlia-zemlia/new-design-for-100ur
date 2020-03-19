@@ -198,7 +198,7 @@ class LeadsourceController extends Controller
         }
 
         $dataProvider = new CActiveDataProvider(
-            'App\models\Leadsource',
+            Leadsource::class,
             [
             'criteria' => $criteria,
             'pagination' => [

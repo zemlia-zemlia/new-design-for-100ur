@@ -226,7 +226,7 @@ class LeadController extends Controller
             $dataProvider = $searchModel->search();
         } else {
             // если форма не использовалась
-            $dataProvider = new CActiveDataProvider('App\models\Lead', [
+            $dataProvider = new CActiveDataProvider(Lead::class, [
                 'criteria' => $criteria,
                 'pagination' => [
                     'pageSize' => 50,

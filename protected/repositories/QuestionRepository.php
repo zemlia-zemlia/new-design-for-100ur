@@ -9,7 +9,7 @@ use Yii;
 
 /**
  * Репозиторий для выборок вопросов из базы
- * Class App\Repositories\QuestionRepository.
+ * Class App\repositories\QuestionRepository.
  */
 class QuestionRepository
 {

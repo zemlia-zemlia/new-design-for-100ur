@@ -1,12 +1,13 @@
 <?php
 
 
+use App\models\Answer;
 use App\models\Question;
 use App\models\Question2category;
 use App\models\QuestionCategory;
 use App\models\Town;
 use App\models\User;
-use App\Repositories\QuestionRepository;
+use App\repositories\QuestionRepository;
 
 class QuestionController extends Controller
 {
@@ -66,7 +67,7 @@ class QuestionController extends Controller
         $criteria->order = 't.id DESC';
         $criteria->addColumnCondition(['questionId' => $model->id]);
 
-        $answersDataProvider = new CActiveDataProvider('App\models\Answer', [
+        $answersDataProvider = new CActiveDataProvider(Answer::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 20,
@@ -273,7 +274,7 @@ class QuestionController extends Controller
             $criteria->addInCondition('t.status', [Question::STATUS_MODERATED, Question::STATUS_PUBLISHED]);
         }
 
-        $dataProvider = new CActiveDataProvider('Question', [
+        $dataProvider = new CActiveDataProvider(Question::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 20,
@@ -328,7 +329,7 @@ class QuestionController extends Controller
 
         $criteria->addColumnCondition(['t.payed' => 1]);
 
-        $dataProvider = new CActiveDataProvider('Question', [
+        $dataProvider = new CActiveDataProvider(Question::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 20,
@@ -353,7 +354,7 @@ class QuestionController extends Controller
 
         $criteria->addColumnCondition(['publishedBy' => (int) $id]);
 
-        $dataProvider = new CActiveDataProvider('Question', [
+        $dataProvider = new CActiveDataProvider(Question::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 20,
@@ -642,7 +643,7 @@ class QuestionController extends Controller
         $criteria->addColumnCondition(['MD5(title)' => $md5['hash']]);
         $criteria->addInCondition('status', [Question::STATUS_CHECK, Question::STATUS_PUBLISHED]);
         $dataProvider = new CActiveDataProvider(
-            'Question',
+            Question::class,
             [
             'criteria' => $criteria, ]
         );

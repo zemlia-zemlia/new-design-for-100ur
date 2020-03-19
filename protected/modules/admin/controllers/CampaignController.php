@@ -81,12 +81,9 @@ class CampaignController extends Controller
         $leadsCriteria = new CDbCriteria();
         $leadsCriteria->addColumnCondition(['campaignId' => $model->id]);
         $leadsCriteria->order = 'id DESC';
-        $leadsDataProvider = new CActiveDataProvider(
-            'App\models\Lead',
-            [
+        $leadsDataProvider = new CActiveDataProvider(Lead::class, [
                 'criteria' => $leadsCriteria,
-            ]
-        );
+            ]);
 
         $this->render('view', [
             'model' => $model,

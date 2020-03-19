@@ -65,7 +65,7 @@ class TownController extends Controller
         //$criteria->addCondition('t.townId IN (' . implode(',', $closeTownsIds) . ')');
         $criteria->with = ['categories', 'town', 'answersCount'];
 
-        $dataProvider = new CActiveDataProvider('Question', [
+        $dataProvider = new CActiveDataProvider(Question::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 7,
@@ -84,9 +84,10 @@ class TownController extends Controller
     /**
      * Вывод страницы города по алиасу.
      *
-     * @param type $name
+     * @param string $name
      *
      * @throws CHttpException
+     * @throws CException
      */
     public function actionAlias($name)
     {
@@ -98,7 +99,6 @@ class TownController extends Controller
         }
 
         if (isset($_GET['Question_page'])) {
-            //die('try to redirect');
             return $this->redirect([
                 'town/alias',
                 'name' => $model->alias,
@@ -156,7 +156,7 @@ class TownController extends Controller
         $criteria->addColumnCondition(['t.townId' => $model->id]);
         $criteria->addCondition('role = ' . User::ROLE_JURIST);
 
-        $yuristsDataProvider = new CActiveDataProvider('User', [
+        $yuristsDataProvider = new CActiveDataProvider(User::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 10,

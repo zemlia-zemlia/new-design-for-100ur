@@ -125,7 +125,7 @@ class DocTypeController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('App\models\DocType');
+        $dataProvider = new CActiveDataProvider(DocType::class);
         $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);

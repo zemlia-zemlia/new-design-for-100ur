@@ -122,7 +122,7 @@ class AnswerController extends Controller
             $criteria->with = ['question', 'transaction'];
         }
 
-        $dataProvider = new CActiveDataProvider('App\models\Answer', [
+        $dataProvider = new CActiveDataProvider(Answer::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 20,

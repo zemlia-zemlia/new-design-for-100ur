@@ -66,7 +66,7 @@ class CommentController extends Controller
             $criteria->addCondition('t.type IN(' . Comment::TYPE_COMPANY . ', ' . Comment::TYPE_ANSWER . ')');
         }
 
-        $dataProvider = new CActiveDataProvider('Comment', [
+        $dataProvider = new CActiveDataProvider(Comment::class, [
                     'criteria' => $criteria,
                     'pagination' => [
                                 'pageSize' => 20,

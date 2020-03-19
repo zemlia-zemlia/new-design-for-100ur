@@ -130,7 +130,7 @@ class FileController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('File');
+        $dataProvider = new CActiveDataProvider(File::class);
         $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);

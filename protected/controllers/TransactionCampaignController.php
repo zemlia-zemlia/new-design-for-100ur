@@ -129,7 +129,7 @@ class TransactionCampaignController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('App\models\TransactionCampaign');
+        $dataProvider = new CActiveDataProvider(TransactionCampaign::class);
         $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);

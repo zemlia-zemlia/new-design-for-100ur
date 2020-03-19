@@ -55,15 +55,15 @@ class TransactionController extends Controller
             $transaction = new TransactionCampaign();
             $transaction->description = (!Yii::app()->user->isGuest) ? Yii::app()->user->phone : '';
             $criteria->addColumnCondition(['buyerId' => Yii::app()->user->id, 'status' => TransactionCampaign::STATUS_COMPLETE]);
-            $transactionModelClass = 'App\models\TransactionCampaign';
+            $transactionModelClass = TransactionCampaign::class;
             $transaction->sum = $transaction->sum / 100;
         } else {
             if (User::ROLE_PARTNER == Yii::app()->user->role) {
                 $criteria->addColumnCondition(['partnerId' => Yii::app()->user->id, 'status' => PartnerTransaction::STATUS_COMPLETE]);
-                $transactionModelClass = 'App\models\PartnerTransaction';
+                $transactionModelClass = PartnerTransaction::class;
             } else {
                 $criteria->addColumnCondition(['buyerId' => Yii::app()->user->id, 'status' => TransactionCampaign::STATUS_COMPLETE]);
-                $transactionModelClass = 'App\models\TransactionCampaign';
+                $transactionModelClass = TransactionCampaign::class;
             }
         }
 
@@ -80,7 +80,7 @@ class TransactionController extends Controller
         $requestsCriteria->addColumnCondition(['partnerId' => Yii::app()->user->id, 'sum<' => 0]);
         $requestsCriteria->order = 'id DESC';
 
-        $requestsDataProvider = new CActiveDataProvider('App\models\PartnerTransaction', [
+        $requestsDataProvider = new CActiveDataProvider(PartnerTransaction::class, [
             'criteria' => $requestsCriteria,
             'pagination' => [
                 'pageSize' => 10,
@@ -94,7 +94,7 @@ class TransactionController extends Controller
             $requestsCriteria->addColumnCondition(['buyerId' => Yii::app()->user->id, 'sum<' => 0, 'status' => TransactionCampaign::STATUS_PENDING]);
             $requestsCriteria->order = 'id DESC';
 
-            $requestsDataProvider = new CActiveDataProvider('App\models\TransactionCampaign', [
+            $requestsDataProvider = new CActiveDataProvider(TransactionCampaign::class, [
                 'criteria' => $requestsCriteria,
                 'pagination' => [
                     'pageSize' => 10,
