@@ -1,6 +1,11 @@
 <?php
 
+namespace App\components\apiClasses;
+
+use ApiClassInterface;
 use App\models\Lead;
+use CHtml;
+use LoggerFactory;
 
 /**
  * Класс для работы с API партнерки 8088.ru
@@ -8,6 +13,7 @@ use App\models\Lead;
  */
 class Api8088 implements ApiClassInterface
 {
+    // @todo вынести параметры подключения в конфиг, передавать как зависимости
     protected $url = 'http://partner.8088.ru/query.php';
     protected $key = 13969; // наш id в партнерской системе
     protected $curl;
@@ -25,6 +31,8 @@ class Api8088 implements ApiClassInterface
      * отправка лида.
      *
      * @param Lead $lead
+     * @return bool
+     * @throws \Exception
      */
     public function send(Lead $lead)
     {
@@ -42,7 +50,7 @@ class Api8088 implements ApiClassInterface
         $apiResponse = curl_exec($this->curl);
 
         LoggerFactory::getLogger()->log('Отправляем лид #' . $lead->id . ' в партнерку 8088: ' . json_encode($data), 'App\models\Lead', $lead->id);
-        LoggerFactory::getLogger()->log('Ответ API 8088: ' . mb_strlen((string) $apiResponse) . ' символов', 'App\models\Lead', $lead->id);
+        LoggerFactory::getLogger()->log('Ответ API 8088: ' . mb_strlen((string)$apiResponse) . ' символов', 'App\models\Lead', $lead->id);
 
         curl_close($this->curl);
 
@@ -52,10 +60,11 @@ class Api8088 implements ApiClassInterface
     /**
      * Разбор ответа API.
      *
-     * @param type $apiResponse
-     * @param type $lead
+     * @param string $apiResponse
+     * @param Lead $lead
      *
      * @return bool
+     * @throws \Exception
      */
     private function checkResponse($apiResponse, $lead)
     {

@@ -561,4 +561,12 @@ class Campaign extends CActiveRecord
 
         return true;
     }
+
+    /**
+     * @return string
+     */
+    public function getFullApiClass():string
+    {
+        return $this->apiClass != '' ? 'App\\components\\apiClasses\\' . $this->apiClass : '';
+    }
 }

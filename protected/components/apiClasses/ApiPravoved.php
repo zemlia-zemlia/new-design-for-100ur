@@ -1,6 +1,12 @@
 <?php
 
+namespace App\components\apiClasses;
+
+use ApiClassInterface;
 use App\models\Lead;
+use CHtml;
+use LoggerFactory;
+use App\components\apiClasses\PravovedGetTown;
 
 /**
  * Класс для работы с API партнерки Pravoved.
@@ -24,6 +30,8 @@ class ApiPravoved implements ApiClassInterface
      * отправка лида.
      *
      * @param Lead $lead
+     * @return bool
+     * @throws \Exception
      */
     public function send(Lead $lead)
     {
@@ -62,7 +70,8 @@ class ApiPravoved implements ApiClassInterface
     /**
      * Возвращает id города в базе Правоведа.
      *
-     * @param type $townName Название города
+     * @param string $townName Название города
+     * @return int
      */
     private function getTownId($townName)
     {
@@ -75,9 +84,10 @@ class ApiPravoved implements ApiClassInterface
      * Анализирует ответ от API.
      *
      * @param string $apiResponse
-     * @param Lead   $lead
+     * @param Lead $lead
      *
      * @return bool
+     * @throws \Exception
      */
     private function checkResponse($apiResponse, $lead)
     {

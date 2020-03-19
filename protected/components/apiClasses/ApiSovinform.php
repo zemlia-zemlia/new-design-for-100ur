@@ -1,9 +1,16 @@
 <?php
 
+namespace App\components\apiClasses;
+
+use ApiClassInterface;
 use App\models\Lead;
+use CHtml;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use LoggerFactory;
 use Psr\Http\Message\ResponseInterface;
+use Yii;
 
 /**
  * Класс для работы с API партнерки Sovinform.
@@ -69,7 +76,7 @@ class ApiSovinform implements ApiClassInterface
      * Проверка ответа от API.
      *
      * @param ResponseInterface $apiResponse
-     * @param Lead              $lead
+     * @param Lead $lead
      *
      * @return bool
      *

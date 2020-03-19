@@ -1,6 +1,11 @@
 <?php
 
+namespace App\components\apiClasses;
+
+use ApiClassInterface;
 use App\models\Lead;
+use CHtml;
+use LoggerFactory;
 
 /**
  * Класс для работы с API Leadia.
@@ -28,6 +33,8 @@ class ApiLeadia implements ApiClassInterface
      * отправка лида.
      *
      * @param Lead $lead
+     * @return bool
+     * @throws \Exception
      */
     public function send(Lead $lead)
     {
@@ -64,10 +71,11 @@ class ApiLeadia implements ApiClassInterface
     /**
      * Разбор ответа API.
      *
-     * @param type $apiResponse
-     * @param type $lead
+     * @param string $apiResponse
+     * @param Lead $lead
      *
      * @return bool
+     * @throws \Exception
      */
     private function checkResponse($apiResponse, $lead)
     {

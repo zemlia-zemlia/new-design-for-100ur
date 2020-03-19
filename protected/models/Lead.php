@@ -2,7 +2,7 @@
 
 namespace App\models;
 
-use ApiClassFactory;
+use App\components\ApiClassFactory;
 use App\helpers\DateHelper;
 use App\helpers\PhoneHelper;
 use App\helpers\StringHelper;
@@ -403,7 +403,7 @@ class Lead extends CActiveRecord
             $transactionSaved = true;
         }
 
-        if ($campaign && Campaign::TYPE_PARTNERS == $campaign->type && 1 == $campaign->sendToApi && class_exists($campaign->apiClass)) {
+        if ($campaign && Campaign::TYPE_PARTNERS == $campaign->type && 1 == $campaign->sendToApi && class_exists($campaign->getFullApiClass())) {
             $apiClass = $this->apiClassFactory->getApiClass($campaign->apiClass);
             $leadSentToPartner = $apiClass->send($this);
         }

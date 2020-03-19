@@ -2,8 +2,8 @@
 
 namespace Tests\Integration\Models;
 
-use ApiClassFactory;
-use ApiLexprofit;
+use App\components\ApiClassFactory;
+use App\components\apiClasses\ApiLexprofit;
 use CActiveDataProvider;
 use App\models\Campaign;
 use Exception;
