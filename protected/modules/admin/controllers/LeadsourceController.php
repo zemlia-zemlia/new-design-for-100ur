@@ -179,30 +179,10 @@ class LeadsourceController extends Controller
      */
     public function actionIndex()
     {
-//        $criteria = new CDbCriteria();
-//
-//        $criteria->with = 'user';
 
-        // добавим условие выборки контактов по офису
-//        if (isset($_GET['officeId'])) {
-//            $officeId = (int) $_GET['officeId'];
-//        } else {
-//            $officeId = 0;
-//        }
-//        if (User::ROLE_ROOT != Yii::app()->user->role) {
-//            $officeId = Yii::app()->user->officeId;
-//        }
-
-//        $dataProvider = new CActiveDataProvider(
-//            'Leadsource',
-//            [
-//            'criteria' => $criteria,
-//            'pagination' => [
-//                'pageSize' => 50,
-//            ], ]
-//        );
         $this->render('index', [
             'dataProvider' => Leadsource::getSourcesOrderByUser(),
+            'dataProviderActive' => Leadsource::getSourcesOrderByUser(true),
         ]);
     }
 

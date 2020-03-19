@@ -26,7 +26,30 @@ $this->widget('zii.widgets.CBreadcrumbs', [
 
     <?php echo CHtml::link('Добавить новый', Yii::app()->createUrl('admin/leadsource/create'), ['class' => 'btn btn-primary']); ?>
 </h3>
+<h3>Активные</h3>
+<div class="box">
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Пользователь</th>
+            <th>Описание</th>
+            <th></th>
+        </tr>
+        </thead>
 
+        <?php $this->widget('zii.widgets.CListView', [
+            'dataProvider' => $dataProviderActive,
+            'itemView' => '_view',
+            'emptyText' => 'Не найдено ни одного контакта',
+            'summaryText' => 'Показаны контакты с {start} до {end}, всего {count}',
+            'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
+        ]); ?>
+    </table>
+</div>
+
+<h3>Не активные</h3>
 <div class="box">
     <table class="table table-bordered table-hover table-striped">
         <thead>

@@ -240,14 +240,21 @@ class Leadsource extends CActiveRecord
     }
 
     public static function getSourcesOrderByUser($active = false){
+        if ($active) {
+            $condition = 'l.id IS NOT NULL AND (l.question_date > NOW() - INTERVAL 5 DAY)';
+        }
+        else {
+            $condition = 'l.id IS NOT NULL AND  (l.question_date < NOW() - INTERVAL 5 DAY)';
+        }
         $criteria = new CDbCriteria();
-        $criteria->alias = 'source';
-
         $criteria->with = 'user';
 
-        $criteria->join = 'LEFT JOIN 100_lead as lead ON lead.sourceId = source.id';
-        $criteria->order = 'userId ASC';
-//        $criteria->addCondition('question_date  > NOW()');
+        $criteria->join = 'LEFT JOIN {{lead}} as l ON l.sourceId = t.id';
+        $criteria->addCondition($condition);
+
+        $criteria->order = 't.userId, t.id DESC';
+
+
 
 
         $dataProvider = new CActiveDataProvider(
