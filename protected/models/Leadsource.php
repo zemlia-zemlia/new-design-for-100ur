@@ -247,12 +247,12 @@ class Leadsource extends CActiveRecord
             $condition = 'l.id IS NOT NULL AND  (l.question_date < NOW() - INTERVAL 5 DAY)';
         }
         $criteria = new CDbCriteria();
-        $criteria->with = 'user';
 
-        $criteria->join = 'LEFT JOIN {{lead}} as l ON l.sourceId = t.id';
+
+        $criteria->join = 'LEFT JOIN  {{lead}} as l ON l.sourceId = t.id';
         $criteria->addCondition($condition);
 
-        $criteria->order = 't.userId, t.id DESC';
+        $criteria->order = 't.userId';
 
 
 
