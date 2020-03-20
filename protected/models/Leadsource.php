@@ -242,10 +242,12 @@ class Leadsource extends CActiveRecord
     public static function getSourcesOrderByUser($active = false){
 
         if ($active) {
-            $condition = 'l.id IS NOT NULL AND (l.question_date > NOW() - INTERVAL 5 DAY)';
+            $condition = 'l.id IS NOT NULL AND l.question_date > (NOW() - INTERVAL 5 DAY)';
         }
         else {
-            $condition = 'l.id IS NOT NULL AND  (l.question_date < NOW() - INTERVAL 5 DAY)';
+            $activeLeads = self::getSourcesOrderByUser($active = true);
+            $activeLeadsIds = CHtml::listData($activeLeads->getData(), 'id','id');
+            $condition = 'l.id IS NOT NULL AND  l.question_date < (NOW() - INTERVAL 5 DAY) AND t.id NOT IN (' . implode(',', $activeLeadsIds) . ')';
         }
         $criteria = new CDbCriteria();
 
