@@ -257,7 +257,7 @@ class Leadsource extends CActiveRecord
         $criteria->join = 'LEFT JOIN  {{lead}} as l ON l.sourceId = t.id';
         $criteria->addCondition($condition);
 
-        $criteria->order = 't.userId';
+        $criteria->order = 't.id';
 
 
 
