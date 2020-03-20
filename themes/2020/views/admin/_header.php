@@ -1,6 +1,6 @@
 <header class="main-header">
     <!-- Logo -->
-    <a href="<?php echo Yii::app()->user->getHomeUrl();?>" class="logo">
+    <a href="<?php echo Yii::app()->user->getHomeUrl(); ?>" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>100</b></span>
         <!-- logo for regular state and mobile devices -->
@@ -17,8 +17,6 @@
         $questionRepository->setCacheTime(600)->setLimit(10);
         $questionsCountNoCat = $questionRepository->countNoCat();
         $questionsCountForModerate = $questionRepository->countForModerate();
-
-
 
 
         ?>
@@ -41,18 +39,22 @@
 
                 <?php if (Yii::app()->user->role == User::ROLE_BUYER) : ?>
                     <li>
-                        <a href="<?php echo Yii::app()->createUrl('buyer/buyer/transactions');?>">
-                            <i class="fa fa-rub" aria-hidden="true"></i> <?php echo MoneyFormat::rubles(Yii::app()->user->balance); ?> </a>
+                        <a href="<?php echo Yii::app()->createUrl('buyer/buyer/transactions'); ?>">
+                            <i class="fa fa-rub"
+                               aria-hidden="true"></i> <?php echo MoneyFormat::rubles(Yii::app()->user->balance); ?>
+                        </a>
                     </li>
                 <?php endif; ?>
-                <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->checkAccess(User::ROLE_EDITOR)): ?>
-                <li>
-                    <a href="<?= Yii::app()->createUrl('/admin/question/setTitle/') ?>">Модерировать: <?= $questionsCountForModerate ?></a>
-                </li>
 
-                <li>
-                    <a href="<?= Yii::app()->createUrl('/admin/question/nocat/') ?>">Без категории: <?= $questionsCountNoCat ?></a>
-                </li>
+                <?php if (Yii::app()->user->role ==User::ROLE_EDITOR): ?>
+                    <li>
+                        <a href="<?= Yii::app()->createUrl('/admin/question/setTitle/') ?>">Модерировать: <?= $questionsCountForModerate ?></a>
+                    </li>
+
+                    <li>
+                        <a href="<?= Yii::app()->createUrl('/admin/question/nocat/') ?>">Без
+                            категории: <?= $questionsCountNoCat ?></a>
+                    </li>
                 <?php endif; ?>
 
                 <li class="dropdown notifications-menu">
