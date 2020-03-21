@@ -25,7 +25,6 @@
 
     <td>
 	<?php echo CHtml::link('Редактировать', Yii::app()->createUrl('admin/leadsource/update', ['id' => $data->id])); ?> &nbsp;&nbsp;
-        <?php // echo CHtml::link('Удалить', Yii::app()->createUrl('admin/leadsource/delete', ['id' => $data->id])); ?>
     </td>
 
 </tr>
