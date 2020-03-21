@@ -12,16 +12,16 @@ $this->breadcrumbs = [
     <h1 class="header-block-light-grey vert-margin20">Мои вопросы</h1>
 
 <?php foreach ($questions as $question): ?>
-    <div class="row question-list-item  <?php if (1 == $question->payed): ?> vip-question<?php endif; ?>">
+    <div class="row question-list-item  <?php if (1 == $question['payed']): ?> vip-question<?php endif; ?>">
         <div class="col-sm-10 col-xs-8">
             <p style="font-size:0.9em;">
-                <?php echo (new DateTime($question->createDate))->format('d.m.Y'); ?>
+                <?php echo (new DateTime($question['createDate']))->format('d.m.Y'); ?>
                 &nbsp;&nbsp;
-                <?php if (1 == $question->payed) {
+                <?php if (1 == $question['payed']) {
     echo "<span class='label label-warning'><abbr title='Вопрос с гарантией получения ответов'><span class='glyphicon glyphicon-ruble'></span></abbr></span>";
 }
                 ?>
-                <?php echo CHtml::link(StringHelper::mb_ucfirst($question->title, 'utf-8'), Yii::app()->createUrl('question/view', ['id' => $question->id])); ?>
+                <?php echo CHtml::link(StringHelper::mb_ucfirst($question['title'], 'utf-8'), Yii::app()->createUrl('question/view', ['id' => $question['id']])); ?>
             </p>
         </div>
 
