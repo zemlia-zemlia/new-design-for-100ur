@@ -11,7 +11,7 @@ use Monolog\Logger;
  */
 class ApiController extends CController
 {
-    /** @var Logger */
+    /** @var \App\extensions\Logger\Logger */
     private $logger;
 
     public function init()

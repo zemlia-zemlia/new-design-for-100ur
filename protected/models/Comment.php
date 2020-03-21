@@ -7,7 +7,7 @@ use CActiveRecord;
 use CDbCriteria;
 use CHtml;
 use GTMail;
-use LoggerFactory;
+use App\extensions\Logger\LoggerFactory;
 use Yii;
 
 /**

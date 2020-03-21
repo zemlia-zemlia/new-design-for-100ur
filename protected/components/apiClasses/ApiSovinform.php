@@ -8,7 +8,7 @@ use CHtml;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use LoggerFactory;
+use App\extensions\Logger\LoggerFactory;
 use Psr\Http\Message\ResponseInterface;
 use Yii;
 

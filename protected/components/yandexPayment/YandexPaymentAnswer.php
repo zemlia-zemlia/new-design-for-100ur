@@ -1,5 +1,6 @@
 <?php
 
+use App\extensions\Logger\LoggerFactory;
 use App\models\Answer;
 use App\models\Money;
 use App\models\TransactionCampaign;

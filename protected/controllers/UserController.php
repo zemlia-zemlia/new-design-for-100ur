@@ -1,5 +1,6 @@
 <?php
 
+use App\extensions\Logger\LoggerFactory;
 use App\helpers\StringHelper;
 use App\models\Answer;
 use App\models\Comment;

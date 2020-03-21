@@ -10,7 +10,7 @@ use CDbException;
 use CHtml;
 use CLogger;
 use GTMail;
-use LoggerFactory;
+use App\extensions\Logger\LoggerFactory;
 use PDO;
 use YandexKassa;
 use Yii;

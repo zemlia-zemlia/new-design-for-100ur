@@ -1,6 +1,7 @@
 <div class="table-responsive">
     <table class="table table-bordered">
-        <?php use App\helpers\DateHelper;
+        <?php use App\extensions\Logger\LogReader;
+        use App\helpers\DateHelper;
 
         foreach ($records as $record): ?>
             <tr>

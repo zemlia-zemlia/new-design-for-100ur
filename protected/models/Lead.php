@@ -11,7 +11,7 @@ use CActiveDataProvider;
 use CActiveRecord;
 use CDbCriteria;
 use Exception;
-use LoggerFactory;
+use App\extensions\Logger\LoggerFactory;
 use Yii;
 use YurcrmClient\YurcrmClient;
 use YurcrmClient\YurcrmResponse;

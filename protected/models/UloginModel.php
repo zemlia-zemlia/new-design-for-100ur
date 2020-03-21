@@ -5,7 +5,7 @@ namespace App\models;
 use CHttpException;
 use CModel;
 use Exception;
-use LoggerFactory;
+use App\extensions\Logger\LoggerFactory;
 use UloginUserIdentity;
 use UserBannedException;
 use Yii;

@@ -4,7 +4,7 @@ namespace App\components\apiClasses;
 
 use ApiClassInterface;
 use App\models\Lead;
-use LoggerFactory;
+use App\extensions\Logger\LoggerFactory;
 
 /**
  * Класс для работы с API партнерки Lexprofit.

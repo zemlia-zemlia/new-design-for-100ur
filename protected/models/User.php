@@ -10,7 +10,7 @@ use CHtml;
 use CHttpException;
 use CLogger;
 use Exception;
-use LoggerFactory;
+use App\extensions\Logger\LoggerFactory;
 use PDO;
 use Sendpulse\RestApi\ApiClient;
 use Sendpulse\RestApi\Storage\FileStorage;

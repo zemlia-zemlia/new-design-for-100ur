@@ -1,5 +1,10 @@
 <?php
 
+namespace App\extensions\Logger;
+
+use CDbConnection;
+use Exception;
+
 /**
  * Класс для записи лога в базу.
  */
@@ -24,19 +29,20 @@ class DbLogger extends Logger
     /**
      * Запись сообщения в лог.
      *
-     * @param type $message
-     * @param type $class
-     * @param type $id
+     * @param string $message
+     * @param string $class
+     * @param int $id
+     * @throws Exception
      */
     public function log($message, $class, $id)
     {
         try {
             $this->connectionId->createCommand()
-                    ->insert($this->tableName, [
-                        'message' => $message,
-                        'class' => $class,
-                        'subjectId' => $id,
-            ]);
+                ->insert($this->tableName, [
+                    'message' => $message,
+                    'class' => $class,
+                    'subjectId' => $id,
+                ]);
         } catch (Exception $ex) {
             throw $ex;
         }

@@ -5,7 +5,7 @@ namespace App\components\apiClasses;
 use ApiClassInterface;
 use App\models\Lead;
 use CHtml;
-use LoggerFactory;
+use App\extensions\Logger\LoggerFactory;
 use App\components\apiClasses\PravovedGetTown;
 
 /**

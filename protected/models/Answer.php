@@ -9,7 +9,7 @@ use CHttpException;
 use CLogger;
 use DateTime;
 use Exception;
-use LoggerFactory;
+use App\extensions\Logger\LoggerFactory;
 use Yii;
 
 /**

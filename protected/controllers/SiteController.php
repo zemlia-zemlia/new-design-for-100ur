@@ -1,5 +1,6 @@
 <?php
 
+use App\extensions\Logger\LoggerFactory;
 use App\models\Comment;
 use App\models\ContactForm;
 use App\models\Lead;
