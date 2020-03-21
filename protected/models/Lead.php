@@ -535,7 +535,7 @@ class Lead extends CActiveRecord
                     $this->notifier->sendYurcrmNotification($buyer, $crmLeadId);
                 }
 
-                LoggerFactory::getLogger('db')->log('Лид отправлен в Yurcrm. Код ответа: ' . $yurcrmResult->getHttpCode() . '. Ответ: ' . $yurcrmResult->getResponse(), 'App\models\Lead', $this->id);
+                LoggerFactory::getLogger('db')->log('Лид отправлен в Yurcrm. Код ответа: ' . $yurcrmResult->getHttpCode() . '. Ответ: ' . $yurcrmResult->getResponse(), 'Lead', $this->id);
             } else {
                 $this->sendToCampaignByMail($campaign);
             }
@@ -568,7 +568,7 @@ class Lead extends CActiveRecord
             $logMessage .= 'покупателю #' . $buyer->id . ' (' . $buyer->getShortName() . ')';
         }
 
-        LoggerFactory::getLogger('db')->log($logMessage, 'App\models\Lead', $this->id);
+        LoggerFactory::getLogger('db')->log($logMessage, 'Lead', $this->id);
     }
 
     /**
@@ -709,7 +709,7 @@ class Lead extends CActiveRecord
             return;
         }
 
-        LoggerFactory::getLogger('db')->log('Создан лид #' . $this->id . ', ' . $this->town->name, 'App\models\Lead', $this->id);
+        LoggerFactory::getLogger('db')->log('Создан лид #' . $this->id . ', ' . $this->town->name, 'Lead', $this->id);
 
         if (true == Yii::app()->params['sellLeadAfterCreating']) {
             $this->findCampaignAndSell();

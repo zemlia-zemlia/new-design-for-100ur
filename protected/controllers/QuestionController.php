@@ -1,5 +1,6 @@
 <?php
 
+use App\helpers\IpHelper;
 use App\helpers\NumbersHelper;
 use App\helpers\PhoneHelper;
 use App\models\Answer;
@@ -218,8 +219,8 @@ class QuestionController extends Controller
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
 
-        if (isset($_POST['Question'])) {
-            $question->attributes = $_POST['Question'];
+        if (isset($_POST['App_models_Question'])) {
+            $question->attributes = $_POST['App_models_Question'];
             $question->phone = preg_replace('/([^0-9])/i', '', $question->phone);
 
             // если пользователь пришел по партнерской ссылке, запишем в вопрос id источника
@@ -251,10 +252,10 @@ class QuestionController extends Controller
                         $question = $existingQuestion;
                     }
                 }
-                $question->attributes = $_POST['Question'];
+                $question->attributes = $_POST['App_models_Question'];
                 $question->phone = PhoneHelper::normalizePhone($question->phone);
                 $question->status = Question::STATUS_NEW;
-                $question->ip = (isset($_SERVER['HTTP_X_REAL_IP'])) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
+                $question->ip = IpHelper::getUserIP();
                 $question->townIdByIP = Yii::app()->user->getState('currentTownId');
             }
 
@@ -307,10 +308,10 @@ class QuestionController extends Controller
                         $lead->save();
 
                         // сохраним категории, к которым относится вопрос, если категория указана
-                        if (isset($_POST['Question']['categories']) && 0 != $_POST['Question']['categories']) {
+                        if (isset($_POST['App_models_Question']['categories']) && 0 != $_POST['App_models_Question']['categories']) {
                             $q2cat = new Question2category();
                             $q2cat->qId = $question->id;
-                            $questionCategory = $_POST['Question']['categories'];
+                            $questionCategory = $_POST['App_models_Question']['categories'];
                             $q2cat->cId = $questionCategory;
                             // сохраняем указанную категорию
                             if ($q2cat->save()) {
@@ -431,8 +432,8 @@ class QuestionController extends Controller
 
         Yii::app()->user->setState('question_id', $question->id);
 
-        if (isset($_POST['Question']) && isset($_POST['Question']['email'])) {
-            $question->email = $_POST['Question']['email'];
+        if (isset($_POST['App_models_Question']) && isset($_POST['App_models_Question']['email'])) {
+            $question->email = $_POST['App_models_Question']['email'];
 
             if ($question->createAuthor()) {
                 if ($question->save()) {

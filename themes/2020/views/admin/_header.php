@@ -1,3 +1,7 @@
+<?php
+use App\repositories\QuestionRepository;
+?>
+
 <header class="main-header">
     <!-- Logo -->
     <a href="/admin/" class="logo">
@@ -18,8 +22,7 @@
         $questionsCountNoCat = $questionRepository->countNoCat();
         $questionsCountForModerate = $questionRepository->countForModerate();
 
-
-        use App\Repositories\QuestionRepository; ?>
+        ?>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <li>

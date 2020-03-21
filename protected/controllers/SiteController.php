@@ -115,8 +115,8 @@ class SiteController extends Controller
         $contactForm = new ContactForm();
         // в массиве $formResult будем хранить результат отправки формы
         $formResult = [];
-        if (isset($_POST['App\models\ContactForm'])) {
-            $contactForm->attributes = $_POST['App\models\ContactForm'];
+        if (isset($_POST['App_models_ContactForm'])) {
+            $contactForm->attributes = $_POST['App_models_ContactForm'];
             if ($contactForm->validate()) {
                 // Пытаемся отправить письмо
                 $mailer = new GTMail();
@@ -195,8 +195,8 @@ class SiteController extends Controller
         $this->layout = '//frontend/smart';
         $model = new LoginForm();
         // если использовался вход по мейлу и паролю
-        if (isset($_POST['App\models\LoginForm'])) {
-            $model->attributes = $_POST['App\models\LoginForm'];
+        if (isset($_POST['App_models_LoginForm'])) {
+            $model->attributes = $_POST['App_models_LoginForm'];
             // validate user input and redirect to the previous page if valid
             if ($model->validate() && $model->login()) {
                 LoggerFactory::getLogger('db')->log(Yii::app()->user->roleName . ' #' . Yii::app()->user->id . ' (' . Yii::app()->user->shortName . ') залогинился на сайте', 'User', Yii::app()->user->id);
@@ -291,8 +291,8 @@ class SiteController extends Controller
             }
         }
 
-        if (isset($_POST['App\models\Lead'])) {
-            $lead->attributes = $_POST['App\models\Lead'];
+        if (isset($_POST['App_models_Lead'])) {
+            $lead->attributes = $_POST['App_models_Lead'];
             if (!$lead->brakReason) {
                 $lead->addError('brakReason', 'Не указана причина отбраковки');
             }
