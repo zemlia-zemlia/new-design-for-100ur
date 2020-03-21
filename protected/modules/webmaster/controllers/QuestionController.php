@@ -5,7 +5,7 @@
  */
 class QuestionController extends Controller
 {
-    public $layout = '//lk/main';
+    public $layout = '//admin/main';
 
     public function actionIndex()
     {
