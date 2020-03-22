@@ -147,7 +147,7 @@ if (Yii::app()->user->id != $user->id) {
                 }
                 ?>
 
-                <?php if (!Yii::app()->user->isGuest && Yii::app()->user->id != $user->id): ?>
+                <?php if (!Yii::app()->user->isGuest && Yii::app()->user->id != $user->id && !Yii::app()->user->checkAccess(User::ROLE_JURIST) ): ?>
                     <?php echo CHtml::link('Оставить отзыв о юристе', Yii::app()->createUrl('user/testimonial', ['id' => $user->id]), ['class' => 'btn btn-block btn-info']); ?>
                 <?php endif; ?>
 

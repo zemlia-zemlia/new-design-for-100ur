@@ -110,7 +110,7 @@ class QuestionCategory extends CActiveRecord
             ['name, publish_date', 'length', 'max' => 255],
             ['alias', 'match', 'pattern' => '/^([a-z0-9\-])+$/'],
             ['description1, description2, seoTitle, seoDescription, seoKeywords, seoH1, icon', 'safe'],
-            ['fileIcon', 'file', 'types' => 'png', 'allowEmpty' => true],
+            ['fileIcon', 'file', 'types' => 'svg', 'allowEmpty' => true],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             ['id, name, parentId', 'safe', 'on' => 'search'],
@@ -573,8 +573,8 @@ class QuestionCategory extends CActiveRecord
             Yii::app()->user->setFlash('error', 'Ошибка. Размер изображения больше 250 пикс.');
             unlink($path);
             return false;
-        } elseif ($this->fileIcon->extensionName != 'png') {
-            Yii::app()->user->setFlash('error', 'Ошибка. Можно загрузить только файл PNG');
+        } elseif ($this->fileIcon->extensionName != 'svg'){
+            Yii::app()->user->setFlash('error', 'Ошибка. Можно загрузить только файл SVG');
             unlink($path);
             return false;
         } else {

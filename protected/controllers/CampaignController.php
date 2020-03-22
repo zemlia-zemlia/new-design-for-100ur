@@ -10,7 +10,7 @@ class CampaignController extends Controller
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      *             using two-column layout. See 'protected/views/layouts/column2.php'.
      */
-    public $layout = '//lk/main';
+    public $layout = '//admin/main';
 
     /**
      * @return array action filters
@@ -78,7 +78,7 @@ class CampaignController extends Controller
      */
     public function actionCreate()
     {
-        $this->layout = '//lk/main';
+        $this->layout = '//admin/main';
         $model = new Campaign();
 
         $model->active = Campaign::ACTIVE_MODERATION; // статус по умолчанию - На рассмотрении

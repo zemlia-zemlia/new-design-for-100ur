@@ -6,6 +6,7 @@ use App\models\QuestionCategory;
 /* @var $data QuestionCategory */
 ?>
 
+
 <tr class="active">
     <td>
         <strong><?php echo CHtml::link(CHtml::encode($data->name), ['view', 'id' => $data->id]); ?></strong>

@@ -32,6 +32,11 @@ class CommentController extends Controller
                         'users' => ['@'],
                         'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_ROOT . ')',
                 ],
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['index'],
+                'users' => ['@'],
+                'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')',
+            ],
                 ['deny',  // deny all users
                         'users' => ['*'],
                 ],

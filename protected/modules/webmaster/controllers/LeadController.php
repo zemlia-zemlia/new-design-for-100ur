@@ -6,7 +6,7 @@ use App\models\Leadsource;
 
 class LeadController extends Controller
 {
-    public $layout = '//lk/main';
+    public $layout = '//admin/main';
 
     public function actionIndex()
     {

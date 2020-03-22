@@ -9,7 +9,7 @@ use buyer\services\StatisticsService;
 
 class BuyerController extends Controller
 {
-    public $layout = '//lk/main';
+    public $layout = '//admin/main';
 
     public function filters()
     {

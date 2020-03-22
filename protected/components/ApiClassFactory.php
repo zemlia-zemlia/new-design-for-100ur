@@ -29,6 +29,8 @@ class ApiClassFactory
                 return new ApiPravoved();
             case 'ApiSovinform':
                 return new ApiSovinform();
+            case 'ApiGainnet':
+                return new ApiGainnet();
         }
     }
 }

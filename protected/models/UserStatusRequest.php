@@ -273,16 +273,4 @@ class UserStatusRequest extends CActiveRecord
 
         return $counterRow['counter'];
     }
-
-    public function createCompany()
-    {
-        $settings = YuristSettings::model()->find('yuristId = ' . $this->user->id);
-        $settings->inn = $this->inn;
-        $settings->companyName = $this->companyName;
-        $settings->address = $this->address;
-
-        return $settings->save();
-
-
-    }
 }

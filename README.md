@@ -1,14 +1,10 @@
 ## Установка проекта
 
-После клонирования проекта из репозитория для создания необходимых папок запустить скрипт /protected/tools/init_project.sh
+См. https://gitlab.com/mkrutikov/100yuristov/-/wikis/%D0%A0%D0%B0%D0%B7%D0%B2%D0%B5%D1%80%D1%82%D1%8B%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0-%D0%BD%D0%B0-%D0%BD%D0%BE%D0%B2%D0%BE%D0%BC-%D0%BA%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%D0%B5
 
 Пропишите в файле protected/config/.env данные для доступа к БД для разработки и тестирования. В данные для тестирование впишите значения из файла protected/tests/integration.suite.yml 
 
 ## Настройки веб-сервера
-* PHP 7.2 (с модулями: curl, mbstring)
-* MySQL
-* Composer
-* Yii framework 1.1 (в папке "framework")
 * В настройках PHP (php.ini) post_max_size = 10M; и upload_max_filesize = 10M;
 
 ## Запуск тестов
