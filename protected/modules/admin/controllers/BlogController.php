@@ -4,14 +4,10 @@ use App\models\Cat2follower;
 use App\models\Post;
 use App\models\Postcategory;
 use App\models\User;
+use App\modules\admin\controllers\AbstractAdminController;
 
-class BlogController extends Controller
+class BlogController extends AbstractAdminController
 {
-    /**
-     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     *             using two-column layout. See 'protected/views/layouts/column2.php'.
-     */
-    public $layout = '//admin/main';
 
     /**
      * @return array action filters

@@ -24,13 +24,13 @@ $this->setPageTitle('Финансовый отчет за период. ' . Yii:
             <?php echo Money::getDirectionByCode($code); ?>
         </td>
         <td>
-            <?php echo $value; ?>
+            <?php echo MoneyFormat::rubles($value); ?>
         </td>
     </tr>
     <?php endforeach; ?>
     <tr>
         <td><strong>Всего доходов</strong></td>
-        <td><strong><?php echo $reportDataSetFiltered['income']['sum']; ?></strong></td>
+        <td><strong><?php echo MoneyFormat::rubles($reportDataSetFiltered['income']['sum']); ?></strong></td>
     </tr>
     
     <tr>
@@ -49,13 +49,13 @@ $this->setPageTitle('Финансовый отчет за период. ' . Yii:
             <?php echo Money::getDirectionByCode($code); ?>
         </td>
         <td>
-            <?php echo $value; ?>
+            <?php echo MoneyFormat::rubles($value); ?>
         </td>
     </tr>
     <?php endforeach; ?>
     <tr>
         <td><strong>Всего операционных расходов</strong></td>
-        <td><strong><?php echo $reportDataSetFiltered['expences']['opex']['sum']; ?></strong></td>
+        <td><strong><?php echo MoneyFormat::rubles($reportDataSetFiltered['expences']['opex']['sum']); ?></strong></td>
     </tr>
     
     <tr>
@@ -70,18 +70,18 @@ $this->setPageTitle('Финансовый отчет за период. ' . Yii:
                 <?php echo Money::getDirectionByCode($code); ?>
             </td>
             <td>
-                <?php echo $value; ?>
+                <?php echo MoneyFormat::rubles($value); ?>
             </td>
         </tr>
         <?php endforeach; ?>
     <?php endif; ?>
     <tr>
         <td><strong>Всего капитальных расходов</strong></td>
-        <td><strong><?php echo $reportDataSetFiltered['expences']['capex']['sum']; ?></strong></td>
+        <td><strong><?php echo MoneyFormat::rubles($reportDataSetFiltered['expences']['capex']['sum']); ?></strong></td>
     </tr>
     <tr>
         <td><strong>Всего расходов</strong></td>
-        <td><strong><?php echo $reportDataSetFiltered['expences']['sum']; ?></strong></td>
+        <td><strong><?php echo MoneyFormat::rubles($reportDataSetFiltered['expences']['sum']); ?></strong></td>
     </tr>
     
     <tr>
@@ -92,11 +92,11 @@ $this->setPageTitle('Финансовый отчет за период. ' . Yii:
     
     <tr>
         <td>EBITDA</td>
-        <td><?php echo $reportDataSetFiltered['ebitda']; ?></td>
+        <td><?php echo MoneyFormat::rubles($reportDataSetFiltered['ebitda']); ?></td>
     </tr>
     <tr>
         <td>Чистая прибыль</td>
-        <td><?php echo $reportDataSetFiltered['net_profit']; ?></td>
+        <td><?php echo MoneyFormat::rubles($reportDataSetFiltered['net_profit']); ?></td>
     </tr>
 </table>
       

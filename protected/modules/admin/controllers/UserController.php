@@ -13,14 +13,11 @@ use App\models\User;
 use App\models\User2category;
 use App\models\UserFile;
 use App\models\YuristSettings;
+use App\modules\admin\controllers\AbstractAdminController;
 
-class UserController extends Controller
+class UserController extends AbstractAdminController
 {
-    /**
-     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     *             using two-column layout. See 'protected/views/layouts/column2.php'.
-     */
-    public $layout = '//admin/main';
+
     public $defaultAction = 'profile';
 
     /**
@@ -98,7 +95,7 @@ class UserController extends Controller
         $commentModel = new Comment();
 
         if (User::ROLE_BUYER == $model->role) {
-            $leadSearchModel->attributes = $_GET['App\models\Lead'];
+            $leadSearchModel->attributes = $_GET['App_models_User'];
 
             // по умолчанию собираем статистику по проданным лидам за последние 30 дней
             $dateTo = ('' != $leadSearchModel->date2) ? DateHelper::invertDate($leadSearchModel->date2) : date('Y-m-d');
@@ -145,9 +142,9 @@ class UserController extends Controller
         }
 
         // если был отправлен комментарий
-        if (isset($_POST['Comment'])) {
+        if (isset($_POST['App_models_Comment'])) {
             // отправлен ответ, сохраним его
-            $commentModel->attributes = $_POST['Comment'];
+            $commentModel->attributes = $_POST['App_models_Comment'];
             $commentModel->authorId = Yii::app()->user->id;
 
             $commentModel->status = Comment::STATUS_CHECKED;
@@ -206,11 +203,8 @@ class UserController extends Controller
         // массив пользователей  ролью Менеджер
         $allManagersNames = User::getManagersNames();
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['User'])) {
-            $model->attributes = $_POST['User'];
+        if (isset($_POST['App_models_User'])) {
+            $model->attributes = $_POST['App_models_User'];
             // генерируем пароль для пользователя
             $newPassword = User::generatePassword(8);
             $model->password = $newPassword;
@@ -245,8 +239,8 @@ class UserController extends Controller
                 }
 
                 // если мы добавили юриста
-                if (User::ROLE_JURIST == $model->role && isset($_POST['App\models\YuristSettings'])) {
-                    $yuristSettings->attributes = $_POST['App\models\YuristSettings'];
+                if (User::ROLE_JURIST == $model->role && isset($_POST['App_models_YuristSettings'])) {
+                    $yuristSettings->attributes = $_POST['App_models_YuristSettings'];
                     $yuristSettings->yuristId = $model->id;
                     $yuristSettings->save();
                 }
@@ -305,23 +299,23 @@ class UserController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['User'])) {
+        if (isset($_POST['App_models_User'])) {
             // присваивание атрибутов пользователя
-            $model->attributes = $_POST['User'];
-            $yuristSettings->attributes = $_POST['App\models\YuristSettings'];
+            $model->attributes = $_POST['App_models_User'];
+            $yuristSettings->attributes = $_POST['App_models_YuristSettings'];
 
             // если мы редактировали юриста
-            if (isset($_POST['App\models\YuristSettings'])) {
-                $yuristSettings->attributes = $_POST['App\models\YuristSettings'];
+            if (isset($_POST['App_models_YuristSettings'])) {
+                $yuristSettings->attributes = $_POST['App_models_YuristSettings'];
 
                 $yuristSettings->save();
             }
 
-            if (isset($_POST['User']['categories'])) {
+            if (isset($_POST['App_models_User']['categories'])) {
                 // удалим старые привязки пользователя к категориям
                 User2category::model()->deleteAllByAttributes(['uId' => $model->id]);
                 // привяжем пользователя к категориям
-                foreach ($_POST['User']['categories'] as $categoryId) {
+                foreach ($_POST['App_models_User']['categories'] as $categoryId) {
                     $u2cat = new User2category();
                     $u2cat->uId = $model->id;
                     $u2cat->cId = $categoryId;
@@ -378,8 +372,8 @@ class UserController extends Controller
         $model->password = '';
 
         // если была заполнена форма
-        if ($_POST['User']) {
-            $model->attributes = $_POST['User'];
+        if ($_POST['App_models_User']) {
+            $model->attributes = $_POST['App_models_User'];
             if ($model->validate()) {
                 // если данные пользователя прошли проверку (пароль не слишком короткий)
                 // шифруем пароль перед сохранением в базу
@@ -453,8 +447,8 @@ class UserController extends Controller
     {
         $model = new User('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['User'])) {
-            $model->attributes = $_GET['User'];
+        if (isset($_GET['App_models_User'])) {
+            $model->attributes = $_GET['App_models_User'];
         }
 
         $this->render('admin', [
@@ -515,9 +509,9 @@ class UserController extends Controller
         // $model - модель с формой восстановления пароля
         $model = new RestorePasswordForm();
 
-        if (isset($_POST['App\models\RestorePasswordForm'])) {
+        if (isset($_POST['App_models_RestorePasswordForm'])) {
             // получили данные из формы восстановления пароля
-            $model->attributes = $_POST['App\models\RestorePasswordForm'];
+            $model->attributes = $_POST['App_models_RestorePasswordForm'];
             $email = CHtml::encode($model->email);
             // ищем пользователя по введенному Email, если не найден, получим NULL
             $user = User::model()->findByAttributes(['email' => $email]);

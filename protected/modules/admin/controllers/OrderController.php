@@ -1,11 +1,10 @@
 <?php
 
 use App\models\Order;
+use App\modules\admin\controllers\AbstractAdminController;
 
-class OrderController extends Controller
+class OrderController extends AbstractAdminController
 {
-    public $layout = '//admin/main';
-
     /**
      * @return array action filters
      */
@@ -64,8 +63,8 @@ class OrderController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Order'])) {
-            $model->attributes = $_POST['Order'];
+        if (isset($_POST['App_models_Order'])) {
+            $model->attributes = $_POST['App_models_Order'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -89,8 +88,8 @@ class OrderController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Order'])) {
-            $model->attributes = $_POST['Order'];
+        if (isset($_POST['App_models_Order'])) {
+            $model->attributes = $_POST['App_models_Order'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -155,8 +154,8 @@ class OrderController extends Controller
     {
         $model = new Order('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Order'])) {
-            $model->attributes = $_GET['Order'];
+        if (isset($_GET['App_models_Order'])) {
+            $model->attributes = $_GET['App_models_Order'];
         }
 
         $this->render('admin', [

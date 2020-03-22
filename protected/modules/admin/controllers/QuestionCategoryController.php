@@ -8,11 +8,10 @@ use App\models\Question;
 use App\models\QuestionCategory;
 use App\models\Town;
 use App\models\User;
+use App\modules\admin\controllers\AbstractAdminController;
 
-class QuestionCategoryController extends Controller
+class QuestionCategoryController extends AbstractAdminController
 {
-    public $layout = '//admin/main';
-
     /**
      * @return array action filters
      */
@@ -96,11 +95,8 @@ class QuestionCategoryController extends Controller
             $model->parentId = (int) $_GET['parentId'];
         }
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['App\models\QuestionCategory'])) {
-            $model->attributes = $_POST['App\models\QuestionCategory'];
+        if (isset($_POST['App_models_QuestionCategory'])) {
+            $model->attributes = $_POST['App_models_QuestionCategory'];
 
             // загрузка иконки
 //            $model->fileIcon = CUploadedFile::getInstance($model, 'fileIcon');
@@ -151,8 +147,8 @@ class QuestionCategoryController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['App\models\QuestionCategory'])) {
-            $model->attributes = $_POST['App\models\QuestionCategory'];
+        if (isset($_POST['App_models_QuestionCategory'])) {
+            $model->attributes = $_POST['App_models_QuestionCategory'];
             $now = new DateTime();
             $model->publish_date = (new DateTime($model->publish_date))->setTime($now->format('H'), $now->format('i'), $now->format('s'))->format('Y-m-d H:i:s');
 
@@ -341,8 +337,8 @@ class QuestionCategoryController extends Controller
     {
         $model = new QuestionCategory('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['App\models\QuestionCategory'])) {
-            $model->attributes = $_GET['App\models\QuestionCategory'];
+        if (isset($_GET['App_models_QuestionCategory'])) {
+            $model->attributes = $_GET['App_models_QuestionCategory'];
         }
 
         $this->render('admin', [

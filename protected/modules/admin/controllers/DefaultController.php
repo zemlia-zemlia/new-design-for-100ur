@@ -3,10 +3,10 @@
 use App\helpers\DateHelper;
 use App\models\Lead;
 use App\models\Money;
+use App\modules\admin\controllers\AbstractAdminController;
 
-class DefaultController extends Controller
+class DefaultController extends AbstractAdminController
 {
-    public $layout = '//admin/main';
 
     public function actionIndex()
     {

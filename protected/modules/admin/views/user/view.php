@@ -1,12 +1,11 @@
 <?php
 /* @var $this UserController */
 
-use App\helpers\DateHelper;
+use App\helpers\DateHelper as DateHelperAlias;
 use App\helpers\NumbersHelper;
 use App\helpers\StringHelper;
 use App\models\Comment;
 use App\models\User;
-use DateHelper as DateHelperAlias;
 
 /* @var $model User */
 $this->pageTitle = 'Профиль пользователя ' . CHtml::encode($model->name) . '. ' . Yii::app()->name;
@@ -141,7 +140,7 @@ $this->widget('zii.widgets.CBreadcrumbs', [
                         </div>
                         <div class="box-body">
                             <?php if (User::ROLE_JURIST == $model->role): ?>
-                                <?php $this->widget('application.widgets.App\models\UserActivity.UserActivityWidget', [
+                                <?php $this->widget('application.widgets.UserActivity.UserActivityWidget', [
                                     'userId' => $model->id,
                                 ]); ?>
                             <?php endif; ?>

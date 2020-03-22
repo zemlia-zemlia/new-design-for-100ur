@@ -2,10 +2,10 @@
 
 use App\models\Comment;
 use App\models\User;
+use App\modules\admin\controllers\AbstractAdminController;
 
-class CommentController extends Controller
+class CommentController extends AbstractAdminController
 {
-    public $layout = '//admin/main';
 
     /**
      * @return array action filters
@@ -90,8 +90,8 @@ class CommentController extends Controller
         $model = $this->loadModel($id);
         $oldStatus = $model->status;
 
-        if (isset($_POST['Comment'])) {
-            $model->attributes = $_POST['Comment'];
+        if (isset($_POST['App_models_Comment'])) {
+            $model->attributes = $_POST['App_models_Comment'];
 
             if ($model->saveNode()) {
                 $this->redirect(['view', 'id' => $model->id, 'question_updated' => 'yes']);

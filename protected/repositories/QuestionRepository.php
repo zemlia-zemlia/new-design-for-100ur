@@ -2,6 +2,7 @@
 
 namespace App\repositories;
 
+use App\models\Answer;
 use CException;
 use App\models\Question;
 use App\models\User;

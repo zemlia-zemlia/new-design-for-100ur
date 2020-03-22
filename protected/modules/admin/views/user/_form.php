@@ -1,10 +1,12 @@
 <?php
-/* @var $this UserController */
 
 use App\helpers\DateHelper;
 use App\models\User;
 use App\models\UserFile;
 use App\models\YuristSettings;
+
+/* @var $this UserController */
+/* @var $yuristSettings YuristSettings */
 
 /* @var $model User */
 /* @var $form CActiveForm */

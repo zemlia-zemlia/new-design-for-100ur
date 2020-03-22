@@ -2,11 +2,10 @@
 
 use App\models\TransactionCampaign;
 use App\models\UserStatusRequest;
+use App\modules\admin\controllers\AbstractAdminController;
 
-class CampaignTransactionController extends Controller
+class CampaignTransactionController extends AbstractAdminController
 {
-    public $layout = '//admin/main';
-
     /**
      * @return array action filters
      */

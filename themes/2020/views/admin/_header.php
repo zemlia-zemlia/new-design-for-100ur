@@ -1,5 +1,6 @@
 <?php
 use App\repositories\QuestionRepository;
+use App\models\User;
 ?>
 
 <header class="main-header">

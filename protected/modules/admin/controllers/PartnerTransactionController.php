@@ -3,10 +3,10 @@
 use App\models\Money;
 use App\models\PartnerTransaction;
 use App\models\UserStatusRequest;
+use App\modules\admin\controllers\AbstractAdminController;
 
-class PartnerTransactionController extends Controller
+class PartnerTransactionController extends AbstractAdminController
 {
-    public $layout = '//admin/main';
 
     /**
      * @return array action filters

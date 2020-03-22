@@ -1,11 +1,10 @@
 <?php
 
 use App\models\DocType;
+use App\modules\admin\controllers\AbstractAdminController;
 
-class DocTypeController extends Controller
+class DocTypeController extends AbstractAdminController
 {
-    public $layout = '//admin/main';
-
     /**
      * @return array action filters
      */

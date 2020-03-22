@@ -4,14 +4,10 @@ use App\helpers\DateHelper;
 use App\models\Money;
 use App\models\MoneyMove;
 use App\models\User;
+use App\modules\admin\controllers\AbstractAdminController;
 
-class MoneyController extends Controller
+class MoneyController extends AbstractAdminController
 {
-    /**
-     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     *             using two-column layout. See 'protected/views/layouts/column2.php'.
-     */
-    public $layout = '//admin/main';
 
     /**
      * @return array action filters
@@ -62,11 +58,8 @@ class MoneyController extends Controller
     {
         $model = new Money();
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['App\models\Money'])) {
-            $model->attributes = $_POST['App\models\Money'];
+        if (isset($_POST['App_models_Money'])) {
+            $model->attributes = $_POST['App_models_Money'];
             $model->datetime = DateHelper::invertDate($model->datetime);
             $model->value *= 100;
             if ($model->save()) {
@@ -91,11 +84,8 @@ class MoneyController extends Controller
     {
         $model = $this->loadModel($id);
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['App\models\Money'])) {
-            $model->attributes = $_POST['App\models\Money'];
+        if (isset($_POST['App_models_Money'])) {
+            $model->attributes = $_POST['App_models_Money'];
             $model->datetime = DateHelper::invertDate($model->datetime);
             $model->value *= 100;
 
@@ -155,8 +145,8 @@ class MoneyController extends Controller
         $searchModel = new Money();
 
         // если использовался поиск, найдем только нужные транзакции
-        if (isset($_GET['App\models\Money'])) {
-            $searchModel->attributes = $_GET['App\models\Money'];
+        if (isset($_GET['App_models_Money'])) {
+            $searchModel->attributes = $_GET['App_models_Money'];
             $dataProvider = $searchModel->search();
         } else {
             $dataProvider = new CActiveDataProvider(Money::class, ['criteria' => [
@@ -185,9 +175,9 @@ class MoneyController extends Controller
 
         $searchModel->setScenario('search');
 
-        if (isset($_GET['App\models\Money'])) {
+        if (isset($_GET['App_models_Money'])) {
             // если используется форма поиска по контактам
-            $searchModel->attributes = $_GET['App\models\Money'];
+            $searchModel->attributes = $_GET['App_models_Money'];
         } else {
             // если не задан диапазон дат, построим отчет за последние 30 дней
             $searchModel->date1 = date('d-m-Y', time() - 30 * 86400);
@@ -217,8 +207,8 @@ class MoneyController extends Controller
         $moneyRecord1 = new Money();
         $moneyRecord2 = new Money();
 
-        if (isset($_POST['App\models\MoneyMove'])) {
-            $model->attributes = $_POST['App\models\MoneyMove'];
+        if (isset($_POST['App_models_MoneyMove'])) {
+            $model->attributes = $_POST['App_models_MoneyMove'];
 
             // сначала проверим правильность заполнения формы
             if ($model->validate()) {
@@ -263,8 +253,8 @@ class MoneyController extends Controller
     {
         $model = new Money('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['App\models\Money'])) {
-            $model->attributes = $_GET['App\models\Money'];
+        if (isset($_GET['App_models_Money'])) {
+            $model->attributes = $_GET['App_models_Money'];
         }
 
         $this->render('admin', [

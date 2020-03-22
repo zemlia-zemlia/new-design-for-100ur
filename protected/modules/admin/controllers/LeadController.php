@@ -11,14 +11,10 @@ use App\models\Question;
 use App\models\QuestionCategory;
 use App\models\TransactionCampaign;
 use App\models\User;
+use App\modules\admin\controllers\AbstractAdminController;
 
-class LeadController extends Controller
+class LeadController extends AbstractAdminController
 {
-    /**
-     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     *             using two-column layout. See 'protected/views/layouts/column2.php'.
-     */
-    public $layout = '//admin/main';
 
     /**
      * @return array action filters
@@ -90,11 +86,9 @@ class LeadController extends Controller
         $apiResult = null;
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
 
-        if (isset($_POST['App\models\Lead'])) {
-            $model->attributes = $_POST['App\models\Lead'];
+        if (isset($_POST['App_models_Lead'])) {
+            $model->attributes = $_POST['App_models_Lead'];
             $model->phone = PhoneHelper::normalizePhone($model->phone);
             $model->buyPrice *= 100;
 
@@ -157,8 +151,8 @@ class LeadController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['App\models\Lead'])) {
-            $model->attributes = $_POST['App\models\Lead'];
+        if (isset($_POST['App_models_Lead'])) {
+            $model->attributes = $_POST['App_models_Lead'];
             $model->phone = PhoneHelper::normalizePhone($model->phone);
             $model->buyPrice *= 100;
 
@@ -220,9 +214,9 @@ class LeadController extends Controller
             $criteria->addCondition('campaignId IS NOT NULL');
         }
 
-        if (isset($_GET['App\models\Lead'])) {
+        if (isset($_GET['App_models_Lead'])) {
             // если используется форма поиска по контактам
-            $searchModel->attributes = $_GET['App\models\Lead'];
+            $searchModel->attributes = $_GET['App_models_Lead'];
             $dataProvider = $searchModel->search();
         } else {
             // если форма не использовалась
@@ -230,7 +224,7 @@ class LeadController extends Controller
                 'criteria' => $criteria,
                 'pagination' => [
                     'pageSize' => 50,
-                    'params' => $_GET['App\models\Lead'],
+                    'params' => $_GET['App_models_Lead'],
                 ],
             ]);
         }

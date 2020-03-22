@@ -3,10 +3,10 @@
 use App\models\Lead;
 use App\models\Leadsource;
 use App\models\User;
+use App\modules\admin\controllers\AbstractAdminController;
 
-class LeadsourceController extends Controller
+class LeadsourceController extends AbstractAdminController
 {
-    public $layout = '//admin/main';
 
     /**
      * @return array action filters
@@ -111,7 +111,7 @@ class LeadsourceController extends Controller
         // $this->performAjaxValidation($model);
 
         if (isset($_POST['App_models_Leadsource'])) {
-            $model->attributes = $_POST['App\models\Leadsource'];
+            $model->attributes = $_POST['App_models_Leadsource'];
             if (User::ROLE_MANAGER == Yii::app()->user->role) {
                 $model->officeId = Yii::app()->user->officeId;
             }
