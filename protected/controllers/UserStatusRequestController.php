@@ -79,9 +79,9 @@ class UserStatusRequestController extends Controller
         // модель для работы со сканом
         $userFile = new UserFile();
 
-        if (Yii::app()->request->getParam('App\models\UserStatusRequest') !== NULL) {
-            $post = Yii::app()->request->getParam('App\models\UserStatusRequest');
-            $model->attributes = Yii::app()->request->getParam('App\models\UserStatusRequest');
+        if (Yii::app()->request->getParam('App_models_UserStatusRequest') !== NULL) {
+            $post = Yii::app()->request->getParam('App_models_UserStatusRequest');
+            $model->attributes = Yii::app()->request->getParam('App_models_UserStatusRequest');
 
             $model->yuristId = Yii::app()->user->id;
             $model->inn = $post['inn'] ? $post['inn'] : '';
@@ -167,8 +167,8 @@ class UserStatusRequestController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['App\models\UserStatusRequest'])) {
-            $model->attributes = $_POST['App\models\UserStatusRequest'];
+        if (isset($_POST['App_models_UserStatusRequest'])) {
+            $model->attributes = $_POST['App_models_UserStatusRequest'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -213,8 +213,8 @@ class UserStatusRequestController extends Controller
     {
         $model = new UserStatusRequest('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['App\models\UserStatusRequest'])) {
-            $model->attributes = $_GET['App\models\UserStatusRequest'];
+        if (isset($_GET['App_models_UserStatusRequest'])) {
+            $model->attributes = $_GET['App_models_UserStatusRequest'];
         }
 
         $this->render('admin', [

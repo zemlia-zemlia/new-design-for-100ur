@@ -67,13 +67,13 @@ class FileCategoryController extends AbstractAdminController
         $model = new FileCategory();
         $model->active = 1;
 
-        if (isset($_POST['FileCategory'])) {
+        if (isset($_POST['App_models_FileCategory'])) {
             if (0 != $id) {
-                $model->attributes = $_POST['FileCategory'];
+                $model->attributes = $_POST['App_models_FileCategory'];
                 $root = FileCategory::model()->findByPk($id);
                 $model->appendTo($root);
             } else {
-                $model->attributes = $_POST['FileCategory'];
+                $model->attributes = $_POST['App_models_FileCategory'];
 
                 $model->saveNode();
             }
@@ -103,8 +103,8 @@ class FileCategoryController extends AbstractAdminController
     {
         $model = $this->loadModel($id);
 
-        if (isset($_POST['FileCategory'])) {
-            $model->attributes = $_POST['FileCategory'];
+        if (isset($_POST['App_models_FileCategory'])) {
+            $model->attributes = $_POST['App_models_FileCategory'];
 
             if ($model->saveNode()) {
                 $this->redirect(['view', 'id' => $model->id]);

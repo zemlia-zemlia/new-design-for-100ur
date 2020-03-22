@@ -112,8 +112,8 @@ class TransactionController extends Controller
         }
         $hold = $currentUser->calculateWebmasterHold();
 
-        if (isset($_POST['App\models\PartnerTransaction'])) {
-            $transaction->attributes = $_POST['App\models\PartnerTransaction'];
+        if (isset($_POST['App_models_PartnerTransaction'])) {
+            $transaction->attributes = $_POST['App_models_PartnerTransaction'];
             $transaction->partnerId = Yii::app()->user->id;
             $transaction->status = PartnerTransaction::STATUS_PENDING;
 
@@ -149,8 +149,8 @@ class TransactionController extends Controller
                 }
             }
         }
-        if (isset($_POST['App\models\TransactionCampaign'])) {
-            $transaction->attributes = $_POST['App\models\TransactionCampaign'];
+        if (isset($_POST['App_models_TransactionCampaign'])) {
+            $transaction->attributes = $_POST['App_models_TransactionCampaign'];
             $transaction->buyerId = Yii::app()->user->id;
             $transaction->sum = $transaction->sum * 100;
             $transaction->status = TransactionCampaign::STATUS_PENDING;

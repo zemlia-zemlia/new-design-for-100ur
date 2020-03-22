@@ -83,8 +83,8 @@ class CampaignController extends Controller
 
         $model->active = Campaign::ACTIVE_MODERATION; // статус по умолчанию - На рассмотрении
 
-        if (isset($_POST['App\models\Campaign'])) {
-            $model->attributes = $_POST['App\models\Campaign'];
+        if (isset($_POST['App_models_Campaign'])) {
+            $model->attributes = $_POST['App_models_Campaign'];
             if (User::ROLE_ROOT != Yii::app()->user->role) {
                 $model->buyerId = Yii::app()->user->id;
             }
@@ -137,8 +137,8 @@ class CampaignController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['App\models\Campaign'])) {
-            $model->attributes = $_POST['App\models\Campaign'];
+        if (isset($_POST['App_models_Campaign'])) {
+            $model->attributes = $_POST['App_models_Campaign'];
 
             if ($model->save()) {
                 $this->redirect(['/buyer/buyer/campaign', 'id' => $model->id]);
@@ -177,22 +177,6 @@ class CampaignController extends Controller
         $dataProvider = new CActiveDataProvider(Campaign::class);
         $this->render('index', [
             'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Manages all models.
-     */
-    public function actionAdmin()
-    {
-        $model = new Campaign('search');
-        $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['App\models\Campaign'])) {
-            $model->attributes = $_GET['App\models\Campaign'];
-        }
-
-        $this->render('admin', [
-            'model' => $model,
         ]);
     }
 

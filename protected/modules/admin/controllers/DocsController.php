@@ -68,8 +68,8 @@ class DocsController extends AbstractAdminController
         $model->setScenario('pull');
         $category = FileCategory::model()->findByPk($id);
 
-        if (isset($_POST['App\models\Docs'])) {
-            $model->attributes = $_POST['App\models\Docs'];
+        if (isset($_POST['App_models_Docs'])) {
+            $model->attributes = $_POST['App_models_Docs'];
             $model->file = CUploadedFile::getInstance($model, 'file');
             if (!$model->file && $model->getIsNewRecord()) {
                 Yii::app()->user->setFlash('error', 'Ошибка');
@@ -115,8 +115,8 @@ class DocsController extends AbstractAdminController
     {
         $model = $this->loadModel($id);
 
-        if (isset($_POST['App\models\Docs'])) {
-            $model->attributes = $_POST['App\models\Docs'];
+        if (isset($_POST['App_models_Docs'])) {
+            $model->attributes = $_POST['App_models_Docs'];
             $model->file = CUploadedFile::getInstance($model, 'file');
             if ($model->file) {
                 $name = $model->generateName();

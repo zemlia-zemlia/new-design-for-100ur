@@ -72,8 +72,8 @@ class SourceController extends Controller
     {
         $model = new Leadsource();
 
-        if (isset($_POST['App\models\Leadsource'])) {
-            $model->attributes = $_POST['App\models\Leadsource'];
+        if (isset($_POST['App_models_Leadsource'])) {
+            $model->attributes = $_POST['App_models_Leadsource'];
 
             // при создании источника генерируем его параметры для API
             $model->generateAppId();
@@ -109,8 +109,8 @@ class SourceController extends Controller
             throw new CHttpException(403, 'Вы не можете просматривать чужие источники');
         }
 
-        if (isset($_POST['App\models\Leadsource'])) {
-            $model->attributes = $_POST['App\models\Leadsource'];
+        if (isset($_POST['App_models_Leadsource'])) {
+            $model->attributes = $_POST['App_models_Leadsource'];
 
             if (!$model->appId) {
                 $model->generateAppId();

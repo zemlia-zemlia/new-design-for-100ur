@@ -47,8 +47,8 @@ class TransactionController extends Controller
         $balance = $currentUser->calculateWebmasterBalance(30);
         $hold = $currentUser->calculateWebmasterHold(30);
 
-        if (isset($_POST['App\models\PartnerTransaction'])) {
-            $transaction->attributes = $_POST['App\models\PartnerTransaction'];
+        if (isset($_POST['App_models_PartnerTransaction'])) {
+            $transaction->attributes = $_POST['App_models_PartnerTransaction'];
             $transaction->partnerId = Yii::app()->user->id;
             $transaction->status = PartnerTransaction::STATUS_PENDING;
             $transaction->sum *= 100;

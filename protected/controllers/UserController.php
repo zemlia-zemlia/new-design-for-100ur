@@ -142,8 +142,8 @@ class UserController extends Controller
             User::ROLE_JURIST => 'Юрист',
         ];
 
-        if (isset($_POST['User'])) {
-            $model->attributes = $_POST['User'];
+        if (isset($_POST['App_models_User'])) {
+            $model->attributes = $_POST['App_models_User'];
 
             // можно зарегистрироваться с ролью Юрист, Пользователь, покупатель
             // все, кто не юристы и покупатели - пользователи
@@ -222,24 +222,24 @@ class UserController extends Controller
             User::ROLE_JURIST => 'Юрист',
         ];
 
-        if (isset($_POST['User'])) {
+        if (isset($_POST['App_models_User'])) {
             // присваивание атрибутов пользователя
             $model->attributes = $_POST['User'];
-            $yuristSettings->attributes = $_POST['App\models\YuristSettings'];
+            $yuristSettings->attributes = $_POST['App_models_YuristSettings'];
 
             // если мы редактировали юриста
-            if (isset($_POST['App\models\YuristSettings'])) {
-                $yuristSettings->attributes = $_POST['App\models\YuristSettings'];
+            if (isset($_POST['App_models_YuristSettings'])) {
+                $yuristSettings->attributes = $_POST['App_models_YuristSettings'];
                 $yuristSettings->priceDoc *= 100;
                 $yuristSettings->priceConsult *= 100;
                 $yuristSettings->save();
             }
 
-            if (isset($_POST['User']['categories'])) {
+            if (isset($_POST['App_models_User']['categories'])) {
                 // удалим старые привязки пользователя к категориям
                 User2category::model()->deleteAllByAttributes(['uId' => $model->id]);
                 // привяжем пользователя к категориям
-                foreach ($_POST['User']['categories'] as $categoryId) {
+                foreach ($_POST['App_models_User']['categories'] as $categoryId) {
                     $u2cat = new User2category();
                     $u2cat->uId = $model->id;
                     $u2cat->cId = $categoryId;
@@ -329,8 +329,8 @@ class UserController extends Controller
         $model->setScenario('changePassword');
 
         // если была заполнена форма
-        if ($_POST['User']) {
-            $model->attributes = $_POST['User'];
+        if ($_POST['App_models_User']) {
+            $model->attributes = $_POST['App_models_User'];
             if ($model->validate()) {
                 // если данные пользователя прошли проверку (пароль не слишком короткий)
                 // шифруем пароль перед сохранением в базу
@@ -472,9 +472,9 @@ class UserController extends Controller
         // $model - модель с формой восстановления пароля
         $model = new RestorePasswordForm();
 
-        if (isset($_POST['App\models\RestorePasswordForm'])) {
+        if (isset($_POST['App_models_RestorePasswordForm'])) {
             // получили данные из формы восстановления пароля
-            $model->attributes = $_POST['App\models\RestorePasswordForm'];
+            $model->attributes = $_POST['App_models_RestorePasswordForm'];
             $email = trim(strtolower(CHtml::encode($model->email)));
             // ищем пользователя по введенному Email, если не найден, получим NULL
             $user = User::model()->find('LOWER(email)=?', [$email]);
@@ -530,8 +530,8 @@ class UserController extends Controller
         $user->password = '';
 
         // если была заполнена форма
-        if ($_POST['User']) {
-            $user->attributes = $_POST['User'];
+        if ($_POST['App_models_User']) {
+            $user->attributes = $_POST['App_models_User'];
             if ($user->validate()) {
                 // если данные пользователя прошли проверку (пароль не слишком короткий)
                 // шифруем пароль перед сохранением в базу
@@ -646,13 +646,13 @@ class UserController extends Controller
 
         // если не передан id ответа
         if (!$answerId) {
-            throw new CHttpException(400, 'App\models\Answer id not specified');
+            throw new CHttpException(400, 'Answer id not specified');
         }
 
         $answer = Answer::model()->findByPk($answerId);
 
         if (!$answer) {
-            throw new CHttpException(404, 'App\models\Answer not found');
+            throw new CHttpException(404, 'Answer not found');
         }
 
         // id пользователя, написавшего ответ
@@ -807,8 +807,8 @@ class UserController extends Controller
         $commentModel = new Comment();
         $commentModel->setScenario('user');
 
-        if (isset($_POST['Comment'])) {
-            $commentModel->attributes = $_POST['Comment'];
+        if (isset($_POST['App_models_Comment'])) {
+            $commentModel->attributes = $_POST['App_models_Comment'];
             $commentModel->authorId = Yii::app()->user->id;
             $commentModel->questionId = $questionId;
 
