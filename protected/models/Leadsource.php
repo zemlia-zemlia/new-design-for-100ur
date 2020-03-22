@@ -83,6 +83,7 @@ class Leadsource extends CActiveRecord
     {
         return [
             'user' => [self::BELONGS_TO, User::class, 'userId'],
+            'leads' => [self::HAS_MANY, Lead::class, 'sourceId'],
         ];
     }
 
@@ -243,4 +244,64 @@ class Leadsource extends CActiveRecord
 
         return $source;
     }
+
+    /**
+     * @param int $days
+     * @return array
+     * @throws CException
+     */
+    public static function getActiveSourcesWithUserAsArray($days = 5): array
+    {
+        return self::getSourcesWithUserAsArray(true, $days);
+    }
+
+    /**
+     * @param int $days
+     * @return array
+     * @throws CException
+     */
+    public static function getInactiveSourcesWithUserAsArray($days = 5): array
+    {
+        return self::getSourcesWithUserAsArray(false, $days);
+    }
+
+    /**
+     * @param bool $active Вернуть только активные источники, в которых есть лиды за последние $days дней
+     * @param int $days
+     * @return array
+     * @throws CException
+     */
+    private static function getSourcesWithUserAsArray($active = true, $days = 5): array
+    {
+        /*
+        Запрос для получения источников, времени последнего лида и пользователя
+        SELECT s.id, s.name, MAX(l.question_date) last_lead_time, u.id, u.name
+        FROM 100_leadsource s
+        LEFT JOIN 100_lead l ON l.sourceId=s.id
+        LEFT JOIN 100_user u ON s.userId=u.id
+        GROUP BY s.id
+        HAVING last_lead_time > NOW()-INTERVAL 5 DAY
+        order by s.id DESC
+        */
+
+        $queryBuilder = Yii::app()->db->createCommand()
+            ->select("s.id, s.name, MAX(l.question_date) last_lead_time, u.id user_id, u.name user_name")
+            ->from("{{leadsource}} s")
+            ->leftJoin("{{lead}} l", "l.sourceId=s.id")
+            ->leftJoin("{{user}} u", "s.userId=u.id")
+            ->group("s.id")
+            ->order('s.id DESC');
+
+        $havingCondition = ($active == true) ?
+            "last_lead_time >= NOW()-INTERVAL :days DAY" :
+            "last_lead_time < NOW()-INTERVAL :days DAY";
+
+
+        $queryBuilder->having($havingCondition, [
+            ':days' => (int)$days,
+        ]);
+
+        return $queryBuilder->queryAll();
+    }
+
 }

@@ -25,12 +25,9 @@ use App\models\Leadsource;
         <?php echo CHtml::link(CHtml::encode($data->user->name), Yii::app()->createUrl('/admin/user/view', ['id' => $data->user->id])); ?>
         <?php endif; ?>
     </td>
+
     <td>
-	<?php echo CHtml::encode($data->description); ?>
-    </td>
-    <td>
-	<?php echo CHtml::link('Изменить', Yii::app()->createUrl('admin/leadsource/update', ['id' => $data->id])); ?> &nbsp;&nbsp;
-        <?php echo CHtml::link('Удалить', Yii::app()->createUrl('admin/leadsource/delete', ['id' => $data->id])); ?>
+	<?php echo CHtml::link('Редактировать', Yii::app()->createUrl('admin/leadsource/update', ['id' => $data->id])); ?> &nbsp;&nbsp;
     </td>
 
 </tr>
