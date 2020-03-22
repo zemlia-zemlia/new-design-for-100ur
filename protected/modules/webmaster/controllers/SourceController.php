@@ -5,7 +5,7 @@
  */
 class SourceController extends Controller
 {
-    public $layout = '//lk/main';
+    public $layout = '//admin/main';
 
     /**
      * Список моих источников.

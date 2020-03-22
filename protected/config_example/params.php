@@ -73,4 +73,7 @@ return [
     'sovinform' => [
         'key' => '',
     ],
+    'gainnet' => [
+        'key' => '',
+    ],
 ];

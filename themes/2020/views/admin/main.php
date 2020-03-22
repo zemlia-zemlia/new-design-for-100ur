@@ -84,9 +84,8 @@
         <div class="pull-right hidden-xs">
             <b>Version</b> 2.0
         </div>
-        <strong>Copyright &copy; 2014-2020</strong> All rights
-        reserved.
-    </footer>
+        <strong>&copy; 2014-2020 <a href="#">100 Юристов</a>.</strong>
+      </footer>
 
     <!-- Control Sidebar -->
 

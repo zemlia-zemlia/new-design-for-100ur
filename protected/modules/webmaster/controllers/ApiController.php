@@ -5,7 +5,7 @@
  */
 class ApiController extends Controller
 {
-    public $layout = '//lk/main';
+    public $layout = '//admin/main';
 
     /**
      * Описание работы API.

@@ -10,12 +10,42 @@
                 <p><?= CHtml::encode(Yii::app()->user->shortName); ?> </p>
 
                 <a href="#"><i class="fa fa-circle text-success"></i><?php echo Yii::app()->user->roleName; ?></a>
+
             </div>
         </div>
 
         <!-- sidebar menu: : style can be found in sidebar.less -->
 
         <ul class="sidebar-menu">
+
+            <?php if (Yii::app()->user->role == User::ROLE_BUYER) : ?>
+                <li class="header">Личный кабинет</li>
+                <li><a href="<?= Yii::app()->createUrl('/buyer/'); ?>"><i class="fa fa-circle-o"></i> Главная</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/myLeads/'); ?>"><i class="fa fa-bars" aria-hidden="true"></i> Мои лиды</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/campaigns/'); ?>"><i class="fa fa-bars" aria-hidden="true"></i> Мои кампании</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/transactions/'); ?>"><i class="fa fa-money" aria-hidden="true"></i> Финансы</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/api/'); ?>"><i class="fa fa-wrench" aria-hidden="true"></i> Работа с API</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/faq/'); ?>"><i class="fa fa-question" aria-hidden="true"></i> Справочная</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/help/'); ?>"><i class="fa fa-life-ring" aria-hidden="true"></i> Техподдержка</a></li>
+                <li><a href="https://www.yurcrm.ru/" target="_blank" rel="nofollow"><i class="fa fa-circle-o"></i> CRM для юристов  <i class="fa fa-external-link" aria-hidden="true"></i>
+                    </a></li>
+
+            <?php endif; ?>
+
+            <?php if (Yii::app()->user->role == User::ROLE_PARTNER) : ?>
+                <li class="header">Личный кабинет</li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/'); ?>"><i class="fa fa-circle-o"></i> Главная</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/lead/create/'); ?>"><i class="fa fa-plus" aria-hidden="true"></i>Добавить новый лид</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/lead/'); ?>"><i class="fa fa-bars" aria-hidden="true"></i>Все мои лиды</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/source/'); ?>"><i class="fa fa-cloud-download" aria-hidden="true"></i> Мои источники</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/lead/prices/'); ?>"><i class="fa fa-money" aria-hidden="true"></i> Регионы и цены</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/question/'); ?>"><i class="fa fa-comment" aria-hidden="true"></i>Привлеченные вопросы</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/api/'); ?>"><i class="fa fa-wrench" aria-hidden="true"></i> Работа с API</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/faq/'); ?>"><i class="fa fa-circle-o"></i> Справочная</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/transaction/'); ?>"><i class="fa fa-money" aria-hidden="true"></i> Финансы</a></li>
+
+            <?php endif; ?>
+
             <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT) || Yii::app()->user->role == User::ROLE_SECRETARY): ?>
                 <li class="header">Админ панель</li>
                 <li class="active treeview">
@@ -118,6 +148,7 @@
                     </a>
                 </li>
             <?php endif; ?>
+
             <?php if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)): ?>
                 <li class="header">Управление контентом</li>
 
@@ -202,9 +233,8 @@
                             </li>
                         </ul>
                     </li>
-
-
                 <?php endif; ?>
+
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-edit"></i> <span>Комментарии</span>
@@ -212,14 +242,11 @@
                     </a>
                     <ul class="treeview-menu">
                         <li>
-
-
                             <a href="<?= Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_ANSWER, 'status' => Comment::STATUS_NEW)) ?>">
                                 <i class="fa fa-th"></i> <span>Новые комментарии</span> <small
                                         class="label pull-right bg-green">
                                     <?php echo Comment::newCommentsCount(Comment::TYPE_ANSWER, 300); ?></small>
                             </a>
-
                         </li>
                         <li>
                             <?php echo CHtml::link("<span class='glyphicon glyphicon-ok'></span> " . 'Одобренные комментарии', Yii::app()->createUrl('/admin/comment/index', array('type' => Comment::TYPE_ANSWER, 'status' => Comment::STATUS_CHECKED))); ?>
@@ -229,8 +256,8 @@
                         </li>
                     </ul>
                 </li>
-                <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
 
+                <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-table"></i> <span>Отзывы</span> <span><small
@@ -252,11 +279,9 @@
                             </li>
                         </ul>
                     </li>
-
                 <?php endif; ?>
+
                 <?php if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)): ?>
-
-
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-newspaper-o" aria-hidden="true"></i> <span>Новости</span>
@@ -279,8 +304,6 @@
                             </li>
                         </ul>
                     </li>
-
-
                 <?php endif; ?>
 
                 <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
@@ -294,18 +317,13 @@
                             <i class="fa fa-at" aria-hidden="true"></i> <span>Рассылки</span>
                         </a>
                     </li>
-
-
                 <?php endif; ?>
                 <li>
                     <a href="<?= Yii::app()->createUrl('/admin/docs') ?>">
                         <i class="fa fa-th"></i> <span>Файлы</span>
                     </a>
                 </li>
-
             <?php endif; ?>
-
-
         </ul>
     </section>
     <!-- /.sidebar -->
