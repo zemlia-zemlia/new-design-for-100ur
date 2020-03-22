@@ -175,14 +175,17 @@ class LeadsourceController extends Controller
     }
 
     /**
-     * Lists all models.
+     * Вывести список источников, состоящий из 2 частей: активные и неактивные
+     * Активность определяется по наличию лидов за последние несколько дней
      */
     public function actionIndex()
     {
+        $activeSources = Leadsource::getActiveSourcesWithUserAsArray(5);
+        $inactiveSources = Leadsource::getInactiveSourcesWithUserAsArray(5);
 
         $this->render('index', [
-            'dataProvider' => Leadsource::getSourcesOrderByUser(),
-            'dataProviderActive' => Leadsource::getSourcesOrderByUser(true),
+            'activeSources' => $activeSources,
+            'inactiveSources' => $inactiveSources,
         ]);
     }
 

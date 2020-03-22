@@ -1,6 +1,7 @@
 <?php
 /* @var $this LeadsourceController */
-/* @var $dataProvider CActiveDataProvider */
+/* @var $activeSources array */
+/* @var $inactiveSources array */
 
 $this->pageTitle = 'Источники лидов. ' . Yii::app()->name;
 
@@ -38,19 +39,16 @@ $this->widget('zii.widgets.CBreadcrumbs', [
                     </tr>
                     </thead>
 
-                    <?php $this->widget('zii.widgets.CListView', [
-                        'dataProvider' => $dataProviderActive,
-                        'itemView' => '_view',
-                        'emptyText' => 'Не найдено ни одного контакта',
-                        'summaryText' => 'Показаны контакты с {start} до {end}, всего {count}',
-                        'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
-                    ]); ?>
+                    <?php $this->renderPartial('_viewArray', [
+                        'sources' => $activeSources,
+                    ]);
+                    ?>
                 </table>
             </div>
         </div>
-<div class="alert alert-info">
-    Активные - это источники по которым были лиды за последние 5 суток.
-</div>
+        <div class="alert alert-info">
+            Активные - это источники по которым были лиды за последние 5 суток.
+        </div>
     </div>
 
     <div class="col-md-6">
@@ -69,13 +67,10 @@ $this->widget('zii.widgets.CBreadcrumbs', [
                     </tr>
                     </thead>
 
-                    <?php $this->widget('zii.widgets.CListView', [
-                        'dataProvider' => $dataProvider,
-                        'itemView' => '_view',
-                        'emptyText' => 'Не найдено ни одного контакта',
-                        'summaryText' => 'Показаны контакты с {start} до {end}, всего {count}',
-                        'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
-                    ]); ?>
+                    <?php $this->renderPartial('_viewArray', [
+                        'sources' => $inactiveSources,
+                    ]);
+                    ?>
                 </table>
             </div>
         </div>
