@@ -19,7 +19,7 @@ $this->pageTitle = 'Личный кабинет вебмастера. ' . Yii::a
         <!-- small box -->
         <div class="small-box bg-aqua">
             <div class="inner">
-                <h3><?php echo $statsFor30Days['totalLeads']; ?></h3>
+                <h3><?php echo $statsFor30Days['totalLeads'] ? $statsFor30Days['totalLeads'] : 0; ?></h3>
                 <p>Лидов за 30 дней</p>
             </div>
             <div class="icon">
@@ -32,7 +32,7 @@ $this->pageTitle = 'Личный кабинет вебмастера. ' . Yii::a
         <!-- small box -->
         <div class="small-box bg-green">
             <div class="inner">
-                <h3><?php echo $statsFor30Days['soldLeadsPercent']; ?><sup style="font-size: 20px">%</sup></h3>
+                <h3><?php echo $statsFor30Days['soldLeadsPercent'] ? $statsFor30Days['soldLeadsPercent']  : 0; ?><sup style="font-size: 20px">%</sup></h3>
 
                 <p>Лидов выкуплено</p>
             </div>

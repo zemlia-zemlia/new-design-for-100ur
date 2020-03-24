@@ -25,6 +25,15 @@ $this->widget('zii.widgets.CBreadcrumbs', [
         <?php print_r($apiResult); ?>
     </textarea>
 <?php endif; ?>
+
+<?php if ($noSource) : ?>
+<div>
+    <p>
+        Для того чтобы начать отправлять лиды вам необходимо создать <a href="<?= Yii::app()->createUrl('/webmaster/source/create/') ?>" >источник лидов</a>
+    </p>
+</div>
+
+<?php else : ?>
 <div class="row">
     <div class="col-md-6">
         <div class="box">
@@ -39,3 +48,4 @@ $this->widget('zii.widgets.CBreadcrumbs', [
     <div class="col-md-6">
     </div>
 </div>
+<?php endif; ?>
