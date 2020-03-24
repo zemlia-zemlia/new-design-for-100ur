@@ -119,7 +119,7 @@ class Question extends CActiveRecord
             'townByIP' => [self::BELONGS_TO, 'Town', 'townIdByIP'],
             'source' => [self::BELONGS_TO, 'Leadsource', 'sourceId'],
             'answers' => [self::HAS_MANY, 'Answer', 'questionId'],
-            'answersCount' => [self::STAT, 'Answer', 'questionId'],
+            'answersCount' => [self::STAT, 'Answer', 'questionId', 'condition' => 'status IN (' . Answer::STATUS_NEW .', ' .  Answer::STATUS_PUBLISHED . ')'],
             'bublishUser' => [self::BELONGS_TO, 'User', 'publishedBy'],
             'author' => [self::BELONGS_TO, 'User', 'authorId'],
             'categories' => [self::MANY_MANY, 'QuestionCategory', '{{question2category}}(qId, cId)'],

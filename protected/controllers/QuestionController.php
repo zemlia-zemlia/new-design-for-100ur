@@ -1176,10 +1176,10 @@ class QuestionController extends Controller
         $user = User::model()->findByPk(Yii::app()->user->id);
 
         $questionCriteria = new CDbCriteria();
-        $questionCriteria->order = 'publishDate DESC';
+        $questionCriteria->order = 't.publishDate DESC';
         $questionCriteria->with = 'answersCount';
-        $questionCriteria->addColumnCondition(['authorId' => $user->id]);
-        $questionCriteria->addInCondition('status', [Question::STATUS_PUBLISHED, Question::STATUS_CHECK]);
+        $questionCriteria->addColumnCondition(['t.authorId' => $user->id]);
+        $questionCriteria->addInCondition('t.status', [Question::STATUS_PUBLISHED, Question::STATUS_CHECK]);
         $questions = Question::model()->findAll($questionCriteria);
 
         $this->render('my', [

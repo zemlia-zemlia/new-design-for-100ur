@@ -26,7 +26,7 @@ switch ($data->status) {
                 <div class="col-md-8">
                     <p>
                         <strong>Вопрос:</strong>
-                        <?php echo CHtml::encode(StringHelper::cutString($data->question->questionText, 1000)); ?>
+                        <?php echo $data->question ? CHtml::encode(StringHelper::cutString($data->question->questionText, 1000)) : ''; ?>
                     </p>
 
                     <p>

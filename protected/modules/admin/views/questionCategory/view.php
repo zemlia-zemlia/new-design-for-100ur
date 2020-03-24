@@ -21,12 +21,10 @@ $this->widget('zii.widgets.CBreadcrumbs', [
 ]);
 ?>
 
+<h1 class="vert-margin30"><?php echo CHtml::encode($model->name); ?></h1>
 
 <div class="row">
     <div class="col-md-9">
-        <br/>
-        <h1 class="vert-margin30"><?php echo CHtml::encode($model->name); ?></h1>
-        <br/>
         <!--
         <?php if ($model->description1): ?>
             <div class="vert-margin30">
@@ -34,22 +32,38 @@ $this->widget('zii.widgets.CBreadcrumbs', [
             </div>
         <?php endif; ?>
         -->
-        <h3>Вложенные категории:</h3>
-
-        <?php $this->renderPartial('_table', ['categoriesArray' => $subCategoriesArray]); ?>
+        <div class="box">
+            <div class="box-header">
+                <div class="box-title">Вложенные категории:</div>
+            </div>
+            <div class="box-body">
+                <?php $this->renderPartial('_table', ['categoriesArray' => $subCategoriesArray]); ?>
+            </div>
+        </div>
     </div>
 
 
     <div class="col-md-3">
-        <?php echo CHtml::link('Редактировать категорию', Yii::app()->createUrl('/admin/questionCategory/update', ['id' => $model->id]), ['class' => 'btn btn-block btn-primary']); ?>
-        <?php echo CHtml::link('Создать подкатегорию', Yii::app()->createUrl('/admin/questionCategory/create', ['parentId' => $model->id]), ['class' => 'btn btn-block btn-primary']); ?>
-        <?php echo CHtml::link('Открыть на сайте', Yii::app()->createUrl('/questionCategory/alias', ['name' => $model->alias]), ['class' => 'btn btn-block btn-default', 'target' => '_blank']); ?>
-        <br/>
-        <p>Заглавная картинка категории:</p>
-        <?php if ($model->image): ?>
-            <?php echo CHtml::image($model->getImagePath(), '', ['class' => 'img-responsive']); ?>
-        <?php endif; ?>
-
+        <div class="box">
+            <div class="box-header">
+                <div class="box-title">Управление:</div>
+            </div>
+            <div class="box-body">
+                <?php echo CHtml::link('Редактировать категорию', Yii::app()->createUrl('/admin/questionCategory/update', ['id' => $model->id]), ['class' => 'btn btn-block btn-primary']); ?>
+                <?php echo CHtml::link('Создать подкатегорию', Yii::app()->createUrl('/admin/questionCategory/create', ['parentId' => $model->id]), ['class' => 'btn btn-block btn-primary']); ?>
+                <?php echo CHtml::link('Открыть на сайте', Yii::app()->createUrl('/questionCategory/alias', ['name' => $model->alias]), ['class' => 'btn btn-block btn-default', 'target' => '_blank']); ?>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-header">
+                <div class="box-title">Картинка категории:</div>
+            </div>
+            <div class="box-body">
+                <?php if ($model->image): ?>
+                    <?php echo CHtml::image($model->getImagePath(), '', ['class' => 'img-responsive']); ?>
+                <?php endif; ?>
+            </div>
+        </div>
 
     </div>
 

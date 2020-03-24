@@ -175,34 +175,17 @@ class LeadsourceController extends Controller
     }
 
     /**
-     * Lists all models.
+     * Вывести список источников, состоящий из 2 частей: активные и неактивные
+     * Активность определяется по наличию лидов за последние несколько дней
      */
     public function actionIndex()
     {
-        $criteria = new CDbCriteria();
+        $activeSources = Leadsource::getActiveSourcesWithUserAsArray(5);
+        $inactiveSources = Leadsource::getInactiveSourcesWithUserAsArray(5);
 
-        $criteria->with = 'user';
-
-        // добавим условие выборки контактов по офису
-        if (isset($_GET['officeId'])) {
-            $officeId = (int) $_GET['officeId'];
-        } else {
-            $officeId = 0;
-        }
-        if (User::ROLE_ROOT != Yii::app()->user->role) {
-            $officeId = Yii::app()->user->officeId;
-        }
-
-        $dataProvider = new CActiveDataProvider(
-            'Leadsource',
-            [
-            'criteria' => $criteria,
-            'pagination' => [
-                'pageSize' => 50,
-            ], ]
-        );
         $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'activeSources' => $activeSources,
+            'inactiveSources' => $inactiveSources,
         ]);
     }
 

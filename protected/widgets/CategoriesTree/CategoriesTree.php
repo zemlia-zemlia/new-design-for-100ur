@@ -9,7 +9,7 @@ class CategoriesTree extends CWidget
     {
         // вытаскиваем из базы список категорий верхнего уровня
         $topCategories = Yii::app()->db->cache($this->cacheTime)->createCommand()
-                ->select('id, alias, name')
+                ->select('id, alias, name, icon')
                 ->from('{{questionCategory}}')
                 ->where('lft=1') // категории верхнего уровня
                 ->order('name')

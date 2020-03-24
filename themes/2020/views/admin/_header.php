@@ -1,6 +1,6 @@
 <header class="main-header">
     <!-- Logo -->
-    <a href="/admin/" class="logo">
+    <a href="<?php echo Yii::app()->user->getHomeUrl(); ?>" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>100</b></span>
         <!-- logo for regular state and mobile devices -->
@@ -19,18 +19,43 @@
         $questionsCountForModerate = $questionRepository->countForModerate();
 
 
-
-
         ?>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-                <li>
-                    <a href="<?= Yii::app()->createUrl('/admin/question/setTitle/') ?>">Модерировать: <?= $questionsCountForModerate ?></a>
-                </li>
 
-                <li>
-                    <a href="<?= Yii::app()->createUrl('/admin/question/nocat/') ?>">Без категории: <?= $questionsCountNoCat ?></a>
-                </li>
+                <?php if (Yii::app()->user->role == User::ROLE_PARTNER) :
+                    $currentUser = User::model()->findByPk(Yii::app()->user->id);
+                    $balance = $currentUser->calculateWebmasterBalance(30);
+                    $hold = $currentUser->calculateWebmasterHold(30);
+                    ?>
+                    <li>
+                        <?php echo CHtml::link('<i class="fa fa-rub" aria-hidden="true"></i> ' . MoneyFormat::rubles($balance - $hold), Yii::app()->createUrl('/webmaster/transaction/')); ?>
+                    </li>
+
+                    <li class="hidden-xs">
+                        <?php echo CHtml::link('Холд: ' . MoneyFormat::rubles($hold) . ' <i class="fa fa-rub" aria-hidden="true"></i>', Yii::app()->createUrl('/webmaster/transaction/')); ?>
+                    </li>
+                <?php endif; ?>
+
+                <?php if (Yii::app()->user->role == User::ROLE_BUYER) : ?>
+                    <li>
+                        <a href="<?php echo Yii::app()->createUrl('buyer/buyer/transactions'); ?>">
+                            <i class="fa fa-rub"
+                               aria-hidden="true"></i> <?php echo MoneyFormat::rubles(Yii::app()->user->balance); ?>
+                        </a>
+                    </li>
+                <?php endif; ?>
+
+                <?php if (Yii::app()->user->role ==User::ROLE_EDITOR): ?>
+                    <li>
+                        <a href="<?= Yii::app()->createUrl('/admin/question/setTitle/') ?>">Модерировать: <?= $questionsCountForModerate ?></a>
+                    </li>
+
+                    <li>
+                        <a href="<?= Yii::app()->createUrl('/admin/question/nocat/') ?>">Без
+                            категории: <?= $questionsCountNoCat ?></a>
+                    </li>
+                <?php endif; ?>
 
                 <li class="dropdown notifications-menu">
                     <?php
