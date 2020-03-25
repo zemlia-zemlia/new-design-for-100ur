@@ -77,7 +77,7 @@ $this->widget('zii.widgets.CBreadcrumbs', [
     <div class="col-md-3">
         <div class="box">
             <div class="box-body">
-                <?php echo CHtml::link('Добавить новый', $this->createUrl('create'), ['class' => 'btn btn-block btn-primary btn-sm']); ?>
+                <?php echo CHtml::link('<i class="fa fa-plus" aria-hidden="true"></i> Источник', $this->createUrl('create'), ['class' => 'btn btn-block btn-primary btn-sm']); ?>
             </div>
         </div>
     </div>
