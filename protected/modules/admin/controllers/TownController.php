@@ -238,16 +238,16 @@ class TownController extends Controller
      */
     public function actionSetPrice()
     {
-        $price = (int) Yii::app()->request->getPost('price');
+        $price = intval(Yii::app()->request->getPost('price') * 100);
         $townId = Yii::app()->request->getPost('id');
 
         $model = Town::model()->findByPk($townId);
         if (!$model) {
-            throw new CHttpException('Город не найден', 404);
+            throw new CHttpException(404, 'Город не найден');
         }
 
         if ($price < 0) {
-            throw new CHttpException('Цена не может быть меньше нуля', 400);
+            throw new CHttpException(400, 'Цена не может быть меньше нуля');
         }
 
         $changePriceResult = Yii::app()->db->createCommand()

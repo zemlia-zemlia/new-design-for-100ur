@@ -75,10 +75,11 @@ class RegionController extends Controller
      */
     public function actionIndex()
     {
-        $regionsRows = Yii::app()->db->cache(30)->createCommand()
-                ->select('r.id, r.name regionName, r.alias regionAlias, c.id countryId, c.name countryName, c.alias countryAlias, r.buyPrice')
+        $regionsRows = Yii::app()->db->createCommand()
+                ->select('r.id, r.name regionName, r.alias regionAlias, c.id countryId, c.name countryName, c.alias countryAlias, r.buyPrice, t.id capitalId, t.buyPrice capitalPrice')
                 ->from('{{region}} r')
                 ->leftJoin('{{country}} c', 'c.id = r.countryId')
+                ->leftJoin('{{town}} t', 'r.id = t.regionId AND t.isCapital=1')
                 ->order('c.id asc, r.name')
                 ->queryAll();
 
@@ -147,16 +148,16 @@ class RegionController extends Controller
      */
     public function actionSetPrice()
     {
-        $price = (int) Yii::app()->request->getPost('price');
+        $price = (int) Yii::app()->request->getPost('price') * 100;
         $regionId = Yii::app()->request->getPost('id');
 
         $model = Region::model()->findByPk($regionId);
         if (!$model) {
-            throw new CHttpException('Регион не найден', 404);
+            throw new CHttpException(404, 'Регион не найден');
         }
 
         if ($price < 0) {
-            throw new CHttpException('Цена не может быть меньше нуля', 400);
+            throw new CHttpException(400, 'Цена не может быть меньше нуля');
         }
 
         $changePriceResult = Yii::app()->db->createCommand()

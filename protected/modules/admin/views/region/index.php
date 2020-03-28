@@ -1,9 +1,12 @@
 <?php
 /* @var $this RegionController */
 /* @var $dataProvider CActiveDataProvider */
-$pageTitle = 'Юристы и Адвокаты России и СНГ. ';
+/* @var $regions array */
 
-$this->setPageTitle($pageTitle . Yii::app()->name);
+
+$pageTitle = 'Управление регионами';
+
+$this->setPageTitle($pageTitle);
 
 Yii::app()->clientScript->registerMetaTag('Каталог Юристов и Адвокатов России и СНГ', 'Description');
 Yii::app()->clientScript->registerScriptFile('/js/admin/region.js');
@@ -30,7 +33,8 @@ function showCountry($regions)
     $regionsNumber = sizeof($regions);
 
     echo "<table class='table table-bordered'>";
-    echo '<tr><th>Регион</th><th>Цена покупки</th></tr>';
+    echo '<tr><th rowspan="2">Регион</th><th colspan="2" class="text-center">Цена покупки</th></tr>
+<tr><th class="text-center">региона</th><th class="text-center">столицы</th></tr>';
     foreach ($regions as $region) {
         ++$regionCounter;
         echo '<tr><td>';
@@ -39,9 +43,15 @@ function showCountry($regions)
             'countryAlias' => $region['countryAlias'],
         ]));
         echo '</td><td><div>';
-        echo CHtml::textField('buyPrice', MoneyFormat::rubles($region['buyPrice']), [
+        echo CHtml::textField('buyPrice_region_' . $region['id'], MoneyFormat::rubles($region['buyPrice']), [
             'class' => 'form-control region-buy-price input-sm input-xs',
-            'data-id' => $region['id'],
+            'data-region-id' => $region['id'],
+            'style' => 'max-width:50px',
+        ]);
+        echo '</td><td><div>';
+        echo CHtml::textField('buyPrice_town_' . $region['capitalId'], MoneyFormat::rubles($region['capitalPrice']), [
+            'class' => 'form-control region-capital-buy-price input-sm input-xs',
+            'data-town-id' => $region['capitalId'],
             'style' => 'max-width:50px',
         ]);
         echo '</div></td></tr>';
