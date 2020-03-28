@@ -57,8 +57,8 @@ class CampaignRepository
                 $regionMinPrice = $buyPricesByRegion[$campaign['regionId']]['min'] ?? 0;
 
                 if (User::ROLE_PARTNER == Yii::app()->user->role && 0 !== Yii::app()->user->priceCoeff) {
-                    $regionMinPrice = $regionMinPrice * Yii::app()->user->priceCoeff;
-                    $regionMaxPrice = $regionMaxPrice * Yii::app()->user->priceCoeff;
+                    $regionMinPrice = intval($regionMinPrice * Yii::app()->user->priceCoeff);
+                    $regionMaxPrice = intval($regionMaxPrice * Yii::app()->user->priceCoeff);
                 }
                 $regionMinPriceRubles = MoneyFormat::rubles($regionMinPrice);
                 $regionMaxPriceRubles = MoneyFormat::rubles($regionMaxPrice);
