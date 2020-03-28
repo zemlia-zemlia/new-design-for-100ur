@@ -5,11 +5,12 @@ class CampaignRepository
     /**
      * Возвращает массив активных кампаний с регионами и ценами.
      *
+     * @param int $activityIntervalDays
      * @return array
      *
      * @throws CException
      */
-    public function getActiveCampaigns()
+    public function getActiveCampaigns($activityIntervalDays = 3):array
     {
         $campaignsCommand = Yii::app()->db->createCommand()
             ->select('c.id, c.townId, t.name townName, c.regionId, r.name regionName, r.buyPrice regionPrice, t.buyPrice townPrice, r_town.buyPrice townRegionPrice, c.leadsDayLimit, c.realLimit, c.brakPercent, c.timeFrom, c.timeTo, c.price, COUNT(l.id) leadsSent, u.id userId, u.name, u.balance, u.lastTransactionTime')
@@ -19,7 +20,10 @@ class CampaignRepository
             ->leftJoin('{{region}} r', 'r.id = c.regionId')
             ->leftJoin('{{region}} r_town', 'r_town.id = t.regionId')
             ->leftJoin('{{lead}} l', 'l.campaignId = c.id AND l.leadStatus!=' . Lead::LEAD_STATUS_BRAK)
-            ->andWhere('c.active=:active AND c.type=:type AND u.lastTransactionTime>NOW()-INTERVAL 10 DAY', [':active' => Campaign::ACTIVE_YES, ':type' => Campaign::TYPE_BUYERS])
+            ->andWhere('c.active=:active AND u.lastTransactionTime>NOW()-INTERVAL :days DAY', [
+                ':active' => Campaign::ACTIVE_YES,
+                ':days' => $activityIntervalDays,
+            ])
             ->group('c.id')
             ->order('townPrice DESC, regionPrice DESC');
 
