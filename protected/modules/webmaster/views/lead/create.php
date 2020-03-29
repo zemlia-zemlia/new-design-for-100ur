@@ -1,6 +1,7 @@
 <?php
 /* @var $this LeadController */
 /* @var $model Lead */
+/* @var $mySources array */
 
 $this->setPageTitle('Новый лид ' . Yii::app()->name);
 Yii::app()->clientScript->registerScriptFile('/js/scripts.js', CClientScript::POS_END);
@@ -26,7 +27,7 @@ $this->widget('zii.widgets.CBreadcrumbs', [
     </textarea>
 <?php endif; ?>
 
-<?php if ($noSource) : ?>
+<?php if (sizeof($mySources) == 0) : ?>
     <div class="row">
         <div class="col-md-6">
             <div class="alert alert-info">
