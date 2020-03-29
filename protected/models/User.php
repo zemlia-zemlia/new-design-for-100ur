@@ -659,7 +659,13 @@ class User extends CActiveRecord
         }
 
         // в письмо вставляем ссылку на вопрос + метки для отслеживания переходов
-        $questionLink = Yii::app()->urlManager->baseUrl . '/q/' . $question->id . '/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_notification&utm_term=' . $question->id;
+        $questionLinkParams = [
+            'id' => $question->id,
+            'utm_source' => '100yuristov',
+            'utm_medium' => 'mail',
+            'utm_campaign' => 'answer_notification',
+            'utm_term' => $question->id,
+        ];
 
         $testimonialLink = Yii::app()->createUrl('user/testimonial', ['id' => $answer->authorId]);
 
@@ -672,11 +678,13 @@ class User extends CActiveRecord
         $autologinString = (isset($this->autologin) && '' != $this->autologin) ? $this->autologin : $this->generateAutologinString();
 
         if ($this->save()) {
-            $questionLink .= '&autologin=' . $autologinString;
+            $questionLinkParams['autologin'] = $autologinString;
             $testimonialLink .= '?autologin=' . $autologinString;
         } else {
             Yii::log('Не удалось сохранить строку autologin пользователю ' . $this->email . ' с уведомлением об ответе на вопрос ' . $question->id, 'error', 'system.web.User');
         }
+
+        $questionLink = Yii::app()->createUrl('question/view', $questionLinkParams);
 
         return $this->notifier->sendAnswerNotification($answer, $question, $questionLink, $testimonialLink);
     }

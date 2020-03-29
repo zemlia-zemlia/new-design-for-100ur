@@ -189,6 +189,7 @@ class Answer extends CActiveRecord
         LoggerFactory::getLogger('db')->log('Юрист ' . $this->author->getShortName() . ' ответил на вопрос #' . $this->questionId, 'User', $this->authorId);
         (new UserActivity())->logActivity($this->author, UserActivity::ACTION_ANSWER_QUESTION);
 
+        /** @var User $questionAuthor */
         $questionAuthor = $this->question->author;
         if ($questionAuthor && 1 == $questionAuthor->active100 && true === $this->isNewRecord) {
             $questionAuthor->sendAnswerNotification($this->question, $this);
