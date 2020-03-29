@@ -43,6 +43,8 @@ class ApiGainnet implements ApiClassInterface
                 'form_params' => $data,
             ]);
         } catch (ClientException $e) {
+            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' НЕ отправлен в партнерку Gainnet, возникло исключение:' . $e->getMessage(), 'Lead', $lead->id);
+
             return false;
         }
 
