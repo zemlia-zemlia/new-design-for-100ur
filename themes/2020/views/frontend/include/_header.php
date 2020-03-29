@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ru">
 <head>
+
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
@@ -11,6 +12,14 @@
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=latin,cyrillic' rel='stylesheet'
           type='text/css'>
+
+  	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-MNNZGSK');</script>
+	<!-- End Google Tag Manager -->
 
     <?php
     Yii::app()->clientScript->registerCssFile("/bootstrap/css/bootstrap.min.css");
@@ -42,6 +51,13 @@
 </head>
 
 <body>
+	
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MNNZGSK"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
+
+
 <?php
 // выводим виджет с подсказкой юристу
 $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
