@@ -61,7 +61,7 @@ class ApiGainnet implements ApiClassInterface
     private function checkResponse(ResponseInterface $apiResponse, Lead $lead): bool
     {
         if (200 == $apiResponse->getStatusCode()) {
-            $responseBody = $apiResponse->getBody();
+            $responseBody = (string)$apiResponse->getBody();
             $responseBodyDecoded = json_decode($responseBody, true);
 
             if ($responseBodyDecoded['status'] == true && $responseBodyDecoded['message'] == "Success") {
@@ -70,7 +70,7 @@ class ApiGainnet implements ApiClassInterface
                 return true;
             }
 
-            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' НЕ отправлен в партнерку Gainnet, ответ:' . CHtml::encode($apiResponse->getBody()), 'Lead', $lead->id);
+            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' НЕ отправлен в партнерку Gainnet, ответ:' . CHtml::encode($responseBody), 'Lead', $lead->id);
         }
 
         return false;
