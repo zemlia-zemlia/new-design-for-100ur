@@ -12,7 +12,8 @@ class RegionPrices extends CWidget
 
     public function run()
     {
-        $campaignsArray = (new CampaignRepository())->getActiveCampaigns($this->activityIntervalDays);
+        $currentUser = Yii::app()->user->getModel();
+        $campaignsArray = (new CampaignRepository())->getActiveCampaigns($currentUser, $this->activityIntervalDays);
 
         $this->render($this->template, [
             'campaignsArray' => $campaignsArray,

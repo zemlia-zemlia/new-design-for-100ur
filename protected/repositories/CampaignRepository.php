@@ -4,13 +4,15 @@ class CampaignRepository
 {
     /**
      * Возвращает массив активных кампаний с регионами и ценами.
+     * Активными здесь считаются те, по которым были транзакции за последние $activityIntervalDays дней
      *
+     * @param User $user Пользователь, для которого посчитать цены покупки (у вебмастера может быть коэффициент цены)
      * @param int $activityIntervalDays
      * @return array
      *
      * @throws CException
      */
-    public function getActiveCampaigns($activityIntervalDays = 3):array
+    public function getActiveCampaigns(User $user, $activityIntervalDays = 3):array
     {
         $campaignsCommand = Yii::app()->db->createCommand()
             ->select('c.id, c.townId, t.name townName, c.regionId, r.name regionName, r.buyPrice regionPrice, t.buyPrice townPrice, r_town.buyPrice townRegionPrice, c.leadsDayLimit, c.realLimit, c.brakPercent, c.timeFrom, c.timeTo, c.price, COUNT(l.id) leadsSent, u.id userId, u.name, u.balance, u.lastTransactionTime')
@@ -35,14 +37,10 @@ class CampaignRepository
         foreach ($campaignsRows as $campaign) {
             if ($campaign['townName']) {
                 // у кампании задан город
-                if ($campaign['townPrice']) {
-                    $townPrice = $campaign['townPrice'];
-                } else {
-                    $townPrice = $campaign['townRegionPrice'];
-                }
+                $townPrice = ($campaign['townPrice']) ? $campaign['townPrice'] : $campaign['townRegionPrice'];
 
-                if (User::ROLE_PARTNER == Yii::app()->user->role && 0 !== Yii::app()->user->priceCoeff) {
-                    $townPrice *= Yii::app()->user->priceCoeff;
+                if (User::ROLE_PARTNER == $user->role && 0 !== $user->priceCoeff) {
+                    $townPrice *= $user->priceCoeff;
                 }
                 $campaignsArray[$campaign['townName']] = MoneyFormat::rubles($townPrice);
             } else {
@@ -50,9 +48,9 @@ class CampaignRepository
                 $regionMaxPrice = $buyPricesByRegion[$campaign['regionId']]['max'] ?? 0;
                 $regionMinPrice = $buyPricesByRegion[$campaign['regionId']]['min'] ?? 0;
 
-                if (User::ROLE_PARTNER == Yii::app()->user->role && 0 !== Yii::app()->user->priceCoeff) {
-                    $regionMinPrice = intval($regionMinPrice * Yii::app()->user->priceCoeff);
-                    $regionMaxPrice = intval($regionMaxPrice * Yii::app()->user->priceCoeff);
+                if (User::ROLE_PARTNER == $user->role && 0 !== $user->priceCoeff) {
+                    $regionMinPrice = intval($regionMinPrice * $user->priceCoeff);
+                    $regionMaxPrice = intval($regionMaxPrice * $user->priceCoeff);
                 }
                 $regionMinPriceRubles = MoneyFormat::rubles($regionMinPrice);
                 $regionMaxPriceRubles = MoneyFormat::rubles($regionMaxPrice);

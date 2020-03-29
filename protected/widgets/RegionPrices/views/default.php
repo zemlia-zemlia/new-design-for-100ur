@@ -1,10 +1,14 @@
+<?php
+/** @var array $campaignsArray */
+?>
+
 <table class="table table-bordered">
     <tr>
         <th>
             Регион
         </th>
         <th class="text-left">
-            Цена лида
+            Цена покупки лида
         </th>
     </tr>
     <?php foreach ($campaignsArray as $region => $price):?>

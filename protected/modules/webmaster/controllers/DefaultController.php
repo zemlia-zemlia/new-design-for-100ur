@@ -8,6 +8,8 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
+        $currentUser = Yii::app()->user->getModel();
+
         $criteria = new CDbCriteria();
 
         $criteria->with = 'source';
@@ -52,7 +54,7 @@ class DefaultController extends Controller
         $statsFor30Days = $webmasterStat->getLeadsStatisticsByField('lead_date', (new DateTime())->modify('-29 day')->modify('midnight'), 'desc');
 
         // @todo заменить создание объекта на инъекцию при переходе на новый фреймворк
-        $activeCampaignsCount = sizeof((new CampaignRepository())->getActiveCampaigns());
+        $activeCampaignsCount = sizeof((new CampaignRepository())->getActiveCampaigns($currentUser, 3));
 
         $this->render('index', [
             'dataProvider' => $leadsDataProvider,

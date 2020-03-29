@@ -29,7 +29,7 @@ class CampaignController extends Controller
     {
         return [
             ['allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => ['index', 'view'],
+                'actions' => ['index', 'view', 'regions'],
                 'users' => ['*'],
             ],
             ['allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -96,7 +96,7 @@ class CampaignController extends Controller
     {
         $model = new Campaign();
 
-        $buyerId = (int) $_GET['buyerId'];
+        $buyerId = (int)$_GET['buyerId'];
 
         if (!User::model()->findByPk($buyerId)) {
             throw new CHttpException('Пользователь не найден', 404);
@@ -315,7 +315,7 @@ class CampaignController extends Controller
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['realLimit'] = $row['realLimit'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['brakPercent'] = $row['brakPercent'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['leadsSent'] = $row['leadsSent'];
-            $campaignsArray[$row['userId']]['campaigns'][$row['id']]['todayLeads'] = (int) $todayLeadsArray[$row['id']];
+            $campaignsArray[$row['userId']]['campaigns'][$row['id']]['todayLeads'] = (int)$todayLeadsArray[$row['id']];
 
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['object'] = Campaign::model()->findByPk($row['id']);
         }
@@ -401,9 +401,9 @@ class CampaignController extends Controller
 
     public function actionTopup()
     {
-        $buyerId = isset($_POST['buyerId']) ? (int) $_POST['buyerId'] : 0;
-        $sum = isset($_POST['sum']) ? ((int) $_POST['sum']) * 100 : 0;
-        $account = isset($_POST['account']) ? (int) $_POST['account'] : 1;
+        $buyerId = isset($_POST['buyerId']) ? (int)$_POST['buyerId'] : 0;
+        $sum = isset($_POST['sum']) ? ((int)$_POST['sum']) * 100 : 0;
+        $account = isset($_POST['account']) ? (int)$_POST['account'] : 1;
 
         if ($sum <= 0 || !$buyerId) {
             echo json_encode(['code' => 400, 'message' => 'Error, not enough data']);
@@ -451,8 +451,8 @@ class CampaignController extends Controller
 
     public function actionSetLimit()
     {
-        $campaignId = (int) $_POST['id'];
-        $limit = (int) $_POST['limit'];
+        $campaignId = (int)$_POST['id'];
+        $limit = (int)$_POST['limit'];
 
         $campaign = Campaign::model()->findByPk($campaignId);
 
@@ -467,5 +467,13 @@ class CampaignController extends Controller
         } else {
             die('0');
         }
+    }
+
+    /**
+     * Вывод списка выкупаемых регионов
+     */
+    public function actionRegions()
+    {
+        $this->render('regions', []);
     }
 }

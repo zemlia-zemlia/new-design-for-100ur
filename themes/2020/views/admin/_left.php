@@ -78,6 +78,9 @@
                     <a href="<?= Yii::app()->createUrl('/admin/campaign') ?>">
                         <i class="fa fa-th"></i> <span>Кампании</span>
                     </a>
+                    <a href="<?= Yii::app()->createUrl('/admin/campaign/regions') ?>">
+                        <i class="fa fa-th"></i> <span>Выкупаемые регионы</span>
+                    </a>
                 </li>
 
 
