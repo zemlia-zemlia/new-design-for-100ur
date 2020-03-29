@@ -29,7 +29,7 @@ use App\models\Leadsource;
                     </p>
                     <ul>
                         <li>Лиды: оплата в зависимости от региона клиента (от 20 до 200 руб.)</li>
-                        <li>Вопросы: фиксированная оплата за опубликованный вопрос независимо от региона (<?php echo Yii::app()->params['questionPrice']; ?> руб.)</li>
+                        <li>Вопросы: фиксированная оплата за опубликованный вопрос независимо от региона (<?php echo MoneyFormat::rubles(Yii::app()->params['questionPrice']); ?> руб.)</li>
                     </ul>
             </div>
         </div>
@@ -39,7 +39,7 @@ use App\models\Leadsource;
             <div class="col-sm-6">
         
                 <div class="form-group">
-                    <?php echo $form->labelEx($model, 'name'); ?>
+                    <?php echo $form->labelEx($model, 'URL источника:'); ?>
                     <?php echo $form->textField($model, 'name', ['class' => 'form-control']); ?>
                     <?php echo $form->error($model, 'name'); ?>
                 </div>
@@ -50,7 +50,7 @@ use App\models\Leadsource;
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <?php echo $form->labelEx($model, 'description'); ?>
+                    <?php echo $form->labelEx($model, 'description:'); ?>
                     <?php echo $form->textArea($model, 'description', ['class' => 'form-control', 'rows' => '3']); ?>
                     <?php echo $form->error($model, 'description'); ?>
                 </div>

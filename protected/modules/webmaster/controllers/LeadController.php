@@ -64,11 +64,8 @@ class LeadController extends Controller
     {
         $model = new Lead();
 
-        // Проверим, есть ли источники у текущего пользователя. Если нет, перенаправим на создание источника
+        // Проверим, есть ли источники у текущего пользователя
         $mySources = Leadsource::getSourcesArrayByUser(Yii::app()->user->id);
-        if (0 == sizeof($mySources)) {
-            $this->redirect(['source/create']);
-        }
 
         if ($_GET['sourceId']) {
             $model->sourceId = (int) $_GET['sourceId'];
@@ -78,19 +75,10 @@ class LeadController extends Controller
             $model->attributes = $_POST['App\models\Lead'];
             $model->phone = PhoneHelper::normalizePhone($model->phone);
 
-            // посчитаем цену покупки лида, исходя из города и региона
-            $prices = $model->calculatePrices();
-            if ($prices[0]) {
-                $model->buyPrice = $prices[0];
-            } else {
-                $model->buyPrice = 0;
-            }
-
+            // посчитаем цену покупки лида, исходя из города и региона,
             // уточним цену покупки лида с учетом коэффициента покупателя
-
-            $priceCoeff = Yii::app()->user->priceCoeff; // коэффициент, на который умножается цена покупки лида
-
-            $model->buyPrice = $model->buyPrice * $priceCoeff;
+            $prices = $model->calculatePrices();
+            $model->buyPrice = $prices[0] ? $prices[0] * Yii::app()->user->priceCoeff : 0;
 
             if ($model->save()) {
                 $this->redirect(['index']);
@@ -98,6 +86,7 @@ class LeadController extends Controller
         }
 
         $this->render('create', [
+            'mySources' => $mySources,
             'model' => $model,
         ]);
     }

@@ -214,8 +214,14 @@ class Leadsource extends CActiveRecord
         return $sources;
     }
 
-    public static function getSourcesArrayByUser($userId)
+    /**
+     * @param int $userId
+     * @return array
+     */
+    public static function getSourcesArrayByUser($userId): array
     {
+        $sourcesArray = [];
+
         $criteria = new CDbCriteria();
         $criteria->addColumnCondition(['userId' => $userId, 'type' => 1]);
 
