@@ -2,7 +2,7 @@
 
 class StringHelper
 {
-    public static function printr($value): string
+    public static function printr($value)
     {
         echo '<pre>';
         print_r($value);
