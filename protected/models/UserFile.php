@@ -62,7 +62,7 @@ class UserFile extends CActiveRecord
                 ['userId, name, type', 'required'],
                 ['userId, isVerified, type', 'numerical', 'integerOnly' => true],
                 ['name, reason', 'length', 'max' => 255],
-                ['userFile', 'file', 'allowEmpty' => true, 'types' => 'jpg,pdf,tiff,png', 'maxSize' => 10000000, 'message' => 'Файл должен быть в допустимом формате'],
+                ['userFile', 'file', 'allowEmpty' => true, 'types' => 'jpg,jpeg,pdf,tiff,png', 'maxSize' => 10000000, 'message' => 'Файл должен быть в допустимом формате'],
                 // The following rule is used by search().
                 // @todo Please remove those attributes that should not be searched.
                 ['id, userId, datetime, name, isVerified, comment, type, reason', 'safe', 'on' => 'search'],
