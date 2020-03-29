@@ -149,12 +149,14 @@ class UserStatusRequestController extends Controller
         ]);
     }
 
-    // изменение статуса заявки и юриста через AJAX
+    /**
+     * изменение статуса заявки и юриста через AJAX
+     */
     public function actionChange()
     {
-        $requestId = (isset($_POST['id'])) ? (int) $_POST['id'] : false;
+        $requestId = (isset($_POST['id'])) ? (int)$_POST['id'] : false;
         $requestComment = (isset($_POST['requestComment'])) ? $_POST['requestComment'] : false;
-        $requestVerified = (isset($_POST['status'])) ? (int) $_POST['status'] : false;
+        $requestVerified = (isset($_POST['status'])) ? (int)$_POST['status'] : false;
 
         if (!$requestId || !$requestVerified) {
             echo json_encode(['code' => 400, 'message' => 'Wrong data']);
@@ -186,19 +188,24 @@ class UserStatusRequestController extends Controller
                     Yii::app()->end();
                 }
 
-               // Если подтверждаем фирму, меняем сеттингс
-               if ('createCompany' == $request->status) {
-                   $request->createCompany();
-               }
+                if (YuristSettings::STATUS_COMPANY == $request->status) {
+                    $yuristSettings->inn = $request->inn;
+                    $yuristSettings->companyName = $request->companyName;
+                    $yuristSettings->address = $request->address;
+                }
+
+                if (YuristSettings::STATUS_YURIST == $request->status) {
+                    $yuristSettings->vuz = $request->vuz;
+                    $yuristSettings->facultet = $request->facultet;
+                    $yuristSettings->education = $request->education;
+                    $yuristSettings->vuzTownId = $request->vuzTownId;
+                    $yuristSettings->educationYear = $request->educationYear;
+                }
 
                 // присваиваем пользователю новый статус, помечаем его как верифицированный
                 $yuristSettings->status = $request->status;
-                $yuristSettings->isVerified = 1;
-                $yuristSettings->vuz = $request->vuz;
-                $yuristSettings->facultet = $request->facultet;
-                $yuristSettings->education = $request->education;
-                $yuristSettings->vuzTownId = $request->vuzTownId;
-                $yuristSettings->educationYear = $request->educationYear;
+                $yuristSettings->isVerified = UserStatusRequest::STATUS_ACCEPTED;
+
 
                 if ($yuristSettings->save()) {
                     $request->sendNotification();
@@ -217,10 +224,6 @@ class UserStatusRequestController extends Controller
             echo json_encode(['code' => 500, 'message' => 'Could not save request']);
             Yii::app()->end();
         }
-
-//            print_r($request->attributes);
-//            print_r($request->user->attributes);
-//            print_r($request->user->settings->attributes);
     }
 
     /**
