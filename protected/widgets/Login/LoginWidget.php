@@ -1,5 +1,8 @@
 <?php
 
+use App\models\LoginForm;
+use App\models\User;
+
 class LoginWidget extends CWidget
 {
     public $template = 'default'; // представление виджета по умолчанию

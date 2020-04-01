@@ -1,5 +1,9 @@
 <?php
 /* @var $this MoneyController */
+
+use App\models\Money;
+use App\models\MoneyMove;
+
 /* @var $model MoneyMove */
 /* @var $form CActiveForm */
 ?>
@@ -39,9 +43,9 @@
             <div class="form-group">
                 <?php echo $form->labelEx($model, 'datetime'); ?>
                 <?php $this->widget(
-        'zii.widgets.jui.CJuiDatePicker',
-        [
-                        'name' => 'MoneyMove[datetime]',
+                    'zii.widgets.jui.CJuiDatePicker',
+                    [
+                        'name' => 'App_models_MoneyMove[datetime]',
                         'value' => $model['datetime'],
                         'language' => 'ru',
                         'options' => ['dateFormat' => 'dd-mm-yy',
@@ -51,7 +55,7 @@
                             'class' => 'form-control',
                         ],
                     ]
-    );
+                );
                 ?>
                 <?php echo $form->error($model, 'datetime'); ?>
             </div>

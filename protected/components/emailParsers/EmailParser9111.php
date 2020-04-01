@@ -1,4 +1,9 @@
 <?php
+
+use App\helpers\PhoneHelper;
+use App\models\Lead;
+use App\models\ParsedEmail;
+
 /**
  * Реализация парсера заявок из писем от сервиса 9111.
  */

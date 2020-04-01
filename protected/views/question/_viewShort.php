@@ -2,7 +2,9 @@
     <div class="col-md-2 col-sm-2">
 	<small><span class="label label-date">
         <?php //if(!is_null($data->publishDate)) echo CustomFuncs::invertDate($data->publishDate);?>
-        <?php if (!is_null($data->publishDate)) {
+        <?php use App\helpers\DateHelper;
+
+        if (!is_null($data->publishDate)) {
     echo DateHelper::niceDate($data->publishDate, false);
 }?>
 	</span></small>

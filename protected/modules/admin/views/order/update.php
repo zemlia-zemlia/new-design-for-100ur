@@ -1,5 +1,8 @@
 <?php
 /* @var $this OrderController */
+
+use App\models\Order;
+
 /* @var $model Order */
 $this->setPageTitle('Редактирование заказа документов #' . $model->id . '. ' . Yii::app()->name);
 

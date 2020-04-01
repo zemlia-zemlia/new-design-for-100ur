@@ -1,7 +1,10 @@
+<?php
+use App\models\Order;
+use App\models\User;
+?>
 <!doctype html>
 <html lang="ru">
 <head>
-
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
@@ -51,7 +54,7 @@
 </head>
 
 <body>
-	
+
 	<!-- Google Tag Manager (noscript) -->
 	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MNNZGSK"
 	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>

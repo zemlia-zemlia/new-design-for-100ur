@@ -1,5 +1,15 @@
 <?php
 
+namespace App\repositories;
+
+use App\models\Campaign;
+use CException;
+use App\models\Lead;
+use MoneyFormat;
+use App\models\Region;
+use App\models\User;
+use Yii;
+
 class CampaignRepository
 {
     /**

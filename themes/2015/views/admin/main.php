@@ -5,7 +5,13 @@
 <meta http-equiv="content-language" content="ru" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+<title><?php use App\models\Answer;
+    use App\models\Comment;
+    use App\models\Lead;
+    use App\models\Question;
+    use App\models\User;
+
+    echo CHtml::encode($this->pageTitle); ?></title>
 <?php 
     Yii::app()->clientScript->registerCssFile("/bootstrap/css/bootstrap.min.css");
     Yii::app()->clientScript->registerCssFile('/css/2015/jquery-ui.css');

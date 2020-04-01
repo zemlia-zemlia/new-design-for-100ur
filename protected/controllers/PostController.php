@@ -1,5 +1,12 @@
 <?php
 
+use App\models\Comment;
+use App\models\Post;
+use App\models\Post2cat;
+use App\models\Postcategory;
+use App\models\PostRatingHistory;
+use App\models\User;
+
 class PostController extends Controller
 {
     /**

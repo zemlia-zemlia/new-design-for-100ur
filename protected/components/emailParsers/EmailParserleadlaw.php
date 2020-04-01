@@ -1,5 +1,9 @@
 <?php
 
+use App\helpers\PhoneHelper;
+use App\models\Lead;
+use App\models\ParsedEmail;
+
 class EmailParserleadlaw extends EmailParser
 {
     protected function getFetchBodySection()

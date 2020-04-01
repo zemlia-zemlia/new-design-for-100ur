@@ -1,12 +1,15 @@
 <?php
 
+use App\models\Mail;
+use App\models\MailForm;
+use App\models\User;
+use App\modules\admin\controllers\AbstractAdminController;
+
 /**
  * Раздел для работы с Email рассылками.
  */
-class MailController extends Controller
+class MailController extends AbstractAdminController
 {
-    // Шаблон страниц по умолчанию
-    public $layout = '//admin/main';
 
     /**
      * @return array action filters
@@ -43,8 +46,8 @@ class MailController extends Controller
     {
         $mailFormModel = new MailForm();
 
-        if (isset($_POST['MailForm'])) {
-            $mailFormModel->attributes = $_POST['MailForm'];
+        if (isset($_POST['App_models_MailForm'])) {
+            $mailFormModel->attributes = $_POST['App_models_MailForm'];
 
             $mailFormModel->validate();
             if ('' == $mailFormModel->recipientEmail && '' == $mailFormModel->roleId) {

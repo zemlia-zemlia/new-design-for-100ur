@@ -1,5 +1,8 @@
 <?php
 /* @var $this QuestionCategoryController */
+
+use App\models\QuestionCategory;
+
 /* @var $model QuestionCategory */
 
 $this->breadcrumbs = [
@@ -8,8 +11,8 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'List QuestionCategory', 'url' => ['index']],
-    ['label' => 'Create QuestionCategory', 'url' => ['create']],
+    ['label' => 'List App\models\QuestionCategory', 'url' => ['index']],
+    ['label' => 'Create App\models\QuestionCategory', 'url' => ['create']],
 ];
 
 Yii::app()->clientScript->registerScript('search', "

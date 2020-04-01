@@ -1,5 +1,7 @@
 <?php
 
+use App\models\Question;
+
 /**
  * Контроллер для работы с вопросами.
  */
@@ -27,7 +29,7 @@ class QuestionController extends Controller
         $criteria->order = 't.id DESC';
         $criteria->addInCondition('sourceId', $mySourcesIds);
 
-        $dataProvider = new CActiveDataProvider('Question', [
+        $dataProvider = new CActiveDataProvider(Question::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 50,
@@ -42,7 +44,9 @@ class QuestionController extends Controller
     /**
      * Страница вопроса.
      *
-     * @param type $id
+     * @param int $id
+     * @throws CException
+     * @throws CHttpException
      */
     public function actionView($id)
     {

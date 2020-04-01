@@ -3,7 +3,7 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs = [
-    'Docs',
+    'App\models\Docs',
 ];
 
     foreach (Yii::app()->user->getFlashes() as $key => $message) {
@@ -11,8 +11,8 @@ $this->breadcrumbs = [
     }
 
 $this->menu = [
-    ['label' => 'Create Docs', 'url' => ['create']],
-    ['label' => 'Manage Docs', 'url' => ['admin']],
+    ['label' => 'Create App\models\Docs', 'url' => ['create']],
+    ['label' => 'Manage App\models\Docs', 'url' => ['admin']],
 ];
 ?>
 <?php //var_dump($this->menu);die;?>

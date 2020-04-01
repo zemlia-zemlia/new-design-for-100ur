@@ -1,5 +1,8 @@
 <?php
 /* @var $this CountryController */
+
+use App\models\Country;
+
 /* @var $model Country */
 
 $this->breadcrumbs = [
@@ -9,10 +12,10 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'List Country', 'url' => ['index']],
-    ['label' => 'Create Country', 'url' => ['create']],
-    ['label' => 'View Country', 'url' => ['view', 'id' => $model->id]],
-    ['label' => 'Manage Country', 'url' => ['admin']],
+    ['label' => 'List App\models\Country', 'url' => ['index']],
+    ['label' => 'Create App\models\Country', 'url' => ['create']],
+    ['label' => 'View App\models\Country', 'url' => ['view', 'id' => $model->id]],
+    ['label' => 'Manage App\models\Country', 'url' => ['admin']],
 ];
 ?>
 

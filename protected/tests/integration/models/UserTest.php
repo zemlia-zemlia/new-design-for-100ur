@@ -2,15 +2,15 @@
 
 namespace Tests\Integration\Models;
 
-use Answer;
+use App\models\Answer;
 use CActiveDataProvider;
 use CHttpException;
-use Comment;
+use App\models\Comment;
 use DateTime;
 use Exception;
-use Leadsource;
-use PartnerTransaction;
-use Question;
+use App\models\Leadsource;
+use App\models\PartnerTransaction;
+use App\models\Question;
 use Tests\Factories\AnswerFactory;
 use Tests\Factories\CommentFactory;
 use Tests\Factories\LeadSourceFactory;
@@ -19,10 +19,10 @@ use Tests\Factories\QuestionFactory;
 use Tests\Factories\UserFactory;
 use Tests\Factories\YuristSettingsFactory;
 use Tests\integration\BaseIntegrationTest;
-use User;
-use UserNotifier;
+use App\models\User;
+use App\notifiers\UserNotifier;
 use Yii;
-use YuristSettings;
+use App\models\YuristSettings;
 
 class UserTest extends BaseIntegrationTest
 {
@@ -716,7 +716,7 @@ class UserTest extends BaseIntegrationTest
      * @dataProvider providerSendAnswerNotification
      *
      * @param array         $userAttributes
-     * @param Question|null $question
+     * @param \App\models\Question|null $question
      * @param Answer|null   $answer
      * @param bool          $sendResult
      * @param bool          $expectedResult
@@ -789,7 +789,7 @@ class UserTest extends BaseIntegrationTest
      * @dataProvider providerSendCommentNotification
      *
      * @param array         $userAttributes
-     * @param Question|null $question
+     * @param \App\models\Question|null $question
      * @param Comment|null  $comment
      * @param bool          $sendResult
      * @param bool          $expectedResult

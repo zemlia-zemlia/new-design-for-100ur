@@ -1,5 +1,8 @@
 <?php
 /** @var QuestionCategory $recentCategory */
+
+use App\models\QuestionCategory;
+
 ?>
 
 <?php if (sizeof($recentCategories) > 0): ?>

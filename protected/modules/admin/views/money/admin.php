@@ -1,5 +1,8 @@
 <?php
 /* @var $this MoneyController */
+
+use App\models\Money;
+
 /* @var $model Money */
 
 $this->breadcrumbs = [
@@ -8,8 +11,8 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'List Money', 'url' => ['index']],
-    ['label' => 'Create Money', 'url' => ['create']],
+    ['label' => 'List App\models\Money', 'url' => ['index']],
+    ['label' => 'Create App\models\Money', 'url' => ['create']],
 ];
 
 Yii::app()->clientScript->registerScript('search', "

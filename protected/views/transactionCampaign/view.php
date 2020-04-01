@@ -1,5 +1,8 @@
 <?php
 /* @var $this TransactionCampaignController */
+
+use App\models\TransactionCampaign;
+
 /* @var $model TransactionCampaign */
 
 $this->breadcrumbs = [
@@ -8,11 +11,11 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'List TransactionCampaign', 'url' => ['index']],
-    ['label' => 'Create TransactionCampaign', 'url' => ['create']],
-    ['label' => 'Update TransactionCampaign', 'url' => ['update', 'id' => $model->id]],
-    ['label' => 'Delete TransactionCampaign', 'url' => '#', 'linkOptions' => ['submit' => ['delete', 'id' => $model->id], 'confirm' => 'Are you sure you want to delete this item?']],
-    ['label' => 'Manage TransactionCampaign', 'url' => ['admin']],
+    ['label' => 'List App\models\TransactionCampaign', 'url' => ['index']],
+    ['label' => 'Create App\models\TransactionCampaign', 'url' => ['create']],
+    ['label' => 'Update App\models\TransactionCampaign', 'url' => ['update', 'id' => $model->id]],
+    ['label' => 'Delete App\models\TransactionCampaign', 'url' => '#', 'linkOptions' => ['submit' => ['delete', 'id' => $model->id], 'confirm' => 'Are you sure you want to delete this item?']],
+    ['label' => 'Manage App\models\TransactionCampaign', 'url' => ['admin']],
 ];
 ?>
 

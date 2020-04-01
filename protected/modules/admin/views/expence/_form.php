@@ -1,5 +1,8 @@
 <?php
-    $model->expences = MoneyFormat::rubles($model->expences);
+
+use App\models\Expence;
+
+$model->expences = MoneyFormat::rubles($model->expences);
 ?>
 
 <div class="form">
@@ -18,7 +21,7 @@
 		<?php $this->widget(
     'zii.widgets.jui.CJuiDatePicker',
     [
-                'name' => 'Expence[date]',
+                'name' => 'App\models\Expence[date]',
                 'value' => $model['date'],
                 'language' => 'ru',
                 'options' => ['dateFormat' => 'yy-mm-dd',

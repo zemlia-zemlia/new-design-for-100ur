@@ -1,5 +1,8 @@
 <?php
 
+use App\models\Campaign;
+use App\models\Lead;
+
 class DispatchLeadsCommand extends CConsoleCommand
 {
     public function actionIndex()

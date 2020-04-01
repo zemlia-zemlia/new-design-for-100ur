@@ -1,4 +1,7 @@
 <?php
+
+use App\models\QuestionCategory;
+
 /**
  * Виджет, выводящий соседей и потомков категории
  * Class CategoriesMenu.

@@ -1,5 +1,8 @@
 <?php
 
+use App\models\Question;
+use App\models\QuestionCategory;
+
 /**
  * Отправка данных о турбо-сраницах в API яндекса
  * Class YandexTurboCommand.

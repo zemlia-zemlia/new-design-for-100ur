@@ -1,5 +1,8 @@
 <?php
 /* @var $this CountryController */
+
+use App\models\Country;
+
 /* @var $model Country */
 /* @var $form CActiveForm */
 ?>

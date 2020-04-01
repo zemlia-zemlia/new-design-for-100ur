@@ -1,4 +1,8 @@
 <?php
+
+use App\helpers\DateHelper;
+use App\models\User;
+
 $this->setPageTitle('Реферальная программа.' . Yii::app()->name);
 Yii::app()->clientScript->registerMetaTag('Получайте деньги за каждого приглашенного зарегистрировавшегося пользователя', 'description');
 ?>

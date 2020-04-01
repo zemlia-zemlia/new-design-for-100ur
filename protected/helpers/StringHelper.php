@@ -1,5 +1,7 @@
 <?php
 
+namespace App\helpers;
+
 class StringHelper
 {
     public static function printr($value)
@@ -78,7 +80,7 @@ class StringHelper
      * Обрезает строку до необходимой длины, сохраняя последнее слово целым
      *
      * @param string $string Исходная строка
-     * @param int    $len    Максимальная длина итоговой строки
+     * @param int $len Максимальная длина итоговой строки
      * @param string $encode Кодировка строки
      *
      * @return false|string
@@ -103,7 +105,7 @@ class StringHelper
     /**
      * Удаляет из строки символы, не входящие в шаблон.
      *
-     * @param string $string       Строка
+     * @param string $string Строка
      * @param string $patternWhite Шаблон разрешенных символов
      *
      * @return string

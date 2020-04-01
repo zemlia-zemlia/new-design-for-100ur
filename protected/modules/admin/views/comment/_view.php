@@ -1,5 +1,12 @@
 <?php
 /* @var $this QuestionController */
+
+use App\helpers\DateHelper;
+use App\models\Answer;
+use App\models\Comment;
+use App\models\Question;
+use App\models\User;
+
 /* @var $data Question */
 ?>
 

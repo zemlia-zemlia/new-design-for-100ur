@@ -1,17 +1,23 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+
 /**
  * Модель для работы с кодексами.
  *
  * The followings are the available columns in table '{{codecs}}':
  *
- * @property int    $id
+ * @property int $id
  * @property string $pagetitle
  * @property string $longtitle
  * @property string $description
  * @property string $alias
- * @property int    $parent
- * @property int    $isfolder
+ * @property int $parent
+ * @property int $isfolder
  * @property string $introtext
  * @property string $content
  * @property string $menutitle
@@ -52,8 +58,8 @@ class Codecs extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return [
-                    'children' => [self::HAS_MANY, 'Codecs', 'parent', 'order' => 'children.id'],
-                    'parentElement' => [self::BELONGS_TO, 'Codecs', 'parent'],
+            'children' => [self::HAS_MANY, 'App\models\Codecs', 'parent', 'order' => 'children.id'],
+            'parentElement' => [self::BELONGS_TO, 'App\models\Codecs', 'parent'],
         ];
     }
 

@@ -1,5 +1,9 @@
 <?php
 /* @var $this QuestionController */
+
+use App\models\Answer;
+use App\models\Question;
+
 /* @var $model Question */
 /* @var $form CActiveForm */
 ?>

@@ -1,15 +1,18 @@
 <?php
 /* @var $this CodecsController */
+
+use App\models\Codecs;
+
 /* @var $model Codecs */
 
 $this->breadcrumbs = [
-    'Codecs' => ['index'],
+    'App\models\Codecs' => ['index'],
     'Create',
 ];
 
 $this->menu = [
-    ['label' => 'List Codecs', 'url' => ['index']],
-    ['label' => 'Manage Codecs', 'url' => ['admin']],
+    ['label' => 'List App\models\Codecs', 'url' => ['index']],
+    ['label' => 'Manage App\models\Codecs', 'url' => ['admin']],
 ];
 ?>
 

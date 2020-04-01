@@ -1,8 +1,12 @@
 <?php
 
-class DefaultController extends Controller
+use App\helpers\DateHelper;
+use App\models\Lead;
+use App\models\Money;
+use App\modules\admin\controllers\AbstractAdminController;
+
+class DefaultController extends AbstractAdminController
 {
-    public $layout = '//admin/main';
 
     public function actionIndex()
     {

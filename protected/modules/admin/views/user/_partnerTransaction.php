@@ -1,5 +1,7 @@
 <tr>
-    <td><?php echo $data->id; ?></td>
+    <td><?php use App\helpers\DateHelper;
+
+        echo $data->id; ?></td>
     <td>
         <?php echo DateHelper::niceDate($data->datetime); ?>
         <?php if ($data->sum > 0 && time() - strtotime($data->datetime) < 86400 * 3):?>

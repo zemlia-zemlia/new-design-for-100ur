@@ -1,8 +1,16 @@
 <?php
 
+namespace App\components\apiClasses;
+
+use ApiClassInterface;
+use App\models\Lead;
+use CHtml;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use App\extensions\Logger\LoggerFactory;
 use Psr\Http\Message\ResponseInterface;
+use Yii;
 
 /**
  * Класс для работы с API партнерки Sovinform.
@@ -68,7 +76,7 @@ class ApiSovinform implements ApiClassInterface
      * Проверка ответа от API.
      *
      * @param ResponseInterface $apiResponse
-     * @param Lead              $lead
+     * @param Lead $lead
      *
      * @return bool
      *
@@ -78,12 +86,12 @@ class ApiSovinform implements ApiClassInterface
     {
         if (200 == $apiResponse->getStatusCode()) {
             if (!stristr($apiResponse->getBody(), 'error')) {
-                LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Sovinform', 'Lead', $lead->id);
+                LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Sovinform', 'App\models\Lead', $lead->id);
 
                 return true;
             }
 
-            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' НЕ отправлен в партнерку Sovinform, ответ:' . CHtml::encode($apiResponse->getBody()), 'Lead', $lead->id);
+            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' НЕ отправлен в партнерку Sovinform, ответ:' . CHtml::encode($apiResponse->getBody()), 'App\models\Lead', $lead->id);
         }
 
         return false;

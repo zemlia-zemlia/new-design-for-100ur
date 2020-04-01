@@ -1,5 +1,7 @@
 <?php
 
+use App\helpers\StringHelper;
+
 class RegionsCommand extends CConsoleCommand
 {
     public function actionCountries()

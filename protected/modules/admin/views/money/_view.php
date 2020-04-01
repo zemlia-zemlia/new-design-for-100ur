@@ -1,5 +1,9 @@
 <?php
 /* @var $tdis MoneyController */
+
+use App\helpers\DateHelper;
+use App\models\Money;
+
 /* @var $data Money */
 ?>
 

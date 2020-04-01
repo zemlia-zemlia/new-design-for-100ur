@@ -1,5 +1,8 @@
 <?php
 /* @var $this FileCategoryController */
+
+use App\models\FileCategory;
+
 /* @var $model FileCategory */
 
 $this->breadcrumbs = [

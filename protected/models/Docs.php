@@ -1,23 +1,31 @@
 <?php
 
-use RandomStringHelper;
+namespace App\models;
+
+use App\helpers\RandomStringHelper;
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use CUploadedFile;
+use App\models\File2category;
+use App\models\File2object;
 
 /**
  * This is the model class for table "{{docs}}".
  *
  * The followings are the available columns in table '{{docs}}':
  *
- * @property int    $id
+ * @property int $id
  * @property string $name
  * @property string $filename
  * @property string $type
- * @property int    $downloads_count
- * @property int    $uploadTs
- * @property int    $size
+ * @property int $downloads_count
+ * @property int $uploadTs
+ * @property int $size
  *
  * The followings are the available model relations:
  * @property File2category[] $file2categories
- * @property File2object[]   $file2objects
+ * @property File2object[] $file2objects
  */
 class Docs extends CActiveRecord
 {
@@ -55,12 +63,10 @@ class Docs extends CActiveRecord
      */
     public function relations(): array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'file2categories' => [self::HAS_MANY, 'File2Category', 'file_id'],
-            'file2objects' => [self::HAS_MANY, 'File2Object', 'file_id'],
-            'categories' => [self::HAS_MANY, 'FileCategory', 'category_id', 'through' => 'file2categories'],
+            'file2categories' => [self::HAS_MANY, File2Category::class, 'file_id'],
+            'file2objects' => [self::HAS_MANY, File2Object::class, 'file_id'],
+            'categories' => [self::HAS_MANY, FileCategory::class, 'category_id', 'through' => 'file2categories'],
         ];
     }
 

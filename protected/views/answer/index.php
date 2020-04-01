@@ -7,8 +7,8 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'Create Answer', 'url' => ['create']],
-    ['label' => 'Manage Answer', 'url' => ['admin']],
+    ['label' => 'Create App\models\Answer', 'url' => ['create']],
+    ['label' => 'Manage App\models\Answer', 'url' => ['admin']],
 ];
 ?>
 

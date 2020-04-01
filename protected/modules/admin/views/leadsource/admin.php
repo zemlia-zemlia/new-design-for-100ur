@@ -1,5 +1,8 @@
 <?php
 /* @var $this LeadsourceController */
+
+use App\models\Leadsource;
+
 /* @var $model Leadsource */
 
 $this->breadcrumbs = [
@@ -8,8 +11,8 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'List Leadsource', 'url' => ['index']],
-    ['label' => 'Create Leadsource', 'url' => ['create']],
+    ['label' => 'List App\models\Leadsource', 'url' => ['index']],
+    ['label' => 'Create App\models\Leadsource', 'url' => ['create']],
 ];
 
 Yii::app()->clientScript->registerScript('search', "

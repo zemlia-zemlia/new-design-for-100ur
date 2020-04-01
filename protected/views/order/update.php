@@ -1,5 +1,9 @@
 <?php
-    $this->setPageTitle('Редактирование заказа документа #' . $order->id . '. ' . Yii::app()->name);
+
+use App\models\Order;
+use App\models\User;
+
+$this->setPageTitle('Редактирование заказа документа #' . $order->id . '. ' . Yii::app()->name);
 
     $jurist = $order->jurist;
 

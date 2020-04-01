@@ -1,5 +1,12 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Yii;
+
 /**
  * Модель для работы с источниками лидов 100 юристов.
  *
@@ -74,11 +81,9 @@ class Leadsource extends CActiveRecord
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'user' => [self::BELONGS_TO, 'User', 'userId'],
-            'leads' => [self::HAS_MANY, 'Lead', 'sourceId'],
+            'user' => [self::BELONGS_TO, User::class, 'userId'],
+            'leads' => [self::HAS_MANY, Lead::class, 'sourceId'],
         ];
     }
 
@@ -143,7 +148,7 @@ class Leadsource extends CActiveRecord
     /**
      * Возвращает название типа источника.
      *
-     * @return type
+     * @return string
      */
     public function getTypeName()
     {
@@ -232,10 +237,10 @@ class Leadsource extends CActiveRecord
      * @param int $appId
      * @param int $cacheTime
      *
-     * @return array
-     * @throws CException
+     * @return array|null
+     * @throws \CException
      */
-    public static function getByAppIdAsArray($appId, $cacheTime): array
+    public static function getByAppIdAsArray($appId, $cacheTime):?array
     {
         $source = Yii::app()->db->cache($cacheTime)->createCommand()
             ->select('*')

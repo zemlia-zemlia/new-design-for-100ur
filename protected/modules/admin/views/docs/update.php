@@ -1,9 +1,12 @@
 <?php
 /* @var $this DocsController */
+
+use App\models\Docs;
+
 /* @var $model Docs */
 
 $this->breadcrumbs = [
-    'Docs' => ['index'],
+    'App\models\Docs' => ['index'],
     $model->name => ['view', 'id' => $model->id],
     'Update',
 ];

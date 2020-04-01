@@ -6,6 +6,10 @@
  * в папках, начинающихся на 9111
  */
 
+use App\helpers\PhoneHelper;
+use App\models\Lead;
+use App\models\Leadsource;
+
 class GetLeadsFrom9111Command extends CConsoleCommand
 {
     // Настройки парсинга лидов из папок

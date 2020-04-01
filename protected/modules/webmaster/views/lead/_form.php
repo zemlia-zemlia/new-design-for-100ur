@@ -1,5 +1,9 @@
 <?php
 /* @var $this LeadController */
+
+use App\models\Lead;
+use App\models\Leadsource;
+
 /* @var $model Lead */
 /* @var $form CActiveForm */
 ?>

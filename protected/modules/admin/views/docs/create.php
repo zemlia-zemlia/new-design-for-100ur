@@ -1,15 +1,18 @@
 <?php
 /* @var $this DocsController */
+
+use App\models\Docs;
+
 /* @var $model Docs */
 
 $this->breadcrumbs = [
-    'Docs' => ['index'],
+    'App\models\Docs' => ['index'],
     'Create',
 ];
 
 $this->menu = [
-    ['label' => 'List Docs', 'url' => ['index']],
-    ['label' => 'Manage Docs', 'url' => ['admin']],
+    ['label' => 'List App\models\Docs', 'url' => ['index']],
+    ['label' => 'Manage App\models\Docs', 'url' => ['admin']],
 ];
 ?>
 

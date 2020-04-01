@@ -1,5 +1,7 @@
 <?php
 
+use App\extensions\Logger\LoggerFactory;
+use App\models\Lead;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Psr\Http\Message\ResponseInterface;

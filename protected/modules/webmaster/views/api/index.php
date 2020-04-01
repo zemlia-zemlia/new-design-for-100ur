@@ -1,5 +1,8 @@
 <?php
 /* @var $this UserController */
+
+use App\models\User;
+
 /* @var $model User */
 $this->pageTitle = 'API для отправки лидов.' . Yii::app()->name;
 ?>

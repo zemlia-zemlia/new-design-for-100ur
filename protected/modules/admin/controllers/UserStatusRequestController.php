@@ -1,12 +1,12 @@
 <?php
 
-class UserStatusRequestController extends Controller
+use App\models\UserFile;
+use App\models\UserStatusRequest;
+use App\models\YuristSettings;
+use App\modules\admin\controllers\AbstractAdminController;
+
+class UserStatusRequestController extends AbstractAdminController
 {
-    /**
-     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     *             using two-column layout. See 'protected/views/layouts/column2.php'.
-     */
-    public $layout = '//admin/main';
 
     /**
      * @return array action filters
@@ -60,11 +60,8 @@ class UserStatusRequestController extends Controller
         // модель для работы со сканом
         $userFile = new UserFile();
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['UserStatusRequest'])) {
-            $model->attributes = $_POST['UserStatusRequest'];
+        if (isset($_POST['App_models_UserStatusRequest'])) {
+            $model->attributes = $_POST['App_models_UserStatusRequest'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -86,11 +83,8 @@ class UserStatusRequestController extends Controller
     {
         $model = $this->loadModel($id);
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['UserStatusRequest'])) {
-            $model->attributes = $_POST['UserStatusRequest'];
+        if (isset($_POST['App_models_UserStatusRequest'])) {
+            $model->attributes = $_POST['App_models_UserStatusRequest'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -122,7 +116,7 @@ class UserStatusRequestController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('UserStatusRequest', [
+        $dataProvider = new CActiveDataProvider(UserStatusRequest::class, [
             'criteria' => [
                 'order' => 'id DESC',
             ],
@@ -140,8 +134,8 @@ class UserStatusRequestController extends Controller
     {
         $model = new UserStatusRequest('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['UserStatusRequest'])) {
-            $model->attributes = $_GET['UserStatusRequest'];
+        if (isset($_GET['App_models_UserStatusRequest'])) {
+            $model->attributes = $_GET['App_models_UserStatusRequest'];
         }
 
         $this->render('admin', [

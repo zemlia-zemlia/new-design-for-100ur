@@ -1,12 +1,11 @@
 <?php
 
-class FileCategoryController extends Controller
+use App\models\FileCategory;
+use App\models\User;
+use App\modules\admin\controllers\AbstractAdminController;
+
+class FileCategoryController extends AbstractAdminController
 {
-    /**
-     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     *             using two-column layout. See 'protected/views/layouts/column2.php'.
-     */
-    public $layout = '//admin/main';
 
     /**
      * @return array action filters
@@ -68,13 +67,13 @@ class FileCategoryController extends Controller
         $model = new FileCategory();
         $model->active = 1;
 
-        if (isset($_POST['FileCategory'])) {
+        if (isset($_POST['App_models_FileCategory'])) {
             if (0 != $id) {
-                $model->attributes = $_POST['FileCategory'];
+                $model->attributes = $_POST['App_models_FileCategory'];
                 $root = FileCategory::model()->findByPk($id);
                 $model->appendTo($root);
             } else {
-                $model->attributes = $_POST['FileCategory'];
+                $model->attributes = $_POST['App_models_FileCategory'];
 
                 $model->saveNode();
             }
@@ -104,8 +103,8 @@ class FileCategoryController extends Controller
     {
         $model = $this->loadModel($id);
 
-        if (isset($_POST['FileCategory'])) {
-            $model->attributes = $_POST['FileCategory'];
+        if (isset($_POST['App_models_FileCategory'])) {
+            $model->attributes = $_POST['App_models_FileCategory'];
 
             if ($model->saveNode()) {
                 $this->redirect(['view', 'id' => $model->id]);
@@ -151,7 +150,7 @@ class FileCategoryController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('FileCategory');
+        $dataProvider = new CActiveDataProvider(FileCategory::class);
         $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);

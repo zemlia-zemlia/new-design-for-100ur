@@ -1,5 +1,8 @@
 <?php
 /* @var $this LeadsourceController */
+
+use App\models\Leadsource;
+
 /* @var $model Leadsource */
 
 $this->pageTitle = 'Источники лидов. ' . Yii::app()->name;

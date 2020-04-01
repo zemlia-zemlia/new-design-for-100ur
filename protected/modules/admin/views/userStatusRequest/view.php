@@ -1,5 +1,8 @@
 <?php
 /* @var $this UserStatusRequestController */
+
+use App\models\UserStatusRequest;
+
 /* @var $model UserStatusRequest */
 
 $this->breadcrumbs = [
@@ -8,11 +11,11 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'List UserStatusRequest', 'url' => ['index']],
-    ['label' => 'Create UserStatusRequest', 'url' => ['create']],
-    ['label' => 'Update UserStatusRequest', 'url' => ['update', 'id' => $model->id]],
-    ['label' => 'Delete UserStatusRequest', 'url' => '#', 'linkOptions' => ['submit' => ['delete', 'id' => $model->id], 'confirm' => 'Are you sure you want to delete this item?']],
-    ['label' => 'Manage UserStatusRequest', 'url' => ['admin']],
+    ['label' => 'List App\models\UserStatusRequest', 'url' => ['index']],
+    ['label' => 'Create App\models\UserStatusRequest', 'url' => ['create']],
+    ['label' => 'Update App\models\UserStatusRequest', 'url' => ['update', 'id' => $model->id]],
+    ['label' => 'Delete App\models\UserStatusRequest', 'url' => '#', 'linkOptions' => ['submit' => ['delete', 'id' => $model->id], 'confirm' => 'Are you sure you want to delete this item?']],
+    ['label' => 'Manage App\models\UserStatusRequest', 'url' => ['admin']],
 ];
 ?>
 

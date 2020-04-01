@@ -7,8 +7,8 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'Create TransactionCampaign', 'url' => ['create']],
-    ['label' => 'Manage TransactionCampaign', 'url' => ['admin']],
+    ['label' => 'Create App\models\TransactionCampaign', 'url' => ['create']],
+    ['label' => 'Manage App\models\TransactionCampaign', 'url' => ['admin']],
 ];
 ?>
 

@@ -2,7 +2,7 @@
 
 namespace Tests\Factories;
 
-use PhoneHelper;
+use App\helpers\PhoneHelper;
 
 class LeadFactory extends BaseFactory
 {

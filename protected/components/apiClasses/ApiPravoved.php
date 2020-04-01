@@ -1,5 +1,13 @@
 <?php
 
+namespace App\components\apiClasses;
+
+use ApiClassInterface;
+use App\models\Lead;
+use CHtml;
+use App\extensions\Logger\LoggerFactory;
+use App\components\apiClasses\PravovedGetTown;
+
 /**
  * Класс для работы с API партнерки Pravoved.
  */
@@ -22,6 +30,8 @@ class ApiPravoved implements ApiClassInterface
      * отправка лида.
      *
      * @param Lead $lead
+     * @return bool
+     * @throws \Exception
      */
     public function send(Lead $lead)
     {
@@ -42,7 +52,7 @@ class ApiPravoved implements ApiClassInterface
             'putm_medium' => '',
         ];
 
-        LoggerFactory::getLogger()->log('Отправляем лид #' . $lead->id . ' в партнерку Pravoved', 'Lead', $lead->id);
+        LoggerFactory::getLogger()->log('Отправляем лид #' . $lead->id . ' в партнерку Pravoved', 'App\models\Lead', $lead->id);
 
         $apiUrl = $this->url . '?' . http_build_query($requestData);
         curl_setopt($this->curl, CURLOPT_URL, $apiUrl);
@@ -50,7 +60,7 @@ class ApiPravoved implements ApiClassInterface
         // получаем ответ от Правоведа GET запросом
         $apiResponse = curl_exec($this->curl);
 
-        LoggerFactory::getLogger()->log('Ответ API Pravoved: ' . CHtml::encode($apiResponse), 'Lead', $lead->id);
+        LoggerFactory::getLogger()->log('Ответ API Pravoved: ' . CHtml::encode($apiResponse), 'App\models\Lead', $lead->id);
 
         curl_close($this->curl);
 
@@ -60,7 +70,8 @@ class ApiPravoved implements ApiClassInterface
     /**
      * Возвращает id города в базе Правоведа.
      *
-     * @param type $townName Название города
+     * @param string $townName Название города
+     * @return int
      */
     private function getTownId($townName)
     {
@@ -73,19 +84,20 @@ class ApiPravoved implements ApiClassInterface
      * Анализирует ответ от API.
      *
      * @param string $apiResponse
-     * @param Lead   $lead
+     * @param Lead $lead
      *
      * @return bool
+     * @throws \Exception
      */
     private function checkResponse($apiResponse, $lead)
     {
         if (41 == strlen($apiResponse)) {
-            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Pravoved', 'Lead', $lead->id);
+            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Pravoved', 'App\models\Lead', $lead->id);
 
             return true;
         }
 
-        LoggerFactory::getLogger()->log('Ошибка при отправке лида #' . $lead->id . ' в партнерку Pravoved', 'Lead', $lead->id);
+        LoggerFactory::getLogger()->log('Ошибка при отправке лида #' . $lead->id . ' в партнерку Pravoved', 'App\models\Lead', $lead->id);
 
         return false;
     }

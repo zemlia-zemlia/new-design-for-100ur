@@ -1,6 +1,8 @@
 <h3 class="header-bordered">Свежие статьи</h3>
 <?php
 
+use App\helpers\DateHelper;
+
 if (empty($recentPosts) || 0 == sizeof($recentPosts)) {
     echo 'Не найдено ни одного поста';
 }

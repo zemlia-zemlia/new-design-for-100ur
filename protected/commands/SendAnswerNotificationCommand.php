@@ -1,5 +1,9 @@
 <?php
 
+use App\models\Answer;
+use App\models\Question;
+use App\models\User;
+
 class SendAnswerNotificationCommand extends CConsoleCommand
 {
     // рассылка уведомлений пользователям об ответах на их вопросы

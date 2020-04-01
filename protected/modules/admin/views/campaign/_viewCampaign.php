@@ -1,5 +1,8 @@
 <?php
 /* @var $this CampaignController */
+
+use App\models\User;
+
 /* @var $data User */
 ?>
 

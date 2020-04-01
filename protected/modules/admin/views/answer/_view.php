@@ -1,5 +1,13 @@
 <?php
 /* @var $this QuestionController */
+
+use App\helpers\DateHelper;
+use App\helpers\StringHelper;
+use App\models\Answer;
+use App\models\Question;
+use App\models\TransactionCampaign;
+use App\models\User;
+
 /* @var $data Question */
 ?>
 

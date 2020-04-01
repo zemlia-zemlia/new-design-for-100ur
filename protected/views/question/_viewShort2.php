@@ -1,5 +1,7 @@
 <p>
-    <small><?php echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('question/view', ['id' => $data->id])); ?>
+    <small><?php use App\helpers\DateHelper;
+
+        echo CHtml::link(CHtml::encode($data->title), Yii::app()->createUrl('question/view', ['id' => $data->id])); ?>
     <br />
     <?php if ($data->answers):?>
         <?php foreach ($data->answers as $answer):?>

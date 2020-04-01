@@ -1,5 +1,8 @@
 <div class="post-comment">
-    <?php if (Comment::STATUS_SPAM != $data->status): ?>
+    <?php use App\models\Comment;
+    use App\models\User;
+
+    if (Comment::STATUS_SPAM != $data->status): ?>
         <div class="answer-comment" style="margin-left:<?php echo($data->level - 1) * 20; ?>px;">
             <p> <strong><span class="glyphicon glyphicon-comment"></span> 
  

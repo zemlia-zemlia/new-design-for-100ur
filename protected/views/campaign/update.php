@@ -1,5 +1,8 @@
 <?php
 /* @var $this CampaignController */
+
+use App\models\Campaign;
+
 /* @var $model Campaign */
 $this->setPageTitle('Редактирование кампании #' . $model->id . '. ' . Yii::app()->name);
 

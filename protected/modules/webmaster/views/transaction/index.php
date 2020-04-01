@@ -1,4 +1,7 @@
 <?php
+
+use App\models\PartnerTransaction;
+
 $this->pageTitle = 'Транзакции. ' . Yii::app()->name;
 ?>
 

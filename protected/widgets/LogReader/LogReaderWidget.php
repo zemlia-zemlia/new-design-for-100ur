@@ -1,5 +1,7 @@
 <?php
 
+use App\extensions\Logger\LogReader;
+
 /**
  * Вывод блока с записями лога событий.
  */

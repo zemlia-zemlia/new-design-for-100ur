@@ -5,6 +5,8 @@
  * Необходимо при смене алгоритма шифрования пароля
  */
 
+use App\models\User;
+
 class UpdateAllPasswordsCommand extends CConsoleCommand
 {
     public function actionIndex()

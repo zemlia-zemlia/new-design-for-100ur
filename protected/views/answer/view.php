@@ -1,5 +1,8 @@
 <?php
 /* @var $this AnswerController */
+
+use App\models\Answer;
+
 /* @var $model Answer */
 
 $this->breadcrumbs = [
@@ -8,11 +11,11 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'List Answer', 'url' => ['index']],
-    ['label' => 'Create Answer', 'url' => ['create']],
-    ['label' => 'Update Answer', 'url' => ['update', 'id' => $model->id]],
-    ['label' => 'Delete Answer', 'url' => '#', 'linkOptions' => ['submit' => ['delete', 'id' => $model->id], 'confirm' => 'Are you sure you want to delete this item?']],
-    ['label' => 'Manage Answer', 'url' => ['admin']],
+    ['label' => 'List App\models\Answer', 'url' => ['index']],
+    ['label' => 'Create App\models\Answer', 'url' => ['create']],
+    ['label' => 'Update App\models\Answer', 'url' => ['update', 'id' => $model->id]],
+    ['label' => 'Delete App\models\Answer', 'url' => '#', 'linkOptions' => ['submit' => ['delete', 'id' => $model->id], 'confirm' => 'Are you sure you want to delete this item?']],
+    ['label' => 'Manage App\models\Answer', 'url' => ['admin']],
 ];
 ?>
 

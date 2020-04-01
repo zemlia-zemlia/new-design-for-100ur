@@ -1,7 +1,12 @@
 <?php
 
+namespace App\components\apiClasses;
+
+use ApiClassInterface;
+use App\models\Lead;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
+use Yii;
 
 /**
  * Класс-заглушка, чтобы не отправлять данные из среды разработки в реальные партнерки

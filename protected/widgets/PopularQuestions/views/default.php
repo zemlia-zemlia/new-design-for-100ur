@@ -1,4 +1,7 @@
-<?php foreach ($questions as $question): ?>
+<?php use App\helpers\DateHelper;
+use App\helpers\NumbersHelper;
+
+foreach ($questions as $question): ?>
     <div class="question">
         <div class="row">
             <div class="col-sm-2">

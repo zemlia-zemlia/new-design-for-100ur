@@ -1,5 +1,8 @@
 <?php
 /* @var $this DocsController */
+
+use App\models\Docs;
+
 /* @var $model Docs */
 /* @var $form CActiveForm */
 

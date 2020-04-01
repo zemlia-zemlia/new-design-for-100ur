@@ -1,5 +1,8 @@
 <?php
 /* @var $this PostController */
+
+use App\models\Post;
+
 /* @var $model Post */
 /* @var $form CActiveForm */
 

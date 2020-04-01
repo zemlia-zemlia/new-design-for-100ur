@@ -1,5 +1,10 @@
 <?php
 /* @var $this LeadController */
+
+use App\models\Lead;
+use App\models\Leadsource;
+use App\models\User;
+
 /* @var $model Lead */
 /* @var $form CActiveForm */
 

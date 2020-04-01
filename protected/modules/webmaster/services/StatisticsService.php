@@ -4,7 +4,7 @@ namespace webmaster\services;
 
 use CException;
 use DateTime;
-use Lead;
+use App\models\Lead;
 use Yii;
 
 /**

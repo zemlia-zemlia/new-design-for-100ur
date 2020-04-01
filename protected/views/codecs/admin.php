@@ -1,15 +1,18 @@
 <?php
 /* @var $this CodecsController */
+
+use App\models\Codecs;
+
 /* @var $model Codecs */
 
 $this->breadcrumbs = [
-    'Codecs' => ['index'],
+    'App\models\Codecs' => ['index'],
     'Manage',
 ];
 
 $this->menu = [
-    ['label' => 'List Codecs', 'url' => ['index']],
-    ['label' => 'Create Codecs', 'url' => ['create']],
+    ['label' => 'List App\models\Codecs', 'url' => ['index']],
+    ['label' => 'Create App\models\Codecs', 'url' => ['create']],
 ];
 
 Yii::app()->clientScript->registerScript('search', "

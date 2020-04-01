@@ -1,12 +1,13 @@
 <?php
 
-class BlogController extends Controller
+use App\models\Cat2follower;
+use App\models\Post;
+use App\models\Postcategory;
+use App\models\User;
+use App\modules\admin\controllers\AbstractAdminController;
+
+class BlogController extends AbstractAdminController
 {
-    /**
-     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     *             using two-column layout. See 'protected/views/layouts/column2.php'.
-     */
-    public $layout = '//admin/main';
 
     /**
      * @return array action filters
@@ -130,7 +131,7 @@ class BlogController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('Post', [
+        $dataProvider = new CActiveDataProvider(Post::class, [
             'criteria' => [
                 'with' => ['commentsCount', 'author', 'viewsCount'],
                 'order' => 't.datePublication DESC',

@@ -1,5 +1,7 @@
 <?php
 
+use App\models\User;
+
 return [
     'yurist_1' => [
         'name' => 'Игорь',

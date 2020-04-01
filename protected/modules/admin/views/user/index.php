@@ -1,5 +1,8 @@
 <?php
 /* @var $this UserController */
+
+use App\models\User;
+
 /* @var $dataProvider CActiveDataProvider */
 
 $this->pageTitle = 'Пользователи. ' . Yii::app()->name;

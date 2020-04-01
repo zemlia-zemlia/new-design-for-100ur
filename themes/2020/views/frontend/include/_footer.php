@@ -5,7 +5,9 @@
             <div class="col-sm-3">
                 <h3 class="left-align">100 Юристов</h3>
                 <div class="vert-margin10">
-                    <?php echo ($_SERVER['REQUEST_URI'] != '/site/about/') ? CHtml::link('О проекте', Yii::app()->createUrl('/site/about/')) : '<span class="active">О проекте</span>'; ?>
+                    <?php use App\models\User;
+
+                    echo ($_SERVER['REQUEST_URI'] != '/site/about/') ? CHtml::link('О проекте', Yii::app()->createUrl('/site/about/')) : '<span class="active">О проекте</span>'; ?>
                     <br/>
                     <?php echo ($_SERVER['REQUEST_URI'] != '/site/contacts/') ? CHtml::link('Контакты', Yii::app()->createUrl('/site/contacts')) : '<span class="active">Контакты</span>'; ?>
                     <br/>

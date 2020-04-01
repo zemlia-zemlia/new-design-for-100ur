@@ -1,6 +1,10 @@
 <?php
 /* @var $this DefaultController */
 
+use App\models\Lead;
+use App\models\Money;
+use App\models\User;
+
 $this->breadcrumbs = [
     $this->module->id,
 ];

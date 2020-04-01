@@ -1,8 +1,12 @@
 <?php
 
-class LeadsourceController extends Controller
+use App\models\Lead;
+use App\models\Leadsource;
+use App\models\User;
+use App\modules\admin\controllers\AbstractAdminController;
+
+class LeadsourceController extends AbstractAdminController
 {
-    public $layout = '//admin/main';
 
     /**
      * @return array action filters
@@ -106,8 +110,8 @@ class LeadsourceController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Leadsource'])) {
-            $model->attributes = $_POST['Leadsource'];
+        if (isset($_POST['App_models_Leadsource'])) {
+            $model->attributes = $_POST['App_models_Leadsource'];
             if (User::ROLE_MANAGER == Yii::app()->user->role) {
                 $model->officeId = Yii::app()->user->officeId;
             }
@@ -138,8 +142,8 @@ class LeadsourceController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Leadsource'])) {
-            $model->attributes = $_POST['Leadsource'];
+        if (isset($_POST['App_models_Leadsource'])) {
+            $model->attributes = $_POST['App_models_Leadsource'];
 
             if (!$model->appId) {
                 $model->generateAppId();
@@ -186,22 +190,6 @@ class LeadsourceController extends Controller
         $this->render('index', [
             'activeSources' => $activeSources,
             'inactiveSources' => $inactiveSources,
-        ]);
-    }
-
-    /**
-     * Manages all models.
-     */
-    public function actionAdmin()
-    {
-        $model = new Leadsource('search');
-        $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Leadsource'])) {
-            $model->attributes = $_GET['Leadsource'];
-        }
-
-        $this->render('admin', [
-            'model' => $model,
         ]);
     }
 

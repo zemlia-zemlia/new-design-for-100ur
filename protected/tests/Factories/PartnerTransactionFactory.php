@@ -2,7 +2,7 @@
 
 namespace Tests\Factories;
 
-use PartnerTransaction;
+use App\models\PartnerTransaction;
 
 class PartnerTransactionFactory extends BaseFactory
 {

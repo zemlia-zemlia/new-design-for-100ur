@@ -1,19 +1,27 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use CException;
+use Yii;
+
 /**
  * Модель для работы с транзакциями оплаты за лидов.
  *
  * The followings are the available columns in table '{{transactionCampaign}}':
  *
- * @property int    $id
- * @property int    $buyerId
- * @property int    $campaignId
+ * @property int $id
+ * @property int $buyerId
+ * @property int $campaignId
  * @property string $time
- * @property int    $sum
+ * @property int $sum
  * @property string $description
- * @property int    $leadId
- * @property int    $type
- * @property int    $status
+ * @property int $leadId
+ * @property int $type
+ * @property int $status
  */
 class TransactionCampaign extends CActiveRecord
 {
@@ -61,13 +69,11 @@ class TransactionCampaign extends CActiveRecord
     /**
      * @return array relational rules
      */
-    public function relations()
+    public function relations(): array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'campaign' => [self::BELONGS_TO, 'Campaign', 'campaignId'],
-            'partner' => [self::BELONGS_TO, 'User', 'buyerId'],
+            'campaign' => [self::BELONGS_TO, Campaign::class, 'campaignId'],
+            'partner' => [self::BELONGS_TO, User::class, 'buyerId'],
         ];
     }
 

@@ -1,5 +1,11 @@
 <?php
 
+namespace App\models;
+
+use CHtml;
+use GTMail;
+use Yii;
+
 /**
  * Отклик юриста на заказ документа.
  */
@@ -62,13 +68,16 @@ class OrderResponse extends Comment
         ];
     }
 
-    public function relations()
+    /**
+     * @return array
+     */
+    public function relations():array
     {
         return [
-            'author' => [self::BELONGS_TO, 'User', 'authorId'],
-            'order' => [self::BELONGS_TO, 'Order', 'objectId'],
-            'comments' => [self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_RESPONSE, 'order' => 'comments.root, comments.lft'],
-            'commentsCount' => [self::STAT, 'Comment', 'objectId', 'condition' => 't.type=' . Comment::TYPE_RESPONSE, 'order' => 't.root, t.lft'],
+            'author' => [self::BELONGS_TO, User::class, 'authorId'],
+            'order' => [self::BELONGS_TO, Order::class, 'objectId'],
+            'comments' => [self::HAS_MANY, Comment::class, 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_RESPONSE, 'order' => 'comments.root, comments.lft'],
+            'commentsCount' => [self::STAT, Comment::class, 'objectId', 'condition' => 't.type=' . Comment::TYPE_RESPONSE, 'order' => 't.root, t.lft'],
         ];
     }
 

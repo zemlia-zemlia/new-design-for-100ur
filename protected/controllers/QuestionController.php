@@ -1,5 +1,23 @@
 <?php
 
+use App\helpers\IpHelper;
+use App\helpers\NumbersHelper;
+use App\helpers\PhoneHelper;
+use App\models\Answer;
+use App\models\Campaign;
+use App\models\Comment;
+use App\models\DocType;
+use App\models\Lead;
+use App\models\Lead2Category;
+use App\models\Leadsource;
+use App\models\Order;
+use App\models\Question;
+use App\models\Question2category;
+use App\models\QuestionCategory;
+use App\models\QuestionSearch;
+use App\models\Town;
+use App\models\User;
+
 class QuestionController extends Controller
 {
     public $layout = '//frontend/question';
@@ -76,13 +94,13 @@ class QuestionController extends Controller
 
         $answerModel = new Answer();
 
-        if (isset($_POST['Answer'])) {
+        if (isset($_POST['App_models_Answer'])) {
             if (!Yii::app()->user->checkAccess(User::ROLE_JURIST)) {
                 throw new CHttpException(403, 'Для того, чтобы отвечать на вопросы вы должны залогиниться на сайте как юрист');
             }
 
             // отправлен ответ, сохраним его
-            $answerModel->attributes = $_POST['Answer'];
+            $answerModel->attributes = $_POST['App_models_Answer'];
             $answerModel->authorId = Yii::app()->user->id;
             $answerModel->questionId = $model->id;
             $answerModel->datetime = date('Y-m-d H:i:s');
@@ -100,9 +118,9 @@ class QuestionController extends Controller
             }
         }
 
-        if (isset($_POST['Comment'])) {
+        if (isset($_POST['App_models_Comment'])) {
             // отправлен ответ, сохраним его
-            $commentModel->attributes = $_POST['Comment'];
+            $commentModel->attributes = $_POST['App_models_Comment'];
             $commentModel->authorId = Yii::app()->user->id;
 
             // комментарии от юристов сразу помечаем как проверенные
@@ -201,8 +219,8 @@ class QuestionController extends Controller
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
 
-        if (isset($_POST['Question'])) {
-            $question->attributes = $_POST['Question'];
+        if (isset($_POST['App_models_Question'])) {
+            $question->attributes = $_POST['App_models_Question'];
             $question->phone = preg_replace('/([^0-9])/i', '', $question->phone);
 
             // если пользователь пришел по партнерской ссылке, запишем в вопрос id источника
@@ -234,10 +252,10 @@ class QuestionController extends Controller
                         $question = $existingQuestion;
                     }
                 }
-                $question->attributes = $_POST['Question'];
+                $question->attributes = $_POST['App_models_Question'];
                 $question->phone = PhoneHelper::normalizePhone($question->phone);
                 $question->status = Question::STATUS_NEW;
-                $question->ip = (isset($_SERVER['HTTP_X_REAL_IP'])) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
+                $question->ip = IpHelper::getUserIP();
                 $question->townIdByIP = Yii::app()->user->getState('currentTownId');
             }
 
@@ -290,10 +308,10 @@ class QuestionController extends Controller
                         $lead->save();
 
                         // сохраним категории, к которым относится вопрос, если категория указана
-                        if (isset($_POST['Question']['categories']) && 0 != $_POST['Question']['categories']) {
+                        if (isset($_POST['App_models_Question']['categories']) && 0 != $_POST['App_models_Question']['categories']) {
                             $q2cat = new Question2category();
                             $q2cat->qId = $question->id;
-                            $questionCategory = $_POST['Question']['categories'];
+                            $questionCategory = $_POST['App_models_Question']['categories'];
                             $q2cat->cId = $questionCategory;
                             // сохраняем указанную категорию
                             if ($q2cat->save()) {
@@ -370,8 +388,8 @@ class QuestionController extends Controller
             throw new CHttpException(403, 'Вы не можете редактировать этот ответ');
         }
 
-        if (isset($_POST['Answer'])) {
-            $answer->attributes = $_POST['Answer'];
+        if (isset($_POST['App_models_Answer'])) {
+            $answer->attributes = $_POST['App_models_Answer'];
 
             if ($answer->save()) {
                 $this->redirect(['question/view', 'id' => $answer->questionId]);
@@ -414,8 +432,8 @@ class QuestionController extends Controller
 
         Yii::app()->user->setState('question_id', $question->id);
 
-        if (isset($_POST['Question']) && isset($_POST['Question']['email'])) {
-            $question->email = $_POST['Question']['email'];
+        if (isset($_POST['App_models_Question']) && isset($_POST['App_models_Question']['email'])) {
+            $question->email = $_POST['App_models_Question']['email'];
 
             if ($question->createAuthor()) {
                 if ($question->save()) {
@@ -492,8 +510,8 @@ class QuestionController extends Controller
     {
         $model = new Question('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Question'])) {
-            $model->attributes = $_GET['Question'];
+        if (isset($_GET['App_models_Question'])) {
+            $model->attributes = $_GET['App_models_Question'];
         }
 
         $this->render('admin', [
@@ -634,7 +652,7 @@ class QuestionController extends Controller
         // лимит на количество найденных вопросов
         $searchModel->limit = 100;
 
-        $searchModel->attributes = $_GET['QuestionSearch'];
+        $searchModel->attributes = $_GET['App_models_QuestionSearch'];
 
         if ($searchModel->townId) {
             $searchModel->townName = Town::getName($searchModel->townId);
@@ -673,8 +691,8 @@ class QuestionController extends Controller
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
 
-        if (isset($_POST['Lead'])) {
-            $lead->attributes = $_POST['Lead'];
+        if (isset($_POST['App_models_Lead'])) {
+            $lead->attributes = $_POST['App_models_Lead'];
             $lead->phone = PhoneHelper::normalizePhone($lead->phone);
             $lead->sourceId = 3;
             $lead->type = Lead::TYPE_CALL;
@@ -689,10 +707,10 @@ class QuestionController extends Controller
 
                 if ($lead->save()) {
                     // сохраним категории, к которым относится вопрос, если категория указана
-                    if (isset($_POST['Lead']['categories']) && 0 != $_POST['Lead']['categories']) {
+                    if (isset($_POST['App_models_Lead']['categories']) && 0 != $_POST['App_models_Lead']['categories']) {
                         $lead2category = new Lead2Category();
                         $lead2category->leadId = $lead->id;
-                        $leadCategory = (int) $_POST['Lead']['categories'];
+                        $leadCategory = (int) $_POST['App_models_Lead']['categories'];
                         $lead2category->cId = $leadCategory;
 
                         if ($lead2category->save()) {
@@ -751,8 +769,8 @@ class QuestionController extends Controller
         $lead = new Lead();
         $question = new Question();
 
-        if (isset($_POST['Lead'])) {
-            $lead->attributes = $_POST['Lead'];
+        if (isset($_POST['App_models_Lead'])) {
+            $lead->attributes = $_POST['App_models_Lead'];
             $question->townId = $lead->townId;
             $currentTownId = $lead->townId;
 
@@ -812,16 +830,16 @@ class QuestionController extends Controller
             }
         }
 
-        if (isset($_POST['Order'])) {
-            $order->attributes = $_POST['Order'];
+        if (isset($_POST['App_models_Order'])) {
+            $order->attributes = $_POST['App_models_Order'];
 
             // найдем информацию по типу заказываемого документа
             if ($order->itemType) {
                 $docType = DocType::model()->findByPk($order->itemType);
             }
 
-            if (isset($_POST['User'])) {
-                $author->attributes = $_POST['User'];
+            if (isset($_POST['App_models_User'])) {
+                $author->attributes = $_POST['App_models_User'];
             }
 
             //if ($order->validate() && $author->validate()) {
@@ -886,8 +904,8 @@ class QuestionController extends Controller
         $lead = new Lead();
         $lead->setScenario('create');
 
-        if (isset($_POST['Lead'])) {
-            $lead->attributes = $_POST['Lead'];
+        if (isset($_POST['App_models_Lead'])) {
+            $lead->attributes = $_POST['App_models_Lead'];
             $lead->phone = preg_replace('/([^0-9])/i', '', $lead->phone);
             $lead->sourceId = 3;
             $lead->type = Lead::TYPE_SERVICES;
@@ -1077,7 +1095,7 @@ class QuestionController extends Controller
         } else {
             echo json_encode([
                 'code' => 500,
-                'message' => 'Lead not saved.',
+                'message' => 'App\models\Lead not saved.',
                 'errors' => $model->errors,
             ]);
             Yii::app()->end();
@@ -1095,7 +1113,7 @@ class QuestionController extends Controller
             throw new CHttpException(400, 'Некорректная дата');
         }
 
-        $questionsDataProvider = new CActiveDataProvider('Question', [
+        $questionsDataProvider = new CActiveDataProvider(Question::class, [
             'criteria' => [
                 'condition' => 'YEAR(publishDate)=' . $year . ' AND MONTH(publishDate)=' . $month . ' AND status IN (' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')',
                 'order' => 'publishDate DESC',

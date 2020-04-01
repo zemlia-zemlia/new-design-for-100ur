@@ -1,8 +1,11 @@
 <?php
 
-class CommentController extends Controller
+use App\models\Comment;
+use App\models\User;
+use App\modules\admin\controllers\AbstractAdminController;
+
+class CommentController extends AbstractAdminController
 {
-    public $layout = '//admin/main';
 
     /**
      * @return array action filters
@@ -68,7 +71,7 @@ class CommentController extends Controller
             $criteria->addCondition('t.type IN(' . Comment::TYPE_COMPANY . ', ' . Comment::TYPE_ANSWER . ')');
         }
 
-        $dataProvider = new CActiveDataProvider('Comment', [
+        $dataProvider = new CActiveDataProvider(Comment::class, [
                     'criteria' => $criteria,
                     'pagination' => [
                                 'pageSize' => 20,
@@ -87,8 +90,8 @@ class CommentController extends Controller
         $model = $this->loadModel($id);
         $oldStatus = $model->status;
 
-        if (isset($_POST['Comment'])) {
-            $model->attributes = $_POST['Comment'];
+        if (isset($_POST['App_models_Comment'])) {
+            $model->attributes = $_POST['App_models_Comment'];
 
             if ($model->saveNode()) {
                 $this->redirect(['view', 'id' => $model->id, 'question_updated' => 'yes']);

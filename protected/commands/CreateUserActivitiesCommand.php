@@ -1,5 +1,7 @@
 <?php
 
+use App\models\UserActivity;
+
 class CreateUserActivitiesCommand extends CConsoleCommand
 {
     public function actionIndex()

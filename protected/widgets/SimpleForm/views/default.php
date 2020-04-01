@@ -16,7 +16,10 @@
                     <h2 class="center-align">Задать вопрос юристу онлайн бесплатно</h2>                            
                 </div> 
 
-                <?php $form = $this->beginWidget('CActiveForm', [
+                <?php use App\models\Question;
+                use App\models\User;
+
+                $form = $this->beginWidget('CActiveForm', [
                         'id' => 'question-form',
                         'enableAjaxValidation' => false,
                         'action' => Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=hero&utm_campaign=' . Yii::app()->controller->id,

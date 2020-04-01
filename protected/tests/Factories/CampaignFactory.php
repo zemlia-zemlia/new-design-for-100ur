@@ -2,7 +2,7 @@
 
 namespace Tests\Factories;
 
-use Campaign;
+use App\models\Campaign;
 
 /**
  * Генератор атрибутов кампании

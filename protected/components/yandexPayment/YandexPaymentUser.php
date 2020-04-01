@@ -1,5 +1,11 @@
 <?php
 
+use App\extensions\Logger\LoggerFactory;
+use App\models\Money;
+use App\models\TransactionCampaign;
+use App\models\User;
+use App\models\YaPayConfirmRequest;
+
 class YandexPaymentUser implements YandexPaymentProcessorInterface
 {
     private $userId;

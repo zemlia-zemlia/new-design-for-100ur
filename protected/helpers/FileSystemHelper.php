@@ -1,12 +1,14 @@
 <?php
 
+namespace App\helpers;
+
 class FileSystemHelper
 {
     /**
      * Удаляет папку со всем ее содержимым
      *
      * @param string $dir
-     * @param bool   $deleteFolder Удалять ли саму папку
+     * @param bool $deleteFolder Удалять ли саму папку
      *
      * @return bool|void
      */

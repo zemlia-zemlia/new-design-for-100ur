@@ -1,5 +1,11 @@
 <?php
 /* @var $this QuestionController */
+
+use App\helpers\DateHelper;
+use App\helpers\StringHelper;
+use App\models\Question;
+use App\models\User;
+
 /* @var $model Question */
 
 $pageTitle = CHtml::encode(StringHelper::cutString($model->title, 70));

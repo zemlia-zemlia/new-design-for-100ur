@@ -1,5 +1,8 @@
 <?php
 /* @var $this FileController */
+
+use App\models\File;
+
 /* @var $data File */
 ?>
 

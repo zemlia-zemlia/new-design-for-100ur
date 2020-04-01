@@ -1,27 +1,35 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCacheDependency;
+use CDbCriteria;
+use Yii;
+
 /**
  * Класс для работы с кампаниями покупателей лидов.
  *
  * Доступные поля в таблице '{{campaign}}':
  *
- * @property int    $id
- * @property int    $regionId
- * @property int    $timeFrom
- * @property int    $timeTo
- * @property int    $price
- * @property int    $leadsDayLimit
- * @property int    $realLimit
- * @property int    $brakPercent
- * @property int    $buyerId
- * @property int    $active
- * @property int    $sendEmail
+ * @property int $id
+ * @property int $regionId
+ * @property int $timeFrom
+ * @property int $timeTo
+ * @property int $price
+ * @property int $leadsDayLimit
+ * @property int $realLimit
+ * @property int $brakPercent
+ * @property int $buyerId
+ * @property int $active
+ * @property int $sendEmail
  * @property string $lastTransactionTime
  * @property string $days
- * @property int    $sendToApi
+ * @property int $sendToApi
  * @property string $apiClass
- * @property int    $type
- * @property int    $balance
+ * @property int $type
+ * @property int $balance
  *
  * @author Michael Krutikov m@mkrutikov.pro
  */
@@ -71,15 +79,15 @@ class Campaign extends CActiveRecord
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             ['id, regionId, price, '
-                . 'leadsDayLimit, brakPercent, buyerId, active', 'safe', 'on' => 'search', ],
+                . 'leadsDayLimit, brakPercent, buyerId, active', 'safe', 'on' => 'search',],
         ];
     }
 
     /**
      * Валидатор поля цена лида.
      *
-     * @param type $attribute
-     * @param type $params
+     * @param string $attribute
+     * @param array $params
      */
     public function validatePrice($attribute, $params)
     {
@@ -91,8 +99,8 @@ class Campaign extends CActiveRecord
     /**
      * Валидатор поля Класс API.
      *
-     * @param type $attribute
-     * @param type $params
+     * @param string $attribute
+     * @param array $params
      */
     public function validateApiClass($attribute, $params)
     {
@@ -109,20 +117,20 @@ class Campaign extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return [
-            'buyer' => [self::BELONGS_TO, 'User', 'buyerId'],
-            'region' => [self::BELONGS_TO, 'Region', 'regionId'],
-            'town' => [self::BELONGS_TO, 'Town', 'townId'],
-            'leads' => [self::HAS_MANY, 'Lead', 'campaignId'],
-            'leadsToday' => [self::HAS_MANY, 'Lead', 'campaignId',
+            'buyer' => [self::BELONGS_TO, User::class, 'buyerId'],
+            'region' => [self::BELONGS_TO, Region::class, 'regionId'],
+            'town' => [self::BELONGS_TO, Town::class, 'townId'],
+            'leads' => [self::HAS_MANY, Lead::class, 'campaignId'],
+            'leadsToday' => [self::HAS_MANY, Lead::class, 'campaignId',
                 'condition' => 'DATE(leadsToday.deliveryTime)="' . date('Y-m-d') . '"',
             ],
-            'leadsCount' => [self::STAT, 'Lead', 'campaignId'],
-            'leadsTodayCount' => [self::STAT, 'Lead', 'campaignId',
+            'leadsCount' => [self::STAT, Lead::class, 'campaignId'],
+            'leadsTodayCount' => [self::STAT, Lead::class, 'campaignId',
                 'condition' => 'DATE(t.deliveryTime)="' . date('Y-m-d') .
                     '" AND leadStatus IN(' . Lead::LEAD_STATUS_SENT . ', ' .
                     Lead::LEAD_STATUS_NABRAK . ', ' . Lead::LEAD_STATUS_RETURN . ')',
             ],
-            'transactions' => [self::HAS_MANY, 'TransactionCampaign', 'campaignId', 'order' => 'transactions.id DESC'],
+            'transactions' => [self::HAS_MANY, TransactionCampaign::class, 'campaignId', 'order' => 'transactions.id DESC'],
         ];
     }
 
@@ -159,7 +167,7 @@ class Campaign extends CActiveRecord
     /**
      * Возвращает массив типов кампаний.
      *
-     * @return type
+     * @return array
      */
     public static function getTypes()
     {
@@ -172,7 +180,7 @@ class Campaign extends CActiveRecord
     /**
      * Возвращает название типа кампании.
      *
-     * @return type
+     * @return string
      */
     public function getTypeName()
     {
@@ -278,8 +286,8 @@ class Campaign extends CActiveRecord
             ->where('(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1 AND u.balance>=c.price AND c.price>=:buyPrice AND c.type=:typeBuyer', [
                 ':townId' => $lead->town->id,
                 ':regionId' => $lead->town->regionId,
-                ':hour' => (int) date('H'),
-                ':buyPrice' => (int) $lead->buyPrice,
+                ':hour' => (int)date('H'),
+                ':buyPrice' => (int)$lead->buyPrice,
                 ':typeBuyer' => self::TYPE_BUYERS,
             ])
             ->order('c.lastLeadTime ASC')
@@ -342,7 +350,7 @@ class Campaign extends CActiveRecord
             ->where('(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1 AND c.type=:typePartner', [
                 ':townId' => $lead->town->id,
                 ':regionId' => $lead->town->regionId,
-                ':hour' => (int) date('H'),
+                ':hour' => (int)date('H'),
                 ':typePartner' => self::TYPE_PARTNERS,
             ])
             ->order('c.lastLeadTime ASC')
@@ -356,7 +364,7 @@ class Campaign extends CActiveRecord
     /**
      * Поиск кампаний по id покупателя.
      *
-     * @param int  $buyerId id покупателя
+     * @param int $buyerId id покупателя
      * @param bool $active
      *
      * @return array массив активных кампаний
@@ -365,7 +373,7 @@ class Campaign extends CActiveRecord
     {
         $criteria = new CDbCriteria();
         $criteria->order = 'id DESC';
-        $criteria->addColumnCondition(['buyerId' => (int) $buyerId]);
+        $criteria->addColumnCondition(['buyerId' => (int)$buyerId]);
         $criteria->addCondition(true == $active ? 'active = ' . self::ACTIVE_YES : 'active != ' . self::ACTIVE_YES);
 
         $dependency = new CDbCacheDependency('SELECT COUNT(id) FROM {{campaign}}');
@@ -552,5 +560,13 @@ class Campaign extends CActiveRecord
         }
 
         return true;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullApiClass():string
+    {
+        return $this->apiClass != '' ? 'App\\components\\apiClasses\\' . $this->apiClass : '';
     }
 }

@@ -1,5 +1,11 @@
 <?php
 /* @var $this UserStatusRequestController */
+
+use App\helpers\DateHelper;
+use App\models\Money;
+use App\models\TransactionCampaign;
+use App\models\UserStatusRequest;
+
 /* @var $data UserStatusRequest */
 ?>
 

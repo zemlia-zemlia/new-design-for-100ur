@@ -1,9 +1,10 @@
 <?php
 
-class DocTypeController extends Controller
-{
-    public $layout = '//admin/main';
+use App\models\DocType;
+use App\modules\admin\controllers\AbstractAdminController;
 
+class DocTypeController extends AbstractAdminController
+{
     /**
      * @return array action filters
      */
@@ -65,8 +66,8 @@ class DocTypeController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['DocType'])) {
-            $model->attributes = $_POST['DocType'];
+        if (isset($_POST['App\models\DocType'])) {
+            $model->attributes = $_POST['App\models\DocType'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -90,8 +91,8 @@ class DocTypeController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['DocType'])) {
-            $model->attributes = $_POST['DocType'];
+        if (isset($_POST['App\models\DocType'])) {
+            $model->attributes = $_POST['App\models\DocType'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -123,7 +124,7 @@ class DocTypeController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('DocType');
+        $dataProvider = new CActiveDataProvider(DocType::class);
         $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
@@ -136,8 +137,8 @@ class DocTypeController extends Controller
     {
         $model = new DocType('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['DocType'])) {
-            $model->attributes = $_GET['DocType'];
+        if (isset($_GET['App\models\DocType'])) {
+            $model->attributes = $_GET['App\models\DocType'];
         }
 
         $this->render('admin', [

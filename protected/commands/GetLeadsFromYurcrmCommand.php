@@ -3,6 +3,10 @@
  *
  * собирает лиды из писем, расположенных в почтовом ящике admin@100yuristov.com
  */
+
+use App\helpers\PhoneHelper;
+use App\models\Lead;
+
 class GetLeadsFromYurcrmCommand extends CConsoleCommand
 {
     /*protected $towns = array(

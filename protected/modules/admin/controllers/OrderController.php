@@ -1,9 +1,10 @@
 <?php
 
-class OrderController extends Controller
-{
-    public $layout = '//admin/main';
+use App\models\Order;
+use App\modules\admin\controllers\AbstractAdminController;
 
+class OrderController extends AbstractAdminController
+{
     /**
      * @return array action filters
      */
@@ -30,7 +31,7 @@ class OrderController extends Controller
             ],
             ['allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => ['update', 'delete'],
-                'expression' => 'Yii::app()->user->checkAccess(User::ROLE_ROOT)',
+                'expression' => 'Yii::app()->user->checkAccess(App\models\User::ROLE_ROOT)',
             ],
 
             ['deny', // deny all users
@@ -62,8 +63,8 @@ class OrderController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Order'])) {
-            $model->attributes = $_POST['Order'];
+        if (isset($_POST['App_models_Order'])) {
+            $model->attributes = $_POST['App_models_Order'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -87,8 +88,8 @@ class OrderController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Order'])) {
-            $model->attributes = $_POST['Order'];
+        if (isset($_POST['App_models_Order'])) {
+            $model->attributes = $_POST['App_models_Order'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -125,7 +126,7 @@ class OrderController extends Controller
         $ordersCriteria->order = 't.id DESC';
         $ordersCriteria->with = ['author', 'jurist', 'responsesCount'];
 
-        $ordersDataProvider = new CActiveDataProvider('Order', [
+        $ordersDataProvider = new CActiveDataProvider(Order::class, [
             'criteria' => $ordersCriteria,
         ]);
 
@@ -153,8 +154,8 @@ class OrderController extends Controller
     {
         $model = new Order('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Order'])) {
-            $model->attributes = $_GET['Order'];
+        if (isset($_GET['App_models_Order'])) {
+            $model->attributes = $_GET['App_models_Order'];
         }
 
         $this->render('admin', [

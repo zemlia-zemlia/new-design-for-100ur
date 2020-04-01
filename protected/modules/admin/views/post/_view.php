@@ -7,7 +7,9 @@
 
 <div class="category-post">
     
-    <?php if ($data->photo):?>
+    <?php use App\helpers\DateHelper;
+
+    if ($data->photo):?>
     <div>
     <img src="<?php echo $data->getPhotoUrl('thumb'); ?>" alt="" style="float:left; margin-right:20px;" />
     </div>

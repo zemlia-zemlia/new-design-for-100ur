@@ -1,8 +1,12 @@
 <?php
 
-class AnswerController extends Controller
+use App\models\Answer;
+use App\models\Question;
+use App\models\User;
+use App\modules\admin\controllers\AbstractAdminController;
+
+class AnswerController extends AbstractAdminController
 {
-    public $layout = '//admin/main';
 
     /**
      * @return array action filters
@@ -68,13 +72,9 @@ class AnswerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
-        $oldStatus = $model->status;
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['Answer'])) {
-            $model->attributes = $_POST['Answer'];
+        if (isset($_POST['App_models_Answer'])) {
+            $model->attributes = $_POST['App_models_Answer'];
 
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id, 'question_updated' => 'yes']);
@@ -118,7 +118,7 @@ class AnswerController extends Controller
             $criteria->with = ['question', 'transaction'];
         }
 
-        $dataProvider = new CActiveDataProvider('Answer', [
+        $dataProvider = new CActiveDataProvider(Answer::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 20,

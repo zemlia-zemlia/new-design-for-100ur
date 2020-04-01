@@ -1,5 +1,8 @@
 <?php
 /* @var $this UserStatusRequestController */
+
+use App\models\UserStatusRequest;
+
 /* @var $model UserStatusRequest */
 /* @var $form CActiveForm */
 ?>

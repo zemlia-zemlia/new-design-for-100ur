@@ -1,5 +1,8 @@
 <?php
 /* @var $this QuestionController */
+
+use App\models\Question;
+
 /* @var $model Question */
 /* @var $form CActiveForm */
 ?>
@@ -65,7 +68,7 @@ $allDirections = [0 => 'Не выбрано'] + $allDirections;
 		<?php echo $form->labelEx($model, 'phone', ['class' => 'col-sm-4 control-label']); ?>
             <div class="col-sm-5">
 		<?php echo $form->textField($model, 'phone', [
-                    'class' => 'form-control icon-input',
+                    'class' => 'form-control icon-input phone-mask',
                     'style' => 'background-image:url(/pics/2017/phone_icon.png)',
                     'data-toggle' => 'tooltip',
                     'data-placement' => 'bottom',

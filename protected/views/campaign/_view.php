@@ -1,5 +1,8 @@
 <?php
 /* @var $this CampaignController */
+
+use App\models\Campaign;
+
 /* @var $data Campaign */
 $leadsSentPercent = ($data->leadsDayLimit > 0) ? ($data->leadsTodayCount / $data->leadsDayLimit) * 100 : 0;
 ?>

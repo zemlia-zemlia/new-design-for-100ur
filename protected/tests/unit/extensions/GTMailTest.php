@@ -3,7 +3,7 @@
 namespace Tests\Unit\Extensions;
 
 use Codeception\Test\Unit;
-use FileSystemHelper;
+use App\helpers\FileSystemHelper;
 use GTMail;
 
 class GTMailTest extends Unit

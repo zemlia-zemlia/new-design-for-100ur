@@ -1,5 +1,9 @@
 <?php
 /* @var $this UserStatusRequestController */
+
+use App\models\UserStatusRequest;
+use App\models\YuristSettings;
+
 /* @var $model UserStatusRequest */
 /* @var $form CActiveForm */
 
@@ -25,7 +29,7 @@ unset($statusesArray[3]);
     <script type="text/javascript">
         $(function () {
 
-            $("input[name='UserStatusRequest[status]']").on('change', function () {
+            $("input[name='App_models_UserStatusRequest[status]']").on('change', function () {
                 var yuristStatus = $(this).val();
 
                 $("#user-profile-advocat, #user-profile-yurist, #user-profile-company").hide();
@@ -47,12 +51,6 @@ unset($statusesArray[3]);
                         $("#form-submit").show();
                         break;
                 }
-
-                /*if(yuristStatus!=0) {
-                    $("#submitStatusRequest").removeAttr('disabled');
-                } else {
-                    $("#submitStatusRequest").attr('disabled', 'disabled');
-                }*/
             })
 
             $('#user-profile-<?php
@@ -84,7 +82,7 @@ unset($statusesArray[3]);
                 <?php foreach ($statusesArray as $statusCode => $statusName): ?>
                     <div class='col-md-4 radio-block'>
                         <label>
-                            <input type="radio" name="UserStatusRequest[status]"
+                            <input type="radio" name="App_models_UserStatusRequest[status]"
                                    value="<?php echo $statusCode; ?>" <?php if ($statusCode == $currentUser->settings->status) {
                                 echo 'disabled';
                             } ?> <?php if ($statusCode == $model->status) {

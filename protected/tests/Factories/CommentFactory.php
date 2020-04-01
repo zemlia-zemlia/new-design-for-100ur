@@ -2,7 +2,7 @@
 
 namespace Tests\Factories;
 
-use Comment;
+use App\models\Comment;
 
 class CommentFactory extends BaseFactory
 {

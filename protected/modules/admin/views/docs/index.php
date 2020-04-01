@@ -13,8 +13,8 @@ $this->widget('zii.widgets.CBreadcrumbs', [
 ]);
 
 $this->menu = [
-    ['label' => 'Create Docs', 'url' => ['create']],
-    ['label' => 'Manage Docs', 'url' => ['admin']],
+    ['label' => 'Create App\models\Docs', 'url' => ['create']],
+    ['label' => 'Manage App\models\Docs', 'url' => ['admin']],
 ];
 
 ?>

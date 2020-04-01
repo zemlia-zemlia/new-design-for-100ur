@@ -1,5 +1,8 @@
 <?php
 /* @var $this TownController */
+
+use App\models\Town;
+
 /* @var $model Town */
 
 $this->breadcrumbs = [
@@ -9,10 +12,10 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'List Town', 'url' => ['index']],
-    ['label' => 'Create Town', 'url' => ['create']],
-    ['label' => 'View Town', 'url' => ['view', 'id' => $model->id]],
-    ['label' => 'Manage Town', 'url' => ['admin']],
+    ['label' => 'List App\models\Town', 'url' => ['index']],
+    ['label' => 'Create App\models\Town', 'url' => ['create']],
+    ['label' => 'View App\models\Town', 'url' => ['view', 'id' => $model->id]],
+    ['label' => 'Manage App\models\Town', 'url' => ['admin']],
 ];
 ?>
 

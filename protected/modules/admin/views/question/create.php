@@ -1,5 +1,8 @@
 <?php
 /* @var $this QuestionController */
+
+use App\models\Question;
+
 /* @var $model Question */
 
 $this->setPageTitle('Вопросы и ответы - новый вопрос.' . Yii::app()->name);

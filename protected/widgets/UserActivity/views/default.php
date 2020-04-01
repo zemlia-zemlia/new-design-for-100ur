@@ -1,5 +1,9 @@
 <?php
 /** @var array $rankByDay */
+
+use App\helpers\DateHelper;
+use App\models\UserActivity;
+
 /** @var DateTime $firstDateInCalendar */
 ?>
 

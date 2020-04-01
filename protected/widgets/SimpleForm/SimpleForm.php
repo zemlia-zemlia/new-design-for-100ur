@@ -1,5 +1,7 @@
 <?php
 
+use App\models\Question;
+
 class SimpleForm extends CWidget
 {
     public $template = 'default'; // представление виджета по умолчанию

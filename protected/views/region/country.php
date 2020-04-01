@@ -1,4 +1,7 @@
 <?php
+
+use App\models\User;
+
 $this->setPageTitle('Юристы ' . CHtml::encode($country->name) . '. Рейтинг юристов');
 
 Yii::app()->clientScript->registerMetaTag('Найти юриста по специализации или по рейтингу и получить консультацию онлайн.', 'Description');

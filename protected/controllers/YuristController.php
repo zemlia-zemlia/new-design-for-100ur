@@ -1,5 +1,7 @@
 <?php
 
+use App\models\User;
+
 class YuristController extends Controller
 {
     public $layout = '//frontend/question';
@@ -46,7 +48,7 @@ class YuristController extends Controller
         $criteria->addColumnCondition(['avatar!' => '']);
         $criteria->addCondition('role = ' . User::ROLE_JURIST);
 
-        $yuristsDataProvider = new CActiveDataProvider('User', [
+        $yuristsDataProvider = new CActiveDataProvider(User::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 40,

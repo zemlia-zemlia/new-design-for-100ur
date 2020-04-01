@@ -1,5 +1,7 @@
 <?php
 
+use App\models\Answer;
+
 /**
  * Отображение недавних вопросов с максимальным числом ответов
  * Class PopularQuestions.

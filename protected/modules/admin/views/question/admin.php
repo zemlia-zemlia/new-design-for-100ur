@@ -1,5 +1,8 @@
 <?php
 /* @var $this QuestionController */
+
+use App\models\Question;
+
 /* @var $model Question */
 
 $this->breadcrumbs = [

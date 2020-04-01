@@ -1,5 +1,11 @@
 <?php
 
+namespace App\models;
+
+use CFormModel;
+use UserIdentity;
+use Yii;
+
 /**
  * Модель для работы с формой логина.
  */

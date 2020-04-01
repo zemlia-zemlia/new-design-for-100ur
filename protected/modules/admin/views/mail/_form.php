@@ -1,5 +1,8 @@
 <div class="new-lead-form">
     <?php
+
+    use App\models\User;
+
     $form = $this->beginWidget('CActiveForm', [
         'id' => 'mail-form',
         'enableAjaxValidation' => false,

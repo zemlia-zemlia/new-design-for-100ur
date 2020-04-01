@@ -1,16 +1,23 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Yii;
+
 /**
  * This is the model class for table "{{expence}}".
  * Хранит данные о расходах по датам: контекстная реклама, звонки и т.д.
  *
  * The followings are the available columns in table '{{expence}}':
  *
- * @property int    $id
+ * @property int $id
  * @property string $date
- * @property int    $expences
+ * @property int $expences
  * @property string $comment
- * @property int    $type
+ * @property int $type
  */
 class Expence extends CActiveRecord
 {
@@ -56,10 +63,7 @@ class Expence extends CActiveRecord
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -92,7 +96,7 @@ class Expence extends CActiveRecord
     /**
      * Возвращает название типа расхода для текущего объекта.
      *
-     * @return type
+     * @return string
      */
     public function getTypeName()
     {
@@ -134,7 +138,7 @@ class Expence extends CActiveRecord
      *
      * @param string $className active record class name
      *
-     * @return Direct the static model class
+     * @return Expence the static model class
      */
     public static function model($className = __CLASS__)
     {

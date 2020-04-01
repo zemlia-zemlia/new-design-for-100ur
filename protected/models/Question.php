@@ -1,32 +1,47 @@
 <?php
 
+namespace App\models;
+
+use App\helpers\StringHelper;
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use CDbException;
+use CHtml;
+use CLogger;
+use GTMail;
+use App\extensions\Logger\LoggerFactory;
+use PDO;
+use YandexKassa;
+use Yii;
+
 /**
  * Модель для работы с вопросами.
  *
  * Поля таблицы '{{question}}':
  *
- * @property int    $id
- * @property int    $number
+ * @property int $id
+ * @property int $number
  * @property string $questionText
  * @property string $title
  * @property string $townId
  * @property string $authorName
- * @property int    $status
+ * @property int $status
  * @property string $phone
  * @property string $email
  * @property string $publishDate
- * @property int    $leadStatus
- * @property int    $authorId
- * @property int    $price
- * @property int    $payed
+ * @property int $leadStatus
+ * @property int $authorId
+ * @property int $price
+ * @property int $payed
  * @property string $sessionId
- * @property int    $isModerated
- * @property int    $moderatedBy
- * @property int    $moderatedTime
+ * @property int $isModerated
+ * @property int $moderatedBy
+ * @property int $moderatedTime
  * @property string $ip
- * @property int    $townIdByIP
- * @property int    $sourceId
- * @property float  $buyPrice
+ * @property int $townIdByIP
+ * @property int $sourceId
+ * @property float $buyPrice
  */
 class Question extends CActiveRecord
 {
@@ -110,19 +125,17 @@ class Question extends CActiveRecord
     /**
      * @return array relational rules
      */
-    public function relations()
+    public function relations():array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'town' => [self::BELONGS_TO, 'Town', 'townId'],
-            'townByIP' => [self::BELONGS_TO, 'Town', 'townIdByIP'],
-            'source' => [self::BELONGS_TO, 'Leadsource', 'sourceId'],
-            'answers' => [self::HAS_MANY, 'Answer', 'questionId'],
-            'answersCount' => [self::STAT, 'Answer', 'questionId', 'condition' => 'status IN (' . Answer::STATUS_NEW .', ' .  Answer::STATUS_PUBLISHED . ')'],
-            'bublishUser' => [self::BELONGS_TO, 'User', 'publishedBy'],
-            'author' => [self::BELONGS_TO, 'User', 'authorId'],
-            'categories' => [self::MANY_MANY, 'QuestionCategory', '{{question2category}}(qId, cId)'],
+            'town' => [self::BELONGS_TO, Town::class, 'townId'],
+            'townByIP' => [self::BELONGS_TO, Town::class, 'townIdByIP'],
+            'source' => [self::BELONGS_TO, Leadsource::class, 'sourceId'],
+            'answers' => [self::HAS_MANY, Answer::class, 'questionId'],
+            'answersCount' => [self::STAT, Answer::class, 'questionId', 'condition' => 'status IN (' . Answer::STATUS_NEW .', ' .  Answer::STATUS_PUBLISHED . ')'],
+            'bublishUser' => [self::BELONGS_TO, User::class, 'publishedBy'],
+            'author' => [self::BELONGS_TO, User::class, 'authorId'],
+            'categories' => [self::MANY_MANY, QuestionCategory::class, '{{question2category}}(qId, cId)'],
         ];
     }
 
@@ -466,7 +479,7 @@ class Question extends CActiveRecord
         }
         $questionRow = $questionCommand->queryRow();
 
-        return ($questionRow['id']) ? (int) $questionRow['id'] : 0;
+        return ($questionRow['id']) ? (int)$questionRow['id'] : 0;
     }
 
     /**
@@ -765,7 +778,7 @@ class Question extends CActiveRecord
     /**
      * Возвращает массив вопросов заданного автора, заданных статусов.
      *
-     * @param int   $authorId
+     * @param int $authorId
      * @param array $statuses Массив статусов. Пустой массив - все статусы
      *
      * @return Question[]

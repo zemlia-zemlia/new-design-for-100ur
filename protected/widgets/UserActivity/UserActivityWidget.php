@@ -1,5 +1,7 @@
 <?php
 
+use App\models\UserActivity;
+
 /**
  * Виджет показа статистики активности пользователя по дням в виде тепловой карты
  * Class UserActivityWidget.

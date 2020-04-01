@@ -1,14 +1,21 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Yii;
+
 /**
  * This is the model class for table "{{docType}}".
  *
  * The followings are the available columns in table '{{docType}}':
  *
- * @property int    $id
- * @property int    $class
+ * @property int $id
+ * @property int $class
  * @property string $name
- * @property int    $minPrice
+ * @property int $minPrice
  */
 class DocType extends CActiveRecord
 {
@@ -57,10 +64,7 @@ class DocType extends CActiveRecord
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return [
-        ];
+        return [];
     }
 
     /**

@@ -1,5 +1,8 @@
 <?php
 /* @var $this CategoryController */
+
+use App\models\Postcategory;
+
 /* @var $model Postcategory */
 
 $this->setPageTitle('Редактирование категории ' . CHtml::encode($model->title) . ' | Публикации' . ' | ' . Yii::app()->name);

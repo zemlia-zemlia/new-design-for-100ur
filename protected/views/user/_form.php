@@ -1,5 +1,9 @@
 <?php
 /* @var $this UserController */
+
+use App\models\User;
+use App\models\YuristSettings;
+
 /* @var $model User */
 /* @var $form CActiveForm */
 /* @var $yuristSettings YuristSettings */

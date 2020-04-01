@@ -1,4 +1,7 @@
 <?php
+
+namespace App\extensions\Logger;
+
 /**
  * Класс для логирования информации в БД.
  */

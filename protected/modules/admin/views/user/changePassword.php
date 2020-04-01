@@ -1,5 +1,8 @@
 <?php
 /* @var $this UserController */
+
+use App\models\User;
+
 /* @var $model User */
 $this->pageTitle = 'Изменение пароля пользователя ' . CHtml::encode($model->name . ' ' . $model->lastName) . '. ' . Yii::app()->name;
 

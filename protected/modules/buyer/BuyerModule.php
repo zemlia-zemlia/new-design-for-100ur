@@ -1,5 +1,7 @@
 <?php
 
+use App\models\User;
+
 class BuyerModule extends CWebModule
 {
     public function init()
