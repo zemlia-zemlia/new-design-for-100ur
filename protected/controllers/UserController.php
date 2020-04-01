@@ -5,6 +5,7 @@ use App\helpers\StringHelper;
 use App\models\Answer;
 use App\models\Comment;
 use App\models\LoginForm;
+use App\models\Order;
 use App\models\Question;
 use App\models\QuestionCategory;
 use App\models\RestorePasswordForm;
