@@ -65,7 +65,7 @@ class SendAfterAnswerCommand extends CConsoleCommand
             // отправляем письмо на почту пользователя
             $mailer->email = $row['email'];
 
-            if ($mailer->sendMail(true, '100yuristov')) {
+            if ($mailer->sendMail(true)) {
                 Yii::log('Отправлено письмо пользователю ' . $row['email'] . ' с уведомлением об ответе на вопрос ' . $row['id'], 'info', 'system.web.User');
             } else {
                 // не удалось отправить письмо
