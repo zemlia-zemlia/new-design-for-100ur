@@ -3,6 +3,7 @@
 use App\models\Cat2follower;
 use App\models\Postcategory;
 use App\models\User;
+use App\models\Post;
 
 class BlogController extends Controller
 {
