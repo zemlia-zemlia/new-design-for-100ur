@@ -104,7 +104,7 @@ class Campaign extends CActiveRecord
      */
     public function validateApiClass($attribute, $params)
     {
-        if ($this->$attribute != '' && !@class_exists($this->$attribute)) {
+        if ($this->$attribute != '' && !@class_exists('App\\components\\apiClasses\\' . $this->$attribute)) {
             $this->addError($attribute, 'Класс для работы с API не найден');
         }
     }

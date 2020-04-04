@@ -114,4 +114,53 @@ class CampaignRepository
 
         return $command->queryAll();
     }
+
+    /**
+     * Возвращает массив данных о ценах продажи лидов в столицы регионов, ключи - id регионов
+     * [
+     *  25 => [
+     *      'capitalName' => 'Москва',
+     *      'minCapitalSellPrice' => 10000,
+     *      'maxCapitalSellPrice' => 25000,
+     *  ]
+     * ]
+     * @param int $activityIntervalDays
+     * @return array
+     * @throws CException
+     */
+    public function getSellPricesOfCapitalsByRegions($activityIntervalDays = 3): array
+    {
+        /*
+        SELECT t.regionId regionId, t.name capitalName,
+        MIN(c.price) minCapitalSellPrice, MAX(c.price) maxCapitalSellPrice
+        FROM 100_campaign c
+        LEFT JOIN 100_lead l ON l.campaignId = c.id AND l.leadStatus != 4
+        LEFT JOIN 100_town t ON c.townId=t.id AND t.isCapital=1
+        WHERE c.lastLeadTime > NOW() - INTERVAL 3 DAY AND c.active=1 AND t.id IS NOT NULL
+        GROUP BY t.id;
+        */
+
+        $capitalRows = Yii::app()->db->createCommand()
+            ->select('t.regionId regionId, t.name capitalName,
+                MIN(c.price) minCapitalSellPrice, MAX(c.price) maxCapitalSellPrice')
+            ->from('{{campaign}} c')
+            ->leftJoin('{{lead}} l', 'l.campaignId = c.id AND l.leadStatus != 4')
+            ->leftJoin('{{town}} t', 'c.townId=t.id AND t.isCapital=1')
+            ->where('c.lastLeadTime > NOW() - INTERVAL :days DAY AND c.active=:active AND t.id IS NOT NULL', [
+                ':days' => $activityIntervalDays,
+                ':active' => Campaign::ACTIVE_YES,
+            ])
+            ->group('t.id')
+            ->queryAll();
+
+        $capitalsByRegions = [];
+
+        foreach ($capitalRows as $row) {
+            $capitalsByRegions[$row['regionId']]['capitalName'] = $row['capitalName'];
+            $capitalsByRegions[$row['regionId']]['minCapitalSellPrice'] = $row['minCapitalSellPrice'];
+            $capitalsByRegions[$row['regionId']]['maxCapitalSellPrice'] = $row['maxCapitalSellPrice'];
+        }
+
+        return $capitalsByRegions;
+    }
 }

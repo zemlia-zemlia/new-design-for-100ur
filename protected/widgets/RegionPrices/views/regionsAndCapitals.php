@@ -1,5 +1,6 @@
 <?php
 /** @var array $campaignsArray */
+/** @var array $capitalsPrices */
 ?>
 
 <table class="table table-bordered">
@@ -58,15 +59,23 @@
             </td>
             <td>
                 <?php
-                    if ($regionData['minRegionSellPrice'] == $regionData['maxRegionSellPrice']) {
-                        echo MoneyFormat::rubles($regionData['minRegionSellPrice']);
-                    } else {
-                        echo MoneyFormat::rubles($regionData['minRegionSellPrice']) . ' - ' . MoneyFormat::rubles($regionData['maxRegionSellPrice']);
-                    }
+                if ($regionData['minRegionSellPrice'] == $regionData['maxRegionSellPrice']) {
+                    echo MoneyFormat::rubles($regionData['minRegionSellPrice']);
+                } else {
+                    echo MoneyFormat::rubles($regionData['minRegionSellPrice']) . ' - ' . MoneyFormat::rubles($regionData['maxRegionSellPrice']);
+                }
                 ?>
             </td>
             <td>
-
+                <?php
+                if (isset($capitalsPrices[$regionData['regionId']])) {
+                    if ($capitalsPrices[$regionData['regionId']]['minCapitalSellPrice'] == $capitalsPrices[$regionData['regionId']]['maxCapitalSellPrice']) {
+                        echo MoneyFormat::rubles($capitalsPrices[$regionData['regionId']]['minCapitalSellPrice']);
+                    } else {
+                        echo MoneyFormat::rubles($capitalsPrices[$regionData['regionId']]['minCapitalSellPrice']) . ' - ' . MoneyFormat::rubles($capitalsPrices[$regionData['regionId']]['maxCapitalSellPrice']);
+                    }
+                }
+                ?>
             </td>
         </tr>
     <?php endforeach; ?>

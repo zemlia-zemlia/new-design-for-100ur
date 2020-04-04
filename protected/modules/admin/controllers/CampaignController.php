@@ -138,13 +138,10 @@ class CampaignController extends AbstractAdminController
     {
         $model = $this->loadModel($id);
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['App\models\Campaign'])) {
+        if (isset($_POST['App_models_Campaign'])) {
             $oldActivity = $model->active; // запомним статус активности кампании
 
-            $model->attributes = $_POST['App\models\Campaign'];
+            $model->attributes = $_POST['App_models_Campaign'];
             $model->price *= 100;
 
             $buyer = $model->buyer; // покупатель
