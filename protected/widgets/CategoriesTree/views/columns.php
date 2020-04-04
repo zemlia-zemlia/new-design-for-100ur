@@ -5,9 +5,9 @@
     <?php endif; ?>
     <div class="col-sm-4 vert-margin20">
         <?php if (isset($cat['icon'])) : ?>
-        <img src="/upload/category_icons/<?= $cat['icon'] ?>" width="30" alt="">
+        <img src="/upload/category_icons/<?= $cat['icon'] ?>" width="30" alt="<?= CHtml::encode($cat['name'])?>">
         <?php endif; ?>
-        <?php echo CHtml::link(CHtml::encode($cat['name']), Yii::app()->createUrl('questionCategory/alias', ['name' => CHtml::encode($cat['alias'])])); ?>
+        <span class="category-name-column"><?php echo CHtml::link(CHtml::encode($cat['name']), Yii::app()->createUrl('questionCategory/alias', ['name' => CHtml::encode($cat['alias'])])); ?></span>
     </div>
     <?php if (2 == $index % 3): ?>
         </div>
