@@ -25,7 +25,7 @@ $this->widget('zii.widgets.CBreadcrumbs', [
         <?php
         // выводим виджет с ценами по регионам
         $this->widget('application.widgets.RegionPrices.RegionPrices', [
-            'activityIntervalDays' => 300,
+            'activityIntervalDays' => 3,
             'mode' => 'regionsWithCapitals',
             'template' => 'regionsAndCapitals',
         ]);
