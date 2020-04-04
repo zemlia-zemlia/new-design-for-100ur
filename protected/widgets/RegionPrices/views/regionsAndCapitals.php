@@ -3,7 +3,7 @@
 /** @var array $capitalsPrices */
 ?>
 
-<table class="table table-bordered">
+<table class="table table-bordered table-striped">
     <tr>
         <th rowspan="2">
             Регион

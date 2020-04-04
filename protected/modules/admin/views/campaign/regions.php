@@ -17,15 +17,18 @@ $this->widget('zii.widgets.CBreadcrumbs', [
 ]);
 ?>
 
-    <h1>Выкупаемые регионы</h1>
+<h1>Выкупаемые регионы</h1>
 
-    <p>Регионы, по которым были продажи лидов за последние 3 суток</p>
-
-<?php
-// выводим виджет с ценами по регионам
-$this->widget('application.widgets.RegionPrices.RegionPrices', [
-    'activityIntervalDays' => 300,
-    'mode' => 'regionsWithCapitals',
-    'template' => 'regionsAndCapitals',
-]);
-?>
+<p>Регионы, по которым были продажи лидов за последние 3 суток</p>
+<div class="box">
+    <div class="box-body">
+        <?php
+        // выводим виджет с ценами по регионам
+        $this->widget('application.widgets.RegionPrices.RegionPrices', [
+            'activityIntervalDays' => 300,
+            'mode' => 'regionsWithCapitals',
+            'template' => 'regionsAndCapitals',
+        ]);
+        ?>
+    </div>
+</div>
