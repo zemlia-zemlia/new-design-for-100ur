@@ -359,7 +359,7 @@ class Campaign extends CActiveRecord
 
         // Если лид поступил менее 3 часов назад, не продаем его в партнерки с ценой ниже цены покупки
         if ((new \DateTime($lead->question_date)) > (new \DateTime())->modify('-3 hours')) {
-            $partnerCampaignsCommand->andWhere('c.price > :buyPrice', [
+            $partnerCampaignsCommand->andWhere('c.price >= :buyPrice', [
                 ':buyPrice' => $lead->buyPrice,
             ]);
         }
