@@ -22,7 +22,7 @@ class CampaignRepository
      *
      * @throws CException
      */
-    public function getActiveCampaigns(User $user, $activityIntervalDays = 3):array
+    public function getActiveCampaigns(User $user, $activityIntervalDays = 3): array
     {
         $campaignsCommand = Yii::app()->db->createCommand()
             ->select('c.id, c.townId, t.name townName, c.regionId, r.name regionName, r.buyPrice regionPrice, t.buyPrice townPrice, r_town.buyPrice townRegionPrice, c.leadsDayLimit, c.realLimit, c.brakPercent, c.timeFrom, c.timeTo, c.price, COUNT(l.id) leadsSent, u.id userId, u.name, u.balance, u.lastTransactionTime')
@@ -37,7 +37,7 @@ class CampaignRepository
                 ':days' => $activityIntervalDays,
             ])
             ->group('c.id')
-            ->order('townPrice DESC, regionPrice DESC');
+            ->order('r.name ASC');
 
         $campaignsRows = $campaignsCommand->queryAll();
 
@@ -74,5 +74,41 @@ class CampaignRepository
         }
 
         return $campaignsArray;
+    }
+
+    /**
+     * Получение цен покупки регионов и их столиц, учитываем только те регионы, которые продавались в последние дни
+     * @param int $activityIntervalDays
+     * @return array Массив регионов с ключами [regionId, regionName, regionBuyPrice, capitalId, capitalName, capitalBuyPrice]
+     * @throws CException
+     */
+    public function getBuyPricesForRegionsAndCapitalsCurrentlyActive($activityIntervalDays = 3): array
+    {
+        /*       Запрос:
+        SELECT c.id, r.id regionId, r.name regionName,
+        r.buyPrice regionBuyPrice, t.name capitalName, t.buyPrice capitalBuyPrice
+        FROM 100_campaign c
+        LEFT JOIN 100_lead l ON l.campaignId = c.id AND l.leadStatus != 4
+        LEFT JOIN 100_region r ON r.id = c.regionId
+        LEFT JOIN 100_town t ON t.regionId=r.id AND t.isCapital=1
+        WHERE c.lastLeadTime > NOW() - INTERVAL 3 DAY AND c.active=1 AND r.id IS NOT NULL
+        GROUP BY r.id;
+        */
+
+        $command = Yii::app()->db->createCommand()
+            ->select('c.id, r.id regionId, r.name regionName, t.id capitalId,
+             r.buyPrice regionBuyPrice, t.name capitalName, t.buyPrice capitalBuyPrice')
+            ->from('{{campaign}} c')
+            ->leftJoin('{{lead}} l', 'l.campaignId = c.id AND l.leadStatus != ' . Lead::LEAD_STATUS_BRAK)
+            ->leftJoin('{{region}} r', 'r.id = c.regionId')
+            ->leftJoin('{{town}} t', 't.regionId=r.id AND t.isCapital=1')
+            ->where('c.lastLeadTime > NOW() - INTERVAL :days DAY AND c.active=:active AND r.id IS NOT NULL', [
+                ':days' => $activityIntervalDays,
+                ':active' => Campaign::ACTIVE_YES,
+            ])
+            ->group('r.id')
+            ->order('r.name ASC');
+
+        return $command->queryAll();
     }
 }

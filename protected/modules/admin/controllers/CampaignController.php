@@ -9,6 +9,7 @@ use App\models\Region;
 use App\models\TransactionCampaign;
 use App\models\User;
 use App\modules\admin\controllers\AbstractAdminController;
+use App\repositories\CampaignRepository;
 
 class CampaignController extends AbstractAdminController
 {
@@ -78,8 +79,8 @@ class CampaignController extends AbstractAdminController
         $leadsCriteria->addColumnCondition(['campaignId' => $model->id]);
         $leadsCriteria->order = 'id DESC';
         $leadsDataProvider = new CActiveDataProvider(Lead::class, [
-                'criteria' => $leadsCriteria,
-            ]);
+            'criteria' => $leadsCriteria,
+        ]);
 
         $this->render('view', [
             'model' => $model,
