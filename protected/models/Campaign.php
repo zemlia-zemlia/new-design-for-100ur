@@ -255,7 +255,9 @@ class Campaign extends CActiveRecord
      *
      * @param int $leadId ID лида
      *
+     * @param bool $returnArray
      * @return int ID кампании для отправки лида
+     * @throws \CException
      */
     public static function getCampaignsForLead($leadId, $returnArray = false)
     {
@@ -344,7 +346,7 @@ class Campaign extends CActiveRecord
 
         // Если не нашлось ни одной кампании, ищем кампанию партнерских программ для данного региона
 
-        $partnerCampaignsRow = Yii::app()->db->createCommand()
+        $partnerCampaignsCommand = Yii::app()->db->createCommand()
             ->select('c.*')
             ->from('{{campaign}} c')
             ->where('(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1 AND c.type=:typePartner', [
@@ -353,8 +355,16 @@ class Campaign extends CActiveRecord
                 ':hour' => (int)date('H'),
                 ':typePartner' => self::TYPE_PARTNERS,
             ])
-            ->order('c.lastLeadTime ASC')
-            ->queryRow();
+            ->order('c.lastLeadTime ASC');
+
+        // Если лид поступил менее 3 часов назад, не продаем его в партнерки с ценой ниже цены покупки
+        if ((new \DateTime($lead->question_date)) > (new \DateTime())->modify('-3 hours')) {
+            $partnerCampaignsCommand->andWhere('c.price > :buyPrice', [
+                ':buyPrice' => $lead->buyPrice,
+            ]);
+        }
+
+        $partnerCampaignsRow = $partnerCampaignsCommand->queryRow();
 
         if ($partnerCampaignsRow) {
             return (true === $returnArray) ? [$partnerCampaignsRow['id']] : $partnerCampaignsRow['id'];
@@ -565,7 +575,7 @@ class Campaign extends CActiveRecord
     /**
      * @return string
      */
-    public function getFullApiClass():string
+    public function getFullApiClass(): string
     {
         return $this->apiClass != '' ? 'App\\components\\apiClasses\\' . $this->apiClass : '';
     }

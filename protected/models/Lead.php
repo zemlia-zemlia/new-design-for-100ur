@@ -146,7 +146,7 @@ class Lead extends CActiveRecord
     /**
      * @return array Связи с другими моделями
      */
-    public function relations():array
+    public function relations(): array
     {
         return [
             'source' => [self::BELONGS_TO, Leadsource::class, 'sourceId'],
@@ -445,7 +445,7 @@ class Lead extends CActiveRecord
      *
      * @return bool результат
      */
-    public function sellLead(?User $buyer = null, ?Campaign $campaign = null)
+    public function sellLead(?User $buyer = null, ?Campaign $campaign = null): bool
     {
         // получаем объекты покупателя и кампании
         $buyerAndCampaignResult = $this->checkBuyerAndCampaign($buyer, $campaign);
