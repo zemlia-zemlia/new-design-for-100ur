@@ -69,7 +69,7 @@ Yii::app()->clientScript->registerLinkTag('canonical', null, 'https://' . $_SERV
 
 <div class="row hidden-xs">
     <div class="col-sm-10 col-sm-offset-1 vert-margin40">
-        <h3 id="left-menu-switch" class="vert-margin40">Темы вопросов</h3>
+        <h3 id="left-menu-switch" class="vert-margin40">Справочные материалы по темам:</h3>
         <?php
         // выводим виджет с деревом категорий
         $this->widget('application.widgets.CategoriesTree.CategoriesTree', [

@@ -1310,3 +1310,6 @@ article img {
     padding: 1px;
 }
 
+.category-name-column a {
+    color: #1f1f1f;
+}

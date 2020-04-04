@@ -130,7 +130,7 @@ use App\models\UserStatusRequest;
                         <a href="#">
                             <i class="fa fa-pie-chart"></i>
                             <span>Вывод средств</span><span class="pull-right-container">
-                                <small class="label pull-right bg-yellow"><?php echo PartnerTransaction::getNewRequestsCount(); ?></small>
+                                <small class="label pull-right bg-green"><?php echo PartnerTransaction::getNewRequestsCount(); ?></small>
                                 <small class="label pull-right bg-green"><?php echo TransactionCampaign::getNewRequestsCount(); ?></small>
                             </span>
                             <i class="fa fa-angle-left pull-right"></i>
@@ -139,7 +139,7 @@ use App\models\UserStatusRequest;
                             <li>
                                 <a href="<?= Yii::app()->createUrl('/admin/partnerTransaction') ?>">
                                     <i class="fa fa-th"></i> <span>Вебмастера</span> <small
-                                            class="label pull-right bg-yellow"><?php echo PartnerTransaction::getNewRequestsCount(); ?></small>
+                                            class="label pull-right bg-green"><?php echo PartnerTransaction::getNewRequestsCount(); ?></small>
                                 </a>
                             </li>
                             <li>
