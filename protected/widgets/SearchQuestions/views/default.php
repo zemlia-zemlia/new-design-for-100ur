@@ -1,4 +1,7 @@
-<?php $form = $this->beginWidget('CActiveForm', [
+<?php use App\helpers\NumbersHelper;
+use App\models\Question;
+
+$form = $this->beginWidget('CActiveForm', [
         'id' => 'question-search',
     'action' => '/question/search/',
     'method' => 'get',

@@ -2,18 +2,18 @@
 
 namespace Tests\Integration\Models;
 
-use ApiClassFactory;
-use ApiLexprofit;
+use App\components\ApiClassFactory;
+use App\components\apiClasses\ApiLexprofit;
 use CActiveDataProvider;
-use Campaign;
+use App\models\Campaign;
 use Exception;
-use Lead;
+use App\models\Lead;
 use Tests\Factories\CampaignFactory;
 use Tests\Factories\LeadFactory;
 use Tests\Factories\LeadSourceFactory;
 use Tests\Factories\UserFactory;
 use Tests\integration\BaseIntegrationTest;
-use User;
+use App\models\User;
 use Yii;
 use YurcrmClient\YurcrmClient;
 use YurcrmClient\YurcrmResponse;

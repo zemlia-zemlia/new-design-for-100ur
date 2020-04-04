@@ -2,6 +2,8 @@
 
 // виджет для вывода списка ссылок на категории
 
+use App\models\QuestionCategory;
+
 class RecentCategories extends CWidget
 {
     public $template = 'default'; // представление виджета по умолчанию

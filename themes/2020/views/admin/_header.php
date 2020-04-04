@@ -1,3 +1,8 @@
+<?php
+use App\repositories\QuestionRepository;
+use App\models\User;
+?>
+
 <header class="main-header">
     <!-- Logo -->
     <a href="<?php echo Yii::app()->user->getHomeUrl(); ?>" class="logo">

@@ -1,10 +1,13 @@
 <?php
 
+use App\models\Answer;
+
 /**
  *  виджет для вывода последних ответов, юристы должны быть уникальными.
  */
 class RecentAnswers extends CWidget
 {
+
     public $template = 'default'; // представление виджета по умолчанию
     public $cacheTime = 600; // время кеширования
     public $limit = 6;
@@ -24,7 +27,6 @@ class RecentAnswers extends CWidget
                     ->order('u.lastAnswer DESC')
                     ->limit($this->limit)
                     ->queryAll();
-
             $answers = [];
 
             foreach ($answersRows as $row) {

@@ -1,21 +1,31 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use CHtml;
+use GTMail;
+use App\extensions\Logger\LoggerFactory;
+use Yii;
+
 /**
  * Модель для работы с комментариями.
  *
  * Поля, доступные в таблице '{{comment}}':
  *
  * @property string $id
- * @property int    $type
- * @property int    $authorId
- * @property int    $objectId
- * @property int    $rating
- * @property int    $status
+ * @property int $type
+ * @property int $authorId
+ * @property int $objectId
+ * @property int $rating
+ * @property int $status
  * @property string $text
  * @property string $dateTime
  * @property string $authorName
  * @property string $title
- * @property int    $questionId
+ * @property int $questionId
  */
 class Comment extends CActiveRecord
 {
@@ -39,7 +49,7 @@ class Comment extends CActiveRecord
     /**
      * Возвращает массив типов комментариев.
      *
-     * @return type
+     * @return array
      */
     public static function getTypes()
     {
@@ -56,7 +66,7 @@ class Comment extends CActiveRecord
     /**
      * Возвращает название типа комментария по его коду.
      *
-     * @param type $type
+     * @param int $type
      *
      * @return string
      */
@@ -85,7 +95,7 @@ class Comment extends CActiveRecord
     /**
      * Определение поведения для работы иерархичных комментариев.
      *
-     * @return type
+     * @return array
      */
     public function behaviors()
     {
@@ -143,8 +153,8 @@ class Comment extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return [
-            'author' => [self::BELONGS_TO, 'User', 'authorId'],
-            'question' => [self::BELONGS_TO, 'Question', 'objectId'],
+            'author' => [self::BELONGS_TO, User::class, 'authorId'],
+            'question' => [self::BELONGS_TO, Question::class, 'objectId'],
         ];
     }
 
@@ -235,7 +245,7 @@ class Comment extends CActiveRecord
     /**
      * Возвращает количество новых комментариев заданного типа.
      *
-     * @param int $type      Тип комментария
+     * @param int $type Тип комментария
      * @param int $cacheTime Время кеширования (сек.)
      *
      * @return int количество новых комментариев
@@ -245,7 +255,7 @@ class Comment extends CActiveRecord
         $counterRow = Yii::app()->db->cache($cacheTime)->createCommand()
             ->select('COUNT(*) counter')
             ->from('{{comment}}')
-            ->where('type=:type AND status=:status', [':type' => (int) $type, ':status' => self::STATUS_NEW])
+            ->where('type=:type AND status=:status', [':type' => (int)$type, ':status' => self::STATUS_NEW])
             ->queryRow();
 
         return (false !== $counterRow) ? $counterRow['counter'] : 0;
@@ -297,7 +307,7 @@ class Comment extends CActiveRecord
             } else {
                 // это комментарий на комментарий к отклику
                 $object = $this->parent()->find();
-                $response = OrderResponse::model()->findByPk((int) $object->objectId);
+                $response = OrderResponse::model()->findByPk((int)$object->objectId);
                 $order = $response->order;
             }
 

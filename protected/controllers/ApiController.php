@@ -1,5 +1,8 @@
 <?php
 
+use App\helpers\PhoneHelper;
+use App\models\Lead;
+use App\models\Leadsource;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
@@ -8,7 +11,7 @@ use Monolog\Logger;
  */
 class ApiController extends CController
 {
-    /** @var Logger */
+    /** @var \App\extensions\Logger\Logger */
     private $logger;
 
     public function init()
@@ -81,6 +84,7 @@ class ApiController extends CController
     public function actionSendLead()
     {
         header('Content-type: application/json');
+        header('Access-Control-Allow-Origin: *');
 
         /** @var CHttpRequest $request */
         $request = Yii::app()->request;
@@ -91,7 +95,7 @@ class ApiController extends CController
         }
 
         // проверяем обязательный целочисленный параметр appId
-        $appId = (int) $request->getPost('appId');
+        $appId = (int)$request->getPost('appId');
         if (!$appId) {
             echo json_encode(['code' => 400, 'message' => 'Unknown sender. Check appId parameter']);
             Yii::app()->end();
@@ -187,10 +191,10 @@ class ApiController extends CController
         // если тестовый режим, то не сохраняем, а только проверяем лид
         if (0 != $testMode) {
             if ($model->validate()) {
-                echo json_encode(['code' => 200, 'buyPrice' => MoneyFormat::rubles($model->buyPrice), 'message' => 'OK. You are in the test mode. Lead accepted but not saved.']);
+                echo json_encode(['code' => 200, 'buyPrice' => MoneyFormat::rubles($model->buyPrice), 'message' => 'OK. You are in the test mode. App\models\Lead accepted but not saved.']);
                 Yii::app()->end();
             } else {
-                echo json_encode(['code' => 500, 'message' => 'Lead not saved.', 'errors' => $model->errors]);
+                echo json_encode(['code' => 500, 'message' => 'App\models\Lead not saved.', 'errors' => $model->errors]);
                 Yii::app()->end();
             }
         }
@@ -200,7 +204,7 @@ class ApiController extends CController
             $this->logLeadSaveResult($model);
             Yii::app()->end();
         } else {
-            echo json_encode(['code' => 500, 'message' => 'Lead not saved.', 'errors' => $model->errors]);
+            echo json_encode(['code' => 500, 'message' => 'App\models\Lead not saved.', 'errors' => $model->errors]);
             $this->logLeadSaveResult($model);
             Yii::app()->end();
         }
@@ -246,12 +250,12 @@ class ApiController extends CController
         $lead = Lead::model()->findByAttributes(['secretCode' => $code]);
 
         if (!$lead) {
-            echo json_encode(['code' => 400, 'message' => 'Lead not found']);
+            echo json_encode(['code' => 400, 'message' => 'App\models\Lead not found']);
             Yii::app()->end();
         }
 
         if (Lead::LEAD_STATUS_NABRAK === $newStatus && !(!is_null($lead->deliveryTime) && (time() - strtotime($lead->deliveryTime) < 86400 * Yii::app()->params['leadHoldPeriodDays']))) {
-            echo json_encode(['code' => 400, 'message' => 'Lead could not be sent to brak because it was created more than ' . Yii::app()->params['leadHoldPeriodDays'] . ' days ago']);
+            echo json_encode(['code' => 400, 'message' => 'App\models\Lead could not be sent to brak because it was created more than ' . Yii::app()->params['leadHoldPeriodDays'] . ' days ago']);
             Yii::app()->end();
         }
 
@@ -272,15 +276,15 @@ class ApiController extends CController
             echo json_encode(['code' => 200, 'message' => 'OK']);
             Yii::app()->end();
         } else {
-            echo json_encode(['code' => 400, 'message' => 'Lead not saved.', 'errors' => $lead->errors]);
+            echo json_encode(['code' => 400, 'message' => 'App\models\Lead not saved.', 'errors' => $lead->errors]);
             Yii::app()->end();
         }
     }
 
     /**
      * @param CHttpRequest $request
-     * @param array        $rawData
-     * @param int          $appId
+     * @param array $rawData
+     * @param int $appId
      */
     private function logRequest($request, $rawData, $appId): void
     {
@@ -302,7 +306,7 @@ class ApiController extends CController
                 'phone' => $model->phone,
             ]);
         } else {
-            $this->logger->info('Lead saved, id=' . $model->id, [
+            $this->logger->info('App\models\Lead saved, id=' . $model->id, [
                 'phone' => $model->phone,
             ]);
         }

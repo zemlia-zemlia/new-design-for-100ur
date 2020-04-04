@@ -1,5 +1,7 @@
 <?php
 
+namespace App\components\apiClasses;
+
 /**
  * Класс получения id города в базе Правоведа по названию.
  */
@@ -16,7 +18,7 @@ class PravovedGetTown
     /**
      * Получение объекта-синглтона.
      *
-     * @return type
+     * @return PravovedGetTown
      */
     public static function getInstance()
     {
@@ -30,7 +32,7 @@ class PravovedGetTown
     /**
      * Получение id города по имени.
      *
-     * @param type $townName Название города
+     * @param string $townName Название города
      *
      * @return int id города в базе Правоведа
      */
@@ -45,11 +47,11 @@ class PravovedGetTown
 
         $townsResponseDecoded = json_decode($townsResponse, true);
 
-        if ($townsResponseDecoded['meta'] && $townsResponseDecoded['meta']['code'] && 200 == (int) $townsResponseDecoded['meta']['code']) {
+        if ($townsResponseDecoded['meta'] && $townsResponseDecoded['meta']['code'] && 200 == (int)$townsResponseDecoded['meta']['code']) {
             $firstTown = $townsResponseDecoded['data']['cities'][0];
             $firstTownId = $firstTown['id'];
 
-            return (int) $firstTownId;
+            return (int)$firstTownId;
         }
 
         return 0;

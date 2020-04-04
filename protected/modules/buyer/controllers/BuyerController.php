@@ -1,5 +1,10 @@
 <?php
 
+use App\models\Campaign;
+use App\models\Lead;
+use App\models\TransactionCampaign;
+use App\models\User;
+use App\repositories\BuyerRepository;
 use buyer\services\StatisticsService;
 
 class BuyerController extends Controller
@@ -25,7 +30,7 @@ class BuyerController extends Controller
             ['allow', // разрешаем доступ только авторизованным пользователям
                 'actions' => ['index', 'leads', 'faq', 'viewLead', 'campaign', 'brakLead', 'transactions', 'topup', 'api', 'help', 'campaigns', 'myleads'],
                 'users' => ['@'],
-                'expression' => 'Yii::app()->user->role == User::ROLE_BUYER',
+                'expression' => 'Yii::app()->user->role == App\models\User::ROLE_BUYER',
             ],
             ['deny', // запрещаем все, что не разрешено
                 'users' => ['*'],
@@ -82,7 +87,7 @@ class BuyerController extends Controller
             $criteria->addColumnCondition(['buyerId' => Yii::app()->user->id]);
         }
 
-        $dataProvider = new CActiveDataProvider('Lead', [
+        $dataProvider = new CActiveDataProvider(Lead::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 50,
@@ -151,7 +156,7 @@ class BuyerController extends Controller
 
         $currentUser = User::model()->findByPk(Yii::app()->user->id);
 
-        $transactionsDataProvider = new CActiveDataProvider('TransactionCampaign', [
+        $transactionsDataProvider = new CActiveDataProvider(TransactionCampaign::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 50,

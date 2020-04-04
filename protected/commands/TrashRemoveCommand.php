@@ -1,5 +1,7 @@
 <?php
 
+use App\models\Question;
+
 class TrashRemoveCommand extends CConsoleCommand
 {
     /**

@@ -1,5 +1,11 @@
 <?php
 
+use App\extensions\Logger\LoggerFactory;
+use App\models\PartnerTransaction;
+use App\models\TransactionCampaign;
+use App\models\User;
+use App\models\UserActivity;
+
 /**
  * Страницы раздела транзакций пользователя.
  */
@@ -50,15 +56,15 @@ class TransactionController extends Controller
             $transaction = new TransactionCampaign();
             $transaction->description = (!Yii::app()->user->isGuest) ? Yii::app()->user->phone : '';
             $criteria->addColumnCondition(['buyerId' => Yii::app()->user->id, 'status' => TransactionCampaign::STATUS_COMPLETE]);
-            $transactionModelClass = 'TransactionCampaign';
+            $transactionModelClass = TransactionCampaign::class;
             $transaction->sum = $transaction->sum / 100;
         } else {
             if (User::ROLE_PARTNER == Yii::app()->user->role) {
                 $criteria->addColumnCondition(['partnerId' => Yii::app()->user->id, 'status' => PartnerTransaction::STATUS_COMPLETE]);
-                $transactionModelClass = 'PartnerTransaction';
+                $transactionModelClass = PartnerTransaction::class;
             } else {
                 $criteria->addColumnCondition(['buyerId' => Yii::app()->user->id, 'status' => TransactionCampaign::STATUS_COMPLETE]);
-                $transactionModelClass = 'TransactionCampaign';
+                $transactionModelClass = TransactionCampaign::class;
             }
         }
 
@@ -75,7 +81,7 @@ class TransactionController extends Controller
         $requestsCriteria->addColumnCondition(['partnerId' => Yii::app()->user->id, 'sum<' => 0]);
         $requestsCriteria->order = 'id DESC';
 
-        $requestsDataProvider = new CActiveDataProvider('PartnerTransaction', [
+        $requestsDataProvider = new CActiveDataProvider(PartnerTransaction::class, [
             'criteria' => $requestsCriteria,
             'pagination' => [
                 'pageSize' => 10,
@@ -89,7 +95,7 @@ class TransactionController extends Controller
             $requestsCriteria->addColumnCondition(['buyerId' => Yii::app()->user->id, 'sum<' => 0, 'status' => TransactionCampaign::STATUS_PENDING]);
             $requestsCriteria->order = 'id DESC';
 
-            $requestsDataProvider = new CActiveDataProvider('TransactionCampaign', [
+            $requestsDataProvider = new CActiveDataProvider(TransactionCampaign::class, [
                 'criteria' => $requestsCriteria,
                 'pagination' => [
                     'pageSize' => 10,
@@ -106,8 +112,8 @@ class TransactionController extends Controller
         }
         $hold = $currentUser->calculateWebmasterHold();
 
-        if (isset($_POST['PartnerTransaction'])) {
-            $transaction->attributes = $_POST['PartnerTransaction'];
+        if (isset($_POST['App_models_PartnerTransaction'])) {
+            $transaction->attributes = $_POST['App_models_PartnerTransaction'];
             $transaction->partnerId = Yii::app()->user->id;
             $transaction->status = PartnerTransaction::STATUS_PENDING;
 
@@ -143,8 +149,8 @@ class TransactionController extends Controller
                 }
             }
         }
-        if (isset($_POST['TransactionCampaign'])) {
-            $transaction->attributes = $_POST['TransactionCampaign'];
+        if (isset($_POST['App_models_TransactionCampaign'])) {
+            $transaction->attributes = $_POST['App_models_TransactionCampaign'];
             $transaction->buyerId = Yii::app()->user->id;
             $transaction->sum = $transaction->sum * 100;
             $transaction->status = TransactionCampaign::STATUS_PENDING;

@@ -1,5 +1,12 @@
 <?php
 
+namespace App\repositories;
+
+use App\models\Lead;
+use CActiveDataProvider;
+use App\models\Campaign;
+use CDbCriteria;
+
 class BuyerRepository
 {
     public function getBuyersCampaignsDataProvider($buyerId)
@@ -17,7 +24,7 @@ class BuyerRepository
         $criteria->addColumnCondition(['buyerId' => $buyerId], 'AND', 'OR');
         $criteria->order = 'deliveryTime DESC';
 
-        $dataProvider = new CActiveDataProvider('Lead', [
+        $dataProvider = new CActiveDataProvider(Lead::class, [
             'criteria' => $criteria,
         ]);
 

@@ -1,4 +1,9 @@
 <?php
+
+namespace App\models;
+
+use CFormModel;
+
 /**
  * Модель для формы восстановления пароля.
  */

@@ -1,11 +1,18 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Yii;
+
 /**
  * Модель для работы с категориями постов.
  *
  * The followings are the available columns in table '{{postcategory}}':
  *
- * @property int    $id
+ * @property int $id
  * @property string $title
  * @property string $description
  * @property string $alias
@@ -51,24 +58,22 @@ class Postcategory extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return [
-                    ['title, description, alias', 'required'],
-                    ['title, alias, avatar', 'length', 'max' => 256],
-                    // The following rule is used by search().
-                    // Please remove those attributes that should not be searched.
-                    ['id, title, description, alias, avatar', 'safe', 'on' => 'search'],
-            ];
+            ['title, description, alias', 'required'],
+            ['title, alias, avatar', 'length', 'max' => 256],
+            // The following rule is used by search().
+            // Please remove those attributes that should not be searched.
+            ['id, title, description, alias, avatar', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
      * @return array relational rules
      */
-    public function relations()
+    public function relations():array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-                'posts' => [self::MANY_MANY, 'Post', '{{post2cat}}(catId, postId)'],
-            ];
+            'posts' => [self::MANY_MANY, Post::class, '{{post2cat}}(catId, postId)'],
+        ];
     }
 
     /**
@@ -77,12 +82,12 @@ class Postcategory extends CActiveRecord
     public function attributeLabels()
     {
         return [
-                'id' => 'ID',
-                'title' => 'Название',
-                'description' => 'Описание',
-                'alias' => 'Символьный код',
-                'avatar' => 'Аватар',
-            ];
+            'id' => 'ID',
+            'title' => 'Название',
+            'description' => 'Описание',
+            'alias' => 'Символьный код',
+            'avatar' => 'Аватар',
+        ];
     }
 
     /**
@@ -104,8 +109,8 @@ class Postcategory extends CActiveRecord
         $criteria->compare('avatar', $this->avatar, true);
 
         return new CActiveDataProvider($this, [
-                    'criteria' => $criteria,
-            ]);
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -120,9 +125,9 @@ class Postcategory extends CActiveRecord
     {
         $userId = (null == $userId) ? Yii::app()->user->id : $userId;
         $followCategoryRow = Yii::app()->db->createCommand()
-                    ->from('{{cat2follower}}')
-                    ->where(['and', 'userId=:userId', 'catId=:catId'], [':userId' => $userId, ':catId' => $this->id])
-                    ->queryRow();
+            ->from('{{cat2follower}}')
+            ->where(['and', 'userId=:userId', 'catId=:catId'], [':userId' => $userId, ':catId' => $this->id])
+            ->queryRow();
 
         $catFollowing = ($followCategoryRow) ? true : false;
 

@@ -1,5 +1,10 @@
 <?php
 /* @var $this UserStatusRequestController */
+
+use App\models\UserFile;
+use App\models\UserStatusRequest;
+use App\models\YuristSettings;
+
 /* @var $data UserStatusRequest */
 ?>
 

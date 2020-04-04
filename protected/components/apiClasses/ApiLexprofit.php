@@ -1,5 +1,11 @@
 <?php
 
+namespace App\components\apiClasses;
+
+use ApiClassInterface;
+use App\models\Lead;
+use App\extensions\Logger\LoggerFactory;
+
 /**
  * Класс для работы с API партнерки Lexprofit.
  */
@@ -22,6 +28,8 @@ class ApiLexprofit implements ApiClassInterface
      * отправка лида.
      *
      * @param Lead $lead
+     * @return bool
+     * @throws \Exception
      */
     public function send(Lead $lead)
     {
@@ -37,8 +45,8 @@ class ApiLexprofit implements ApiClassInterface
 
         $apiResponse = curl_exec($this->curl);
 
-        LoggerFactory::getLogger()->log('Отправляем лид #' . $lead->id . ' в партнерку Lexprofit: ' . json_encode($data), 'Lead', $lead->id);
-        LoggerFactory::getLogger()->log('Ответ API Lexprofit: ' . $apiResponse, 'Lead', $lead->id);
+        LoggerFactory::getLogger()->log('Отправляем лид #' . $lead->id . ' в партнерку Lexprofit: ' . json_encode($data), 'App\models\Lead', $lead->id);
+        LoggerFactory::getLogger()->log('Ответ API Lexprofit: ' . $apiResponse, 'App\models\Lead', $lead->id);
 
         $apiResponseJSON = json_decode($apiResponse, true);
 
@@ -50,10 +58,11 @@ class ApiLexprofit implements ApiClassInterface
     /**
      * Разбор ответа API.
      *
-     * @param type $apiResponse
-     * @param type $lead
+     * @param string $apiResponse
+     * @param Lead $lead
      *
      * @return bool
+     * @throws \Exception
      */
     private function checkResponse($apiResponse, $lead)
     {
@@ -62,7 +71,7 @@ class ApiLexprofit implements ApiClassInterface
         }
 
         if (is_array($apiResponse) && isset($apiResponse['success'])) {
-            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Lexprofit', 'Lead', $lead->id);
+            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Lexprofit', 'App\models\Lead', $lead->id);
 
             return true;
         }
@@ -77,7 +86,7 @@ class ApiLexprofit implements ApiClassInterface
         if (!$errorMessage) {
             $errorMessage = 'Неизвестная ошибка';
         }
-        LoggerFactory::getLogger()->log('Ошибка при отправке лида #' . $lead->id . ' в партнерку Lexprofit: ' . $errorMessage, 'Lead', $lead->id);
+        LoggerFactory::getLogger()->log('Ошибка при отправке лида #' . $lead->id . ' в партнерку Lexprofit: ' . $errorMessage, 'App\models\Lead', $lead->id);
 
         return false;
     }

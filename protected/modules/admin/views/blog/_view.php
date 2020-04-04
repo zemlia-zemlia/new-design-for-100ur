@@ -1,6 +1,8 @@
 <?php
 /* @var $this CategoryController */
 
+use App\helpers\DateHelper;
+
 ?>
 
 <div class="category-post">

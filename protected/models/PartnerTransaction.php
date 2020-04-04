@@ -1,21 +1,28 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Yii;
+
 /**
  * Класс для работы с транзакциями за лиды, купленные у вебмастеров
  * а также бонусы за пользователей в партнерской программе.
  *
  * The followings are the available columns in table '{{partnerTransaction}}':
  *
- * @property int    $id
- * @property int    $partnerId
- * @property int    $sourceId
+ * @property int $id
+ * @property int $partnerId
+ * @property int $sourceId
  * @property string $sum
  * @property string $datetime
- * @property int    $leadId
- * @property int    $questionId
- * @property int    $userId
+ * @property int $leadId
+ * @property int $questionId
+ * @property int $userId
  * @property string $comment
- * @property int    $status
+ * @property int $status
  */
 class PartnerTransaction extends CActiveRecord
 {
@@ -65,14 +72,12 @@ class PartnerTransaction extends CActiveRecord
     /**
      * @return array relational rules
      */
-    public function relations()
+    public function relations():array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'partner' => [self::BELONGS_TO, 'User', 'partnerId'],
-            'source' => [self::BELONGS_TO, 'Leadsource', 'sourceId'],
-            'lead' => [self::BELONGS_TO, 'Lead', 'leadId'],
+            'partner' => [self::BELONGS_TO, User::class, 'partnerId'],
+            'source' => [self::BELONGS_TO, Leadsource::class, 'sourceId'],
+            'lead' => [self::BELONGS_TO, Lead::class, 'leadId'],
         ];
     }
 
@@ -124,10 +129,10 @@ class PartnerTransaction extends CActiveRecord
     public static function sumAll()
     {
         $sumRow = Yii::app()->db->createCommand()
-                ->select('SUM(`sum`) totalSum')
-                ->from('{{partnerTransaction}}')
-                ->where('status=:status', [':status' => self::STATUS_COMPLETE])
-                ->queryRow();
+            ->select('SUM(`sum`) totalSum')
+            ->from('{{partnerTransaction}}')
+            ->where('status=:status', [':status' => self::STATUS_COMPLETE])
+            ->queryRow();
 
         return $sumRow['totalSum'];
     }
@@ -182,10 +187,10 @@ class PartnerTransaction extends CActiveRecord
     public static function getNewRequestsCount()
     {
         $counterRow = Yii::app()->db->cache(600)->createCommand()
-                ->select('COUNT(*) counter')
-                ->from('{{partnerTransaction}}')
-                ->where('status = ' . self::STATUS_PENDING . ' AND sum<0')
-                ->queryRow();
+            ->select('COUNT(*) counter')
+            ->from('{{partnerTransaction}}')
+            ->where('status = ' . self::STATUS_PENDING . ' AND sum<0')
+            ->queryRow();
 
         return $counterRow['counter'];
     }

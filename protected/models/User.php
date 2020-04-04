@@ -1,8 +1,21 @@
 <?php
 
-// Загрузка библиотек для работы с API Sendpulse
+namespace App\models;
+
+use App\notifiers\UserNotifier;
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use CHtml;
+use CHttpException;
+use CLogger;
+use Exception;
+use App\extensions\Logger\LoggerFactory;
+use PDO;
 use Sendpulse\RestApi\ApiClient;
 use Sendpulse\RestApi\Storage\FileStorage;
+use UserIdentity;
+use Yii;
 use YurcrmClient\YurcrmClient;
 use YurcrmClient\YurcrmResponse;
 
@@ -15,25 +28,25 @@ use YurcrmClient\YurcrmResponse;
  * @property string $name
  * @property string $name2
  * @property string $lastName
- * @property int    $role
+ * @property int $role
  * @property string $email
  * @property string $phone
  * @property string $password
- * @property int    $active100
+ * @property int $active100
  * @property string $confirm_code
  * @property string $townId
  * @property string $registerDate
- * @property int    $isSubscribed
- * @property int    $karma
+ * @property int $isSubscribed
+ * @property int $karma
  * @property string $autologin
  * @property string $lastActivity
- * @property float  $balance
+ * @property float $balance
  * @property string $lastTransactionTime
- * @property float  $priceCoeff
- * @property int    $lastAnswer
- * @property int    $refId
+ * @property float $priceCoeff
+ * @property int $lastAnswer
+ * @property int $refId
  * @property string $yurcrmToken
- * @property int    $yurcrmSource
+ * @property int $yurcrmSource
  */
 class User extends CActiveRecord
 {
@@ -214,7 +227,7 @@ class User extends CActiveRecord
     public function getRoleName(): ?string
     {
         $rolesNames = self::getRoleNamesArray();
-        $roleName = (isset($rolesNames[(int) $this->role])) ? $rolesNames[(int) $this->role] : null;
+        $roleName = (isset($rolesNames[(int)$this->role])) ? $rolesNames[(int)$this->role] : null;
 
         return $roleName;
     }
@@ -313,37 +326,35 @@ class User extends CActiveRecord
      *
      * @return array массив отношений
      */
-    public function relations()
+    public function relations(): array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'manager' => [self::BELONGS_TO, 'User', 'managerId'],
-            'referer' => [self::BELONGS_TO, 'User', 'refId'],
-            'settings' => [self::HAS_ONE, 'YuristSettings', 'yuristId'],
-            'files' => [self::HAS_MANY, 'UserFile', 'userId', 'order' => 'files.id DESC'],
-            'karmaChanges' => [self::HAS_MANY, 'KarmaChange', 'userId'],
-            'town' => [self::BELONGS_TO, 'Town', 'townId'],
-            'answersCount' => [self::STAT, 'Answer', 'authorId', 'condition' => 'status IN (' . Answer::STATUS_NEW . ', ' . Answer::STATUS_PUBLISHED . ')'],
-            'questionsCount' => [self::STAT, 'Question', 'authorId', 'condition' => 'status IN (' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')'],
-            'categories' => [self::MANY_MANY, 'QuestionCategory', '{{user2category}}(uId, cId)'],
-            'campaigns' => [self::HAS_MANY, 'Campaign', 'buyerId'],
-            'campaignsCount' => [self::STAT, 'Campaign', 'buyerId'],
-            'campaignsActiveCount' => [self::STAT, 'Campaign', 'buyerId', 'condition' => 'active=1'],
-            'campaignsModeratedCount' => [self::STAT, 'Campaign', 'buyerId', 'condition' => 'active!=2'],
-            'transactions' => [self::HAS_MANY, 'TransactionCampaign', 'buyerId', 'order' => 'transactions.id DESC'],
-            'comments' => [self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_USER, 'order' => 'comments.id DESC, comments.root, comments.lft'],
-            'adminComments' => [self::HAS_MANY, 'Comment', 'objectId', 'condition' => 'adminComments.type=' . Comment::TYPE_ADMIN, 'order' => 'adminComments.id DESC, adminComments.root, adminComments.lft'],
-            'commentsCount' => [self::STAT, 'Comment', 'objectId', 'condition' => 'type=' . Comment::TYPE_USER . ' AND status!=' . Comment::STATUS_SPAM],
-            'sources' => [self::HAS_MANY, 'Leadsource', 'userId'],
-            'ulogin' => [self::HAS_MANY, 'UloginModel', 'user_id'],
+            'manager' => [self::BELONGS_TO, User::class, 'managerId'],
+            'referer' => [self::BELONGS_TO, User::class, 'refId'],
+            'settings' => [self::HAS_ONE, YuristSettings::class, 'yuristId'],
+            'files' => [self::HAS_MANY, UserFile::class, 'userId', 'order' => 'files.id DESC'],
+            'karmaChanges' => [self::HAS_MANY, KarmaChange::class, 'userId'],
+            'town' => [self::BELONGS_TO, Town::class, 'townId'],
+            'answersCount' => [self::STAT, Answer::class, 'authorId', 'condition' => 'status IN (' . Answer::STATUS_NEW . ', ' . Answer::STATUS_PUBLISHED . ')'],
+            'questionsCount' => [self::STAT, Question::class, 'authorId', 'condition' => 'status IN (' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')'],
+            'categories' => [self::MANY_MANY, QuestionCategory::class, '{{user2category}}(uId, cId)'],
+            'campaigns' => [self::HAS_MANY, Campaign::class, 'buyerId'],
+            'campaignsCount' => [self::STAT, Campaign::class, 'buyerId'],
+            'campaignsActiveCount' => [self::STAT, Campaign::class, 'buyerId', 'condition' => 'active=1'],
+            'campaignsModeratedCount' => [self::STAT, Campaign::class, 'buyerId', 'condition' => 'active!=2'],
+            'transactions' => [self::HAS_MANY, TransactionCampaign::class, 'buyerId', 'order' => 'transactions.id DESC'],
+            'comments' => [self::HAS_MANY, Comment::class, 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_USER, 'order' => 'comments.id DESC, comments.root, comments.lft'],
+            'adminComments' => [self::HAS_MANY, Comment::class, 'objectId', 'condition' => 'adminComments.type=' . Comment::TYPE_ADMIN, 'order' => 'adminComments.id DESC, adminComments.root, adminComments.lft'],
+            'commentsCount' => [self::STAT, Comment::class, 'objectId', 'condition' => 'type=' . Comment::TYPE_USER . ' AND status!=' . Comment::STATUS_SPAM],
+            'sources' => [self::HAS_MANY, Leadsource::class, 'userId'],
+            'ulogin' => [self::HAS_MANY, UloginModel::class, 'user_id'],
         ];
     }
 
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -432,7 +443,7 @@ class User extends CActiveRecord
      *  Если указан параметр $newPassword, он будет выслан в письме  как новый пароль.
      *
      * @param string $newPassword Новый пароль, который необходимо отправить в письме
-     * @param bool   $useSMTP     Использовать ли SMTP
+     * @param bool $useSMTP Использовать ли SMTP
      *
      * @return bool true - письмо отправлено, false - не отправлено
      */
@@ -602,10 +613,9 @@ class User extends CActiveRecord
      */
     public function getNameOrCompany()
     {
-        if ($this->settings && $this->settings->status == YuristSettings::STATUS_COMPANY){
+        if ($this->settings && $this->settings->status == YuristSettings::STATUS_COMPANY) {
             $name = $this->settings->companyName;
-        }
-        else {
+        } else {
             $name = $this->name . ' ' . $this->name2 . ' ' . $this->lastName;
         }
 
@@ -638,7 +648,7 @@ class User extends CActiveRecord
      * отправка письма пользователю, на вопрос которого дан ответ
      *
      * @param Question|null $question Вопрос
-     * @param Answer        $answer   Ответ
+     * @param Answer $answer Ответ
      *
      * @return bool Результат отправки: true - успешно, false - ошибка
      */
@@ -649,7 +659,13 @@ class User extends CActiveRecord
         }
 
         // в письмо вставляем ссылку на вопрос + метки для отслеживания переходов
-        $questionLink = Yii::app()->urlManager->baseUrl . '/q/' . $question->id . '/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_notification&utm_term=' . $question->id;
+        $questionLinkParams = [
+            'id' => $question->id,
+            'utm_source' => '100yuristov',
+            'utm_medium' => 'mail',
+            'utm_campaign' => 'answer_notification',
+            'utm_term' => $question->id,
+        ];
 
         $testimonialLink = Yii::app()->createUrl('user/testimonial', ['id' => $answer->authorId]);
 
@@ -662,11 +678,13 @@ class User extends CActiveRecord
         $autologinString = (isset($this->autologin) && '' != $this->autologin) ? $this->autologin : $this->generateAutologinString();
 
         if ($this->save()) {
-            $questionLink .= '&autologin=' . $autologinString;
+            $questionLinkParams['autologin'] = $autologinString;
             $testimonialLink .= '?autologin=' . $autologinString;
         } else {
             Yii::log('Не удалось сохранить строку autologin пользователю ' . $this->email . ' с уведомлением об ответе на вопрос ' . $question->id, 'error', 'system.web.User');
         }
+
+        $questionLink = Yii::app()->createUrl('question/view', $questionLinkParams);
 
         return $this->notifier->sendAnswerNotification($answer, $question, $questionLink, $testimonialLink);
     }
@@ -674,9 +692,9 @@ class User extends CActiveRecord
     /**
      * функция отправки уведомления юристу или клиенту о новом комментарии на его ответ / комментарий.
      *
-     * @param Question|null $question       Вопрос
-     * @param Comment|null  $comment        Комментарий
-     * @param bool          $isChildComment Является ли комментарий дочерним для другого
+     * @param Question|null $question Вопрос
+     * @param Comment|null $comment Комментарий
+     * @param bool $isChildComment Является ли комментарий дочерним для другого
      *
      * @return bool Результат отправки: true - успешно, false - ошибка
      */
@@ -717,7 +735,7 @@ class User extends CActiveRecord
     /**
      * функция проверки кода в ссылке "отписаться от рассылок".
      *
-     * @param string $code  Код из ссылки "отписаться"
+     * @param string $code Код из ссылки "отписаться"
      * @param string $email Email из ссылки "отписаться"
      *
      * @return bool true, если код верный, false - если неверный
@@ -871,7 +889,7 @@ class User extends CActiveRecord
     /**
      * Возвращает массив непросмотренных комментариев, написанных к ответам юриста.
      *
-     * @param int  $days        За сколько дней искать комментарии
+     * @param int $days За сколько дней искать комментарии
      * @param bool $returnCount Вернуть количество элементов
      *
      * @return array|int Массив с комментариями или количество комментариев
@@ -1100,7 +1118,7 @@ class User extends CActiveRecord
      * Отправка юристу уведомления о зачислении благодарности за консультацию.
      *
      * @param Answer $answer
-     * @param int    $yuristBonus В копейках
+     * @param int $yuristBonus В копейках
      *
      * @return bool
      */
@@ -1144,7 +1162,7 @@ class User extends CActiveRecord
     }
 
     /**
-     * @param int|null   $limit      Если null, то без лимита
+     * @param int|null $limit Если null, то без лимита
      * @param bool|array $pagination
      *
      * @return CActiveDataProvider
@@ -1163,7 +1181,7 @@ class User extends CActiveRecord
             'objectId' => $this->id,
         ]);
 
-        $testimonialsDataProvider = new CActiveDataProvider('Comment', [
+        $testimonialsDataProvider = new CActiveDataProvider(Comment::class, [
             'criteria' => $testimonialsCriteria,
             'pagination' => $pagination,
         ]);

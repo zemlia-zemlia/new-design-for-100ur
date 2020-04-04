@@ -1,5 +1,12 @@
 <?php
 
+namespace App\components\apiClasses;
+
+use ApiClassInterface;
+use App\models\Lead;
+use CHtml;
+use App\extensions\Logger\LoggerFactory;
+
 /**
  * Класс для работы с API Leadia.
  */
@@ -26,6 +33,8 @@ class ApiLeadia implements ApiClassInterface
      * отправка лида.
      *
      * @param Lead $lead
+     * @return bool
+     * @throws \Exception
      */
     public function send(Lead $lead)
     {
@@ -49,8 +58,8 @@ class ApiLeadia implements ApiClassInterface
 
         $apiResponse = curl_exec($this->curl);
 
-        LoggerFactory::getLogger()->log('Отправляем лид #' . $lead->id . ' в партнерку Leadia: ' . json_encode($data), 'Lead', $lead->id);
-        LoggerFactory::getLogger()->log('Ответ API Leadia: ' . $apiResponse, 'Lead', $lead->id);
+        LoggerFactory::getLogger()->log('Отправляем лид #' . $lead->id . ' в партнерку Leadia: ' . json_encode($data), 'App\models\Lead', $lead->id);
+        LoggerFactory::getLogger()->log('Ответ API Leadia: ' . $apiResponse, 'App\models\Lead', $lead->id);
 
         $apiResponseJSON = json_decode($apiResponse, true);
 
@@ -62,10 +71,11 @@ class ApiLeadia implements ApiClassInterface
     /**
      * Разбор ответа API.
      *
-     * @param type $apiResponse
-     * @param type $lead
+     * @param string $apiResponse
+     * @param Lead $lead
      *
      * @return bool
+     * @throws \Exception
      */
     private function checkResponse($apiResponse, $lead)
     {
@@ -74,12 +84,12 @@ class ApiLeadia implements ApiClassInterface
         }
 
         if (is_array($apiResponse) && isset($apiResponse['status']) && 0 == strcmp($apiResponse['status'], 'ok')) {
-            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Leadia', 'Lead', $lead->id);
+            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Leadia', 'App\models\Lead', $lead->id);
 
             return true;
         }
 
-        LoggerFactory::getLogger()->log('Ошибка при отправке лида #' . $lead->id . ' в партнерку Leadia', 'Lead', $lead->id);
+        LoggerFactory::getLogger()->log('Ошибка при отправке лида #' . $lead->id . ' в партнерку Leadia', 'App\models\Lead', $lead->id);
 
         return false;
     }

@@ -1,5 +1,10 @@
 <?php
 /* @var $this QuestionController */
+
+use App\helpers\DateHelper;
+use App\models\Question;
+use App\models\User;
+
 /* @var $dataProvider CActiveDataProvider */
 
 $this->setPageTitle('Вопросы без категории' . Yii::app()->name);

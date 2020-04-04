@@ -1,5 +1,17 @@
 <?php
 
+use App\extensions\Logger\LoggerFactory;
+use App\models\Comment;
+use App\models\ContactForm;
+use App\models\Lead;
+use App\models\LoginForm;
+use App\models\Post;
+use App\models\Question;
+use App\models\QuestionCategory;
+use App\models\User;
+use App\models\UserActivity;
+use App\models\YuristRang;
+
 class SiteController extends Controller
 {
     public $layout = '//frontend/index';
@@ -17,9 +29,9 @@ class SiteController extends Controller
     }
 
     /**
-         * Specifies the access control rules.
-         * This method is used by the 'accessControl' filter.
-         * @return array access control rules
+     * Specifies the access control rules.
+     * This method is used by the 'accessControl' filter.
+     * @return array access control rules
      */
     public function accessRules()
     {
@@ -54,8 +66,8 @@ class SiteController extends Controller
     }
 
     /**
-         * This is the action to handle external exceptions.
-         */
+     * This is the action to handle external exceptions.
+     */
     public function actionError()
     {
         $this->layout = '//frontend/smart';
@@ -103,8 +115,8 @@ class SiteController extends Controller
         $contactForm = new ContactForm();
         // в массиве $formResult будем хранить результат отправки формы
         $formResult = [];
-        if (isset($_POST['ContactForm'])) {
-            $contactForm->attributes = $_POST['ContactForm'];
+        if (isset($_POST['App_models_ContactForm'])) {
+            $contactForm->attributes = $_POST['App_models_ContactForm'];
             if ($contactForm->validate()) {
                 // Пытаемся отправить письмо
                 $mailer = new GTMail();
@@ -170,7 +182,7 @@ class SiteController extends Controller
     }
 
     /**
-         * Страница с описанием работы для юриста.
+     * Страница с описанием работы для юриста.
      */
     public function actionYuristam()
     {
@@ -183,8 +195,8 @@ class SiteController extends Controller
         $this->layout = '//frontend/smart';
         $model = new LoginForm();
         // если использовался вход по мейлу и паролю
-        if (isset($_POST['LoginForm'])) {
-            $model->attributes = $_POST['LoginForm'];
+        if (isset($_POST['App_models_LoginForm'])) {
+            $model->attributes = $_POST['App_models_LoginForm'];
             // validate user input and redirect to the previous page if valid
             if ($model->validate() && $model->login()) {
                 LoggerFactory::getLogger('db')->log(Yii::app()->user->roleName . ' #' . Yii::app()->user->id . ' (' . Yii::app()->user->shortName . ') залогинился на сайте', 'User', Yii::app()->user->id);
@@ -236,9 +248,9 @@ class SiteController extends Controller
     }
 
     /**
-         * отбраковка лида.
+     * отбраковка лида.
      *
-         * @param string $code секретный код, который позволяет 1 раз забраковать лида,
+     * @param string $code секретный код, который позволяет 1 раз забраковать лида,
      *                     перейдя по ссылке без авторизации
      *
      * @throws CHttpException
@@ -279,8 +291,8 @@ class SiteController extends Controller
             }
         }
 
-        if (isset($_POST['Lead'])) {
-            $lead->attributes = $_POST['Lead'];
+        if (isset($_POST['App_models_Lead'])) {
+            $lead->attributes = $_POST['App_models_Lead'];
             if (!$lead->brakReason) {
                 $lead->addError('brakReason', 'Не указана причина отбраковки');
             }
@@ -341,7 +353,7 @@ class SiteController extends Controller
     }
 
     /**
-         * Реферальная программа.
+     * Реферальная программа.
      */
     public function actionReferal()
     {
@@ -360,7 +372,7 @@ class SiteController extends Controller
     }
 
     /**
-         * Страница результат успешной смены пароля.
+     * Страница результат успешной смены пароля.
      */
     public function actionPasswordChanged()
     {

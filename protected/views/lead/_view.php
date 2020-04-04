@@ -1,5 +1,9 @@
 <?php
 /* @var $this ContactController */
+
+use App\helpers\DateHelper;
+use App\helpers\StringHelper;
+
 /* @var $data Contact */
 ?>
 

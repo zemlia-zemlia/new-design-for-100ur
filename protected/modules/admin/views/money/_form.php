@@ -1,5 +1,8 @@
 <?php
 /* @var $this MoneyController */
+
+use App\models\Money;
+
 /* @var $model Money */
 /* @var $form CActiveForm */
 
@@ -47,9 +50,9 @@ Yii::app()->clientScript->registerScript('myjquery', $js);
                         <div class="form-group">
                             <?php echo $form->labelEx($model, 'datetime'); ?>
                             <?php $this->widget(
-                    'zii.widgets.jui.CJuiDatePicker',
-                    [
-                                    'name' => 'Money[datetime]',
+                                'zii.widgets.jui.CJuiDatePicker',
+                                [
+                                    'name' => 'App_models_Money[datetime]',
                                     'value' => $model['datetime'],
                                     'language' => 'ru',
                                     'options' => ['dateFormat' => 'dd-mm-yy',
@@ -59,7 +62,7 @@ Yii::app()->clientScript->registerScript('myjquery', $js);
                                         'class' => 'form-control',
                                     ],
                                 ]
-                );
+                            );
                             ?>
                             <?php echo $form->error($model, 'datetime'); ?>
                         </div>
@@ -96,12 +99,14 @@ Yii::app()->clientScript->registerScript('myjquery', $js);
 
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="form-group <?php echo (1 == $model->type && !$model->isNewRecord) ? '' : 'hidden'; ?> sel" id="expence">
+                        <div class="form-group <?php echo (1 == $model->type && !$model->isNewRecord) ? '' : 'hidden'; ?> sel"
+                             id="expence">
                             <?php echo $form->labelEx($model, 'direction'); ?>
                             <?php echo $form->dropDownList($model, 'direction', Money::getDirectionsType()[Money::TYPE_EXPENCE], ['class' => 'form-control', 'value' => $model->direction]); ?>
                             <?php echo $form->error($model, 'direction'); ?>
                         </div>
-                        <div class="form-group  <?php echo (0 == $model->type && !$model->isNewRecord) ? '' : 'hidden'; ?>  sel"  id="income">
+                        <div class="form-group  <?php echo (0 == $model->type && !$model->isNewRecord) ? '' : 'hidden'; ?>  sel"
+                             id="income">
                             <?php echo $form->labelEx($model, 'direction'); ?>
                             <?php echo $form->dropDownList($model, 'direction', Money::getDirectionsType()[Money::TYPE_INCOME], ['class' => 'form-control', 'value' => $model->direction]); ?>
                             <?php echo $form->error($model, 'direction'); ?>

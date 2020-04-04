@@ -1,5 +1,8 @@
 <?php
 /* @var $this DocTypeController */
+
+use App\models\DocType;
+
 /* @var $model DocType */
 /* @var $form CActiveForm */
 ?>

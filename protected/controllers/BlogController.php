@@ -1,5 +1,10 @@
 <?php
 
+use App\models\Cat2follower;
+use App\models\Postcategory;
+use App\models\User;
+use App\models\Post;
+
 class BlogController extends Controller
 {
     /**
@@ -143,7 +148,7 @@ class BlogController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('Post', [
+        $dataProvider = new CActiveDataProvider(Post::class, [
             'criteria' => [
                 'with' => ['commentsCount', 'author', 'viewsCount'],
                 'order' => 't.datePublication DESC',

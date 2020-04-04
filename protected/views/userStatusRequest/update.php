@@ -1,5 +1,8 @@
 <?php
 /* @var $this UserStatusRequestController */
+
+use App\models\UserStatusRequest;
+
 /* @var $model UserStatusRequest */
 
 $this->breadcrumbs = [
@@ -9,10 +12,10 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'List UserStatusRequest', 'url' => ['index']],
-    ['label' => 'Create UserStatusRequest', 'url' => ['create']],
-    ['label' => 'View UserStatusRequest', 'url' => ['view', 'id' => $model->id]],
-    ['label' => 'Manage UserStatusRequest', 'url' => ['admin']],
+    ['label' => 'List App\models\UserStatusRequest', 'url' => ['index']],
+    ['label' => 'Create App\models\UserStatusRequest', 'url' => ['create']],
+    ['label' => 'View App\models\UserStatusRequest', 'url' => ['view', 'id' => $model->id]],
+    ['label' => 'Manage App\models\UserStatusRequest', 'url' => ['admin']],
 ];
 ?>
 

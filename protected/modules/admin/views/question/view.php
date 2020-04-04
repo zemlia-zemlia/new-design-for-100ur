@@ -1,5 +1,10 @@
 <?php
 /* @var $this QuestionController */
+
+use App\helpers\DateHelper;
+use App\models\Question;
+use App\models\User;
+
 /* @var $model Question */
 
 $this->setPageTitle(CHtml::encode($model->id) . '. Вопросы-ответы. ' . Yii::app()->name);

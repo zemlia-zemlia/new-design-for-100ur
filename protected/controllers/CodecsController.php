@@ -1,5 +1,7 @@
 <?php
 
+use App\models\Codecs;
+
 class CodecsController extends Controller
 {
     /**
@@ -84,8 +86,8 @@ class CodecsController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Codecs'])) {
-            $model->attributes = $_POST['Codecs'];
+        if (isset($_POST['App\models\Codecs'])) {
+            $model->attributes = $_POST['App\models\Codecs'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -109,8 +111,8 @@ class CodecsController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Codecs'])) {
-            $model->attributes = $_POST['Codecs'];
+        if (isset($_POST['App\models\Codecs'])) {
+            $model->attributes = $_POST['App\models\Codecs'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -155,8 +157,8 @@ class CodecsController extends Controller
     {
         $model = new Codecs('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Codecs'])) {
-            $model->attributes = $_GET['Codecs'];
+        if (isset($_GET['App\models\Codecs'])) {
+            $model->attributes = $_GET['App\models\Codecs'];
         }
 
         $this->render('admin', [

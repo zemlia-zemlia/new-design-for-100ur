@@ -1,5 +1,8 @@
 <?php
 /* @var $this LeadController */
+
+use App\models\Lead;
+
 /* @var $model Lead */
 
 $this->breadcrumbs = [
@@ -8,8 +11,8 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'List Lead', 'url' => ['index']],
-    ['label' => 'Create Lead', 'url' => ['create']],
+    ['label' => 'List App\models\Lead', 'url' => ['index']],
+    ['label' => 'Create App\models\Lead', 'url' => ['create']],
 ];
 
 Yii::app()->clientScript->registerScript('search', "

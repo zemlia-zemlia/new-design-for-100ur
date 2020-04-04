@@ -1,16 +1,24 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use CException;
+use Yii;
+
 /**
  * Модель для работы с регионами.
  *
  * Поля в таблице '{{region}}':
  *
- * @property int    $id
+ * @property int $id
  * @property string $name
  * @property string $alias
- * @property int    $countryId
- * @property int    $buyPrice
- * @property int    $sellPrice
+ * @property int $countryId
+ * @property int $buyPrice
+ * @property int $sellPrice
  */
 class Region extends CActiveRecord
 {
@@ -50,14 +58,12 @@ class Region extends CActiveRecord
     /**
      * @return array relational rules
      */
-    public function relations()
+    public function relations(): array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'towns' => [self::HAS_MANY, 'Town', 'regionId', 'order' => 'isCapital DESC, name ASC'],
-            'country' => [self::BELONGS_TO, 'Country', 'countryId'],
-            'capital' => [self::HAS_ONE, 'Town', 'regionId', 'condition' => 'isCapital=1'],
+            'towns' => [self::HAS_MANY, Town::class, 'regionId', 'order' => 'isCapital DESC, name ASC'],
+            'country' => [self::BELONGS_TO, Country::class, 'countryId'],
+            'capital' => [self::HAS_ONE, Town::class, 'regionId', 'condition' => 'isCapital=1'],
         ];
     }
 
@@ -128,7 +134,7 @@ class Region extends CActiveRecord
     {
         $allRegions = [];
         $criteria = new CDbCriteria();
-        $criteria->addColumnCondition(['countryId' => (int) $countryId]);
+        $criteria->addColumnCondition(['countryId' => (int)$countryId]);
         $criteria->order = 'name asc';
 
         $regions = self::model()->findAll($criteria);
@@ -159,7 +165,7 @@ class Region extends CActiveRecord
         $capitalLat = $capital->lat;
         $capitalLng = $capital->lng;
 
-        $distance = (int) sqrt(pow(110.6 * ($lat - $capitalLat), 2) + pow(110.6 * ($capitalLng - $lng) * cos($lat / 57.3), 2));
+        $distance = (int)sqrt(pow(110.6 * ($lat - $capitalLat), 2) + pow(110.6 * ($capitalLng - $lng) * cos($lat / 57.3), 2));
 
         if ($distance > 0) {
             return $distance;

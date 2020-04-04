@@ -1,5 +1,8 @@
 <?php
 /* @var $this CommentController */
+
+use App\models\Comment;
+
 /* @var $data Comment */
 ?>
 

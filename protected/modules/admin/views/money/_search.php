@@ -1,5 +1,8 @@
 <?php
 /* @var $this MoneyController */
+
+use App\models\Money;
+
 /* @var $model Money */
 /* @var $form CActiveForm */
 ?>

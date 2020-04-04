@@ -1,5 +1,8 @@
 <?php
 /* @var $this UserStatusRequestController */
+
+use App\models\UserStatusRequest;
+
 /* @var $model UserStatusRequest */
 
 $this->breadcrumbs = [
@@ -8,8 +11,8 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'List UserStatusRequest', 'url' => ['index']],
-    ['label' => 'Create UserStatusRequest', 'url' => ['create']],
+    ['label' => 'List App\models\UserStatusRequest', 'url' => ['index']],
+    ['label' => 'Create App\models\UserStatusRequest', 'url' => ['create']],
 ];
 
 Yii::app()->clientScript->registerScript('search', "

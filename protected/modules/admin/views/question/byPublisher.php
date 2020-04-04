@@ -1,6 +1,8 @@
 <?php
 
-    $this->setPageTitle('Вопросы, одобренные пользователем ' . CHtml::encode($publisher->name . ' ' . $publisher->lastName) . Yii::app()->name);
+use App\models\User;
+
+$this->setPageTitle('Вопросы, одобренные пользователем ' . CHtml::encode($publisher->name . ' ' . $publisher->lastName) . Yii::app()->name);
 ?>
 
 

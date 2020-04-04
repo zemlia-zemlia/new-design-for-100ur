@@ -4,8 +4,8 @@ namespace Tests\integration\models;
 
 use Tests\Factories\UserFactory;
 use Tests\integration\BaseIntegrationTest;
-use TransactionCampaign;
-use User;
+use App\models\TransactionCampaign;
+use App\models\User;
 use Yii;
 
 class TransactionCampaignTest extends BaseIntegrationTest

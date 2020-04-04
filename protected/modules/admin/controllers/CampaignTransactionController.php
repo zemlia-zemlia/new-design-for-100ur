@@ -1,9 +1,11 @@
 <?php
 
-class CampaignTransactionController extends Controller
-{
-    public $layout = '//admin/main';
+use App\models\TransactionCampaign;
+use App\models\UserStatusRequest;
+use App\modules\admin\controllers\AbstractAdminController;
 
+class CampaignTransactionController extends AbstractAdminController
+{
     /**
      * @return array action filters
      */
@@ -72,7 +74,7 @@ class CampaignTransactionController extends Controller
         $criteria->addCondition('sum<0');
         $criteria->addCondition(['type =' . TransactionCampaign::TYPE_JURIST_MONEYOUT]);
 
-        $dataProvider = new CActiveDataProvider('TransactionCampaign', [
+        $dataProvider = new CActiveDataProvider(TransactionCampaign::class, [
             'criteria' => $criteria,
         ]);
 

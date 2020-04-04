@@ -1,5 +1,10 @@
 <?php
 /* @var $this ContactController */
+
+use App\helpers\DateHelper;
+use App\models\Lead;
+use App\models\User;
+
 /* @var $model Contact */
 
 $this->setPageTitle(CHtml::encode($model->name) . '. Просмотр заявки.');

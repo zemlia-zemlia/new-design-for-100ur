@@ -2,6 +2,8 @@
 
 // виджет для вывода произвольного вопроса
 
+use App\models\Question;
+
 class RandomQuestion extends CWidget
 {
     public $template = 'default'; // представление виджета по умолчанию

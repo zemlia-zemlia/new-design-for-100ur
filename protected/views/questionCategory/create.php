@@ -1,5 +1,8 @@
 <?php
 /* @var $this QuestionCategoryController */
+
+use App\models\QuestionCategory;
+
 /* @var $model QuestionCategory */
 
 $this->setPageTitle('Создание категории вопросов. ' . Yii::app()->name);

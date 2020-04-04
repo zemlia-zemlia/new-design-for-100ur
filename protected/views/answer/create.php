@@ -1,5 +1,8 @@
 <?php
 /* @var $this AnswerController */
+
+use App\models\Answer;
+
 /* @var $model Answer */
 
 $this->setPageTitle('Новый ответ' . Yii::app()->name);

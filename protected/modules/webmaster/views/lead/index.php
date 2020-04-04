@@ -1,5 +1,8 @@
 <?php
 /* @var $this ContactController */
+
+use App\models\Leadsource;
+
 /* @var $dataProvider CActiveDataProvider */
 
 $this->pageTitle = 'Лиды. ' . Yii::app()->name;
@@ -20,7 +23,10 @@ $this->widget('zii.widgets.CBreadcrumbs', [
 ?>
 
 <h1>Мои лиды
-    <?php if (sizeof(Leadsource::getSourcesArrayByUser(Yii::app()->user->id)) > 0):?>
+
+<?php
+
+    if (Leadsource::getSourcesArrayByUser(Yii::app()->user->id) !== null) : ?>
     <?php echo CHtml::link('Добавить лид вручную', Yii::app()->createUrl('/webmaster/lead/create'), ['class' => 'btn btn-primary']); ?>
     <?php endif; ?>
 </h1>

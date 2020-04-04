@@ -2,6 +2,7 @@
 
 /**
  * Модель для работы с комментариями к постам
+ * @todo Класс не используется, удалить
  *
  * The followings are the available columns in table '{{postComment}}':
  *
@@ -60,13 +61,11 @@ class PostComment extends CActiveRecord
     /**
      * @return array relational rules
      */
-    public function relations()
+    public function relations():array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'post' => [self::BELONGS_TO, 'Post', 'postId'],
-            'author' => [self::BELONGS_TO, 'User', 'authorId'],
+            'post' => [self::BELONGS_TO, Post::class, 'postId'],
+            'author' => [self::BELONGS_TO, User::class, 'authorId'],
         ];
     }
 

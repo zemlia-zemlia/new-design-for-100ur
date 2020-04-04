@@ -2,6 +2,9 @@
 
 // виджет для вывода топа юристов
 
+use App\models\Answer;
+use App\models\User;
+
 class TopYurists extends CWidget
 {
     const FETCH_RANDOM = 0;

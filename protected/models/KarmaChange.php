@@ -1,14 +1,21 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Yii;
+
 /**
  * в этой модели хранится информация обо всех изменениях кармы пользователей
  * This is the model class for table "{{karmaChange}}".
  *
  * The followings are the available columns in table '{{karmaChange}}':
  *
- * @property int    $id
- * @property int    $userId
- * @property int    $authorId
+ * @property int $id
+ * @property int $userId
+ * @property int $authorId
  * @property string $datetime
  */
 class KarmaChange extends CActiveRecord
@@ -50,11 +57,9 @@ class KarmaChange extends CActiveRecord
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-                    'user' => [self::BELONGS_TO, 'User', 'userId'],
-                    'author' => [self::BELONGS_TO, 'User', 'authorId'],
+            'user' => [self::BELONGS_TO, User::class, 'userId'],
+            'author' => [self::BELONGS_TO, User::class, 'authorId'],
         ];
     }
 

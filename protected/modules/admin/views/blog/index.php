@@ -1,5 +1,8 @@
 <?php
 /* @var $this CategoryController */
+
+use App\models\User;
+
 /* @var $dataProvider CActiveDataProvider */
 
 $this->setPageTitle('Новости' . ' | ' . Yii::app()->name);

@@ -1,5 +1,7 @@
 <?php
 
+use App\models\Docs;
+
 class DocsController extends Controller
 {
     public function actionDownload($id)

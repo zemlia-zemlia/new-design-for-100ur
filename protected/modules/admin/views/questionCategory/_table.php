@@ -16,7 +16,9 @@
         <th>Подк.</th>
         <th>Ред.</th>
     </tr>
-    <?php foreach ($categoriesArray as $rootId => $rootCategory): ?>
+    <?php use App\models\QuestionCategory;
+
+    foreach ($categoriesArray as $rootId => $rootCategory): ?>
 
         <tr>
             <td>

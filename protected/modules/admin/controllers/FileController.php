@@ -1,12 +1,11 @@
 <?php
 
-class FileController extends Controller
+use App\models\File;
+use App\models\User;
+use App\modules\admin\controllers\AbstractAdminController;
+
+class FileController extends AbstractAdminController
 {
-    /**
-     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     *             using two-column layout. See 'protected/views/layouts/column2.php'.
-     */
-    public $layout = '//layouts/column2';
 
     /**
      * @return array action filters
@@ -127,7 +126,7 @@ class FileController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('File');
+        $dataProvider = new CActiveDataProvider(File::class);
         $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);

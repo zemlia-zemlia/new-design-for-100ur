@@ -1,9 +1,17 @@
 <?php
 
 
-class QuestionController extends Controller
+use App\models\Answer;
+use App\models\Question;
+use App\models\Question2category;
+use App\models\QuestionCategory;
+use App\models\Town;
+use App\models\User;
+use App\modules\admin\controllers\AbstractAdminController;
+use App\repositories\QuestionRepository;
+
+class QuestionController extends AbstractAdminController
 {
-    public $layout = '//admin/main';
 
     /**
      * @return array action filters
@@ -59,7 +67,7 @@ class QuestionController extends Controller
         $criteria->order = 't.id DESC';
         $criteria->addColumnCondition(['questionId' => $model->id]);
 
-        $answersDataProvider = new CActiveDataProvider('Answer', [
+        $answersDataProvider = new CActiveDataProvider(Answer::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 20,
@@ -80,27 +88,19 @@ class QuestionController extends Controller
     {
         $model = new Question();
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['Question'])) {
-            $model->attributes = $_POST['Question'];
+        if (isset($_POST['App_models_Question'])) {
+            $model->attributes = $_POST['App_models_Question'];
             if ($model->save()) {
-                if (isset($_POST['Question']['categories'])) {
-                    foreach ($_POST['Question']['categories'] as $categoryId) {
+                if (isset($_POST['App_models_Question']['categories'])) {
+                    foreach ($_POST['App_models_Question']['categories'] as $categoryId) {
                         $q2cat = new Question2category();
                         $q2cat->qId = $model->id;
                         $q2cat->cId = $categoryId;
                         if (!$q2cat->save()) {
                         }
                     }
-                } /* else {
-                  // если не указана категория поста
-                  $q2cat = new Question2category();
-                  $q2cat->qId = $model->id;
-                  $q2cat->cId = QuestionCategory::NO_CATEGORY;
-                  if($q2cat->save());
-                  } */
+                }
+
                 $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -134,21 +134,19 @@ class QuestionController extends Controller
         $model = $this->loadModel($id);
         $oldStatus = $model->status;
         $model->setScenario('convert'); // чтобы поле Email было необязательным
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Question'])) {
-            $model->attributes = $_POST['Question'];
+        if (isset($_POST['App_models_Question'])) {
+            $model->attributes = $_POST['App_models_Question'];
             if (Question::STATUS_MODERATED == $model->status && Question::STATUS_NEW == $oldStatus) {
                 $model->publishDate = date('Y-m-d H:i:s');
                 $model->publishedBy = Yii::app()->user->id;
             }
             if ($model->save()) {
-                if (isset($_POST['Question']['categories'])) {
+                if (isset($_POST['App_models_Question']['categories'])) {
                     // удалим старые привязки вопроса к категориям
                     Question2category::model()->deleteAllByAttributes(['qId' => $model->id]);
                     // привяжем вопрос к категориям
-                    foreach ($_POST['Question']['categories'] as $categoryId) {
+                    foreach ($_POST['App_models_Question']['categories'] as $categoryId) {
                         $q2cat = new Question2category();
                         $q2cat->qId = $model->id;
                         $q2cat->cId = $categoryId;
@@ -158,7 +156,7 @@ class QuestionController extends Controller
                 } /* else {
                   $q2cat = new Question2category();
                   $q2cat->qId = $model->id;
-                  $q2cat->cId = QuestionCategory::NO_CATEGORY;
+                  $q2cat->cId = App\models\QuestionCategory::NO_CATEGORY;
                   if($q2cat->save());
                   } */
 
@@ -266,7 +264,7 @@ class QuestionController extends Controller
             $criteria->addInCondition('t.status', [Question::STATUS_MODERATED, Question::STATUS_PUBLISHED]);
         }
 
-        $dataProvider = new CActiveDataProvider('Question', [
+        $dataProvider = new CActiveDataProvider(Question::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 20,
@@ -321,7 +319,7 @@ class QuestionController extends Controller
 
         $criteria->addColumnCondition(['t.payed' => 1]);
 
-        $dataProvider = new CActiveDataProvider('Question', [
+        $dataProvider = new CActiveDataProvider(Question::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 20,
@@ -346,7 +344,7 @@ class QuestionController extends Controller
 
         $criteria->addColumnCondition(['publishedBy' => (int) $id]);
 
-        $dataProvider = new CActiveDataProvider('Question', [
+        $dataProvider = new CActiveDataProvider(Question::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 20,
@@ -366,8 +364,8 @@ class QuestionController extends Controller
     {
         $model = new Question('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Question'])) {
-            $model->attributes = $_GET['Question'];
+        if (isset($_GET['App_models_Question'])) {
+            $model->attributes = $_GET['App_models_Question'];
         }
 
         $this->render('admin', [
@@ -530,11 +528,11 @@ class QuestionController extends Controller
             $showMy = false;
         }
 
-        if (isset($_POST['Question'])) {
+        if (isset($_POST['App_models_Question'])) {
             // если была отправлена форма, сохраним вопрос
-            $id = $_POST['Question']['id'];
+            $id = $_POST['App_models_Question']['id'];
             $question = Question::model()->findByPk($id);
-            $question->attributes = $_POST['Question'];
+            $question->attributes = $_POST['App_models_Question'];
             $question->isModerated = 1;
             $question->moderatedBy = Yii::app()->user->id;
             $question->moderatedTime = date('Y-m-d H:i:s');
@@ -635,7 +633,7 @@ class QuestionController extends Controller
         $criteria->addColumnCondition(['MD5(title)' => $md5['hash']]);
         $criteria->addInCondition('status', [Question::STATUS_CHECK, Question::STATUS_PUBLISHED]);
         $dataProvider = new CActiveDataProvider(
-            'Question',
+            Question::class,
             [
             'criteria' => $criteria, ]
         );

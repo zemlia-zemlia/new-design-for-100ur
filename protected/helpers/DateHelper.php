@@ -1,7 +1,11 @@
 <?php
 
+namespace App\helpers;
+use DateInterval;
+use DateTime;
+
 /**
- * Class DateHelper.
+ * Class App\helpers\DateHelper.
  *
  * @todo Refactor me
  */
@@ -71,9 +75,9 @@ class DateHelper
     /**
      * Заполняет массив, ключами которого являются даты, недостающими датами и значениями по умолчанию.
      *
-     * @param array  $datesArray
-     * @param mixed  $defaultValue
-     * @param string $interval     Интервал между соседними датами в формате P1D
+     * @param array $datesArray
+     * @param mixed $defaultValue
+     * @param string $interval Интервал между соседними датами в формате P1D
      *
      * @return array
      *
@@ -115,11 +119,11 @@ class DateHelper
             $dateTimeArray = explode(' ', $dateTime);
             $dateArray = explode('-', $dateTimeArray[0]);
             $time = $dateTimeArray[1];
-            $year = (int) $dateArray[0];
-            $month = (int) $dateArray[1];
-            $day = (int) $dateArray[2];
+            $year = (int)$dateArray[0];
+            $month = (int)$dateArray[1];
+            $day = (int)$dateArray[2];
             $timeArray = explode(':', $time);
-            $hours = (int) $timeArray[0];
+            $hours = (int)$timeArray[0];
             $minutes = $timeArray[1];
             $seconds = $timeArray[2];
             $outputArray = [
@@ -136,9 +140,9 @@ class DateHelper
             return $outputArray;
         } elseif (stristr($dateTime, '-')) {
             $dateArray = explode('-', $dateTime);
-            $year = (int) $dateArray[0];
-            $month = (int) $dateArray[1];
-            $day = (int) $dateArray[2];
+            $year = (int)$dateArray[0];
+            $month = (int)$dateArray[1];
+            $day = (int)$dateArray[2];
             $outputArray = [
                 'year' => $year,
                 'month' => $month,
@@ -187,9 +191,9 @@ class DateHelper
      * функция преобразует дату из формата 2012-09-01 12:30:00 в Пн 1 сен. 2012 12:30.
      *
      * @param string $date
-     * @param bool   $showTime
-     * @param bool   $showWeekday
-     * @param bool   $showYear
+     * @param bool $showTime
+     * @param bool $showWeekday
+     * @param bool $showYear
      *
      * @return string
      */
@@ -198,7 +202,8 @@ class DateHelper
         bool $showTime = true,
         bool $showWeekday = true,
         bool $showYear = true
-    ): string {
+    ): string
+    {
 
         if (is_null($date)) {
             return '';

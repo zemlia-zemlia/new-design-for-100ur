@@ -1,5 +1,7 @@
 <?php
 
+use App\models\Comment;
+
 class TestimonialsWidget extends CWidget
 {
     public $limit = 3;

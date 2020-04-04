@@ -43,7 +43,7 @@
             <div class='col-md-8 col-md-offset-2 center-align'>
                 <div class="form-group">
                     <?php echo $form->labelEx($model, 'phone'); ?>
-                    <?php echo $form->textField($model, 'phone', ['class' => 'form-control']); ?>
+                    <?php echo $form->textField($model, 'phone', ['class' => 'form-control phone-mask']); ?>
                     <?php echo $form->error($model, 'phone'); ?>
                 </div>
             </div>

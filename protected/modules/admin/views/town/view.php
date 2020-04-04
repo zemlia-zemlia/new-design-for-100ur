@@ -1,5 +1,8 @@
 <?php
 /* @var $this TownController */
+
+use App\models\Town;
+
 /* @var $model Town */
 
 $this->pageTitle = CHtml::encode($model->name) . '. Города. ' . Yii::app()->name;

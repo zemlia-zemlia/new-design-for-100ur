@@ -1,6 +1,9 @@
 <div class="vert-margin30 inside text-right">
     <?php
-        $form = $this->beginWidget('CActiveForm', [
+
+    use App\models\Region;
+
+    $form = $this->beginWidget('CActiveForm', [
             'id' => 'lead-search-form',
             'method' => 'GET',
             'action' => Yii::app()->createUrl('lead/index'),

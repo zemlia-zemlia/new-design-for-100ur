@@ -1,5 +1,10 @@
 <?php
 
+namespace App\models;
+
+use CFormModel;
+use Yii;
+
 /**
  * Модель для работы с формой поиска вопросов.
  */

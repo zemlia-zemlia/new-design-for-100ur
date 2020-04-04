@@ -1,5 +1,8 @@
 <?php
 
+use App\models\Question;
+use App\models\QuestionCategory;
+
 class SitemapCommand extends CConsoleCommand
 {
     public function actionIndex()

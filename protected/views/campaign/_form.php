@@ -1,5 +1,10 @@
 <?php
 /* @var $this CampaignController */
+
+use App\helpers\DateHelper;
+use App\models\Campaign;
+use App\models\User;
+
 /* @var $model Campaign */
 /* @var $form CActiveForm */
 

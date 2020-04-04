@@ -1,5 +1,8 @@
 <?php
-    $usersCount = 0;
+
+use App\models\User;
+
+$usersCount = 0;
 ?>
 
 <div class="container-fluid">

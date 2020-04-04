@@ -1,5 +1,10 @@
 <?php
 
+namespace App\extensions\Logger;
+
+use CHtml;
+use Yii;
+
 /**
  * Класс, читающий данные из лога событий.
  */
@@ -8,10 +13,10 @@ class LogReader
     public static function read($class, $subjectId, $limit = 20)
     {
         $command = Yii::app()->db->createCommand()
-                ->select('*')
-                ->from('{{log}}')
-                ->order('id desc')
-                ->limit($limit);
+            ->select('*')
+            ->from('{{log}}')
+            ->order('id desc')
+            ->limit($limit);
 
         if ($class) {
             $command->andWhere('class=:class', [':class' => $class]);
@@ -28,7 +33,8 @@ class LogReader
     /**
      * Создает ссылку на сущность, привязанную к элементу лога.
      *
-     * @param type $logRow
+     * @param array $logRow
+     * @return string
      */
     public static function createLink($logRow)
     {

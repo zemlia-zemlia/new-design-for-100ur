@@ -1,12 +1,17 @@
 <?php
 
-class CampaignController extends Controller
+use App\helpers\DateHelper;
+use App\helpers\StringHelper;
+use App\models\Campaign;
+use App\models\Lead;
+use App\models\Money;
+use App\models\Region;
+use App\models\TransactionCampaign;
+use App\models\User;
+use App\modules\admin\controllers\AbstractAdminController;
+
+class CampaignController extends AbstractAdminController
 {
-    /**
-     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     *             using two-column layout. See 'protected/views/layouts/column2.php'.
-     */
-    public $layout = '//admin/main';
 
     /**
      * @return array action filters
@@ -61,7 +66,7 @@ class CampaignController extends Controller
         $leadSearchModel = new Lead();
         $leadSearchModel->scenario = 'search';
 
-        $leadSearchModel->attributes = $_GET['Lead'];
+        $leadSearchModel->attributes = $_GET['App\models\Lead'];
 
         // по умолчанию собираем статистику по проданным лидам за последние 30 дней
         $dateTo = ('' != $leadSearchModel->date2) ? DateHelper::invertDate($leadSearchModel->date2) : date('Y-m-d');
@@ -72,12 +77,9 @@ class CampaignController extends Controller
         $leadsCriteria = new CDbCriteria();
         $leadsCriteria->addColumnCondition(['campaignId' => $model->id]);
         $leadsCriteria->order = 'id DESC';
-        $leadsDataProvider = new CActiveDataProvider(
-            'Lead',
-            [
+        $leadsDataProvider = new CActiveDataProvider(Lead::class, [
                 'criteria' => $leadsCriteria,
-            ]
-        );
+            ]);
 
         $this->render('view', [
             'model' => $model,
@@ -105,8 +107,8 @@ class CampaignController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Campaign'])) {
-            $model->attributes = $_POST['Campaign'];
+        if (isset($_POST['App\models\Campaign'])) {
+            $model->attributes = $_POST['App\models\Campaign'];
             $model->buyerId = $buyerId;
             $model->price *= 100;
 
@@ -138,10 +140,10 @@ class CampaignController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Campaign'])) {
+        if (isset($_POST['App\models\Campaign'])) {
             $oldActivity = $model->active; // запомним статус активности кампании
 
-            $model->attributes = $_POST['Campaign'];
+            $model->attributes = $_POST['App\models\Campaign'];
             $model->price *= 100;
 
             $buyer = $model->buyer; // покупатель
@@ -357,8 +359,8 @@ class CampaignController extends Controller
     {
         $model = new Campaign('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Campaign'])) {
-            $model->attributes = $_GET['Campaign'];
+        if (isset($_GET['App\models\Campaign'])) {
+            $model->attributes = $_GET['App\models\Campaign'];
         }
 
         $this->render('admin', [

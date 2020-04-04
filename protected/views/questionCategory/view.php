@@ -1,5 +1,9 @@
 <?php
 /* @var $this QuestionCategoryController */
+
+use App\models\QuestionCategory;
+use App\models\User;
+
 /* @var $model QuestionCategory */
 
 if ($model->seoTitle) {

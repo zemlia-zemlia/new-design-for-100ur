@@ -2,6 +2,8 @@
 
 // виджет для вывода списка ссылок на посты блога
 
+use App\models\Post;
+
 class RecentPosts extends CWidget
 {
     public $template = 'default'; // представление виджета по умолчанию

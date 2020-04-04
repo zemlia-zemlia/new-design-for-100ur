@@ -3,6 +3,9 @@
 /*
  * команда обходит все вопросы и генерирует для них заголовки, после чего сохраняет вопрос
  */
+
+use App\models\Question;
+
 class AllQuestionsTitlesCommand extends CConsoleCommand
 {
     public function actionIndex()

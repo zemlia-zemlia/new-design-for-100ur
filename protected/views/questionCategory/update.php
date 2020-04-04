@@ -1,5 +1,8 @@
 <?php
 /* @var $this QuestionCategoryController */
+
+use App\models\QuestionCategory;
+
 /* @var $model QuestionCategory */
 
 $this->setPageTitle('Редактирование категории вопросов ' . $model->id . '. ' . Yii::app()->name);

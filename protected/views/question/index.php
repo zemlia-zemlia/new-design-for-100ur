@@ -1,5 +1,10 @@
 <?php
 /* @var $this QuestionController */
+
+use App\helpers\DateHelper;
+use App\helpers\NumbersHelper;
+use App\helpers\StringHelper;
+
 /* @var $dataProvider CActiveDataProvider */
 
 Yii::app()->clientScript->registerLinkTag('canonical', null, Yii::app()->createUrl('q'));

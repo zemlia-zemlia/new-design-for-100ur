@@ -1,4 +1,7 @@
 <?php
+
+use App\models\User;
+
 Yii::app()->clientScript->registerLinkTag('canonical', null, Yii::app()->createUrl('yurist'));
 
 $pageTitle = 'Каталог юристов и адвокатов. 100 Юристов - Юридические консультации онлайн';

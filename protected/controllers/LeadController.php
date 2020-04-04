@@ -1,5 +1,8 @@
 <?php
 
+use App\models\Lead;
+use App\models\User;
+
 /**
  * Контроллер для работы с лидами зарегистрированным пользователям
  */
@@ -30,7 +33,7 @@ class LeadController extends Controller
             ['allow', // allow all users
                 'actions' => ['index', 'view', 'buy'],
                 'users' => ['@'],
-                'expression' => 'Yii::app()->user->checkAccess(User::ROLE_JURIST) || Yii::app()->user->checkAccess(User::ROLE_BUYER)',
+                'expression' => 'Yii::app()->user->checkAccess(App\models\User::ROLE_JURIST) || Yii::app()->user->checkAccess(App\models\User::ROLE_BUYER)',
             ],
             ['deny', // deny all users
                 'users' => ['*'],
@@ -54,10 +57,10 @@ class LeadController extends Controller
             $showAuto = true;
         }
 
-        if (isset($_GET['Lead'])) {
+        if (isset($_GET['App\models\Lead'])) {
             // если используется форма поиска по лидам
-            $searchModel->attributes = $_GET['Lead'];
-            $regionId = (int) $_GET['Lead']['regionId'];
+            $searchModel->attributes = $_GET['App\models\Lead'];
+            $regionId = (int) $_GET['App\models\Lead']['regionId'];
             if ($regionId) {
                 $criteria->with = ['town' => ['condition' => 'town.regionId=' . $regionId], 'town.region'];
             }
@@ -76,7 +79,7 @@ class LeadController extends Controller
             $criteria->addColumnCondition(['leadStatus' => Lead::LEAD_STATUS_DEFAULT]);
         }
 
-        $dataProvider = new CActiveDataProvider('Lead', [
+        $dataProvider = new CActiveDataProvider(Lead::class, [
             'criteria' => $criteria,
             'pagination' => [
                 'pageSize' => 30,

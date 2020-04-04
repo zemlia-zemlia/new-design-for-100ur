@@ -1,5 +1,8 @@
 <?php
 
+use App\models\Question;
+use App\models\UloginModel;
+
 class UloginController extends Controller
 {
     public function actionLogin()

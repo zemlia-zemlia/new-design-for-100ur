@@ -3,6 +3,9 @@
 /*
  * команда вычисляет рейтинг юристов и записывает его в поле rating
  */
+
+use App\models\User;
+
 class YuristRatingCommand extends CConsoleCommand
 {
     public function actionIndex()

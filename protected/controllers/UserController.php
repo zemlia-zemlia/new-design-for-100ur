@@ -1,5 +1,23 @@
 <?php
 
+use App\extensions\Logger\LoggerFactory;
+use App\helpers\StringHelper;
+use App\models\Answer;
+use App\models\Comment;
+use App\models\LoginForm;
+use App\models\Order;
+use App\models\Question;
+use App\models\QuestionCategory;
+use App\models\RestorePasswordForm;
+use App\models\Town;
+use App\models\User;
+use App\models\User2category;
+use App\models\UserActivity;
+use App\models\UserFile;
+use App\models\YaPayConfirmRequest;
+use App\models\YuristSettings;
+use App\repositories\QuestionRepository;
+
 class UserController extends Controller
 {
     public $layout = '//frontend/question';
@@ -39,7 +57,7 @@ class UserController extends Controller
             ['allow',
                 'actions' => ['feed'],
                 'users' => ['@'],
-                'expression' => 'Yii::app()->user->role == User::ROLE_JURIST',
+                'expression' => 'Yii::app()->user->role == App\models\User::ROLE_JURIST',
             ],
             ['deny', // deny all users
                 'users' => ['*'],
@@ -74,7 +92,7 @@ class UserController extends Controller
             $ordersCriteria->addColumnCondition(['t.userId' => Yii::app()->user->id]);
             $ordersCriteria->order = 't.id DESC';
 
-            $ordersDataProvider = new CActiveDataProvider('Order', [
+            $ordersDataProvider = new CActiveDataProvider(Order::class, [
                 'criteria' => $ordersCriteria,
             ]);
         } else {
@@ -125,8 +143,8 @@ class UserController extends Controller
             User::ROLE_JURIST => 'Юрист',
         ];
 
-        if (isset($_POST['User'])) {
-            $model->attributes = $_POST['User'];
+        if (isset($_POST['App_models_User'])) {
+            $model->attributes = $_POST['App_models_User'];
 
             // можно зарегистрироваться с ролью Юрист, Пользователь, покупатель
             // все, кто не юристы и покупатели - пользователи
@@ -205,24 +223,24 @@ class UserController extends Controller
             User::ROLE_JURIST => 'Юрист',
         ];
 
-        if (isset($_POST['User'])) {
+        if (isset($_POST['App_models_User'])) {
             // присваивание атрибутов пользователя
             $model->attributes = $_POST['User'];
-            $yuristSettings->attributes = $_POST['YuristSettings'];
+            $yuristSettings->attributes = $_POST['App_models_YuristSettings'];
 
             // если мы редактировали юриста
-            if (isset($_POST['YuristSettings'])) {
-                $yuristSettings->attributes = $_POST['YuristSettings'];
+            if (isset($_POST['App_models_YuristSettings'])) {
+                $yuristSettings->attributes = $_POST['App_models_YuristSettings'];
                 $yuristSettings->priceDoc *= 100;
                 $yuristSettings->priceConsult *= 100;
                 $yuristSettings->save();
             }
 
-            if (isset($_POST['User']['categories'])) {
+            if (isset($_POST['App_models_User']['categories'])) {
                 // удалим старые привязки пользователя к категориям
                 User2category::model()->deleteAllByAttributes(['uId' => $model->id]);
                 // привяжем пользователя к категориям
-                foreach ($_POST['User']['categories'] as $categoryId) {
+                foreach ($_POST['App_models_User']['categories'] as $categoryId) {
                     $u2cat = new User2category();
                     $u2cat->uId = $model->id;
                     $u2cat->cId = $categoryId;
@@ -312,8 +330,8 @@ class UserController extends Controller
         $model->setScenario('changePassword');
 
         // если была заполнена форма
-        if ($_POST['User']) {
-            $model->attributes = $_POST['User'];
+        if ($_POST['App_models_User']) {
+            $model->attributes = $_POST['App_models_User'];
             if ($model->validate()) {
                 // если данные пользователя прошли проверку (пароль не слишком короткий)
                 // шифруем пароль перед сохранением в базу
@@ -455,9 +473,9 @@ class UserController extends Controller
         // $model - модель с формой восстановления пароля
         $model = new RestorePasswordForm();
 
-        if (isset($_POST['RestorePasswordForm'])) {
+        if (isset($_POST['App_models_RestorePasswordForm'])) {
             // получили данные из формы восстановления пароля
-            $model->attributes = $_POST['RestorePasswordForm'];
+            $model->attributes = $_POST['App_models_RestorePasswordForm'];
             $email = trim(strtolower(CHtml::encode($model->email)));
             // ищем пользователя по введенному Email, если не найден, получим NULL
             $user = User::model()->find('LOWER(email)=?', [$email]);
@@ -513,8 +531,8 @@ class UserController extends Controller
         $user->password = '';
 
         // если была заполнена форма
-        if ($_POST['User']) {
-            $user->attributes = $_POST['User'];
+        if ($_POST['App_models_User']) {
+            $user->attributes = $_POST['App_models_User'];
             if ($user->validate()) {
                 // если данные пользователя прошли проверку (пароль не слишком короткий)
                 // шифруем пароль перед сохранением в базу
@@ -790,8 +808,8 @@ class UserController extends Controller
         $commentModel = new Comment();
         $commentModel->setScenario('user');
 
-        if (isset($_POST['Comment'])) {
-            $commentModel->attributes = $_POST['Comment'];
+        if (isset($_POST['App_models_Comment'])) {
+            $commentModel->attributes = $_POST['App_models_Comment'];
             $commentModel->authorId = Yii::app()->user->id;
             $commentModel->questionId = $questionId;
 

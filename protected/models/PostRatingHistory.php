@@ -1,13 +1,20 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Yii;
+
 /**
  * Модель для хранения истории рейтингов постов.
  *
  * The followings are the available columns in table '{{postRatingHistory}}':
  *
- * @property int    $postId
- * @property int    $userId
- * @property int    $delta
+ * @property int $postId
+ * @property int $userId
+ * @property int $delta
  * @property string $datetime
  */
 class PostRatingHistory extends CActiveRecord
@@ -48,23 +55,21 @@ class PostRatingHistory extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return [
-                ['postId, userId', 'required'],
-                ['postId, userId, delta', 'numerical', 'integerOnly' => true],
-                // The following rule is used by search().
-                // Please remove those attributes that should not be searched.
-                ['postId, userId, delta, datetime', 'safe', 'on' => 'search'],
+            ['postId, userId', 'required'],
+            ['postId, userId, delta', 'numerical', 'integerOnly' => true],
+            // The following rule is used by search().
+            // Please remove those attributes that should not be searched.
+            ['postId, userId, delta, datetime', 'safe', 'on' => 'search'],
         ];
     }
 
     /**
      * @return array relational rules
      */
-    public function relations()
+    public function relations(): array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'post' => [self::BELONGS_TO, 'Post', 'postId'],
+            'post' => [self::BELONGS_TO, Post::class, 'postId'],
         ];
     }
 
@@ -74,10 +79,10 @@ class PostRatingHistory extends CActiveRecord
     public function attributeLabels()
     {
         return [
-                'postId' => 'ID поста',
-                'userId' => 'ID пользователя',
-                'delta' => 'Изменение рейтинга',
-                'datetime' => 'Дата и время',
+            'postId' => 'ID поста',
+            'userId' => 'ID пользователя',
+            'delta' => 'Изменение рейтинга',
+            'datetime' => 'Дата и время',
         ];
     }
 
@@ -99,7 +104,7 @@ class PostRatingHistory extends CActiveRecord
         $criteria->compare('datetime', $this->datetime, true);
 
         return new CActiveDataProvider($this, [
-                'criteria' => $criteria,
+            'criteria' => $criteria,
         ]);
     }
 }

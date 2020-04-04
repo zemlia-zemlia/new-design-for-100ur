@@ -2,6 +2,8 @@
 
 // виджет для вывода статистики ответов
 
+use App\models\Answer;
+
 class MyAnswers extends CWidget
 {
     public $template = 'default'; // представление виджета по умолчанию

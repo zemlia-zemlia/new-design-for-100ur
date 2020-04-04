@@ -1,5 +1,8 @@
 <?php
 /* @var $this CategoryController */
+
+use App\models\Postcategory;
+
 /* @var $model Postcategory */
 
 $this->setPageTitle(CHtml::encode($model->title) . ' | Блог' . ' | ' . Yii::app()->name);

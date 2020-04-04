@@ -1,16 +1,23 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Yii;
+
 /**
  * This is the model class for table "{{mailtask}}".
  *
  * The followings are the available columns in table '{{mailtask}}':
  *
- * @property int    $id
+ * @property int $id
  * @property string $startDate
- * @property int    $status
- * @property int    $mailId
+ * @property int $status
+ * @property int $mailId
  * @property string $email
- * @property int    $userId
+ * @property int $userId
  */
 class Mailtask extends CActiveRecord
 {
@@ -48,17 +55,6 @@ class Mailtask extends CActiveRecord
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             ['id, startDate, status, mailId, email, userId', 'safe', 'on' => 'search'],
-        ];
-    }
-
-    /**
-     * @return array relational rules
-     */
-    public function relations()
-    {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return [
         ];
     }
 

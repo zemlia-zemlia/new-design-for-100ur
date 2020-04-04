@@ -1,4 +1,7 @@
 <?php
+
+use App\models\Comment;
+
 $title = 'Отзыв на юриста ' . CHtml::encode($yurist->name . ' ' . $yurist->lastName);
 
 $this->setPageTitle($title . '. ' . Yii::app()->name);

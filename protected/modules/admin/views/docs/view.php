@@ -1,18 +1,21 @@
 <?php
 /* @var $this DocsController */
+
+use App\models\Docs;
+
 /* @var $model Docs */
 
 $this->breadcrumbs = [
-    'Docs' => ['index'],
+    'App\models\Docs' => ['index'],
     $model->name,
 ];
 
 $this->menu = [
-    ['label' => 'List Docs', 'url' => ['index']],
-    ['label' => 'Create Docs', 'url' => ['create']],
-    ['label' => 'Update Docs', 'url' => ['update', 'id' => $model->id]],
-    ['label' => 'Delete Docs', 'url' => '#', 'linkOptions' => ['submit' => ['delete', 'id' => $model->id], 'confirm' => 'Are you sure you want to delete this item?']],
-    ['label' => 'Manage Docs', 'url' => ['admin']],
+    ['label' => 'List App\models\Docs', 'url' => ['index']],
+    ['label' => 'Create App\models\Docs', 'url' => ['create']],
+    ['label' => 'Update App\models\Docs', 'url' => ['update', 'id' => $model->id]],
+    ['label' => 'Delete App\models\Docs', 'url' => '#', 'linkOptions' => ['submit' => ['delete', 'id' => $model->id], 'confirm' => 'Are you sure you want to delete this item?']],
+    ['label' => 'Manage App\models\Docs', 'url' => ['admin']],
 ];
 ?>
 

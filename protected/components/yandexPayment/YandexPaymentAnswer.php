@@ -1,5 +1,11 @@
 <?php
 
+use App\extensions\Logger\LoggerFactory;
+use App\models\Answer;
+use App\models\Money;
+use App\models\TransactionCampaign;
+use App\models\YaPayConfirmRequest;
+
 class YandexPaymentAnswer implements YandexPaymentProcessorInterface
 {
     private $answer;

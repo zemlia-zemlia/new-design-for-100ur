@@ -1,12 +1,16 @@
 <?php
 
-class PostController extends Controller
+use App\helpers\DateHelper;
+use App\helpers\StringHelper;
+use App\models\Comment;
+use App\models\Post;
+use App\models\Postcategory;
+use App\models\PostRatingHistory;
+use App\models\User;
+use App\modules\admin\controllers\AbstractAdminController;
+
+class PostController extends AbstractAdminController
 {
-    /**
-     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     *             using two-column layout. See 'protected/views/layouts/column2.php'.
-     */
-    public $layout = '//admin/main';
 
     /**
      * @return array action filters
@@ -60,8 +64,8 @@ class PostController extends Controller
         $commentsDataProvider = new CArrayDataProvider($model->comments);
 
         $postCommentModel = new Comment(); // модель комментария поста
-        if (isset($_POST['Comment'])) {
-            $postCommentModel->attributes = $_POST['Comment'];
+        if (isset($_POST['App_models_Comment'])) {
+            $postCommentModel->attributes = $_POST['App_models_Comment'];
             $postCommentModel->authorId = Yii::app()->user->id;
             $postCommentModel->objectId = $model->id;
             $postCommentModel->type = Comment::TYPE_POST;
@@ -115,8 +119,8 @@ class PostController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Post'])) {
-            $model->attributes = $_POST['Post'];
+        if (isset($_POST['App_models_Post'])) {
+            $model->attributes = $_POST['App_models_Post'];
             $model->authorId = Yii::app()->user->id;
             $model->datePublication = DateHelper::invertDate($model->datePublication);
 
@@ -175,11 +179,8 @@ class PostController extends Controller
             $categoriesArray[$cat->id] = CHtml::encode($cat->title);
         }
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['Post'])) {
-            $model->attributes = $_POST['Post'];
+        if (isset($_POST['App_models_Post'])) {
+            $model->attributes = $_POST['App_models_Post'];
             $model->datePublication = DateHelper::invertDate($model->datePublication);
 
             if (!empty($_FILES)) {
@@ -245,8 +246,8 @@ class PostController extends Controller
     {
         $model = new Post('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Post'])) {
-            $model->attributes = $_GET['Post'];
+        if (isset($_GET['App_models_Post'])) {
+            $model->attributes = $_GET['App_models_Post'];
         }
 
         $this->render('admin', [

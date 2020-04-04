@@ -1,7 +1,11 @@
 <?php
 /* @var $this UserController */
 
-use DateHelper as DateHelperAlias;
+use App\helpers\DateHelper as DateHelperAlias;
+use App\helpers\NumbersHelper;
+use App\helpers\StringHelper;
+use App\models\Comment;
+use App\models\User;
 
 /* @var $model User */
 $this->pageTitle = 'Профиль пользователя ' . CHtml::encode($model->name) . '. ' . Yii::app()->name;

@@ -1,4 +1,7 @@
 <?php
+
+use App\models\User;
+
 /* @var $this ContactController */
 /* @var $dataProvider CActiveDataProvider */
 

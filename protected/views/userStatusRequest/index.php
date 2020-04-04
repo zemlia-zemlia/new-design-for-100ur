@@ -7,8 +7,8 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'Create UserStatusRequest', 'url' => ['create']],
-    ['label' => 'Manage UserStatusRequest', 'url' => ['admin']],
+    ['label' => 'Create App\models\UserStatusRequest', 'url' => ['create']],
+    ['label' => 'Manage App\models\UserStatusRequest', 'url' => ['admin']],
 ];
 ?>
 

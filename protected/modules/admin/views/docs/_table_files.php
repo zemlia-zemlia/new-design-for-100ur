@@ -12,7 +12,9 @@
         <th><i class="fa fa-download" aria-hidden="true"></i></th>
         <th>Ред.</th>
     </tr>
-    <?php foreach ($files as $file): ?>
+    <?php use App\helpers\DateHelper;
+
+    foreach ($files as $file): ?>
 
         <tr>
             <td>

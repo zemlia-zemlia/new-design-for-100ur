@@ -1,5 +1,8 @@
 <?php
-    $this->setPageTitle('Отбраковка лида ' . Yii::app()->name);
+
+use App\helpers\DateHelper;
+
+$this->setPageTitle('Отбраковка лида ' . Yii::app()->name);
 ?>
 
 <h1>Отбраковка лида</h1>

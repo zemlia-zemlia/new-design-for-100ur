@@ -1,5 +1,13 @@
 <?php
 
+namespace App\components;
+use App\components\apiClasses\Api8088;
+use App\components\apiClasses\ApiLeadia;
+use App\components\apiClasses\ApiLexProfit;
+use App\components\apiClasses\ApiPravoved;
+use App\components\apiClasses\ApiSovinform;
+use App\components\apiClasses\ApiTestHandler;
+
 /**
  * Фабрика для создания классов работы с API партнерских программ
  */

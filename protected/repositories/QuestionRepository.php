@@ -1,8 +1,16 @@
 <?php
 
+namespace App\repositories;
+
+use App\models\Answer;
+use CException;
+use App\models\Question;
+use App\models\User;
+use Yii;
+
 /**
  * Репозиторий для выборок вопросов из базы
- * Class QuestionRepository.
+ * Class App\repositories\QuestionRepository.
  */
 class QuestionRepository
 {
@@ -63,7 +71,7 @@ class QuestionRepository
     /**
      * Возвращает массив вопросов, заданных пользователем
      *
-     * @param User $user
+     * @param \App\models\User $user
      *
      * @return array
      * @throws CException
@@ -107,7 +115,7 @@ class QuestionRepository
      * @return int
      * @throws CException
      */
-    public function countNoCat():int
+    public function countNoCat(): int
     {
         $questionsCountRows = Yii::app()->db->cache($this->cacheTime)->createCommand()
             ->select('COUNT(*) counter')

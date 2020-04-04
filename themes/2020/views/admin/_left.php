@@ -1,3 +1,16 @@
+<?php
+
+use App\models\Answer;
+use App\models\Comment;
+use App\models\Lead;
+use App\models\Order;
+use App\models\PartnerTransaction;
+use App\models\Question;
+use App\models\TransactionCampaign;
+use App\models\User;
+use App\models\UserStatusRequest;
+
+?>
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">

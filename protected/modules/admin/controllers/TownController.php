@@ -1,12 +1,12 @@
 <?php
 
-class TownController extends Controller
+use App\models\Question;
+use App\models\Town;
+use App\models\User;
+use App\modules\admin\controllers\AbstractAdminController;
+
+class TownController extends AbstractAdminController
 {
-    /**
-     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     *             using two-column layout. See 'protected/views/layouts/column2.php'.
-     */
-    public $layout = '//admin/main';
 
     /**
      * @return array action filters
@@ -62,8 +62,8 @@ class TownController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Town'])) {
-            $model->attributes = $_POST['Town'];
+        if (isset($_POST['App\models\Town'])) {
+            $model->attributes = $_POST['App\models\Town'];
             if ($model->save()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
@@ -93,8 +93,8 @@ class TownController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['Town'])) {
-            $model->attributes = $_POST['Town'];
+        if (isset($_POST['App\models\Town'])) {
+            $model->attributes = $_POST['App\models\Town'];
 
             if (!empty($_FILES)) {
                 $file = CUploadedFile::getInstance($model, 'photoFile');
@@ -170,8 +170,8 @@ class TownController extends Controller
     {
         $model = Town::model()->findByPk($id);
         if ('' != $model->photo) {
-            //echo $_SERVER['DOCUMENT_ROOT'] . Town::TOWN_PHOTO_PATH . '/' . $model->photo;
-            //echo $_SERVER['DOCUMENT_ROOT'] . Town::TOWN_PHOTO_PATH . '/' . Town::TOWN_PHOTO_THUMB_FOLDER . '/' . $model->photo;
+            //echo $_SERVER['DOCUMENT_ROOT'] . App\models\Town::TOWN_PHOTO_PATH . '/' . $model->photo;
+            //echo $_SERVER['DOCUMENT_ROOT'] . App\models\Town::TOWN_PHOTO_PATH . '/' . App\models\Town::TOWN_PHOTO_THUMB_FOLDER . '/' . $model->photo;
             @unlink($_SERVER['DOCUMENT_ROOT'] . Town::TOWN_PHOTO_PATH . '/' . $model->photo);
             @unlink($_SERVER['DOCUMENT_ROOT'] . Town::TOWN_PHOTO_PATH . '/' . Town::TOWN_PHOTO_THUMB_FOLDER . '/' . $model->photo);
         }
@@ -191,8 +191,8 @@ class TownController extends Controller
     {
         $model = new Town('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Town'])) {
-            $model->attributes = $_GET['Town'];
+        if (isset($_GET['App\models\Town'])) {
+            $model->attributes = $_GET['App\models\Town'];
         }
 
         $this->render('admin', [

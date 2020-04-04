@@ -1,4 +1,7 @@
 <?php
+
+use App\models\User;
+
 CController::renderPartial('webroot.themes.2017.views.frontend.include._header');
 ?>
 <?

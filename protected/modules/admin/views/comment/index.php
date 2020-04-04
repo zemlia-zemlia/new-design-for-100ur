@@ -1,5 +1,9 @@
 <?php
 /* @var $this QuestionController */
+
+use App\models\Comment;
+use App\models\User;
+
 /* @var $dataProvider CActiveDataProvider */
 
 $this->setPageTitle('Отзывы.' . Yii::app()->name);

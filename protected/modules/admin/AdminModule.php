@@ -1,5 +1,7 @@
 <?php
 
+use App\models\User;
+
 class AdminModule extends CWebModule
 {
     public function init()

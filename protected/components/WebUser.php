@@ -1,5 +1,8 @@
 <?php
 
+use App\models\User;
+use App\models\YuristSettings;
+
 /**
  * Класс для работы с данными текущего залогиненного пользователя.
  */

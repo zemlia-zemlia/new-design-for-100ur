@@ -1,17 +1,26 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Exception;
+use UserBannedException;
+use Yii;
+
 /**
  * This is the model class for table "ulogin_user".
  *
  * The followings are the available columns in table 'user':
  *
- * @property int    $id
+ * @property int $id
  * @property string $identity
  * @property string $network
  * @property string $email
  * @property string $full_name
- * @property int    $state
- * @property int    $user_id
+ * @property int $state
+ * @property int $user_id
  */
 class UloginUser extends CActiveRecord
 {
@@ -63,10 +72,10 @@ class UloginUser extends CActiveRecord
     /**
      * @return array relational rules
      */
-    public function relations()
+    public function relations(): array
     {
         return [
-            'user' => [self::BELONGS_TO, 'User', 'user_id'],
+            'user' => [self::BELONGS_TO, User::class, 'user_id'],
         ];
     }
 
@@ -110,10 +119,10 @@ class UloginUser extends CActiveRecord
     }
 
     /**
-     * Создает новый объект UloginUser.
+     * Создает новый объект App\models\UloginUser.
      *
      * @param UloginModel $uloginModel
-     * @param User|null   $user        Пользователь 100 Юристов, если не указан, создадим нового
+     * @param User|null $user Пользователь 100 Юристов, если не указан, создадим нового
      *
      * @return UloginUser
      *

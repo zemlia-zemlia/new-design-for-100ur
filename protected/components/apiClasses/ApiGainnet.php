@@ -1,5 +1,7 @@
 <?php
 
+use App\extensions\Logger\LoggerFactory;
+use App\models\Lead;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Psr\Http\Message\ResponseInterface;
@@ -43,6 +45,8 @@ class ApiGainnet implements ApiClassInterface
                 'form_params' => $data,
             ]);
         } catch (ClientException $e) {
+            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' НЕ отправлен в партнерку Gainnet, возникло исключение:' . $e->getMessage(), 'Lead', $lead->id);
+
             return false;
         }
 
@@ -59,7 +63,7 @@ class ApiGainnet implements ApiClassInterface
     private function checkResponse(ResponseInterface $apiResponse, Lead $lead): bool
     {
         if (200 == $apiResponse->getStatusCode()) {
-            $responseBody = $apiResponse->getBody();
+            $responseBody = (string)$apiResponse->getBody();
             $responseBodyDecoded = json_decode($responseBody, true);
 
             if ($responseBodyDecoded['status'] == true && $responseBodyDecoded['message'] == "Success") {
@@ -68,7 +72,7 @@ class ApiGainnet implements ApiClassInterface
                 return true;
             }
 
-            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' НЕ отправлен в партнерку Gainnet, ответ:' . CHtml::encode($apiResponse->getBody()), 'Lead', $lead->id);
+            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' НЕ отправлен в партнерку Gainnet, ответ:' . CHtml::encode($responseBody), 'Lead', $lead->id);
         }
 
         return false;

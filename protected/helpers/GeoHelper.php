@@ -1,10 +1,18 @@
 <?php
 
+namespace App\helpers;
+
+use PhoneHelper;
+use CHtml;
+use App\helpers\IpHelper;
+use App\models\Town;
+use Yii;
+
 class GeoHelper
 {
     /**
      * @param string|null $ip
-     * @param string      $selector
+     * @param string $selector
      *
      * @return string|null
      */

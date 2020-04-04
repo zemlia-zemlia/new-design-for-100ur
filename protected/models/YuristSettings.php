@@ -1,40 +1,43 @@
 <?php
 
+namespace App\models;
+
+use CActiveDataProvider;
+use CActiveRecord;
+use CDbCriteria;
+use Yii;
+
 /**
  * Модель для работы с дополнительными настройками юриста.
  *
  * Поля в таблице '{{yuristSettings}}':
  *
- * @property int    $yuristId
+ * @property int $yuristId
  * @property string $alias
- * @property int    $startYear
+ * @property int $startYear
  * @property string $description
  * @property string $hello
- * @property int    $status
- * @property int    $isVerified
- * @property int    $vuz
- * @property int    $facultet
- * @property int    $education
- * @property int    $vuzTownId
- * @property int    $educationYear
- * @property int    $advOrganisation
- * @property int    $advNumber
- * @property int    $position
- * @property int    $site
- * @property int    $priceConsult
- * @property int    $priceDoc
+ * @property int $status
+ * @property int $isVerified
+ * @property int $vuz
+ * @property int $facultet
+ * @property int $education
+ * @property int $vuzTownId
+ * @property int $educationYear
+ * @property int $advOrganisation
+ * @property int $advNumber
+ * @property int $position
+ * @property int $site
+ * @property int $priceConsult
+ * @property int $priceDoc
  * @property string $phoneVisible
  * @property string $emailVisible
  * @property string $inn
  * @property string $companyName
  * @property string $address
- * @property int    $subscribeQuestions
- * @property int    $rang
+ * @property int $subscribeQuestions
+ * @property int $rang
  */
-
-
-
-
 class YuristSettings extends CActiveRecord
 {
     // статусы пользователя
@@ -74,32 +77,30 @@ class YuristSettings extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return [
-                ['yuristId', 'required'],
-                ['inn, companyName, address', 'safe'],
-                ['yuristId, startYear, isVerified, status, vuzTownId, educationYear, priceConsult, priceDoc, subscribeQuestions, rang', 'numerical', 'integerOnly' => true],
-                ['alias', 'length', 'max' => 255],
-                ['alias', 'match', 'pattern' => '/^([а-яa-zА-ЯA-Z0-9ёЁ\-. ])+$/u', 'message' => 'В псевдониме могут присутствовать буквы, цифры, точка, дефис и пробел'],
-                ['site', 'match', 'pattern' => '/^(https?:\/\/)?([\dа-яёЁa-z\.-]+)\.([а-яёЁa-z\.]{2,6})([\/\w \.-]*)*\/?$/u', 'message' => 'В адресе сайта присутствуют недопустимые символы'],
-                ['description, hello, vuz, facultet, education, advOrganisation, advNumber, position', 'safe'],
-                ['emailVisible', 'email', 'message' => 'В Email допускаются латинские символы, цифры, точка и дефис'],
-                ['phoneVisible', 'match', 'pattern' => '/^([0-9\- \(\)\+])+$/u', 'message' => 'В номере телефона разрешены цифры, скобки, пробелы и дефисы'],
+            ['yuristId', 'required'],
+            ['inn, companyName, address', 'safe'],
+            ['yuristId, startYear, isVerified, status, vuzTownId, educationYear, priceConsult, priceDoc, subscribeQuestions, rang', 'numerical', 'integerOnly' => true],
+            ['alias', 'length', 'max' => 255],
+            ['alias', 'match', 'pattern' => '/^([а-яa-zА-ЯA-Z0-9ёЁ\-. ])+$/u', 'message' => 'В псевдониме могут присутствовать буквы, цифры, точка, дефис и пробел'],
+            ['site', 'match', 'pattern' => '/^(https?:\/\/)?([\dа-яёЁa-z\.-]+)\.([а-яёЁa-z\.]{2,6})([\/\w \.-]*)*\/?$/u', 'message' => 'В адресе сайта присутствуют недопустимые символы'],
+            ['description, hello, vuz, facultet, education, advOrganisation, advNumber, position', 'safe'],
+            ['emailVisible', 'email', 'message' => 'В Email допускаются латинские символы, цифры, точка и дефис'],
+            ['phoneVisible', 'match', 'pattern' => '/^([0-9\- \(\)\+])+$/u', 'message' => 'В номере телефона разрешены цифры, скобки, пробелы и дефисы'],
 
-                // The following rule is used by search().
-                // @todo Please remove those attributes that should not be searched.
-                ['yuristId, alias, startYear, description', 'safe', 'on' => 'search'],
+            // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
+            ['yuristId, alias, startYear, description', 'safe', 'on' => 'search'],
         ];
     }
 
     /**
      * @return array relational rules
      */
-    public function relations()
+    public function relations(): array
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [
-            'user' => [self::BELONGS_TO, 'User', 'yuristId'],
-            'vuzTown' => [self::BELONGS_TO, 'Town', 'vuzTownId'],
+            'user' => [self::BELONGS_TO, User::class, 'yuristId'],
+            'vuzTown' => [self::BELONGS_TO, Town::class, 'vuzTownId'],
         ];
     }
 
@@ -232,7 +233,7 @@ class YuristSettings extends CActiveRecord
         $criteria->compare('town', $this->town);
 
         return new CActiveDataProvider($this, [
-                'criteria' => $criteria,
+            'criteria' => $criteria,
         ]);
     }
 

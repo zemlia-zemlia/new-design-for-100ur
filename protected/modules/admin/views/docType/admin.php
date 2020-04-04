@@ -1,5 +1,8 @@
 <?php
 /* @var $this DocTypeController */
+
+use App\models\DocType;
+
 /* @var $model DocType */
 
 $this->breadcrumbs = [
@@ -8,8 +11,8 @@ $this->breadcrumbs = [
 ];
 
 $this->menu = [
-    ['label' => 'List DocType', 'url' => ['index']],
-    ['label' => 'Create DocType', 'url' => ['create']],
+    ['label' => 'List App\models\DocType', 'url' => ['index']],
+    ['label' => 'Create App\models\DocType', 'url' => ['create']],
 ];
 
 Yii::app()->clientScript->registerScript('search', "
