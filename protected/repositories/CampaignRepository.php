@@ -79,14 +79,16 @@ class CampaignRepository
     /**
      * Получение цен покупки регионов и их столиц, учитываем только те регионы, которые продавались в последние дни
      * @param int $activityIntervalDays
-     * @return array Массив регионов с ключами [regionId, regionName, regionBuyPrice, capitalId, capitalName, capitalBuyPrice]
+     * @return array Массив регионов с ключами [regionId, regionName, regionBuyPrice,
+     * capitalId, capitalName, capitalBuyPrice, minRegionSellPrice, maxRegionSellPrice]
      * @throws CException
      */
     public function getBuyPricesForRegionsAndCapitalsCurrentlyActive($activityIntervalDays = 3): array
     {
         /*       Запрос:
         SELECT c.id, r.id regionId, r.name regionName,
-        r.buyPrice regionBuyPrice, t.name capitalName, t.buyPrice capitalBuyPrice
+        r.buyPrice regionBuyPrice, t.name capitalName, t.buyPrice capitalBuyPrice,
+        MIN(c.price) minRegionSellPrice, MAX(c.price) maxRegionSellPrice
         FROM 100_campaign c
         LEFT JOIN 100_lead l ON l.campaignId = c.id AND l.leadStatus != 4
         LEFT JOIN 100_region r ON r.id = c.regionId
@@ -97,7 +99,8 @@ class CampaignRepository
 
         $command = Yii::app()->db->createCommand()
             ->select('c.id, r.id regionId, r.name regionName, t.id capitalId,
-             r.buyPrice regionBuyPrice, t.name capitalName, t.buyPrice capitalBuyPrice')
+             r.buyPrice regionBuyPrice, t.name capitalName, t.buyPrice capitalBuyPrice, 
+             MIN(c.price) minRegionSellPrice, MAX(c.price) maxRegionSellPrice')
             ->from('{{campaign}} c')
             ->leftJoin('{{lead}} l', 'l.campaignId = c.id AND l.leadStatus != ' . Lead::LEAD_STATUS_BRAK)
             ->leftJoin('{{region}} r', 'r.id = c.regionId')

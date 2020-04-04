@@ -10,8 +10,17 @@
         <th class="text-left" colspan="2">
             Цена покупки
         </th>
+        <th class="text-left" colspan="2">
+            Цена продажи
+        </th>
     </tr>
     <tr>
+        <th class="text-left">
+            региона
+        </th>
+        <th class="text-left">
+            столицы
+        </th>
         <th class="text-left">
             региона
         </th>
@@ -46,6 +55,18 @@
                     ]);
                     ?>
                 </div>
+            </td>
+            <td>
+                <?php
+                    if ($regionData['minRegionSellPrice'] == $regionData['maxRegionSellPrice']) {
+                        echo MoneyFormat::rubles($regionData['minRegionSellPrice']);
+                    } else {
+                        echo MoneyFormat::rubles($regionData['minRegionSellPrice']) . ' - ' . MoneyFormat::rubles($regionData['maxRegionSellPrice']);
+                    }
+                ?>
+            </td>
+            <td>
+
             </td>
         </tr>
     <?php endforeach; ?>
