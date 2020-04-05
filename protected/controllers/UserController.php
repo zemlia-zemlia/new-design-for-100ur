@@ -17,11 +17,18 @@ use App\models\UserFile;
 use App\models\YaPayConfirmRequest;
 use App\models\YuristSettings;
 use App\repositories\QuestionRepository;
+use App\repositories\UserRepository;
 
 class UserController extends Controller
 {
     public $layout = '//frontend/question';
     public $defaultAction = 'profile';
+
+    /** @var QuestionRepository */
+    protected $questionRepository;
+
+    /** @var UserRepository */
+    protected $userRepository;
 
     /**
      * @return array action filters
@@ -77,18 +84,25 @@ class UserController extends Controller
         ];
     }
 
+    public function init()
+    {
+        parent::init();
+
+        $this->questionRepository = new QuestionRepository();
+        $this->userRepository = new UserRepository();
+    }
+
     public function actionProfile()
     {
         $this->layout = '//frontend/lp';
 
         $user = $this->loadModel(Yii::app()->user->id);
-        $questionRepository = new QuestionRepository();
-        $questionRepository->setCacheTime(600)->setLimit(10);
+        $this->questionRepository->setCacheTime(600)->setLimit(10);
 
         $ordersCriteria = new CDbCriteria(); // мои заказы документов
 
         if (User::ROLE_CLIENT == Yii::app()->user->role) {
-            $questions = $questionRepository->findRecentQuestionsByClient($user);
+            $questions = $this->questionRepository->findRecentQuestionsByClient($user);
             $ordersCriteria->addColumnCondition(['t.userId' => Yii::app()->user->id]);
             $ordersCriteria->order = 't.id DESC';
 
@@ -96,7 +110,7 @@ class UserController extends Controller
                 'criteria' => $ordersCriteria,
             ]);
         } else {
-            $questions = $questionRepository->findRecentQuestionsByJuristAnswers($user);
+            $questions = $this->questionRepository->findRecentQuestionsByJuristAnswers($user);
             $ordersDataProvider = null;
         }
 
@@ -128,7 +142,7 @@ class UserController extends Controller
         $yuristSettings = new YuristSettings();
         $model->setScenario('register');
 
-        $model->role = (isset($_GET['role'])) ? (int) $_GET['role'] : 0;
+        $model->role = (isset($_GET['role'])) ? (int)$_GET['role'] : 0;
 
         // при регистрации юриста действуют отдельные правила проверки полей
         if (User::ROLE_JURIST == $model->role) {
@@ -319,7 +333,10 @@ class UserController extends Controller
 
     public function actionChangePassword($id)
     {
+        $isNewUser = (bool)Yii::app()->request->getParam('newUser');
+        $userPostData = Yii::app()->request->getParam('App_models_User');
         $this->layout = '//frontend/question';
+
         // если пользователь не админ, он может менять пароль только у себя
         if (Yii::app()->user->id !== $id && !Yii::app()->user->checkAccess(User::ROLE_ROOT)) {
             throw new CHttpException(403, 'У вас нет прав менять пароль другого пользователя');
@@ -330,8 +347,8 @@ class UserController extends Controller
         $model->setScenario('changePassword');
 
         // если была заполнена форма
-        if ($_POST['App_models_User']) {
-            $model->attributes = $_POST['App_models_User'];
+        if ($userPostData) {
+            $model->attributes = $userPostData;
             if ($model->validate()) {
                 // если данные пользователя прошли проверку (пароль не слишком короткий)
                 // шифруем пароль перед сохранением в базу
@@ -342,8 +359,10 @@ class UserController extends Controller
                 }
             }
         }
+
         $this->render('changePassword', [
             'model' => $model,
+            'isNewUser' => $isNewUser,
         ]);
     }
 
@@ -360,6 +379,7 @@ class UserController extends Controller
 
     /**
      * Подтверждение Email пользователя.
+     * Пользователь переходит по ссылке из письма, проверяем его код из ссылки, активируем
      *
      * @throws CHttpException
      */
@@ -367,43 +387,31 @@ class UserController extends Controller
     {
         $this->layout = '//frontend/question';
 
-        $email = CHtml::encode($_GET['email']);
-        $code = CHtml::encode($_GET['code']);
+        $email = CHtml::encode(Yii::app()->request->getParam('email'));
+        $code = CHtml::encode(Yii::app()->request->getParam('code'));
 
-        $criteria = new CDbCriteria();
-        $criteria->addColumnCondition(['email' => $email]);
-        $criteria->addColumnCondition(['confirm_code' => $code]);
-        $criteria->limit = 1;
+        // находим пользователя с данным мейлом и кодом подтверждения
+        $user = $this->userRepository->getUserByEmailAndConfirmationCode($email, $code);
 
-        //находим пользователя с данным мейлом и кодом подтверждения
-        $user = User::model()->find($criteria);
-
-        if (!empty($user)) {
+        if ($user instanceof User) {
             $user->setScenario('confirm');
-            if (0 == $user->active100) {
-                $user->activate();
-                $user->registerDate = date('Y-m-d');
-                // при активации пользователя заменяем у него confirm_code, чтобы он смог сменить пароль, перейдя по ссылке в письме
-                $user->confirm_code = $user->generateAutologinString();
-                // задаем пользователю некий произвольный пароль, который на следующем шаге попросим сменить. Пароль в открытом виде не отсылаем пользователю
-                $newPassword = $user->generatePassword(10);
-                $user->password = $user->password2 = User::hashPassword($newPassword);
-                // публикуем вопросы и заказы пользователя
-                $publishedQuestionsNumber = $user->publishNewQuestions();
-                $user->confirmOrders();
-            }
+
+            $user->activate();
+            $user->registerDate = date('Y-m-d');
+            // при активации пользователя заменяем у него confirm_code, чтобы он смог сменить пароль, перейдя по ссылке в письме
+            $user->confirm_code = $user->generateAutologinString();
+            // задаем пользователю некий произвольный пароль, который на следующем шаге попросим сменить. Пароль в открытом виде не отсылаем пользователю
+            $newPassword = $user->generatePassword(10);
+            $user->password = $user->password2 = User::hashPassword($newPassword);
+            // публикуем вопросы и заказы пользователя
+            $publishedQuestionsNumber = $user->publishNewQuestions();
+            $user->confirmOrders();
 
             if ($user->save()) {
-                if (in_array($user->role, [User::ROLE_BUYER, User::ROLE_JURIST])) {
-                    // покупателя и юриста перекинем на страницу установки пароля
-                    $changePasswordLink = $user->getChangePasswordLink();
 
-                    return $this->redirect($changePasswordLink);
-                } else {
-                    // после активации и сохранения пользователя, отправим ему на почту ссылку на смену временного пароля
-                    if ($newPassword) {
-                        $user->sendChangePasswordLink();
-                    }
+                // после активации и сохранения пользователя, отправим ему на почту ссылку на смену временного пароля
+                if ($newPassword) {
+                    $user->sendChangePasswordLink();
                 }
 
                 // логиним пользователя
@@ -412,14 +420,8 @@ class UserController extends Controller
                 $loginModel->password = $newPassword;
 
                 if ($loginModel->login()) {
-                    // если залогинили, находим последний вопрос и перенаправляем на страницу вопроса
 
-                    $questionCriteria = new CDbCriteria();
-                    $questionCriteria->addCondition('authorId=' . $user->id);
-                    $questionCriteria->order = 'id DESC';
-                    $questionCriteria->limit = 1;
-
-                    $question = Question::model()->find($questionCriteria);
+                    $question = $this->questionRepository->getLastQuestionOfUser($user);
 
                     if ($question) {
                         if ($publishedQuestionsNumber) {
@@ -431,7 +433,7 @@ class UserController extends Controller
 
                     // если активированный пользователь - юрист, направляем его в форму редактирования профиля
                     if (User::ROLE_JURIST == Yii::app()->user->role) {
-                        $this->redirect(['user/update', 'id' => Yii::app()->user->id, 'newUser' => 1]);
+                        $this->redirect(['user/changePassword', 'id' => Yii::app()->user->id, 'newUser' => 1]);
                     } elseif (User::ROLE_BUYER == Yii::app()->user->role) {
                         $this->redirect(['/buyer']);
                     } elseif (User::ROLE_PARTNER == Yii::app()->user->role) {
@@ -445,9 +447,6 @@ class UserController extends Controller
                 } else {
                     throw new CHttpException(400, 'Не удалось автоматически залогиниться на сайте');
                 }
-                /*
-                 *
-                 */
             } else {
                 if (!empty($user->errors)) {
                     Yii::log(print_r($user->getErrors(), true), 'error', 'system.web');
@@ -457,10 +456,10 @@ class UserController extends Controller
                 $this->render('activationFailed', ['message' => 'Ошибка - не удалось активировать аккаунт из-за ошибки в программе.<br />
                       Обратитесь, пожалуйста, к администратору сайта через E-mail info@100yuristov.com']);
             }
-        } else {
-            $this->layout = '//frontend/smart';
-            $this->render('activationFailed', ['message' => 'Пользователь с данным мейлом не найден или уже активирован']);
         }
+
+        $this->layout = '//frontend/smart';
+        $this->render('activationFailed', ['message' => 'Пользователь с данным мейлом не найден или уже активирован']);
     }
 
     /**
@@ -629,7 +628,7 @@ class UserController extends Controller
         $model->isSubscribed = 0;
         if (!$model->save()) {
             StringHelper::printr($model->errors);
-        //throw new CHttpException(400, 'Не удалось отписаться от рассылки. Возможно, ваш профиль не заполнен. Войдите и проверьте заполненность профиля.');
+            //throw new CHttpException(400, 'Не удалось отписаться от рассылки. Возможно, ваш профиль не заполнен. Войдите и проверьте заполненность профиля.');
         } else {
             $this->render('unsubscribeSuccess');
         }
@@ -643,7 +642,7 @@ class UserController extends Controller
             throw new CHttpException(400, 'Only POST requests allowed');
         }
 
-        $answerId = isset($_POST['answerId']) ? (int) $_POST['answerId'] : false;
+        $answerId = isset($_POST['answerId']) ? (int)$_POST['answerId'] : false;
 
         // если не передан id ответа
         if (!$answerId) {
@@ -706,7 +705,7 @@ class UserController extends Controller
             throw new CHttpException(403, 'Доступ к этой странице для Вас закрыт');
         }
 
-        $userId = (isset($_GET['userId'])) ? (int) $_GET['userId'] : 0;
+        $userId = (isset($_GET['userId'])) ? (int)$_GET['userId'] : 0;
 
         if (!$userId && (User::ROLE_OPERATOR == Yii::app()->user->role || User::ROLE_JURIST == Yii::app()->user->role || User::ROLE_CALL_MANAGER == Yii::app()->user->role)) {
             // без указания id пользователя к странице могут обратиться только роли, отвечающие на вопросы
@@ -803,7 +802,7 @@ class UserController extends Controller
         if ($yurist->id === Yii::app()->user->id) {
             throw new CHttpException(400, 'Вы не можете оставлять отзывы на себя');
         }
-        $questionId = (int) Yii::app()->request->getParam('questionId');
+        $questionId = (int)Yii::app()->request->getParam('questionId');
 
         $commentModel = new Comment();
         $commentModel->setScenario('user');

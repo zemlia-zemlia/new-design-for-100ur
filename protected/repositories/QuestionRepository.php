@@ -3,6 +3,7 @@
 namespace App\repositories;
 
 use App\models\Answer;
+use CDbCriteria;
 use CException;
 use App\models\Question;
 use App\models\User;
@@ -125,5 +126,20 @@ class QuestionRepository
             ->queryRow();
 
         return $questionsCountRows['counter'];
+    }
+
+    /**
+     * Возвращает последний вопрос пользователя
+     * @param User $user
+     * @return Question|null
+     */
+    public function getLastQuestionOfUser(User $user): ?Question
+    {
+        $questionCriteria = new CDbCriteria();
+        $questionCriteria->addCondition('authorId=' . $user->id);
+        $questionCriteria->order = 'id DESC';
+        $questionCriteria->limit = 1;
+
+        return Question::model()->find($questionCriteria);
     }
 }
