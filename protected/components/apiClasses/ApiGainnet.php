@@ -4,6 +4,7 @@ namespace App\components\apiClasses;
 use ApiClassInterface;
 use App\extensions\Logger\LoggerFactory;
 use App\models\Lead;
+use CHtml;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Psr\Http\Message\ResponseInterface;
