@@ -1,8 +1,12 @@
+<?php
+/** @var User $data */
+?>
+
 <div class="row row-yurist">
 
 
     <?php
-    $yuristName = ($data->settings && '' != $data->settings->alias) ? $data->settings->alias : $data->lastName . ' ' . $data->name . ' ' . $data->name2;
+    $yuristName = ($data->settings && '' != $data->settings->alias) ? $data->settings->alias : $data->getNameOrCompany();
     ?>
     <div class="yurist-list-item">
         <div class="row">

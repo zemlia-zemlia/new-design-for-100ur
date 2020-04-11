@@ -26,7 +26,7 @@ use App\models\User;
                             <div class="answer-item-avatar vert-margin10">
                                 <a href="<?php echo Yii::app()->createUrl('user/view', ['id' => $data->author->id]); ?>">
                                     <img src="<?php echo $data->author->getAvatarUrl(); ?>"
-                                         alt="<?php echo CHtml::encode($data->author->name . ' ' . $data->author->lastName); ?>"
+                                         alt="<?php echo CHtml::encode($data->author->getNameOrCompany()); ?>"
                                          class="img-responsive"/>
                                 </a>
                             </div>

@@ -55,8 +55,9 @@ class TransactionController extends Controller
 
         $criteria = new CDbCriteria();
 
+        $newTransaction = new TransactionCampaign();
+
         if (User::ROLE_JURIST == Yii::app()->user->role) {
-            $newTransaction = new TransactionCampaign();
             $newTransaction->description = (!Yii::app()->user->isGuest) ? Yii::app()->user->phone : '';
             $criteria->addColumnCondition(['buyerId' => Yii::app()->user->id, 'status' => TransactionCampaign::STATUS_COMPLETE]);
             $transactionModelClass = TransactionCampaign::class;
