@@ -16,7 +16,8 @@ foreach (Yii::app()->user->getFlashes() as $key => $message) {
 </div>
 
 <div class="vert-margin30 text-center">
-    <p class="lead">Ваш баланс: <strong><?php echo MoneyFormat::rubles(Yii::app()->user->getBalance(true), 2); ?> руб.</strong>
+    <p class="lead">Ваш баланс: <strong><?php echo MoneyFormat::rubles(Yii::app()->user->getBalance(true), 2); ?>
+            руб.</strong>
     </p>
 </div>
 
@@ -24,14 +25,15 @@ foreach (Yii::app()->user->getFlashes() as $key => $message) {
     <div class="col-lg-6">
         <?php echo $this->renderPartial('_yandexForm'); ?>
     </div>
-    <div class="col-lg-6">
-        <?php
-        echo $this->renderPartial('_form_jurist', [
-            'model' => $transaction,
-        ]);
-        ?>
-    </div>
-
+    <?php if (User::ROLE_JURIST == Yii::app()->user->role): ?>
+        <div class="col-lg-6">
+            <?php
+            echo $this->renderPartial('_form_jurist', [
+                'model' => $transaction,
+            ]);
+            ?>
+        </div>
+    <?php endif; ?>
 
 </div>
 

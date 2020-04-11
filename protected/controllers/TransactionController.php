@@ -47,25 +47,28 @@ class TransactionController extends Controller
      */
     public function actionIndex()
     {
-        $transaction = new PartnerTransaction();
-        $transaction->setScenario('pull');
-        $transaction->comment = (!Yii::app()->user->isGuest) ? Yii::app()->user->phone : '';
-
         $criteria = new CDbCriteria();
+
         if (User::ROLE_JURIST == Yii::app()->user->role) {
-            $transaction = new TransactionCampaign();
-            $transaction->description = (!Yii::app()->user->isGuest) ? Yii::app()->user->phone : '';
+            $newTransaction = new TransactionCampaign();
+            $newTransaction->description = (!Yii::app()->user->isGuest) ? Yii::app()->user->phone : '';
             $criteria->addColumnCondition(['buyerId' => Yii::app()->user->id, 'status' => TransactionCampaign::STATUS_COMPLETE]);
             $transactionModelClass = TransactionCampaign::class;
-            $transaction->sum = $transaction->sum / 100;
+            $newTransaction->sum = $newTransaction->sum / 100;
         } else {
             if (User::ROLE_PARTNER == Yii::app()->user->role) {
+                $newTransaction = new PartnerTransaction();
                 $criteria->addColumnCondition(['partnerId' => Yii::app()->user->id, 'status' => PartnerTransaction::STATUS_COMPLETE]);
                 $transactionModelClass = PartnerTransaction::class;
             } else {
                 $criteria->addColumnCondition(['buyerId' => Yii::app()->user->id, 'status' => TransactionCampaign::STATUS_COMPLETE]);
                 $transactionModelClass = TransactionCampaign::class;
             }
+        }
+
+        if (isset($newTransaction)) {
+            $newTransaction->setScenario('pull');
+            $newTransaction->comment = (!Yii::app()->user->isGuest) ? Yii::app()->user->phone : '';
         }
 
         $criteria->order = 'id DESC';
@@ -77,18 +80,22 @@ class TransactionController extends Controller
             ],
         ]);
 
-        $requestsCriteria = new CDbCriteria();
-        $requestsCriteria->addColumnCondition(['partnerId' => Yii::app()->user->id, 'sum<' => 0]);
-        $requestsCriteria->order = 'id DESC';
-
-        $requestsDataProvider = new CActiveDataProvider(PartnerTransaction::class, [
-            'criteria' => $requestsCriteria,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-        ]);
-
         $currentUser = User::model()->findByPk(Yii::app()->user->id);
+
+        $requestsDataProvider = null;
+
+        if (User::ROLE_PARTNER == $currentUser->role) {
+            $requestsCriteria = new CDbCriteria();
+            $requestsCriteria->addColumnCondition(['partnerId' => Yii::app()->user->id, 'sum<' => 0]);
+            $requestsCriteria->order = 'id DESC';
+
+            $requestsDataProvider = new CActiveDataProvider(PartnerTransaction::class, [
+                'criteria' => $requestsCriteria,
+                'pagination' => [
+                    'pageSize' => 10,
+                ],
+            ]);
+        }
 
         if (User::ROLE_JURIST == $currentUser->role) {
             $requestsCriteria = new CDbCriteria();
@@ -113,18 +120,19 @@ class TransactionController extends Controller
         $hold = $currentUser->calculateWebmasterHold();
 
         if (isset($_POST['App_models_PartnerTransaction'])) {
-            $transaction->attributes = $_POST['App_models_PartnerTransaction'];
-            $transaction->partnerId = Yii::app()->user->id;
-            $transaction->status = PartnerTransaction::STATUS_PENDING;
+            $newTransaction = new PartnerTransaction();
+            $newTransaction->attributes = $_POST['App_models_PartnerTransaction'];
+            $newTransaction->partnerId = Yii::app()->user->id;
+            $newTransaction->status = PartnerTransaction::STATUS_PENDING;
 
-            $transaction->validate();
+            $newTransaction->validate();
 
-            if (abs($transaction->sum) > ($balance)) {
-                $transaction->addError('sum', 'Недостаточно средств');
+            if (abs($newTransaction->sum) > ($balance)) {
+                $newTransaction->addError('sum', 'Недостаточно средств');
             }
 
-            if (abs($transaction->sum) < PartnerTransaction::MIN_WITHDRAW_REFERAL) {
-                $transaction->addError('sum', 'Минимальная сумма для вывода - ' . PartnerTransaction::MIN_WITHDRAW_REFERAL . ' руб.');
+            if (abs($newTransaction->sum) < PartnerTransaction::MIN_WITHDRAW_REFERAL) {
+                $newTransaction->addError('sum', 'Минимальная сумма для вывода - ' . PartnerTransaction::MIN_WITHDRAW_REFERAL . ' руб.');
             }
 
             // Проверяем, нет ли у текущего пользователя заявок на рассмотрении
@@ -138,33 +146,33 @@ class TransactionController extends Controller
                     ->limit(1)
                     ->queryAll();
             if (sizeof($pendingTransactions)) {
-                $transaction->addError('comment', 'Невозможно создать заявку на вывод средств, т.к. у Вас уже есть активная заявка. Пожалуйста, дождитесь ее рассмотрения');
+                $newTransaction->addError('comment', 'Невозможно создать заявку на вывод средств, т.к. у Вас уже есть активная заявка. Пожалуйста, дождитесь ее рассмотрения');
             }
 
-            if (!$transaction->hasErrors()) {
-                $transaction->sum = 0 - abs($transaction->sum);
-                if ($transaction->save()) {
+            if (!$newTransaction->hasErrors()) {
+                $newTransaction->sum = 0 - abs($newTransaction->sum);
+                if ($newTransaction->save()) {
                     Yii::app()->user->setFlash('success', 'Заявка создана и отправлена на рассмотрение модератору');
                     $this->redirect(['/transaction/index']);
                 }
             }
         }
         if (isset($_POST['App_models_TransactionCampaign'])) {
-            $transaction->attributes = $_POST['App_models_TransactionCampaign'];
-            $transaction->buyerId = Yii::app()->user->id;
-            $transaction->sum = $transaction->sum * 100;
-            $transaction->status = TransactionCampaign::STATUS_PENDING;
-            $transaction->description = $transaction->description;
-            $transaction->type = TransactionCampaign::TYPE_JURIST_MONEYOUT;
+            $newTransaction = new TransactionCampaign();
+            $newTransaction->attributes = $_POST['App_models_TransactionCampaign'];
+            $newTransaction->buyerId = Yii::app()->user->id;
+            $newTransaction->sum = $newTransaction->sum * 100;
+            $newTransaction->status = TransactionCampaign::STATUS_PENDING;
+            $newTransaction->type = TransactionCampaign::TYPE_JURIST_MONEYOUT;
 
-            $transaction->validate();
+            $newTransaction->validate();
 
-            if (abs($transaction->sum) > (Yii::app()->user->balance)) {
-                $transaction->addError('sum', 'Недостаточно средств');
+            if (abs($newTransaction->sum) > (Yii::app()->user->balance)) {
+                $newTransaction->addError('sum', 'Недостаточно средств');
             }
 
-            if (abs($transaction->sum) < TransactionCampaign::MIN_WITHDRAW) {
-                $transaction->addError('sum', 'Минимальная сумма для вывода - ' . TransactionCampaign::MIN_WITHDRAW / 100 . ' руб.');
+            if (abs($newTransaction->sum) < TransactionCampaign::MIN_WITHDRAW) {
+                $newTransaction->addError('sum', 'Минимальная сумма для вывода - ' . TransactionCampaign::MIN_WITHDRAW / 100 . ' руб.');
             }
 
             // Проверяем, нет ли у текущего пользователя заявок на рассмотрении
@@ -178,14 +186,14 @@ class TransactionController extends Controller
                 ->limit(1)
                 ->queryAll();
             if (sizeof($pendingTransactions)) {
-                $transaction->addError('description', 'Невозможно создать заявку на вывод средств, т.к. у Вас уже есть активная заявка. Пожалуйста, дождитесь ее рассмотрения');
+                $newTransaction->addError('description', 'Невозможно создать заявку на вывод средств, т.к. у Вас уже есть активная заявка. Пожалуйста, дождитесь ее рассмотрения');
             }
 
-            if (!$transaction->hasErrors()) {
-                $transaction->sum = 0 - abs($transaction->sum);
-                if ($transaction->save()) {
-                    $transaction->description = 'вывод средств с баланса на ' . $transaction->description;
-                    $transaction->save();
+            if (!$newTransaction->hasErrors()) {
+                $newTransaction->sum = 0 - abs($newTransaction->sum);
+                if ($newTransaction->save()) {
+                    $newTransaction->description = 'вывод средств с баланса на ' . $newTransaction->description;
+                    $newTransaction->save();
                     Yii::app()->user->setFlash('success', 'Заявка создана и отправлена на рассмотрение модератору');
                     LoggerFactory::getLogger('db')->log('Пользователь #' . Yii::app()->user->id . ' (' . Yii::app()->user->getShortName() . ') запросил вывод средств', 'User', Yii::app()->user->id);
                     $this->redirect(['/transaction/index']);
@@ -203,7 +211,7 @@ class TransactionController extends Controller
             'dataProvider' => $dataProvider,
             'balance' => $balance,
             'hold' => $hold,
-            'transaction' => $transaction,
+            'transaction' => $newTransaction,
             'justCreated' => $justCreated,
             'requestsDataProvider' => $requestsDataProvider,
         ]);
