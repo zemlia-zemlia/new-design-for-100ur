@@ -1,10 +1,13 @@
 <?php
+namespace App\components\apiClasses;
 
+use ApiClassInterface;
 use App\extensions\Logger\LoggerFactory;
 use App\models\Lead;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Psr\Http\Message\ResponseInterface;
+use Yii;
 
 class ApiGainnet implements ApiClassInterface
 {
@@ -28,7 +31,7 @@ class ApiGainnet implements ApiClassInterface
      * Отправка лида в партнерское API
      * @param Lead $lead
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     public function send(Lead $lead)
     {
@@ -58,7 +61,7 @@ class ApiGainnet implements ApiClassInterface
      * @param ResponseInterface $apiResponse
      * @param Lead $lead
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     private function checkResponse(ResponseInterface $apiResponse, Lead $lead): bool
     {
