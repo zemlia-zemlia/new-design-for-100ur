@@ -67,7 +67,7 @@ class ApiGainnet implements ApiClassInterface
     private function checkResponse(ResponseInterface $apiResponse, Lead $lead): bool
     {
         if (200 == $apiResponse->getStatusCode()) {
-            $responseBody = (string)$apiResponse->getBody();
+            $responseBody = $apiResponse->getBody()->getContents();
             $responseBodyDecoded = json_decode($responseBody, true);
 
             if ($responseBodyDecoded['status'] == true && $responseBodyDecoded['message'] == "Success") {
