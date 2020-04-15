@@ -32,10 +32,8 @@ if (stristr($_SERVER['REQUEST_URI'], '/q/')): ?>
                 <div class="row answer-item-author">
                     <div class="col-xs-4 col-sm-3">
                         <p>
-                            <?php if ($answer['authorId'] && ($author = User::model()->cache(600)->findByPk($answer['authorId'])) instanceof User): ?>
                                 <img src="<?php echo $author->getAvatarUrl(); ?>" class="img-responsive"
-                                     alt="<?php echo CHtml::encode($author->name . ' ' . $author->lastName); ?>"/>
-                            <?php endif; ?>
+                                     alt="<?php echo CHtml::encode($author->getNameOrCompany()); ?>"/>
                         </p>
                     </div>
                     <div class="col-xs-8 col-sm-9">
@@ -44,7 +42,7 @@ if (stristr($_SERVER['REQUEST_URI'], '/q/')): ?>
                                 <strong>
                                     <small>
 
-                                        <?php echo $answer['authorLastName'] . ' ' . mb_substr($answer['authorName'], 0, 1, 'utf-8') . '.' . mb_substr($answer['authorName2'], 0, 1, 'utf-8') . '.'; ?>
+                                        <?php echo CHtml::encode($author->getNameOrCompany()); ?>
                                         <?php if ($author->settings): ?>
                                             <em class="text-muted"><?php echo $author->settings->getStatusName(); ?></em>
                                         <?php endif; ?>

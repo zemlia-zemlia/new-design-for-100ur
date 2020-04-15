@@ -45,8 +45,8 @@ class ApiLexprofit implements ApiClassInterface
 
         $apiResponse = curl_exec($this->curl);
 
-        LoggerFactory::getLogger()->log('Отправляем лид #' . $lead->id . ' в партнерку Lexprofit: ' . json_encode($data), 'App\models\Lead', $lead->id);
-        LoggerFactory::getLogger()->log('Ответ API Lexprofit: ' . $apiResponse, 'App\models\Lead', $lead->id);
+        LoggerFactory::getLogger()->log('Отправляем лид #' . $lead->id . ' в партнерку Lexprofit: ' . json_encode($data), 'Lead', $lead->id);
+        LoggerFactory::getLogger()->log('Ответ API Lexprofit: ' . $apiResponse, 'Lead', $lead->id);
 
         $apiResponseJSON = json_decode($apiResponse, true);
 
@@ -71,7 +71,7 @@ class ApiLexprofit implements ApiClassInterface
         }
 
         if (is_array($apiResponse) && isset($apiResponse['success'])) {
-            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Lexprofit', 'App\models\Lead', $lead->id);
+            LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Lexprofit', 'Lead', $lead->id);
 
             return true;
         }

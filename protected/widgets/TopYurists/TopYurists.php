@@ -22,15 +22,15 @@ class TopYurists extends CWidget
         switch ($this->fetchType) {
             case self::FETCH_RANDOM:
             default:
-                $users = $this->getRandom();
+                $usersData = $this->getRandom();
                 break;
             case self::FETCH_RANKED:
-                $users = $this->getRanked();
+                $usersData = $this->getRanked();
                 break;
         }
 
         $this->render($this->template, [
-            'users' => $users,
+            'usersData' => $usersData,
         ]);
     }
 
@@ -41,27 +41,29 @@ class TopYurists extends CWidget
      */
     protected function getRandom(): array
     {
-        $users = Yii::app()->db->cache($this->cacheTime)->createCommand()
-            ->select('u.*, s.status yuristStatus, s.*')
-            ->from('{{user}} u')
-            ->leftJoin('{{yuristSettings}} s', 's.yuristId = u.id')
-            ->where('role = ' . User::ROLE_JURIST . ' AND active100=1 AND karma>0 AND avatar IS NOT NULL AND s.status!=0')
-            ->limit($this->limit)
-            ->order('RAND()')
-            ->queryAll();
+        $usersCriteria = new CDbCriteria();
+        $usersCriteria->order = 'RAND()';
+        $usersCriteria->limit = $this->limit;
+        $usersCriteria->with = 'settings';
+        $usersCriteria->condition = 'role = ' . User::ROLE_JURIST . ' AND active100=1 AND karma>0 AND avatar IS NOT NULL AND settings.status!=0';
+        $users = User::model()->findAll($usersCriteria);
 
         return $users;
     }
 
     /**
      * поиск юристов, ранжированный.
-     *
+     * Возвращаемый массив: [[user => User, answersCount => N]]
      * @return array
+     * @throws CException
      */
     protected function getRanked(): array
     {
-        $users = Yii::app()->db->cache($this->cacheTime)->createCommand()
-            ->select('u.*, s.status yuristStatus, s.*, COUNT(*) answersCounter')
+        $usersData = [];
+
+        $userIdsAndAnswersCounts = Yii::app()->db->cache($this->cacheTime)
+            ->createCommand()
+            ->select('u.id, COUNT(*) answersCounter')
             ->from('{{user}} u')
             ->leftJoin('{{yuristSettings}} s', 's.yuristId = u.id')
             ->leftJoin('{{answer}} a', 'a.authorId = u.id')
@@ -75,6 +77,24 @@ class TopYurists extends CWidget
             ->order('answersCounter DESC')
             ->queryAll();
 
-        return $users;
+        $userIds = array_column($userIdsAndAnswersCounts, 'id');
+
+        $usersObjects = User::model()->cache($this->cacheTime)
+            ->with('settings')
+            ->findAllByAttributes(['id' => $userIds]);
+
+        foreach ($userIdsAndAnswersCounts as $idAndCount) {
+            $userData = [];
+            $userData['answersCount'] = $idAndCount['answersCounter'];
+            foreach ($usersObjects as $user) {
+                if ($user->id == $idAndCount['id']) {
+                    $userData['user'] = $user;
+                    break;
+                }
+            }
+            $usersData[] = $userData;
+        }
+
+        return $usersData;
     }
 }

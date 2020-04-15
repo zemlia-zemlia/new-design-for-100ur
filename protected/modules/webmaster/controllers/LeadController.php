@@ -71,8 +71,8 @@ class LeadController extends Controller
             $model->sourceId = (int) $_GET['sourceId'];
         }
 
-        if (isset($_POST['App\models\Lead'])) {
-            $model->attributes = $_POST['App\models\Lead'];
+        if (isset($_POST['App_models_Lead'])) {
+            $model->attributes = $_POST['App_models_Lead'];
             $model->phone = PhoneHelper::normalizePhone($model->phone);
 
             // посчитаем цену покупки лида, исходя из города и региона,
