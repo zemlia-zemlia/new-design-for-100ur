@@ -3,6 +3,7 @@
 use App\extensions\Logger\LoggerFactory;
 use App\helpers\StringHelper;
 use App\models\Answer;
+use App\models\Chat;
 use App\models\Comment;
 use App\models\LoginForm;
 use App\models\Order;
@@ -180,6 +181,8 @@ class UserController extends Controller
                 } else {
                     throw new CHttpException(500, 'Что-то пошло не так. Мы не смогли отправить Вам письмо с подтверждением регистрации на сайте. Не беспокойтесь, с вашим аккаунтом все в порядке, просто письмо с подтверждением придет немного позже.');
                 }
+            } else {
+                var_dump($model->getErrors());
             }
         }
 
@@ -585,8 +588,17 @@ class UserController extends Controller
         $questions = (new QuestionRepository())->findRecentQuestionsByJuristAnswers($user);
 
         $testimonialsDataProvider = $user->getTestimonialsDataProvider(5, false);
+        $chat = Chat::model()->findByAttributes(['layer_id' => $id, 'is_closed' => null]);
+        if (Yii::app()->user->role === User::ROLE_CLIENT) {
+            $chats = Chat::model()->findAllByAttributes(['user_id' => $id]);
+        } else {
+            $chats = Chat::model()->findAllByAttributes(['layer_id' => $id, 'is_closed' => null, 'is_payed' => 1]);
+        }
 
+//        var_dump($chat);
         $this->render('profile', [
+            'chat' => $chat,
+            'chats' => $chats,
             'questions' => $questions,
             'user' => $user,
             'testimonialsDataProvider' => $testimonialsDataProvider,

@@ -1,10 +1,9 @@
 <?php
-
 // @codingStandardsIgnoreFile
 // @codeCoverageIgnoreStart
 
 /**
- * C3 - Codeception Code Coverage.
+ * C3 - Codeception Code Coverage
  *
  * @author tiger
  */
@@ -22,7 +21,7 @@ if (isset($_COOKIE['CODECEPTION_CODECOVERAGE'])) {
 
     if ($cookie) {
         foreach ($cookie as $key => $value) {
-            $_SERVER['HTTP_X_CODECEPTION_' . strtoupper($key)] = $value;
+            $_SERVER["HTTP_X_CODECEPTION_" . strtoupper($key)] = $value;
         }
     }
 }
@@ -104,14 +103,15 @@ try {
 }
 
 if (!defined('C3_CODECOVERAGE_MEDIATE_STORAGE')) {
+
     // workaround for 'zend_mm_heap corrupted' problem
     gc_disable();
 
     $memoryLimit = ini_get('memory_limit');
     $requiredMemory = '384M';
-    if (('M' === substr($memoryLimit, -1) && (int) $memoryLimit < (int) $requiredMemory)
-        || ('K' === substr($memoryLimit, -1) && (int) $memoryLimit < (int) $requiredMemory * 1024)
-        || (ctype_digit($memoryLimit) && (int) $memoryLimit < (int) $requiredMemory * 1024 * 1024)
+    if ((substr($memoryLimit, -1) === 'M' && (int)$memoryLimit < (int)$requiredMemory)
+        || (substr($memoryLimit, -1) === 'K' && (int)$memoryLimit < (int)$requiredMemory * 1024)
+        || (ctype_digit($memoryLimit) && (int)$memoryLimit < (int)$requiredMemory * 1024 * 1024)
     ) {
         ini_set('memory_limit', $requiredMemory);
     }
@@ -210,13 +210,12 @@ if (!defined('C3_CODECOVERAGE_MEDIATE_STORAGE')) {
     /**
      * @param $filename
      * @param bool $lock Lock the file for writing?
-     *
      * @return [null|PHP_CodeCoverage|\SebastianBergmann\CodeCoverage\CodeCoverage, resource]
      */
     function __c3_factory($filename, $lock = false)
     {
         $file = null;
-        if (null !== $filename && is_readable($filename)) {
+        if ($filename !== null && is_readable($filename)) {
             if ($lock) {
                 $file = fopen($filename, 'r+');
                 if (flock($file, LOCK_EX)) {
@@ -228,7 +227,7 @@ if (!defined('C3_CODECOVERAGE_MEDIATE_STORAGE')) {
                 $phpCoverage = unserialize(file_get_contents($filename));
             }
 
-            return [$phpCoverage, $file];
+            return array($phpCoverage, $file);
         } else {
             $phpCoverage = new PHP_CodeCoverage();
         }
@@ -252,7 +251,7 @@ if (!defined('C3_CODECOVERAGE_MEDIATE_STORAGE')) {
             __c3_error($e->getMessage());
         }
 
-        return [$phpCoverage, $file];
+        return array($phpCoverage, $file);
     }
 
     function __c3_exit()
@@ -260,7 +259,6 @@ if (!defined('C3_CODECOVERAGE_MEDIATE_STORAGE')) {
         if (!isset($_SERVER['HTTP_X_CODECEPTION_CODECOVERAGE_DEBUG'])) {
             exit;
         }
-
         return null;
     }
 
@@ -271,7 +269,7 @@ if (!defined('C3_CODECOVERAGE_MEDIATE_STORAGE')) {
 }
 
 if (!is_dir(C3_CODECOVERAGE_MEDIATE_STORAGE)) {
-    if (false === mkdir(C3_CODECOVERAGE_MEDIATE_STORAGE, 0777, true)) {
+    if (mkdir(C3_CODECOVERAGE_MEDIATE_STORAGE, 0777, true) === false) {
         __c3_error('Failed to create directory "' . C3_CODECOVERAGE_MEDIATE_STORAGE . '"');
     }
 }
@@ -279,7 +277,7 @@ if (!is_dir(C3_CODECOVERAGE_MEDIATE_STORAGE)) {
 // evaluate base path for c3-related files
 $path = realpath(C3_CODECOVERAGE_MEDIATE_STORAGE) . DIRECTORY_SEPARATOR . 'codecoverage';
 
-$requestedC3Report = (false !== strpos($_SERVER['REQUEST_URI'], 'c3/report'));
+$requestedC3Report = (strpos($_SERVER['REQUEST_URI'], 'c3/report') !== false);
 
 $completeReport = $currentReport = $path . '.serialized';
 if ($requestedC3Report) {
@@ -287,13 +285,12 @@ if ($requestedC3Report) {
 
     $route = ltrim(strrchr(rtrim($_SERVER['REQUEST_URI'], '/'), '/'), '/');
 
-    if ('clear' === $route) {
+    if ($route === 'clear') {
         __c3_clear();
-
         return __c3_exit();
     }
 
-    list($codeCoverage) = __c3_factory($completeReport);
+    list($codeCoverage,) = __c3_factory($completeReport);
 
     switch ($route) {
         case 'html':
@@ -302,7 +299,6 @@ if ($requestedC3Report) {
             } catch (Exception $e) {
                 __c3_error($e->getMessage());
             }
-
             return __c3_exit();
         case 'clover':
             try {
@@ -310,7 +306,6 @@ if ($requestedC3Report) {
             } catch (Exception $e) {
                 __c3_error($e->getMessage());
             }
-
             return __c3_exit();
         case 'crap4j':
             try {
@@ -318,7 +313,6 @@ if ($requestedC3Report) {
             } catch (Exception $e) {
                 __c3_error($e->getMessage());
             }
-
             return __c3_exit();
         case 'serialized':
             try {
@@ -326,7 +320,6 @@ if ($requestedC3Report) {
             } catch (Exception $e) {
                 __c3_error($e->getMessage());
             }
-
             return __c3_exit();
         case 'phpunit':
             try {
@@ -334,11 +327,10 @@ if ($requestedC3Report) {
             } catch (Exception $e) {
                 __c3_error($e->getMessage());
             }
-
             return __c3_exit();
     }
 } else {
-    list($codeCoverage) = __c3_factory(null);
+    list($codeCoverage,) = __c3_factory(null);
     $codeCoverage->start(C3_CODECOVERAGE_TESTNAME);
     if (!array_key_exists('HTTP_X_CODECEPTION_CODECOVERAGE_DEBUG', $_SERVER)) {
         register_shutdown_function(
@@ -366,7 +358,7 @@ if ($requestedC3Report) {
                 list($existingCodeCoverage, $file) = __c3_factory($currentReport, true);
                 $existingCodeCoverage->merge($codeCoverage);
 
-                if (null === $file) {
+                if ($file === null) {
                     file_put_contents($currentReport, serialize($existingCodeCoverage), LOCK_EX);
                 } else {
                     fseek($file, 0);

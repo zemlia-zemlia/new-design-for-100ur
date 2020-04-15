@@ -21,6 +21,8 @@ class YandexPaymentFactory
             return new YandexPaymentQuestion($this->entityId, $this->request);
         } elseif (YandexPaymentResponseProcessor::TYPE_ANSWER == $paymentType) {
             return new YandexPaymentAnswer($this->entityId, $this->request);
+        } elseif (YandexPaymentResponseProcessor::TYPE_CHAT == $paymentType) {
+            return new YandexPaymentChat($this->entityId, $this->request);
         }
     }
 }

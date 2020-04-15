@@ -37,7 +37,7 @@ class SiteController extends Controller
     {
         return [
             ['allow', // разрешаем неавторизованным пользователям доступ к странице логина и капче
-                'actions' => ['index', 'feedback', 'about', 'login', 'logout', 'captcha', 'error', 'contacts', 'partners', 'lp', 'konsultaciya_yurista_advokata', 'clearCache', 'offer', 'crm', 'lead', 'goryachaya_liniya', 'brakLead', 'klienti_dlya_yuristov', 'referal', 'passwordChanged', 'turbo', 'yuristam'],
+                'actions' => ['getcode', 'index', 'feedback', 'about', 'login', 'logout', 'captcha', 'error', 'contacts', 'partners', 'lp', 'konsultaciya_yurista_advokata', 'clearCache', 'offer', 'crm', 'lead', 'goryachaya_liniya', 'brakLead', 'klienti_dlya_yuristov', 'referal', 'passwordChanged', 'turbo', 'yuristam'],
                 'users' => ['*']],
             ['allow',
                 'actions' => ['info'],
@@ -77,6 +77,27 @@ class SiteController extends Controller
             } else {
                 $this->render('error', $error);
             }
+        }
+    }
+
+    /**
+     * Код для чата
+     */
+    public function actionGetcode()
+    {
+        if (!$userId = Yii::app()->user->getId()) {
+            throw new CHttpException('403');
+        } else {
+            if ($user = User::model()->findByPk($userId)) {
+                header('Content-type: application/json');
+                echo json_encode([
+                    'name' => $user->lastName . ' ' . $user->name . ' ' . $user->name2,
+                    'token' => $user->confirm_code
+                ]);
+            } else {
+                throw new CHttpException('404');
+            }
+            die();
         }
     }
 
