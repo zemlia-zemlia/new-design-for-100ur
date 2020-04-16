@@ -4,6 +4,7 @@ use App\extensions\Logger\LoggerFactory;
 use App\helpers\StringHelper;
 use App\models\Answer;
 use App\models\Chat;
+use App\models\ChatMessages;
 use App\models\Comment;
 use App\models\LoginForm;
 use App\models\Order;
@@ -55,7 +56,7 @@ class UserController extends Controller
                 'users' => ['*'],
             ],
             ['allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['update', 'profile', 'changePassword', 'updateAvatar', 'invites', 'deleteAvatar', 'clearInfo', 'requestConfirmation', 'karmaPlus', 'stats', 'sendAnswerNotification', 'testimonial', 'testimonials'],
+                'actions' => ['chats', 'chat', 'update', 'profile', 'changePassword', 'updateAvatar', 'invites', 'deleteAvatar', 'clearInfo', 'requestConfirmation', 'karmaPlus', 'stats', 'sendAnswerNotification', 'testimonial', 'testimonials'],
                 'users' => ['@'],
             ],
             ['allow',
@@ -71,6 +72,56 @@ class UserController extends Controller
                 'users' => ['*'],
             ],
         ];
+    }
+
+    public function actionChats($chatId = null, $layerId = null)
+    {
+        $this->layout = '//frontend/chat';
+        if ($chatId == 'new') {
+            $chatId = uniqid('', true) . '_' . $layerId;
+            $model = new Chat();
+            $model->user_id = Yii::app()->user->id;
+            $model->chat_id = $chatId;
+            $model->layer_id = $layerId;
+            $model->created = time();
+            $model->save();
+            $this->redirect('/user/chats?chatId=' . $chatId);
+        }
+        $criteria = new CDbCriteria();
+        $criteria->condition = (Yii::app()->user->role == User::ROLE_CLIENT) ? 'user_id =:id' : 'layer_id=:id and is_payed=1 or is_confirmed IS NULL';
+        $criteria->params = [':id' => Yii::app()->user->id];
+        $criteria->order = 'is_closed ASC';
+        $chats = Chat::model()->findAll($criteria);
+        $messages = [];
+        if (!$chatId and $chats) {
+            $room = $chats[0]->chat_id;
+        } else {
+            $room = $chatId;
+        }
+        $chat = Chat::model()->find('chat_id = :id', [':id' => $room]);
+        if ($chat) {
+            $mess = ChatMessages::model()->findAll('chat_id = :id', [':id' => $chat['id']]);
+            foreach ($mess as $row) {
+                $messages[] = [
+
+                    'username' => $row->user->getShortName(),
+                    'avatar' => $row->user->getAvatarUrl(),
+                    'message' => $row->message,
+                    'token' => $row->user->confirm_code,
+                    'date' => date('H:i', $row->created),
+                ];
+            }
+        }
+
+        $this->render('chats', [
+                'role' => Yii::app()->user->role,
+                'chats' => $chats,
+                'curChat' => $chat,
+                'messages' => $messages,
+                'room' => $chatId,
+                'user' => User::model()->findByPk(Yii::app()->user->id),
+            ]
+        );
     }
 
     public function actions()
@@ -588,17 +639,12 @@ class UserController extends Controller
         $questions = (new QuestionRepository())->findRecentQuestionsByJuristAnswers($user);
 
         $testimonialsDataProvider = $user->getTestimonialsDataProvider(5, false);
+        $answersCnt = Answer::model()->count('authorId=:id', [':id' => $id]);
         $chat = Chat::model()->findByAttributes(['layer_id' => $id, 'is_closed' => null]);
-        if (Yii::app()->user->role === User::ROLE_CLIENT) {
-            $chats = Chat::model()->findAllByAttributes(['user_id' => $id]);
-        } else {
-            $chats = Chat::model()->findAllByAttributes(['layer_id' => $id, 'is_closed' => null, 'is_payed' => 1]);
-        }
-
-//        var_dump($chat);
+        $minQnt = Yii::app()->params['MinAnswerQntForChat'];
         $this->render('profile', [
             'chat' => $chat,
-            'chats' => $chats,
+            'showChatbutton' => $answersCnt > $minQnt,
             'questions' => $questions,
             'user' => $user,
             'testimonialsDataProvider' => $testimonialsDataProvider,

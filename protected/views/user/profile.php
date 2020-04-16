@@ -140,26 +140,13 @@ if (Yii::app()->user->id != $user->id) {
                 <?php if (Yii::app()->user->isGuest): ?>
                     <?php echo CHtml::link('Задать вопрос юристу', Yii::app()->createUrl('/question/create/'), ['class' => 'btn btn-primary btn-block']); ?>
                 <?php endif; ?>
-                <?php if (!Yii::app()->user->isGuest): ?>
-                    <?php if (User::ROLE_CLIENT == Yii::app()->user->role and $user->id == Yii::app()->user->id): ?>
-                        <?php foreach ($chats as $ch): ?>
-                            <?php echo CHtml::link('Открыть чат с ' . $ch->layer->getShortName(), Yii::app()->createUrl('/user/chat?chatId=' . $ch->chat_id), ['class' => 'btn btn-primary btn-block']); ?>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <?php foreach ($chats as $ch): ?>
+                <?php if (!Yii::app()->user->isGuest and $showChatbutton): ?>
 
-                            <?php echo CHtml::link(
-                                'Открыть чат с ' . $ch->user->getShortName(),
-                                Yii::app()->createUrl('/user/chat?chatId=' . $ch->chat_id),
-                                ['class' => 'btn btn-primary btn-block']
-                            ); ?>
-                        <?php endforeach; ?>
+                    <?php if (!$chat && (User::ROLE_CLIENT == Yii::app()->user->role) && $user->role == User::ROLE_JURIST) : ?>
+                        <?php echo CHtml::link('Начать чат с юристом', Yii::app()->createUrl('/user/chats', ['chatId' => 'new', 'layerId' => $user->id]), ['class' => 'btn btn-primary btn-block']); ?>
                     <?php endif; ?>
-                    <?php if (!$chat && (User::ROLE_CLIENT == Yii::app()->user->role)) : ?>
-                        <?php echo CHtml::link('Начать чат с юристом', Yii::app()->createUrl('/user/chat'), ['class' => 'btn btn-primary btn-block']); ?>
-                    <?php endif; ?>
-                    <?php if ($chat && (User::ROLE_CLIENT == Yii::app()->user->role)) : ?>
-                        <?php echo CHtml::link('Продолжить чат с юристом', Yii::app()->createUrl('/user/chat?chatId=' . $chat->chat_id), ['class' => 'btn btn-primary btn-block']); ?>
+                    <?php if ($chat && (User::ROLE_CLIENT == Yii::app()->user->role) && $user->role == User::ROLE_JURIST) : ?>
+                        <?php echo CHtml::link('Продолжить чат с юристом', Yii::app()->createUrl('/user/chats', ['chatId' => $chat->chat_id]), ['class' => 'btn btn-primary btn-block']); ?>
                     <?php endif; ?>
 
                 <?php endif; ?>

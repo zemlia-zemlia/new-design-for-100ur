@@ -561,6 +561,14 @@ class User extends CActiveRecord
         return password_verify($password, $this->password);
     }
 
+    public static function getChatsCntForLayer()
+    {
+        $result = '';
+        $cnt = Chat::model()->count('layer_id = :id AND is_payed=1 AND is_closed is NULL', [':id' => Yii::app()->user->id]);
+        if ($cnt) {
+            return '<strong class="red">(' . $cnt . ')</strong>';
+        }
+    }
     /**
      * возвращает URL аватара текущего пользователя. Если аватар не задан,
      * возвращает URL аватара по умолчанию.
@@ -1127,6 +1135,10 @@ class User extends CActiveRecord
         return $this->notifier->sendDonateNotification($answer, $yuristBonus);
     }
 
+    public function sendDonateChatNotification(Chat $answer, $yuristBonus)
+    {
+        return $this->notifier->sendDonateChatNotification($answer, $yuristBonus);
+    }
     /**
      * Отправка юристу уведомления о новом отзыве.
      */
@@ -1135,6 +1147,14 @@ class User extends CActiveRecord
         return $this->notifier->sendTestimonialNotification();
     }
 
+    public function getLastOnline()
+    {
+        $data = Yii::app()->db->createCommand('select created from 100_chat_messages where user_id =:id order by created DESC')->bindParam(':id', $this->id)->queryScalar();
+        if ($data) {
+            return date('d.m.Y H:i', $data);
+        }
+        return 'Была давно';
+    }
     /**
      * Рейтинг пользователя как среднее арифметическое оценок из неспамных отзывов.
      *

@@ -147,6 +147,7 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                         </li>
 
                         <li><?php echo CHtml::link('Заказы документов ' . '<strong class="red">(' . Order::calculateNewOrders() . ')</strong>', Yii::app()->createUrl('order/index')); ?></li>
+                        <li> <?= CHtml::link('Чаты с клиентами ' . User::getChatsCntForLayer(), '/user/chats') ?></li>
 
                     <?php elseif (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->isGuest): ?>
 
@@ -164,6 +165,7 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                         <?php endif; ?>
                         <?php if (Yii::app()->user->role == User::ROLE_CLIENT): ?>
                             <li class=""><?php echo ($_SERVER['REQUEST_URI'] != '/blog/') ? CHtml::link('Новости', Yii::app()->createUrl('/blog/')) : '<span class="active">Новости</span>'; ?></li>
+                            <li> <?= CHtml::link('Чаты с юристами', '/user/chats') ?></li>
                         <?php endif; ?>
 
                         <?php if (!stristr($_SERVER['REQUEST_URI'], '/question/create/')): ?>

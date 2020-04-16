@@ -50,21 +50,22 @@ class YandexPaymentChat implements YandexPaymentProcessorInterface
 
         /** @var User */
         $yurist = User::model()->findByPk($this->chat->layer_id);
-        $yurist->balance += $yuristBonus;
+//        $yurist->balance += $yuristBonus;
 
         $yuristTransaction = new TransactionCampaign();
         $yuristTransaction->sum = $yuristBonus;
         $yuristTransaction->buyerId = $yurist->id;
-        $yuristTransaction->description = 'Благодарность за консультацию В чате ' . $this->chat->chat_id;
-
+        $yuristTransaction->description = 'Благодарность за консультацию В чате ' . $this->chat->chat_id . ' HOLD';
+        $yuristTransaction->status = TransactionCampaign::STATUS_HOLD;
         $saveTransaction = $moneyTransaction->dbConnection->beginTransaction();
         try {
-            if ($yurist->save() && $moneyTransaction->save() && $yuristTransaction->save()) {
+            if ($moneyTransaction->save() && $yuristTransaction->save()) {
                 $saveTransaction->commit();
-                Yii::log('Пришло бабло благодарность юристу ' . $yurist->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'info', 'system.web');
+                Yii::log('ХОЛДИМ бабло благодарность юристу ' . $yurist->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'info', 'system.web');
                 LoggerFactory::getLogger('db')->log('Благодарность юристу #' . $yurist->id . ') ' . MoneyFormat::rubles($amount) . ' руб.', 'User', $yurist->id);
-                $yurist->sendDonateNotification($this->chat, $yuristBonus);
+//                $yurist->sendDonateNotification($this->chat, $yuristBonus);
                 $this->chat->is_payed = 1;
+                $this->chat->transaction_id = $yuristTransaction->id;
                 $this->chat->save();
                 return true;
             } else {
