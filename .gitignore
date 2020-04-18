@@ -1,11 +1,11 @@
 .idea/
 /assets/*
 /netbeans/
+protected/config/.env
 /protected/extensions/imperavi/assets/
 /protected/runtime/*
 /nbproject/*
 /upload/*
-/protected/config/*
 /protected/mailoutput
 /protected/tests/_output
 /sitemap.xml

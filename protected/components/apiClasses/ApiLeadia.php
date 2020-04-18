@@ -6,6 +6,7 @@ use ApiClassInterface;
 use App\models\Lead;
 use CHtml;
 use App\extensions\Logger\LoggerFactory;
+use Yii;
 
 /**
  * Класс для работы с API Leadia.
@@ -13,13 +14,14 @@ use App\extensions\Logger\LoggerFactory;
 class ApiLeadia implements ApiClassInterface
 {
     protected $url = 'http://cloud1.leadia.org/lead.php';
-    protected $key = 13550; // наш id в партнерской системе
+    protected $key; // наш id в партнерской системе
     protected $curl;
     protected $lead;
     protected $testMode = false;
 
     public function __construct()
     {
+        $this->key = Yii::app()->params['leadia']['key'];
         $this->curl = curl_init();
         curl_setopt($this->curl, CURLOPT_URL, $this->url);
         curl_setopt($this->curl, CURLOPT_POST, true);
