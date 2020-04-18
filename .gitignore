@@ -1,6 +1,7 @@
 .idea/
 /assets/*
 /netbeans/
+protected/config/.env
 /protected/extensions/imperavi/assets/
 /protected/runtime/*
 /nbproject/*
