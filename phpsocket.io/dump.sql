@@ -1,9 +1,14 @@
-CREATE TABLE 100_chatFiles` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `mime` VARCHAR(100) NOT NULL , `filename` VARCHAR(255) NOT NULL , `user_id` INT NOT NULL , `created` INT NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = MyISAM;
+CREATE TABLE `100_chatFiles` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `mime` VARCHAR(100) NOT NULL , `filename` VARCHAR(255) NOT NULL , `user_id` INT NOT NULL , `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = MyISAM;
+
+
 CREATE TABLE `100_chat` ( `id` INT NOT NULL AUTO_INCREMENT , `user_id` INT NOT NULL , `layer_id` INT NULL , `is_payed` TINYINT(1) NULL , `transaction_id` VARCHAR(255) NULL , `created` INT NOT NULL , `is_closed` TINYINT(1) NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
-ALTER TABLE 100_chat` ADD INDEX (`user_id`);
-ALTER TABLE 100_chat` ADD INDEX (`layer_id`);
+
+ALTER TABLE `100_chat` ADD INDEX (`user_id`);
+ALTER TABLE `100_chat` ADD INDEX (`layer_id`);
 ALTER TABLE `100_chat` ADD INDEX (`created`);
 ALTER TABLE `100_chat` ADD `chat_id` VARCHAR(255) NULL AFTER `is_closed`;
+
+
 CREATE TABLE `100_chat_messages` (
   `id` int(11) NOT NULL,
   `chat_id` int(11) NOT NULL,
