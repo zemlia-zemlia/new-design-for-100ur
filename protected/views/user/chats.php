@@ -43,6 +43,7 @@ if (!$room and $chats) {
     </h1>
 </div>
 <div class="col-md-4 col-lg-4">
+    <h3>Ваши чаты:</h3>
     <?php foreach ($chats as $chat): ?>
         <a href="/user/chats?chatId=<?= $chat->chat_id ?>"
            class="btn <?= ($chat->chat_id == $room) ? 'btn-primary' : 'btn-default' ?>">
@@ -93,15 +94,17 @@ if (!$room and $chats) {
         </li>
         <li style="width: 100%; position: absolute; bottom: 90px;left: 0px;">
             <input id="closeButton" style="display: none;" type="button" value="Закрыть чат"/>
+
+            <input id="fileButton" class="fileButton" type="button" onclick="$('#fileinput').click()"
+                   value="File"/>
+            <input id="messageInput" class="inputMessage" placeholder="Сообщение"/>
+
+            <input id="send" class="closeButton" type="button" value="Послать"/>
+        </li>
+    </ul>
 </div>
-<input id="fileButton" class="fileButton" type="button" onclick="$('#fileinput').click()"
-       value="File"/>
-<input id="messageInput" class="inputMessage" placeholder="Сообщение"/>
-<input id="send" class="closeButton" type="button" value="Послать"/>
 
-</li>
 
-</ul>
 <input onchange="processWebImage(this)" type="file" id="fileinput" style="display: none">
 <div id='payForm' style="display: none">
     <h2> Необходимо оплатить услуги юриста</h2>
