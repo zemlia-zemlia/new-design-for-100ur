@@ -46,7 +46,7 @@ if (!$room and $chats) {
     <h3>Ваши чаты:</h3>
     <?php foreach ($chats as $chat): ?>
         <a href="/user/chats?chatId=<?= $chat->chat_id ?>"
-           class="btn btn-block <?= ($chat->chat_id == $room) ? 'btn-primary' : 'btn-default' ?>">
+           class="btn btn-block <?= ($chat->chat_id == $room) ? 'btn-success' : 'btn-default' ?>">
             <img style="width: 20px;"
                  src="<?= ($role == 10) ? $chat->user->getAvatarUrl() : $chat->layer->getAvatarUrl() ?>">
             <?= ($role == 10) ? $chat->user->getShortName() : $chat->layer->getShortName() ?>
