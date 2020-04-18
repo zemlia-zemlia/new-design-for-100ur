@@ -1,6 +1,6 @@
 $(function () {
     window.filesArray = [];
-    window.siteUrl = 'http://100.loc';
+    window.siteUrl = 'http://100yuristov/';
     window.chaturl = 'http://0.0.0:2020';
     init();
 

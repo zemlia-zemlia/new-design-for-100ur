@@ -1,21 +1,26 @@
 <?php
-
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../../../protected/config");
+$dotenv->load();
 
 class Connector
 {
     private $db;
-    private $filePath = '../../../../100yuristov/upload/';
-    private $dbSeting = [
-        'dbName' => '100',
-        'login' => 'root',
-        'pass' => ''
-    ];
-    private $domain = 'http://100.loc/';
+    private $filePath = '../../../upload/';
+    private function getDBSettings () {
+        return [
+            'dbName' => getenv('DB_NAME'),
+            'login' => getenv('DB_USER'),
+            'pass' => getenv('DB_PASSWORD')
+        ];
+    }
+    private function getDomain () {
+        return getenv('BASE_URL');
+    }
 
     function __construct()
     {
         try {
-            $this->db = new PDO('mysql:dbname=' . $this->dbSeting['dbName'] . ';charset=UTF8' . ';host=localhost', $this->dbSeting['login'], $this->dbSeting['pass']);
+            $this->db = new PDO('mysql:dbname=' . $this->getDBSettings()['dbName'] . ';charset=UTF8' . ';host=localhost', $this->getDBSettings()['login'], $this->getDBSettings()['pass']);
         } catch (PDOException $e) {
             die($e->getMessage());
         }
@@ -232,7 +237,7 @@ class Connector
             return [
                 'name' => $file['origin_name'],
                 'mime' => $file['type'],
-                'link' => $this->domain . 'upload/' . $filename,
+                'link' => $this->getDomain() . 'upload/' . $filename,
                 'userId' => $userId
             ];
         }
