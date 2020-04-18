@@ -5,6 +5,7 @@ namespace App\components\apiClasses;
 use ApiClassInterface;
 use App\models\Lead;
 use App\extensions\Logger\LoggerFactory;
+use Yii;
 
 /**
  * Класс для работы с API партнерки Lexprofit.
@@ -12,12 +13,13 @@ use App\extensions\Logger\LoggerFactory;
 class ApiLexprofit implements ApiClassInterface
 {
     protected $url = 'http://api.lexprofit.ru/v1';
-    protected $key = 250; // наш id в партнерской системе
+    protected $key; // наш id в партнерской системе
     protected $curl;
     protected $lead;
 
     public function __construct()
     {
+        $this->key = Yii::app()->params['lexprofit']['key'];
         $this->curl = curl_init();
         curl_setopt($this->curl, CURLOPT_URL, $this->url);
         curl_setopt($this->curl, CURLOPT_POST, true);
