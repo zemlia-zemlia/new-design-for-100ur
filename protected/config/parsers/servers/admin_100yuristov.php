@@ -3,9 +3,9 @@
  * Настройки подключения к почтовому ящику.
  */
 return [
-    'login' => getenv('MAILBOX_YURCRM_LOGIN'),
-    'password' => getenv('MAILBOX_YURCRM_PASSWORD'),
-    'server' => getenv('MAILBOX_YURCRM_SERVER'),
-    'port' => getenv('MAILBOX_YURCRM_PORT'),
-    'param' => getenv('MAILBOX_YURCRM_PARAM'),
+    'login' => 'admin@100yuristov.com',
+    'password' => 'vpn168dsl168',
+    'server' => 'imap.mail.ru',
+    'port' => 993,
+    'param' => '/imap/ssl/novalidate-cert',
 ];

@@ -1,5 +1,12 @@
 <?php
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+// uncomment the following to define a path alias
+// Yii::setPathOfAlias('local','path/to/local-folder');
+// This is the main Web application configuration. Any writable
+// CWebApplication properties can be configured here.
 return [
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => '100 юристов',
@@ -19,10 +26,10 @@ return [
             'ipFilters' => ['127.0.0.1', '::1'],
         ],
         'admin',
+        'buyer' => ['defaultController' => 'buyer'],
         'webmaster' => [
             'defaultController' => 'default',
         ],
-        'buyer' => ['defaultController' => 'buyer'],
     ],
     // application components
     'components' => [
@@ -32,7 +39,7 @@ return [
             'class' => 'WebUser',
         ],
         'request' => [
-            'enableCsrfValidation' => false,
+            'enableCsrfValidation' => true,
             'enableCookieValidation' => true,
         ],
         'authManager' => [
@@ -46,12 +53,13 @@ return [
             'urlFormat' => 'path',
             'showScriptName' => false,
             'urlSuffix' => '/',
-            'baseUrl' => getenv('BASE_URL'),
+            'baseUrl' => 'http://100.loc',
             'rules' => [
                 '/q' => '/question/index',
                 '/q/<id:\d+>' => '/question/view',
-                '/q/<date:[\d{4}\-\d{1,2}]+>' => '/question/archive',
+                '/q/<date:[\w\-]+>' => '/question/archive',
                 '/cat' => '/questionCategory/index',
+                '/feedback' => '/site/feedback',
                 [
                     'class' => 'application.components.QuestionCategoryRule',
                 ],
@@ -65,9 +73,10 @@ return [
                 '/yurist/<countryAlias:[\w\-]+>' => '/region/country',
                 '/yurist/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>' => '/region/view',
                 '/yurist/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>/<name:[\w\-]+>' => '/town/alias',
-                '/region/<countryAlias:[\w\-]+>' => '/region/redirect',
-                '/region/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>' => '/region/redirect',
-                '/region/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>/<name:[\w\-]+>' => '/region/redirect',
+                '/codecs/<codecsAlias:[\w\-\.]+>' => '/codecs/view',
+                '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>' => '/codecs/view',
+                '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>/<glavaAlias:[\w\-\.]+>' => '/codecs/view',
+                '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>/<glavaAlias:[\w\-\.]+>/<articleAlias:[\w\-\.]+>' => '/codecs/view',
             ],
         ],
         'clientScript' => [
@@ -83,14 +92,16 @@ return [
         'db' => require(dirname(__FILE__) . '/db.php'),
         'errorHandler' => [
             // use 'site/error' action to display errors
-            'errorAction' => 'site/error',
+//            'errorAction' => 'site/error',
         ],
         'log' => [
             'class' => 'CLogRouter',
             'routes' => [
                 [
-                    'class' => 'CFileLogRoute',
-                    'levels' => 'error, warning, info',
+                    'class' => 'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
+                    'ipFilters' => array('127.0.0.1'),
+//                    'class' => 'CFileLogRoute',
+//                    'levels' => 'error, warning, info',
                 ],
                 // uncomment the following to show log messages on web pages
 
@@ -99,9 +110,9 @@ return [
                   'showInFireBug' =>  false,
                   'categories'    =>  'application',
                   ), */
-                /*array(
-                    'class' => 'CProfileLogRoute',
-                ),*/
+//                [
+//                    'class' => 'CProfileLogRoute',
+//                ],
             ],
         ],
         'cache' => [
@@ -109,9 +120,6 @@ return [
         ],
         'mailer' => [
             'class' => 'application.extensions.GTMail',
-        ],
-        'queue' => [
-            'class' => 'application.extensions.RabbitMQ',
         ],
     ],
     // application-level parameters that can be accessed

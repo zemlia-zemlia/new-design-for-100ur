@@ -49,7 +49,7 @@ class YandexPaymentChat implements YandexPaymentProcessorInterface
         $moneyTransaction->comment = 'Благодарность юристу за чат ' . CHtml::encode($this->chat->chat_id);
 
         /** @var User */
-        $yurist = User::model()->findByPk($this->chat->layer_id);
+        $yurist = User::model()->findByPk($this->chat->lawyer_id);
 //        $yurist->balance += $yuristBonus;
 
         $yuristTransaction = new TransactionCampaign();

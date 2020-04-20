@@ -15,6 +15,7 @@ use CDbCriteria;
  * @property integer $user_id
  * @property string $message
  * @property integer $created
+ * @property integer $is_read
  */
 class ChatMessages extends CActiveRecord
 {
@@ -35,7 +36,7 @@ class ChatMessages extends CActiveRecord
         // will receive user inputs.
         return array(
             array('chat_id, user_id, message, created', 'required'),
-            array('chat_id, user_id, created', 'numerical', 'integerOnly' => true),
+            array('chat_id, user_id, created', 'numerical', 'is_read', 'integerOnly' => true),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, chat_id, user_id, message, created', 'safe', 'on' => 'search'),

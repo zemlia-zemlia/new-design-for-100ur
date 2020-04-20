@@ -5,7 +5,10 @@
 /* @var $this UserController */
 /* @var string $room */
 /* @var int $role */
-/* @var \App\models\User $user */
+
+/* @var User $user */
+
+use App\models\User;
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/socket.io-client/socket.io.js', CClientScript::POS_END);
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/chat.js', CClientScript::POS_END);
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css');
@@ -27,7 +30,7 @@ if (!$room and $chats) {
     window.siteUrl = "<?=Yii::app()->getBaseUrl(true)?>";
     window.chaturl = "<?=getenv('CHAT_URL')?>:<?=getenv('CHAT_PORT')?>";
 </script>
-<?php if ($role == \App\models\User::ROLE_JURIST): ?>
+<?php if ($role == User::ROLE_JURIST): ?>
     <script>
         window.layer_id = "<?=$user->confirm_code?>"
     </script>
@@ -37,7 +40,7 @@ if (!$room and $chats) {
 <div class="col-md-12 col-lg-12">
     <h1>
         Чат с
-        <?php if ($role == 3): ?>
+        <?php if ($role == User::ROLE_CLIENT): ?>
             юристами
         <?php else: ?>
             пользователями
@@ -50,8 +53,8 @@ if (!$room and $chats) {
         <a href="/user/chats?chatId=<?= $chat->chat_id ?>"
            class="btn btn-block <?= ($chat->chat_id == $room) ? 'btn-success' : 'btn-default' ?>">
             <img style="width: 20px;"
-                 src="<?= ($role == 10) ? $chat->user->getAvatarUrl() : $chat->layer->getAvatarUrl() ?>">
-            <?= ($role == 10) ? $chat->user->getShortName() : $chat->layer->getShortName() ?>
+                 src="<?= ($role == User::ROLE_JURIST) ? $chat->user->getAvatarUrl() : $chat->lawyer->getAvatarUrl() ?>">
+            <?= ($role == User::ROLE_JURIST) ? $chat->user->getShortName() : $chat->lawyer->getShortName() ?>
             <?php if ($chat->is_closed): ?>
                 (закрыт)
             <?php endif; ?>
@@ -60,19 +63,33 @@ if (!$room and $chats) {
             <?php endif; ?>
         </a>
     <?php endforeach; ?>
+    <?php if (!$chats): ?>
+        <?php if ($role == User::ROLE_CLIENT): ?>
+            <div>
+                У вас нет пока нет чатов с юристами.<br>
+                Для начала чата выберите подходящего вам юриста в разделе <a href="/yurist/russia/">юристы</a>
+            </div>
+        <?php endif; ?>
+        <?php if ($role == User::ROLE_JURIST): ?>
+            <div>
+                У вас нет пока нет чатов пользователями,
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
 </div>
 <div class="col-md-8 col-lg-8">
     <div class="row">
         <?php if ($curChat): ?>
             <div class="col-md-4">
                 <img style="width: 40px;"
-                     src="<?= ($role == 10) ? $curChat->user->getAvatarUrl() : $curChat->layer->getAvatarUrl() ?>">
+                     src="<?= ($role == User::ROLE_JURIST) ? $curChat->user->getAvatarUrl() : $curChat->lawyer->getAvatarUrl() ?>">
             </div>
             <div class="col-md-4">
-                <?= ($role == 10) ? $chat->user->getShortName() : $chat->layer->getShortName() ?>
+                <?= ($role == User::ROLE_JURIST) ? $chat->user->getShortName() : $chat->lawyer->getShortName() ?>
             </div>
             <div class="col-md-4">
-                была в сети <?= ($role == 10) ? $chat->user->getLastOnline() : $chat->layer->getLastOnline() ?>
+                была в
+                сети <?= ($role == User::ROLE_JURIST) ? $chat->user->getLastOnline() : $chat->lawyer->getLastOnline() ?>
             </div>
         <?php endif; ?>
     </div>
@@ -89,7 +106,14 @@ if (!$room and $chats) {
                                         <img style="width: 20px;" src="<?= $mess['avatar'] ?>"/>
                                     <?php endif; ?>
                                     <?= ($mess['token'] == $user->confirm_code) ? 'Вы' : $mess['username'] ?></span>
-                                <?= $mess['date'] ?>
+                                <?php if ($mess['token'] == $user->confirm_code): ?>
+                                <?php if ($mess['is_read']): ?>
+                                    <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                                <?php else: ?>
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true">
+                                    <?php endif; ?>
+                                    <?php endif; ?>
+                                    <?= $mess['date'] ?>
                                 <span class="messageBody"><?= $mess['message'] ?></span>
                             </li>
                         <?php endforeach; ?>
@@ -99,7 +123,7 @@ if (!$room and $chats) {
         <li id="fileName">
 
         </li>
-        <li style="width: 100%; position: absolute; bottom: 90px;left: 0px;">
+        <li style="width: 100%;">
             <input id="closeButton" style="display: none;" type="button" value="Закрыть чат"/>
 
             <input id="fileButton" class="fileButton" type="button" onclick="$('#fileinput').click()"
@@ -120,7 +144,7 @@ if (!$room and $chats) {
         <input id="formLabel" type="hidden" name="label" value="">
         <input type="hidden" name="quickpay-form" value="shop">
         <input type="hidden" name="successURL"
-               value="<?php echo "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] ?>">
+               value="<?= getenv('PROTOCOL') . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] ?>">
         <input type="hidden" name="targets" value="Оплата консультаций">
         <div class="form-group">
             <div class="input-group">

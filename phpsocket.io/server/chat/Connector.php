@@ -43,14 +43,14 @@ class Connector
     {
         $sth = $this->db->prepare('update 100_chat set is_closed = 1 where chat_id = :chat_id');
         $sth->execute(['chat_id' => $room]);
-        $sth = $this->db->prepare("SELECT transaction_id, layer_id FROM `100_chat` WHERE `chat_id` = :id");
+        $sth = $this->db->prepare("SELECT transaction_id, lawyer_id FROM `100_chat` WHERE `chat_id` = :id");
         $sth->execute(['id' => $room]);
         $chatData = $sth->fetch(PDO::FETCH_ASSOC);
         $sth = $this->db->prepare("SELECT * FROM `100_transactionCampaign` WHERE `id` = :id and status = 3");
         $sth->execute(['id' => $chatData['transaction_id']]);
         $trans = $sth->fetch(PDO::FETCH_ASSOC);
         $sth = $this->db->prepare("SELECT * FROM `100_user` WHERE `id` = :id");
-        $sth->execute(array('id' => $chatData['layer_id']));
+        $sth->execute(array('id' => $chatData['lawyer_id']));
         $layer = $sth->fetch(PDO::FETCH_ASSOC);
         $layer['balance'] = $layer['balance'] + $trans['sum'];
         $sth = $this->db->prepare('update 100_user set balance = :bal where id = :id');
@@ -104,7 +104,7 @@ class Connector
             if (!$userId || !$layer) {
                 throw new Exception('Пользователь или юрист не найден');
             }
-            $sth = $this->db->prepare('INSERT INTO `100_chat`(`user_id`, `layer_id`, `created`, `chat_id`) 
+            $sth = $this->db->prepare('INSERT INTO `100_chat`(`user_id`, `lawyer_id`, `created`, `chat_id`) 
             VALUES (:user_id, :layer_id, :created, :chat_id)'
             );
             $message = '<html><body>Поступил запрос на новый чат <a href="https://100yuristov.com/user/chats/chatId/' . $roomName . '"> Смотреть </a></body></html>';

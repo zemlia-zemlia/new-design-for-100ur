@@ -12,7 +12,7 @@ use CDbCriteria;
  * The followings are the available columns in table '{{chat}}':
  * @property integer $id
  * @property integer $user_id
- * @property integer $layer_id
+ * @property integer $lawyer_id
  * @property integer $is_payed
  * @property string $transaction_id
  * @property integer $created
@@ -20,7 +20,7 @@ use CDbCriteria;
  * @property integer $is_confirmed
  * @property string $chat_id
  * @property User user
- * @property User $layer
+ * @property User $lawyer
  */
 class Chat extends CActiveRecord
 {
@@ -41,11 +41,11 @@ class Chat extends CActiveRecord
         // will receive user inputs.
         return array(
             array('user_id, created', 'required'),
-            array('user_id, layer_id, is_payed, created, is_closed, is_confirmed', 'numerical', 'integerOnly' => true),
+            array('user_id, lawyer_id, is_payed, created, is_closed, is_confirmed', 'numerical', 'integerOnly' => true),
             array('transaction_id, chat_id', 'length', 'max' => 255),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, user_id, layer_id, is_payed, transaction_id, created, is_closed, chat_id', 'safe', 'on' => 'search'),
+            array('id, user_id, lawyer_id, is_payed, transaction_id, created, is_closed, chat_id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -58,7 +58,7 @@ class Chat extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'user' => [self::BELONGS_TO, User::class, 'user_id'],
-            'layer' => [self::BELONGS_TO, User::class, 'layer_id'],
+            'lawyer' => [self::BELONGS_TO, User::class, 'lawyer_id'],
         );
     }
 
@@ -70,7 +70,7 @@ class Chat extends CActiveRecord
         return array(
             'id' => 'ID',
             'user_id' => 'User',
-            'layer_id' => 'Layer',
+            'lawyer_id' => 'Lawyer',
             'is_payed' => 'Is Payed',
             'transaction_id' => 'Transaction',
             'created' => 'Created',
@@ -100,7 +100,7 @@ class Chat extends CActiveRecord
 
         $criteria->compare('id', $this->id);
         $criteria->compare('user_id', $this->user_id);
-        $criteria->compare('layer_id', $this->layer_id);
+        $criteria->compare('lawyer_id', $this->lawyer_id);
         $criteria->compare('is_payed', $this->is_payed);
         $criteria->compare('transaction_id', $this->transaction_id, true);
         $criteria->compare('created', $this->created);

@@ -1,6 +1,6 @@
 $(function () {
     window.filesArray = [];
-
+    window.userCnt = 0;
     init();
 
 });
@@ -89,7 +89,10 @@ function init() {
                 if (window.role == 3) {
                     $('#closeButton').show();
                 }
-                log('Чат открыт');
+                if (!window.openChat) {
+                    log('Чат открыт', {prepend: 1});
+                    window.openChat = 1;
+                }
             });
             // чат отменен
             socket.on('decline', function () {
@@ -141,6 +144,7 @@ function init() {
             });
 
             socket.on('user joined', function (data) {
+
                 console.log(data);
             });
             socket.on('new file', function (data) {
@@ -163,6 +167,7 @@ function init() {
         });
         // Whenever the server emits 'user joined', log it in the chat body
         socket.on('user joined', (data) => {
+
             if (data.username) {
                 log('Новый пользователь ' + ' присоединился к чату', {prepend: 1});
                 addParticipantsMessage(data);
@@ -171,7 +176,8 @@ function init() {
 
         // Whenever the server emits 'user left', log it in the chat body
         socket.on('user left', (data) => {
-            log(data.username + ' left');
+
+            log(' Пользователь покинул чат', {prepend: 1});
             addParticipantsMessage(data);
             removeChatTyping(data);
         });
@@ -209,10 +215,12 @@ function init() {
 
         const addParticipantsMessage = (data) => {
             var message = '';
-            if (data.numUsers === 1) {
+            if (data.numUsers == 1) {
+                window.userCnt = data.numUsers;
                 message += "сейчас в чате 1 человек";
             } else {
                 if (data.numUsers !== undefined) {
+                    window.userCnt = data.numUsers;
                     message += "сейчас в чате " + data.numUsers + " человек";
                 }
 
@@ -267,6 +275,11 @@ function init() {
                 options.fade = false;
                 $typingMessages.remove();
             }
+            var icon = '';
+            if (data.token === window.token) {
+                icon = (window.userCnt > 1) ? '<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>' : '<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>'
+            }
+
             var username = (data.token === window.token) ? 'Вы' : ' <img  style="width: 20px;" src="' + data.avatar + '"/> ' + data.username;
             var $usernameDiv = $('<span class="username"/>')
                 .html(username)
@@ -278,7 +291,7 @@ function init() {
             var $messageDiv = $('<li class="message"/>')
                 .data('username', data.username)
                 .addClass(typingClass)
-                .append($usernameDiv, data.date + ' ', $messageBodyDiv);
+                .append($usernameDiv, icon, ' ', data.date + ' ', $messageBodyDiv);
             console.log($messageDiv);
             addMessageElement($messageDiv, options);
         }

@@ -23,3 +23,7 @@ ALTER TABLE `100_chat_messages`
 ALTER TABLE `100_chat_messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
   ALTER TABLE `100_chat` ADD `is_confirmed` TINYINT NULL DEFAULT NULL AFTER `chat_id`;
+
+  ALTER TABLE `100_chat_messages` ADD `is_read` TINYINT(1) NOT NULL DEFAULT '0' AFTER `created`;
+  ALTER TABLE `100_chat` CHANGE `layer_id` `lawyer_id` INT(11) NULL DEFAULT NULL;
+

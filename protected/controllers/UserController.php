@@ -82,13 +82,13 @@ class UserController extends Controller
             $model = new Chat();
             $model->user_id = Yii::app()->user->id;
             $model->chat_id = $chatId;
-            $model->layer_id = $layerId;
+            $model->lawyer_id = $layerId;
             $model->created = time();
             $model->save();
             $this->redirect('/user/chats?chatId=' . $chatId);
         }
         $criteria = new CDbCriteria();
-        $criteria->condition = (Yii::app()->user->role == User::ROLE_CLIENT) ? 'user_id =:id' : 'layer_id=:id and is_payed=1 or is_confirmed IS NULL';
+        $criteria->condition = (Yii::app()->user->role == User::ROLE_CLIENT) ? 'user_id =:id' : 'lawyer_id=:id and is_payed=1 or is_confirmed IS NULL';
         $criteria->params = [':id' => Yii::app()->user->id];
         $criteria->order = 'is_closed ASC';
         $chats = Chat::model()->findAll($criteria);
@@ -100,10 +100,15 @@ class UserController extends Controller
         }
         $chat = Chat::model()->find('chat_id = :id', [':id' => $room]);
         if ($chat) {
+            ChatMessages::model()->updateAll(
+                ['is_read' => 1],
+                'chat_id = :id and user_id != :user_id',
+                [':id' => $chat['id'], ':user_id' => Yii::app()->user->id]
+            );
             $mess = ChatMessages::model()->findAll('chat_id = :id', [':id' => $chat['id']]);
             foreach ($mess as $row) {
                 $messages[] = [
-
+                    'is_read' => $row->is_read,
                     'username' => $row->user->getShortName(),
                     'avatar' => $row->user->getAvatarUrl(),
                     'message' => $row->message,
@@ -640,7 +645,7 @@ class UserController extends Controller
 
         $testimonialsDataProvider = $user->getTestimonialsDataProvider(5, false);
         $answersCnt = Answer::model()->count('authorId=:id', [':id' => $id]);
-        $chat = Chat::model()->findByAttributes(['layer_id' => $id, 'is_closed' => null]);
+        $chat = Chat::model()->findByAttributes(['lawyer_id' => $id, 'is_closed' => null]);
         $minQnt = Yii::app()->params['MinAnswerQntForChat'];
         $this->render('profile', [
             'chat' => $chat,

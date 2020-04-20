@@ -32,7 +32,7 @@ $io->on('connection', function ($socket) use ($io) {
                 case 'confirmed':
                     $price = $connector->getLayerPrice($layerId);
                     $chatId = $connector->getChatId($room);
-                    $io->sockets->to($room)->emit('openPayForm', ['layer_id' => $layerId, 'chatId' => $chatId, 'price' => $price, 'message' => 'Необходимо оплатить услуги юриста', 'username' => '']);
+                    $io->sockets->to($room)->emit('openPayForm', ['lawyer_id' => $layerId, 'chatId' => $chatId, 'price' => $price, 'message' => 'Необходимо оплатить услуги юриста', 'username' => '']);
                     break;
                 case 'decline':
                     $io->sockets->to($room)->emit('decline', []);
@@ -81,7 +81,7 @@ $io->on('connection', function ($socket) use ($io) {
         $chatId = $connector->getChatId($data['room']);
         $connector->accept($chatId);
         unset($connector);
-        $io->sockets->to($data['room'])->emit('openPayForm', ['layer_id' => $layerId, 'chatId' => $chatId, 'price' => $price, 'message' => 'Необходимо оплатить услуги юриста', 'username' => '']);
+        $io->sockets->to($data['room'])->emit('openPayForm', ['lawyer_id' => $layerId, 'chatId' => $chatId, 'price' => $price, 'message' => 'Необходимо оплатить услуги юриста', 'username' => '']);
 
     });
 

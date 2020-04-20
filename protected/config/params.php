@@ -1,23 +1,23 @@
 <?php
-
+// this contains the application parameters that can be maintained via GUI
 return [
     'rangs' => require(dirname(__FILE__) . '/rangs.php'),
-    'adminEmail' => getenv('ADMIN_EMAIL'),
+    'adminEmail' => '100yuristov@mail.ru',
+    'leadsEmail' => 'admin@100yuristov.com',
     'MinAnswerQntForChat' => 0,
-    'leadsEmail' => getenv("LEADS_EMAIL"),
-    'adminNotificationsEmail' => getenv("ADMIN_NOTIFICATIONS_EMAIL"),
+    'adminNotificationsEmail' => 'admin@100yuristov.com',
     '100yuristovSourceId' => 3,  // id источника лидов, соответствующего 100 юристам
     'zakonSourceId' => 1,  // id источника лидов, соответствующего КЦ Закон
-    'crmDomain' => getenv("CRM_DOMAIN"),
-    'yandexShopPassword' => getenv("YANDEX_SHOP_PASSWORD"),
-    'yandexShopId' => getenv("YANDEX_SHOP_ID"), // идентификатор магазина
-    'yandexScid' => getenv("YANDEX_SCID"),// номер витрины
-    'yandexPaymentAction' => getenv("YANDEX_PAYMENT_ACTION"), // куда отправлять форму оплаты через Яндекс
-    'mailBoxYurcrmLogin' => getenv("MAILBOX_YURCRM_LOGIN"),
-    'mailBoxYurcrmPassword' => getenv("MAILBOX_YURCRM_PASSWORD"),
-    'mailBoxYurcrmServer' => getenv("MAILBOX_YURCRM_SERVER"),
-    'mailBoxYurcrmPort' => getenv("MAILBOX_YURCRM_PORT"),
-    'mailBoxYurcrmParam' => getenv("MAILBOX_YURCRM_PARAM"),
+    'crmDomain' => 'http://crm',
+    'yandexShopPassword' => 'n9WTvvY5J',
+    'yandexShopId' => 73868, // идентификатор магазина
+    'yandexScid' => 542085, // номер витрины
+    'yandexPaymentAction' => 'https://demomoney.yandex.ru/eshop.xml', // куда отправлять форму оплаты через Яндекс
+    'mailBoxYurcrmLogin' => 'admin@100yuristov.com',
+    'mailBoxYurcrmPassword' => 'vpn168dsl168',
+    'mailBoxYurcrmServer' => 'imap.mail.ru',
+    'mailBoxYurcrmPort' => 993,
+    'mailBoxYurcrmParam' => '/imap/ssl/novalidate-cert',
     'questionPrice' => 5,
     'leadHoldPeriodDays' => 2, // сколько суток лид может быть забракован (в холде)
     'categories' => [
@@ -48,50 +48,33 @@ return [
         7 => 1347445, // вебмастера
         10 => 1347446, // юристы
     ],
-    'sendPulseApiId' => getenv("SENDPULSE_API_ID"),
-    'sendPulseApiSecret' => getenv("SENDPULSE_API_SECRET"),
+    'sendPulseApiId' => '83b196b8167efa203431239059e6aef5',
+    'sendPulseApiSecret' => '72df25fae69d448db7f99753dc3cda03',
     'bonuses' => [
         //настройки бонусов за привлечение пользователей
         10 => 25000, // за юриста 300 рублей
         3 => 5000, // за клиента 50 рублей
     ],
     'priceCoeff' => 1.6,
-    'yandexMoneySecret' => getenv("YANDEX_MONEY_SECRET"),
-    'smtpServer' => getenv("SMTP_SERVER"),
-    'smtpPort' => getenv("SMTP_PORT"),
-    'smtpLogin' => getenv("SMTP_LOGIN"),
-    'smtpPassword' => getenv("SMTP_PASSWORD"),
-    'smtpSenderEmail' => getenv("SMTP_SENDER_EMAIL"),
+    'yandexMoneySecret' => 'KUWxQxXHNKqj+yiQ6YOdSE/h',
+    'smtpServer' => 'smtp-pulse.com',
+    'smtpPort' => '465',
+    'smtpLogin' => 'admin@100yuristov.com',
+    'smtpPassword' => 'R9JjqWtq3fn',
+    'smtpSenderEmail' => 'admin@100yuristov.com',
     'logTable' => '{{log}}',
-    'yurcrmToken' => getenv("YURCRM_TOKEN"), // токен, по которому создаются пользователи в yurcrm
-    'yurcrmDefaultTariff' => getenv("YURCRM_DEFAULT_TARIFF"), // тариф по умолчанию для создаваемых пользователей в CRM
-    'yurcrmApiUrl' => getenv("YURCRM_API_URL"), // адрес API CRM
-    'yurcrmDomain' => getenv("YURCRM_DOMAIN"), // адрес YurCRM
+    'yurcrmToken' => 'd5e599d3c15e6ce0ce9d3c5a17ca624b', // токен, по которому создаются пользователи в yurcrm
+    'yurcrmDefaultTariff' => 5, // тариф по умолчанию для создаваемых пользователей в CRM
+    'yurcrmApiUrl' => 'http://crm2/api/', // адрес API CRM
+    'yurcrmDomain' => 'http://crm2', // адрес YurCRM
     'donatesEnabled' => false,
-    'webmaster100yuristovId' => 4025,
-    'geo_service_url' => getenv("GEO_SERVICE_URL"),
-    'sellLeadAfterCreating' => true, // пытаться продать лид сразу после создания
-    'yuristBonus' => [
-        'bonusForGoodAnswer' => 2000, // бонус юристу за хороший ответ в копейках
-        'fastAnswerCoefficient' => 2, // коэффициент бонуса юристу за хороший ответ
-        'fastAnswerInterval' => 2, // интервал в часах, когда хороший ответ считается быстрым
-    ],
+    'webmaster100yuristovId' => 4025, // id вебмастера, под которым создаются лиды источника 100 Юристов
+    'geo_service_url' => 'http://geo.100yuristov',
+    'sellLeadAfterCreating' => false, // пытаться продать лид сразу после создания
     'sovinform' => [
-        'key' => getenv("SOVINFORM_KEY"),
+        'key' => '',
     ],
     'gainnet' => [
-        'key' => getenv("GAINNET_KEY"),
-    ],
-    'pravoved' => [
-        'key' => getenv("PRAVOVED_KEY"),
-    ],
-    'api8088' => [
-        'key' => getenv("API_8088_KEY"),
-    ],
-    'leadia' => [
-        'key' => getenv("LEADIA_KEY"),
-    ],
-    'lexprofit' => [
-        'key' => getenv("LEXPROFIT_KEY"),
+        'key' => '',
     ],
 ];

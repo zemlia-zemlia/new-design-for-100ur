@@ -561,10 +561,10 @@ class User extends CActiveRecord
         return password_verify($password, $this->password);
     }
 
-    public static function getChatsCntForLayer()
+    public static function getChatsMessagesCnt()
     {
         $result = '';
-        $cnt = Chat::model()->count('layer_id = :id AND is_payed=1 AND is_closed is NULL', [':id' => Yii::app()->user->id]);
+        $cnt = ChatMessages::model()->count('user_id = :id AND is_read = 0', [':id' => Yii::app()->user->id]);
         if ($cnt) {
             return '<strong class="red">(' . $cnt . ')</strong>';
         }

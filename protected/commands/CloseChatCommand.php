@@ -14,27 +14,27 @@ class CloseChatCommand extends CConsoleCommand
 
         foreach ($data as $row) {
             /** @var Chat $row */
-            /** @var \App\models\User $user */
+            /** @var \App\models\User $lawer */
             /** @var TransactionCampaign $trans */
             if ($trans = TransactionCampaign::model()->find('id=:id and status=:status', [':id' => $row['transaction_id'], ':status' => TransactionCampaign::STATUS_HOLD])) {
                 $saveTransaction = $trans->dbConnection->beginTransaction();
                 try {
                     $trans->status = TransactionCampaign::STATUS_COMPLETE;
-                    $user = \App\models\User::model()->findByPk($row['layer_id']);
-                    $user->balance += $trans->sum;
+                    $lawer = \App\models\User::model()->findByPk($row['lawyer_id']);
+                    $lawer->balance += $trans->sum;
                     $chat = Chat::model()->findByPk($row['chat_id']);
                     $chat->is_closed = 1;
-                    if ($trans->save() and $user->save() and $chat->save()) {
+                    if ($trans->save() and $lawer->save() and $chat->save()) {
                         $saveTransaction->commit();
-                        $user->sendDonateChatNotification($this->chat, $trans->sum);
+                        $lawer->sendDonateChatNotification($chat, $trans->sum);
                     } else {
                         var_dump($chat->getErrors());
-                        var_dump($user->getErrors());
+                        var_dump($lawer->getErrors());
                         var_dump($trans->getErrors());
                     }
                 } catch (\Exception $exception) {
                     $saveTransaction->rollback();
-                    Yii::log('Ошибки: ' . print_r($trans->errors, true) . ' ' . print_r($user->errors, true) . ' ' . print_r($row->errors, true), 'error', 'system.web');
+                    Yii::log('Ошибки: ' . print_r($trans->errors, true) . ' ' . print_r($lawer->errors, true) . ' ' . print_r($row->errors, true), 'error', 'system.web');
 
                 }
 
