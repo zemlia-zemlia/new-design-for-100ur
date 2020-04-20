@@ -6,6 +6,7 @@ use ApiClassInterface;
 use App\models\Lead;
 use CHtml;
 use App\extensions\Logger\LoggerFactory;
+use Yii;
 
 /**
  * Класс для работы с API партнерки 8088.ru
@@ -15,12 +16,13 @@ class Api8088 implements ApiClassInterface
 {
     // @todo вынести параметры подключения в конфиг, передавать как зависимости
     protected $url = 'http://partner.8088.ru/query.php';
-    protected $key = 13969; // наш id в партнерской системе
+    protected $key; // наш id в партнерской системе
     protected $curl;
     protected $lead;
 
     public function __construct()
     {
+        $this->key = Yii::app()->params['api8088']['key'];
         $this->curl = curl_init();
         curl_setopt($this->curl, CURLOPT_URL, $this->url);
         curl_setopt($this->curl, CURLOPT_POST, true);

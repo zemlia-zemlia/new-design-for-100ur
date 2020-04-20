@@ -1,17 +1,10 @@
 <?php
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
-// uncomment the following to define a path alias
-// Yii::setPathOfAlias('local','path/to/local-folder');
-// This is the main Web application configuration. Any writable
-// CWebApplication properties can be configured here.
 return [
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => '100 юристов',
     'defaultController' => 'site',
-    'theme' => '2017',
+    'theme' => '2020',
     // preloading 'log' component
     'preload' => ['log'],
     // autoloading model and component classes
@@ -26,10 +19,10 @@ return [
             'ipFilters' => ['127.0.0.1', '::1'],
         ],
         'admin',
-        'buyer' => ['defaultController' => 'buyer'],
         'webmaster' => [
             'defaultController' => 'default',
         ],
+        'buyer' => ['defaultController' => 'buyer'],
     ],
     // application components
     'components' => [
@@ -39,7 +32,7 @@ return [
             'class' => 'WebUser',
         ],
         'request' => [
-            'enableCsrfValidation' => true,
+            'enableCsrfValidation' => false,
             'enableCookieValidation' => true,
         ],
         'authManager' => [
@@ -53,13 +46,12 @@ return [
             'urlFormat' => 'path',
             'showScriptName' => false,
             'urlSuffix' => '/',
-            'baseUrl' => 'http://100juristov',
+            'baseUrl' => getenv('BASE_URL'),
             'rules' => [
                 '/q' => '/question/index',
                 '/q/<id:\d+>' => '/question/view',
-                '/q/<date:[\w\-]+>' => '/question/archive',
+                '/q/<date:[\d{4}\-\d{1,2}]+>' => '/question/archive',
                 '/cat' => '/questionCategory/index',
-                '/feedback' => '/site/feedback',
                 [
                     'class' => 'application.components.QuestionCategoryRule',
                 ],
@@ -73,10 +65,9 @@ return [
                 '/yurist/<countryAlias:[\w\-]+>' => '/region/country',
                 '/yurist/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>' => '/region/view',
                 '/yurist/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>/<name:[\w\-]+>' => '/town/alias',
-                '/codecs/<codecsAlias:[\w\-\.]+>' => '/codecs/view',
-                '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>' => '/codecs/view',
-                '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>/<glavaAlias:[\w\-\.]+>' => '/codecs/view',
-                '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>/<glavaAlias:[\w\-\.]+>/<articleAlias:[\w\-\.]+>' => '/codecs/view',
+                '/region/<countryAlias:[\w\-]+>' => '/region/redirect',
+                '/region/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>' => '/region/redirect',
+                '/region/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>/<name:[\w\-]+>' => '/region/redirect',
             ],
         ],
         'clientScript' => [
@@ -108,9 +99,9 @@ return [
                   'showInFireBug' =>  false,
                   'categories'    =>  'application',
                   ), */
-                [
+                /*array(
                     'class' => 'CProfileLogRoute',
-                ],
+                ),*/
             ],
         ],
         'cache' => [
@@ -118,6 +109,9 @@ return [
         ],
         'mailer' => [
             'class' => 'application.extensions.GTMail',
+        ],
+        'queue' => [
+            'class' => 'application.extensions.RabbitMQ',
         ],
     ],
     // application-level parameters that can be accessed

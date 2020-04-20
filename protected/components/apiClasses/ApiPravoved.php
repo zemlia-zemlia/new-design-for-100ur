@@ -7,6 +7,7 @@ use App\models\Lead;
 use CHtml;
 use App\extensions\Logger\LoggerFactory;
 use App\components\apiClasses\PravovedGetTown;
+use Yii;
 
 /**
  * Класс для работы с API партнерки Pravoved.
@@ -15,12 +16,13 @@ class ApiPravoved implements ApiClassInterface
 {
     protected $url = 'https://pravoved.ru/polling/';
     protected $townApiUrl = 'https://pravoved.ru/rest/cities/';
-    protected $key = '24b554b143cf6c8dbbd0b55c4e7bd395'; // наш id в партнерской системе
+    protected $key; // наш id в партнерской системе
     protected $curl;
     protected $lead;
 
     public function __construct()
     {
+        $this->key = Yii::app()->params['pravoved']['key'];
         $this->curl = curl_init();
         curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->curl, CURLOPT_HEADER, false);

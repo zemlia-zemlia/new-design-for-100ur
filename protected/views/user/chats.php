@@ -45,9 +45,10 @@ if (!$room and $chats) {
     </h1>
 </div>
 <div class="col-md-4 col-lg-4">
+    <h3>Ваши чаты:</h3>
     <?php foreach ($chats as $chat): ?>
         <a href="/user/chats?chatId=<?= $chat->chat_id ?>"
-           class="btn <?= ($chat->chat_id == $room) ? 'btn-primary' : 'btn-default' ?>">
+           class="btn btn-block <?= ($chat->chat_id == $room) ? 'btn-success' : 'btn-default' ?>">
             <img style="width: 20px;"
                  src="<?= ($role == 10) ? $chat->user->getAvatarUrl() : $chat->layer->getAvatarUrl() ?>">
             <?= ($role == 10) ? $chat->user->getShortName() : $chat->layer->getShortName() ?>
@@ -61,16 +62,21 @@ if (!$room and $chats) {
     <?php endforeach; ?>
 </div>
 <div class="col-md-8 col-lg-8">
-    <div>
+    <div class="row">
         <?php if ($curChat): ?>
-            <img style="width: 20px;"
-                 src="<?= ($role == 10) ? $curChat->user->getAvatarUrl() : $curChat->layer->getAvatarUrl() ?>"><br>
-            <?= ($role == 10) ? $chat->user->getShortName() : $chat->layer->getShortName() ?> <br>
-            была в сети <?= ($role == 10) ? $chat->user->getLastOnline() : $chat->layer->getLastOnline() ?>
+            <div class="col-md-4">
+                <img style="width: 40px;"
+                     src="<?= ($role == 10) ? $curChat->user->getAvatarUrl() : $curChat->layer->getAvatarUrl() ?>">
+            </div>
+            <div class="col-md-4">
+                <?= ($role == 10) ? $chat->user->getShortName() : $chat->layer->getShortName() ?>
+            </div>
+            <div class="col-md-4">
+                была в сети <?= ($role == 10) ? $chat->user->getLastOnline() : $chat->layer->getLastOnline() ?>
+            </div>
         <?php endif; ?>
-
     </div>
-    <ul class="pages" style="height: 500px;">
+    <ul class="pages">
         <li class="chat page">
             <div class="chatArea">
                 <ul class="messages">
@@ -95,15 +101,17 @@ if (!$room and $chats) {
         </li>
         <li style="width: 100%; position: absolute; bottom: 90px;left: 0px;">
             <input id="closeButton" style="display: none;" type="button" value="Закрыть чат"/>
+
+            <input id="fileButton" class="fileButton" type="button" onclick="$('#fileinput').click()"
+                   value="File"/>
+            <input id="messageInput" class="inputMessage" placeholder="Сообщение"/>
+
+            <input id="send" class="closeButton" type="button" value="Послать"/>
+        </li>
+    </ul>
 </div>
-<input id="fileButton" class="fileButton" type="button" onclick="$('#fileinput').click()"
-       value="File"/>
-<input id="messageInput" class="inputMessage" placeholder="Сообщение"/>
-<input id="send" class="closeButton" type="button" value="Послать"/>
 
-</li>
 
-</ul>
 <input onchange="processWebImage(this)" type="file" id="fileinput" style="display: none">
 <div id='payForm' style="display: none">
     <h2> Необходимо оплатить услуги юриста</h2>
