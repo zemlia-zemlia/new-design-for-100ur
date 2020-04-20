@@ -4,18 +4,22 @@
 class Connector
 {
     private $db;
-    private $filePath = '../../../../100yuristov/upload/';
-    private $dbSeting = [
-        'dbName' => '100',
-        'login' => 'root',
-        'pass' => ''
-    ];
-    private $domain = 'http://100.loc/';
+    private $filePath = '';
+    private $dbSeting = [];
 
     function __construct()
     {
+        $dotenv = new Symfony\Component\Dotenv\Dotenv();
+        $dotenv->load(__DIR__ . '/../../../protected/config/.env');
+        $this->dbSeting = [
+            'dbName' => $_ENV['DB_NAME'],
+            'login' => $_ENV['DB_USER'],
+            'pass' => $_ENV['DB_PASSWORD'],
+            'host' => $_ENV['DB_HOST']
+        ];
+        $this->filePath = __DIR__ . '/../../../' . $_ENV['CHAT_UPLOUD_FOLDER'] . '/';
         try {
-            $this->db = new PDO('mysql:dbname=' . $this->dbSeting['dbName'] . ';charset=UTF8' . ';host=localhost', $this->dbSeting['login'], $this->dbSeting['pass']);
+            $this->db = new PDO('mysql:dbname=' . $this->dbSeting['dbName'] . ';charset=UTF8' . ';host=' . $this->dbSeting['host'], $this->dbSeting['login'], $this->dbSeting['pass']);
         } catch (PDOException $e) {
             die($e->getMessage());
         }
@@ -232,7 +236,7 @@ class Connector
             return [
                 'name' => $file['origin_name'],
                 'mime' => $file['type'],
-                'link' => $this->domain . 'upload/' . $filename,
+                'link' => '/' . $_ENV['CHAT_UPLOUD_FOLDER'] . '/' . $filename,
                 'userId' => $userId
             ];
         }

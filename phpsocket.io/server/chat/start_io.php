@@ -8,8 +8,10 @@ use PHPSocketIO\SocketIO;
 require_once './Connector.php';
 // composer autoload
 require_once join(DIRECTORY_SEPARATOR, array(__DIR__, "..", "..", "vendor", "autoload.php"));
+$dotenv = new Symfony\Component\Dotenv\Dotenv();
+$dotenv->load(__DIR__ . '/../../../protected/config/.env');
 
-$io = new SocketIO(2020);
+$io = new SocketIO($_ENV['CHAT_PORT']);
 
 $io->on('connection', function ($socket) use ($io) {
 

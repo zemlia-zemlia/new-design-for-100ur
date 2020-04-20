@@ -25,7 +25,7 @@ if (!$room and $chats) {
     window.token = "<?=$user->confirm_code?>";
     window.role = "<?=$role?>";
     window.siteUrl = "<?=Yii::app()->getBaseUrl(true)?>";
-    window.chaturl = "<?=getenv('CHAT_URL')?>";
+    window.chaturl = "<?=getenv('CHAT_URL')?>:<?=getenv('CHAT_PORT')?>";
 </script>
 <?php if ($role == \App\models\User::ROLE_JURIST): ?>
     <script>
