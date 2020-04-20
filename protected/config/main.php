@@ -53,7 +53,7 @@ return [
             'urlFormat' => 'path',
             'showScriptName' => false,
             'urlSuffix' => '/',
-            'baseUrl' => 'http://100.loc',
+            'baseUrl' => 'http://100yuristov',
             'rules' => [
                 '/q' => '/question/index',
                 '/q/<id:\d+>' => '/question/view',

@@ -5,9 +5,10 @@ use Workerman\WebServer;
 use Workerman\Autoloader;
 use PHPSocketIO\SocketIO;
 
+require_once join(DIRECTORY_SEPARATOR, array(__DIR__, "..", "..", "..", "protected", "vendor", "autoload.php"));
+
 require_once './Connector.php';
-// composer autoload
-require_once join(DIRECTORY_SEPARATOR, array(__DIR__, "..", "..", "vendor", "autoload.php"));
+
 $dotenv = new Symfony\Component\Dotenv\Dotenv();
 $dotenv->load(__DIR__ . '/../../../protected/config/.env');
 
