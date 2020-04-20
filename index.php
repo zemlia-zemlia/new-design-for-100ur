@@ -1,9 +1,5 @@
 <?php
-
 // необходимо для запуска тестов API
-//include 'protected/c3.php';
-//phpinfo();
-//die();
 // change the following paths if necessary
 error_reporting(E_ERROR);
 $composer = dirname(__FILE__) . '/protected/vendor/autoload.php';

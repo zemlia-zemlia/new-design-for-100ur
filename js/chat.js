@@ -1,7 +1,6 @@
 $(function () {
     window.filesArray = [];
-    window.siteUrl = 'http://100.loc';
-    window.chaturl = 'http://0.0.0:2020';
+
     init();
 
 });

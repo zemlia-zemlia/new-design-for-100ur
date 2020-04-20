@@ -21,9 +21,11 @@ if (!$room and $chats) {
     </script>
 <?php endif; ?>
 <script>
-    window.username = "<?=$user->getShortName()?>"
-    window.token = "<?=$user->confirm_code?>"
-    window.role = "<?=$role?>"
+    window.username = "<?=$user->getShortName()?>";
+    window.token = "<?=$user->confirm_code?>";
+    window.role = "<?=$role?>";
+    window.siteUrl = "<?=Yii::app()->getBaseUrl(true)?>";
+    window.chaturl = "<?=getenv('CHAT_URL')?>";
 </script>
 <?php if ($role == \App\models\User::ROLE_JURIST): ?>
     <script>
