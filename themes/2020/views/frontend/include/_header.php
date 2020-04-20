@@ -165,7 +165,7 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                         <?php endif; ?>
                         <?php if (Yii::app()->user->role == User::ROLE_CLIENT): ?>
                             <li class=""><?php echo ($_SERVER['REQUEST_URI'] != '/blog/') ? CHtml::link('Новости', Yii::app()->createUrl('/blog/')) : '<span class="active">Новости</span>'; ?></li>
-                            <li> <?= CHtml::link('Чаты с юристами', '/user/chats' . User::getChatsMessagesCnt()) ?></li>
+                            <li> <?= CHtml::link('Чаты с юристами ' . User::getChatsMessagesCnt(), '/user/chats') ?></li>
                         <?php endif; ?>
 
                         <?php if (!stristr($_SERVER['REQUEST_URI'], '/question/create/')): ?>
