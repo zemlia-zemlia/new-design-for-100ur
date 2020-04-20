@@ -98,7 +98,9 @@ class UserController extends Controller
         } else {
             $room = $chatId;
         }
+
         $chat = Chat::model()->find('chat_id = :id', [':id' => $room]);
+
         if ($chat) {
             ChatMessages::model()->updateAll(
                 ['is_read' => 1],

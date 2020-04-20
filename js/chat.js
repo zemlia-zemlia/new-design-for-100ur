@@ -51,6 +51,9 @@ function init() {
                 room: window.room
             });
             socket.on('newChat', function () {
+                if (window.newChat) {
+                    return;
+                }
                 if (window.role == 10) {
                     log('Вам надо или подтвердить или отклонить чат');
                     var buttons = $('#buttons').html();
@@ -83,6 +86,7 @@ function init() {
                 } else {
                     log('Напишите свой вопрос юристу, после того, как он примет вопрос, вам будет предложена форма оплаты консультации');
                 }
+                window.newChat = 1;
 
             });
             /// Открытие чата после оплаты
@@ -172,17 +176,17 @@ function init() {
         // Whenever the server emits 'user joined', log it in the chat body
         socket.on('user joined', (data) => {
 
-            if (data.username) {
-                log('Новый пользователь ' + ' присоединился к чату', {prepend: 1});
-                addParticipantsMessage(data);
-            }
+            // if (data.username) {
+            //     log('Новый пользователь ' + ' присоединился к чату', {prepend: 1});
+            //     addParticipantsMessage(data);
+            // }
         });
 
         // Whenever the server emits 'user left', log it in the chat body
         socket.on('user left', (data) => {
 
-            log(' Пользователь покинул чат', {prepend: 1});
-            addParticipantsMessage(data);
+            // log(' Пользователь покинул чат', {prepend: 1});
+            // addParticipantsMessage(data);
             removeChatTyping(data);
         });
 
@@ -221,11 +225,11 @@ function init() {
             var message = '';
             if (data.numUsers == 1) {
                 window.userCnt = data.numUsers;
-                message += "сейчас в чате 1 человек";
+                // message += "сейчас в чате 1 человек";
             } else {
                 if (data.numUsers !== undefined) {
                     window.userCnt = data.numUsers;
-                    message += "сейчас в чате " + data.numUsers + " человек";
+                    // message += "сейчас в чате " + data.numUsers + " человек";
                 }
 
             }

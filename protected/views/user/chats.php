@@ -85,11 +85,11 @@ if (!$room and $chats) {
                      src="<?= ($role == User::ROLE_JURIST) ? $curChat->user->getAvatarUrl() : $curChat->lawyer->getAvatarUrl() ?>">
             </div>
             <div class="col-md-4">
-                <?= ($role == User::ROLE_JURIST) ? $chat->user->getShortName() : $chat->lawyer->getShortName() ?>
+                <?= ($role == User::ROLE_JURIST) ? $curChat->user->getShortName() : $curChat->lawyer->getShortName() ?>
             </div>
             <div class="col-md-4">
                 была в
-                сети <?= ($role == User::ROLE_JURIST) ? $chat->user->getLastOnline() : $chat->lawyer->getLastOnline() ?>
+                сети <?= ($role == User::ROLE_JURIST) ? $curChat->user->getLastOnline() : $curChat->lawyer->getLastOnline() ?>
             </div>
         <?php endif; ?>
     </div>
