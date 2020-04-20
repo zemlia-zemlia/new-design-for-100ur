@@ -9,6 +9,10 @@ function init() {
     initChat();
 
     function initChat() {
+        if (!window.room) {
+            $('#chats').hide();
+            return;
+        }
         var FADE_TIME = 150; // ms
         var TYPING_TIMER_LENGTH = 400; // ms
         var COLORS = [

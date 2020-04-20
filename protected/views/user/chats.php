@@ -77,7 +77,7 @@ if (!$room and $chats) {
         <?php endif; ?>
     <?php endif; ?>
 </div>
-<div class="col-md-8 col-lg-8">
+<div class="col-md-8 col-lg-8" id="chats">
     <div class="row">
         <?php if ($curChat): ?>
             <div class="col-md-4">
