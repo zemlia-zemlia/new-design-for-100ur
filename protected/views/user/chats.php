@@ -9,6 +9,7 @@
 /* @var User $user */
 
 use App\models\User;
+
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/socket.io-client/socket.io.js', CClientScript::POS_END);
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/chat.js', CClientScript::POS_END);
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css');
@@ -83,13 +84,14 @@ if (!$room and $chats) {
             <div class="col-md-4">
                 <img style="width: 40px;"
                      src="<?= ($role == User::ROLE_JURIST) ? $curChat->user->getAvatarUrl() : $curChat->lawyer->getAvatarUrl() ?>">
+                  <?= ($role == User::ROLE_JURIST) ? $curChat->user->getShortName() : $curChat->lawyer->getShortName() ?>
             </div>
             <div class="col-md-4">
-                <?= ($role == User::ROLE_JURIST) ? $curChat->user->getShortName() : $curChat->lawyer->getShortName() ?>
+                была в сети <br/>
+                <?= ($role == User::ROLE_JURIST) ? $curChat->user->getLastOnline() : $curChat->lawyer->getLastOnline() ?>
             </div>
             <div class="col-md-4">
-                была в
-                сети <?= ($role == User::ROLE_JURIST) ? $curChat->user->getLastOnline() : $curChat->lawyer->getLastOnline() ?>
+                <input id="closeButton" style="display: none;" type="button" value="Закрыть чат"/>
             </div>
         <?php endif; ?>
     </div>
@@ -124,13 +126,9 @@ if (!$room and $chats) {
 
         </li>
         <li style="width: 100%;">
-            <input id="closeButton" style="display: none;" type="button" value="Закрыть чат"/>
-
-            <input id="fileButton" class="fileButton" type="button" onclick="$('#fileinput').click()"
-                   value="File"/>
+            <input id="fileButton" class="fileButton" type="button" onclick="$('#fileinput').click()" value="File"/>
             <input id="messageInput" class="inputMessage" placeholder="Сообщение"/>
-
-            <input id="send" class="closeButton" type="button" value="Послать"/>
+            <input id="send" class="closeButton" type="button" value="Отправить"/>
         </li>
     </ul>
 </div>
@@ -139,7 +137,7 @@ if (!$room and $chats) {
 <input onchange="processWebImage(this)" type="file" id="fileinput" style="display: none">
 <div id='payForm' style="display: none">
     <h2> Необходимо оплатить услуги юриста</h2>
-    <form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml" class="balance-form">
+    <form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml" class="balance-form ">
         <input type="hidden" name="receiver" value="410012948838662">
         <input id="formLabel" type="hidden" name="label" value="">
         <input type="hidden" name="quickpay-form" value="shop">
