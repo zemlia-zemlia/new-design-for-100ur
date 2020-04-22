@@ -88,7 +88,7 @@ class UserController extends Controller
             $this->redirect('/user/chats?chatId=' . $chatId);
         }
         $criteria = new CDbCriteria();
-        $criteria->condition = (Yii::app()->user->role == User::ROLE_CLIENT) ? 'user_id =:id' : 'lawyer_id=:id and (is_payed=1 or is_confirmed IS NULL)';
+        $criteria->condition = (Yii::app()->user->role == User::ROLE_CLIENT) ? 'user_id =:id' : 'lawyer_id=:id';
         $criteria->params = [':id' => Yii::app()->user->id];
         $criteria->order = 'is_closed ASC';
         $chats = Chat::model()->findAll($criteria);

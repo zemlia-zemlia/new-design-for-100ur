@@ -138,7 +138,7 @@ class Connector
                 $result = 'decline';
                 $this->closeChat($roomName);
             }
-            var_dump($result);
+//            var_dump($result);
             return $result;
         }
 

@@ -84,7 +84,7 @@ if (!$room and $chats) {
             <div class="col-md-4">
                 <img style="width: 40px;"
                      src="<?= ($role == User::ROLE_JURIST) ? $curChat->user->getAvatarUrl() : $curChat->lawyer->getAvatarUrl() ?>">
-                  <?= ($role == User::ROLE_JURIST) ? $curChat->user->getShortName() : $curChat->lawyer->getShortName() ?>
+                <?= ($role == User::ROLE_JURIST) ? $curChat->user->getShortName() : $curChat->lawyer->getShortName() ?>
             </div>
             <div class="col-md-4">
                 была в сети <br/>
@@ -109,13 +109,15 @@ if (!$room and $chats) {
                                     <?php endif; ?>
                                     <?= ($mess['token'] == $user->confirm_code) ? 'Вы' : $mess['username'] ?></span>
                                 <?php if ($mess['token'] == $user->confirm_code): ?>
-                                <?php if ($mess['is_read']): ?>
-                                    <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
-                                <?php else: ?>
-                                <span class="glyphicon glyphicon-ok" aria-hidden="true">
+                                    <?php if ($mess['is_read']): ?>
+                                        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                                    <?php else: ?>
+                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                     <?php endif; ?>
-                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <span class="dateMessage">
                                     <?= $mess['date'] ?>
+                                </span>
                                 <span class="messageBody"><?= $mess['message'] ?></span>
                             </li>
                         <?php endforeach; ?>
@@ -125,6 +127,7 @@ if (!$room and $chats) {
         <li id="fileName">
 
         </li>
+        <li style="display: none" id="typing"></li>
         <li style="width: 100%;">
             <input id="fileButton" class="fileButton" type="button" onclick="$('#fileinput').click()" value="File"/>
             <input id="messageInput" class="inputMessage" placeholder="Сообщение"/>
