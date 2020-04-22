@@ -227,7 +227,7 @@ class Connector
         foreach ($fileData as $file) {
             $filename = uniqid('', true) . '_' . $file['origin_name'];
             file_put_contents($this->filePath . $filename, base64_decode($file['base64']));
-            $sth = $this->db->prepare("INSERT INTO `100_chatFiles` (`id`, `name`, `mime`, `filename`, `user_id`, `created`) VALUES (NULL, :name, :mime, :filename, :userId, :created)");
+            $sth = $this->db->prepare("INSERT INTO `100_chat_files` (`id`, `name`, `mime`, `filename`, `user_id`, `created`) VALUES (NULL, :name, :mime, :filename, :userId, :created)");
             $sth->execute([
                 ':name' => $file['origin_name'],
                 ':mime' => $file['type'],
