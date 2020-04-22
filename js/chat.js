@@ -35,6 +35,7 @@ function init() {
         var lastTypingTime;
         var $currentInput = $usernameInput.focus();
         var socket = io(window.chaturl);
+
         $('#closeButton').click(function () {
             socket.emit('close chat', window.room);
         })
@@ -202,14 +203,7 @@ function init() {
 
         socket.on('reconnect', () => {
             log('Вы перезашли в чат');
-
-            socket.emit('add user', {
-                    name: window.username,
-                    id: window.token,
-                    emp_id: "",
-                    room: window.room
-                }
-            );
+            window.location.reload();
         });
 
         socket.on('reconnect_error', () => {
@@ -426,19 +420,25 @@ function init() {
 
 function processWebImage(target) {
     var reader = new FileReader();
+    var mime = 'image/png,image/jpeg,image/gif,image/bmp,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,image/*,application/pdf'.split(',');
+
     window.filesArray = [];
     const fileList = target.files;
     for (let index = 0; index < fileList.length; index++) {
         reader.onload = readerEvent => {
-            const content = readerEvent.target.result.split('base64,')[1];
-            $('#fileName').append('<span>' + fileList[index].name + '</span>&nbsp;');
-            window.filesArray.push({
-                type: fileList[index].type,
-                size: fileList[index].size,
-                origin_name: fileList[index].name,
-                base64: content
-            });
-            console.log(window.filesArray);
+            console.log([mime, fileList[index].type], mime.indexOf(fileList[index].type));
+            if (mime.indexOf(fileList[index].type) !== -1) {
+                $('#fileName').html('');
+                const content = readerEvent.target.result.split('base64,')[1];
+                $('#fileName').append('<span>' + fileList[index].name + '</span>&nbsp;');
+                window.filesArray.push({
+                    type: fileList[index].type,
+                    size: fileList[index].size,
+                    origin_name: fileList[index].name,
+                    base64: content
+                });
+                console.log(window.filesArray);
+            }
         };
         reader.readAsDataURL(target.files[index]);
     }

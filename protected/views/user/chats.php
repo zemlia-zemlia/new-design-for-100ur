@@ -137,7 +137,9 @@ if (!$room and $chats) {
 </div>
 
 
-<input onchange="processWebImage(this)" type="file" id="fileinput" style="display: none">
+<input onchange="processWebImage(this)"
+       accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,image/*,application/pdf"
+       type="file" id="fileinput" style="display: none">
 <div id='payForm' style="display: none">
     <h2> Необходимо оплатить услуги юриста</h2>
     <form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml" class="balance-form ">
