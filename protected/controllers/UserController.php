@@ -651,7 +651,7 @@ class UserController extends Controller
         $minQnt = Yii::app()->params['MinAnswerQntForChat'];
         $this->render('profile', [
             'chat' => $chat,
-            'showChatbutton' => $answersCnt > $minQnt,
+            'showChatbutton' => $answersCnt >= $minQnt,
             'questions' => $questions,
             'user' => $user,
             'testimonialsDataProvider' => $testimonialsDataProvider,
