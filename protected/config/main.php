@@ -54,7 +54,7 @@ return [
             'showScriptName' => false,
             'urlSuffix' => '/',
 
-            'baseUrl' => 'http://100yuristov.local',
+            'baseUrl' => 'http://100yuristov',
 
             'rules' => [
                 '/q' => '/question/index',

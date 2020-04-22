@@ -73,25 +73,25 @@ if (!$room and $chats) {
         <?php endif; ?>
         <?php if ($role == User::ROLE_JURIST): ?>
             <div>
-                У вас нет пока нет чатов пользователями,
+                У вас нет пока нет чатов пользователями.
             </div>
         <?php endif; ?>
     <?php endif; ?>
 </div>
-<div class="col-md-8 col-lg-8" id="chats">
-    <div class="row">
+<div class="col-md-8 col-lg-8 chat-window" id="chats">
+    <div class="row row-chat-info">
         <?php if ($curChat): ?>
             <div class="col-md-4">
                 <img style="width: 40px;"
                      src="<?= ($role == User::ROLE_JURIST) ? $curChat->user->getAvatarUrl() : $curChat->lawyer->getAvatarUrl() ?>">
                 <?= ($role == User::ROLE_JURIST) ? $curChat->user->getShortName() : $curChat->lawyer->getShortName() ?>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 была в сети <br/>
                 <?= ($role == User::ROLE_JURIST) ? $curChat->user->getLastOnline() : $curChat->lawyer->getLastOnline() ?>
             </div>
-            <div class="col-md-4">
-                <input id="closeButton" style="display: none;" type="button" value="Закрыть чат"/>
+            <div class="col-md-5">
+                <input class="btn btn-block btn-default" id="closeButton" style="display: none;" type="button" value="Завершить консультацию"/>
             </div>
         <?php endif; ?>
     </div>
@@ -101,25 +101,31 @@ if (!$room and $chats) {
                 <ul class="messages">
                     <?php if ($messages): ?>
                         <?php foreach ($messages as $mess): ?>
+                            <div class="small ">
+
                             <li class="message <?= ($mess['token'] == $user->confirm_code) ? 'my' : '' ?>"
                                 style="display: list-item;">
-                                <span class="username" style="color: rgb(247, 139, 0);">
+                                <span class="username">
                                     <?php if ($mess['token'] != $user->confirm_code): ?>
                                         <img style="width: 20px;" src="<?= $mess['avatar'] ?>"/>
                                     <?php endif; ?>
-                                    <?= ($mess['token'] == $user->confirm_code) ? 'Вы' : $mess['username'] ?></span>
-                                <?php if ($mess['token'] == $user->confirm_code): ?>
-                                    <?php if ($mess['is_read']): ?>
-                                        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
-                                    <?php else: ?>
-                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                    <?= ($mess['token'] == $user->confirm_code) ? 'Вы:' : $mess['username'] ?></span>
+
+                                    <span class="dateMessage">
+                                        <?= $mess['date'] ?>
+                                    </span>
+                                    <?php if ($mess['token'] == $user->confirm_code): ?>
+                                        <?php if ($mess['is_read']): ?>
+                                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" title="Прочитано"></span>
+                                        <?php else: ?>
+                                            <span class="glyphicon glyphicon-ok" aria-hidden="true" title="Не прочитано"></span>
+                                        <?php endif; ?>
                                     <?php endif; ?>
-                                <?php endif; ?>
-                                <span class="dateMessage">
-                                    <?= $mess['date'] ?>
-                                </span>
+                                <br/>
                                 <span class="messageBody"><?= $mess['message'] ?></span>
                             </li>
+                            </div>
+
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </ul>
@@ -141,33 +147,23 @@ if (!$room and $chats) {
        accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,image/*,application/pdf"
        type="file" id="fileinput" style="display: none">
 <div id='payForm' style="display: none">
-    <h2> Необходимо оплатить услуги юриста</h2>
+    <h2>Оплата консультации юриста</h2>
     <form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml" class="balance-form ">
         <input type="hidden" name="receiver" value="410012948838662">
         <input id="formLabel" type="hidden" name="label" value="">
         <input type="hidden" name="quickpay-form" value="shop">
+        <input type="hidden" name="paymentType" value="AC">
         <input type="hidden" name="successURL"
                value="<?= getenv('PROTOCOL') . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] ?>">
         <input type="hidden" name="targets" value="Оплата консультаций">
         <div class="form-group">
-            <div class="input-group">
+            <div class="input-group text-center">
                 <input type="hidden" name="sum" value="500" data-type="number" id="js-summ"
                        class="form-control text-right ">
-                <div class="input-group-addon"><span class="js-summ"></span> руб.</div>
+                <span class="js-summ text-center"></span> руб.
             </div>
         </div>
-        <div class="radio">
-            <label><input type="radio" name="paymentType" value="PC" checked>Яндекс.Деньгами <br/>
-                <small>Комиссия 0.5%
-                </small>
-            </label>
-            <label><input type="radio" name="paymentType" value="AC">Банковской картой<br/>
-                <small>Комиссия 2%
-                </small>
-            </label>
-        </div>
-
-        <input type="submit" class="btn btn-default" value="Оплатить">
+        <input type="submit" class="btn btn-default" value="Перейти к оплате">
     </form>
     <div id="buttons" style="display: none">
         <a class="btn btn-success" id="accept" href="#">Принять чат</a> &nbsp;

@@ -55,7 +55,7 @@ function init() {
                     return;
                 }
                 if (window.role == 10) { // если юрист
-                    log('Вам надо или подтвердить или отклонить чат');
+                    log('Вам необходимо или подтвердить или отклонить запрос на консультацию');
                     var buttons = $('#buttons').html();
                     $('ul.messages').append('<li id="buttonsLi">' + buttons + '</li>');
 
@@ -67,7 +67,7 @@ function init() {
                         if (confirm('Принять чат?')) {
                             socket.emit('accept chat', {room: window.room, token: window.token});
                             $('#buttonsLi').remove();
-                            log('Ожидаем оплаты от клиента ...');
+                            log('Ожидаем оплаты консультации от клиента ...');
                         }
                         return false;
                     });
@@ -278,7 +278,7 @@ function init() {
                 icon = (window.userCnt > 1) ? '<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>' : '<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>'
             }
 
-            var username = (data.token === window.token) ? 'Вы' : ' <img  style="width: 20px;" src="' + data.avatar + '"/> ' + data.username;
+            var username = (data.token === window.token) ? 'Вы ' : ' <img  style="width: 20px;" src="' + data.avatar + '"/> ' + data.username;
             var $usernameDiv = $('<span class="username"/>')
                 .html(username)
                 .css('color', getUsernameColor(window.username));
