@@ -159,19 +159,22 @@ $io->on('connection', function ($socket) use ($io) {
     });
 
     // when the client emits 'typing', we broadcast it to others
-    $socket->on('typing', function () use ($socket) {
-        $socket->broadcast->emit('typing', array(
-            'username' => $socket->username
-        ));
+    $socket->on('typing', function ($data) use ($socket, $io) {
+        if (isset($data['room']) and $data['room']) {
+            $io->sockets->to($data['room'])->emit('typing', array(
+                'username' => $data['username'],
+                'token' => $data['token']
+            ));
+        }
     });
-
-    // when the client emits 'stop typing', we broadcast it to others
-    $socket->on('stop typing', function () use ($socket) {
-        $socket->broadcast->emit('stop typing', array(
-            'username' => $socket->username
-        ));
+    $socket->on('stop typing', function ($data) use ($socket, $io) {
+        if (isset($data['room']) and $data['room']) {
+            $io->sockets->to($data['room'])->emit('stop typing', array(
+                'username' => $data['username'],
+                'token' => $data['token']
+            ));
+        }
     });
-
     // when the user disconnects.. perform this
     $socket->on('disconnect', function () use ($socket) {
         global $usernames, $numUsers;

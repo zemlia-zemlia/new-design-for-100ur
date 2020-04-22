@@ -35,13 +35,12 @@ function init() {
         var lastTypingTime;
         var $currentInput = $usernameInput.focus();
         var socket = io(window.chaturl);
+
         $('#closeButton').click(function () {
             socket.emit('close chat', window.room);
         })
         // Socket events
         socket.on('connect', function () {
-
-            console.log(window.room);
             socket.emit('join room', {room: window.room, token: window.token, role: window.role});
             connected = true;
             socket.emit('add user', {
@@ -50,22 +49,24 @@ function init() {
                 emp_id: "",
                 room: window.room
             });
+
             socket.on('newChat', function () {
                 if (window.newChat) {
                     return;
                 }
-                if (window.role == 10) {
+                if (window.role == 10) { // если юрист
                     log('Вам надо или подтвердить или отклонить чат');
                     var buttons = $('#buttons').html();
                     $('ul.messages').append('<li id="buttonsLi">' + buttons + '</li>');
+
+                    $('#fileButton').attr('disabled', 'disabled');
+                    $('#messageInput').attr('disabled', 'disabled');
+                    $('#send').attr('disabled', 'disabled');
+                    $('#closeButton').hide();
                     $('#accept').click(function () {
                         if (confirm('Принять чат?')) {
                             socket.emit('accept chat', {room: window.room, token: window.token});
                             $('#buttonsLi').remove();
-                            $('#fileButton').attr('disabled', 'disabled');
-                            $('#messageInput').attr('disabled', 'disabled');
-                            $('#send').attr('disabled', 'disabled');
-                            $('#closeButton').hide();
                             log('Ожидаем оплаты от клиента ...');
                         }
                         return false;
@@ -75,15 +76,11 @@ function init() {
                             socket.emit('decline chat', {room: window.room, token: window.token});
                             $('#buttonsLi').remove();
                             log('Чат отклонен');
-                            $('#fileButton').attr('disabled', 'disabled');
-                            $('#messageInput').attr('disabled', 'disabled');
-                            $('#send').attr('disabled', 'disabled');
-                            $('#closeButton').hide();
                         }
                         return false;
 
                     });
-                } else {
+                } else { // если пользователь
                     log('Напишите свой вопрос юристу, после того, как он примет вопрос, вам будет предложена форма оплаты консультации');
                 }
                 window.newChat = 1;
@@ -133,7 +130,7 @@ function init() {
                 $('#formLabel').val('c-' + data.chatId);
                 var form = $('#payForm').html();
                 $('ul.messages').append('<li>' + form + '</li>');
-                log('Требуется оплата', {prepend: 1});
+                log('Юрист принял ваш запрос', {prepend: 1});
             });
             // подтверждение оплаты
             socket.on('successpay', function () {
@@ -206,14 +203,7 @@ function init() {
 
         socket.on('reconnect', () => {
             log('Вы перезашли в чат');
-
-            socket.emit('add user', {
-                    name: window.username,
-                    id: window.token,
-                    emp_id: "",
-                    room: window.room
-                }
-            );
+            window.location.reload();
         });
 
         socket.on('reconnect_error', () => {
@@ -296,26 +286,28 @@ function init() {
                 .html(data.message);
 
             var typingClass = (data.token === window.token) ? 'my' : '';
+            var $datespan = $('<span class="dateMessage">').html(data.date);
             var $messageDiv = $('<li class="message"/>')
                 .data('username', data.username)
                 .addClass(typingClass)
-                .append($usernameDiv, icon, ' ', data.date + ' ', $messageBodyDiv);
+                .append($usernameDiv, icon, ' ', $datespan, ' ', $messageBodyDiv);
             console.log($messageDiv);
             addMessageElement($messageDiv, options);
         }
 
         // Adds the visual chat typing message
         const addChatTyping = (data) => {
-            // data.typing = true;
-            // data.message = 'Печатает ...';
-            // addChatMessage(data);
+            data.typing = true;
+            if (data.token != window.token) {
+                message = '<span class="username">' + data.username + '</span>' + 'печатает ...';
+                $('#typing').html(message).fadeIn();
+            }
+
         }
 
         // Removes the visual chat typing message
         const removeChatTyping = (data) => {
-            getTypingMessages(data).fadeOut(function () {
-                $(this).remove();
-            });
+            $('#typing').fadeOut();
         }
 
         const addMessageElement = (el, options) => {
@@ -352,18 +344,18 @@ function init() {
         // Updates the typing event
         const updateTyping = () => {
             if (connected) {
-                if (!typing) {
-                    typing = true;
-                    socket.emit('typing');
+                if (!window.typeMessage) {
+                    window.typeMessage = true;
+                    socket.emit('typing', {room: window.room, username: window.username, token: window.token});
                 }
                 lastTypingTime = (new Date()).getTime();
 
                 setTimeout(() => {
                     var typingTimer = (new Date()).getTime();
                     var timeDiff = typingTimer - lastTypingTime;
-                    if (timeDiff >= TYPING_TIMER_LENGTH && typing) {
-                        socket.emit('stop typing');
-                        typing = false;
+                    if (timeDiff >= TYPING_TIMER_LENGTH && window.typeMessage) {
+                        socket.emit('stop typing', {room: window.room, username: window.username, token: window.token});
+                        window.typeMessage = false;
                     }
                 }, TYPING_TIMER_LENGTH);
             }
@@ -399,7 +391,7 @@ function init() {
             if (event.which === 13) {
                 if (window.username) {
                     sendMessage();
-                    socket.emit('stop typing');
+                    socket.emit('stop typing', {room: window.room, username: window.username, token: window.token});
                     typing = false;
                 } else {
                 }
@@ -428,19 +420,25 @@ function init() {
 
 function processWebImage(target) {
     var reader = new FileReader();
+    var mime = 'image/png,image/jpeg,image/gif,image/bmp,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,image/*,application/pdf'.split(',');
+
     window.filesArray = [];
     const fileList = target.files;
     for (let index = 0; index < fileList.length; index++) {
         reader.onload = readerEvent => {
-            const content = readerEvent.target.result.split('base64,')[1];
-            $('#fileName').append('<span>' + fileList[index].name + '</span>&nbsp;');
-            window.filesArray.push({
-                type: fileList[index].type,
-                size: fileList[index].size,
-                origin_name: fileList[index].name,
-                base64: content
-            });
-            console.log(window.filesArray);
+            console.log([mime, fileList[index].type], mime.indexOf(fileList[index].type));
+            if (mime.indexOf(fileList[index].type) !== -1) {
+                $('#fileName').html('');
+                const content = readerEvent.target.result.split('base64,')[1];
+                $('#fileName').append('<span>' + fileList[index].name + '</span>&nbsp;');
+                window.filesArray.push({
+                    type: fileList[index].type,
+                    size: fileList[index].size,
+                    origin_name: fileList[index].name,
+                    base64: content
+                });
+                console.log(window.filesArray);
+            }
         };
         reader.readAsDataURL(target.files[index]);
     }
