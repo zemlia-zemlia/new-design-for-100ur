@@ -67,8 +67,8 @@ class Connector
      */
     public function declineChat($chatId)
     {
-        $sth = $this->db->prepare('delete from 100_chat where id = :chat_id');
-        $sth->execute(['chat_id' => $chatId]);
+        $sth = $this->db->prepare('update 100_chat set is_closed = 1 where id = :id');
+        $sth->execute(['id' => $chatId]);
         $sth = $this->db->prepare('delete from 100_chat_messages where chat_id = :chat_id');
         $sth->execute(['chat_id' => $chatId]);
     }
@@ -123,6 +123,7 @@ class Connector
 
             return 'newChat';
         } else {
+
             $result = 'newChat';
             if ($chatData['is_payed'] and !$chatData['is_closed']) {
                 $result = 'ok';
