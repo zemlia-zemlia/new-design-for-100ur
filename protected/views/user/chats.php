@@ -58,8 +58,7 @@ if (!$room and $chats) {
             <?= ($role == User::ROLE_JURIST) ? $chat->user->getShortName() : $chat->lawyer->getShortName() ?>
             <?php if ($chat->is_closed): ?>
                 (закрыт)
-            <?php endif; ?>
-            <?php if ($chat->is_confirmed == null): ?>
+            <?php elseif ($chat->is_confirmed == null): ?>
                 (запрос)
             <?php endif; ?>
         </a>
