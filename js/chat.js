@@ -156,7 +156,7 @@ function init() {
 
             socket.on('user joined', function (data) {
 
-                console.log(data);
+                // console.log(data);
             });
             socket.on('new file', function (data) {
                 log("<a target='_blank' href='" + data.file.link + "'>" + data.file.name + '</a>');
@@ -250,7 +250,7 @@ function init() {
                 // tell server to execute 'new message' and send along one parameter
                 if (message) {
                     var data = {message: message, room: window.room, username: window.username, token: window.token};
-                    console.log(data);
+                    // console.log(data);
                     socket.emit('new message', data);
                     if ($('.newMessages').length) {
                         $('.newMessages').closest('li').remove();
@@ -278,7 +278,7 @@ function init() {
 
         // Adds the visual chat message to the message list
         const addChatMessage = (data, options) => {
-            console.log(data);
+            // console.log(data);
             // Don't fade the message in if there is an 'X was typing'
             var $typingMessages = getTypingMessages(data);
             options = options || {};
@@ -293,7 +293,7 @@ function init() {
 
             var username = (data.token === window.token) ? 'Вы ' : ' <img  style="width: 20px;" src="' + data.avatar + '"/> ' + data.username;
             var typingClass = (data.token === window.token) ? 'my' : '';
-            console.log([data.token, window.token, data.token === window.token, typingClass]);
+            // console.log([data.token, window.token, data.token === window.token, typingClass]);
             var mess = $($('#chatElem').html());
             $(mess).find('span.username').html(username);
             $(mess).find('span.dateMessage').html(data.date);
@@ -435,7 +435,7 @@ function processWebImage(target) {
     for (let index = 0; index < fileList.length; index++) {
         reader.onload = readerEvent => {
 
-            console.log([mime, fileList[index].type], mime.indexOf(fileList[index].type));
+            // console.log([mime, fileList[index].type], mime.indexOf(fileList[index].type));
             if (mime.indexOf(fileList[index].type) !== -1) {
                 $('#fileName').html('');
                 const content = readerEvent.target.result.split('base64,')[1];
@@ -446,7 +446,7 @@ function processWebImage(target) {
                     origin_name: fileList[index].name,
                     base64: content
                 });
-                console.log(window.filesArray);
+                // console.log(window.filesArray);
             }
         };
         reader.readAsDataURL(target.files[index]);
