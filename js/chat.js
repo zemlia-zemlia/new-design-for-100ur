@@ -114,7 +114,10 @@ function init() {
             /// платежная форма
             socket.on('openPayForm', function (data) {
                 if (window.role == 10) {
-                    log('Ожидаем оплату ...')
+                    if (!window.waitForMoney) {
+                        log('Ожидаем оплату ...');
+                        window.waitForMoney = true;
+                    }
                     $('#fileButton').attr('disabled', 'disabled');
                     $('#messageInput').attr('disabled', 'disabled');
                     $('#send').attr('disabled', 'disabled');
@@ -129,7 +132,10 @@ function init() {
                 $('.js-summ').html(data.price);
                 $('#formLabel').val('c-' + data.chatId);
                 var form = $('#payForm').html();
-                $('ul.messages').append('<li>' + form + '</li>');
+                if (!window.showPayForm) {
+                    $('ul.messages').append('<li>' + form + '</li>');
+                    window.showPayForm = true;
+                }
                 log('Юрист принял ваш запрос', {prepend: 1});
             });
             // подтверждение оплаты
@@ -157,6 +163,10 @@ function init() {
             });
             // SOCKET LISTENERS
             socket.on('new message', function (data) {
+                if (!window.newMessages && data.token != window.token) {
+                    log('<span class="newMessages">Новые сообщения</span>');
+                    window.newMessages = true;
+                }
                 addChatMessage(data);
             });
         });
@@ -242,6 +252,9 @@ function init() {
                     var data = {message: message, room: window.room, username: window.username, token: window.token};
                     console.log(data);
                     socket.emit('new message', data);
+                    if ($('.newMessages').length) {
+                        $('.newMessages').closest('li').remove();
+                    }
                 }
 
                 if (window.filesArray.length) {
@@ -430,7 +443,7 @@ function processWebImage(target) {
             if (mime.indexOf(fileList[index].type) !== -1) {
                 $('#fileName').html('');
                 const content = readerEvent.target.result.split('base64,')[1];
-                $('#fileName').append('<span>' + fileList[index].name + '</span>&nbsp;');
+                $('#fileName').append('<span class="attachedFile"> Прикрепленные файлы: ' + fileList[index].name + '</span>&nbsp;');
                 window.filesArray.push({
                     type: fileList[index].type,
                     size: fileList[index].size,
