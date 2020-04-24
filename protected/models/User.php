@@ -1279,4 +1279,19 @@ class User extends CActiveRecord
 
         return $myRecentQuestionsCount;
     }
+
+    /**
+     * Определяет показывать ли кнопку чата
+     * @return bool
+     */
+    public function getIsShowChatButton(){
+         $answersCnt = Answer::model()->count('authorId=:id', [':id' => $this->id]);
+         $minQnt = Yii::app()->params['MinAnswerQntForChat'];
+
+         return $answersCnt >= $minQnt;
+
+     }
+
+
+
 }

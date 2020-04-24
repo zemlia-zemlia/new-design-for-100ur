@@ -65,12 +65,13 @@ ul {
 
 .my {
     text-align: right;
+    padding-bottom: 17px;
 }
 
 /* Font */
 
 .messages {
-    font-size: 150%;
+    /*font-size: 150%;*/
 }
 
 .inputMessage {
@@ -79,7 +80,7 @@ ul {
 
 .log {
     color: gray;
-    font-size: 70%;
+    font-size: 100%;
     margin: 5px;
     text-align: center;
 }
@@ -98,8 +99,12 @@ ul {
     padding: 10px 20px 10px 20px;
 }
 
-.message{
-    font-size: 18px;
+.message {
+    padding-bottom: 17px;
+}
+
+.messageBody {
+    font-size: 15px;
 }
 
 .message.typing .messageBody {
@@ -107,10 +112,9 @@ ul {
 }
 
 .username {
-    font-weight: 700;
     overflow: hidden;
-    padding-right: 15px;
     text-align: right;
+    font-weight: bold;
 }
 
 /* Input */
@@ -124,7 +128,7 @@ ul {
     padding-left: 10px;
     position: absolute;
     right: 0;
-    width: 80%;
+    width: 75%;
 }
 
 .fileButton {
@@ -150,4 +154,14 @@ ul {
 #fileName {
     position: absolute;
     bottom: 65px;
+}
+
+.chat-window {
+    padding-right: 7px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+}
+
+.row-chat-info {
+    padding: 5px;
+    box-shadow: 0 4px 4px -4px rgba(0, 0, 0, .2);
 }
