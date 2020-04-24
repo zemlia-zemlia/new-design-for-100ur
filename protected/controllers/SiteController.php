@@ -37,7 +37,13 @@ class SiteController extends Controller
     {
         return [
             ['allow', // разрешаем неавторизованным пользователям доступ к странице логина и капче
-                'actions' => ['getcode', 'index', 'feedback', 'about', 'login', 'logout', 'captcha', 'error', 'contacts', 'partners', 'lp', 'konsultaciya_yurista_advokata', 'clearCache', 'offer', 'crm', 'lead', 'goryachaya_liniya', 'brakLead', 'klienti_dlya_yuristov', 'referal', 'passwordChanged', 'turbo', 'yuristam'],
+                'actions' => [
+                    'getfile',
+                    'getcode', 'index', 'feedback', 'about', 'login', 'logout', 'captcha',
+                    'error', 'contacts', 'partners', 'lp', 'konsultaciya_yurista_advokata',
+                    'clearCache', 'offer', 'crm', 'lead', 'goryachaya_liniya', 'brakLead',
+                    'klienti_dlya_yuristov', 'referal', 'passwordChanged', 'turbo', 'yuristam'
+                ],
                 'users' => ['*']],
             ['allow',
                 'actions' => ['info'],
@@ -65,6 +71,27 @@ class SiteController extends Controller
                 'class' => 'CViewAction']];
     }
 
+    public function actionGetFile($fileName)
+    {
+        $fileName = str_replace(DIRECTORY_SEPARATOR, '', $fileName);
+        $path = Yii::getPathOfAlias('webroot') . DIRECTORY_SEPARATOR . getenv('CHAT_UPLOUD_FOLDER') . DIRECTORY_SEPARATOR . $fileName;
+        if (file_exists($path)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: ' . mime_content_type($path));
+            header('Content-Disposition: attachment; filename="' . $fileName . '"');
+            header('Content-Transfer-Encoding: binary');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($path)); //Absolute URL
+            ob_clean();
+            flush();
+            echo file_get_contents($path); //Absolute URL
+            exit();
+        } else {
+            throw new HttpException(404);
+        }
+    }
     /**
      * This is the action to handle external exceptions.
      */

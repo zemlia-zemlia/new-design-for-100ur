@@ -91,7 +91,8 @@ if (!$room and $chats) {
                 <?= ($role == User::ROLE_JURIST) ? $curChat->user->getLastOnline() : $curChat->lawyer->getLastOnline() ?>
             </div>
             <div class="col-md-5">
-                <input class="btn btn-block btn-default" id="closeButton" style="display: none;" type="button" value="Завершить консультацию"/>
+                <input class="btn btn-block btn-default" id="closeButton" style="display: none;" type="button"
+                       value="Завершить консультацию"/>
             </div>
         <?php endif; ?>
     </div>
@@ -101,31 +102,7 @@ if (!$room and $chats) {
                 <ul class="messages">
                     <?php if ($messages): ?>
                         <?php foreach ($messages as $mess): ?>
-                            <div class="small ">
-
-                            <li class="message <?= ($mess['token'] == $user->confirm_code) ? 'my' : '' ?>"
-                                style="display: list-item;">
-                                <span class="username">
-                                    <?php if ($mess['token'] != $user->confirm_code): ?>
-                                        <img style="width: 20px;" src="<?= $mess['avatar'] ?>"/>
-                                    <?php endif; ?>
-                                    <?= ($mess['token'] == $user->confirm_code) ? 'Вы:' : $mess['username'] ?></span>
-
-                                    <span class="dateMessage">
-                                        <?= $mess['date'] ?>
-                                    </span>
-                                    <?php if ($mess['token'] == $user->confirm_code): ?>
-                                        <?php if ($mess['is_read']): ?>
-                                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" title="Прочитано"></span>
-                                        <?php else: ?>
-                                            <span class="glyphicon glyphicon-ok" aria-hidden="true" title="Не прочитано"></span>
-                                        <?php endif; ?>
-                                    <?php endif; ?>
-                                <br/>
-                                <span class="messageBody"><?= $mess['message'] ?></span>
-                            </li>
-                            </div>
-
+                            <?= $this->renderPartial('chatElem', ['mess' => $mess, 'user' => $user]) ?>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </ul>
@@ -142,7 +119,9 @@ if (!$room and $chats) {
     </ul>
 </div>
 
-
+<div id="chatElem" style="display: none">
+    <?= $this->renderPartial('chatElem', ['mess' => [], 'user' => []]) ?>
+</div>
 <input onchange="processWebImage(this)"
        accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,image/*,application/pdf"
        type="file" id="fileinput" style="display: none">

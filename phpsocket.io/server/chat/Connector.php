@@ -238,7 +238,7 @@ class Connector
             return [
                 'name' => $file['origin_name'],
                 'mime' => $file['type'],
-                'link' => '/' . $_ENV['CHAT_UPLOUD_FOLDER'] . '/' . $filename,
+                'link' => '/site/getfile?fileName=' . $filename,
                 'userId' => $userId
             ];
         }

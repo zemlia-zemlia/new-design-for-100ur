@@ -13,7 +13,7 @@ function init() {
             $('#chats').hide();
             return;
         }
-        var FADE_TIME = 150; // ms
+        var FADE_TIME = 400; // ms
         var TYPING_TIMER_LENGTH = 400; // ms
         var COLORS = [
             '#e21400', '#91580f', '#f8a700', '#f78b00',
@@ -282,30 +282,25 @@ function init() {
             // Don't fade the message in if there is an 'X was typing'
             var $typingMessages = getTypingMessages(data);
             options = options || {};
-            if ($typingMessages.length !== 0) {
-                options.fade = false;
+            // if ($typingMessages.length !== 0) {
+            options.fade = true;
                 $typingMessages.remove();
-            }
+            // }
             var icon = '';
             if (data.token === window.token) {
                 icon = (window.userCnt > 1) ? '<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>' : '<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>'
             }
 
             var username = (data.token === window.token) ? 'Вы ' : ' <img  style="width: 20px;" src="' + data.avatar + '"/> ' + data.username;
-            var $usernameDiv = $('<span class="username"/>')
-                .html(username)
-                .css('color', getUsernameColor(window.username));
-            var $messageBodyDiv = $('<span class="messageBody">')
-                .html(data.message);
-
             var typingClass = (data.token === window.token) ? 'my' : '';
-            var $datespan = $('<span class="dateMessage">').html(data.date);
-            var $messageDiv = $('<li class="message"/>')
-                .data('username', data.username)
-                .addClass(typingClass)
-                .append($usernameDiv, icon, ' ', $datespan, ' ', $messageBodyDiv);
-            console.log($messageDiv);
-            addMessageElement($messageDiv, options);
+            console.log([data.token, window.token, data.token === window.token, typingClass]);
+            var mess = $($('#chatElem').html());
+            $(mess).find('span.username').html(username);
+            $(mess).find('span.dateMessage').html(data.date);
+            $(mess).find('span.messageBody').html(data.message);
+            $(mess).find('li.message').removeClass('my');
+            $(mess).find('li.message').addClass(typingClass);
+            addMessageElement($(mess), options);
         }
 
         // Adds the visual chat typing message
@@ -439,6 +434,7 @@ function processWebImage(target) {
     const fileList = target.files;
     for (let index = 0; index < fileList.length; index++) {
         reader.onload = readerEvent => {
+
             console.log([mime, fileList[index].type], mime.indexOf(fileList[index].type));
             if (mime.indexOf(fileList[index].type) !== -1) {
                 $('#fileName').html('');
