@@ -104,7 +104,7 @@ if (!$room and $chats) {
                      src="<?= ($role == User::ROLE_JURIST) ? $curChat->user->getAvatarUrl() : $curChat->lawyer->getAvatarUrl() ?>">
                 <?= ($role == User::ROLE_JURIST) ? $curChat->user->getShortName() : $curChat->lawyer->getShortName() ?><br/>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 center-align">
                 <span class="small">был(а) в сети <br/>
                 <?= ($role == User::ROLE_JURIST) ? $curChat->user->getPeriodFromLastActivity() : $curChat->lawyer->getPeriodFromLastActivity() ?>
                 </span>
