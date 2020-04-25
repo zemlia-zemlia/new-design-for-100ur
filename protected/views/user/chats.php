@@ -94,51 +94,71 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
     <?php endif; ?>
 
 </div>
-<div class="col-md-8 col-lg-8 chat-window" id="chats">
-    <div class="row row-chat-info">
-        <?php if ($curChat): ?>
-            <div class="col-md-4">
-                <img style="width: 40px;"
-                     src="<?= ($role == User::ROLE_JURIST) ? $curChat->user->getAvatarUrl() : $curChat->lawyer->getAvatarUrl() ?>">
-                <?= ($role == User::ROLE_JURIST) ? $curChat->user->getShortName() : $curChat->lawyer->getShortName() ?><br/>
-            </div>
-            <div class="col-md-3">
+<?php if (!$chats && !$room): ?>
+    <?php if ($role == User::ROLE_CLIENT): ?>
+        <div class="col-md-8 col-lg-8 no_chats">
+            У вас нет пока нет чатов с юристами.<br>
+            Для начала чата выберите подходящего вам юриста в разделе <a href="/yurist/russia/">юристы</a>
+        </div>
+    <?php endif; ?>
+    <?php if ($role == User::ROLE_JURIST): ?>
+        <div class="col-md-8 col-lg-8 no_chats">
+            У вас нет пока нет чатов пользователями.
+        </div>
+    <?php endif; ?>
+<?php endif; ?>
+<?php if ($chats && !$room): ?>
+    <div class="col-md-8 col-lg-8 no_chats">
+        Для просмотра сообщений выберите нужный чат слева
+    </div>
+<?php endif; ?>
+<?php if ($room): ?>
+
+    <div class="col-md-8 col-lg-8 chat-window" id="chats">
+        <div class="row row-chat-info">
+            <?php if ($curChat): ?>
+                <div class="col-md-4">
+                    <img style="width: 40px;"
+                         src="<?= ($role == User::ROLE_JURIST) ? $curChat->user->getAvatarUrl() : $curChat->lawyer->getAvatarUrl() ?>">
+                    <?= ($role == User::ROLE_JURIST) ? $curChat->user->getShortName() : $curChat->lawyer->getShortName() ?><br/>
+                </div>
+                <div class="col-md-3">
                 <span class="small">был(а) в сети <br/>
                 <?= ($role == User::ROLE_JURIST) ? $curChat->user->getPeriodFromLastActivity() : $curChat->lawyer->getPeriodFromLastActivity() ?>
                 </span>
-            </div>
-            <div class="col-md-1">
-                <input class="btn btn-block btn-warning" type="button" value="!" title="Пожаловаться на чат"/>
-            </div>
-            <div class="col-md-4">
-                <input class="btn btn-block btn-success" id="closeButton" style="display: none;" type="button"
-                       value="Завершить чат" title="Консультация закроется и юрист получит средства за консультацию."/>
-            </div>
-        <?php endif; ?>
-    </div>
-    <ul class="pages">
-        <li class="chat page">
-            <div class="chatArea">
-                <ul class="messages">
-                    <?php if ($messages): ?>
-                        <?php foreach ($messages as $mess): ?>
-                            <?= $this->renderPartial('chatElem', ['mess' => $mess, 'user' => $user]) ?>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </ul>
-            </div>
-        <li id="fileName">
+                </div>
+                <div class="col-md-1">
+                    <input class="btn btn-block btn-warning" type="button" value="!" title="Пожаловаться на чат"/>
+                </div>
+                <div class="col-md-4">
+                    <input class="btn btn-block btn-success" id="closeButton" style="display: none;" type="button"
+                           value="Завершить чат" title="Консультация закроется и юрист получит средства за консультацию."/>
+                </div>
+            <?php endif; ?>
+        </div>
+        <ul class="pages">
+            <li class="chat page">
+                <div class="chatArea">
+                    <ul class="messages">
+                        <?php if ($messages): ?>
+                            <?php foreach ($messages as $mess): ?>
+                                <?= $this->renderPartial('chatElem', ['mess' => $mess, 'user' => $user]) ?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            <li id="fileName">
 
-        </li>
-        <li style="display: none" id="typing"></li>
-        <li style="width: 100%;">
-            <input id="fileButton" class="fileButton" type="button" onclick="$('#fileinput').click()" value="File"/>
-            <input id="messageInput" class="inputMessage" placeholder="Сообщение"/>
-            <input id="send" class="closeButton" type="button" value="Отправить"/>
-        </li>
-    </ul>
+            </li>
+            <li style="display: none" id="typing"></li>
+            <li style="width: 100%;">
+                <input id="fileButton" class="fileButton" type="button" onclick="$('#fileinput').click()" value="File"/>
+                <input id="messageInput" class="inputMessage" placeholder="Сообщение"/>
+                <input id="send" class="closeButton" type="button" value="Отправить"/>
+            </li>
+        </ul>
 </div>
-
+<?php endif; ?>
 <div id="chatElem" style="display: none">
     <?= $this->renderPartial('chatElem', ['mess' => [], 'user' => []]) ?>
 </div>
