@@ -102,11 +102,7 @@ class UserController extends Controller
         $chat = Chat::model()->find('chat_id = :id', [':id' => $room]);
 
         if ($chat) {
-            ChatMessages::model()->updateAll(
-                ['is_read' => 1],
-                'chat_id = :id and user_id != :user_id',
-                [':id' => $chat['id'], ':user_id' => Yii::app()->user->id]
-            );
+
             $mess = ChatMessages::model()->findAll('chat_id = :id', [':id' => $chat['id']]);
             foreach ($mess as $row) {
                 $messages[] = [
@@ -118,6 +114,11 @@ class UserController extends Controller
                     'date' => date('H:i', $row->created),
                 ];
             }
+            ChatMessages::model()->updateAll(
+                ['is_read' => 1],
+                'chat_id = :id and user_id != :user_id',
+                [':id' => $chat['id'], ':user_id' => Yii::app()->user->id]
+            );
         }
 
         $this->render('chats', [
