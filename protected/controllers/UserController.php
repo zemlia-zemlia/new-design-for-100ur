@@ -101,7 +101,7 @@ class UserController extends Controller
 
         $chat = Chat::model()->find('chat_id = :id', [':id' => $room]);
 
-        if ($chat) {
+        if ($chat && $chatId != null) {
 
             $mess = ChatMessages::model()->findAll('chat_id = :id', [':id' => $chat['id']]);
             foreach ($mess as $row) {
