@@ -50,19 +50,22 @@ if (!$room and $chats) {
 </div>
 <div class="col-md-4 col-lg-4">
     <h3>Ваши чаты:</h3>
-    <?php foreach ($chats as $chat): ?>
-        <a href="/user/chats?chatId=<?= $chat->chat_id ?>"
-           class="btn btn-block <?= ($chat->chat_id == $room) ? 'btn-success' : 'btn-default' ?>">
-            <img style="width: 20px;"
-                 src="<?= ($role == User::ROLE_JURIST) ? $chat->user->getAvatarUrl() : $chat->lawyer->getAvatarUrl() ?>">
-            <?= ($role == User::ROLE_JURIST) ? $chat->user->getShortName() : $chat->lawyer->getShortName() ?>
-            <?php if ($chat->is_closed): ?>
-                (закрыт)
-            <?php elseif ($chat->is_confirmed == null): ?>
-                (запрос)
-            <?php endif; ?>
-        </a>
-    <?php endforeach; ?>
+    <div class="vert-margin40">
+        <?php foreach ($chats as $chat): ?>
+            <a href="/user/chats?chatId=<?= $chat->chat_id ?>"
+               class="btn btn-block <?= ($chat->chat_id == $room) ? 'btn-success' : 'btn-default' ?>">
+                <img style="width: 20px;"
+                     src="<?= ($role == User::ROLE_JURIST) ? $chat->user->getAvatarUrl() : $chat->lawyer->getAvatarUrl() ?>">
+                <?= ($role == User::ROLE_JURIST) ? $chat->user->getShortName() : $chat->lawyer->getShortName() ?>
+                <?php if ($chat->is_closed): ?>
+                    (закрыт)
+                <?php elseif ($chat->is_confirmed == null): ?>
+                    (запрос)
+                <?php endif; ?>
+            </a>
+        <?php endforeach; ?>
+    </div>
+
     <?php if (!$chats): ?>
         <?php if ($role == User::ROLE_CLIENT): ?>
             <div>
@@ -71,11 +74,28 @@ if (!$room and $chats) {
             </div>
         <?php endif; ?>
         <?php if ($role == User::ROLE_JURIST): ?>
-            <div>
+            <div class="vert-margin30">
                 У вас нет пока нет чатов пользователями.
             </div>
         <?php endif; ?>
     <?php endif; ?>
+
+
+    <?php if ($role == User::ROLE_CLIENT): ?>
+        <div class="alert alert-info">
+            <h3>Внимание!</h3>
+            Никогда не переводите деньги юристу на личный кошелек или карту. Это лишает вас
+            всех гарантий сервиса.
+        </div>
+
+        <h3>Гарантии 100Юристов</h3>
+
+            <p>Юрист получает оплату после выполнения работы</p>
+            <p>Гарантируем возврат денег, если не устраивает качество</p>
+            <p>Полная конфидециальность</p>
+
+    <?php endif; ?>
+
 </div>
 <div class="col-md-8 col-lg-8 chat-window" id="chats">
     <div class="row row-chat-info">
