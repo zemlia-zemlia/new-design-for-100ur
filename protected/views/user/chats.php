@@ -13,9 +13,7 @@ use App\models\User;
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/socket.io-client/socket.io.js', CClientScript::POS_END);
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/chat.js', CClientScript::POS_END);
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css');
-if (!$room and $chats) {
-    $room = $chats[0]->chat_id;
-}
+
 
 ?>
 
@@ -63,20 +61,28 @@ if (!$room and $chats) {
             <?php endif; ?>
         </a>
     <?php endforeach; ?>
-    <?php if (!$chats): ?>
-        <?php if ($role == User::ROLE_CLIENT): ?>
-            <div>
-                У вас нет пока нет чатов с юристами.<br>
-                Для начала чата выберите подходящего вам юриста в разделе <a href="/yurist/russia/">юристы</a>
-            </div>
-        <?php endif; ?>
-        <?php if ($role == User::ROLE_JURIST): ?>
-            <div>
-                У вас нет пока нет чатов пользователями.
-            </div>
-        <?php endif; ?>
-    <?php endif; ?>
+
+
 </div>
+<?php if (!$chats && !$room): ?>
+    <?php if ($role == User::ROLE_CLIENT): ?>
+        <div class="col-md-8 col-lg-8 no_chats">
+            У вас нет пока нет чатов с юристами.<br>
+            Для начала чата выберите подходящего вам юриста в разделе <a href="/yurist/russia/">юристы</a>
+        </div>
+    <?php endif; ?>
+    <?php if ($role == User::ROLE_JURIST): ?>
+        <div class="col-md-8 col-lg-8 no_chats">
+            У вас нет пока нет чатов пользователями.
+        </div>
+    <?php endif; ?>
+<?php endif; ?>
+<?php if ($chats && !$room): ?>
+    <div class="col-md-8 col-lg-8 no_chats">
+        Для просмотра сообщений выберите нужный чат слева
+    </div>
+<?php endif; ?>
+
 <div class="col-md-8 col-lg-8 chat-window" id="chats">
     <div class="row row-chat-info">
         <?php if ($curChat): ?>
