@@ -1147,14 +1147,19 @@ class User extends CActiveRecord
         return $this->notifier->sendTestimonialNotification();
     }
 
-    public function getLastOnline()
+    /**
+     * @return string
+     * @throws Exception
+     */
+    public function getLastOnline():string
     {
-        $data = Yii::app()->db->createCommand('select created from 100_chat_messages where user_id =:id order by created DESC')->bindParam(':id', $this->id)->queryScalar();
-        if ($data) {
-            return date('d.m.Y H:i', $data);
+        $lastActivityTs = $this->lastActivity;
+        if ($lastActivityTs) {
+            return (new \DateTime($lastActivityTs))->format('H:i:s d.m.Y');
         }
-        return 'Была давно';
+        return 'Был(а) давно';
     }
+
     /**
      * Рейтинг пользователя как среднее арифметическое оценок из неспамных отзывов.
      *
