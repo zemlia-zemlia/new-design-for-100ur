@@ -156,7 +156,7 @@ class Connector
         $sth->execute(array('id' => $id));
         $data = $sth->fetch(PDO::FETCH_ASSOC);
         if ($data and $data['priceConsult']) {
-            return $data['priceConsult'];
+            return floor($data['priceConsult'] / 100);
         }
     }
 
