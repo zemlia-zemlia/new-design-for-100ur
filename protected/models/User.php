@@ -1161,6 +1161,49 @@ class User extends CActiveRecord
     }
 
     /**
+     * Возвращает текст, как давно пользователь был последний раз активен
+     * @return string
+     * @throws Exception
+     */
+    public function getPeriodFromLastActivity() : string
+    {
+        $lastActivityDateTime = new \DateTime($this->lastActivity);
+        $currentDateTime = new \DateTime();
+
+        if ($lastActivityDateTime > (clone $currentDateTime)->modify('-20 minutes')) {
+            return 'онлайн';
+        }
+
+        if (
+            $lastActivityDateTime > (clone $currentDateTime)->modify('-60 minutes') &&
+            $lastActivityDateTime < (clone $currentDateTime)->modify('-20 minutes')
+        ) {
+            return $currentDateTime->diff($lastActivityDateTime)->i . ' минут назад';
+        }
+
+        if (
+            $lastActivityDateTime > (clone $currentDateTime)->modify('-24 hours') &&
+            $lastActivityDateTime < (clone $currentDateTime)->modify('-60 minutes')
+        ) {
+            if ($currentDateTime->format('Y-m-d') == $lastActivityDateTime->format('Y-m-d')) {
+                return 'сегодня в ' . $lastActivityDateTime->format('H:i');
+            } else {
+                return 'вчера в ' . $lastActivityDateTime->format('H:i');
+            }
+
+        }
+
+        if (
+            $lastActivityDateTime > (clone $currentDateTime)->modify('-5 days') &&
+            $lastActivityDateTime < (clone $currentDateTime)->modify('-1 days')
+        ) {
+            return $lastActivityDateTime->format('d.m');
+        }
+
+        return 'давно';
+    }
+
+    /**
      * Рейтинг пользователя как среднее арифметическое оценок из неспамных отзывов.
      *
      * @return float

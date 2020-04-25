@@ -86,8 +86,8 @@ if (!$room and $chats) {
                 <?= ($role == User::ROLE_JURIST) ? $curChat->user->getShortName() : $curChat->lawyer->getShortName() ?>
             </div>
             <div class="col-md-3">
-                была в сети <br/>
-                <?= ($role == User::ROLE_JURIST) ? $curChat->user->getLastOnline() : $curChat->lawyer->getLastOnline() ?>
+                был(а) в сети <br/>
+                <?= ($role == User::ROLE_JURIST) ? $curChat->user->getPeriodFromLastActivity() : $curChat->lawyer->getPeriodFromLastActivity() ?>
             </div>
             <div class="col-md-5">
                 <input class="btn btn-block btn-default" id="closeButton" style="display: none;" type="button"
