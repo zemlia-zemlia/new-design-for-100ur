@@ -564,11 +564,20 @@ class User extends CActiveRecord
     public static function getChatsMessagesCnt()
     {
         $result = '';
-        $cnt = ChatMessages::model()->count('user_id = :id AND is_read = 0', [':id' => Yii::app()->user->id]);
+
+        $cnt = Yii::app()->db->createCommand('SELECT COUNT(*) FROM `100_chat` as chat
+        INNER JOIN `100_chat_messages` as cmessages ON cmessages.chat_id = chat.id WHERE
+         (chat.user_id = :id1 OR chat.lawyer_id=:id2) AND (cmessages.user_id != :id3 AND cmessages.is_read !=1)')
+            ->bindParam(':id1', Yii::app()->user->id)
+            ->bindParam(':id2', Yii::app()->user->id)
+            ->bindParam(':id3', Yii::app()->user->id)
+            ->queryScalar();
+
         if ($cnt) {
             return '<strong class="red">(' . $cnt . ')</strong>';
         }
     }
+
     /**
      * возвращает URL аватара текущего пользователя. Если аватар не задан,
      * возвращает URL аватара по умолчанию.
@@ -1139,6 +1148,7 @@ class User extends CActiveRecord
     {
         return $this->notifier->sendDonateChatNotification($answer, $yuristBonus);
     }
+
     /**
      * Отправка юристу уведомления о новом отзыве.
      */
@@ -1332,14 +1342,14 @@ class User extends CActiveRecord
      * Определяет показывать ли кнопку чата
      * @return bool
      */
-    public function getIsShowChatButton(){
-         $answersCnt = Answer::model()->count('authorId=:id', [':id' => $this->id]);
-         $minQnt = Yii::app()->params['MinAnswerQntForChat'];
+    public function getIsShowChatButton()
+    {
+        $answersCnt = Answer::model()->count('authorId=:id', [':id' => $this->id]);
+        $minQnt = Yii::app()->params['MinAnswerQntForChat'];
 
-         return $answersCnt >= $minQnt;
+        return $answersCnt >= $minQnt;
 
-     }
-
+    }
 
 
 }

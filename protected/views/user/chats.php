@@ -13,9 +13,7 @@ use App\models\User;
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/socket.io-client/socket.io.js', CClientScript::POS_END);
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/chat.js', CClientScript::POS_END);
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css');
-if (!$room and $chats) {
-    $room = $chats[0]->chat_id;
-}
+
 
 ?>
 

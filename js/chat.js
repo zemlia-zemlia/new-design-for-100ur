@@ -309,6 +309,7 @@ function init() {
             if (data.token != window.token) {
                 message = '<span class="username">' + data.username + '</span>' + 'печатает ...';
                 $('#typing').html(message).fadeIn();
+                // alert( data.username + 'печатает');
             }
 
         }
