@@ -89,10 +89,9 @@ if (!$room and $chats) {
         </div>
 
         <h3>Гарантии 100Юристов</h3>
-
-            <p>Юрист получает оплату после выполнения работы</p>
-            <p>Гарантируем возврат денег, если не устраивает качество</p>
-            <p>Полная конфидециальность</p>
+        <p>Юрист получает оплату после выполнения работы</p>
+        <p>Гарантируем возврат денег, если не устраивает качество</p>
+        <p>Полная конфидециальность</p>
 
     <?php endif; ?>
 
@@ -103,15 +102,19 @@ if (!$room and $chats) {
             <div class="col-md-4">
                 <img style="width: 40px;"
                      src="<?= ($role == User::ROLE_JURIST) ? $curChat->user->getAvatarUrl() : $curChat->lawyer->getAvatarUrl() ?>">
-                <?= ($role == User::ROLE_JURIST) ? $curChat->user->getShortName() : $curChat->lawyer->getShortName() ?>
+                <?= ($role == User::ROLE_JURIST) ? $curChat->user->getShortName() : $curChat->lawyer->getShortName() ?><br/>
             </div>
             <div class="col-md-3">
-                был(а) в сети <br/>
+                <span class="small">был(а) в сети <br/>
                 <?= ($role == User::ROLE_JURIST) ? $curChat->user->getPeriodFromLastActivity() : $curChat->lawyer->getPeriodFromLastActivity() ?>
+                </span>
             </div>
-            <div class="col-md-5">
-                <input class="btn btn-block btn-default" id="closeButton" style="display: none;" type="button"
-                       value="Завершить консультацию"/>
+            <div class="col-md-1">
+                <input class="btn btn-block btn-warning" type="button" value="!" title="Пожаловаться на чат"/>
+            </div>
+            <div class="col-md-4">
+                <input class="btn btn-block btn-success" id="closeButton" style="display: none;" type="button"
+                       value="Завершить чат" title="Консультация закроется и юрист получит средства за консультацию."/>
             </div>
         <?php endif; ?>
     </div>
