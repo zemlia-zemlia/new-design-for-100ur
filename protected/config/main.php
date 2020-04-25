@@ -54,7 +54,7 @@ return [
             'showScriptName' => false,
             'urlSuffix' => '/',
 
-            'baseUrl' => 'http://100.loc',
+            'baseUrl' => getenv('BASE_URL'),
 
             'rules' => [
                 '/q' => '/question/index',

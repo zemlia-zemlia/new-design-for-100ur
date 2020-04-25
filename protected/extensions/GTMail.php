@@ -23,7 +23,7 @@ class GTMail extends CApplicationComponent
      */
     public function __construct($transportType = self::TRANSPORT_TYPE_SENDMAIL)
     {
-        $this->testMode = (YII_DEV === true) ? true : false;
+        $this->testMode = YII_DEV === true;
         $this->transportType = $transportType;
 
         $transport = $this->createMailTransport($transportType);

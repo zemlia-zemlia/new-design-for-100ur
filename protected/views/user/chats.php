@@ -48,56 +48,71 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
 </div>
 <div class="col-md-4 col-lg-4">
     <h3>Ваши чаты:</h3>
-    <?php foreach ($chats as $chat): ?>
-        <a href="/user/chats?chatId=<?= $chat->chat_id ?>"
-           class="btn btn-block <?= ($chat->chat_id == $room) ? 'btn-success' : 'btn-default' ?>">
-            <img style="width: 20px;"
-                 src="<?= ($role == User::ROLE_JURIST) ? $chat->user->getAvatarUrl() : $chat->lawyer->getAvatarUrl() ?>">
-            <?= ($role == User::ROLE_JURIST) ? $chat->user->getShortName() : $chat->lawyer->getShortName() ?>
-            <?php if ($chat->is_closed): ?>
-                (закрыт)
-            <?php elseif ($chat->is_confirmed == null): ?>
-                (запрос)
-            <?php endif; ?>
-        </a>
-    <?php endforeach; ?>
+    <div class="vert-margin40">
+        <?php foreach ($chats as $chat): ?>
+            <a href="/user/chats?chatId=<?= $chat->chat_id ?>"
+               class="btn btn-block <?= ($chat->chat_id == $room) ? 'btn-success' : 'btn-default' ?>">
+                <img style="width: 20px;"
+                     src="<?= ($role == User::ROLE_JURIST) ? $chat->user->getAvatarUrl() : $chat->lawyer->getAvatarUrl() ?>">
+                <?= ($role == User::ROLE_JURIST) ? $chat->user->getShortName() : $chat->lawyer->getShortName() ?>
+                <?php if ($chat->is_closed): ?>
+                    (закрыт)
+                <?php elseif ($chat->is_confirmed == null): ?>
+                    (запрос)
+                <?php endif; ?>
+            </a>
+        <?php endforeach; ?>
+    </div>
 
+    <?php if (!$chats): ?>
+        <?php if ($role == User::ROLE_CLIENT): ?>
+            <div>
+                У вас нет пока нет чатов с юристами.<br>
+                Для начала чата выберите подходящего вам юриста в разделе <a href="/yurist/russia/">юристы</a>
+            </div>
+        <?php endif; ?>
+        <?php if ($role == User::ROLE_JURIST): ?>
+            <div class="vert-margin30">
+                У вас нет пока нет чатов пользователями.
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+
+
+    <?php if ($role == User::ROLE_CLIENT): ?>
+        <div class="alert alert-info">
+            <h3>Внимание!</h3>
+            Никогда не переводите деньги юристу на личный кошелек или карту. Это лишает вас
+            всех гарантий сервиса.
+        </div>
+
+        <h3>Гарантии 100Юристов</h3>
+        <p>Юрист получает оплату после выполнения работы</p>
+        <p>Гарантируем возврат денег, если не устраивает качество</p>
+        <p>Полная конфидециальность</p>
+
+    <?php endif; ?>
 
 </div>
-<?php if (!$chats && !$room): ?>
-    <?php if ($role == User::ROLE_CLIENT): ?>
-        <div class="col-md-8 col-lg-8 no_chats">
-            У вас нет пока нет чатов с юристами.<br>
-            Для начала чата выберите подходящего вам юриста в разделе <a href="/yurist/russia/">юристы</a>
-        </div>
-    <?php endif; ?>
-    <?php if ($role == User::ROLE_JURIST): ?>
-        <div class="col-md-8 col-lg-8 no_chats">
-            У вас нет пока нет чатов пользователями.
-        </div>
-    <?php endif; ?>
-<?php endif; ?>
-<?php if ($chats && !$room): ?>
-    <div class="col-md-8 col-lg-8 no_chats">
-        Для просмотра сообщений выберите нужный чат слева
-    </div>
-<?php endif; ?>
-
 <div class="col-md-8 col-lg-8 chat-window" id="chats">
     <div class="row row-chat-info">
         <?php if ($curChat): ?>
             <div class="col-md-4">
                 <img style="width: 40px;"
                      src="<?= ($role == User::ROLE_JURIST) ? $curChat->user->getAvatarUrl() : $curChat->lawyer->getAvatarUrl() ?>">
-                <?= ($role == User::ROLE_JURIST) ? $curChat->user->getShortName() : $curChat->lawyer->getShortName() ?>
+                <?= ($role == User::ROLE_JURIST) ? $curChat->user->getShortName() : $curChat->lawyer->getShortName() ?><br/>
             </div>
             <div class="col-md-3">
-                была в сети <br/>
-                <?= ($role == User::ROLE_JURIST) ? $curChat->user->getLastOnline() : $curChat->lawyer->getLastOnline() ?>
+                <span class="small">был(а) в сети <br/>
+                <?= ($role == User::ROLE_JURIST) ? $curChat->user->getPeriodFromLastActivity() : $curChat->lawyer->getPeriodFromLastActivity() ?>
+                </span>
             </div>
-            <div class="col-md-5">
-                <input class="btn btn-block btn-default" id="closeButton" style="display: none;" type="button"
-                       value="Завершить консультацию"/>
+            <div class="col-md-1">
+                <input class="btn btn-block btn-warning" type="button" value="!" title="Пожаловаться на чат"/>
+            </div>
+            <div class="col-md-4">
+                <input class="btn btn-block btn-success" id="closeButton" style="display: none;" type="button"
+                       value="Завершить чат" title="Консультация закроется и юрист получит средства за консультацию."/>
             </div>
         <?php endif; ?>
     </div>
@@ -138,7 +153,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
         <input type="hidden" name="quickpay-form" value="shop">
         <input type="hidden" name="paymentType" value="AC">
         <input type="hidden" name="successURL"
-               value="<?= getenv('PROTOCOL') . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] ?>">
+               value="<?= getenv('PROTOCOL') . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] ?>">
         <input type="hidden" name="targets" value="Оплата консультаций">
         <div class="form-group">
             <div class="input-group text-center">

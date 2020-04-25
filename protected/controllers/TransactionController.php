@@ -57,19 +57,19 @@ class TransactionController extends Controller
 
         $newTransaction = new TransactionCampaign();
 
+        $transactionModelClass = TransactionCampaign::class;
+
         if (User::ROLE_JURIST == Yii::app()->user->role) {
             $newTransaction->description = (!Yii::app()->user->isGuest) ? Yii::app()->user->phone : '';
             $criteria->addColumnCondition(['buyerId' => Yii::app()->user->id, 'status' => TransactionCampaign::STATUS_COMPLETE]);
-            $transactionModelClass = TransactionCampaign::class;
             $newTransaction->sum = $newTransaction->sum / 100;
         } else {
             $criteria->addColumnCondition(['buyerId' => Yii::app()->user->id, 'status' => TransactionCampaign::STATUS_COMPLETE]);
-            $transactionModelClass = TransactionCampaign::class;
         }
 
         if (isset($newTransaction)) {
             $newTransaction->setScenario('pull');
-            $newTransaction->comment = (!Yii::app()->user->isGuest) ? Yii::app()->user->phone : '';
+            $newTransaction->description = (!Yii::app()->user->isGuest) ? Yii::app()->user->phone : '';
         }
 
         $criteria->order = 'id DESC';

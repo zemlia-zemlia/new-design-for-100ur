@@ -1,6 +1,4 @@
 <?php
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../../../protected/config");
-$dotenv->load();
 
 
 class Connector
@@ -9,10 +7,10 @@ class Connector
     private $filePath = '';
     private $dbSeting = [];
 
-    function __construct()
+    public function __construct()
     {
-        $dotenv = new Symfony\Component\Dotenv\Dotenv();
-        $dotenv->load(__DIR__ . '/../../../protected/config/.env');
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../../../protected/config");
+        $dotenv->load();
         $this->dbSeting = [
             'dbName' => $_ENV['DB_NAME'],
             'login' => $_ENV['DB_USER'],
@@ -89,7 +87,7 @@ class Connector
 
     /**
      * Проверим на наличие чата
-     * @param $room
+     * @param array $data
      * @return string
      * @throws Exception
      */
@@ -156,7 +154,7 @@ class Connector
         $sth->execute(array('id' => $id));
         $data = $sth->fetch(PDO::FETCH_ASSOC);
         if ($data and $data['priceConsult']) {
-            return $data['priceConsult'];
+            return floor($data['priceConsult'] / 100);
         }
     }
 

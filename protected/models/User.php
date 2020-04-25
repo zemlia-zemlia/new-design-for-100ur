@@ -1157,13 +1157,60 @@ class User extends CActiveRecord
         return $this->notifier->sendTestimonialNotification();
     }
 
-    public function getLastOnline()
+    /**
+     * @return string
+     * @throws Exception
+     */
+    public function getLastOnline():string
     {
-        $data = Yii::app()->db->createCommand('select created from 100_chat_messages where user_id =:id order by created DESC')->bindParam(':id', $this->id)->queryScalar();
-        if ($data) {
-            return date('d.m.Y H:i', $data);
+        $lastActivityTs = $this->lastActivity;
+        if ($lastActivityTs) {
+            return (new \DateTime($lastActivityTs))->format('H:i:s d.m.Y');
         }
-        return 'Была давно';
+        return 'Был(а) давно';
+    }
+
+    /**
+     * Возвращает текст, как давно пользователь был последний раз активен
+     * @return string
+     * @throws Exception
+     */
+    public function getPeriodFromLastActivity() : string
+    {
+        $lastActivityDateTime = new \DateTime($this->lastActivity);
+        $currentDateTime = new \DateTime();
+
+        if ($lastActivityDateTime > (clone $currentDateTime)->modify('-20 minutes')) {
+            return 'онлайн';
+        }
+
+        if (
+            $lastActivityDateTime > (clone $currentDateTime)->modify('-60 minutes') &&
+            $lastActivityDateTime < (clone $currentDateTime)->modify('-20 minutes')
+        ) {
+            return $currentDateTime->diff($lastActivityDateTime)->i . ' минут назад';
+        }
+
+        if (
+            $lastActivityDateTime > (clone $currentDateTime)->modify('-24 hours') &&
+            $lastActivityDateTime < (clone $currentDateTime)->modify('-60 minutes')
+        ) {
+            if ($currentDateTime->format('Y-m-d') == $lastActivityDateTime->format('Y-m-d')) {
+                return 'сегодня в ' . $lastActivityDateTime->format('H:i');
+            } else {
+                return 'вчера в ' . $lastActivityDateTime->format('H:i');
+            }
+
+        }
+
+        if (
+            $lastActivityDateTime > (clone $currentDateTime)->modify('-5 days') &&
+            $lastActivityDateTime < (clone $currentDateTime)->modify('-1 days')
+        ) {
+            return $lastActivityDateTime->format('d.m');
+        }
+
+        return 'давно';
     }
 
     /**
