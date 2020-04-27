@@ -5,6 +5,7 @@ namespace App\models;
 use CActiveDataProvider;
 use CActiveRecord;
 use CDbCriteria;
+use App\models\ChatMessages;
 
 /**
  * This is the model class for table "{{chat}}".
@@ -21,9 +22,13 @@ use CDbCriteria;
  * @property string $chat_id
  * @property User user
  * @property User $lawyer
+ * @property integer $is_petition
  */
 class Chat extends CActiveRecord
 {
+
+
+
     /**
      * @return string the associated database table name
      */
@@ -40,12 +45,13 @@ class Chat extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('user_id, created', 'required'),
-            array('user_id, lawyer_id, is_payed, created, is_closed, is_confirmed', 'numerical', 'integerOnly' => true),
-            array('transaction_id, chat_id', 'length', 'max' => 255),
+            ['user_id, created', 'required'],
+            ['user_id, lawyer_id, is_payed, created, is_closed, is_confirmed', 'numerical', 'integerOnly' => true],
+            ['transaction_id, chat_id', 'length', 'max' => 255],
+            ['is_petition', 'safe'],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, user_id, lawyer_id, is_payed, transaction_id, created, is_closed, chat_id', 'safe', 'on' => 'search'),
+            ['id, user_id, lawyer_id, is_payed, transaction_id, created, is_confirmed ,is_closed, chat_id', 'safe', 'on' => 'search'],
         );
     }
 
@@ -59,7 +65,12 @@ class Chat extends CActiveRecord
         return array(
             'user' => [self::BELONGS_TO, User::class, 'user_id'],
             'lawyer' => [self::BELONGS_TO, User::class, 'lawyer_id'],
+            'messages' => [self::HAS_MANY, ChatMessages::class, 'chat_id'],
         );
+    }
+
+    public function getCountMessages(){
+        return ChatMessages::model()->count('chat_id = ' . $this->id . ' AND is_read = 0');
     }
 
     /**
@@ -71,12 +82,13 @@ class Chat extends CActiveRecord
             'id' => 'ID',
             'user_id' => 'User',
             'lawyer_id' => 'Lawyer',
-            'is_payed' => 'Is Payed',
+            'is_payed' => 'Оплачен',
             'transaction_id' => 'Transaction',
             'created' => 'Created',
-            'is_closed' => 'Is Closed',
+            'is_closed' => 'Закрыт',
             'chat_id' => 'Chat',
-            'is_confirmed' => 'confirmed'
+            'is_confirmed' => 'Подтверждено',
+            'is_petition' => 'Жалоба'
         );
     }
 
@@ -105,6 +117,8 @@ class Chat extends CActiveRecord
         $criteria->compare('transaction_id', $this->transaction_id, true);
         $criteria->compare('created', $this->created);
         $criteria->compare('is_closed', $this->is_closed);
+        $criteria->compare('is_petition', $this->is_petition);
+        $criteria->compare('is_confirmed', $this->is_confirmed);
         $criteria->compare('chat_id', $this->chat_id, true);
 
         return new CActiveDataProvider($this, array(
@@ -122,4 +136,24 @@ class Chat extends CActiveRecord
     {
         return parent::model($className);
     }
+
+    public function getNotConfirmeds(){
+
+        return $this::model()->findAll('is_confirmed IS NULL');
+    }
+
+    public function getConfirmeds(){
+        return $this::model()->findAll('is_confirmed = 1');
+    }
+
+    public function getCloseds(){
+        return $this::model()->findAll('is_closed = 1');
+    }
+
+    public function getPetitions(){
+        return $this::model()->findAll('is_petition = 1');
+    }
+
+
+
 }

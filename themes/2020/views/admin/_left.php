@@ -163,6 +163,13 @@ use App\models\UserStatusRequest;
                                 class="label pull-right bg-green"><?php echo UserStatusRequest::getNewRequestsCount(); ?></small>
                     </a>
                 </li>
+
+                <li>
+                    <a href="<?= Yii::app()->createUrl('/admin/chat') ?>">
+                        <i class="fa fa-th"></i> <span>Чаты</span>
+<!--                        <small class="label pull-right bg-green">--><?php //echo UserStatusRequest::getNewRequestsCount(); ?><!--</small>-->
+                    </a>
+                </li>
             <?php endif; ?>
 
             <?php if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)): ?>

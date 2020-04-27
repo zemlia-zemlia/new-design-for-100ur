@@ -60,6 +60,9 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
                 <?php elseif ($chat->is_confirmed == null): ?>
                     (запрос)
                 <?php endif; ?>
+                <?php if ($chat->countMessages) : ?>
+                <strong class="red">(<?= $chat->countMessages ?>)</strong>
+                <?php endif; ?>
             </a>
         <?php endforeach; ?>
     </div>
