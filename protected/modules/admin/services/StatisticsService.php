@@ -121,6 +121,9 @@ class StatisticsService
             ->group('date')
             ->queryAll();
         $countAnsversByDate = [];
+        if (!$countAnsversByDateRows) {
+            return [];
+        }
         foreach ($countAnsversByDateRows as $row) {
             $countAnsversByDate[$row['date']] = $row['counter'];
         }
@@ -139,6 +142,9 @@ class StatisticsService
            ->group('date')
            ->queryAll();
        $publishedQuestionsCount = [];
+       if (!$publishedQuestionsRows) {
+           return [];
+       }
        foreach ($publishedQuestionsRows as $row) {
            $publishedQuestionsCount[$row['date']] = $row['counter'];
        }
@@ -156,6 +162,9 @@ class StatisticsService
             ->group('date')
             ->queryAll();
         $publishedCommentCount = [];
+        if (!$publishedCommentRows) {
+            return [];
+        }
         foreach ($publishedCommentRows as $row) {
             $publishedCommentCount[$row['date']] = $row['counter'];
         }

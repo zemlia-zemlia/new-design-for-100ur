@@ -96,7 +96,7 @@ $endYear = 2019;
                 </div>
                 <div class="box-body">
                     <table class="table">
-                        <tr>
+                        <tr> <td>Дата</td>
                             <?php
                             foreach ($statsService->getPublishedQuestionsCount() as $date => $counter): ?>
                                 <td class="center-align">
@@ -104,17 +104,17 @@ $endYear = 2019;
                                 </td>
                             <?php endforeach; ?>
                         </tr>
-                        <tr>
+                        <tr> <td>Количество вопросов в этот день</td>
                             <?php foreach ($statsService->getPublishedQuestionsCount() as $date => $counter): ?>
                                 <td class="center-align"><?php echo $counter; ?></td>
                             <?php endforeach; ?>
                         </tr>
-                        <tr>
+                        <tr> <td>Количество ответов на вопросы в этот день</td>
                             <?php foreach ($statsService->getCountAnsversByDate() as $date => $counter): ?>
                                 <td class="center-align"><?php echo $counter; ?></td>
                             <?php endforeach; ?>
                         </tr>
-                        <tr>
+                        <tr> <td>Количество коментариев к ответам в это день</td>
                             <?php foreach ($statsService->getPublishedCommentCount() as $date => $counter): ?>
                                 <td class="center-align"><?php echo $counter; ?></td>
                             <?php endforeach; ?>
