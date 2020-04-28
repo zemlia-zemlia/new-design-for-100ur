@@ -125,10 +125,7 @@ $io->on('connection', function ($socket) use ($io) {
 
             unset($connector);
         } else {
-//      $socket->broadcast->emit('new file', array(
-//        'username' => $socket->username,
-//        'message' => $data
-//      ));
+
 
         }
     });
@@ -145,16 +142,6 @@ $io->on('connection', function ($socket) use ($io) {
                 'username' => $data['name'],
                 'numUsers' => $numUsers
             ));
-        } else {
-//      $socket->emit('login', array(
-//        'numUsers' => $numUsers
-//      ));
-//      // echo globally (all clients) that a person has connected
-//      $socket->broadcast->emit('user joined', array(
-//        'username' => $socket->username,
-//        'numUsers' => $numUsers
-//      ));
-
         }
     });
 

@@ -50,7 +50,6 @@ class YandexPaymentChat implements YandexPaymentProcessorInterface
 
         /** @var User */
         $yurist = User::model()->findByPk($this->chat->lawyer_id);
-//        $yurist->balance += $yuristBonus;
 
         $yuristTransaction = new TransactionCampaign();
         $yuristTransaction->sum = $yuristBonus;
@@ -63,7 +62,6 @@ class YandexPaymentChat implements YandexPaymentProcessorInterface
                 $saveTransaction->commit();
                 Yii::log('ХОЛДИМ бабло благодарность юристу ' . $yurist->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'info', 'system.web');
                 LoggerFactory::getLogger('db')->log('Благодарность юристу #' . $yurist->id . ') ' . MoneyFormat::rubles($amount) . ' руб.', 'User', $yurist->id);
-//                $yurist->sendDonateNotification($this->chat, $yuristBonus);
                 $this->chat->is_payed = 1;
                 $this->chat->transaction_id = $yuristTransaction->id;
                 $this->chat->save();

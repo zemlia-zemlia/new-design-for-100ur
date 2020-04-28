@@ -8,7 +8,8 @@ class CloseChatCommand extends CConsoleCommand
 {
     public function actionIndex()
     {
-        $sql = 'SELECT * FROM `100_chat` chat INNER JOIN 100_chat_messages mess ON mess.chat_id = chat.id WHERE chat.is_closed IS NULL and chat.is_payed and mess.created < :time GROUP by chat.id';
+        $sql = 'SELECT * FROM `100_chat` chat 
+        WHERE chat.is_closed IS NULL and chat.is_payed and chat.created < :time GROUP by chat.id';
         $time = strtotime('-3day');
         $data = Yii::app()->db->createCommand($sql)->bindParam(':time', $time)->queryAll();
 
@@ -28,9 +29,7 @@ class CloseChatCommand extends CConsoleCommand
                         $saveTransaction->commit();
                         $lawer->sendDonateChatNotification($chat, $trans->sum);
                     } else {
-                        var_dump($chat->getErrors());
-                        var_dump($lawer->getErrors());
-                        var_dump($trans->getErrors());
+                        $saveTransaction->rollback();
                     }
                 } catch (\Exception $exception) {
                     $saveTransaction->rollback();
