@@ -118,7 +118,9 @@ class DefaultController extends AbstractAdminController
         $yuristActivityStats = $statsService->getYuristsActivityStats();
         $questionPublishedInRecentDays = $statsService->getPublishedQuestionsNumberInPeriod(30);
         $answersMadeInRecentDays = $statsService->getCountOfAnswersForRecentQuestions(30);
+        $answersMadeInRecentOneDays = $statsService->getCountOfAnswersForRecentQuestions(1);
         $averageIntervalUntillAnswer = $statsService->getAverageDiffBetweenQuestionAndAnswer(30);
+
 
         /*
          * Получение статистики по лидам источника 100 Юристов
@@ -159,6 +161,8 @@ class DefaultController extends AbstractAdminController
             'questionPublishedInRecentDays' => $questionPublishedInRecentDays,
             'answersMadeInRecentDays' => $answersMadeInRecentDays,
             'averageIntervalUntillAnswer' => $averageIntervalUntillAnswer,
+            'answersMadeInRecentOneDays' => $answersMadeInRecentOneDays,
+            'countCommentInLastPeriod' => $statsService->getCountCommentInLastPeriod(1),
         ]);
     }
 

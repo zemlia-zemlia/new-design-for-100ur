@@ -105,8 +105,20 @@ class StatisticsService
             ->group('a.id')
             ->queryColumn();
 
-        return (count($diffsInSeconds) > 0) ?
+        return (count($diffsInSeconds) > 0) ?   // TODO как так то? пытаемся сравнить массив с числом?
             round((array_sum($diffsInSeconds) / count($diffsInSeconds)) / 3600, 1) :
             0;
     }
+
+    public function getCountCommentInLastPeriod($days){
+        return Yii::app()->db->createCommand()
+            ->select('COUNT(*) counter')
+            ->from('{{comment}}')
+            ->where('dateTime>NOW()-INTERVAL ' . $days . ' DAY')
+            ->execute();
+    }
+
+
+
+
 }

@@ -109,6 +109,10 @@ $endYear = 2019;
                             <?php endforeach; ?>
                         </tr>
                     </table>
+                    <hr>
+                    <p>Количество вопросов в этот день: <?= $publishedQuestionsCount[date('Y-m-d', time())] ?></p>
+                    <p>Количество ответов на вопросы в этот день: <?= $answersMadeInRecentOneDays ?></p>
+                    <p>Количество коментариев к ответам в это день: <?= $countCommentInLastPeriod ?></p>
                 </div>
             </div>
         </div>
