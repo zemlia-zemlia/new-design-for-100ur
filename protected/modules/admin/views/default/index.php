@@ -97,26 +97,28 @@ $endYear = 2019;
                 <div class="box-body">
                     <table class="table">
                         <tr> <td>Дата</td>
-                            <?php
-                            foreach ($statsService->getPublishedQuestionsCount() as $date => $counter): ?>
+                            <?php foreach ($statsService->getDateInterval() as $date): ?>
                                 <td class="center-align">
                                     <small><?php echo date('d.m', strtotime($date)); ?></small>
                                 </td>
-
+                            <?php endforeach; ?>
                         </tr>
                         <tr> <td>Количество вопросов в этот день</td>
-
-                                <td class="center-align"><?php echo $statsService->getPublishedQuestionsCount()[$date] ?></td>
-
+                            <?php foreach ($statsService->getDateInterval() as $date): ?>
+                                <td class="center-align"><?php echo isset($statsService->getPublishedQuestionsCount()[$date]) ?
+                                        $statsService->getPublishedQuestionsCount()[$date] : 0 ?></td>
+                            <?php endforeach; ?>
                         </tr>
                         <tr> <td>Количество ответов на вопросы в этот день</td>
-
-                                <td class="center-align"><?php echo $statsService->getCountAnsversByDate()[$date] ?></td>
-
+                            <?php foreach ($statsService->getDateInterval() as $date): ?>
+                                <td class="center-align"><?php echo isset($statsService->getCountAnsversByDate()[$date]) ?
+                                        $statsService->getCountAnsversByDate()[$date] : 0 ?></td>
+                            <?php endforeach; ?>
                         </tr>
                         <tr> <td>Количество коментариев к ответам в это день</td>
-
-                                <td class="center-align"><?php echo $statsService->getPublishedCommentCount()[$date] ?></td>
+                            <?php foreach ($statsService->getDateInterval() as $date): ?>
+                                <td class="center-align"><?php echo isset($statsService->getPublishedCommentCount()[$date]) ?
+                                        $statsService->getPublishedCommentCount()[$date] : 0 ?></td>
                             <?php endforeach; ?>
                         </tr>
 

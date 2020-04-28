@@ -173,6 +173,25 @@ class StatisticsService
 
     }
 
+    public function getDateInterval(){
+
+        $startDate = new DateTime('-30 day');
+        $endDate = new DateTime();
+        $period = new DatePeriod($startDate, new DateInterval('P1D'), $endDate->modify('+1 day'));
+
+        $interval = [];
+        foreach ($period as $date){
+            $interval[] = $date->format('Y-m-d');
+        }
+
+        return $interval;
+
+
+
+    }
+
+
+
 
 
 
