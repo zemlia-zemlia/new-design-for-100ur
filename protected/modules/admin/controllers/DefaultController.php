@@ -96,7 +96,7 @@ class DefaultController extends AbstractAdminController
         foreach ($publishedQuestionsRows as $row) {
             $publishedQuestionsCount[$row['date1']] = $row['counter'];
         }
-
+        CVarDumper::dump( $publishedQuestionsCount,5,true);die;
         array_shift($publishedQuestionsCount);
 
         $leadsByTypesRows = Yii::app()->db->createCommand()

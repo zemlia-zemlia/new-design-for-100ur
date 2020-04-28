@@ -105,7 +105,7 @@ class StatisticsService
             ->group('a.id')
             ->queryColumn();
 
-        return ($diffsInSeconds > 0) ?
+        return (count($diffsInSeconds) > 0) ?
             round((array_sum($diffsInSeconds) / count($diffsInSeconds)) / 3600, 1) :
             0;
     }
