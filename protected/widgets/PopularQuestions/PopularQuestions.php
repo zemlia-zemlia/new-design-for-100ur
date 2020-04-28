@@ -17,7 +17,7 @@ class PopularQuestions extends CWidget
     {
         $priceCondition = (true === $this->showPayed) ? 'price > 0' : 'price = 0';
         $questionsRows = Yii::app()->db->cache($this->cacheTime)->createCommand()
-            ->select('q.id, q.title, q.createDate, q.price, a.id answerId, COUNT(a.id) counter')
+            ->select('q.id, q.title, q.createDate, q.price, COUNT(*) counter')
             ->from('{{question}} q')
             ->leftJoin('{{answer}} a', 'q.id=a.questionId')
             ->where('q.createDate > NOW() - INTERVAL :interval DAY AND ' . $priceCondition . ' AND a.status!=:status', [
