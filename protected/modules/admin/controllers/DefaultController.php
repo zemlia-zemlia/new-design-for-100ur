@@ -86,16 +86,7 @@ class DefaultController extends AbstractAdminController
             }
         }
 
-        $publishedQuestionsRows = Yii::app()->db->createCommand()
-            ->select('COUNT(*) counter, DATE(createDate) date1')
-            ->from('{{question}}')
-            ->where('createDate>NOW()-INTERVAL 8 DAY AND status IN (2,4)')
-            ->group('date1')
-            ->queryAll();
-        $publishedQuestionsCount = [];
-        foreach ($publishedQuestionsRows as $row) {
-            $publishedQuestionsCount[$row['date1']] = $row['counter'];
-        }
+
 
 //        array_shift($publishedQuestionsCount);  TODO зачем здесь это? у меня не было вопросов вообще, задал один, его здесь удаляет
 
@@ -153,7 +144,6 @@ class DefaultController extends AbstractAdminController
             'buySumArray' => $buySumArray,
             'moneyFlow' => $moneyFlow,
             'totalExpences' => $totalExpences,
-            'publishedQuestionsCount' => $publishedQuestionsCount,
             'leadsByTypes' => $leadsByTypes,
             'uniqueLeadDates' => $uniqueLeadDates,
             'yuristActivityStats' => $yuristActivityStats,
@@ -161,8 +151,9 @@ class DefaultController extends AbstractAdminController
             'questionPublishedInRecentDays' => $questionPublishedInRecentDays,
             'answersMadeInRecentDays' => $answersMadeInRecentDays,
             'averageIntervalUntillAnswer' => $averageIntervalUntillAnswer,
-            'answersMadeInRecentOneDays' => $answersMadeInRecentOneDays,
-            'countCommentInLastPeriod' => $statsService->getCountCommentInLastPeriod(1),
+            'statsService' => $statsService,
+
+
         ]);
     }
 

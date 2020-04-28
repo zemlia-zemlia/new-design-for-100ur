@@ -110,12 +110,58 @@ class StatisticsService
             0;
     }
 
-    public function getCountCommentInLastPeriod($days){
-        return Yii::app()->db->createCommand()
-            ->select('COUNT(*) counter')
+
+
+    public function getCountAnsversByDate(){
+
+        $countAnsversByDateRows = Yii::app()->db->createCommand()
+            ->select('COUNT(*) counter, DATE(datetime) date')
+            ->from('{{answer}}')
+            ->where('datetime>NOW()-INTERVAL 30 DAY AND status IN (0,1)')
+            ->group('date')
+            ->queryAll();
+        $countAnsversByDate = [];
+        foreach ($countAnsversByDateRows as $row) {
+            $countAnsversByDate[$row['date']] = $row['counter'];
+        }
+
+        return $countAnsversByDate;
+
+    }
+
+
+   public function getPublishedQuestionsCount(){
+
+       $publishedQuestionsRows = Yii::app()->db->createCommand()
+           ->select('COUNT(*) counter, DATE(createDate) date')
+           ->from('{{question}}')
+           ->where('createDate>NOW()-INTERVAL 30 DAY AND status IN (2,4)')
+           ->group('date')
+           ->queryAll();
+       $publishedQuestionsCount = [];
+       foreach ($publishedQuestionsRows as $row) {
+           $publishedQuestionsCount[$row['date']] = $row['counter'];
+       }
+
+        return $publishedQuestionsCount;
+
+    }
+
+    public function getPublishedCommentCount(){
+
+        $publishedCommentRows = Yii::app()->db->createCommand()
+            ->select('COUNT(*) counter, DATE(dateTime) date')
             ->from('{{comment}}')
-            ->where('dateTime>NOW()-INTERVAL ' . $days . ' DAY')
-            ->execute();
+            ->where('dateTime>NOW()-INTERVAL 30 DAY AND status IN (0,1)')
+            ->group('date')
+            ->queryAll();
+        $publishedCommentCount = [];
+        foreach ($publishedCommentRows as $row) {
+            $publishedCommentCount[$row['date']] = $row['counter'];
+        }
+
+        return $publishedCommentCount;
+
     }
 
 

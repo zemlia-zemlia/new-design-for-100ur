@@ -97,22 +97,32 @@ $endYear = 2019;
                 <div class="box-body">
                     <table class="table">
                         <tr>
-                            <?php foreach ($publishedQuestionsCount as $date => $counter): ?>
+                            <?php
+                            foreach ($statsService->getPublishedQuestionsCount() as $date => $counter): ?>
                                 <td class="center-align">
                                     <small><?php echo date('d.m', strtotime($date)); ?></small>
                                 </td>
                             <?php endforeach; ?>
                         </tr>
                         <tr>
-                            <?php foreach ($publishedQuestionsCount as $date => $counter): ?>
+                            <?php foreach ($statsService->getPublishedQuestionsCount() as $date => $counter): ?>
                                 <td class="center-align"><?php echo $counter; ?></td>
                             <?php endforeach; ?>
                         </tr>
+                        <tr>
+                            <?php foreach ($statsService->getCountAnsversByDate() as $date => $counter): ?>
+                                <td class="center-align"><?php echo $counter; ?></td>
+                            <?php endforeach; ?>
+                        </tr>
+                        <tr>
+                            <?php foreach ($statsService->getPublishedCommentCount() as $date => $counter): ?>
+                                <td class="center-align"><?php echo $counter; ?></td>
+                            <?php endforeach; ?>
+                        </tr>
+
+
                     </table>
-                    <hr>
-                    <p>Количество вопросов в этот день: <?= $publishedQuestionsCount[date('Y-m-d', time())] ?></p>
-                    <p>Количество ответов на вопросы в этот день: <?= $answersMadeInRecentOneDays ?></p>
-                    <p>Количество коментариев к ответам в это день: <?= $countCommentInLastPeriod ?></p>
+
                 </div>
             </div>
         </div>
