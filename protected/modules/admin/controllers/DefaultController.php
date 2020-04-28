@@ -96,8 +96,8 @@ class DefaultController extends AbstractAdminController
         foreach ($publishedQuestionsRows as $row) {
             $publishedQuestionsCount[$row['date1']] = $row['counter'];
         }
-        CVarDumper::dump( $publishedQuestionsCount,5,true);die;
-        array_shift($publishedQuestionsCount);
+
+//        array_shift($publishedQuestionsCount);  TODO зачем здесь это? у меня не было вопросов вообще, задал один, его здесь удаляет
 
         $leadsByTypesRows = Yii::app()->db->createCommand()
             ->select('COUNT(*) counter, type, DATE(question_date) date1')
