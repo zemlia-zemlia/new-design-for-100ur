@@ -103,19 +103,19 @@ $endYear = 2019;
                                 </td>
                             <?php endforeach; ?>
                         </tr>
-                        <tr> <td>Количество вопросов в этот день</td>
+                        <tr> <td>Вопросов</td>
                             <?php foreach ($statsService->getDateInterval() as $date): ?>
                                 <td class="center-align"><?php echo isset($statsService->getPublishedQuestionsCount()[$date]) ?
                                         $statsService->getPublishedQuestionsCount()[$date] : 0 ?></td>
                             <?php endforeach; ?>
                         </tr>
-                        <tr> <td>Количество ответов на вопросы в этот день</td>
+                        <tr> <td>Ответов</td>
                             <?php foreach ($statsService->getDateInterval() as $date): ?>
                                 <td class="center-align"><?php echo isset($statsService->getCountAnsversByDate()[$date]) ?
                                         $statsService->getCountAnsversByDate()[$date] : 0 ?></td>
                             <?php endforeach; ?>
                         </tr>
-                        <tr> <td>Количество коментариев к ответам в это день</td>
+                        <tr> <td>Коментариев</td>
                             <?php foreach ($statsService->getDateInterval() as $date): ?>
                                 <td class="center-align"><?php echo isset($statsService->getPublishedCommentCount()[$date]) ?
                                         $statsService->getPublishedCommentCount()[$date] : 0 ?></td>
