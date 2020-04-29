@@ -573,9 +573,7 @@ class User extends CActiveRecord
             ->bindParam(':id3', Yii::app()->user->id)
             ->queryScalar();
 
-        if ($cnt) {
-            return '<strong class="red">(' . $cnt . ')</strong>';
-        }
+        return ($cnt) ? $cnt : 0;
     }
 
     /**

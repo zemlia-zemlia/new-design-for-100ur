@@ -376,7 +376,6 @@ class UserNotifier
         $yurist = $answer->layer;
 
         $this->mailer->subject = 'Зачислена благодарность за чат';
-        $yurist->email = 'andrew.russkin@gmail.com';
         $this->mailer->message = '<h1>Благодарность за чат</h1>
             <p>Здравствуйте, ' . CHtml::encode($yurist->name) . '<br /><br />' .
             'Вам зачислены ' . MoneyFormat::rubles($yuristBonus) . ' руб. в благодарность за чат ' .

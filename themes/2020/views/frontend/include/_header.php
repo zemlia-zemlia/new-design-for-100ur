@@ -1,6 +1,8 @@
 <?php
+
 use App\models\Order;
 use App\models\User;
+
 ?>
 <!doctype html>
 <html lang="ru">
@@ -16,13 +18,21 @@ use App\models\User;
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=latin,cyrillic' rel='stylesheet'
           type='text/css'>
 
-  	<!-- Google Tag Manager -->
-	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-	})(window,document,'script','dataLayer','GTM-MNNZGSK');</script>
-	<!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-MNNZGSK');</script>
+    <!-- End Google Tag Manager -->
 
     <?php
     Yii::app()->clientScript->registerCssFile("/bootstrap/css/bootstrap.min.css");
@@ -55,10 +65,12 @@ use App\models\User;
 
 <body>
 
-	<!-- Google Tag Manager (noscript) -->
-	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MNNZGSK"
-	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-	<!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MNNZGSK"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 
 <?php
@@ -95,9 +107,9 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                 <div class="col-md-8 col-sm-8 right-align">
                     <ul class="hor-list-menu">
                         <?php if (Yii::app()->user->role == User::ROLE_PARTNER): ?>
-                            <?php echo CHtml::link('Перейти в панель вебмастера', Yii::app()->user->homeUrl);?>
+                            <?php echo CHtml::link('Перейти в панель вебмастера', Yii::app()->user->homeUrl); ?>
                         <?php elseif (Yii::app()->user->role == User::ROLE_BUYER): ?>
-                            <?php echo CHtml::link('Перейти в панель покупателя', Yii::app()->user->homeUrl);?>
+                            <?php echo CHtml::link('Перейти в панель покупателя', Yii::app()->user->homeUrl); ?>
                         <?php else: ?>
 
                             <li><?php echo CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER) ? '/buyer' : '/user')); ?></li>
@@ -147,7 +159,12 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                         </li>
 
                         <li><?php echo CHtml::link('Заказы документов ' . '<strong class="red">(' . Order::calculateNewOrders() . ')</strong>', Yii::app()->createUrl('order/index')); ?></li>
-                        <li> <?= CHtml::link('Чаты с клиентами ' . User::getChatsMessagesCnt(), '/user/chats') ?></li>
+                        <?php if ($cnt = User::getChatsMessagesCnt()): ?>
+                            <li> <?= CHtml::link('Чаты с клиентами <strong class="red">(' . User::getChatsMessagesCnt() . ')</strong>', '/user/chats') ?></li>
+                        <?php else: ?>
+                            <li> <?= CHtml::link('Чаты с клиентами ', '/user/chats') ?></li>
+                        <?php endif; ?>
+                        <li>
 
                     <?php elseif (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->isGuest): ?>
 
@@ -165,7 +182,12 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                         <?php endif; ?>
                         <?php if (Yii::app()->user->role == User::ROLE_CLIENT): ?>
                             <li class=""><?php echo ($_SERVER['REQUEST_URI'] != '/blog/') ? CHtml::link('Новости', Yii::app()->createUrl('/blog/')) : '<span class="active">Новости</span>'; ?></li>
-                            <li> <?= CHtml::link('Чаты с юристами ' . User::getChatsMessagesCnt(), '/user/chats') ?></li>
+
+                            <?php if ($cnt = User::getChatsMessagesCnt()): ?>
+                                <li> <?= CHtml::link('Чаты с юристами <strong class="red">(' . User::getChatsMessagesCnt() . ')</strong>', '/user/chats') ?></li>
+                            <?php else: ?>
+                                <li> <?= CHtml::link('Чаты с юристами ', '/user/chats') ?></li>
+                            <?php endif; ?>
                         <?php endif; ?>
 
                         <?php if (!stristr($_SERVER['REQUEST_URI'], '/question/create/')): ?>
