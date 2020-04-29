@@ -89,7 +89,7 @@ $endYear = 2019;
 
     <div class="row">
 
-        <div class="col-md-12">
+        <div class="col-md-12 small">
             <div class="box">
                 <div class="box-header">
                     <div class="box-title">Опубликованные вопросы по дням</div>

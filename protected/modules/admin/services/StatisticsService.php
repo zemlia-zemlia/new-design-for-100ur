@@ -175,7 +175,7 @@ class StatisticsService
 
     public function getDateInterval(){
 
-        $startDate = new DateTime('-30 day');
+        $startDate = new DateTime('-20 day');
         $endDate = new DateTime();
         $period = new DatePeriod($startDate, new DateInterval('P1D'), $endDate->modify('+1 day'));
 
