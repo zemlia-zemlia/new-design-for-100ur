@@ -169,7 +169,6 @@ class Leadsource extends CActiveRecord
 
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
-        $criteria->compare('office', $this->office, true);
         $criteria->compare('description', $this->description, true);
 
         return new CActiveDataProvider($this, [
