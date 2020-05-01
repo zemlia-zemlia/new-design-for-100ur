@@ -97,25 +97,27 @@ class UserTest extends BaseIntegrationTest
      */
     public function testGetManagers()
     {
+        $userFactory = new UserFactory();
+
         $fixture = [
-            [
+            $userFactory->generateOne([
                 'name' => 'Манагер',
                 'id' => 10000,
                 'role' => User::ROLE_MANAGER,
                 'active100' => 1,
-            ],
-            [
+            ]),
+            $userFactory->generateOne([
                 'name' => 'Манагер неактивный',
                 'id' => 10001,
                 'role' => User::ROLE_MANAGER,
                 'active100' => 0,
-            ],
-            [
+            ]),
+            $userFactory->generateOne([
                 'name' => 'Покупатель',
                 'id' => 10002,
                 'role' => User::ROLE_BUYER,
                 'active100' => 1,
-            ],
+            ]),
         ];
 
         $this->loadToDatabase(User::getFullTableName(), $fixture);
@@ -125,19 +127,21 @@ class UserTest extends BaseIntegrationTest
 
     public function testGetManagersNames()
     {
+        $userFactory = new UserFactory();
+
         $fixture = [
-            [
+            $userFactory->generateOne([
                 'name' => 'Манагер',
                 'id' => 10000,
                 'role' => User::ROLE_MANAGER,
                 'active100' => 1,
-            ],
-            [
+            ]),
+            $userFactory->generateOne([
                 'name' => 'Манагер неактивный',
                 'id' => 10001,
                 'role' => User::ROLE_MANAGER,
                 'active100' => 0,
-            ],
+            ]),
         ];
 
         $this->loadToDatabase(User::getFullTableName(), $fixture);
@@ -582,7 +586,9 @@ class UserTest extends BaseIntegrationTest
     {
         $questionSourceUser = new User();
         $questionSourceUser->scenario = 'test';
-        $questionSourceUser->id = 200;
+        $questionSourceUser->attributes = (new UserFactory())->generateOne([
+            'id' => 200
+        ]);
         $questionSourceUser->save(false);
 
         $questionSource = new Leadsource();
