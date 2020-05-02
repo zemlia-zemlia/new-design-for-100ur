@@ -23,6 +23,7 @@ class CampaignFactory extends BaseFactory
             'id' => $this->faker->randomNumber(),
             'regionId' => $this->faker->numberBetween(1, 99),
             'townId' => $this->faker->numberBetween(1, 999),
+            'balance' => $this->faker->numberBetween(100000, 1000000),
             'timeFrom' => 0,
             'timeTo' => 24,
             'price' => 15000,

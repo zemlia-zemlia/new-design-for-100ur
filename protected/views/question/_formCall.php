@@ -1,9 +1,9 @@
 <?php
 $allDirections = [0 => 'Не выбрано'] + $allDirections;
 
-if (!is_null($model->town->name)) {
-    $currenTownName = $model->town->name;
-}
+$currenTownName = (!is_null($model->town) && !is_null($model->town->name)) ?
+    $model->town->name:
+    '';
 
 ?>
 <?php

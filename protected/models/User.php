@@ -896,25 +896,16 @@ class User extends CActiveRecord
      */
     public function getFeed($days = 30, $returnCount = false)
     {
-//        SELECT q.title, c.text, u.name
-//        FROM `100_question` q
-//        LEFT JOIN `100_answer` a ON a.questionId = q.id
-//        LEFT JOIN `100_comment` c ON c.objectId = a.id
-//        LEFT JOIN `100_user` u ON u.id = c.authorId
-//        WHERE c.type=4 AND c.seen=0 AND a.authorId = 8 AND c.dateTime>NOW()-INTERVAL 30 DAY
-//        ORDER BY c.id DESC
-
         $feedArray = [];
 
         $feed = Yii::app()->db->createCommand()
-            ->select('q.id, c.type, q.title, c.text, u.name, COUNT(*) counter')
+            ->select('q.id, COUNT(*) counter')
             ->from('{{question}} q')
             ->leftJoin('{{answer}} a', 'a.questionId = q.id')
             ->leftJoin('{{comment}} c', 'c.objectId = a.id')
             ->leftJoin('{{user}} u', 'u.id = c.authorId')
             ->where('c.type=4 AND c.seen=0 AND a.authorId = :userId AND c.dateTime>NOW()-INTERVAL :days DAY', [':userId' => $this->id, ':days' => $days])
             ->group('q.id')
-            ->order('c.id DESC')
             ->queryAll();
 
         if (true == $returnCount) {
@@ -924,10 +915,6 @@ class User extends CActiveRecord
         foreach ($feed as $row) {
             $feedArray[] = [
                 'id' => $row['id'],
-                'type' => $row['type'],
-                'title' => $row['title'],
-                'text' => $row['text'],
-                'name' => $row['name'],
                 'counter' => $row['counter'],
             ];
         }
