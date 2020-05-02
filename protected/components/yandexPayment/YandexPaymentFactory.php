@@ -15,14 +15,15 @@ class YandexPaymentFactory
 
     public function createPaymentClass($paymentType): YandexPaymentProcessorInterface
     {
-        if (YandexPaymentResponseProcessor::TYPE_USER == $paymentType) {
-            return new YandexPaymentUser($this->entityId, $this->request);
-        } elseif (YandexPaymentResponseProcessor::TYPE_QUESTION == $paymentType) {
-            return new YandexPaymentQuestion($this->entityId, $this->request);
-        } elseif (YandexPaymentResponseProcessor::TYPE_ANSWER == $paymentType) {
-            return new YandexPaymentAnswer($this->entityId, $this->request);
-        } elseif (YandexPaymentResponseProcessor::TYPE_CHAT == $paymentType) {
-            return new YandexPaymentChat($this->entityId, $this->request);
+        switch ($paymentType) {
+            case YandexPaymentResponseProcessor::TYPE_USER:
+                return new YandexPaymentUser($this->entityId, $this->request);
+            case YandexPaymentResponseProcessor::TYPE_QUESTION:
+                return new YandexPaymentQuestion($this->entityId, $this->request);
+            case YandexPaymentResponseProcessor::TYPE_ANSWER:
+                return new YandexPaymentAnswer($this->entityId, $this->request);
+            case YandexPaymentResponseProcessor::TYPE_CHAT:
+                return new YandexPaymentChat($this->entityId, $this->request);
         }
     }
 }
