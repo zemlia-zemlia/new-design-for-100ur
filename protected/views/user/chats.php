@@ -92,9 +92,9 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
             </div>
 
             <h3>Гарантии 100Юристов</h3>
-            <p>Юрист получает оплату после выполнения работы</p>
+            <p>Юрист получает оплату после выполнения консультации</p>
             <p>Гарантируем возврат денег, если не устраивает качество</p>
-            <p>Полная конфидециальность</p>
+            <p>Полная конфиденциальность</p>
 
         <?php endif; ?>
 
@@ -109,7 +109,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
             <?php endif; ?>
             <?php if ($role == User::ROLE_JURIST): ?>
                 <div class="col-md-8 col-lg-8 no_chats">
-                    У вас нет пока нет чатов пользователями.
+                    У вас нет пока нет чатов с пользователями.
                 </div>
             <?php endif; ?>
         <?php endif; ?>
