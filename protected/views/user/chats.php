@@ -136,8 +136,8 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
                 <?= ($role == User::ROLE_JURIST) ? $curChat->user->getPeriodFromLastActivity() : $curChat->lawyer->getPeriodFromLastActivity() ?>
                 </span>
                 </div>
-                <div class="col-md-1">
-                    <input class="btn btn-block btn-warning" type="button" value="!" title="Пожаловаться на чат"/>
+                <div class="col-md-1 ">
+                    <input class="btn btn-warning" type="button" value="!" title="Пожаловаться на чат"/>
                 </div>
                 <div class="col-md-4">
                     <input class="btn btn-block btn-success" id="closeButton" style="display: none;" type="button"
@@ -172,14 +172,14 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
             </div>
 
             <div class="row send-row">
-                <div class="col-md-1 col-sm-1 col-xs-1 send-row">
+                <div class="col-md-1 col-sm-1 col-xs-1">
                     <input id="fileButton" class="fileButton" type="button" onclick="$('#fileinput').click()"
                            value=""  />
                 </div>
-                <div class="col-md-10  col-sm-10 col-xs-10 send-row">
+                <div class="col-md-10  col-sm-10 col-xs-10">
                     <input id="messageInput" class="inputMessage" placeholder="Сообщение"/>
                 </div>
-                <div class="col-md-1  col-sm-1 col-xs-1 send-row">
+                <div class="col-md-1  col-sm-1 col-xs-1">
                     <input id="send" class="sendButton" type="button" value=""/>
                 </div>
             </div>
