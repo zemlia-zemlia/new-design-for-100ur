@@ -14,8 +14,6 @@ $dotenv->load();
 if (getenv('PROTOCOL') == 'https') {
     $context = [
         'ssl' => [
-            'local_cert' => 'www/html/100yuristov/ssl/100_bundle.crt',
-            'local_pk' => 'www/html/100yuristov/ssl/8727807.key',
             'verify_peer' => false
         ]
     ];
