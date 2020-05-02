@@ -70,7 +70,7 @@ class Chat extends CActiveRecord
     }
 
     public function getCountMessages(){
-        return ChatMessages::model()->count('chat_id = ' . $this->id . ' AND is_read = 0');
+        return ChatMessages::model()->count('chat_id = ' . $this->id . ' AND is_read = 0 AND user_id != ' . \Yii::app()->user->id);
     }
 
     /**
