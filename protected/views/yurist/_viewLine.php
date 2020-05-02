@@ -50,7 +50,7 @@
 
                     <!--                        ниже выводим кнопку чата-->
 
-                    <?php if ($data->settings && $data->settings->isVerified && $data->isShowChatButton && $data->answersCount > 50) : ?>
+                    <?php if (Yii::app()->params['chat']['enabled'] == 1 && $data->settings && $data->settings->isVerified && $data->isShowChatButton && $data->answersCount > 50) : ?>
 
                         <?=  CHtml::link('конс. в чате ' . MoneyFormat::rubles($data->settings->priceConsult) . ' руб',
                             Yii::app()->createUrl(Yii::app()->user->isGuest ? '/site/login' : '/user/chats',

@@ -159,8 +159,9 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                         </li>
 
                         <li><?php echo CHtml::link('Заказы документов ' . '<strong class="red">(' . Order::calculateNewOrders() . ')</strong>', Yii::app()->createUrl('order/index')); ?></li>
-                        <li> <?= CHtml::link('Чаты с клиентами <strong class="red">(' . User::getChatsMessagesCnt() . ')</strong>', '/user/chats') ?></li>
-
+                        <?php if (Yii::app()->params['chat']['enabled']):?>
+                            <li> <?= CHtml::link('Чаты с клиентами <strong class="red">(' . User::getChatsMessagesCnt() . ')</strong>', '/user/chats') ?></li>
+                        <?php endif;?>
                         <li>
 
                     <?php elseif (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->isGuest): ?>
@@ -180,10 +181,8 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                         <?php if (Yii::app()->user->role == User::ROLE_CLIENT): ?>
                             <li class=""><?php echo ($_SERVER['REQUEST_URI'] != '/blog/') ? CHtml::link('Новости', Yii::app()->createUrl('/blog/')) : '<span class="active">Новости</span>'; ?></li>
 
-                            <?php if ($cnt = User::getChatsMessagesCnt()): ?>
+                            <?php if (Yii::app()->params['chat']['enabled']): ?>
                                 <li> <?= CHtml::link('Чаты с юристами <strong class="red">(' . User::getChatsMessagesCnt() . ')</strong>', '/user/chats') ?></li>
-                            <?php else: ?>
-                                <li> <?= CHtml::link('Чаты с юристами ', '/user/chats') ?></li>
                             <?php endif; ?>
                         <?php endif; ?>
 
