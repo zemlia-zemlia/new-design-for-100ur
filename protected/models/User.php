@@ -47,6 +47,7 @@ use YurcrmClient\YurcrmResponse;
  * @property int $refId
  * @property string $yurcrmToken
  * @property int $yurcrmSource
+ * @property string $chatToken
  */
 class User extends CActiveRecord
 {
@@ -432,6 +433,10 @@ class User extends CActiveRecord
                 $this->refId = Yii::app()->user->getState('ref');
             }
 
+            if($this->isNewRecord && !$this->chatToken) {
+                $this->chatToken = $this->generateAutologinString();
+            }
+
             return true;
         } else {
             return false;
@@ -561,10 +566,12 @@ class User extends CActiveRecord
         return password_verify($password, $this->password);
     }
 
-    public static function getChatsMessagesCnt()
+    /**
+     * @return int
+     * @throws \CException
+     */
+    public static function getChatsMessagesCnt():int
     {
-        $result = '';
-
         $cnt = Yii::app()->db->createCommand('SELECT COUNT(*) FROM `100_chat` as chat
         INNER JOIN `100_chat_messages` as cmessages ON cmessages.chat_id = chat.id WHERE
          (chat.user_id = :id1 OR chat.lawyer_id=:id2) AND (cmessages.user_id != :id3 AND cmessages.is_read !=1)')
@@ -573,9 +580,7 @@ class User extends CActiveRecord
             ->bindParam(':id3', Yii::app()->user->id)
             ->queryScalar();
 
-        if ($cnt) {
-            return '<strong class="red">(' . $cnt . ')</strong>';
-        }
+        return ($cnt) ? $cnt : 0;
     }
 
     /**
@@ -913,25 +918,16 @@ class User extends CActiveRecord
      */
     public function getFeed($days = 30, $returnCount = false)
     {
-//        SELECT q.title, c.text, u.name
-//        FROM `100_question` q
-//        LEFT JOIN `100_answer` a ON a.questionId = q.id
-//        LEFT JOIN `100_comment` c ON c.objectId = a.id
-//        LEFT JOIN `100_user` u ON u.id = c.authorId
-//        WHERE c.type=4 AND c.seen=0 AND a.authorId = 8 AND c.dateTime>NOW()-INTERVAL 30 DAY
-//        ORDER BY c.id DESC
-
         $feedArray = [];
 
         $feed = Yii::app()->db->createCommand()
-            ->select('q.id, c.type, q.title, c.text, u.name, COUNT(*) counter')
+            ->select('q.id, COUNT(*) counter')
             ->from('{{question}} q')
             ->leftJoin('{{answer}} a', 'a.questionId = q.id')
             ->leftJoin('{{comment}} c', 'c.objectId = a.id')
             ->leftJoin('{{user}} u', 'u.id = c.authorId')
             ->where('c.type=4 AND c.seen=0 AND a.authorId = :userId AND c.dateTime>NOW()-INTERVAL :days DAY', [':userId' => $this->id, ':days' => $days])
             ->group('q.id')
-            ->order('c.id DESC')
             ->queryAll();
 
         if (true == $returnCount) {
@@ -941,10 +937,6 @@ class User extends CActiveRecord
         foreach ($feed as $row) {
             $feedArray[] = [
                 'id' => $row['id'],
-                'type' => $row['type'],
-                'title' => $row['title'],
-                'text' => $row['text'],
-                'name' => $row['name'],
                 'counter' => $row['counter'],
             ];
         }

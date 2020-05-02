@@ -46,7 +46,8 @@ class Connector
         $sth = $this->db->prepare("SELECT transaction_id, lawyer_id FROM `100_chat` WHERE `chat_id` = :id");
         $sth->execute(['id' => $room]);
         $chatData = $sth->fetch(PDO::FETCH_ASSOC);
-        $sth = $this->db->prepare("SELECT * FROM `100_transactionCampaign` WHERE `id` = :id and status = 3");
+
+        $sth = $this->db->prepare("SELECT * FROM `100_transactionCampaign` WHERE `id` = :id and status = 3"); // TransactionCampaign::STATUS_HOLD = 3
         $sth->execute(['id' => $chatData['transaction_id']]);
         $trans = $sth->fetch(PDO::FETCH_ASSOC);
         $sth = $this->db->prepare("SELECT * FROM `100_user` WHERE `id` = :id");
@@ -76,13 +77,17 @@ class Connector
      */
     public function saveMessage($data)
     {
+        $id = $this->getChatId($data['room']);
+        $time = time();
         $sth = $this->db->prepare('INSERT INTO `100_chat_messages`( `chat_id`, `user_id`, `message`, `created`) VALUES (:chat_id, :user_id,:message,:created)');
         $sth->execute([
-            ':chat_id' => $this->getChatId($data['room']),
+            ':chat_id' => $id,
             ':user_id' => $this->getUserId($data['token']),
             ':message' => strip_tags($data['message'], '<a>'),
-            ':created' => time(),
+            ':created' => $time,
         ]);
+        $sth = $this->db->prepare('update 100_chat set created = :created where id = :id');
+        $sth->execute(['id' => $id, ':created' => $time,]);
     }
 
     /**
@@ -97,7 +102,7 @@ class Connector
         $sth = $this->db->prepare("SELECT * FROM `100_chat` WHERE `chat_id` = :id");
         $sth->execute(['id' => $roomName]);
         $chatData = $sth->fetch(PDO::FETCH_ASSOC);
-        if (!$chatData and $data['role'] == 3) {
+        if (!$chatData and $data['role'] == 3) { // пользователь
             $userData = explode('_', $roomName);
             $userId = $this->getUserId($data['token']);
             $layer = $this->getUserById($userData[1]);
@@ -137,7 +142,6 @@ class Connector
                 $result = 'decline';
                 $this->closeChat($roomName);
             }
-//            var_dump($result);
             return $result;
         }
 
@@ -155,7 +159,10 @@ class Connector
         $data = $sth->fetch(PDO::FETCH_ASSOC);
         if ($data and $data['priceConsult']) {
             return floor($data['priceConsult'] / 100);
+        } else {
+            return 0;
         }
+
     }
 
     /**
@@ -165,7 +172,7 @@ class Connector
      */
     private function getUserId($token)
     {
-        $sth = $this->db->prepare("SELECT id FROM `100_user` WHERE `confirm_code` = :id");
+        $sth = $this->db->prepare("SELECT id FROM `100_user` WHERE `chatToken` = :id");
         $sth->execute(array('id' => $token));
         $data = $sth->fetch(PDO::FETCH_ASSOC);
         return $data['id'];
@@ -178,7 +185,7 @@ class Connector
      */
     public function getAvatar($token)
     {
-        $sth = $this->db->prepare("SELECT avatar FROM `100_user` WHERE `confirm_code` = :id");
+        $sth = $this->db->prepare("SELECT avatar FROM `100_user` WHERE `chatToken` = :id");
         $sth->execute(array('id' => $token));
         $data = $sth->fetch(PDO::FETCH_ASSOC);
         if ($data['avatar']) {

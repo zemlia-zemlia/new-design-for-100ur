@@ -307,7 +307,7 @@ function init() {
         const addChatTyping = (data) => {
             data.typing = true;
             if (data.token != window.token) {
-                message = '<span class="username">' + data.username + '</span>' + 'печатает ...';
+                message = '<span class="username">' + data.username + '</span>' + ' печатает ...';
                 $('#typing').html(message).fadeIn();
                 // alert( data.username + 'печатает');
             }

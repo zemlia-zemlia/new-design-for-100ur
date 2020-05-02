@@ -86,7 +86,7 @@ class CampaignRepository
     public function getBuyPricesForRegionsAndCapitalsCurrentlyActive($activityIntervalDays = 3): array
     {
         /*       Запрос:
-        SELECT c.id, r.id regionId, r.name regionName,
+        SELECT r.id regionId, r.name regionName,
         r.buyPrice regionBuyPrice, t.name capitalName, t.buyPrice capitalBuyPrice,
         MIN(c.price) minRegionSellPrice, MAX(c.price) maxRegionSellPrice
         FROM 100_campaign c
@@ -94,11 +94,11 @@ class CampaignRepository
         LEFT JOIN 100_region r ON r.id = c.regionId
         LEFT JOIN 100_town t ON t.regionId=r.id AND t.isCapital=1
         WHERE c.lastLeadTime > NOW() - INTERVAL 3 DAY AND c.active=1 AND r.id IS NOT NULL
-        GROUP BY r.id;
+        GROUP BY r.id, t.id;
         */
 
         $command = Yii::app()->db->createCommand()
-            ->select('c.id, r.id regionId, r.name regionName, t.id capitalId,
+            ->select('r.id regionId, r.name regionName, t.id capitalId,
              r.buyPrice regionBuyPrice, t.name capitalName, t.buyPrice capitalBuyPrice, 
              MIN(c.price) minRegionSellPrice, MAX(c.price) maxRegionSellPrice')
             ->from('{{campaign}} c')
@@ -109,7 +109,7 @@ class CampaignRepository
                 ':days' => $activityIntervalDays,
                 ':active' => Campaign::ACTIVE_YES,
             ])
-            ->group('r.id')
+            ->group('r.id, t.id')
             ->order('r.name ASC');
 
         return $command->queryAll();

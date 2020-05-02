@@ -83,9 +83,9 @@ class Order extends CActiveRecord
             'jurist' => [self::BELONGS_TO, User::class, 'juristId'],
             'docType' => [self::BELONGS_TO, DocType::class, 'itemType'],
             'comments' => [self::HAS_MANY, Comment::class, 'objectId', 'condition' => 'comments.type=' . Comment::TYPE_ORDER, 'order' => 'comments.root, comments.lft'],
-            'commentsCount' => [self::STAT, Comment::class, 'objectId', 'condition' => 't.type=' . Comment::TYPE_ORDER, 'order' => 't.root, t.lft'],
+            'commentsCount' => [self::STAT, Comment::class, 'objectId', 'condition' => 't.type=' . Comment::TYPE_ORDER],
             'responses' => [self::HAS_MANY, OrderResponse::class, 'objectId', 'condition' => 'responses.type=' . Comment::TYPE_RESPONSE, 'order' => 'responses.id ASC'],
-            'responsesCount' => [self::STAT, OrderResponse::class, 'objectId', 'condition' => 't.type=' . Comment::TYPE_RESPONSE, 'order' => 't.root, t.lft'],
+            'responsesCount' => [self::STAT, OrderResponse::class, 'objectId', 'condition' => 't.type=' . Comment::TYPE_RESPONSE],
         ];
     }
 

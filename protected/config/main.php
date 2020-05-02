@@ -1,12 +1,5 @@
 <?php
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
-// uncomment the following to define a path alias
-// Yii::setPathOfAlias('local','path/to/local-folder');
-// This is the main Web application configuration. Any writable
-// CWebApplication properties can be configured here.
 return [
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => '100 юристов',
@@ -75,10 +68,9 @@ return [
                 '/yurist/<countryAlias:[\w\-]+>' => '/region/country',
                 '/yurist/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>' => '/region/view',
                 '/yurist/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>/<name:[\w\-]+>' => '/town/alias',
-                '/codecs/<codecsAlias:[\w\-\.]+>' => '/codecs/view',
-                '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>' => '/codecs/view',
-                '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>/<glavaAlias:[\w\-\.]+>' => '/codecs/view',
-                '/codecs/<codecsAlias:[\w\-\.]+>/<partAlias:[\w\-\.]+>/<glavaAlias:[\w\-\.]+>/<articleAlias:[\w\-\.]+>' => '/codecs/view',
+                '/region/<countryAlias:[\w\-]+>' => '/region/redirect',
+                '/region/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>' => '/region/redirect',
+                '/region/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>/<name:[\w\-]+>' => '/region/redirect',
             ],
         ],
         'clientScript' => [
@@ -94,16 +86,14 @@ return [
         'db' => require(dirname(__FILE__) . '/db.php'),
         'errorHandler' => [
             // use 'site/error' action to display errors
-//            'errorAction' => 'site/error',
+            'errorAction' => 'site/error',
         ],
         'log' => [
             'class' => 'CLogRouter',
             'routes' => [
                 [
-                    'class' => 'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
-                    'ipFilters' => array('127.0.0.1'),
-//                    'class' => 'CFileLogRoute',
-//                    'levels' => 'error, warning, info',
+                    'class' => 'CFileLogRoute',
+                    'levels' => 'error, warning, info',
                 ],
                 // uncomment the following to show log messages on web pages
 

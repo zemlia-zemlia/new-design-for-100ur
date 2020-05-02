@@ -2,15 +2,14 @@
 
 use Workerman\Worker;
 use Workerman\WebServer;
-use Workerman\Autoloader;
 use PHPSocketIO\SocketIO;
 
 require_once join(DIRECTORY_SEPARATOR, array(__DIR__, "..", "..", "..", "protected", "vendor", "autoload.php"));
 
 require_once './Connector.php';
 
-$dotenv = new Symfony\Component\Dotenv\Dotenv();
-$dotenv->load(__DIR__ . '/../../../protected/config/.env');
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../protected/config/');
+$dotenv->load();
 
 $io = new SocketIO($_ENV['CHAT_PORT']);
 
@@ -125,10 +124,7 @@ $io->on('connection', function ($socket) use ($io) {
 
             unset($connector);
         } else {
-//      $socket->broadcast->emit('new file', array(
-//        'username' => $socket->username,
-//        'message' => $data
-//      ));
+
 
         }
     });
@@ -145,16 +141,6 @@ $io->on('connection', function ($socket) use ($io) {
                 'username' => $data['name'],
                 'numUsers' => $numUsers
             ));
-        } else {
-//      $socket->emit('login', array(
-//        'numUsers' => $numUsers
-//      ));
-//      // echo globally (all clients) that a person has connected
-//      $socket->broadcast->emit('user joined', array(
-//        'username' => $socket->username,
-//        'numUsers' => $numUsers
-//      ));
-
         }
     });
 

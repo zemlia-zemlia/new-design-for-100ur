@@ -89,7 +89,8 @@ ul {
 
 .chatArea {
     height: 100%;
-    padding-bottom: 60px;
+    /*padding-bottom: 40px;*/
+    box-shadow: 0 3px 4px -4px rgba(0, 0, 0, .2);
 }
 
 .messages {
@@ -119,26 +120,38 @@ ul {
 
 /* Input */
 
+.send-row {
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-bottom: 1px;
+}
+
+.attach-file-row {
+    height: 20px;
+}
+.typing-row{
+    height: 20px;
+}
+
 .inputMessage {
     border: 10px solid #000;
-    bottom: 0;
     height: 60px;
-    left: 50px;
-    outline: none;
     padding-left: 10px;
-    position: absolute;
-    right: 0;
-    width: 75%;
+    width: 98%;
+    margin-left: 4px;
 }
 
 .fileButton {
-    bottom: 0;
     height: 60px;
-    left: 0px;
+    width: 100%;
+    background-image: url(/pics/attach.png);
+    background-repeat: no-repeat;
+    background-size: 33px;
+    background-position: center;
     outline: none;
-    padding-left: 10px;
-    position: absolute;
-    width: 50px;
+    border: 0;
+    background-color: white;
+    min-width: 30px;
 }
 
 .closeButton {
@@ -149,6 +162,20 @@ ul {
     padding-left: 10px;
     position: absolute;
     width: 100px;
+}
+
+.sendButton {
+    height: 60px;
+    width: 100%;
+    background-image: url(/pics/send.png);
+    background-repeat: no-repeat;
+    background-size: 40px;
+    background-position: center;
+    outline: none;
+    border: 0;
+    background-color: white;
+    margin-left: -25px;
+    min-width: 40px;
 }
 
 #fileName {

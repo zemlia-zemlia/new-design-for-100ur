@@ -50,20 +50,41 @@ class YandexPaymentChat implements YandexPaymentProcessorInterface
 
         /** @var User */
         $yurist = User::model()->findByPk($this->chat->lawyer_id);
-//        $yurist->balance += $yuristBonus;
 
         $yuristTransaction = new TransactionCampaign();
         $yuristTransaction->sum = $yuristBonus;
         $yuristTransaction->buyerId = $yurist->id;
         $yuristTransaction->description = 'Благодарность за консультацию В чате ' . $this->chat->chat_id . ' HOLD';
         $yuristTransaction->status = TransactionCampaign::STATUS_HOLD;
+
+        // Транзакция пополнения баланса клиента
+        $clientTransactionTopup = new TransactionCampaign();
+        $clientTransactionTopup->sum = $amount;
+        $clientTransactionTopup->buyerId = $this->chat->user_id;
+        $clientTransactionTopup->description = 'Пополнение баланса пользователя';
+        $clientTransactionTopup->status = TransactionCampaign::STATUS_COMPLETE;
+
+        // Транзакция списания денег клиента за чат
+        $clientTransactionChat = new TransactionCampaign();
+        $clientTransactionChat->sum = -$amount;
+        $clientTransactionChat->buyerId = $this->chat->user_id;
+        $clientTransactionChat->description = 'Списание за онлайн консультацию в чате #' . $this->chat->id;
+        $clientTransactionChat->status = TransactionCampaign::STATUS_COMPLETE;
+
         $saveTransaction = $moneyTransaction->dbConnection->beginTransaction();
+
         try {
-            if ($moneyTransaction->save() && $yuristTransaction->save()) {
+            if (
+                $moneyTransaction->save() &&
+                $yuristTransaction->save() &&
+                $clientTransactionTopup->save() &&
+                $clientTransactionChat->save()
+            ) {
                 $saveTransaction->commit();
                 Yii::log('ХОЛДИМ бабло благодарность юристу ' . $yurist->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'info', 'system.web');
-                LoggerFactory::getLogger('db')->log('Благодарность юристу #' . $yurist->id . ') ' . MoneyFormat::rubles($amount) . ' руб.', 'User', $yurist->id);
-//                $yurist->sendDonateNotification($this->chat, $yuristBonus);
+                LoggerFactory::getLogger('db')->log('Благодарность юристу #' . $yurist->id . ' ' . MoneyFormat::rubles($yuristBonus) . ' руб.', 'User', $yurist->id);
+                LoggerFactory::getLogger('db')->log('Пополнение баланса на ' . MoneyFormat::rubles($amount) . ' руб.', 'User', $this->chat->user_id);
+                LoggerFactory::getLogger('db')->log('Списание за чат #' . $this->chat->id . ' ' . MoneyFormat::rubles($amount) . ' руб.', 'User', $this->chat->user_id);
                 $this->chat->is_payed = 1;
                 $this->chat->transaction_id = $yuristTransaction->id;
                 $this->chat->save();
@@ -76,7 +97,7 @@ class YandexPaymentChat implements YandexPaymentProcessorInterface
             }
         } catch (Exception $e) {
             $saveTransaction->rollback();
-            Yii::log('Ошибка при благодарности ' . $yurist->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'error', 'system.web');
+            Yii::log('Ошибка при оплате чата ' . $this->chat->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'error', 'system.web');
 
             throw new CHttpException(500, 'Не удалось сохранить благодарность');
         }
