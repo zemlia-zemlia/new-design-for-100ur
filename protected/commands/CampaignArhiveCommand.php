@@ -14,7 +14,7 @@ class CampaignArhiveCommand extends CConsoleCommand
     {
         $criteria = new CDbCriteria();
         $criteria->addCondition('active=' . Campaign::ACTIVE_YES);
-        $criteria->addCondition('`lastLeadTime`<NOW() - INTERVAL ' . $this->_days . ' DAY OR lastLeadTime IS NULL');
+        $criteria->addCondition('`lastLeadTime`<NOW() - INTERVAL ' . $this->_days . ' DAY');
 
 
         $campaigns = Campaign::model()->findAll($criteria);
