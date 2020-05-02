@@ -171,7 +171,7 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
 
                         <li class="hidden-xs"><?php echo ($_SERVER['REQUEST_URI'] != '/question/call/') ? CHtml::link('Консультация по телефону', Yii::app()->createUrl('/question/call/')) : '<span class="active">Консультация по телефону</span>'; ?></li>
 
-                        <li><?php echo (!stristr($_SERVER['REQUEST_URI'], '/question/docs/')) ? CHtml::link("Документы", Yii::app()->createUrl('question/docs'), array('class' => '')) : '<span class="active">Документы</span>'; ?></li>
+<!--                        <li>--><?php //echo (!stristr($_SERVER['REQUEST_URI'], '/question/docs/')) ? CHtml::link("Документы", Yii::app()->createUrl('question/docs'), array('class' => '')) : '<span class="active">Документы</span>'; ?><!--</li>-->
 
                         <li class=""><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/russia/') ? CHtml::link('Юристы', Yii::app()->createUrl('/yurist/russia/')) : '<span class="active">Юристы</span>'; ?></li>
 
@@ -179,7 +179,6 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                             <li class=""><?php echo ($_SERVER['REQUEST_URI'] != '/question/my/') ? CHtml::link('Мои вопросы', Yii::app()->createUrl('/question/my/')) : '<span class="active">Мои вопросы</span>'; ?></li>
                         <?php endif; ?>
                         <?php if (Yii::app()->user->role == User::ROLE_CLIENT): ?>
-                            <li class=""><?php echo ($_SERVER['REQUEST_URI'] != '/blog/') ? CHtml::link('Новости', Yii::app()->createUrl('/blog/')) : '<span class="active">Новости</span>'; ?></li>
 
                             <?php if (Yii::app()->params['chat']['enabled']): ?>
                                 <li> <?= CHtml::link('Чаты с юристами <strong class="red">(' . User::getChatsMessagesCnt() . ')</strong>', '/user/chats') ?></li>
