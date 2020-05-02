@@ -64,6 +64,7 @@ class YandexPaymentResponseProcessor
         try {
             return $paymentProcessor->process();
         } catch (\Exception $e) {
+            Yii::log('Ошибка при обработке платежа: ' . $e->getMessage(), 'error', 'system.web');
             return false;
         }
     }
