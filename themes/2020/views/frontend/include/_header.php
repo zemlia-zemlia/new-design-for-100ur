@@ -159,11 +159,8 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                         </li>
 
                         <li><?php echo CHtml::link('Заказы документов ' . '<strong class="red">(' . Order::calculateNewOrders() . ')</strong>', Yii::app()->createUrl('order/index')); ?></li>
-                        <?php if ($cnt = User::getChatsMessagesCnt()): ?>
-                            <li> <?= CHtml::link('Чаты с клиентами <strong class="red">(' . User::getChatsMessagesCnt() . ')</strong>', '/user/chats') ?></li>
-                        <?php else: ?>
-                            <li> <?= CHtml::link('Чаты с клиентами ', '/user/chats') ?></li>
-                        <?php endif; ?>
+                        <li> <?= CHtml::link('Чаты с клиентами <strong class="red">(' . User::getChatsMessagesCnt() . ')</strong>', '/user/chats') ?></li>
+
                         <li>
 
                     <?php elseif (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->isGuest): ?>

@@ -568,6 +568,7 @@ class User extends CActiveRecord
 
     /**
      * @return int
+     * @throws \CException
      */
     public static function getChatsMessagesCnt():int
     {
