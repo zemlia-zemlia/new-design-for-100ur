@@ -6,6 +6,8 @@ paths:
     data: tests/_data
     support: tests/_support
     envs: config
+params:
+    - config/.env
 settings:
     colors: true
     memory_limit: 1024M

@@ -238,39 +238,35 @@ class SiteController extends Controller
         $this->render('yuristam');
     }
 
+    /**
+     * @throws Exception
+     */
     public function actionLogin()
     {
         $this->layout = '//frontend/smart';
         $model = new LoginForm();
+        $request = Yii::app()->request;
+
         // если использовался вход по мейлу и паролю
-        if (isset($_POST['App_models_LoginForm'])) {
-            $model->attributes = $_POST['App_models_LoginForm'];
-            // validate user input and redirect to the previous page if valid
+        if ($request->getPost('App_models_LoginForm')) {
+            $model->attributes = $request->getPost('App_models_LoginForm');
+
             if ($model->validate() && $model->login()) {
                 LoggerFactory::getLogger('db')->log(Yii::app()->user->roleName . ' #' . Yii::app()->user->id . ' (' . Yii::app()->user->shortName . ') залогинился на сайте', 'User', Yii::app()->user->id);
                 (new UserActivity())->logActivity(Yii::app()->user->getModel(), UserActivity::ACTION_LOGIN);
-                // @todo заменить конструкцию на WebUser::getHomeUrl()
+
                 if (Yii::app()->user->checkAccess(User::ROLE_EDITOR)) {
-                    // контент-менеджера и админа сразу перекидываем в админку
                     $_SESSION['editor_logged_in'] = 1; // чтобы получить доступ к CKfinder
-                    $this->redirect('/admin');
-                } elseif (User::ROLE_BUYER == Yii::app()->user->role) {
-                    // покупателя сразу перекидываем в кабинет
-                    $this->redirect('/buyer');
-                } elseif (User::ROLE_PARTNER == Yii::app()->user->role) {
-                    // вебмастера сразу перекидываем в его кабинет
-                    $this->redirect('/webmaster/');
-                } elseif (User::ROLE_JURIST == Yii::app()->user->role) {
-                    // вебмастера сразу перекидываем в его кабинет
-                    $this->redirect('/question/search/');
-                } else {
-                    $this->redirect('/site');
                 }
+
+                $redirectUrl = Yii::app()->user->getHomeUrl();
+                $this->redirect($redirectUrl);
             }
         }
-        // display the login form
+
         $this->render('login', [
-            'model' => $model]);
+            'model' => $model
+        ]);
     }
 
     public function actionLogout()

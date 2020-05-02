@@ -21,7 +21,7 @@ class WebUser extends CWebUser
      *
      * @return User Объект класса User
      */
-    public function getModel($noCache = false)
+    public function getModel($noCache = false): ?User
     {
         if (true === $noCache) {
             $this->cacheTime = 0;
@@ -33,67 +33,49 @@ class WebUser extends CWebUser
         return $this->_model;
     }
 
-    public function getRole()
+    public function getRole(): ?int
     {
-        if ($user = $this->getModel()) {
-            return $user->role;
-        }
+        return ($user = $this->getModel()) ? $user->role : null;
     }
 
-    public function getRoleName()
+    public function getRoleName(): ?string
     {
-        if ($user = $this->getModel()) {
-            return $user->getRoleName();
-        }
+        return ($user = $this->getModel()) ? $user->getRoleName() : null;
     }
 
-    public function getName()
+    public function getName(): ?string
     {
-        if ($user = $this->getModel()) {
-            return $user->name;
-        }
+        return ($user = $this->getModel()) ? $user->name : null;
     }
 
-    public function getName2()
+    public function getName2(): ?string
     {
-        if ($user = $this->getModel()) {
-            return $user->name2;
-        }
+        return ($user = $this->getModel()) ? $user->name2 : null;
     }
 
-    public function getLastName()
+    public function getLastName(): ?string
     {
-        if ($user = $this->getModel()) {
-            return $user->lastName;
-        }
+        return ($user = $this->getModel()) ? $user->lastName : null;
     }
 
-    public function getShortName()
+    public function getShortName(): ?string
     {
-        if ($user = $this->getModel()) {
-            return $user->getShortName();
-        }
+        return ($user = $this->getModel()) ? $user->getShortName() : null;
     }
 
-    public function getEmail()
+    public function getEmail(): ?string
     {
-        if ($user = $this->getModel()) {
-            return $user->email;
-        }
+        return ($user = $this->getModel()) ? $user->email : null;
     }
 
-    public function getPhone()
+    public function getPhone(): ?string
     {
-        if ($user = $this->getModel()) {
-            return $user->phone;
-        }
+        return ($user = $this->getModel()) ? $user->phone : null;
     }
 
-    public function getSourceId()
+    public function getSourceId(): ?int
     {
-        if ($user = $this->getModel()) {
-            return $user->leadSourceId;
-        }
+        return ($user = $this->getModel()) ? $user->leadSourceId : null;
     }
 
     public function getOfficeId()
@@ -103,60 +85,44 @@ class WebUser extends CWebUser
         }
     }
 
-    public function getLogin()
+    public function getLogin(): ?string
     {
-        if ($user = $this->getModel()) {
-            return $user->login;
-        }
+        return ($user = $this->getModel()) ? $user->login : null;
     }
 
-    public function getTownId()
+    public function getTownId(): ?int
     {
-        if ($user = $this->getModel()) {
-            return $user->townId;
-        }
+        return ($user = $this->getModel()) ? $user->townId : null;
     }
 
-    public function getActive100()
+    public function getActive100(): int
     {
-        if ($user = $this->getModel()) {
-            return $user->active100;
-        }
+        return ($user = $this->getModel()) ? $user->active100 : 0;
     }
 
-    public function getIsVerified()
+    public function getIsVerified(): ?int
     {
-        if ($user = $this->getModel()) {
-            return $user->settings->isVerified;
-        }
+        return ($user = $this->getModel()) ? $user->settings->isVerified : null;
     }
 
-    public function getAvatarUrl()
+    public function getAvatarUrl(): ?string
     {
-        if ($user = $this->getModel()) {
-            return $user->getAvatarUrl();
-        }
+        return ($user = $this->getModel()) ? $user->getAvatarUrl() : null;
     }
 
-    public function getAvatar()
+    public function getAvatar(): ?string
     {
-        if ($user = $this->getModel()) {
-            return $user->avatar;
-        }
+        return ($user = $this->getModel()) ? $user->avatar : null;
     }
 
-    public function getKarma()
+    public function getKarma(): int
     {
-        if ($user = $this->getModel()) {
-            return $user->karma;
-        }
+        return ($user = $this->getModel()) ? $user->karma : 0;
     }
 
-    public function getBalance($noCache = false)
+    public function getBalance($noCache = false): int
     {
-        if ($user = $this->getModel($noCache)) {
-            return $user->balance;
-        }
+        return ($user = $this->getModel($noCache)) ? $user->balance : 0;
     }
 
     /**
@@ -164,11 +130,9 @@ class WebUser extends CWebUser
      *
      * @return array массив категорий
      */
-    public function getCategories()
+    public function getCategories(): array
     {
-        if ($user = $this->getModel()) {
-            return $user->categories;
-        }
+        return ($user = $this->getModel()) ? $user->categories : [];
     }
 
     /**
@@ -176,11 +140,9 @@ class WebUser extends CWebUser
      *
      * @return YuristSettings
      */
-    public function getSettings()
+    public function getSettings(): ?YuristSettings
     {
-        if ($user = $this->getModel()) {
-            return $user->settings;
-        }
+        return ($user = $this->getModel()) ? $user->settings : null;
     }
 
     /**
@@ -190,11 +152,9 @@ class WebUser extends CWebUser
      *
      * @throws Exception
      */
-    public function getRangName()
+    public function getRangName(): string
     {
-        if ($user = $this->getModel()) {
-            return $user->getRangName();
-        }
+        return ($user = $this->getModel()) ? $user->getRangName() : '';
     }
 
     /**
@@ -202,47 +162,44 @@ class WebUser extends CWebUser
      *
      * @return int Количество кампаний
      */
-    public function getCampaignsModeratedCount()
+    public function getCampaignsModeratedCount(): int
     {
-        if ($user = $this->getModel()) {
-            return $user->campaignsModeratedCount;
-        }
+        return ($user = $this->getModel()) ? $user->campaignsModeratedCount : 0;
     }
 
     /**
      * Возвращает коэффициент цены лида.
      *
-     * @return type
+     * @return float
      */
-    public function getPriceCoeff()
+    public function getPriceCoeff(): float
     {
-        if ($user = $this->getModel()) {
-            return $user->priceCoeff;
-        }
+        return ($user = $this->getModel()) ? $user->priceCoeff : 1;
     }
 
     /**
      * Возвращает количество вопросов с непросмотренными комментами на мои ответы.
      *
-     * @return type
+     * @return int
      */
-    public function getNewEventsCount()
+    public function getNewEventsCount(): int
     {
-        if ($user = $this->getModel()) {
-            return $user->getFeed(30, true);
-        }
+        return ($user = $this->getModel()) ?
+            $user->getFeed(30, true) :
+            0;
     }
 
     /**
      * Возвращает текст сообщения для юриста с советом заполнить поле в профиле.
      *
-     * @return string Сообщение для пользователя
+     * @return string|null Сообщение для пользователя
      */
-    public function getProfileNotification()
+    public function getProfileNotification(): ?string
     {
         if ($user = $this->getModel()) {
             return $user->getProfileNotification();
         }
+        return null;
     }
 
     /**
@@ -250,7 +207,7 @@ class WebUser extends CWebUser
      *
      * @return string|null
      */
-    public function getHomeUrl()
+    public function getHomeUrl(): ?string
     {
         $user = $this->getModel();
         if ($user) {
@@ -268,5 +225,6 @@ class WebUser extends CWebUser
                     return Yii::app()->createUrl('/');
             }
         }
+        return null;
     }
 }
