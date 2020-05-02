@@ -47,6 +47,7 @@ use YurcrmClient\YurcrmResponse;
  * @property int $refId
  * @property string $yurcrmToken
  * @property int $yurcrmSource
+ * @property string $chatToken
  */
 class User extends CActiveRecord
 {
@@ -432,6 +433,10 @@ class User extends CActiveRecord
                 $this->refId = Yii::app()->user->getState('ref');
             }
 
+            if($this->isNewRecord && !$this->chatToken) {
+                $this->chatToken = $this->generateAutologinString();
+            }
+
             return true;
         } else {
             return false;
@@ -561,10 +566,11 @@ class User extends CActiveRecord
         return password_verify($password, $this->password);
     }
 
-    public static function getChatsMessagesCnt()
+    /**
+     * @return int
+     */
+    public static function getChatsMessagesCnt():int
     {
-        $result = '';
-
         $cnt = Yii::app()->db->createCommand('SELECT COUNT(*) FROM `100_chat` as chat
         INNER JOIN `100_chat_messages` as cmessages ON cmessages.chat_id = chat.id WHERE
          (chat.user_id = :id1 OR chat.lawyer_id=:id2) AND (cmessages.user_id != :id3 AND cmessages.is_read !=1)')

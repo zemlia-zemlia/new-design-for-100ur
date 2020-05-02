@@ -110,7 +110,7 @@ class UserController extends Controller
                     'username' => $row->user->getShortName(),
                     'avatar' => $row->user->getAvatarUrl(),
                     'message' => $row->message,
-                    'token' => $row->user->confirm_code,
+                    'token' => $row->user->chatToken,
                     'date' => date('H:i', $row->created),
                 ];
             }

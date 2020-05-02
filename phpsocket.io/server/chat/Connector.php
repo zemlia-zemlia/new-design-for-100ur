@@ -172,7 +172,7 @@ class Connector
      */
     private function getUserId($token)
     {
-        $sth = $this->db->prepare("SELECT id FROM `100_user` WHERE `confirm_code` = :id");
+        $sth = $this->db->prepare("SELECT id FROM `100_user` WHERE `chatToken` = :id");
         $sth->execute(array('id' => $token));
         $data = $sth->fetch(PDO::FETCH_ASSOC);
         return $data['id'];
@@ -185,7 +185,7 @@ class Connector
      */
     public function getAvatar($token)
     {
-        $sth = $this->db->prepare("SELECT avatar FROM `100_user` WHERE `confirm_code` = :id");
+        $sth = $this->db->prepare("SELECT avatar FROM `100_user` WHERE `chatToken` = :id");
         $sth->execute(array('id' => $token));
         $data = $sth->fetch(PDO::FETCH_ASSOC);
         if ($data['avatar']) {

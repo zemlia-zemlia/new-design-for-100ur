@@ -17,8 +17,7 @@
         "vlucas/phpdotenv": "4.1",
         "guzzlehttp/guzzle":"~6.0",
         "workerman/workerman": ">=3.5.16",
-        "workerman/channel": ">=1.0.0",
-        "symfony/dotenv": "^5.0"
+        "workerman/channel": ">=1.0.0"
     },
     "require-dev": {
         "codeception/codeception": "^4.0",

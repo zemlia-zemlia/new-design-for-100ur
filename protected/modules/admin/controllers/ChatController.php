@@ -127,7 +127,6 @@ class ChatController extends AbstractAdminController
 	public function actionIndex()
 	{
         $model = new Chat();
-//        CVarDumper::dump($model->getConfirmeds(), 5,true);die;
 		$this->render('index', [
 			'notConfirmeds'=>$model->getNotConfirmeds(),
 			'confirmeds'=>$model->getConfirmeds(),

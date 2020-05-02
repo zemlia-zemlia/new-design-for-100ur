@@ -24,14 +24,14 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
 <?php endif; ?>
 <script>
     window.username = "<?=$user->getShortName()?>";
-    window.token = "<?=$user->confirm_code?>";
+    window.token = "<?=$user->chatToken?>";
     window.role = "<?=$role?>";
     window.siteUrl = "<?=Yii::app()->getBaseUrl(true)?>";
     window.chaturl = "<?=getenv('CHAT_URL')?>:<?=getenv('CHAT_PORT')?>";
 </script>
 <?php if ($role == User::ROLE_JURIST): ?>
     <script>
-        window.layer_id = "<?=$user->confirm_code?>"
+        window.layer_id = "<?=$user->chatToken?>"
     </script>
 <?php endif; ?>
 

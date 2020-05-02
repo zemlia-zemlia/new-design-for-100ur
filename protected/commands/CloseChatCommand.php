@@ -8,8 +8,12 @@ class CloseChatCommand extends CConsoleCommand
 {
     public function actionIndex()
     {
-        $sql = 'SELECT * FROM `100_chat` chat 
-        WHERE chat.is_closed IS NULL and chat.is_payed and chat.created < :time GROUP by chat.id';
+        $sql = 'SELECT chat.*, MAX(mes.created) last_message_time
+        FROM `100_chat` chat 
+        LEFT JOIN 100_chat_messages mes ON mes.chat_id = chat.id
+        WHERE chat.is_closed IS NULL and chat.is_payed 
+        GROUP by chat.id
+        HAVING last_message_time < :time';
         $time = strtotime('-3day');
         $data = Yii::app()->db->createCommand($sql)->bindParam(':time', $time)->queryAll();
 

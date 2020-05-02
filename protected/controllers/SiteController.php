@@ -119,7 +119,7 @@ class SiteController extends Controller
                 header('Content-type: application/json');
                 echo json_encode([
                     'name' => $user->lastName . ' ' . $user->name . ' ' . $user->name2,
-                    'token' => $user->confirm_code
+                    'token' => $user->chatToken
                 ]);
             } else {
                 throw new CHttpException('404');
