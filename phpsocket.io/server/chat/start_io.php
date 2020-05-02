@@ -2,15 +2,14 @@
 
 use Workerman\Worker;
 use Workerman\WebServer;
-use Workerman\Autoloader;
 use PHPSocketIO\SocketIO;
 
 require_once join(DIRECTORY_SEPARATOR, array(__DIR__, "..", "..", "..", "protected", "vendor", "autoload.php"));
 
 require_once './Connector.php';
 
-$dotenv = new Symfony\Component\Dotenv\Dotenv();
-$dotenv->load(__DIR__ . '/../../../protected/config/.env');
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../protected/config/');
+$dotenv->load();
 
 $io = new SocketIO($_ENV['CHAT_PORT']);
 
