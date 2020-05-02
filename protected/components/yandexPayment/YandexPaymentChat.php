@@ -103,7 +103,10 @@ class YandexPaymentChat implements YandexPaymentProcessorInterface
 
         $this->chat->is_payed = 1;
         $this->chat->transaction_id = $yuristTransaction->id;
-        $this->chat->save();
+        if (!$this->chat->save()) {
+            Yii::log('Не удалось сохранить признак оплаты чата: ' . print_r($this->chat->getErrors(), true), 'error', 'system.web');
+            return false;
+        }
 
         return true;
     }
