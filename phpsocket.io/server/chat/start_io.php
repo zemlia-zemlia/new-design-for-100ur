@@ -11,7 +11,19 @@ require_once './Connector.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../protected/config/');
 $dotenv->load();
 
-$io = new SocketIO($_ENV['CHAT_PORT']);
+if (getenv('PROTOCOL') == 'https') {
+    $context = [
+        'ssl' => [
+            'local_cert' => 'www/html/100yuristov/ssl/100_bundle.crt',
+            'local_pk' => 'www/html/100yuristov/ssl/8727807.key',
+            'verify_peer' => false
+        ]
+    ];
+} else {
+    $context = [];
+}
+
+$io = new SocketIO($_ENV['CHAT_PORT'], $context);
 
 $io->on('connection', function ($socket) use ($io) {
 
