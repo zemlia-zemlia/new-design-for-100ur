@@ -48,7 +48,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
     </div>
 </div>
 <div class="row">
-    <div class="col-md-4 col-lg-4">
+    <div class="col-md-3 col-lg-3 col-sm-3">
         <h3>Ваши чаты:</h3>
         <div class="vert-margin40">
             <?php foreach ($chats as $chat): ?>
@@ -85,16 +85,18 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
 
 
         <?php if ($role == User::ROLE_CLIENT): ?>
-            <div class="alert alert-info">
-                <h3>Внимание!</h3>
-                Никогда не переводите деньги юристу на личный кошелек или карту. Это лишает вас
-                всех гарантий сервиса.
-            </div>
+            <div class="hidden-xs">
+                <div class="alert alert-info">
+                    <h3>Внимание!</h3>
+                    Никогда не переводите деньги юристу на личный кошелек или карту. Это лишает вас
+                    всех гарантий сервиса.
+                </div>
 
-            <h3>Гарантии 100Юристов</h3>
-            <p>Юрист получает оплату после выполнения консультации</p>
-            <p>Гарантируем возврат денег, если не устраивает качество</p>
-            <p>Полная конфиденциальность</p>
+                <h3>Гарантии 100Юристов</h3>
+                <p>Юрист получает оплату после выполнения консультации</p>
+                <p>Гарантируем возврат денег, если не устраивает качество</p>
+                <p>Полная конфиденциальность</p>
+            </div>
 
         <?php endif; ?>
 
@@ -121,7 +123,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
         <?php if ($room): ?>
     </div>
 
-    <div class="col-md-8 col-lg-8 chat-window" id="chats">
+    <div class="col-md-9 col-lg-9 col-sm-9 chat-window" id="chats">
         <div class="row row-chat-info">
             <?php if ($curChat): ?>
                 <div class="col-md-4 col-xs-6 small">
@@ -136,10 +138,11 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
                 </span>
                 </div>
                 <div class="col-md-1 col-xs-1">
-                    <input class="btn btn-warning" type="button" value="!" title="Пожаловаться на чат"/>
+                    <input class="btn btn-default btn-xs" type="button" value="!" title="Пожаловаться на чат"/>
                 </div>
                 <div class="col-md-4 col-xs-12">
-                    <input class="btn btn-xs btn-block btn-success" id="closeButton" style="display: none;" type="button"
+                    <input class="btn btn-xs btn-block btn-default" id="closeButton" style="display: none;"
+                           type="button"
                            value="Завершить чат"
                            title="Консультация закроется и юрист получит средства за консультацию."/>
                 </div>
@@ -184,8 +187,10 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
             </div>
 
         </ul>
+
+        <?php endif; ?>
+
     </div>
-    <?php endif; ?>
     <div id="chatElem" style="display: none">
         <?= $this->renderPartial('chatElem', ['mess' => [], 'user' => []]) ?>
     </div>
