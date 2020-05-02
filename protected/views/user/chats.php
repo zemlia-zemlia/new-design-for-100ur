@@ -174,13 +174,13 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
             <div class="row send-row">
                 <div class="col-md-1 col-sm-1 col-xs-1 send-row">
                     <input id="fileButton" class="fileButton" type="button" onclick="$('#fileinput').click()"
-                           value="File"/>
+                           value=""  />
                 </div>
-                <div class="col-md-9  col-sm-9 col-xs-9 send-row">
+                <div class="col-md-10  col-sm-10 col-xs-10 send-row">
                     <input id="messageInput" class="inputMessage" placeholder="Сообщение"/>
                 </div>
-                <div class="col-md-2  col-sm-2 col-xs-2 send-row">
-                    <input id="send" class="sendButton" type="button" value="Отправить"/>
+                <div class="col-md-1  col-sm-1 col-xs-1 send-row">
+                    <input id="send" class="sendButton" type="button" value=""/>
                 </div>
             </div>
 

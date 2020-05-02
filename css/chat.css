@@ -123,6 +123,7 @@ ul {
 .send-row {
     padding-right: 0px;
     padding-left: 0px;
+    padding-bottom: 1px;
 }
 
 .attach-file-row {
@@ -152,6 +153,13 @@ ul {
     /*padding-left: 10px;*/
     /*position: absolute;*/
     width: 100%;
+    background-image: url(/pics/attach.png);
+    background-repeat: no-repeat;
+    background-size: 33px;
+    background-position: center;
+    outline: none;
+    border: 0;
+    background-color: white;
 }
 
 .closeButton {
@@ -172,6 +180,13 @@ ul {
     /*padding-left: 10px;*/
     /*position: absolute;*/
     width: 100%;
+    background-image: url(/pics/send.png);
+    background-repeat: no-repeat;
+    background-size: 40px;
+    background-position: center;
+    outline: none;
+    border: 0;
+    background-color: white;
 }
 
 #fileName {
