@@ -2,6 +2,7 @@
 
 use App\extensions\Logger\LoggerFactory;
 use App\models\Answer;
+use App\models\User;
 use App\models\Chat;
 use App\models\Money;
 use App\models\TransactionCampaign;

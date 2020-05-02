@@ -32,7 +32,7 @@ return [
             'class' => 'WebUser',
         ],
         'request' => [
-            'enableCsrfValidation' => true,
+            'enableCsrfValidation' => false,
             'enableCookieValidation' => true,
         ],
         'authManager' => [
