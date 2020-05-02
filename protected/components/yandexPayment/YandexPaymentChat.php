@@ -39,7 +39,7 @@ class YandexPaymentChat implements YandexPaymentProcessorInterface
         $amount = $this->request->amount * 100;
 
         // Доля юриста после вычета нашей комиссии
-        $yuristBonus = $amount * (1 - self::SERVICE_COMMISSION);
+        $yuristBonus = floor($amount * (1 - self::SERVICE_COMMISSION));
 
         $moneyTransaction = new Money();
         $moneyTransaction->accountId = 0; // Яндекс деньги
