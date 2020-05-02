@@ -124,22 +124,22 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
     <div class="col-md-8 col-lg-8 chat-window" id="chats">
         <div class="row row-chat-info">
             <?php if ($curChat): ?>
-                <div class="col-md-4">
+                <div class="col-md-4 col-xs-6 small">
                     <img style="width: 40px;"
                          src="<?= ($role == User::ROLE_JURIST) ? $curChat->user->getAvatarUrl() : $curChat->lawyer->getAvatarUrl() ?>">
                     <?= ($role == User::ROLE_JURIST) ? $curChat->user->getShortName() : $curChat->lawyer->getShortName() ?>
                     <br/>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 col-xs-4">
                 <span class="small">был(а) в сети <br/>
                 <?= ($role == User::ROLE_JURIST) ? $curChat->user->getPeriodFromLastActivity() : $curChat->lawyer->getPeriodFromLastActivity() ?>
                 </span>
                 </div>
-                <div class="col-md-1 ">
+                <div class="col-md-1 col-xs-1">
                     <input class="btn btn-warning" type="button" value="!" title="Пожаловаться на чат"/>
                 </div>
-                <div class="col-md-4">
-                    <input class="btn btn-block btn-success" id="closeButton" style="display: none;" type="button"
+                <div class="col-md-4 col-xs-12">
+                    <input class="btn btn-xs btn-block btn-success" id="closeButton" style="display: none;" type="button"
                            value="Завершить чат"
                            title="Консультация закроется и юрист получит средства за консультацию."/>
                 </div>
