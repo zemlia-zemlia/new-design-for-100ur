@@ -34,7 +34,6 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
         window.layer_id = "<?=$user->chatToken?>"
     </script>
 <?php endif; ?>
-
 <div style="clear: both"></div>
 <div class="row">
     <div class="col-md-12 col-lg-12">
@@ -174,7 +173,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
             <div class="row send-row">
                 <div class="col-md-1 col-sm-1 col-xs-1">
                     <input id="fileButton" class="fileButton" type="button" onclick="$('#fileinput').click()"
-                           value=""  />
+                           value=""/>
                 </div>
                 <div class="col-md-10  col-sm-10 col-xs-10">
                     <input id="messageInput" class="inputMessage" placeholder="Сообщение"/>
@@ -218,5 +217,6 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
         </div>
     </div>
     <div style="clear: both"></div>
+</div>
 
 

@@ -135,23 +135,14 @@ ul {
 
 .inputMessage {
     border: 10px solid #000;
-    /*bottom: 0;*/
     height: 60px;
-    /*left: 50px;*/
-    /*outline: none;*/
     padding-left: 10px;
-    /*position: absolute;*/
-    /*right: 0;*/
-    width: 100%;
+    width: 98%;
+    margin-left: 4px;
 }
 
 .fileButton {
-    /*bottom: 0;*/
     height: 60px;
-    /*left: 0px;*/
-    /*outline: none;*/
-    /*padding-left: 10px;*/
-    /*position: absolute;*/
     width: 100%;
     background-image: url(/pics/attach.png);
     background-repeat: no-repeat;
@@ -160,6 +151,7 @@ ul {
     outline: none;
     border: 0;
     background-color: white;
+    min-width: 30px;
 }
 
 .closeButton {
@@ -173,12 +165,7 @@ ul {
 }
 
 .sendButton {
-    /*bottom: 0;*/
     height: 60px;
-    /*right: 10px;*/
-    /*outline: none;*/
-    /*padding-left: 10px;*/
-    /*position: absolute;*/
     width: 100%;
     background-image: url(/pics/send.png);
     background-repeat: no-repeat;
@@ -187,6 +174,8 @@ ul {
     outline: none;
     border: 0;
     background-color: white;
+    margin-left: -25px;
+    min-width: 40px;
 }
 
 #fileName {
