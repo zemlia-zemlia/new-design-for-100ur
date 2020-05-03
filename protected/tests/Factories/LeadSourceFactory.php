@@ -18,6 +18,7 @@ class LeadSourceFactory extends BaseFactory
             'appId' => $this->faker->randomNumber(),
             'secretKey' => $this->faker->lexify('test????'),
             'name' => $this->faker->word,
+            'description' => $this->faker->sentence,
             'active' => 1,
             'userId' => $this->faker->randomNumber(),
             'priceByPartner' => 1,

@@ -15,7 +15,9 @@
         "monolog/monolog": "^1.24",
         "moneyphp/money": "^3",
         "vlucas/phpdotenv": "4.1",
-        "guzzlehttp/guzzle":"~6.0"
+        "guzzlehttp/guzzle":"~6.0",
+        "workerman/workerman": ">=3.5.16",
+        "workerman/channel": ">=1.0.0"
     },
     "require-dev": {
         "codeception/codeception": "^4.0",
@@ -30,7 +32,8 @@
     "autoload": {
         "psr-4": {
             "Tests\\": "tests/",
-            "App\\": ""
+            "App\\": "",
+            "PHPSocketIO\\": "../phpsocket.io/src"
         }
     }
 }

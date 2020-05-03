@@ -16,7 +16,6 @@ use Yii;
  * @property int $type
  * @property string $name
  * @property string $description
- * @property int $officeId
  * @property int $noLead
  * @property int $active
  * @property string $appId
@@ -68,11 +67,11 @@ class Leadsource extends CActiveRecord
         return [
             ['name', 'required', 'message' => 'Поле {attribute} не заполнено'],
             ['name, description', 'length', 'max' => 255],
-            ['officeId, noLead, active, userId, type, moderation, priceByPartner', 'numerical', 'integerOnly' => true],
+            ['noLead, active, userId, type, moderation, priceByPartner', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             ['id, name, description', 'safe', 'on' => 'search'],
-            ['id', 'safe', 'on' => 'test'],
+            ['id, appId, secretKey', 'safe', 'on' => 'test'],
         ];
     }
 
@@ -97,7 +96,6 @@ class Leadsource extends CActiveRecord
             'type' => 'Тип',
             'name' => 'Название',
             'description' => 'Описание',
-            'officeId' => 'Офис',
             'noLead' => 'Клиенты сразу приходят на консультацию',
             'active' => 'Активность',
             'appId' => 'ID источника для API',
@@ -171,7 +169,6 @@ class Leadsource extends CActiveRecord
 
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
-        $criteria->compare('office', $this->office, true);
         $criteria->compare('description', $this->description, true);
 
         return new CActiveDataProvider($this, [

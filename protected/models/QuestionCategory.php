@@ -347,7 +347,7 @@ class QuestionCategory extends CActiveRecord
         foreach ($directionsHirerarchy as $key => $direction) {
             $directions[$key] = $direction['name'];
 
-            if ($direction['children']) {
+            if (isset($direction['children']) && $direction['children']) {
                 foreach ($direction['children'] as $childId => $child) {
                     $directions[$childId] = '-- ' . $child['name'];
                 }

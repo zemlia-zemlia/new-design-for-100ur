@@ -10,7 +10,7 @@ $model->value = MoneyFormat::rubles($model->value);
 
 $js = <<<JS
 $('input[type=radio]').on('change', function() {
-if($(this).attr('id') == 'Money_type_1') {
+if($(this).attr('id') == 'App_models_Money_type_1') {
     $('#expence').removeClass('hidden');
      $('#income').addClass('hidden');
 }
