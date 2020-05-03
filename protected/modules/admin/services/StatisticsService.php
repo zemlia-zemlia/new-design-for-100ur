@@ -105,19 +105,19 @@ class StatisticsService
             ->group('a.id')
             ->queryColumn();
 
-        return (count($diffsInSeconds) > 0) ?   // TODO как так то? пытаемся сравнить массив с числом?
+        return (count($diffsInSeconds) > 0) ?
             round((array_sum($diffsInSeconds) / count($diffsInSeconds)) / 3600, 1) :
             0;
     }
 
 
 
-    public function getCountAnsversByDate(){
+    public function getCountAnsversByDate($start){
 
         $countAnsversByDateRows = Yii::app()->db->createCommand()
             ->select('COUNT(*) counter, DATE(datetime) date')
             ->from('{{answer}}')
-            ->where('datetime>NOW()-INTERVAL 30 DAY AND status IN (0,1)')
+            ->where('DATE(datetime)>' . $start .  ' AND status IN (0,1)')
             ->group('date')
             ->queryAll();
         $countAnsversByDate = [];
@@ -133,12 +133,12 @@ class StatisticsService
     }
 
 
-   public function getPublishedQuestionsCount(){
+   public function getPublishedQuestionsCount($start){
 
        $publishedQuestionsRows = Yii::app()->db->createCommand()
            ->select('COUNT(*) counter, DATE(createDate) date')
            ->from('{{question}}')
-           ->where('createDate>NOW()-INTERVAL 30 DAY AND status IN (2,4)')
+           ->where('DATE(createDate)>' . $start .  ' AND status IN (2,4)')
            ->group('date')
            ->queryAll();
        $publishedQuestionsCount = [];
@@ -153,12 +153,12 @@ class StatisticsService
 
     }
 
-    public function getPublishedCommentCount(){
+    public function getPublishedCommentCount($start){
 
         $publishedCommentRows = Yii::app()->db->createCommand()
             ->select('COUNT(*) counter, DATE(dateTime) date')
             ->from('{{comment}}')
-            ->where('dateTime>NOW()-INTERVAL 30 DAY AND status IN (0,1)')
+            ->where('DATE(dateTime)>' . $start .  ' AND status IN (0,1)')
             ->group('date')
             ->queryAll();
         $publishedCommentCount = [];
@@ -173,20 +173,17 @@ class StatisticsService
 
     }
 
-    public function getDateInterval(){
+    public function getDateInterval($interval){
 
-        $startDate = new DateTime('-20 day');
+        $startDate = new DateTime('-' . $interval . ' day');
         $endDate = new DateTime();
         $period = new DatePeriod($startDate, new DateInterval('P1D'), $endDate->modify('+1 day'));
-
         $interval = [];
         foreach ($period as $date){
             $interval[] = $date->format('Y-m-d');
         }
 
         return $interval;
-
-
 
     }
 

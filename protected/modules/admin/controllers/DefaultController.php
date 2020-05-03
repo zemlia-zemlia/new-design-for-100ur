@@ -88,7 +88,7 @@ class DefaultController extends AbstractAdminController
 
 
 
-//        array_shift($publishedQuestionsCount);  TODO зачем здесь это? у меня не было вопросов вообще, задал один, его здесь удаляет
+
 
         $leadsByTypesRows = Yii::app()->db->createCommand()
             ->select('COUNT(*) counter, type, DATE(question_date) date1')
