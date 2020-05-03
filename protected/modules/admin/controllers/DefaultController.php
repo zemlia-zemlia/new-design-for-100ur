@@ -10,6 +10,8 @@ class DefaultController extends AbstractAdminController
 
     public function actionIndex()
     {
+
+
         $statsService = new StatisticsService();
 
         // Первое число месяца год назад

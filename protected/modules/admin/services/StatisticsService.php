@@ -117,7 +117,7 @@ class StatisticsService
         $countAnsversByDateRows = Yii::app()->db->createCommand()
             ->select('COUNT(*) counter, DATE(datetime) date')
             ->from('{{answer}}')
-            ->where('DATE(datetime)>' . $start .  ' AND status IN (0,1)')
+            ->where('DATE(datetime) > "' . date('Y-m-d H:i:s',strtotime($start)) .  '" AND status IN (0,1)')
             ->group('date')
             ->queryAll();
         $countAnsversByDate = [];
@@ -138,7 +138,7 @@ class StatisticsService
        $publishedQuestionsRows = Yii::app()->db->createCommand()
            ->select('COUNT(*) counter, DATE(createDate) date')
            ->from('{{question}}')
-           ->where('DATE(createDate)>' . $start .  ' AND status IN (2,4)')
+           ->where('DATE(createDate) > "' . date('Y-m-d H:i:s',strtotime($start)) .  '" AND status IN (2,4)')
            ->group('date')
            ->queryAll();
        $publishedQuestionsCount = [];
@@ -158,7 +158,7 @@ class StatisticsService
         $publishedCommentRows = Yii::app()->db->createCommand()
             ->select('COUNT(*) counter, DATE(dateTime) date')
             ->from('{{comment}}')
-            ->where('DATE(dateTime)>' . $start .  ' AND status IN (0,1)')
+            ->where('DATE(dateTime) > "' . date('Y-m-d H:i:s',strtotime($start)) .  '" AND status IN (0,1)')
             ->group('date')
             ->queryAll();
         $publishedCommentCount = [];
