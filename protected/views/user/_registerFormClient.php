@@ -18,7 +18,7 @@
 
 <div class="form-group">
     <?php echo $form->labelEx($model, 'townId'); ?>
-    <?php echo CHtml::textField('town', ($model->town->name) ? $model->town->name : '', ['id' => 'town-selector', 'class' => 'form-control']); ?>
+    <?php echo CHtml::textField('town', ($model->town && $model->town->name) ? $model->town->name : '', ['id' => 'town-selector', 'class' => 'form-control']); ?>
     <?php
         echo $form->hiddenField($model, 'townId', ['id' => 'selected-town']);
     ?>

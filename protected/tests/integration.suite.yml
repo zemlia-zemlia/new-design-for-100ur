@@ -11,9 +11,9 @@ modules:
         - \Helper\Integration
         - \Helper\Unit
         - Db:
-            dsn: 'mysql:host=localhost;dbname=100yuristov_test'
-            user: '100yuristov_test'
-            password: ''
+            dsn: 'mysql:host=%DB_TEST_HOST%;dbname=%DB_TEST_NAME%'
+            user: %DB_TEST_USER%
+            password: %DB_TEST_PASSWORD%
             dump:
               - 'db/100yuristov_test.sql'
               - 'db/100yuristov_test_geo.sql'

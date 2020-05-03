@@ -3,6 +3,7 @@
 namespace App\notifiers;
 
 use App\models\Answer;
+use App\models\Chat;
 use CHtml;
 use App\models\Comment;
 use GTMail;
@@ -362,6 +363,75 @@ class UserNotifier
         }
     }
 
+    /**
+     * Отправка юристу уведомления о зачислении благодарности за консультацию.
+     *
+     * @param \App\models\Answer $answer
+     * @param int $yuristBonus В копейках
+     *
+     * @return bool
+     */
+    public function sendDonateChatNotification(Chat $answer, $yuristBonus)
+    {
+        $yurist = $answer->layer;
+
+        $this->mailer->subject = 'Зачислена благодарность за чат';
+        $this->mailer->message = '<h1>Благодарность за чат</h1>
+            <p>Здравствуйте, ' . CHtml::encode($yurist->name) . '<br /><br />' .
+            'Вам зачислены ' . MoneyFormat::rubles($yuristBonus) . ' руб. в благодарность за чат ' .
+            CHtml::link(CHtml::encode('Смотреть'), Yii::app()->createUrl('/user/chats', ['chatId' => $answer->chat_id])) . '</p>';
+        $this->mailer->message .= '<p>Ваш баланс и история его изменений доступны в Личном кабинете.</p>';
+        $this->mailer->message .= '<p>Благодарим за сотрудничество!</p>';
+
+        $this->mailer->email = $yurist->email;
+
+        $additionalHeaders = [
+            'X-Postmaster-Msgtype' => 'Уведомление юристу о донате',
+            'List-id' => 'Уведомление юристу о донате',
+            'X-Mailru-Msgtype' => 'Уведомление юристу о донате',
+        ];
+
+        if ($this->mailer->sendMail(true, $additionalHeaders)) {
+            Yii::log('Отправлено письмо юристу ' . $yurist->email . ' с уведомлением о благодарности по чату ' . $answer->chat_id, 'info', 'system.web.User');
+
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log('Не удалось отправить письмо пользователю ' . $yurist->email . ' с уведомлением о благодарности по чату ' . $answer->chat_id, 'error', 'system.web.User');
+
+            return false;
+        }
+    }
+    /**
+     * Отправка юристу уведомления о новом отзыве.
+     */
+    public function sendChatNote(User $user, Chat $chat)
+    {
+        $this->mailer->subject = 'Новый чат';
+
+        $this->mailer->message = '<h1>Новый чат</h1>
+            <p>Здравствуйте, ' . CHtml::encode($user->name) . '<br /><br />' .
+            'ссылка на чат ' . CHtml::link('/chat?=room=' . $chat->chat_id, '/chat?=room=' . $chat->chat_id);
+
+        $this->mailer->email = $this->user->email;
+
+        $additionalHeaders = [
+            'X-Postmaster-Msgtype' => 'Уведомление юристу об чате',
+            'List-id' => 'Уведомление юристу об чате',
+            'X-Mailru-Msgtype' => 'Уведомление юристу об чате',
+        ];
+
+        if ($this->mailer->sendMail(true, $additionalHeaders)) {
+            Yii::log('Отправлено письмо юристу ' . $this->user->email . ' с уведомлением о новом чате', 'info', 'system.web.User');
+
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log('Не удалось отправить письмо пользователю ' . $this->user->email . ' с уведомлением о новом отзыве', 'error', 'system.web.User');
+
+            return false;
+        }
+    }
     /**
      * Отправка юристу уведомления о новом отзыве.
      */

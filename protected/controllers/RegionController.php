@@ -145,6 +145,7 @@ class RegionController extends Controller
         $criteria->with = ['settings', 'town', 'town.region', 'categories', 'answersCount'];
         $criteria->addColumnCondition(['active100' => 1]);
         $criteria->addColumnCondition(['avatar!' => '']);
+        $criteria->addColumnCondition(['settings.isVerified' => 1]);
         $criteria->addCondition('role = ' . User::ROLE_JURIST);
         $criteria->limit = 20;
 

@@ -47,6 +47,7 @@ use YurcrmClient\YurcrmResponse;
  * @property int $refId
  * @property string $yurcrmToken
  * @property int $yurcrmSource
+ * @property string $chatToken
  */
 class User extends CActiveRecord
 {
@@ -432,6 +433,10 @@ class User extends CActiveRecord
                 $this->refId = Yii::app()->user->getState('ref');
             }
 
+            if($this->isNewRecord && !$this->chatToken) {
+                $this->chatToken = $this->generateAutologinString();
+            }
+
             return true;
         } else {
             return false;
@@ -559,6 +564,23 @@ class User extends CActiveRecord
     public function validatePassword($password)
     {
         return password_verify($password, $this->password);
+    }
+
+    /**
+     * @return int
+     * @throws \CException
+     */
+    public static function getChatsMessagesCnt():int
+    {
+        $cnt = Yii::app()->db->createCommand('SELECT COUNT(*) FROM `100_chat` as chat
+        INNER JOIN `100_chat_messages` as cmessages ON cmessages.chat_id = chat.id WHERE
+         (chat.user_id = :id1 OR chat.lawyer_id=:id2) AND (cmessages.user_id != :id3 AND cmessages.is_read !=1)')
+            ->bindParam(':id1', Yii::app()->user->id)
+            ->bindParam(':id2', Yii::app()->user->id)
+            ->bindParam(':id3', Yii::app()->user->id)
+            ->queryScalar();
+
+        return ($cnt) ? $cnt : 0;
     }
 
     /**
@@ -1114,12 +1136,73 @@ class User extends CActiveRecord
         return $this->notifier->sendDonateNotification($answer, $yuristBonus);
     }
 
+    public function sendDonateChatNotification(Chat $answer, $yuristBonus)
+    {
+        return $this->notifier->sendDonateChatNotification($answer, $yuristBonus);
+    }
+
     /**
      * Отправка юристу уведомления о новом отзыве.
      */
     public function sendTestimonialNotification()
     {
         return $this->notifier->sendTestimonialNotification();
+    }
+
+    /**
+     * @return string
+     * @throws Exception
+     */
+    public function getLastOnline():string
+    {
+        $lastActivityTs = $this->lastActivity;
+        if ($lastActivityTs) {
+            return (new \DateTime($lastActivityTs))->format('H:i:s d.m.Y');
+        }
+        return 'Был(а) давно';
+    }
+
+    /**
+     * Возвращает текст, как давно пользователь был последний раз активен
+     * @return string
+     * @throws Exception
+     */
+    public function getPeriodFromLastActivity() : string
+    {
+        $lastActivityDateTime = new \DateTime($this->lastActivity);
+        $currentDateTime = new \DateTime();
+
+        if ($lastActivityDateTime > (clone $currentDateTime)->modify('-20 minutes')) {
+            return 'онлайн';
+        }
+
+        if (
+            $lastActivityDateTime > (clone $currentDateTime)->modify('-60 minutes') &&
+            $lastActivityDateTime < (clone $currentDateTime)->modify('-20 minutes')
+        ) {
+            return $currentDateTime->diff($lastActivityDateTime)->i . ' минут назад';
+        }
+
+        if (
+            $lastActivityDateTime > (clone $currentDateTime)->modify('-24 hours') &&
+            $lastActivityDateTime < (clone $currentDateTime)->modify('-60 minutes')
+        ) {
+            if ($currentDateTime->format('Y-m-d') == $lastActivityDateTime->format('Y-m-d')) {
+                return 'сегодня в ' . $lastActivityDateTime->format('H:i');
+            } else {
+                return 'вчера в ' . $lastActivityDateTime->format('H:i');
+            }
+
+        }
+
+        if (
+            $lastActivityDateTime > (clone $currentDateTime)->modify('-5 days') &&
+            $lastActivityDateTime < (clone $currentDateTime)->modify('-1 days')
+        ) {
+            return $lastActivityDateTime->format('d.m');
+        }
+
+        return 'давно';
     }
 
     /**
@@ -1246,4 +1329,19 @@ class User extends CActiveRecord
 
         return $myRecentQuestionsCount;
     }
+
+    /**
+     * Определяет показывать ли кнопку чата
+     * @return bool
+     */
+    public function getIsShowChatButton()
+    {
+        $answersCnt = Answer::model()->count('authorId=:id', [':id' => $this->id]);
+        $minQnt = Yii::app()->params['MinAnswerQntForChat'];
+
+        return $answersCnt >= $minQnt;
+
+    }
+
+
 }

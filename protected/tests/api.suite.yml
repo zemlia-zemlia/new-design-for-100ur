@@ -1,4 +1,6 @@
 actor: ApiTester
+env:
+    ENV: test
 modules:
     enabled:
         - \Helper\Api

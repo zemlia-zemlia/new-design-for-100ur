@@ -2,7 +2,6 @@
 
 return CMap::mergeArray(
     require(dirname(__FILE__) . '/main.php'),
-    ['params' => require(dirname(__FILE__) . '/test_params.php')],
     [
         'components' => [
             'fixture' => [
