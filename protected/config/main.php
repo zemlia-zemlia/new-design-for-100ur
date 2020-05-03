@@ -19,10 +19,10 @@ return [
             'ipFilters' => ['127.0.0.1', '::1'],
         ],
         'admin',
+        'buyer' => ['defaultController' => 'buyer'],
         'webmaster' => [
             'defaultController' => 'default',
         ],
-        'buyer' => ['defaultController' => 'buyer'],
     ],
     // application components
     'components' => [
@@ -46,12 +46,15 @@ return [
             'urlFormat' => 'path',
             'showScriptName' => false,
             'urlSuffix' => '/',
+
             'baseUrl' => getenv('BASE_URL'),
+
             'rules' => [
                 '/q' => '/question/index',
                 '/q/<id:\d+>' => '/question/view',
-                '/q/<date:[\d{4}\-\d{1,2}]+>' => '/question/archive',
+                '/q/<date:[\w\-]+>' => '/question/archive',
                 '/cat' => '/questionCategory/index',
+                '/feedback' => '/site/feedback',
                 [
                     'class' => 'application.components.QuestionCategoryRule',
                 ],
@@ -99,9 +102,9 @@ return [
                   'showInFireBug' =>  false,
                   'categories'    =>  'application',
                   ), */
-                /*array(
-                    'class' => 'CProfileLogRoute',
-                ),*/
+//                [
+//                    'class' => 'CProfileLogRoute',
+//                ],
             ],
         ],
         'cache' => [
@@ -109,9 +112,6 @@ return [
         ],
         'mailer' => [
             'class' => 'application.extensions.GTMail',
-        ],
-        'queue' => [
-            'class' => 'application.extensions.RabbitMQ',
         ],
     ],
     // application-level parameters that can be accessed

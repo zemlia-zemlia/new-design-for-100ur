@@ -94,4 +94,7 @@ return [
     'lexprofit' => [
         'key' => getenv("LEXPROFIT_KEY"),
     ],
+    'chat' => [
+        'enabled' => getenv('CHAT_ENABLED'),
+    ],
 ];

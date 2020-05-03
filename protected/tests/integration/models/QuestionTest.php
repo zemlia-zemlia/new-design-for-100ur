@@ -25,35 +25,37 @@ class QuestionTest extends BaseIntegrationTest
 
     public function testGetQuestionsByAuthor()
     {
+        $questionFactory = new QuestionFactory();
+
         $fixtures = [
-            [
+            $questionFactory->generateOne([
                 'title' => 'Где находится нофелет',
                 'id' => 1,
                 'authorId' => 10,
                 'status' => Question::STATUS_NEW,
                 'questionText' => 'Новый вопрос',
-            ],
-            [
+            ]),
+            $questionFactory->generateOne([
                 'title' => 'Кому на Руси жить хорошо',
                 'id' => 2,
                 'authorId' => 10,
                 'status' => Question::STATUS_CHECK,
                 'questionText' => 'Предварительно опубликованный вопрос 1',
-            ],
-            [
+            ]),
+            $questionFactory->generateOne([
                 'title' => 'Как ковырять в носу правильно',
                 'id' => 3,
                 'authorId' => 11,
                 'status' => Question::STATUS_CHECK,
                 'questionText' => 'Предварительно опубликованный вопрос 2',
-            ],
-            [
+            ]),
+            $questionFactory->generateOne([
                 'title' => 'Как ковырять в носу НЕправильно',
                 'id' => 4,
                 'authorId' => 11,
                 'status' => Question::STATUS_SPAM,
                 'questionText' => 'Спамный вопрос',
-            ],
+            ]),
         ];
 
         foreach ($fixtures as $fixture) {

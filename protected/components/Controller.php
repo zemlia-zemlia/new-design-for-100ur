@@ -100,7 +100,7 @@ class Controller extends CController
             }
         }
 
-        if (User::ROLE_JURIST == Yii::app()->user->role) {
+        if (!Yii::app()->user->isGuest) {
             Yii::app()->db->createCommand()
                     ->update('{{user}}', ['lastActivity' => date('Y-m-d H:i:s')], 'id=:id', [':id' => Yii::app()->user->id]);
         }

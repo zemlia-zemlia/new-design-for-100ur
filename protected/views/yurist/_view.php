@@ -6,6 +6,7 @@
 
         <?php
         $yuristName = ($data->settings && '' != $data->settings->alias) ? $data->settings->alias : $data->lastName . ' ' . $data->name . ' ' . $data->name2;
+
         ?>
         <div class="yurist-list-item">
             <div class="row">
@@ -43,6 +44,7 @@
                             <strong>Документ:</strong> от <?php echo $data->settings->priceDoc; ?>  <span
                                     class="glyphicon glyphicon-ruble"></span>
                         <?php endif; ?>
+
 
                     </p>
                 </div>

@@ -140,6 +140,16 @@ if (Yii::app()->user->id != $user->id) {
                 <?php if (Yii::app()->user->isGuest): ?>
                     <?php echo CHtml::link('Задать вопрос юристу', Yii::app()->createUrl('/question/create/'), ['class' => 'btn btn-primary btn-block']); ?>
                 <?php endif; ?>
+                <?php if (!Yii::app()->user->isGuest and $showChatbutton): ?>
+
+                    <?php if (Yii::app()->params['chat']['enabled'] == 1 && !$chat && (User::ROLE_CLIENT == Yii::app()->user->role) && $user->role == User::ROLE_JURIST && $user->answersCount >= Yii::app()->params['MinAnswerQntForChat']) : ?>
+                        <?php echo CHtml::link('Начать чат с юристом', Yii::app()->createUrl('/user/chats', ['chatId' => 'new', 'layerId' => $user->id]), ['class' => 'btn btn-primary btn-block']); ?>
+                    <?php endif; ?>
+                    <?php if ($chat && (User::ROLE_CLIENT == Yii::app()->user->role) && $user->role == User::ROLE_JURIST) : ?>
+                        <?php echo CHtml::link('Продолжить чат с юристом', Yii::app()->createUrl('/user/chats', ['chatId' => $chat->chat_id]), ['class' => 'btn btn-primary btn-block']); ?>
+                    <?php endif; ?>
+
+                <?php endif; ?>
 
                 <?php
                 if (User::ROLE_ROOT == Yii::app()->user->role) {

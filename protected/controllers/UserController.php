@@ -3,6 +3,8 @@
 use App\extensions\Logger\LoggerFactory;
 use App\helpers\StringHelper;
 use App\models\Answer;
+use App\models\Chat;
+use App\models\ChatMessages;
 use App\models\Comment;
 use App\models\LoginForm;
 use App\models\Order;
@@ -54,7 +56,7 @@ class UserController extends Controller
                 'users' => ['*'],
             ],
             ['allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['update', 'profile', 'changePassword', 'updateAvatar', 'invites', 'deleteAvatar', 'clearInfo', 'requestConfirmation', 'karmaPlus', 'stats', 'sendAnswerNotification', 'testimonial', 'testimonials'],
+                'actions' => ['chats', 'chat', 'update', 'profile', 'changePassword', 'updateAvatar', 'invites', 'deleteAvatar', 'clearInfo', 'requestConfirmation', 'karmaPlus', 'stats', 'sendAnswerNotification', 'testimonial', 'testimonials'],
                 'users' => ['@'],
             ],
             ['allow',
@@ -70,6 +72,64 @@ class UserController extends Controller
                 'users' => ['*'],
             ],
         ];
+    }
+
+    public function actionChats($chatId = null, $layerId = null)
+    {
+        $this->layout = '//frontend/chat';
+        if ($chatId == 'new') {
+            $chatId = uniqid('', true) . '_' . $layerId;
+            $model = new Chat();
+            $model->user_id = Yii::app()->user->id;
+            $model->chat_id = $chatId;
+            $model->lawyer_id = $layerId;
+            $model->created = time();
+            $model->save();
+            $this->redirect('/user/chats?chatId=' . $chatId);
+        }
+        $criteria = new CDbCriteria();
+        $criteria->condition = (Yii::app()->user->role == User::ROLE_CLIENT) ? 'user_id =:id' : 'lawyer_id=:id';
+        $criteria->params = [':id' => Yii::app()->user->id];
+        $criteria->order = 'is_closed ASC';
+        $chats = Chat::model()->findAll($criteria);
+        $messages = [];
+        if (!$chatId and $chats) {
+            $room = $chats[0]->chat_id;
+        } else {
+            $room = $chatId;
+        }
+
+        $chat = Chat::model()->find('chat_id = :id', [':id' => $room]);
+
+        if ($chat && $chatId != null) {
+
+            $mess = ChatMessages::model()->findAll('chat_id = :id', [':id' => $chat['id']]);
+            foreach ($mess as $row) {
+                $messages[] = [
+                    'is_read' => $row->is_read,
+                    'username' => $row->user->getShortName(),
+                    'avatar' => $row->user->getAvatarUrl(),
+                    'message' => $row->message,
+                    'token' => $row->user->chatToken,
+                    'date' => date('H:i', $row->created),
+                ];
+            }
+            ChatMessages::model()->updateAll(
+                ['is_read' => 1],
+                'chat_id = :id and user_id != :user_id',
+                [':id' => $chat['id'], ':user_id' => Yii::app()->user->id]
+            );
+        }
+
+        $this->render('chats', [
+                'role' => Yii::app()->user->role,
+                'chats' => $chats,
+                'curChat' => $chat,
+                'messages' => $messages,
+                'room' => $chatId,
+                'user' => User::model()->findByPk(Yii::app()->user->id),
+            ]
+        );
     }
 
     public function actions()
@@ -180,6 +240,8 @@ class UserController extends Controller
                 } else {
                     throw new CHttpException(500, 'Что-то пошло не так. Мы не смогли отправить Вам письмо с подтверждением регистрации на сайте. Не беспокойтесь, с вашим аккаунтом все в порядке, просто письмо с подтверждением придет немного позже.');
                 }
+            } else {
+                var_dump($model->getErrors());
             }
         }
 
@@ -585,8 +647,12 @@ class UserController extends Controller
         $questions = (new QuestionRepository())->findRecentQuestionsByJuristAnswers($user);
 
         $testimonialsDataProvider = $user->getTestimonialsDataProvider(5, false);
-
+        $answersCnt = Answer::model()->count('authorId=:id', [':id' => $id]);
+        $chat = Chat::model()->findByAttributes(['lawyer_id' => $id, 'is_closed' => null]);
+        $minQnt = Yii::app()->params['MinAnswerQntForChat'];
         $this->render('profile', [
+            'chat' => $chat,
+            'showChatbutton' => $answersCnt >= $minQnt,
             'questions' => $questions,
             'user' => $user,
             'testimonialsDataProvider' => $testimonialsDataProvider,

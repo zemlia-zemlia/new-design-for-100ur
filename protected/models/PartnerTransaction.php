@@ -30,7 +30,7 @@ class PartnerTransaction extends CActiveRecord
     const STATUS_PENDING = 2; // транзакция на рассмотрении
     const MIN_WITHDRAW = 100000; // минимальная сумма для вывода (в копейках)
     const MIN_WITHDRAW_REFERAL = 50000; // минимальная сумма для вывода по реферальной программе (в копейках)
-
+    public $description;
     public $date1;
     public $date2; // используются при фильтрации
 

@@ -31,6 +31,7 @@ class TransactionCampaign extends CActiveRecord
 
     const STATUS_COMPLETE = 1; // транзакция совершена
     const STATUS_PENDING = 2; // транзакция на рассмотрении
+    const STATUS_HOLD = 3; // транзакция на рассмотрении
     const MIN_WITHDRAW = 30000; // минимальная сумма для вывода (в копейках)
 
     /**
@@ -191,6 +192,7 @@ class TransactionCampaign extends CActiveRecord
         return [
             self::STATUS_COMPLETE => 'Совершена',
             self::STATUS_PENDING => 'На проверке',
+            self::STATUS_HOLD => 'Заморожены',
         ];
     }
 

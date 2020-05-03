@@ -48,6 +48,16 @@
                         <strong>Документ:</strong> от <?php echo MoneyFormat::rubles($data->settings->priceDoc); ?>  <span class="glyphicon glyphicon-ruble"></span>
                     <?php endif; ?>
 
+                    <!--                        ниже выводим кнопку чата-->
+
+                    <?php if (Yii::app()->params['chat']['enabled'] == 1 && $data->settings && $data->settings->isVerified && $data->isShowChatButton && $data->answersCount > 50) : ?>
+
+                        <?=  CHtml::link('конс. в чате ' . MoneyFormat::rubles($data->settings->priceConsult) . ' руб',
+                            Yii::app()->createUrl(Yii::app()->user->isGuest ? '/site/login' : '/user/chats',
+                            ['chatId' => 'new', 'layerId' => $data->id]), ['class' => 'btn btn-primary btn-block']); ?>
+
+                    <?php endif; ?>
+
                 </p>
             </div>
         </div>

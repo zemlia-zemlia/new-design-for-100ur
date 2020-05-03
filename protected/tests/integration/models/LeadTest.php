@@ -424,23 +424,24 @@ class LeadTest extends BaseIntegrationTest
 
     public function testGetStatusCounter()
     {
+        $leadFactory = new LeadFactory();
         $leadsData = [
-            [
+            $leadFactory->generateOne([
                 'leadStatus' => 1,
                 'campaignId' => 1,
-            ],
-            [
+            ]),
+            $leadFactory->generateOne([
                 'leadStatus' => 1,
                 'campaignId' => 1,
-            ],
-            [
+            ]),
+            $leadFactory->generateOne([
                 'leadStatus' => 1,
                 'campaignId' => 0,
-            ],
-            [
+            ]),
+            $leadFactory->generateOne([
                 'leadStatus' => 2,
                 'campaignId' => 0,
-            ],
+            ]),
         ];
 
         $this->loadToDatabase(self::LEAD_TABLE, $leadsData);
@@ -451,27 +452,29 @@ class LeadTest extends BaseIntegrationTest
 
     public function testFindDublicates()
     {
+        $leadFactory = new LeadFactory();
+
         $leadsData = [
-            [
+            $leadFactory->generateOne([
                 'phone' => '1234567',
                 'townId' => 100,
                 'question_date' => (new \DateTime())->modify('-1 hour')->format('Y-m-d H:i:s'),
-            ],
-            [
+            ]),
+            $leadFactory->generateOne([
                 'phone' => '1234567',
                 'townId' => 100,
                 'question_date' => (new \DateTime())->modify('-12 hour')->format('Y-m-d H:i:s'),
-            ],
-            [
+            ]),
+            $leadFactory->generateOne([
                 'phone' => '1234567',
                 'townId' => 101,
                 'question_date' => (new \DateTime())->modify('-1 hour')->format('Y-m-d H:i:s'),
-            ],
-            [
+            ]),
+            $leadFactory->generateOne([
                 'phone' => '1234567',
                 'townId' => 100,
                 'question_date' => (new \DateTime())->modify('-1 month')->format('Y-m-d H:i:s'),
-            ],
+            ]),
         ];
 
         $this->loadToDatabase(self::LEAD_TABLE, $leadsData);
