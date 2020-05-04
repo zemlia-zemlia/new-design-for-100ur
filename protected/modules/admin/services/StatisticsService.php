@@ -4,6 +4,7 @@ use App\helpers\DateHelper;
 use App\models\Answer;
 use App\models\Question;
 use App\models\User;
+use App\models\Comment;
 
 /**
  * Класс для получения различных статистик
@@ -117,7 +118,7 @@ class StatisticsService
         $countAnsversByDateRows = Yii::app()->db->createCommand()
             ->select('COUNT(*) counter, DATE(datetime) date')
             ->from('{{answer}}')
-            ->where('datetime > "' . date('Y-m-d H:i:s',strtotime($start)) .  '" AND status IN (0,1)')
+            ->where('datetime > "' . date('Y-m-d H:i:s',strtotime($start)) .  '" AND status IN (' . Answer::STATUS_PUBLISHED . ',' . Answer::STATUS_NEW . ')')
             ->group('date')
             ->queryAll();
         $countAnsversByDate = [];
@@ -138,7 +139,7 @@ class StatisticsService
        $publishedQuestionsRows = Yii::app()->db->createCommand()
            ->select('COUNT(*) counter, DATE(createDate) date')
            ->from('{{question}}')
-           ->where('createDate > "' . date('Y-m-d H:i:s',strtotime($start)) .  '" AND status IN (2,4)')
+           ->where('createDate > "' . date('Y-m-d H:i:s',strtotime($start)) .  '" AND status IN (' . Question::STATUS_PUBLISHED . ',' . Question::STATUS_CHECK . ')')
            ->group('date')
            ->queryAll();
        $publishedQuestionsCount = [];
@@ -158,7 +159,7 @@ class StatisticsService
         $publishedCommentRows = Yii::app()->db->createCommand()
             ->select('COUNT(*) counter, DATE(dateTime) date')
             ->from('{{comment}}')
-            ->where('dateTime > "' . date('Y-m-d H:i:s',strtotime($start)) .  '" AND status IN (0,1)')
+            ->where('dateTime > "' . date('Y-m-d H:i:s',strtotime($start)) .  '" AND status IN (' . Comment::STATUS_NEW . ',' . Comment::STATUS_CHECKED . ')')
             ->group('date')
             ->queryAll();
         $publishedCommentCount = [];
