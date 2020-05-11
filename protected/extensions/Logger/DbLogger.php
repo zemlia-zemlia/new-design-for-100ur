@@ -38,15 +38,11 @@ class DbLogger extends Logger
     {
         $message = mb_substr($message, 0, 255);
 
-        try {
-            $this->connectionId->createCommand()
-                ->insert($this->tableName, [
-                    'message' => $message,
-                    'class' => $class,
-                    'subjectId' => $id,
-                ]);
-        } catch (Exception $ex) {
-            throw $ex;
-        }
+        $this->connectionId->createCommand()
+            ->insert($this->tableName, [
+                'message' => $message,
+                'class' => $class,
+                'subjectId' => $id,
+            ]);
     }
 }
