@@ -36,6 +36,8 @@ class DbLogger extends Logger
      */
     public function log($message, $class, $id)
     {
+        $message = mb_substr($message, 0, 255);
+
         try {
             $this->connectionId->createCommand()
                 ->insert($this->tableName, [
