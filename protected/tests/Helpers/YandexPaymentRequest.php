@@ -47,7 +47,7 @@ class YandexPaymentRequest
      */
     public function makeRequest(array $requestData = null): ResponseInterface
     {
-        $requestData = $requestData ?? $this->getDemoRequestData();
+        $requestData = array_merge($this->getDemoRequestData(), $requestData) ?? $this->getDemoRequestData();
 
         $response = $this->client->request('POST', '/user/balanceAddRequest', [
             'form_params' => $requestData

@@ -57,6 +57,7 @@ return [
     ],
     'priceCoeff' => 1.6,
     'yandexMoneySecret' => getenv("YANDEX_MONEY_SECRET"),
+    'yandexMoneyCheckSignature' => !!getenv("YANDEX_MONEY_CHECK_SIGNATURE"),
     'smtpServer' => getenv("SMTP_SERVER"),
     'smtpPort' => getenv("SMTP_PORT"),
     'smtpLogin' => getenv("SMTP_LOGIN"),
