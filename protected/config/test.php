@@ -21,7 +21,7 @@ return CMap::mergeArray(
                 'routes' => [
                     [
                         'class' => 'CFileLogRoute',
-                        'levels' => 'error, warning',
+                        'levels' => 'error, warning, info',
                     ],
                 ],
             ],
