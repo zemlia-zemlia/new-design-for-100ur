@@ -153,6 +153,9 @@ class Chat extends CActiveRecord
     public function getPetitions(){
         return $this::model()->findAll('is_petition = 1');
     }
+    public function getNotPayed(){
+        return $this::model()->findAll('is_confirmed = 1 AND is_payed IS NULL');
+    }
 
 
 

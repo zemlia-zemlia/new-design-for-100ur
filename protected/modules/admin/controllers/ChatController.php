@@ -132,6 +132,7 @@ class ChatController extends AbstractAdminController
 			'confirmeds'=>$model->getConfirmeds(),
 			'closeds'=>$model->getCloseds(),
 			'petitions'=>$model->getPetitions(),
+            'notPayed'=>$model->getNotPayed(),
 		]);
 	}
 

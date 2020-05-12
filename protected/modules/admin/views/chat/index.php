@@ -12,7 +12,7 @@ $this->breadcrumbs=array(
 <h1>Чаты</h1>
 
 <div class='row'>
-    <div class=col-md-4>Чаты со статусом (запрос)
+    <div class=col-md-2>Чаты со статусом (запрос)
 
             <?php foreach ($notConfirmeds as $chat) : ?>
                  <?php $this->renderPartial('_view', ['model'=>$chat]); ?>
@@ -20,25 +20,32 @@ $this->breadcrumbs=array(
 
 
     </div>
-    <div class=col-md-4>Чаты со статусом (Открыт)
+    <div class=col-md-2>Чаты со статусом (Открыт)
 
             <?php foreach ($confirmeds as $chat) : ?>
                 <?php $this->renderPartial('_view', ['model'=>$chat]); ?>
             <?php endforeach; ?>
 
     </div>
-    <div class=col-md-4>Чаты со статусом (Закрыт)
+    <div class=col-md-2>Чаты со статусом (Закрыт)
 
             <?php foreach ($closeds as $chat) : ?>
                 <?php $this->renderPartial('_view', ['model'=>$chat]); ?>
             <?php endforeach; ?>
 
     </div>
-    <div class=col-md-4>Чаты со статусом (Конфликт)
+    <div class=col-md-2>Чаты со статусом (Конфликт)
 
             <?php foreach ($petitions as $chat) : ?>
                 <?php $this->renderPartial('_view', ['model'=>$chat]); ?>
             <?php endforeach; ?>
+
+    </div>
+    <div class=col-md-2>Чаты ожидают оплаты
+
+        <?php foreach ($notPayed as $chat) : ?>
+            <?php $this->renderPartial('_view', ['model'=>$chat]); ?>
+        <?php endforeach; ?>
 
     </div>
 </div>
