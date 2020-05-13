@@ -53,7 +53,7 @@ class YandexPaymentAnswer implements YandexPaymentProcessorInterface
         $yuristTransaction->buyerId = $yurist->id;
         $yuristTransaction->description = 'Благодарность за консультацию по вопросу ' . $this->answer->questionId;
 
-        $saveTransaction = $moneyTransaction->dbConnection->beginTransaction();
+        $saveTransaction = $yuristTransaction->dbConnection->beginTransaction();
         try {
             if ($yurist->save() && $moneyTransaction->save() && $yuristTransaction->save()) {
                 $saveTransaction->commit();
@@ -69,6 +69,7 @@ class YandexPaymentAnswer implements YandexPaymentProcessorInterface
                 return false;
             }
         } catch (Exception $e) {
+            var_dump($e->getMessage());exit;
             $saveTransaction->rollback();
             Yii::log('Ошибка при благодарности ' . $yurist->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'error', 'system.web');
 

@@ -78,12 +78,25 @@ class YaPayConfirmRequest extends CFormModel
     /**
      * @param string $yandexSecret
      *
+     * @param bool $logResult
      * @return bool
      */
-    public function validateHash(string $yandexSecret): bool
+    public function validateHash(string $yandexSecret, $logResult = true): bool
     {
         $hash = $this->sha1_hash;
 
+        $requestStringEncoded = $this->createHashFromRequestParams($yandexSecret, $logResult);
+
+        return $hash === $requestStringEncoded;
+    }
+
+    /**
+     * @param string $yandexSecret
+     * @param bool $logResult
+     * @return string
+     */
+    public function createHashFromRequestParams(string $yandexSecret, bool $logResult = true): string
+    {
         $requestString = $this->notification_type . '&' .
             $this->operation_id . '&' .
             $this->amount . '&' .
@@ -94,12 +107,13 @@ class YaPayConfirmRequest extends CFormModel
             $yandexSecret . '&' .
             $this->label;
 
-        Yii::log('Собранная строка для проверки: ' . $requestString, 'info', 'system.web');
-
         $requestStringEncoded = sha1($requestString);
 
-        Yii::log('Зашифрованная строка для проверки: ' . $requestStringEncoded, 'info', 'system.web');
+        if ($logResult == true) {
+            Yii::log('Собранная строка для проверки: ' . $requestString, 'info', 'system.web');
+            Yii::log('Зашифрованная строка для проверки: ' . $requestStringEncoded, 'info', 'system.web');
+        }
 
-        return $hash === $requestStringEncoded;
+        return $requestStringEncoded;
     }
 }
