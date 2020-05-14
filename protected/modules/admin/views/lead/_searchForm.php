@@ -25,7 +25,7 @@
                 $this->widget(
             'zii.widgets.jui.CJuiDatePicker',
             [
-                        'name' => 'App\models\Lead[date1]',
+                        'name' => 'App_models_Lead[date1]',
                         'value' => $model['date1'],
                         'language' => 'ru',
                         'options' => ['dateFormat' => 'dd-mm-yy',
@@ -49,7 +49,7 @@
                 $this->widget(
                     'zii.widgets.jui.CJuiDatePicker',
                     [
-                        'name' => 'App\models\Lead[date2]',
+                        'name' => 'App_models_Lead[date2]',
                         'value' => $model['date2'],
                         'language' => 'ru',
                         'options' => ['dateFormat' => 'dd-mm-yy',
