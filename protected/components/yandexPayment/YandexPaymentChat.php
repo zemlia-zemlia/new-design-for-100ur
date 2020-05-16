@@ -2,6 +2,7 @@
 
 use App\extensions\Logger\LoggerFactory;
 use App\models\Answer;
+use App\models\User;
 use App\models\Chat;
 use App\models\Money;
 use App\models\TransactionCampaign;
@@ -38,7 +39,7 @@ class YandexPaymentChat implements YandexPaymentProcessorInterface
         $amount = $this->request->amount * 100;
 
         // Доля юриста после вычета нашей комиссии
-        $yuristBonus = $amount * (1 - self::SERVICE_COMMISSION);
+        $yuristBonus = floor($amount * (1 - self::SERVICE_COMMISSION));
 
         $moneyTransaction = new Money();
         $moneyTransaction->accountId = 0; // Яндекс деньги
@@ -81,14 +82,6 @@ class YandexPaymentChat implements YandexPaymentProcessorInterface
                 $clientTransactionChat->save()
             ) {
                 $saveTransaction->commit();
-                Yii::log('ХОЛДИМ бабло благодарность юристу ' . $yurist->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'info', 'system.web');
-                LoggerFactory::getLogger('db')->log('Благодарность юристу #' . $yurist->id . ' ' . MoneyFormat::rubles($yuristBonus) . ' руб.', 'User', $yurist->id);
-                LoggerFactory::getLogger('db')->log('Пополнение баланса на ' . MoneyFormat::rubles($amount) . ' руб.', 'User', $this->chat->user_id);
-                LoggerFactory::getLogger('db')->log('Списание за чат #' . $this->chat->id . ' ' . MoneyFormat::rubles($amount) . ' руб.', 'User', $this->chat->user_id);
-                $this->chat->is_payed = 1;
-                $this->chat->transaction_id = $yuristTransaction->id;
-                $this->chat->save();
-                return true;
             } else {
                 $saveTransaction->rollback();
                 Yii::log('Ошибки: ' . print_r($yurist->errors, true) . ' ' . print_r($moneyTransaction->errors, true), 'error', 'system.web');
@@ -101,5 +94,20 @@ class YandexPaymentChat implements YandexPaymentProcessorInterface
 
             throw new CHttpException(500, 'Не удалось сохранить благодарность');
         }
+
+        Yii::log('ХОЛДИМ бабло благодарность юристу ' . $yurist->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'info', 'system.web');
+
+        LoggerFactory::getLogger('db')->log('Благодарность юристу #' . $yurist->id . ' ' . MoneyFormat::rubles($yuristBonus) . ' руб.', 'User', $yurist->id);
+        LoggerFactory::getLogger('db')->log('Пополнение баланса на ' . MoneyFormat::rubles($amount) . ' руб.', 'User', $this->chat->user_id);
+        LoggerFactory::getLogger('db')->log('Списание за чат #' . $this->chat->id . ' ' . MoneyFormat::rubles($amount) . ' руб.', 'User', $this->chat->user_id);
+
+        $this->chat->is_payed = 1;
+        $this->chat->transaction_id = $yuristTransaction->id;
+        if (!$this->chat->save()) {
+            Yii::log('Не удалось сохранить признак оплаты чата: ' . print_r($this->chat->getErrors(), true), 'error', 'system.web');
+            return false;
+        }
+
+        return true;
     }
 }

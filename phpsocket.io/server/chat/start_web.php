@@ -6,7 +6,7 @@ use Workerman\Protocols\Http\Response;
 use Workerman\Connection\TcpConnection;
 
 // composer autoload
-require_once join(DIRECTORY_SEPARATOR, array(__DIR__, "..", "..", "vendor", "autoload.php"));
+require_once join(DIRECTORY_SEPARATOR, array(__DIR__, "..", "..", "..", "protected", "vendor", "autoload.php"));
 
 $web = new Worker('http://0.0.0.0:2022');
 $web->name = 'web';

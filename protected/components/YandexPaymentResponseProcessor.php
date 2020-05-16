@@ -29,10 +29,14 @@ class YandexPaymentResponseProcessor
     /** @var string[] массив с ошибками */
     private $errors = [];
 
-    public function __construct(YaPayConfirmRequest $request, string $yandexSecret)
+    /** @var bool Проверять ли сигнатуру */
+    private $doSignatureCheck = true;
+
+    public function __construct(YaPayConfirmRequest $request, string $yandexSecret, bool $doSignatureCheck = true)
     {
         $this->request = $request;
         $this->yandexSecret = $yandexSecret;
+        $this->doSignatureCheck = $doSignatureCheck;
     }
 
     /**
@@ -51,7 +55,8 @@ class YandexPaymentResponseProcessor
             return false;
         }
 
-        if (true !== $this->request->validateHash($this->yandexSecret)) {
+        // при запуске тестов не проверяем подпись
+        if ($this->doSignatureCheck == true && true !== $this->request->validateHash($this->yandexSecret)) {
             $this->addError('Запрос не прошел проверку на целостность');
 
             return false;
@@ -64,6 +69,7 @@ class YandexPaymentResponseProcessor
         try {
             return $paymentProcessor->process();
         } catch (\Exception $e) {
+            Yii::log('Ошибка при обработке платежа: ' . $e->getMessage(), 'error', 'system.web');
             return false;
         }
     }

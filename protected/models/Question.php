@@ -2,6 +2,7 @@
 
 namespace App\models;
 
+use App\helpers\IpHelper;
 use App\helpers\StringHelper;
 use CActiveDataProvider;
 use CActiveRecord;
@@ -360,8 +361,9 @@ class Question extends CActiveRecord
      *  сохраняет в базу вопрос, который не был полностью заполнен
      * (имеет только имя и текст вопроса)
      * лид из такого вопроса не создать, но уникальный контент для публикации можно получить.
+     * @throws \CHttpException
      */
-    public function preSave()
+    public function preSave():bool
     {
         if ('' == $this->sessionId) {
             $this->sessionId = '' . time() . '_' . mt_rand(100, 999);
@@ -370,11 +372,16 @@ class Question extends CActiveRecord
 
             // особый статус "предварительно сохранен"
             $this->status = self::STATUS_PRESAVE;
+            $this->ip = IpHelper::getUserIP();
 
             //Если город явно не указан и телефон не указан, возьмем город из IP адреса
             if (!$this->townId && !$this->phone && Yii::app()->user->getState('currentTownId')) {
-                $this->ip = (isset($_SERVER['HTTP_X_REAL_IP'])) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
                 $this->townIdByIP = Yii::app()->user->getState('currentTownId');
+            }
+
+            // Проверка на существование предсохраненных вопросов за последнюю минуту
+            if ($this->countPreSavedQuestionsWithSameIP(60) > 1) {
+                throw new \CHttpException(429, 'Похоже, вы пытаетесь отправить слишком много запросов');
             }
 
             if (!$this->save()) {
@@ -795,5 +802,26 @@ class Question extends CActiveRecord
         }
 
         return self::model()->findAll($questionCriteria);
+    }
+
+    /**
+     * Возвращает число вопросов со статусом Предварительно сохранен, созданных за интервал времени
+     * @param int $periodInSeconds
+     * @return int
+     * @throws \CException
+     */
+    public function countPreSavedQuestionsWithSameIP(int $periodInSeconds):int
+    {
+        $counterRow = Yii::app()->db->createCommand()
+            ->select('COUNT(*) counter')
+            ->from("{{question}}")
+            ->where('status=:status AND ip=:ip AND ip IS NOT NULL AND createDate > NOW()-INTERVAL :interval SECOND', [
+                ':status' => self::STATUS_PRESAVE,
+                ':ip' => $this->ip,
+                ':interval' => $periodInSeconds,
+            ])
+            ->queryRow();
+
+        return $counterRow['counter'];
     }
 }

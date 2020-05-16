@@ -6,6 +6,7 @@ use CActiveDataProvider;
 use CActiveRecord;
 use CDbCriteria;
 use App\models\ChatMessages;
+use Yii;
 
 /**
  * This is the model class for table "{{chat}}".
@@ -27,7 +28,13 @@ use App\models\ChatMessages;
 class Chat extends CActiveRecord
 {
 
-
+    /**
+     * @return string
+     */
+    public static function getFullTableName()
+    {
+        return Yii::app()->db->tablePrefix . 'chat';
+    }
 
     /**
      * @return string the associated database table name
