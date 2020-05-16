@@ -3,10 +3,20 @@
 /* @var $model App\models\Chat */
 
 $this->breadcrumbs = [
-    'Чат' => ['index'],
+    'Чаты' => ['index'],
     $model->id,
 ];
 
+$this->pageTitle = 'Чаты';
+Yii::app()->clientScript->registerScriptFile('/js/admin/region.js');
+?>
+
+<?php
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 Юристов', '/'),
+    'separator' => ' / ',
+    'links' => $this->breadcrumbs,
+]);
 
 ?>
 

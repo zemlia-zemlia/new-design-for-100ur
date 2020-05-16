@@ -12,6 +12,7 @@ use App\models\QuestionCategory;
 use App\models\TransactionCampaign;
 use App\models\User;
 use App\modules\admin\controllers\AbstractAdminController;
+use App\repositories\LeadRepository;
 
 class LeadController extends AbstractAdminController
 {
@@ -196,38 +197,25 @@ class LeadController extends AbstractAdminController
     }
 
     /**
-     * Lists all models.
+     * Страница со списком лидов
      */
     public function actionIndex()
     {
+        /** @var CHttpRequest $request */
+        $request = Yii::app()->request;
+
         $searchModel = new Lead();
+        // задаем значения фильтра поиска лидов по умолчанию
         $searchModel->type = '';
+        $searchModel->leadStatus = '';
 
-        $criteria = new CDbCriteria();
+        $searchAttributes = [
+            'status' => $request->getParam('status'),
+            'attributes' => $request->getParam('App_models_Lead'),
+        ];
 
-        $criteria->order = 't.id DESC';
-//        $criteria->with = array('questionObject.townByIP', 'town', 'town.region', 'source');
-        $statusId = (isset($_GET['status'])) ? (int) $_GET['status'] : false;
-
-        if (false !== $statusId) {
-            $criteria->addColumnCondition(['t.leadStatus' => $statusId]);
-            $criteria->addCondition('campaignId IS NOT NULL');
-        }
-
-        if (isset($_GET['App_models_Lead'])) {
-            // если используется форма поиска по контактам
-            $searchModel->attributes = $_GET['App_models_Lead'];
-            $dataProvider = $searchModel->search();
-        } else {
-            // если форма не использовалась
-            $dataProvider = new CActiveDataProvider(Lead::class, [
-                'criteria' => $criteria,
-                'pagination' => [
-                    'pageSize' => 50,
-                    'params' => $_GET['App_models_Lead'],
-                ],
-            ]);
-        }
+        $leadRepository = new LeadRepository();
+        $dataProvider = $leadRepository->getDataProviderWithFilteredLeads($searchModel, $searchAttributes);
 
         $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -235,7 +223,12 @@ class LeadController extends AbstractAdminController
         ]);
     }
 
-    public function actionToQuestion($id)
+    /**
+     * Конвертация лида в вопрос
+     * @param int $id
+     * @throws CHttpException
+     */
+    public function actionToQuestion(int $id)
     {
         $contact = $this->loadModel($id);
 
@@ -253,7 +246,6 @@ class LeadController extends AbstractAdminController
                 echo $contact->id;
             } else {
                 StringHelper::printr($contact->errors);
-                //throw new CHttpException(500,'Не удалось перевести лид в вопрос');
             }
         } else {
             StringHelper::printr($question->errors);

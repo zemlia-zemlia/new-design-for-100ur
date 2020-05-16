@@ -6,10 +6,20 @@ $this->breadcrumbs = array(
     'Чаты',
 );
 
+$this->pageTitle = 'Чаты';
+Yii::app()->clientScript->registerScriptFile('/js/admin/region.js');
+?>
+
+<?php
+$this->widget('zii.widgets.CBreadcrumbs', [
+    'homeLink' => CHtml::link('100 Юристов', '/'),
+    'separator' => ' / ',
+    'links' => $this->breadcrumbs,
+]);
 
 ?>
 
-<h1>Чаты</h1>
+<h1 class="vert-margin40">Чаты</h1>
 
 <div class='row'>
     <div class=col-md-3>
