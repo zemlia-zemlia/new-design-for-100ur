@@ -847,8 +847,10 @@ class UserController extends Controller
         $yandexRequestData = new YaPayConfirmRequest();
         $yandexRequestData->setAttributes($_POST);
 
+        $checkSignature = Yii::app()->params['yandexMoneyCheckSignature'];
+
         $secret = Yii::app()->params['yandexMoneySecret'];
-        $paymentProcessor = new YandexPaymentResponseProcessor($yandexRequestData, $secret);
+        $paymentProcessor = new YandexPaymentResponseProcessor($yandexRequestData, $secret, $checkSignature);
 
         if (true != $paymentProcessor->process()) {
             Yii::log('Ошибка при обработке платежа: ' . print_r($paymentProcessor->getErrors(), true), 'error', 'system.web');

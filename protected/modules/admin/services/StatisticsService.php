@@ -4,6 +4,7 @@ use App\helpers\DateHelper;
 use App\models\Answer;
 use App\models\Question;
 use App\models\User;
+use App\models\Comment;
 
 /**
  * Класс для получения различных статистик
@@ -105,8 +106,91 @@ class StatisticsService
             ->group('a.id')
             ->queryColumn();
 
-        return ($diffsInSeconds > 0) ?
+        return (count($diffsInSeconds) > 0) ?
             round((array_sum($diffsInSeconds) / count($diffsInSeconds)) / 3600, 1) :
             0;
     }
+
+
+
+    public function getCountAnsversByDate($start){
+
+        $countAnsversByDateRows = Yii::app()->db->createCommand()
+            ->select('COUNT(*) counter, DATE(datetime) date')
+            ->from('{{answer}}')
+            ->where('datetime > "' . date('Y-m-d H:i:s',strtotime($start)) .  '" AND status IN (' . Answer::STATUS_PUBLISHED . ',' . Answer::STATUS_NEW . ')')
+            ->group('date')
+            ->queryAll();
+        $countAnsversByDate = [];
+        if (!$countAnsversByDateRows) {
+            return [];
+        }
+        foreach ($countAnsversByDateRows as $row) {
+            $countAnsversByDate[$row['date']] = $row['counter'];
+        }
+
+        return $countAnsversByDate;
+
+    }
+
+
+   public function getPublishedQuestionsCount($start){
+
+       $publishedQuestionsRows = Yii::app()->db->createCommand()
+           ->select('COUNT(*) counter, DATE(createDate) date')
+           ->from('{{question}}')
+           ->where('createDate > "' . date('Y-m-d H:i:s',strtotime($start)) .  '" AND status IN (' . Question::STATUS_PUBLISHED . ',' . Question::STATUS_CHECK . ')')
+           ->group('date')
+           ->queryAll();
+       $publishedQuestionsCount = [];
+       if (!$publishedQuestionsRows) {
+           return [];
+       }
+       foreach ($publishedQuestionsRows as $row) {
+           $publishedQuestionsCount[$row['date']] = $row['counter'];
+       }
+
+        return $publishedQuestionsCount;
+
+    }
+
+    public function getPublishedCommentCount($start){
+
+        $publishedCommentRows = Yii::app()->db->createCommand()
+            ->select('COUNT(*) counter, DATE(dateTime) date')
+            ->from('{{comment}}')
+            ->where('dateTime > "' . date('Y-m-d H:i:s',strtotime($start)) .  '" AND status IN (' . Comment::STATUS_NEW . ',' . Comment::STATUS_CHECKED . ')')
+            ->group('date')
+            ->queryAll();
+        $publishedCommentCount = [];
+        if (!$publishedCommentRows) {
+            return [];
+        }
+        foreach ($publishedCommentRows as $row) {
+            $publishedCommentCount[$row['date']] = $row['counter'];
+        }
+
+        return $publishedCommentCount;
+
+    }
+
+    public function getDateInterval($interval){
+
+        $startDate = new DateTime('-' . $interval . ' day');
+        $endDate = new DateTime();
+        $period = new DatePeriod($startDate, new DateInterval('P1D'), $endDate->modify('+1 day'));
+        $interval = [];
+        foreach ($period as $date){
+            $interval[] = $date->format('Y-m-d');
+        }
+
+        return $interval;
+
+    }
+
+
+
+
+
+
 }

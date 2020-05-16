@@ -10,6 +10,8 @@ class DefaultController extends AbstractAdminController
 
     public function actionIndex()
     {
+
+
         $statsService = new StatisticsService();
 
         // Первое число месяца год назад
@@ -86,18 +88,9 @@ class DefaultController extends AbstractAdminController
             }
         }
 
-        $publishedQuestionsRows = Yii::app()->db->createCommand()
-            ->select('COUNT(*) counter, DATE(createDate) date1')
-            ->from('{{question}}')
-            ->where('createDate>NOW()-INTERVAL 8 DAY AND status IN (2,4)')
-            ->group('date1')
-            ->queryAll();
-        $publishedQuestionsCount = [];
-        foreach ($publishedQuestionsRows as $row) {
-            $publishedQuestionsCount[$row['date1']] = $row['counter'];
-        }
 
-        array_shift($publishedQuestionsCount);
+
+
 
         $leadsByTypesRows = Yii::app()->db->createCommand()
             ->select('COUNT(*) counter, type, DATE(question_date) date1')
@@ -118,7 +111,9 @@ class DefaultController extends AbstractAdminController
         $yuristActivityStats = $statsService->getYuristsActivityStats();
         $questionPublishedInRecentDays = $statsService->getPublishedQuestionsNumberInPeriod(30);
         $answersMadeInRecentDays = $statsService->getCountOfAnswersForRecentQuestions(30);
+        $answersMadeInRecentOneDays = $statsService->getCountOfAnswersForRecentQuestions(1);
         $averageIntervalUntillAnswer = $statsService->getAverageDiffBetweenQuestionAndAnswer(30);
+
 
         /*
          * Получение статистики по лидам источника 100 Юристов
@@ -151,7 +146,6 @@ class DefaultController extends AbstractAdminController
             'buySumArray' => $buySumArray,
             'moneyFlow' => $moneyFlow,
             'totalExpences' => $totalExpences,
-            'publishedQuestionsCount' => $publishedQuestionsCount,
             'leadsByTypes' => $leadsByTypes,
             'uniqueLeadDates' => $uniqueLeadDates,
             'yuristActivityStats' => $yuristActivityStats,
@@ -159,6 +153,9 @@ class DefaultController extends AbstractAdminController
             'questionPublishedInRecentDays' => $questionPublishedInRecentDays,
             'answersMadeInRecentDays' => $answersMadeInRecentDays,
             'averageIntervalUntillAnswer' => $averageIntervalUntillAnswer,
+            'statsService' => $statsService,
+
+
         ]);
     }
 
