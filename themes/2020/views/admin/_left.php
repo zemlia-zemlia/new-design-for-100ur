@@ -34,28 +34,57 @@ use App\models\UserStatusRequest;
             <?php if (Yii::app()->user->role == User::ROLE_BUYER) : ?>
                 <li class="header">Личный кабинет</li>
                 <li><a href="<?= Yii::app()->createUrl('/buyer/'); ?>"><i class="fa fa-circle-o"></i> Главная</a></li>
-                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/myLeads/'); ?>"><i class="fa fa-bars" aria-hidden="true"></i> Мои лиды</a></li>
-                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/campaigns/'); ?>"><i class="fa fa-bars" aria-hidden="true"></i> Мои кампании</a></li>
-                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/transactions/'); ?>"><i class="fa fa-money" aria-hidden="true"></i> Финансы</a></li>
-                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/api/'); ?>"><i class="fa fa-wrench" aria-hidden="true"></i> Работа с API</a></li>
-                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/faq/'); ?>"><i class="fa fa-question" aria-hidden="true"></i> Справочная</a></li>
-                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/help/'); ?>"><i class="fa fa-life-ring" aria-hidden="true"></i> Техподдержка</a></li>
-                <li><a href="https://www.yurcrm.ru/" target="_blank" rel="nofollow"><i class="fa fa-circle-o"></i> CRM для юристов  <i class="fa fa-external-link" aria-hidden="true"></i>
+                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/myLeads/'); ?>"><i class="fa fa-bars"
+                                                                                        aria-hidden="true"></i> Мои лиды</a>
+                </li>
+                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/campaigns/'); ?>"><i class="fa fa-bars"
+                                                                                          aria-hidden="true"></i> Мои
+                        кампании</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/transactions/'); ?>"><i class="fa fa-money"
+                                                                                             aria-hidden="true"></i>
+                        Финансы</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/api/'); ?>"><i class="fa fa-wrench"
+                                                                                    aria-hidden="true"></i> Работа с API</a>
+                </li>
+                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/faq/'); ?>"><i class="fa fa-question"
+                                                                                    aria-hidden="true"></i>
+                        Справочная</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/help/'); ?>"><i class="fa fa-life-ring"
+                                                                                     aria-hidden="true"></i>
+                        Техподдержка</a></li>
+                <li><a href="https://www.yurcrm.ru/" target="_blank" rel="nofollow"><i class="fa fa-circle-o"></i> CRM
+                        для юристов <i class="fa fa-external-link" aria-hidden="true"></i>
                     </a></li>
 
             <?php endif; ?>
 
             <?php if (Yii::app()->user->role == User::ROLE_PARTNER) : ?>
                 <li class="header">Личный кабинет</li>
-                <li><a href="<?= Yii::app()->createUrl('/webmaster/'); ?>"><i class="fa fa-circle-o"></i> Главная</a></li>
-                <li><a href="<?= Yii::app()->createUrl('/webmaster/lead/create/'); ?>"><i class="fa fa-plus" aria-hidden="true"></i>Добавить новый лид</a></li>
-                <li><a href="<?= Yii::app()->createUrl('/webmaster/lead/'); ?>"><i class="fa fa-bars" aria-hidden="true"></i>Все мои лиды</a></li>
-                <li><a href="<?= Yii::app()->createUrl('/webmaster/source/'); ?>"><i class="fa fa-cloud-download" aria-hidden="true"></i> Мои источники</a></li>
-                <li><a href="<?= Yii::app()->createUrl('/webmaster/lead/prices/'); ?>"><i class="fa fa-money" aria-hidden="true"></i> Регионы и цены</a></li>
-                <li><a href="<?= Yii::app()->createUrl('/webmaster/question/'); ?>"><i class="fa fa-comment" aria-hidden="true"></i>Привлеченные вопросы</a></li>
-                <li><a href="<?= Yii::app()->createUrl('/webmaster/api/'); ?>"><i class="fa fa-wrench" aria-hidden="true"></i> Работа с API</a></li>
-                <li><a href="<?= Yii::app()->createUrl('/webmaster/faq/'); ?>"><i class="fa fa-circle-o"></i> Справочная</a></li>
-                <li><a href="<?= Yii::app()->createUrl('/webmaster/transaction/'); ?>"><i class="fa fa-money" aria-hidden="true"></i> Финансы</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/'); ?>"><i class="fa fa-circle-o"></i> Главная</a>
+                </li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/lead/create/'); ?>"><i class="fa fa-plus"
+                                                                                          aria-hidden="true"></i>Добавить
+                        новый лид</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/lead/'); ?>"><i class="fa fa-bars"
+                                                                                   aria-hidden="true"></i>Все мои
+                        лиды</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/source/'); ?>"><i class="fa fa-cloud-download"
+                                                                                     aria-hidden="true"></i> Мои
+                        источники</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/lead/prices/'); ?>"><i class="fa fa-money"
+                                                                                          aria-hidden="true"></i>
+                        Регионы и цены</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/question/'); ?>"><i class="fa fa-comment"
+                                                                                       aria-hidden="true"></i>Привлеченные
+                        вопросы</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/api/'); ?>"><i class="fa fa-wrench"
+                                                                                  aria-hidden="true"></i> Работа с
+                        API</a></li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/faq/'); ?>"><i class="fa fa-circle-o"></i> Справочная</a>
+                </li>
+                <li><a href="<?= Yii::app()->createUrl('/webmaster/transaction/'); ?>"><i class="fa fa-money"
+                                                                                          aria-hidden="true"></i>
+                        Финансы</a></li>
 
             <?php endif; ?>
 
@@ -91,11 +120,13 @@ use App\models\UserStatusRequest;
                     <a href="<?= Yii::app()->createUrl('/admin/campaign') ?>">
                         <i class="fa fa-th"></i> <span>Кампании</span>
                     </a>
+                </li>
+
+                <li>
                     <a href="<?= Yii::app()->createUrl('/admin/campaign/regions') ?>">
                         <i class="fa fa-th"></i> <span>Выкупаемые регионы</span>
                     </a>
                 </li>
-
 
                 <?php if (!Yii::app()->user->role == User::ROLE_SECRETARY): ?>
 
@@ -167,7 +198,6 @@ use App\models\UserStatusRequest;
                 <li>
                     <a href="<?= Yii::app()->createUrl('/admin/chat') ?>">
                         <i class="fa fa-th"></i> <span>Чаты</span>
-<!--                        <small class="label pull-right bg-green">--><?php //echo UserStatusRequest::getNewRequestsCount(); ?><!--</small>-->
                     </a>
                 </li>
             <?php endif; ?>
