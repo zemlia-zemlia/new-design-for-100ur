@@ -88,11 +88,18 @@ class UserController extends Controller
             $model->chat_id = $chatId;
             $model->lawyer_id = $layerId;
             $model->created = time();
-            if($model->save()) {
+
+            if ($model->save()) {
                 $yurist = User::model()->findByPk($layerId);
                 $mailer = new GTMail();
                 $mailer->email = $yurist->email;
-                $mailer->message = 'Поступил запрос на новый чат <a href="' . Yii::app()->createUrl('user/chats', ['chatId' => $chatId]). '"> Смотреть </a>';
+
+                $chatLink = Yii::app()->createUrl('user/chats', ['chatId' => $chatId]);
+                if ($yurist->autologin) {
+                    $chatLink .= '?autologin=' . $yurist->autologin;
+                }
+                $mailer->message = 'Поступил запрос на новый чат <a href="' . $chatLink . '"> Смотреть </a>';
+
                 $mailer->sendMail();
             }
 
