@@ -52,9 +52,7 @@ use App\models\UserStatusRequest;
                 <li><a href="<?= Yii::app()->createUrl('/buyer/buyer/help/'); ?>"><i class="fa fa-life-ring"
                                                                                      aria-hidden="true"></i>
                         Техподдержка</a></li>
-                <li><a href="https://www.yurcrm.ru/" target="_blank" rel="nofollow"><i class="fa fa-circle-o"></i> CRM
-                        для юристов <i class="fa fa-external-link" aria-hidden="true"></i>
-                    </a></li>
+
 
             <?php endif; ?>
 
