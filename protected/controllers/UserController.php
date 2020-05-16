@@ -240,8 +240,6 @@ class UserController extends Controller
                 } else {
                     throw new CHttpException(500, 'Что-то пошло не так. Мы не смогли отправить Вам письмо с подтверждением регистрации на сайте. Не беспокойтесь, с вашим аккаунтом все в порядке, просто письмо с подтверждением придет немного позже.');
                 }
-            } else {
-                var_dump($model->getErrors());
             }
         }
 
@@ -457,9 +455,10 @@ class UserController extends Controller
 
         if (!($user instanceof User)) {
             $this->layout = '//frontend/smart';
-            $this->render('activationFailed', ['message' => 'Пользователь с данным мейлом не найден или уже активирован']);
+            return $this->render('activationFailed', ['message' => 'Пользователь с данным мейлом не найден или уже активирован']);
         }
 
+        // @todo вынести из контроллера логику сохранения данных пользователя в БД
         $user->setScenario('confirm');
 
         $user->activate();
