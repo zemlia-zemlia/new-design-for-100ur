@@ -196,27 +196,31 @@ class LeadController extends AbstractAdminController
     }
 
     /**
-     * Lists all models.
+     * Страница со списком лидов
      */
     public function actionIndex()
     {
+        /** @var CHttpRequest $request */
+        $request = Yii::app()->request;
+
         $searchModel = new Lead();
+        // задаем значения фильтра поиска лидов по умолчанию
         $searchModel->type = '';
+        $searchModel->leadStatus = '';
 
         $criteria = new CDbCriteria();
 
         $criteria->order = 't.id DESC';
-//        $criteria->with = array('questionObject.townByIP', 'town', 'town.region', 'source');
-        $statusId = (isset($_GET['status'])) ? (int) $_GET['status'] : false;
+        $statusId = $request->getParam('status') ?? false;
 
         if (false !== $statusId) {
             $criteria->addColumnCondition(['t.leadStatus' => $statusId]);
             $criteria->addCondition('campaignId IS NOT NULL');
         }
 
-        if (isset($_GET['App_models_Lead'])) {
+        if ($request->getParam('App_models_Lead')) {
             // если используется форма поиска по контактам
-            $searchModel->attributes = $_GET['App_models_Lead'];
+            $searchModel->attributes = $request->getParam('App_models_Lead');
             $dataProvider = $searchModel->search();
         } else {
             // если форма не использовалась
@@ -224,7 +228,7 @@ class LeadController extends AbstractAdminController
                 'criteria' => $criteria,
                 'pagination' => [
                     'pageSize' => 50,
-                    'params' => $_GET['App_models_Lead'],
+                    'params' => $request->getParam('App_models_Lead'),
                 ],
             ]);
         }
