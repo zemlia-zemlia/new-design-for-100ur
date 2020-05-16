@@ -240,8 +240,6 @@ class UserController extends Controller
                 } else {
                     throw new CHttpException(500, 'Что-то пошло не так. Мы не смогли отправить Вам письмо с подтверждением регистрации на сайте. Не беспокойтесь, с вашим аккаунтом все в порядке, просто письмо с подтверждением придет немного позже.');
                 }
-            } else {
-                var_dump($model->getErrors());
             }
         }
 
@@ -455,73 +453,62 @@ class UserController extends Controller
         // находим пользователя с данным мейлом и кодом подтверждения
         $user = $this->userRepository->getUserByEmailAndConfirmationCode($email, $code);
 
-        if ($user instanceof User) {
-            $user->setScenario('confirm');
+        if (!($user instanceof User)) {
+            $this->layout = '//frontend/smart';
+            return $this->render('activationFailed', ['message' => 'Пользователь с данным мейлом не найден или уже активирован']);
+        }
 
-            $user->activate();
-            $user->registerDate = date('Y-m-d');
-            // при активации пользователя заменяем у него confirm_code, чтобы он смог сменить пароль, перейдя по ссылке в письме
-            $user->confirm_code = $user->generateAutologinString();
-            // задаем пользователю некий произвольный пароль, который на следующем шаге попросим сменить. Пароль в открытом виде не отсылаем пользователю
-            $newPassword = $user->generatePassword(10);
-            $user->password = $user->password2 = User::hashPassword($newPassword);
+        // @todo вынести из контроллера логику сохранения данных пользователя в БД
+        $user->setScenario('confirm');
+
+        $user->activate();
+        $user->registerDate = date('Y-m-d');
+        // при активации пользователя заменяем у него confirm_code, чтобы он смог сменить пароль, перейдя по ссылке в письме
+        $user->confirm_code = $user->generateAutologinString();
+        // задаем пользователю некий произвольный пароль, который на следующем шаге попросим сменить. Пароль в открытом виде не отсылаем пользователю
+        $newPassword = $user->generatePassword(10);
+        $user->password = $user->password2 = User::hashPassword($newPassword);
+
+        if ($user->save()) {
+
             // публикуем вопросы и заказы пользователя
             $publishedQuestionsNumber = $user->publishNewQuestions();
             $user->confirmOrders();
 
-            if ($user->save()) {
+            // логиним пользователя
+            $loginModel = new LoginForm();
+            $loginModel->email = $email;
+            $loginModel->password = $newPassword;
 
-                // после активации и сохранения пользователя, отправим ему на почту ссылку на смену временного пароля
-                if ($newPassword) {
-                    $user->sendChangePasswordLink();
+            if ($loginModel->login()) {
+
+                $question = $this->questionRepository->getLastQuestionOfUser($user);
+
+                // клиента перенаправляем на его вопрос
+                if ($question) {
+                    if ($publishedQuestionsNumber) {
+                        $this->redirect(['question/view', 'id' => $question->id, 'justPublished' => 1]);
+                    } else {
+                        $this->redirect(['question/view', 'id' => $question->id]);
+                    }
                 }
 
-                // логиним пользователя
-                $loginModel = new LoginForm();
-                $loginModel->email = $email;
-                $loginModel->password = $newPassword;
-
-                if ($loginModel->login()) {
-
-                    $question = $this->questionRepository->getLastQuestionOfUser($user);
-
-                    if ($question) {
-                        if ($publishedQuestionsNumber) {
-                            $this->redirect(['question/view', 'id' => $question->id, 'justPublished' => 1]);
-                        } else {
-                            $this->redirect(['question/view', 'id' => $question->id]);
-                        }
-                    }
-
-                    // если активированный пользователь - юрист, направляем его в форму редактирования профиля
-                    if (User::ROLE_JURIST == Yii::app()->user->role) {
-                        $this->redirect(['user/changePassword', 'id' => Yii::app()->user->id, 'newUser' => 1]);
-                    } elseif (User::ROLE_BUYER == Yii::app()->user->role) {
-                        $this->redirect(['/buyer']);
-                    } elseif (User::ROLE_PARTNER == Yii::app()->user->role) {
-                        $this->redirect(['/webmaster']);
-                    }
-                    $this->render('activationSuccess', [
-                        'user' => $user,
-                        'loginModel' => $loginModel,
-                        'question' => $question,
-                    ]);
-                } else {
-                    throw new CHttpException(400, 'Не удалось автоматически залогиниться на сайте');
-                }
+                // Перенаправляем пользователя на страницу "задать пароль"
+                $this->redirect(['user/changePassword', 'id' => Yii::app()->user->id, 'newUser' => 1]);
             } else {
-                if (!empty($user->errors)) {
-                    Yii::log(print_r($user->getErrors(), true), 'error', 'system.web');
-                }
-
-                $this->layout = '//frontend/smart';
-                $this->render('activationFailed', ['message' => 'Ошибка - не удалось активировать аккаунт из-за ошибки в программе.<br />
-                      Обратитесь, пожалуйста, к администратору сайта через E-mail info@100yuristov.com']);
+                throw new CHttpException(400, 'Не удалось автоматически залогиниться на сайте');
             }
         }
 
+        if (!empty($user->errors)) {
+            Yii::log(print_r($user->getErrors(), true), 'error', 'system.web');
+        }
+
         $this->layout = '//frontend/smart';
-        $this->render('activationFailed', ['message' => 'Пользователь с данным мейлом не найден или уже активирован']);
+        return $this->render('activationFailed', ['message' => 'Ошибка - не удалось активировать аккаунт из-за ошибки в программе.<br />
+                  Обратитесь, пожалуйста, к администратору сайта через E-mail info@100yuristov.com']);
+
+
     }
 
     /**
