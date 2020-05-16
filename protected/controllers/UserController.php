@@ -74,6 +74,10 @@ class UserController extends Controller
         ];
     }
 
+    /**
+     * @param int|string|null $chatId
+     * @param int|null $layerId
+     */
     public function actionChats($chatId = null, $layerId = null)
     {
         $this->layout = '//frontend/chat';
@@ -84,7 +88,14 @@ class UserController extends Controller
             $model->chat_id = $chatId;
             $model->lawyer_id = $layerId;
             $model->created = time();
-            $model->save();
+            if($model->save()) {
+                $yurist = User::model()->findByPk($layerId);
+                $mailer = new GTMail();
+                $mailer->email = $yurist->email;
+                $mailer->message = 'Поступил запрос на новый чат <a href="' . Yii::app()->createUrl('user/chats', ['chatId' => $chatId]). '"> Смотреть </a>';
+                $mailer->sendMail();
+            }
+
             $this->redirect('/user/chats?chatId=' . $chatId);
         }
         $criteria = new CDbCriteria();
