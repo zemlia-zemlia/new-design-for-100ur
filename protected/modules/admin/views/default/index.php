@@ -16,6 +16,12 @@ Yii::app()->clientScript->registerScriptFile('/js/highcharts/js/modules/funnel.j
 $moneyDirections = Money::getDirectionsArray();
 $startYear = 2016;
 $endYear = 2019;
+
+$statDateInterval  = $statsService->getDateInterval(30);
+$statPublishedQuestionsCount  =  $statsService->getPublishedQuestionsCount($statDateInterval[0]);
+$statCountAnsversByDate = $statsService->getCountAnsversByDate($statDateInterval[0]);
+$statPublishedCommentCount = $statsService->getPublishedCommentCount($statDateInterval[0]);
+
 ?>
     <h1>Добро пожаловать в админку!</h1>
 
@@ -89,26 +95,42 @@ $endYear = 2019;
 
     <div class="row">
 
-        <div class="col-md-6">
+        <div class="col-md-12 small">
             <div class="box">
                 <div class="box-header">
                     <div class="box-title">Опубликованные вопросы по дням</div>
                 </div>
                 <div class="box-body">
                     <table class="table">
-                        <tr>
-                            <?php foreach ($publishedQuestionsCount as $date => $counter): ?>
+                        <tr> <td>Дата</td>
+                            <?php foreach ($statDateInterval as $date): ?>
                                 <td class="center-align">
                                     <small><?php echo date('d.m', strtotime($date)); ?></small>
                                 </td>
                             <?php endforeach; ?>
                         </tr>
-                        <tr>
-                            <?php foreach ($publishedQuestionsCount as $date => $counter): ?>
-                                <td class="center-align"><?php echo $counter; ?></td>
+                        <tr> <td>Вопросов</td>
+                            <?php foreach ($statDateInterval as $date): ?>
+                                <td class="center-align"><?php echo isset($statPublishedQuestionsCount[$date]) ?
+                                        $statPublishedQuestionsCount[$date] : 0 ?></td>
                             <?php endforeach; ?>
                         </tr>
+                        <tr> <td>Ответов</td>
+                            <?php foreach ($statDateInterval as $date): ?>
+                                <td class="center-align"><?php echo isset($statCountAnsversByDate[$date]) ?
+                                        $statCountAnsversByDate[$date] : 0 ?></td>
+                            <?php endforeach; ?>
+                        </tr>
+                        <tr> <td>Коментариев</td>
+                            <?php foreach ($statDateInterval as $date): ?>
+                                <td class="center-align"><?php echo isset($statPublishedCommentCount[$date]) ?
+                                        $statPublishedCommentCount[$date] : 0 ?></td>
+                            <?php endforeach; ?>
+                        </tr>
+
+
                     </table>
+
                 </div>
             </div>
         </div>

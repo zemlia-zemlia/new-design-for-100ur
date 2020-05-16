@@ -7,6 +7,8 @@ use CActiveRecord;
 use CDbCacheDependency;
 use CDbCriteria;
 use Yii;
+use CHtml;
+use GTMail;
 
 /**
  * Класс для работы с кампаниями покупателей лидов.
@@ -579,4 +581,82 @@ class Campaign extends CActiveRecord
     {
         return $this->apiClass != '' ? 'App\\components\\apiClasses\\' . $this->apiClass : '';
     }
+
+
+    /**
+     * Отправка кампании в архив с уведомлением пользователя.
+     *
+     * @return bool Результат сохранения записи
+     */
+    public function sendToArchive()
+    {
+        $this->active = self::ACTIVE_ARCHIVE;
+
+        if ($this->save()) {
+            if ($this->sendArchiveNotification()) {
+                return true;
+            }
+        } else {
+            Yii::log('Ошибка при архивации кампании #' . $this->id, 'error', 'system.web');
+        }
+
+        return false;
+    }
+
+    /**
+     * Отправка уведомления пользователю о том, что его кампания отправлен в архив.
+     */
+    public function sendArchiveNotification()
+    {
+        $buyer = $this->buyer;
+
+        if (0 == $buyer->active100) {
+            return false;
+        }
+
+        // в письмо вставляем ссылку на кампанию
+        $campaignLink = Yii::app()->createUrl('/buyer/buyer/leads/campaign', ['id' => $this->id]);
+
+        /*  проверим, есть ли у пользователя заполненное поле autologin, если нет,
+         *  генерируем код для автоматического логина при переходе из письма
+         * если есть, вставляем существующее значение
+         * это сделано, чтобы не создавать новую строку autologin при наличии старой
+         * и дать возможность залогиниться из любого письма, содержащего актуальную строку autologin
+         */
+        $autologinString = (isset($buyer->autologin) && '' != $buyer->autologin) ? $buyer->autologin : $buyer->generateAutologinString();
+
+        if (!$buyer->autologin) {
+            $buyer->autologin = $autologinString;
+            if (!$buyer->save()) {
+                Yii::log('Не удалось сохранить строку autologin пользователю ' . $buyer->email . ' с уведомлением о переносе кампании в архив ' . $this->id, 'error', 'system.web.User');
+            }
+        }
+
+        $campaignLink .= '&autologin=' . $autologinString;
+
+        $mailer = new GTMail();
+        $mailer->subject = CHtml::encode($buyer->name) . ', Ваша кампания отправлена в архив';
+        $mailer->message = '<h1>Ваша кампания отправлена в архив</h1>
+            <p>Здравствуйте, ' . CHtml::encode($buyer->name) . '<br /><br />' .
+            CHtml::link('Ваша кампания', $campaignLink) . ' отправлена в архив, так как по ней не совершалось никаких действий более 15 дней.</p>';
+
+
+        // отправляем письмо на почту пользователя
+        $mailer->email = $buyer->email;
+
+        if ($mailer->sendMail()) {
+            Yii::log('Отправлено письмо пользователю ' . $buyer->email . ' с уведомлением о переносе кампании в архив ' . $this->id, 'info', 'system.web.User');
+
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log('Не удалось отправить письмо пользователю ' . $buyer->email . ' с уведомлением о переносе кампании в архив ' . $this->id, 'error', 'system.web.User');
+
+            return false;
+        }
+    }
+
+
+
+
 }
