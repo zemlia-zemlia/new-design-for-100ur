@@ -55,14 +55,16 @@ class QuestionController extends Controller
      */
     public function init()
     {
-        $this->answerRepository = new AnswerRepository();
-        $this->userRepository = new UserRepository();
-        $this->questionRepository = new QuestionRepository();
+        $diContainer = Yii::app()->container->container;
 
-        $this->answerService = new AnswerService($this->answerRepository, $this->userRepository);
-        $this->commentService = new CommentService();
-        $this->leadService = new LeadService();
-        $this->questionService = new QuestionService($this->questionRepository, $this->leadService);
+        $this->answerRepository = $diContainer->get(AnswerRepository::class);
+        $this->userRepository = $diContainer->get(UserRepository::class);
+        $this->questionRepository = $diContainer->get(QuestionRepository::class);
+
+        $this->answerService = $diContainer->get(AnswerService::class);
+        $this->commentService = $diContainer->get(CommentService::class);
+        $this->leadService = $diContainer->get(LeadService::class);
+        $this->questionService = $diContainer->get(QuestionService::class);
 
         return parent::init();
     }

@@ -217,11 +217,15 @@ class QuestionService
     /**
      * Заполняет атрибуты вопроса данными пользователя
      * @param Question $question
-     * @param User $user
+     * @param User|null $user
      * @return Question
      */
-    public function fillQuestionAttributesFromUserParams(Question $question, User $user): Question
+    public function fillQuestionAttributesFromUserParams(Question $question, ?User $user): Question
     {
+        if (is_null($user)) {
+            return $question;
+        }
+
         if (!$question->authorName && $user->name) {
             $question->authorName = $user->name;
         }
