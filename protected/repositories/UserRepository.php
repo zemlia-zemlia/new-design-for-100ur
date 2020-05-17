@@ -61,4 +61,22 @@ class UserRepository
             ->limit(1)
             ->queryAll();
     }
+
+    /**
+     * Получение числа вопросов, заданных пользователем за последние часы.
+     *
+     * @param User $user
+     * @param int $intervalHours Количество часов
+     *
+     * @return mixed
+     * @throws \CException
+     */
+    public function getRecentQuestionCount(User $user, $intervalHours):int
+    {
+        return $this->dbConnection->createCommand()
+            ->select('COUNT(id) counter')
+            ->from('{{question}}')
+            ->where('authorId=:id AND createDate > NOW() - INTERVAL :hours HOUR', [':id' => $user->id, ':hours' => $intervalHours])
+            ->queryScalar();
+    }
 }

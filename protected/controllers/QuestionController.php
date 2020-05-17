@@ -22,6 +22,8 @@ use App\repositories\QuestionRepository;
 use App\repositories\UserRepository;
 use App\services\AnswerService;
 use App\services\CommentService;
+use App\services\LeadService;
+use App\services\QuestionService;
 
 class QuestionController extends Controller
 {
@@ -36,11 +38,17 @@ class QuestionController extends Controller
     /** @var UserRepository */
     protected $userRepository;
 
+    /** @var QuestionService */
+    protected $questionService;
+
     /** @var AnswerService */
     protected $answerService;
 
     /** @var CommentService */
     protected $commentService;
+
+    /** @var LeadService */
+    protected $leadService;
 
     /**
      * @inheritDoc
@@ -50,8 +58,11 @@ class QuestionController extends Controller
         $this->answerRepository = new AnswerRepository();
         $this->userRepository = new UserRepository();
         $this->questionRepository = new QuestionRepository();
+
         $this->answerService = new AnswerService($this->answerRepository, $this->userRepository);
         $this->commentService = new CommentService();
+        $this->leadService = new LeadService();
+        $this->questionService = new QuestionService($this->questionRepository, $this->leadService);
 
         return parent::init();
     }
@@ -184,184 +195,53 @@ class QuestionController extends Controller
     }
 
     /**
-     * Creates a new model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * Создание вопроса
      */
     public function actionCreate()
     {
         $this->layout = '//frontend/smart';
 
-        $lead = new Lead();
+        $request = Yii::app()->request;
         $question = new Question();
         $question->setScenario('create');
 
         if (!Yii::app()->user->isGuest) {
+            /** @var User $user */
             $user = User::model()->findByPk(Yii::app()->user->id);
-            $myRecentQuestionsCount = $user->getRecentQuestionCount(1);
+            $myRecentQuestionsCount = $this->userRepository->getRecentQuestionCount($user, 1);
             if ($myRecentQuestionsCount > 0) {
                 return $this->render('questionsLimit');
             }
         }
 
         // параметр, определяющий, будет ли в форме блок выбора цены (форма платного вопроса)
-        $pay = (isset($_GET['pay'])) ? true : false;
+        $pay = !is_null($request->getParam('pay'));
 
         // Если перешли из виджета задай вопрос юристу
-        if (isset($_POST['komm'])) {
-            $question->questionText = CHtml::encode($_POST['komm']);
+        if ($request->getParam('komm')) {
+            $question->questionText = CHtml::encode($request->getParam('komm'));
         }
 
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
 
-        if (isset($_POST['App_models_Question'])) {
-            $question->attributes = $_POST['App_models_Question'];
-            $question->phone = preg_replace('/([^0-9])/i', '', $question->phone);
+        if ($request->getParam('App_models_Question')) {
 
-            // если пользователь пришел по партнерской ссылке, запишем в вопрос id источника
-            if (Yii::app()->user->getState('sourceId')) {
-                $source = Leadsource::model()->findByPk(Yii::app()->user->getState('sourceId'));
-                if (Leadsource::TYPE_QUESTION == $source->type) {
-                    $question->sourceId = Yii::app()->user->getState('sourceId');
-                    $question->buyPrice = Yii::app()->params['questionPrice'];
+            $question = $this->questionService->createQuestion($request->getParam('App_models_Question'), $allDirectionsHierarchy);
+
+            if (empty($question->getErrors())) {
+                if (Yii::app()->user->email && 1 == Yii::app()->user->active100) {
+                    $this->redirect(['question/view', 'id' => $question->id]);
                 }
-            }
-
-            if ('' == $question->sessionId && '' != $question->questionText && '' != $question->authorName) {
-                if (!$question->preSave()) {
-                    // если вопрос не предсохранился, очищаем свойство sessionId
-                    $question->sessionId = '';
-                }
-            } else {
-                /*
-                 * если вопрос был предсохранен, создадим объект Question из записи в базе,
-                 * чтобы при сохранении вопроса произошел update записи
-                 */
-                if ('' != $question->sessionId) {
-                    $findQuestionCriteria = new CDbCriteria();
-                    $findQuestionCriteria->addColumnCondition([
-                        'sessionId' => $question->sessionId,
-                    ]);
-                    $existingQuestion = Question::model()->find($findQuestionCriteria);
-                    if ($existingQuestion instanceof Question) {
-                        $question = $existingQuestion;
-                    }
-                }
-                $question->attributes = $_POST['App_models_Question'];
-                $question->phone = PhoneHelper::normalizePhone($question->phone);
-                $question->status = Question::STATUS_NEW;
-                $question->ip = IpHelper::getUserIP();
-                $question->townIdByIP = Yii::app()->user->getState('currentTownId');
-            }
-
-            $question->setScenario('create');
-            $question->validate();
-
-            if (empty($question->errors)) {
-                // Создаем лид
-                $lead->name = $question->authorName;
-                $lead->question = $question->questionText;
-                $lead->phone = $question->phone;
-                $lead->email = $question->email;
-                $lead->townId = $question->townId;
-
-                if ($source && Leadsource::TYPE_LEAD == $source->type) {
-                    $lead->sourceId = $source->id;
-                    // посчитаем цену покупки лида, исходя из города и региона
-                    $prices = $lead->calculatePrices();
-                    if ($prices[0]) {
-                        $lead->buyPrice = $prices[0];
-                    } else {
-                        $lead->buyPrice = 0;
-                    }
-                } else {
-                    $lead->sourceId = 3; // 100 юристов
-                }
-
-                $lead->leadStatus = Lead::LEAD_STATUS_DEFAULT; // по умолчанию лид никуда не отправляем
-
-                $duplicates = $lead->findDublicates(86400);
-                if ($duplicates) {
-                    $lead->leadStatus = Lead::LEAD_STATUS_DUPLICATE;
-                }
-
-                if ($lead->save()) {
-                    // Если клиент задает второй вопрос и уже подтвердил почту, избавим его от необходимости подтверждать повторно
-                    if (Yii::app()->user->email && 1 == Yii::app()->user->active100) {
-                        $question->status = Question::STATUS_CHECK;
-                        $question->authorId = Yii::app()->user->id;
-                        $question->email = Yii::app()->user->email;
-                        $question->publishDate = (new DateTime())->format('Y-m-d H:i:s');
-                    } else {
-                        $question->status = Question::STATUS_NEW;
-                    }
-
-                    if ($question->save()) {
-                        // после сохранения вопроса удаляем id источника из сессии, чтобы вебмастер не добавил несколько вопросов
-                        Yii::app()->user->setState('sourceId', null);
-                        $lead->questionId = $question->id;
-                        $lead->save();
-
-                        // сохраним категории, к которым относится вопрос, если категория указана
-                        if (isset($_POST['App_models_Question']['categories']) && 0 != $_POST['App_models_Question']['categories']) {
-                            $q2cat = new Question2category();
-                            $q2cat->qId = $question->id;
-                            $questionCategory = $_POST['App_models_Question']['categories'];
-                            $q2cat->cId = $questionCategory;
-                            // сохраняем указанную категорию
-                            if ($q2cat->save()) {
-                                // проверим, не является ли указанная категория дочерней
-                                // если является, найдем ее родителя и запишем в категории вопроса
-                                foreach ($allDirectionsHierarchy as $parentId => $parentCategory) {
-                                    if (!$parentCategory['children']) {
-                                        continue;
-                                    }
-
-                                    foreach ($parentCategory['children'] as $childId => $childCategory) {
-                                        if ($childId == $questionCategory) {
-                                            $q2cat = new Question2category();
-                                            $q2cat->qId = $question->id;
-                                            $q2cat->cId = $parentId;
-                                            $q2cat->save();
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            // если у вопроса есть категории, запишем их и лиду
-                            foreach ($question->categories as $cat) {
-                                $lead2category = new Lead2Category();
-                                $lead2category->leadId = $lead->id;
-                                $lead2category->cId = $cat->id;
-                                $lead2category->save();
-                            }
-                        }
-
-                        if (Yii::app()->user->email && 1 == Yii::app()->user->active100) {
-                            $this->redirect(['question/view', 'id' => $question->id]);
-                        }
-                        $this->redirect(['confirm', 'qId' => $question->id, 'sId' => $question->sessionId]);
-                    }
-                }
+                $this->redirect(['confirm', 'qId' => $question->id, 'sId' => $question->sessionId]);
             }
         }
 
-        if (!$question->authorName && Yii::app()->user->name) {
-            $question->authorName = Yii::app()->user->name;
-        }
-
-        if (!$question->phone && Yii::app()->user->phone) {
-            $question->phone = Yii::app()->user->phone;
-        }
-
-        if (!$question->townId && Yii::app()->user->townId) {
-            $question->townId = Yii::app()->user->townId;
-        }
+        $question = $this->questionService->fillQuestionAttributesFromUserParams($question, Yii::app()->user->getModel());
 
         $this->render('create', [
             'model' => $question,
             'allDirections' => $allDirections,
-            'categoryId' => $categoryId,
             'pay' => $pay,
         ]);
     }

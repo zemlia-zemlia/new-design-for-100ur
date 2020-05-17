@@ -3,6 +3,7 @@
 namespace Tests\Integration\Models;
 
 use App\models\Answer;
+use App\repositories\UserRepository;
 use CActiveDataProvider;
 use CHttpException;
 use App\models\Comment;
@@ -941,6 +942,7 @@ class UserTest extends BaseIntegrationTest
 
     public function testGetRecentQuestionCount()
     {
+        $userRepository = new UserRepository();
         $questions = (new QuestionFactory())->generateFew(5, [
             'authorId' => 10,
             'createDate' => (new DateTime())->modify('-3 hours')->format('Y-m-d H:i:s'),
@@ -951,8 +953,8 @@ class UserTest extends BaseIntegrationTest
         $user = new User();
         $user->id = 10;
 
-        $this->assertEquals(5, $user->getRecentQuestionCount(6));
-        $this->assertEquals(0, $user->getRecentQuestionCount(2));
+        $this->assertEquals(5, $userRepository->getRecentQuestionCount($user, 6));
+        $this->assertEquals(0, $userRepository->getRecentQuestionCount($user, 2));
     }
 
     public function testGetRatingAndTestimonials()
