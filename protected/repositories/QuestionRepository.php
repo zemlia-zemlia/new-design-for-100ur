@@ -142,4 +142,52 @@ class QuestionRepository
 
         return Question::model()->find($questionCriteria);
     }
+
+    /**
+     * Возвращает массив опубликованных вопросов
+     * @param int $limit
+     * @param string $order
+     * @param string $with
+     * @param int $cacheTime
+     * @return Question[]|null
+     */
+    public function findRecentPublishedQuestions(
+        $limit = 40,
+        $order = 'publishDate DESC',
+        $with = 'answersCount',
+        $cacheTime = 600
+    ): array
+    {
+        $criteria = new CDbCriteria();
+        $criteria->limit = $limit;
+        $criteria->with = $with;
+        $criteria->addCondition('status IN (' . Question::STATUS_PUBLISHED . ', ' . Question::STATUS_CHECK . ')');
+        $criteria->order = $order;
+
+        return Question::model()->cache($cacheTime)->findAll($criteria);
+    }
+
+    /**
+     * Получает массив данных с годами и месяцами, за которые есть опубликованные вопросы
+     * @return array Пример: [2019 => [11,12], 2020 => [1,2,3]]
+     */
+    public function getYearsAndMonthsWithQuestions():array
+    {
+        $datesArray = [];
+        $datesRows = Yii::app()->db->createCommand()
+            ->select('YEAR(publishDate) year, MONTH(publishDate) month')
+            ->from('{{question}}')
+            ->where('status IN (:status1, :status2)', [':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED])
+            ->group('year, month')
+            ->order('year DESC, month DESC')
+            ->queryAll();
+
+        foreach ($datesRows as $row) {
+            if ($row['year'] && $row['month']) {
+                $datesArray[$row['year']][] = $row['month'];
+            }
+        }
+
+        return $datesArray;
+    }
 }

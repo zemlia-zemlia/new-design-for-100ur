@@ -18,6 +18,7 @@ use App\models\QuestionSearch;
 use App\models\Town;
 use App\models\User;
 use App\repositories\AnswerRepository;
+use App\repositories\QuestionRepository;
 use App\repositories\UserRepository;
 use App\services\AnswerService;
 use App\services\CommentService;
@@ -28,6 +29,9 @@ class QuestionController extends Controller
 
     /** @var AnswerRepository */
     protected $answerRepository;
+
+    /** @var QuestionRepository */
+    protected $questionRepository;
 
     /** @var UserRepository */
     protected $userRepository;
@@ -45,6 +49,7 @@ class QuestionController extends Controller
     {
         $this->answerRepository = new AnswerRepository();
         $this->userRepository = new UserRepository();
+        $this->questionRepository = new QuestionRepository();
         $this->answerService = new AnswerService($this->answerRepository, $this->userRepository);
         $this->commentService = new CommentService();
 
@@ -450,7 +455,7 @@ class QuestionController extends Controller
     }
 
     /**
-     * Lists all models.
+     * Страница последних вопросов
      */
     public function actionIndex()
     {
@@ -458,54 +463,15 @@ class QuestionController extends Controller
             $this->redirect(Yii::app()->createUrl('question/index'), true, 301);
         }
 
-        $criteria = new CDbCriteria();
-        $criteria->limit = 40;
-        $criteria->with = 'answersCount';
-        $criteria->addCondition('status IN (' . Question::STATUS_PUBLISHED . ', ' . Question::STATUS_CHECK . ')');
-        $criteria->order = 'publishDate DESC';
+        // Массив последних опубликованных вопросов
+        $questions = $this->questionRepository->findRecentPublishedQuestions();
 
-        $questions = Question::model()->cache(600)->findAll($criteria);
-
-        /*
-         * SELECT YEAR(publishDate) year, MONTH(publishDate) month, COUNT(*) counter FROM `100_question`
-          WHERE status IN (2,4)
-          GROUP BY year, month
-         */
         // Годы и  месяцы, за которые есть вопросы
-        $datesArray = [];
-        $datesRows = Yii::app()->db->createCommand()
-            ->select('YEAR(publishDate) year, MONTH(publishDate) month')
-            ->from('{{question}}')
-            ->where('status IN (:status1, :status2)', [':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED])
-            ->group('year, month')
-            ->order('year DESC, month DESC')
-            ->queryAll();
-
-        foreach ($datesRows as $row) {
-            if ($row['year'] && $row['month']) {
-                $datesArray[$row['year']][] = $row['month'];
-            }
-        }
+        $datesArray = $this->questionRepository->getYearsAndMonthsWithQuestions();
 
         $this->render('index', [
             'questions' => $questions,
             'datesArray' => $datesArray,
-        ]);
-    }
-
-    /**
-     * Manages all models.
-     */
-    public function actionAdmin()
-    {
-        $model = new Question('search');
-        $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['App_models_Question'])) {
-            $model->attributes = $_GET['App_models_Question'];
-        }
-
-        $this->render('admin', [
-            'model' => $model,
         ]);
     }
 
