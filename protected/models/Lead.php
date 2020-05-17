@@ -530,7 +530,7 @@ class Lead extends CActiveRecord
                 // Если успешно отправили лид в Yurcrm, уведомляем об этом покупателя
                 $yurcrmResultDecoded = json_decode($yurcrmResult->getResponse(), true);
 
-                if (200 == (int)$yurcrmResultDecoded['status'] && isset($yurcrmResultDecoded['data']['id'])) {
+                if (isset($yurcrmResultDecoded['status']) && 200 == (int)$yurcrmResultDecoded['status'] && isset($yurcrmResultDecoded['data']['id'])) {
                     $crmLeadId = (int)$yurcrmResultDecoded['data']['id'];
                     $this->notifier->sendYurcrmNotification($buyer, $crmLeadId);
                 }

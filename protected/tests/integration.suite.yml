@@ -3,6 +3,7 @@ coverage:
     enabled: true
     include:
         - models/*
+        - components/*
         - notifiers/*
         - extensions/GTMail.php
 modules:

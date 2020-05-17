@@ -270,4 +270,47 @@ class QuestionTest extends BaseIntegrationTest
             ],
         ];
     }
+
+    public function testCountPreSavedQuestionsWithSameIP()
+    {
+        $questionFactory = new QuestionFactory();
+        $currentTs = time();
+
+        $questions = [
+            $questionFactory->generateOne([
+                'ip' => '127.0.0.1',
+                'createDate' => date('Y-m-d H:i:s', $currentTs-10),
+                'status' => Question::STATUS_PRESAVE,
+            ]),
+            $questionFactory->generateOne([
+                'ip' => '127.0.0.1',
+                'createDate' => date('Y-m-d H:i:s', $currentTs-10),
+                'status' => Question::STATUS_NEW,
+            ]),
+            $questionFactory->generateOne([
+                'ip' => '127.0.0.2',
+                'createDate' => date('Y-m-d H:i:s', $currentTs-10),
+                'status' => Question::STATUS_PRESAVE,
+            ]),
+            $questionFactory->generateOne([
+                'ip' => '127.0.0.1',
+                'createDate' => date('Y-m-d H:i:s', $currentTs-20),
+                'status' => Question::STATUS_PRESAVE,
+            ]),
+            $questionFactory->generateOne([
+                'ip' => '127.0.0.1',
+                'createDate' => date('Y-m-d H:i:s', $currentTs-30),
+                'status' => Question::STATUS_PRESAVE,
+            ]),
+        ];
+
+        $this->loadToDatabase(Question::getFullTableName(), $questions);
+
+        $newQuestion = new Question();
+        $newQuestion->ip = '127.0.0.1';
+
+        $this->assertEquals(1, $newQuestion->countPreSavedQuestionsWithSameIP(15));
+        $this->assertEquals(2, $newQuestion->countPreSavedQuestionsWithSameIP(25));
+        $this->assertEquals(3, $newQuestion->countPreSavedQuestionsWithSameIP(35));
+    }
 }

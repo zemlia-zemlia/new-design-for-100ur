@@ -108,8 +108,8 @@ class CampaignController extends AbstractAdminController
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['App\models\Campaign'])) {
-            $model->attributes = $_POST['App\models\Campaign'];
+        if (isset($_POST['App_models_Campaign'])) {
+            $model->attributes = $_POST['App_models_Campaign'];
             $model->buyerId = $buyerId;
             $model->price *= 100;
 
