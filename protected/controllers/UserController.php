@@ -56,7 +56,8 @@ class UserController extends Controller
                 'users' => ['*'],
             ],
             ['allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['chats', 'chat', 'update', 'profile', 'changePassword', 'updateAvatar', 'invites', 'deleteAvatar', 'clearInfo', 'requestConfirmation', 'karmaPlus', 'stats', 'sendAnswerNotification', 'testimonial', 'testimonials'],
+                'actions' => ['chats', 'chat', 'update', 'profile', 'changePassword', 'updateAvatar', 'invites', 'deleteAvatar',
+                    'clearInfo', 'requestConfirmation', 'karmaPlus', 'stats', 'sendAnswerNotification', 'testimonial', 'testimonials', 'chatPayedSuccess'],
                 'users' => ['@'],
             ],
             ['allow',
@@ -926,4 +927,15 @@ class UserController extends Controller
 
         return $model;
     }
+
+    public function actionChatPayedSuccess($id)
+    {
+
+        return $this->render('chatPayedSuccess', [
+            'chatUrl' => Yii::app()->baseUrl . '/user/chats/?chatId=' . $id
+        ]);
+    }
+
+
+
 }

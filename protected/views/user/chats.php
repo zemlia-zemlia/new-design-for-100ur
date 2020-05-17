@@ -205,7 +205,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
             <input type="hidden" name="quickpay-form" value="shop">
             <input type="hidden" name="paymentType" value="AC">
             <input type="hidden" name="successURL"
-                   value="<?= getenv('PROTOCOL') . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] ?>">
+                   value="<?= Yii::app()->baseUrl . '/user/chatPayedSuccess/?id=' . $room ?>">
             <input type="hidden" name="targets" value="Оплата консультаций">
             <div class="form-group">
                 <div class="input-group text-center">
