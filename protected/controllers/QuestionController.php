@@ -17,11 +17,31 @@ use App\models\QuestionCategory;
 use App\models\QuestionSearch;
 use App\models\Town;
 use App\models\User;
+use App\repositories\AnswerRepository;
+use App\repositories\UserRepository;
+use App\services\AnswerService;
 
 class QuestionController extends Controller
 {
     public $layout = '//frontend/question';
 
+    /** @var AnswerRepository */
+    protected $answerRepository;
+
+    /** @var UserRepository */
+    protected $userRepository;
+
+    /** @var AnswerService */
+    protected $answerService;
+
+    public function init()
+    {
+        $this->answerRepository = new AnswerRepository();
+        $this->userRepository = new UserRepository();
+        $this->answerService = new AnswerService($this->answerRepository, $this->userRepository);
+
+        return parent::init();
+    }
     /*
      * адреса для оплаты вопросов через Яндекс кассу
      * /question/paymentSuccess - страница успешной оплаты
@@ -74,6 +94,9 @@ class QuestionController extends Controller
     {
         $request = Yii::app()->request;
 
+        $commentModel = new Comment();
+        $answerModel = new Answer();
+
         // редирект для страниц с пагинацией в адресе
         if ($request->getParam('Question_page')) {
             $this->redirect(['view', 'id' => $id], true, 301);
@@ -89,33 +112,13 @@ class QuestionController extends Controller
             throw new CHttpException(404, 'Вопрос не найден');
         }
 
-        $commentModel = new Comment();
-
         $justPublished = !is_null($request->getParam('justPublished'));
-        $justPayed = !is_null($request->getParam('payed_ok'));
 
-        $answerModel = new Answer();
+        if ($request->getParam('App_models_Answer')) {
 
-        if (isset($_POST['App_models_Answer'])) {
-            if (!Yii::app()->user->checkAccess(User::ROLE_JURIST)) {
-                throw new CHttpException(403, 'Для того, чтобы отвечать на вопросы вы должны залогиниться на сайте как юрист');
-            }
+            $answerModel = $this->answerService->createAnswer($request->getParam('App_models_Answer'), $model, Yii::app()->user);
 
-            // отправлен ответ, сохраним его
-            $answerModel->attributes = $_POST['App_models_Answer'];
-            $answerModel->authorId = Yii::app()->user->id;
-            $answerModel->questionId = $model->id;
-            $answerModel->datetime = date('Y-m-d H:i:s');
-
-            if (Yii::app()->user->checkAccess(User::ROLE_ROOT)) {
-                $answerModel->setScenario('addVideo');
-            }
-
-            if ($answerModel->save()) {
-                // записываем время ответа в запись о пользователе
-                Yii::app()->db->createCommand()
-                    ->update('{{user}}', ['lastAnswer' => $answerModel->datetime], 'id=:id', [':id' => Yii::app()->user->id]);
-
+            if (empty($answerModel->getErrors())) {
                 $this->redirect(['/question/view', 'id' => $model->id]);
             }
         }
@@ -413,7 +416,7 @@ class QuestionController extends Controller
     {
         $this->layout = '//frontend/smart';
 
-        $qId = (isset($_GET['qId'])) ? (int) $_GET['qId'] : false;
+        $qId = (isset($_GET['qId'])) ? (int)$_GET['qId'] : false;
         $sId = (isset($_GET['sId'])) ? $_GET['sId'] : false;
 
         if (!$qId || !$sId) {
@@ -712,7 +715,7 @@ class QuestionController extends Controller
                     if (isset($_POST['App_models_Lead']['categories']) && 0 != $_POST['App_models_Lead']['categories']) {
                         $lead2category = new Lead2Category();
                         $lead2category->leadId = $lead->id;
-                        $leadCategory = (int) $_POST['App_models_Lead']['categories'];
+                        $leadCategory = (int)$_POST['App_models_Lead']['categories'];
                         $lead2category->cId = $leadCategory;
 
                         if ($lead2category->save()) {
@@ -825,8 +828,8 @@ class QuestionController extends Controller
             $author->attributes = $currentUser->attributes;
         }
 
-        if (isset($_GET['juristId']) && (int) $_GET['juristId'] > 0) {
-            $juristId = (int) $_GET['juristId'];
+        if (isset($_GET['juristId']) && (int)$_GET['juristId'] > 0) {
+            $juristId = (int)$_GET['juristId'];
             if (User::model()->findByAttributes(['role' => User::ROLE_JURIST, 'active100' => 1, 'id' => $juristId])) {
                 $order->juristId = $juristId;
             }
@@ -944,7 +947,7 @@ class QuestionController extends Controller
             throw new CHttpException(404, 'Вопрос не найден');
         }
 
-        $level = (isset($_GET['level']) && (int) $_GET['level'] > 0) ? (int) $_GET['level'] : Question::LEVEL_1;
+        $level = (isset($_GET['level']) && (int)$_GET['level'] > 0) ? (int)$_GET['level'] : Question::LEVEL_1;
 
         $questionPrice = Question::getPriceByLevel($level);
         $question->price = $questionPrice;
@@ -986,7 +989,7 @@ class QuestionController extends Controller
         if (YandexKassa::checkMd5($_POST)) {
             fwrite($paymentLog, 'MD5 correct!');
             $yaKassa->formResponse(0, 'OK');
-        //$yaKassa->formResponse(1,'Error'); // just for test
+            //$yaKassa->formResponse(1,'Error'); // just for test
         } else {
             fwrite($paymentLog, 'MD5 incorrect!');
             $yaKassa->formResponse(1, 'Ошибка авторизации');
@@ -1163,7 +1166,7 @@ class QuestionController extends Controller
         }
 
         $userId = Yii::app()->user->id;
-        $questionId = (int) $_POST['id'];
+        $questionId = (int)$_POST['id'];
 
         $question = Question::model()->findByPk($questionId);
 
