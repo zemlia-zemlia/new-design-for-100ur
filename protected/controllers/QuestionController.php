@@ -20,6 +20,7 @@ use App\models\User;
 use App\repositories\AnswerRepository;
 use App\repositories\UserRepository;
 use App\services\AnswerService;
+use App\services\CommentService;
 
 class QuestionController extends Controller
 {
@@ -34,11 +35,18 @@ class QuestionController extends Controller
     /** @var AnswerService */
     protected $answerService;
 
+    /** @var CommentService */
+    protected $commentService;
+
+    /**
+     * @inheritDoc
+     */
     public function init()
     {
         $this->answerRepository = new AnswerRepository();
         $this->userRepository = new UserRepository();
         $this->answerService = new AnswerService($this->answerRepository, $this->userRepository);
+        $this->commentService = new CommentService();
 
         return parent::init();
     }
@@ -97,11 +105,14 @@ class QuestionController extends Controller
         $commentModel = new Comment();
         $answerModel = new Answer();
 
+        // модель для формы вопроса
+        $newQuestionModel = new Question();
+
         // редирект для страниц с пагинацией в адресе
         if ($request->getParam('Question_page')) {
             $this->redirect(['view', 'id' => $id], true, 301);
         }
-
+        /** @var Question $model */
         $model = Question::model()->with('categories')->findByPk($id);
         if (!$model) {
             throw new CHttpException(404, 'Вопрос не найден');
@@ -123,67 +134,41 @@ class QuestionController extends Controller
             }
         }
 
-        if (isset($_POST['App_models_Comment'])) {
-            // отправлен ответ, сохраним его
-            $commentModel->attributes = $_POST['App_models_Comment'];
-            $commentModel->authorId = Yii::app()->user->id;
+        if ($request->getParam('App_models_Comment')) {
+            $commentModel = $this->commentService->create($request->getParam('App_models_Comment'), Yii::app()->user);
 
-            // комментарии от юристов сразу помечаем как проверенные
-            if (User::ROLE_JURIST == Yii::app()->user->role) {
-                $commentModel->status = Comment::STATUS_CHECKED;
-            }
-
-            // проверим, является ли данный комментарий дочерним для другого комментария
-            if (isset($commentModel->parentId) && $commentModel->parentId > 0) {
-                // является, сохраним его как дочерний комментарий
-                $rootComment = Comment::model()->findByPk($commentModel->parentId);
-                $commentModel->appendTo($rootComment);
-            }
-
-            // сохраняем комментарий с учетом его иерархии
-            if ($commentModel->saveNode()) {
+            if (empty($commentModel->getErrors())) {
                 $this->redirect(['/question/view', 'id' => $model->id]);
             }
         }
 
         // выборка ответов для текущего вопроса
-        $answersDataProvider = $answerModel->getAnswersDataProviderByQuestion($model);
+        $answersDataProvider = $this->answerRepository->getAnswersDataProviderByQuestion($model);
 
         // массив с id авторов ответов к текущему вопросу
-        // запишем в него авторов ответов, чтобы не дать юристу ответить на данный вопрос дважды
-        $answersAuthors = [];
+        // запишем в него id авторов ответов, чтобы не дать юристу ответить на данный вопрос дважды
+        $answersAuthorsIds = [];
 
         foreach ($answersDataProvider->data as $answer) {
-            $answersAuthors[] = $answer->authorId;
+            $answersAuthorsIds[] = $answer->authorId;
         }
 
         if (User::ROLE_JURIST == Yii::app()->user->role) {
             // найдем последний запрос на смену статуса
-            $lastRequest = Yii::app()->db->createCommand()
-                ->select('*')
-                ->from('{{userStatusRequest}}')
-                ->where('yuristId=:id AND isVerified=0', [':id' => Yii::app()->user->id])
-                ->order('id DESC')
-                ->limit(1)
-                ->queryAll();
+            $lastRequest = $this->userRepository
+                ->getLastChangeStatusRequestAsArray(Yii::app()->user->getModel());
 
             $nextQuestionId = $model->getNextQuestionIdForYurist(Yii::app()->user->id);
+            $model->checkCommentsAsRead(Yii::app()->user->id);
         } else {
             $lastRequest = null;
             $nextQuestionId = null;
         }
 
-        // модель для формы вопроса
-        $newQuestionModel = new Question();
-
-        if (User::ROLE_JURIST == Yii::app()->user->role) {
-            $model->checkCommentsAsRead(Yii::app()->user->id);
-        }
-
         $this->render('view', [
             'model' => $model,
             'answersDataProvider' => $answersDataProvider,
-            'answersAuthors' => $answersAuthors,
+            'answersAuthors' => $answersAuthorsIds,
             'newQuestionModel' => $newQuestionModel,
             'answerModel' => $answerModel,
             'justPublished' => $justPublished,

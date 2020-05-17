@@ -228,28 +228,6 @@ class Answer extends CActiveRecord
     }
 
     /**
-     * @param Question $question
-     *
-     * @return CActiveDataProvider
-     */
-    public function getAnswersDataProviderByQuestion(Question $question)
-    {
-        $criteria = new CDbCriteria();
-        $criteria->order = 't.id ASC';
-        $criteria->with = 'comments';
-        $criteria->addColumnCondition(['t.questionId' => $question->id]);
-
-        $answersDataProvider = new CActiveDataProvider(Answer::class, [
-            'criteria' => $criteria,
-            'pagination' => [
-                'pageSize' => 20,
-            ],
-        ]);
-
-        return $answersDataProvider;
-    }
-
-    /**
      * Зачисляет юристу бонус за хороший ответ
      */
     public function payBonusForGoodAnswer()

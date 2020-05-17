@@ -44,4 +44,21 @@ class UserRepository
         return $this->dbConnection->createCommand()
             ->update('{{user}}', ['lastAnswer' => $lastAnswerTs], 'id=:id', [':id' => $user->id]);
     }
+
+    /**
+     * последний запрос на смену статуса
+     * @param User $user
+     * @return array|null
+     * @throws \CException
+     */
+    public function getLastChangeStatusRequestAsArray(User $user): ?array
+    {
+        return $this->dbConnection->createCommand()
+            ->select('*')
+            ->from('{{userStatusRequest}}')
+            ->where('yuristId=:id AND isVerified=0', [':id' => $user->id])
+            ->order('id DESC')
+            ->limit(1)
+            ->queryAll();
+    }
 }
