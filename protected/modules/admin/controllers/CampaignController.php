@@ -9,11 +9,9 @@ use App\models\Region;
 use App\models\TransactionCampaign;
 use App\models\User;
 use App\modules\admin\controllers\AbstractAdminController;
-use App\repositories\CampaignRepository;
 
 class CampaignController extends AbstractAdminController
 {
-
     /**
      * @return array action filters
      */
@@ -99,7 +97,7 @@ class CampaignController extends AbstractAdminController
     {
         $model = new Campaign();
 
-        $buyerId = (int)$_GET['buyerId'];
+        $buyerId = (int) $_GET['buyerId'];
 
         if (!User::model()->findByPk($buyerId)) {
             throw new CHttpException('Пользователь не найден', 404);
@@ -315,7 +313,7 @@ class CampaignController extends AbstractAdminController
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['realLimit'] = $row['realLimit'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['brakPercent'] = $row['brakPercent'];
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['leadsSent'] = $row['leadsSent'];
-            $campaignsArray[$row['userId']]['campaigns'][$row['id']]['todayLeads'] = (int)$todayLeadsArray[$row['id']];
+            $campaignsArray[$row['userId']]['campaigns'][$row['id']]['todayLeads'] = (int) $todayLeadsArray[$row['id']];
 
             $campaignsArray[$row['userId']]['campaigns'][$row['id']]['object'] = Campaign::model()->findByPk($row['id']);
         }
@@ -401,9 +399,9 @@ class CampaignController extends AbstractAdminController
 
     public function actionTopup()
     {
-        $buyerId = isset($_POST['buyerId']) ? (int)$_POST['buyerId'] : 0;
-        $sum = isset($_POST['sum']) ? ((int)$_POST['sum']) * 100 : 0;
-        $account = isset($_POST['account']) ? (int)$_POST['account'] : 1;
+        $buyerId = isset($_POST['buyerId']) ? (int) $_POST['buyerId'] : 0;
+        $sum = isset($_POST['sum']) ? ((int) $_POST['sum']) * 100 : 0;
+        $account = isset($_POST['account']) ? (int) $_POST['account'] : 1;
 
         if ($sum <= 0 || !$buyerId) {
             echo json_encode(['code' => 400, 'message' => 'Error, not enough data']);
@@ -451,8 +449,8 @@ class CampaignController extends AbstractAdminController
 
     public function actionSetLimit()
     {
-        $campaignId = (int)$_POST['id'];
-        $limit = (int)$_POST['limit'];
+        $campaignId = (int) $_POST['id'];
+        $limit = (int) $_POST['limit'];
 
         $campaign = Campaign::model()->findByPk($campaignId);
 
@@ -470,7 +468,7 @@ class CampaignController extends AbstractAdminController
     }
 
     /**
-     * Вывод списка выкупаемых регионов
+     * Вывод списка выкупаемых регионов.
      */
     public function actionRegions()
     {

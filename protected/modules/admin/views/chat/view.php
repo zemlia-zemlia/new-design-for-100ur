@@ -3,23 +3,22 @@
 /* @var $model App\models\Chat */
 
 $this->breadcrumbs = [
-	'Чат'=>['index'],
-	$model->id,
+    'Чат' => ['index'],
+    $model->id,
 ];
-
 
 ?>
 
 <h1>Чат номер #<?php echo $model->id; ?></h1>
 
-<p><a href="<?= Yii::app()->createUrl('/admin/user/view', ['id' => $model->user->id]) ?>"><?= $model->user->getShortName()?></a> ->
-    <a href="<?= Yii::app()->createUrl('/admin/user/view', ['id' => $model->lawyer->id]) ?>"><?= $model->lawyer->getShortName()?></a></p>
+<p><a href="<?php echo Yii::app()->createUrl('/admin/user/view', ['id' => $model->user->id]); ?>"><?php echo $model->user->getShortName(); ?></a> ->
+    <a href="<?php echo Yii::app()->createUrl('/admin/user/view', ['id' => $model->lawyer->id]); ?>"><?php echo $model->lawyer->getShortName(); ?></a></p>
 
 статусы:<br>
-<?= $model->is_confirmed ? 'Открыт' : 'Запрос' ?> <br>
-<?= $model->is_payed ? 'Оплачен' : 'Не оплачен' ?> <br>
-<?= $model->is_closed ? 'Закрыт' : '' ?> <br>
-<?= $model->is_petition ? 'Жалоба' : '' ?> <br>
+<?php echo $model->is_confirmed ? 'Открыт' : 'Запрос'; ?> <br>
+<?php echo $model->is_payed ? 'Оплачен' : 'Не оплачен'; ?> <br>
+<?php echo $model->is_closed ? 'Закрыт' : ''; ?> <br>
+<?php echo $model->is_petition ? 'Жалоба' : ''; ?> <br>
 
 
 <p>Сообщения:</p>
@@ -27,6 +26,6 @@ $this->breadcrumbs = [
 
 <?php foreach ($model->messages as $message) : ?>
 
-<p><?= $message->user->getShortName() ?> -> <?= $message->message ?></p>
+<p><?php echo $message->user->getShortName(); ?> -> <?php echo $message->message; ?></p>
 
 <?php endforeach; ?>

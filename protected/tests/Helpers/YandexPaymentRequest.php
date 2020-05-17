@@ -7,8 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 
 /**
  * Эмуляция запроса от Яндекса с данными о зачислении денег
- * Class YandexPaymentRequest
- * @package App\tests\Helpers
+ * Class YandexPaymentRequest.
  */
 class YandexPaymentRequest
 {
@@ -20,9 +19,6 @@ class YandexPaymentRequest
         $this->client = $client;
     }
 
-    /**
-     * @return array
-     */
     private function getDemoRequestData(): array
     {
         return [
@@ -50,7 +46,7 @@ class YandexPaymentRequest
         $requestData = array_merge($this->getDemoRequestData(), $requestData) ?? $this->getDemoRequestData();
 
         $response = $this->client->request('POST', '/user/balanceAddRequest', [
-            'form_params' => $requestData
+            'form_params' => $requestData,
         ]);
 
         return $response;

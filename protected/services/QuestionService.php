@@ -5,7 +5,6 @@ namespace App\services;
 use App\helpers\IpHelper;
 use App\helpers\PhoneHelper;
 use App\models\Lead;
-use App\models\Lead2Category;
 use App\models\Leadsource;
 use App\models\Question;
 use App\models\Question2category;
@@ -17,8 +16,7 @@ use Yii;
 
 /**
  * Бизнес логика работы с вопросами
- * Class QuestionService
- * @package App\services
+ * Class QuestionService.
  */
 class QuestionService
 {
@@ -35,9 +33,6 @@ class QuestionService
     }
 
     /**
-     * @param array $attributes
-     * @param array $allDirectionsHierarchy
-     * @return Question
      * @throws \CHttpException
      */
     public function createQuestion(array $attributes, array $allDirectionsHierarchy): Question
@@ -105,11 +100,6 @@ class QuestionService
         return $question;
     }
 
-    /**
-     * @param Question $question
-     * @param array $attributes
-     * @return Question
-     */
     private function restorePresavedQuestion(Question $question, array $attributes): Question
     {
         if ('' != $question->sessionId) {
@@ -132,10 +122,9 @@ class QuestionService
     }
 
     /**
-     * Создание лида из вопроса
-     * @param Question $question
+     * Создание лида из вопроса.
+     *
      * @param Leadsource $source
-     * @return Lead
      */
     private function createLeadFromQuestion(Question $question, ?Leadsource $source): Lead
     {
@@ -170,19 +159,12 @@ class QuestionService
         return $lead;
     }
 
-    /**
-     * @param int $categoryId
-     * @param Question $question
-     * @param array $allDirectionsHierarchy
-     * @param Lead|null $lead
-     */
     private function mapQuestionToCategories(
         int $categoryId,
         Question $question,
         array $allDirectionsHierarchy,
         ?Lead $lead
-    ): void
-    {
+    ): void {
         if ($categoryId) {
             $q2cat = new Question2category();
             $q2cat->qId = $question->id;
@@ -215,10 +197,7 @@ class QuestionService
     }
 
     /**
-     * Заполняет атрибуты вопроса данными пользователя
-     * @param Question $question
-     * @param User|null $user
-     * @return Question
+     * Заполняет атрибуты вопроса данными пользователя.
      */
     public function fillQuestionAttributesFromUserParams(Question $question, ?User $user): Question
     {

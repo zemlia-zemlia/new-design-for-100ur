@@ -7,7 +7,6 @@ use App\modules\admin\controllers\AbstractAdminController;
 
 class UserStatusRequestController extends AbstractAdminController
 {
-
     /**
      * @return array action filters
      */
@@ -144,13 +143,13 @@ class UserStatusRequestController extends AbstractAdminController
     }
 
     /**
-     * изменение статуса заявки и юриста через AJAX
+     * изменение статуса заявки и юриста через AJAX.
      */
     public function actionChange()
     {
-        $requestId = (isset($_POST['id'])) ? (int)$_POST['id'] : false;
+        $requestId = (isset($_POST['id'])) ? (int) $_POST['id'] : false;
         $requestComment = (isset($_POST['requestComment'])) ? $_POST['requestComment'] : false;
-        $requestVerified = (isset($_POST['status'])) ? (int)$_POST['status'] : false;
+        $requestVerified = (isset($_POST['status'])) ? (int) $_POST['status'] : false;
 
         if (!$requestId || !$requestVerified) {
             echo json_encode(['code' => 400, 'message' => 'Wrong data']);
@@ -199,7 +198,6 @@ class UserStatusRequestController extends AbstractAdminController
                 // присваиваем пользователю новый статус, помечаем его как верифицированный
                 $yuristSettings->status = $request->status;
                 $yuristSettings->isVerified = UserStatusRequest::STATUS_ACCEPTED;
-
 
                 if ($yuristSettings->save()) {
                     $request->sendNotification();

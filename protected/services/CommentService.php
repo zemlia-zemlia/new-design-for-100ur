@@ -7,20 +7,16 @@ use App\models\User;
 
 /**
  * Бизнес-логика работы с комментариями
- * Class CommentService
- * @package App\services
+ * Class CommentService.
  */
 class CommentService
 {
     /**
-     * Создание комментария
-     * @param array $attributes
-     * @param \IWebUser $currentUser
-     * @return Comment
+     * Создание комментария.
      */
     public function create(array $attributes, \IWebUser $currentUser): Comment
     {
-        $commentModel = new Comment;
+        $commentModel = new Comment();
 
         // отправлен ответ, сохраним его
         $commentModel->attributes = $attributes;

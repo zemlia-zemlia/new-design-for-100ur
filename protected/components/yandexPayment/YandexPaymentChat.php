@@ -1,11 +1,10 @@
 <?php
 
 use App\extensions\Logger\LoggerFactory;
-use App\models\Answer;
-use App\models\User;
 use App\models\Chat;
 use App\models\Money;
 use App\models\TransactionCampaign;
+use App\models\User;
 use App\models\YaPayConfirmRequest;
 
 class YandexPaymentChat implements YandexPaymentProcessorInterface
@@ -105,6 +104,7 @@ class YandexPaymentChat implements YandexPaymentProcessorInterface
         $this->chat->transaction_id = $yuristTransaction->id;
         if (!$this->chat->save()) {
             Yii::log('Не удалось сохранить признак оплаты чата: ' . print_r($this->chat->getErrors(), true), 'error', 'system.web');
+
             return false;
         }
 

@@ -17,9 +17,9 @@
                 </div> 
 
                 <?php use App\models\Question;
-                use App\models\User;
+use App\models\User;
 
-                $form = $this->beginWidget('CActiveForm', [
+$form = $this->beginWidget('CActiveForm', [
                         'id' => 'question-form',
                         'enableAjaxValidation' => false,
                         'action' => Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=hero&utm_campaign=' . Yii::app()->controller->id,

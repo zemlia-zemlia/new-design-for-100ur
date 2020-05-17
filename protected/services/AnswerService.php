@@ -12,8 +12,7 @@ use WebUser;
 
 /**
  * Инкапсуляция бизнес логики работы с ответами
- * Class AnswerService
- * @package App\services
+ * Class AnswerService.
  */
 class AnswerService
 {
@@ -30,10 +29,6 @@ class AnswerService
     }
 
     /**
-     * @param array $attributes
-     * @param Question $question
-     * @param WebUser $currentUser
-     * @return Answer
      * @throws CHttpException
      */
     public function createAnswer(array $attributes, Question $question, WebUser $currentUser): Answer

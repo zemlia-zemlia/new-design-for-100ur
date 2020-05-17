@@ -3,7 +3,6 @@
 /* @var $dataProvider CActiveDataProvider */
 /* @var $regions array */
 
-
 $pageTitle = 'Управление регионами';
 
 $this->setPageTitle($pageTitle);

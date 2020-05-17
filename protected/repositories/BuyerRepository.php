@@ -2,9 +2,9 @@
 
 namespace App\repositories;
 
+use App\models\Campaign;
 use App\models\Lead;
 use CActiveDataProvider;
-use App\models\Campaign;
 use CDbCriteria;
 
 class BuyerRepository

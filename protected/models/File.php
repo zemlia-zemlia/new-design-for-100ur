@@ -10,11 +10,11 @@ use Yii;
 /**
  * Класс для работы с прикрепляемыми к заявкам файлами.
  *
- * @property int $id
+ * @property int    $id
  * @property string $name
  * @property string $filename
- * @property int $itemId
- * @property int $itemType
+ * @property int    $itemId
+ * @property int    $itemType
  */
 class File extends CActiveRecord
 {

@@ -4,7 +4,6 @@
  *
  * @see http://www.ramirezcobos.com/
  *
- *
  * THIS SOFTWARE IS PROVIDED BY THE CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -19,7 +18,6 @@
 
 /**
  * EFeedTag is the class for the Feed Items.
- *
  *
  * @author Antonio Ramirez Cobos <ramirez.cobos@gmail.com>
  *

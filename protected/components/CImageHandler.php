@@ -237,7 +237,8 @@ class CImageHandler extends CApplicationComponent
                 case self::CORNER_LEFT_BOTTOM:
                     $posX = $offsetX;
                     $posY = $this->height - $wImg['height'] - $offsetY;
-                    break;                case self::CORNER_RIGHT_BOTTOM:
+                    break;
+                case self::CORNER_RIGHT_BOTTOM:
                     $posX = $this->width - $wImg['width'] - $offsetX;
                     $posY = $this->height - $wImg['height'] - $offsetY;
                     break;
@@ -268,7 +269,8 @@ class CImageHandler extends CApplicationComponent
         $srcWidth = $this->width;
         $srcHeight = $this->height;
 
-        switch ($mode) {            case self::FLIP_HORIZONTAL:
+        switch ($mode) {
+            case self::FLIP_HORIZONTAL:
                 $srcX = $this->width - 1;
                 $srcWidth = -$this->width;
                 break;
@@ -283,7 +285,8 @@ class CImageHandler extends CApplicationComponent
                 $srcHeight = -$this->height;
                 break;
             default:
-                throw new Exception('Invalid $mode value');        }
+                throw new Exception('Invalid $mode value');
+        }
 
         $newImage = imagecreatetruecolor($this->width, $this->height);
         $this->preserveTransparency($newImage);

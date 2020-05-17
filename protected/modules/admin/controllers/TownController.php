@@ -7,7 +7,6 @@ use App\modules\admin\controllers\AbstractAdminController;
 
 class TownController extends AbstractAdminController
 {
-
     /**
      * @return array action filters
      */

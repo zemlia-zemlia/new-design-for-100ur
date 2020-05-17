@@ -15,7 +15,7 @@ class DiContainer extends CComponent
 
     public function init()
     {
-        $this->container = new Container;
+        $this->container = new Container();
 
         $this->container->add(CommentService::class);
         $this->container->add(LeadService::class);
@@ -31,6 +31,5 @@ class DiContainer extends CComponent
         $this->container->add(AnswerRepository::class);
         $this->container->add(UserRepository::class);
         $this->container->add(QuestionRepository::class);
-
     }
 }

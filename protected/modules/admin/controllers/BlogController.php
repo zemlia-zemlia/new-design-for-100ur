@@ -8,7 +8,6 @@ use App\modules\admin\controllers\AbstractAdminController;
 
 class BlogController extends AbstractAdminController
 {
-
     /**
      * @return array action filters
      */

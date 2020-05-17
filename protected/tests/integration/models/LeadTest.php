@@ -2,18 +2,18 @@
 
 namespace Tests\Integration\Models;
 
-use App\components\ApiClassFactory;
 use App\components\apiClasses\ApiLexprofit;
-use CActiveDataProvider;
+use App\components\ApiClassFactory;
 use App\models\Campaign;
-use Exception;
 use App\models\Lead;
+use App\models\User;
+use CActiveDataProvider;
+use Exception;
 use Tests\Factories\CampaignFactory;
 use Tests\Factories\LeadFactory;
 use Tests\Factories\LeadSourceFactory;
 use Tests\Factories\UserFactory;
 use Tests\integration\BaseIntegrationTest;
-use App\models\User;
 use Yii;
 use YurcrmClient\YurcrmClient;
 use YurcrmClient\YurcrmResponse;
@@ -164,10 +164,9 @@ class LeadTest extends BaseIntegrationTest
     /**
      * @dataProvider providerSellLead
      *
-     * @param array $leadAttributes
-     * @param int   $buyerId
-     * @param int   $campaignId
-     * @param bool  $expectedResult
+     * @param int  $buyerId
+     * @param int  $campaignId
+     * @param bool $expectedResult
      *
      * @throws Exception
      */
@@ -202,8 +201,6 @@ class LeadTest extends BaseIntegrationTest
 
     /**
      * Аттрибуты лида.
-     *
-     * @return array
      */
     public function providerSellLead(): array
     {

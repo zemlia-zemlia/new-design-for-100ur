@@ -2,10 +2,10 @@
 
 namespace Tests\integration\models;
 
-use Tests\Factories\UserFactory;
-use Tests\integration\BaseIntegrationTest;
 use App\models\TransactionCampaign;
 use App\models\User;
+use Tests\Factories\UserFactory;
+use Tests\integration\BaseIntegrationTest;
 use Yii;
 
 class TransactionCampaignTest extends BaseIntegrationTest
@@ -71,9 +71,6 @@ class TransactionCampaignTest extends BaseIntegrationTest
         $this->tester->seeInDatabase(self::USER_TABLE, ['balance' => $expectedBalance]);
     }
 
-    /**
-     * @return array
-     */
     public function providerApproveRequest(): array
     {
         return [

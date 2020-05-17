@@ -13,14 +13,14 @@ use Yii;
  *
  * Поля, доступные в таблице '{{money}}':
  *
- * @property int $id
- * @property int $accountId
+ * @property int    $id
+ * @property int    $accountId
  * @property string $datetime
- * @property int $type
+ * @property int    $type
  * @property string $value
  * @property string $comment
- * @property int $direction
- * @property int $isInternal
+ * @property int    $direction
+ * @property int    $isInternal
  */
 class Money extends CActiveRecord
 {

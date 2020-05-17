@@ -1,6 +1,5 @@
 <?php
 /** @var array $activeCampaigns */
-
 $this->breadcrumbs = [
     'Выкупаемые регионы',
 ];

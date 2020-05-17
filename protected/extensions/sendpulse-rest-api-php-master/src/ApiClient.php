@@ -1111,8 +1111,7 @@ class ApiClient implements ApiInterface
     /**
      * Create new push campaign.
      *
-     * @param       $taskInfo
-     * @param array $additionalParams
+     * @param $taskInfo
      *
      * @return stdClass
      */

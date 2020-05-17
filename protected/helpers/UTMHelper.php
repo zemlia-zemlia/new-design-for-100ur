@@ -12,7 +12,7 @@ class UTMHelper
      * вставляет во все ссылки в сообщении utm метки.
      *
      * @param string $text Исходный текст
-     * @param array $tags Массив UTM-меток
+     * @param array  $tags Массив UTM-меток
      *
      * @return string
      */

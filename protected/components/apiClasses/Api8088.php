@@ -3,9 +3,9 @@
 namespace App\components\apiClasses;
 
 use ApiClassInterface;
+use App\extensions\Logger\LoggerFactory;
 use App\models\Lead;
 use CHtml;
-use App\extensions\Logger\LoggerFactory;
 use Yii;
 
 /**
@@ -32,8 +32,8 @@ class Api8088 implements ApiClassInterface
     /**
      * отправка лида.
      *
-     * @param Lead $lead
      * @return bool
+     *
      * @throws \Exception
      */
     public function send(Lead $lead)
@@ -52,7 +52,7 @@ class Api8088 implements ApiClassInterface
         $apiResponse = curl_exec($this->curl);
 
         LoggerFactory::getLogger()->log('Отправляем лид #' . $lead->id . ' в партнерку 8088: ' . json_encode($data), 'App\models\Lead', $lead->id);
-        LoggerFactory::getLogger()->log('Ответ API 8088: ' . mb_strlen((string)$apiResponse) . ' символов', 'App\models\Lead', $lead->id);
+        LoggerFactory::getLogger()->log('Ответ API 8088: ' . mb_strlen((string) $apiResponse) . ' символов', 'App\models\Lead', $lead->id);
 
         curl_close($this->curl);
 
@@ -63,9 +63,10 @@ class Api8088 implements ApiClassInterface
      * Разбор ответа API.
      *
      * @param string $apiResponse
-     * @param Lead $lead
+     * @param Lead   $lead
      *
      * @return bool
+     *
      * @throws \Exception
      */
     private function checkResponse($apiResponse, $lead)

@@ -2,6 +2,7 @@
 
 namespace App\models;
 
+use App\extensions\Logger\LoggerFactory;
 use CActiveDataProvider;
 use CActiveRecord;
 use CDbCriteria;
@@ -9,7 +10,6 @@ use CHttpException;
 use CLogger;
 use DateTime;
 use Exception;
-use App\extensions\Logger\LoggerFactory;
 use Yii;
 
 /**
@@ -17,14 +17,14 @@ use Yii;
  *
  * The followings are the available columns in table '{{answer}}':
  *
- * @property int $id
- * @property int $questionId
+ * @property int    $id
+ * @property int    $questionId
  * @property string $answerText
  * @property string $videoLink
- * @property int $authorId
- * @property int $status
+ * @property int    $authorId
+ * @property int    $status
  * @property string $datetime
- * @property int $transactionId
+ * @property int    $transactionId
  *
  * @author Michael Krutikov m@mkrutikov.pro
  */
@@ -218,7 +218,7 @@ class Answer extends CActiveRecord
      * Валидатор, проверяющий текст ответа на наличие запрещенных слов.
      *
      * @param string $attribute
-     * @param array $params
+     * @param array  $params
      */
     public function validateText($attribute, $params)
     {
@@ -262,8 +262,6 @@ class Answer extends CActiveRecord
     }
 
     /**
-     * @return bool
-     *
      * @throws Exception
      */
     public function isFast(): bool

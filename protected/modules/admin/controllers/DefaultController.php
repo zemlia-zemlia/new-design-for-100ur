@@ -7,11 +7,8 @@ use App\modules\admin\controllers\AbstractAdminController;
 
 class DefaultController extends AbstractAdminController
 {
-
     public function actionIndex()
     {
-
-
         $statsService = new StatisticsService();
 
         // Первое число месяца год назад
@@ -88,10 +85,6 @@ class DefaultController extends AbstractAdminController
             }
         }
 
-
-
-
-
         $leadsByTypesRows = Yii::app()->db->createCommand()
             ->select('COUNT(*) counter, type, DATE(question_date) date1')
             ->from('{{lead}}')
@@ -113,7 +106,6 @@ class DefaultController extends AbstractAdminController
         $answersMadeInRecentDays = $statsService->getCountOfAnswersForRecentQuestions(30);
         $answersMadeInRecentOneDays = $statsService->getCountOfAnswersForRecentQuestions(1);
         $averageIntervalUntillAnswer = $statsService->getAverageDiffBetweenQuestionAndAnswer(30);
-
 
         /*
          * Получение статистики по лидам источника 100 Юристов
@@ -154,8 +146,6 @@ class DefaultController extends AbstractAdminController
             'answersMadeInRecentDays' => $answersMadeInRecentDays,
             'averageIntervalUntillAnswer' => $averageIntervalUntillAnswer,
             'statsService' => $statsService,
-
-
         ]);
     }
 

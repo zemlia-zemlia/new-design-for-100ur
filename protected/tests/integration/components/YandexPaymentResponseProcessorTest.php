@@ -30,7 +30,7 @@ class YandexPaymentResponseProcessorTest extends BaseIntegrationTest
     }
 
     /**
-     * Тест пополнения баланса пользователя
+     * Тест пополнения баланса пользователя.
      */
     public function testProcessPaymentForUserBalance()
     {

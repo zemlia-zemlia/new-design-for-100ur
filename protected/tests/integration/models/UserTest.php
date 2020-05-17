@@ -3,15 +3,18 @@
 namespace Tests\Integration\Models;
 
 use App\models\Answer;
-use App\repositories\UserRepository;
-use CActiveDataProvider;
-use CHttpException;
 use App\models\Comment;
-use DateTime;
-use Exception;
 use App\models\Leadsource;
 use App\models\PartnerTransaction;
 use App\models\Question;
+use App\models\User;
+use App\models\YuristSettings;
+use App\notifiers\UserNotifier;
+use App\repositories\UserRepository;
+use CActiveDataProvider;
+use CHttpException;
+use DateTime;
+use Exception;
 use Tests\Factories\AnswerFactory;
 use Tests\Factories\CommentFactory;
 use Tests\Factories\LeadSourceFactory;
@@ -20,10 +23,7 @@ use Tests\Factories\QuestionFactory;
 use Tests\Factories\UserFactory;
 use Tests\Factories\YuristSettingsFactory;
 use Tests\integration\BaseIntegrationTest;
-use App\models\User;
-use App\notifiers\UserNotifier;
 use Yii;
-use App\models\YuristSettings;
 
 class UserTest extends BaseIntegrationTest
 {
@@ -357,9 +357,6 @@ class UserTest extends BaseIntegrationTest
         $this->assertEquals($expectedBonus, $user->referalOk());
     }
 
-    /**
-     * @return array
-     */
     public function providerGetReferalBonus(): array
     {
         $yuristWithFewAnswersAttributes = (new UserFactory())->generateOne([
@@ -588,7 +585,7 @@ class UserTest extends BaseIntegrationTest
         $questionSourceUser = new User();
         $questionSourceUser->scenario = 'test';
         $questionSourceUser->attributes = (new UserFactory())->generateOne([
-            'id' => 200
+            'id' => 200,
         ]);
         $questionSourceUser->save(false);
 
@@ -722,11 +719,9 @@ class UserTest extends BaseIntegrationTest
     /**
      * @dataProvider providerSendAnswerNotification
      *
-     * @param array         $userAttributes
-     * @param \App\models\Question|null $question
-     * @param Answer|null   $answer
-     * @param bool          $sendResult
-     * @param bool          $expectedResult
+     * @param array $userAttributes
+     * @param bool  $sendResult
+     * @param bool  $expectedResult
      */
     public function testSendAnswerNotification(
         $userAttributes,
@@ -795,11 +790,9 @@ class UserTest extends BaseIntegrationTest
     /**
      * @dataProvider providerSendCommentNotification
      *
-     * @param array         $userAttributes
-     * @param \App\models\Question|null $question
-     * @param Comment|null  $comment
-     * @param bool          $sendResult
-     * @param bool          $expectedResult
+     * @param array $userAttributes
+     * @param bool  $sendResult
+     * @param bool  $expectedResult
      */
     public function testSendCommentNotification(
         $userAttributes,
@@ -820,9 +813,6 @@ class UserTest extends BaseIntegrationTest
         $this->assertEquals($expectedResult, $actualResult);
     }
 
-    /**
-     * @return array
-     */
     public function providerSendCommentNotification(): array
     {
         $userFactory = new UserFactory();

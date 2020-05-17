@@ -1,6 +1,5 @@
 <?php
 
-
 use App\models\Chat;
 use App\models\TransactionCampaign;
 
@@ -19,7 +18,7 @@ class CloseChatCommand extends CConsoleCommand
 
         foreach ($data as $row) {
             /** @var Chat $row */
-            /** @var \App\models\User $lawer */
+            /* @var \App\models\User $lawer */
             /** @var TransactionCampaign $trans */
             if ($trans = TransactionCampaign::model()->find('id=:id and status=:status', [':id' => $row['transaction_id'], ':status' => TransactionCampaign::STATUS_HOLD])) {
                 $saveTransaction = $trans->dbConnection->beginTransaction();
@@ -38,11 +37,8 @@ class CloseChatCommand extends CConsoleCommand
                 } catch (\Exception $exception) {
                     $saveTransaction->rollback();
                     Yii::log('Ошибки: ' . print_r($trans->errors, true) . ' ' . print_r($lawer->errors, true) . ' ' . print_r($row->errors, true), 'error', 'system.web');
-
                 }
-
             }
-
         }
     }
 }

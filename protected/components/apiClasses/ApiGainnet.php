@@ -1,4 +1,5 @@
 <?php
+
 namespace App\components\apiClasses;
 
 use ApiClassInterface;
@@ -12,7 +13,6 @@ use Yii;
 
 class ApiGainnet implements ApiClassInterface
 {
-
     protected $baseUrl = 'https://gainnet.ru';
     protected $key; // наш API key в партнерской системе
 
@@ -29,9 +29,10 @@ class ApiGainnet implements ApiClassInterface
     }
 
     /**
-     * Отправка лида в партнерское API
-     * @param Lead $lead
+     * Отправка лида в партнерское API.
+     *
      * @return bool
+     *
      * @throws \Exception
      */
     public function send(Lead $lead)
@@ -58,10 +59,8 @@ class ApiGainnet implements ApiClassInterface
     }
 
     /**
-     * Обработка ответа от API
-     * @param ResponseInterface $apiResponse
-     * @param Lead $lead
-     * @return bool
+     * Обработка ответа от API.
+     *
      * @throws \Exception
      */
     private function checkResponse(ResponseInterface $apiResponse, Lead $lead): bool
@@ -70,7 +69,7 @@ class ApiGainnet implements ApiClassInterface
             $responseBody = $apiResponse->getBody()->getContents();
             $responseBodyDecoded = json_decode($responseBody, true);
 
-            if ($responseBodyDecoded['status'] == true && $responseBodyDecoded['message'] == "Success") {
+            if (true == $responseBodyDecoded['status'] && 'Success' == $responseBodyDecoded['message']) {
                 LoggerFactory::getLogger()->log('Лид #' . $lead->id . ' отправлен в партнерку Gainnet', 'Lead', $lead->id);
 
                 return true;

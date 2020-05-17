@@ -12,13 +12,12 @@
  * Description of YiiDebugToolbarResourceUsage
  *
  * @author Sergey Malyshev <malyshev@zfort.net>
- * @package
+ *
  * @since 1.1.7
  */
 class YiiDebugToolbarResourceUsage extends CWidget
 {
-
-    public $htmlOptions = array();
+    public $htmlOptions = [];
     private $_loadTime;
 
     public function getLoadTime()
@@ -26,12 +25,13 @@ class YiiDebugToolbarResourceUsage extends CWidget
         if (null === $this->_loadTime) {
             $this->_loadTime = $this->owner->owner->getLoadTime();
         }
+
         return $this->_loadTime;
     }
 
     public function getRequestLoadTime()
     {
-        return ($this->owner->owner->getEndTime() - $_SERVER['REQUEST_TIME']);
+        return $this->owner->owner->getEndTime() - $_SERVER['REQUEST_TIME'];
     }
 
     /**
@@ -39,20 +39,19 @@ class YiiDebugToolbarResourceUsage extends CWidget
      */
     public function run()
     {
+        $data = [];
 
-        $data = array();
-
-        $data[] = array(
+        $data[] = [
             'i' => 'b',
             'value' => sprintf('%0.4F', $this->getLoadTime()),
-            'unit' => 'seconds'
-        );
+            'unit' => 'seconds',
+        ];
 
-        $data[] = array(
+        $data[] = [
             'i' => 'a',
             'value' => sprintf('%0.4F', $this->getRequestLoadTime()),
-            'unit' => 'seconds'
-        );
+            'unit' => 'seconds',
+        ];
 
         $memoryUsage = number_format(Yii::getLogger()->getMemoryUsage() / 1024 / 1024, 2);
 
@@ -60,16 +59,14 @@ class YiiDebugToolbarResourceUsage extends CWidget
             $memoryUsage .= '/' . number_format(memory_get_peak_usage() / 1024 / 1024, 2);
         }
 
-        $data[] = array(
+        $data[] = [
             'i' => 'p',
             'value' => $memoryUsage,
-            'unit' => 'megabytes'
-        );
+            'unit' => 'megabytes',
+        ];
 
-
-        $this->render('resources', array(
-            'data' => $data
-        ));
+        $this->render('resources', [
+            'data' => $data,
+        ]);
     }
-
 }

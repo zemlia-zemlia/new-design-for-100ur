@@ -12,7 +12,7 @@
     <div class="inside">
         <?php use App\models\User;
 
-        if (true === $showAlways || array_key_exists($currentTown->id, $payedTownsIds) || array_key_exists($currentTown->regionId, $payedRegionsIds)):?>
+if (true === $showAlways || array_key_exists($currentTown->id, $payedTownsIds) || array_key_exists($currentTown->regionId, $payedRegionsIds)):?>
             
             <p>
                 <small>Наши юристы и адвокаты готовы бесплатно ответить на ваш вопрос прямо сейчас по многоканальному номеру

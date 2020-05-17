@@ -84,10 +84,10 @@ unset($statusesArray[3]);
                         <label>
                             <input type="radio" name="App_models_UserStatusRequest[status]"
                                    value="<?php echo $statusCode; ?>" <?php if ($statusCode == $currentUser->settings->status) {
-                                echo 'disabled';
-                            } ?> <?php if ($statusCode == $model->status) {
-                                echo 'checked';
-                            } ?> /> <?php echo $statusName; ?>
+                    echo 'disabled';
+                } ?> <?php if ($statusCode == $model->status) {
+                    echo 'checked';
+                } ?> /> <?php echo $statusName; ?>
                         </label>
                         <?php if ($statusCode == $currentUser->settings->status): ?>
                             <small class="text-muted">(текущий)</small>

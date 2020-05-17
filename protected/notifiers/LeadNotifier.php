@@ -3,10 +3,10 @@
 namespace App\notifiers;
 
 use App\models\Campaign;
-use CHtml;
-use GTMail;
 use App\models\Lead;
 use App\models\User;
+use CHtml;
+use GTMail;
 use Yii;
 
 /**
@@ -15,10 +15,10 @@ use Yii;
  */
 class LeadNotifier
 {
-    /** @var GTMail $mailer */
+    /** @var GTMail */
     private $mailer;
 
-    /** @var Lead $lead */
+    /** @var Lead */
     private $lead;
 
     public function __construct(GTMail $mailer, Lead $lead)
@@ -66,7 +66,6 @@ class LeadNotifier
     /**
      * Отправка покупателю уведомления о том, что его лид отправлен в Yurcrm.
      *
-     * @param User $buyer
      * @param int $crmLeadId
      *
      * @return bool

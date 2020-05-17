@@ -8,16 +8,14 @@ use CDbCriteria;
 
 /**
  * Инкапсуляция работы с БД для получения данных по лидам
- * Class LeadRepository
- * @package App\repositories
+ * Class LeadRepository.
  */
 class LeadRepository
 {
     /**
-     * Возвращает провайдер с данными найденных лидов
-     * @param Lead $searchModel
+     * Возвращает провайдер с данными найденных лидов.
+     *
      * @param array $searchAttributes Параметры поиска (key => value)
-     * @return CActiveDataProvider
      */
     public function getDataProviderWithFilteredLeads(Lead $searchModel, array $searchAttributes): \CActiveDataProvider
     {

@@ -3,10 +3,10 @@
 namespace App\repositories;
 
 use App\models\Answer;
-use CDbCriteria;
-use CException;
 use App\models\Question;
 use App\models\User;
+use CDbCriteria;
+use CException;
 use Yii;
 
 /**
@@ -45,9 +45,6 @@ class QuestionRepository
     /**
      * Возвращает массив вопросов, на которые дал ответ юрист
      *
-     * @param User $user
-     *
-     * @return array
      * @throws CException
      */
     public function findRecentQuestionsByJuristAnswers(User $user): array
@@ -61,7 +58,7 @@ class QuestionRepository
                 ':status2' => Question::STATUS_CHECK,
                 ':status3' => Answer::STATUS_NEW,
                 ':status4' => Answer::STATUS_PUBLISHED,
-                ':authorId' => $user->id,])
+                ':authorId' => $user->id, ])
             ->limit($this->limit)
             ->order('a.datetime DESC')
             ->queryAll();
@@ -72,9 +69,6 @@ class QuestionRepository
     /**
      * Возвращает массив вопросов, заданных пользователем
      *
-     * @param \App\models\User $user
-     *
-     * @return array
      * @throws CException
      */
     public function findRecentQuestionsByClient(User $user): array
@@ -85,7 +79,7 @@ class QuestionRepository
             ->where('q.authorId=:authorId AND q.status IN (:status1, :status2)', [
                 ':status1' => Question::STATUS_PUBLISHED,
                 ':status2' => Question::STATUS_CHECK,
-                ':authorId' => $user->id,])
+                ':authorId' => $user->id, ])
             ->limit($this->limit)
             ->order('q.publishDate DESC')
             ->queryAll();
@@ -94,7 +88,6 @@ class QuestionRepository
     }
 
     /**
-     * @return int
      * @throws CException
      */
     public function countForModerate(): int
@@ -113,7 +106,6 @@ class QuestionRepository
     }
 
     /**
-     * @return int
      * @throws CException
      */
     public function countNoCat(): int
@@ -129,9 +121,7 @@ class QuestionRepository
     }
 
     /**
-     * Возвращает последний вопрос пользователя
-     * @param User $user
-     * @return Question|null
+     * Возвращает последний вопрос пользователя.
      */
     public function getLastQuestionOfUser(User $user): ?Question
     {
@@ -144,11 +134,13 @@ class QuestionRepository
     }
 
     /**
-     * Возвращает массив опубликованных вопросов
-     * @param int $limit
+     * Возвращает массив опубликованных вопросов.
+     *
+     * @param int    $limit
      * @param string $order
      * @param string $with
-     * @param int $cacheTime
+     * @param int    $cacheTime
+     *
      * @return Question[]|null
      */
     public function findRecentPublishedQuestions(
@@ -156,8 +148,7 @@ class QuestionRepository
         $order = 'publishDate DESC',
         $with = 'answersCount',
         $cacheTime = 600
-    ): array
-    {
+    ): array {
         $criteria = new CDbCriteria();
         $criteria->limit = $limit;
         $criteria->with = $with;
@@ -168,10 +159,11 @@ class QuestionRepository
     }
 
     /**
-     * Получает массив данных с годами и месяцами, за которые есть опубликованные вопросы
+     * Получает массив данных с годами и месяцами, за которые есть опубликованные вопросы.
+     *
      * @return array Пример: [2019 => [11,12], 2020 => [1,2,3]]
      */
-    public function getYearsAndMonthsWithQuestions():array
+    public function getYearsAndMonthsWithQuestions(): array
     {
         $datesArray = [];
         $datesRows = Yii::app()->db->createCommand()

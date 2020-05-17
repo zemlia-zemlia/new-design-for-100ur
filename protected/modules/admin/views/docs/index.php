@@ -37,7 +37,7 @@ $this->menu = [
     <div class="col-md-3">
         <div class="box">
             <div class="box-body">
-                <a class="btn btn-warning btn-block" id="addCategory" href="<?= Yii::app()->createUrl('/admin/fileCategory/create') ?>"><i class="fa fa-plus" aria-hidden="true"></i>
+                <a class="btn btn-warning btn-block" id="addCategory" href="<?php echo Yii::app()->createUrl('/admin/fileCategory/create'); ?>"><i class="fa fa-plus" aria-hidden="true"></i>
                      Добавить корневую категорию</a>
             </div>
         </div>

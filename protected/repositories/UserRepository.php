@@ -20,7 +20,6 @@ class UserRepository
     /**
      * @param string $email
      * @param string $code
-     * @return User|null
      */
     public function getUserByEmailAndConfirmationCode($email, $code): ?User
     {
@@ -35,8 +34,6 @@ class UserRepository
     }
 
     /**
-     * @param User $user
-     * @param string $lastAnswerTs
      * @return mixed
      */
     public function saveLastAnswerTs(User $user, string $lastAnswerTs): int
@@ -46,9 +43,8 @@ class UserRepository
     }
 
     /**
-     * последний запрос на смену статуса
-     * @param User $user
-     * @return array|null
+     * последний запрос на смену статуса.
+     *
      * @throws \CException
      */
     public function getLastChangeStatusRequestAsArray(User $user): ?array
@@ -65,13 +61,13 @@ class UserRepository
     /**
      * Получение числа вопросов, заданных пользователем за последние часы.
      *
-     * @param User $user
      * @param int $intervalHours Количество часов
      *
      * @return mixed
+     *
      * @throws \CException
      */
-    public function getRecentQuestionCount(User $user, $intervalHours):int
+    public function getRecentQuestionCount(User $user, $intervalHours): int
     {
         return $this->dbConnection->createCommand()
             ->select('COUNT(id) counter')

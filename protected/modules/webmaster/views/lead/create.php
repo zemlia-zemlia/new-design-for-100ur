@@ -30,14 +30,14 @@ $this->widget('zii.widgets.CBreadcrumbs', [
     </textarea>
 <?php endif; ?>
 
-<?php if (sizeof($mySources) == 0) : ?>
+<?php if (0 == sizeof($mySources)) : ?>
     <div class="row">
         <div class="col-md-6">
             <div class="alert alert-info">
                 <h4>Ой...</h4>
                 <p>
                     Форма ручного добавления лида будет доступна когда вы добавите хотябы один <a
-                            href="<?= Yii::app()->createUrl('/webmaster/source/create/') ?>">источник лидов</a>
+                            href="<?php echo Yii::app()->createUrl('/webmaster/source/create/'); ?>">источник лидов</a>
                 </p>
             </div>
         </div>

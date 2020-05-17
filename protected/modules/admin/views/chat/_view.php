@@ -4,6 +4,6 @@
 ?>
 <div class='row'>
 <div class="col-lg-12">
-    <p><a href="<?= Yii::app()->createUrl('/admin/chat/view', ['id' => $model->id]) ?>"><?= $model->user->getShortName()?> -> <?= $model->lawyer->getShortName()?></a></p>
+    <p><a href="<?php echo Yii::app()->createUrl('/admin/chat/view', ['id' => $model->id]); ?>"><?php echo $model->user->getShortName(); ?> -> <?php echo $model->lawyer->getShortName(); ?></a></p>
 </div>
 </div>

@@ -12,17 +12,17 @@ use Yii;
  *
  * The followings are the available columns in table '{{leadsource}}':
  *
- * @property int $id
- * @property int $type
+ * @property int    $id
+ * @property int    $type
  * @property string $name
  * @property string $description
- * @property int $noLead
- * @property int $active
+ * @property int    $noLead
+ * @property int    $active
  * @property string $appId
  * @property string $secretKey
- * @property int $userId
- * @property int $moderation
- * @property int $priceByPartner
+ * @property int    $userId
+ * @property int    $moderation
+ * @property int    $priceByPartner
  */
 class Leadsource extends CActiveRecord
 {
@@ -110,7 +110,7 @@ class Leadsource extends CActiveRecord
      *  возвращает массив источников лидов, ключами которого являются ID, а значениями - названия.
      *
      * @param bool $showInactive показывать неактивные источники
-     * @param int $cacheTime на сколько секунд кешировать
+     * @param int  $cacheTime    на сколько секунд кешировать
      *
      * @return array массив источников лидов (id => name)
      */
@@ -213,7 +213,6 @@ class Leadsource extends CActiveRecord
 
     /**
      * @param int $userId
-     * @return array
      */
     public static function getSourcesArrayByUser($userId): array
     {
@@ -234,10 +233,9 @@ class Leadsource extends CActiveRecord
      * @param int $appId
      * @param int $cacheTime
      *
-     * @return array|null
      * @throws \CException
      */
-    public static function getByAppIdAsArray($appId, $cacheTime):?array
+    public static function getByAppIdAsArray($appId, $cacheTime): ?array
     {
         $source = Yii::app()->db->cache($cacheTime)->createCommand()
             ->select('*')
@@ -250,7 +248,7 @@ class Leadsource extends CActiveRecord
 
     /**
      * @param int $days
-     * @return array
+     *
      * @throws CException
      */
     public static function getActiveSourcesWithUserAsArray($days = 5): array
@@ -260,7 +258,7 @@ class Leadsource extends CActiveRecord
 
     /**
      * @param int $days
-     * @return array
+     *
      * @throws CException
      */
     public static function getInactiveSourcesWithUserAsArray($days = 5): array
@@ -270,8 +268,8 @@ class Leadsource extends CActiveRecord
 
     /**
      * @param bool $active Вернуть только активные источники, в которых есть лиды за последние $days дней
-     * @param int $days
-     * @return array
+     * @param int  $days
+     *
      * @throws CException
      */
     private static function getSourcesWithUserAsArray($active = true, $days = 5): array
@@ -288,23 +286,21 @@ class Leadsource extends CActiveRecord
         */
 
         $queryBuilder = Yii::app()->db->createCommand()
-            ->select("s.id, s.name, MAX(l.question_date) last_lead_time, u.id user_id, u.name user_name")
-            ->from("{{leadsource}} s")
-            ->leftJoin("{{lead}} l", "l.sourceId=s.id")
-            ->leftJoin("{{user}} u", "s.userId=u.id")
-            ->group("s.id")
+            ->select('s.id, s.name, MAX(l.question_date) last_lead_time, u.id user_id, u.name user_name')
+            ->from('{{leadsource}} s')
+            ->leftJoin('{{lead}} l', 'l.sourceId=s.id')
+            ->leftJoin('{{user}} u', 's.userId=u.id')
+            ->group('s.id')
             ->order('s.id DESC');
 
-        $havingCondition = ($active == true) ?
-            "last_lead_time >= NOW()-INTERVAL :days DAY" :
-            "last_lead_time < NOW()-INTERVAL :days DAY";
-
+        $havingCondition = (true == $active) ?
+            'last_lead_time >= NOW()-INTERVAL :days DAY' :
+            'last_lead_time < NOW()-INTERVAL :days DAY';
 
         $queryBuilder->having($havingCondition, [
-            ':days' => (int)$days,
+            ':days' => (int) $days,
         ]);
 
         return $queryBuilder->queryAll();
     }
-
 }

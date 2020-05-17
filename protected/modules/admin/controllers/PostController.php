@@ -11,7 +11,6 @@ use App\modules\admin\controllers\AbstractAdminController;
 
 class PostController extends AbstractAdminController
 {
-
     /**
      * @return array action filters
      */

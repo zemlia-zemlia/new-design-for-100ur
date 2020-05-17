@@ -12,10 +12,10 @@ use Yii;
  *
  * The followings are the available columns in table '{{docType}}':
  *
- * @property int $id
- * @property int $class
+ * @property int    $id
+ * @property int    $class
  * @property string $name
- * @property int $minPrice
+ * @property int    $minPrice
  */
 class DocType extends CActiveRecord
 {

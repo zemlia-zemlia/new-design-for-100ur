@@ -1,6 +1,5 @@
 <?php
 
-use App\helpers\IpHelper;
 use App\helpers\NumbersHelper;
 use App\helpers\PhoneHelper;
 use App\models\Answer;
@@ -9,10 +8,8 @@ use App\models\Comment;
 use App\models\DocType;
 use App\models\Lead;
 use App\models\Lead2Category;
-use App\models\Leadsource;
 use App\models\Order;
 use App\models\Question;
-use App\models\Question2category;
 use App\models\QuestionCategory;
 use App\models\QuestionSearch;
 use App\models\Town;
@@ -51,7 +48,7 @@ class QuestionController extends Controller
     protected $leadService;
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function init()
     {
@@ -68,6 +65,7 @@ class QuestionController extends Controller
 
         return parent::init();
     }
+
     /*
      * адреса для оплаты вопросов через Яндекс кассу
      * /question/paymentSuccess - страница успешной оплаты
@@ -144,7 +142,6 @@ class QuestionController extends Controller
         $justPublished = !is_null($request->getParam('justPublished'));
 
         if ($request->getParam('App_models_Answer')) {
-
             $answerModel = $this->answerService->createAnswer($request->getParam('App_models_Answer'), $model, Yii::app()->user);
 
             if (empty($answerModel->getErrors())) {
@@ -197,7 +194,7 @@ class QuestionController extends Controller
     }
 
     /**
-     * Создание вопроса
+     * Создание вопроса.
      */
     public function actionCreate()
     {
@@ -228,7 +225,6 @@ class QuestionController extends Controller
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
 
         if ($request->getParam('App_models_Question')) {
-
             $question = $this->questionService->createQuestion($request->getParam('App_models_Question'), $allDirectionsHierarchy);
 
             if (empty($question->getErrors())) {
@@ -288,7 +284,7 @@ class QuestionController extends Controller
     {
         $this->layout = '//frontend/smart';
 
-        $qId = (isset($_GET['qId'])) ? (int)$_GET['qId'] : false;
+        $qId = (isset($_GET['qId'])) ? (int) $_GET['qId'] : false;
         $sId = (isset($_GET['sId'])) ? $_GET['sId'] : false;
 
         if (!$qId || !$sId) {
@@ -337,7 +333,7 @@ class QuestionController extends Controller
     }
 
     /**
-     * Страница последних вопросов
+     * Страница последних вопросов.
      */
     public function actionIndex()
     {
@@ -548,7 +544,7 @@ class QuestionController extends Controller
                     if (isset($_POST['App_models_Lead']['categories']) && 0 != $_POST['App_models_Lead']['categories']) {
                         $lead2category = new Lead2Category();
                         $lead2category->leadId = $lead->id;
-                        $leadCategory = (int)$_POST['App_models_Lead']['categories'];
+                        $leadCategory = (int) $_POST['App_models_Lead']['categories'];
                         $lead2category->cId = $leadCategory;
 
                         if ($lead2category->save()) {
@@ -661,8 +657,8 @@ class QuestionController extends Controller
             $author->attributes = $currentUser->attributes;
         }
 
-        if (isset($_GET['juristId']) && (int)$_GET['juristId'] > 0) {
-            $juristId = (int)$_GET['juristId'];
+        if (isset($_GET['juristId']) && (int) $_GET['juristId'] > 0) {
+            $juristId = (int) $_GET['juristId'];
             if (User::model()->findByAttributes(['role' => User::ROLE_JURIST, 'active100' => 1, 'id' => $juristId])) {
                 $order->juristId = $juristId;
             }
@@ -780,7 +776,7 @@ class QuestionController extends Controller
             throw new CHttpException(404, 'Вопрос не найден');
         }
 
-        $level = (isset($_GET['level']) && (int)$_GET['level'] > 0) ? (int)$_GET['level'] : Question::LEVEL_1;
+        $level = (isset($_GET['level']) && (int) $_GET['level'] > 0) ? (int) $_GET['level'] : Question::LEVEL_1;
 
         $questionPrice = Question::getPriceByLevel($level);
         $question->price = $questionPrice;
@@ -822,7 +818,7 @@ class QuestionController extends Controller
         if (YandexKassa::checkMd5($_POST)) {
             fwrite($paymentLog, 'MD5 correct!');
             $yaKassa->formResponse(0, 'OK');
-            //$yaKassa->formResponse(1,'Error'); // just for test
+        //$yaKassa->formResponse(1,'Error'); // just for test
         } else {
             fwrite($paymentLog, 'MD5 incorrect!');
             $yaKassa->formResponse(1, 'Ошибка авторизации');
@@ -999,7 +995,7 @@ class QuestionController extends Controller
         }
 
         $userId = Yii::app()->user->id;
-        $questionId = (int)$_POST['id'];
+        $questionId = (int) $_POST['id'];
 
         $question = Question::model()->findByPk($questionId);
 

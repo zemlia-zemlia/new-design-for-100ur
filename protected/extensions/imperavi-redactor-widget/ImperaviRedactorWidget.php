@@ -146,9 +146,6 @@ class ImperaviRedactorWidget extends CInputWidget
         return Yii::app()->getAssetManager()->publish($this->getAssetsPath());
     }
 
-    /**
-     * @param array $plugins
-     */
     public function setPlugins(array $plugins)
     {
         foreach ($plugins as $id => $plugin) {

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\services;
 
 use App\models\Lead;
@@ -9,13 +8,11 @@ use App\models\QuestionCategory;
 
 /**
  * Бизнес логика работы с лидами
- * Class LeadService
- * @package App\services
+ * Class LeadService.
  */
 class LeadService
 {
     /**
-     * @param Lead $lead
      * @param QuestionCategory[] $categories
      */
     public function mapLeadToCategories(Lead $lead, array $categories)

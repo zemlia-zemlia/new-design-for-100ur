@@ -366,8 +366,7 @@ interface ApiInterface
     /**
      * Create new push campaign.
      *
-     * @param       $taskInfo
-     * @param array $additionalParams
+     * @param $taskInfo
      */
     public function createPushTask($taskInfo, array $additionalParams = []);
 

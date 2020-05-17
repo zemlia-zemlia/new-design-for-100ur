@@ -16,7 +16,6 @@ use App\repositories\LeadRepository;
 
 class LeadController extends AbstractAdminController
 {
-
     /**
      * @return array action filters
      */
@@ -197,7 +196,7 @@ class LeadController extends AbstractAdminController
     }
 
     /**
-     * Страница со списком лидов
+     * Страница со списком лидов.
      */
     public function actionIndex()
     {
@@ -225,7 +224,7 @@ class LeadController extends AbstractAdminController
 
     /**
      * Конвертация лида в вопрос
-     * @param int $id
+     *
      * @throws CHttpException
      */
     public function actionToQuestion(int $id)

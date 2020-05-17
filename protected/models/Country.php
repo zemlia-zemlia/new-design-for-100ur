@@ -12,7 +12,7 @@ use Yii;
  *
  * Поля из таблицы '{{country}}':
  *
- * @property int $id
+ * @property int    $id
  * @property string $name
  * @property string $alias
  */

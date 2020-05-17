@@ -13,7 +13,7 @@ class BaseIntegrationTest extends Unit
      */
     protected $tester;
 
-    /** @var Generator $faker */
+    /** @var Generator */
     protected $faker;
 
     public function __construct($name = null, array $data = [], $dataName = '')

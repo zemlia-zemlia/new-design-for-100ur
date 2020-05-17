@@ -2,20 +2,20 @@
 /* @var $this ChatController */
 /* @var $model Chat */
 
-$this->breadcrumbs=array(
-	'Chats'=>array('index'),
-	$model->id=>array('view','id'=>$model->id),
-	'Update',
-);
+$this->breadcrumbs = [
+    'Chats' => ['index'],
+    $model->id => ['view', 'id' => $model->id],
+    'Update',
+];
 
-$this->menu=array(
-	array('label'=>'List Chat', 'url'=>array('index')),
-	array('label'=>'Create Chat', 'url'=>array('create')),
-	array('label'=>'View Chat', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage Chat', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List Chat', 'url' => ['index']],
+    ['label' => 'Create Chat', 'url' => ['create']],
+    ['label' => 'View Chat', 'url' => ['view', 'id' => $model->id]],
+    ['label' => 'Manage Chat', 'url' => ['admin']],
+];
 ?>
 
 <h1>Update Chat <?php echo $model->id; ?></h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', ['model' => $model]); ?>

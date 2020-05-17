@@ -7,7 +7,6 @@ use App\modules\admin\controllers\AbstractAdminController;
 
 class LeadsourceController extends AbstractAdminController
 {
-
     /**
      * @return array action filters
      */
@@ -180,7 +179,7 @@ class LeadsourceController extends AbstractAdminController
 
     /**
      * Вывести список источников, состоящий из 2 частей: активные и неактивные
-     * Активность определяется по наличию лидов за последние несколько дней
+     * Активность определяется по наличию лидов за последние несколько дней.
      */
     public function actionIndex()
     {

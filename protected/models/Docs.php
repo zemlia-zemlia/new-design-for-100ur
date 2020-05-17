@@ -7,29 +7,27 @@ use CActiveDataProvider;
 use CActiveRecord;
 use CDbCriteria;
 use CUploadedFile;
-use App\models\File2category;
-use App\models\File2object;
 
 /**
  * This is the model class for table "{{docs}}".
  *
  * The followings are the available columns in table '{{docs}}':
  *
- * @property int $id
+ * @property int    $id
  * @property string $name
  * @property string $filename
  * @property string $type
- * @property int $downloads_count
- * @property int $uploadTs
- * @property int $size
+ * @property int    $downloads_count
+ * @property int    $uploadTs
+ * @property int    $size
  *
  * The followings are the available model relations:
  * @property File2category[] $file2categories
- * @property File2object[] $file2objects
+ * @property File2object[]   $file2objects
  */
 class Docs extends CActiveRecord
 {
-    /** @var CUploadedFile $file */
+    /** @var CUploadedFile */
     public $file;
 
     const RANDOM_NAME_LENGTH = 11; // длина рандомной части генерируемого имени файла
@@ -113,17 +111,11 @@ class Docs extends CActiveRecord
         ]);
     }
 
-    /**
-     * @return string
-     */
     public function generateName(): string
     {
         return RandomStringHelper::generateRandomString(self::RANDOM_NAME_LENGTH) . '_' . time() . '.' . $this->file->getExtensionName();
     }
 
-    /**
-     * @return string
-     */
     public function getDownloadLink(): string
     {
         ++$this->downloads_count;

@@ -33,7 +33,6 @@ class RegionPrices extends CWidget
     }
 
     /**
-     * @return array
      * @throws CException
      */
     private function getData(): array
@@ -44,6 +43,7 @@ class RegionPrices extends CWidget
             case self::MODE_REGIONS_AND_TOWNS:
             default:
                 $currentUser = Yii::app()->user->getModel();
+
                 return $this->campaignRepository->getActiveCampaigns($currentUser, $this->activityIntervalDays);
         }
     }

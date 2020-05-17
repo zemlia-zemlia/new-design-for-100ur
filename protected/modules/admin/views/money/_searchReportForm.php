@@ -10,8 +10,8 @@
     <div class="form-group">
         <?php echo $form->labelEx($model, 'date1'); ?>
         <?php $this->widget(
-            'zii.widgets.jui.CJuiDatePicker',
-            [
+        'zii.widgets.jui.CJuiDatePicker',
+        [
                 'name' => 'App_models_Money[date1]',
                 'value' => $model['date1'],
                 'language' => 'ru',
@@ -22,7 +22,7 @@
                     'class' => 'form-control input-sm',
                 ],
             ]
-        );
+    );
         ?>
         <?php echo $form->error($model, 'date1'); ?>
     </div>

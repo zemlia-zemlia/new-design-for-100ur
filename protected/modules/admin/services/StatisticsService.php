@@ -2,9 +2,9 @@
 
 use App\helpers\DateHelper;
 use App\models\Answer;
+use App\models\Comment;
 use App\models\Question;
 use App\models\User;
-use App\models\Comment;
 
 /**
  * Класс для получения различных статистик
@@ -37,8 +37,6 @@ class StatisticsService
 
     /**
      * @param int $days
-     *
-     * @return int
      */
     public function getPublishedQuestionsNumberInPeriod($days = 30): int
     {
@@ -59,8 +57,6 @@ class StatisticsService
      * Число вопросов, заданных за $days дней, на которые даны ответы.
      *
      * @param int $days
-     *
-     * @return int
      *
      * @throws CException
      */
@@ -84,8 +80,6 @@ class StatisticsService
 
     /**
      * @param int $days
-     *
-     * @return int
      *
      * @throws CException
      *
@@ -111,14 +105,12 @@ class StatisticsService
             0;
     }
 
-
-
-    public function getCountAnsversByDate($start){
-
+    public function getCountAnsversByDate($start)
+    {
         $countAnsversByDateRows = Yii::app()->db->createCommand()
             ->select('COUNT(*) counter, DATE(datetime) date')
             ->from('{{answer}}')
-            ->where('datetime > "' . date('Y-m-d H:i:s',strtotime($start)) .  '" AND status IN (' . Answer::STATUS_PUBLISHED . ',' . Answer::STATUS_NEW . ')')
+            ->where('datetime > "' . date('Y-m-d H:i:s', strtotime($start)) . '" AND status IN (' . Answer::STATUS_PUBLISHED . ',' . Answer::STATUS_NEW . ')')
             ->group('date')
             ->queryAll();
         $countAnsversByDate = [];
@@ -130,36 +122,33 @@ class StatisticsService
         }
 
         return $countAnsversByDate;
-
     }
 
-
-   public function getPublishedQuestionsCount($start){
-
-       $publishedQuestionsRows = Yii::app()->db->createCommand()
+    public function getPublishedQuestionsCount($start)
+    {
+        $publishedQuestionsRows = Yii::app()->db->createCommand()
            ->select('COUNT(*) counter, DATE(createDate) date')
            ->from('{{question}}')
-           ->where('createDate > "' . date('Y-m-d H:i:s',strtotime($start)) .  '" AND status IN (' . Question::STATUS_PUBLISHED . ',' . Question::STATUS_CHECK . ')')
+           ->where('createDate > "' . date('Y-m-d H:i:s', strtotime($start)) . '" AND status IN (' . Question::STATUS_PUBLISHED . ',' . Question::STATUS_CHECK . ')')
            ->group('date')
            ->queryAll();
-       $publishedQuestionsCount = [];
-       if (!$publishedQuestionsRows) {
-           return [];
-       }
-       foreach ($publishedQuestionsRows as $row) {
-           $publishedQuestionsCount[$row['date']] = $row['counter'];
-       }
+        $publishedQuestionsCount = [];
+        if (!$publishedQuestionsRows) {
+            return [];
+        }
+        foreach ($publishedQuestionsRows as $row) {
+            $publishedQuestionsCount[$row['date']] = $row['counter'];
+        }
 
         return $publishedQuestionsCount;
-
     }
 
-    public function getPublishedCommentCount($start){
-
+    public function getPublishedCommentCount($start)
+    {
         $publishedCommentRows = Yii::app()->db->createCommand()
             ->select('COUNT(*) counter, DATE(dateTime) date')
             ->from('{{comment}}')
-            ->where('dateTime > "' . date('Y-m-d H:i:s',strtotime($start)) .  '" AND status IN (' . Comment::STATUS_NEW . ',' . Comment::STATUS_CHECKED . ')')
+            ->where('dateTime > "' . date('Y-m-d H:i:s', strtotime($start)) . '" AND status IN (' . Comment::STATUS_NEW . ',' . Comment::STATUS_CHECKED . ')')
             ->group('date')
             ->queryAll();
         $publishedCommentCount = [];
@@ -171,26 +160,18 @@ class StatisticsService
         }
 
         return $publishedCommentCount;
-
     }
 
-    public function getDateInterval($interval){
-
+    public function getDateInterval($interval)
+    {
         $startDate = new DateTime('-' . $interval . ' day');
         $endDate = new DateTime();
         $period = new DatePeriod($startDate, new DateInterval('P1D'), $endDate->modify('+1 day'));
         $interval = [];
-        foreach ($period as $date){
+        foreach ($period as $date) {
             $interval[] = $date->format('Y-m-d');
         }
 
         return $interval;
-
     }
-
-
-
-
-
-
 }

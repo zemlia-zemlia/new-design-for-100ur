@@ -10,12 +10,13 @@ use CDbCriteria;
  * This is the model class for table "{{chat_messages}}".
  *
  * The followings are the available columns in table '{{chat_messages}}':
- * @property integer $id
- * @property integer $chat_id
- * @property integer $user_id
+ *
+ * @property int    $id
+ * @property int    $chat_id
+ * @property int    $user_id
  * @property string $message
- * @property integer $created
- * @property integer $is_read
+ * @property int    $created
+ * @property int    $is_read
  */
 class ChatMessages extends CActiveRecord
 {
@@ -28,27 +29,26 @@ class ChatMessages extends CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('chat_id, user_id, message, created', 'required'),
-            array('chat_id, user_id, created', 'numerical', 'is_read', 'integerOnly' => true),
+        return [
+            ['chat_id, user_id, message, created', 'required'],
+            ['chat_id, user_id, created', 'numerical', 'is_read', 'integerOnly' => true],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, chat_id, user_id, message, created', 'safe', 'on' => 'search'),
-        );
+            ['id, chat_id, user_id, message, created', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
-
         return [
             'user' => [self::BELONGS_TO, User::class, 'user_id'],
             'chat' => [self::BELONGS_TO, Chat::class, 'chat_id'],
@@ -60,13 +60,13 @@ class ChatMessages extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'chat_id' => 'Chat',
             'user_id' => 'User',
             'message' => 'Message',
             'created' => 'Created',
-        );
+        ];
     }
 
     /**
@@ -79,13 +79,13 @@ class ChatMessages extends CActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     *                             based on the search/filter conditions
      */
     public function search()
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('chat_id', $this->chat_id);
@@ -93,15 +93,17 @@ class ChatMessages extends CActiveRecord
         $criteria->compare('message', $this->message, true);
         $criteria->compare('created', $this->created);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     *
+     * @param string $className active record class name
+     *
      * @return ChatMessages the static model class
      */
     public static function model($className = __CLASS__)

@@ -2,18 +2,14 @@
 
 namespace App\helpers;
 
-use PhoneHelper;
-use CHtml;
-use App\helpers\IpHelper;
 use App\models\Town;
+use CHtml;
+use PhoneHelper;
 use Yii;
 
 class GeoHelper
 {
     /**
-     * @param string|null $ip
-     * @param string $selector
-     *
      * @return string|null
      */
     public static function detectTownLink(?string $ip = null, string $selector)
@@ -30,8 +26,6 @@ class GeoHelper
 
     /**
      * Определение города пользователя по IP адресу.
-     *
-     * @param string|null $ip
      *
      * @return Town город или NULL
      */

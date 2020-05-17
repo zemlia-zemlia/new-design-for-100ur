@@ -11,9 +11,8 @@ class AnswerRepository
 {
     /**
      * Получение провайдера ответов на вопрос
-     * @param Question $question
+     *
      * @param array $providerCustomConfig Можно задать свойства провайдера
-     * @return CActiveDataProvider
      */
     public function getAnswersDataProviderByQuestion(Question $question, $providerCustomConfig = []): CActiveDataProvider
     {

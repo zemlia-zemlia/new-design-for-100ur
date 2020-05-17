@@ -3,12 +3,12 @@
 namespace App\components\apiClasses;
 
 use ApiClassInterface;
+use App\extensions\Logger\LoggerFactory;
 use App\models\Lead;
 use CHtml;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use App\extensions\Logger\LoggerFactory;
 use Psr\Http\Message\ResponseInterface;
 use Yii;
 
@@ -34,10 +34,6 @@ class ApiSovinform implements ApiClassInterface
 
     /**
      * Отправка лида.
-     *
-     * @param Lead $lead
-     *
-     * @return bool
      *
      * @throws Exception
      */
@@ -65,8 +61,6 @@ class ApiSovinform implements ApiClassInterface
 
     /**
      * Получение статуса лида.
-     *
-     * @param Lead $lead
      */
     public function getStatus(Lead $lead)
     {
@@ -74,11 +68,6 @@ class ApiSovinform implements ApiClassInterface
 
     /**
      * Проверка ответа от API.
-     *
-     * @param ResponseInterface $apiResponse
-     * @param Lead $lead
-     *
-     * @return bool
      *
      * @throws Exception
      */

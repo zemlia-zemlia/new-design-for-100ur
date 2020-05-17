@@ -2,9 +2,9 @@
 
 namespace webmaster\services;
 
+use App\models\Lead;
 use CException;
 use DateTime;
-use App\models\Lead;
 use Yii;
 
 /**
@@ -47,10 +47,6 @@ class StatisticsService
     }
 
     /**
-     * @param DateTime|null $fromDate
-     *
-     * @return int
-     *
      * @throws CException
      */
     public function getAllLeadsCount(DateTime $fromDate = null): int
@@ -75,11 +71,8 @@ class StatisticsService
     /**
      * Статистика лидов вебмастера по датам
      *
-     * @param string        $groupByFieldName
-     * @param DateTime|null $fromDate
-     * @param string        $order            asc|desc
-     *
-     * @return array
+     * @param string $groupByFieldName
+     * @param string $order            asc|desc
      *
      * @throws CException
      */
@@ -168,10 +161,6 @@ class StatisticsService
     /**
      * Выборка лидов со статусами, датами и регионами.
      *
-     * @param DateTime|null $fromDate
-     *
-     * @return array
-     *
      * @throws CException
      */
     private function getLeadsWithStatusesAndRegions(DateTime $fromDate = null): array
@@ -195,9 +184,6 @@ class StatisticsService
         return $queryCommand->queryAll();
     }
 
-    /**
-     * @return int
-     */
     public function getUserId(): int
     {
         return $this->userId;
@@ -205,8 +191,6 @@ class StatisticsService
 
     /**
      * @param int $userId
-     *
-     * @return StatisticsService
      */
     public function setUserId($userId): StatisticsService
     {

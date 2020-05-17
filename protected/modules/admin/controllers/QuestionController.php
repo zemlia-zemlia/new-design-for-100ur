@@ -1,6 +1,5 @@
 <?php
 
-
 use App\models\Answer;
 use App\models\Question;
 use App\models\Question2category;
@@ -12,7 +11,6 @@ use App\repositories\QuestionRepository;
 
 class QuestionController extends AbstractAdminController
 {
-
     /**
      * @return array action filters
      */
@@ -572,7 +570,6 @@ class QuestionController extends AbstractAdminController
         $questionRepository->setCacheTime(600)->setLimit(10);
 
         $questionsCount = $questionRepository->countForModerate();
-
 
         $questionsModeratedByMe = Yii::app()->db->createCommand()
                 ->select('COUNT(*) counter')

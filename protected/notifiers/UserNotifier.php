@@ -4,12 +4,12 @@ namespace App\notifiers;
 
 use App\models\Answer;
 use App\models\Chat;
-use CHtml;
 use App\models\Comment;
-use GTMail;
-use MoneyFormat;
 use App\models\Question;
 use App\models\User;
+use CHtml;
+use GTMail;
+use MoneyFormat;
 use Yii;
 
 /**
@@ -18,10 +18,10 @@ use Yii;
  */
 class UserNotifier
 {
-    /** @var GTMail $mailer */
+    /** @var GTMail */
     private $mailer;
 
-    /** @var \App\models\User $user */
+    /** @var \App\models\User */
     private $user;
 
     public function __construct(GTMail $mailer, User $user)
@@ -170,8 +170,6 @@ class UserNotifier
     /**
      * отправка письма пользователю, на вопрос которого дан ответ
      *
-     * @param Answer $answer
-     * @param Question $question
      * @param $questionLink
      * @param $testimonialLink
      *
@@ -221,9 +219,6 @@ class UserNotifier
 
     /**
      * функция отправки уведомления юристу или клиенту о новом комментарии на его ответ / комментарий.
-     *
-     * @param Question $question
-     * @param Comment $comment
      *
      * @return bool
      */
@@ -325,7 +320,6 @@ class UserNotifier
     /**
      * Отправка юристу уведомления о зачислении благодарности за консультацию.
      *
-     * @param \App\models\Answer $answer
      * @param int $yuristBonus В копейках
      *
      * @return bool
@@ -367,7 +361,7 @@ class UserNotifier
      * Отправка юристу уведомления о зачислении благодарности за консультацию.
      *
      * @param \App\models\Answer $answer
-     * @param int $yuristBonus В копейках
+     * @param int                $yuristBonus В копейках
      *
      * @return bool
      */
@@ -402,6 +396,7 @@ class UserNotifier
             return false;
         }
     }
+
     /**
      * Отправка юристу уведомления о новом отзыве.
      */
@@ -432,6 +427,7 @@ class UserNotifier
             return false;
         }
     }
+
     /**
      * Отправка юристу уведомления о новом отзыве.
      */

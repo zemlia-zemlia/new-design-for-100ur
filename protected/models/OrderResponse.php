@@ -68,10 +68,7 @@ class OrderResponse extends Comment
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function relations():array
+    public function relations(): array
     {
         return [
             'author' => [self::BELONGS_TO, User::class, 'authorId'],

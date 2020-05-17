@@ -16,7 +16,7 @@ use CDbCriteria;
  * @property int $category_id
  *
  * The followings are the available model relations:
- * @property Docs $file
+ * @property Docs         $file
  * @property FileCategory $category
  */
 class File2Category extends CActiveRecord

@@ -8,7 +8,6 @@ use App\modules\admin\controllers\AbstractAdminController;
 
 class MoneyController extends AbstractAdminController
 {
-
     /**
      * @return array action filters
      */

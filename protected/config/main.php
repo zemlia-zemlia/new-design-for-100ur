@@ -115,7 +115,7 @@ return [
         ],
         'container' => [
             'class' => 'application.components.DiContainer',
-        ]
+        ],
     ],
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']

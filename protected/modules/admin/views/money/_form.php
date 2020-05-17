@@ -50,8 +50,8 @@ Yii::app()->clientScript->registerScript('myjquery', $js);
                         <div class="form-group">
                             <?php echo $form->labelEx($model, 'datetime'); ?>
                             <?php $this->widget(
-                                'zii.widgets.jui.CJuiDatePicker',
-                                [
+                    'zii.widgets.jui.CJuiDatePicker',
+                    [
                                     'name' => 'App_models_Money[datetime]',
                                     'value' => $model['datetime'],
                                     'language' => 'ru',
@@ -62,7 +62,7 @@ Yii::app()->clientScript->registerScript('myjquery', $js);
                                         'class' => 'form-control',
                                     ],
                                 ]
-                            );
+                );
                             ?>
                             <?php echo $form->error($model, 'datetime'); ?>
                         </div>

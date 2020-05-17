@@ -3,9 +3,9 @@
 namespace App\components\apiClasses;
 
 use ApiClassInterface;
+use App\extensions\Logger\LoggerFactory;
 use App\models\Lead;
 use CHtml;
-use App\extensions\Logger\LoggerFactory;
 use Yii;
 
 /**
@@ -34,8 +34,8 @@ class ApiLeadia implements ApiClassInterface
     /**
      * отправка лида.
      *
-     * @param Lead $lead
      * @return bool
+     *
      * @throws \Exception
      */
     public function send(Lead $lead)
@@ -74,9 +74,10 @@ class ApiLeadia implements ApiClassInterface
      * Разбор ответа API.
      *
      * @param string $apiResponse
-     * @param Lead $lead
+     * @param Lead   $lead
      *
      * @return bool
+     *
      * @throws \Exception
      */
     private function checkResponse($apiResponse, $lead)
