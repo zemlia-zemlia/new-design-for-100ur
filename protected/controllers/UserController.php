@@ -52,7 +52,8 @@ class UserController extends Controller
     {
         return [
             ['allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => ['index', 'view', 'create', 'balanceAddRequest', 'confirmationSent', 'restorePassword', 'setNewPassword', 'captcha', 'unsubscribe'],
+                'actions' => ['index', 'view', 'create', 'balanceAddRequest', 'confirmationSent', 'restorePassword', 'setNewPassword',
+                    'captcha', 'unsubscribe', 'mailLawyerAccept', 'mailLawyerDecline', 'mailUserNotification'],
                 'users' => ['*'],
             ],
             ['allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -935,6 +936,32 @@ class UserController extends Controller
             'chatUrl' => Yii::app()->baseUrl . '/user/chats/?chatId=' . $id
         ]);
     }
+
+    public function actionMailLawyerAccept($id)
+    {
+
+        $chat = Chat::model()->find('chat_id=:chat_id', [':chat_id' => $id]);
+        $chat->sendMailLawyerAccept();
+
+    }
+
+    public function actionMailLawyerDecline($id)
+    {
+
+        $chat = Chat::model()->find('chat_id=:chat_id', [':chat_id' => $id]);
+        $chat->sendMailLawyerDecline();
+
+    }
+
+    public function actionMailUserNotification($id, $token)
+    {
+
+        $chat = Chat::model()->find('chat_id=:chat_id', [':chat_id' => $id]);
+
+        $chat->sendUserNotification($token);
+
+    }
+
 
 
 

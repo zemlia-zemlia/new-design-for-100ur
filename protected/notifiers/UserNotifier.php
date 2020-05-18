@@ -432,6 +432,101 @@ class UserNotifier
             return false;
         }
     }
+
+    /**
+     * Отправка пользователю уведомления о том, что юрист принял его чат.
+     */
+    public function sendChatAccept(Chat $chat)
+    {
+        $this->mailer->subject = 'Юрист готов проконсультировать';
+
+
+        $this->mailer->email = $chat->user->email;
+        $link = CHtml::link('ссылке', CHtml::decode(Yii::app()->createUrl('/user/chats/' , ['chatId' => $chat->chat_id])));
+        $this->mailer->message = 'Юрист ' . $this->user->shortName .
+            ' готов вас проконсультировать, теперь вам необходимо оплатить консультацию для этого перейдите по ' . $link;
+
+        $additionalHeaders = [
+            'X-Postmaster-Msgtype' => 'Юрист готов проконсультировать',
+            'List-id' => 'Юрист готов проконсультировать',
+            'X-Mailru-Msgtype' => 'Юрист готов проконсультировать',
+        ];
+
+        if ($this->mailer->sendMail(true, $additionalHeaders)) {
+            Yii::log('Отправлено письмо пользователю ' . $chat->user->email . ' о принятии юристом чата', 'info', 'system.web.User');
+
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log('Не удалось отправить письмо пользователю ' . $chat->user->email . ' о принятии юристом чата', 'error', 'system.web.User');
+
+            return false;
+        }
+    }
+
+    /**
+     * Отправка пользователю уведомления о том, что юрист отклонил его чат.
+     */
+    public function sendChatDecline(Chat $chat)
+    {
+        $this->mailer->subject = 'Юрист не готов  вас проконсультировать';
+
+
+        $this->mailer->email = $chat->user->email;
+        $link = CHtml::link('ссылке', CHtml::decode(Yii::app()->createUrl('/yurist/russia/')));
+        $this->mailer->message = 'Юрист ' . $this->user->shortName .
+            ' не готов вас проконсультировать, пожалуйста выберите другого юриста в каталоге специалистов по ' . $link;
+
+        $additionalHeaders = [
+            'X-Postmaster-Msgtype' => 'Юрист не готов  вас проконсультировать',
+            'List-id' => 'Юрист не готов  вас проконсультировать',
+            'X-Mailru-Msgtype' => 'Юрист не готов  вас проконсультировать',
+        ];
+
+        if ($this->mailer->sendMail(true, $additionalHeaders)) {
+            Yii::log('Отправлено письмо пользователю ' . $chat->user->email . ' об отклонении юристом чата', 'info', 'system.web.User');
+
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log('Не удалось отправить письмо пользователю ' . $chat->user->email . ' об отклонении принятии юристом чата', 'error', 'system.web.User');
+
+            return false;
+        }
+    }
+
+
+    /**
+     * Отправка пользователю уведомления о новом сообщении в чате если он не активен 10 мин.
+     */
+    public function sendChatUserNotification(Chat $chat, User $user)
+    {
+        $this->mailer->subject = 'Новое сообщение в чате';
+
+
+        $this->mailer->email = $user->email;
+        $link = CHtml::link('ссылке', CHtml::decode(Yii::app()->createUrl('/user/chats/' , ['chatId' => $chat->chat_id])));
+        $this->mailer->message = $this->user->shortName .
+            ' написал вам новое сообщение в чате для просмотра перейдите по  ' . $link;
+
+        $additionalHeaders = [
+            'X-Postmaster-Msgtype' => 'Новое сообщение в чате',
+            'List-id' => 'Новое сообщение в чате',
+            'X-Mailru-Msgtype' => 'Новое сообщение в чате',
+        ];
+
+        if ($this->mailer->sendMail(true, $additionalHeaders)) {
+            Yii::log('Отправлено письмо пользователю ' . $user->email . ' о новом сообщении в чате', 'info', 'system.web.User');
+
+            return true;
+        } else {
+            // не удалось отправить письмо
+            Yii::log('Не удалось отправить письмо пользователю ' . $user->email . ' о новом сообщении в чате', 'error', 'system.web.User');
+
+            return false;
+        }
+    }
+
     /**
      * Отправка юристу уведомления о новом отзыве.
      */

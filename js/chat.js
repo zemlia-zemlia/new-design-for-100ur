@@ -66,6 +66,13 @@ function init() {
                     $('#accept').click(function () {
                         if (confirm('Принять чат?')) {
                             socket.emit('accept chat', {room: window.room, token: window.token});
+                            $.get(
+                                "/user/mailLawyerAccept",
+                                {
+                                    id: window.room
+                                }
+                            );
+
                             $('#buttonsLi').remove();
                             log('Ожидаем оплаты консультации от клиента ...');
                         }
@@ -74,6 +81,12 @@ function init() {
                     $('#decline').click(function () {
                         if (confirm('Отклонить чат?')) {
                             socket.emit('decline chat', {room: window.room, token: window.token});
+                            $.get(
+                                "/user/mailLawyerDecline",
+                                {
+                                    id: window.room
+                                }
+                            );
                             $('#buttonsLi').remove();
                             log('Чат отклонен');
                         }
@@ -237,6 +250,8 @@ function init() {
         }
         $('#send').click(function () {
             sendMessage();
+
+
         });
 
         // Sends a chat message
@@ -268,6 +283,14 @@ function init() {
                     $('#fileName').html('');
                 }
             }
+
+            $.get(
+                "/user/mailUserNotification",
+                {
+                    id: window.room,
+                    token: window.token
+                }
+            );
         }
 
         // Log a message

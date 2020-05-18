@@ -7,6 +7,8 @@ use CActiveRecord;
 use CDbCriteria;
 use App\models\ChatMessages;
 use Yii;
+use App\notifiers\UserNotifier;
+use App\models\User;
 
 /**
  * This is the model class for table "{{chat}}".
@@ -27,6 +29,52 @@ use Yii;
  */
 class Chat extends CActiveRecord
 {
+
+    /** @var UserNotifier */
+    protected $notifier;
+
+
+    public function init()
+    {
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        $this->notifier = new UserNotifier(Yii::app()->mailer, $user);
+
+    }
+
+    /**
+     *  Отправляет пользователю письмо о принятии чата юристом.
+     */
+    public function sendMailLawyerAccept()
+    {
+        return $this->notifier->sendChatAccept($this);
+    }
+
+    /**
+     *  Отправляет пользователю письмо об отклонении чата юристом.
+     */
+    public function sendMailLawyerDecline()
+    {
+        return $this->notifier->sendChatDecline($this);
+    }
+
+    /**
+     *  Отправляет пользователю письмо о новом сообщении в чате если он не активен 10 мин
+     */
+    public function sendUserNotification($token)
+    {
+        $userSender = User::model()->find('chatToken=:chatToken', [':chatToken' => $token]);
+
+        if ($userSender->id == $this->user_id) {
+            $user = $this->lawyer;
+        }
+        else {
+            $user = $this->user;
+        }
+
+        if ($user->getPeriodFromLastActivity() != 'онлайн') {
+            return $this->notifier->sendChatUserNotification($this, $user);
+        }
+    }
 
     /**
      * @return string

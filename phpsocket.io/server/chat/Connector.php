@@ -41,6 +41,7 @@ class Connector
     {
         $sth = $this->db->prepare('update 100_chat set is_confirmed = :type where id = :chat_id');
         $sth->execute(['chat_id' => $id, 'type' => 1]);
+
     }
 
     /**
