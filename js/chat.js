@@ -219,15 +219,15 @@ function init() {
         socket.on('stop typing', (data) => {
             removeChatTyping(data);
         });
-
-        socket.on('disconnect', () => {
-            log('Вы вышли из чата');
-        });
-
-        socket.on('reconnect', () => {
-            log('Вы перезашли в чат');
-            window.location.reload();
-        });
+// закоментил чтобы не надоедали
+        // socket.on('disconnect', () => {
+        //     log('Вы вышли из чата');
+        // });
+        //
+        // socket.on('reconnect', () => {
+        //     log('Вы перезашли в чат');
+        //     window.location.reload();
+        // });
 
         socket.on('reconnect_error', () => {
             log('attempt to reconnect has failed');
