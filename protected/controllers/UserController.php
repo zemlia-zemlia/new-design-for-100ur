@@ -931,6 +931,7 @@ class UserController extends Controller
 
     public function actionChatPayedSuccess($id)
     {
+        $this->layout = '//frontend/smart';
 
         return $this->render('chatPayedSuccess', [
             'chatUrl' => Yii::app()->baseUrl . '/user/chats/?chatId=' . $id

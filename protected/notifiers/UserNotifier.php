@@ -442,7 +442,7 @@ class UserNotifier
 
 
         $this->mailer->email = $chat->user->email;
-        $link = CHtml::link('ссылке', CHtml::decode(Yii::app()->createUrl('/user/chats/' , ['chatId' => $chat->chat_id])));
+        $link = CHtml::link('ссылке', CHtml::decode(Yii::app()->createUrl('/user/chats/' , ['chatId' => $chat->chat_id, 'autologin' => $chat->user->autologin])));
         $this->mailer->message = 'Юрист ' . $this->user->shortName .
             ' готов вас проконсультировать, теперь вам необходимо оплатить консультацию для этого перейдите по ' . $link;
 
@@ -473,7 +473,7 @@ class UserNotifier
 
 
         $this->mailer->email = $chat->user->email;
-        $link = CHtml::link('ссылке', CHtml::decode(Yii::app()->createUrl('/yurist/russia/')));
+        $link = CHtml::link('ссылке', CHtml::decode(Yii::app()->createUrl('/yurist/russia/', ['autologin' => $chat->user->autologin])));
         $this->mailer->message = 'Юрист ' . $this->user->shortName .
             ' не готов вас проконсультировать, пожалуйста выберите другого юриста в каталоге специалистов по ' . $link;
 
@@ -505,7 +505,7 @@ class UserNotifier
 
 
         $this->mailer->email = $user->email;
-        $link = CHtml::link('ссылке', CHtml::decode(Yii::app()->createUrl('/user/chats/' , ['chatId' => $chat->chat_id])));
+        $link = CHtml::link('ссылке', CHtml::decode(Yii::app()->createUrl('/user/chats/' , ['chatId' => $chat->chat_id, 'autologin' => $user->autologin])));
         $this->mailer->message = $this->user->shortName .
             ' написал вам новое сообщение в чате для просмотра перейдите по  ' . $link;
 
