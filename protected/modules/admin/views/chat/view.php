@@ -55,7 +55,7 @@ $this->widget('zii.widgets.CBreadcrumbs', [
             <div class="box-body">
                 <h4 class="vert-margin40">Сообщения чата:</h4>
                 <?php foreach ($model->messages as $message) : ?>
-                    <p><?= $message->user->getShortName() ?> -> <?= $message->message ?></p>
+                    <p><?= date('d.m.y H:i', $message->created) ?> <?= $message->user->getShortName() ?> -> <?= $message->message ?></p>
                 <?php endforeach; ?>
             </div>
         </div>

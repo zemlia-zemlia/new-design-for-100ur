@@ -954,14 +954,7 @@ class UserController extends Controller
 
     }
 
-    public function actionMailUserNotification($id, $token)
-    {
 
-        $chat = Chat::model()->find('chat_id=:chat_id', [':chat_id' => $id]);
-
-        $chat->sendUserNotification($token);
-
-    }
 
 
 

@@ -73,7 +73,7 @@ $io->on('connection', function ($socket) use ($io) {
                 'avatar' => $connector->getAvatar($data['token']),
                 'message' => strip_tags($data['message'], '<a>'),
                 'token' => $data['token'],
-                'date' => date('d.m.y H:i'),
+                'date' => date('H:i'),
             ));
             unset($connector);
         } else {
