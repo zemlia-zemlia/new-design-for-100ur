@@ -9,13 +9,6 @@ class SendAfterAnswerCommand extends CConsoleCommand
 
     public function actionIndex()
     {
-//        SELECT a.datetime, q.id, q.title, u.email, q.authorName, y.lastName FROM `100_answer` a
-//        LEFT JOIN `100_question` q ON q.id = a.questionId
-//        LEFT JOIN `100_user` u ON u.id = q.authorId
-//        LEFT JOIN `100_user` y ON y.id = a.authorId
-//        WHERE a.datetime > NOW()-INTERVAL 15 DAY AND a.datetime < NOW()-INTERVAL 4 DAY AND u.email IS NOT NULL
-//        GROUP BY q.id
-//        ORDER BY a.`id`  DESC
 
         // найдем информацию об ответах, вопросах, пользователях и юристах
 
@@ -49,18 +42,8 @@ class SendAfterAnswerCommand extends CConsoleCommand
 
             $mailer = new GTMail();
             $mailer->subject = CHtml::encode($row['authorName']) . ', оцените ответ юриста на Ваш вопрос!';
-            $mailer->message = '
-            <p>Здравствуйте, ' . CHtml::encode($row['authorName']) . '<br /><br />
-            Недавно наш юрист ' . $row['yuristName'] . ' ' . $row['yuristLastName'] . ' дал(а) ответ на ' . CHtml::link('Ваш вопрос', $questionLink) . '.
-            <br /><br />
-            Оказался ли Вам полезен этот ответ? Если, да, юристу будет приятно получить отзыв или просто отметку о полезности ответа, это не займет больше минуты. 
-            <br /><br />
-            ' . CHtml::link('Посмотреть и оценить ответ', $questionLink, ['class' => 'btn']) . '
-            </p>
-            <p>
-            Заранее спасибо!
-            </p>
-            ';
+            $path = Yii::getPathOfAlias('application.views.mail').'/sendAfterAnswer.php';
+            $mailer->message = $this->renderFile($path, ['row' => $row, 'questionLink' => $questionLink]);
 
             // отправляем письмо на почту пользователя
             $mailer->email = $row['email'];
