@@ -283,14 +283,6 @@ function init() {
                     $('#fileName').html('');
                 }
             }
-
-            $.get(
-                "/user/mailUserNotification",
-                {
-                    id: window.room,
-                    token: window.token
-                }
-            );
         }
 
         // Log a message

@@ -30,23 +30,16 @@ use App\models\User;
 class Chat extends CActiveRecord
 {
 
-    /** @var UserNotifier */
-    protected $notifier;
 
-
-    public function init()
-    {
-        $user = User::model()->findByPk(Yii::app()->user->id);
-        $this->notifier = new UserNotifier(Yii::app()->mailer, $user);
-
-    }
 
     /**
      *  Отправляет пользователю письмо о принятии чата юристом.
      */
     public function sendMailLawyerAccept()
     {
-        return $this->notifier->sendChatAccept($this);
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        $notifier = new UserNotifier(Yii::app()->mailer, $user);
+        return $notifier->sendChatAccept($this);
     }
 
     /**
@@ -54,27 +47,12 @@ class Chat extends CActiveRecord
      */
     public function sendMailLawyerDecline()
     {
-        return $this->notifier->sendChatDecline($this);
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        $notifier = new UserNotifier(Yii::app()->mailer, $user);
+        return $notifier->sendChatDecline($this);
     }
 
-    /**
-     *  Отправляет пользователю письмо о новом сообщении в чате если он не активен 10 мин
-     */
-    public function sendUserNotification($token)
-    {
-        $userSender = User::model()->find('chatToken=:chatToken', [':chatToken' => $token]);
 
-        if ($userSender->id == $this->user_id) {
-            $user = $this->lawyer;
-        }
-        else {
-            $user = $this->user;
-        }
-
-        if ($user->getPeriodFromLastActivity() != 'онлайн') {
-            return $this->notifier->sendChatUserNotification($this, $user);
-        }
-    }
 
     /**
      * @return string

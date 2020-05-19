@@ -506,8 +506,15 @@ class UserNotifier
 
         $this->mailer->email = $user->email;
         $link = CHtml::link('ссылке', CHtml::decode(Yii::app()->createUrl('/user/chats/' , ['chatId' => $chat->chat_id, 'autologin' => $user->autologin])));
-        $this->mailer->message = $this->user->shortName .
-            ' написал вам новое сообщение в чате для просмотра перейдите по  ' . $link;
+        if ($user->id == $chat->lawyer_id) {
+            $shortName = $chat->user->getShortName();
+        }
+        else {
+            $shortName = $chat->lawyer->getShortName();
+        }
+
+
+        $this->mailer->message = $shortName . ' написал вам новое сообщение в чате, для просмотра перейдите по  ' . $link;
 
         $additionalHeaders = [
             'X-Postmaster-Msgtype' => 'Новое сообщение в чате',
