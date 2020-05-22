@@ -1,6 +1,6 @@
 
 <p>Здравствуйте, <?= CHtml::encode($row['authorName']) ?><br /><br />
-    Недавно вы задавали вопрос  <?=  $row['yuristName'] . ' ' . $row['yuristLastName']  ?> дал(а) ответ на <?=  CHtml::link('Ваш вопрос', $questionLink) ?>.
+    Недавно вы задавали вопрос  <?=  CHtml::encode($row['yuristName'] . ' ' . $row['yuristLastName'])  ?> дал(а) ответ на <?=  CHtml::link('Ваш вопрос', $questionLink) ?>.
     <br /><br />
     Мы стараемся становиться лучше, поэтому нам важно ваше мнение и хотели бы получить от вас отзыв, это не займет больше минуты.
     <br /><br />
