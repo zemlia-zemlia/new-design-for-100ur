@@ -478,6 +478,7 @@ class UserController extends Controller
             return $this->render('activationFailed', ['message' => 'Пользователь с данным мейлом не найден или уже активирован']);
         }
 
+        // @todo вынести из контроллера логику сохранения данных пользователя в БД
         $user->setScenario('confirm');
 
         $user->activate();
@@ -487,7 +488,6 @@ class UserController extends Controller
         // задаем пользователю некий произвольный пароль, который на следующем шаге попросим сменить. Пароль в открытом виде не отсылаем пользователю
         $newPassword = $user->generatePassword(10);
         $user->password = $user->password2 = User::hashPassword($newPassword);
-
 
         if ($user->save()) {
 
@@ -519,6 +519,7 @@ class UserController extends Controller
                 throw new CHttpException(400, 'Не удалось автоматически залогиниться на сайте');
             }
         }
+
         if (!empty($user->errors)) {
             Yii::log(print_r($user->getErrors(), true), 'error', 'system.web');
         }
@@ -526,6 +527,7 @@ class UserController extends Controller
         $this->layout = '//frontend/smart';
         return $this->render('activationFailed', ['message' => 'Ошибка - не удалось активировать аккаунт из-за ошибки в программе.<br />
                   Обратитесь, пожалуйста, к администратору сайта через E-mail info@100yuristov.com']);
+
 
     }
 
