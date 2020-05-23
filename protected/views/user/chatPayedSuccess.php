@@ -1,8 +1,7 @@
 <?php
 
-
+/** @var string $chatUrl */
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/chatPayedSuccess.js', CClientScript::POS_END);
-
 
 
 ?>

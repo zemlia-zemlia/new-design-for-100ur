@@ -498,21 +498,24 @@ class UserNotifier
 
     /**
      * Отправка пользователю уведомления о новом сообщении в чате если он не активен 10 мин.
+     * @param Chat $chat
+     * @param User $user
+     * @return bool
      */
-    public function sendChatUserNotification(Chat $chat, User $user)
+    public function sendChatUserNotification(Chat $chat, User $user):bool
     {
         $this->mailer->subject = 'Новое сообщение в чате';
 
 
         $this->mailer->email = $user->email;
-        $link = CHtml::link('ссылке', CHtml::decode(Yii::app()->createUrl('/user/chats/' , ['chatId' => $chat->chat_id, 'autologin' => $user->autologin])));
-        if ($user->id == $chat->lawyer_id) {
-            $shortName = $chat->user->getShortName();
-        }
-        else {
-            $shortName = $chat->lawyer->getShortName();
-        }
+        $link = CHtml::link('ссылке', CHtml::decode(Yii::app()->createUrl('/user/chats/' , [
+            'chatId' => $chat->chat_id,
+            'autologin' => $user->autologin
+        ])));
 
+        $shortName = ($user->id == $chat->lawyer_id) ?
+            $chat->user->getShortName() :
+            $chat->lawyer->getShortName();
 
         $this->mailer->message = $shortName . ' написал вам новое сообщение в чате, для просмотра перейдите по  ' . $link;
 
