@@ -12,14 +12,11 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/chatPaye
     var chatUrl = "<?= $chatUrl ?>";
 </script>
 
-<div class="row">
+<div class="vert-margin40"></div>
+
+<div class="row center-align">
     <div class="col-lg-4 col-lg-offset-4">
-        Оплата консультации совершена, вы будете направлены на страницу чата через
-        <span class="seconds">5</span>
-        секунд
-
+        <h3>Оплата консультации совершена, вы будете направлены на страницу чата</h3>
+        <h3>через <span class="seconds">5</span> секунд</h3>
     </div>
-
-
-
 </div>
