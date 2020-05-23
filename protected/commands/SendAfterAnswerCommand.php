@@ -18,8 +18,11 @@ class SendAfterAnswerCommand extends CConsoleCommand
                 ->leftJoin('{{question}} q', 'q.id = a.questionId')
                 ->leftJoin('{{user}} u', 'u.id = q.authorId')
                 ->leftJoin('{{user}} y', 'y.id = a.authorId')
-                ->where('a.datetime > NOW()-INTERVAL :interval2 DAY AND a.datetime < NOW()-INTERVAL :interval1 DAY AND u.email IS NOT NULL', [':interval2' => $this->interval + $this->days, ':interval1' => $this->interval])
-                ->group('q.id')
+                ->where('a.datetime > NOW()-INTERVAL :interval2 DAY AND a.datetime < NOW()-INTERVAL :interval1 DAY AND u.email IS NOT NULL', [
+                    ':interval2' => $this->interval + $this->days,
+                    ':interval1' => $this->interval
+                ])
+                ->group('q.id, a.id')
                 ->order('a.id DESC')
                 ->queryAll();
 
@@ -27,7 +30,7 @@ class SendAfterAnswerCommand extends CConsoleCommand
 
         foreach ($answersRows as $row) {
             // в письмо вставляем ссылку на вопрос + метки для отслеживания переходов
-            $questionLink = 'https://100yuristov.com/q/' . $row['id'] . '/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_followup&utm_term=' . $row['id'];
+            $questionLink = Yii::app()->createUrl('question/view', ['id' => $row['id']]) . '?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_followup&utm_term=' . $row['id'];
 
             /*  проверим, есть ли у пользователя заполненное поле autologin, если нет,
              *  генерируем код для автоматического логина при переходе из письма
@@ -43,12 +46,12 @@ class SendAfterAnswerCommand extends CConsoleCommand
             $mailer = new GTMail();
             $mailer->subject = CHtml::encode($row['authorName']) . ', оцените ответ юриста на Ваш вопрос!';
             $path = Yii::getPathOfAlias('application.views.mail').'/sendAfterAnswer.php';
-            $mailer->message = $this->renderFile($path, ['row' => $row, 'questionLink' => $questionLink]);
+            $mailer->message = $this->renderFile($path, ['row' => $row, 'questionLink' => $questionLink], true);
 
             // отправляем письмо на почту пользователя
             $mailer->email = $row['email'];
 
-            if ($mailer->sendMail(true)) {
+            if ($mailer->sendMail()) {
                 Yii::log('Отправлено письмо пользователю ' . $row['email'] . ' с уведомлением об ответе на вопрос ' . $row['id'], 'info', 'system.web.User');
             } else {
                 // не удалось отправить письмо
