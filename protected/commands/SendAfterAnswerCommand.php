@@ -9,13 +9,6 @@ class SendAfterAnswerCommand extends CConsoleCommand
 
     public function actionIndex()
     {
-//        SELECT a.datetime, q.id, q.title, u.email, q.authorName, y.lastName FROM `100_answer` a
-//        LEFT JOIN `100_question` q ON q.id = a.questionId
-//        LEFT JOIN `100_user` u ON u.id = q.authorId
-//        LEFT JOIN `100_user` y ON y.id = a.authorId
-//        WHERE a.datetime > NOW()-INTERVAL 15 DAY AND a.datetime < NOW()-INTERVAL 4 DAY AND u.email IS NOT NULL
-//        GROUP BY q.id
-//        ORDER BY a.`id`  DESC
 
         // найдем информацию об ответах, вопросах, пользователях и юристах
 
@@ -25,8 +18,11 @@ class SendAfterAnswerCommand extends CConsoleCommand
                 ->leftJoin('{{question}} q', 'q.id = a.questionId')
                 ->leftJoin('{{user}} u', 'u.id = q.authorId')
                 ->leftJoin('{{user}} y', 'y.id = a.authorId')
-                ->where('a.datetime > NOW()-INTERVAL :interval2 DAY AND a.datetime < NOW()-INTERVAL :interval1 DAY AND u.email IS NOT NULL', [':interval2' => $this->interval + $this->days, ':interval1' => $this->interval])
-                ->group('q.id')
+                ->where('a.datetime > NOW()-INTERVAL :interval2 DAY AND a.datetime < NOW()-INTERVAL :interval1 DAY AND u.email IS NOT NULL', [
+                    ':interval2' => $this->interval + $this->days,
+                    ':interval1' => $this->interval
+                ])
+                ->group('q.id, a.id')
                 ->order('a.id DESC')
                 ->queryAll();
 
@@ -34,7 +30,7 @@ class SendAfterAnswerCommand extends CConsoleCommand
 
         foreach ($answersRows as $row) {
             // в письмо вставляем ссылку на вопрос + метки для отслеживания переходов
-            $questionLink = 'https://100yuristov.com/q/' . $row['id'] . '/?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_followup&utm_term=' . $row['id'];
+            $questionLink = Yii::app()->createUrl('question/view', ['id' => $row['id']]) . '?utm_source=100yuristov&utm_medium=mail&utm_campaign=answer_followup&utm_term=' . $row['id'];
 
             /*  проверим, есть ли у пользователя заполненное поле autologin, если нет,
              *  генерируем код для автоматического логина при переходе из письма
@@ -49,23 +45,13 @@ class SendAfterAnswerCommand extends CConsoleCommand
 
             $mailer = new GTMail();
             $mailer->subject = CHtml::encode($row['authorName']) . ', оцените ответ юриста на Ваш вопрос!';
-            $mailer->message = '
-            <p>Здравствуйте, ' . CHtml::encode($row['authorName']) . '<br /><br />
-            Недавно наш юрист ' . $row['yuristName'] . ' ' . $row['yuristLastName'] . ' дал(а) ответ на ' . CHtml::link('Ваш вопрос', $questionLink) . '.
-            <br /><br />
-            Оказался ли Вам полезен этот ответ? Если, да, юристу будет приятно получить отзыв или просто отметку о полезности ответа, это не займет больше минуты. 
-            <br /><br />
-            ' . CHtml::link('Посмотреть и оценить ответ', $questionLink, ['class' => 'btn']) . '
-            </p>
-            <p>
-            Заранее спасибо!
-            </p>
-            ';
+            $path = Yii::getPathOfAlias('application.views.mail').'/sendAfterAnswer.php';
+            $mailer->message = $this->renderFile($path, ['row' => $row, 'questionLink' => $questionLink], true);
 
             // отправляем письмо на почту пользователя
             $mailer->email = $row['email'];
 
-            if ($mailer->sendMail(true)) {
+            if ($mailer->sendMail()) {
                 Yii::log('Отправлено письмо пользователю ' . $row['email'] . ' с уведомлением об ответе на вопрос ' . $row['id'], 'info', 'system.web.User');
             } else {
                 // не удалось отправить письмо
