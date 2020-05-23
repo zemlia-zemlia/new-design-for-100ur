@@ -1,10 +1,14 @@
+<?php
+/** @var array $campaigns */
+?>
+
 <table class="table table-bordered">
     <thead>
     <tr>
         <th>регион</th>
         <th>статус</th>
         <th>цена</th>
-        <th>кол-во</th>
+        <th>дневной лимит</th>
         <th></th>
     </tr>
     </thead>
