@@ -1,3 +1,6 @@
+<?php
+/** @var array $row */
+?>
 
 <p>Здравствуйте, <?= CHtml::encode($row['authorName']) ?><br /><br />
     Недавно вы задавали вопрос  <?=  CHtml::encode($row['yuristName'] . ' ' . $row['yuristLastName'])  ?> дал(а) ответ на <?=  CHtml::link('Ваш вопрос', $questionLink) ?>.
@@ -7,7 +10,7 @@
     <?= CHtml::link('Посмотреть и оценить ответ', $questionLink, ['class' => 'btn']) ?>
 </p>
 <p>
-    Оставить отзыв можно перейдя по ссылке: <a href="https://yandex.ru/profile/1540217792">Ссылка на профиль в яндекс правочнике</a>
+    Оставить отзыв можно перейдя по ссылке: <a href="https://yandex.ru/profile/1540217792">Ссылка на профиль в яндекс справочнике</a>
 </p>
 <p>
     Заранее спасибо!
