@@ -1,5 +1,7 @@
 <?php
 
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Logger;
 
 class Connector
 {
@@ -7,9 +9,12 @@ class Connector
     private $filePath = '';
     private $dbSeting = [];
 
+    /** @var Monolog\Logger */
+    private $logger;
+
     public function __construct()
     {
-        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../../../protected/config");
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../../../protected/config");
         $dotenv->load();
         $this->dbSeting = [
             'dbName' => $_ENV['DB_NAME'],
@@ -23,6 +28,9 @@ class Connector
         } catch (PDOException $e) {
             die($e->getMessage());
         }
+
+        $this->logger = new Logger('chat');
+        $this->logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../../protected/runtime/chat_logs/chat.log', 30, Logger::DEBUG));
     }
 
     /**
@@ -33,6 +41,7 @@ class Connector
     {
         $sth = $this->db->prepare('update 100_chat set is_confirmed = :type where id = :chat_id');
         $sth->execute(['chat_id' => $id, 'type' => 1]);
+
     }
 
     /**
@@ -98,25 +107,27 @@ class Connector
      */
     public function checkForChat($data)
     {
+        $this->logger->addDebug('check for chat', ['data' => $data]);
+
         $roomName = $data['room'];
         $sth = $this->db->prepare("SELECT * FROM `100_chat` WHERE `chat_id` = :id");
         $sth->execute(['id' => $roomName]);
         $chatData = $sth->fetch(PDO::FETCH_ASSOC);
+        $this->logger->addDebug('chat data', ['data' => $chatData]);
         if (!$chatData and $data['role'] == 3) { // пользователь
             $userData = explode('_', $roomName);
             $userId = $this->getUserId($data['token']);
             $layer = $this->getUserById($userData[1]);
+
+            $this->logger->addDebug('Yurist', ['yurist' => $layer]);
+
             if (!$userId || !$layer) {
                 throw new Exception('Пользователь или юрист не найден');
             }
             $sth = $this->db->prepare('INSERT INTO `100_chat`(`user_id`, `lawyer_id`, `created`, `chat_id`) 
             VALUES (:user_id, :layer_id, :created, :chat_id)'
             );
-            $message = '<html><body>Поступил запрос на новый чат <a href="https://100yuristov.com/user/chats/chatId/' . $roomName . '"> Смотреть </a></body></html>';
-            $headers = "Content-type: text/html; charset=UTF-8 \r\n";
-            $headers .= "From: admin@100yuristov.com\r\n";
-            $headers .= "Reply-To: admin@100yuristov.com\r\n";
-            mail($layer['email'], 'Запрос на новый чат', $message, $headers);
+
             $sth->execute([
                 ':user_id' => $userId,
                 ':layer_id' => $layer['id'],
@@ -126,6 +137,7 @@ class Connector
 
             return 'newChat';
         } else {
+            $this->logger->addDebug('Else case');
 
             $result = 'newChat';
             if ($chatData['is_payed'] and !$chatData['is_closed']) {
@@ -214,7 +226,8 @@ class Connector
     private function getUserById($id)
     {
         $sth = $this->db->prepare("SELECT * FROM `100_user` WHERE `id` = :id");
-        $sth->execute(array('id' => $id));
+        $sth->execute(['id' => $id]);
+
         return $sth->fetch(PDO::FETCH_ASSOC);
     }
 
