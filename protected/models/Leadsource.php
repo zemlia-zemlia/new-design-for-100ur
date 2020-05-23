@@ -245,7 +245,7 @@ class Leadsource extends CActiveRecord
             ->where('appId=:appId AND active=1', [':appId' => $appId])
             ->queryRow();
 
-        return $source;
+        return $source !== false ? $source : null;
     }
 
     /**
