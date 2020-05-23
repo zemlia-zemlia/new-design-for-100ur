@@ -6,7 +6,7 @@ return [
     'defaultController' => 'site',
     'theme' => '2020',
     // preloading 'log' component
-    'preload' => ['log'],
+    'preload' => ['log', 'monolog'],
     // autoloading model and component classes
     'import' => require(dirname(__FILE__) . '/autoload.php'),
     'modules' => [
@@ -88,25 +88,12 @@ return [
             // use 'site/error' action to display errors
             'errorAction' => 'site/error',
         ],
-        'log' => [
-            'class' => 'CLogRouter',
-            'routes' => [
-                [
-                    'class' => 'CFileLogRoute',
-                    'levels' => 'error, warning, info',
-                ],
-                // uncomment the following to show log messages on web pages
-
-                /* array(
-                  'class'         =>  'CWebLogRoute',
-                  'showInFireBug' =>  false,
-                  'categories'    =>  'application',
-                  ), */
-//                [
-//                    'class' => 'CProfileLogRoute',
-//                ],
-            ],
+        'monolog' => [
+            'class' => 'application.components.MonologComponent',
+            'isEnabled' => getenv('MONOLOG_ENABLED'),
         ],
+        'log' => require(dirname(__FILE__) . '/logging.php'),
+
         'cache' => [
             'class' => 'system.caching.CFileCache',
         ],

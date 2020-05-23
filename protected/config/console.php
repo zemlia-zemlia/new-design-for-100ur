@@ -10,51 +10,47 @@ return [
     'name' => 'My Console Application',
 
     // preloading 'log' component
-    'preload' => ['log'],
+    'preload' => ['log', 'monolog'],
 
-        // autoloading model and component classes
+    // autoloading model and component classes
     'import' => require(dirname(__FILE__) . '/autoload.php'),
 
     // application components
     'components' => [
         'db' => require(dirname(__FILE__) . '/db.php'),
 
-                'urlManager' => [
-                    'urlFormat' => 'path',
-                    'showScriptName' => false,
-                    'urlSuffix' => '/',
-                    'baseUrl' => getenv('BASE_URL'),
-                    'rules' => [
-                        '/q' => '/question/index',
-                        '/q/<id:\d+>' => '/question/view',
-                        '/q/<date:[\w\-]+>' => '/question/archive',
-                        '/cat' => '/questionCategory/index',
-                        [
-                            'class' => 'application.components.QuestionCategoryRule',
-                        ],
-                        '/ord/<id:\d+>' => '/order/view',
-                        '/town/<id:\d+>' => '/town/view',
-                        '/blog/<id:\d+>-<alias:[\w\-]+>' => '/post/view',
-                        '/post/<id:\d+>' => '/post/view',
-                        '/yurist/<countryAlias:[\w\-]+>' => '/region/country',
-                        '/yurist/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>' => '/region/view',
-                        '/yurist/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>/<name:[\w\-]+>' => '/town/alias',
-                        ],
-                    ],
-
-                'ih' => [
-                        'class' => 'CImageHandler',
-                    ],
-
-        'log' => [
-            'class' => 'CLogRouter',
-            'routes' => [
+        'urlManager' => [
+            'urlFormat' => 'path',
+            'showScriptName' => false,
+            'urlSuffix' => '/',
+            'baseUrl' => getenv('BASE_URL'),
+            'rules' => [
+                '/q' => '/question/index',
+                '/q/<id:\d+>' => '/question/view',
+                '/q/<date:[\w\-]+>' => '/question/archive',
+                '/cat' => '/questionCategory/index',
                 [
-                    'class' => 'CFileLogRoute',
-                    'levels' => 'error, warning',
+                    'class' => 'application.components.QuestionCategoryRule',
                 ],
+                '/ord/<id:\d+>' => '/order/view',
+                '/town/<id:\d+>' => '/town/view',
+                '/blog/<id:\d+>-<alias:[\w\-]+>' => '/post/view',
+                '/post/<id:\d+>' => '/post/view',
+                '/yurist/<countryAlias:[\w\-]+>' => '/region/country',
+                '/yurist/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>' => '/region/view',
+                '/yurist/<countryAlias:[\w\-]+>/<regionAlias:[\w\-]+>/<name:[\w\-]+>' => '/town/alias',
             ],
         ],
+
+        'ih' => [
+            'class' => 'CImageHandler',
+        ],
+
+        'monolog' => [
+            'class' => 'application.components.MonologComponent',
+            'isEnabled' => getenv('MONOLOG_ENABLED'),
+        ],
+        'log' => require(dirname(__FILE__) . '/logging.php'),
 
         'mailer' => [
             'class' => 'application.extensions.GTMail',

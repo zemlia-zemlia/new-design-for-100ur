@@ -16,15 +16,7 @@ return CMap::mergeArray(
                 'username' => getenv('DB_TEST_USER'),
                 'password' => getenv('DB_TEST_PASSWORD'),
             ],
-            'log' => [
-                'class' => 'CLogRouter',
-                'routes' => [
-                    [
-                        'class' => 'CFileLogRoute',
-                        'levels' => 'error, warning, info',
-                    ],
-                ],
-            ],
+            'log' => require(dirname(__FILE__) . '/logging.php'),
             'cache' => null,
             'urlManager' => [
                 'urlFormat' => 'path',
