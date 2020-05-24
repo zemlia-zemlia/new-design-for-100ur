@@ -1,8 +1,10 @@
 <?php
 
 use Monolog\Handler\AbstractProcessingHandler;
+use Monolog\Handler\ElasticSearchHandler;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
+use Elastica\Client;
 
 /**
  * Обертка над Monolog
@@ -16,6 +18,9 @@ class MonologComponent extends CApplicationComponent
 
     /** @var int Если установить в 0, никуда логировать не будем */
     public $isEnabled = 1;
+
+    /** @var int логируем ли в Elastic */
+    public $isElasticEnabled = 0;
 
     /**
      * При инициализации приложения создаем объект логирования по умолчанию
@@ -32,6 +37,16 @@ class MonologComponent extends CApplicationComponent
                 30,
                 Logger::DEBUG
             ));
+        }
+
+        /** @todo Создавать объекты через контейнер */
+        if ($this->isElasticEnabled == 1) {
+            $client = new Client();
+            $options = [
+                'index' => 'logs100yuristov_' . date('Y-m-d'),
+            ];
+            $elasticSearchHandler = new ElasticsearchHandler($client, $options);
+            $this->logger->pushHandler($elasticSearchHandler);
         }
     }
 

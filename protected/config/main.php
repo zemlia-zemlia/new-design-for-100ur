@@ -91,6 +91,7 @@ return [
         'monolog' => [
             'class' => 'application.components.MonologComponent',
             'isEnabled' => getenv('MONOLOG_ENABLED'),
+            'isElasticEnabled' => getenv('ELASTIC_LOGGING_ENABLED'),
         ],
         'log' => require(dirname(__FILE__) . '/logging.php'),
 
