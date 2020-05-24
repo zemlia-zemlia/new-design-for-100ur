@@ -39,11 +39,27 @@ class MonologLoggerRoute extends CLogRoute
     {
         $level = $this->getLogLevel($logRecord[1]);
         $message = $logRecord[0];
-        $context = [
-            'category' => $logRecord[2],
-        ];
+        $context = $this->createContextArray($logRecord);
 
         return $this->logger->log($level, $message, $context);
+    }
+
+    /**
+     * @param array $logRecord
+     * @return array
+     */
+    protected function createContextArray(array $logRecord): array
+    {
+        $contextArray = [];
+
+        $contextArray['category'] = $logRecord[2];
+
+        if (preg_match('/CHttpException\.([0-9]+)/', $logRecord[2], $responseCodeMatches)) {
+            $responseCode = $responseCodeMatches[1];
+            $contextArray['responseCode'] = $responseCode;
+        }
+
+        return $contextArray;
     }
 
     /**

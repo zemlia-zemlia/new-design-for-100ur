@@ -41,9 +41,12 @@ class MonologComponent extends CApplicationComponent
 
         /** @todo Создавать объекты через контейнер */
         if ($this->isElasticEnabled == 1) {
-            $client = new Client();
+            $client = new Client([
+                'host' => '127.0.0.1',
+            ]);
             $options = [
                 'index' => 'logs100yuristov_' . date('Y-m-d'),
+                'type' => 'elastic_doc_type',
             ];
             $elasticSearchHandler = new ElasticsearchHandler($client, $options);
             $this->logger->pushHandler($elasticSearchHandler);
