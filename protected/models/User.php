@@ -1153,13 +1153,13 @@ class User extends CActiveRecord
         $lastActivityDateTime = new \DateTime($this->lastActivity);
         $currentDateTime = new \DateTime();
 
-        if ($lastActivityDateTime > (clone $currentDateTime)->modify('-20 minutes')) {
+        if ($lastActivityDateTime > (clone $currentDateTime)->modify('-10 minutes')) {
             return 'онлайн';
         }
 
         if (
             $lastActivityDateTime > (clone $currentDateTime)->modify('-60 minutes') &&
-            $lastActivityDateTime < (clone $currentDateTime)->modify('-20 minutes')
+            $lastActivityDateTime < (clone $currentDateTime)->modify('-10 minutes')
         ) {
             return $currentDateTime->diff($lastActivityDateTime)->i . ' минут назад';
         }

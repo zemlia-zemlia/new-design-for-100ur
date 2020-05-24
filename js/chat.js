@@ -66,6 +66,13 @@ function init() {
                     $('#accept').click(function () {
                         if (confirm('Принять чат?')) {
                             socket.emit('accept chat', {room: window.room, token: window.token});
+                            $.get(
+                                "/user/mailLawyerAccept",
+                                {
+                                    id: window.room
+                                }
+                            );
+
                             $('#buttonsLi').remove();
                             log('Ожидаем оплаты консультации от клиента ...');
                         }
@@ -74,6 +81,12 @@ function init() {
                     $('#decline').click(function () {
                         if (confirm('Отклонить чат?')) {
                             socket.emit('decline chat', {room: window.room, token: window.token});
+                            $.get(
+                                "/user/mailLawyerDecline",
+                                {
+                                    id: window.room
+                                }
+                            );
                             $('#buttonsLi').remove();
                             log('Чат отклонен');
                         }
@@ -206,15 +219,15 @@ function init() {
         socket.on('stop typing', (data) => {
             removeChatTyping(data);
         });
-
-        socket.on('disconnect', () => {
-            log('Вы вышли из чата');
-        });
-
-        socket.on('reconnect', () => {
-            log('Вы перезашли в чат');
-            window.location.reload();
-        });
+// закоментил чтобы не надоедали
+        // socket.on('disconnect', () => {
+        //     log('Вы вышли из чата');
+        // });
+        //
+        // socket.on('reconnect', () => {
+        //     log('Вы перезашли в чат');
+        //     window.location.reload();
+        // });
 
         socket.on('reconnect_error', () => {
             log('attempt to reconnect has failed');
@@ -237,6 +250,8 @@ function init() {
         }
         $('#send').click(function () {
             sendMessage();
+
+
         });
 
         // Sends a chat message

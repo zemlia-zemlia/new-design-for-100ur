@@ -16,13 +16,13 @@ class ApiController extends CController
 
     public function init()
     {
-        $this->logger = new Logger('api');
         $rotateHandler = new RotatingFileHandler(
             Yii::getPathOfAlias('application.runtime.api_logs') . '/api.log',
             30,
             Logger::INFO
         );
-        $this->logger->pushHandler($rotateHandler);
+
+        $this->logger = Yii::app()->monolog->getNewLogger('api', [$rotateHandler]);
     }
 
     public $layout = '//frontend/atom';

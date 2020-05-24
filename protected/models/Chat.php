@@ -6,6 +6,8 @@ use CActiveDataProvider;
 use CActiveRecord;
 use CDbCriteria;
 use Yii;
+use App\notifiers\UserNotifier;
+use App\models\User;
 
 /**
  * This is the model class for table "{{chat}}".
@@ -27,6 +29,31 @@ use Yii;
  */
 class Chat extends CActiveRecord
 {
+
+
+
+    /**
+     *  Отправляет пользователю письмо о принятии чата юристом.
+     */
+    public function sendMailLawyerAccept()
+    {
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        $notifier = new UserNotifier(Yii::app()->mailer, $user);
+        return $notifier->sendChatAccept($this);
+    }
+
+    /**
+     *  Отправляет пользователю письмо об отклонении чата юристом.
+     */
+    public function sendMailLawyerDecline()
+    {
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        $notifier = new UserNotifier(Yii::app()->mailer, $user);
+        return $notifier->sendChatDecline($this);
+    }
+
+
+
     /**
      * @return string
      */
@@ -165,4 +192,10 @@ class Chat extends CActiveRecord
     {
         return $this::model()->findAll('is_petition = 1');
     }
+    public function getNotPayed(){
+        return $this::model()->findAll('is_confirmed = 1 AND is_payed IS NULL AND is_closed IS NULL');
+    }
+
+
+
 }

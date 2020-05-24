@@ -51,11 +51,13 @@ class UserController extends Controller
     {
         return [
             ['allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => ['index', 'view', 'create', 'balanceAddRequest', 'confirmationSent', 'restorePassword', 'setNewPassword', 'captcha', 'unsubscribe'],
+                'actions' => ['index', 'view', 'create', 'balanceAddRequest', 'confirmationSent', 'restorePassword', 'setNewPassword',
+                    'captcha', 'unsubscribe', 'mailLawyerAccept', 'mailLawyerDecline', 'mailUserNotification'],
                 'users' => ['*'],
             ],
             ['allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['chats', 'chat', 'update', 'profile', 'changePassword', 'updateAvatar', 'invites', 'deleteAvatar', 'clearInfo', 'requestConfirmation', 'karmaPlus', 'stats', 'sendAnswerNotification', 'testimonial', 'testimonials'],
+                'actions' => ['chats', 'chat', 'update', 'profile', 'changePassword', 'updateAvatar', 'invites', 'deleteAvatar',
+                    'clearInfo', 'requestConfirmation', 'karmaPlus', 'stats', 'sendAnswerNotification', 'testimonial', 'testimonials', 'chatPayedSuccess'],
                 'users' => ['@'],
             ],
             ['allow',
@@ -73,6 +75,10 @@ class UserController extends Controller
         ];
     }
 
+    /**
+     * @param int|string|null $chatId
+     * @param int|null $layerId
+     */
     public function actionChats($chatId = null, $layerId = null)
     {
         $this->layout = '//frontend/chat';
@@ -83,7 +89,21 @@ class UserController extends Controller
             $model->chat_id = $chatId;
             $model->lawyer_id = $layerId;
             $model->created = time();
-            $model->save();
+
+            if ($model->save()) {
+                $yurist = User::model()->findByPk($layerId);
+                $mailer = new GTMail();
+                $mailer->email = $yurist->email;
+
+                $chatLink = Yii::app()->createUrl('user/chats', ['chatId' => $chatId]);
+                if ($yurist->autologin) {
+                    $chatLink .= '?autologin=' . $yurist->autologin;
+                }
+                $mailer->message = 'Поступил запрос на новый чат <a href="' . $chatLink . '"> Смотреть </a>';
+
+                $mailer->sendMail();
+            }
+
             $this->redirect('/user/chats?chatId=' . $chatId);
         }
         $criteria = new CDbCriteria();
@@ -893,4 +913,31 @@ class UserController extends Controller
 
         return $model;
     }
+
+    public function actionChatPayedSuccess($id)
+    {
+        $this->layout = '//frontend/smart';
+
+        return $this->render('chatPayedSuccess', [
+            'chatUrl' => Yii::app()->baseUrl . '/user/chats/?chatId=' . $id
+        ]);
+    }
+
+    public function actionMailLawyerAccept($id)
+    {
+
+        $chat = Chat::model()->find('chat_id=:chat_id', [':chat_id' => $id]);
+        $chat->sendMailLawyerAccept();
+
+    }
+
+    public function actionMailLawyerDecline($id)
+    {
+
+        $chat = Chat::model()->find('chat_id=:chat_id', [':chat_id' => $id]);
+        $chat->sendMailLawyerDecline();
+
+    }
+
+
 }

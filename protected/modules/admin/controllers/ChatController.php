@@ -130,13 +130,14 @@ class ChatController extends AbstractAdminController
     public function actionIndex()
     {
         $model = new Chat();
-        $this->render('index', [
-            'notConfirmeds' => $model->getNotConfirmeds(),
-            'confirmeds' => $model->getConfirmeds(),
-            'closeds' => $model->getCloseds(),
-            'petitions' => $model->getPetitions(),
-        ]);
-    }
+		$this->render('index', [
+			'notConfirmeds'=>$model->getNotConfirmeds(),
+			'confirmeds'=>$model->getConfirmeds(),
+			'closeds'=>$model->getCloseds(),
+			'petitions'=>$model->getPetitions(),
+            'notPayed'=>$model->getNotPayed(),
+		]);
+	}
 
     /**
      * Manages all models.

@@ -33,26 +33,7 @@ echo CHtml::link('Купленные вручную', Yii::app()->createUrl('/bu
                 <div class="box-title">Активные кампании</div>
             </div>
             <div class="box-body">
-                <?php foreach ($campaigns
-                               as $campaign): ?>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h5><?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/buyer/buyer/leads', ['campaign' => $campaign->id])); ?></h5>
-                        </div>
-                        <div class="col-md-4">
-                            <?php if (Campaign::ACTIVE_MODERATION != $campaign->active): ?>
-                                <!-- <?php echo $campaign->price; ?> руб. -->
-                            <?php endif; ?>
-
-                            <?php echo $campaign->getActiveStatusName(); ?>
-                        </div>
-                        <div class="col-md-4">
-                            <?php echo CHtml::link("Настройки <span class='glyphicon glyphicon-cog'></span>", Yii::app()->createUrl('/buyer/buyer/campaign', ['id' => $campaign->id])); ?>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-
+               <?php $this->renderPartial('_campaignItem', ['campaigns' => $campaigns]) ?>
 
             </div>
         </div>
@@ -62,25 +43,8 @@ echo CHtml::link('Купленные вручную', Yii::app()->createUrl('/bu
                 <div class="box-title"> Кампании с другими статусами</div>
             </div>
             <div class="box-body">
-                <?php foreach ($campaignsNoActive
-                               as $campaign): ?>
 
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h5><?php echo CHtml::link($campaign->region->name . ' ' . $campaign->town->name, Yii::app()->createUrl('/buyer/buyer/leads', ['campaign' => $campaign->id])); ?></h5>
-                        </div>
-                        <div class="col-md-4">
-                            <?php if (Campaign::ACTIVE_MODERATION != $campaign->active): ?>
-                                <!-- <?php echo $campaign->price; ?> руб. -->
-                            <?php endif; ?>
-
-                            <?php echo $campaign->getActiveStatusName(); ?>
-                        </div>
-                        <div class="col-md-4">
-                            <?php echo CHtml::link("Настройки <span class='glyphicon glyphicon-cog'></span>", Yii::app()->createUrl('/buyer/buyer/campaign', ['id' => $campaign->id])); ?>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+                <?php $this->renderPartial('_campaignItem', ['campaigns' => $campaignsNoActive]) ?>
 
             </div>
         </div>

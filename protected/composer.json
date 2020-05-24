@@ -18,7 +18,8 @@
         "guzzlehttp/guzzle":"~6.0",
         "workerman/workerman": ">=3.5.16",
         "workerman/channel": ">=1.0.0",
-        "league/container": "3.3.0"
+        "league/container": "3.3.0",
+        "ruflin/elastica": "6.1.1"
     },
     "require-dev": {
         "codeception/codeception": "^4.0",

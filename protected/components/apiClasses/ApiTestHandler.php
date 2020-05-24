@@ -20,13 +20,12 @@ class ApiTestHandler implements ApiClassInterface
 
     public function __construct()
     {
-        $this->logger = new Logger('api');
         $rotateHandler = new RotatingFileHandler(
             Yii::getPathOfAlias('application.runtime.partner_program') . '/test.log',
             30,
             Logger::INFO
         );
-        $this->logger->pushHandler($rotateHandler);
+        $this->logger = Yii::app()->monolog->getNewLogger('api', [$rotateHandler]);
     }
 
     /**
