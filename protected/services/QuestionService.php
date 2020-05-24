@@ -11,6 +11,7 @@ use App\models\Question2category;
 use App\models\User;
 use App\repositories\QuestionRepository;
 use CDbCriteria;
+use CHttpException;
 use DateTime;
 use Yii;
 
@@ -215,6 +216,44 @@ class QuestionService
 
         if (!$question->townId && $user->townId) {
             $question->townId = $user->townId;
+        }
+
+        return $question;
+    }
+
+    /**
+     * @param int $qId
+     * @param string $sId
+     * @param array|null $postedParams
+     * @return Question
+     * @throws CHttpException
+     */
+    public function confirm(int $qId, string $sId, ?array $postedParams = null): Question
+    {
+        $question = $this->questionRepository->getQuestionByParams([
+            'id' => $qId,
+            'sessionId' => $sId,
+        ]);
+
+        /** @var Question $question */
+        if (!$question) {
+            throw new CHttpException(404, 'Не найден вопрос');
+        }
+
+        if ($question->email) {
+            throw new CHttpException(400, 'У данного вопроса уже задан Email');
+        }
+
+        Yii::app()->user->setState('question_id', $question->id);
+
+        if (isset($postedParams['email']) && $postedParams['email']) {
+            $question->email = $postedParams['email'];
+
+            if ($question->createAuthor() == false) {
+                $question->addError('authorId', 'Ошибка при создании пользователя');
+                return $question;
+            }
+            $question->save();
         }
 
         return $question;

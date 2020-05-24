@@ -114,7 +114,7 @@ class QuestionController extends Controller
      *
      * @throws CHttpException
      */
-    public function actionView($id)
+    public function actionView(int $id)
     {
         $request = Yii::app()->request;
 
@@ -251,7 +251,7 @@ class QuestionController extends Controller
      *
      * @throws CHttpException
      */
-    public function actionUpdateAnswer($id)
+    public function actionUpdateAnswer(int $id)
     {
         $answer = Answer::model()->findByPk($id);
         if (!$answer) {
@@ -284,38 +284,24 @@ class QuestionController extends Controller
     {
         $this->layout = '//frontend/smart';
 
-        $qId = (isset($_GET['qId'])) ? (int) $_GET['qId'] : false;
-        $sId = (isset($_GET['sId'])) ? $_GET['sId'] : false;
+        /** @var CHttpRequest $request */
+        $request = Yii::app()->request;
+
+        $qId = (int)$request->getParam('qId');
+        $sId = $request->getParam('sId');
 
         if (!$qId || !$sId) {
             throw new CHttpException(404, 'Не задан ID вопроса');
         }
+        $postedParams = $request->getParam('App_models_Question');
 
-        $criteria = new CDbCriteria();
-        $criteria->addColumnCondition(['id' => $qId, 'sessionId' => $sId]);
-        $question = Question::model()->find($criteria);
-        /** @var Question $question */
-        if (!$question) {
-            throw new CHttpException(404, 'Не найден вопрос');
-        }
+        $question = $this->questionService->confirm($qId, $sId, $postedParams);
 
-        if ($question->email) {
-            throw new CHttpException(400, 'У данного вопроса уже задан Email');
-        }
-
-        Yii::app()->user->setState('question_id', $question->id);
-
-        if (isset($_POST['App_models_Question']) && isset($_POST['App_models_Question']['email'])) {
-            $question->email = $_POST['App_models_Question']['email'];
-
-            if ($question->createAuthor()) {
-                if ($question->save()) {
-                    if (Question::STATUS_CHECK == $question->status) {
-                        $this->redirect(['question/view', 'id' => $question->id]);
-                    }
-                    $this->redirect(['thankYou']);
-                }
+        if (!empty($postedParams) && empty($question->getErrors())) {
+            if (Question::STATUS_CHECK == $question->status) {
+                $this->redirect(['question/view', 'id' => $question->id]);
             }
+            $this->redirect(['thankYou']);
         }
 
         $this->render('confirm', [

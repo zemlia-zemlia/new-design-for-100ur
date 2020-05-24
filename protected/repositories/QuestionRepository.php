@@ -182,4 +182,16 @@ class QuestionRepository
 
         return $datesArray;
     }
+
+    /**
+     * @param array $attributes
+     * @return Question|null
+     */
+    public function getQuestionByParams(array $attributes):?Question
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addColumnCondition($attributes);
+
+        return Question::model()->find($criteria);
+    }
 }
