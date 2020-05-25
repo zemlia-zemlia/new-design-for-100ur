@@ -413,13 +413,16 @@ class QuestionController extends Controller
      */
     public function actionSearch()
     {
+        /** @var CHttpRequest $request */
+        $request = Yii::app()->request;
+
         // модель для формы поиска по вопросам
         $searchModel = new QuestionSearch();
 
         // лимит на количество найденных вопросов
         $searchModel->limit = 100;
 
-        $searchModel->attributes = $_GET['App_models_QuestionSearch'];
+        $searchModel->attributes = $request->getParam('App_models_QuestionSearch');
 
         if ($searchModel->townId) {
             $searchModel->townName = Town::getName($searchModel->townId);
@@ -443,13 +446,16 @@ class QuestionController extends Controller
      */
     public function actionCall()
     {
+        /** @var CHttpRequest $request */
+        $request = Yii::app()->request;
+
         $this->layout = '//frontend/smart';
         $lead = new Lead();
         $lead->setScenario('createCall');
 
         if (!Yii::app()->user->isGuest) {
-            $user = User::model()->findByPk(Yii::app()->user->id);
-            $myRecentQuestionsCount = $user->getRecentQuestionCount(1);
+            // не задавал ли пользователь вопросов за последний час
+            $myRecentQuestionsCount = Yii::app()->user->getModel()->getRecentQuestionCount(1);
             if ($myRecentQuestionsCount > 0) {
                 return $this->render('questionsLimit');
             }
@@ -458,64 +464,20 @@ class QuestionController extends Controller
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
 
-        if (isset($_POST['App_models_Lead'])) {
-            $lead->attributes = $_POST['App_models_Lead'];
-            $lead->phone = PhoneHelper::normalizePhone($lead->phone);
-            $lead->sourceId = 3;
+        if ($request->getPost('App_models_Lead')) {
+            $postData = $request->getPost('App_models_Lead');
+            $lead->sourceId = Yii::app()->params['100yuristovSourceId'];
             $lead->type = Lead::TYPE_CALL;
 
-            $duplicates = $lead->findDublicates(86400);
-            if ($duplicates) {
-                $lead->leadStatus = Lead::LEAD_STATUS_DUPLICATE;
-            }
+            $lead = $this->leadService->fillAndSaveLead($lead, $postData, $allDirectionsHierarchy);
 
-            if ($lead->validate()) {
-                $lead->question = CHtml::encode('Нужна консультация юриста. Перезвоните мне. ' . $lead->question);
-
-                if ($lead->save()) {
-                    // сохраним категории, к которым относится вопрос, если категория указана
-                    if (isset($_POST['App_models_Lead']['categories']) && 0 != $_POST['App_models_Lead']['categories']) {
-                        $lead2category = new Lead2Category();
-                        $lead2category->leadId = $lead->id;
-                        $leadCategory = (int)$_POST['App_models_Lead']['categories'];
-                        $lead2category->cId = $leadCategory;
-
-                        if ($lead2category->save()) {
-                            // проверим, не является ли указанная категория дочерней
-                            // если является, найдем ее родителя и запишем в категории вопроса
-                            foreach ($allDirectionsHierarchy as $parentId => $parentCategory) {
-                                if (!$parentCategory['children']) {
-                                    continue;
-                                }
-
-                                foreach ($parentCategory['children'] as $childId => $childCategory) {
-                                    if ($childId == $leadCategory) {
-                                        $lead2category = new Lead2Category();
-                                        $lead2category->leadId = $lead->id;
-                                        $lead2category->cId = $parentId;
-                                        $lead2category->save();
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    $this->redirect(['weCallYou']);
-                }
+            if (empty($lead->getErrors())) {
+                $this->redirect(['weCallYou']);
             }
         }
 
-        if (!$lead->name && Yii::app()->user->name) {
-            $lead->name = Yii::app()->user->name;
-        }
-
-        if (!$lead->phone && Yii::app()->user->phone) {
-            $lead->phone = Yii::app()->user->phone;
-        }
-
-        if (!$lead->townId && Yii::app()->user->townId) {
-            $lead->townId = Yii::app()->user->townId;
-        }
+        // Если пользователь авторизован, его атрибуты подставятся в свойства лида
+        $lead = $this->leadService->fillLeadAttributesFromUserParams($lead, Yii::app()->user->getModel());
 
         $townsArray = Town::getTownsIdsNames();
 
@@ -526,55 +488,19 @@ class QuestionController extends Controller
         ]);
     }
 
+
     /**
-     * @deprecated
+     * Страница с подтверждением того, что заказ звонка принят
      */
-    public function actionCallBack()
-    {
-        $this->layout = '//frontend/smart';
-
-        $lead = new Lead();
-        $question = new Question();
-
-        if (isset($_POST['App_models_Lead'])) {
-            $lead->attributes = $_POST['App_models_Lead'];
-            $question->townId = $lead->townId;
-            $currentTownId = $lead->townId;
-
-            // загрузили данные о лиде (город), теперь проверим, продажный ли регион этого города
-
-            // Определим, для каких регионов и городов у нас есть рекламные кампании
-            $payedRegions = [];
-            $payedTowns = [];
-
-            $payedTownsRegions = Campaign::getPayedTownsRegions();
-
-            $payedRegions = $payedTownsRegions['regions'];
-            $payedTowns = $payedTownsRegions['towns'];
-
-            /*
-             * показываем виджет только если пользователь находится в одном из продажных городов ИЛИ регионов
-             */
-            if (array_key_exists($currentTownId, $payedTowns) || array_key_exists($currentTown->regionId, $payedRegions)) {
-                $isRegionPayed = true;
-            } else {
-                $isRegionPayed = false;
-            }
-
-            $this->render('callBack', [
-                'lead' => $lead,
-                'question' => $question,
-                'isRegionPayed' => $isRegionPayed,
-            ]);
-        }
-    }
-
     public function actionWeCallYou()
     {
         $this->layout = '//frontend/smart';
         $this->render('weCallYou');
     }
 
+    /**
+     * Заказ документов
+     */
     public function actionDocs()
     {
         $this->layout = '//frontend/smart';
@@ -659,12 +585,18 @@ class QuestionController extends Controller
         ]);
     }
 
+    /**
+     * Заказ документов успешно совершен
+     */
     public function actionDocsRequested()
     {
         $this->layout = '//frontend/smart';
         $this->render('docsRequested');
     }
 
+    /**
+     * Заказ услуг
+     */
     public function actionServices()
     {
         $this->layout = '//frontend/smart';

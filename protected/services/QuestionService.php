@@ -192,7 +192,7 @@ class QuestionService
             }
 
             if ($lead instanceof Lead) {
-                $this->leadService->mapLeadToCategories($lead, $question->categories);
+                $this->leadService->mapLeadToCategories($lead, $question->categories, $allDirectionsHierarchy, false);
             }
         }
     }
