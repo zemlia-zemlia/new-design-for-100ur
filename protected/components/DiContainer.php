@@ -6,6 +6,7 @@ use App\repositories\UserRepository;
 use App\services\AnswerService;
 use App\services\CommentService;
 use App\services\LeadService;
+use App\services\QuestionRSSFeedService;
 use App\services\QuestionService;
 use League\Container\Container;
 
@@ -19,6 +20,7 @@ class DiContainer extends CComponent
 
         $this->container->add(CommentService::class);
         $this->container->add(LeadService::class);
+        $this->container->add(QuestionRSSFeedService::class);
 
         $this->container->add(AnswerService::class)
             ->addArgument(AnswerRepository::class)

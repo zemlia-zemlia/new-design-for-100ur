@@ -2,6 +2,7 @@
 
 namespace App\repositories;
 
+use App\dto\QuestionRssItemDto;
 use App\models\Answer;
 use App\models\Question;
 use App\models\User;
@@ -58,7 +59,7 @@ class QuestionRepository
                 ':status2' => Question::STATUS_CHECK,
                 ':status3' => Answer::STATUS_NEW,
                 ':status4' => Answer::STATUS_PUBLISHED,
-                ':authorId' => $user->id, ])
+                ':authorId' => $user->id,])
             ->limit($this->limit)
             ->order('a.datetime DESC')
             ->queryAll();
@@ -79,7 +80,7 @@ class QuestionRepository
             ->where('q.authorId=:authorId AND q.status IN (:status1, :status2)', [
                 ':status1' => Question::STATUS_PUBLISHED,
                 ':status2' => Question::STATUS_CHECK,
-                ':authorId' => $user->id, ])
+                ':authorId' => $user->id,])
             ->limit($this->limit)
             ->order('q.publishDate DESC')
             ->queryAll();
@@ -136,10 +137,10 @@ class QuestionRepository
     /**
      * Возвращает массив опубликованных вопросов.
      *
-     * @param int    $limit
+     * @param int $limit
      * @param string $order
      * @param string $with
-     * @param int    $cacheTime
+     * @param int $cacheTime
      *
      * @return Question[]|null
      */
@@ -148,7 +149,8 @@ class QuestionRepository
         $order = 'publishDate DESC',
         $with = 'answersCount',
         $cacheTime = 600
-    ): array {
+    ): array
+    {
         $criteria = new CDbCriteria();
         $criteria->limit = $limit;
         $criteria->with = $with;
@@ -187,11 +189,76 @@ class QuestionRepository
      * @param array $attributes
      * @return Question|null
      */
-    public function getQuestionByParams(array $attributes):?Question
+    public function getQuestionByParams(array $attributes): ?Question
     {
         $criteria = new CDbCriteria();
         $criteria->addColumnCondition($attributes);
 
         return Question::model()->find($criteria);
+    }
+
+    /**
+     * Возвращает массив последних опубликованных вопросов с полем "число ответов"
+     * @param int $limit
+     * @param int $cacheTime
+     * @return QuestionRssItemDto[]
+     * @throws CException
+     */
+    public function getPublishedQuestionsWithAnswersCountAsArray(int $limit, int $cacheTime): array
+    {
+        return $this->getPublishedQuestionsArray($limit, $cacheTime, false);
+    }
+
+    /**
+     * Возвращает массив последних опубликованных вопросов с ответами
+     * @param int $limit
+     * @param int $cacheTime
+     * @return QuestionRssItemDto[]
+     * @throws CException
+     */
+    public function getPublishedQuestionsWithAnswersAsArray(int $limit, int $cacheTime): array
+    {
+        return $this->getPublishedQuestionsArray($limit, $cacheTime, true);
+    }
+
+    /**
+     * Возвращает массив DTO объектов QuestionRssItemDto
+     * @param int $limit
+     * @param int $cacheTime
+     * @param bool $onlyWithAnswers
+     * @return array
+     * @throws CException
+     */
+    protected function getPublishedQuestionsArray(int $limit, int $cacheTime, $onlyWithAnswers = true):array
+    {
+        /** @var \CDbCommand $dbCommand */
+        $dbCommand = Yii::app()->db->cache($cacheTime)->createCommand()
+            ->select('q.id, q.title, q.publishDate, q.createDate, q.questionText, COUNT(*) answersCount')
+            ->from('{{question}} q')
+            ->leftJoin('{{answer}} a', 'a.questionId=q.id')
+            ->where(['in', 'q.status', [Question::STATUS_PUBLISHED, Question::STATUS_CHECK]])
+            ->group('q.id')
+            ->order('q.publishDate DESC, q.id DESC')
+            ->limit($limit);
+
+        if ($onlyWithAnswers == true) {
+            $dbCommand = $dbCommand->andWhere('a.id IS NOT NULL');
+        }
+
+        $questions = $dbCommand->queryAll();
+
+        $questionDtos = [];
+        foreach ($questions as $question) {
+            $questionDto = new QuestionRssItemDto();
+            $questionDto->setId($question['id'])
+                ->setTitle($question['title'])
+                ->setCreateDate($question['createDate'])
+                ->setPublishDate($question['publishDate'])
+                ->setQuestionText($question['questionText'])
+                ->setAnswersCount($question['answersCount']);
+            $questionDtos[] = $questionDto;
+        }
+
+        return $questionDtos;
     }
 }

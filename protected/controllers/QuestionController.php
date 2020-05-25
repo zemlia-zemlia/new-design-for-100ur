@@ -20,6 +20,7 @@ use App\repositories\UserRepository;
 use App\services\AnswerService;
 use App\services\CommentService;
 use App\services\LeadService;
+use App\services\QuestionRSSFeedService;
 use App\services\QuestionService;
 
 class QuestionController extends Controller
@@ -47,6 +48,9 @@ class QuestionController extends Controller
     /** @var LeadService */
     protected $leadService;
 
+    /** @var QuestionRSSFeedService */
+    protected $questionRSSService;
+
     /**
      * {@inheritdoc}
      */
@@ -62,6 +66,7 @@ class QuestionController extends Controller
         $this->commentService = $diContainer->get(CommentService::class);
         $this->leadService = $diContainer->get(LeadService::class);
         $this->questionService = $diContainer->get(QuestionService::class);
+        $this->questionRSSService = $diContainer->get(QuestionRSSFeedService::class);
 
         return parent::init();
     }
@@ -349,7 +354,7 @@ class QuestionController extends Controller
      *
      * @throws CHttpException
      */
-    public function loadModel($id)
+    public function loadModel($id): Question
     {
         $model = Question::model()->findByPk($id);
         if (null === $model) {
@@ -372,91 +377,33 @@ class QuestionController extends Controller
         }
     }
 
-    // generates RSS 2.0 feed with published questions
+    /**
+     * Генерирует RSS 2.0 фид с опубликованными вопросами
+     */
     public function actionRss()
     {
-        $questions = Yii::app()->db->cache(600)->createCommand()
-            ->select('q.id, q.title, q.createDate, q.publishDate, SUBSTR(q.questionText, 1, 200) questionText, COUNT(*) answersCount')
-            ->from('{{question}} q')
-            ->leftJoin('{{answer}} a', 'q.id=a.questionId')
-            ->where(['in', 'q.status', [Question::STATUS_PUBLISHED, Question::STATUS_CHECK]])
-            ->order('q.id DESC')
-            ->group('q.id')
-            ->limit(200)
-            ->queryAll();
+        $questions = $this->questionRepository
+            ->getPublishedQuestionsWithAnswersCountAsArray(200, 600);
 
-        Yii::import('ext.feed.*');
-        // RSS 2.0 is the default type
-        $feed = new EFeed();
+        $feed = $this->questionRSSService->createFeed($questions, [
+            'link' => Yii::app()->createUrl('/question/rss')
+        ]);
 
-        $feed->title = Yii::app()->name;
-        $feed->description = 'Вопросы квалифицированным юристам';
-
-        $feed->addChannelTag('language', 'ru-ru');
-        $feed->addChannelTag('pubDate', date(DATE_RSS, time()));
-        $feed->addChannelTag('link', Yii::app()->urlManager->baseUrl . '/question/rss');
-
-        foreach ($questions as $question) {
-            $item = $feed->createNewItem();
-
-            if ($question->answersCount) {
-                $item->title = CHtml::encode($question['title']) . ' (' . $question['answersCount'] . ' ' . NumbersHelper::numForms($question['answersCount'], 'ответ', 'ответа', 'ответов') . ')';
-            } else {
-                $item->title = CHtml::encode($question['title']);
-            }
-
-            $item->link = Yii::app()->createUrl('question/view', ['id' => $question['id']]);
-            $item->date = ($question['publishDate']) ? date(DATE_RSS, strtotime($question['publishDate'])) : date(DATE_RSS, strtotime($question['createDate']));
-            $item->description = CHtml::encode($question['questionText']);
-
-            $feed->addItem($item);
-        }
         $feed->generateFeed();
         Yii::app()->end();
     }
 
     /**
-     * generates RSS 2.0 feed with active questions with answers.
+     * Генерирует RSS 2.0 фид с опубликованными вопросами, у которых есть ответы
      */
     public function actionRssAnswers()
     {
-        $questions = Yii::app()->db->cache(600)->createCommand()
-            ->select('q.id, q.title, q.publishDate, q.createDate, q.questionText, COUNT(*) answersCount')
-            ->from('{{question}} q')
-            ->leftJoin('{{answer}} a', 'a.questionId=q.id')
-            ->group('q.id')
-            ->where('q.status IN(:status1, :status2) AND a.id IS NOT NULL', [':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED])
-            ->order('q.publishDate DESC, q.id DESC')
-            ->limit(200)
-            ->queryAll();
+        $questions = $this->questionRepository->getPublishedQuestionsWithAnswersAsArray(200, 600);
 
-        Yii::import('ext.feed.*');
-        // RSS 2.0 is the default type
-        $feed = new EFeed();
+        $feed = $this->questionRSSService->createFeed($questions, [
+            'link' => Yii::app()->createUrl('/question/rssAnswers')
+        ]);
 
-        $feed->title = Yii::app()->name;
-        $feed->description = 'Вопросы квалифицированным юристам';
-
-        $feed->addChannelTag('language', 'ru-ru');
-        $feed->addChannelTag('pubDate', date(DATE_RSS, time()));
-        $feed->addChannelTag('link', 'https://100yuristov.com/question/rssAnswers');
-
-        foreach ($questions as $question) {
-            $item = $feed->createNewItem();
-
-            if ($question['answersCount']) {
-                $item->title = CHtml::encode($question['title']) . ' (' . $question['answersCount'] . ' ' . NumbersHelper::numForms($question['answersCount'], 'ответ', 'ответа', 'ответов') . ')';
-            } else {
-                $item->title = CHtml::encode($question['title']);
-            }
-
-            $item->link = Yii::app()->createUrl('question/view', ['id' => $question['id']]);
-            $item->date = ($question['publishDate']) ? date(DATE_RSS, strtotime($question['publishDate'])) : date(DATE_RSS, strtotime($question['createDate']));
-
-            $item->description = CHtml::encode($question['questionText']);
-
-            $feed->addItem($item);
-        }
         $feed->generateFeed();
         Yii::app()->end();
     }
@@ -530,7 +477,7 @@ class QuestionController extends Controller
                     if (isset($_POST['App_models_Lead']['categories']) && 0 != $_POST['App_models_Lead']['categories']) {
                         $lead2category = new Lead2Category();
                         $lead2category->leadId = $lead->id;
-                        $leadCategory = (int) $_POST['App_models_Lead']['categories'];
+                        $leadCategory = (int)$_POST['App_models_Lead']['categories'];
                         $lead2category->cId = $leadCategory;
 
                         if ($lead2category->save()) {
@@ -643,8 +590,8 @@ class QuestionController extends Controller
             $author->attributes = $currentUser->attributes;
         }
 
-        if (isset($_GET['juristId']) && (int) $_GET['juristId'] > 0) {
-            $juristId = (int) $_GET['juristId'];
+        if (isset($_GET['juristId']) && (int)$_GET['juristId'] > 0) {
+            $juristId = (int)$_GET['juristId'];
             if (User::model()->findByAttributes(['role' => User::ROLE_JURIST, 'active100' => 1, 'id' => $juristId])) {
                 $order->juristId = $juristId;
             }
@@ -762,7 +709,7 @@ class QuestionController extends Controller
             throw new CHttpException(404, 'Вопрос не найден');
         }
 
-        $level = (isset($_GET['level']) && (int) $_GET['level'] > 0) ? (int) $_GET['level'] : Question::LEVEL_1;
+        $level = (isset($_GET['level']) && (int)$_GET['level'] > 0) ? (int)$_GET['level'] : Question::LEVEL_1;
 
         $questionPrice = Question::getPriceByLevel($level);
         $question->price = $questionPrice;
@@ -804,7 +751,7 @@ class QuestionController extends Controller
         if (YandexKassa::checkMd5($_POST)) {
             fwrite($paymentLog, 'MD5 correct!');
             $yaKassa->formResponse(0, 'OK');
-        //$yaKassa->formResponse(1,'Error'); // just for test
+            //$yaKassa->formResponse(1,'Error'); // just for test
         } else {
             fwrite($paymentLog, 'MD5 incorrect!');
             $yaKassa->formResponse(1, 'Ошибка авторизации');
@@ -981,7 +928,7 @@ class QuestionController extends Controller
         }
 
         $userId = Yii::app()->user->id;
-        $questionId = (int) $_POST['id'];
+        $questionId = (int)$_POST['id'];
 
         $question = Question::model()->findByPk($questionId);
 

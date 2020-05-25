@@ -400,7 +400,7 @@ class Question extends CActiveRecord
      *
      * @return bool true - пользователь сохранен, false - не сохранен
      */
-    public function createAuthor()
+    public function createAuthor():bool
     {
         // Если вопрос задал существующий пользователь, сразу вернем true
         // проверим, есть ли в базе пользователь с таким мейлом

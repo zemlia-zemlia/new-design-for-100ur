@@ -5,6 +5,7 @@ return [
     'application.components.emailParsers.*',
     'application.components.yandexPayment.*',
     'application.extensions.*',
+    'application.extensions.feed.*',
     'application.extensions.XWebDebugRouter.*',
     'application.extensions.cleditor.ECLEditor',
     'application.extensions.StoYuristovClient.StoYuristovClient',
