@@ -67,7 +67,7 @@
 
         <div class="col-sm-2 col-xs-2">
             <div class="">
-                <?php echo $form->labelEx($model, 'town'); ?><br/>
+                <?php echo $form->labelEx($model, 'Город'); ?><br/>
                 <?php
                 echo CHtml::textField('town', $townName, [
                     'id' => 'town-selector',
@@ -93,7 +93,7 @@
 
         <div class="col-sm-1 col-xs-2">
             <div class="form-group">
-                <?php echo $form->labelEx($model, 'sourceId'); ?><br/>
+                <?php echo $form->labelEx($model, 'Источник'); ?><br/>
                 <?php
                 echo $form->dropDownList($model, 'sourceId', ['' => 'Все'] + Leadsource::getSourcesArray(true), [
                     'class' => 'form-control input-sm', 'style' => 'width:100%;',
@@ -126,7 +126,7 @@
 
         <div class="col-sm-1 col-xs-2">
             <div class="form-group">
-                <?php echo $form->labelEx($model, 'phone'); ?><br/>
+                <?php echo $form->labelEx($model, 'Телефон'); ?><br/>
                 <?php echo $form->textField($model, 'phone', ['class' => 'form-control input-sm', 'style' => 'width:100%;']); ?>
                 <?php echo $form->error($model, 'phone'); ?>
             </div>

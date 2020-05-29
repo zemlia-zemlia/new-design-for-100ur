@@ -17,12 +17,13 @@ $sumBalance = 0;
 </style>
 
 <h3>Касса
-    <?php echo CHtml::link('Добавить запись', Yii::app()->createUrl('/admin/money/create'), ['class' => 'btn btn-primary']); ?>
+    <?php echo CHtml::link('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> запись', Yii::app()->createUrl('/admin/money/create'), ['class' => 'btn btn-primary']); ?>
+    <?php echo CHtml::link('<span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>', Yii::app()->createUrl('/admin/money/addTransaction'), ['class' => 'btn btn-primary']); ?>
     <?php echo CHtml::link('Отчет', Yii::app()->createUrl('/admin/money/report'), ['class' => 'btn btn-default']); ?>
-    <?php echo CHtml::link('Внутр. транз.', Yii::app()->createUrl('/admin/money/addTransaction'), ['class' => 'btn btn-primary']); ?>
+
     <small>
         <abbr title="Сумма балансов вебмастеров">
-            <?php echo MoneyFormat::rubles(PartnerTransaction::sumAll()); ?> руб.
+            <?php echo MoneyFormat::rubles(PartnerTransaction::sumAll()); ?>
         </abbr>
     </small>
 </h3>
