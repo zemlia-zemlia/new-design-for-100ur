@@ -7,6 +7,7 @@ class SitemapCommand extends CConsoleCommand
 {
     public function actionIndex()
     {
+        $siteMapFilePath = YiiBase::getPathOfAlias('application') . '/../sitemap.xml';
         $siteUrl = Yii::app()->urlManager->baseUrl;
 
         $siteMap = '<?xml version="1.0" encoding="UTF-8"?>
@@ -17,81 +18,68 @@ class SitemapCommand extends CConsoleCommand
               <changefreq>daily</changefreq>
               <priority>0.9</priority>
            </url>';
-        /*
-        $categories = Yii::app()->db->createCommand()
-                ->select('alias')
-                ->from('{{questionCategory}}')
-                ->queryAll();
-        foreach($categories as $cat) {
-            $siteMap .= '<url>
-              <loc>' . $siteUrl . '/cat/' . CHtml::encode($cat['alias']) .  '/</loc>
-              <lastmod>' . date('Y-m-d') . '</lastmod>
-              <changefreq>weekly</changefreq>
-              <priority>0.6</priority>
-           </url>';
-        }
-        */
+
+        file_put_contents($siteMapFilePath, $siteMap);
 
         $categories = QuestionCategory::model()->findAll();
         foreach ($categories as $cat) {
-            $siteMap .= '<url>
+            /** @var QuestionCategory $cat */
+            $siteMapItem = '<url>
               <loc>' . Yii::app()->createUrl('questionCategory/alias', $cat->getUrl()) . '</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.6</priority>
-           </url>';
+            </url>';
+            file_put_contents($siteMapFilePath, $siteMapItem, FILE_APPEND);
         }
 
-        $towns = Yii::app()->db->createCommand()
-                ->select('t.alias town, r.alias region, c.alias country')
-                ->from('{{town}} t')
-                ->leftJoin('{{region}} r', 'r.id=t.regionId')
-                ->leftJoin('{{country}} c', 'c.id=t.countryId')
-                ->where('c.id=2')
-                ->queryAll();
-        foreach ($towns as $town) {
-            $siteMap .= '<url>
+        $townsReader = Yii::app()->db->createCommand()
+            ->select('t.alias town, r.alias region, c.alias country')
+            ->from('{{town}} t')
+            ->leftJoin('{{region}} r', 'r.id=t.regionId')
+            ->leftJoin('{{country}} c', 'c.id=t.countryId')
+            ->where('c.id=2')
+            ->query();
+        foreach ($townsReader as $town) {
+            $siteMapItem = '<url>
               <loc>' . Yii::app()->createUrl('town/alias', ['countryAlias' => CHtml::encode($town['country']), 'regionAlias' => CHtml::encode($town['region']), 'name' => CHtml::encode($town['town'])]) . '</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.4</priority>
            </url>';
+            file_put_contents($siteMapFilePath, $siteMapItem, FILE_APPEND);
         }
 
-        $questions = Yii::app()->db->createCommand()
-                ->select('id')
-                ->from('{{question}}')
-                ->where('status IN(:status1, :status2)', [':status1' => Question::STATUS_PUBLISHED, ':status2' => Question::STATUS_CHECK])
-                ->queryAll();
-        foreach ($questions as $question) {
-            $siteMap .= '<url>
+        $questionsReader = Yii::app()->db->createCommand()
+            ->select('id')
+            ->from('{{question}}')
+            ->where('status IN(:status1, :status2)', [':status1' => Question::STATUS_PUBLISHED, ':status2' => Question::STATUS_CHECK])
+            ->query();
+        foreach ($questionsReader as $question) {
+            $siteMapItem = '<url>
               <loc>' . Yii::app()->createUrl('question/view', ['id' => $question['id']]) . '</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.3</priority>
            </url>';
+            file_put_contents($siteMapFilePath, $siteMapItem, FILE_APPEND);
         }
 
-        $posts = Yii::app()->db->createCommand()
-                ->select('id, alias')
-                ->from('{{post}}')
-                ->where('datePublication<:now', [':now' => date('Y-m-d')])
-                ->queryAll();
-        foreach ($posts as $post) {
-            $siteMap .= '<url>
+        $postsReader = Yii::app()->db->createCommand()
+            ->select('id, alias')
+            ->from('{{post}}')
+            ->where('datePublication<:now', [':now' => date('Y-m-d')])
+            ->query();
+        foreach ($postsReader as $post) {
+            $siteMapItem = '<url>
               <loc>' . Yii::app()->createUrl('post/view', ['id' => $post['id'], 'alias' => $post['alias']]) . '</loc>
               <lastmod>' . date('Y-m-d') . '</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.6</priority>
-           </url>';
+            </url>';
+            file_put_contents($siteMapFilePath, $siteMapItem, FILE_APPEND);
         }
 
-        $siteMap .= '</urlset>';
-
-        $siteMapFilePath = YiiBase::getPathOfAlias('application') . '/../sitemap.xml';
-
-        $file = fopen($siteMapFilePath, 'w');
-        fputs($file, $siteMap);
-        fclose($file);
+        file_put_contents($siteMapFilePath, '</urlset>', FILE_APPEND);
     }
 }
