@@ -27,6 +27,9 @@ class QuestionController extends Controller
 {
     public $layout = '//frontend/question';
 
+    /** @var CHttpRequest */
+    protected $request;
+
     /** @var AnswerRepository */
     protected $answerRepository;
 
@@ -67,6 +70,8 @@ class QuestionController extends Controller
         $this->leadService = $diContainer->get(LeadService::class);
         $this->questionService = $diContainer->get(QuestionService::class);
         $this->questionRSSService = $diContainer->get(QuestionRSSFeedService::class);
+
+        $this->request = Yii::app()->request;
 
         return parent::init();
     }
@@ -121,7 +126,7 @@ class QuestionController extends Controller
      */
     public function actionView(int $id)
     {
-        $request = Yii::app()->request;
+        $request = $this->request;
 
         $commentModel = new Comment();
         $answerModel = new Answer();
@@ -205,13 +210,13 @@ class QuestionController extends Controller
     {
         $this->layout = '//frontend/smart';
 
-        $request = Yii::app()->request;
+        $request = $this->request;
         $question = new Question();
         $question->setScenario('create');
 
         if (!Yii::app()->user->isGuest) {
             /** @var User $user */
-            $user = User::model()->findByPk(Yii::app()->user->id);
+            $user = $this->userRepository->getById(Yii::app()->user->id);
             $myRecentQuestionsCount = $this->userRepository->getRecentQuestionCount($user, 1);
             if ($myRecentQuestionsCount > 0) {
                 return $this->render('questionsLimit');
@@ -290,7 +295,7 @@ class QuestionController extends Controller
         $this->layout = '//frontend/smart';
 
         /** @var CHttpRequest $request */
-        $request = Yii::app()->request;
+        $request = $this->request;
 
         $qId = (int)$request->getParam('qId');
         $sId = $request->getParam('sId');
@@ -414,7 +419,7 @@ class QuestionController extends Controller
     public function actionSearch()
     {
         /** @var CHttpRequest $request */
-        $request = Yii::app()->request;
+        $request = $this->request;
 
         // модель для формы поиска по вопросам
         $searchModel = new QuestionSearch();
@@ -447,7 +452,7 @@ class QuestionController extends Controller
     public function actionCall()
     {
         /** @var CHttpRequest $request */
-        $request = Yii::app()->request;
+        $request = $this->request;
 
         $this->layout = '//frontend/smart';
         $lead = new Lead();
@@ -504,6 +509,7 @@ class QuestionController extends Controller
     public function actionDocs()
     {
         $this->layout = '//frontend/smart';
+        $request = $this->request;
 
         $order = new Order();
         $order->setScenario('create');
@@ -512,30 +518,32 @@ class QuestionController extends Controller
         $docType = null;
 
         if (!Yii::app()->user->isGuest) {
-            $currentUser = User::model()->findByPk(Yii::app()->user->id);
+            $currentUser = Yii::app()->user->getModel();
             $author->attributes = $currentUser->attributes;
         }
 
-        if (isset($_GET['juristId']) && (int)$_GET['juristId'] > 0) {
-            $juristId = (int)$_GET['juristId'];
-            if (User::model()->findByAttributes(['role' => User::ROLE_JURIST, 'active100' => 1, 'id' => $juristId])) {
+        if ((int)$request->getParam('juristId') > 0) {
+            $juristId = (int)$request->getParam('juristId');
+            if ($this->userRepository->getByAttributes([
+                'role' => User::ROLE_JURIST,
+                'active100' => 1,
+                'id' => $juristId
+            ])) {
                 $order->juristId = $juristId;
             }
         }
 
-        if (isset($_POST['App_models_Order'])) {
-            $order->attributes = $_POST['App_models_Order'];
+        if ($request->getParam('App_models_Order')) {
+            $order->attributes = $request->getParam('App_models_Order');
 
             // найдем информацию по типу заказываемого документа
             if ($order->itemType) {
                 $docType = DocType::model()->findByPk($order->itemType);
             }
 
-            if (isset($_POST['App_models_User'])) {
-                $author->attributes = $_POST['App_models_User'];
+            if ($request->getParam('App_models_User')) {
+                $author->attributes = $request->getParam('App_models_User');
             }
-
-            //if ($order->validate() && $author->validate()) {
 
             if (Yii::app()->user->isGuest) {
                 $order->status = Order::STATUS_NEW;
@@ -566,7 +574,6 @@ class QuestionController extends Controller
                 }
                 $this->redirect(['docsRequested']);
             }
-            //}
         }
 
         $townsArray = Town::getTownsIdsNames();
@@ -596,6 +603,7 @@ class QuestionController extends Controller
 
     /**
      * Заказ услуг
+     * @deprecated
      */
     public function actionServices()
     {
@@ -626,14 +634,19 @@ class QuestionController extends Controller
         ]);
     }
 
+    /**
+     * Страница, отображаемая после заказа услуги
+     */
     public function actionGetServices()
     {
         $this->layout = '//frontend/smart';
         $this->render('getServices');
     }
 
-    // изменения статуса вопроса на платный
-    public function actionUpgrade($id)
+    /**
+     * изменения статуса вопроса на платный
+     */
+    public function actionUpgrade(int $id)
     {
         $question = Question::model()->findByPk($id);
 
@@ -653,6 +666,7 @@ class QuestionController extends Controller
 
     /**
      *  платеж успешно совершен.
+     * используется при работе с Яндекс кассой
      */
     public function actionPaymentSuccess()
     {
@@ -661,7 +675,10 @@ class QuestionController extends Controller
         $this->render('paymentSuccess', ['params' => $params]);
     }
 
-    // платеж не успешно
+    /**
+     * платеж не успешно
+     * используется при работе с Яндекс кассой
+     */
     public function actionPaymentFail()
     {
         //https://100yuristov.com/question/paymentFail/test/1/?orderSumAmount=99.00&cdd_exp_date=1221&shopArticleId=367734&paymentPayerCode=4100322062290&cdd_rrn=&external_id=deposit&paymentType=AC&requestDatetime=2016-10-06T17%3A39%3A22.418%2B03%3A00&depositNumber=sO8G8EwrcotOG1AgYAadKefc5cQZ.001f.201610&cps_user_country_code=PL&orderCreatedDatetime=2016-10-06T17%3A39%3A21.921%2B03%3A00&sk=y0ef7319b7a2ed83de96f44ec0cd4c83c&action=PaymentFail&shopId=73868&scid=542085&rebillingOn=false&orderSumBankPaycash=1003&cps_region_id=216&orderSumCurrencyPaycash=10643&merchant_order_id=21516_061016173905_00000_73868&unilabel=1f8875c8-0009-5000-8000-000015ab36bd&cdd_pan_mask=444444%7C4448&customerNumber=21516&yandexPaymentId=2570060865738&invoiceId=2000000925475
@@ -669,7 +686,10 @@ class QuestionController extends Controller
         $this->render('paymentFail', ['params' => $params]);
     }
 
-    // запрос от яндекса на проверку платежа
+    /**
+     * запрос от яндекса на проверку платежа
+     * используется при работе с Яндекс кассой
+     */
     public function actionPaymentCheck()
     {
         $yaKassa = new YandexKassa($_POST);
@@ -690,7 +710,10 @@ class QuestionController extends Controller
         }
     }
 
-    // запроса от яндекса о платеже или отказе
+    /**
+     * запроса от яндекса о платеже или отказе
+     * используется при работе с Яндекс кассой
+     */
     public function actionPaymentAviso()
     {
         $yaKassa = new YandexKassa($_POST);
@@ -801,7 +824,13 @@ class QuestionController extends Controller
         }
     }
 
-    public function actionArchive($date)
+    /**
+     * Архив вопросов
+     * Обрабатывает обращения по адресам /q/{дата в формате Y-m}
+     * @param string $date
+     * @throws CHttpException
+     */
+    public function actionArchive(string $date)
     {
         $dateParts = explode('-', $date);
         $year = $dateParts[0];
@@ -812,34 +841,10 @@ class QuestionController extends Controller
             throw new CHttpException(400, 'Некорректная дата');
         }
 
-        $questionsDataProvider = new CActiveDataProvider(Question::class, [
-            'criteria' => [
-                'condition' => 'YEAR(publishDate)=' . $year . ' AND MONTH(publishDate)=' . $month . ' AND status IN (' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')',
-                'order' => 'publishDate DESC',
-                'with' => 'answersCount',
-            ],
-            'pagination' => [
-                'pageSize' => 50,
-            ],
-        ]);
+        $questionsDataProvider = $this->questionRepository
+            ->getQuestionsDataProviderForMonth($year, $month, 50);
 
-        // месяцы, за которые есть вопросы
-        $datesArray = [];
-        $datesRows = Yii::app()->db->createCommand()
-            ->select('MONTH(publishDate) month')
-            ->from('{{question}}')
-            ->where('YEAR(publishDate) = :year AND status IN (:status1, :status2)', [
-                ':status1' => Question::STATUS_CHECK,
-                ':status2' => Question::STATUS_PUBLISHED,
-                ':year' => $year,
-            ])
-            ->group('month')
-            ->queryAll();
-        foreach ($datesRows as $row) {
-            if ($row['month']) {
-                $datesArray[] = $row['month'];
-            }
-        }
+        $datesArray = $this->questionRepository->getMonthsWithPublishedQuestions($year);
 
         $this->render('archive', [
             'dataProvider' => $questionsDataProvider,
@@ -854,7 +859,7 @@ class QuestionController extends Controller
      */
     public function actionCheckCommentsAsRead()
     {
-        $request = Yii::app()->request;
+        $request = $this->request;
         if (!$request->isAjaxRequest) {
             throw new CHttpException(400, 'Запрос должен быть в формате AJAX');
         }
@@ -887,17 +892,17 @@ class QuestionController extends Controller
 
     /**
      * Отображение страницы Мои вопросы.
+     * @throws CHttpException
      */
     public function actionMy()
     {
-        $user = User::model()->findByPk(Yii::app()->user->id);
+        $user = $this->userRepository->getById(Yii::app()->user->id);
 
-        $questionCriteria = new CDbCriteria();
-        $questionCriteria->order = 't.publishDate DESC';
-        $questionCriteria->with = 'answersCount';
-        $questionCriteria->addColumnCondition(['t.authorId' => $user->id]);
-        $questionCriteria->addInCondition('t.status', [Question::STATUS_PUBLISHED, Question::STATUS_CHECK]);
-        $questions = Question::model()->findAll($questionCriteria);
+        if (is_null($user)) {
+            throw new CHttpException(404, 'Пользователь не найден');
+        }
+
+        $questions = $this->questionRepository->getQuestionsByAuthor($user);
 
         $this->render('my', [
             'questions' => $questions,

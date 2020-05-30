@@ -18,6 +18,24 @@ class UserRepository
     }
 
     /**
+     * @param int $id
+     * @return User|null
+     */
+    public function getById(int $id): ?User
+    {
+        return User::model()->findByPk($id);
+    }
+
+    /**
+     * @param array $attributes
+     * @return User|null
+     */
+    public function getByAttributes(array $attributes): ?User
+    {
+        return User::model()->findByAttributes($attributes);
+    }
+
+    /**
      * @param string $email
      * @param string $code
      */
