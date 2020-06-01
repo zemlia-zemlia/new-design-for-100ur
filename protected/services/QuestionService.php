@@ -8,8 +8,11 @@ use App\models\Lead;
 use App\models\Leadsource;
 use App\models\Question;
 use App\models\Question2category;
+use App\models\QuestionSearch;
+use App\models\Town;
 use App\models\User;
 use App\repositories\QuestionRepository;
+use CArrayDataProvider;
 use CDbCriteria;
 use CHttpException;
 use DateTime;
@@ -257,5 +260,29 @@ class QuestionService
         }
 
         return $question;
+    }
+
+    /**
+     * @param QuestionSearch $searchModel
+     * @param int $limit
+     * @param int $pagesize
+     * @return CArrayDataProvider
+     */
+    public function getSearchDataProvider(QuestionSearch $searchModel, $limit = 100, $pagesize = 20): CArrayDataProvider
+    {
+        // лимит на количество найденных вопросов
+        $searchModel->limit = $limit;
+
+        if ($searchModel->townId) {
+            $searchModel->townName = Town::getName($searchModel->townId);
+        }
+
+        $questions = $searchModel->search();
+
+        return new CArrayDataProvider($questions, [
+            'pagination' => [
+                'pageSize' => $pagesize,
+            ],
+        ]);
     }
 }

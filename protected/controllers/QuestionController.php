@@ -267,12 +267,19 @@ class QuestionController extends Controller
         if (!$answer) {
             throw new CHttpException(404, 'Ответ не найден');
         }
-        if (!(User::ROLE_JURIST == Yii::app()->user->role && $answer->authorId == Yii::app()->user->id && time() - strtotime($answer->datetime) < Answer::EDIT_TIMEOUT)) {
+
+        if (
+            !(
+                User::ROLE_JURIST == Yii::app()->user->role &&
+                $answer->authorId == Yii::app()->user->id &&
+                time() - strtotime($answer->datetime) < Answer::EDIT_TIMEOUT
+            )
+        ) {
             throw new CHttpException(403, 'Вы не можете редактировать этот ответ');
         }
 
-        if (isset($_POST['App_models_Answer'])) {
-            $answer->attributes = $_POST['App_models_Answer'];
+        if ($this->request->getParam('App_models_Answer')) {
+            $answer->attributes = $this->request->getParam('App_models_Answer');
 
             if ($answer->save()) {
                 $this->redirect(['question/view', 'id' => $answer->questionId]);
@@ -333,7 +340,7 @@ class QuestionController extends Controller
      */
     public function actionIndex()
     {
-        if ('/q/' != $_SERVER['REQUEST_URI']) {
+        if ('/q/' != $this->request->requestUri) {
             $this->redirect(Yii::app()->createUrl('question/index'), true, 301);
         }
 
@@ -423,22 +430,9 @@ class QuestionController extends Controller
 
         // модель для формы поиска по вопросам
         $searchModel = new QuestionSearch();
-
-        // лимит на количество найденных вопросов
-        $searchModel->limit = 100;
-
         $searchModel->attributes = $request->getParam('App_models_QuestionSearch');
 
-        if ($searchModel->townId) {
-            $searchModel->townName = Town::getName($searchModel->townId);
-        }
-
-        $questions = $searchModel->search();
-        $questionDataProvider = new CArrayDataProvider($questions, [
-            'pagination' => [
-                'pageSize' => 20,
-            ],
-        ]);
+        $questionDataProvider = $this->questionService->getSearchDataProvider($searchModel, 100, 20);
 
         $this->render('search', [
             'searchModel' => $searchModel,
@@ -645,6 +639,8 @@ class QuestionController extends Controller
 
     /**
      * изменения статуса вопроса на платный
+     * @param int $id
+     * @throws CHttpException
      */
     public function actionUpgrade(int $id)
     {
@@ -654,7 +650,9 @@ class QuestionController extends Controller
             throw new CHttpException(404, 'Вопрос не найден');
         }
 
-        $level = (isset($_GET['level']) && (int)$_GET['level'] > 0) ? (int)$_GET['level'] : Question::LEVEL_1;
+        $level = ((int)$this->request->getParam('level') > 0) ?
+            (int)$this->request->getParam('level') :
+            Question::LEVEL_1;
 
         $questionPrice = Question::getPriceByLevel($level);
         $question->price = $questionPrice;
@@ -738,93 +736,6 @@ class QuestionController extends Controller
     }
 
     /**
-     * прием лида по POST запросу.
-     *
-     * @deprecated
-     */
-    public function actionSendLead()
-    {
-        if (!isset($_POST)) {
-            echo json_encode([
-                'code' => 400,
-                'message' => 'No input data',
-            ]);
-            Yii::app()->end();
-        }
-        $model = new Lead();
-        //$leadAppId = 'yurCrm';
-        /*
-         * захардкодим возможные приложения для поставки лидов, потом будем хранить их в базе
-         * appId => [
-         *      'secretKey' => 'xxxxx',
-         *      'sourceId'  =>  N,
-         * ]
-         */
-        $leadApps = [
-            'yurCrm' => [
-                'secretKey' => 'Let me speak from my heart',
-                'sourceId' => 3,
-            ],
-            'yurCrmRegions' => [
-                'secretKey' => 'Euro integration',
-                'sourceId' => 1,
-            ],
-        ];
-
-        // проверим параметр appId, есть ли он в списке известных приложений
-        if (!array_key_exists($_POST['appId'], $leadApps)) {
-            echo json_encode([
-                'code' => 400,
-                'message' => 'Unknown sender. Check App ID parameter',
-            ]);
-            Yii::app()->end();
-        }
-
-        $activeApp = $leadApps[$_POST['appId']];
-
-        $model->attributes = $_POST;
-        $model->sourceId = $activeApp['sourceId'];
-        $model->type = Lead::TYPE_INCOMING_CALL;
-        $model->phone = PhoneHelper::normalizePhone($model->phone);
-
-        $appSecret = $activeApp['secretKey'];
-        // сформируем подпись на основе принятых данных
-        $signature = md5($model->name . $model->phone . $model->email . $model->question . $model->townId . $_POST['appId'] . $appSecret);
-
-        // проверим подпись
-        if ($signature !== $_POST['signature']) {
-            echo json_encode([
-                'code' => 403,
-                'message' => 'Signature wrong',
-            ]);
-            Yii::app()->end();
-        }
-
-        if ($model->findDublicates()) {
-            die(json_encode([
-                'code' => 400,
-                'message' => 'Dublicates found',
-            ]));
-            Yii::app()->end();
-        }
-
-        if ($model->save()) {
-            echo json_encode([
-                'code' => 200,
-                'message' => 'OK',
-            ]);
-            Yii::app()->end();
-        } else {
-            echo json_encode([
-                'code' => 500,
-                'message' => 'App\models\Lead not saved.',
-                'errors' => $model->errors,
-            ]);
-            Yii::app()->end();
-        }
-    }
-
-    /**
      * Архив вопросов
      * Обрабатывает обращения по адресам /q/{дата в формате Y-m}
      * @param string $date
@@ -856,6 +767,7 @@ class QuestionController extends Controller
 
     /**
      * Отметка комментариев к ответам вопроса как прочитанные.
+     * Запрос приходит через AJAX
      */
     public function actionCheckCommentsAsRead()
     {
@@ -865,7 +777,7 @@ class QuestionController extends Controller
         }
 
         $userId = Yii::app()->user->id;
-        $questionId = (int)$_POST['id'];
+        $questionId = (int)$request->getParam('id');
 
         $question = Question::model()->findByPk($questionId);
 
@@ -879,14 +791,12 @@ class QuestionController extends Controller
                 'message' => '',
                 'id' => $question->id,
             ]);
-            Yii::app()->end();
         } else {
             echo json_encode([
                 'code' => 500,
                 'message' => 'Не удалось отметить комментарии прочитанными',
                 'id' => $question->id,
             ]);
-            Yii::app()->end();
         }
     }
 
