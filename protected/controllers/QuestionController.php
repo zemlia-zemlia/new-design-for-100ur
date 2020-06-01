@@ -1,6 +1,5 @@
 <?php
 
-use App\helpers\IpHelper;
 use App\helpers\NumbersHelper;
 use App\helpers\PhoneHelper;
 use App\models\Answer;
@@ -9,18 +8,73 @@ use App\models\Comment;
 use App\models\DocType;
 use App\models\Lead;
 use App\models\Lead2Category;
-use App\models\Leadsource;
 use App\models\Order;
 use App\models\Question;
-use App\models\Question2category;
 use App\models\QuestionCategory;
 use App\models\QuestionSearch;
 use App\models\Town;
 use App\models\User;
+use App\repositories\AnswerRepository;
+use App\repositories\QuestionRepository;
+use App\repositories\UserRepository;
+use App\services\AnswerService;
+use App\services\CommentService;
+use App\services\LeadService;
+use App\services\QuestionRSSFeedService;
+use App\services\QuestionService;
 
 class QuestionController extends Controller
 {
     public $layout = '//frontend/question';
+
+    /** @var CHttpRequest */
+    protected $request;
+
+    /** @var AnswerRepository */
+    protected $answerRepository;
+
+    /** @var QuestionRepository */
+    protected $questionRepository;
+
+    /** @var UserRepository */
+    protected $userRepository;
+
+    /** @var QuestionService */
+    protected $questionService;
+
+    /** @var AnswerService */
+    protected $answerService;
+
+    /** @var CommentService */
+    protected $commentService;
+
+    /** @var LeadService */
+    protected $leadService;
+
+    /** @var QuestionRSSFeedService */
+    protected $questionRSSService;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function init()
+    {
+        $diContainer = Yii::app()->container->container;
+
+        $this->answerRepository = $diContainer->get(AnswerRepository::class);
+        $this->userRepository = $diContainer->get(UserRepository::class);
+        $this->questionRepository = $diContainer->get(QuestionRepository::class);
+
+        $this->answerService = $diContainer->get(AnswerService::class);
+        $this->commentService = $diContainer->get(CommentService::class);
+        $this->leadService = $diContainer->get(LeadService::class);
+        $this->questionService = $diContainer->get(QuestionService::class);
+        $this->questionRSSService = $diContainer->get(QuestionRSSFeedService::class);
+
+        $this->request = Yii::app()->request;
+
+        return parent::init();
+    }
 
     /*
      * адреса для оплаты вопросов через Яндекс кассу
@@ -70,15 +124,21 @@ class QuestionController extends Controller
      *
      * @throws CHttpException
      */
-    public function actionView($id)
+    public function actionView(int $id)
     {
-        $request = Yii::app()->request;
+        $request = $this->request;
+
+        $commentModel = new Comment();
+        $answerModel = new Answer();
+
+        // модель для формы вопроса
+        $newQuestionModel = new Question();
 
         // редирект для страниц с пагинацией в адресе
         if ($request->getParam('Question_page')) {
             $this->redirect(['view', 'id' => $id], true, 301);
         }
-
+        /** @var Question $model */
         $model = Question::model()->with('categories')->findByPk($id);
         if (!$model) {
             throw new CHttpException(404, 'Вопрос не найден');
@@ -89,98 +149,51 @@ class QuestionController extends Controller
             throw new CHttpException(404, 'Вопрос не найден');
         }
 
-        $commentModel = new Comment();
-
         $justPublished = !is_null($request->getParam('justPublished'));
-        $justPayed = !is_null($request->getParam('payed_ok'));
 
-        $answerModel = new Answer();
+        if ($request->getParam('App_models_Answer')) {
+            $answerModel = $this->answerService->createAnswer($request->getParam('App_models_Answer'), $model, Yii::app()->user);
 
-        if (isset($_POST['App_models_Answer'])) {
-            if (!Yii::app()->user->checkAccess(User::ROLE_JURIST)) {
-                throw new CHttpException(403, 'Для того, чтобы отвечать на вопросы вы должны залогиниться на сайте как юрист');
-            }
-
-            // отправлен ответ, сохраним его
-            $answerModel->attributes = $_POST['App_models_Answer'];
-            $answerModel->authorId = Yii::app()->user->id;
-            $answerModel->questionId = $model->id;
-            $answerModel->datetime = date('Y-m-d H:i:s');
-
-            if (Yii::app()->user->checkAccess(User::ROLE_ROOT)) {
-                $answerModel->setScenario('addVideo');
-            }
-
-            if ($answerModel->save()) {
-                // записываем время ответа в запись о пользователе
-                Yii::app()->db->createCommand()
-                    ->update('{{user}}', ['lastAnswer' => $answerModel->datetime], 'id=:id', [':id' => Yii::app()->user->id]);
-
+            if (empty($answerModel->getErrors())) {
                 $this->redirect(['/question/view', 'id' => $model->id]);
             }
         }
 
-        if (isset($_POST['App_models_Comment'])) {
-            // отправлен ответ, сохраним его
-            $commentModel->attributes = $_POST['App_models_Comment'];
-            $commentModel->authorId = Yii::app()->user->id;
+        if ($request->getParam('App_models_Comment')) {
+            $commentModel = $this->commentService->create($request->getParam('App_models_Comment'), Yii::app()->user);
 
-            // комментарии от юристов сразу помечаем как проверенные
-            if (User::ROLE_JURIST == Yii::app()->user->role) {
-                $commentModel->status = Comment::STATUS_CHECKED;
-            }
-
-            // проверим, является ли данный комментарий дочерним для другого комментария
-            if (isset($commentModel->parentId) && $commentModel->parentId > 0) {
-                // является, сохраним его как дочерний комментарий
-                $rootComment = Comment::model()->findByPk($commentModel->parentId);
-                $commentModel->appendTo($rootComment);
-            }
-
-            // сохраняем комментарий с учетом его иерархии
-            if ($commentModel->saveNode()) {
+            if (empty($commentModel->getErrors())) {
                 $this->redirect(['/question/view', 'id' => $model->id]);
             }
         }
 
         // выборка ответов для текущего вопроса
-        $answersDataProvider = $answerModel->getAnswersDataProviderByQuestion($model);
+        $answersDataProvider = $this->answerRepository->getAnswersDataProviderByQuestion($model);
 
         // массив с id авторов ответов к текущему вопросу
-        // запишем в него авторов ответов, чтобы не дать юристу ответить на данный вопрос дважды
-        $answersAuthors = [];
+        // запишем в него id авторов ответов, чтобы не дать юристу ответить на данный вопрос дважды
+        $answersAuthorsIds = [];
 
         foreach ($answersDataProvider->data as $answer) {
-            $answersAuthors[] = $answer->authorId;
+            $answersAuthorsIds[] = $answer->authorId;
         }
 
         if (User::ROLE_JURIST == Yii::app()->user->role) {
             // найдем последний запрос на смену статуса
-            $lastRequest = Yii::app()->db->createCommand()
-                ->select('*')
-                ->from('{{userStatusRequest}}')
-                ->where('yuristId=:id AND isVerified=0', [':id' => Yii::app()->user->id])
-                ->order('id DESC')
-                ->limit(1)
-                ->queryAll();
+            $lastRequest = $this->userRepository
+                ->getLastChangeStatusRequestAsArray(Yii::app()->user->getModel());
 
             $nextQuestionId = $model->getNextQuestionIdForYurist(Yii::app()->user->id);
+            $model->checkCommentsAsRead(Yii::app()->user->id);
         } else {
             $lastRequest = null;
             $nextQuestionId = null;
         }
 
-        // модель для формы вопроса
-        $newQuestionModel = new Question();
-
-        if (User::ROLE_JURIST == Yii::app()->user->role) {
-            $model->checkCommentsAsRead(Yii::app()->user->id);
-        }
-
         $this->render('view', [
             'model' => $model,
             'answersDataProvider' => $answersDataProvider,
-            'answersAuthors' => $answersAuthors,
+            'answersAuthors' => $answersAuthorsIds,
             'newQuestionModel' => $newQuestionModel,
             'answerModel' => $answerModel,
             'justPublished' => $justPublished,
@@ -191,184 +204,52 @@ class QuestionController extends Controller
     }
 
     /**
-     * Creates a new model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * Создание вопроса.
      */
     public function actionCreate()
     {
         $this->layout = '//frontend/smart';
 
-        $lead = new Lead();
+        $request = $this->request;
         $question = new Question();
         $question->setScenario('create');
 
         if (!Yii::app()->user->isGuest) {
-            $user = User::model()->findByPk(Yii::app()->user->id);
-            $myRecentQuestionsCount = $user->getRecentQuestionCount(1);
+            /** @var User $user */
+            $user = $this->userRepository->getById(Yii::app()->user->id);
+            $myRecentQuestionsCount = $this->userRepository->getRecentQuestionCount($user, 1);
             if ($myRecentQuestionsCount > 0) {
                 return $this->render('questionsLimit');
             }
         }
 
         // параметр, определяющий, будет ли в форме блок выбора цены (форма платного вопроса)
-        $pay = (isset($_GET['pay'])) ? true : false;
+        $pay = !is_null($request->getParam('pay'));
 
         // Если перешли из виджета задай вопрос юристу
-        if (isset($_POST['komm'])) {
-            $question->questionText = CHtml::encode($_POST['komm']);
+        if ($request->getParam('komm')) {
+            $question->questionText = CHtml::encode($request->getParam('komm'));
         }
 
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
 
-        if (isset($_POST['App_models_Question'])) {
-            $question->attributes = $_POST['App_models_Question'];
-            $question->phone = preg_replace('/([^0-9])/i', '', $question->phone);
+        if ($request->getParam('App_models_Question')) {
+            $question = $this->questionService->createQuestion($request->getParam('App_models_Question'), $allDirectionsHierarchy);
 
-            // если пользователь пришел по партнерской ссылке, запишем в вопрос id источника
-            if (Yii::app()->user->getState('sourceId')) {
-                $source = Leadsource::model()->findByPk(Yii::app()->user->getState('sourceId'));
-                if (Leadsource::TYPE_QUESTION == $source->type) {
-                    $question->sourceId = Yii::app()->user->getState('sourceId');
-                    $question->buyPrice = Yii::app()->params['questionPrice'];
+            if (empty($question->getErrors())) {
+                if (Yii::app()->user->email && 1 == Yii::app()->user->active100) {
+                    $this->redirect(['question/view', 'id' => $question->id]);
                 }
-            }
-
-            if ('' == $question->sessionId && '' != $question->questionText && '' != $question->authorName) {
-                if (!$question->preSave()) {
-                    // если вопрос не предсохранился, очищаем свойство sessionId
-                    $question->sessionId = '';
-                }
-            } else {
-                /*
-                 * если вопрос был предсохранен, создадим объект Question из записи в базе,
-                 * чтобы при сохранении вопроса произошел update записи
-                 */
-                if ('' != $question->sessionId) {
-                    $findQuestionCriteria = new CDbCriteria();
-                    $findQuestionCriteria->addColumnCondition([
-                        'sessionId' => $question->sessionId,
-                    ]);
-                    $existingQuestion = Question::model()->find($findQuestionCriteria);
-                    if ($existingQuestion instanceof Question) {
-                        $question = $existingQuestion;
-                    }
-                }
-                $question->attributes = $_POST['App_models_Question'];
-                $question->phone = PhoneHelper::normalizePhone($question->phone);
-                $question->status = Question::STATUS_NEW;
-                $question->ip = IpHelper::getUserIP();
-                $question->townIdByIP = Yii::app()->user->getState('currentTownId');
-            }
-
-            $question->setScenario('create');
-            $question->validate();
-
-            if (empty($question->errors)) {
-                // Создаем лид
-                $lead->name = $question->authorName;
-                $lead->question = $question->questionText;
-                $lead->phone = $question->phone;
-                $lead->email = $question->email;
-                $lead->townId = $question->townId;
-
-                if ($source && Leadsource::TYPE_LEAD == $source->type) {
-                    $lead->sourceId = $source->id;
-                    // посчитаем цену покупки лида, исходя из города и региона
-                    $prices = $lead->calculatePrices();
-                    if ($prices[0]) {
-                        $lead->buyPrice = $prices[0];
-                    } else {
-                        $lead->buyPrice = 0;
-                    }
-                } else {
-                    $lead->sourceId = 3; // 100 юристов
-                }
-
-                $lead->leadStatus = Lead::LEAD_STATUS_DEFAULT; // по умолчанию лид никуда не отправляем
-
-                $duplicates = $lead->findDublicates(86400);
-                if ($duplicates) {
-                    $lead->leadStatus = Lead::LEAD_STATUS_DUPLICATE;
-                }
-
-                if ($lead->save()) {
-                    // Если клиент задает второй вопрос и уже подтвердил почту, избавим его от необходимости подтверждать повторно
-                    if (Yii::app()->user->email && 1 == Yii::app()->user->active100) {
-                        $question->status = Question::STATUS_CHECK;
-                        $question->authorId = Yii::app()->user->id;
-                        $question->email = Yii::app()->user->email;
-                        $question->publishDate = (new DateTime())->format('Y-m-d H:i:s');
-                    } else {
-                        $question->status = Question::STATUS_NEW;
-                    }
-
-                    if ($question->save()) {
-                        // после сохранения вопроса удаляем id источника из сессии, чтобы вебмастер не добавил несколько вопросов
-                        Yii::app()->user->setState('sourceId', null);
-                        $lead->questionId = $question->id;
-                        $lead->save();
-
-                        // сохраним категории, к которым относится вопрос, если категория указана
-                        if (isset($_POST['App_models_Question']['categories']) && 0 != $_POST['App_models_Question']['categories']) {
-                            $q2cat = new Question2category();
-                            $q2cat->qId = $question->id;
-                            $questionCategory = $_POST['App_models_Question']['categories'];
-                            $q2cat->cId = $questionCategory;
-                            // сохраняем указанную категорию
-                            if ($q2cat->save()) {
-                                // проверим, не является ли указанная категория дочерней
-                                // если является, найдем ее родителя и запишем в категории вопроса
-                                foreach ($allDirectionsHierarchy as $parentId => $parentCategory) {
-                                    if (!$parentCategory['children']) {
-                                        continue;
-                                    }
-
-                                    foreach ($parentCategory['children'] as $childId => $childCategory) {
-                                        if ($childId == $questionCategory) {
-                                            $q2cat = new Question2category();
-                                            $q2cat->qId = $question->id;
-                                            $q2cat->cId = $parentId;
-                                            $q2cat->save();
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            // если у вопроса есть категории, запишем их и лиду
-                            foreach ($question->categories as $cat) {
-                                $lead2category = new Lead2Category();
-                                $lead2category->leadId = $lead->id;
-                                $lead2category->cId = $cat->id;
-                                $lead2category->save();
-                            }
-                        }
-
-                        if (Yii::app()->user->email && 1 == Yii::app()->user->active100) {
-                            $this->redirect(['question/view', 'id' => $question->id]);
-                        }
-                        $this->redirect(['confirm', 'qId' => $question->id, 'sId' => $question->sessionId]);
-                    }
-                }
+                $this->redirect(['confirm', 'qId' => $question->id, 'sId' => $question->sessionId]);
             }
         }
 
-        if (!$question->authorName && Yii::app()->user->name) {
-            $question->authorName = Yii::app()->user->name;
-        }
-
-        if (!$question->phone && Yii::app()->user->phone) {
-            $question->phone = Yii::app()->user->phone;
-        }
-
-        if (!$question->townId && Yii::app()->user->townId) {
-            $question->townId = Yii::app()->user->townId;
-        }
+        $question = $this->questionService->fillQuestionAttributesFromUserParams($question, Yii::app()->user->getModel());
 
         $this->render('create', [
             'model' => $question,
             'allDirections' => $allDirections,
-            'categoryId' => $categoryId,
             'pay' => $pay,
         ]);
     }
@@ -380,18 +261,25 @@ class QuestionController extends Controller
      *
      * @throws CHttpException
      */
-    public function actionUpdateAnswer($id)
+    public function actionUpdateAnswer(int $id)
     {
         $answer = Answer::model()->findByPk($id);
         if (!$answer) {
             throw new CHttpException(404, 'Ответ не найден');
         }
-        if (!(User::ROLE_JURIST == Yii::app()->user->role && $answer->authorId == Yii::app()->user->id && time() - strtotime($answer->datetime) < Answer::EDIT_TIMEOUT)) {
+
+        if (
+            !(
+                User::ROLE_JURIST == Yii::app()->user->role &&
+                $answer->authorId == Yii::app()->user->id &&
+                time() - strtotime($answer->datetime) < Answer::EDIT_TIMEOUT
+            )
+        ) {
             throw new CHttpException(403, 'Вы не можете редактировать этот ответ');
         }
 
-        if (isset($_POST['App_models_Answer'])) {
-            $answer->attributes = $_POST['App_models_Answer'];
+        if ($this->request->getParam('App_models_Answer')) {
+            $answer->attributes = $this->request->getParam('App_models_Answer');
 
             if ($answer->save()) {
                 $this->redirect(['question/view', 'id' => $answer->questionId]);
@@ -413,38 +301,24 @@ class QuestionController extends Controller
     {
         $this->layout = '//frontend/smart';
 
-        $qId = (isset($_GET['qId'])) ? (int) $_GET['qId'] : false;
-        $sId = (isset($_GET['sId'])) ? $_GET['sId'] : false;
+        /** @var CHttpRequest $request */
+        $request = $this->request;
+
+        $qId = (int)$request->getParam('qId');
+        $sId = $request->getParam('sId');
 
         if (!$qId || !$sId) {
             throw new CHttpException(404, 'Не задан ID вопроса');
         }
+        $postedParams = $request->getParam('App_models_Question');
 
-        $criteria = new CDbCriteria();
-        $criteria->addColumnCondition(['id' => $qId, 'sessionId' => $sId]);
-        $question = Question::model()->find($criteria);
-        /** @var Question $question */
-        if (!$question) {
-            throw new CHttpException(404, 'Не найден вопрос');
-        }
+        $question = $this->questionService->confirm($qId, $sId, $postedParams);
 
-        if ($question->email) {
-            throw new CHttpException(400, 'У данного вопроса уже задан Email');
-        }
-
-        Yii::app()->user->setState('question_id', $question->id);
-
-        if (isset($_POST['App_models_Question']) && isset($_POST['App_models_Question']['email'])) {
-            $question->email = $_POST['App_models_Question']['email'];
-
-            if ($question->createAuthor()) {
-                if ($question->save()) {
-                    if (Question::STATUS_CHECK == $question->status) {
-                        $this->redirect(['question/view', 'id' => $question->id]);
-                    }
-                    $this->redirect(['thankYou']);
-                }
+        if (!empty($postedParams) && empty($question->getErrors())) {
+            if (Question::STATUS_CHECK == $question->status) {
+                $this->redirect(['question/view', 'id' => $question->id]);
             }
+            $this->redirect(['thankYou']);
         }
 
         $this->render('confirm', [
@@ -462,62 +336,23 @@ class QuestionController extends Controller
     }
 
     /**
-     * Lists all models.
+     * Страница последних вопросов.
      */
     public function actionIndex()
     {
-        if ('/q/' != $_SERVER['REQUEST_URI']) {
+        if ('/q/' != $this->request->requestUri) {
             $this->redirect(Yii::app()->createUrl('question/index'), true, 301);
         }
 
-        $criteria = new CDbCriteria();
-        $criteria->limit = 40;
-        $criteria->with = 'answersCount';
-        $criteria->addCondition('status IN (' . Question::STATUS_PUBLISHED . ', ' . Question::STATUS_CHECK . ')');
-        $criteria->order = 'publishDate DESC';
+        // Массив последних опубликованных вопросов
+        $questions = $this->questionRepository->findRecentPublishedQuestions();
 
-        $questions = Question::model()->cache(600)->findAll($criteria);
-
-        /*
-         * SELECT YEAR(publishDate) year, MONTH(publishDate) month, COUNT(*) counter FROM `100_question`
-          WHERE status IN (2,4)
-          GROUP BY year, month
-         */
         // Годы и  месяцы, за которые есть вопросы
-        $datesArray = [];
-        $datesRows = Yii::app()->db->createCommand()
-            ->select('YEAR(publishDate) year, MONTH(publishDate) month')
-            ->from('{{question}}')
-            ->where('status IN (:status1, :status2)', [':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED])
-            ->group('year, month')
-            ->order('year DESC, month DESC')
-            ->queryAll();
-
-        foreach ($datesRows as $row) {
-            if ($row['year'] && $row['month']) {
-                $datesArray[$row['year']][] = $row['month'];
-            }
-        }
+        $datesArray = $this->questionRepository->getYearsAndMonthsWithQuestions();
 
         $this->render('index', [
             'questions' => $questions,
             'datesArray' => $datesArray,
-        ]);
-    }
-
-    /**
-     * Manages all models.
-     */
-    public function actionAdmin()
-    {
-        $model = new Question('search');
-        $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['App_models_Question'])) {
-            $model->attributes = $_GET['App_models_Question'];
-        }
-
-        $this->render('admin', [
-            'model' => $model,
         ]);
     }
 
@@ -531,7 +366,7 @@ class QuestionController extends Controller
      *
      * @throws CHttpException
      */
-    public function loadModel($id)
+    public function loadModel($id): Question
     {
         $model = Question::model()->findByPk($id);
         if (null === $model) {
@@ -554,91 +389,33 @@ class QuestionController extends Controller
         }
     }
 
-    // generates RSS 2.0 feed with published questions
+    /**
+     * Генерирует RSS 2.0 фид с опубликованными вопросами
+     */
     public function actionRss()
     {
-        $questions = Yii::app()->db->cache(600)->createCommand()
-            ->select('q.id, q.title, q.createDate, q.publishDate, SUBSTR(q.questionText, 1, 200) questionText, COUNT(*) answersCount')
-            ->from('{{question}} q')
-            ->leftJoin('{{answer}} a', 'q.id=a.questionId')
-            ->where(['in', 'q.status', [Question::STATUS_PUBLISHED, Question::STATUS_CHECK]])
-            ->order('q.id DESC')
-            ->group('q.id')
-            ->limit(200)
-            ->queryAll();
+        $questions = $this->questionRepository
+            ->getPublishedQuestionsWithAnswersCountAsArray(200, 600);
 
-        Yii::import('ext.feed.*');
-        // RSS 2.0 is the default type
-        $feed = new EFeed();
+        $feed = $this->questionRSSService->createFeed($questions, [
+            'link' => Yii::app()->createUrl('/question/rss')
+        ]);
 
-        $feed->title = Yii::app()->name;
-        $feed->description = 'Вопросы квалифицированным юристам';
-
-        $feed->addChannelTag('language', 'ru-ru');
-        $feed->addChannelTag('pubDate', date(DATE_RSS, time()));
-        $feed->addChannelTag('link', Yii::app()->urlManager->baseUrl . '/question/rss');
-
-        foreach ($questions as $question) {
-            $item = $feed->createNewItem();
-
-            if ($question->answersCount) {
-                $item->title = CHtml::encode($question['title']) . ' (' . $question['answersCount'] . ' ' . NumbersHelper::numForms($question['answersCount'], 'ответ', 'ответа', 'ответов') . ')';
-            } else {
-                $item->title = CHtml::encode($question['title']);
-            }
-
-            $item->link = Yii::app()->createUrl('question/view', ['id' => $question['id']]);
-            $item->date = ($question['publishDate']) ? date(DATE_RSS, strtotime($question['publishDate'])) : date(DATE_RSS, strtotime($question['createDate']));
-            $item->description = CHtml::encode($question['questionText']);
-
-            $feed->addItem($item);
-        }
         $feed->generateFeed();
         Yii::app()->end();
     }
 
     /**
-     * generates RSS 2.0 feed with active questions with answers.
+     * Генерирует RSS 2.0 фид с опубликованными вопросами, у которых есть ответы
      */
     public function actionRssAnswers()
     {
-        $questions = Yii::app()->db->cache(600)->createCommand()
-            ->select('q.id, q.title, q.publishDate, q.createDate, q.questionText, COUNT(*) answersCount')
-            ->from('{{question}} q')
-            ->leftJoin('{{answer}} a', 'a.questionId=q.id')
-            ->group('q.id')
-            ->where('q.status IN(:status1, :status2) AND a.id IS NOT NULL', [':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED])
-            ->order('q.publishDate DESC, q.id DESC')
-            ->limit(200)
-            ->queryAll();
+        $questions = $this->questionRepository->getPublishedQuestionsWithAnswersAsArray(200, 600);
 
-        Yii::import('ext.feed.*');
-        // RSS 2.0 is the default type
-        $feed = new EFeed();
+        $feed = $this->questionRSSService->createFeed($questions, [
+            'link' => Yii::app()->createUrl('/question/rssAnswers')
+        ]);
 
-        $feed->title = Yii::app()->name;
-        $feed->description = 'Вопросы квалифицированным юристам';
-
-        $feed->addChannelTag('language', 'ru-ru');
-        $feed->addChannelTag('pubDate', date(DATE_RSS, time()));
-        $feed->addChannelTag('link', 'https://100yuristov.com/question/rssAnswers');
-
-        foreach ($questions as $question) {
-            $item = $feed->createNewItem();
-
-            if ($question['answersCount']) {
-                $item->title = CHtml::encode($question['title']) . ' (' . $question['answersCount'] . ' ' . NumbersHelper::numForms($question['answersCount'], 'ответ', 'ответа', 'ответов') . ')';
-            } else {
-                $item->title = CHtml::encode($question['title']);
-            }
-
-            $item->link = Yii::app()->createUrl('question/view', ['id' => $question['id']]);
-            $item->date = ($question['publishDate']) ? date(DATE_RSS, strtotime($question['publishDate'])) : date(DATE_RSS, strtotime($question['createDate']));
-
-            $item->description = CHtml::encode($question['questionText']);
-
-            $feed->addItem($item);
-        }
         $feed->generateFeed();
         Yii::app()->end();
     }
@@ -648,24 +425,14 @@ class QuestionController extends Controller
      */
     public function actionSearch()
     {
+        /** @var CHttpRequest $request */
+        $request = $this->request;
+
         // модель для формы поиска по вопросам
         $searchModel = new QuestionSearch();
+        $searchModel->attributes = $request->getParam('App_models_QuestionSearch');
 
-        // лимит на количество найденных вопросов
-        $searchModel->limit = 100;
-
-        $searchModel->attributes = $_GET['App_models_QuestionSearch'];
-
-        if ($searchModel->townId) {
-            $searchModel->townName = Town::getName($searchModel->townId);
-        }
-
-        $questions = $searchModel->search();
-        $questionDataProvider = new CArrayDataProvider($questions, [
-            'pagination' => [
-                'pageSize' => 20,
-            ],
-        ]);
+        $questionDataProvider = $this->questionService->getSearchDataProvider($searchModel, 100, 20);
 
         $this->render('search', [
             'searchModel' => $searchModel,
@@ -678,13 +445,16 @@ class QuestionController extends Controller
      */
     public function actionCall()
     {
+        /** @var CHttpRequest $request */
+        $request = $this->request;
+
         $this->layout = '//frontend/smart';
         $lead = new Lead();
         $lead->setScenario('createCall');
 
         if (!Yii::app()->user->isGuest) {
-            $user = User::model()->findByPk(Yii::app()->user->id);
-            $myRecentQuestionsCount = $user->getRecentQuestionCount(1);
+            // не задавал ли пользователь вопросов за последний час
+            $myRecentQuestionsCount = Yii::app()->user->getModel()->getRecentQuestionCount(1);
             if ($myRecentQuestionsCount > 0) {
                 return $this->render('questionsLimit');
             }
@@ -693,64 +463,20 @@ class QuestionController extends Controller
         $allDirectionsHierarchy = QuestionCategory::getDirections(true, true);
         $allDirections = QuestionCategory::getDirectionsFlatList($allDirectionsHierarchy);
 
-        if (isset($_POST['App_models_Lead'])) {
-            $lead->attributes = $_POST['App_models_Lead'];
-            $lead->phone = PhoneHelper::normalizePhone($lead->phone);
-            $lead->sourceId = 3;
+        if ($request->getPost('App_models_Lead')) {
+            $postData = $request->getPost('App_models_Lead');
+            $lead->sourceId = Yii::app()->params['100yuristovSourceId'];
             $lead->type = Lead::TYPE_CALL;
 
-            $duplicates = $lead->findDublicates(86400);
-            if ($duplicates) {
-                $lead->leadStatus = Lead::LEAD_STATUS_DUPLICATE;
-            }
+            $lead = $this->leadService->fillAndSaveLead($lead, $postData, $allDirectionsHierarchy);
 
-            if ($lead->validate()) {
-                $lead->question = CHtml::encode('Нужна консультация юриста. Перезвоните мне. ' . $lead->question);
-
-                if ($lead->save()) {
-                    // сохраним категории, к которым относится вопрос, если категория указана
-                    if (isset($_POST['App_models_Lead']['categories']) && 0 != $_POST['App_models_Lead']['categories']) {
-                        $lead2category = new Lead2Category();
-                        $lead2category->leadId = $lead->id;
-                        $leadCategory = (int) $_POST['App_models_Lead']['categories'];
-                        $lead2category->cId = $leadCategory;
-
-                        if ($lead2category->save()) {
-                            // проверим, не является ли указанная категория дочерней
-                            // если является, найдем ее родителя и запишем в категории вопроса
-                            foreach ($allDirectionsHierarchy as $parentId => $parentCategory) {
-                                if (!$parentCategory['children']) {
-                                    continue;
-                                }
-
-                                foreach ($parentCategory['children'] as $childId => $childCategory) {
-                                    if ($childId == $leadCategory) {
-                                        $lead2category = new Lead2Category();
-                                        $lead2category->leadId = $lead->id;
-                                        $lead2category->cId = $parentId;
-                                        $lead2category->save();
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    $this->redirect(['weCallYou']);
-                }
+            if (empty($lead->getErrors())) {
+                $this->redirect(['weCallYou']);
             }
         }
 
-        if (!$lead->name && Yii::app()->user->name) {
-            $lead->name = Yii::app()->user->name;
-        }
-
-        if (!$lead->phone && Yii::app()->user->phone) {
-            $lead->phone = Yii::app()->user->phone;
-        }
-
-        if (!$lead->townId && Yii::app()->user->townId) {
-            $lead->townId = Yii::app()->user->townId;
-        }
+        // Если пользователь авторизован, его атрибуты подставятся в свойства лида
+        $lead = $this->leadService->fillLeadAttributesFromUserParams($lead, Yii::app()->user->getModel());
 
         $townsArray = Town::getTownsIdsNames();
 
@@ -761,58 +487,23 @@ class QuestionController extends Controller
         ]);
     }
 
+
     /**
-     * @deprecated
+     * Страница с подтверждением того, что заказ звонка принят
      */
-    public function actionCallBack()
-    {
-        $this->layout = '//frontend/smart';
-
-        $lead = new Lead();
-        $question = new Question();
-
-        if (isset($_POST['App_models_Lead'])) {
-            $lead->attributes = $_POST['App_models_Lead'];
-            $question->townId = $lead->townId;
-            $currentTownId = $lead->townId;
-
-            // загрузили данные о лиде (город), теперь проверим, продажный ли регион этого города
-
-            // Определим, для каких регионов и городов у нас есть рекламные кампании
-            $payedRegions = [];
-            $payedTowns = [];
-
-            $payedTownsRegions = Campaign::getPayedTownsRegions();
-
-            $payedRegions = $payedTownsRegions['regions'];
-            $payedTowns = $payedTownsRegions['towns'];
-
-            /*
-             * показываем виджет только если пользователь находится в одном из продажных городов ИЛИ регионов
-             */
-            if (array_key_exists($currentTownId, $payedTowns) || array_key_exists($currentTown->regionId, $payedRegions)) {
-                $isRegionPayed = true;
-            } else {
-                $isRegionPayed = false;
-            }
-
-            $this->render('callBack', [
-                'lead' => $lead,
-                'question' => $question,
-                'isRegionPayed' => $isRegionPayed,
-            ]);
-        }
-    }
-
     public function actionWeCallYou()
     {
         $this->layout = '//frontend/smart';
         $this->render('weCallYou');
     }
 
+    /**
+     * Заказ документов
+     */
     public function actionDocs()
     {
         $this->layout = '//frontend/smart';
+        $request = $this->request;
 
         $order = new Order();
         $order->setScenario('create');
@@ -821,30 +512,32 @@ class QuestionController extends Controller
         $docType = null;
 
         if (!Yii::app()->user->isGuest) {
-            $currentUser = User::model()->findByPk(Yii::app()->user->id);
+            $currentUser = Yii::app()->user->getModel();
             $author->attributes = $currentUser->attributes;
         }
 
-        if (isset($_GET['juristId']) && (int) $_GET['juristId'] > 0) {
-            $juristId = (int) $_GET['juristId'];
-            if (User::model()->findByAttributes(['role' => User::ROLE_JURIST, 'active100' => 1, 'id' => $juristId])) {
+        if ((int)$request->getParam('juristId') > 0) {
+            $juristId = (int)$request->getParam('juristId');
+            if ($this->userRepository->getByAttributes([
+                'role' => User::ROLE_JURIST,
+                'active100' => 1,
+                'id' => $juristId
+            ])) {
                 $order->juristId = $juristId;
             }
         }
 
-        if (isset($_POST['App_models_Order'])) {
-            $order->attributes = $_POST['App_models_Order'];
+        if ($request->getParam('App_models_Order')) {
+            $order->attributes = $request->getParam('App_models_Order');
 
             // найдем информацию по типу заказываемого документа
             if ($order->itemType) {
                 $docType = DocType::model()->findByPk($order->itemType);
             }
 
-            if (isset($_POST['App_models_User'])) {
-                $author->attributes = $_POST['App_models_User'];
+            if ($request->getParam('App_models_User')) {
+                $author->attributes = $request->getParam('App_models_User');
             }
-
-            //if ($order->validate() && $author->validate()) {
 
             if (Yii::app()->user->isGuest) {
                 $order->status = Order::STATUS_NEW;
@@ -875,7 +568,6 @@ class QuestionController extends Controller
                 }
                 $this->redirect(['docsRequested']);
             }
-            //}
         }
 
         $townsArray = Town::getTownsIdsNames();
@@ -894,12 +586,19 @@ class QuestionController extends Controller
         ]);
     }
 
+    /**
+     * Заказ документов успешно совершен
+     */
     public function actionDocsRequested()
     {
         $this->layout = '//frontend/smart';
         $this->render('docsRequested');
     }
 
+    /**
+     * Заказ услуг
+     * @deprecated
+     */
     public function actionServices()
     {
         $this->layout = '//frontend/smart';
@@ -929,14 +628,21 @@ class QuestionController extends Controller
         ]);
     }
 
+    /**
+     * Страница, отображаемая после заказа услуги
+     */
     public function actionGetServices()
     {
         $this->layout = '//frontend/smart';
         $this->render('getServices');
     }
 
-    // изменения статуса вопроса на платный
-    public function actionUpgrade($id)
+    /**
+     * изменения статуса вопроса на платный
+     * @param int $id
+     * @throws CHttpException
+     */
+    public function actionUpgrade(int $id)
     {
         $question = Question::model()->findByPk($id);
 
@@ -944,7 +650,9 @@ class QuestionController extends Controller
             throw new CHttpException(404, 'Вопрос не найден');
         }
 
-        $level = (isset($_GET['level']) && (int) $_GET['level'] > 0) ? (int) $_GET['level'] : Question::LEVEL_1;
+        $level = ((int)$this->request->getParam('level') > 0) ?
+            (int)$this->request->getParam('level') :
+            Question::LEVEL_1;
 
         $questionPrice = Question::getPriceByLevel($level);
         $question->price = $questionPrice;
@@ -956,6 +664,7 @@ class QuestionController extends Controller
 
     /**
      *  платеж успешно совершен.
+     * используется при работе с Яндекс кассой
      */
     public function actionPaymentSuccess()
     {
@@ -964,7 +673,10 @@ class QuestionController extends Controller
         $this->render('paymentSuccess', ['params' => $params]);
     }
 
-    // платеж не успешно
+    /**
+     * платеж не успешно
+     * используется при работе с Яндекс кассой
+     */
     public function actionPaymentFail()
     {
         //https://100yuristov.com/question/paymentFail/test/1/?orderSumAmount=99.00&cdd_exp_date=1221&shopArticleId=367734&paymentPayerCode=4100322062290&cdd_rrn=&external_id=deposit&paymentType=AC&requestDatetime=2016-10-06T17%3A39%3A22.418%2B03%3A00&depositNumber=sO8G8EwrcotOG1AgYAadKefc5cQZ.001f.201610&cps_user_country_code=PL&orderCreatedDatetime=2016-10-06T17%3A39%3A21.921%2B03%3A00&sk=y0ef7319b7a2ed83de96f44ec0cd4c83c&action=PaymentFail&shopId=73868&scid=542085&rebillingOn=false&orderSumBankPaycash=1003&cps_region_id=216&orderSumCurrencyPaycash=10643&merchant_order_id=21516_061016173905_00000_73868&unilabel=1f8875c8-0009-5000-8000-000015ab36bd&cdd_pan_mask=444444%7C4448&customerNumber=21516&yandexPaymentId=2570060865738&invoiceId=2000000925475
@@ -972,7 +684,10 @@ class QuestionController extends Controller
         $this->render('paymentFail', ['params' => $params]);
     }
 
-    // запрос от яндекса на проверку платежа
+    /**
+     * запрос от яндекса на проверку платежа
+     * используется при работе с Яндекс кассой
+     */
     public function actionPaymentCheck()
     {
         $yaKassa = new YandexKassa($_POST);
@@ -986,14 +701,17 @@ class QuestionController extends Controller
         if (YandexKassa::checkMd5($_POST)) {
             fwrite($paymentLog, 'MD5 correct!');
             $yaKassa->formResponse(0, 'OK');
-        //$yaKassa->formResponse(1,'Error'); // just for test
+            //$yaKassa->formResponse(1,'Error'); // just for test
         } else {
             fwrite($paymentLog, 'MD5 incorrect!');
             $yaKassa->formResponse(1, 'Ошибка авторизации');
         }
     }
 
-    // запроса от яндекса о платеже или отказе
+    /**
+     * запроса от яндекса о платеже или отказе
+     * используется при работе с Яндекс кассой
+     */
     public function actionPaymentAviso()
     {
         $yaKassa = new YandexKassa($_POST);
@@ -1018,93 +736,12 @@ class QuestionController extends Controller
     }
 
     /**
-     * прием лида по POST запросу.
-     *
-     * @deprecated
+     * Архив вопросов
+     * Обрабатывает обращения по адресам /q/{дата в формате Y-m}
+     * @param string $date
+     * @throws CHttpException
      */
-    public function actionSendLead()
-    {
-        if (!isset($_POST)) {
-            echo json_encode([
-                'code' => 400,
-                'message' => 'No input data',
-            ]);
-            Yii::app()->end();
-        }
-        $model = new Lead();
-        //$leadAppId = 'yurCrm';
-        /*
-         * захардкодим возможные приложения для поставки лидов, потом будем хранить их в базе
-         * appId => [
-         *      'secretKey' => 'xxxxx',
-         *      'sourceId'  =>  N,
-         * ]
-         */
-        $leadApps = [
-            'yurCrm' => [
-                'secretKey' => 'Let me speak from my heart',
-                'sourceId' => 3,
-            ],
-            'yurCrmRegions' => [
-                'secretKey' => 'Euro integration',
-                'sourceId' => 1,
-            ],
-        ];
-
-        // проверим параметр appId, есть ли он в списке известных приложений
-        if (!array_key_exists($_POST['appId'], $leadApps)) {
-            echo json_encode([
-                'code' => 400,
-                'message' => 'Unknown sender. Check App ID parameter',
-            ]);
-            Yii::app()->end();
-        }
-
-        $activeApp = $leadApps[$_POST['appId']];
-
-        $model->attributes = $_POST;
-        $model->sourceId = $activeApp['sourceId'];
-        $model->type = Lead::TYPE_INCOMING_CALL;
-        $model->phone = PhoneHelper::normalizePhone($model->phone);
-
-        $appSecret = $activeApp['secretKey'];
-        // сформируем подпись на основе принятых данных
-        $signature = md5($model->name . $model->phone . $model->email . $model->question . $model->townId . $_POST['appId'] . $appSecret);
-
-        // проверим подпись
-        if ($signature !== $_POST['signature']) {
-            echo json_encode([
-                'code' => 403,
-                'message' => 'Signature wrong',
-            ]);
-            Yii::app()->end();
-        }
-
-        if ($model->findDublicates()) {
-            die(json_encode([
-                'code' => 400,
-                'message' => 'Dublicates found',
-            ]));
-            Yii::app()->end();
-        }
-
-        if ($model->save()) {
-            echo json_encode([
-                'code' => 200,
-                'message' => 'OK',
-            ]);
-            Yii::app()->end();
-        } else {
-            echo json_encode([
-                'code' => 500,
-                'message' => 'App\models\Lead not saved.',
-                'errors' => $model->errors,
-            ]);
-            Yii::app()->end();
-        }
-    }
-
-    public function actionArchive($date)
+    public function actionArchive(string $date)
     {
         $dateParts = explode('-', $date);
         $year = $dateParts[0];
@@ -1115,34 +752,10 @@ class QuestionController extends Controller
             throw new CHttpException(400, 'Некорректная дата');
         }
 
-        $questionsDataProvider = new CActiveDataProvider(Question::class, [
-            'criteria' => [
-                'condition' => 'YEAR(publishDate)=' . $year . ' AND MONTH(publishDate)=' . $month . ' AND status IN (' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')',
-                'order' => 'publishDate DESC',
-                'with' => 'answersCount',
-            ],
-            'pagination' => [
-                'pageSize' => 50,
-            ],
-        ]);
+        $questionsDataProvider = $this->questionRepository
+            ->getQuestionsDataProviderForMonth($year, $month, 50);
 
-        // месяцы, за которые есть вопросы
-        $datesArray = [];
-        $datesRows = Yii::app()->db->createCommand()
-            ->select('MONTH(publishDate) month')
-            ->from('{{question}}')
-            ->where('YEAR(publishDate) = :year AND status IN (:status1, :status2)', [
-                ':status1' => Question::STATUS_CHECK,
-                ':status2' => Question::STATUS_PUBLISHED,
-                ':year' => $year,
-            ])
-            ->group('month')
-            ->queryAll();
-        foreach ($datesRows as $row) {
-            if ($row['month']) {
-                $datesArray[] = $row['month'];
-            }
-        }
+        $datesArray = $this->questionRepository->getMonthsWithPublishedQuestions($year);
 
         $this->render('archive', [
             'dataProvider' => $questionsDataProvider,
@@ -1154,16 +767,17 @@ class QuestionController extends Controller
 
     /**
      * Отметка комментариев к ответам вопроса как прочитанные.
+     * Запрос приходит через AJAX
      */
     public function actionCheckCommentsAsRead()
     {
-        $request = Yii::app()->request;
+        $request = $this->request;
         if (!$request->isAjaxRequest) {
             throw new CHttpException(400, 'Запрос должен быть в формате AJAX');
         }
 
         $userId = Yii::app()->user->id;
-        $questionId = (int) $_POST['id'];
+        $questionId = (int)$request->getParam('id');
 
         $question = Question::model()->findByPk($questionId);
 
@@ -1177,30 +791,28 @@ class QuestionController extends Controller
                 'message' => '',
                 'id' => $question->id,
             ]);
-            Yii::app()->end();
         } else {
             echo json_encode([
                 'code' => 500,
                 'message' => 'Не удалось отметить комментарии прочитанными',
                 'id' => $question->id,
             ]);
-            Yii::app()->end();
         }
     }
 
     /**
      * Отображение страницы Мои вопросы.
+     * @throws CHttpException
      */
     public function actionMy()
     {
-        $user = User::model()->findByPk(Yii::app()->user->id);
+        $user = $this->userRepository->getById(Yii::app()->user->id);
 
-        $questionCriteria = new CDbCriteria();
-        $questionCriteria->order = 't.publishDate DESC';
-        $questionCriteria->with = 'answersCount';
-        $questionCriteria->addColumnCondition(['t.authorId' => $user->id]);
-        $questionCriteria->addInCondition('t.status', [Question::STATUS_PUBLISHED, Question::STATUS_CHECK]);
-        $questions = Question::model()->findAll($questionCriteria);
+        if (is_null($user)) {
+            throw new CHttpException(404, 'Пользователь не найден');
+        }
+
+        $questions = $this->questionRepository->getQuestionsByAuthor($user);
 
         $this->render('my', [
             'questions' => $questions,

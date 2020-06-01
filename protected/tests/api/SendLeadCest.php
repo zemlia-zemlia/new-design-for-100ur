@@ -3,15 +3,15 @@
 namespace Tests\Api;
 
 use ApiTester;
+use App\models\Lead;
+use App\models\User;
 use Codeception\Example;
 use Codeception\Util\HttpCode;
 use Faker\Factory;
-use App\models\Lead;
 use Tests\Factories\CampaignFactory;
 use Tests\Factories\LeadFactory;
 use Tests\Factories\LeadSourceFactory;
 use Tests\Factories\UserFactory;
-use App\models\User;
 use Yii;
 
 /**
@@ -76,8 +76,6 @@ class SendLeadCest
 
     /**
      * Отправка лида, для которого нет кампании и он не будет автоматически продан.
-     *
-     * @param ApiTester $I
      */
     public function sendValidLeadWithoutCampaign(ApiTester $I)
     {
@@ -105,8 +103,6 @@ class SendLeadCest
 
     /**
      * Тест отправки лида в тестовом режиме: возвращается ответ, но лид не сохраняется.
-     *
-     * @param ApiTester $I
      */
     public function sendCorrectLeadInTestMode(ApiTester $I)
     {
@@ -127,8 +123,6 @@ class SendLeadCest
 
     /**
      * Лид, который должен быть продан в кампанию.
-     *
-     * @param ApiTester $I
      */
     public function sendLeadWithCampaign(ApiTester $I)
     {
@@ -160,8 +154,6 @@ class SendLeadCest
 
     /**
      * Попытка отправить лид с неправильной сигнатурой.
-     *
-     * @param ApiTester $I
      */
     public function sendLeadWithIncorrectSignature(ApiTester $I)
     {
@@ -183,8 +175,6 @@ class SendLeadCest
 
     /**
      * Отправка лида из несуществующего города.
-     *
-     * @param ApiTester $I
      */
     public function sendLeadWithIncorrectTown(ApiTester $I)
     {
@@ -208,8 +198,6 @@ class SendLeadCest
 
     /**
      * Отправка лида повторно.
-     *
-     * @param ApiTester $I
      */
     public function sendDuplicate(ApiTester $I)
     {
@@ -246,9 +234,6 @@ class SendLeadCest
      * Отправка лида от вебмастера. Проверяем, что вебмастеру создалась/не создалась транзакция.
      *
      * @dataProvider providerCampaignWithUser
-     *
-     * @param ApiTester $I
-     * @param Example   $example
      */
     public function sendLeadFromSourceWithUser(ApiTester $I, Example $example)
     {
@@ -302,9 +287,6 @@ class SendLeadCest
         ]);
     }
 
-    /**
-     * @return array
-     */
     protected function providerCampaignWithUser(): array
     {
         return [
@@ -323,8 +305,6 @@ class SendLeadCest
 
     /**
      * @param array $forcedFields Массив атрибутов, которые нужно переопределить вручную
-     *
-     * @return array
      */
     protected function generateValidLeadRequestData($forcedFields = []): array
     {

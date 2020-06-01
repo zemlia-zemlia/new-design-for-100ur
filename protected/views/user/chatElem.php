@@ -2,17 +2,17 @@
 /** @var $mess */
 ?>
 <div class="small ">
-    <li class="message <?= ($mess['token'] == $user->chatToken) ? 'my' : '' ?>"
+    <li class="message <?php echo ($mess['token'] == $user->chatToken) ? 'my' : ''; ?>"
         style="display: list-item;">
         <span class="username">
             <?php if ($mess['token'] != $user->chatToken): ?>
-                <img style="width: 20px;" src="<?= $mess['avatar'] ?>"/>
+                <img style="width: 20px;" src="<?php echo $mess['avatar']; ?>"/>
             <?php endif; ?>
 
-            <?= ($mess['token'] == $user->chatToken) ? 'Вы:' : $mess['username'] ?>
+            <?php echo ($mess['token'] == $user->chatToken) ? 'Вы:' : $mess['username']; ?>
         </span>
 
-        <span class="dateMessage"><?= $mess['date'] ?></span>
+        <span class="dateMessage"><?php echo $mess['date']; ?></span>
 
         <?php if ($mess['token'] == $user->chatToken): ?>
             <?php if ($mess['is_read']): ?>
@@ -25,6 +25,6 @@
         <?php endif; ?>
 
         <br/>
-        <span class="messageBody"><?= $mess['message'] ?></span>
+        <span class="messageBody"><?php echo $mess['message']; ?></span>
     </li>
 </div>

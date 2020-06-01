@@ -1,14 +1,14 @@
 <?php if ($connections) : foreach ($connections as $id => $connection): ?>
-    <h2><?php echo Yii::t('yii-debug-toolbar', 'Connection ID') ?>: <?php echo $id ?>
-        (<?php echo get_class($connection) ?>)</h2>
+    <h2><?php echo Yii::t('yii-debug-toolbar', 'Connection ID'); ?>: <?php echo $id; ?>
+        (<?php echo get_class($connection); ?>)</h2>
     <?php $serverInfo = $this->getServerInfo($id); ?>
     <table data-ydtb-data-table>
         <tbody>
         <?php if (is_array($serverInfo)): ?>
             <?php foreach ($serverInfo as $param => $value): ?>
                 <tr>
-                    <th><?php echo CHtml::encode($param) ?></th>
-                    <td><?php echo CHtml::encode($value) ?></td>
+                    <th><?php echo CHtml::encode($param); ?></th>
+                    <td><?php echo CHtml::encode($value); ?></td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>

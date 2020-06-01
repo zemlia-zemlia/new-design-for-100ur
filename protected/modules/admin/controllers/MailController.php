@@ -10,7 +10,6 @@ use App\modules\admin\controllers\AbstractAdminController;
  */
 class MailController extends AbstractAdminController
 {
-
     /**
      * @return array action filters
      */

@@ -50,11 +50,16 @@
 
                     <!--                        ниже выводим кнопку чата-->
 
-                    <?php if (Yii::app()->params['chat']['enabled'] == 1 && $data->settings && $data->settings->isVerified && $data->isShowChatButton && $data->answersCount > 50) : ?>
+                    <?php if (1 == Yii::app()->params['chat']['enabled'] && $data->settings && $data->settings->isVerified && $data->isShowChatButton && $data->answersCount > 50) : ?>
 
-                        <?=  CHtml::link('конс. в чате ' . MoneyFormat::rubles($data->settings->priceConsult) . ' руб',
-                            Yii::app()->createUrl(Yii::app()->user->isGuest ? '/site/login' : '/user/chats',
-                            ['chatId' => 'new', 'layerId' => $data->id]), ['class' => 'btn btn-primary btn-block']); ?>
+                        <?php echo  CHtml::link(
+        'конс. в чате ' . MoneyFormat::rubles($data->settings->priceConsult) . ' руб',
+        Yii::app()->createUrl(
+                                Yii::app()->user->isGuest ? '/site/login' : '/user/chats',
+                                ['chatId' => 'new', 'layerId' => $data->id]
+                            ),
+        ['class' => 'btn btn-primary btn-block']
+    ); ?>
 
                     <?php endif; ?>
 

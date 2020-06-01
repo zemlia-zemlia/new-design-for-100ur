@@ -6,7 +6,6 @@ use App\modules\admin\controllers\AbstractAdminController;
 
 class RegionController extends AbstractAdminController
 {
-
     /**
      * @return array action filters
      */

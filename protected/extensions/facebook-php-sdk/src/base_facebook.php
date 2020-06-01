@@ -1130,9 +1130,7 @@ abstract class BaseFacebook
     protected function makeSignedRequest($data)
     {
         if (!is_array($data)) {
-            throw new InvalidArgumentException(
-                'makeSignedRequest expects an array. Got: ' . print_r($data, true)
-            );
+            throw new InvalidArgumentException('makeSignedRequest expects an array. Got: ' . print_r($data, true));
         }
         $data['algorithm'] = self::SIGNED_REQUEST_ALGORITHM;
         $data['issued_at'] = time();

@@ -162,11 +162,7 @@ class Curl extends CApplicationComponent
                 }
                 $type = gettype($val);
                 if ((!is_array($validOptions[$key]['type']) && ($type != $validOptions[$key]['type'])) || (is_array($validOptions[$key]['type']) && !in_array($type, $validOptions[$key]['type']))) {
-                    throw new CException(Yii::t(
-                        'Curl',
-                        '{k} must be of type {t}',
-                        ['{k}' => $key, '{t}' => $validOptions[$key]['type']]
-                    ));
+                    throw new CException(Yii::t('Curl', '{k} must be of type {t}', ['{k}' => $key, '{t}' => $validOptions[$key]['type']]));
                 }
 
                 if (('array' == $type) && array_key_exists('elements', $validOptions[$key])) {

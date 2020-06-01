@@ -32,19 +32,11 @@ class GTMail extends CApplicationComponent
         $this->mailer = new Swift_Mailer($transport);
     }
 
-    /**
-     * @return bool
-     */
     public function isTestMode(): bool
     {
         return $this->testMode;
     }
 
-    /**
-     * @param bool $testMode
-     *
-     * @return GTMail
-     */
     public function setTestMode(bool $testMode): GTMail
     {
         $this->testMode = $testMode;
@@ -52,19 +44,11 @@ class GTMail extends CApplicationComponent
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTransportType(): string
     {
         return $this->transportType;
     }
 
-    /**
-     * @param string $transportType
-     *
-     * @return GTMail
-     */
     public function setTransportType(string $transportType): GTMail
     {
         $this->transportType = $transportType;
@@ -95,10 +79,7 @@ class GTMail extends CApplicationComponent
     /**
      * Добавляет письму служебные заголовки.
      *
-     * @param Swift_Message $message
-     * @param array         $additionalHeaders
-     *
-     * @return Swift_Message
+     * @param array $additionalHeaders
      */
     protected function appendHeaders(Swift_Message $message, $additionalHeaders = []): Swift_Message
     {
@@ -113,10 +94,7 @@ class GTMail extends CApplicationComponent
     /**
      * Сохраняет сообщение в папку на диске.
      *
-     * @param Swift_Message $mailerMessage
-     * @param bool          $testing
-     *
-     * @return bool
+     * @param bool $testing
      */
     protected function saveMessage(Swift_Message $mailerMessage, $testing): bool
     {
@@ -165,8 +143,6 @@ class GTMail extends CApplicationComponent
      * Создает объект сообщения.
      *
      * @param bool $appendSuffix Включать ли подпись
-     *
-     * @return Swift_Message
      */
     protected function createMessage($appendSuffix): Swift_Message
     {
@@ -196,8 +172,6 @@ class GTMail extends CApplicationComponent
     /**
      * Загружает из файла шапку письма.
      *
-     * @param CController $controller
-     *
      * @return false|string
      */
     protected function loadHeader(CController $controller)
@@ -208,8 +182,6 @@ class GTMail extends CApplicationComponent
     /**
      * Загружает подпись письма.
      *
-     * @param CController $controller
-     *
      * @return false|string
      */
     protected function loadPreFooter(CController $controller)
@@ -218,8 +190,6 @@ class GTMail extends CApplicationComponent
     }
 
     /**
-     * @param CController $controller
-     *
      * @return false|string
      */
     protected function loadFooter(CController $controller)
@@ -229,8 +199,6 @@ class GTMail extends CApplicationComponent
 
     /**
      * @param string $transportType
-     *
-     * @return Swift_Transport
      *
      * @throws Exception
      */

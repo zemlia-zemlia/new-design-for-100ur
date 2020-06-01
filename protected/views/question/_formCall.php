@@ -2,7 +2,7 @@
 $allDirections = [0 => 'Не выбрано'] + $allDirections;
 
 $currenTownName = (!is_null($model->town) && !is_null($model->town->name)) ?
-    $model->town->name:
+    $model->town->name :
     '';
 
 ?>

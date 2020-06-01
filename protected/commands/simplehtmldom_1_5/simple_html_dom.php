@@ -34,7 +34,7 @@
  * @version 1.11 ($Rev: 184 $)
  */
 
-/**
+/*
  * All of the Defines for the classes below.
  *
  * @author S.C. Chen <me578022@gmail.com>

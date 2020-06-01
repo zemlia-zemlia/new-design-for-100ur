@@ -14,7 +14,7 @@ use Yii;
  *
  * The followings are the available columns in table '{{mail}}':
  *
- * @property int $id
+ * @property int    $id
  * @property string $createDate
  * @property string $subject
  * @property string $message
@@ -117,7 +117,7 @@ class Mail extends CActiveRecord
     /**
      * Отправка рассылки.
      *
-     * @param int $limit Сколько писем отправлять
+     * @param int  $limit   Сколько писем отправлять
      * @param bool $useSMTP Использовать ли SMTP сервер
      *
      * @return int Количество отправленных писем

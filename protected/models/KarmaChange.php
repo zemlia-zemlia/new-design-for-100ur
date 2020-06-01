@@ -13,9 +13,9 @@ use Yii;
  *
  * The followings are the available columns in table '{{karmaChange}}':
  *
- * @property int $id
- * @property int $userId
- * @property int $authorId
+ * @property int    $id
+ * @property int    $userId
+ * @property int    $authorId
  * @property string $datetime
  */
 class KarmaChange extends CActiveRecord

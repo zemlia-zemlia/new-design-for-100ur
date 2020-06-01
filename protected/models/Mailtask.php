@@ -12,12 +12,12 @@ use Yii;
  *
  * The followings are the available columns in table '{{mailtask}}':
  *
- * @property int $id
+ * @property int    $id
  * @property string $startDate
- * @property int $status
- * @property int $mailId
+ * @property int    $status
+ * @property int    $mailId
  * @property string $email
- * @property int $userId
+ * @property int    $userId
  */
 class Mailtask extends CActiveRecord
 {

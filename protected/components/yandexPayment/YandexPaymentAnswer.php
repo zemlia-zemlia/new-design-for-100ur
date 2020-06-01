@@ -69,7 +69,8 @@ class YandexPaymentAnswer implements YandexPaymentProcessorInterface
                 return false;
             }
         } catch (Exception $e) {
-            var_dump($e->getMessage());exit;
+            var_dump($e->getMessage());
+            exit;
             $saveTransaction->rollback();
             Yii::log('Ошибка при благодарности ' . $yurist->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'error', 'system.web');
 

@@ -11,11 +11,6 @@ class StringHelper
         echo '</pre>';
     }
 
-    /**
-     * @param string $name
-     *
-     * @return string
-     */
     public static function translit(string $name): string
     {
         $name = mb_strtolower($name, 'utf-8');
@@ -61,11 +56,6 @@ class StringHelper
 
     /**
      * Возвращает исходную строку с первым символом в верхнем регистре.
-     *
-     * @param string $string
-     * @param string $encoding
-     *
-     * @return string
      */
     public static function mb_ucfirst(string $string, string $encoding = 'utf-8'): string
     {
@@ -80,7 +70,7 @@ class StringHelper
      * Обрезает строку до необходимой длины, сохраняя последнее слово целым
      *
      * @param string $string Исходная строка
-     * @param int $len Максимальная длина итоговой строки
+     * @param int    $len    Максимальная длина итоговой строки
      * @param string $encode Кодировка строки
      *
      * @return false|string
@@ -105,10 +95,8 @@ class StringHelper
     /**
      * Удаляет из строки символы, не входящие в шаблон.
      *
-     * @param string $string Строка
+     * @param string $string       Строка
      * @param string $patternWhite Шаблон разрешенных символов
-     *
-     * @return string
      */
     public static function filterString(string $string, string $patternWhite = '0-9a-zA-Zа-яА-ЯёЁ\-., '): string
     {

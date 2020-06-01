@@ -175,14 +175,11 @@ class QuestionCategoryController extends AbstractAdminController
 
             // загрузка иконки
             $model->fileIcon = CUploadedFile::getInstance($model, 'fileIcon');
-            if ($model->fileIcon){
-                if (!$model->uploadIcon()){
+            if ($model->fileIcon) {
+                if (!$model->uploadIcon()) {
                     $this->redirect(['update', 'id' => $model->id]);
                 }
             }
-
-
-
 
             $attachment = CUploadedFile::getInstance($model, 'attachments');
 

@@ -3,22 +3,21 @@
 namespace App\repositories;
 
 use App\models\Campaign;
-use CException;
 use App\models\Lead;
-use MoneyFormat;
 use App\models\Region;
 use App\models\User;
+use CException;
+use MoneyFormat;
 use Yii;
 
 class CampaignRepository
 {
     /**
      * Возвращает массив активных кампаний с регионами и ценами.
-     * Активными здесь считаются те, по которым были транзакции за последние $activityIntervalDays дней
+     * Активными здесь считаются те, по которым были транзакции за последние $activityIntervalDays дней.
      *
-     * @param User $user Пользователь, для которого посчитать цены покупки (у вебмастера может быть коэффициент цены)
-     * @param int $activityIntervalDays
-     * @return array
+     * @param User $user                 Пользователь, для которого посчитать цены покупки (у вебмастера может быть коэффициент цены)
+     * @param int  $activityIntervalDays
      *
      * @throws CException
      */
@@ -77,10 +76,13 @@ class CampaignRepository
     }
 
     /**
-     * Получение цен покупки регионов и их столиц, учитываем только те регионы, которые продавались в последние дни
+     * Получение цен покупки регионов и их столиц, учитываем только те регионы, которые продавались в последние дни.
+     *
      * @param int $activityIntervalDays
+     *
      * @return array Массив регионов с ключами [regionId, regionName, regionBuyPrice,
-     * capitalId, capitalName, capitalBuyPrice, minRegionSellPrice, maxRegionSellPrice]
+     *               capitalId, capitalName, capitalBuyPrice, minRegionSellPrice, maxRegionSellPrice]
+     *
      * @throws CException
      */
     public function getBuyPricesForRegionsAndCapitalsCurrentlyActive($activityIntervalDays = 3): array
@@ -123,9 +125,10 @@ class CampaignRepository
      *      'minCapitalSellPrice' => 10000,
      *      'maxCapitalSellPrice' => 25000,
      *  ]
-     * ]
+     * ].
+     *
      * @param int $activityIntervalDays
-     * @return array
+     *
      * @throws CException
      */
     public function getSellPricesOfCapitalsByRegions($activityIntervalDays = 3): array

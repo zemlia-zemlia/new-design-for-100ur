@@ -2,10 +2,10 @@
 
 namespace Tests\unit\models;
 
-use Codeception\Test\Unit;
-use Tests\Factories\UserFactory;
 use App\models\User;
 use App\notifiers\UserNotifier;
+use Codeception\Test\Unit;
+use Tests\Factories\UserFactory;
 use YurcrmClient\YurcrmClient;
 use YurcrmClient\YurcrmResponse;
 
@@ -29,9 +29,6 @@ class UserTest extends Unit
         $this->assertEquals($expectedResult, $user->sendNewPassword('123456'));
     }
 
-    /**
-     * @return array
-     */
     public function providerTestSendNewPassword(): array
     {
         return [
@@ -61,9 +58,6 @@ class UserTest extends Unit
         $this->assertEquals($expectedResult, $user->getAvatarUrl($size));
     }
 
-    /**
-     * @return array
-     */
     public function providerTestGetAvatarUrl(): array
     {
         return [
@@ -108,9 +102,6 @@ class UserTest extends Unit
         $this->assertEquals($expectedResult, $user->getShortName());
     }
 
-    /**
-     * @return array
-     */
     public function providerTestGetShortName(): array
     {
         return [

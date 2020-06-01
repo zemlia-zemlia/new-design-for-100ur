@@ -5,16 +5,16 @@
  * @author Sergey Malyshev <malyshev.php@gmail.com>
  */
 
-
 /**
- * YiiDebugToolbarPanelSettings class
+ * YiiDebugToolbarPanelSettings class.
  *
  * Description of YiiDebugToolbarPanelSettings
  *
  * @author Sergey Malyshev <malyshev.php@gmail.com>
  * @author Igor Golovanov <igor.golovanov@gmail.com>
+ *
  * @version $Id$
- * @package YiiDebugToolbar
+ *
  * @since 1.1.7
  */
 class YiiDebugToolbarPanelSettings extends YiiDebugToolbarPanel
@@ -43,7 +43,6 @@ class YiiDebugToolbarPanelSettings extends YiiDebugToolbarPanel
 
     public function init()
     {
-
     }
 
     protected function getApplicationData()
@@ -68,32 +67,31 @@ class YiiDebugToolbarPanelSettings extends YiiDebugToolbarPanel
 
     public function run()
     {
-
-        $this->render('settings', array(
+        $this->render('settings', [
             'application' => $this->getApplicationData(),
             'params' => $this->getApplicationParams(),
             'modules' => $this->getModulesData(),
             'components' => $this->getComponentsData(),
-
-        ));
+        ]);
     }
 
     private function prepareData($data)
     {
-        $result = array();
-        $skip = array();
+        $result = [];
+        $skip = [];
         foreach ($data as $key => $value) {
-            if (in_array($key, $skip))
+            if (in_array($key, $skip)) {
                 continue;
+            }
 
             if (is_object($value)) {
-                $value = array_merge(array(
-                    'class' => get_class($value)
-                ), get_object_vars($value));
-
+                $value = array_merge([
+                    'class' => get_class($value),
+                ], get_object_vars($value));
             }
             $result[$key] = $value;
         }
+
         return $result;
     }
 }

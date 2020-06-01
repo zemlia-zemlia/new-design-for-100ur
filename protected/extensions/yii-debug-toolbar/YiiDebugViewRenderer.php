@@ -11,18 +11,18 @@
  * Description of YiiDebugViewRenderer
  *
  * @author Sergey Malyshev <malyshev.php@gmail.com>
+ *
  * @version $Id$
- * @package
+ *
  * @since 1.1.7
  */
 class YiiDebugViewRenderer extends YiiDebugComponentProxy
 {
-
-    protected $abstract = array(
+    protected $abstract = [
         'fileExtension' => '.php',
-    );
+    ];
 
-    protected $_debugStackTrace = array();
+    protected $_debugStackTrace = [];
 
     public function getDebugStackTrace()
     {
@@ -36,6 +36,7 @@ class YiiDebugViewRenderer extends YiiDebugComponentProxy
         if (false !== $this->getIsProxy()) {
             return $this->instance->renderFile($context, $sourceFile, $data, $return);
         }
+
         return $context->renderInternal($sourceFile, $data, $return);
     }
 
@@ -91,22 +92,23 @@ class YiiDebugViewRenderer extends YiiDebugComponentProxy
 
     protected function collectDebugInfo($context, $sourceFile, $data)
     {
-        if ($context instanceof YiiDebugToolbar || false !== ($context instanceof YiiDebugToolbarPanel))
+        if ($context instanceof YiiDebugToolbar || false !== ($context instanceof YiiDebugToolbarPanel)) {
             return;
+        }
 
         $backTrace = $this->getDebugBacktrace();
         $backTraceItem = null;
 
         while ($backTraceItem = array_shift($backTrace)) {
-            if (isset($backTraceItem['object']) && $backTraceItem['object'] && ($backTraceItem['object'] instanceof $context) && in_array($backTraceItem['function'], array(
+            if (isset($backTraceItem['object']) && $backTraceItem['object'] && ($backTraceItem['object'] instanceof $context) && in_array($backTraceItem['function'], [
                     'render',
-                    'renderPartial'
-                ))) {
+                    'renderPartial',
+                ])) {
                 break;
             }
         }
 
-        array_push($this->_debugStackTrace, array(
+        array_push($this->_debugStackTrace, [
             'context' => $context,
             'contextProperties' => get_object_vars($context),
             'action' => $context instanceof CController ? $context->action : null,
@@ -117,8 +119,7 @@ class YiiDebugViewRenderer extends YiiDebugComponentProxy
             'sourceFile' => $sourceFile,
             'data' => $data,
             'backTrace' => $backTraceItem,
-            'reflection' => new ReflectionObject($context)
-        ));
+            'reflection' => new ReflectionObject($context),
+        ]);
     }
-
 }

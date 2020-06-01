@@ -3,8 +3,7 @@
 use App\models\Campaign;
 
 /**
- * отправляем в архив кампании, которые не имеют активности 15 дней
- *
+ * отправляем в архив кампании, которые не имеют активности 15 дней.
  */
 class CampaignArhiveCommand extends CConsoleCommand
 {
@@ -16,14 +15,10 @@ class CampaignArhiveCommand extends CConsoleCommand
         $criteria->addCondition('active = ' . Campaign::ACTIVE_YES);
         $criteria->addCondition('lastLeadTime < NOW() - INTERVAL ' . $this->_days . ' DAY AND type = ' . Campaign::TYPE_BUYERS);
 
-
         $campaigns = Campaign::model()->findAll($criteria);
 
         foreach ($campaigns as $campaign) {
             $campaign->sendToArchive();
-
         }
-
-
     }
 }

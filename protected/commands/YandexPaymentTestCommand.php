@@ -6,9 +6,7 @@ use GuzzleHttp\Client;
 class YandexPaymentTestCommand extends CConsoleCommand
 {
     /**
-     * Отправляет тестовый запрос об оплате
-     * @param string $label
-     * @param float $amount
+     * Отправляет тестовый запрос об оплате.
      */
     public function actionPay(string $label, float $amount)
     {
@@ -28,11 +26,10 @@ class YandexPaymentTestCommand extends CConsoleCommand
         } catch (\GuzzleHttp\Exception\ClientException $clientException) {
             echo 'Exception: ' . $clientException->getMessage();
         }
-
     }
 
     /**
-     * Показ помощи
+     * Показ помощи.
      */
     public function actionHelp()
     {

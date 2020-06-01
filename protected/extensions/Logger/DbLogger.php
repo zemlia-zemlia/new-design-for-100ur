@@ -31,7 +31,8 @@ class DbLogger extends Logger
      *
      * @param string $message
      * @param string $class
-     * @param int $id
+     * @param int    $id
+     *
      * @throws Exception
      */
     public function log($message, $class, $id)

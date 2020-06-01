@@ -11,13 +11,13 @@ use CDbCriteria;
  *
  * The followings are the available columns in table '{{codecs}}':
  *
- * @property int $id
+ * @property int    $id
  * @property string $pagetitle
  * @property string $longtitle
  * @property string $description
  * @property string $alias
- * @property int $parent
- * @property int $isfolder
+ * @property int    $parent
+ * @property int    $isfolder
  * @property string $introtext
  * @property string $content
  * @property string $menutitle

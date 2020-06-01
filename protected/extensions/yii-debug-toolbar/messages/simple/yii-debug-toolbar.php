@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     'TOOLBAR' => '',
 
 //	Blank
@@ -111,4 +111,4 @@ return array(
     'Name' => '',
     'Value' => '',
     'Close' => '',
-);
+];

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\helpers;
+
 use DateInterval;
 use DateTime;
 
@@ -11,9 +12,6 @@ use DateTime;
  */
 class DateHelper
 {
-    /**
-     * @return array
-     */
     public static function getWeekDays(): array
     {
         return [
@@ -27,9 +25,6 @@ class DateHelper
         ];
     }
 
-    /**
-     * @return array
-     */
     public static function getMonthsNames(): array
     {
         return [
@@ -50,10 +45,6 @@ class DateHelper
 
     /**
      * функция возвращает время в формате hh:mm из даты yyyy-mm-dd hh:mm:ss.
-     *
-     * @param string $date
-     *
-     * @return string|null
      */
     public static function showTime(string $date): ?string
     {
@@ -75,9 +66,9 @@ class DateHelper
     /**
      * Заполняет массив, ключами которого являются даты, недостающими датами и значениями по умолчанию.
      *
-     * @param array $datesArray
-     * @param mixed $defaultValue
-     * @param string $interval Интервал между соседними датами в формате P1D
+     * @param array  $datesArray
+     * @param mixed  $defaultValue
+     * @param string $interval     Интервал между соседними датами в формате P1D
      *
      * @return array
      *
@@ -107,10 +98,6 @@ class DateHelper
 
     /**
      * принимает дату yyyy-mm-dd hh:mm:ss и возвращает массив из года, месяца, дня, часа, минуты, секунды, даты и времени.
-     *
-     * @param string $dateTime
-     *
-     * @return array|null
      */
     public static function dateTimeArray(string $dateTime): ?array
     {
@@ -119,11 +106,11 @@ class DateHelper
             $dateTimeArray = explode(' ', $dateTime);
             $dateArray = explode('-', $dateTimeArray[0]);
             $time = $dateTimeArray[1];
-            $year = (int)$dateArray[0];
-            $month = (int)$dateArray[1];
-            $day = (int)$dateArray[2];
+            $year = (int) $dateArray[0];
+            $month = (int) $dateArray[1];
+            $day = (int) $dateArray[2];
             $timeArray = explode(':', $time);
-            $hours = (int)$timeArray[0];
+            $hours = (int) $timeArray[0];
             $minutes = $timeArray[1];
             $seconds = $timeArray[2];
             $outputArray = [
@@ -140,9 +127,9 @@ class DateHelper
             return $outputArray;
         } elseif (stristr($dateTime, '-')) {
             $dateArray = explode('-', $dateTime);
-            $year = (int)$dateArray[0];
-            $month = (int)$dateArray[1];
-            $day = (int)$dateArray[2];
+            $year = (int) $dateArray[0];
+            $month = (int) $dateArray[1];
+            $day = (int) $dateArray[2];
             $outputArray = [
                 'year' => $year,
                 'month' => $month,
@@ -191,20 +178,13 @@ class DateHelper
      * функция преобразует дату из формата 2012-09-01 12:30:00 в Пн 1 сен. 2012 12:30.
      *
      * @param string $date
-     * @param bool $showTime
-     * @param bool $showWeekday
-     * @param bool $showYear
-     *
-     * @return string
      */
     public static function niceDate(
         ?string $date,
         bool $showTime = true,
         bool $showWeekday = true,
         bool $showYear = true
-    ): string
-    {
-
+    ): string {
         if (is_null($date)) {
             return '';
         }

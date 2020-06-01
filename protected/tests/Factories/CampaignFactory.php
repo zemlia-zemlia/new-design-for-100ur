@@ -14,8 +14,6 @@ class CampaignFactory extends BaseFactory
      * {@inheritdoc}
      *
      * @param array $forcedParams
-     *
-     * @return array
      */
     public function generateOne($forcedParams = []): array
     {

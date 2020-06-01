@@ -13,9 +13,6 @@ class YuristRang
     /** @var array */
     private $rangs;
 
-    /**
-     * @return array
-     */
     public function getRangs(): array
     {
         return $this->rangs;
@@ -56,8 +53,6 @@ class YuristRang
 
     /**
      * Определяет, какого ранга достоин пользователь.
-     *
-     * @param User $user
      *
      * @return int
      */

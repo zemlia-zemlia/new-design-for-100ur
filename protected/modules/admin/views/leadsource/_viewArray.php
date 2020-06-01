@@ -1,5 +1,5 @@
 <?php
-    /** @var array $sources */
+/** @var array $sources */
 ?>
 
 <?php foreach ($sources as $source): ?>

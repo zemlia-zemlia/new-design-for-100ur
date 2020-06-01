@@ -12,9 +12,9 @@ use Yii;
  *
  * The followings are the available columns in table '{{postRatingHistory}}':
  *
- * @property int $postId
- * @property int $userId
- * @property int $delta
+ * @property int    $postId
+ * @property int    $userId
+ * @property int    $delta
  * @property string $datetime
  */
 class PostRatingHistory extends CActiveRecord

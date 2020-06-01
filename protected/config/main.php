@@ -101,6 +101,9 @@ return [
         'mailer' => [
             'class' => 'application.extensions.GTMail',
         ],
+        'container' => [
+            'class' => 'application.components.DiContainer',
+        ],
     ],
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']

@@ -1,10 +1,10 @@
 <tr>
     <td>
         <?php use App\helpers\DateHelper;
-        use App\models\PartnerTransaction;
-        use App\models\TransactionCampaign;
+use App\models\PartnerTransaction;
+use App\models\TransactionCampaign;
 
-        if ($data instanceof PartnerTransaction): ?>
+if ($data instanceof PartnerTransaction): ?>
             <?php echo DateHelper::niceDate($data->datetime); ?>
             <?php if (0 != $data->leadId && time() - strtotime($data->datetime) < 86400 * 3): ?>
                 <span class="label label-warning">холд</span>

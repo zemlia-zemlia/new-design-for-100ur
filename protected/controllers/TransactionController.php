@@ -1,7 +1,6 @@
 <?php
 
 use App\extensions\Logger\LoggerFactory;
-use App\models\PartnerTransaction;
 use App\models\TransactionCampaign;
 use App\models\User;
 use App\models\UserActivity;
@@ -47,8 +46,7 @@ class TransactionController extends Controller
      */
     public function actionIndex()
     {
-
-        if (Yii::app()->user->role == User::ROLE_PARTNER) {
+        if (User::ROLE_PARTNER == Yii::app()->user->role) {
             // У вебмастера транзакции отображаются в его модуле
             return $this->redirect('/webmaster/transaction');
         }
@@ -97,7 +95,6 @@ class TransactionController extends Controller
                 ],
             ]);
         }
-
 
         $balance = $currentUser->calculateWebmasterBalance();
         Yii::app()->cache->set('webmaster_' . Yii::app()->user->id . '_balance', $balance, 60);

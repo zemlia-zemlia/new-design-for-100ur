@@ -14,14 +14,14 @@ use Yii;
  *
  * The followings are the available columns in table '{{order}}':
  *
- * @property int $id
- * @property int $status
+ * @property int    $id
+ * @property int    $status
  * @property string $createDate
- * @property int $itemType
- * @property int $price
+ * @property int    $itemType
+ * @property int    $price
  * @property string $description
- * @property int $userId
- * @property int $juristId
+ * @property int    $userId
+ * @property int    $juristId
  * @property string $term
  */
 class Order extends CActiveRecord

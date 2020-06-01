@@ -2,6 +2,7 @@
 
 namespace App\models;
 
+use App\extensions\Logger\LoggerFactory;
 use App\notifiers\UserNotifier;
 use CActiveDataProvider;
 use CActiveRecord;
@@ -10,7 +11,6 @@ use CHtml;
 use CHttpException;
 use CLogger;
 use Exception;
-use App\extensions\Logger\LoggerFactory;
 use PDO;
 use Sendpulse\RestApi\ApiClient;
 use Sendpulse\RestApi\Storage\FileStorage;
@@ -28,25 +28,25 @@ use YurcrmClient\YurcrmResponse;
  * @property string $name
  * @property string $name2
  * @property string $lastName
- * @property int $role
+ * @property int    $role
  * @property string $email
  * @property string $phone
  * @property string $password
- * @property int $active100
+ * @property int    $active100
  * @property string $confirm_code
  * @property string $townId
  * @property string $registerDate
- * @property int $isSubscribed
- * @property int $karma
+ * @property int    $isSubscribed
+ * @property int    $karma
  * @property string $autologin
  * @property string $lastActivity
- * @property float $balance
+ * @property float  $balance
  * @property string $lastTransactionTime
- * @property float $priceCoeff
- * @property int $lastAnswer
- * @property int $refId
+ * @property float  $priceCoeff
+ * @property int    $lastAnswer
+ * @property int    $refId
  * @property string $yurcrmToken
- * @property int $yurcrmSource
+ * @property int    $yurcrmSource
  * @property string $chatToken
  */
 class User extends CActiveRecord
@@ -114,35 +114,21 @@ class User extends CActiveRecord
         return Yii::app()->db->tablePrefix . 'user';
     }
 
-    /**
-     * @return UserNotifier
-     */
     public function getNotifier(): UserNotifier
     {
         return $this->notifier;
     }
 
-    /**
-     * @param UserNotifier $notifier
-     */
     public function setNotifier(UserNotifier $notifier): void
     {
         $this->notifier = $notifier;
     }
 
-    /**
-     * @return YurcrmClient
-     */
     public function getYurcrmClient(): YurcrmClient
     {
         return $this->yurcrmClient;
     }
 
-    /**
-     * @param YurcrmClient $yurcrmClient
-     *
-     * @return User
-     */
     public function setYurcrmClient(YurcrmClient $yurcrmClient): User
     {
         $this->yurcrmClient = $yurcrmClient;
@@ -228,7 +214,7 @@ class User extends CActiveRecord
     public function getRoleName(): ?string
     {
         $rolesNames = self::getRoleNamesArray();
-        $roleName = (isset($rolesNames[(int)$this->role])) ? $rolesNames[(int)$this->role] : null;
+        $roleName = (isset($rolesNames[(int) $this->role])) ? $rolesNames[(int) $this->role] : null;
 
         return $roleName;
     }
@@ -433,7 +419,7 @@ class User extends CActiveRecord
                 $this->refId = Yii::app()->user->getState('ref');
             }
 
-            if($this->isNewRecord && !$this->chatToken) {
+            if ($this->isNewRecord && !$this->chatToken) {
                 $this->chatToken = $this->generateAutologinString();
             }
 
@@ -448,7 +434,7 @@ class User extends CActiveRecord
      *  Если указан параметр $newPassword, он будет выслан в письме  как новый пароль.
      *
      * @param string $newPassword Новый пароль, который необходимо отправить в письме
-     * @param bool $useSMTP Использовать ли SMTP
+     * @param bool   $useSMTP     Использовать ли SMTP
      *
      * @return bool true - письмо отправлено, false - не отправлено
      */
@@ -567,10 +553,9 @@ class User extends CActiveRecord
     }
 
     /**
-     * @return int
      * @throws \CException
      */
-    public static function getChatsMessagesCnt():int
+    public static function getChatsMessagesCnt(): int
     {
         $cnt = Yii::app()->db->createCommand('SELECT COUNT(*) FROM `100_chat` as chat
         INNER JOIN `100_chat_messages` as cmessages ON cmessages.chat_id = chat.id WHERE
@@ -629,18 +614,17 @@ class User extends CActiveRecord
     }
 
     /**
-     * Возвращает фамилию и имя  пользователя, или название компании
+     * Возвращает фамилию и имя  пользователя, или название компании.
      *
      * @return string
      */
     public function getNameOrCompany()
     {
-        if ($this->settings && $this->settings->status == YuristSettings::STATUS_COMPANY) {
+        if ($this->settings && YuristSettings::STATUS_COMPANY == $this->settings->status) {
             $name = $this->settings->companyName;
         } else {
             $name = $this->name . ' ' . $this->name2 . ' ' . $this->lastName;
         }
-
 
         return $name;
     }
@@ -670,7 +654,7 @@ class User extends CActiveRecord
      * отправка письма пользователю, на вопрос которого дан ответ
      *
      * @param Question|null $question Вопрос
-     * @param Answer $answer Ответ
+     * @param Answer        $answer   Ответ
      *
      * @return bool Результат отправки: true - успешно, false - ошибка
      */
@@ -714,9 +698,9 @@ class User extends CActiveRecord
     /**
      * функция отправки уведомления юристу или клиенту о новом комментарии на его ответ / комментарий.
      *
-     * @param Question|null $question Вопрос
-     * @param Comment|null $comment Комментарий
-     * @param bool $isChildComment Является ли комментарий дочерним для другого
+     * @param Question|null $question       Вопрос
+     * @param Comment|null  $comment        Комментарий
+     * @param bool          $isChildComment Является ли комментарий дочерним для другого
      *
      * @return bool Результат отправки: true - успешно, false - ошибка
      */
@@ -757,7 +741,7 @@ class User extends CActiveRecord
     /**
      * функция проверки кода в ссылке "отписаться от рассылок".
      *
-     * @param string $code Код из ссылки "отписаться"
+     * @param string $code  Код из ссылки "отписаться"
      * @param string $email Email из ссылки "отписаться"
      *
      * @return bool true, если код верный, false - если неверный
@@ -911,7 +895,7 @@ class User extends CActiveRecord
     /**
      * Возвращает массив непросмотренных комментариев, написанных к ответам юриста.
      *
-     * @param int $days За сколько дней искать комментарии
+     * @param int  $days        За сколько дней искать комментарии
      * @param bool $returnCount Вернуть количество элементов
      *
      * @return array|int Массив с комментариями или количество комментариев
@@ -1072,8 +1056,6 @@ class User extends CActiveRecord
 
     /**
      * Вытаскивает из ответа Yurcrm данные созданного пользователя: yurcrmToken, yurcrmSource.
-     *
-     * @param YurcrmResponse $crmResponse
      */
     public function getYurcrmDataFromResponse(YurcrmResponse $crmResponse)
     {
@@ -1126,7 +1108,6 @@ class User extends CActiveRecord
     /**
      * Отправка юристу уведомления о зачислении благодарности за консультацию.
      *
-     * @param Answer $answer
      * @param int $yuristBonus В копейках
      *
      * @return bool
@@ -1150,24 +1131,24 @@ class User extends CActiveRecord
     }
 
     /**
-     * @return string
      * @throws Exception
      */
-    public function getLastOnline():string
+    public function getLastOnline(): string
     {
         $lastActivityTs = $this->lastActivity;
         if ($lastActivityTs) {
             return (new \DateTime($lastActivityTs))->format('H:i:s d.m.Y');
         }
+
         return 'Был(а) давно';
     }
 
     /**
-     * Возвращает текст, как давно пользователь был последний раз активен
-     * @return string
+     * Возвращает текст, как давно пользователь был последний раз активен.
+     *
      * @throws Exception
      */
-    public function getPeriodFromLastActivity() : string
+    public function getPeriodFromLastActivity(): string
     {
         $lastActivityDateTime = new \DateTime($this->lastActivity);
         $currentDateTime = new \DateTime();
@@ -1192,7 +1173,6 @@ class User extends CActiveRecord
             } else {
                 return 'вчера в ' . $lastActivityDateTime->format('H:i');
             }
-
         }
 
         if (
@@ -1232,7 +1212,7 @@ class User extends CActiveRecord
     }
 
     /**
-     * @param int|null $limit Если null, то без лимита
+     * @param int|null   $limit      Если null, то без лимита
      * @param bool|array $pagination
      *
      * @return CActiveDataProvider
@@ -1331,7 +1311,8 @@ class User extends CActiveRecord
     }
 
     /**
-     * Определяет показывать ли кнопку чата
+     * Определяет показывать ли кнопку чата.
+     *
      * @return bool
      */
     public function getIsShowChatButton()
@@ -1340,8 +1321,5 @@ class User extends CActiveRecord
         $minQnt = Yii::app()->params['MinAnswerQntForChat'];
 
         return $answersCnt >= $minQnt;
-
     }
-
-
 }

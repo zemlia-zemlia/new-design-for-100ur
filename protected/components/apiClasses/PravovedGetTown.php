@@ -47,11 +47,11 @@ class PravovedGetTown
 
         $townsResponseDecoded = json_decode($townsResponse, true);
 
-        if ($townsResponseDecoded['meta'] && $townsResponseDecoded['meta']['code'] && 200 == (int)$townsResponseDecoded['meta']['code']) {
+        if ($townsResponseDecoded['meta'] && $townsResponseDecoded['meta']['code'] && 200 == (int) $townsResponseDecoded['meta']['code']) {
             $firstTown = $townsResponseDecoded['data']['cities'][0];
             $firstTownId = $firstTown['id'];
 
-            return (int)$firstTownId;
+            return (int) $firstTownId;
         }
 
         return 0;

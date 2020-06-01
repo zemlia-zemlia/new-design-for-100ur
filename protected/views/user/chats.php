@@ -1,7 +1,7 @@
 <?php
 /** @var \App\models\Chat $chat */
-/** @var \App\models\Chat $chats */
-/** @var \App\models\Chat $curChat */
+/* @var \App\models\Chat $chats */
+/* @var \App\models\Chat $curChat */
 /* @var $this UserController */
 /* @var string $room */
 /* @var int $role */
@@ -14,24 +14,23 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/socket.i
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/chat.js', CClientScript::POS_END);
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css');
 
-
 ?>
 
 <?php if ($room): ?>
     <script>
-        window.room = "<?=$room?>"
+        window.room = "<?php echo $room; ?>"
     </script>
 <?php endif; ?>
 <script>
-    window.username = "<?=$user->getShortName()?>";
-    window.token = "<?=$user->chatToken?>";
-    window.role = "<?=$role?>";
-    window.siteUrl = "<?=Yii::app()->getBaseUrl(true)?>";
-    window.chaturl = "<?=getenv('CHAT_URL')?>:<?=getenv('CHAT_PORT')?>";
+    window.username = "<?php echo $user->getShortName(); ?>";
+    window.token = "<?php echo $user->chatToken; ?>";
+    window.role = "<?php echo $role; ?>";
+    window.siteUrl = "<?php echo Yii::app()->getBaseUrl(true); ?>";
+    window.chaturl = "<?php echo getenv('CHAT_URL'); ?>:<?php echo getenv('CHAT_PORT'); ?>";
 </script>
-<?php if ($role == User::ROLE_JURIST): ?>
+<?php if (User::ROLE_JURIST == $role): ?>
     <script>
-        window.layer_id = "<?=$user->chatToken?>"
+        window.layer_id = "<?php echo $user->chatToken; ?>"
     </script>
 <?php endif; ?>
 <div style="clear: both"></div>
@@ -39,7 +38,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
     <div class="col-md-12 col-lg-12">
         <h1>
             Чат с
-            <?php if ($role == User::ROLE_CLIENT): ?>
+            <?php if (User::ROLE_CLIENT == $role): ?>
                 юристами
             <?php else: ?>
                 пользователями
@@ -52,31 +51,31 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
         <h3>Ваши чаты:</h3>
         <div class="vert-margin40">
             <?php foreach ($chats as $chat): ?>
-                <a href="/user/chats?chatId=<?= $chat->chat_id ?>"
-                   class="btn btn-block <?= ($chat->chat_id == $room) ? 'btn-success' : 'btn-default' ?>">
+                <a href="/user/chats?chatId=<?php echo $chat->chat_id; ?>"
+                   class="btn btn-block <?php echo ($chat->chat_id == $room) ? 'btn-success' : 'btn-default'; ?>">
                     <img style="width: 20px;"
-                         src="<?= ($role == User::ROLE_JURIST) ? $chat->user->getAvatarUrl() : $chat->lawyer->getAvatarUrl() ?>">
-                    <?= ($role == User::ROLE_JURIST) ? $chat->user->getShortName() : $chat->lawyer->getShortName() ?>
+                         src="<?php echo (User::ROLE_JURIST == $role) ? $chat->user->getAvatarUrl() : $chat->lawyer->getAvatarUrl(); ?>">
+                    <?php echo (User::ROLE_JURIST == $role) ? $chat->user->getShortName() : $chat->lawyer->getShortName(); ?>
                     <?php if ($chat->is_closed): ?>
                         (закрыт)
-                    <?php elseif ($chat->is_confirmed == null): ?>
+                    <?php elseif (null == $chat->is_confirmed): ?>
                         (запрос)
                     <?php endif; ?>
                     <?php if ($chat->countMessages) : ?>
-                        <strong class="red">(<?= $chat->countMessages ?>)</strong>
+                        <strong class="red">(<?php echo $chat->countMessages; ?>)</strong>
                     <?php endif; ?>
                 </a>
             <?php endforeach; ?>
         </div>
 
         <?php if (!$chats): ?>
-            <?php if ($role == User::ROLE_CLIENT): ?>
+            <?php if (User::ROLE_CLIENT == $role): ?>
                 <div>
                     У вас нет пока нет чатов с юристами.<br>
                     Для начала чата выберите подходящего вам юриста в разделе <a href="/yurist/russia/">юристы</a>
                 </div>
             <?php endif; ?>
-            <?php if ($role == User::ROLE_JURIST): ?>
+            <?php if (User::ROLE_JURIST == $role): ?>
                 <div class="vert-margin30">
                     У вас нет пока нет чатов пользователями.
                 </div>
@@ -103,13 +102,13 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
 
 
         <?php if (!$chats && !$room): ?>
-            <?php if ($role == User::ROLE_CLIENT): ?>
+            <?php if (User::ROLE_CLIENT == $role): ?>
                 <div class="col-md-8 col-lg-8 no_chats">
                     У вас нет пока нет чатов с юристами.<br>
                     Для начала чата выберите подходящего вам юриста в разделе <a href="/yurist/russia/">юристы</a>
                 </div>
             <?php endif; ?>
-            <?php if ($role == User::ROLE_JURIST): ?>
+            <?php if (User::ROLE_JURIST == $role): ?>
                 <div class="col-md-8 col-lg-8 no_chats">
                     У вас нет пока нет чатов с пользователями.
                 </div>
@@ -128,13 +127,13 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
             <?php if ($curChat): ?>
                 <div class="col-md-4 col-xs-6 small">
                     <img style="width: 40px;"
-                         src="<?= ($role == User::ROLE_JURIST) ? $curChat->user->getAvatarUrl() : $curChat->lawyer->getAvatarUrl() ?>">
-                    <?= ($role == User::ROLE_JURIST) ? $curChat->user->getShortName() : $curChat->lawyer->getShortName() ?>
+                         src="<?php echo (User::ROLE_JURIST == $role) ? $curChat->user->getAvatarUrl() : $curChat->lawyer->getAvatarUrl(); ?>">
+                    <?php echo (User::ROLE_JURIST == $role) ? $curChat->user->getShortName() : $curChat->lawyer->getShortName(); ?>
                     <br/>
                 </div>
                 <div class="col-md-3 col-xs-4">
                 <span class="small">был(а) в сети <br/>
-                <?= ($role == User::ROLE_JURIST) ? $curChat->user->getPeriodFromLastActivity() : $curChat->lawyer->getPeriodFromLastActivity() ?>
+                <?php echo (User::ROLE_JURIST == $role) ? $curChat->user->getPeriodFromLastActivity() : $curChat->lawyer->getPeriodFromLastActivity(); ?>
                 </span>
                 </div>
                 <div class="col-md-1 col-xs-1">
@@ -155,7 +154,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
                     <ul class="messages">
                         <?php if ($messages): ?>
                             <?php foreach ($messages as $mess): ?>
-                                <?= $this->renderPartial('chatElem', ['mess' => $mess, 'user' => $user]) ?>
+                                <?php echo $this->renderPartial('chatElem', ['mess' => $mess, 'user' => $user]); ?>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </ul>
@@ -192,7 +191,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/chat.css')
 
     </div>
     <div id="chatElem" style="display: none">
-        <?= $this->renderPartial('chatElem', ['mess' => [], 'user' => []]) ?>
+        <?php echo $this->renderPartial('chatElem', ['mess' => [], 'user' => []]); ?>
     </div>
     <input onchange="processWebImage(this)"
            accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,image/*,application/pdf"

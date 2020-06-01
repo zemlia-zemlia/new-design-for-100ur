@@ -45,6 +45,7 @@ class QuestionController extends Controller
      * Страница вопроса.
      *
      * @param int $id
+     *
      * @throws CException
      * @throws CHttpException
      */

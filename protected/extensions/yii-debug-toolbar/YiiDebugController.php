@@ -2,12 +2,10 @@
 
 class YiiDebugController extends CController
 {
-
     public function actionIndex()
     {
         $this->render('index');
     }
-
 
     public function getViewPath()
     {
@@ -18,6 +16,4 @@ class YiiDebugController extends CController
     {
         return $this->getViewPath() . '/layouts/main.php';
     }
-
-
 }

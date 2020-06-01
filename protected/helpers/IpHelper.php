@@ -6,8 +6,6 @@ class IpHelper
 {
     /**
      * пребразует дату в формате yyyy-mm-dd в формат dd-mm-yyyy и наоборот в зависимости от формата аргумента.
-     *
-     * @return string
      */
     public static function getUserIP(): string
     {

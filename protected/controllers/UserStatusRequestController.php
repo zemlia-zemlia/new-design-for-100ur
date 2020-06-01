@@ -42,7 +42,7 @@ class UserStatusRequestController extends Controller
                 'actions' => ['create'],
                 'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_JURIST . ')',
             ],
-//
+
             ['allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => ['admin', 'delete'],
                 'users' => ['admin'],
@@ -71,15 +71,13 @@ class UserStatusRequestController extends Controller
      */
     public function actionCreate()
     {
-
-
         ini_set('upload_max_filesize', '10M');
         $model = new UserStatusRequest();
 
         // модель для работы со сканом
         $userFile = new UserFile();
 
-        if (Yii::app()->request->getParam('App_models_UserStatusRequest') !== NULL) {
+        if (null !== Yii::app()->request->getParam('App_models_UserStatusRequest')) {
             $post = Yii::app()->request->getParam('App_models_UserStatusRequest');
             $model->attributes = Yii::app()->request->getParam('App_models_UserStatusRequest');
 
@@ -87,9 +85,6 @@ class UserStatusRequestController extends Controller
             $model->inn = $post['inn'] ? $post['inn'] : '';
             $model->companyName = $post['companyName'] ? $post['companyName'] : '';
             $model->address = $post['address'] ? $post['address'] : '';
-
-
-
 
             switch ($model->status) {
                 case YuristSettings::STATUS_YURIST:
@@ -103,42 +98,38 @@ class UserStatusRequestController extends Controller
                     break;
             }
 
+            if ($model->validate()) {
+                // загрузка скана
+                if (!empty($_FILES) && !$model->errors && 'createYurist' == $model->scenario) {
+                    $scan = CUploadedFile::getInstance($userFile, 'userFile');
+                    if ($scan && 0 == $scan->getError()) { // если файл нормально загрузился
+                        $scanFileName = md5($scan->getName() . $scan->getSize() . mt_rand(10000, 100000)) . '.' . $scan->getExtensionName();
 
-           if ($model->validate()) {
-               // загрузка скана
-               if (!empty($_FILES) && !$model->errors && 'createYurist' == $model->scenario) {
-                   $scan = CUploadedFile::getInstance($userFile, 'userFile');
-                   if ($scan && 0 == $scan->getError()) { // если файл нормально загрузился
-                       $scanFileName = md5($scan->getName() . $scan->getSize() . mt_rand(10000, 100000)) . '.' . $scan->getExtensionName();
+                        $scan->saveAs(Yii::getPathOfAlias('webroot') . UserFile::USER_FILES_FOLDER . '/' . $scanFileName);
 
-                       $scan->saveAs(Yii::getPathOfAlias('webroot') . UserFile::USER_FILES_FOLDER . '/' . $scanFileName);
+                        $userFile->userId = Yii::app()->user->id;
+                        $userFile->name = $scanFileName;
+                        $userFile->type = $model->status;
 
-                       $userFile->userId = Yii::app()->user->id;
-                       $userFile->name = $scanFileName;
-                       $userFile->type = $model->status;
+                        if (!$userFile->save()) {
+                            echo 'Не удалось сохранить скан';
+                            StringHelper::printr($userFile->errors);
+                            Yii::app()->end();
+                        } else {
+                            // после сохранения файла сохраним ссылку на него в объекте запроса
+                            $model->fileId = $userFile->id;
+                        }
+                    } else {
+                        $modelHasErrors = true;
+                    }
+                }
 
-                       if (!$userFile->save()) {
-                           echo 'Не удалось сохранить скан';
-                           StringHelper::printr($userFile->errors);
-                           Yii::app()->end();
-                       } else {
-                           // после сохранения файла сохраним ссылку на него в объекте запроса
-                           $model->fileId = $userFile->id;
-                       }
-                   } else {
-                       $modelHasErrors = true;
-                   }
-               }
-
-
-               // Если подтверждаем юриста, проверим, что он загрузил скан
-               if ('createYurist' == $model->scenario && !$scan) {
-                   $userFile->addError('userFile', 'Не загружен файл со сканом/фото диплома');
-                   $modelHasErrors = true;
-               }
-
-           }
-
+                // Если подтверждаем юриста, проверим, что он загрузил скан
+                if ('createYurist' == $model->scenario && !$scan) {
+                    $userFile->addError('userFile', 'Не загружен файл со сканом/фото диплома');
+                    $modelHasErrors = true;
+                }
+            }
 
             if (!$model->errors && !$modelHasErrors && $model->save()) {
                 $this->redirect(['/user']);

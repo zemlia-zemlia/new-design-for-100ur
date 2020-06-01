@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     'TOOLBAR' => 'ТУЛБАР',
 
 //	Blank
@@ -111,4 +111,4 @@ return array(
     'Name' => 'Название',
     'Value' => 'Значение',
     'Close' => 'Закрыть',
-);
+];

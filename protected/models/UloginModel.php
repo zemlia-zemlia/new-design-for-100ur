@@ -2,10 +2,10 @@
 
 namespace App\models;
 
+use App\extensions\Logger\LoggerFactory;
 use CHttpException;
 use CModel;
 use Exception;
-use App\extensions\Logger\LoggerFactory;
 use UloginUserIdentity;
 use UserBannedException;
 use Yii;

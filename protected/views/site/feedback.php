@@ -14,7 +14,7 @@ $purifier = new CHtmlPurifier();
     <?php if (count($testimonials)) :
         $i = 1;
         foreach ($testimonials as $testimonial) :
-            if ($i % 2 != 0) :?>
+            if (0 != $i % 2) :?>
                 <div class="row vert-margin40">
                 <div class="col-lg-6">
                     <h4 class="text-left">
@@ -53,7 +53,7 @@ $purifier = new CHtmlPurifier();
                 </div>
                 </div>
             <?php endif; ?>
-            <?php $i++; ?>
+            <?php ++$i; ?>
         <?php endforeach; ?>
     <?php endif; ?>
 </div>

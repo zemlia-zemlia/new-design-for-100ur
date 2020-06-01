@@ -73,8 +73,8 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
                         <div class="form-group">
                             <?php echo $form->labelEx($model, 'Опубликовать:'); ?>
                             <?php $this->widget(
-                                'zii.widgets.jui.CJuiDatePicker',
-                                [
+                        'zii.widgets.jui.CJuiDatePicker',
+                        [
                                     'name' => 'QuestionCategory[publish_date]',
                                     'value' => $model['publish_date'],
                                     'language' => 'ru',
@@ -85,7 +85,7 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
                                         'class' => 'form-control',
                                     ],
                                 ]
-                            );
+                    );
                             ?>
                             <?php echo $form->error($model, 'publish_date'); ?>
                         </div>
@@ -181,7 +181,7 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
                     <div class="row">
                         <div class="col-md-2 center-align">
                             <?php if ($model->icon) : ?>
-                                <img src="<?= $model->getIconUrl() ?>" alt="<?= $model->name ?>">
+                                <img src="<?php echo $model->getIconUrl(); ?>" alt="<?php echo $model->name; ?>">
                             <?php endif; ?>
                         </div>
                         <div class="col-md-10">

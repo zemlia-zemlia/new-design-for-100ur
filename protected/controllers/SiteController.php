@@ -25,12 +25,13 @@ class SiteController extends Controller
                 'duration' => 0,
                 'requestTypes' => ['GET'],
                 'varyByExpression' => 'Yii::app()->user->id',
-                'varyByParam' => 'code']];
+                'varyByParam' => 'code', ], ];
     }
 
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
+     *
      * @return array access control rules
      */
     public function accessRules()
@@ -42,20 +43,20 @@ class SiteController extends Controller
                     'getcode', 'index', 'feedback', 'about', 'login', 'logout', 'captcha',
                     'error', 'contacts', 'partners', 'lp', 'konsultaciya_yurista_advokata',
                     'clearCache', 'offer', 'crm', 'lead', 'goryachaya_liniya', 'brakLead',
-                    'klienti_dlya_yuristov', 'referal', 'passwordChanged', 'turbo', 'yuristam'
+                    'klienti_dlya_yuristov', 'referal', 'passwordChanged', 'turbo', 'yuristam',
                 ],
-                'users' => ['*']],
+                'users' => ['*'], ],
             ['allow',
                 'actions' => ['info'],
-                'expression' => 'Yii::app()->user->role == ' . User::ROLE_ROOT],
+                'expression' => 'Yii::app()->user->role == ' . User::ROLE_ROOT, ],
             ['allow',
                 'actions' => ['rangs'],
-                'expression' => 'Yii::app()->user->role == ' . User::ROLE_JURIST],
+                'expression' => 'Yii::app()->user->role == ' . User::ROLE_JURIST, ],
             ['allow',
                 'actions' => ['upload'],
-                'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')'],
+                'expression' => 'Yii::app()->user->checkAccess(' . User::ROLE_EDITOR . ')', ],
             ['deny', // запрещаем все, что не разрешено
-                'users' => ['*']]];
+                'users' => ['*'], ], ];
     }
 
     public function actions()
@@ -64,11 +65,11 @@ class SiteController extends Controller
             // captcha action renders the CAPTCHA image displayed on the contact page
             'captcha' => [
                 'class' => 'CCaptchaAction',
-                'backColor' => 0xFFFFFF],
+                'backColor' => 0xFFFFFF, ],
             // page action renders "static" pages stored under 'protected/views/site/pages'
             // They can be accessed via: index.php?r=site/page&view=FileName
             'page' => [
-                'class' => 'CViewAction']];
+                'class' => 'CViewAction', ], ];
     }
 
     public function actionGetFile($fileName)
@@ -92,6 +93,7 @@ class SiteController extends Controller
             throw new HttpException(404);
         }
     }
+
     /**
      * This is the action to handle external exceptions.
      */
@@ -108,7 +110,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Код для чата
+     * Код для чата.
      */
     public function actionGetcode()
     {
@@ -119,7 +121,7 @@ class SiteController extends Controller
                 header('Content-type: application/json');
                 echo json_encode([
                     'name' => $user->lastName . ' ' . $user->name . ' ' . $user->name2,
-                    'token' => $user->chatToken
+                    'token' => $user->chatToken,
                 ]);
             } else {
                 throw new CHttpException('404');
@@ -138,12 +140,11 @@ class SiteController extends Controller
         $questionModel = new Question();
         $this->render('index', [
             //'questions' => $questions,
-            'questionModel' => $questionModel]);
+            'questionModel' => $questionModel, ]);
     }
 
-
     /**
-     * Отзывы клиентов
+     * Отзывы клиентов.
      */
     public function actionFeedback()
     {
@@ -154,7 +155,7 @@ class SiteController extends Controller
         $criteria->addColumnCondition(['t.status' => Comment::STATUS_CHECKED, 't.type' => Comment::TYPE_USER]);
         $testimonials = Comment::model()->findAll($criteria);
         $this->render('feedback', [
-            'testimonials' => $testimonials
+            'testimonials' => $testimonials,
         ]);
     }
 
@@ -181,7 +182,7 @@ class SiteController extends Controller
         }
         $this->render('contacts', [
             'contactForm' => $contactForm,
-            'formResult' => $formResult]);
+            'formResult' => $formResult, ]);
     }
 
     public function actionPartners()
@@ -215,7 +216,7 @@ class SiteController extends Controller
         $contactForm = new ContactForm();
         $this->layout = '//frontend/lp';
         $this->render('lead', [
-            'contactForm' => $contactForm]);
+            'contactForm' => $contactForm, ]);
     }
 
     public function actionGoryachaya_liniya()
@@ -265,7 +266,7 @@ class SiteController extends Controller
         }
 
         $this->render('login', [
-            'model' => $model
+            'model' => $model,
         ]);
     }
 
@@ -305,7 +306,7 @@ class SiteController extends Controller
         if ('' == $code) {
             return $this->render('brakError', [
                 'errorTitle' => 'Не передан код лида',
-                'errorMessage' => 'Возможно, вы перешли по неправильной ссылке']);
+                'errorMessage' => 'Возможно, вы перешли по неправильной ссылке', ]);
         }
         $code = CHtml::encode($code);
         $lead = Lead::model()->findByAttributes(['secretCode' => $code]);
@@ -313,17 +314,17 @@ class SiteController extends Controller
         if (!$lead) {
             return $this->render('brakError', [
                 'errorTitle' => 'Лид не найден',
-                'errorMessage' => 'Лид не найден в базе. Возможно, вы перешли по неработающей ссылке']);
+                'errorMessage' => 'Лид не найден в базе. Возможно, вы перешли по неработающей ссылке', ]);
         }
         if (Lead::LEAD_STATUS_SENT != $lead->leadStatus) {
             return $this->render('brakError', [
                 'errorTitle' => 'Этот лид нельзя забраковать',
-                'errorMessage' => 'Нельзя отправить на отбраковку лид, находящийся в текущем статусе']);
+                'errorMessage' => 'Нельзя отправить на отбраковку лид, находящийся в текущем статусе', ]);
         }
         if (!(!is_null($lead->deliveryTime) && (time() - strtotime($lead->deliveryTime) < 86400 * Yii::app()->params['leadHoldPeriodDays']))) {
             return $this->render('brakError', [
                 'errorTitle' => 'Период отбраковки лида истёк',
-                'errorMessage' => 'Нельзя отправить на отбраковку лид, отправленный покупателю более ' . Yii::app()->params['leadHoldPeriodDays'] . ' суток назад']);
+                'errorMessage' => 'Нельзя отправить на отбраковку лид, отправленный покупателю более ' . Yii::app()->params['leadHoldPeriodDays'] . ' суток назад', ]);
         }
         // проверим, не достигнут ли лимит брака для кампании
         $campaign = $lead->campaign;
@@ -331,7 +332,7 @@ class SiteController extends Controller
             $date = date('Y-m-d', strtotime($lead->deliveryTime)); // дата, на которую считать процент брака
             if (false == $campaign->checkCanBrak($date)) {
                 return $this->render('brakLeadLimit', [
-                    'campaign' => $campaign]);
+                    'campaign' => $campaign, ]);
             }
         }
 
@@ -374,7 +375,7 @@ class SiteController extends Controller
         }
         //CustomFuncs::printr($lead->attributes);
         $this->render('brakLead', [
-            'lead' => $lead]);
+            'lead' => $lead, ]);
     }
 
     public function actionUpload()
@@ -388,7 +389,7 @@ class SiteController extends Controller
                     $array = [
 //                        'url' => Yii::app()->urlManager->baseUrl . $path,
                         'url' => $path,
-                        'name' => $newFileName
+                        'name' => $newFileName,
                     ];
                     echo stripslashes(json_encode($array));
                 }
@@ -412,7 +413,7 @@ class SiteController extends Controller
             $referals = User::model()->findAll($criteria);
         }
         $this->render('referal', [
-            'referals' => $referals]);
+            'referals' => $referals, ]);
     }
 
     /**
@@ -423,7 +424,7 @@ class SiteController extends Controller
         $this->layout = '//frontend/smart';
         $isYurcrmRegistered = isset($_GET['yurcrm']);
         $this->render('passwordChanged', [
-            'isYurcrmRegistered' => $isYurcrmRegistered]);
+            'isYurcrmRegistered' => $isYurcrmRegistered, ]);
     }
 
     // generates RSS 2.0 feed with active trips
@@ -472,6 +473,6 @@ class SiteController extends Controller
         $user = User::model()->findByPk(Yii::app()->user->id);
         $this->render('rangs', [
             'rangsInfo' => $rangsInfo,
-            'user' => $user]);
+            'user' => $user, ]);
     }
 }

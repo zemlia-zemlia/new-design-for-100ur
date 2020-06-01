@@ -8,7 +8,6 @@ use App\models\ChatMessages;
 use App\models\Comment;
 use App\models\LoginForm;
 use App\models\Order;
-use App\models\Question;
 use App\models\QuestionCategory;
 use App\models\RestorePasswordForm;
 use App\models\Town;
@@ -83,7 +82,7 @@ class UserController extends Controller
     public function actionChats($chatId = null, $layerId = null)
     {
         $this->layout = '//frontend/chat';
-        if ($chatId == 'new') {
+        if ('new' == $chatId) {
             $chatId = uniqid('', true) . '_' . $layerId;
             $model = new Chat();
             $model->user_id = Yii::app()->user->id;
@@ -108,7 +107,7 @@ class UserController extends Controller
             $this->redirect('/user/chats?chatId=' . $chatId);
         }
         $criteria = new CDbCriteria();
-        $criteria->condition = (Yii::app()->user->role == User::ROLE_CLIENT) ? 'user_id =:id' : 'lawyer_id=:id';
+        $criteria->condition = (User::ROLE_CLIENT == Yii::app()->user->role) ? 'user_id =:id' : 'lawyer_id=:id';
         $criteria->params = [':id' => Yii::app()->user->id];
         $criteria->order = 'is_closed ASC';
         $chats = Chat::model()->findAll($criteria);
@@ -121,8 +120,7 @@ class UserController extends Controller
 
         $chat = Chat::model()->find('chat_id = :id', [':id' => $room]);
 
-        if ($chat && $chatId != null) {
-
+        if ($chat && null != $chatId) {
             $mess = ChatMessages::model()->findAll('chat_id = :id', [':id' => $chat['id']]);
             foreach ($mess as $row) {
                 $messages[] = [
@@ -141,7 +139,9 @@ class UserController extends Controller
             );
         }
 
-        $this->render('chats', [
+        $this->render(
+            'chats',
+            [
                 'role' => Yii::app()->user->role,
                 'chats' => $chats,
                 'curChat' => $chat,
@@ -222,7 +222,7 @@ class UserController extends Controller
         $yuristSettings = new YuristSettings();
         $model->setScenario('register');
 
-        $model->role = (isset($_GET['role'])) ? (int)$_GET['role'] : 0;
+        $model->role = (isset($_GET['role'])) ? (int) $_GET['role'] : 0;
 
         // при регистрации юриста действуют отдельные правила проверки полей
         if (User::ROLE_JURIST == $model->role) {
@@ -413,7 +413,7 @@ class UserController extends Controller
 
     public function actionChangePassword($id)
     {
-        $isNewUser = (bool)Yii::app()->request->getParam('newUser');
+        $isNewUser = (bool) Yii::app()->request->getParam('newUser');
         $userPostData = Yii::app()->request->getParam('App_models_User');
         $this->layout = '//frontend/question';
 
@@ -475,6 +475,7 @@ class UserController extends Controller
 
         if (!($user instanceof User)) {
             $this->layout = '//frontend/smart';
+
             return $this->render('activationFailed', ['message' => 'Пользователь с данным мейлом не найден или уже активирован']);
         }
 
@@ -490,7 +491,6 @@ class UserController extends Controller
         $user->password = $user->password2 = User::hashPassword($newPassword);
 
         if ($user->save()) {
-
             // публикуем вопросы и заказы пользователя
             $publishedQuestionsNumber = $user->publishNewQuestions();
             $user->confirmOrders();
@@ -501,7 +501,6 @@ class UserController extends Controller
             $loginModel->password = $newPassword;
 
             if ($loginModel->login()) {
-
                 $question = $this->questionRepository->getLastQuestionOfUser($user);
 
                 // клиента перенаправляем на его вопрос
@@ -525,10 +524,9 @@ class UserController extends Controller
         }
 
         $this->layout = '//frontend/smart';
+
         return $this->render('activationFailed', ['message' => 'Ошибка - не удалось активировать аккаунт из-за ошибки в программе.<br />
                   Обратитесь, пожалуйста, к администратору сайта через E-mail info@100yuristov.com']);
-
-
     }
 
     /**
@@ -701,7 +699,7 @@ class UserController extends Controller
         $model->isSubscribed = 0;
         if (!$model->save()) {
             StringHelper::printr($model->errors);
-            //throw new CHttpException(400, 'Не удалось отписаться от рассылки. Возможно, ваш профиль не заполнен. Войдите и проверьте заполненность профиля.');
+        //throw new CHttpException(400, 'Не удалось отписаться от рассылки. Возможно, ваш профиль не заполнен. Войдите и проверьте заполненность профиля.');
         } else {
             $this->render('unsubscribeSuccess');
         }
@@ -715,7 +713,7 @@ class UserController extends Controller
             throw new CHttpException(400, 'Only POST requests allowed');
         }
 
-        $answerId = isset($_POST['answerId']) ? (int)$_POST['answerId'] : false;
+        $answerId = isset($_POST['answerId']) ? (int) $_POST['answerId'] : false;
 
         // если не передан id ответа
         if (!$answerId) {
@@ -778,7 +776,7 @@ class UserController extends Controller
             throw new CHttpException(403, 'Доступ к этой странице для Вас закрыт');
         }
 
-        $userId = (isset($_GET['userId'])) ? (int)$_GET['userId'] : 0;
+        $userId = (isset($_GET['userId'])) ? (int) $_GET['userId'] : 0;
 
         if (!$userId && (User::ROLE_OPERATOR == Yii::app()->user->role || User::ROLE_JURIST == Yii::app()->user->role || User::ROLE_CALL_MANAGER == Yii::app()->user->role)) {
             // без указания id пользователя к странице могут обратиться только роли, отвечающие на вопросы
@@ -877,7 +875,7 @@ class UserController extends Controller
         if ($yurist->id === Yii::app()->user->id) {
             throw new CHttpException(400, 'Вы не можете оставлять отзывы на себя');
         }
-        $questionId = (int)Yii::app()->request->getParam('questionId');
+        $questionId = (int) Yii::app()->request->getParam('questionId');
 
         $commentModel = new Comment();
         $commentModel->setScenario('user');

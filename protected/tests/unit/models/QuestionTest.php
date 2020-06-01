@@ -2,8 +2,8 @@
 
 namespace Tests\unit\models;
 
-use Codeception\Test\Unit;
 use App\models\Question;
+use Codeception\Test\Unit;
 
 class QuestionTest extends Unit
 {
@@ -58,9 +58,6 @@ class QuestionTest extends Unit
         $this->assertEquals($expectedPrice, Question::getPriceByLevel($level));
     }
 
-    /**
-     * @return array
-     */
     public function providerPriceLevel(): array
     {
         return [

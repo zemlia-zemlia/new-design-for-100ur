@@ -18,7 +18,7 @@
     </tr>
     <?php use App\models\QuestionCategory;
 
-    foreach ($categoriesArray as $rootId => $rootCategory): ?>
+foreach ($categoriesArray as $rootId => $rootCategory): ?>
 
         <tr>
             <td>

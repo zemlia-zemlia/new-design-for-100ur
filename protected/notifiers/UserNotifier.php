@@ -4,12 +4,12 @@ namespace App\notifiers;
 
 use App\models\Answer;
 use App\models\Chat;
-use CHtml;
 use App\models\Comment;
-use GTMail;
-use MoneyFormat;
 use App\models\Question;
 use App\models\User;
+use CHtml;
+use GTMail;
+use MoneyFormat;
 use Yii;
 
 /**
@@ -18,10 +18,10 @@ use Yii;
  */
 class UserNotifier
 {
-    /** @var GTMail $mailer */
+    /** @var GTMail */
     private $mailer;
 
-    /** @var \App\models\User $user */
+    /** @var \App\models\User */
     private $user;
 
     public function __construct(GTMail $mailer, User $user)
@@ -172,8 +172,8 @@ class UserNotifier
      *
      * @param Answer $answer
      * @param Question $question
-     * @param $questionLink
-     * @param $testimonialLink
+     * @param string $questionLink
+     * @param string $testimonialLink
      *
      * @return bool
      */
@@ -225,6 +225,7 @@ class UserNotifier
      * @param Question $question
      * @param Comment $comment
      *
+     * @param string $questionLink
      * @return bool
      */
     public function sendCommentNotification(Question $question, Comment $comment, $questionLink)
@@ -402,6 +403,7 @@ class UserNotifier
             return false;
         }
     }
+
     /**
      * Отправка юристу уведомления о новом отзыве.
      */

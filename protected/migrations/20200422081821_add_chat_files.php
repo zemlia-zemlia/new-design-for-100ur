@@ -4,7 +4,6 @@ use Phinx\Migration\AbstractMigration;
 
 class AddChatFiles extends AbstractMigration
 {
-
     public function up()
     {
         $this->table('100_chat_files')

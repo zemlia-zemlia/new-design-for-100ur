@@ -1,9 +1,9 @@
 <tr>
     <td>
         <?php use App\helpers\DateHelper;
-        use App\models\User;
+use App\models\User;
 
-        echo $data->id; ?>
+echo $data->id; ?>
     </td>
     <td>
         <?php echo CHtml::link(CHtml::encode($data->name . ' ' . $data->name2 . ' ' . $data->lastName), ['view', 'id' => $data->id]); ?>

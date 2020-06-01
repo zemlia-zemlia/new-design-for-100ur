@@ -2,6 +2,7 @@
 
 use App\models\User;
 use App\models\YuristSettings;
+
 /** @var User[] $usersData */
 $usersCount = 0;
 ?>

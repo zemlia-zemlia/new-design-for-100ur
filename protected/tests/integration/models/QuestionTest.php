@@ -3,17 +3,17 @@
 namespace tests\integration\models;
 
 use App\models\Answer;
-use DateTime;
 use App\models\Money;
 use App\models\Question;
 use App\models\Question2category;
 use App\models\QuestionCategory;
+use App\models\User;
+use DateTime;
 use Tests\Factories\AnswerFactory;
 use Tests\Factories\QuestionCategoryFactory;
 use Tests\Factories\QuestionFactory;
 use Tests\Factories\UserFactory;
 use Tests\integration\BaseIntegrationTest;
-use App\models\User;
 use Yii;
 
 class QuestionTest extends BaseIntegrationTest
@@ -168,9 +168,6 @@ class QuestionTest extends BaseIntegrationTest
         }
     }
 
-    /**
-     * @return array
-     */
     public function providerCreateAuthor(): array
     {
         $userFactory = new UserFactory();
@@ -241,9 +238,6 @@ class QuestionTest extends BaseIntegrationTest
         $this->assertEquals($expectedResult, $question->preSave());
     }
 
-    /**
-     * @return array
-     */
     public function providerPreSave(): array
     {
         $questionFactory = new QuestionFactory();
@@ -279,27 +273,27 @@ class QuestionTest extends BaseIntegrationTest
         $questions = [
             $questionFactory->generateOne([
                 'ip' => '127.0.0.1',
-                'createDate' => date('Y-m-d H:i:s', $currentTs-10),
+                'createDate' => date('Y-m-d H:i:s', $currentTs - 10),
                 'status' => Question::STATUS_PRESAVE,
             ]),
             $questionFactory->generateOne([
                 'ip' => '127.0.0.1',
-                'createDate' => date('Y-m-d H:i:s', $currentTs-10),
+                'createDate' => date('Y-m-d H:i:s', $currentTs - 10),
                 'status' => Question::STATUS_NEW,
             ]),
             $questionFactory->generateOne([
                 'ip' => '127.0.0.2',
-                'createDate' => date('Y-m-d H:i:s', $currentTs-10),
+                'createDate' => date('Y-m-d H:i:s', $currentTs - 10),
                 'status' => Question::STATUS_PRESAVE,
             ]),
             $questionFactory->generateOne([
                 'ip' => '127.0.0.1',
-                'createDate' => date('Y-m-d H:i:s', $currentTs-20),
+                'createDate' => date('Y-m-d H:i:s', $currentTs - 20),
                 'status' => Question::STATUS_PRESAVE,
             ]),
             $questionFactory->generateOne([
                 'ip' => '127.0.0.1',
-                'createDate' => date('Y-m-d H:i:s', $currentTs-30),
+                'createDate' => date('Y-m-d H:i:s', $currentTs - 30),
                 'status' => Question::STATUS_PRESAVE,
             ]),
         ];

@@ -26,8 +26,6 @@ class YandexPaymentUser implements YandexPaymentProcessorInterface
     /**
      * Обработка запроса.
      *
-     * @return bool
-     *
      * @throws CHttpException
      */
     public function process(): bool

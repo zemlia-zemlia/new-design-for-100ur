@@ -148,8 +148,6 @@ class WebUser extends CWebUser
     /**
      * Возвращает название ранга пользователя.
      *
-     * @return string
-     *
      * @throws Exception
      */
     public function getRangName(): string
@@ -169,8 +167,6 @@ class WebUser extends CWebUser
 
     /**
      * Возвращает коэффициент цены лида.
-     *
-     * @return float
      */
     public function getPriceCoeff(): float
     {
@@ -179,8 +175,6 @@ class WebUser extends CWebUser
 
     /**
      * Возвращает количество вопросов с непросмотренными комментами на мои ответы.
-     *
-     * @return int
      */
     public function getNewEventsCount(): int
     {
@@ -199,13 +193,12 @@ class WebUser extends CWebUser
         if ($user = $this->getModel()) {
             return $user->getProfileNotification();
         }
+
         return null;
     }
 
     /**
      * Возвращает адрес кабинета пользователя.
-     *
-     * @return string|null
      */
     public function getHomeUrl(): ?string
     {
@@ -225,6 +218,7 @@ class WebUser extends CWebUser
                     return Yii::app()->createUrl('/');
             }
         }
+
         return null;
     }
 }

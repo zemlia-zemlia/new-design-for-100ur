@@ -5,7 +5,6 @@
  * @author Sergey Malyshev <malyshev.php@gmail.com>
  */
 
-
 /**
  * YiiDebugToolbarPanelSql class.
  *
@@ -13,7 +12,7 @@
  *
  * @author Sergey Malyshev <malyshev.php@gmail.com>
  * @author Igor Golovanov <igor.golovanov@gmail.com>
- * @package YiiDebugToolbar
+ *
  * @since 1.1.7
  */
 class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
@@ -23,7 +22,7 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
     /**
      * If true, the sql query in the list will use syntax highlighting.
      *
-     * @var boolean
+     * @var bool
      */
     public $highlightSql = true;
 
@@ -75,13 +74,14 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
         if (null === $this->_dbConnectionsCount) {
             $this->_dbConnectionsCount = count($this->getDbConnections());
         }
+
         return $this->_dbConnectionsCount;
     }
 
     public function getDbConnections()
     {
         if (null === $this->_dbConnections) {
-            $this->_dbConnections = array();
+            $this->_dbConnections = [];
             foreach (Yii::app()->components as $id => $component) {
                 if (false !== is_object($component)
                     && false !== ($component instanceof CDbConnection)) {
@@ -89,6 +89,7 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
                 }
             }
         }
+
         return $this->_dbConnections;
     }
 
@@ -106,9 +107,11 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
     public function getMenuSubTitle($f = 4)
     {
         if (false !== $this->_dbConnections) {
-            list ($count, $time) = Yii::app()->db->getStats();
+            list($count, $time) = Yii::app()->db->getStats();
+
             return $count . ($count > 0 ? ('/' . vsprintf('%0.' . $f . 'F', $time) . 's') : '');
         }
+
         return YiiDebug::t('No active connections');
     }
 
@@ -119,8 +122,10 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
     {
         if (false !== $this->_dbConnections) {
             $conn = $this->getDbConnectionsCount();
-            return YiiDebug::t('SQL Queries from {n} connection|SQL Queries from {n} connections', array($conn));
+
+            return YiiDebug::t('SQL Queries from {n} connection|SQL Queries from {n} connections', [$conn]);
         }
+
         return YiiDebug::t('No active connections');
     }
 
@@ -135,11 +140,10 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
     }
 
     /**
-     * Initialize panel
+     * Initialize panel.
      */
     public function init()
     {
-
     }
 
     /**
@@ -152,24 +156,24 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
         }
 
         $logs = $this->filterLogs();
-        $this->render('sql', array(
+        $this->render('sql', [
             'connections' => $this->getDbConnections(),
             'connectionsCount' => $this->getDbConnectionsCount(),
             'summary' => $this->processSummary($logs),
-            'callstack' => $this->processCallstack($logs)
-        ));
+            'callstack' => $this->processCallstack($logs),
+        ]);
     }
 
     private function duration($secs)
     {
-        $vals = array(
-            'w' => (int)($secs / 86400 / 7),
+        $vals = [
+            'w' => (int) ($secs / 86400 / 7),
             'd' => $secs / 86400 % 7,
             'h' => $secs / 3600 % 24,
             'm' => $secs / 60 % 60,
-            's' => $secs % 60
-        );
-        $result = array();
+            's' => $secs % 60,
+        ];
+        $result = [];
         $added = false;
         foreach ($vals as $k => $v) {
             if ($v > 0 || false !== $added) {
@@ -177,24 +181,27 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
                 $result[] = $v . $k;
             }
         }
+
         return implode(' ', $result);
     }
 
     /**
      * Returns the DB server info by connection ID.
+     *
      * @param string $connectionId
+     *
      * @return mixed
      */
     public function getServerInfo($connectionId)
     {
         if (null !== ($connection = Yii::app()->getComponent($connectionId))
             && false !== ($connection instanceof CDbConnection)
-            && !in_array($connection->driverName, array('sqlite', 'oci', 'dblib'))
+            && !in_array($connection->driverName, ['sqlite', 'oci', 'dblib'])
             && '' !== ($serverInfo = $connection->getServerInfo())) {
-            $info = array(
+            $info = [
                 YiiDebug::t('Driver') => $connection->getDriverName(),
-                YiiDebug::t('Server Version') => $connection->getServerVersion()
-            );
+                YiiDebug::t('Server Version') => $connection->getServerVersion(),
+            ];
 
             $lines = explode('  ', $serverInfo);
             foreach ($lines as $line) {
@@ -208,13 +215,15 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
 
             return $info;
         }
+
         return null;
     }
 
     /**
      * Processing callstack.
      *
-     * @param array $logs Logs.
+     * @param array $logs logs
+     *
      * @return array
      */
     protected function processCallstack(array $logs)
@@ -223,13 +232,14 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
             return $logs;
         }
 
-        $stack = array();
-        $results = array();
+        $stack = [];
+        $results = [];
         $n = 0;
 
         foreach ($logs as $log) {
-            if (CLogger::LEVEL_PROFILE !== $log[1])
+            if (CLogger::LEVEL_PROFILE !== $log[1]) {
                 continue;
+            }
 
             $message = $log[0];
 
@@ -237,33 +247,33 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
                 $log[0] = substr($message, 6);
                 $log[4] = $n;
                 $stack[] = $log;
-                $n++;
-            } else if (0 === strncasecmp($message, 'end:', 4)) {
+                ++$n;
+            } elseif (0 === strncasecmp($message, 'end:', 4)) {
                 $token = substr($message, 4);
                 if (null !== ($last = array_pop($stack)) && $last[0] === $token) {
                     $delta = $log[3] - $last[3];
-                    $results[$last[4]] = array($token, $delta, count($stack));
-                } else
-                    throw new CException(Yii::t('yii-debug-toolbar',
-                        'Mismatching code block "{token}". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested.',
-                        array('{token}' => $token)
-                    ));
+                    $results[$last[4]] = [$token, $delta, count($stack)];
+                } else {
+                    throw new CException(Yii::t('yii-debug-toolbar', 'Mismatching code block "{token}". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested.', ['{token}' => $token]));
+                }
             }
         }
         // remaining entries should be closed here
         $now = microtime(true);
         while (null !== ($last = array_pop($stack))) {
-            $results[$last[4]] = array($last[0], $now - $last[3], count($stack));
+            $results[$last[4]] = [$last[0], $now - $last[3], count($stack)];
         }
 
         ksort($results);
-        return array_map(array($this, 'formatLogEntry'), $results);
+
+        return array_map([$this, 'formatLogEntry'], $results);
     }
 
     /**
      * Processing summary.
      *
-     * @param array $logs Logs.
+     * @param array $logs logs
+     *
      * @return array
      */
     protected function processSummary(array $logs)
@@ -271,26 +281,25 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
         if (empty($logs)) {
             return $logs;
         }
-        $stack = array();
+        $stack = [];
         foreach ($logs as $log) {
             $message = $log[0];
             if (0 === strncasecmp($message, 'begin:', 6)) {
                 $log[0] = substr($message, 6);
                 $stack[] = $log;
-            } else if (0 === strncasecmp($message, 'end:', 4)) {
+            } elseif (0 === strncasecmp($message, 'end:', 4)) {
                 $token = substr($message, 4);
                 if (null !== ($last = array_pop($stack)) && $last[0] === $token) {
                     $delta = $log[3] - $last[3];
 
-                    if (isset($results[$token]))
+                    if (isset($results[$token])) {
                         $results[$token] = $this->aggregateResult($results[$token], $delta);
-                    else {
-                        $results[$token] = array($token, 1, $delta, $delta, $delta);
+                    } else {
+                        $results[$token] = [$token, 1, $delta, $delta, $delta];
                     }
-                } else
-                    throw new CException(Yii::t('yii-debug-toolbar',
-                        'Mismatching code block "{token}". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested.',
-                        array('{token}' => $token)));
+                } else {
+                    throw new CException(Yii::t('yii-debug-toolbar', 'Mismatching code block "{token}". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested.', ['{token}' => $token]));
+                }
             }
         }
 
@@ -299,10 +308,10 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
             $delta = $now - $last[3];
             $token = $last[0];
 
-            if (isset($results[$token]))
+            if (isset($results[$token])) {
                 $results[$token] = $this->aggregateResult($results[$token], $delta);
-            else {
-                $results[$token] = array($token, 1, $delta, $delta, $delta);
+            } else {
+                $results[$token] = [$token, 1, $delta, $delta, $delta];
             }
         }
 
@@ -311,13 +320,12 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
 
         usort($entries, $func);
 
-        return array_map(array($this, 'formatLogEntry'), $entries);
+        return array_map([$this, 'formatLogEntry'], $entries);
     }
 
     /**
-     * Format log entry
+     * Format log entry.
      *
-     * @param array $entry
      * @return array
      */
     public function formatLogEntry(array $entry)
@@ -333,15 +341,16 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
         if (false !== strpos($queryString, '. Bound with ')) {
             list($query, $params) = explode('. Bound with ', $queryString);
 
-            $binds = array();
+            $binds = [];
             $matchResult = preg_match_all("/(?<key>[a-z0-9\.\_\-\:]+)=(?<value>[\d\.e\-\+]+|''|'.+?(?<!\\\)')/ims", $params, $paramsMatched, PREG_SET_ORDER);
 
             if ($matchResult) {
-                foreach ($paramsMatched as $paramsMatch)
-                    if (isset($paramsMatch['key'], $paramsMatch['value']))
+                foreach ($paramsMatched as $paramsMatch) {
+                    if (isset($paramsMatch['key'], $paramsMatch['value'])) {
                         $binds[':' . trim($paramsMatch['key'], ': ')] = trim($paramsMatch['value']);
+                    }
+                }
             }
-
 
             $entry[0] = strtr($query, $binds);
         } else {
@@ -353,9 +362,9 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
         }
 
         $entry[0] = strip_tags($entry[0], '<div>,<span>');
+
         return $entry;
     }
-
 
     /**
      * @return CTextHighlighter the text highlighter
@@ -363,21 +372,22 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
     private function getTextHighlighter()
     {
         if (null === $this->_textHighlighter) {
-            $this->_textHighlighter = Yii::createComponent(array(
+            $this->_textHighlighter = Yii::createComponent([
                 'class' => 'CTextHighlighter',
                 'language' => 'sql',
                 'showLineNumbers' => false,
-            ));
+            ]);
         }
+
         return $this->_textHighlighter;
     }
-
 
     /**
      * Aggregates the report result.
      *
      * @param array $result log result for this code block
-     * @param float $delta time spent for this code block
+     * @param float $delta  time spent for this code block
+     *
      * @return array
      */
     protected function aggregateResult($result, $delta)
@@ -385,10 +395,10 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
         list($token, $calls, $min, $max, $total) = $result;
 
         switch (true) {
-            case ($delta < $min):
+            case $delta < $min:
                 $min = $delta;
                 break;
-            case ($delta > $max):
+            case $delta > $max:
                 $max = $delta;
                 break;
             default:
@@ -396,10 +406,10 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
                 break;
         }
 
-        $calls++;
+        ++$calls;
         $total += $delta;
 
-        return array($token, $calls, $min, $max, $total);
+        return [$token, $calls, $min, $max, $total];
     }
 
     /**
@@ -409,13 +419,13 @@ class YiiDebugToolbarPanelSql extends YiiDebugToolbarPanel
      */
     protected function filterLogs()
     {
-        $logs = array();
+        $logs = [];
         foreach ($this->owner->getLogs() as $entry) {
             if (CLogger::LEVEL_PROFILE === $entry[1] && 0 === strpos($entry[2], 'system.db.CDbCommand')) {
                 $logs[] = $entry;
             }
         }
+
         return $logs;
     }
-
 }
