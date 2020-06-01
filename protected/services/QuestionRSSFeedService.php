@@ -3,6 +3,8 @@
 
 namespace App\services;
 
+use App\dto\QuestionRssItemDto;
+use App\helpers\NumbersHelper;
 use CHtml;
 use EFeed;
 use Yii;
@@ -33,17 +35,18 @@ class QuestionRSSFeedService
         $feed->addChannelTag('link', $feedOptions['link']);
 
         foreach ($questions as $question) {
+            /** @var QuestionRssItemDto $question */
             $item = $feed->createNewItem();
 
-            if ($question->answersCount) {
-                $item->title = CHtml::encode($question['title']) . ' (' . $question['answersCount'] . ' ' . NumbersHelper::numForms($question['answersCount'], 'ответ', 'ответа', 'ответов') . ')';
+            if ($question->getAnswersCount()) {
+                $item->title = CHtml::encode($question->getTitle()) . ' (' . $question->getAnswersCount() . ' ' . NumbersHelper::numForms($question->getAnswersCount(), 'ответ', 'ответа', 'ответов') . ')';
             } else {
-                $item->title = CHtml::encode($question['title']);
+                $item->title = CHtml::encode($question->getTitle());
             }
 
-            $item->link = Yii::app()->createUrl('question/view', ['id' => $question['id']]);
-            $item->date = ($question['publishDate']) ? date(DATE_RSS, strtotime($question['publishDate'])) : date(DATE_RSS, strtotime($question['createDate']));
-            $item->description = CHtml::encode($question['questionText']);
+            $item->link = Yii::app()->createUrl('question/view', ['id' => $question->getId()]);
+            $item->date = ($question->getPublishDate()) ? date(DATE_RSS, strtotime($question->getPublishDate())) : date(DATE_RSS, strtotime($question->getCreateDate()));
+            $item->description = CHtml::encode($question->getQuestionText());
 
             $feed->addItem($item);
         }
