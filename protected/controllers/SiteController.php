@@ -138,6 +138,9 @@ class SiteController extends Controller
             header('Location: ' . Yii::app()->urlManager->baseUrl, true, 301);
         }
         $questionModel = new Question();
+
+        Yii::app()->monolog->logger->addDebug('site controller finish', ['microtime' => microtime(true)]);
+
         $this->render('index', [
             //'questions' => $questions,
             'questionModel' => $questionModel, ]);
