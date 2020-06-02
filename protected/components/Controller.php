@@ -33,8 +33,6 @@ class Controller extends CController
      */
     public function init()
     {
-        Yii::app()->monolog->logger->addDebug('Parent controller start', ['microtime' => microtime(true)]);
-
         header('X-Frame-Options: DENY');
         Yii::setPathOfAlias('YurcrmClient', Yii::getPathOfAlias('application.vendor.yurcrm.yurcrm-client.src'));
 
@@ -57,7 +55,6 @@ class Controller extends CController
 
         // если передан GET параметр autologin, попытаемся залогинить пользователя
         User::autologin($_GET);
-        Yii::app()->monolog->logger->addDebug('after autologin', ['microtime' => microtime(true)]);
 
         // если при заходе на сайт в ссылке присутствует параметр partnerAppId, запишем его в сессию
         if (isset($_GET['partnerAppId']) && !Yii::app()->user->getState('sourceId')) {
@@ -91,14 +88,9 @@ class Controller extends CController
         $currentTownId = Yii::app()->user->getState('currentTownId');
         if (empty($currentTownId) && Yii::app()->params['detectTownByIP'] == 1) {
             // если не сохранен, определим по IP
-//                echo "Город не сохранен в сессии";
-            Yii::app()->monolog->logger->addDebug('before detecting town', ['microtime' => microtime(true)]);
 
             $currentTownByIp = GeoHelper::detectTown();
 
-            Yii::app()->monolog->logger->addDebug('after detecting town', ['microtime' => microtime(true)]);
-
-//                echo "Город, определенный по IP: " .$currentTownByIp->name;
             if ($currentTownByIp) {
                 Yii::app()->user->setState('currentTownId', $currentTownByIp->id);
                 Yii::app()->user->setState('currentTownName', $currentTownByIp->name);
@@ -107,7 +99,6 @@ class Controller extends CController
                 Yii::app()->user->setState('currentTownId', 0);
             }
         }
-        Yii::app()->monolog->logger->addDebug('current town detected by ip', ['microtime' => microtime(true)]);
 
         if (!Yii::app()->user->isGuest) {
             Yii::app()->db->createCommand()
@@ -115,7 +106,6 @@ class Controller extends CController
         }
 
         $this->lastModified();
-        Yii::app()->monolog->logger->addDebug('last modified', ['microtime' => microtime(true)]);
     }
 
     /**
