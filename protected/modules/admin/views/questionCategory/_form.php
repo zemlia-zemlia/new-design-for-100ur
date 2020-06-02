@@ -75,7 +75,7 @@ Yii::app()->clientScript->registerScriptFile('/js/ckeditor/ckeditor.js');
                             <?php $this->widget(
                         'zii.widgets.jui.CJuiDatePicker',
                         [
-                                    'name' => 'QuestionCategory[publish_date]',
+                                    'name' => 'App_models_QuestionCategory[publish_date]',
                                     'value' => $model['publish_date'],
                                     'language' => 'ru',
                                     'options' => ['dateFormat' => 'dd-mm-yy',

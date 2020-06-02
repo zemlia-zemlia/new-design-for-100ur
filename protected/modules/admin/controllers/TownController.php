@@ -68,12 +68,6 @@ class TownController extends AbstractAdminController
             }
         }
 
-        // для работы визуального редактора подключим необходимую версию JQuery
-        $scriptMap = Yii::app()->clientScript->scriptMap;
-        $scriptMap['jquery.js'] = '/js/jquery-1.8.3.min.js';
-        $scriptMap['jquery.min.js'] = '/js/jquery-1.8.3.min.js';
-        Yii::app()->clientScript->scriptMap = $scriptMap;
-
         $this->render('create', [
             'model' => $model,
         ]);
@@ -117,12 +111,6 @@ class TownController extends AbstractAdminController
                 $this->redirect(['view', 'id' => $model->id]);
             }
         }
-
-        // для работы визуального редактора подключим необходимую версию JQuery
-        $scriptMap = Yii::app()->clientScript->scriptMap;
-        $scriptMap['jquery.js'] = '/js/jquery-1.8.3.min.js';
-        $scriptMap['jquery.min.js'] = '/js/jquery-1.8.3.min.js';
-        Yii::app()->clientScript->scriptMap = $scriptMap;
 
         $this->render('update', [
             'model' => $model,
