@@ -4,8 +4,11 @@ namespace App\helpers;
 
 use App\models\Town;
 use CHtml;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use PhoneHelper;
 use Yii;
+use App\components\detectCityByIp\TownByIpStrategyResolver;
 
 class GeoHelper
 {
@@ -39,20 +42,14 @@ class GeoHelper
                 $ip = IpHelper::getUserIP();
             }
 
-            $data = '<ipquery><fields><all/></fields><ip-list><ip>' . $ip . '</ip></ip-list></ipquery>';
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'http://194.85.91.253:8090/geo/geo.html');
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
-            curl_setopt($ch, CURLOPT_HEADER, false);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-            $xml = curl_exec($ch);
-            curl_close($ch);
-            $xml = iconv('windows-1251', 'utf-8', $xml);
-            preg_match("/<city>(.*?)<\/city>/", $xml, $a);
-            $townName = isset($a[1]) ? $a[1] : '';
+            $apiResolver = new TownByIpStrategyResolver();
+            $apiService = $apiResolver->createClass();
+            $townName = $apiService->getCityName($ip);
+
+
+            $ipServiceLogger = Yii::app()->monolog->getNewLogger('town_by_ip', [new StreamHandler(Yii::getPathOfAlias('webroot') .
+                '/protected/runtime/town_by_ip/request.txt', Logger::DEBUG)]);
+            $ipServiceLogger->addDebug('success', ['ip' => $ip, 'town' => $townName]);
 
             $currentTown = null;
             if ($townName) {
