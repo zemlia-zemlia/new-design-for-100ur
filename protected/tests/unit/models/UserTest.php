@@ -19,9 +19,9 @@ class UserTest extends Unit
      */
     public function testSendNewPassword($sendResult, $expectedResult)
     {
-        $notifierMock = $this->createMock(UserNotifier::class);
-        $notifierMock->method('sendNewPassword')->willReturn($sendResult);
-        $notifierMock->expects($this->once())->method('sendNewPassword');
+        $notifierMock = $this->make(UserNotifier::class, [
+            'sendNewPassword' => $sendResult,
+        ]);
 
         $user = new User();
         $user->setNotifier($notifierMock);
