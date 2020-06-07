@@ -3,6 +3,8 @@
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
+ini_set('error_reporting', getenv('ERROR_REPORTING'));
+
 defined('YII_DEBUG') or define('YII_DEBUG', (bool) getenv('YII_DEBUG'));
 // режим разработки
 defined('YII_DEV') or define('YII_DEV', (bool) getenv('YII_DEV'));

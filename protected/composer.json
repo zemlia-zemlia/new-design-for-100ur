@@ -23,6 +23,7 @@
     },
     "require-dev": {
         "codeception/codeception": "^4.0",
+        "phpunit/phpunit": "^8",
         "codeception/c3": "2.*",
         "100yuristov/sto-yuristov-client": "v1.1",
         "fzaninotto/faker": "v1.8.0",
