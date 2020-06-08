@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\YandexPaymentException;
 use App\models\YaPayConfirmRequest;
 use Monolog\Logger;
 
@@ -45,6 +46,7 @@ class YandexPaymentResponseProcessor
 
     /**
      * Обработка запроса.
+     * @throws YandexPaymentException
      */
     public function process(): bool
     {
@@ -52,16 +54,12 @@ class YandexPaymentResponseProcessor
         $label = $this->request->label;
 
         if (is_null($this->detectPaymentType($label))) {
-            $this->addError('Некоректный тип плачиваемой сущности');
-            $this->logMessage(Logger::ERROR, 'Некоректный тип плачиваемой сущности');
-            return false;
+            throw new YandexPaymentException('Некоректный тип плачиваемой сущности');
         }
 
         // при запуске тестов не проверяем подпись
         if (true == $this->doSignatureCheck && true !== $this->request->validateHash($this->yandexSecret)) {
-            $this->addError('Запрос не прошел проверку на целостность');
-            $this->logMessage(Logger::ERROR, 'Запрос не прошел проверку на целостность');
-            return false;
+            throw new YandexPaymentException('Запрос не прошел проверку на целостность');
         }
 
         // данные от яндекса не подделаны, можно зачислять бабло
@@ -71,9 +69,7 @@ class YandexPaymentResponseProcessor
         try {
             return $paymentProcessor->process();
         } catch (\Exception $e) {
-            Yii::log('Ошибка при обработке платежа: ' . $e->getMessage(), 'error', 'system.web');
-            $this->logMessage(Logger::ERROR, 'Ошибка при обработке платежа: ' . $e->getMessage());
-            return false;
+            throw new YandexPaymentException('Ошибка при обработке платежа: ' . $e->getMessage());
         }
     }
 

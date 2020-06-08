@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\YandexPaymentException;
 use App\extensions\Logger\LoggerFactory;
 use App\helpers\StringHelper;
 use App\models\Answer;
@@ -849,14 +850,8 @@ class UserController extends Controller
      */
     public function actionBalanceAddRequest()
     {
-        $paymentLoggerHandlers = [
-            new RotatingFileHandler(Yii::app()->getRuntimePath() . '/logs/payment/payment.txt'),
-        ];
-        /** @var Logger $paymentLogger */
-        $paymentLogger = Yii::app()->monolog->getNewLogger('payment', $paymentLoggerHandlers);
+        $paymentLogger = Yii::app()->container->container->get('paymentLogger');
 
-        Yii::log('Пришел запрос от Яндекса с уведомлением о пополнении баланса', 'info', 'system.web');
-        Yii::log('POST запрос: ' . print_r($_POST, true), 'info', 'system.web');
         $paymentLogger->log(Logger::INFO, 'Пришел запрос от Яндекса с уведомлением о пополнении баланса', [$_POST]);
 
         $yandexRequestData = new YaPayConfirmRequest();
@@ -868,9 +863,10 @@ class UserController extends Controller
         $paymentProcessor = new YandexPaymentResponseProcessor($yandexRequestData, $secret, $checkSignature);
         $paymentProcessor->setLogger($paymentLogger);
 
-        if (true != $paymentProcessor->process()) {
-            Yii::log('Ошибка при обработке платежа: ' . print_r($paymentProcessor->getErrors(), true), 'error', 'system.web');
-            $paymentLogger->log(Logger::ERROR, 'Ошибка при обработке платежа', $paymentProcessor->getErrors());
+        try {
+            $paymentProcessor->process();
+        } catch (YandexPaymentException $paymentException) {
+            $paymentLogger->log(Logger::ERROR, 'Ошибка при обработке платежа: ' . $paymentException->getMessage());
             throw new CHttpException(400, 'Cannot process payment');
         }
     }
