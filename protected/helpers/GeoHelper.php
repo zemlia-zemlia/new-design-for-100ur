@@ -4,7 +4,7 @@ namespace App\helpers;
 
 use App\models\Town;
 use CHtml;
-use Monolog\Handler\StreamHandler;
+use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 use PhoneHelper;
 use Yii;
@@ -47,7 +47,7 @@ class GeoHelper
             $townName = $apiService->getCityName($ip);
 
 
-            $ipServiceLogger = Yii::app()->monolog->getNewLogger('town_by_ip', [new StreamHandler(Yii::getPathOfAlias('webroot') .
+            $ipServiceLogger = Yii::app()->monolog->getNewLogger('town_by_ip', [new RotatingFileHandler(Yii::getPathOfAlias('webroot') .
                 '/protected/runtime/town_by_ip/request.txt', Logger::DEBUG)]);
             $ipServiceLogger->addDebug('success', ['ip' => $ip, 'town' => $townName]);
 

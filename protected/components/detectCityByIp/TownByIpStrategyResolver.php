@@ -8,7 +8,7 @@ namespace App\components\detectCityByIp;
 
 class TownByIpStrategyResolver
 {
-    public function createClass()
+    public function createClass() : GetNameByIpInterface
     {
         if (\Yii::app()->params['townByIpService'] == 'ApiDadata') {
 
@@ -19,6 +19,8 @@ class TownByIpStrategyResolver
 
             return new Api8090();
         }
+
+        throw new CHttpException(404, 'Не задан сервис определения города по IP в .env');
     }
 
 }

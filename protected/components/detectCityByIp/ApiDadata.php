@@ -15,7 +15,7 @@ class ApiDadata implements GetNameByIpInterface
     {
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/iplocate/address?ip=46.226.227.20');
+        curl_setopt($ch, CURLOPT_URL, 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/iplocate/address?ip=' . $ip);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Accept: application/json',
             'Authorization: Token ' . getenv('API_KEY_FOR_DADATA')
