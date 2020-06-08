@@ -1,6 +1,7 @@
 <?php
 
 use App\models\YaPayConfirmRequest;
+use Monolog\Logger;
 
 /**
  * Класс для обработки запросов от Яндекс денег об успешной оплате.
@@ -32,6 +33,9 @@ class YandexPaymentResponseProcessor
     /** @var bool Проверять ли сигнатуру */
     private $doSignatureCheck = true;
 
+    /** @var Logger */
+    private $logger;
+
     public function __construct(YaPayConfirmRequest $request, string $yandexSecret, bool $doSignatureCheck = true)
     {
         $this->request = $request;
@@ -49,14 +53,14 @@ class YandexPaymentResponseProcessor
 
         if (is_null($this->detectPaymentType($label))) {
             $this->addError('Некоректный тип плачиваемой сущности');
-
+            $this->logMessage(Logger::ERROR, 'Некоректный тип плачиваемой сущности');
             return false;
         }
 
         // при запуске тестов не проверяем подпись
         if (true == $this->doSignatureCheck && true !== $this->request->validateHash($this->yandexSecret)) {
             $this->addError('Запрос не прошел проверку на целостность');
-
+            $this->logMessage(Logger::ERROR, 'Запрос не прошел проверку на целостность');
             return false;
         }
 
@@ -68,7 +72,7 @@ class YandexPaymentResponseProcessor
             return $paymentProcessor->process();
         } catch (\Exception $e) {
             Yii::log('Ошибка при обработке платежа: ' . $e->getMessage(), 'error', 'system.web');
-
+            $this->logMessage(Logger::ERROR, 'Ошибка при обработке платежа: ' . $e->getMessage());
             return false;
         }
     }
@@ -86,7 +90,7 @@ class YandexPaymentResponseProcessor
             return null;
         }
 
-        $this->entityId = (int) $labelMatches[2];
+        $this->entityId = (int)$labelMatches[2];
 
         if (0 == $this->entityId) {
             return null;
@@ -110,6 +114,7 @@ class YandexPaymentResponseProcessor
         }
 
         Yii::log('Субъект оплаты: ' . $this->paymentType, 'info', 'system.web');
+        $this->logMessage(Logger::INFO, 'Субъект оплаты: ' . $this->paymentType);
 
         return $this->paymentType;
     }
@@ -125,5 +130,27 @@ class YandexPaymentResponseProcessor
     public function getErrors(): array
     {
         return $this->errors;
+    }
+
+    /**
+     * @param Logger $logger
+     */
+    public function setLogger(Logger $logger): void
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * @param int $level
+     * @param string $message
+     * @param array $context
+     */
+    private function logMessage(int $level, string $message, array $context = []): void
+    {
+        if (is_null($this->logger)) {
+            return;
+        }
+
+        $this->logger->log($level, $message, $context);
     }
 }
