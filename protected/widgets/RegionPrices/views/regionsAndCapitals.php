@@ -1,6 +1,6 @@
 <?php
 /** @var array $campaignsArray */
-/** @var array $capitalsPrices */
+/* @var array $capitalsPrices */
 ?>
 
 <table class="table table-bordered table-striped">

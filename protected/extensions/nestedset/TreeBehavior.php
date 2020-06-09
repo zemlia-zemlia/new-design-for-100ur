@@ -777,7 +777,6 @@ class TreeBehavior extends CNestedSetBehavior
      * NEVER use this function directly, unless you want to write unreadable code.
      * Otherwise, leave it as it is: an internal function.
      *
-     *
      * @param bool $after   Insert the node after the sibling (or before)
      * @param bool $aschild false = as sibling, true = aschild
      */

@@ -6,7 +6,6 @@ use App\modules\admin\controllers\AbstractAdminController;
 
 class FileController extends AbstractAdminController
 {
-
     /**
      * @return array action filters
      */

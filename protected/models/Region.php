@@ -13,12 +13,12 @@ use Yii;
  *
  * Поля в таблице '{{region}}':
  *
- * @property int $id
+ * @property int    $id
  * @property string $name
  * @property string $alias
- * @property int $countryId
- * @property int $buyPrice
- * @property int $sellPrice
+ * @property int    $countryId
+ * @property int    $buyPrice
+ * @property int    $sellPrice
  */
 class Region extends CActiveRecord
 {
@@ -134,7 +134,7 @@ class Region extends CActiveRecord
     {
         $allRegions = [];
         $criteria = new CDbCriteria();
-        $criteria->addColumnCondition(['countryId' => (int)$countryId]);
+        $criteria->addColumnCondition(['countryId' => (int) $countryId]);
         $criteria->order = 'name asc';
 
         $regions = self::model()->findAll($criteria);
@@ -165,7 +165,7 @@ class Region extends CActiveRecord
         $capitalLat = $capital->lat;
         $capitalLng = $capital->lng;
 
-        $distance = (int)sqrt(pow(110.6 * ($lat - $capitalLat), 2) + pow(110.6 * ($capitalLng - $lng) * cos($lat / 57.3), 2));
+        $distance = (int) sqrt(pow(110.6 * ($lat - $capitalLat), 2) + pow(110.6 * ($capitalLng - $lng) * cos($lat / 57.3), 2));
 
         if ($distance > 0) {
             return $distance;

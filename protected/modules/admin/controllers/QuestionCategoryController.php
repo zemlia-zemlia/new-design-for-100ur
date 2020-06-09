@@ -97,14 +97,7 @@ class QuestionCategoryController extends AbstractAdminController
 
         if (isset($_POST['App_models_QuestionCategory'])) {
             $model->attributes = $_POST['App_models_QuestionCategory'];
-
-            // загрузка иконки
-//            $model->fileIcon = CUploadedFile::getInstance($model, 'fileIcon');
-//            if ($model->fileIcon){
-//                if (!$model->uploadIcon()){
-//                    $this->redirect(['update', 'id' => $model->id]);
-//                }
-//            }// раскоментировать, если необходимо и при создании категории грузить иконку.
+            $model->publish_date = (new DateTime($model->publish_date))->format('Y-m-d');
 
             if ($model->parentId) {
                 $parent = QuestionCategory::model()->findByPk($model->parentId);
@@ -114,19 +107,13 @@ class QuestionCategoryController extends AbstractAdminController
                 // прикрепим категорию к родительской (в иерархии)
                 $model->appendTo($parent);
             }
-            $model->publish_date = DateHelper::invertDate($model->publish_date);
+
             if ($model->saveNode()) {
                 $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
-        // для работы визуального редактора подключим необходимую версию JQuery
-        $scriptMap = Yii::app()->clientScript->scriptMap;
-        $scriptMap['jquery.js'] = '/js/jquery-1.8.3.min.js';
-        $scriptMap['jquery.min.js'] = '/js/jquery-1.8.3.min.js';
-        Yii::app()->clientScript->scriptMap = $scriptMap;
-
-        $model->publish_date = DateHelper::invertDate($model->publish_date);
+        $model->publish_date = (new DateTime($model->publish_date))->format('d-m-Y');
 
         $this->render('create', [
             'model' => $model,
@@ -143,9 +130,6 @@ class QuestionCategoryController extends AbstractAdminController
     {
         $model = $this->loadModel($id);
         $oldImagePath = $model->getImagePath();
-
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
 
         if (isset($_POST['App_models_QuestionCategory'])) {
             $model->attributes = $_POST['App_models_QuestionCategory'];
@@ -175,14 +159,11 @@ class QuestionCategoryController extends AbstractAdminController
 
             // загрузка иконки
             $model->fileIcon = CUploadedFile::getInstance($model, 'fileIcon');
-            if ($model->fileIcon){
-                if (!$model->uploadIcon()){
+            if ($model->fileIcon) {
+                if (!$model->uploadIcon()) {
                     $this->redirect(['update', 'id' => $model->id]);
                 }
             }
-
-
-
 
             $attachment = CUploadedFile::getInstance($model, 'attachments');
 
@@ -214,12 +195,6 @@ class QuestionCategoryController extends AbstractAdminController
                 $this->redirect(['view', 'id' => $model->id]);
             }
         }
-
-        // для работы визуального редактора подключим необходимую версию JQuery
-//        $scriptMap = Yii::app()->clientScript->scriptMap;
-//        $scriptMap['jquery.js'] = '/js/jquery-1.8.3.min.js';
-//        $scriptMap['jquery.min.js'] = '/js/jquery-1.8.3.min.js';
-//        Yii::app()->clientScript->scriptMap = $scriptMap;
 
         $model->publish_date = DateHelper::invertDate((new DateTime($model->publish_date))->format('Y-m-d'));
 

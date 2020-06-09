@@ -36,8 +36,6 @@ class TopYurists extends CWidget
 
     /**
      * найдем рандомных юристов.
-     *
-     * @return array
      */
     protected function getRandom(): array
     {
@@ -53,8 +51,8 @@ class TopYurists extends CWidget
 
     /**
      * поиск юристов, ранжированный.
-     * Возвращаемый массив: [[user => User, answersCount => N]]
-     * @return array
+     * Возвращаемый массив: [[user => User, answersCount => N]].
+     *
      * @throws CException
      */
     protected function getRanked(): array

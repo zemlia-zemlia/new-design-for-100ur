@@ -29,8 +29,6 @@ class ApiTestHandler implements ApiClassInterface
     }
 
     /**
-     * @param Lead $lead
-     *
      * @return bool
      */
     public function send(Lead $lead)

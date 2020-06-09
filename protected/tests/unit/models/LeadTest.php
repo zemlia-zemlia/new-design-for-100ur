@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Models;
 
+use App\helpers\PhoneHelper;
+use App\models\Lead;
 use Codeception\Test\Unit;
 use Faker\Factory;
-use App\models\Lead;
-use App\helpers\PhoneHelper;
 
 class LeadTest extends Unit
 {
@@ -106,8 +106,6 @@ class LeadTest extends Unit
 
     /**
      * Возвращает набор атрибутов валидного лида.
-     *
-     * @return array
      */
     protected function createValidLeadAttributes(): array
     {

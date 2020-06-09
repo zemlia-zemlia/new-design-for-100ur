@@ -1,10 +1,10 @@
-<div data-ydtb-panel-data="<?php echo $this->id ?>">
+<div data-ydtb-panel-data="<?php echo $this->id; ?>">
     <div>
-        <div data-ydtb-accordion="<?php echo $this->id ?>">
+        <div data-ydtb-accordion="<?php echo $this->id; ?>">
             <div data-ydtb-accordion-group="collapsed">
-                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($server) ?>">
+                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($server); ?>">
                     <i data-ydtb-icon="s"></i>
-                    <span><?php echo YiiDebug::t('Request Server Parameters') ?></span>
+                    <span><?php echo YiiDebug::t('Request Server Parameters'); ?></span>
                     <i data-ydtb-icon="q"></i>
                     <i data-ydtb-icon="t"></i>
                     <div class="clear clearfix"></div>
@@ -25,9 +25,9 @@
             </div>
 
             <div data-ydtb-accordion-group="collapsed">
-                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($cookies) ?>">
+                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($cookies); ?>">
                     <i data-ydtb-icon="s"></i>
-                    <span><?php echo YiiDebug::t('Request Cookies') ?></span>
+                    <span><?php echo YiiDebug::t('Request Cookies'); ?></span>
                     <i data-ydtb-icon="q"></i>
                     <i data-ydtb-icon="t"></i>
                     <div class="clear clearfix"></div>
@@ -47,9 +47,9 @@
             </div>
 
             <div data-ydtb-accordion-group="collapsed">
-                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($session) ?>">
+                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($session); ?>">
                     <i data-ydtb-icon="s"></i>
-                    <span><?php echo YiiDebug::t('Session Attributes') ?></span>
+                    <span><?php echo YiiDebug::t('Session Attributes'); ?></span>
                     <i data-ydtb-icon="q"></i>
                     <i data-ydtb-icon="t"></i>
                     <div class="clear clearfix"></div>
@@ -70,9 +70,9 @@
 
 
             <div data-ydtb-accordion-group="collapsed">
-                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($get) ?>">
+                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($get); ?>">
                     <i data-ydtb-icon="s"></i>
-                    <span><?php echo YiiDebug::t('Request GET Parameters') ?></span>
+                    <span><?php echo YiiDebug::t('Request GET Parameters'); ?></span>
                     <i data-ydtb-icon="q"></i>
                     <i data-ydtb-icon="t"></i>
                     <div class="clear clearfix"></div>
@@ -93,9 +93,9 @@
 
 
             <div data-ydtb-accordion-group="collapsed">
-                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($post) ?>">
+                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($post); ?>">
                     <i data-ydtb-icon="s"></i>
-                    <span><?php echo YiiDebug::t('Request POST Parameters') ?></span>
+                    <span><?php echo YiiDebug::t('Request POST Parameters'); ?></span>
                     <i data-ydtb-icon="q"></i>
                     <i data-ydtb-icon="t"></i>
                     <div class="clear clearfix"></div>
@@ -116,9 +116,9 @@
 
 
             <div data-ydtb-accordion-group="collapsed">
-                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($files) ?>">
+                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($files); ?>">
                     <i data-ydtb-icon="s"></i>
-                    <span><?php echo YiiDebug::t('Request FILES') ?></span>
+                    <span><?php echo YiiDebug::t('Request FILES'); ?></span>
                     <i data-ydtb-icon="q"></i>
                     <i data-ydtb-icon="t"></i>
                     <div class="clear clearfix"></div>

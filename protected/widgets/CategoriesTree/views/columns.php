@@ -5,7 +5,7 @@
     <?php endif; ?>
     <div class="col-sm-4 vert-margin20">
         <?php if (isset($cat['icon'])) : ?>
-        <img src="/upload/category_icons/<?= $cat['icon'] ?>" width="30" alt="<?= CHtml::encode($cat['name'])?>">
+        <img src="/upload/category_icons/<?php echo $cat['icon']; ?>" width="30" alt="<?php echo CHtml::encode($cat['name']); ?>">
         <?php endif; ?>
         <span class="category-name-column"><?php echo CHtml::link(CHtml::encode($cat['name']), Yii::app()->createUrl('questionCategory/alias', ['name' => CHtml::encode($cat['alias'])])); ?></span>
     </div>

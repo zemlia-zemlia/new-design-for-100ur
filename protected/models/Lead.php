@@ -3,6 +3,7 @@
 namespace App\models;
 
 use App\components\ApiClassFactory;
+use App\extensions\Logger\LoggerFactory;
 use App\helpers\DateHelper;
 use App\helpers\PhoneHelper;
 use App\helpers\StringHelper;
@@ -11,7 +12,6 @@ use CActiveDataProvider;
 use CActiveRecord;
 use CDbCriteria;
 use Exception;
-use App\extensions\Logger\LoggerFactory;
 use Yii;
 use YurcrmClient\YurcrmClient;
 use YurcrmClient\YurcrmResponse;
@@ -21,24 +21,24 @@ use YurcrmClient\YurcrmResponse;
  *
  * Поля из таблицы '{{lead}}':
  *
- * @property int $id
+ * @property int    $id
  * @property string $name
  * @property string $phone
- * @property int $sourceId
+ * @property int    $sourceId
  * @property string $question
  * @property string $question_date
- * @property int $townId
- * @property int $leadStatus
- * @property int $type
- * @property int $campaignId
- * @property int $price
+ * @property int    $townId
+ * @property int    $leadStatus
+ * @property int    $type
+ * @property int    $campaignId
+ * @property int    $price
  * @property string $deliveryTime
  * @property string $lastLeadTime
- * @property int $brakReason
+ * @property int    $brakReason
  * @property string $brakComment
  * @property string $secretCode
- * @property int $buyPrice
- * @property int $buyerId
+ * @property int    $buyPrice
+ * @property int    $buyerId
  *
  * @author Michael Krutikov m@mkrutikov.pro
  */
@@ -195,11 +195,6 @@ class Lead extends CActiveRecord
         ];
     }
 
-    /**
-     * @param ApiClassFactory $apiClassFactory
-     *
-     * @return Lead
-     */
     public function setApiClassFactory(ApiClassFactory $apiClassFactory): Lead
     {
         $this->apiClassFactory = $apiClassFactory;
@@ -298,19 +293,11 @@ class Lead extends CActiveRecord
         return $reasonName;
     }
 
-    /**
-     * @return YurcrmClient
-     */
     public function getYurcrmClient(): YurcrmClient
     {
         return $this->yurcrmClient;
     }
 
-    /**
-     * @param YurcrmClient $yurcrmClient
-     *
-     * @return Lead
-     */
     public function setYurcrmClient(YurcrmClient $yurcrmClient): Lead
     {
         $this->yurcrmClient = $yurcrmClient;
@@ -318,17 +305,11 @@ class Lead extends CActiveRecord
         return $this;
     }
 
-    /**
-     * @return LeadNotifier
-     */
     public function getNotifier(): LeadNotifier
     {
         return $this->notifier;
     }
 
-    /**
-     * @param LeadNotifier $notifier
-     */
     public function setNotifier(LeadNotifier $notifier): void
     {
         $this->notifier = $notifier;
@@ -337,7 +318,7 @@ class Lead extends CActiveRecord
     /**
      * Проверяет на существование покупателя и кампанию.
      *
-     * @param User|null $buyer id покупателя
+     * @param User|null     $buyer    id покупателя
      * @param Campaign|null $campaign id кампании
      *
      * @return bool | array Массив (User, App\models\Campaign) или false если оба объекта не найдены
@@ -367,9 +348,9 @@ class Lead extends CActiveRecord
     /**
      * Сохранение проданного лида и связанных данных.
      *
-     * @param User $buyer
+     * @param User                     $buyer
      * @param TransactionCampaign|null $transaction
-     * @param Campaign $campaign
+     * @param Campaign                 $campaign
      *
      * @return int Код результата сохранения
      */
@@ -423,8 +404,6 @@ class Lead extends CActiveRecord
     /**
      * Отправка лида в кампанию по почте.
      *
-     * @param Campaign $campaign
-     *
      * @return bool
      */
     private function sendToCampaignByMail(Campaign $campaign)
@@ -440,7 +419,7 @@ class Lead extends CActiveRecord
     /**
      * Продажа лида покупателю.
      *
-     * @param User|null $buyer покупатель
+     * @param User|null     $buyer    покупатель
      * @param Campaign|null $campaign кампания
      *
      * @return bool результат
@@ -457,7 +436,7 @@ class Lead extends CActiveRecord
         $campaign = $buyerAndCampaignResult['campaign'];
         $buyer = $buyerAndCampaignResult['buyer'];
 
-        $leadPrice = ($campaign && $campaign->price) ? $campaign->price : (int)$this->calculatePrices()[1];
+        $leadPrice = ($campaign && $campaign->price) ? $campaign->price : (int) $this->calculatePrices()[1];
 
         if ($campaign && Campaign::TYPE_PARTNERS == $campaign->type) {
             // У лидов продаваемых в партнерки цена продажи 0
@@ -530,8 +509,8 @@ class Lead extends CActiveRecord
                 // Если успешно отправили лид в Yurcrm, уведомляем об этом покупателя
                 $yurcrmResultDecoded = json_decode($yurcrmResult->getResponse(), true);
 
-                if (isset($yurcrmResultDecoded['status']) && 200 == (int)$yurcrmResultDecoded['status'] && isset($yurcrmResultDecoded['data']['id'])) {
-                    $crmLeadId = (int)$yurcrmResultDecoded['data']['id'];
+                if (isset($yurcrmResultDecoded['status']) && 200 == (int) $yurcrmResultDecoded['status'] && isset($yurcrmResultDecoded['data']['id'])) {
+                    $crmLeadId = (int) $yurcrmResultDecoded['data']['id'];
                     $this->notifier->sendYurcrmNotification($buyer, $crmLeadId);
                 }
 
@@ -552,8 +531,6 @@ class Lead extends CActiveRecord
     /**
      * Запись в лог информации о проданном лиде.
      *
-     * @param User $buyer
-     * @param Campaign $campaign
      * @param int $saveResult код результата сохранения лида
      */
     private function logSoldLead(User $buyer, Campaign $campaign)
@@ -612,7 +589,7 @@ class Lead extends CActiveRecord
     /**
      * Возвращает количество лидов с определенным статусом
      *
-     * @param int $status статус
+     * @param int  $status     статус
      * @param bool $noCampaign считать ли лиды без кампании
      *
      * @return int количество лидов
@@ -627,7 +604,7 @@ class Lead extends CActiveRecord
         $counterRow = Yii::app()->db->cache(60)->createCommand()
             ->select('COUNT(*) counter')
             ->from('{{lead}}')
-            ->where($condition, [':status' => (int)$status])
+            ->where($condition, [':status' => (int) $status])
             ->queryRow();
         $counter = $counterRow['counter'];
 
@@ -762,7 +739,7 @@ class Lead extends CActiveRecord
 
         // если по кампании
         if ($campaignId) {
-            $leadsCommand->andWhere('campaignId = :campaignId', [':campaignId' => (int)$campaignId]);
+            $leadsCommand->andWhere('campaignId = :campaignId', [':campaignId' => (int) $campaignId]);
         }
 
         $leadsRows = $leadsCommand->queryAll();

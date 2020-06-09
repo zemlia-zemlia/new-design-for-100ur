@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\tests\Factories;
 
 use Tests\Factories\BaseFactory;
@@ -11,8 +10,6 @@ class ChatFactory extends BaseFactory
      * Генерация массива атрибутов модели.
      *
      * @param array $forcedParams Атрибуты, которые необходимо переопределить [key => value]
-     *
-     * @return array
      */
     public function generateOne($forcedParams = []): array
     {

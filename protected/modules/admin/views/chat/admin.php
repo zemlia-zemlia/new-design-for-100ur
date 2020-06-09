@@ -2,15 +2,15 @@
 /* @var $this ChatController */
 /* @var $model Chat */
 
-$this->breadcrumbs=array(
-	'Chats'=>array('index'),
-	'Manage',
-);
+$this->breadcrumbs = [
+    'Chats' => ['index'],
+    'Manage',
+];
 
-$this->menu=array(
-	array('label'=>'List Chat', 'url'=>array('index')),
-	array('label'=>'Create Chat', 'url'=>array('create')),
-);
+$this->menu = [
+    ['label' => 'List Chat', 'url' => ['index']],
+    ['label' => 'Create Chat', 'url' => ['create']],
+];
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -33,31 +33,31 @@ You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&g
 or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
 </p>
 
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
+<?php echo CHtml::link('Advanced Search', '#', ['class' => 'search-button']); ?>
 <div class="search-form" style="display:none">
-<?php $this->renderPartial('_search',array(
-	'model'=>$model,
-)); ?>
+<?php $this->renderPartial('_search', [
+    'model' => $model,
+]); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'chat-grid',
-	'dataProvider'=>$model->search(),
-	'filter'=>$model,
-	'columns'=>array(
-		'id',
-		'user_id',
-		'lawyer_id',
-		'is_payed',
-		'transaction_id',
-		'created',
-		/*
-		'is_closed',
-		'chat_id',
-		'is_confirmed',
-		*/
-		array(
-			'class'=>'CButtonColumn',
-		),
-	),
-)); ?>
+<?php $this->widget('zii.widgets.grid.CGridView', [
+    'id' => 'chat-grid',
+    'dataProvider' => $model->search(),
+    'filter' => $model,
+    'columns' => [
+        'id',
+        'user_id',
+        'lawyer_id',
+        'is_payed',
+        'transaction_id',
+        'created',
+        /*
+        'is_closed',
+        'chat_id',
+        'is_confirmed',
+        */
+        [
+            'class' => 'CButtonColumn',
+        ],
+    ],
+]); ?>

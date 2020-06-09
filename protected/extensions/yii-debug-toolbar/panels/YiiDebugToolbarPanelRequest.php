@@ -5,16 +5,16 @@
  * @author Sergey Malyshev <malyshev.php@gmail.com>
  */
 
-
 /**
- * YiiDebugToolbarPanelRequest class
+ * YiiDebugToolbarPanelRequest class.
  *
  * Description of YiiDebugToolbarPanelRequest
  *
  * @author Sergey Malyshev <malyshev.php@gmail.com>
  * @author Igor Golovanov <igor.golovanov@gmail.com>
+ *
  * @version $Id$
- * @package YiiDebugToolbar
+ *
  * @since 1.1.7
  */
 class YiiDebugToolbarPanelRequest extends YiiDebugToolbarPanel
@@ -49,13 +49,13 @@ class YiiDebugToolbarPanelRequest extends YiiDebugToolbarPanel
      */
     public function run()
     {
-        $this->render('request', array(
+        $this->render('request', [
             'server' => $_SERVER,
             'cookies' => $_COOKIE,
             'session' => isset($_SESSION) ? $_SESSION : null,
             'post' => $_POST,
             'get' => $_GET,
             'files' => $_FILES,
-        ));
+        ]);
     }
 }

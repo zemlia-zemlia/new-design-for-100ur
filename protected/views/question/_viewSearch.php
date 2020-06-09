@@ -7,7 +7,7 @@
                     <p>
                         <?php use App\helpers\NumbersHelper;
 
-                        if ($data['title']): ?>
+if ($data['title']): ?>
                             <strong><?php echo CHtml::link(CHtml::encode($data['title']), Yii::app()->createUrl('question/view', ['id' => $data['id']])); ?></strong>
                         <?php endif; ?>
                     </p>

@@ -14,7 +14,7 @@
     </tr>
     <?php use App\helpers\DateHelper;
 
-    foreach ($files as $file): ?>
+foreach ($files as $file): ?>
 
         <tr>
             <td>

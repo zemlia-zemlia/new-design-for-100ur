@@ -26,7 +26,7 @@ $this->widget('zii.widgets.CBreadcrumbs', [
 
 <?php
 
-    if (Leadsource::getSourcesArrayByUser(Yii::app()->user->id) !== null) : ?>
+    if (null !== Leadsource::getSourcesArrayByUser(Yii::app()->user->id)) : ?>
     <?php echo CHtml::link('Добавить лид вручную', Yii::app()->createUrl('/webmaster/lead/create'), ['class' => 'btn btn-primary']); ?>
     <?php endif; ?>
 </h1>

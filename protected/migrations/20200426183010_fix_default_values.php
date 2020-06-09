@@ -4,11 +4,10 @@ use Phinx\Migration\AbstractMigration;
 
 /**
  * Исправление отсутствия дефолтных значений полей в БД
- * Class FixDefaultValues
+ * Class FixDefaultValues.
  */
 class FixDefaultValues extends AbstractMigration
 {
-
     public function up()
     {
         $this->table('100_comment')
@@ -112,7 +111,6 @@ class FixDefaultValues extends AbstractMigration
             ->changeColumn('email', 'string', ['default' => null, 'null' => true])
             ->changeColumn('balance', 'integer', ['default' => 0, 'null' => false])
             ->save();
-
     }
 
     public function down()

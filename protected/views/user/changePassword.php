@@ -19,12 +19,12 @@ if (!Yii::app()->user->isGuest) {
     ]);
 }
 
-$header = ($isNewUser == true) ? 'Задать пароль' : 'Изменение пароля';
+$header = (true == $isNewUser) ? 'Задать пароль' : 'Изменение пароля';
 ?>
 
 <div class="panel panel-default">
     <div class="panel-body">
-        <h1><?php echo $header;?></h1>
+        <h1><?php echo $header; ?></h1>
 
         <?php echo $this->renderPartial('_formPassword', [
             'model' => $model,

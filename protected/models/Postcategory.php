@@ -12,7 +12,7 @@ use Yii;
  *
  * The followings are the available columns in table '{{postcategory}}':
  *
- * @property int $id
+ * @property int    $id
  * @property string $title
  * @property string $description
  * @property string $alias
@@ -69,7 +69,7 @@ class Postcategory extends CActiveRecord
     /**
      * @return array relational rules
      */
-    public function relations():array
+    public function relations(): array
     {
         return [
             'posts' => [self::MANY_MANY, Post::class, '{{post2cat}}(catId, postId)'],

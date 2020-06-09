@@ -86,11 +86,11 @@ class Controller extends CController
 
         // проверка, сохранен ли в сессии пользователя ID его города
         $currentTownId = Yii::app()->user->getState('currentTownId');
-        if (empty($currentTownId)) {
+        if (empty($currentTownId) && Yii::app()->params['detectTownByIP'] == 1) {
             // если не сохранен, определим по IP
-//                echo "Город не сохранен в сессии";
+
             $currentTownByIp = GeoHelper::detectTown();
-//                echo "Город, определенный по IP: " .$currentTownByIp->name;
+
             if ($currentTownByIp) {
                 Yii::app()->user->setState('currentTownId', $currentTownByIp->id);
                 Yii::app()->user->setState('currentTownName', $currentTownByIp->name);

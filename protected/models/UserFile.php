@@ -15,13 +15,13 @@ use Yii;
  *
  * Поля в таблице '{{userFile}}':
  *
- * @property int $id
- * @property int $userId
+ * @property int    $id
+ * @property int    $userId
  * @property string $datetime
  * @property string $name
- * @property int $isVerified
+ * @property int    $isVerified
  * @property string $comment
- * @property int $type
+ * @property int    $type
  * @property string $reason
  */
 class UserFile extends CActiveRecord

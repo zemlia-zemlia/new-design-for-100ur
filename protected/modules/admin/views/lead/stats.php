@@ -23,6 +23,7 @@ Yii::app()->clientScript->registerScriptFile('/js/highcharts/js/highcharts.js');
 
 ?>
 
+<h3 class="vert-margin30">Статистика продаж</h3>
 
 <div class="row">
     <div class="col-md-3">

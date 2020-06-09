@@ -3,10 +3,9 @@
 namespace App\components\apiClasses;
 
 use ApiClassInterface;
+use App\extensions\Logger\LoggerFactory;
 use App\models\Lead;
 use CHtml;
-use App\extensions\Logger\LoggerFactory;
-use App\components\apiClasses\PravovedGetTown;
 use Yii;
 
 /**
@@ -31,8 +30,8 @@ class ApiPravoved implements ApiClassInterface
     /**
      * отправка лида.
      *
-     * @param Lead $lead
      * @return bool
+     *
      * @throws \Exception
      */
     public function send(Lead $lead)
@@ -73,6 +72,7 @@ class ApiPravoved implements ApiClassInterface
      * Возвращает id города в базе Правоведа.
      *
      * @param string $townName Название города
+     *
      * @return int
      */
     private function getTownId($townName)
@@ -86,9 +86,10 @@ class ApiPravoved implements ApiClassInterface
      * Анализирует ответ от API.
      *
      * @param string $apiResponse
-     * @param Lead $lead
+     * @param Lead   $lead
      *
      * @return bool
+     *
      * @throws \Exception
      */
     private function checkResponse($apiResponse, $lead)

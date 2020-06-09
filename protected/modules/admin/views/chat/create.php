@@ -2,17 +2,17 @@
 /* @var $this ChatController */
 /* @var $model Chat */
 
-$this->breadcrumbs=array(
-	'Chats'=>array('index'),
-	'Create',
-);
+$this->breadcrumbs = [
+    'Chats' => ['index'],
+    'Create',
+];
 
-$this->menu=array(
-	array('label'=>'List Chat', 'url'=>array('index')),
-	array('label'=>'Manage Chat', 'url'=>array('admin')),
-);
+$this->menu = [
+    ['label' => 'List Chat', 'url' => ['index']],
+    ['label' => 'Manage Chat', 'url' => ['admin']],
+];
 ?>
 
 <h1>Create Chat</h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', ['model' => $model]); ?>

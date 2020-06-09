@@ -13,15 +13,15 @@ use Yii;
  *
  * The followings are the available columns in table '{{transactionCampaign}}':
  *
- * @property int $id
- * @property int $buyerId
- * @property int $campaignId
+ * @property int    $id
+ * @property int    $buyerId
+ * @property int    $campaignId
  * @property string $time
- * @property int $sum
+ * @property int    $sum
  * @property string $description
- * @property int $leadId
- * @property int $type
- * @property int $status
+ * @property int    $leadId
+ * @property int    $type
+ * @property int    $status
  */
 class TransactionCampaign extends CActiveRecord
 {
@@ -210,8 +210,6 @@ class TransactionCampaign extends CActiveRecord
      * Одобрение заявки на вывод средств юриста.
      *
      * @param int $accountId С какого счета в кассе списывать средства
-     *
-     * @return bool
      *
      * @throws CException
      */

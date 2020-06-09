@@ -76,10 +76,7 @@ class YaPayConfirmRequest extends CFormModel
     }
 
     /**
-     * @param string $yandexSecret
-     *
      * @param bool $logResult
-     * @return bool
      */
     public function validateHash(string $yandexSecret, $logResult = true): bool
     {
@@ -90,11 +87,6 @@ class YaPayConfirmRequest extends CFormModel
         return $hash === $requestStringEncoded;
     }
 
-    /**
-     * @param string $yandexSecret
-     * @param bool $logResult
-     * @return string
-     */
     public function createHashFromRequestParams(string $yandexSecret, bool $logResult = true): string
     {
         $requestString = $this->notification_type . '&' .
@@ -109,7 +101,7 @@ class YaPayConfirmRequest extends CFormModel
 
         $requestStringEncoded = sha1($requestString);
 
-        if ($logResult == true) {
+        if (true == $logResult) {
             Yii::log('Собранная строка для проверки: ' . $requestString, 'info', 'system.web');
             Yii::log('Зашифрованная строка для проверки: ' . $requestStringEncoded, 'info', 'system.web');
         }

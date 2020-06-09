@@ -12,31 +12,31 @@ use Yii;
  *
  * Поля в таблице '{{yuristSettings}}':
  *
- * @property int $yuristId
+ * @property int    $yuristId
  * @property string $alias
- * @property int $startYear
+ * @property int    $startYear
  * @property string $description
  * @property string $hello
- * @property int $status
- * @property int $isVerified
- * @property int $vuz
- * @property int $facultet
- * @property int $education
- * @property int $vuzTownId
- * @property int $educationYear
- * @property int $advOrganisation
- * @property int $advNumber
- * @property int $position
- * @property int $site
- * @property int $priceConsult
- * @property int $priceDoc
+ * @property int    $status
+ * @property int    $isVerified
+ * @property int    $vuz
+ * @property int    $facultet
+ * @property int    $education
+ * @property int    $vuzTownId
+ * @property int    $educationYear
+ * @property int    $advOrganisation
+ * @property int    $advNumber
+ * @property int    $position
+ * @property int    $site
+ * @property int    $priceConsult
+ * @property int    $priceDoc
  * @property string $phoneVisible
  * @property string $emailVisible
  * @property string $inn
  * @property string $companyName
  * @property string $address
- * @property int $subscribeQuestions
- * @property int $rang
+ * @property int    $subscribeQuestions
+ * @property int    $rang
  */
 class YuristSettings extends CActiveRecord
 {

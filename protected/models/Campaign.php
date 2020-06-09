@@ -6,32 +6,32 @@ use CActiveDataProvider;
 use CActiveRecord;
 use CDbCacheDependency;
 use CDbCriteria;
-use Yii;
 use CHtml;
 use GTMail;
+use Yii;
 
 /**
  * Класс для работы с кампаниями покупателей лидов.
  *
  * Доступные поля в таблице '{{campaign}}':
  *
- * @property int $id
- * @property int $regionId
- * @property int $timeFrom
- * @property int $timeTo
- * @property int $price
- * @property int $leadsDayLimit
- * @property int $realLimit
- * @property int $brakPercent
- * @property int $buyerId
- * @property int $active
- * @property int $sendEmail
+ * @property int    $id
+ * @property int    $regionId
+ * @property int    $timeFrom
+ * @property int    $timeTo
+ * @property int    $price
+ * @property int    $leadsDayLimit
+ * @property int    $realLimit
+ * @property int    $brakPercent
+ * @property int    $buyerId
+ * @property int    $active
+ * @property int    $sendEmail
  * @property string $lastTransactionTime
  * @property string $days
- * @property int $sendToApi
+ * @property int    $sendToApi
  * @property string $apiClass
- * @property int $type
- * @property int $balance
+ * @property int    $type
+ * @property int    $balance
  *
  * @author Michael Krutikov m@mkrutikov.pro
  */
@@ -81,7 +81,7 @@ class Campaign extends CActiveRecord
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             ['id, regionId, price, '
-                . 'leadsDayLimit, brakPercent, buyerId, active', 'safe', 'on' => 'search',],
+                . 'leadsDayLimit, brakPercent, buyerId, active', 'safe', 'on' => 'search', ],
         ];
     }
 
@@ -89,7 +89,7 @@ class Campaign extends CActiveRecord
      * Валидатор поля цена лида.
      *
      * @param string $attribute
-     * @param array $params
+     * @param array  $params
      */
     public function validatePrice($attribute, $params)
     {
@@ -102,7 +102,7 @@ class Campaign extends CActiveRecord
      * Валидатор поля Класс API.
      *
      * @param string $attribute
-     * @param array $params
+     * @param array  $params
      */
     public function validateApiClass($attribute, $params)
     {
@@ -255,10 +255,11 @@ class Campaign extends CActiveRecord
     /**
      * находит список кампаний, подходящих для отправки заданного лида.
      *
-     * @param int $leadId ID лида
-     *
+     * @param int  $leadId      ID лида
      * @param bool $returnArray
+     *
      * @return int ID кампании для отправки лида
+     *
      * @throws \CException
      */
     public static function getCampaignsForLead($leadId, $returnArray = false)
@@ -290,8 +291,8 @@ class Campaign extends CActiveRecord
             ->where('(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1 AND u.balance>=c.price AND c.price>=:buyPrice AND c.type=:typeBuyer', [
                 ':townId' => $lead->town->id,
                 ':regionId' => $lead->town->regionId,
-                ':hour' => (int)date('H'),
-                ':buyPrice' => (int)$lead->buyPrice,
+                ':hour' => (int) date('H'),
+                ':buyPrice' => (int) $lead->buyPrice,
                 ':typeBuyer' => self::TYPE_BUYERS,
             ])
             ->order('c.lastLeadTime ASC')
@@ -354,7 +355,7 @@ class Campaign extends CActiveRecord
             ->where('(c.townId=:townId OR c.regionId=:regionId) AND c.timeFrom<=:hour AND c.timeTo>:hour AND c.active=1 AND c.type=:typePartner', [
                 ':townId' => $lead->town->id,
                 ':regionId' => $lead->town->regionId,
-                ':hour' => (int)date('H'),
+                ':hour' => (int) date('H'),
                 ':typePartner' => self::TYPE_PARTNERS,
             ])
             ->order('c.lastLeadTime ASC');
@@ -376,7 +377,7 @@ class Campaign extends CActiveRecord
     /**
      * Поиск кампаний по id покупателя.
      *
-     * @param int $buyerId id покупателя
+     * @param int  $buyerId id покупателя
      * @param bool $active
      *
      * @return array массив активных кампаний
@@ -385,7 +386,7 @@ class Campaign extends CActiveRecord
     {
         $criteria = new CDbCriteria();
         $criteria->order = 'id DESC';
-        $criteria->addColumnCondition(['buyerId' => (int)$buyerId]);
+        $criteria->addColumnCondition(['buyerId' => (int) $buyerId]);
         $criteria->addCondition(true == $active ? 'active = ' . self::ACTIVE_YES : 'active != ' . self::ACTIVE_YES);
 
         $dependency = new CDbCacheDependency('SELECT COUNT(id) FROM {{campaign}}');
@@ -574,14 +575,10 @@ class Campaign extends CActiveRecord
         return true;
     }
 
-    /**
-     * @return string
-     */
     public function getFullApiClass(): string
     {
-        return $this->apiClass != '' ? 'App\\components\\apiClasses\\' . $this->apiClass : '';
+        return '' != $this->apiClass ? 'App\\components\\apiClasses\\' . $this->apiClass : '';
     }
-
 
     /**
      * Отправка кампании в архив с уведомлением пользователя.
@@ -640,7 +637,6 @@ class Campaign extends CActiveRecord
             <p>Здравствуйте, ' . CHtml::encode($buyer->name) . '<br /><br />' .
             CHtml::link('Ваша кампания', $campaignLink) . ' отправлена в архив, так как по ней не совершалось никаких действий более 15 дней.</p>';
 
-
         // отправляем письмо на почту пользователя
         $mailer->email = $buyer->email;
 
@@ -655,8 +651,4 @@ class Campaign extends CActiveRecord
             return false;
         }
     }
-
-
-
-
 }

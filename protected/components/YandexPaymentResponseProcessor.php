@@ -41,8 +41,6 @@ class YandexPaymentResponseProcessor
 
     /**
      * Обработка запроса.
-     *
-     * @return bool
      */
     public function process(): bool
     {
@@ -56,7 +54,7 @@ class YandexPaymentResponseProcessor
         }
 
         // при запуске тестов не проверяем подпись
-        if ($this->doSignatureCheck == true && true !== $this->request->validateHash($this->yandexSecret)) {
+        if (true == $this->doSignatureCheck && true !== $this->request->validateHash($this->yandexSecret)) {
             $this->addError('Запрос не прошел проверку на целостность');
 
             return false;
@@ -70,6 +68,7 @@ class YandexPaymentResponseProcessor
             return $paymentProcessor->process();
         } catch (\Exception $e) {
             Yii::log('Ошибка при обработке платежа: ' . $e->getMessage(), 'error', 'system.web');
+
             return false;
         }
     }
@@ -78,8 +77,6 @@ class YandexPaymentResponseProcessor
      * Получает тип сущности, за которую платят и ее id.
      *
      * @param string $label
-     *
-     * @return string|null
      */
     private function detectPaymentType($label): ?string
     {
@@ -119,17 +116,12 @@ class YandexPaymentResponseProcessor
 
     /**
      * Добавление ошибки.
-     *
-     * @param string $error
      */
     public function addError(string $error): void
     {
         $this->errors[] = $error;
     }
 
-    /**
-     * @return array
-     */
     public function getErrors(): array
     {
         return $this->errors;

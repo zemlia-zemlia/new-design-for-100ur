@@ -13,11 +13,11 @@ use Yii;
  *
  * The followings are the available columns in table '{{expence}}':
  *
- * @property int $id
+ * @property int    $id
  * @property string $date
- * @property int $expences
+ * @property int    $expences
  * @property string $comment
- * @property int $type
+ * @property int    $type
  */
 class Expence extends CActiveRecord
 {

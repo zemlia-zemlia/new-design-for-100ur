@@ -14,13 +14,13 @@ use Yii;
  *
  * The followings are the available columns in table 'user':
  *
- * @property int $id
+ * @property int    $id
  * @property string $identity
  * @property string $network
  * @property string $email
  * @property string $full_name
- * @property int $state
- * @property int $user_id
+ * @property int    $state
+ * @property int    $user_id
  */
 class UloginUser extends CActiveRecord
 {
@@ -121,10 +121,7 @@ class UloginUser extends CActiveRecord
     /**
      * Создает новый объект App\models\UloginUser.
      *
-     * @param UloginModel $uloginModel
      * @param User|null $user Пользователь 100 Юристов, если не указан, создадим нового
-     *
-     * @return UloginUser
      *
      * @throws UserBannedException
      * @throws Exception

@@ -60,8 +60,6 @@ class UserActivityWidget extends CWidget
      *
      * @param int|null $userId
      * @param int|null $role
-     *
-     * @return array
      */
     private function getActivityRawData($userId = null, $role = null): array
     {
@@ -96,8 +94,6 @@ class UserActivityWidget extends CWidget
      * Поскольку первый день в выборке может быть не первым днем недели, получим ближайший
      * первый день недели в прошлом от первого дня выборки.
      *
-     * @param DateTime $dateStart
-     *
      * @return DateTime|int
      *
      * @throws Exception
@@ -114,11 +110,8 @@ class UserActivityWidget extends CWidget
     }
 
     /**
-     * @param array    $activityData
      * @param DateTime $dateStart
      * @param DateTime $dateFinish
-     *
-     * @return array
      *
      * @throws Exception
      */

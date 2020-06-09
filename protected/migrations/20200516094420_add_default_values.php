@@ -4,7 +4,6 @@ use Phinx\Migration\AbstractMigration;
 
 class AddDefaultValues extends AbstractMigration
 {
-
     public function up()
     {
         $this->table('100_yuristSettings')
@@ -12,11 +11,9 @@ class AddDefaultValues extends AbstractMigration
             ->changeColumn('description', 'text', ['default' => null, 'null' => true])
             ->changeColumn('hello', 'string', ['default' => null, 'null' => true])
             ->save();
-
     }
 
     public function down()
     {
-
     }
 }

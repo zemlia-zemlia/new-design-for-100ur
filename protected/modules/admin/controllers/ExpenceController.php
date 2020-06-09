@@ -4,8 +4,8 @@ use App\models\Expence;
 use App\modules\admin\controllers\AbstractAdminController;
 
 /**
-* Управление информацией о расходах.
-*/
+ * Управление информацией о расходах.
+ */
 class ExpenceController extends AbstractAdminController
 {
     /**

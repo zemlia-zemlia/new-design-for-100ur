@@ -4,7 +4,7 @@
         <?php //if(!is_null($data->publishDate)) echo CustomFuncs::invertDate($data->publishDate);?>
         <?php use App\helpers\DateHelper;
 
-        if (!is_null($data->publishDate)) {
+if (!is_null($data->publishDate)) {
     echo DateHelper::niceDate($data->publishDate, false);
 }?>
 	</span></small>

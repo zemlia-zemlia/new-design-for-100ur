@@ -142,10 +142,10 @@ if (Yii::app()->user->id != $user->id) {
                 <?php endif; ?>
                 <?php if (!Yii::app()->user->isGuest and $showChatbutton): ?>
 
-                    <?php if (Yii::app()->params['chat']['enabled'] == 1 && !$chat && (User::ROLE_CLIENT == Yii::app()->user->role) && $user->role == User::ROLE_JURIST && $user->answersCount >= Yii::app()->params['MinAnswerQntForChat']) : ?>
+                    <?php if (1 == Yii::app()->params['chat']['enabled'] && !$chat && (User::ROLE_CLIENT == Yii::app()->user->role) && User::ROLE_JURIST == $user->role && $user->answersCount >= Yii::app()->params['MinAnswerQntForChat']) : ?>
                         <?php echo CHtml::link('Начать чат с юристом', Yii::app()->createUrl('/user/chats', ['chatId' => 'new', 'layerId' => $user->id]), ['class' => 'btn btn-primary btn-block']); ?>
                     <?php endif; ?>
-                    <?php if ($chat && (User::ROLE_CLIENT == Yii::app()->user->role) && $user->role == User::ROLE_JURIST) : ?>
+                    <?php if ($chat && (User::ROLE_CLIENT == Yii::app()->user->role) && User::ROLE_JURIST == $user->role) : ?>
                         <?php echo CHtml::link('Продолжить чат с юристом', Yii::app()->createUrl('/user/chats', ['chatId' => $chat->chat_id]), ['class' => 'btn btn-primary btn-block']); ?>
                     <?php endif; ?>
 
@@ -157,7 +157,7 @@ if (Yii::app()->user->id != $user->id) {
                 }
                 ?>
 
-                <?php if (!Yii::app()->user->isGuest && Yii::app()->user->id != $user->id && !Yii::app()->user->checkAccess(User::ROLE_JURIST) ): ?>
+                <?php if (!Yii::app()->user->isGuest && Yii::app()->user->id != $user->id && !Yii::app()->user->checkAccess(User::ROLE_JURIST)): ?>
                     <?php echo CHtml::link('Оставить отзыв о юристе', Yii::app()->createUrl('user/testimonial', ['id' => $user->id]), ['class' => 'btn btn-block btn-info']); ?>
                 <?php endif; ?>
 
@@ -272,11 +272,11 @@ if (Yii::app()->user->id != $user->id) {
                             </div>
                         <?php endif; ?>
 
-                        <?php if (!$user->settings->site && !$user->settings->emailVisible && !$user->settings->phoneVisible && $user->settings->status != YuristSettings::STATUS_COMPANY): ?>
+                        <?php if (!$user->settings->site && !$user->settings->emailVisible && !$user->settings->phoneVisible && YuristSettings::STATUS_COMPANY != $user->settings->status): ?>
                             К сожалению, юрист не указал своих контактных данных
 
                         <?php endif; ?>
-                        <?php if ($user->settings->status == YuristSettings::STATUS_COMPANY):?>
+                        <?php if (YuristSettings::STATUS_COMPANY == $user->settings->status):?>
                             <div class="col-md-4">
                                 <p>
                                     <strong><span class="glyphicon glyphicon-home"

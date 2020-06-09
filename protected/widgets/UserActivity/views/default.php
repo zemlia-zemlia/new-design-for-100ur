@@ -4,7 +4,7 @@
 use App\helpers\DateHelper;
 use App\models\UserActivity;
 
-/** @var DateTime $firstDateInCalendar */
+/* @var DateTime $firstDateInCalendar */
 ?>
 
 <?php

@@ -95,7 +95,7 @@ class ApiController extends CController
         }
 
         // проверяем обязательный целочисленный параметр appId
-        $appId = (int)$request->getPost('appId');
+        $appId = (int) $request->getPost('appId');
         if (!$appId) {
             echo json_encode(['code' => 400, 'message' => 'Unknown sender. Check appId parameter']);
             Yii::app()->end();
@@ -283,8 +283,8 @@ class ApiController extends CController
 
     /**
      * @param CHttpRequest $request
-     * @param array $rawData
-     * @param int $appId
+     * @param array        $rawData
+     * @param int          $appId
      */
     private function logRequest($request, $rawData, $appId): void
     {
@@ -296,8 +296,6 @@ class ApiController extends CController
 
     /**
      * Логирует результат сохранения лида.
-     *
-     * @param Lead $model
      */
     private function logLeadSaveResult(Lead $model)
     {

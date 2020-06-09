@@ -7,8 +7,6 @@ use App\models\User;
 /* @var $form CActiveForm */
 Yii::app()->clientScript->registerScriptFile('/js/user.js');
 
-
-
 ?>
 
 <div class="container-fluid">

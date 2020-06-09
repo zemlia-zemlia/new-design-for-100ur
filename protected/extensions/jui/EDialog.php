@@ -91,7 +91,6 @@ class EDialog extends EJqueryUiWidget
      * Example:
      *
      * $buttons['Ok'] = 'function(){$(this).dialog("close");}'
-       $buttons['Cancel'] = 'function(){alert("cancel");}'
      *
      * @var array
      */

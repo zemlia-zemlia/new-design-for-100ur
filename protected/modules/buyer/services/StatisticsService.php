@@ -2,9 +2,9 @@
 
 namespace buyer\services;
 
+use App\models\Lead;
 use CException;
 use DateTime;
-use App\models\Lead;
 use Yii;
 
 /**
@@ -34,10 +34,6 @@ class StatisticsService
     /**
      * Возвращает количество лидов, проданных покупателю (с учетом статусов).
      *
-     * @param DateTime|null $fromDate
-     *
-     * @return int
-     *
      * @throws CException
      */
     public function getSoldLeadsCount(DateTime $fromDate = null): int
@@ -62,10 +58,6 @@ class StatisticsService
     /**
      * Сумма расходов на купленные лиды в копейках.
      *
-     * @param DateTime|null $fromDate
-     *
-     * @return int
-     *
      * @throws CException
      */
     public function getTotalExpences(DateTime $fromDate = null): int
@@ -88,9 +80,6 @@ class StatisticsService
         return $expencesResult ?? 0;
     }
 
-    /**
-     * @return int
-     */
     public function getUserId(): int
     {
         return $this->userId;
@@ -98,8 +87,6 @@ class StatisticsService
 
     /**
      * @param int $userId
-     *
-     * @return StatisticsService
      */
     public function setUserId($userId): StatisticsService
     {

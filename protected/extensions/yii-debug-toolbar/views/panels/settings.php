@@ -1,10 +1,10 @@
-<div data-ydtb-panel-data="<?php echo $this->id ?>">
+<div data-ydtb-panel-data="<?php echo $this->id; ?>">
     <div>
-        <div data-ydtb-accordion="<?php echo $this->id ?>">
+        <div data-ydtb-accordion="<?php echo $this->id; ?>">
             <div data-ydtb-accordion-group="collapsed">
-                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($application) ?>">
+                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($application); ?>">
                     <i data-ydtb-icon="s"></i>
-                    <span><?php echo YiiDebug::t('Application Properties') ?></span>
+                    <span><?php echo YiiDebug::t('Application Properties'); ?></span>
                     <i data-ydtb-icon="q"></i>
                     <i data-ydtb-icon="t"></i>
                     <div class="clear clearfix"></div>
@@ -25,7 +25,7 @@
             <div data-ydtb-accordion-group="collapsed">
                 <div data-ydtb-accordion-heading="">
                     <i data-ydtb-icon="s"></i>
-                    <span><?php echo YiiDebug::t('Modules') ?></span>
+                    <span><?php echo YiiDebug::t('Modules'); ?></span>
                     <i data-ydtb-icon="q"></i>
                     <i data-ydtb-icon="t"></i>
                     <div class="clear clearfix"></div>
@@ -44,9 +44,9 @@
                 </div>
             </div>
             <div data-ydtb-accordion-group="collapsed">
-                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($params) ?>">
+                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($params); ?>">
                     <i data-ydtb-icon="s"></i>
-                    <span><?php echo YiiDebug::t('Application Params') ?></span>
+                    <span><?php echo YiiDebug::t('Application Params'); ?></span>
                     <i data-ydtb-icon="q"></i>
                     <i data-ydtb-icon="t"></i>
                     <div class="clear clearfix"></div>
@@ -65,9 +65,9 @@
                 </div>
             </div>
             <div data-ydtb-accordion-group="collapsed">
-                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($components) ?>">
+                <div data-ydtb-accordion-heading="" data-ydtb-data-size="<?php echo count($components); ?>">
                     <i data-ydtb-icon="s"></i>
-                    <span><?php echo YiiDebug::t('Components') ?></span>
+                    <span><?php echo YiiDebug::t('Components'); ?></span>
                     <i data-ydtb-icon="q"></i>
                     <i data-ydtb-icon="t"></i>
                     <div class="clear clearfix"></div>

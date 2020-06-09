@@ -13,7 +13,7 @@ use Yii;
  *
  * Поля в таблице '{{town}}':
  *
- * @property int $id
+ * @property int    $id
  * @property string $name
  * @property string $description1
  * @property string $description2
@@ -21,11 +21,11 @@ use Yii;
  * @property string $seoDescription
  * @property string $seoKeywords
  * @property string $photo
- * @property int $regionId
- * @property int $countryId
- * @property int $isCapital
- * @property int $buyPrice
- * @property int $sellPrice
+ * @property int    $regionId
+ * @property int    $countryId
+ * @property int    $isCapital
+ * @property int    $buyPrice
+ * @property int    $sellPrice
  */
 class Town extends CActiveRecord
 {
@@ -133,7 +133,7 @@ class Town extends CActiveRecord
      */
     public static function getName($id)
     {
-        $model = self::model()->with('region')->findByPk((int)$id);
+        $model = self::model()->with('region')->findByPk((int) $id);
 
         return $model->name . ' (' . $model->region->name . ')';
     }

@@ -17,7 +17,9 @@ return CMap::mergeArray(
                 'password' => getenv('DB_TEST_PASSWORD'),
             ],
             'log' => require(dirname(__FILE__) . '/logging.php'),
-            'cache' => null,
+            'cache' => [
+                'class' => 'CDummyCache',
+            ],
             'urlManager' => [
                 'urlFormat' => 'path',
                 'showScriptName' => true,

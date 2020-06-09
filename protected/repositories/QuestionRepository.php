@@ -2,11 +2,14 @@
 
 namespace App\repositories;
 
+use App\dto\QuestionRssItemDto;
 use App\models\Answer;
-use CDbCriteria;
-use CException;
 use App\models\Question;
 use App\models\User;
+use CActiveDataProvider;
+use CDbConnection;
+use CDbCriteria;
+use CException;
 use Yii;
 
 /**
@@ -17,6 +20,14 @@ class QuestionRepository
 {
     protected $cacheTime = 600;
     protected $limit = 10;
+
+    /** @var CDbConnection */
+    private $dbConnection;
+
+    public function __construct()
+    {
+        $this->dbConnection = Yii::app()->db;
+    }
 
     /**
      * @param int $cacheTime
@@ -45,14 +56,11 @@ class QuestionRepository
     /**
      * Возвращает массив вопросов, на которые дал ответ юрист
      *
-     * @param User $user
-     *
-     * @return array
      * @throws CException
      */
     public function findRecentQuestionsByJuristAnswers(User $user): array
     {
-        $questions = Yii::app()->db->cache($this->cacheTime)->createCommand()
+        $questions = $this->dbConnection->cache($this->cacheTime)->createCommand()
             ->select('q.id id, q.publishDate date, q.title title')
             ->from('{{question}} q')
             ->leftJoin('{{answer}} a', 'q.id=a.questionId')
@@ -72,14 +80,11 @@ class QuestionRepository
     /**
      * Возвращает массив вопросов, заданных пользователем
      *
-     * @param \App\models\User $user
-     *
-     * @return array
      * @throws CException
      */
     public function findRecentQuestionsByClient(User $user): array
     {
-        $questions = Yii::app()->db->cache($this->cacheTime)->createCommand()
+        $questions = $this->dbConnection->cache($this->cacheTime)->createCommand()
             ->select('q.id id, q.publishDate date, q.title title')
             ->from('{{question}} q')
             ->where('q.authorId=:authorId AND q.status IN (:status1, :status2)', [
@@ -94,12 +99,11 @@ class QuestionRepository
     }
 
     /**
-     * @return int
      * @throws CException
      */
     public function countForModerate(): int
     {
-        $allQuestion = Yii::app()->db->cache($this->cacheTime)->createCommand()
+        $allQuestion = $this->dbConnection->cache($this->cacheTime)->createCommand()
             ->select('COUNT(*) counter')
             ->from('{{question}}')
             ->where('isModerated=0 AND status IN (:status1, :status2, :status3)', [
@@ -113,12 +117,11 @@ class QuestionRepository
     }
 
     /**
-     * @return int
      * @throws CException
      */
     public function countNoCat(): int
     {
-        $questionsCountRows = Yii::app()->db->cache($this->cacheTime)->createCommand()
+        $questionsCountRows = $this->dbConnection->cache($this->cacheTime)->createCommand()
             ->select('COUNT(*) counter')
             ->from('{{question}} q')
             ->leftJoin('{{question2category}} q2c', 'q.id=q2c.qId')
@@ -129,9 +132,7 @@ class QuestionRepository
     }
 
     /**
-     * Возвращает последний вопрос пользователя
-     * @param User $user
-     * @return Question|null
+     * Возвращает последний вопрос пользователя.
      */
     public function getLastQuestionOfUser(User $user): ?Question
     {
@@ -141,5 +142,199 @@ class QuestionRepository
         $questionCriteria->limit = 1;
 
         return Question::model()->find($questionCriteria);
+    }
+
+    /**
+     * Возвращает массив опубликованных вопросов.
+     *
+     * @param int $limit
+     * @param string $order
+     * @param string $with
+     * @param int $cacheTime
+     *
+     * @return Question[]|null
+     */
+    public function findRecentPublishedQuestions(
+        $limit = 40,
+        $order = 'publishDate DESC',
+        $with = 'answersCount',
+        $cacheTime = 600
+    ): array
+    {
+        $criteria = new CDbCriteria();
+        $criteria->limit = $limit;
+        $criteria->with = $with;
+        $criteria->addCondition('status IN (' . Question::STATUS_PUBLISHED . ', ' . Question::STATUS_CHECK . ')');
+        $criteria->order = $order;
+
+        return Question::model()->cache($cacheTime)->findAll($criteria);
+    }
+
+    /**
+     * Получает массив данных с годами и месяцами, за которые есть опубликованные вопросы.
+     *
+     * @return array Пример: [2019 => [11,12], 2020 => [1,2,3]]
+     */
+    public function getYearsAndMonthsWithQuestions(): array
+    {
+        $datesArray = [];
+        $datesRows = $this->dbConnection->createCommand()
+            ->select('YEAR(publishDate) year, MONTH(publishDate) month')
+            ->from('{{question}}')
+            ->where('status IN (:status1, :status2)', [':status1' => Question::STATUS_CHECK, ':status2' => Question::STATUS_PUBLISHED])
+            ->group('year, month')
+            ->order('year DESC, month DESC')
+            ->queryAll();
+
+        foreach ($datesRows as $row) {
+            if ($row['year'] && $row['month']) {
+                $datesArray[$row['year']][] = $row['month'];
+            }
+        }
+
+        return $datesArray;
+    }
+
+    /**
+     * @param array $attributes
+     * @return Question|null
+     */
+    public function getQuestionByParams(array $attributes): ?Question
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addColumnCondition($attributes);
+
+        return Question::model()->find($criteria);
+    }
+
+    /**
+     * Возвращает массив последних опубликованных вопросов с полем "число ответов"
+     * @param int $limit
+     * @param int $cacheTime
+     * @return QuestionRssItemDto[]
+     * @throws CException
+     */
+    public function getPublishedQuestionsWithAnswersCountAsArray(int $limit, int $cacheTime): array
+    {
+        return $this->getPublishedQuestionsArray($limit, $cacheTime, false);
+    }
+
+    /**
+     * Возвращает массив последних опубликованных вопросов с ответами
+     * @param int $limit
+     * @param int $cacheTime
+     * @return QuestionRssItemDto[]
+     * @throws CException
+     */
+    public function getPublishedQuestionsWithAnswersAsArray(int $limit, int $cacheTime): array
+    {
+        return $this->getPublishedQuestionsArray($limit, $cacheTime, true);
+    }
+
+    /**
+     * Возвращает массив DTO объектов QuestionRssItemDto
+     * @param int $limit
+     * @param int $cacheTime
+     * @param bool $onlyWithAnswers
+     * @return array
+     * @throws CException
+     */
+    protected function getPublishedQuestionsArray(int $limit, int $cacheTime, $onlyWithAnswers = true): array
+    {
+        /** @var \CDbCommand $dbCommand */
+        $dbCommand = $this->dbConnection->cache($cacheTime)->createCommand()
+            ->select('q.id, q.title, q.publishDate, q.createDate, q.questionText, COUNT(*) answersCount')
+            ->from('{{question}} q')
+            ->leftJoin('{{answer}} a', 'a.questionId=q.id')
+            ->where(['in', 'q.status', [Question::STATUS_PUBLISHED, Question::STATUS_CHECK]])
+            ->group('q.id')
+            ->order('q.publishDate DESC, q.id DESC')
+            ->limit($limit);
+
+        if ($onlyWithAnswers == true) {
+            $dbCommand = $dbCommand->andWhere('a.id IS NOT NULL');
+        }
+
+        $questions = $dbCommand->queryAll();
+
+        $questionDtos = [];
+        foreach ($questions as $question) {
+            $questionDto = new QuestionRssItemDto();
+            $questionDto->setId($question['id'])
+                ->setTitle($question['title'])
+                ->setCreateDate($question['createDate'])
+                ->setPublishDate($question['publishDate'])
+                ->setQuestionText($question['questionText'])
+                ->setAnswersCount($question['answersCount']);
+            $questionDtos[] = $questionDto;
+        }
+
+        return $questionDtos;
+    }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    public function getQuestionsByAuthor(User $user): array
+    {
+        $questionCriteria = new CDbCriteria();
+
+        $questionCriteria->order = 't.publishDate DESC';
+        $questionCriteria->with = 'answersCount';
+        $questionCriteria->addColumnCondition(['t.authorId' => $user->id]);
+        $questionCriteria->addInCondition('t.status', [Question::STATUS_PUBLISHED, Question::STATUS_CHECK]);
+
+        return Question::model()->findAll($questionCriteria);
+    }
+
+    /**
+     * @param int $year
+     * @param int $month
+     * @param int $pageSize
+     * @return CActiveDataProvider
+     */
+    public function getQuestionsDataProviderForMonth(int $year, int $month, int $pageSize = 50): CActiveDataProvider
+    {
+        return new CActiveDataProvider(Question::class, [
+            'criteria' => [
+                'condition' => 'YEAR(publishDate)=' . $year .
+                    ' AND MONTH(publishDate)=' . $month .
+                    ' AND status IN (' . Question::STATUS_CHECK . ', ' . Question::STATUS_PUBLISHED . ')',
+                'order' => 'publishDate DESC',
+                'with' => 'answersCount',
+            ],
+            'pagination' => [
+                'pageSize' => $pageSize,
+            ],
+        ]);
+    }
+
+    /**
+     * месяцы года, за которые есть опубликованные вопросы
+     * @param int $year
+     * @return array
+     */
+    public function getMonthsWithPublishedQuestions(int $year): array
+    {
+        $datesArray = [];
+        $datesRows = $this->dbConnection->createCommand()
+            ->select('MONTH(publishDate) month')
+            ->from('{{question}}')
+            ->where('YEAR(publishDate) = :year AND status IN (:status1, :status2)', [
+                ':status1' => Question::STATUS_CHECK,
+                ':status2' => Question::STATUS_PUBLISHED,
+                ':year' => $year,
+            ])
+            ->group('month')
+            ->queryAll();
+
+        foreach ($datesRows as $row) {
+            if ($row['month']) {
+                $datesArray[] = $row['month'];
+            }
+        }
+
+        return $datesArray;
     }
 }

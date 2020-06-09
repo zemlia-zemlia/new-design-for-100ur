@@ -5,7 +5,7 @@
     <div class="inside">
         <?php use App\models\Campaign;
 
-    echo CHtml::link('Купленные вручную', Yii::app()->createUrl('/buyer/buyer/leads')); ?>
+echo CHtml::link('Купленные вручную', Yii::app()->createUrl('/buyer/buyer/leads')); ?>
     </div>
 </div>
  -->

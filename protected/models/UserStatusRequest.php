@@ -14,15 +14,15 @@ use Yii;
  *
  * Доступные поля в таблице '{{userStatusRequest}}':
  *
- * @property int $id
- * @property int $yuristId
- * @property int $status
- * @property int $isVerified
+ * @property int    $id
+ * @property int    $yuristId
+ * @property int    $status
+ * @property int    $isVerified
  * @property string $vuz
  * @property string $facultet
  * @property string $education
- * @property int $vuzTownId
- * @property int $educationYear
+ * @property int    $vuzTownId
+ * @property int    $educationYear
  * @property string $advOrganisation
  * @property string $advNumber
  * @property string $position
@@ -36,7 +36,6 @@ class UserStatusRequest extends CActiveRecord
     const STATUS_NEW = 0; // новая заявка
     const STATUS_ACCEPTED = 1; // одобрено
     const STATUS_DECLINED = 2; // отклонено
-
 
     /**
      * @return string the associated database table name
@@ -84,7 +83,6 @@ class UserStatusRequest extends CActiveRecord
             'user' => [self::BELONGS_TO, User::class, 'yuristId'],
             'vuzTown' => [self::BELONGS_TO, Town::class, 'vuzTownId'],
             'userFile' => [self::BELONGS_TO, UserFile::class, 'fileId'],
-
         ];
     }
 
@@ -230,7 +228,6 @@ class UserStatusRequest extends CActiveRecord
                 break;
         }
     }
-
 
     /**
      * Отправка уведомления о смене статуса.

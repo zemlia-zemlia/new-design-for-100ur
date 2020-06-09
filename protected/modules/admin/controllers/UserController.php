@@ -17,7 +17,6 @@ use App\modules\admin\controllers\AbstractAdminController;
 
 class UserController extends AbstractAdminController
 {
-
     public $defaultAction = 'profile';
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\models;
 
+use App\extensions\Logger\LoggerFactory;
 use App\helpers\IpHelper;
 use App\helpers\StringHelper;
 use CActiveDataProvider;
@@ -11,7 +12,6 @@ use CDbException;
 use CHtml;
 use CLogger;
 use GTMail;
-use App\extensions\Logger\LoggerFactory;
 use PDO;
 use YandexKassa;
 use Yii;
@@ -21,28 +21,28 @@ use Yii;
  *
  * Поля таблицы '{{question}}':
  *
- * @property int $id
- * @property int $number
+ * @property int    $id
+ * @property int    $number
  * @property string $questionText
  * @property string $title
  * @property string $townId
  * @property string $authorName
- * @property int $status
+ * @property int    $status
  * @property string $phone
  * @property string $email
  * @property string $publishDate
- * @property int $leadStatus
- * @property int $authorId
- * @property int $price
- * @property int $payed
+ * @property int    $leadStatus
+ * @property int    $authorId
+ * @property int    $price
+ * @property int    $payed
  * @property string $sessionId
- * @property int $isModerated
- * @property int $moderatedBy
- * @property int $moderatedTime
+ * @property int    $isModerated
+ * @property int    $moderatedBy
+ * @property int    $moderatedTime
  * @property string $ip
- * @property int $townIdByIP
- * @property int $sourceId
- * @property float $buyPrice
+ * @property int    $townIdByIP
+ * @property int    $sourceId
+ * @property float  $buyPrice
  */
 class Question extends CActiveRecord
 {
@@ -126,14 +126,14 @@ class Question extends CActiveRecord
     /**
      * @return array relational rules
      */
-    public function relations():array
+    public function relations(): array
     {
         return [
             'town' => [self::BELONGS_TO, Town::class, 'townId'],
             'townByIP' => [self::BELONGS_TO, Town::class, 'townIdByIP'],
             'source' => [self::BELONGS_TO, Leadsource::class, 'sourceId'],
             'answers' => [self::HAS_MANY, Answer::class, 'questionId'],
-            'answersCount' => [self::STAT, Answer::class, 'questionId', 'condition' => 'status IN (' . Answer::STATUS_NEW .', ' .  Answer::STATUS_PUBLISHED . ')'],
+            'answersCount' => [self::STAT, Answer::class, 'questionId', 'condition' => 'status IN (' . Answer::STATUS_NEW . ', ' . Answer::STATUS_PUBLISHED . ')'],
             'bublishUser' => [self::BELONGS_TO, User::class, 'publishedBy'],
             'author' => [self::BELONGS_TO, User::class, 'authorId'],
             'categories' => [self::MANY_MANY, QuestionCategory::class, '{{question2category}}(qId, cId)'],
@@ -361,9 +361,10 @@ class Question extends CActiveRecord
      *  сохраняет в базу вопрос, который не был полностью заполнен
      * (имеет только имя и текст вопроса)
      * лид из такого вопроса не создать, но уникальный контент для публикации можно получить.
+     *
      * @throws \CHttpException
      */
-    public function preSave():bool
+    public function preSave(): bool
     {
         if ('' == $this->sessionId) {
             $this->sessionId = '' . time() . '_' . mt_rand(100, 999);
@@ -399,7 +400,7 @@ class Question extends CActiveRecord
      *
      * @return bool true - пользователь сохранен, false - не сохранен
      */
-    public function createAuthor()
+    public function createAuthor():bool
     {
         // Если вопрос задал существующий пользователь, сразу вернем true
         // проверим, есть ли в базе пользователь с таким мейлом
@@ -486,7 +487,7 @@ class Question extends CActiveRecord
         }
         $questionRow = $questionCommand->queryRow();
 
-        return ($questionRow['id']) ? (int)$questionRow['id'] : 0;
+        return ($questionRow['id']) ? (int) $questionRow['id'] : 0;
     }
 
     /**
@@ -785,7 +786,7 @@ class Question extends CActiveRecord
     /**
      * Возвращает массив вопросов заданного автора, заданных статусов.
      *
-     * @param int $authorId
+     * @param int   $authorId
      * @param array $statuses Массив статусов. Пустой массив - все статусы
      *
      * @return Question[]
@@ -805,16 +806,15 @@ class Question extends CActiveRecord
     }
 
     /**
-     * Возвращает число вопросов со статусом Предварительно сохранен, созданных за интервал времени
-     * @param int $periodInSeconds
-     * @return int
+     * Возвращает число вопросов со статусом Предварительно сохранен, созданных за интервал времени.
+     *
      * @throws \CException
      */
-    public function countPreSavedQuestionsWithSameIP(int $periodInSeconds):int
+    public function countPreSavedQuestionsWithSameIP(int $periodInSeconds): int
     {
         $counterRow = Yii::app()->db->createCommand()
             ->select('COUNT(*) counter')
-            ->from("{{question}}")
+            ->from('{{question}}')
             ->where('status=:status AND ip=:ip AND ip IS NOT NULL AND createDate > NOW()-INTERVAL :interval SECOND', [
                 ':status' => self::STATUS_PRESAVE,
                 ':ip' => $this->ip,

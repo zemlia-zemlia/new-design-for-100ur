@@ -34,6 +34,7 @@ class LogReader
      * Создает ссылку на сущность, привязанную к элементу лога.
      *
      * @param array $logRow
+     *
      * @return string
      */
     public static function createLink($logRow)

@@ -3,7 +3,7 @@
     <div class="col-sm-9">
         <p><?php use App\helpers\NumbersHelper;
 
-            echo CHtml::link(CHtml::encode($data['title']), Yii::app()->createUrl('question/view', ['id' => $data['id']])); ?></p>
+echo CHtml::link(CHtml::encode($data['title']), Yii::app()->createUrl('question/view', ['id' => $data['id']])); ?></p>
     </div>
     <div class="col-sm-3">
 

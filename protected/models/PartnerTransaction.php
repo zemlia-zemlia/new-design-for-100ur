@@ -13,16 +13,16 @@ use Yii;
  *
  * The followings are the available columns in table '{{partnerTransaction}}':
  *
- * @property int $id
- * @property int $partnerId
- * @property int $sourceId
+ * @property int    $id
+ * @property int    $partnerId
+ * @property int    $sourceId
  * @property string $sum
  * @property string $datetime
- * @property int $leadId
- * @property int $questionId
- * @property int $userId
+ * @property int    $leadId
+ * @property int    $questionId
+ * @property int    $userId
  * @property string $comment
- * @property int $status
+ * @property int    $status
  */
 class PartnerTransaction extends CActiveRecord
 {
@@ -72,7 +72,7 @@ class PartnerTransaction extends CActiveRecord
     /**
      * @return array relational rules
      */
-    public function relations():array
+    public function relations(): array
     {
         return [
             'partner' => [self::BELONGS_TO, User::class, 'partnerId'],

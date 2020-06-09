@@ -15,21 +15,21 @@ use Yii;
  *
  * Поля в таблице '{{questionCategory}}':
  *
- * @property int $id
+ * @property int    $id
  * @property string $name
- * @property int $parentId
+ * @property int    $parentId
  * @property string $alias
- * @property int $isDirection
+ * @property int    $isDirection
  * @property string $description1
  * @property string $description2
  * @property string $seoTitle
  * @property string $seoDescription
  * @property string $seoKeywords
  * @property string $seoH1
- * @property int $root
- * @property int $lft
- * @property int $rgt
- * @property int $level
+ * @property int    $root
+ * @property int    $lft
+ * @property int    $rgt
+ * @property int    $level
  * @property string $path
  * @property string $image
  * @property string $publish_date
@@ -154,7 +154,7 @@ class QuestionCategory extends CActiveRecord
             'publish_date' => 'Дата публикации',
             'attachments' => 'Прикрепленные файлы',
             'icon' => 'Иконка категории',
-            'fileIcon' => 'Иконка категории'
+            'fileIcon' => 'Иконка категории',
         ];
     }
 
@@ -246,8 +246,8 @@ class QuestionCategory extends CActiveRecord
     /**
      * проверяет, не 0 ли элемент массива с ключом $propName.
      *
-     * @param array $categoryArray Массив с данными категории (fieldName => fieldValue)
-     * @param string $propName ключ массива fieldName
+     * @param array  $categoryArray Массив с данными категории (fieldName => fieldValue)
+     * @param string $propName      ключ массива fieldName
      *
      * @return string Строка с галочкой, если элемент заполнен, пустая - если не заполнен
      */
@@ -264,7 +264,7 @@ class QuestionCategory extends CActiveRecord
      * возвращает массив, ключами которого являются id категорий-направлений,
      * а значениями - их названия.
      *
-     * @param bool $withAlias включать ли alias в массив результатов
+     * @param bool $withAlias     включать ли alias в массив результатов
      * @param bool $withHierarchy нужна ли иерархия в массиве результатов
      *
      * @return array Массив категорий-направлений. Возможны 2 формата
@@ -503,9 +503,9 @@ class QuestionCategory extends CActiveRecord
     /**
      * Возвращает массив категорий, отсортированный по убыванию даты публикации и id.
      *
-     * @param int $limit Лимит выборки
+     * @param int  $limit      Лимит выборки
      * @param bool $hasPicture найти только категории с заглавной картинкой
-     * @param int $rootId id раздела, в котором нужно выбрать категории
+     * @param int  $rootId     id раздела, в котором нужно выбрать категории
      *
      * @return QuestionCategory[]
      */
@@ -520,7 +520,7 @@ class QuestionCategory extends CActiveRecord
         if ($hasPicture) {
             $criteria->addColumnCondition(['image!' => '']);
         }
-        if ((int)$rootId > 0) {
+        if ((int) $rootId > 0) {
             $criteria->addColumnCondition(['root' => $rootId]);
         }
         $categories = QuestionCategory::model()->findAll($criteria);
@@ -544,10 +544,8 @@ class QuestionCategory extends CActiveRecord
         return $tags;
     }
 
-
     /**
-     * Генерирует имя файла иконки
-     * @return string
+     * Генерирует имя файла иконки.
      */
     public function generateName(): string
     {
@@ -555,33 +553,34 @@ class QuestionCategory extends CActiveRecord
     }
 
     /**
-     * Возвращает имя файла иконки
+     * Возвращает имя файла иконки.
+     *
      * @return string
      */
     public function getIconUrl()
     {
-        return $this->icon ? ('/upload/category_icons/' . $this->icon) : NULL;
+        return $this->icon ? ('/upload/category_icons/' . $this->icon) : null;
     }
 
     public function uploadIcon()
     {
-
         $name = $this->generateName();
         $path = Yii::getPathOfAlias('webroot') . '/upload/category_icons/' . $name;
         $this->fileIcon->saveAs($path);
         if (getimagesize($path)[0] > 250 || getimagesize($path)[1] > 250) {
             Yii::app()->user->setFlash('error', 'Ошибка. Размер изображения больше 250 пикс.');
             unlink($path);
+
             return false;
-        } elseif ($this->fileIcon->extensionName != 'svg'){
+        } elseif ('svg' != $this->fileIcon->extensionName) {
             Yii::app()->user->setFlash('error', 'Ошибка. Можно загрузить только файл SVG');
             unlink($path);
+
             return false;
         } else {
             $this->icon = $name;
+
             return true;
         }
-
     }
-
 }

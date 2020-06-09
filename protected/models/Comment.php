@@ -2,12 +2,12 @@
 
 namespace App\models;
 
+use App\extensions\Logger\LoggerFactory;
 use CActiveDataProvider;
 use CActiveRecord;
 use CDbCriteria;
 use CHtml;
 use GTMail;
-use App\extensions\Logger\LoggerFactory;
 use Yii;
 
 /**
@@ -16,16 +16,16 @@ use Yii;
  * Поля, доступные в таблице '{{comment}}':
  *
  * @property string $id
- * @property int $type
- * @property int $authorId
- * @property int $objectId
- * @property int $rating
- * @property int $status
+ * @property int    $type
+ * @property int    $authorId
+ * @property int    $objectId
+ * @property int    $rating
+ * @property int    $status
  * @property string $text
  * @property string $dateTime
  * @property string $authorName
  * @property string $title
- * @property int $questionId
+ * @property int    $questionId
  */
 class Comment extends CActiveRecord
 {
@@ -245,7 +245,7 @@ class Comment extends CActiveRecord
     /**
      * Возвращает количество новых комментариев заданного типа.
      *
-     * @param int $type Тип комментария
+     * @param int $type      Тип комментария
      * @param int $cacheTime Время кеширования (сек.)
      *
      * @return int количество новых комментариев
@@ -255,7 +255,7 @@ class Comment extends CActiveRecord
         $counterRow = Yii::app()->db->cache($cacheTime)->createCommand()
             ->select('COUNT(*) counter')
             ->from('{{comment}}')
-            ->where('type=:type AND status=:status', [':type' => (int)$type, ':status' => self::STATUS_NEW])
+            ->where('type=:type AND status=:status', [':type' => (int) $type, ':status' => self::STATUS_NEW])
             ->queryRow();
 
         return (false !== $counterRow) ? $counterRow['counter'] : 0;
@@ -307,7 +307,7 @@ class Comment extends CActiveRecord
             } else {
                 // это комментарий на комментарий к отклику
                 $object = $this->parent()->find();
-                $response = OrderResponse::model()->findByPk((int)$object->objectId);
+                $response = OrderResponse::model()->findByPk((int) $object->objectId);
                 $order = $response->order;
             }
 

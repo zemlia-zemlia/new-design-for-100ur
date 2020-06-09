@@ -96,10 +96,16 @@ return [
         'log' => require(dirname(__FILE__) . '/logging.php'),
 
         'cache' => [
-            'class' => 'system.caching.CFileCache',
+            'class' => getenv('ENABLE_CACHE') == 1 ?
+                'system.caching.CFileCache':
+                'CDummyCache'
+            ,
         ],
         'mailer' => [
             'class' => 'application.extensions.GTMail',
+        ],
+        'container' => [
+            'class' => 'application.components.DiContainer',
         ],
     ],
     // application-level parameters that can be accessed

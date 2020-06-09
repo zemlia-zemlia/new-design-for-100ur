@@ -7,7 +7,6 @@ use App\models\Answer;
  */
 class RecentAnswers extends CWidget
 {
-
     public $template = 'default'; // представление виджета по умолчанию
     public $cacheTime = 600; // время кеширования
     public $limit = 6;

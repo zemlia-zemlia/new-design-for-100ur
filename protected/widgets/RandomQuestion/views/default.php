@@ -1,7 +1,7 @@
 <p class="random-question-town"><strong>
     <?php use App\models\Town;
 
-    echo $question['authorName']; ?> <br />
+echo $question['authorName']; ?> <br />
     <?php echo Town::getName($question['townId']); ?>
     </strong>
 </p>

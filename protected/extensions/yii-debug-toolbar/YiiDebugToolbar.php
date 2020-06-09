@@ -4,7 +4,6 @@
  *
  * @author Sergey Malyshev <malyshev.php@gmail.com>
  */
-
 Yii::import('yii-debug-toolbar.panels.*');
 Yii::import('yii-debug-toolbar.widgets.*');
 
@@ -15,8 +14,9 @@ Yii::import('yii-debug-toolbar.widgets.*');
  *
  * @author Sergey Malyshev <malyshev.php@gmail.com>
  * @author Igor Golovanov <igor.golovanov@gmail.com>
+ *
  * @version $Id$
- * @package YiiDebugToolbar
+ *
  * @since 1.1.7
  */
 class YiiDebugToolbar extends CWidget
@@ -38,12 +38,14 @@ class YiiDebugToolbar extends CWidget
     /**
      * Setup toolbar panels.
      *
-     * @param array $panels Panels.
+     * @param array $panels panels
+     *
      * @return YiiDebugToolbar
      */
-    public function setPanels(array $panels = array())
+    public function setPanels(array $panels = [])
     {
         $this->_panels = $panels;
+
         return $this;
     }
 
@@ -55,14 +57,16 @@ class YiiDebugToolbar extends CWidget
     public function getPanels()
     {
         if (null === $this->_panels) {
-            $this->_panels = array();
+            $this->_panels = [];
         }
+
         return $this->_panels;
     }
 
     /**
      * Get the URL of assets.
      * The base URL that contains all published asset files of yii-debug-toolbar.
+     *
      * @return string
      */
     public function getAssetsUrl()
@@ -73,6 +77,7 @@ class YiiDebugToolbar extends CWidget
                 ->getAssetManager()
                 ->publish(dirname(__FILE__) . '/assets', false, -1, YII_DEBUG and !$linkAssets);
         }
+
         return $this->_assetsUrl;
     }
 
@@ -110,9 +115,9 @@ class YiiDebugToolbar extends CWidget
      */
     public function run()
     {
-        $this->render('main', array(
-            'panels' => $this->getPanels()
-        ));
+        $this->render('main', [
+            'panels' => $this->getPanels(),
+        ]);
     }
 
     /**
@@ -128,8 +133,10 @@ class YiiDebugToolbar extends CWidget
         $cs->registerCssFile($this->assetsUrl . '/main_old.css');
         $cs->registerCssFile($this->assetsUrl . '/main.css');
 
-        $cs->registerScriptFile($this->assetsUrl . '/main.js',
-            CClientScript::POS_END);
+        $cs->registerScriptFile(
+            $this->assetsUrl . '/main.js',
+            CClientScript::POS_END
+        );
 
         return $this;
     }
@@ -144,7 +151,7 @@ class YiiDebugToolbar extends CWidget
         foreach ($this->getPanels() as $id => $config) {
             if (!is_object($config)) {
                 if (is_string($config)) {
-                    $config = array('class' => $config);
+                    $config = ['class' => $config];
                 }
 
                 if (is_array($config)) {
@@ -155,33 +162,32 @@ class YiiDebugToolbar extends CWidget
                     if (isset($config['enabled']) && false === $config['enabled']) {
                         unset($this->_panels[$id]);
                         continue;
-                    } else if (isset($config['enabled']) && true === $config['enabled']) {
+                    } elseif (isset($config['enabled']) && true === $config['enabled']) {
                         unset($config['enabled']);
                     }
                 }
                 $panel = Yii::createComponent($config, $this);
 
                 if (false === ($panel instanceof YiiDebugToolbarPanelInterface)) {
-                    throw new CException(Yii::t('yii-debug-toolbar',
-                        'The %class% class must be compatible with YiiDebugToolbarPanelInterface', array(
-                            '%class%' => get_class($panel)
-                        )));
+                    throw new CException(Yii::t('yii-debug-toolbar', 'The %class% class must be compatible with YiiDebugToolbarPanelInterface', ['%class%' => get_class($panel)]));
                 }
                 $panel->init();
                 $this->_panels[$id] = $panel;
             }
         }
+
         return $this;
     }
 }
 
 /**
- * YiiDebugToolbarPanelInterface
+ * YiiDebugToolbarPanelInterface.
  *
  * @author Sergey Malyshev <malyshev.php@gmail.com>
  * @author Igor Golovanov <igor.golovanov@gmail.com>
+ *
  * @version $Id$
- * @package YiiDebugToolbar
+ *
  * @since 1.1.7
  */
 interface YiiDebugToolbarPanelInterface
@@ -191,26 +197,26 @@ interface YiiDebugToolbarPanelInterface
      *
      * @return string
      */
-    function getMenuTitle();
+    public function getMenuTitle();
 
     /**
      * Get the subtitle of menu.
      *
      * @return string
      */
-    function getMenuSubTitle();
+    public function getMenuSubTitle();
 
     /**
      * Get the title.
      *
      * @return string
      */
-    function getTitle();
+    public function getTitle();
 
     /**
      * Get the subtitle.
      *
      * @return string
      */
-    function getSubTitle();
+    public function getSubTitle();
 }

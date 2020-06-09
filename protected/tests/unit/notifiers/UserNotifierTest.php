@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Notifiers;
 
+use App\models\User;
+use App\notifiers\UserNotifier;
 use Codeception\Test\Unit;
 use Exception;
 use GTMail;
-use App\models\User;
-use App\notifiers\UserNotifier;
 use Yii;
 
 class UserNotifierTest extends Unit
@@ -52,9 +52,6 @@ class UserNotifierTest extends Unit
         }
     }
 
-    /**
-     * @return array
-     */
     public function confirmationProvider(): array
     {
         return [

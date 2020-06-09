@@ -17,8 +17,8 @@ $moneyDirections = Money::getDirectionsArray();
 $startYear = 2016;
 $endYear = 2019;
 
-$statDateInterval  = $statsService->getDateInterval(30);
-$statPublishedQuestionsCount  =  $statsService->getPublishedQuestionsCount($statDateInterval[0]);
+$statDateInterval = $statsService->getDateInterval(30);
+$statPublishedQuestionsCount = $statsService->getPublishedQuestionsCount($statDateInterval[0]);
 $statCountAnsversByDate = $statsService->getCountAnsversByDate($statDateInterval[0]);
 $statPublishedCommentCount = $statsService->getPublishedCommentCount($statDateInterval[0]);
 
@@ -112,19 +112,19 @@ $statPublishedCommentCount = $statsService->getPublishedCommentCount($statDateIn
                         <tr> <td>Вопросов</td>
                             <?php foreach ($statDateInterval as $date): ?>
                                 <td class="center-align"><?php echo isset($statPublishedQuestionsCount[$date]) ?
-                                        $statPublishedQuestionsCount[$date] : 0 ?></td>
+                                        $statPublishedQuestionsCount[$date] : 0; ?></td>
                             <?php endforeach; ?>
                         </tr>
                         <tr> <td>Ответов</td>
                             <?php foreach ($statDateInterval as $date): ?>
                                 <td class="center-align"><?php echo isset($statCountAnsversByDate[$date]) ?
-                                        $statCountAnsversByDate[$date] : 0 ?></td>
+                                        $statCountAnsversByDate[$date] : 0; ?></td>
                             <?php endforeach; ?>
                         </tr>
                         <tr> <td>Коментариев</td>
                             <?php foreach ($statDateInterval as $date): ?>
                                 <td class="center-align"><?php echo isset($statPublishedCommentCount[$date]) ?
-                                        $statPublishedCommentCount[$date] : 0 ?></td>
+                                        $statPublishedCommentCount[$date] : 0; ?></td>
                             <?php endforeach; ?>
                         </tr>
 
@@ -143,8 +143,8 @@ $statPublishedCommentCount = $statsService->getPublishedCommentCount($statDateIn
                     <span>Всего вопросов поступило: <?php echo $questionPublishedInRecentDays; ?></span><br/>
                     <span>Вопросов на которые дан ответ: <?php echo $answersMadeInRecentDays; ?>
                         <?php if ($questionPublishedInRecentDays > 0) {
-    echo ' (' . (int) ($answersMadeInRecentDays / $questionPublishedInRecentDays * 100) . '%)';
-}
+                                            echo ' (' . (int) ($answersMadeInRecentDays / $questionPublishedInRecentDays * 100) . '%)';
+                                        }
                         ?>
                     </span><br/>
                     <span>Среднее время ответа на вопрос: <?php echo $averageIntervalUntillAnswer; ?> ч</span><br/>

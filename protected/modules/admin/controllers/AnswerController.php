@@ -7,7 +7,6 @@ use App\modules\admin\controllers\AbstractAdminController;
 
 class AnswerController extends AbstractAdminController
 {
-
     /**
      * @return array action filters
      */

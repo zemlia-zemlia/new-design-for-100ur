@@ -7,7 +7,7 @@
  * @see http://www.yiiframework.com/
  */
 
-/**
+/*
  * CDropDownMenu is an extension to CMenu that supports Drop-Down Menus using the
  * superfish jquery-plugin.
  *

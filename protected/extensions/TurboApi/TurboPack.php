@@ -26,8 +26,6 @@ class TurboPack
 
     /**
      * Добавление страницы в набор
-     *
-     * @param TurboItem $item
      */
     public function addItem(TurboItem $item)
     {

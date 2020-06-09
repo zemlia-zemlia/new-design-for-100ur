@@ -11,12 +11,12 @@ use CDbCriteria;
  *
  * The followings are the available columns in table '{{file_category}}':
  *
- * @property int $id
+ * @property int    $id
  * @property string $name
- * @property int $lft
- * @property int $rgt
- * @property int $root
- * @property int $level
+ * @property int    $lft
+ * @property int    $rgt
+ * @property int    $root
+ * @property int    $level
  * @property string $description
  *
  * The followings are the available model relations:
