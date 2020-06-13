@@ -99,4 +99,5 @@ return [
         'enabled' => getenv('CHAT_ENABLED'),
     ],
     'detectTownByIP' => getenv('DETECT_TOWN_BY_IP'),
+    'townByIpService' => getenv('TOWN_BY_IP_SERVICE'),
 ];
