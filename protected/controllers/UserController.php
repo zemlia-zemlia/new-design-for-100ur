@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\YandexPaymentException;
 use App\extensions\Logger\LoggerFactory;
 use App\helpers\StringHelper;
 use App\models\Answer;
@@ -19,6 +20,8 @@ use App\models\YaPayConfirmRequest;
 use App\models\YuristSettings;
 use App\repositories\QuestionRepository;
 use App\repositories\UserRepository;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Logger;
 
 class UserController extends Controller
 {
@@ -847,8 +850,10 @@ class UserController extends Controller
      */
     public function actionBalanceAddRequest()
     {
-        Yii::log('Пришел запрос от Яндекса с уведомлением о пополнении баланса', 'info', 'system.web');
-        Yii::log('POST запрос: ' . print_r($_POST, true), 'info', 'system.web');
+        $paymentLogger = Yii::app()->container->container->get('paymentLogger');
+
+        $paymentLogger->log(Logger::INFO, 'Пришел запрос от Яндекса с уведомлением о пополнении баланса', [$_POST]);
+
         $yandexRequestData = new YaPayConfirmRequest();
         $yandexRequestData->setAttributes($_POST);
 
@@ -856,9 +861,12 @@ class UserController extends Controller
 
         $secret = Yii::app()->params['yandexMoneySecret'];
         $paymentProcessor = new YandexPaymentResponseProcessor($yandexRequestData, $secret, $checkSignature);
+        $paymentProcessor->setLogger($paymentLogger);
 
-        if (true != $paymentProcessor->process()) {
-            Yii::log('Ошибка при обработке платежа: ' . print_r($paymentProcessor->getErrors(), true), 'error', 'system.web');
+        try {
+            $paymentProcessor->process();
+        } catch (YandexPaymentException $paymentException) {
+            $paymentLogger->log(Logger::ERROR, 'Ошибка при обработке платежа: ' . $paymentException->getMessage());
             throw new CHttpException(400, 'Cannot process payment');
         }
     }

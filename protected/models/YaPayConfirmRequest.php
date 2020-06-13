@@ -34,6 +34,7 @@ class YaPayConfirmRequest extends CFormModel
     public $flat;
     public $fathersname;
     public $operation_label;
+    public $bill_id;
     public $email;
 
     /*
@@ -70,7 +71,7 @@ class YaPayConfirmRequest extends CFormModel
             ['email, password', 'required', 'message' => 'Поле {attribute} не может быть пустым'],
             // rememberMe needs to be a boolean
             ['codepro, unaccepted', 'boolean'],
-            ['notification_type, operation_id, currency, datetime, sender, label, sha1_hash', 'length', 'max' => 255],
+            ['notification_type, operation_id, currency, datetime, sender, label, sha1_hash, bill_id, operation_label', 'length', 'max' => 255],
             ['amount, withdraw_amount', 'numerical'],
         ];
     }

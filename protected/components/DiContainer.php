@@ -1,5 +1,6 @@
 <?php
 
+use App\components\serviceProviders\LogServiceProvider;
 use App\repositories\AnswerRepository;
 use App\repositories\QuestionRepository;
 use App\repositories\UserRepository;
@@ -18,6 +19,10 @@ class DiContainer extends CComponent
     {
         $this->container = new Container();
 
+        // load service providers
+        $this->container->addServiceProvider(new LogServiceProvider());
+
+        // bind classes
         $this->container->add(CommentService::class);
         $this->container->add(LeadService::class);
         $this->container->add(QuestionRSSFeedService::class);

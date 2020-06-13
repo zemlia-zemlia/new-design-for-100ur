@@ -2,6 +2,7 @@
 
 namespace App\tests\integration\components;
 
+use App\Exceptions\YandexPaymentException;
 use App\models\Answer;
 use App\models\Chat;
 use App\models\Money;
@@ -27,6 +28,26 @@ class YandexPaymentResponseProcessorTest extends BaseIntegrationTest
         Yii::app()->db->createCommand()->truncateTable(Question::getFullTableName());
         Yii::app()->db->createCommand()->truncateTable(Answer::getFullTableName());
         Yii::app()->db->createCommand()->truncateTable(Chat::getFullTableName());
+    }
+
+    /**
+     * Тест обработки невалидного запроса
+     * @throws YandexPaymentException
+     */
+    public function testProcessInvalidData()
+    {
+        $requestData = [
+            'label' => 'z-100',
+            'amount' => 125,
+        ];
+        $secret = 'test_secret';
+        $yandexRequestData = new YaPayConfirmRequest();
+        $yandexRequestData->setAttributes($requestData);
+
+        $paymentProcessor = new YandexPaymentResponseProcessor($yandexRequestData, $secret, false);
+
+        $this->expectException(YandexPaymentException::class);
+        $paymentProcessor->process();
     }
 
     /**
