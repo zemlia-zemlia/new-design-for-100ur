@@ -20,7 +20,6 @@ class TownByIpStrategyResolver
             return new Api8090();
         }
 
-        throw new CHttpException(404, 'Не задан сервис определения города по IP в .env');
+        throw new \Exception(404, 'Не задан сервис определения города по IP в .env');
     }
-
 }
