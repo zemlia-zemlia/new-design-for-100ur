@@ -26,26 +26,44 @@ Yii::app()->clientScript->registerScriptFile('/js/highcharts/js/highcharts.js');
 <h3 class="vert-margin30">Статистика продаж</h3>
 
 <div class="row">
-    <div class="col-md-6">
-        <form class="form-inline vert-margin20" role="form" action="">
-            Статистика за месяц:
-            <div class="form-group">
-                <?php echo CHtml::dropDownList('month', $month, $monthsArray, ['class' => 'form-control']); ?>
-            </div>
-            <div class="form-group">
-                <?php echo CHtml::dropDownList('year', $year, $yearsArray, ['class' => 'form-control']); ?>
-            </div>
-            <div class="form-group">
-                <?php echo CHtml::submitButton('Показать', ['class' => 'btn btn-primary']); ?>
-            </div>
-        </form>
+    <div class="col-md-3">
+        <h3>Cтатистика продаж</h3>
     </div>
-    <div class="col-md-6 right-align">
-        <?php echo CHtml::link('По датам', Yii::app()->createUrl('admin/lead/stats', ['type' => 'dates'])); ?>
-        &nbsp;&nbsp;
-        <?php echo CHtml::link('По кампаниям', Yii::app()->createUrl('admin/lead/stats', ['type' => 'campaigns'])); ?>
-        &nbsp;&nbsp;
-        <?php echo CHtml::link('Расходы', Yii::app()->createUrl('admin/expence')); ?>
+    <div class="col-md-5">
+        <div class="row">
+            <form class="form-inline" role="form" action="">
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group">
+                        <?php echo CHtml::dropDownList('month', $month, $monthsArray, [
+                            'class' => 'form-control',
+                            'style' => 'width:100%;'
+                        ]); ?>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group">
+                        <?php echo CHtml::dropDownList('year', $year, $yearsArray, [
+                            'class' => 'form-control',
+                            'style' => 'width:100%;'
+                        ]); ?>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    <div class="form-group">
+                        <?php echo CHtml::submitButton('Показать', ['class' => 'btn btn-primary']); ?>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-4 center-align">
+        <div class="vert-margin20">
+            <?php echo CHtml::link('По датам', Yii::app()->createUrl('admin/lead/stats', ['type' => 'dates'])); ?>
+            &nbsp;&nbsp;
+            <?php echo CHtml::link('По кампаниям', Yii::app()->createUrl('admin/lead/stats', ['type' => 'campaigns'])); ?>
+            &nbsp;&nbsp;
+            <?php echo CHtml::link('Расходы', Yii::app()->createUrl('admin/expence')); ?>
+        </div>
     </div>
 </div>
 
