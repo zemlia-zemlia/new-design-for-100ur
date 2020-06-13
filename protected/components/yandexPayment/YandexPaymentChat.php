@@ -1,13 +1,20 @@
 <?php
 
+namespace App\components\yandexPayment;
+
 use App\extensions\Logger\LoggerFactory;
 use App\models\Chat;
 use App\models\Money;
 use App\models\TransactionCampaign;
 use App\models\User;
 use App\models\YaPayConfirmRequest;
+use CHtml;
+use CHttpException;
+use Exception;
+use MoneyFormat;
+use Yii;
 
-class YandexPaymentChat implements YandexPaymentProcessorInterface
+class YandexPaymentChat extends AbstractYandexPayment
 {
     /** @var Chat */
     private $chat;

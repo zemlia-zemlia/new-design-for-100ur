@@ -1,12 +1,19 @@
 <?php
 
+namespace App\components\yandexPayment;
+
 use App\extensions\Logger\LoggerFactory;
 use App\models\Answer;
 use App\models\Money;
 use App\models\TransactionCampaign;
 use App\models\YaPayConfirmRequest;
+use CHtml;
+use CHttpException;
+use Exception;
+use MoneyFormat;
+use Yii;
 
-class YandexPaymentAnswer implements YandexPaymentProcessorInterface
+class YandexPaymentAnswer extends AbstractYandexPayment
 {
     private $answer;
     private $moneyTransaction;

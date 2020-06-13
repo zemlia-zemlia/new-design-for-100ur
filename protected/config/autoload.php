@@ -3,7 +3,6 @@
 return [
     'application.components.*',
     'application.components.emailParsers.*',
-    'application.components.yandexPayment.*',
     'application.extensions.*',
     'application.extensions.feed.*',
     'application.extensions.XWebDebugRouter.*',

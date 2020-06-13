@@ -2,6 +2,8 @@
 
 namespace App\tests\integration\components;
 
+use App\components\yandexPayment\YandexPaymentAnswer;
+use App\components\yandexPayment\YandexPaymentChat;
 use App\Exceptions\YandexPaymentException;
 use App\models\Answer;
 use App\models\Chat;
@@ -170,7 +172,7 @@ class YandexPaymentResponseProcessorTest extends BaseIntegrationTest
         $this->assertTrue($processResult);
         $this->tester->seeInDatabase(User::getFullTableName(), [
             'id' => 100,
-            'balance' => 12500 * (1 - \YandexPaymentAnswer::SERVICE_COMMISSION),
+            'balance' => 12500 * (1 - YandexPaymentAnswer::SERVICE_COMMISSION),
         ]);
 
         $this->tester->seeInDatabase(Money::getFullTableName(), [
@@ -180,7 +182,7 @@ class YandexPaymentResponseProcessorTest extends BaseIntegrationTest
         ]);
 
         $this->tester->seeInDatabase(TransactionCampaign::getFullTableName(), [
-            'sum' => 12500 * (1 - \YandexPaymentAnswer::SERVICE_COMMISSION),
+            'sum' => 12500 * (1 - YandexPaymentAnswer::SERVICE_COMMISSION),
             'buyerId' => 100,
         ]);
     }
@@ -238,7 +240,7 @@ class YandexPaymentResponseProcessorTest extends BaseIntegrationTest
         ]);
 
         $this->tester->seeInDatabase(TransactionCampaign::getFullTableName(), [
-            'sum' => 10000 * (1 - \YandexPaymentChat::SERVICE_COMMISSION),
+            'sum' => 10000 * (1 - YandexPaymentChat::SERVICE_COMMISSION),
             'buyerId' => 101,
         ]);
     }

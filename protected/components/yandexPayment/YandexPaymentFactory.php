@@ -1,6 +1,9 @@
 <?php
 
+namespace App\components\yandexPayment;
+
 use App\models\YaPayConfirmRequest;
+use YandexPaymentResponseProcessor;
 
 class YandexPaymentFactory
 {

@@ -1,5 +1,6 @@
 <?php
 
+use App\components\yandexPayment\YandexPaymentFactory;
 use App\Exceptions\YandexPaymentException;
 use App\models\YaPayConfirmRequest;
 use Monolog\Logger;
@@ -65,6 +66,8 @@ class YandexPaymentResponseProcessor
         // данные от яндекса не подделаны, можно зачислять бабло
         $paymentProcessorFactory = new YandexPaymentFactory($this->entityId, $this->request);
         $paymentProcessor = $paymentProcessorFactory->createPaymentClass($this->paymentType);
+        /** AbstractYandexPayment $paymentProcessor */
+        $paymentProcessor->setLogger($this->logger);
 
         try {
             return $paymentProcessor->process();
