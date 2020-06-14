@@ -46,10 +46,14 @@ class GeoHelper
             $apiService = $apiResolver->createClass();
             $townName = $apiService->getCityName($ip);
 
-
+            $userAgent = Yii::app()->request->getUserAgent();
             $ipServiceLogger = Yii::app()->monolog->getNewLogger('town_by_ip', [new RotatingFileHandler(Yii::getPathOfAlias('webroot') .
                 '/protected/runtime/town_by_ip/request.txt', Logger::DEBUG)]);
-            $ipServiceLogger->addDebug('success', ['ip' => $ip, 'town' => $townName]);
+            $ipServiceLogger->addDebug('success', [
+                'ip' => $ip,
+                'town' => $townName,
+                'userAgent' => $userAgent,
+            ]);
 
             $currentTown = null;
             if ($townName) {
