@@ -13,28 +13,37 @@ use App\components\detectCityByIp\TownByIpStrategyResolver;
 class GeoHelper
 {
     /**
+     * @deprecated
      * @return string|null
      */
-    public static function detectTownLink(?string $ip = null, string $selector)
-    {
-        $town = self::detectTown($ip);
-        if ($town) {
-            $link = CHtml::link($town . '?', '', ['onclick' => "$('" . $selector . "').val('" . $town . "')", 'class' => 'suggest-link']);
-
-            return $link;
-        }
-
-        return null;
-    }
+//    public static function detectTownLink(?string $ip = null, string $selector)
+//    {
+//        $town = self::detectTown($ip);
+//        if ($town) {
+//            $link = CHtml::link($town . '?', '', ['onclick' => "$('" . $selector . "').val('" . $town . "')", 'class' => 'suggest-link']);
+//
+//            return $link;
+//        }
+//
+//        return null;
+//    }
 
     /**
      * Определение города пользователя по IP адресу.
      *
+     * @param string|null $ip
+     * @param string|null $userAgent
+     * @param DetectBotHelper $botDetector
      * @return Town город или NULL
+     * @throws \Exception
      */
-    public static function detectTown(?string $ip = null): ?Town
+    public static function detectTown(?string $ip = null, ?string $userAgent = null, DetectBotHelper $botDetector): ?Town
     {
         $town = null;
+
+        if ($userAgent && $botDetector->detectBot($userAgent)) {
+            return null;
+        }
 
         if (!Yii::app()->user->getState('currentTownId')) {
             // если принудительно не задан IP, берем текущий IP адрес

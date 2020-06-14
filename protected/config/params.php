@@ -57,7 +57,7 @@ return [
     ],
     'priceCoeff' => 1.6,
     'yandexMoneySecret' => getenv('YANDEX_MONEY_SECRET'),
-    'yandexMoneyCheckSignature' => (bool) getenv('YANDEX_MONEY_CHECK_SIGNATURE'),
+    'yandexMoneyCheckSignature' => (bool)getenv('YANDEX_MONEY_CHECK_SIGNATURE'),
     'smtpServer' => getenv('SMTP_SERVER'),
     'smtpPort' => getenv('SMTP_PORT'),
     'smtpLogin' => getenv('SMTP_LOGIN'),
@@ -100,4 +100,14 @@ return [
     ],
     'detectTownByIP' => getenv('DETECT_TOWN_BY_IP'),
     'townByIpService' => getenv('TOWN_BY_IP_SERVICE'),
+    'bots' => [
+        'SemrushBot',
+        'YandexBot',
+        'AhrefsBot',
+        'Dotbot',
+        'bingbot',
+        'Mail.RU_Bot',
+        'PetalBot',
+        'Googlebot',
+    ],
 ];

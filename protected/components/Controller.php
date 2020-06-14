@@ -1,5 +1,6 @@
 <?php
 
+use App\helpers\DetectBotHelper;
 use App\helpers\GeoHelper;
 use App\models\User;
 
@@ -91,7 +92,11 @@ class Controller extends CController
         if (empty($currentTownId) && Yii::app()->params['detectTownByIP'] == 1 && getenv('ENV') == 'prod') {
             // если не сохранен, определим по IP
 
-            $currentTownByIp = GeoHelper::detectTown();
+            $currentTownByIp = GeoHelper::detectTown(
+                null,
+                Yii::app()->request->getUserAgent(),
+                new DetectBotHelper(Yii::app()->params['bots'])
+            );
 
             if ($currentTownByIp) {
                 Yii::app()->user->setState('currentTownId', $currentTownByIp->id);
