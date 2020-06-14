@@ -110,5 +110,6 @@ return [
         'PetalBot',
         'Googlebot',
         'DynatraceSynthetic',
+        'mj12bot',
     ],
 ];
