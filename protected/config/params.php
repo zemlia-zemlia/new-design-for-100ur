@@ -109,5 +109,6 @@ return [
         'Mail.RU_Bot',
         'PetalBot',
         'Googlebot',
+        'DynatraceSynthetic',
     ],
 ];
