@@ -25,7 +25,7 @@ foreach (Yii::app()->user->getFlashes() as $key => $message) {
 
 <div class="row">
     <div class="col-lg-6">
-        <?php if ($balanceTopupEnabled === 1):?>
+        <?php if ($balanceTopupEnabled == 1):?>
             <?php echo $this->renderPartial('_yandexForm'); ?>
         <?php else:?>
             <p class="text-warning">По техническим причинам, пополнение баланса временно недоступно</p>
