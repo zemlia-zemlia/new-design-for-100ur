@@ -151,13 +151,14 @@ class TransactionController extends Controller
             $justCreated = false;
         }
 
-        echo $this->render('index', [
+        $this->render('index', [
             'dataProvider' => $dataProvider,
             'balance' => $balance,
             'hold' => $hold,
             'transaction' => $newTransaction,
             'justCreated' => $justCreated,
             'requestsDataProvider' => $requestsDataProvider,
+            'balanceTopupEnabled' => Yii::app()->params['balance_topup_enabled'],
         ]);
     }
 

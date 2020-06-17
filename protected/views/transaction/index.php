@@ -3,6 +3,8 @@
 use App\models\PartnerTransaction;
 use App\models\User;
 
+/** @var int $balanceTopupEnabled */
+
 $this->pageTitle = 'Транзакции пользователя. ' . Yii::app()->name;
 
 ?>
@@ -23,7 +25,11 @@ foreach (Yii::app()->user->getFlashes() as $key => $message) {
 
 <div class="row">
     <div class="col-lg-6">
-        <?php echo $this->renderPartial('_yandexForm'); ?>
+        <?php if ($balanceTopupEnabled === 1):?>
+            <?php echo $this->renderPartial('_yandexForm'); ?>
+        <?php else:?>
+            <p class="text-warning">По техническим причинам, пополнение баланса временно недоступно</p>
+        <?php endif;?>
     </div>
     <?php if (User::ROLE_JURIST == Yii::app()->user->role): ?>
         <div class="col-lg-6">

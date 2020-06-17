@@ -112,4 +112,5 @@ return [
         'DynatraceSynthetic',
         'mj12bot',
     ],
+    'balance_topup_enabled' => getenv('BALANCE_TOPUP_ENABLED'),
 ];
