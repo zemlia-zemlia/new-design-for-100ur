@@ -13,7 +13,7 @@ use Exception;
 use MoneyFormat;
 use Yii;
 
-class YandexPaymentAnswer extends AbstractYandexPayment
+class YandexPaymentProcessorAnswer extends AbstractYandexPaymentProcessor
 {
     private $answer;
     private $moneyTransaction;
@@ -37,6 +37,10 @@ class YandexPaymentAnswer extends AbstractYandexPayment
     {
         if (is_null($this->answer)) {
             return false;
+        }
+
+        if ($this->checkIfPaymentExists($this->request->operation_id)) {
+            return true;
         }
 
         $amount = $this->request->amount * 100;
@@ -64,6 +68,9 @@ class YandexPaymentAnswer extends AbstractYandexPayment
         try {
             if ($yurist->save() && $moneyTransaction->save() && $yuristTransaction->save()) {
                 $saveTransaction->commit();
+
+                $this->saveProcessedOperation($this->request->operation_id, $this->request->label);
+
                 Yii::log('Пришло бабло благодарность юристу ' . $yurist->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'info', 'system.web');
                 LoggerFactory::getLogger('db')->log('Благодарность юристу #' . $yurist->id . ') ' . MoneyFormat::rubles($amount) . ' руб.', 'User', $yurist->id);
                 $yurist->sendDonateNotification($this->answer, $yuristBonus);

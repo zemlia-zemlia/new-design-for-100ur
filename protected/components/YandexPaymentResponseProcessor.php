@@ -68,6 +68,7 @@ class YandexPaymentResponseProcessor
         $paymentProcessor = $paymentProcessorFactory->createPaymentClass($this->paymentType);
         /** AbstractYandexPayment $paymentProcessor */
         $paymentProcessor->setLogger($this->logger);
+        $paymentProcessor->setYandexPaymentRepository(new \App\repositories\YandexPaymentRepository());
 
         try {
             return $paymentProcessor->process();

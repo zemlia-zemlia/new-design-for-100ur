@@ -14,7 +14,7 @@ use Exception;
 use MoneyFormat;
 use Yii;
 
-class YandexPaymentChat extends AbstractYandexPayment
+class YandexPaymentProcessorChat extends AbstractYandexPaymentProcessor
 {
     /** @var Chat */
     private $chat;
@@ -40,6 +40,10 @@ class YandexPaymentChat extends AbstractYandexPayment
     {
         if (is_null($this->chat)) {
             return false;
+        }
+
+        if ($this->checkIfPaymentExists($this->request->operation_id)) {
+            return true;
         }
 
         $amount = $this->request->amount * 100;
@@ -88,6 +92,8 @@ class YandexPaymentChat extends AbstractYandexPayment
                 $clientTransactionChat->save()
             ) {
                 $saveTransaction->commit();
+                $this->saveProcessedOperation($this->request->operation_id, $this->request->label);
+
             } else {
                 $saveTransaction->rollback();
                 Yii::log('Ошибки: ' . print_r($yurist->errors, true) . ' ' . print_r($moneyTransaction->errors, true), 'error', 'system.web');

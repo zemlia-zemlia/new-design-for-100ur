@@ -20,13 +20,13 @@ class YandexPaymentFactory
     {
         switch ($paymentType) {
             case YandexPaymentResponseProcessor::TYPE_USER:
-                return new YandexPaymentUser($this->entityId, $this->request);
+                return new YandexPaymentProcessorUser($this->entityId, $this->request);
             case YandexPaymentResponseProcessor::TYPE_QUESTION:
-                return new YandexPaymentQuestion($this->entityId, $this->request);
+                return new YandexPaymentProcessorQuestion($this->entityId, $this->request);
             case YandexPaymentResponseProcessor::TYPE_ANSWER:
-                return new YandexPaymentAnswer($this->entityId, $this->request);
+                return new YandexPaymentProcessorAnswer($this->entityId, $this->request);
             case YandexPaymentResponseProcessor::TYPE_CHAT:
-                return new YandexPaymentChat($this->entityId, $this->request);
+                return new YandexPaymentProcessorChat($this->entityId, $this->request);
         }
     }
 }

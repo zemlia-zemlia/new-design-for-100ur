@@ -6,6 +6,7 @@ use App\extensions\Logger\LoggerFactory;
 use App\models\Money;
 use App\models\TransactionCampaign;
 use App\models\User;
+use App\models\YandexPayment;
 use App\models\YaPayConfirmRequest;
 use CHttpException;
 use Exception;
@@ -13,7 +14,7 @@ use MoneyFormat;
 use Monolog\Logger;
 use Yii;
 
-class YandexPaymentUser extends AbstractYandexPayment
+class YandexPaymentProcessorUser extends AbstractYandexPaymentProcessor
 {
     private $userId;
     private $user;
@@ -40,6 +41,11 @@ class YandexPaymentUser extends AbstractYandexPayment
         if (is_null($this->user)) {
             return false;
         }
+
+        if ($this->checkIfPaymentExists($this->request->operation_id)) {
+            return true;
+        }
+
         $amount = $this->request->amount * 100;
         Yii::log('Пополняем баланс пользователя: ' . $this->user->getShortName(), 'info', 'system.web');
         $this->log(Logger::INFO, 'Пополняем баланс пользователя: ' . $this->user->getShortName());
@@ -62,6 +68,9 @@ class YandexPaymentUser extends AbstractYandexPayment
         try {
             if ($transaction->save() && $moneyTransaction->save() && $this->user->save(false)) {
                 $saveTransaction->commit();
+
+                $this->saveProcessedOperation($this->request->operation_id, $this->request->label);
+
                 Yii::log('Транзакция сохранена, id: ' . $transaction->id, 'info', 'system.web');
                 Yii::log('Пришло бабло от пользователя ' . $this->user->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'info', 'system.web');
                 LoggerFactory::getLogger('db')->log('Пополнение баланса пользователя #' . $this->user->id . '(' . $this->user->getShortName() . ') на ' . MoneyFormat::rubles($amount) . ' руб.', 'User', $this->user->id);

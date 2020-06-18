@@ -12,7 +12,7 @@ use MoneyFormat;
 use Monolog\Logger;
 use Yii;
 
-class YandexPaymentQuestion extends AbstractYandexPayment
+class YandexPaymentProcessorQuestion extends AbstractYandexPaymentProcessor
 {
     private $question;
     private $moneyTransaction;
@@ -36,6 +36,10 @@ class YandexPaymentQuestion extends AbstractYandexPayment
             return false;
         }
 
+        if ($this->checkIfPaymentExists($this->request->operation_id)) {
+            return true;
+        }
+
         $amount = $this->request->amount * 100;
         $amountBeforeCommission = $this->request->withdraw_amount * 100;
 
@@ -54,6 +58,8 @@ class YandexPaymentQuestion extends AbstractYandexPayment
         try {
             if ($this->question->save() && $moneyTransaction->save()) {
                 $saveTransaction->commit();
+                $this->saveProcessedOperation($this->request->operation_id, $this->request->label);
+
                 Yii::log('Вопрос сохранен, id: ' . $this->question->id, 'info', 'system.web');
                 Yii::log('Пришло бабло за вопрос ' . $this->question->id . ' (' . MoneyFormat::rubles($amount) . ' руб.)', 'info', 'system.web');
                 LoggerFactory::getLogger('db')->log('Оплата вопроса #' . $this->question->id . ') на ' . MoneyFormat::rubles($amount) . ' руб.', 'Question', $this->question->id);
