@@ -13,22 +13,6 @@ use App\components\detectCityByIp\TownByIpStrategyResolver;
 class GeoHelper
 {
     /**
-     * @deprecated
-     * @return string|null
-     */
-//    public static function detectTownLink(?string $ip = null, string $selector)
-//    {
-//        $town = self::detectTown($ip);
-//        if ($town) {
-//            $link = CHtml::link($town . '?', '', ['onclick' => "$('" . $selector . "').val('" . $town . "')", 'class' => 'suggest-link']);
-//
-//            return $link;
-//        }
-//
-//        return null;
-//    }
-
-    /**
      * Определение города пользователя по IP адресу.
      *
      * @param string|null $ip
@@ -51,18 +35,28 @@ class GeoHelper
                 $ip = IpHelper::getUserIP();
             }
 
-            $apiResolver = new TownByIpStrategyResolver();
-            $apiService = $apiResolver->createClass();
-            $townName = $apiService->getCityName($ip);
+            $ipCacheKey = 'unknown_town_ip_' . $ip;
+            // в кеше сохраняем ip адреса, для которых не удается определить город, чтобы повторно не дергать внешний сервис
+            if (Yii::app()->cache->get($ipCacheKey) !== false) {
+                $townName = null;
+            } else {
+                $apiResolver = new TownByIpStrategyResolver();
+                $apiService = $apiResolver->createClass();
+                $townName = $apiService->getCityName($ip);
 
-            $userAgent = Yii::app()->request->getUserAgent();
-            $ipServiceLogger = Yii::app()->monolog->getNewLogger('town_by_ip', [new RotatingFileHandler(Yii::getPathOfAlias('webroot') .
-                '/protected/runtime/town_by_ip/request.txt', Logger::DEBUG)]);
-            $ipServiceLogger->addDebug('success', [
-                'ip' => $ip,
-                'town' => $townName,
-                'userAgent' => $userAgent,
-            ]);
+                if ($townName == null) {
+                    Yii::app()->cache->set($ipCacheKey, 1, 600);
+                }
+
+                $userAgent = Yii::app()->request->getUserAgent();
+                $ipServiceLogger = Yii::app()->monolog->getNewLogger('town_by_ip', [new RotatingFileHandler(Yii::getPathOfAlias('webroot') .
+                    '/protected/runtime/town_by_ip/request.txt', Logger::DEBUG)]);
+                $ipServiceLogger->addDebug('success', [
+                    'ip' => $ip,
+                    'town' => $townName,
+                    'userAgent' => $userAgent,
+                ]);
+            }
 
             $currentTown = null;
             if ($townName) {
