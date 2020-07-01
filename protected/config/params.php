@@ -111,6 +111,7 @@ return [
         'Googlebot',
         'DynatraceSynthetic',
         'mj12bot',
+        'ZoominfoBot',
     ],
     'balance_topup_enabled' => getenv('BALANCE_TOPUP_ENABLED'),
 ];
