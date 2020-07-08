@@ -266,7 +266,7 @@ class Post extends CActiveRecord
             ->leftJoin('{{postviews}} v', 'v.postId=p.id')
             ->leftJoin('{{comment}} c', 'c.objectId = p.id AND c.type=' . Comment::TYPE_POST)
             ->group('p.id')
-            ->where('p.datePublication<NOW() AND p.datePublication > NOW() - INTERVAL :days DAY AND (c.status IS NULL OR c.status!=:spam)', [
+            ->where('p.datePublication<NOW() AND p.datePublication > NOW() - INTERVAL :days DAY AND (c.status IS NULL OR c.status !=:spam)', [
                 ':days' => $intervalDays,
                 ':spam' => Comment::STATUS_SPAM,
             ])

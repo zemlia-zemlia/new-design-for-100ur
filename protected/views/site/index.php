@@ -4,257 +4,262 @@ Yii::app()->clientScript->registerMetaTag('100 Юристов - круглосу
 Yii::app()->clientScript->registerMetaTag('бесплатная юридическая консультация онлайн', 'keywords');
 Yii::app()->clientScript->registerLinkTag('canonical', null, 'https://' . $_SERVER['SERVER_NAME']);
 ?>
-<div class="row">
-    <div class="col-sm-12">
-        <h1>Бесплатная юридическая консультация</h1>
-        <div class="vert-margin40">
-            <p>
-                Наш интернет-портал сотрудничая с юристами и адвокатами высокого профессионального уровня предоставляет
-                возможность
-                получить профессиональную бесплатную юридическую консультацию онлайн, а также заказать нужный документ
-                или
-                найти
-                юриста из вашего города или региона для представления интересов в судах и организациях. Получить
-                бесплатную
-                юридическую консультацию онлайн могут как жители Москвы и СПБ, так и других регионов России и СНГ. На
-                все
-                вопросы
-                отвечают специалисты которые прошли проверку наличия профильного образования и знаний сотрудниками
-                нашего
-                портала.
-            </p>
-            <p>
-                Консультации от профессионалов - вы можете не только поинтересоваться тем, как обстоят ваши дела в
-                отношении
-                спорной
-                или ситуации, а также в случае судебного процесса понять есть ли у вас шансы выиграть дело в котором вы
-                участвуете
-                не только как истец, но и как ответчик. Вы можете получить настоящую бесплатную эффективную юридическую
-                помощь и
-                поддержку, ведь наши специалисты имеют огромный практический опыт взаимодействия в вопросах самых
-                различных
-                сфер и
-                направлений.
-            </p>
+
+
+<section class="steps">
+    <div class="container">
+        <h2 class="steps__title section-title">Как это работает?</h2>
+        <div class="row justify-content-center align-items-stretch">
+            <div class="col-sm-4 col-lg-3">
+                <div class="steps__item">
+                    <div class="steps__item-top">
+                        <div class="steps__item-img">
+                            <img src="img/steps-item-img-1.png" alt="">
+                        </div>
+                        <div class="steps__item-value">шаг 1</div>
+                    </div>
+                    <div class="steps__item-bottom">
+                        <div class="steps__item-title">Задайте вопрос</div>
+                        <div class="steps__item-desc">Мы получаем более 1500 вопросов каждый день. Задайте свой!</div>
+                        <div class="arrow_box"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-lg-3">
+                <div class="steps__item">
+                    <div class="steps__item-top">
+                        <div class="steps__item-img img">
+                            <img src="img/steps-item-img-2.png" alt="">
+                        </div>
+                        <div class="steps__item-value">шаг 2</div>
+                    </div>
+                    <div class="steps__item-bottom">
+                        <div class="steps__item-title">Получите ответы</div>
+                        <div class="steps__item-desc">На вопросы круглосуточно отвечают юристы со всей России. Среднее время ответа - 15 минут.</div>
+                        <div class="arrow_box"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-lg-3">
+                <div class="steps__item">
+                    <div class="steps__item-top">
+                        <div class="steps__item-img img">
+                            <img src="img/steps-item-img-3.png" alt="">
+                        </div>
+                        <div class="steps__item-value">шаг 3</div>
+                    </div>
+                    <div class="steps__item-bottom">
+                        <div class="steps__item-title">Проблема решена</div>
+                        <div class="steps__item-desc">95,4% клиентов остаются полностью довольны ответами и рекомендуют нас друзьям.</div>
+                        <div class="arrow_box"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 steps__separator">Или</div>
+            <div class="col-sm-4 col-lg-3">
+                <div class="steps__item">
+                    <div class="steps__item-top">
+                        <div class="steps__item-img img">
+                            <img src="img/steps-item-img-4.png" alt="">
+                        </div>
+                        <div class="steps__item-value">шаг 1</div>
+                    </div>
+                    <div class="steps__item-bottom">
+                        <div class="steps__item-title">Закажите обратный звонок</div>
+                        <div class="steps__item-desc">Мы получаем более 1500 вопросов каждый день. Задайте свой!</div>
+                        <div class="arrow_box"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-lg-3">
+                <div class="steps__item">
+                    <div class="steps__item-top">
+                        <div class="steps__item-img img">
+                            <img src="img/steps-item-img-5.png" alt="">
+                        </div>
+                        <div class="steps__item-value">шаг 2</div>
+                    </div>
+                    <div class="steps__item-bottom">
+                        <div class="steps__item-title">Получите консультацию по телефону</div>
+                        <div class="steps__item-desc">На вопросы круглосуточно отвечают юристы со всей России. Среднее время ответа - 15 минут.</div>
+                        <div class="arrow_box"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
-<div class="row">
-    <div class="col-sm-10 col-sm-offset-1">
-        <div class="popular-questions vert-margin40">
-            <h3>Примеры бесплатных онлайн-консультаций</h3>
-            <?php
-            $this->widget('application.widgets.PopularQuestions.PopularQuestions', [
-                'template' => 'default',
-                'cacheTime' => 10,
-            ]);
-            ?>
-        </div>
-    </div>
-</div>
 
-<div class="row vert-margin40">
-    <div class="col-sm-8 col-sm-offset-2">
-        <div class="vert-margin20">
-            <?php
-            // выводим виджет с формой
-            $this->widget('application.widgets.SimpleForm.SimpleForm', [
-                'template' => 'gorizont',
-            ]);
-            ?>
-        </div>
-    </div>
-</div>
 
-<div class="row hidden-xs">
-    <div class="col-sm-10 col-sm-offset-1 vert-margin40">
-        <h3 id="left-menu-switch" class="vert-margin40">Справочные материалы по темам:</h3>
         <?php
         // выводим виджет с деревом категорий
         $this->widget('application.widgets.CategoriesTree.CategoriesTree', [
             'template' => 'columns',
         ]);
         ?>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-sm-12">
-        <h3>Новые ответы юристов на вопросы онлайн</h3>
-        <div class="vert-margin30">
+
+
+
             <?php
             // выводим виджет с последними ответами
             $this->widget('application.widgets.RecentAnswers.RecentAnswers', [
-                'template' => 'page',
+                'template' => 'default',
                 'limit' => 4,
                 'cacheTime' => 3600,
             ]);
             ?>
+
+<!-- Benefits -->
+<section class="benefits">
+    <div class="benefits__bg">
+        <img src="img/benefits-bg.png" alt="">
+    </div>
+    <div class="container">
+        <div class="benefits__item">
+            <div class="benefits__item-img img">
+                <img src="img/benefits-item-img-1.png" alt="">
+            </div>
+            <div class="benefits__item-desc">100% гарантия качества</div>
+        </div>
+        <div class="benefits__item">
+            <div class="benefits__item-img img">
+                <img src="img/benefits-item-img-2.png" alt="">
+            </div>
+            <div class="benefits__item-desc">Политика защиты клиентов </div>
         </div>
     </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-12">
-        <div class="vert-margin30">
-            <?php
-            // выводим виджет с последними ответами
-            $this->widget('application.widgets.Testimonials.TestimonialsWidget', [
-                'template' => 'default',
-                'limit' => 6,
-                'cacheTime' => 3600,
-            ]);
-            ?>
-        </div>
-    </div>
-</div>
-<p class="text-center"><a class="yellow-button arrow" href="<?php echo Yii::app()->createUrl('/site/feedback'); ?>">Все отзывы наших клиентов</a></p>
+</section>
 
 
-<div class="row">
-    <div class="col-sm-12">
-        <div class="vert-margin40">
-            <h2>Онлайн консультация юриста</h2>
-            <p>
-                Помощь специалиста в суде или его консультация может быть предоставлена в самых различных сферах
-                правовой
-                практики. Заметьте, что данная услуга оказывается бесплатно. Вам дается возможность получить юридическую
-                консультацию по всем вопросам, с которыми вы можете столкнуться на работе, дома, на даче и т.д. Юрист
-                нам
-                требуется не менее часто чем например врач, ведь наши с вами права могут нарушаться где угодно, от
-                незаконного
-                сбора членских взносов в дачном кооперативе до залива квартиры соседями или обмана в магазине. При
-                каждом
-                таком
-                случае необходимо понимать как поступить правильно чтобы не усугубить ситуацию или ее разрешить, в этом
-                вам
-                помогут адвокаты нашего портала. И для этого не обязательно регистрироваться или оставлять свой номер
-                телефона,
-                все можно сделать в режиме онлайн.
-                <br/>
-                Стоит отметить, что бесплатная юридическая консультация онлайн, во время которой можно задать вопросы,
-                проводится в любое удобное для вас время. Это значит, что при необходимости вы можете получить нужную
-                информацию
-                даже в ночное время.
-            </p>
-        </div>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-sm-8 col-sm-offset-2">
-        <div class="inside flat-panel vert-margin40">
-            <div class="center-align">
-                <h2>Консультации по телефону</h2>
-                <?php
-                    // выводим виджет с номером 8800
-                    $this->widget('application.widgets.Hotline.HotlineWidget', [
-                        'showAlways' => true,
-                    ]);
-                ?>
-                <p>Оставьте запрос на консультацию и вам перезванивает наш специалист.</p>
+<?php
+// выводим виджет с последними отзывами
+$this->widget('application.widgets.Testimonials.TestimonialsWidget', [
+    'template' => 'default',
+    'limit' => 6,
+    'cacheTime' => 3600,
+]);
+?>
+
+
+<section class="questions">
+    <div class="container">
+        <div id="questionsContainer">
+            <ul class="questions__list">
+                <li class="questions__list-item">
+                    <a href="#tab1" class="questions__list-link">Бесплатные вопросы</a>
+                </li>
+                <li class="questions__list-item">
+                    <a href="#tab2" class="questions__list-link">Платные вопросы</a>
+                </li>
+            </ul>
+
+            <div id="tab1">
+                <div class="question-free__gallery">
+                    <!-- Swiper -->
+                    <div class="question-free-swiper-container">
+                        <div class="swiper-wrapper">
+
+
+                            <?php
+                            $this->widget('application.widgets.PopularQuestions.PopularQuestions', [
+                                'template' => 'default',
+                                'cacheTime' => 10,
+                            ]);
+                            ?>
+                        </div>
+                    </div>
+                    <!-- Add Arrows -->
+                    <div class="question-free-button-next"></div>
+                    <div class="question-free-button-prev"></div>
+                    <!-- Add Pagination -->
+                    <div class="question-free-pagination"></div>
+                </div>
+                <a href="" class="question__btn">Показать все вопросы</a>
+            </div>
+
+            <div id="tab2">
+                <div class="question-paid__gallery">
+                    <!-- Swiper -->
+                    <div class="question-paid-swiper-container">
+                        <div class="swiper-wrapper">
+                            <?php
+                            $this->widget('application.widgets.PopularQuestions.PopularQuestions', [
+                                'template' => 'default',
+                                'cacheTime' => 10,
+                                'showPayed' => true
+
+                            ]);
+                            ?>
+                        </div>
+                    </div>
+                    <!-- Add Arrows -->
+                    <div class="question-paid-button-next"></div>
+                    <div class="question-paid-button-prev"></div>
+                    <!-- Add Pagination -->
+                    <div class="question-paid-pagination"></div>
+                </div>
+                <a href="" class="question__btn">Показать все вопросы</a>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<div class="row">
-    <div class="col-sm-12">
-        <h3 class="vert-margin20">Обсуждаемые новости</h3>
-        <div class='vert-margin30'>
+
+
+
 
             <?php
             $this->widget('application.widgets.RecentPosts.RecentPosts', [
                 'number' => 6,
                 'order' => 'fresh_views',
-                'intervalDays' => 160,
+                'intervalDays' => 1160,
                 'template' => 'horizontal',
             ]);
             ?>
-        </div>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-sm-12 vert-margin40">
 
-        <div class="row hidden-xs">
-            <h2>Бесплатная юридическая консультация онлайн</h2>
-            <div class="col-sm-4">
-                <strong>Задать вопрос юристу онлайн бесплатно (консультация онлайн)</strong> - в специальной форме
-                вы
-                описываете свою ситуацию как можно подробнее, чтобы юрист или адвокат нашего проекта смог детально в
-                ней
-                разобраться и дать квалифицированный ответ на заданный вопрос. При этом вас не обязательно сидеть и
-                ждать ответ, при добавлении каждого ответа на вопрос мы вас оповестим по email который вы укажете.
-                Вы
-                сможете получить помощь не только в режиме онлайн и круглосуточно, но и совершенно бесплатно!
-            </div>
-            <div class="col-sm-4">
-                <strong>Консультация по телефону</strong> - Вы можете оставить свой запрос на консультацию по
-                телефону
-                со специалистом нашего портала и вам перезвонят, для вас консультация будет абсолютно бесплатной и
-                без
-                регистрации.
-            </div>
 
-            <div class="col-sm-4">
-                <strong>Заказ документа</strong> - Предоставляет возможность заказать любой документ который будет
-                составлен грамотным специалистом и в котором вы будете уверены на 100%, что он не будет вам
-                возвращен
-                или по нему будет вынесен отказ органом или организацией в которую вы его предоставите изза его
-                неправильного составления.
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-sm-12">
-        <p>
-            Людям часто приходится сталкиваться с необходимостью отстаивания своих прав и интересов во многих
-            областях,
-            большая часть из них перечислена в левой части (колонке) нашего портала которая озаглавлена как "темы
-            вопросов". Наш юридический портал предлагает вам услугу: бесплатный юрист онлайн без регистрации. При
-            несоблюдении условий договоров, при наличии хозяйственного спора наши квалифицированные специалисты
-            проведут
-            для вас полноценную консультацию с возможностью предоставления помощи на практике.
-        </p>
-        <p>
-            Предоставление бесплатной консультации в любой области права, также можно получить консультацию
-            относительно
-            трудового и гражданского права, при наличии проблем с кредитами или процесса банкротства, земельных
-            споров и
-            так далее. Собственно, если у вас имеются затруднения с решением вашего вопроса именно с точки зрения
-            юриспруденции, наши специалисты всегда готова предоставить вам свои услуги для того, чтобы решить
-            проблему с
-            наибольшей выгодой для вас.
-        </p>
-        <p>
-            На нашем сайте вы можете получить бесплатную правовую помощь без регистрации. Вы можете задать любой
-            вопрос
-            юристу или самостоятельно найти ответ в нашем архиве вопросов.
-        </p>
-        <p>
-            <strong>Бесплатная юридическая консультация онлайн и по телефону, круглосуточно и без
-                регистрации.</strong>
-        </p>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-12">
-        <h2>Новые правовые материалы </h2>
-
-        <div class="inside">
             <?php
             $this->widget('application.widgets.RecentCategories.RecentCategories', [
-                'number' => 6,
-                'template' => 'default1',
+                'number' => 3,
+                'template' => 'default',
                 'columns' => 3,
             ]);
             ?>
+
+
+<section class="about">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-md-7">
+                <h2 class="about__title section-title">О проекте</h2>
+                <div class="about__item">
+                    <h3 class="about__item-title">Бесплатная юридическая консультация</h3>
+                    <div class="about__item-desc">
+                        <p>Наш интернет-портал, сотрудничая с юристами и адвокатами высокого профессионального уровня, предоставляет возможность получить профессиональную бесплатную юридическую консультацию онлайн, а также заказать нужный документ или найти юриста из вашего города или региона для представления интересов в судах и организациях. </p>
+                        <p>Получить бесплатную юридическую консультацию онлайн могут как жители соквы и СПБ, так и других регионов России и СНГ. </p>
+                        <p>На все вопросы отвечают специалисты, которые прошли проверку наличия профильного образования и знаний сотрудниками нашего портала. </p>
+                        <p>Консультации от профессионалов - вы можете не только поинтересоваться тем, как обстоят ваши дела в отношении спорной ситуации, а также в случае судебного процесса понять, если ли у вас шансы выиграть дело, в котором вы участвуете не только как истец, но и как ответчик. Вы можете получить настоящую бесплатную эффективную юридическую помощь и поддержку, ведь наши специалисты имеют огромный опыт взаимодействия в вопросах самых различных сфер и направлений.</p>
+                    </div>
+                </div>
+                <div class="about__item">
+                    <h3 class="about__item-title">Онлайн-консультация юриста</h3>
+                    <div class="about__item-desc">
+                        <p>Помощь специалиста в суде или его консультация может быть предоставлена в самых различных сферах правовой практики. Заметьте, что данная услуга оказывается бесплатно. Вам дается возможность получить юридическую консультацию по всем вопросам, с которыми вы можете столкнуться на работе, дома, на даче и т.д. Юрист нам требуется не менее часто, чем, например, врач, ведь наши с вами права могут нарушаться где угодно: от незаконного сбора членских взносов в дачном кооперативе до залива квартиры соседями или обмана в магазине.</p>
+                        <p>При каждом таком случае необходимо понимать, как поступить правильно, чтобы не усугубить ситуацию или ее разрешить. В этом вам помогут адвокаты нашего портала. И для этого не обязательно регистрироваться или оставлять свой номер телефона.  Все можно сделать в режиме онлайн.</p>
+                        <p>Стоит отметить, что бесплатная юридическая консультация онлайн, во время которой можно задать вопросы, проводится в любое удобное для вас время. Это значит, что при необходимости вы можете получить нужную информацию даже в ночное время.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="about__widget">
+
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>

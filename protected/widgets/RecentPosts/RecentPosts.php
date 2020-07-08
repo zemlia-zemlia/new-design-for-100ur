@@ -14,8 +14,9 @@ class RecentPosts extends CWidget
 
     public function run()
     {
-        $recentPosts = Post::getRecentPosts($this->category, $this->number, $this->order, $this->intervalDays);
-
+//        $recentPosts = Post::getRecentPosts($this->category, $this->number, $this->order, $this->intervalDays);
+        $recentPosts = Post::model()->findAll(['limit' => 3, 'order' => 'id DESC']);
+//        CVarDumper::dump( $recentPosts,5,true);die;
         $this->render($this->template, [
             'recentPosts' => $recentPosts,
         ]);

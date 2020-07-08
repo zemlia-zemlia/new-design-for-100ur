@@ -14,6 +14,12 @@ class CategoriesTree extends CWidget
                 ->where('lft=1') // категории верхнего уровня
                 ->order('name')
                 ->queryAll();
+        $topCategoriesWithLetter = [];
+        foreach ($topCategories as $category){
+
+            $topCategoriesWithLetter[mb_substr($category['name'],0,1,"UTF-8")][] = $category;
+
+        }
 
         /*
          *  SELECT c.root, COUNT(*) counter FROM `100_questioncategory` c
@@ -39,7 +45,7 @@ class CategoriesTree extends CWidget
         }*/
 
         $this->render($this->template, [
-            'topCategories' => $topCategories,
+            'topCategories' => $topCategoriesWithLetter,
             'questionsByCategoriesArray' => $questionsByCategoriesArray,
         ]);
     }

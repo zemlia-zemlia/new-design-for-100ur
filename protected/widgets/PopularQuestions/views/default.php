@@ -1,36 +1,35 @@
-<?php use App\helpers\DateHelper;
+<?php
+
+use App\helpers\DateHelper;
 use App\helpers\NumbersHelper;
+use App\helpers\StringHelper;
+
 
 foreach ($questions as $question): ?>
-    <div class="question">
-        <div class="row">
-            <div class="col-sm-2">
-                <small class="text-muted">
-                    <?php
-                    $questionDatetime = (new DateTime($question['createDate']));
-                    $nowDate = (new DateTime(date('Y-m-d 00:00:00')));
-                    if ($questionDatetime >= $nowDate) {
-                        echo 'сегодня в ' . $questionDatetime->format('H:i');
-                    } else {
-                        echo DateHelper::niceDate($question['createDate'], false, false);
-                    }
-                    ?>
-                </small>
-            </div>
-            <div class="col-sm-8">
-                <?php echo CHtml::link(CHtml::encode($question['title']), Yii::app()->createUrl('question/view', ['id' => $question['id']])); ?>
-            </div>
-            <div class="col-sm-2 text-center small">
+    <div class="swiper-slide">
+        <div class="consultations__item">
+            <div class="consultations__date">
                 <?php
-                if (1 == $question['answersCount']) {
-                    echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> Есть ответ</span>";
-                } elseif ($question['answersCount'] > 1) {
-                    echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $question['answersCount'] . ' ' . NumbersHelper::numForms($question['answersCount'], 'ответ', 'ответа', 'ответов') . '</span>';
-                } elseif (0 == $question['answersCount']) {
-                    echo "<span class='text-muted'>Нет ответа</span>";
+                $questionDatetime = (new DateTime($question['createDate']));
+                $nowDate = (new DateTime(date('Y-m-d 00:00:00')));
+                if ($questionDatetime >= $nowDate) {
+                    echo 'сегодня в ' . $questionDatetime->format('H:i');
+                } else {
+                    echo DateHelper::niceDate($question['createDate'], false, false);
                 }
                 ?>
             </div>
+            <a href="" class="consultations__category">Категория права</a>
+            <div class="consultations__item-title"> <?= CHtml::encode($question['title']) ?></div>
+            <div class="consultations__item-desc"><?= StringHelper::cutString(CHtml::encode($question['questionText']), 70) ?></div>
+            <a href="" class="consultations__item-btn">
+                <span class="consultations__item-btn-title"><?= $question['answersCount'] ?> ответа</span>
+                <span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+            </a>
         </div>
     </div>
+
 <?php endforeach; ?>
+

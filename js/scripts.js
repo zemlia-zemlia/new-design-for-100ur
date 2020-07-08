@@ -3,7 +3,7 @@ $(function(){
 	
     $('[data-toggle="tooltip"]').tooltip();
          
-	$("#Question_phone, #User_phone, .phone-mask").mask("+7 (999) 999-9999");
+	// $("#Question_phone, #User_phone, .phone-mask").mask("+7 (999) 999-9999");
         
         $("#left-menu-switch").on('click', function(){
             $("ul#left-menu").toggle();
@@ -11,27 +11,27 @@ $(function(){
         
         
         
-        $( "#town-selector" ).autocomplete({
-            source:'/town/ajaxGetList/',
-            select: function(event, ui){
-                var townId = ui.item.id;
-                var townName = ui.item.value;
-
-                $("#selected-town").attr('value',townId);
-                $( "#town-selector" ).attr('value',townName);
-            }
-        });
-        
-        $( "#vuz-town-selector" ).autocomplete({
-            source:'/town/ajaxGetList/',
-            select: function(event, ui){
-                var townId = ui.item.id;
-                var townName = ui.item.value;
-
-                $("#vuz-selected-town").attr('value',townId);
-                $( "#vuz-town-selector" ).attr('value',townName);
-            }
-        });
+        // $( "#town-selector" ).autocomplete({
+        //     source:'/town/ajaxGetList/',
+        //     select: function(event, ui){
+        //         var townId = ui.item.id;
+        //         var townName = ui.item.value;
+        //
+        //         $("#selected-town").attr('value',townId);
+        //         $( "#town-selector" ).attr('value',townName);
+        //     }
+        // });
+        //
+        // $( "#vuz-town-selector" ).autocomplete({
+        //     source:'/town/ajaxGetList/',
+        //     select: function(event, ui){
+        //         var townId = ui.item.id;
+        //         var townName = ui.item.value;
+        //
+        //         $("#vuz-selected-town").attr('value',townId);
+        //         $( "#vuz-town-selector" ).attr('value',townName);
+        //     }
+        // });
                 
         $(".link-karma-plus").on("click", function(e){
             e.preventDefault();

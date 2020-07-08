@@ -1,15 +1,46 @@
-<?php foreach ($topCategories as $index => $cat): ?>
 
-    <?php if (0 == $index % 3): ?>
+<!-- Categories -->
+<section class="categories">
+    <div class="container">
+        <h2 class="categories__title section-title">Категории справочных материалов</h2>
         <div class="row">
-    <?php endif; ?>
-    <div class="col-sm-4 vert-margin20">
-        <?php if (isset($cat['icon'])) : ?>
-        <img src="/upload/category_icons/<?php echo $cat['icon']; ?>" width="30" alt="<?php echo CHtml::encode($cat['name']); ?>">
-        <?php endif; ?>
-        <span class="category-name-column"><?php echo CHtml::link(CHtml::encode($cat['name']), Yii::app()->createUrl('questionCategory/alias', ['name' => CHtml::encode($cat['alias'])])); ?></span>
-    </div>
-    <?php if (2 == $index % 3): ?>
+
+            <?php $index = 0;
+
+            foreach ($topCategories as $key=> $category): ?>
+
+                <?php
+                if (0 == $index % 5): ?>
+                    <div class="col-sm-3">
+                <?php endif; ?>
+                        <div class="categories__list-wrap">
+                            <div class="categories__list-title"><?= $key ?></div>
+                            <ul class="categories__list">
+                    <?php foreach ($category as $cat) : ?>
+                                <li class="categories__list-item">
+                                    <a href="<?= Yii::app()->createUrl('questionCategory/alias', ['name' => CHtml::encode($cat['alias'])]) ?>" class="categories__list-link">
+                    <?php if (isset($cat['icon'])) : ?>
+                                <span class="categories__list-link-img img">
+                                    <img src="/upload/category_icons/<?= $cat['icon']; ?>" width="30" alt="<?= CHtml::encode($cat['name']); ?>">
+                                </span>
+                    <?php endif; ?>
+                            <span class="categories__list-link-title"><?=  CHtml::link(CHtml::encode($cat['name'])) ?></span>
+                                    </a>
+                                </li>
+                 <?php endforeach; ?>
+                </ul>
+                </div>
+                <?php if (4 == $index % 5 ): ?>
+
+                    </div>
+                <?php endif; ?>
+            <?php $index++;
+            endforeach; ?>
         </div>
-    <?php endif; ?>
-<?php endforeach; ?>
+    </div>
+
+</section>
+
+
+
+

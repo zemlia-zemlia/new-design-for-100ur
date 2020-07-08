@@ -4,64 +4,98 @@ use App\models\Order;
 use App\models\User;
 
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title><?php echo CHtml::encode($this->pageTitle); ?></title>
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!-- Переключение IE в последнию версию, на случай если в настройках пользователя стоит меньшая -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Адаптирование страницы для мобильных устройств -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <meta name="detectify-verification" content="9f97b18d45029185ceeda96efa4377e5"/>
+        <!-- Запрет распознования номера телефона -->
+        <meta name="format-detection" content="telephone=no">
+        <meta name="SKYPE_TOOLBAR" content ="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
 
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=latin,cyrillic' rel='stylesheet'
-          type='text/css'>
+        <!-- Заголовок страницы -->
+        <title><?= CHtml::encode($this->pageTitle); ?></title>
+        <meta name="detectify-verification" content="9f97b18d45029185ceeda96efa4377e5"/>
 
-    <!-- Google Tag Manager -->
-    <script>(function (w, d, s, l, i) {
-            w[l] = w[l] || [];
-            w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
-            });
-            var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-            j.async = true;
-            j.src =
-                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-            f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-MNNZGSK');</script>
-    <!-- End Google Tag Manager -->
+        <!-- Данное значение часто используют(использовали) поисковые системы -->
+        <meta name="description" content="">
+        <meta name="keywords" content="">
 
-    <?php
-    Yii::app()->clientScript->registerCssFile("/bootstrap/css/bootstrap.min.css");
-    Yii::app()->clientScript->registerCssFile("/css/2017/style.css");
-    Yii::app()->clientScript->registerScriptFile("/js/respond.min.js", CClientScript::POS_END);
-    Yii::app()->clientScript->registerScriptFile("jquery.js");
-    Yii::app()->clientScript->registerScriptFile("/bootstrap/js/bootstrap.min.js", CClientScript::POS_END);
-    Yii::app()->clientScript->registerScriptFile("/js/jquery.maskedinput.min.js", CClientScript::POS_END);
-    Yii::app()->clientScript->registerCssFile('/css/2017/jquery-ui.css');
-    Yii::app()->clientScript->registerScriptFile('/js/jquery-ui.min.js', CClientScript::POS_END);
+        <!-- Традиционная иконка сайта, размер 16x16, прозрачность поддерживается. Рекомендуемый формат: .ico или .png -->
+        <link rel="shortcut icon" href="img/favicon.ico">
 
-    Yii::app()->clientScript->registerCssFile("/css/robot_css.css");
 
-    Yii::app()->clientScript->registerScriptFile("/js/scripts.js");
-    Yii::app()->clientScript->registerScriptFile("/js/jquery.placeholder.min.js", CClientScript::POS_END);
-    ?>
-    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
-    <script charset="UTF-8"
-            src="//cdn.sendpulse.com/28edd3380a1c17cf65b137fe96516659/js/push/5ed016b8521088d90d6a9ad8b03ca9e3_1.js"
-            async></script>
-    <?php if (!Yii::app()->user->isGuest): ?>
-        <script type="text/javascript">
-            window.addEventListener('load', function () {
-                oSpP.push("Name", "<?php echo CHtml::encode(Yii::app()->user->name); ?>");
-                oSpP.push("Email", "<?php echo Yii::app()->user->email; ?>");
-            });
+        <!-- Google Tag Manager -->
+        <script>(function (w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start':
+                        new Date().getTime(), event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-MNNZGSK');</script>
+        <!-- End Google Tag Manager -->
+
+        <!-- Подключение файлов стилей -->
+
+        <?php
+        Yii::app()->clientScript->registerCssFile("/lib/jquery-ui-1.12.1.custom/jquery-ui.min.css");
+        Yii::app()->clientScript->registerCssFile("/lib/bootstrap/bootstrap-grid.min.css");
+        Yii::app()->clientScript->registerCssFile("/lib/swiper/swiper.min.css");
+        Yii::app()->clientScript->registerCssFile("/css/2020/style.css");
+        Yii::app()->clientScript->registerCssFile("/fonts/fonts.css");
+        Yii::app()->clientScript->registerCssFile("/css/2020/media.css");
+        Yii::app()->clientScript->registerCssFile("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
+        Yii::app()->clientScript->registerScriptFile("/js/respond.min.js", CClientScript::POS_END);
+//        Yii::app()->clientScript->registerScriptFile("/new-jquery/jquery-3.4.1.min.js");
+        Yii::app()->clientScript->registerScriptFile("/js/2020/jquery-3.4.1.min.js", CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile("/lib/jquery-ui-1.12.1.custom/jquery-ui.min.js", CClientScript::POS_END);
+//        Yii::app()->clientScript->registerCssFile('/css/2017/jquery-ui.css');
+        Yii::app()->clientScript->registerScriptFile('/lib/swiper/swiper.min.js', CClientScript::POS_END);
+
+        Yii::app()->clientScript->registerCssFile("/css/robot_css.css");
+
+//        Yii::app()->clientScript->registerScriptFile("/js/scripts.js");
+        Yii::app()->clientScript->registerScriptFile("/lib/bootstrap/bootstrap.min.js", CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile("/js/2020/main.js", CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile("/js/scripts.js", CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile("/js/2020/counters.js", CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile("/js/2020/robot_widget.js", CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile('/js/profile_notifier.js', CClientScript::POS_END);
+        ?>
+
+        <script charset="UTF-8"
+                src="//cdn.sendpulse.com/28edd3380a1c17cf65b137fe96516659/js/push/5ed016b8521088d90d6a9ad8b03ca9e3_1.js"
+                async></script>
+        <?php if (!Yii::app()->user->isGuest): ?>
+            <script type="text/javascript">
+                window.addEventListener('load', function () {
+                    oSpP.push("Name", "<?= CHtml::encode(Yii::app()->user->name); ?>");
+                    oSpP.push("Email", "<?= Yii::app()->user->email; ?>");
+                });
+            </script>
+        <?php endif; ?>
+
+        <script>
+          var robotWidgetQuestionUrl = "<?= Yii::app()->createUrl('/question/call/')?>";
         </script>
-    <?php endif; ?>
-</head>
+
+
+    </head>
 
 <body>
 
@@ -77,104 +111,27 @@ use App\models\User;
 // выводим виджет с подсказкой юристу
 $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
 ?>
-<div id="header">
-    <div class="container">
-
-        <div class="row">
-            <div class="col-md-12 right-align">
-
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-4 col-sm-4">
-                <div class="logo-wrapper">
-                    <?php if ($_SERVER['REQUEST_URI'] != '/'): ?>
-                        <a href="/">
-                            <img src="/pics/2017/100_yuristov_logo.png" alt="100 Юристов и Адвокатов"
-                                 title="Юридический портал"/>
-                        </a>
-                    <?php else: ?>
-                        <img src="/pics/2017/100_yuristov_logo.png" alt="100 Юристов и Адвокатов"
-                             title="Юридический портал"/>
-                    <?php endif; ?>
+<!-- Header -->
+<header class="header">
+    <div class="header__mob">
+        <div class="container">
+            <div class="header__mob-wrap">
+                <div class="nav-mob-wrap img">
+                    <img src="/img/nav-open.png" alt="" class="nav-open">
+                    <img src="/img/nav-close.png" alt="" class="nav-close">
                 </div>
-            </div>
-
-            <?php if (Yii::app()->user->isGuest): ?>
-                <div class="col-md-4 col-sm-4"></div>
-            <?php else: ?>
-                <div class="col-md-8 col-sm-8 right-align">
-                    <ul class="hor-list-menu">
-                        <?php if (Yii::app()->user->role == User::ROLE_PARTNER): ?>
-                            <?php echo CHtml::link('Перейти в панель вебмастера', Yii::app()->user->homeUrl); ?>
-                        <?php elseif (Yii::app()->user->role == User::ROLE_BUYER): ?>
-                            <?php echo CHtml::link('Перейти в панель покупателя', Yii::app()->user->homeUrl); ?>
-                        <?php else: ?>
-
-                            <li><?php echo CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER) ? '/buyer' : '/user')); ?></li>
-                            <li>
-                                <?php
-                                $balance = Yii::app()->user->balance;
-                                ?>
-                                <small>
-                                    Баланс: <?php echo CHtml::link(MoneyFormat::rubles($balance), Yii::app()->createUrl('transaction/index')); ?>
-                                    руб.
-                                </small>
-                            </li>
-
-
-                            <li><?php echo CHtml::link('<span class="glyphicon glyphicon-log-out"></span>', Yii::app()->createUrl('site/logout'), array()); ?></li>
-                        <?php endif; ?>
-                    </ul>
-                </div>
-
-            <?php endif; ?>
-
-            <?php if (Yii::app()->user->isGuest): ?>
-                <div class="col-md-4 col-sm-4">
-                    <?php
-                    // выводим виджет с номером 8800
-                    $this->widget('application.widgets.Hotline.HotlineWidget', array(
-                        'showAlways' => true,
-                        //'showPhone'     =>  false, // true - показать телефон, false - форму запроса города
-                    ));
-                    ?>
-                </div>
-            <?php endif; ?>
-
-        </div>
-
-        <div class="row">
-            <div class="col-sm-12">
-                <ul class="hor-list-menu">
-
-
-                    <?php if (Yii::app()->user->role == User::ROLE_JURIST): ?>
-
-                        <li><?php echo CHtml::link('Поиск вопросов', Yii::app()->createUrl('question/search')); ?></li>
-
-                        <li><?php echo CHtml::link('Обновления для меня ' . '<strong class="red">(' . Yii::app()->user->newEventsCount . ')</strong>', Yii::app()->createUrl('user/feed')); ?>
-
-                        </li>
-
-                        <li><?php echo CHtml::link('Заказы документов ' . '<strong class="red">(' . Order::calculateNewOrders() . ')</strong>', Yii::app()->createUrl('order/index')); ?></li>
-                        <?php if (Yii::app()->params['chat']['enabled']):?>
-                            <li> <?= CHtml::link('Чаты с клиентами <strong class="red">(' . User::getChatsMessagesCnt() . ')</strong>', '/user/chats') ?></li>
-                        <?php endif;?>
-                        <li>
-
-                    <?php elseif (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->isGuest): ?>
-
-                        <li><?php echo ($_SERVER['REQUEST_URI'] != '/question/create/') ? CHtml::link('Задать свой вопрос юристам online', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' . Yii::app()->controller->id, array('class' => 'yellow-button arrow')) : ''; ?></li>
-
-
-                        <li class="hidden-xs"><?php echo ($_SERVER['REQUEST_URI'] != '/question/call/') ? CHtml::link('Консультация по телефону', Yii::app()->createUrl('/question/call/')) : '<span class="active">Консультация по телефону</span>'; ?></li>
-
-                        <li class=""><?php echo ($_SERVER['REQUEST_URI'] != '/yurist/russia/') ? CHtml::link('Юристы', Yii::app()->createUrl('/yurist/russia/')) : '<span class="active">Юристы</span>'; ?></li>
+                <nav class="nav-mob">
+                    <div class="nav-mob-close img">
+                        <img src="/img/nav-mob-close.png" alt="">
+                    </div>
+                    <div class="nav-mob__title">Меню</div>
+                    <ul class="nav-mob-list">
 
                         <?php if (Yii::app()->user->role == User::ROLE_CLIENT): ?>
-                            <li class=""><?php echo ($_SERVER['REQUEST_URI'] != '/question/my/') ? CHtml::link('Мои вопросы', Yii::app()->createUrl('/question/my/')) : '<span class="active">Мои вопросы</span>'; ?></li>
+                            <li class="main__nav-item">
+                                <?= ($_SERVER['REQUEST_URI'] != '/question/my/') ? CHtml::link('Мои вопросы',
+                                    Yii::app()->createUrl('/question/my/', ['class' => 'main__nav-link main__nav-link--question'])) :
+                                    '<span class="active">Мои вопросы</span>'; ?></li>
                         <?php endif; ?>
                         <?php if (Yii::app()->user->role == User::ROLE_CLIENT): ?>
 
@@ -183,16 +140,215 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                             <?php endif; ?>
                         <?php endif; ?>
 
-                        <?php if (!stristr($_SERVER['REQUEST_URI'], '/question/create/')): ?>
 
-                            <?php if (Yii::app()->user->isGuest): ?>
-                                <li><?php echo ($_SERVER['REQUEST_URI'] != '/site/login/') ? CHtml::link('Вход на сайт', Yii::app()->createUrl('/site/login/')) : '<span class="active">Вход на сайт</span>'; ?></li>
-                            <?php endif; ?>
 
+
+                        <?php if (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->isGuest): ?>
+
+                            <li class="nav-mob-item"><?= ($_SERVER['REQUEST_URI'] != '/question/create/') ? CHtml::link('Задать свой вопрос юристам online',
+                                    Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' .
+                                    Yii::app()->controller->id, ['class' => 'nav-mob-link']) : ''; ?>
+                            </li>
+                            <li class="nav-mob-item"><?= ($_SERVER['REQUEST_URI'] != '/question/call/') ? CHtml::link('Консультация по телефону',
+                                    Yii::app()->createUrl('/question/call/'), ['class' => 'nav-mob-link']) : '<span class="active">Консультация по телефону</span>'; ?>
+                            </li>
+                            <li class="nav-mob-item"><?= ($_SERVER['REQUEST_URI'] != '/q/') ? CHtml::link('Вопросы',
+                                    Yii::app()->createUrl('/q/'), ['class' => 'nav-mob-link']) : '<span class="active">Найти юриста</span>'; ?>
+                            </li>
+                            <li class="nav-mob-item"><?= ($_SERVER['REQUEST_URI'] != '/yurist/russia/') ? CHtml::link('Юристы',
+                                    Yii::app()->createUrl('/yurist/russia/'), ['class' => 'nav-mob-link']) : '<span class="active">Найти юриста</span>'; ?>
+                            </li>
                         <?php endif; ?>
+                    </ul>
+                    <?php
+                    // выводим виджет с номером 8800
+                    $this->widget('application.widgets.Hotline.HotlineWidget', [
+                        'showAlways' => true,
+                        'mobile' => true,
+                        //'showPhone'     =>  false, // true - показать телефон, false - форму запроса города
+                    ]);
+                    ?>
+                    <a href="<?= Yii::app()->createUrl('question/call') ?>" class="header__btn header__btn-mob">Заказать звонок</a>
+                </nav>
+                    <?php if ($_SERVER['REQUEST_URI'] != '/'): ?>
+                        <a class="logo-mob img" href="/">
+                            <img src="/img/logo.png" alt="100 Юристов и Адвокатов"
+                                 title="Юридический портал"/>
+                        </a>
+                    <?php else: ?>
+                        <img src="/img/logo.png" alt="100 Юристов и Адвокатов"
+                             title="Юридический портал"/>
+                    <?php endif; ?>
+
+                <a href="" class="search-btn img">
+                    <img src="/img/search-btn.png" alt="">
+                </a>
+                <form action="" class="search-form-mob">
+                    <div class="search-input">
+                        <a href="" class="search-input__ico img">
+                            <img src="/img/feedback-search.png" alt="">
+                        </a>
+                        <input type="search" name="" placeholder="Поиск...">
+                    </div>
+                </form>
+                <a href="" class="login-btn img">
+                    <img src="/img/login-btn.png" alt="">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="header__top">
+        <div class="container">
+            <div class="row no-gutters justify-content-between align-items-center">
+                <div class="col-sm-12 col-md-auto">
+                    <a href="" class="logo img">
+                        <img src="/img/logo.png" alt="">
+                    </a>
+                </div>
+                <div class="col-sm-auto col-md-auto header__question-wrap">
+                    <div class="header__question">Задай вопрос юристу онлайн</div>
+                </div>
+                <div class="col-sm-auto col-md-auto">
+                    <?php
+                    // выводим виджет с номером 8800
+                    $this->widget('application.widgets.Hotline.HotlineWidget', array(
+                        'showAlways' => true,
+                        //'showPhone'     =>  false, // true - показать телефон, false - форму запроса города
+                    ));
+                    ?>
+
+                </div>
+                <div class="col-sm-auto col-md-auto">
+                    <a href="<?= Yii::app()->createUrl('question/call') ?>" class="header__btn">Заказать звонок</a>
+                </div>
+                <div class="col-sm-auto col-md-auto">
+                    <?php if (Yii::app()->user->isGuest): ?>
+
+                    <?php else: ?>
+
+                            <ul class="hor-list-menu">
+                                <?php if (Yii::app()->user->role == User::ROLE_PARTNER): ?>
+                                    <?= CHtml::link('Перейти в панель вебмастера', Yii::app()->user->homeUrl); ?>
+                                <?php elseif (Yii::app()->user->role == User::ROLE_BUYER): ?>
+                                    <?= CHtml::link('Перейти в панель покупателя', Yii::app()->user->homeUrl); ?>
+                                <?php else: ?>
+
+                                    <li><?= CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER) ? '/buyer' : '/user')); ?></li>
+                                    <li>
+                                        <?php
+                                        $balance = Yii::app()->user->balance;
+                                        ?>
+                                        <small>
+                                            Баланс: <?= CHtml::link(MoneyFormat::rubles($balance), Yii::app()->createUrl('transaction/index')); ?>
+                                            руб.
+                                        </small>
+                                    </li>
+
+
+                                    <li><?= CHtml::link('<span class="glyphicon glyphicon-log-out"></span>', Yii::app()->createUrl('site/logout'), array()); ?></li>
+                                <?php endif; ?>
+                            </ul>
 
 
                     <?php endif; ?>
+                    <?php if (!stristr($_SERVER['REQUEST_URI'], '/question/create/')): ?>
+                    <?php if (Yii::app()->user->isGuest): ?>
+
+                            <a href="<?= Yii::app()->createUrl('/site/login/') ?>" class="header__account ">
+							<span class="header__account-img img">
+								<img src="/img/header-account.png" alt="">
+							</span>
+                                <span class="header__account-title <?= ($_SERVER['REQUEST_URI'] != '/site/login/') ? 'active' : '' ?>">
+                                 Вход/Регистрация
+                                </span>
+                            </a>
+
+                    <?php endif; ?>
+                    <?php endif; ?>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header__bottom">
+        <div class="container">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-lg-8">
+                    <nav class="main__nav">
+                        <ul class="main__nav-list">
+                            <?php if (Yii::app()->user->role == User::ROLE_CLIENT): ?>
+                                <li class="main__nav-item">
+                                    <?= ($_SERVER['REQUEST_URI'] != '/question/my/') ? CHtml::link('Мои вопросы',
+                                        Yii::app()->createUrl('/question/my/', ['class' => 'main__nav-link main__nav-link--question'])) :
+                                        '<span class="active">Мои вопросы</span>'; ?></li>
+                            <?php endif; ?>
+                            <?php if (Yii::app()->user->role == User::ROLE_CLIENT): ?>
+
+                                <?php if (Yii::app()->params['chat']['enabled']): ?>
+                                    <li> <?= CHtml::link('Чаты с юристами <strong class="red">(' . User::getChatsMessagesCnt() . ')</strong>', '/user/chats') ?></li>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+
+
+
+                            <?php if (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->isGuest): ?>
+
+                                <li class="main__nav-item"><?= ($_SERVER['REQUEST_URI'] != '/question/create/') ? CHtml::link('Задать свой вопрос юристам online', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' . Yii::app()->controller->id, ['class' => 'main__nav-link main__nav-link--question']) : ''; ?></li>
+
+
+                                <li class="main__nav-item"><?= ($_SERVER['REQUEST_URI'] != '/question/call/') ? CHtml::link('Консультация по телефону', Yii::app()->createUrl('/question/call/'), ['class' => 'main__nav-item']) : '<span class="active">Консультация по телефону</span>'; ?></li>
+
+                                <li class="main__nav-item"><?= ($_SERVER['REQUEST_URI'] != '/q/') ? CHtml::link('Вопросы', Yii::app()->createUrl('/q/'), ['class' => 'main__nav-item']) : '<span class="active">Найти юриста</span>'; ?></li>
+                                <li class="main__nav-item"><?= ($_SERVER['REQUEST_URI'] != '/yurist/russia/') ? CHtml::link('Юристы', Yii::app()->createUrl('/yurist/russia/'), ['class' => 'main__nav-item']) : '<span class="active">Найти юриста</span>'; ?></li>
+                            <?php endif; ?>
+
+
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-4">
+                    <form action="" class="search-form">
+                        <div class="search-input">
+                            <a href="" class="search-input__ico img">
+                                <img src="/img/feedback-search.png" alt="">
+                            </a>
+                            <input type="search" name="" placeholder="Поиск...">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="hor-list-menu">
+
+
+                    <?php if (Yii::app()->user->role == User::ROLE_JURIST): ?>
+
+                        <li><?= CHtml::link('Поиск вопросов', Yii::app()->createUrl('question/search')); ?></li>
+
+                        <li><?= CHtml::link('Обновления для меня ' . '<strong class="red">(' . Yii::app()->user->newEventsCount . ')</strong>', Yii::app()->createUrl('user/feed')); ?>
+
+                        </li>
+
+                        <li><?= CHtml::link('Заказы документов ' . '<strong class="red">(' . Order::calculateNewOrders() . ')</strong>', Yii::app()->createUrl('order/index')); ?></li>
+                        <?php if (Yii::app()->params['chat']['enabled']):?>
+                            <li> <?= CHtml::link('Чаты с клиентами <strong class="red">(' . User::getChatsMessagesCnt() . ')</strong>', '/user/chats') ?></li>
+                        <?php endif;?>
+                        <li>
+
+                            <?php endif; ?>
 
                     <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
                         <li>
@@ -211,5 +367,4 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                 </ul>
             </div>
         </div>
-    </div> <!-- .container -->
-</div> <!-- #header -->
+

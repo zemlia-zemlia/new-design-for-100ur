@@ -824,4 +824,10 @@ class Question extends CActiveRecord
 
         return $counterRow['counter'];
     }
+
+    public function getCategory()
+    {
+        return $this->categories ? $this->categories[0]->name : 'не установлена';
+    }
+
 }

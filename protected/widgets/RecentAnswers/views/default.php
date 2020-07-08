@@ -2,62 +2,53 @@
 use App\helpers\StringHelper;
 use App\models\User;
 
-if (stristr($_SERVER['REQUEST_URI'], '/q/')):?>
-<noindex>
-<?php endif; ?>
-    
-<h3 class="header-block header-block-grey header-icon-answers">Ответы</h3>
-<div class="header-block-blue-arrow" style="width:50px;"></div>
 
-<div class="inside">
-<?php
-
-if (empty($answers) || 0 == sizeof($answers)) {
-    echo 'Не найдено ни одного ответа';
-}
 ?>
+    <!-- Consultations -->
+    <section class="consultations">
+        <div class="container">
+            <h2 class="consultations__title section-title">Последние консультации</h2>
+            <div class="consultations__gallery">
+                <!-- Swiper -->
+                <div class="consultations-swiper-container">
+                    <div class="swiper-wrapper">
 
-<?php foreach ($answers as $answer): ?>
-    <div class="answer-item-panel">
-<p>
-    <?php if (0 != $answer['questionPrice'] && 1 == $answer['questionPayed']):?>
-            <span class="label label-warning"><span class='glyphicon glyphicon-ruble'></span></span>
-        <?php endif; ?>
-    <?php echo CHtml::link(CHtml::encode(StringHelper::mb_ucfirst($answer['questionTitle'], 'utf-8')), Yii::app()->createUrl('question/view', ['id' => $answer['questionId']])); ?>
-        
-</p>
+                    <?php
 
-<div class="row">
-    <div class="col-xs-4">
-        <?php if ($answer['authorId'] && ($author = User::model()->cache(600)->findByPk($answer['authorId'])) instanceof User):?>
-            <img src="<?php echo $author->getAvatarUrl(); ?>" class="img-responsive img-bordered" alt="<?php echo CHtml::encode($author->name . ' ' . $author->lastName); ?>" />
-        <?php endif; ?>
-    </div>
-    <div class="col-xs-8">
-        <div class="answer-item-info">
-            <?php if ($answer['answerTime']):?>
-            <span class="glyphicon glyphicon-calendar"></span> <?php echo DateHelper::niceDate($answer['answerTime'], false); ?>
-            <br />
-            <?php endif; ?>
-            <?php if ($answer['authorId']):?>
-                <span class="glyphicon glyphicon-user"></span>
-                <?php echo $answer['authorLastName'] . ' ' . mb_substr($answer['authorName'], 0, 1, 'utf-8') . '.' . mb_substr($answer['authorName2'], 0, 1, 'utf-8') . '.'; ?> 
-                <?php if (floor((time() - strtotime($answer['lastActivity'])) / 60) < 60):?>
-                <div><span class="glyphicon glyphicon-flash"></span> <span class="text-success">Сейчас на сайте</span></div>
-                <?php endif; ?>
-            <?php endif; ?>
+                    if (empty($questions) || 0 == count($questions)) {
+                            echo 'Не найдено ни одного ответа';
+                    }
+                    ?>
+                    <?php foreach ($questions as $question):
+//                        CVarDumper::dump($questions,5,true);die;
+                        ?>
+                        <div class="swiper-slide">
+                            <div class="consultations__item">
+                                <div class="consultations__date"><?= date('d.m.Y', strtotime($question->createDate)) ?></div>
+                                <a href="" class="consultations__category"><?= $question->category ?></a>
+                                <div class="consultations__item-title"><?= $question->title ?></div>
+                                <div class="consultations__item-desc"><?= $question->questionText ?></div>
+                                <a href="" class="consultations__item-btn">
+                                    <span class="consultations__item-btn-title"><?= count($question->answers) ?> ответа</span>
+                                    <span class="consultations__item-btn-img img">
+			      				<img src="img/consultations-item-btn-img.png" alt="">
+			      			</span>
+                                </a>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+
+                    </div>
+                </div>
+                <!-- Add Arrows -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+            <a href="" class="consultations__btn">Задать вопрос онлайн</a>
         </div>
-    </div>
-</div>
+    </section>
 
-<img src="/pics/2017/arrow_list_blue.png" alt="Ответ" /> 
-<?php echo nl2br(mb_substr(CHtml::encode($answer['answerText']), 0, 100, 'utf-8')); ?>...
-<br />
-        
-</div>
-<?php endforeach; ?>
-</div> <!-- .inside -->
 
-<?php if (stristr($_SERVER['REQUEST_URI'], '/q/')):?>
-</noindex>
-<?php endif; ?>
+

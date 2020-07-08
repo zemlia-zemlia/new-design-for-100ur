@@ -15,6 +15,7 @@ class HotlineWidget extends CWidget
     public $cacheTime = 0;
     public $showAlways = false; // показывать всегда, независимо от текущего города и региона
     public $showPhone = true; // показывать номер телефона вместо формы запроса города
+    public $mobile = false; // мобильная версия
 
     public function run()
     {
@@ -23,6 +24,7 @@ class HotlineWidget extends CWidget
 
             return $this->render('callBack', [
                 'model' => $model,
+                'mobile' => $this->mobile,
                 ]);
         }
 

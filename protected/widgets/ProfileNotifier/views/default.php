@@ -1,5 +1,5 @@
 <?php
-    Yii::app()->clientScript->registerScriptFile('/js/profile_notifier.js', CClientScript::POS_END);
+//    Yii::app()->clientScript->registerScriptFile('/js/profile_notifier.js', CClientScript::POS_END);
 ?>
 
 <div class="blue-block text-center alert-dismissible">
