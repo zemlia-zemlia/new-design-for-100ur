@@ -18,7 +18,7 @@ use App\models\User;
 
         <!-- Запрет распознования номера телефона -->
         <meta name="format-detection" content="telephone=no">
-        <meta name="SKYPE_TOOLBAR" content ="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+        <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
 
         <!-- Заголовок страницы -->
         <title><?= CHtml::encode($this->pageTitle); ?></title>
@@ -59,15 +59,15 @@ use App\models\User;
         Yii::app()->clientScript->registerCssFile("/css/2020/media.css");
         Yii::app()->clientScript->registerCssFile("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
         Yii::app()->clientScript->registerScriptFile("/js/respond.min.js", CClientScript::POS_END);
-//        Yii::app()->clientScript->registerScriptFile("/new-jquery/jquery-3.4.1.min.js");
+        //        Yii::app()->clientScript->registerScriptFile("/new-jquery/jquery-3.4.1.min.js");
         Yii::app()->clientScript->registerScriptFile("/js/2020/jquery-3.4.1.min.js", CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile("/lib/jquery-ui-1.12.1.custom/jquery-ui.min.js", CClientScript::POS_END);
-//        Yii::app()->clientScript->registerCssFile('/css/2017/jquery-ui.css');
+        //        Yii::app()->clientScript->registerCssFile('/css/2017/jquery-ui.css');
         Yii::app()->clientScript->registerScriptFile('/lib/swiper/swiper.min.js', CClientScript::POS_END);
 
         Yii::app()->clientScript->registerCssFile("/css/robot_css.css");
 
-//        Yii::app()->clientScript->registerScriptFile("/js/scripts.js");
+        //        Yii::app()->clientScript->registerScriptFile("/js/scripts.js");
         Yii::app()->clientScript->registerScriptFile("/lib/bootstrap/bootstrap.min.js", CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile("/js/2020/main.js", CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile("/js/scripts.js", CClientScript::POS_END);
@@ -89,7 +89,7 @@ use App\models\User;
         <?php endif; ?>
 
         <script>
-          var robotWidgetQuestionUrl = "<?= Yii::app()->createUrl('/question/call/')?>";
+            var robotWidgetQuestionUrl = "<?= Yii::app()->createUrl('/question/call/')?>";
         </script>
 
 
@@ -143,7 +143,7 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
 
                         <?php if (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->isGuest): ?>
 
-                            <li class="nav-mob-item"><?= ($_SERVER['REQUEST_URI'] != '/question/create/') ? CHtml::link('Задать вопрос юристу online',
+                            <li class="nav-mob-item"><?= ($_SERVER['REQUEST_URI'] != '/question/create/') ? CHtml::link('Задать вопрос юристу онлайн',
                                     Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' .
                                     Yii::app()->controller->id, ['class' => 'nav-mob-link']) : ''; ?>
                             </li>
@@ -166,14 +166,14 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                         //'showPhone'     =>  false, // true - показать телефон, false - форму запроса города
                     ]);
                     ?>
-                    <a href="<?= Yii::app()->createUrl('question/call') ?>" class="header__btn header__btn-mob">Заказать звонок</a>
+                    <a href="<?= Yii::app()->createUrl('question/call') ?>" class="header__btn header__btn-mob">Заказать
+                        звонок</a>
                 </nav>
 
-                        <a class="logo-mob img" href="<?= Yii::app()->createUrl('/') ?>">
-                            <img src="/img/logo.png" alt="100 Юристов и Адвокатов"
-                                 title="Юридический портал"/>
-                        </a>
-
+                <a class="logo-mob img" href="<?= Yii::app()->createUrl('/') ?>">
+                    <img src="/img/logo.png" alt="100 Юристов и Адвокатов"
+                         title="Юридический портал"/>
+                </a>
 
 
                 <a href="" class="search-btn img">
@@ -222,33 +222,33 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
 
                     <?php else: ?>
 
-                            <ul class="hor-list-menu">
-                                <?php if (Yii::app()->user->role == User::ROLE_PARTNER): ?>
-                                    <?= CHtml::link('Перейти в панель вебмастера', Yii::app()->user->homeUrl); ?>
-                                <?php elseif (Yii::app()->user->role == User::ROLE_BUYER): ?>
-                                    <?= CHtml::link('Перейти в панель покупателя', Yii::app()->user->homeUrl); ?>
-                                <?php else: ?>
+                        <ul class="hor-list-menu">
+                            <?php if (Yii::app()->user->role == User::ROLE_PARTNER): ?>
+                                <?= CHtml::link('Перейти в панель вебмастера', Yii::app()->user->homeUrl); ?>
+                            <?php elseif (Yii::app()->user->role == User::ROLE_BUYER): ?>
+                                <?= CHtml::link('Перейти в панель покупателя', Yii::app()->user->homeUrl); ?>
+                            <?php else: ?>
 
-                                    <li><?= CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER) ? '/buyer' : '/user')); ?></li>
-                                    <li>
-                                        <?php
-                                        $balance = Yii::app()->user->balance;
-                                        ?>
-                                        <small>
-                                            Баланс: <?= CHtml::link(MoneyFormat::rubles($balance), Yii::app()->createUrl('transaction/index')); ?>
-                                            руб.
-                                        </small>
-                                    </li>
+                                <li><?= CHtml::link((Yii::app()->user->lastName != '') ? Yii::app()->user->shortName : CHtml::encode(Yii::app()->user->name), Yii::app()->createUrl((Yii::app()->user->role == User::ROLE_BUYER) ? '/buyer' : '/user')); ?></li>
+                                <li>
+                                    <?php
+                                    $balance = Yii::app()->user->balance;
+                                    ?>
+                                    <small>
+                                        Баланс: <?= CHtml::link(MoneyFormat::rubles($balance), Yii::app()->createUrl('transaction/index')); ?>
+                                        руб.
+                                    </small>
+                                </li>
 
 
-                                    <li><?= CHtml::link('<span class="glyphicon glyphicon-log-out"></span>', Yii::app()->createUrl('site/logout'), array()); ?></li>
-                                <?php endif; ?>
-                            </ul>
+                                <li><?= CHtml::link('<span class="glyphicon glyphicon-log-out"></span>', Yii::app()->createUrl('site/logout'), array()); ?></li>
+                            <?php endif; ?>
+                        </ul>
 
 
                     <?php endif; ?>
                     <?php if (!stristr($_SERVER['REQUEST_URI'], '/question/create/')): ?>
-                    <?php if (Yii::app()->user->isGuest): ?>
+                        <?php if (Yii::app()->user->isGuest): ?>
 
                             <a href="<?= Yii::app()->createUrl('/site/login/') ?>" class="header__account ">
 							<span class="header__account-img img">
@@ -259,7 +259,7 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                                 </span>
                             </a>
 
-                    <?php endif; ?>
+                        <?php endif; ?>
                     <?php endif; ?>
 
 
@@ -292,7 +292,7 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                             <?php if (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->isGuest): ?>
 
                                 <li class="main__nav-item"><?= ($_SERVER['REQUEST_URI'] != '/question/create/') ?
-                                        CHtml::link('Задать  вопрос юристу online', Yii::app()->createUrl('question/create') .
+                                        CHtml::link('Задать  вопрос юристу онлайн', Yii::app()->createUrl('question/create') .
                                             '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' . Yii::app()->controller->id,
                                             ['class' => 'main__nav-link main__nav-link--question']) : ''; ?></li>
 
@@ -329,47 +329,42 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
 </header>
 
 
+<div class="row">
+    <div class="col-sm-12">
+        <ul class="hor-list-menu">
 
 
+            <?php if (Yii::app()->user->role == User::ROLE_JURIST): ?>
 
+            <li><?= CHtml::link('Поиск вопросов', Yii::app()->createUrl('question/search')); ?></li>
 
+            <li><?= CHtml::link('Обновления для меня ' . '<strong class="red">(' . Yii::app()->user->newEventsCount . ')</strong>', Yii::app()->createUrl('user/feed')); ?>
 
-        <div class="row">
-            <div class="col-sm-12">
-                <ul class="hor-list-menu">
+            </li>
 
+            <li><?= CHtml::link('Заказы документов ' . '<strong class="red">(' . Order::calculateNewOrders() . ')</strong>', Yii::app()->createUrl('order/index')); ?></li>
+        <?php if (Yii::app()->params['chat']['enabled']): ?>
+            <li> <?= CHtml::link('Чаты с клиентами <strong class="red">(' . User::getChatsMessagesCnt() . ')</strong>', '/user/chats') ?></li>
+        <?php endif; ?>
+            <li>
 
-                    <?php if (Yii::app()->user->role == User::ROLE_JURIST): ?>
+                <?php endif; ?>
 
-                        <li><?= CHtml::link('Поиск вопросов', Yii::app()->createUrl('question/search')); ?></li>
-
-                        <li><?= CHtml::link('Обновления для меня ' . '<strong class="red">(' . Yii::app()->user->newEventsCount . ')</strong>', Yii::app()->createUrl('user/feed')); ?>
-
-                        </li>
-
-                        <li><?= CHtml::link('Заказы документов ' . '<strong class="red">(' . Order::calculateNewOrders() . ')</strong>', Yii::app()->createUrl('order/index')); ?></li>
-                        <?php if (Yii::app()->params['chat']['enabled']):?>
-                            <li> <?= CHtml::link('Чаты с клиентами <strong class="red">(' . User::getChatsMessagesCnt() . ')</strong>', '/user/chats') ?></li>
-                        <?php endif;?>
-                        <li>
-
-                            <?php endif; ?>
-
-                    <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
-                        <li>
-                            <?php
-                            echo CHtml::ajaxLink("Кеш", Yii::app()->createUrl('site/clearCache'), array(
-                                'success' => 'function(data, textStatus, jqXHR)
+                <?php if (Yii::app()->user->checkAccess(User::ROLE_ROOT)): ?>
+            <li>
+                <?php
+                echo CHtml::ajaxLink("Кеш", Yii::app()->createUrl('site/clearCache'), array(
+                    'success' => 'function(data, textStatus, jqXHR)
                                                 {
                                                     if(data==1) message = "Кэш очищен";
                                                     else message = "Не удалось очистить кэш";
                                                     alert(message);
                                                 }'
-                            ), array('title' => 'Очистить кеш страницы'));
-                            ?>
-                        </li>
-                    <?php endif; ?>
-                </ul>
-            </div>
-        </div>
+                ), array('title' => 'Очистить кеш страницы'));
+                ?>
+            </li>
+        <?php endif; ?>
+        </ul>
+    </div>
+</div>
 
