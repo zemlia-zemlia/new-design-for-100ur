@@ -9,7 +9,7 @@ use App\models\User;
             <div class="col-7 col-sm-4 col-lg-3">
                 <div class="footer__wrap">
                     <a href="" class="footer__logo img">
-                        <img src="/img/footer-logo.png" alt="">
+                        <img src="/img/logo_footer.png" alt="">
                     </a>
                     <ul class="footer__list">
                         <li class="footer__list-item">
