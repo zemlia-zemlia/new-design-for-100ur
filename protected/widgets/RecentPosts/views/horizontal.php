@@ -67,13 +67,9 @@ $purifier = new CHtmlPurifier();
             <div class="col-md-4">
                 <div class="news__item">
                     <div class="news__item-img img">
-                        <?php if ($recentPost['photo']): ?>
-                            <?php
-                            $postObject = new Post();
-                            $postObject->attributes = $recentPost;
-                            ?>
-                            <img src="<?= $postObject->getPhotoUrl('thumb') ?>" alt="<?= CHtml::encode($recentPost['title']) ?>">
-                        <?php endif; ?>
+
+                            <img src="<?= $recentPost->getPhotoUrl('thumb') ?>" alt="<?= CHtml::encode($recentPost->title) ?>">
+
                     </div>
                     <div class="news__item-content">
                         <div class="news__item-heading">
