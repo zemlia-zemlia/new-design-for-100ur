@@ -29,7 +29,7 @@ class HotlineWidget extends CWidget
         }
 
         if (true === $this->showAlways) {
-            $this->render($this->template);
+            $this->render($this->template, [ 'mobile' => $this->mobile]);
         } else {
             $currenTownId = Yii::app()->user->getState('currentTownId');
 

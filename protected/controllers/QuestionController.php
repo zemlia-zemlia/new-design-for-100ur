@@ -25,7 +25,7 @@ use App\services\QuestionService;
 
 class QuestionController extends Controller
 {
-    public $layout = '//frontend/question';
+    public $layout = '//frontend/index';
 
     /** @var CHttpRequest */
     protected $request;
