@@ -14,6 +14,7 @@ $pageTitle = 'Последние советы юристов бесплатно 
 $this->setPageTitle($pageTitle);
 
 Yii::app()->clientScript->registerMetaTag('Советы юристов по всем отраслям права задайте свой вопрос и получите ответ в течении 15 минут', 'description');
+$monthsNames = DateHelper::getMonthsNames();
 ?>
 
 
@@ -41,7 +42,7 @@ Yii::app()->clientScript->registerMetaTag('Советы юристов по вс
 
                     </div>
 
-                    <?php $monthsNames = DateHelper::getMonthsNames(); ?>
+
                     <?php foreach ($datesArray as $year => $months): ?>
 
                         <h4><?= $year; ?></h4>

@@ -1,27 +1,14 @@
-<div class="row question-list-item  <?php use App\helpers\NumbersHelper;
+<?php use App\helpers\NumbersHelper;
 use App\helpers\StringHelper;
 
-if (1 == $data->payed):?> vip-question<?endif; ?>">
-    <div class="col-sm-10">
-        <p style="font-size:0.9em;">
-            <?php if (1 == $data->payed) {
-    echo "<span class='label label-primary'><abbr title='Вопрос с гарантией получения ответов'>VIP</abbr></span>";
-}
-            ?>
-            <?php echo CHtml::link(CHtml::encode(StringHelper::mb_ucfirst($data->title, 'utf-8')), Yii::app()->createUrl('question/view', ['id' => $data->id])); ?>
-        </p>
-    </div>
+?>
 
-    <div class="col-sm-2 text-center">
-        <small>
-        <?php if (1 == $data->answersCount) {
-                echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> Есть ответ</span>";
-            } elseif ($data->answersCount > 1) {
-                echo "<span class='text-success'> <span class='glyphicon glyphicon-ok'></span> " . $data->answersCount . ' ' . NumbersHelper::numForms($data->answersCount, 'ответ', 'ответа', 'ответов') . '</span>';
-            } elseif (0 == $data->answersCount) {
-                echo "<span class='text-muted'>Нет ответа</span>";
-            }
-        ?>
-        </small>
-    </div>
+ <div class="archive-questions__item">
+    <?= CHtml::link(StringHelper::mb_ucfirst($data->title, 'utf-8'),
+        Yii::app()->createUrl('question/view', ['id' => $data->id]), ['class' => 'archive-questions__title']); ?>
+    <?php if ($data->answersCount > 0) : ?>
+        <a href=""	class="archive-questions__btn"><?= $data->answersCount ?> ответ</a>
+    <?php else: ?>
+        <div class="archive-questions__no-answer">Нет ответа</div>
+    <?php endif; ?>
 </div>
