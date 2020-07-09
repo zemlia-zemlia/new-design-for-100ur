@@ -9,7 +9,7 @@ use App\models\User;
             <div class="col-7 col-sm-4 col-lg-3">
                 <div class="footer__wrap">
                     <a href="" class="footer__logo img">
-                        <img src="img/footer-logo.png" alt="">
+                        <img src="/img/footer-logo.png" alt="">
                     </a>
                     <ul class="footer__list">
                         <li class="footer__list-item">
@@ -88,32 +88,32 @@ use App\models\User;
                     <ul class="footer__social">
                         <li class="footer__social-item">
                             <a href="https://www.instagram.com/100yuristov/" class="footer__social-link img">
-                                <img src="img/footer-social-link-1.png" alt="">
+                                <img src="/img/footer-social-link-1.png" alt="">
                             </a>
                         </li>
                         <li class="footer__social-item">
                             <a href="https://vk.com/sto_yuristov" class="footer__social-link img">
-                                <img src="img/footer-social-link-2.png" alt="">
+                                <img src="/img/footer-social-link-2.png" alt="">
                             </a>
                         </li>
                         <li class="footer__social-item">
                             <a href="https://ok.ru/group/53087450366125" class="footer__social-link img">
-                                <img src="img/footer-social-link-3.png" alt="">
+                                <img src="/img/footer-social-link-3.png" alt="">
                             </a>
                         </li>
                         <li class="footer__social-item">
                             <a href="https://www.youtube.com/channel/UCgleswVaxaLKwL-MeGDmtfQ" class="footer__social-link img">
-                                <img src="img/footer-social-link-4.png" alt="">
+                                <img src="/img/footer-social-link-4.png" alt="">
                             </a>
                         </li>
                         <li class="footer__social-item">
                             <a href="https://www.facebook.com/100-%D0%AE%D1%80%D0%B8%D1%81%D1%82%D0%BE%D0%B2-1384104981880799/" class="footer__social-link img">
-                                <img src="img/footer-social-link-5.png" alt="">
+                                <img src="/img/footer-social-link-5.png" alt="">
                             </a>
                         </li>
                         <li class="footer__social-item">
                             <a href="https://twitter.com/stoyuristov" class="footer__social-link img">
-                                <img src="img/footer-social-link-6.png" alt="">
+                                <img src="/img/footer-social-link-6.png" alt="">
                             </a>
                         </li>
                     </ul>
