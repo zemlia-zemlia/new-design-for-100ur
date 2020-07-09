@@ -5,95 +5,93 @@ use App\models\User;
 
 ?>
 
-    <!DOCTYPE html>
-    <html lang="ru">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <!-- Переключение IE в последнию версию, на случай если в настройках пользователя стоит меньшая -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!-- Переключение IE в последнию версию, на случай если в настройках пользователя стоит меньшая -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <!-- Адаптирование страницы для мобильных устройств -->
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Адаптирование страницы для мобильных устройств -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-        <!-- Запрет распознования номера телефона -->
-        <meta name="format-detection" content="telephone=no">
-        <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+    <!-- Запрет распознования номера телефона -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
 
-        <!-- Заголовок страницы -->
-        <title><?= CHtml::encode($this->pageTitle); ?></title>
-        <meta name="detectify-verification" content="9f97b18d45029185ceeda96efa4377e5"/>
+    <!-- Заголовок страницы -->
+    <title><?= CHtml::encode($this->pageTitle); ?></title>
+    <meta name="detectify-verification" content="9f97b18d45029185ceeda96efa4377e5"/>
 
-        <!-- Данное значение часто используют(использовали) поисковые системы -->
-        <meta name="description" content="">
-        <meta name="keywords" content="">
+    <!-- Данное значение часто используют(использовали) поисковые системы -->
+    <meta name="description" content="">
+    <meta name="keywords" content="">
 
-        <!-- Традиционная иконка сайта, размер 16x16, прозрачность поддерживается. Рекомендуемый формат: .ico или .png -->
-        <link rel="shortcut icon" href="img/favicon.ico">
+    <!-- Традиционная иконка сайта, размер 16x16, прозрачность поддерживается. Рекомендуемый формат: .ico или .png -->
+    <link rel="shortcut icon" href="img/favicon.ico">
 
 
-        <!-- Google Tag Manager -->
-        <script>(function (w, d, s, l, i) {
-                w[l] = w[l] || [];
-                w[l].push({
-                    'gtm.start':
-                        new Date().getTime(), event: 'gtm.js'
-                });
-                var f = d.getElementsByTagName(s)[0],
-                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-                j.async = true;
-                j.src =
-                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-                f.parentNode.insertBefore(j, f);
-            })(window, document, 'script', 'dataLayer', 'GTM-MNNZGSK');</script>
-        <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-MNNZGSK');</script>
+    <!-- End Google Tag Manager -->
 
-        <!-- Подключение файлов стилей -->
+    <!-- Подключение файлов стилей -->
 
-        <?php
-        Yii::app()->clientScript->registerCssFile("/lib/jquery-ui-1.12.1.custom/jquery-ui.min.css");
-        Yii::app()->clientScript->registerCssFile("/lib/bootstrap/bootstrap-grid.min.css");
-        Yii::app()->clientScript->registerCssFile("/lib/swiper/swiper.min.css");
-        Yii::app()->clientScript->registerCssFile("/css/2020/style.css");
-        Yii::app()->clientScript->registerCssFile("/fonts/fonts.css");
-        Yii::app()->clientScript->registerCssFile("/css/2020/media.css");
-        Yii::app()->clientScript->registerCssFile("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
-        Yii::app()->clientScript->registerScriptFile("/js/respond.min.js", CClientScript::POS_END);
-        //        Yii::app()->clientScript->registerScriptFile("/new-jquery/jquery-3.4.1.min.js");
-        Yii::app()->clientScript->registerScriptFile("/js/2020/jquery-3.4.1.min.js", CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile("/lib/jquery-ui-1.12.1.custom/jquery-ui.min.js", CClientScript::POS_END);
-        //        Yii::app()->clientScript->registerCssFile('/css/2017/jquery-ui.css');
-        Yii::app()->clientScript->registerScriptFile('/lib/swiper/swiper.min.js', CClientScript::POS_END);
+    <?php
+    Yii::app()->clientScript->registerCssFile("/lib/jquery-ui-1.12.1.custom/jquery-ui.min.css");
+    Yii::app()->clientScript->registerCssFile("/lib/bootstrap/bootstrap-grid.min.css");
+    Yii::app()->clientScript->registerCssFile("/lib/swiper/swiper.min.css");
+    Yii::app()->clientScript->registerCssFile("/css/2020/style.css");
+    Yii::app()->clientScript->registerCssFile("/fonts/fonts.css");
+    Yii::app()->clientScript->registerCssFile("/css/2020/media.css");
+    Yii::app()->clientScript->registerCssFile("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
+    Yii::app()->clientScript->registerScriptFile("/js/respond.min.js", CClientScript::POS_END);
+    //        Yii::app()->clientScript->registerScriptFile("/new-jquery/jquery-3.4.1.min.js");
+    Yii::app()->clientScript->registerScriptFile("/js/2020/jquery-3.4.1.min.js", CClientScript::POS_END);
+    Yii::app()->clientScript->registerScriptFile("/lib/jquery-ui-1.12.1.custom/jquery-ui.min.js", CClientScript::POS_END);
+    //        Yii::app()->clientScript->registerCssFile('/css/2017/jquery-ui.css');
+    Yii::app()->clientScript->registerScriptFile('/lib/swiper/swiper.min.js', CClientScript::POS_END);
 
-        Yii::app()->clientScript->registerCssFile("/css/robot_css.css");
+    Yii::app()->clientScript->registerCssFile("/css/robot_css.css");
 
-        //        Yii::app()->clientScript->registerScriptFile("/js/scripts.js");
-        Yii::app()->clientScript->registerScriptFile("/lib/bootstrap/bootstrap.min.js", CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile("/js/2020/main.js", CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile("/js/scripts.js", CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile("/js/2020/counters.js", CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile("/js/2020/robot_widget.js", CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile('/js/profile_notifier.js', CClientScript::POS_END);
-        ?>
+    //        Yii::app()->clientScript->registerScriptFile("/js/scripts.js");
+    Yii::app()->clientScript->registerScriptFile("/lib/bootstrap/bootstrap.min.js", CClientScript::POS_END);
+    Yii::app()->clientScript->registerScriptFile("/js/2020/main.js", CClientScript::POS_END);
+    Yii::app()->clientScript->registerScriptFile("/js/scripts.js", CClientScript::POS_END);
+    Yii::app()->clientScript->registerScriptFile("/js/2020/counters.js", CClientScript::POS_END);
+    Yii::app()->clientScript->registerScriptFile("/js/2020/robot_widget.js", CClientScript::POS_END);
+    Yii::app()->clientScript->registerScriptFile('/js/profile_notifier.js', CClientScript::POS_END);
+    ?>
 
-        <script charset="UTF-8"
-                src="//cdn.sendpulse.com/28edd3380a1c17cf65b137fe96516659/js/push/5ed016b8521088d90d6a9ad8b03ca9e3_1.js"
-                async></script>
-        <?php if (!Yii::app()->user->isGuest): ?>
-            <script type="text/javascript">
-                window.addEventListener('load', function () {
-                    oSpP.push("Name", "<?= CHtml::encode(Yii::app()->user->name); ?>");
-                    oSpP.push("Email", "<?= Yii::app()->user->email; ?>");
-                });
-            </script>
-        <?php endif; ?>
-
-        <script>
-            var robotWidgetQuestionUrl = "<?= Yii::app()->createUrl('/question/call/')?>";
+    <script charset="UTF-8"
+            src="//cdn.sendpulse.com/28edd3380a1c17cf65b137fe96516659/js/push/5ed016b8521088d90d6a9ad8b03ca9e3_1.js"
+            async></script>
+    <?php if (!Yii::app()->user->isGuest): ?>
+        <script type="text/javascript">
+            window.addEventListener('load', function () {
+                oSpP.push("Name", "<?= CHtml::encode(Yii::app()->user->name); ?>");
+                oSpP.push("Email", "<?= Yii::app()->user->email; ?>");
+            });
         </script>
+    <?php endif; ?>
 
-
-    </head>
+    <script>
+        var robotWidgetQuestionUrl = "<?= Yii::app()->createUrl('/question/call/')?>";
+    </script>
+</head>
 
 <body>
 
@@ -171,7 +169,7 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                 </nav>
 
                 <a class="logo-mob img" href="<?= Yii::app()->createUrl('/') ?>">
-                    <img src="/img/logo.png" alt="100 Юристов и Адвокатов"
+                    <img src="/img/logo_mob-hor-menu.png" alt="100 Юристов и Адвокатов"
                          title="Юридический портал"/>
                 </a>
 
@@ -332,7 +330,6 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
 <div class="row">
     <div class="col-sm-12">
         <ul class="hor-list-menu">
-
 
             <?php if (Yii::app()->user->role == User::ROLE_JURIST): ?>
 
