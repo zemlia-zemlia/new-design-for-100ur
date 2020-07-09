@@ -209,7 +209,192 @@ $this->widget('application.widgets.Testimonials.TestimonialsWidget', [
 </section>
 
 
-
+<!-- Workers -->
+<section class="workers">
+    <div class="container">
+        <h2 class="workers__title section-title">Наши юристы</h2>
+        <div class="workers__gallery">
+            <!-- Swiper -->
+            <div class="workers-swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="workers__item">
+                            <div class="workers__item-img img">
+                                <img src="img/workers-item-img-1.png" alt="">
+                            </div>
+                            <div class="workers__item-name">Приходько Николай Валерьевич</div>
+                            <div class="workers__item-post">Юрист</div>
+                            <div class="workers__item-town">
+                                <div class="workers__item-town-ico img">
+                                    <img src="img/workers-item-town-ico.png" alt="">
+                                </div>
+                                <div class="workers__item-town-value">Екатеринбург</div>
+                            </div>
+                            <div class="workers__item-desc">Специализация: налоговое, уголовное, семейное право</div>
+                            <div class="workers__item-stage">Стаж: 5 лет</div>
+                            <div class="workers__item-reviewes">
+                                <div class="workers__item-reviewes-title">Отзывов:</div>
+                                <div class="workers__item-reviewes-value">5</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="workers__item">
+                            <div class="workers__item-img img">
+                                <img src="img/workers-item-img-2.png" alt="">
+                            </div>
+                            <div class="workers__item-name">Конопкевич Василий Петрович</div>
+                            <div class="workers__item-post">Юрист</div>
+                            <div class="workers__item-town">
+                                <div class="workers__item-town-ico img">
+                                    <img src="img/workers-item-town-ico.png" alt="">
+                                </div>
+                                <div class="workers__item-town-value">Екатеринбург</div>
+                            </div>
+                            <div class="workers__item-desc">Специализация: налоговое, уголовное, семейное право</div>
+                            <div class="workers__item-stage">Стаж: 5 лет</div>
+                            <div class="workers__item-reviewes">
+                                <div class="workers__item-reviewes-title">Отзывов:</div>
+                                <div class="workers__item-reviewes-value">5</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="workers__item">
+                            <div class="workers__item-img img">
+                                <img src="img/workers-item-img-3.png" alt="">
+                            </div>
+                            <div class="workers__item-name">Самантина Марина Александровна</div>
+                            <div class="workers__item-post">Юрист</div>
+                            <div class="workers__item-town">
+                                <div class="workers__item-town-ico img">
+                                    <img src="img/workers-item-town-ico.png" alt="">
+                                </div>
+                                <div class="workers__item-town-value">Екатеринбург</div>
+                            </div>
+                            <div class="workers__item-desc">Специализация: налоговое, уголовное, семейное право</div>
+                            <div class="workers__item-stage">Стаж: 5 лет</div>
+                            <div class="workers__item-reviewes">
+                                <div class="workers__item-reviewes-title">Отзывов:</div>
+                                <div class="workers__item-reviewes-value">5</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="workers__item">
+                            <div class="workers__item-img img">
+                                <img src="img/workers-item-img-4.png" alt="">
+                            </div>
+                            <div class="workers__item-name">Болотина Анастасия Сергеевна</div>
+                            <div class="workers__item-post">Юрист</div>
+                            <div class="workers__item-town">
+                                <div class="workers__item-town-ico img">
+                                    <img src="img/workers-item-town-ico.png" alt="">
+                                </div>
+                                <div class="workers__item-town-value">Екатеринбург</div>
+                            </div>
+                            <div class="workers__item-desc">Специализация: налоговое, уголовное, семейное право</div>
+                            <div class="workers__item-stage">Стаж: 5 лет</div>
+                            <div class="workers__item-reviewes">
+                                <div class="workers__item-reviewes-title">Отзывов:</div>
+                                <div class="workers__item-reviewes-value">5</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="workers__item">
+                            <div class="workers__item-img img">
+                                <img src="img/workers-item-img-1.png" alt="">
+                            </div>
+                            <div class="workers__item-name">Приходько Николай Валерьевич</div>
+                            <div class="workers__item-post">Юрист</div>
+                            <div class="workers__item-town">
+                                <div class="workers__item-town-ico img">
+                                    <img src="img/workers-item-town-ico.png" alt="">
+                                </div>
+                                <div class="workers__item-town-value">Екатеринбург</div>
+                            </div>
+                            <div class="workers__item-desc">Специализация: налоговое, уголовное, семейное право</div>
+                            <div class="workers__item-stage">Стаж: 5 лет</div>
+                            <div class="workers__item-reviewes">
+                                <div class="workers__item-reviewes-title">Отзывов:</div>
+                                <div class="workers__item-reviewes-value">5</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="workers__item">
+                            <div class="workers__item-img img">
+                                <img src="img/workers-item-img-2.png" alt="">
+                            </div>
+                            <div class="workers__item-name">Конопкевич Василий Петрович</div>
+                            <div class="workers__item-post">Юрист</div>
+                            <div class="workers__item-town">
+                                <div class="workers__item-town-ico img">
+                                    <img src="img/workers-item-town-ico.png" alt="">
+                                </div>
+                                <div class="workers__item-town-value">Екатеринбург</div>
+                            </div>
+                            <div class="workers__item-desc">Специализация: налоговое, уголовное, семейное право</div>
+                            <div class="workers__item-stage">Стаж: 5 лет</div>
+                            <div class="workers__item-reviewes">
+                                <div class="workers__item-reviewes-title">Отзывов:</div>
+                                <div class="workers__item-reviewes-value">5</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="workers__item">
+                            <div class="workers__item-img img">
+                                <img src="img/workers-item-img-3.png" alt="">
+                            </div>
+                            <div class="workers__item-name">Самантина Марина Александровна</div>
+                            <div class="workers__item-post">Юрист</div>
+                            <div class="workers__item-town">
+                                <div class="workers__item-town-ico img">
+                                    <img src="img/workers-item-town-ico.png" alt="">
+                                </div>
+                                <div class="workers__item-town-value">Екатеринбург</div>
+                            </div>
+                            <div class="workers__item-desc">Специализация: налоговое, уголовное, семейное право</div>
+                            <div class="workers__item-stage">Стаж: 5 лет</div>
+                            <div class="workers__item-reviewes">
+                                <div class="workers__item-reviewes-title">Отзывов:</div>
+                                <div class="workers__item-reviewes-value">5</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="workers__item">
+                            <div class="workers__item-img img">
+                                <img src="img/workers-item-img-4.png" alt="">
+                            </div>
+                            <div class="workers__item-name">Болотина Анастасия Сергеевна</div>
+                            <div class="workers__item-post">Юрист</div>
+                            <div class="workers__item-town">
+                                <div class="workers__item-town-ico img">
+                                    <img src="img/workers-item-town-ico.png" alt="">
+                                </div>
+                                <div class="workers__item-town-value">Екатеринбург</div>
+                            </div>
+                            <div class="workers__item-desc">Специализация: налоговое, уголовное, семейное право</div>
+                            <div class="workers__item-stage">Стаж: 5 лет</div>
+                            <div class="workers__item-reviewes">
+                                <div class="workers__item-reviewes-title">Отзывов:</div>
+                                <div class="workers__item-reviewes-value">5</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Add Arrows -->
+            <div class="workers-button-next"></div>
+            <div class="workers-button-prev"></div>
+            <!-- Add Pagination -->
+            <div class="workers-pagination"></div>
+        </div>
+    </div>
+</section>
 
 
             <?php

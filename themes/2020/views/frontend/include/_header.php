@@ -4,9 +4,7 @@ use App\models\Order;
 use App\models\User;
 
 ?>
-<!DOCTYPE html>
-<html lang="ru">
-<head>
+
     <!DOCTYPE html>
     <html lang="ru">
     <head>
