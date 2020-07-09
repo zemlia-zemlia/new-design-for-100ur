@@ -15,6 +15,8 @@ $(document).ready(function() {
     });
 
 
+
+
   var swiper = new Swiper('.consultations-swiper-container', {
       slidesPerView: 3,
       spaceBetween: 30,
@@ -61,11 +63,11 @@ $(document).ready(function() {
        breakpoints: {
         576: {
           slidesPerView: 1,
-          spaceBetween: 0,
+          spaceBetween: 20,
         },
         840: {
           slidesPerView: 2,
-          spaceBetween: 10,
+          spaceBetween: 20,
         },
         1080: {
           slidesPerView: 3,
@@ -106,15 +108,15 @@ $(document).ready(function() {
        breakpoints: {
         576: {
           slidesPerView: 1,
-          spaceBetween: 0,
+          spaceBetween: 20,
         },
         768: {
           slidesPerView: 2,
-          spaceBetween: 10,
+          spaceBetween: 20,
         },
         920: {
           slidesPerView: 3,
-          spaceBetween: 10,
+          spaceBetween: 20,
         }
       }
     });
@@ -137,15 +139,15 @@ $(document).ready(function() {
        breakpoints: {
         576: {
           slidesPerView: 1,
-          spaceBetween: 10,
+          spaceBetween: 20,
         },
         768: {
           slidesPerView: 2,
-          spaceBetween: 10,
+          spaceBetween: 20,
         },
         920: {
           slidesPerView: 3,
-          spaceBetween: 10,
+          spaceBetween: 20,
         }
       }
     });
@@ -169,15 +171,15 @@ $(document).ready(function() {
         },
         768: {
           slidesPerView: 2,
-          spaceBetween: 10,
+          spaceBetween: 20,
         },
         920: {
           slidesPerView: 3,
-          spaceBetween: 10,
+          spaceBetween: 20,
         },
         1050: {
           slidesPerView: 4,
-          spaceBetween: 10,
+          spaceBetween: 20,
         }
       }
     });
@@ -201,7 +203,7 @@ $(document).ready(function() {
         },
         768: {
           slidesPerView: 2,
-          spaceBetween: 10,
+          spaceBetween: 20,
         },
       }
     });
@@ -225,7 +227,7 @@ $(document).ready(function() {
         },
         768: {
           slidesPerView: 2,
-          spaceBetween: 10,
+          spaceBetween: 20,
         },
       }
     });

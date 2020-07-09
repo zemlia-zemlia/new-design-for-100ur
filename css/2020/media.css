@@ -226,6 +226,15 @@
 		order: 1;
 		margin-bottom: 20px;
 	}
+
+	.news__item-wrap {
+		min-height: 430px;
+		align-items: stretch;
+	}
+
+	.materials-items-wrap {
+		min-height:370px;
+	}
  
 }
 

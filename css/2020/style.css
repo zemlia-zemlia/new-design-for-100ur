@@ -824,6 +824,7 @@ button:active {
 	position: relative;
 	margin-bottom: 40px;
 	padding-bottom: 50px;
+	height: 100%;
 }
 
 .consultations-swiper-container {
@@ -831,9 +832,12 @@ button:active {
   height: 100%;
   margin: 0 auto;
   overflow: hidden;
+  display: flex;
+  align-items: stretch;
 }
 
 .swiper-slide {
+  min-height: 300px;
   text-align: center;
   font-size: 18px;
   box-shadow: 0 0 27px rgba(13, 12, 0, 0.2);
@@ -845,10 +849,7 @@ button:active {
   display: -webkit-flex;
   display: flex;
   justify-content: flex-start;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
-  align-items: center;
+  align-items: stretch;
 }
 
 .swiper-button-next {
@@ -925,6 +926,7 @@ button:active {
 }
 
 .consultations__item-btn {
+	flex-shrink: 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -1167,6 +1169,7 @@ button:active {
 	color: #017052;
 	font-size: 12px;
 	text-decoration: underline;
+	text-align: left;
 }
 
 .reviewes__btn {
@@ -1658,6 +1661,7 @@ button:active {
 }
 
 .news-swiper-container .swiper-slide {
+  min-height: 440px;
   text-align: center;
   font-size: 18px;
   border-radius: 10px;
@@ -1733,26 +1737,43 @@ button:active {
 	background-color: #017052;
 }
 
+.news__item-wrap {
+	min-height: 485px;
+	align-items: stretch;
+}
+
 
 .news__item {
+	display: flex;
+	flex-direction: column;
 	max-width: 90%;
+	height: 100%;
 	margin: 0 auto;
 	border-radius: 10px;
 	background-color: #ffffff;
 }
 
+.news-swiper-container .swiper-slide .news__item {
+	height: auto;
+}
+
 .news__item-img {
 	padding-top: 43.59%;
+	border-radius: 10px 10px 0 0;
 }
 
 .news__item-img img {
 	width: 100%;
 	height: 100%;
+	object-fit: cover;
 
 }
 
 .news__item-content {
+	display: flex;
+	flex-direction: column;
 	padding: 20px;
+	height: 100%;
 }
 
 .news__item-heading {
@@ -1805,6 +1826,7 @@ button:active {
 }
 
 .news__item-more {
+	margin-top: auto;
 	display: inline-block;
 	color: #1a77a3;
 	font-size: 14px;
@@ -1854,6 +1876,7 @@ button:active {
 }
 
 .materials-swiper-container .swiper-slide {
+  min-height: 360px;
   text-align: center;
   font-size: 18px;
   border-radius: 10px;
@@ -1929,8 +1952,13 @@ button:active {
 	background-color: #017052;
 }
 
+.materials-items-wrap {
+	min-height: 420px;
+}
 
 .materials__item {
+	display: flex;
+	flex-direction: column;
 	max-width: 90%;
 	height: 100%;
 	margin: 0 auto;
@@ -1939,11 +1967,24 @@ button:active {
 	background-color: #ffffff;
 }
 
+.materials-swiper-container .swiper-slide .materials__item {
+	height: auto;
+}
+
 .materials__item-img {
 	padding-top: 43.59%;
 }
 
+.materials__item-img img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
 .materials__item-content {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 	padding: 26px 18px 22px;
 }
 
@@ -1963,6 +2004,7 @@ button:active {
 }
 
 .materials__item-more {
+	margin-top: auto;
 	display: inline-block;
 	color: #017052;
 	font-size: 14px;
