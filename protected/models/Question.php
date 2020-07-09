@@ -827,12 +827,12 @@ class Question extends CActiveRecord
 
     public function getCategory()
     {
-        return $this->categories ? $this->categories[0]->name : 'не установлена';
+        return $this->categories ? $this->categories[0]->name : '';
     }
 
     public function getCategoryAlias()
     {
-        return $this->categories ? $this->categories[0]->alias: '#';
+        return $this->categories ? $this->categories[0]->alias: '';
     }
 
 
