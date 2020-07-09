@@ -44,7 +44,7 @@ $purifier = new CHtmlPurifier();
                                         <div class="news__item-comments-value"><?= count($recentPost->comments) ?></div>
                                     </div>
                                 </div>
-                                <h3 class="news__item-title"><?  CHtml::encode($recentPost->title) ?> </h3>
+                                <h3 class="news__item-title"><?=  CHtml::encode($recentPost->title) ?> </h3>
                                 <div class="news__item-desc">
                                     <?= $recentPost->preview ?>
                                 </div>
@@ -83,7 +83,7 @@ $purifier = new CHtmlPurifier();
                                 <div class="news__item-comments-value"><?= count($recentPost->comments) ?></div>
                             </div>
                         </div>
-                        <h3 class="news__item-title"><?  CHtml::encode($recentPost->title) ?>  </h3>
+                        <h3 class="news__item-title"><?=  CHtml::encode($recentPost->title) ?>  </h3>
                         <div class="news__item-desc">
                             <?= $recentPost->preview ?>
                         </div>
