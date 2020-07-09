@@ -178,7 +178,7 @@ $this->widget('application.widgets.Testimonials.TestimonialsWidget', [
                     <!-- Add Pagination -->
                     <div class="question-free-pagination"></div>
                 </div>
-                <a href="" class="question__btn">Показать все вопросы</a>
+                <a href="<?= Yii::app()->createUrl('/q/') ?>" class="question__btn">Показать все вопросы</a>
             </div>
 
             <div id="tab2">
@@ -202,7 +202,7 @@ $this->widget('application.widgets.Testimonials.TestimonialsWidget', [
                     <!-- Add Pagination -->
                     <div class="question-paid-pagination"></div>
                 </div>
-                <a href="" class="question__btn">Показать все вопросы</a>
+                <a href="<?= Yii::app()->createUrl('/q/') ?>" class="question__btn">Показать все вопросы</a>
             </div>
         </div>
     </div>

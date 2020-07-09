@@ -170,15 +170,13 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                     ?>
                     <a href="<?= Yii::app()->createUrl('question/call') ?>" class="header__btn header__btn-mob">Заказать звонок</a>
                 </nav>
-                    <?php if ($_SERVER['REQUEST_URI'] != '/'): ?>
-                        <a class="logo-mob img" href="/">
+
+                        <a class="logo-mob img" href="<?= Yii::app()->createUrl('/') ?>">
                             <img src="/img/logo.png" alt="100 Юристов и Адвокатов"
                                  title="Юридический портал"/>
                         </a>
-                    <?php else: ?>
-                        <img src="/img/logo.png" alt="100 Юристов и Адвокатов"
-                             title="Юридический портал"/>
-                    <?php endif; ?>
+
+
 
                 <a href="" class="search-btn img">
                     <img src="/img/search-btn.png" alt="">
@@ -201,7 +199,7 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
         <div class="container">
             <div class="row no-gutters justify-content-between align-items-center">
                 <div class="col-sm-12 col-md-auto">
-                    <a href="" class="logo img">
+                    <a href="<?= Yii::app()->createUrl('/') ?>" class="logo img">
                         <img src="/img/logo.png" alt="">
                     </a>
                 </div>

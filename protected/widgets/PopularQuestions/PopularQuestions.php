@@ -11,14 +11,15 @@ class PopularQuestions extends CWidget
     public $template = 'default'; // представление виджета по умолчанию
     public $cacheTime = 600; // время кеширования по умолчанию
     public $showPayed = false; // показывать платные вопросы
-    public $intervalDays = 25; // период выборки
+    public $intervalDays = 100; // период выборки
 
     public function run()
     {
-        $priceCondition = (true === $this->showPayed) ? 'price > 0' : 'price = 0';
+        $priceCondition = (true === $this->showPayed) ? 'q.price > 0' : 'q.price = 0';
 
         $criteria  = new \CDbCriteria();
         $criteria->alias = 'q';
+        $criteria->distinct = true;
         $criteria->join = 'LEFT JOIN {{answer}} a ON q.id = a.questionId LEFT JOIN {{user}} u ON a.authorId = u.id AND u.lastAnswer = a.datetime';
 
         $criteria->condition = 'q.createDate > NOW() - INTERVAL :interval DAY AND u.lastAnswer IS NOT NULL  AND ' . $priceCondition . '  AND u.active100=1 AND a.status!=:spamStatus';

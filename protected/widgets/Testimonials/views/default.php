@@ -47,7 +47,7 @@ $purifier = new CHtmlPurifier();
             <!-- Add Pagination -->
             <div class="reviewes-pagination"></div>
         </div>
-        <a href="<?= Yii::app()->createUrl('/question/call/' . $question->categoryAlias) ?>" class="reviewes__btn">Задать вопрос онлайн</a>
+        <a href="<?= Yii::app()->createUrl('/question/create/') ?>" class="reviewes__btn">Задать вопрос онлайн</a>
     </div>
 </section>
 
