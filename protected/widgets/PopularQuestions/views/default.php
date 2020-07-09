@@ -8,6 +8,11 @@ use App\helpers\StringHelper;
 foreach ($questions as $question): ?>
     <div class="swiper-slide">
         <div class="consultations__item">
+            <?php if ($question->price) : ?>
+            <div class="question-paid-img img">
+                <img src="img/question-paid-img.png" alt="">
+            </div>
+            <?php endif; ?>
             <div class="consultations__date">
                 <?php
                 $questionDatetime = (new DateTime($question->createDate));
