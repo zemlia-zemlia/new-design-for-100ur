@@ -13,42 +13,28 @@ class RecentAnswers extends CWidget
 
     public function run()
     {
-//        $answers = Yii::app()->cache->get('recentAnswers');
+        $answers = Yii::app()->cache->get('recentAnswers');
 
-//        if (false === $answers) {
-            // выберем ответы за последний месяц, с вопросами и авторами
-//            $answersRows = Yii::app()->db->createCommand()
-//                    ->select('q.title questionTitle, q.id questionId, q.price questionPrice,
-//                    q.payed questionPayed, a.answerText, a.datetime answerTime, a.authorId,
-//                    u.name authorName, u.name2 authorName2, u.lastName authorLastName, u.lastActivity')
-//                    ->from('{{answer}} a')
-//                    ->leftJoin('{{user}} u', 'a.authorId = u.id AND u.lastAnswer = a.datetime')
-//                    ->leftJoin('{{question}} q', 'q.id = a.questionId')
-//                    ->where('u.lastAnswer IS NOT NULL AND u.active100=1 AND a.status!=:spamStatus', ['spamStatus' => Answer::STATUS_SPAM])
-//                    ->order('u.lastAnswer DESC')
-//                    ->limit($this->limit)
-//                    ->queryAll();
-            $answers = [];
-
-
-        $questions = \App\models\Question::model()->with([
-            'answers' => [
-                'joinType'=>'LEFT JOIN',
-                'condition'=> 'answers.questionId = t.id'
-            ]
-
-        ])->findAll(['limit' => $this->limit, 'order' => 'id DESC']);
+        if (false === $answers) {
 
 
 
 
-//            foreach ($answersRows as $row) {
-//                $answers[$row['authorId']] = $row;
-//            }
-            // храним результаты выборки ответов в кеше
-//            Yii::app()->cache->set('recentAnswers', $answers, $this->cacheTime);
-//        }
-//        CVarDumper::dump($questions,5,true);die;
+        $criteria  = new \CDbCriteria();
+        $criteria->alias = 'q';
+        $criteria->join = 'LEFT JOIN {{answer}} a ON q.id = a.questionId LEFT JOIN {{user}} u ON a.authorId = u.id AND u.lastAnswer = a.datetime';
+
+        $criteria->condition = 'u.lastAnswer IS NOT NULL AND u.active100=1 AND a.status!=:spamStatus';
+        $criteria->params = ['spamStatus' => Answer::STATUS_SPAM];
+        $criteria->order = 'u.lastAnswer DESC';
+        $criteria->limit = $this->limit;
+
+        $questions = \App\models\Question::model()->findAll($criteria);
+
+//             храним результаты выборки ответов в кеше
+            Yii::app()->cache->set('recentAnswers', $answers, $this->cacheTime);
+        }
+
         $this->render($this->template, [
             'questions' => $questions,
         ]);

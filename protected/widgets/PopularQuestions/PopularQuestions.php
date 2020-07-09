@@ -11,32 +11,22 @@ class PopularQuestions extends CWidget
     public $template = 'default'; // представление виджета по умолчанию
     public $cacheTime = 600; // время кеширования по умолчанию
     public $showPayed = false; // показывать платные вопросы
-    public $intervalDays = 15; // период выборки
+    public $intervalDays = 25; // период выборки
 
     public function run()
     {
         $priceCondition = (true === $this->showPayed) ? 'price > 0' : 'price = 0';
-        $questionsRows = Yii::app()->db->cache($this->cacheTime)->createCommand()
-            ->select('q.id, q.title, q.questionText, q.createDate, q.price, COUNT(*) counter')
-            ->from('{{question}} q')
-            ->leftJoin('{{answer}} a', 'q.id=a.questionId')
-            ->where('q.createDate > NOW() - INTERVAL :interval DAY AND ' . $priceCondition . ' AND a.status!=:status', [
-                ':status' => Answer::STATUS_SPAM,
-                ':interval' => $this->intervalDays,
-            ])
-            ->group('q.id')
-            ->order('q.id DESC')
-            ->queryAll();
-        $questions = [];
 
-        foreach ($questionsRows as $row) {
-            $questions[$row['id']]['title'] = $row['title'];
-            $questions[$row['id']]['questionText'] = $row['questionText'];
-            $questions[$row['id']]['id'] = $row['id'];
-            $questions[$row['id']]['createDate'] = $row['createDate'];
-            $questions[$row['id']]['price'] = $row['price'];
-            $questions[$row['id']]['answersCount'] = $row['counter'];
-        }
+        $criteria  = new \CDbCriteria();
+        $criteria->alias = 'q';
+        $criteria->join = 'LEFT JOIN {{answer}} a ON q.id = a.questionId LEFT JOIN {{user}} u ON a.authorId = u.id AND u.lastAnswer = a.datetime';
+
+        $criteria->condition = 'q.createDate > NOW() - INTERVAL :interval DAY AND u.lastAnswer IS NOT NULL  AND ' . $priceCondition . '  AND u.active100=1 AND a.status!=:spamStatus';
+        $criteria->params = ['spamStatus' => Answer::STATUS_SPAM, ':interval' => $this->intervalDays];
+        $criteria->order = 'u.lastAnswer DESC';
+
+
+        $questions = \App\models\Question::model()->cache($this->cacheTime)->findAll($criteria);
 
         $questions = array_slice($questions, 0, 10);
 

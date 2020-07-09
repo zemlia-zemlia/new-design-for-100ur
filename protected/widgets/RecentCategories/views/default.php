@@ -58,6 +58,6 @@ if (empty($recentCategories) || 0 == sizeof($recentCategories)) {
             </div>
             <?php endforeach; ?>
         </div>
-        <a href="" class="materials__btn">Все правовые материалы</a>
+        <a href="<?= Yii::app()->createUrl('/cat/') ?>" class="materials__btn">Все правовые материалы</a>
     </div>
 </section>

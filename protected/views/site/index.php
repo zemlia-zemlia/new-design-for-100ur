@@ -6,6 +6,7 @@ Yii::app()->clientScript->registerLinkTag('canonical', null, 'https://' . $_SERV
 ?>
 
 
+
 <section class="steps">
     <div class="container">
         <h2 class="steps__title section-title">Как это работает?</h2>
@@ -103,7 +104,7 @@ Yii::app()->clientScript->registerLinkTag('canonical', null, 'https://' . $_SERV
 
 
             <?php
-            // выводим виджет с последними ответами
+            // выводим виджет с последними вопросами
             $this->widget('application.widgets.RecentAnswers.RecentAnswers', [
                 'template' => 'default',
                 'limit' => 4,
@@ -213,7 +214,7 @@ $this->widget('application.widgets.Testimonials.TestimonialsWidget', [
 
             <?php
             $this->widget('application.widgets.RecentPosts.RecentPosts', [
-                'number' => 6,
+                'number' => 3,
                 'order' => 'fresh_views',
                 'intervalDays' => 1160,
                 'template' => 'horizontal',

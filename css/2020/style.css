@@ -262,7 +262,7 @@ button:active {
 	left: 0;
 	width: 22px;
 	height: 22px;
-	background-image: url(../img/header-contacts.png);
+	background-image: url(/img/header-contacts.png);
 	background-repeat: no-repeat;
 }
 
@@ -313,7 +313,7 @@ button:active {
 .header__bottom {
 	padding: 18px 0;
 	background-color: #81d2bc;
-	background-image: url(../img/header-bottom-bg.png);
+	background-image: url(/img/header-bottom-bg.png);
 	background-repeat: no-repeat;
 	background-position: left top;
 }
@@ -459,7 +459,7 @@ button:active {
 	align-items: center;
 	width: 180px;
 	height: 50px;
-	border-radius: 8px;
+	border-radius: 8px!important;
 	background-color: #017052;
 	color: #fff;
 	font-family: 'Open Sans', sans-serif;
@@ -695,7 +695,7 @@ button:active {
 .consultations {
 	padding: 45px 0 60px 0;
 	background-color: rgba(1, 112, 82, .8);
-	background-image: url(../img/consultations-bg.png);
+	background-image: url(/img/consultations-bg.png);
 	background-position: left top;
 }
 
@@ -739,7 +739,7 @@ button:active {
 	top: 45%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(../img/slide-next.png);
+	background-image: url(/img/slide-next.png);
 	background-size: 18px;
 }
 
@@ -747,7 +747,7 @@ button:active {
 	top: 45%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(../img/slide-prev.png);
+	background-image: url(/img/slide-prev.png);
 	background-size: 18px;
 }
 
@@ -941,7 +941,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(../img/reviewes-button-next.png);
+	background-image: url(/img/reviewes-button-next.png);
 	background-size: 18px;
 	right: 10px;
 	left: auto;
@@ -958,7 +958,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(../img/reviewes-button-prev.png);
+	background-image: url(/img/reviewes-button-prev.png);
 	background-size: 18px;
 	left: 10px;
 	right: auto;
@@ -1157,7 +1157,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(../img/question-free-button-next.png);
+	background-image: url(/img/question-free-button-next.png);
 	background-size: 18px;
 	right: 10px;
 	left: auto;
@@ -1174,7 +1174,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(../img/question-free-button-prev.png);
+	background-image: url(/img/question-free-button-prev.png);
 	background-size: 18px;
 	left: 10px;
 	right: auto;
@@ -1252,7 +1252,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(../img/question-free-button-next.png);
+	background-image: url(/img/question-free-button-next.png);
 	background-size: 18px;
 	right: 10px;
 	left: auto;
@@ -1269,7 +1269,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(../img/question-free-button-prev.png);
+	background-image: url(/img/question-free-button-prev.png);
 	background-size: 18px;
 	left: 10px;
 	right: auto;
@@ -1378,7 +1378,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(../img/question-free-button-next.png);
+	background-image: url(/img/question-free-button-next.png);
 	background-size: 18px;
 	right: 10px;
 	left: auto;
@@ -1395,7 +1395,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(../img/question-free-button-prev.png);
+	background-image: url(/img/question-free-button-prev.png);
 	background-size: 18px;
 	left: 10px;
 	right: auto;
@@ -1516,7 +1516,7 @@ button:active {
 	padding-top: 50px;
 	padding-bottom: 60px;
 	background-color: rgba(1, 112, 82, .8);
-	background-image: url(../img/consultations-bg.png);
+	background-image: url(/img/consultations-bg.png);
 	background-repeat: repeat;
 	background-position: left top;
 }
@@ -1562,7 +1562,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(../img/slide-next.png);
+	background-image: url(/img/slide-next.png);
 	background-size: 18px;
 	right: 10px;
 	left: auto;
@@ -1579,7 +1579,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(../img/slide-prev.png);
+	background-image: url(/img/slide-prev.png);
 	background-size: 18px;
 	left: 10px;
 	right: auto;
@@ -1758,7 +1758,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(../img/reviewes-button-next.png);
+	background-image: url(/img/reviewes-button-next.png);
 	background-size: 18px;
 	right: 10px;
 	left: auto;
@@ -1775,7 +1775,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(../img/reviewes-button-prev.png);
+	background-image: url(/img/reviewes-button-prev.png);
 	background-size: 18px;
 	left: 10px;
 	right: auto;
@@ -1962,7 +1962,7 @@ button:active {
 	left: -23px;
 	width: 15px;
 	height: 21px;
-	background-image: url(../img/footer-branches-title.png);
+	background-image: url(/img/footer-branches-title.png);
 	background-repeat: no-repeat;
 }
 

@@ -145,7 +145,7 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
 
                         <?php if (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->isGuest): ?>
 
-                            <li class="nav-mob-item"><?= ($_SERVER['REQUEST_URI'] != '/question/create/') ? CHtml::link('Задать свой вопрос юристам online',
+                            <li class="nav-mob-item"><?= ($_SERVER['REQUEST_URI'] != '/question/create/') ? CHtml::link('Задать вопрос юристу online',
                                     Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' .
                                     Yii::app()->controller->id, ['class' => 'nav-mob-link']) : ''; ?>
                             </li>
@@ -155,7 +155,7 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
                             <li class="nav-mob-item"><?= ($_SERVER['REQUEST_URI'] != '/q/') ? CHtml::link('Вопросы',
                                     Yii::app()->createUrl('/q/'), ['class' => 'nav-mob-link']) : '<span class="active">Найти юриста</span>'; ?>
                             </li>
-                            <li class="nav-mob-item"><?= ($_SERVER['REQUEST_URI'] != '/yurist/russia/') ? CHtml::link('Юристы',
+                            <li class="nav-mob-item"><?= ($_SERVER['REQUEST_URI'] != '/yurist/russia/') ? CHtml::link('Найти юриста',
                                     Yii::app()->createUrl('/yurist/russia/'), ['class' => 'nav-mob-link']) : '<span class="active">Найти юриста</span>'; ?>
                             </li>
                         <?php endif; ?>
@@ -295,13 +295,22 @@ $this->widget('application.widgets.ProfileNotifier.ProfileNotifier', []);
 
                             <?php if (Yii::app()->user->role == User::ROLE_CLIENT || Yii::app()->user->isGuest): ?>
 
-                                <li class="main__nav-item"><?= ($_SERVER['REQUEST_URI'] != '/question/create/') ? CHtml::link('Задать свой вопрос юристам online', Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' . Yii::app()->controller->id, ['class' => 'main__nav-link main__nav-link--question']) : ''; ?></li>
+                                <li class="main__nav-item"><?= ($_SERVER['REQUEST_URI'] != '/question/create/') ?
+                                        CHtml::link('Задать  вопрос юристу online', Yii::app()->createUrl('question/create') .
+                                            '?utm_source=100yuristov&utm_medium=top-menu&utm_campaign=' . Yii::app()->controller->id,
+                                            ['class' => 'main__nav-link main__nav-link--question']) : ''; ?></li>
 
 
-                                <li class="main__nav-item"><?= ($_SERVER['REQUEST_URI'] != '/question/call/') ? CHtml::link('Консультация по телефону', Yii::app()->createUrl('/question/call/'), ['class' => 'main__nav-item']) : '<span class="active">Консультация по телефону</span>'; ?></li>
+                                <li class="main__nav-item"><?= ($_SERVER['REQUEST_URI'] != '/question/call/') ?
+                                        CHtml::link('Консультация по телефону', Yii::app()->createUrl('/question/call/'), ['class' => 'main__nav-item']) :
+                                        '<span class="active">Консультация по телефону</span>'; ?></li>
 
-                                <li class="main__nav-item"><?= ($_SERVER['REQUEST_URI'] != '/q/') ? CHtml::link('Вопросы', Yii::app()->createUrl('/q/'), ['class' => 'main__nav-item']) : '<span class="active">Найти юриста</span>'; ?></li>
-                                <li class="main__nav-item"><?= ($_SERVER['REQUEST_URI'] != '/yurist/russia/') ? CHtml::link('Юристы', Yii::app()->createUrl('/yurist/russia/'), ['class' => 'main__nav-item']) : '<span class="active">Найти юриста</span>'; ?></li>
+                                <li class="main__nav-item"><?= ($_SERVER['REQUEST_URI'] != '/q/') ?
+                                        CHtml::link('Вопросы', Yii::app()->createUrl('/q/'), ['class' => 'main__nav-item']) :
+                                        '<span class="active">Вопросы</span>'; ?></li>
+                                <li class="main__nav-item"><?= ($_SERVER['REQUEST_URI'] != '/yurist/russia/') ?
+                                        CHtml::link('Найти юриста', Yii::app()->createUrl('/yurist/russia/'), ['class' => 'main__nav-item']) :
+                                        '<span class="active">Найти юриста</span>'; ?></li>
                             <?php endif; ?>
 
 

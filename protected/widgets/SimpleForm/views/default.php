@@ -36,7 +36,7 @@ use App\models\User;
                                 ['class' => 'header__main-btn header__main-btn-ask', 'onclick' => 'yaCounter26550786.reachGoal("simple_form_submit"); return true;']);
                             ?>
 
-                            <a href="" class="header__main-btn header__main-order-btn">Заказать звонок</a>
+                            <a href="/question/call/" class="header__main-btn header__main-order-btn">Заказать звонок</a>
                             <div class="header__main-order-desc">
                                 <div class="header__main-order-desc-value">Не хотите писать?</div>
                                 <div class="header__main-order-desc-value">Закажите обратный звонок</div>

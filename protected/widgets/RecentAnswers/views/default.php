@@ -1,6 +1,8 @@
-<?php use App\helpers\DateHelper;
+<?php
+use App\helpers\DateHelper;
 use App\helpers\StringHelper;
-use App\models\User;
+use http\Url;
+
 
 
 ?>
@@ -25,10 +27,10 @@ use App\models\User;
                         <div class="swiper-slide">
                             <div class="consultations__item">
                                 <div class="consultations__date"><?= date('d.m.Y', strtotime($question->createDate)) ?></div>
-                                <a href="" class="consultations__category"><?= $question->category ?></a>
+                                <a href="<?= Yii::app()->createUrl('/cat/' . $question->categoryAlias) ?>" class="consultations__category"><?= $question->category ?></a>
                                 <div class="consultations__item-title"><?= $question->title ?></div>
-                                <div class="consultations__item-desc"><?= $question->questionText ?></div>
-                                <a href="" class="consultations__item-btn">
+                                <div class="consultations__item-desc"><?= StringHelper::cutString($question->questionText, 70) ?></div>
+                                <a href="<?= Yii::app()->createUrl('/q/' . $question->id) ?>" class="consultations__item-btn">
                                     <span class="consultations__item-btn-title"><?= count($question->answers) ?> ответа</span>
                                     <span class="consultations__item-btn-img img">
 			      				<img src="img/consultations-item-btn-img.png" alt="">
@@ -46,7 +48,7 @@ use App\models\User;
                 <!-- Add Pagination -->
                 <div class="swiper-pagination"></div>
             </div>
-            <a href="" class="consultations__btn">Задать вопрос онлайн</a>
+            <a href="<?= Yii::app()->createUrl('/question/call/' . $question->categoryAlias) ?>" class="consultations__btn">Задать вопрос онлайн</a>
         </div>
     </section>
 

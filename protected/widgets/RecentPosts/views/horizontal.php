@@ -1,6 +1,7 @@
 <?php
 
 use App\models\Post;
+use App\helpers\DateHelper;
 
 if (empty($recentPosts) || !count($recentPosts)) {
     echo 'Не найдено ни одного поста';
@@ -26,29 +27,28 @@ $purifier = new CHtmlPurifier();
                     <div class="swiper-slide">
                         <div class="news__item">
                             <div class="news__item-img img">
-                                <?php if ($recentPost['photo']): ?>
-                                <?php
-                                $postObject = new Post();
-                                $postObject->attributes = $recentPost;
-                                ?>
-                                <img src="<?= $postObject->getPhotoUrl('thumb') ?>" alt="<?= CHtml::encode($recentPost['title']) ?>">
+                                <?php if ($recentPost->photo): ?>
+
+                                <img src="<?= $recentPost->getPhotoUrl('thumb') ?>" alt="<?= CHtml::encode($recentPost->title) ?>">
                                 <?php endif; ?>
                             </div>
                             <div class="news__item-content">
                                 <div class="news__item-heading">
-                                    <div class="news__item-date">10.01.2019</div>
+                                    <div class="news__item-date"><?= DateHelper::niceDate($recentPost->datetime, false, false) ?></div>
                                     <div class="news__item-views">
                                         <div class="news__item-views-title">Просмотров:</div>
                                         <div class="news__item-views-value">108</div>
                                     </div>
                                     <div class="news__item-comments">
                                         <div class="news__item-comments-title">Комментариев:</div>
-                                        <div class="news__item-comments-value">8</div>
+                                        <div class="news__item-comments-value"><?= count($recentPost->comments) ?></div>
                                     </div>
                                 </div>
-                                <h3 class="news__item-title"><?  CHtml::encode($recentPost['title']) ?> </h3>
-                                <div class="news__item-desc">Отвечая на вопросы журналистов в процессе пресс-конференции в Осаке. Путин заявил, что Россия не будет проявлять инициативы для снятия санкций со стороны Евросоюза и США. Лидер сказал...</div>
-                                <a href="<?= Yii::app()->createUrl('post/view', ['id' => $recentPost['id'], 'alias' => $recentPost['alias']]) ?>" class="news__item-more">Читать подробнее</a>
+                                <h3 class="news__item-title"><?  CHtml::encode($recentPost->title) ?> </h3>
+                                <div class="news__item-desc">
+                                    <?= $recentPost->preview ?>
+                                </div>
+                                <a href="<?= Yii::app()->createUrl('post/view', ['id' => $recentPost->id, 'alias' => $recentPost->alias]) ?>" class="news__item-more">Читать подробнее</a>
                             </div>
                         </div>
                     </div>
@@ -77,24 +77,26 @@ $purifier = new CHtmlPurifier();
                     </div>
                     <div class="news__item-content">
                         <div class="news__item-heading">
-                            <div class="news__item-date">10.01.2019</div>
+                            <div class="news__item-date"><?= DateHelper::niceDate($recentPost->datetime, false, false) ?></div>
                             <div class="news__item-views">
                                 <div class="news__item-views-title">Просмотров:</div>
                                 <div class="news__item-views-value">108</div>
                             </div>
                             <div class="news__item-comments">
                                 <div class="news__item-comments-title">Комментариев:</div>
-                                <div class="news__item-comments-value">8</div>
+                                <div class="news__item-comments-value"><?= count($recentPost->comments) ?></div>
                             </div>
                         </div>
-                        <h3 class="news__item-title"><?  CHtml::encode($recentPost['title']) ?>  </h3>
-                        <div class="news__item-desc">Отвечая на вопросы журналистов в процессе пресс-конференции в Осаке. Путин заявил, что Россия не будет проявлять инициативы для снятия санкций со стороны Евросоюза и США. Лидер сказал...</div>
-                        <a href="" class="news__item-more">Читать подробнее</a>
+                        <h3 class="news__item-title"><?  CHtml::encode($recentPost->title) ?>  </h3>
+                        <div class="news__item-desc">
+                            <?= $recentPost->preview ?>
+                        </div>
+                        <a href="<?= Yii::app()->createUrl('post/view', ['id' => $recentPost->id, 'alias' => $recentPost->alias]) ?>" class="news__item-more">Читать подробнее</a>
                     </div>
                 </div>
             </div>
             <?php endforeach; ?>
         </div>
-        <a href="" class="news__btn">Все новости и статьи</a>
+        <a href="<?= Yii::app()->createUrl('/blog/') ?>" class="news__btn">Все новости и статьи</a>
     </div>
 </section>

@@ -24,7 +24,7 @@
                                     <img src="/upload/category_icons/<?= $cat['icon']; ?>" width="30" alt="<?= CHtml::encode($cat['name']); ?>">
                                 </span>
                     <?php endif; ?>
-                            <span class="categories__list-link-title"><?=  CHtml::link(CHtml::encode($cat['name'])) ?></span>
+                            <span class="categories__list-link-title"><?= CHtml::encode($cat['name'])?></span>
                                     </a>
                                 </li>
                  <?php endforeach; ?>
