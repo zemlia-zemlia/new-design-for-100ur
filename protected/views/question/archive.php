@@ -20,8 +20,9 @@ $js = 'var arhiveUrl = "' . $url . '";';
 $js .= <<< JS
 
 $('#archive-questions-list').on('click', '.archive-questions__more-btn', function(e) {
-    console.log(arhiveUrl);
-    var perpage =  Number($(this).attr('data-per_page'));
+   
+   perpage =  Number($(this).attr('data-per_page'));
+  
    e.preventDefault();
         $.ajax({
   type: "POST",
@@ -29,9 +30,9 @@ $('#archive-questions-list').on('click', '.archive-questions__more-btn', functio
   dataType: "html",
   data: { per_page: (perpage + 25) },
   success: function(msg){
-
-    $('#archive-questions-list').html(msg);
-
+ console.log(  perpage);
+    $('#archive-questions-list .archive-questions__body').replaceWith(msg);
+    $('.archive-questions__more-btn').attr('data-per_page', (perpage + 25))
 
   }});
         
@@ -82,19 +83,13 @@ Yii::app()->clientScript->registerScript('ajaxQuestionView', $js, CClientScript:
 
                     <div id="archive-questions-list" class="archive-questions">
 
-                        <?php $this->widget('zii.widgets.CListView', [
-                            'dataProvider' => $dataProvider,
-                            'itemView' => '_viewArchive',
-                            'htmlOptions' => ['class' => 'archive-questions__body'],
-                            'ajaxUpdate' => true,
-                            'pager' => ['class' => 'GTLinkPager'],
-                            'pagerCssClass' => 'pagination',
-                            'template' => '{items} <a href="#" data-per_page="25" class="archive-questions__more-btn">Показать еще 25 вопросов</a> {pager}'
+                        <?= $this->renderPartial('archiveAjax', [
+                            'dataProvider' => $dataProvider
                         ]); ?>
 
 
 
-                </div>
+                    </div>
             </div>
             <div class=" col-md-5 col-lg-4">
                 <div class="archive__aside">

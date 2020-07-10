@@ -7,12 +7,12 @@
  */
 ?>
 
-       <?php $this->widget('zii.widgets.CListView', [
-                            'dataProvider' => $dataProvider,
-                            'itemView' => '_viewArchive',
-                            'htmlOptions' => ['class' => 'archive-questions__body'],
-                            'ajaxUpdate' => true,
-                            'pager' => ['class' => 'GTLinkPager'],
-                            'pagerCssClass' => 'pagination',
-                            'template' => '{items} <a href="javascript:" class="archive-questions__more-btn">Показать еще 25 вопросов</a> {pager}'
-                        ]); ?>
+<?php $this->widget('zii.widgets.CListView', [
+    'dataProvider' => $dataProvider,
+    'itemView' => '_viewArchive',
+    'htmlOptions' => ['class' => 'archive-questions__body'],
+    'ajaxUpdate' => true,
+    'pager' => ['class' => 'GTLinkPager'],
+    'pagerCssClass' => 'pagination',
+    'template' => '{items} <a href="#" data-per_page="25" class="archive-questions__more-btn">Показать еще 25 вопросов</a> {pager}'
+]); ?>
