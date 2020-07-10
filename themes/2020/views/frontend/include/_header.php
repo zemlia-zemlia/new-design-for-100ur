@@ -54,7 +54,7 @@ use App\models\User;
     Yii::app()->clientScript->registerCssFile("/lib/jquery-ui-1.12.1.custom/jquery-ui.min.css");
     Yii::app()->clientScript->registerCssFile("/lib/bootstrap/bootstrap-grid.min.css");
     Yii::app()->clientScript->registerCssFile("/lib/swiper/swiper.min.css");
-    Yii::app()->clientScript->registerCssFile("/css/2020/style.css");
+    Yii::app()->clientScript->registerCssFile("/style.css");
     Yii::app()->clientScript->registerCssFile("/fonts/fonts.css");
     Yii::app()->clientScript->registerCssFile("/css/2020/media.css");
     Yii::app()->clientScript->registerCssFile("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
