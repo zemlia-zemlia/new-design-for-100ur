@@ -13,7 +13,7 @@ if (isset($_GET) && (int) $_GET['Question_page']) {
 }
 $this->setPageTitle($pageTitle);
 Yii::app()->clientScript->registerMetaTag('Ответы юристов и адвокатов. ' . $pageTitle, 'Description');
-Yii::app()->clientScript->registerLinkTag('canonical', null, Yii::app()->baseUrl . '/question/archive', ['date' => $year . '-' . $month]);
+Yii::app()->clientScript->registerLinkTag('canonical', null, Yii::app()->createUrl('/question/archive', ['date' => $year . '-' . $month]));
 
 $js = 'var arhiveUrl = "' . $url . '";';
 
@@ -22,7 +22,7 @@ $js .= <<< JS
 $('#archive-questions-list').on('click', '.archive-questions__more-btn', function(e) {
    
    perpage =  Number($(this).attr('data-per_page'));
-   console.log(  arhiveUrl);
+  
    e.preventDefault();
         $.ajax({
   type: "POST",
@@ -30,7 +30,7 @@ $('#archive-questions-list').on('click', '.archive-questions__more-btn', functio
   dataType: "html",
   data: { per_page: (perpage + 25) },
   success: function(msg){
-
+ console.log(  perpage);
     $('#archive-questions-list .archive-questions__body').replaceWith(msg);
     $('.archive-questions__more-btn').attr('data-per_page', (perpage + 25))
 
