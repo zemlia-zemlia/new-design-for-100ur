@@ -28,8 +28,7 @@ a {
 input,
 textarea,
 input:active,
-textarea:active,
-select {
+textarea:active {
     -webkit-border-radius: 0;
             border-radius: 0;
          outline: none transparent !important;
@@ -183,15 +182,15 @@ button:active {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	width: 225px;
+	width: 25px;
 	margin: 0 auto;
 }
 
-.pagination__list {
+.pagination>ul {
 	display: flex;
 }
 
-.pagination__list-link {
+.pagination>ul>li>a {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -201,19 +200,19 @@ button:active {
 	font-size: 14px;
 }
 
-.pagination__list-link--active {
+.pagination>ul>li>a .selected {
 	background-color: #c2d4e8;
 	font-size: 16px;
 	font-weight: 700;
 }
 
-.pagination__btn {
+.pagination>ul>li.next, pagination>ul>li.previous, pagination>ul>li.first, pagination>ul>li.last {
 	display: block;
 	color: #000c14;
 	font-size: 14px;
 	line-height: 1;
 	padding-right: 14px;
-	background-image: url(/img/archive-questions-btn-ico.png);
+	background-image: url(/img/unregistered/archive-questions-btn-ico.png);
 	background-repeat: no-repeat;
 	background-position: right top 4px;  
 }
@@ -2131,7 +2130,7 @@ button:active {
 
 /* ------------------ Crm system --------------------*/
 
-.page__desc p {
+.crm-system__desc p {
 	color: #000c14;
 	font-size: 16px;
 	line-height: 1.5;
@@ -2276,15 +2275,15 @@ button:active {
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	width: 130px;
+	width: 110px;
 	height: 33px;
 	margin-left: 10px;
 	padding: 0 17px;
 	border-radius: 17px;
 	border: 1px solid #cacaca;
-	background-image: url(/img/archive-questions-btn-ico.png);
+	background-image: url(/img/unregistered/archive-questions-btn-ico.png);
 	background-repeat: no-repeat;
-	background-position: right 20px top 11px;
+	background-position: right 20px center;
 	color: #000c14;
 	font-size: 14px;
 	line-height: 1;
@@ -2317,7 +2316,7 @@ button:active {
 	border-radius: 8px;
 	border: 1px solid #1a77a3;
 	background-color: #017052;
-	background-image: url(/img/advice-form-bg.png);
+	background-image: url(/img/unregistered/advice-form-bg.png);
 	background-position: left top;
 }
 
@@ -2348,7 +2347,7 @@ button:active {
 	width: 228px;
 	height: 51px;
 	margin: 0 auto;
-	border-radius: 8px !important;
+	border-radius: 8px!important;
 	border: 1px solid #1a77a3;
 	background-color: #ffffff;
  }
@@ -2489,449 +2488,4 @@ button:active {
 	color: #000c14;
 	font-size: 16px;
 	letter-spacing: 0.16px;
-}
-
-/* ------------------ Questions-for-lawyers  --------------------*/
-
-.questions-lawyers {
-	max-width: 96%;
-}
-
-.questions-lawyers__item {
-	position: relative;
-	margin-bottom: 20px;
-	padding: 22px 60px 25px 20px;
-	border-radius: 10px;
-	border: 1px solid #e5e5e5;
-	background-color: #ffffff;
-}
-
-.questions-lawyers__item-price {
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 60px;
-	height: 60px;
-}
-
-.questions-lawyers__item-title {
-	margin-bottom: 10px;
-	line-height: 1.37;
-	font-weight: 700;
-}
-
-.questions-lawyers__item-answer {
-	margin-bottom: 10px;
-	font-size: 14px;
-	line-height: 1.42;
-}
-
-.questions-lawyers__item-wrapper {
-	display: flex;
-	align-items: center;
-	margin-bottom: 20px;
-	color: rgba(0, 12, 20, .5);
-	font-size: 13px;
-}
-
-.questions-lawyers__item-date {
-	margin-right: 15px;
-}
-
-.questions-lawyers__item-location {
-	margin-right: 15px;
-}
-
-.questions-lawyers__item-category {
-	color: #017052;
-	font-size: 12px;
-	text-decoration: underline;
-}
-
-.questions-lawyers__item-btn {
-	margin-left: 0;
-}
-
-.questions-lawyers__item-no-answer {
-	color: rgba(0, 12, 20, .5);
-	font-size: 14px;
-}
-
-.questions-lawyers .pagination {
-	margin: 38px auto;
-}
-
-.archive-table {
-	padding-bottom: 60px;
-}
-
-.archive-table__item .archive__list {
-	margin-bottom: 0;
-}
-
-.archive-table__title {
-	margin-bottom: 25px;
-	color: #000000;
-	font-size: 20px;
-	font-weight: 600;
-	text-align: center;
-}
-
-.archive-table__item-year {
-	padding: 10px;
-	border: 1px solid #e5e5e5;
-	border-bottom: none;
-	color: #000000;
-	font-size: 18px;
-	text-align: center;
-}
-
-.archive-table__item .archive__list-wrap:last-child {
-	border-bottom: none;
-}
-
-.archive-table__item:last-child .archive__list-wrap:last-child {
-	border-bottom: 1px solid #e5e5e5;
-}
-
-/* ------------------ Popup Login  --------------------*/
-
-.checkbox-wrap {
-	display: flex;
-	align-items: center;
-	margin-bottom: 25px;
-}
-
-.checkbox {
-	display: block;
-	position: absolute;
-	z-index: -1;
-	opacity: 0;
-	height: auto;
-	}
-
-.checkbox + label {
-	position: relative;
-	padding: 0 0 0 25px;
-	cursor: pointer;
-	display: block;
-	color: #000000;
-	font-size: 16px;
-	line-height: 1;
-	}
-
-.checkbox + label:before {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 14px;
-	height: 14px;
-	border: 1px solid #a1a1a1;
-	background: #FFF;
-}
-
-.checkbox + label:after {
-	content: '';
-	position: absolute;
-	top: 3px;
-	left: 3px;
-	width: 10px;
-	height: 7px;
-	background-image: url(/img/popup-check.png);
-	background-position: center;
-	background-repeat: no-repeat;
-	opacity: 0;
-	transition: .2s;
-}
-
-.checkbox:checked + label:after {
-	opacity: 1;
-}
-
-.modal {
-	max-width: 350px;
-	padding: 0;
-}
-
-.blocker {
-	z-index: 100;
-}
-
-.popup-login {
-	padding: 40px 30px;
-}
-
-.popup-title {
-	margin-bottom: 15px;
-	font-size: 20px;
-}
-
-.popup-form {
-	margin-bottom: 20px;
-	padding-bottom: 24px;
-	border-bottom: 1px solid #dfe3e9;
-}
-
-.popup-form__input {
-	height: 40px;
-	margin-bottom: 20px;
-	border-radius: 8px;
-}
-
-.popup-form__input input {
-	border: 1px solid #e5e5e5;
-}
-
-.popup-form__input input:focus {
-	border: 1px solid #2b70bc;
-}
-
-.popup-form__btn {
-	width: 201px;
-	height: 50px;
-	margin: 0 auto;
-	margin-bottom: 20px;
-	border-radius: 8px;
-	background-color: #017052;
-	color: #fafdff;
-	font-size: 16px;
-}
-
-.popup-form__forget {
-	display: block;
-	margin-bottom: 15px;
-	color: #017052;
-	font-size: 14px;
-	text-align: center;
-	text-decoration: underline;
-}
-
-.popup-form__reg {
-	color: #000000;
-	font-size: 14px;
-}
-
-.popup-form__reg-link {
-	color: #017052;
-	text-decoration: underline;
-}
-
-.popup-social__title {
-	margin-bottom: 15px;
-	font-size: 20px;
-	font-weight: 700;
-	text-align: center;
-}
-
-.popup-social__list {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 130px;
-	margin: 0 auto;
-}
-
-.popup-social__link {
-	width: 25px;
-	height: 25px;
-}
-
-.popup-form-recover {
-	border-bottom: none;
-	margin-bottom: 0;
-	padding-bottom: 0;
-}
-
-.popup-form__input-label {
-	display: block;
-	margin-bottom: 20px;
-	color: #000;
-	font-size: 14px;
-}
-
-.popup-form__cancel {
-	display: block;
-	color: #017052;
-	text-align: center;
-
-}
-
-
-/* ------------------ Question-online  --------------------*/
-
-.question-steps {
-	margin-bottom: 45px;
-	padding: 20px 0;
-}
-
-.question-steps .steps__item {
-		position: relative;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		width: 100%;
-		height: 100%;
-		margin: 0 auto;
-		padding: 0x;
-		border-radius: 0;
-		border: none;
-	}
-
-.question-steps	.steps__item::before {
-		display: none;
-	}
-
-.question-steps	.arrow_box {
-		display: none;
-	}
-
-.question-steps	.steps__item-top {
-		flex: 1 0 15%;
-	}
-
-.question-steps	.steps__item-img {
-		width: 52px;
-		height: 52px;
-	} 
-
-.question-steps	.steps__item-value {
-		margin-bottom: 0;
-		font-size: 24px;
-		text-align: center;
-	}
-	
-.question-steps	.steps__item-bottom {
-		flex: 3 0 0%;
-	}
-
-.question-steps	.steps__item-title {
-		font-size: 16px;
-		text-align: left;
-	}
-
-.question-steps	.steps__item-desc {
-		font-size: 14px;
-		text-align: left;
-}
-
-.form-input-wrap {
-	margin-bottom: 20px;
-}
-
-.form-input-label {
-	display: block;
-	margin-bottom: 8px;
-	font-size: 14px;
-	font-weight: 700;
-}
-
-.form-input,
-.form-input-select {
-	height: 40px;
-}
-
-.form-input input,
-.form-input-textarea textarea,
-.form-input-select select {
-	border-radius: 8px;
-	border: 1px solid #e5e5e5;
-}
-
-.form-input input:focus,
-.form-input-textarea textarea:focus,
-.form-input-select select:focus {
-	border: 1px solid #1b78e0;
-}
-
-.form-input-textarea {
-	height: 200px;
-}
-
-.form-input-textarea textarea {
-	height: 100%;
-}
-
-.form-input-inner {
-	display: flex;
-	justify-content: space-between;
-}
-
-.form-input-inner .form-input-wrap {
-	width: 47%;
-}
-
-.form-input-select select {
-	display: block;
-	width: 100%;
-	height: 100%;
-	padding-left: 10px;
-	border: none;
-	border-radius: 8px;
-	border: 1px solid #e5e5e5;
-}
-
-.question-online__btn {
-	width: 201px;
-	height: 50px;
-	margin: 0 auto;
-	margin-top: 29px;
-	margin-bottom: 15px;
-	border-radius: 8px;
-	background-color: #017052;
-	color: #fafdff;
-	font-size: 16px;
-}
-
-.question-online-check-wrap {
-	width: 280px;
-	margin: 0 auto;
-}
-
-.question-online-check-wrap .checkbox + label {
-	color: rgba(0, 12, 20, .5);
-	font-size: 12px;
-}
-.question-online-check-wrap .checkbox + label:after {
-	background-image: url(/img/question-online-check-ico.png);
-}
-
-.question-online__policy {
-	color: rgba(0, 12, 20, .5);
-	text-decoration: underline;
-}
-
-.last-consultation {
-	margin-bottom: 30px;
-	padding: 30px 25px;
-	border-radius: 8px;
-	border: 1px solid #e5e5e5;
-}
-
-.last-consultation__title {
-	font-size: 20px;
-	font-weight: 700;
-	text-align: center;
-}
-
-.last-consultation .consultations__item {
-	padding: 24px 0;
-	border-bottom: 1px solid rgba(191, 191, 191, .5);
-}
-
-.last-consultation .consultations__item:last-child {
-	border-bottom: none;
-}
-
-.question-online__desc {
-	padding: 35px 0;
-	border-top: 1px solid #dfe3e9;
-}
-
-.question-online__desc .page-desc {
-	max-width: 93%;
-}
-
-.question-online__desc .page-desc p {
-	font-size: 14px;
 }
