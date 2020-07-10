@@ -182,15 +182,15 @@ button:active {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	width: 225px;
+	width: 25px;
 	margin: 0 auto;
 }
 
-.pagination__list {
+.pagination>ul {
 	display: flex;
 }
 
-.pagination__list-link {
+.pagination>ul>li>a {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -200,13 +200,13 @@ button:active {
 	font-size: 14px;
 }
 
-.pagination__list-link--active {
+.pagination>ul>li>a .selected {
 	background-color: #c2d4e8;
 	font-size: 16px;
 	font-weight: 700;
 }
 
-.pagination__btn {
+.pagination>ul>li.next, pagination>ul>li.previous, pagination>ul>li.first, pagination>ul>li.last {
 	display: block;
 	color: #000c14;
 	font-size: 14px;
