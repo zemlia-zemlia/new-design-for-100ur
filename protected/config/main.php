@@ -33,7 +33,7 @@ return [
         ],
         'request' => [
             'enableCsrfValidation' => false,
-            'enableCookieValidation' => true,
+            'enableCookieValidation' => false,
         ],
         'authManager' => [
             // Будем использовать свой менеджер авторизации

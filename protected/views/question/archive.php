@@ -21,12 +21,13 @@ $js .= <<< JS
 
 $('#archive-questions-list').on('click', '.archive-questions__more-btn', function(e) {
     console.log(arhiveUrl);
+    var perpage =  Number($(this).attr('data-per_page'));
    e.preventDefault();
         $.ajax({
   type: "GET",
   url: arhiveUrl,
   dataType: "html",
-  data: { per_page: $(this).attr('data-per_page') + 25 },
+  data: { per_page: (perpage + 25) },
   success: function(msg){
 
     $('#archive-questions-list').html(msg);

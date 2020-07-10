@@ -752,7 +752,7 @@ class QuestionController extends Controller
         if (!($date instanceof DateTime) || $date > (new DateTime())) {
             throw new CHttpException(400, 'Некорректная дата');
         }
-//        CVarDumper::dump(Yii::app()->request->requestUri,5,true);die;
+        CVarDumper::dump(Yii::app()->request,5,true);die;
         if (isset($_GET['per_page'])){
             $questionsDataProvider = $this->questionRepository
                 ->getQuestionsDataProviderForMonth($year, $month, $_GET['per_page']);
