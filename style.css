@@ -2979,4 +2979,5 @@ button:active {
 
 .activity-mob {
 	display: none;
+	opacity: 0;
 }
