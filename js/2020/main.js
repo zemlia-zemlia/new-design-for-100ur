@@ -231,5 +231,13 @@ $(document).ready(function() {
         },
       }
     });
+
+  $('a[data-modal]').click(function(event) {
+    $(this).modal();
+    return false;
+  });
+
+$('#phone').mask('+7 (999) 999-99-99');
+
 	
 });

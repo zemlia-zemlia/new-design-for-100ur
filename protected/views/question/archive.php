@@ -15,6 +15,10 @@ $this->setPageTitle($pageTitle);
 Yii::app()->clientScript->registerMetaTag('Ответы юристов и адвокатов. ' . $pageTitle, 'Description');
 Yii::app()->clientScript->registerLinkTag('canonical', null, Yii::app()->createUrl('/question/archive', ['date' => $year . '-' . $month]));
 
+$this->breadcrumbs = ['Главная' => ['/'], 'Вопросы юристам' => [Yii::app()->createUrl('/q/')]];
+$this->breadcrumbs[] = 'Архив вопросов за ' .  $monthsNames[$month] . ' ' . $year . ' года';
+
+
 $js = 'var arhiveUrl = "' . $url . '";';
 
 $js .= <<< JS

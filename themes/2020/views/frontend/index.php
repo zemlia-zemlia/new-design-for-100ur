@@ -9,21 +9,27 @@ CController::renderPartial('webroot.themes.2020.views.frontend.include._header')
     $this->widget('application.widgets.SimpleForm.SimpleForm', []);
     else :
     ?>
-        <div class="container">
-            <div class="breadcrumbs">
-                <ul class="breadcrumbs__list">
-                    <li class="breadcrumbs__item">
-                        <a href="../index.html" class="breadcrumbs__link">Главная</a>
-                    </li>
-                    <li class="breadcrumbs__item">
-                        <a href="../index.html" class="breadcrumbs__link">Вопросы юристам</a>
-                    </li>
-                    <li class="breadcrumbs__item">
-                        <a href="#" class="breadcrumbs__link breadcrumbs__link--active">Архив вопросов за октябрь 2015 года</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+
+
+<div class="container">
+    <div class="breadcrumbs">
+        <?php
+        $this->widget('zii.widgets.CBreadcrumbs', [
+            'homeLink' => false,
+            'separator' => null,
+            'tagName' => 'ul',
+            'activeLinkTemplate' => '<li class="breadcrumbs__item">
+                        <a href="{url}" class="breadcrumbs__link">{label}</a></li>',
+            'htmlOptions' => ['class' => 'breadcrumbs__list'],
+            'inactiveLinkTemplate' => '<li class="breadcrumbs__item">
+                        <a href="{url}" class="breadcrumbs__link breadcrumbs__link--active">{label}</a></li>',
+            'links' => $this->breadcrumbs,
+
+        ]);
+        ?>
+    </div>
+</div>
+
     <?php endif; ?>
 <?php else: ?>
 
