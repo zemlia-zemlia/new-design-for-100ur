@@ -2347,7 +2347,7 @@ button:active {
 	width: 228px;
 	height: 51px;
 	margin: 0 auto;
-	border-radius: 8px;
+	border-radius: 8px!important;
 	border: 1px solid #1a77a3;
 	background-color: #ffffff;
  }

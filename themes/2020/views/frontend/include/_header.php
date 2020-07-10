@@ -60,7 +60,7 @@ use App\models\User;
     Yii::app()->clientScript->registerCssFile("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
     Yii::app()->clientScript->registerScriptFile("/js/respond.min.js", CClientScript::POS_END);
     //        Yii::app()->clientScript->registerScriptFile("/new-jquery/jquery-3.4.1.min.js");
-    Yii::app()->clientScript->registerScriptFile("/js/2020/jquery-3.4.1.min.js", CClientScript::POS_END);
+    Yii::app()->clientScript->registerScriptFile("/js/2020/jquery-3.4.1.min.js", CClientScript::POS_HEAD);
     Yii::app()->clientScript->registerScriptFile("/lib/jquery-ui-1.12.1.custom/jquery-ui.min.js", CClientScript::POS_END);
     //        Yii::app()->clientScript->registerCssFile('/css/2017/jquery-ui.css');
     Yii::app()->clientScript->registerScriptFile('/lib/swiper/swiper.min.js', CClientScript::POS_END);

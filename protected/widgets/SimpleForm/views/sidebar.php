@@ -1,35 +1,27 @@
-<div class="sidebar-form">
-<div class="form-container">
-        <h2 class="center-align">Не нашли свой ответ?</h2>
-
-        <?php $form = $this->beginWidget('CActiveForm', [
-                'id' => 'question-form-sidebar',
-                'enableAjaxValidation' => false,
-                'action' => Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=sidebar&utm_campaign=' . Yii::app()->controller->id,
-        ]); ?>
 
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                        <?php echo $form->textArea($model, 'questionText', ['class' => 'form-control', 'rows' => 6, 'placeholder' => 'Опишите свою ситуацию максимально подробно чтобы юрист смог сориентироваться и дать максимально развернутый ответ']); ?>
-                        <?php echo $form->error($model, 'questionText'); ?>
-                </div>
+<?php $form = $this->beginWidget('CActiveForm', [
+    'htmlOptions' => ['class' => 'advice-form'],
+    'enableAjaxValidation' => false,
+    'action' => Yii::app()->createUrl('question/create') . '?utm_source=100yuristov&utm_medium=sidebar&utm_campaign=' . Yii::app()->controller->id,
+]); ?>
 
-                <div class="form-group">
-                    <label>Ваше имя *</label>
-                    <?php echo $form->textField($model, 'authorName', ['class' => 'form-control', 'placeholder' => 'Ваше имя']); ?>
-                    <?php echo $form->error($model, 'authorName'); ?>
-                </div>
-                <div class="form-group" id="form-submit-wrapper">
-                        <?php echo CHtml::submitButton($model->isNewRecord ? 'Получить ответ' : 'Сохранить', ['class' => 'yellow-button btn-block', 'onclick' => 'yaCounter26550786.reachGoal("simple_form_submit"); return true;']); ?>
-                </div>
-                    
 
-            </div>
-        </div>
+<form action="" method="" name="" class="advice-form">
+    <h3 class="advice-form__title">Получите совет от юриста онлайн</h3>
+    <div class="advice-form__textarea">
+        <?php echo $form->textArea($model, 'questionText',
+            ['class' => 'form-control', 'rows' => 6, 'placeholder' => 'Опишите вашу проблему...']); ?>
+        <?php echo $form->error($model, 'questionText'); ?>
 
-        <?php $this->endWidget(); ?>
+    </div>
+    <div class="advice-form__input">
+        <?php echo $form->textField($model, 'authorName', ['class' => 'form-control', 'placeholder' => 'Как вас зовут?']); ?>
+        <?php echo $form->error($model, 'authorName'); ?>
 
-    </div><!-- .form-container-->   
-</div>
+    </div>
+    <?php echo CHtml::submitButton($model->isNewRecord ? 'Задать вопрос онлайн' : 'Сохранить',
+        ['class' => 'advice-form__btn main-btn', 'onclick' =>
+            'yaCounter26550786.reachGoal("simple_form_submit"); return true;']); ?>
+
+<?php $this->endWidget(); ?>

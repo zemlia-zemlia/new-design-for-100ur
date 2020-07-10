@@ -4,76 +4,58 @@ use App\helpers\NumbersHelper;
 use App\models\User;
 use App\models\YuristSettings;
 
-$usersCount = 0;
 ?>
 
-<div class="container-fluid">
+
+
+
+<div class="best-workers">
+    <h3 class="best-workers__title">Наши лучшие юристы</h3>
     <?php foreach ($usersData as $userData): ?>
-        <?php ++$usersCount; ?>
-        <?php
-        /** @var User $user */
-        $user = $userData['user'];
-        ?>
+    <?php
+    /** @var User $user */
+    $user = $userData['user'];
+    ?>
+    <div class="best-workers__item">
+        <div class="best-workers__avatar img">
+            <img src="<?= $user->getAvatarUrl() ?>" alt="<?= CHtml::encode($user->getNameOrCompany()) ?>">
+             <?php if (floor((time() - strtotime($user->lastActivity)) / 60) < 60): ?>
+            <div class="best-workers__avatar-online"></div>
+             <?php endif; ?>
+        </div>
+        <div class="best-workers__data">
+            <a href="<?= Yii::app()->createUrl('user/view', ['id' => $user->id]) ?>?from=top_yurist_widget" class="best-workers__name">
+                <?= CHtml::encode($user->getNameOrCompany()) ?></a>
+            <div class="best-workers__data-wrapper">
+                <div class="best-workers__specialty"><?= YuristSettings::getStatusNameByCode($user->settings->status) ?></div>
+                <div class="best-workers__location">
+                    <div class="best-workers__location-ico img">
+                        <img src="/img/unregistered/best-workers-location-ico.png" alt="">
+                    </div>
+                    <div class="best-workers__location-value">
 
-        <div class="row row-yurist yurist-list-item">
-            <div class="col-xs-1">
-                <span class="badge"><?php echo $usersCount; ?></span>
-            </div>
-
-            <div class="col-xs-3 text-center">
-                <div>
-                    <a href="<?php echo Yii::app()->createUrl('user/view', ['id' => $user->id]); ?>?from=top_yurist_widget"
-                       rel="nofollow">
-                        <img src="<?php echo $user->getAvatarUrl(); ?>"
-                             alt="<?php echo CHtml::encode($user->getNameOrCompany()); ?>"
-                             class="img-responsive center-block gray-panel"/>
-                    </a>
-                </div>
-
-            </div>
-            <div class="col-xs-8">
-                <div>
-                    <a href="<?php echo Yii::app()->createUrl('user/view', ['id' => $user->id]); ?>?from=top_yurist_widget"
-                       rel="nofollow">
-                        <?php echo CHtml::encode($user->getNameOrCompany()); ?>
-                    </a>
-                    <div>
-                    <span class="text-muted"><em>
-                            <small>
-                            <?php echo YuristSettings::getStatusNameByCode($user->settings->status); ?>
-                            </small>
-                        </em>
-                    </span>
-
-                        <?php if ($user->town->name): ?>
-                            <em class="text-muted">
-                                <small>
-                                    (<?php echo $user->town->name; ?>)
-                                </small>
-                            </em>
-                        <?php endif; ?>
+                        <?= $user->town ? $user->town->name : ''?>
 
                     </div>
                 </div>
-
-
-                <?php if (isset($userData['answersCount'])): ?>
-                    <div>
-                        <small>
-                            <?php echo $userData['answersCount'] . ' ' . NumbersHelper::numForms($userData['answersCount'], 'консультация', 'консультации', 'консультаций'); ?>
-                        </small>
-                    </div>
-                <?php endif; ?>
-
-                <?php if (floor((time() - strtotime($user->lastActivity)) / 60) < 60): ?>
-                    <div class="small"><span class="glyphicon glyphicon-flash"></span> <span class="text-success">Сейчас на сайте</span>
-                    </div>
-                <?php endif; ?>
-
             </div>
+            <div class="best-workers__activity">
+                <div class="best-workers__activity-value">
+                    <?php if (isset($userData['answersCount'])): ?>
+                        <?= $userData['answersCount'] ?>
+                    <?php endif; ?>
+                </div>
+                <div class="best-workers__activity-title">
+                    <?php if (isset($userData['answersCount'])): ?>
+                        <?=  NumbersHelper::numForms($userData['answersCount'], 'консультация', 'консультации', 'консультаций') ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
 
+<?php endforeach; ?>
 
-        </div> <!-- .row-yurist -->
-
-    <?php endforeach; ?>
+    <a href="<?= Yii::app()->createUrl('/yurist/russia/') ?>" class="best-workers__btn main-btn">Все наши юристы</a>
 </div>
+

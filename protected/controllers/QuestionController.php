@@ -743,6 +743,7 @@ class QuestionController extends Controller
      */
     public function actionArchive(string $date)
     {
+        $url = Yii::app()->createUrl('question/archive', ['date' => $date]);
         $dateParts = explode('-', $date);
         $year = $dateParts[0];
         $month = $dateParts[1];
@@ -751,17 +752,30 @@ class QuestionController extends Controller
         if (!($date instanceof DateTime) || $date > (new DateTime())) {
             throw new CHttpException(400, 'Некорректная дата');
         }
+//        CVarDumper::dump(Yii::app()->request->requestUri,5,true);die;
+        if (isset($_GET['per_page'])){
+            $questionsDataProvider = $this->questionRepository
+                ->getQuestionsDataProviderForMonth($year, $month, $_GET['per_page']);
+            return $this->renderPartial('archiveAjax', [
+                'dataProvider' => $questionsDataProvider,
+            ]);
+        }
+        else {
+            $questionsDataProvider = $this->questionRepository
+                ->getQuestionsDataProviderForMonth($year, $month, 25);
+        }
 
-        $questionsDataProvider = $this->questionRepository
-            ->getQuestionsDataProviderForMonth($year, $month, 50);
+
 
         $datesArray = $this->questionRepository->getMonthsWithPublishedQuestions($year);
+
 
         $this->render('archive', [
             'dataProvider' => $questionsDataProvider,
             'year' => $year,
             'month' => $month,
             'datesArray' => $datesArray,
+            'url' => $url,
         ]);
     }
 

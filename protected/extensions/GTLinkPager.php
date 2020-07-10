@@ -5,6 +5,6 @@ class GTLinkPager extends CLinkPager
     public $header = '';
     public $firstPageLabel = 'Первая';
     public $lastPageLabel = 'Последняя';
-    public $nextPageLabel = '>';
-    public $prevPageLabel = '<';
+    public $nextPageLabel = 'следующая';
+    public $prevPageLabel = 'предыдущая';
 }
