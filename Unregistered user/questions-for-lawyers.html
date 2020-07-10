@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<!-- Переключение IE в последнию версию, на случай если в настройках пользователя стоит меньшая -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<!-- Адаптирование страницы для мобильных устройств -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- Запрет распознования номера телефона -->
+	<meta name="format-detection" content="telephone=no">
+	<meta name="SKYPE_TOOLBAR" content ="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+
+	<!-- Заголовок страницы -->
+	<title>100 Юристов</title>
+
+	<!-- Данное значение часто используют(использовали) поисковые системы -->
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+
+	<!-- Традиционная иконка сайта, размер 16x16, прозрачность поддерживается. Рекомендуемый формат: .ico или .png -->
+	<link rel="shortcut icon" href="img/favicon.ico">
+
+	<!-- Подключение файлов стилей -->
+	<link rel="stylesheet" href="lib/jquery-ui-1.12.1.custom/jquery-ui.min.css">
+	<link rel="stylesheet" href="../lib/bootstrap/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="../style.css"> 
+	<link rel="stylesheet" href="../css/media.css"> 
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"> 
+</head>
+<body>
+	
+	<!-- Header -->
+	<header class="header">
+		<div class="header__mob">
+			<div class="container">
+				<div class="header__mob-wrap">
+					<div class="nav-mob-wrap img">
+						<img src="../img/nav-open.png" alt="" class="nav-open">
+						<img src="../img/nav-close.png" alt="" class="nav-close">
+					</div>
+					<nav class="nav-mob">
+						<div class="nav-mob-close img">
+							<img src="../img/nav-mob-close.png" alt="">
+						</div>
+						<div class="nav-mob__title">Меню</div>
+						<ul class="nav-mob-list">
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Задать вопрос юристу онлайн</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Консультация по телефону</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Вопросы</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Найти юриста</a>
+							</li>
+						</ul>
+						<div class="header__contacts header__contacts-mob">
+							<a href="tel:88005004692" class="header__contacts-value">8 800 500-46-92</a>
+							<div class="header__contacts-title">Звонок бесплатный</div>
+						</div>
+						<a href="" class="header__btn header__btn-mob">Заказать звонок</a>
+					</nav>
+					<a href="" class="logo-mob img">
+						<img src="../img/logo.png" alt="">
+					</a>
+					<a href="" class="search-btn img">
+						<img src="../img/search-btn.png" alt="">
+					</a>
+					<form action="" class="search-form-mob">
+						<div class="search-input">
+							<a href="" class="search-input__ico img">
+								<img src="../img/feedback-search.png" alt="">
+							</a>
+							<input type="search" name="" placeholder="Поиск...">
+						</div>
+					</form>
+					<a href="" class="login-btn img">
+						<img src="../img/login-btn.png" alt="">
+					</a>
+				</div>
+			</div>	
+		</div>
+		<div class="header__top">
+			<div class="container">
+				<div class="row no-gutters justify-content-between align-items-center">
+					<div class="col-sm-12 col-md-auto">
+						<a href="" class="logo img">
+							<img src="../img/logo.png" alt="">
+						</a>
+					</div>
+					<div class="col-sm-auto col-md-auto header__question-wrap">
+						<div class="header__question">Задай вопрос юристу онлайн</div>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<div class="header__contacts">
+							<a href="tel:88005004692" class="header__contacts-value">8 800 500-46-92</a>
+							<div class="header__contacts-title">Звонок бесплатный</div>
+						</div>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<a href="" class="header__btn">Заказать звонок</a>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<a href="" class="header__account">
+							<span class="header__account-img img">
+								<img src="../img/header-account.png" alt="">
+							</span>
+							<span class="header__account-title">Вход/Регистрация</span>
+						</a>
+					</div>
+				</div>	
+			</div>
+		</div>
+		<div class="header__bottom">
+			<div class="container">
+				<div class="row justify-content-between align-items-center">
+					<div class="col-lg-8">
+						<nav class="main__nav">
+							<ul class="main__nav-list">
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link main__nav-link--question">Задать вопрос юристу онлайн</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Консультация по телефону</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Вопросы</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Найти юриста</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+					<div class="col-lg-4">
+						<form action="" class="search-form">
+							<div class="search-input">
+								<a href="" class="search-input__ico img">
+									<img src="../img/feedback-search.png" alt="">
+								</a>
+								<input type="search" name="" placeholder="Поиск...">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="container">
+		<div class="breadcrumbs">
+			<ul class="breadcrumbs__list">
+				<li class="breadcrumbs__item">
+					<a href="../index.html" class="breadcrumbs__link">Главная</a>
+				</li>
+				<li class="breadcrumbs__item">
+					<a href="../index.html" class="breadcrumbs__link
+					breadcrumbs__link--active">Вопросы юристам</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- Crm-system -->
+	<main class="main">
+		<div class="container">
+			<h2 class="main__title">Вопросы юристам</h2>
+			<div class="row justify-content-between">
+				<div class="col-md-7 col-lg-8">
+					<div class="questions-lawyers">
+						<div class="questions-lawyers__item">
+							<div class="questions-lawyers__item-price img">
+								<img src="../img/questions-lawyers-item-price.png" alt="">
+							</div>
+							<div class="questions-lawyers__item-title">Может ли работающий пенсионер вернуть 13 процентов с покупки жилья за предыдущие 2019, 2018, 2017 года?</div>
+							<div class="questions-lawyers__item-answer">Работающий пенсионер в 2020 году купил квартиру. Может ли он вернуть 13 процентов с покупки жилья за предыдущие 2019,2018,2017 года?</div>
+							<div class="questions-lawyers__item-wrapper">
+								<div class="questions-lawyers__item-date">10.01.2019</div>
+								<div class="questions-lawyers__item-location">Ольга, г. Екатеринбург</div>
+								<a href="" class="questions-lawyers__item-category">Налоговое право</a>
+							</div>
+							<a href=""	class="archive-questions__btn questions-lawyers__item-btn">1 ответ</a>
+						</div>
+						<div class="questions-lawyers__item">
+							<div class="questions-lawyers__item-title">Где нужно оформлять брак за немца, если он живет во Франции?</div>
+							<div class="questions-lawyers__item-answer">Добрый вечер! Я выхожу замуж за немца, живущего 30 лет во Франции. Где надо оформлять брак и какие документы я должна представить? Заранее благодарна.</div>
+							<div class="questions-lawyers__item-wrapper">
+								<div class="questions-lawyers__item-date">10.01.2019</div>
+								<div class="questions-lawyers__item-location">Жанна, г. Москва</div>
+							</div>
+							<div class="questions-lawyers__item-no-answer">Нет ответа</div>
+						</div>
+						<div class="questions-lawyers__item">
+							<div class="questions-lawyers__item-price img">
+								<img src="../img/questions-lawyers-item-price.png" alt="">
+							</div>
+							<div class="questions-lawyers__item-title">Может ли работающий пенсионер вернуть 13 процентов с покупки жилья за предыдущие 2019, 2018, 2017 года?</div>
+							<div class="questions-lawyers__item-answer">Работающий пенсионер в 2020 году купил квартиру. Может ли он вернуть 13 процентов с покупки жилья за предыдущие 2019,2018,2017 года?</div>
+							<div class="questions-lawyers__item-wrapper">
+								<div class="questions-lawyers__item-date">10.01.2019</div>
+								<div class="questions-lawyers__item-location">Ольга, г. Екатеринбург</div>
+								<a href="" class="questions-lawyers__item-category">Налоговое право</a>
+							</div>
+							<a href=""	class="archive-questions__btn questions-lawyers__item-btn">1 ответ</a>
+						</div>
+						<div class="questions-lawyers__item">
+							<div class="questions-lawyers__item-title">Где нужно оформлять брак за немца, если он живет во Франции?</div>
+							<div class="questions-lawyers__item-answer">Добрый вечер! Я выхожу замуж за немца, живущего 30 лет во Франции. Где надо оформлять брак и какие документы я должна представить? Заранее благодарна.</div>
+							<div class="questions-lawyers__item-wrapper">
+								<div class="questions-lawyers__item-date">10.01.2019</div>
+								<div class="questions-lawyers__item-location">Жанна, г. Москва</div>
+							</div>
+							<div class="questions-lawyers__item-no-answer">Нет ответа</div>
+						</div>
+						<div class="questions-lawyers__item">
+							<div class="questions-lawyers__item-price img">
+								<img src="../img/questions-lawyers-item-price.png" alt="">
+							</div>
+							<div class="questions-lawyers__item-title">Может ли работающий пенсионер вернуть 13 процентов с покупки жилья за предыдущие 2019, 2018, 2017 года?</div>
+							<div class="questions-lawyers__item-answer">Работающий пенсионер в 2020 году купил квартиру. Может ли он вернуть 13 процентов с покупки жилья за предыдущие 2019,2018,2017 года?</div>
+							<div class="questions-lawyers__item-wrapper">
+								<div class="questions-lawyers__item-date">10.01.2019</div>
+								<div class="questions-lawyers__item-location">Ольга, г. Екатеринбург</div>
+								<a href="" class="questions-lawyers__item-category">Налоговое право</a>
+							</div>
+							<a href=""	class="archive-questions__btn questions-lawyers__item-btn">1 ответ</a>
+						</div>
+						<div class="questions-lawyers__item">
+							<div class="questions-lawyers__item-title">Где нужно оформлять брак за немца, если он живет во Франции?</div>
+							<div class="questions-lawyers__item-answer">Добрый вечер! Я выхожу замуж за немца, живущего 30 лет во Франции. Где надо оформлять брак и какие документы я должна представить? Заранее благодарна.</div>
+							<div class="questions-lawyers__item-wrapper">
+								<div class="questions-lawyers__item-date">10.01.2019</div>
+								<div class="questions-lawyers__item-location">Жанна, г. Москва</div>
+							</div>
+							<div class="questions-lawyers__item-no-answer">Нет ответа</div>
+						</div>
+						<div class="questions-lawyers__item">
+							<div class="questions-lawyers__item-price img">
+								<img src="../img/questions-lawyers-item-price.png" alt="">
+							</div>
+							<div class="questions-lawyers__item-title">Может ли работающий пенсионер вернуть 13 процентов с покупки жилья за предыдущие 2019, 2018, 2017 года?</div>
+							<div class="questions-lawyers__item-answer">Работающий пенсионер в 2020 году купил квартиру. Может ли он вернуть 13 процентов с покупки жилья за предыдущие 2019,2018,2017 года?</div>
+							<div class="questions-lawyers__item-wrapper">
+								<div class="questions-lawyers__item-date">10.01.2019</div>
+								<div class="questions-lawyers__item-location">Ольга, г. Екатеринбург</div>
+								<a href="" class="questions-lawyers__item-category">Налоговое право</a>
+							</div>
+							<a href=""	class="archive-questions__btn questions-lawyers__item-btn">1 ответ</a>
+						</div>
+						<div class="questions-lawyers__item">
+							<div class="questions-lawyers__item-title">Где нужно оформлять брак за немца, если он живет во Франции?</div>
+							<div class="questions-lawyers__item-answer">Добрый вечер! Я выхожу замуж за немца, живущего 30 лет во Франции. Где надо оформлять брак и какие документы я должна представить? Заранее благодарна.</div>
+							<div class="questions-lawyers__item-wrapper">
+								<div class="questions-lawyers__item-date">10.01.2019</div>
+								<div class="questions-lawyers__item-location">Жанна, г. Москва</div>
+							</div>
+							<div class="questions-lawyers__item-no-answer">Нет ответа</div>
+						</div>
+						<div class="questions-lawyers__item">
+							<div class="questions-lawyers__item-price img">
+								<img src="../img/questions-lawyers-item-price.png" alt="">
+							</div>
+							<div class="questions-lawyers__item-title">Может ли работающий пенсионер вернуть 13 процентов с покупки жилья за предыдущие 2019, 2018, 2017 года?</div>
+							<div class="questions-lawyers__item-answer">Работающий пенсионер в 2020 году купил квартиру. Может ли он вернуть 13 процентов с покупки жилья за предыдущие 2019,2018,2017 года?</div>
+							<div class="questions-lawyers__item-wrapper">
+								<div class="questions-lawyers__item-date">10.01.2019</div>
+								<div class="questions-lawyers__item-location">Ольга, г. Екатеринбург</div>
+								<a href="" class="questions-lawyers__item-category">Налоговое право</a>
+							</div>
+							<a href=""	class="archive-questions__btn questions-lawyers__item-btn">1 ответ</a>
+						</div>
+						<div class="questions-lawyers__item">
+							<div class="questions-lawyers__item-title">Где нужно оформлять брак за немца, если он живет во Франции?</div>
+							<div class="questions-lawyers__item-answer">Добрый вечер! Я выхожу замуж за немца, живущего 30 лет во Франции. Где надо оформлять брак и какие документы я должна представить? Заранее благодарна.</div>
+							<div class="questions-lawyers__item-wrapper">
+								<div class="questions-lawyers__item-date">10.01.2019</div>
+								<div class="questions-lawyers__item-location">Жанна, г. Москва</div>
+							</div>
+							<div class="questions-lawyers__item-no-answer">Нет ответа</div>
+						</div>
+						<div class="pagination">
+							<ul class="">
+								<li class="previous"><a href="">предыдущая</a></li>
+								<li class="page"><a href="">1</a></li>
+								<li class="page selected"><a href="">2</a></li>
+								<li class="page"><a href="">3</a></li>
+								<li class="page"><a href="">4</a></li>
+								<li class="page"><a href="">5</a></li>
+								<li class="page"><a href="">6</a></li>
+								<li class="page"><a href="">7</a></li>
+								<li class="page"><a href="">8</a></li>
+								<li class="page"><a href="">9</a></li>
+								<li class="page"><a href="">10</a></li>
+								<li class="next"><a href="">следующая</a></li>
+								<li class="last"><a href="">Последняя</a></li>
+							</ul>
+						</div>
+						<a href="" class="archive-questions__more-btn">Показать еще 10 вопросов</a>	
+					</div>
+				</div>
+				<div class=" col-md-5 col-lg-4">
+					<div class="archive__aside">
+						<form action="" method="" name="" class="advice-form">
+							<h3 class="advice-form__title">Получите совет от юриста онлайн</h3>
+							<div class="advice-form__textarea">
+								<textarea name="" id="" placeholder="Опишите вашу проблему..."></textarea>
+							</div>
+							<div class="advice-form__input">
+								<input type="text" name="advice-name" placeholder="Как вас зовут?">
+								</div>
+								<button class="advice-form__btn main-btn">Задать вопрос онлайн</button>
+						</form>
+
+						<div class="expert-login">
+							<h3 class="expert-login__title">Вы специалист в области права?</h3>
+							<div class="expert-login__desc">Вы можете отвечать на вопросы наших пользователей, пройдя нехитрую процедуру регистрации и подтверждение вашей квалификации.</div>
+							<a href="" class="expert-login__btn main-btn">Зарегистрироваться</a>
+						</div>
+
+						<div class="best-workers">
+							<h3 class="best-workers__title">Наши лучшие юристы</h3>
+							<div class="best-workers__item">
+								<div class="best-workers__avatar img">
+									<img src="../img/best-workers-avatar-1.png" alt="">
+									<div class="best-workers__avatar-online"></div>
+								</div>
+								<div class="best-workers__data">
+									<a href="" class="best-workers__name">Александр Бударагин</a>
+									<div class="best-workers__data-wrapper">
+										<div class="best-workers__specialty">Юрист</div>
+										<div class="best-workers__location">
+											<div class="best-workers__location-ico img">
+												<img src="../img/best-workers-location-ico.png" alt="">
+											</div>
+											<div class="best-workers__location-value">Нижний Новгород</div>
+										</div>
+									</div>
+									<div class="best-workers__activity">
+										<div class="best-workers__activity-value">86</div>
+										<div class="best-workers__activity-title">консультаций</div>
+									</div>
+								</div>
+							</div>
+							<div class="best-workers__item">
+								<div class="best-workers__avatar img">
+									<img src="../img/best-workers-avatar-2.png" alt="">
+								</div>
+								<div class="best-workers__data">
+									<a href="" class="best-workers__name">Марина Тарасова</a>
+									<div class="best-workers__data-wrapper">
+										<div class="best-workers__specialty">Юрист</div>
+										<div class="best-workers__location">
+											<div class="best-workers__location-ico img">
+												<img src="../img/best-workers-location-ico.png" alt="">
+											</div>
+											<div class="best-workers__location-value">Москва</div>
+										</div>
+									</div>
+									<div class="best-workers__activity">
+										<div class="best-workers__activity-value">9</div>
+										<div class="best-workers__activity-title">консультаций</div>
+									</div>
+								</div>
+							</div>
+							<div class="best-workers__item">
+								<div class="best-workers__avatar img">
+									<img src="../img/best-workers-avatar-3.png" alt="">
+								</div>
+								<div class="best-workers__data">
+									<a href="" class="best-workers__name">Галина Гудкова</a>
+									<div class="best-workers__data-wrapper">
+										<div class="best-workers__specialty">Юрист</div>
+										<div class="best-workers__location">
+											<div class="best-workers__location-ico img">
+												<img src="../img/best-workers-location-ico.png" alt="">
+											</div>
+											<div class="best-workers__location-value">Москва</div>
+										</div>
+									</div>
+									<div class="best-workers__activity">
+										<div class="best-workers__activity-value">9</div>
+										<div class="best-workers__activity-title">консультаций</div>
+									</div>
+								</div>
+							</div>
+							<a href="" class="best-workers__btn main-btn">Все наши юристы</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="archive-table">
+				<div class="archive-table__title">Архив вопросов</div>
+				<div class="archive-table__item">
+					<div class="archive-table__item-year">2020</div>
+					<ul class="archive__list">
+							<div class="archive__list-wrap">
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link archive__list-link--active">Январь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Февраль</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Март</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Апрель</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Май</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Июнь</a>
+								</li>
+							</div>
+							<div class="archive__list-wrap">
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Июль</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Август</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Сентябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Октябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Ноябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Декабрь</a>
+								</li>
+							</div>
+						</ul>
+				</div>
+				<div class="archive-table__item">
+					<div class="archive-table__item-year">2019</div>
+					<ul class="archive__list">
+							<div class="archive__list-wrap">
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link archive__list-link--active">Январь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Февраль</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Март</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Апрель</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Май</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Июнь</a>
+								</li>
+							</div>
+							<div class="archive__list-wrap">
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Июль</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Август</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Сентябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Октябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Ноябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Декабрь</a>
+								</li>
+							</div>
+						</ul>
+				</div>
+				<div class="archive-table__item">
+					<div class="archive-table__item-year">2018</div>
+					<ul class="archive__list">
+							<div class="archive__list-wrap">
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link archive__list-link--active">Январь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Февраль</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Март</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Апрель</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Май</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Июнь</a>
+								</li>
+							</div>
+							<div class="archive__list-wrap">
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Июль</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Август</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Сентябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Октябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Ноябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Декабрь</a>
+								</li>
+							</div>
+						</ul>
+				</div>
+				<div class="archive-table__item">
+					<div class="archive-table__item-year">2017</div>
+					<ul class="archive__list">
+							<div class="archive__list-wrap">
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link archive__list-link--active">Январь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Февраль</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Март</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Апрель</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Май</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Июнь</a>
+								</li>
+							</div>
+							<div class="archive__list-wrap">
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Июль</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Август</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Сентябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Октябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Ноябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Декабрь</a>
+								</li>
+							</div>
+						</ul>
+				</div>
+				<div class="archive-table__item">
+					<div class="archive-table__item-year">2016</div>
+					<ul class="archive__list">
+							<div class="archive__list-wrap">
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link archive__list-link--active">Январь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Февраль</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Март</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Апрель</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Май</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Июнь</a>
+								</li>
+							</div>
+							<div class="archive__list-wrap">
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Июль</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Август</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Сентябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Октябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Ноябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Декабрь</a>
+								</li>
+							</div>
+						</ul>
+				</div>
+				<div class="archive-table__item">
+					<div class="archive-table__item-year">2015</div>
+					<ul class="archive__list">
+							<div class="archive__list-wrap">
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link archive__list-link--active">Январь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Февраль</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Март</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Апрель</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Май</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Июнь</a>
+								</li>
+							</div>
+							<div class="archive__list-wrap">
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Июль</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Август</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Сентябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Октябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Ноябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Декабрь</a>
+								</li>
+							</div>
+						</ul>
+				</div>
+				<div class="archive-table__item">
+					<div class="archive-table__item-year">2014</div>
+					<ul class="archive__list">
+							<div class="archive__list-wrap">
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link archive__list-link--active">Январь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Февраль</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Март</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Апрель</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Май</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Июнь</a>
+								</li>
+							</div>
+							<div class="archive__list-wrap">
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Июль</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Август</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Сентябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Октябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Ноябрь</a>
+								</li>
+								<li class="archive__list-item">
+									<a href="" class="archive__list-link">Декабрь</a>
+								</li>
+							</div>
+						</ul>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-7 col-sm-4 col-lg-3">
+					<div class="footer__wrap">
+						<a href="" class="footer__logo img">
+							<img src="../img/footer-logo.png" alt="">
+						</a>
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">О проекте</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Контакты</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Пользовательское соглашение</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Реферальная программа</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-8 col-sm-4 col-lg-3">
+					<div class="footer__wrap footer__wrap-padding">
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Каталог юристов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Архив вопросов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Горячая линия</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Новости</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-8 col-sm-4 col-lg-3">
+					<div class="footer__wrap footer__wrap-padding">
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Регистрация нового юриста</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">CRM для юристов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Юридические заявки</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Зачем отвечать на вопросы</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-12 col-lg-3">
+					<div class="footer__wrap footer__wrap-social">
+						<ul class="footer__social">
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-1.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-2.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-3.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-4.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-5.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-6.png" alt="">
+								</a>
+							</li>
+						</ul>
+						<div class="footer__branches">
+							<div class="footer__branches-title">Филиалы:</div>
+							<ul class="footer__branches-list">
+								<li class="footer__branches-item">Санкт-Петербург, ул. Достоевского, д. 25</li>
+								<li class="footer__branches-item">Нижний Новгород, ул. Новая, д. 28</li>
+								<li class="footer__branches-item">Екатеринбург, ул. 8 марта, д. 142</li>
+								<li class="footer__branches-item">Ростов-на-Дону, ул. Красноармейская, д. 142/50</li>
+								<li class="footer__branches-item">Краснодар, ул. Московская, д. 148</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	
+	<script src="jquery/jquery-3.4.1.min.js"></script>
+	<script src="lib/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="lib/swiper/swiper.min.js"></script>
+	<script src="lib/bootstrap/bootstrap.min.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>

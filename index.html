@@ -1,0 +1,1976 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<!-- Переключение IE в последнию версию, на случай если в настройках пользователя стоит меньшая -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<!-- Адаптирование страницы для мобильных устройств -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- Запрет распознования номера телефона -->
+	<meta name="format-detection" content="telephone=no">
+	<meta name="SKYPE_TOOLBAR" content ="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+
+	<!-- Заголовок страницы -->
+	<title>100 Юристов</title>
+
+	<!-- Данное значение часто используют(использовали) поисковые системы -->
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+
+	<!-- Традиционная иконка сайта, размер 16x16, прозрачность поддерживается. Рекомендуемый формат: .ico или .png -->
+	<link rel="shortcut icon" href="img/favicon.ico">
+
+	<!-- Подключение файлов стилей -->
+	<link rel="stylesheet" href="lib/jquery-ui-1.12.1.custom/jquery-ui.min.css">
+	<link rel="stylesheet" href="lib/bootstrap/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="lib/swiper/swiper.min.css">
+	<link rel="stylesheet" href="lib/jquery-modal-master/jquery.modal.min.css">
+	<link rel="stylesheet" href="style.css"> 
+	<link rel="stylesheet" href="fonts/fonts.css">
+	<link rel="stylesheet" href="css/media.css"> 
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"> 
+</head>
+<body>
+	
+	<!-- Header -->
+	<header class="header">
+		<div class="header__mob">
+			<div class="container">
+				<div class="header__mob-wrap">
+					<div class="nav-mob-wrap img">
+						<img src="img/nav-open.png" alt="" class="nav-open">
+						<img src="img/nav-close.png" alt="" class="nav-close">
+					</div>
+					<nav class="nav-mob">
+						<div class="nav-mob-close img">
+							<img src="img/nav-mob-close.png" alt="">
+						</div>
+						<div class="nav-mob__title">Меню</div>
+						<ul class="nav-mob-list">
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Задать вопрос юристу онлайн</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Консультация по телефону</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Вопросы</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Найти юриста</a>
+							</li>
+						</ul>
+						<div class="header__contacts header__contacts-mob">
+							<a href="tel:88005004692" class="header__contacts-value">8 800 500-46-92</a>
+							<div class="header__contacts-title">Звонок бесплатный</div>
+						</div>
+						<a href="" class="header__btn header__btn-mob">Заказать звонок</a>
+					</nav>
+					<a href="" class="logo-mob img">
+						<img src="img/logo.png" alt="">
+					</a>
+					<a href="" class="search-btn img">
+						<img src="img/search-btn.png" alt="">
+					</a>
+					<form action="" class="search-form-mob">
+						<div class="search-input">
+							<a href="" class="search-input__ico img">
+								<img src="img/feedback-search.png" alt="">
+							</a>
+							<input type="search" name="" placeholder="Поиск...">
+						</div>
+					</form>
+					<a href="#ex1" rel="modal:open" class="login-btn img">
+						<img src="img/login-btn.png" alt="">
+					</a>
+				</div>
+			</div>	
+		</div>
+		<div class="header__top">
+			<div class="container">
+				<div class="row no-gutters justify-content-between align-items-center">
+					<div class="col-sm-12 col-md-auto">
+						<a href="" class="logo img">
+							<img src="img/logo.png" alt="">
+						</a>
+					</div>
+					<div class="col-sm-auto col-md-auto header__question-wrap">
+						<div class="header__question">Задай вопрос юристу онлайн</div>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<div class="header__contacts">
+							<a href="tel:88005004692" class="header__contacts-value">8 800 500-46-92</a>
+							<div class="header__contacts-title">Звонок бесплатный</div>
+						</div>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<a href="" class="header__btn">Заказать звонок</a>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<a href="#ex1" rel="modal:open" class="header__account">
+							<span class="header__account-img img">
+								<img src="img/header-account.png" alt="">
+							</span>
+							<span class="header__account-title">Вход/Регистрация</span>
+						</a>
+					</div>
+				</div>	
+			</div>
+		</div>
+		<div class="header__bottom">
+			<div class="container">
+				<div class="row justify-content-between align-items-center">
+					<div class="col-lg-8">
+						<nav class="main__nav">
+							<ul class="main__nav-list">
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link main__nav-link--question">Задать вопрос юристу онлайн</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Консультация по телефону</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Вопросы</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Найти юриста</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+					<div class="col-lg-4">
+						<form action="" class="search-form">
+							<div class="search-input">
+								<a href="" class="search-input__ico img">
+									<img src="img/feedback-search.png" alt="">
+								</a>
+								<input type="search" name="" placeholder="Поиск...">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- Header Main-->
+	<section class="header__main">
+			<div class="header__main-bg">
+				<img src="img/header-main-bg.png" alt="">
+			</div>
+			<div class="container">
+				<div class="row justify-content-center align-items-end">
+					<div class="col-sm-10 col-md-7 col-lg-6 offset-xl-1">
+						<div class="header__main-content">
+							<h1 class="header__main-title"><div class="header__main-title--block">Юридическая</div>консультация <span class="header__main-title--colored">бесплатно</span></h1>
+							<div class="header__main-subtitle">Задай вопрос юристу онлайн</div>
+							<form action="" class="header__main-form">
+								<div class="header__main-input">
+									<input type="text" name="" placeholder="Как вас зовут?">
+								</div>
+								<div class="header__main-textarea">
+									<textarea name="" placeholder="Опишите вашу проблему..."></textarea>
+								</div>
+								<div class="header__main-bottom">
+									<button class="header__main-btn header__main-btn-ask">Задать вопрос</button>
+									<a href="" class="header__main-btn header__main-order-btn">Заказать звонок</a>
+									<div class="header__main-order-desc">
+										<div class="header__main-order-desc-value">Не хотите писать?</div>
+										<div class="header__main-order-desc-value">Закажите обратный звонок</div>
+									</div>
+								</div>	
+							</form>
+						</div>
+					</div>
+					<div class="col-md-3 col-lg-4 offset-lg-1 header__main-img-wrap">
+						<div class="header__main-img">
+							<img src="img/header-main-img.png" alt="">
+						</div>
+					</div>
+				</div>		
+			</div>
+		</section>
+
+	<!-- Activity -->
+	<section class="activity">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-sm-3">
+					<div class="activity__item">
+						<div class="activity__item-value">76 518</div>
+						<div class="activity__item-desc">Вопросов задано</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="activity__item">
+						<div class="activity__item-value">128 856</div>
+						<div class="activity__item-desc">Ответов получено</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="activity__item">
+						<div class="activity__item-value">1 844</div>
+						<div class="activity__item-desc">Юристов на сайте</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Steps -->
+	<section class="steps">
+		<div class="container">
+			<h2 class="steps__title section-title">Как это работает?</h2>
+			<div class="row justify-content-center align-items-stretch">
+				<div class="col-sm-4 col-lg-3">
+					<div class="steps__item">
+						<div class="steps__item-top">
+							<div class="steps__item-img">
+								<img src="img/steps-item-img-1.png" alt="">
+							</div>
+							<div class="steps__item-value">шаг 1</div>
+						</div>
+						<div class="steps__item-bottom">
+							<div class="steps__item-title">Задайте вопрос</div>
+							<div class="steps__item-desc">Мы получаем более 1500 вопросов каждый день. Задайте свой!</div>
+							<div class="arrow_box"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4 col-lg-3">
+					<div class="steps__item">
+						<div class="steps__item-top">
+							<div class="steps__item-img img">
+								<img src="img/steps-item-img-2.png" alt="">
+							</div>
+							<div class="steps__item-value">шаг 2</div>
+						</div>
+						<div class="steps__item-bottom">
+							<div class="steps__item-title">Получите ответы</div>
+							<div class="steps__item-desc">На вопросы круглосуточно отвечают юристы со всей России. Среднее время ответа - 15 минут.</div>
+							<div class="arrow_box"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4 col-lg-3">
+					<div class="steps__item">
+						<div class="steps__item-top">
+							<div class="steps__item-img img">
+								<img src="img/steps-item-img-3.png" alt="">
+							</div>
+							<div class="steps__item-value">шаг 3</div>
+						</div>
+						<div class="steps__item-bottom">
+							<div class="steps__item-title">Проблема решена</div>
+							<div class="steps__item-desc">95,4% клиентов остаются полностью довольны ответами и рекомендуют нас друзьям.</div>
+							<div class="arrow_box"></div>
+						</div>
+					</div>
+				</div>
+				<div class="w-100 steps__separator">Или</div>
+				<div class="col-sm-4 col-lg-3">
+					<div class="steps__item">
+						<div class="steps__item-top">
+							<div class="steps__item-img img">
+								<img src="img/steps-item-img-4.png" alt="">
+							</div>
+							<div class="steps__item-value">шаг 1</div>
+						</div>
+						<div class="steps__item-bottom">
+							<div class="steps__item-title">Закажите обратный звонок</div>
+							<div class="steps__item-desc">Мы получаем более 1500 вопросов каждый день. Задайте свой!</div>
+							<div class="arrow_box"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4 col-lg-3">
+					<div class="steps__item">
+						<div class="steps__item-top">
+							<div class="steps__item-img img">
+								<img src="img/steps-item-img-5.png" alt="">
+							</div>
+							<div class="steps__item-value">шаг 2</div>
+						</div>
+						<div class="steps__item-bottom">
+							<div class="steps__item-title">Получите консультацию по телефону</div>
+							<div class="steps__item-desc">На вопросы круглосуточно отвечают юристы со всей России. Среднее время ответа - 15 минут.</div>
+							<div class="arrow_box"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Categories -->
+	<section class="categories">
+		<div class="container">
+			<h2 class="categories__title section-title">Категории справочных материалов</h2>
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="categories__list-wrap">
+						<div class="categories__list-title">А</div>
+						<ul class="categories__list">
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-1.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Авторское право</span>
+								</a>
+							</li>
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-2.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Автоюрист</span>
+								</a>
+							</li>
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-3.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Адвокат</span>
+								</a>
+							</li>
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-4.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Административка</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="categories__list-wrap">
+						<div class="categories__list-title">Б</div>
+						<ul class="categories__list">
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-5.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Банкротство</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="categories__list-wrap">
+						<div class="categories__list-title">В</div>
+						<ul class="categories__list">
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-6.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Военные</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="categories__list-wrap">
+						<div class="categories__list-title">Г</div>
+						<ul class="categories__list">
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-7.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Гражданское право</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="categories__list-wrap">
+						<div class="categories__list-title">Д</div>
+						<ul class="categories__list">
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-8.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Договоры</span>
+								</a>
+							</li>
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-9.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Долги</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="categories__list-wrap">
+						<div class="categories__list-title">Ж</div>
+						<ul class="categories__list">
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-10.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Жилищные вопросы</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="categories__list-wrap">
+						<div class="categories__list-title">З</div>
+						<ul class="categories__list">
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-11.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Защита прав потребителей</span>
+								</a>
+							</li>
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-12.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Земельный</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="categories__list-wrap">
+						<div class="categories__list-title">И</div>
+						<ul class="categories__list">
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-13.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Исполнительное производство</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="categories__list-wrap">
+						<div class="categories__list-title">К</div>
+						<ul class="categories__list">
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-14.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Конституционное право</span>
+								</a>
+							</li>
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-15.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Корпоративное</span>
+								</a>
+							</li>
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-16.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Кредитование</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="categories__list-wrap">
+						<div class="categories__list-title">Л</div>
+						<ul class="categories__list">
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-17.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Лицензирование</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="categories__list-wrap">
+						<div class="categories__list-title">М</div>
+						<ul class="categories__list">
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-18.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Медицина</span>
+								</a>
+							</li>
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-19.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Международное право</span>
+								</a>
+							</li>
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-20.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Миграционные вопросы</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="categories__list-wrap">
+						<div class="categories__list-title">Н</div>
+						<ul class="categories__list">
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-21.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Наследство</span>
+								</a>
+							</li>
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-22.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Недвижимость</span>
+								</a>
+							</li>
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-23.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Нотариат</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="categories__list-wrap">
+						<div class="categories__list-title">О</div>
+						<ul class="categories__list">
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-24.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Образование</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="categories__list-wrap">
+						<div class="categories__list-title">С</div>
+						<ul class="categories__list">
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-25.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Семейное право</span>
+								</a>
+							</li>
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-26.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Соцобеспечение</span>
+								</a>
+							</li>
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-27.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Страхование</span>
+								</a>
+							</li>
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-28.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Судопроизводство</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="categories__list-wrap">
+						<div class="categories__list-title">Т</div>
+						<ul class="categories__list">
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-29.png" alt="">
+									</span>
+									<span class="categories__list-link-title">Таможня</span>
+								</a>
+							</li>
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-30.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Тендеры и закупки</span>
+								</a>
+							</li>
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-31.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Трудовое право</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="categories__list-wrap">
+						<div class="categories__list-title">У</div>
+						<ul class="categories__list">
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-32.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Уголовные дела</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="categories__list-wrap">
+						<div class="categories__list-title">Ю</div>
+						<ul class="categories__list">
+							<li class="categories__list-item">
+								<a href="" class="categories__list-link">
+									<span class="categories__list-link-img img">
+										<img src="img/categories-list-link-img-33.svg" alt="">
+									</span>
+									<span class="categories__list-link-title">Юридическое право</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Consultations -->
+	<section class="consultations">
+		<div class="container">
+			<h2 class="consultations__title section-title">Последние консультации</h2>
+			<div class="consultations__gallery">
+				<!-- Swiper -->
+			  <div class="consultations-swiper-container">
+			    <div class="swiper-wrapper">
+			      <div class="swiper-slide">
+			      	<div class="consultations__item">
+			      		<div class="consultations__date">10.01.2019</div>
+			      		<a href="" class="consultations__category">Категория права</a>
+			      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+			      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+			      		<a href="" class="consultations__item-btn">
+			      			<span class="consultations__item-btn-title">2 ответа</span>
+			      			<span class="consultations__item-btn-img img">
+			      				<img src="img/consultations-item-btn-img.png" alt="">
+			      			</span>
+			      		</a>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="consultations__item">
+			      		<div class="consultations__date">10.01.2019</div>
+			      		<a href="" class="consultations__category">Категория права</a>
+			      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in? </div>
+			      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+			      		<a href="" class="consultations__item-btn">
+			      			<span class="consultations__item-btn-title">2 ответа</span>
+			      			<span class="consultations__item-btn-img img">
+			      				<img src="img/consultations-item-btn-img.png" alt="">
+			      			</span>
+			      		</a>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="consultations__item">
+			      		<div class="consultations__date">10.01.2019</div>
+			      		<a href="" class="consultations__category">Категория права</a>
+			      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+			      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+			      		<a href="" class="consultations__item-btn">
+			      			<span class="consultations__item-btn-title">2 ответа</span>
+			      			<span class="consultations__item-btn-img img">
+			      				<img src="img/consultations-item-btn-img.png" alt="">
+			      			</span>
+			      		</a>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+							<div class="consultations__item">
+			      		<div class="consultations__date">10.01.2019</div>
+			      		<a href="" class="consultations__category">Категория права</a>
+			      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+			      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+			      		<a href="" class="consultations__item-btn">
+			      			<span class="consultations__item-btn-title">2 ответа</span>
+			      			<span class="consultations__item-btn-img img">
+			      				<img src="img/consultations-item-btn-img.png" alt="">
+			      			</span>
+			      		</a>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="consultations__item">
+			      		<div class="consultations__date">10.01.2019</div>
+			      		<a href="" class="consultations__category">Категория права</a>
+			      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+			      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+			      		<a href="" class="consultations__item-btn">
+			      			<span class="consultations__item-btn-title">2 ответа</span>
+			      			<span class="consultations__item-btn-img img">
+			      				<img src="img/consultations-item-btn-img.png" alt="">
+			      			</span>
+			      		</a>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="consultations__item">
+			      		<div class="consultations__date">10.01.2019</div>
+			      		<a href="" class="consultations__category">Категория права</a>
+			      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+			      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+			      		<a href="" class="consultations__item-btn">
+			      			<span class="consultations__item-btn-title">2 ответа</span>
+			      			<span class="consultations__item-btn-img img">
+			      				<img src="img/consultations-item-btn-img.png" alt="">
+			      			</span>
+			      		</a>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="consultations__item">
+			      		<div class="consultations__date">10.01.2019</div>
+			      		<a href="" class="consultations__category">Категория права</a>
+			      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+			      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+			      		<a href="" class="consultations__item-btn">
+			      			<span class="consultations__item-btn-title">2 ответа</span>
+			      			<span class="consultations__item-btn-img img">
+			      				<img src="img/consultations-item-btn-img.png" alt="">
+			      			</span>
+			      		</a>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="consultations__item">
+			      		<div class="consultations__date">10.01.2019</div>
+			      		<a href="" class="consultations__category">Категория права</a>
+			      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+			      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+			      		<a href="" class="consultations__item-btn">
+			      			<span class="consultations__item-btn-title">2 ответа</span>
+			      			<span class="consultations__item-btn-img img">
+			      				<img src="img/consultations-item-btn-img.png" alt="">
+			      			</span>
+			      		</a>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="consultations__item">
+			      		<div class="consultations__date">10.01.2019</div>
+			      		<a href="" class="consultations__category">Категория права</a>
+			      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+			      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+			      		<a href="" class="consultations__item-btn">
+			      			<span class="consultations__item-btn-title">2 ответа</span>
+			      			<span class="consultations__item-btn-img img">
+			      				<img src="img/consultations-item-btn-img.png" alt="">
+			      			</span>
+			      		</a>
+			      	</div>
+			      </div>
+			    </div>
+			  </div>
+				 <!-- Add Arrows -->
+			    <div class="swiper-button-next"></div>
+			    <div class="swiper-button-prev"></div>
+			    <!-- Add Pagination -->
+			    <div class="swiper-pagination"></div>
+			</div>
+			<a href="" class="consultations__btn">Задать вопрос онлайн</a>
+		</div>
+	</section>
+
+	<!-- Benefits -->
+	<section class="benefits">
+		<div class="benefits__bg">
+			<img src="img/benefits-bg.png" alt="">
+		</div>
+		<div class="container">
+			<div class="benefits__item">
+				<div class="benefits__item-img img">
+					<img src="img/benefits-item-img-1.png" alt="">
+				</div>
+				<div class="benefits__item-desc">100% гарантия качества</div>
+			</div>
+			<div class="benefits__item">
+				<div class="benefits__item-img img">
+					<img src="img/benefits-item-img-2.png" alt="">
+				</div>
+				<div class="benefits__item-desc">Политика защиты клиентов </div>
+			</div>
+		</div>
+	</section>
+	
+	<!-- Reviewes -->
+	<section class="reviewes">
+		<div class="container">
+			<h2 class="reviewes__title section-title">Отзывы</h2>
+			<div class="reviewes__gallery">
+				<!-- Swiper -->
+			  <div class="reviewes-swiper-container">
+			    <div class="swiper-wrapper">
+			      <div class="swiper-slide">
+			      	<div class="reviewes__item">
+			      		<div class="reviewes__item-img img">
+			      			<img src="img/reviewes-item-img.png" alt="">
+			      		</div>
+			      		<div class="reviewes__item-heading">
+			      			<div class="reviewes__item-author">Наталья</div>
+			      			<div class="reviewes__item-date">12.01.2019</div>
+			      		</div>
+			      		<div class="reviewes__item-desc">Спасибо за ответ, мне уже посоветовали в случае так сказать наезда со стороны администрации, обратиться в прокуратуру и трудовую инспекцию.</div>
+			      		<div class="reviewes__item-footer">
+			      			<div class="reviewes__item-footer-title">Вопрос:</div>
+			      			<a href class="reviewes__item-footer-value">Снятие с регистрации</a>
+			      		</div>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="reviewes__item">
+			      		<div class="reviewes__item-img img">
+			      			<img src="img/reviewes-item-img.png" alt="">
+			      		</div>
+			      		<div class="reviewes__item-heading">
+			      			<div class="reviewes__item-author">Наталья</div>
+			      			<div class="reviewes__item-date">12.01.2019</div>
+			      		</div>
+			      		<div class="reviewes__item-desc">Спасибо за ответ, мне уже посоветовали в случае так сказать наезда со стороны администрации, обратиться в прокуратуру и трудовую инспекцию. Спасибо за ответ, мне уже посоветовали в случае так сказать наезда со стороны администрации инспекцию.</div>
+			      	</div>
+			      </div>
+			     	<div class="swiper-slide">
+			      	<div class="reviewes__item">
+			      		<div class="reviewes__item-img img">
+			      			<img src="img/reviewes-item-img.png" alt="">
+			      		</div>
+			      		<div class="reviewes__item-heading">
+			      			<div class="reviewes__item-author">Наталья</div>
+			      			<div class="reviewes__item-date">12.01.2019</div>
+			      		</div>
+			      		<div class="reviewes__item-desc">Спасибо за ответ, мне уже посоветовали в случае так сказать наезда со стороны администрации, обратиться в прокуратуру и трудовую инспекцию.</div>
+			      		<div class="reviewes__item-footer">
+			      			<div class="reviewes__item-footer-title">Вопрос:</div>
+			      			<a href class="reviewes__item-footer-value">Снятие с регистрации</a>
+			      		</div>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="reviewes__item">
+			      		<div class="reviewes__item-img img">
+			      			<img src="img/reviewes-item-img.png" alt="">
+			      		</div>
+			      		<div class="reviewes__item-heading">
+			      			<div class="reviewes__item-author">Наталья</div>
+			      			<div class="reviewes__item-date">12.01.2019</div>
+			      		</div>
+			      		<div class="reviewes__item-desc">Спасибо за ответ, мне уже посоветовали в случае так сказать наезда со стороны администрации, обратиться в прокуратуру и трудовую инспекцию. Спасибо за ответ, мне уже посоветовали в случае так сказать наезда со стороны администрации инспекцию.</div>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="reviewes__item">
+			      		<div class="reviewes__item-img img">
+			      			<img src="img/reviewes-item-img.png" alt="">
+			      		</div>
+			      		<div class="reviewes__item-heading">
+			      			<div class="reviewes__item-author">Наталья</div>
+			      			<div class="reviewes__item-date">12.01.2019</div>
+			      		</div>
+			      		<div class="reviewes__item-desc">Спасибо за ответ, мне уже посоветовали в случае так сказать наезда со стороны администрации, обратиться в прокуратуру и трудовую инспекцию.</div>
+			      		<div class="reviewes__item-footer">
+			      			<div class="reviewes__item-footer-title">Вопрос:</div>
+			      			<a href class="reviewes__item-footer-value">Снятие с регистрации</a>
+			      		</div>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="reviewes__item">
+			      		<div class="reviewes__item-img img">
+			      			<img src="img/reviewes-item-img.png" alt="">
+			      		</div>
+			      		<div class="reviewes__item-heading">
+			      			<div class="reviewes__item-author">Наталья</div>
+			      			<div class="reviewes__item-date">12.01.2019</div>
+			      		</div>
+			      		<div class="reviewes__item-desc">Спасибо за ответ, мне уже посоветовали в случае так сказать наезда со стороны администрации, обратиться в прокуратуру и трудовую инспекцию. Спасибо за ответ, мне уже посоветовали в случае так сказать наезда со стороны администрации инспекцию.</div>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="reviewes__item">
+			      		<div class="reviewes__item-img img">
+			      			<img src="img/reviewes-item-img.png" alt="">
+			      		</div>
+			      		<div class="reviewes__item-heading">
+			      			<div class="reviewes__item-author">Наталья</div>
+			      			<div class="reviewes__item-date">12.01.2019</div>
+			      		</div>
+			      		<div class="reviewes__item-desc">Спасибо за ответ, мне уже посоветовали в случае так сказать наезда со стороны администрации, обратиться в прокуратуру и трудовую инспекцию.</div>
+			      		<div class="reviewes__item-footer">
+			      			<div class="reviewes__item-footer-title">Вопрос:</div>
+			      			<a href class="reviewes__item-footer-value">Снятие с регистрации</a>
+			      		</div>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="reviewes__item">
+			      		<div class="reviewes__item-img img">
+			      			<img src="img/reviewes-item-img.png" alt="">
+			      		</div>
+			      		<div class="reviewes__item-heading">
+			      			<div class="reviewes__item-author">Наталья</div>
+			      			<div class="reviewes__item-date">12.01.2019</div>
+			      		</div>
+			      		<div class="reviewes__item-desc">Спасибо за ответ, мне уже посоветовали в случае так сказать наезда со стороны администрации, обратиться в прокуратуру и трудовую инспекцию. Спасибо за ответ, мне уже посоветовали в случае так сказать наезда со стороны администрации инспекцию.</div>
+			      	</div>
+			      </div>
+			    </div>
+			  </div>
+				 <!-- Add Arrows -->
+			    <div class="reviewes-button-next"></div>
+			    <div class="reviewes-button-prev"></div>
+			    <!-- Add Pagination -->
+			    <div class="reviewes-pagination"></div>
+			</div>
+			<a href="" class="reviewes__btn">Задать вопрос онлайн</a>
+		</div>
+	</section>
+
+	<!-- Questions -->
+	<section class="questions">
+		<div class="container">
+			<div id="questionsContainer">
+				<ul class="questions__list">
+					<li class="questions__list-item">
+						<a href="#tab1" class="questions__list-link">Бесплатные вопросы</a>
+					</li>
+					<li class="questions__list-item">
+						<a href="#tab2" class="questions__list-link">Платные вопросы</a>
+					</li>
+				</ul>
+
+				<div id="tab1">
+					<div class="question-free__gallery">
+					<!-- Swiper -->
+					  <div class="question-free-swiper-container">
+					    <div class="swiper-wrapper">
+					      <div class="swiper-slide">
+					      	<div class="consultations__item">
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					      <div class="swiper-slide">
+					      	<div class="consultations__item">
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					      <div class="swiper-slide">
+					      	<div class="consultations__item">
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					      <div class="swiper-slide">
+									<div class="consultations__item">
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					      <div class="swiper-slide">
+					      	<div class="consultations__item">
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					      <div class="swiper-slide">
+					      	<div class="consultations__item">
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					      <div class="swiper-slide">
+					      	<div class="consultations__item">
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					      <div class="swiper-slide">
+					      	<div class="consultations__item">
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					      <div class="swiper-slide">
+					      	<div class="consultations__item">
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					    </div>
+					  </div>
+					 <!-- Add Arrows -->
+				    <div class="question-free-button-next"></div>
+				    <div class="question-free-button-prev"></div>
+				    <!-- Add Pagination -->
+				    <div class="question-free-pagination"></div>
+					</div>
+					<a href="" class="question__btn">Показать все вопросы</a>
+				</div>
+
+				<div id="tab2">
+					<div class="question-paid__gallery">
+					<!-- Swiper -->
+					  <div class="question-paid-swiper-container">
+					    <div class="swiper-wrapper">
+					      <div class="swiper-slide">
+					      	<div class="consultations__item">
+					      		<div class="question-paid-img img">
+					      			<img src="img/question-paid-img.png" alt="">
+					      		</div>
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					      <div class="swiper-slide">
+					      	<div class="consultations__item">
+					      		<div class="question-paid-img img">
+					      			<img src="img/question-paid-img.png" alt="">
+					      		</div>
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					      <div class="swiper-slide">
+					      	<div class="consultations__item">
+					      		<div class="question-paid-img img">
+					      			<img src="img/question-paid-img.png" alt="">
+					      		</div>
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					      <div class="swiper-slide">
+									<div class="consultations__item">
+										<div class="question-paid-img img">
+					      			<img src="img/question-paid-img.png" alt="">
+					      		</div>
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					      <div class="swiper-slide">
+					      	<div class="consultations__item">
+					      		<div class="question-paid-img img">
+					      			<img src="img/question-paid-img.png" alt="">
+					      		</div>
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					      <div class="swiper-slide">
+					      	<div class="consultations__item">
+					      		<div class="question-paid-img img">
+					      			<img src="img/question-paid-img.png" alt="">
+					      		</div>
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					      <div class="swiper-slide">
+					      	<div class="consultations__item">
+					      		<div class="question-paid-img img">
+					      			<img src="img/question-paid-img.png" alt="">
+					      		</div>
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					      <div class="swiper-slide">
+					      	<div class="consultations__item">
+					      		<div class="question-paid-img img">
+					      			<img src="img/question-paid-img.png" alt="">
+					      		</div>
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					      <div class="swiper-slide">
+					      	<div class="consultations__item">
+					      		<div class="question-paid-img img">
+					      			<img src="img/question-paid-img.png" alt="">
+					      		</div>
+					      		<div class="consultations__date">10.01.2019</div>
+					      		<a href="" class="consultations__category">Категория права</a>
+					      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+					      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+					      		<a href="" class="consultations__item-btn">
+					      			<span class="consultations__item-btn-title">2 ответа</span>
+					      			<span class="consultations__item-btn-img img">
+					      				<img src="img/consultations-item-btn-img.png" alt="">
+					      			</span>
+					      		</a>
+					      	</div>
+					      </div>
+					    </div>
+					  </div>
+					 <!-- Add Arrows -->
+				    <div class="question-paid-button-next"></div>
+				    <div class="question-paid-button-prev"></div>
+				    <!-- Add Pagination -->
+				    <div class="question-paid-pagination"></div>
+					</div>
+					<a href="" class="question__btn">Показать все вопросы</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<!-- Workers -->
+	<section class="workers">
+		<div class="container">
+			<h2 class="workers__title section-title">Наши юристы</h2>
+			<div class="workers__gallery">
+				<!-- Swiper -->
+			  <div class="workers-swiper-container">
+			    <div class="swiper-wrapper">
+			      <div class="swiper-slide">
+			      	<div class="workers__item">
+			      		<div class="workers__item-img img">
+			      			<img src="img/workers-item-img-1.png" alt="">
+			      		</div>
+			      		<div class="workers__item-name">Приходько Николай Валерьевич</div>
+			      		<div class="workers__item-post">Юрист</div>
+			      		<div class="workers__item-town">
+			      			<div class="workers__item-town-ico img">
+			      				<img src="img/workers-item-town-ico.png" alt="">
+			      			</div>
+			      			<div class="workers__item-town-value">Екатеринбург</div>
+			      		</div>
+			      		<div class="workers__item-desc">Специализация: налоговое, уголовное, семейное право</div>
+			      		<div class="workers__item-stage">Стаж: 5 лет</div>
+			      		<div class="workers__item-reviewes">
+			      			<div class="workers__item-reviewes-title">Отзывов:</div>
+			      			<div class="workers__item-reviewes-value">5</div>
+			      		</div>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="workers__item">
+			      		<div class="workers__item-img img">
+			      			<img src="img/workers-item-img-2.png" alt="">
+			      		</div>
+			      		<div class="workers__item-name">Конопкевич Василий Петрович</div>
+			      		<div class="workers__item-post">Юрист</div>
+			      		<div class="workers__item-town">
+			      			<div class="workers__item-town-ico img">
+			      				<img src="img/workers-item-town-ico.png" alt="">
+			      			</div>
+			      			<div class="workers__item-town-value">Екатеринбург</div>
+			      		</div>
+			      		<div class="workers__item-desc">Специализация: налоговое, уголовное, семейное право</div>
+			      		<div class="workers__item-stage">Стаж: 5 лет</div>
+			      		<div class="workers__item-reviewes">
+			      			<div class="workers__item-reviewes-title">Отзывов:</div>
+			      			<div class="workers__item-reviewes-value">5</div>
+			      		</div>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="workers__item">
+			      		<div class="workers__item-img img">
+			      			<img src="img/workers-item-img-3.png" alt="">
+			      		</div>
+			      		<div class="workers__item-name">Самантина Марина Александровна</div>
+			      		<div class="workers__item-post">Юрист</div>
+			      		<div class="workers__item-town">
+			      			<div class="workers__item-town-ico img">
+			      				<img src="img/workers-item-town-ico.png" alt="">
+			      			</div>
+			      			<div class="workers__item-town-value">Екатеринбург</div>
+			      		</div>
+			      		<div class="workers__item-desc">Специализация: налоговое, уголовное, семейное право</div>
+			      		<div class="workers__item-stage">Стаж: 5 лет</div>
+			      		<div class="workers__item-reviewes">
+			      			<div class="workers__item-reviewes-title">Отзывов:</div>
+			      			<div class="workers__item-reviewes-value">5</div>
+			      		</div>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="workers__item">
+			      		<div class="workers__item-img img">
+			      			<img src="img/workers-item-img-4.png" alt="">
+			      		</div>
+			      		<div class="workers__item-name">Болотина Анастасия Сергеевна</div>
+			      		<div class="workers__item-post">Юрист</div>
+			      		<div class="workers__item-town">
+			      			<div class="workers__item-town-ico img">
+			      				<img src="img/workers-item-town-ico.png" alt="">
+			      			</div>
+			      			<div class="workers__item-town-value">Екатеринбург</div>
+			      		</div>
+			      		<div class="workers__item-desc">Специализация: налоговое, уголовное, семейное право</div>
+			      		<div class="workers__item-stage">Стаж: 5 лет</div>
+			      		<div class="workers__item-reviewes">
+			      			<div class="workers__item-reviewes-title">Отзывов:</div>
+			      			<div class="workers__item-reviewes-value">5</div>
+			      		</div>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="workers__item">
+			      		<div class="workers__item-img img">
+			      			<img src="img/workers-item-img-1.png" alt="">
+			      		</div>
+			      		<div class="workers__item-name">Приходько Николай Валерьевич</div>
+			      		<div class="workers__item-post">Юрист</div>
+			      		<div class="workers__item-town">
+			      			<div class="workers__item-town-ico img">
+			      				<img src="img/workers-item-town-ico.png" alt="">
+			      			</div>
+			      			<div class="workers__item-town-value">Екатеринбург</div>
+			      		</div>
+			      		<div class="workers__item-desc">Специализация: налоговое, уголовное, семейное право</div>
+			      		<div class="workers__item-stage">Стаж: 5 лет</div>
+			      		<div class="workers__item-reviewes">
+			      			<div class="workers__item-reviewes-title">Отзывов:</div>
+			      			<div class="workers__item-reviewes-value">5</div>
+			      		</div>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="workers__item">
+			      		<div class="workers__item-img img">
+			      			<img src="img/workers-item-img-2.png" alt="">
+			      		</div>
+			      		<div class="workers__item-name">Конопкевич Василий Петрович</div>
+			      		<div class="workers__item-post">Юрист</div>
+			      		<div class="workers__item-town">
+			      			<div class="workers__item-town-ico img">
+			      				<img src="img/workers-item-town-ico.png" alt="">
+			      			</div>
+			      			<div class="workers__item-town-value">Екатеринбург</div>
+			      		</div>
+			      		<div class="workers__item-desc">Специализация: налоговое, уголовное, семейное право</div>
+			      		<div class="workers__item-stage">Стаж: 5 лет</div>
+			      		<div class="workers__item-reviewes">
+			      			<div class="workers__item-reviewes-title">Отзывов:</div>
+			      			<div class="workers__item-reviewes-value">5</div>
+			      		</div>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="workers__item">
+			      		<div class="workers__item-img img">
+			      			<img src="img/workers-item-img-3.png" alt="">
+			      		</div>
+			      		<div class="workers__item-name">Самантина Марина Александровна</div>
+			      		<div class="workers__item-post">Юрист</div>
+			      		<div class="workers__item-town">
+			      			<div class="workers__item-town-ico img">
+			      				<img src="img/workers-item-town-ico.png" alt="">
+			      			</div>
+			      			<div class="workers__item-town-value">Екатеринбург</div>
+			      		</div>
+			      		<div class="workers__item-desc">Специализация: налоговое, уголовное, семейное право</div>
+			      		<div class="workers__item-stage">Стаж: 5 лет</div>
+			      		<div class="workers__item-reviewes">
+			      			<div class="workers__item-reviewes-title">Отзывов:</div>
+			      			<div class="workers__item-reviewes-value">5</div>
+			      		</div>
+			      	</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="workers__item">
+			      		<div class="workers__item-img img">
+			      			<img src="img/workers-item-img-4.png" alt="">
+			      		</div>
+			      		<div class="workers__item-name">Болотина Анастасия Сергеевна</div>
+			      		<div class="workers__item-post">Юрист</div>
+			      		<div class="workers__item-town">
+			      			<div class="workers__item-town-ico img">
+			      				<img src="img/workers-item-town-ico.png" alt="">
+			      			</div>
+			      			<div class="workers__item-town-value">Екатеринбург</div>
+			      		</div>
+			      		<div class="workers__item-desc">Специализация: налоговое, уголовное, семейное право</div>
+			      		<div class="workers__item-stage">Стаж: 5 лет</div>
+			      		<div class="workers__item-reviewes">
+			      			<div class="workers__item-reviewes-title">Отзывов:</div>
+			      			<div class="workers__item-reviewes-value">5</div>
+			      		</div>
+			      	</div>
+			      </div>
+			    </div>
+			  </div>
+			 	<!-- Add Arrows -->
+		    <div class="workers-button-next"></div>
+		    <div class="workers-button-prev"></div>
+		    <!-- Add Pagination -->
+		    <div class="workers-pagination"></div>
+			</div>
+		</div>
+	</section>
+
+	<!-- News -->
+	<section class="news">
+		<div class="container">
+			<h2 class="news__title section-title">Новости и статьи</h2>
+			<div class="news__gallery">
+				<!-- Swiper -->
+			  <div class="news-swiper-container">
+			    <div class="swiper-wrapper">
+			      <div class="swiper-slide">
+			      	<div class="news__item">
+								<div class="news__item-img img">
+									<img src="img/news-item-img-1.png" alt="">
+								</div>
+								<div class="news__item-content">
+									<div class="news__item-heading">
+										<div class="news__item-date">10.01.2019</div>
+										<div class="news__item-views">
+											<div class="news__item-views-title">Просмотров:</div>
+											<div class="news__item-views-value">108</div>
+										</div>
+										<div class="news__item-comments">
+											<div class="news__item-comments-title">Комментариев:</div>
+											<div class="news__item-comments-value">8</div>
+										</div>
+									</div>
+									<h3 class="news__item-title">Где россияне платят до 500 рублей в месяц за услуги ЖКХ на человека</h3>
+									<div class="news__item-desc">Отвечая на вопросы журналистов в процессе пресс-конференции в Осаке. Путин заявил, что Россия не будет проявлять инициативы для снятия санкций со стороны Евросоюза и США. Лидер сказал...
+									</div>
+									<a href="" class="news__item-more">Читать подробнее</a>
+								</div>
+							</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="news__item">
+								<div class="news__item-img img">
+									<img src="img/news-item-img-1.png" alt="">
+								</div>
+								<div class="news__item-content">
+									<div class="news__item-heading">
+										<div class="news__item-date">10.01.2019</div>
+										<div class="news__item-views">
+											<div class="news__item-views-title">Просмотров:</div>
+											<div class="news__item-views-value">108</div>
+										</div>
+										<div class="news__item-comments">
+											<div class="news__item-comments-title">Комментариев:</div>
+											<div class="news__item-comments-value">8</div>
+										</div>
+									</div>
+									<h3 class="news__item-title">На встрече с Трампом путинне поднимал санкционный вопрос </h3>
+									<div class="news__item-desc">Отвечая на вопросы журналистов в процессе пресс-конференции в Осаке. </div>
+									<a href="" class="news__item-more">Читать подробнее</a>
+								</div>
+							</div>
+			      </div>
+			       <div class="swiper-slide">
+			      	<div class="news__item">
+								<div class="news__item-img img">
+									<img src="img/news-item-img-1.png" alt="">
+								</div>
+								<div class="news__item-content">
+									<div class="news__item-heading">
+										<div class="news__item-date">10.01.2019</div>
+										<div class="news__item-views">
+											<div class="news__item-views-title">Просмотров:</div>
+											<div class="news__item-views-value">108</div>
+										</div>
+										<div class="news__item-comments">
+											<div class="news__item-comments-title">Комментариев:</div>
+											<div class="news__item-comments-value">8</div>
+										</div>
+									</div>
+									<h3 class="news__item-title">На встрече с Трампом путинне поднимал санкционный вопрос </h3>
+									<div class="news__item-desc">Отвечая на вопросы журналистов в процессе пресс-конференции в Осаке.  для снятия санкций со стороны Евросоюза и США. Лидер сказал...</div>
+									<a href="" class="news__item-more">Читать подробнее</a>
+								</div>
+							</div>
+			      </div>
+			       <div class="swiper-slide">
+			      	<div class="news__item">
+								<div class="news__item-img img">
+									<img src="img/news-item-img-1.png" alt="">
+								</div>
+								<div class="news__item-content">
+									<div class="news__item-heading">
+										<div class="news__item-date">10.01.2019</div>
+										<div class="news__item-views">
+											<div class="news__item-views-title">Просмотров:</div>
+											<div class="news__item-views-value">108</div>
+										</div>
+										<div class="news__item-comments">
+											<div class="news__item-comments-title">Комментариев:</div>
+											<div class="news__item-comments-value">8</div>
+										</div>
+									</div>
+									<h3 class="news__item-title">Путин парировал обвинения Элтона Джона в лицемерии  </h3>
+									<div class="news__item-desc">На фоне растущих цен за тепло, воду, электричество, обслуживание дома и придомовой территории, был проведен аудит стоимости услуг ЖКХ в регионах России.</div>
+									<a href="" class="news__item-more">Читать подробнее</a>
+								</div>
+							</div>
+			      </div>
+			    </div>
+			  </div>
+			 	<!-- Add Arrows -->
+		    <div class="news-button-next"></div>
+		    <div class="news-button-prev"></div>
+		    <!-- Add Pagination -->
+		    <div class="news-pagination"></div>
+			</div>
+			<div class="row justify-content-center news__item-wrap">
+				<div class="col-md-4">
+					<div class="news__item">
+						<div class="news__item-img img">
+							<img src="img/news-item-img-1.png" alt="">
+						</div>
+						<div class="news__item-content">
+							<div class="news__item-heading">
+								<div class="news__item-date">10.01.2019</div>
+								<div class="news__item-views">
+									<div class="news__item-views-title">Просмотров:</div>
+									<div class="news__item-views-value">108</div>
+								</div>
+								<div class="news__item-comments">
+									<div class="news__item-comments-title">Комментариев:</div>
+									<div class="news__item-comments-value">8</div>
+								</div>
+							</div>
+							<h3 class="news__item-title">Путин парировал обвинения Элтона Джона в лицемерии </h3>
+							<div class="news__item-desc">Популярный поп-исполнитель Элтон Джон оживился после публикации интервью Президента РФ одному из британских изданий, обвинив Путина в лицемерии.
+							</div>
+							<a href="" class="news__item-more">Читать подробнее</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="news__item">
+						<div class="news__item-img img">
+							<img src="img/news-item-img-1.png" alt="">
+						</div>
+						<div class="news__item-content">
+							<div class="news__item-heading">
+								<div class="news__item-date">10.01.2019</div>
+								<div class="news__item-views">
+									<div class="news__item-views-title">Просмотров:</div>
+									<div class="news__item-views-value">108</div>
+								</div>
+								<div class="news__item-comments">
+									<div class="news__item-comments-title">Комментариев:</div>
+									<div class="news__item-comments-value">8</div>
+								</div>
+							</div>
+							<h3 class="news__item-title">На встрече с Трампом путинне поднимал санкционный вопрос </h3>
+							<div class="news__item-desc">Отвечая на вопросы журналистов в процессе пресс-конференции в Осаке. Путин заявил, что Россия не будет проявлять инициативы для снятия санкций со стороны Евросоюза и США. Лидер сказал...</div>
+							<a href="" class="news__item-more">Читать подробнее</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="news__item">
+						<div class="news__item-img img">
+							<img src="img/news-item-img-1.png" alt="">
+						</div>
+						<div class="news__item-content">
+							<div class="news__item-heading">
+								<div class="news__item-date">10.01.2019</div>
+								<div class="news__item-views">
+									<div class="news__item-views-title">Просмотров:</div>
+									<div class="news__item-views-value">108</div>
+								</div>
+								<div class="news__item-comments">
+									<div class="news__item-comments-title">Комментариев:</div>
+									<div class="news__item-comments-value">8</div>
+								</div>
+							</div>
+							<h3 class="news__item-title">Где россияне платят до 500 рублей в месяц за услуги ЖКХ на человека </h3>
+							<div class="news__item-desc">На фоне растущих цен за тепло, воду, электричество, обслуживание дома и придомовой территории, был проведен аудит стоимости услуг ЖКХ в регионах России.</div>
+							<a href="" class="news__item-more">Читать подробнее</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a href="" class="news__btn">Все новости и статьи</a>
+		</div>
+	</section>
+
+	<!-- Materials -->
+	<section class="materials">
+		<div class="container">
+			<h2 class="materials__title section-title">Новые правовые материалы</h2>
+			<div class="materials__gallery">
+				<!-- Swiper -->
+			  <div class="materials-swiper-container">
+			    <div class="swiper-wrapper">
+			      <div class="swiper-slide">
+			      	<div class="materials__item">
+								<div class="materials__item-img img">
+									<img src="img/materials-item-img-1.png" alt="">
+								</div>
+								<div class="materials__item-content">
+									<h3 class="materials__item-title">Жалоба в конституционный суд</h3>
+									<div class="materials__item-desc">Конституционный суд (КС) является органом судебной власти РФ. Это абсолютно независимая инстанция, ведущая судопроизводство и контроль в части соответствия Конституции законодательных и нормативных актов.Также в перечень полномочий этого... </div>
+									<a href="" class="materials__item-more">Читать подробнее</a>
+								</div>
+							</div>
+			      </div>
+			      <div class="swiper-slide">
+			      	<div class="materials__item">
+								<div class="materials__item-img img">
+									<img src="img/materials-item-img-3.png" alt="">
+								</div>
+								<div class="materials__item-content">
+									<h3 class="materials__item-title">Стоимость апелляции по уголовному делу</h3>
+									<div class="materials__item-desc">Стоимость апелляции по уголовному делу, на какие затраты рассчитывать </div>
+									<a href="" class="materials__item-more">Читать подробнее</a>
+								</div>
+							</div>
+			      </div>
+			       <div class="swiper-slide">
+			      	<div class="materials__item">
+								<div class="materials__item-img img">
+									<img src="img/materials-item-img-2.png" alt="">
+								</div>
+								<div class="materials__item-content">
+									<h3 class="materials__item-title">Сколько стоит апелляционная жалоба по гражданскому делу</h3>
+									<div class="materials__item-desc">Законодательством нашего государства каждому гражданину гарантируется его прав и свобод, поэтому в случае несогласияотрена возможность пересмотра его судебным органом высшей инстанции (статья 389 РФ...РФ)</div>
+									<a href="" class="materials__item-more">Читать подробнее</a>
+								</div>
+							</div>
+			      </div>
+			    </div>
+			  </div>
+			 	<!-- Add Arrows -->
+		    <div class="materials-button-next"></div>
+		    <div class="materials-button-prev"></div>
+		    <!-- Add Pagination -->
+		    <div class="materials-pagination"></div>
+			</div>
+			<div class="row justify-content-center materials-items-wrap">
+				<div class="col-md-4">
+					<div class="materials__item">
+						<div class="materials__item-img img">
+							<img src="img/materials-item-img-1.png" alt="">
+						</div>
+						<div class="materials__item-content">
+							<h3 class="materials__item-title">Жалоба в конституционный суд</h3>
+							<div class="materials__item-desc">Конституционный суд (КС) является органом судебной власти РФтивных актов.Также в перечень полномочий этого... </div>
+							<a href="" class="materials__item-more">Читать подробнее</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="materials__item">
+						<div class="materials__item-img img">
+							<img src="img/materials-item-img-2.png" alt="">
+						</div>
+						<div class="materials__item-content">
+							<h3 class="materials__item-title">Стоимость апелляции по уголовному делу</h3>
+							<div class="materials__item-desc">Законодательством нашего государства каждому гражданину гарантируется его прав и свобод, поэтому в случае несогласия участникасмотрена возможность пересмотра его судебным органом высшей инстанции (статья 389 РФ...РФ)</div>
+							<a href="" class="materials__item-more">Читать подробнее</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="materials__item">
+						<div class="materials__item-img img">
+							<img src="img/materials-item-img-3.png" alt="">
+						</div>
+						<div class="materials__item-content">
+							<h3 class="materials__item-title">Сколько стоит у</h3>
+							<div class="materials__item-desc">Конституционный суд (КС) является органом судебной власти РФ. Это абсолютно независимая инстанция, ведельных и нормативных актов...Также в перечень полномочий этого... </div>
+							<a href="" class="materials__item-more">Читать подробнее</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a href="" class="materials__btn">Все правовые материалы</a>
+		</div>
+	</section>
+
+	<!-- About -->
+	<section class="about">
+		<div class="container">
+			<div class="row justify-content-between">
+				<div class="col-md-7">
+					<h2 class="about__title section-title">О проекте</h2>
+					<div class="about__item">
+						<h3 class="about__item-title">Бесплатная юридическая консультация</h3>
+						<div class="about__item-desc">
+							<p>Наш интернет-портал, сотрудничая с юристами и адвокатами высокого профессионального уровня, предоставляет возможность получить профессиональную бесплатную юридическую консультацию онлайн, а также заказать нужный документ или найти юриста из вашего города или региона для представления интересов в судах и организациях. </p>
+							<p>Получить бесплатную юридическую консультацию онлайн могут как жители соквы и СПБ, так и других регионов России и СНГ. </p>
+							<p>На все вопросы отвечают специалисты, которые прошли проверку наличия профильного образования и знаний сотрудниками нашего портала. </p>
+							<p>Консультации от профессионалов - вы можете не только поинтересоваться тем, как обстоят ваши дела в отношении спорной ситуации, а также в случае судебного процесса понять, если ли у вас шансы выиграть дело, в котором вы участвуете не только как истец, но и как ответчик. Вы можете получить настоящую бесплатную эффективную юридическую помощь и поддержку, ведь наши специалисты имеют огромный опыт взаимодействия в вопросах самых различных сфер и направлений.</p>
+						</div>
+					</div>
+					<div class="about__item">
+						<h3 class="about__item-title">Онлайн-консультация юриста</h3>
+						<div class="about__item-desc">
+							<p>Помощь специалиста в суде или его консультация может быть предоставлена в самых различных сферах правовой практики. Заметьте, что данная услуга оказывается бесплатно. Вам дается возможность получить юридическую консультацию по всем вопросам, с которыми вы можете столкнуться на работе, дома, на даче и т.д. Юрист нам требуется не менее часто, чем, например, врач, ведь наши с вами права могут нарушаться где угодно: от незаконного сбора членских взносов в дачном кооперативе до залива квартиры соседями или обмана в магазине.</p>
+							<p>При каждом таком случае необходимо понимать, как поступить правильно, чтобы не усугубить ситуацию или ее разрешить. В этом вам помогут адвокаты нашего портала. И для этого не обязательно регистрироваться или оставлять свой номер телефона.  Все можно сделать в режиме онлайн.</p>
+							<p>Стоит отметить, что бесплатная юридическая консультация онлайн, во время которой можно задать вопросы, проводится в любое удобное для вас время. Это значит, что при необходимости вы можете получить нужную информацию даже в ночное время.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="about__widget">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-7 col-sm-4 col-lg-3">
+					<div class="footer__wrap">
+						<a href="" class="footer__logo img">
+							<img src="img/footer-logo.png" alt="">
+						</a>
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">О проекте</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Контакты</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Пользовательское соглашение</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Реферальная программа</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-8 col-sm-4 col-lg-3">
+					<div class="footer__wrap footer__wrap-padding">
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Каталог юристов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Архив вопросов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Горячая линия</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Новости</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-8 col-sm-4 col-lg-3">
+					<div class="footer__wrap footer__wrap-padding">
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Регистрация нового юриста</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">CRM для юристов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Юридические заявки</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Зачем отвечать на вопросы</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-12 col-lg-3">
+					<div class="footer__wrap footer__wrap-social">
+						<ul class="footer__social">
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="img/footer-social-link-1.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="img/footer-social-link-2.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="img/footer-social-link-3.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="img/footer-social-link-4.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="img/footer-social-link-5.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="img/footer-social-link-6.png" alt="">
+								</a>
+							</li>
+						</ul>
+						<div class="footer__branches">
+							<div class="footer__branches-title">Филиалы:</div>
+							<ul class="footer__branches-list">
+								<li class="footer__branches-item">Санкт-Петербург, ул. Достоевского, д. 25</li>
+								<li class="footer__branches-item">Нижний Новгород, ул. Новая, д. 28</li>
+								<li class="footer__branches-item">Екатеринбург, ул. 8 марта, д. 142</li>
+								<li class="footer__branches-item">Ростов-на-Дону, ул. Красноармейская, д. 142/50</li>
+								<li class="footer__branches-item">Краснодар, ул. Московская, д. 148</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<div id="ex1" class="modal">
+	  <div class="popup-login">
+			<h2 class="popup-title">Вход</h2>
+			<form action="" class="popup-form">
+				<div class="popup-form__input">
+					<input type="text" name="login-name" placeholder="Имя">
+				</div>
+				<div class="popup-form__input">
+					<input type="password" name="login-password" placeholder="Пароль">
+				</div>
+				<div class="checkbox-wrap">
+					<input id="login-check" type="checkbox" name="login-check" value="check1" class="checkbox">
+					<label for="login-check">Запомнить меня</label>
+				</div>
+				<button class="main-btn popup-form__btn">Войти</button>
+				<a href="#ex2" rel="modal:open" class="popup-form__forget">Забыли пароль?</a>
+				<div class="popup-form__reg">Нет учетной записи? <a href="" class="popup-form__reg-link">Зарегистрируйтесь</a></div>
+			</form>
+			<div class="popup-social">
+				<div class="popup-social__title">Войдите через социальные сети</div>
+				<ul class="popup-social__list">
+					<li class="popup-social__item">
+						<a href="" class="popup-social__link img">
+							<img src="img/popup-social-link-1.png" alt="">
+						</a>
+					</li>
+					<li class="popup-social__item">
+						<a href="" class="popup-social__link img">
+							<img src="img/popup-social-link-2.png" alt="">
+						</a>
+					</li>
+					<li class="popup-social__item">
+						<a href="" class="popup-social__link img">
+							<img src="img/popup-social-link-3.png" alt="">
+						</a>
+					</li>
+					<li class="popup-social__item">
+						<a href="" class="popup-social__link img">
+							<img src="img/popup-social-link-4.png" alt="">
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div id="ex2" class="modal">
+	  <div class="popup-login">
+			<h2 class="popup-title">Восставление пароля</h2>
+			<form action="" class="popup-form popup-form-recover">
+				<div for="" class="popup-form__input-label">Введите Email, указанный в учётной записи</div>
+				<div class="popup-form__input">
+					<input type="email" name="login-email" placeholder="Ваш Email">
+				</div>
+				<button class="main-btn popup-form__btn">Восстановить</button>
+				<a href="" class="popup-form__cancel">Отмена</a>
+			</form>
+		</div>
+	</div>
+	
+	<script src="jquery/jquery-3.4.1.min.js"></script>
+	<script src="lib/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="lib/swiper/swiper.min.js"></script>
+	<script src="lib/jquery-modal-master/jquery.modal.min.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>
