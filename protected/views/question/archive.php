@@ -24,7 +24,7 @@ $('#archive-questions-list').on('click', '.archive-questions__more-btn', functio
     var perpage =  Number($(this).attr('data-per_page'));
    e.preventDefault();
         $.ajax({
-  type: "GET",
+  type: "POST",
   url: arhiveUrl,
   dataType: "html",
   data: { per_page: (perpage + 25) },

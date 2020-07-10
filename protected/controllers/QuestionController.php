@@ -87,12 +87,12 @@ class QuestionController extends Controller
     /**
      * @return array action filters
      */
-    public function filters()
-    {
-        return [
-            'accessControl', // perform access control for CRUD operations
-        ];
-    }
+//    public function filters()
+//    {
+//        return [
+//            'accessControl', // perform access control for CRUD operations
+//        ];
+//    }
 
     /**
      * Specifies the access control rules.
@@ -100,22 +100,24 @@ class QuestionController extends Controller
      *
      * @return array access control rules
      */
-    public function accessRules()
-    {
-        return [
-            ['allow', // allow all users
-                'actions' => ['index', 'archive', 'view', 'create', 'thankYou', 'rss', 'rssAnswers', 'call', 'callBack', 'weCallYou', 'docsRequested', 'docs', 'getServices', 'services', 'upgrade', 'paymentSuccess', 'paymentFail', 'paymentCheck', 'paymentAviso', 'confirm', 'sendLead'],
-                'users' => ['*'],
-            ],
-            ['allow', // allow authenticated user to perform 'search'
-                'actions' => ['search', 'updateAnswer', 'checkCommentsAsRead', 'my'],
-                'users' => ['@'],
-            ],
-            ['deny', // deny all users
-                'users' => ['*'],
-            ],
-        ];
-    }
+//    public function accessRules()
+//    {
+//        return [
+//            ['allow', // allow all users
+//                'actions' => ['index', 'archive', 'view', 'create', 'thankYou', 'rss', 'rssAnswers', 'call',
+//                    'callBack', 'weCallYou', 'docsRequested', 'docs', 'getServices', 'services', 'upgrade',
+//                    'paymentSuccess', 'paymentFail', 'paymentCheck', 'paymentAviso', 'confirm', 'sendLead'],
+//                'users' => ['*'],
+//            ],
+//            ['allow', // allow authenticated user to perform 'search'
+//                'actions' => ['search', 'updateAnswer', 'checkCommentsAsRead', 'my'],
+//                'users' => ['@'],
+//            ],
+//            ['deny', // deny all users
+//                'users' => ['*'],
+//            ],
+//        ];
+//    }
 
     /**
      * Displays a particular model.
@@ -752,10 +754,10 @@ class QuestionController extends Controller
         if (!($date instanceof DateTime) || $date > (new DateTime())) {
             throw new CHttpException(400, 'Некорректная дата');
         }
-        CVarDumper::dump(Yii::app()->request,5,true);die;
-        if (isset($_GET['per_page'])){
+//        CVarDumper::dump($this->request->getPost('per_page'),5,true);die;
+        if ($this->request->getIsAjaxRequest()){
             $questionsDataProvider = $this->questionRepository
-                ->getQuestionsDataProviderForMonth($year, $month, $_GET['per_page']);
+                ->getQuestionsDataProviderForMonth($year, $month, $this->request->getPost('per_page'));
             return $this->renderPartial('archiveAjax', [
                 'dataProvider' => $questionsDataProvider,
             ]);
