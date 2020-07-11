@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<!-- Переключение IE в последнию версию, на случай если в настройках пользователя стоит меньшая -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<!-- Адаптирование страницы для мобильных устройств -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- Запрет распознования номера телефона -->
+	<meta name="format-detection" content="telephone=no">
+	<meta name="SKYPE_TOOLBAR" content ="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+
+	<!-- Заголовок страницы -->
+	<title>100 Юристов</title>
+
+	<!-- Данное значение часто используют(использовали) поисковые системы -->
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+
+	<!-- Традиционная иконка сайта, размер 16x16, прозрачность поддерживается. Рекомендуемый формат: .ico или .png -->
+	<link rel="shortcut icon" href="img/favicon.ico">
+
+	<!-- Подключение файлов стилей -->
+	<link rel="stylesheet" href="lib/jquery-ui-1.12.1.custom/jquery-ui.min.css">
+	<link rel="stylesheet" href="../lib/bootstrap/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="../style.css"> 
+	<link rel="stylesheet" href="../css/media.css"> 
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"> 
+</head>
+<body>
+	
+	<!-- Header -->
+	<header class="header">
+		<div class="header__mob">
+			<div class="container">
+				<div class="header__mob-wrap">
+					<div class="nav-mob-wrap img">
+						<img src="../img/nav-open.png" alt="" class="nav-open">
+						<img src="../img/nav-close.png" alt="" class="nav-close">
+					</div>
+					<nav class="nav-mob">
+						<div class="nav-mob-close img">
+							<img src="../img/nav-mob-close.png" alt="">
+						</div>
+						<div class="nav-mob__title">Меню</div>
+						<ul class="nav-mob-list">
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Задать вопрос юристу онлайн</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Консультация по телефону</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Вопросы</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Найти юриста</a>
+							</li>
+						</ul>
+						<div class="header__contacts header__contacts-mob">
+							<a href="tel:88005004692" class="header__contacts-value">8 800 500-46-92</a>
+							<div class="header__contacts-title">Звонок бесплатный</div>
+						</div>
+						<a href="" class="header__btn header__btn-mob">Заказать звонок</a>
+					</nav>
+					<a href="" class="logo-mob img">
+						<img src="../img/logo.png" alt="">
+					</a>
+					<a href="" class="search-btn img">
+						<img src="../img/search-btn.png" alt="">
+					</a>
+					<form action="" class="search-form-mob">
+						<div class="search-input">
+							<a href="" class="search-input__ico img">
+								<img src="../img/feedback-search.png" alt="">
+							</a>
+							<input type="search" name="" placeholder="Поиск...">
+						</div>
+					</form>
+					<a href="" class="login-btn img">
+						<img src="../img/login-btn.png" alt="">
+					</a>
+				</div>
+			</div>	
+		</div>
+		<div class="header__top">
+			<div class="container">
+				<div class="row no-gutters justify-content-between align-items-center">
+					<div class="col-sm-12 col-md-auto">
+						<a href="" class="logo img">
+							<img src="../img/logo.png" alt="">
+						</a>
+					</div>
+					<div class="col-sm-auto col-md-auto header__question-wrap">
+						<div class="header__question">Задай вопрос юристу онлайн</div>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<div class="header__contacts">
+							<a href="tel:88005004692" class="header__contacts-value">8 800 500-46-92</a>
+							<div class="header__contacts-title">Звонок бесплатный</div>
+						</div>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<a href="" class="header__btn">Заказать звонок</a>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<a href="" class="header__account">
+							<span class="header__account-img img">
+								<img src="../img/header-account.png" alt="">
+							</span>
+							<span class="header__account-title">Вход/Регистрация</span>
+						</a>
+					</div>
+				</div>	
+			</div>
+		</div>
+		<div class="header__bottom">
+			<div class="container">
+				<div class="row justify-content-between align-items-center">
+					<div class="col-lg-8">
+						<nav class="main__nav">
+							<ul class="main__nav-list">
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link main__nav-link--question">Задать вопрос юристу онлайн</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Консультация по телефону</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Вопросы</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Найти юриста</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+					<div class="col-lg-4">
+						<form action="" class="search-form">
+							<div class="search-input">
+								<a href="" class="search-input__ico img">
+									<img src="../img/feedback-search.png" alt="">
+								</a>
+								<input type="search" name="" placeholder="Поиск...">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="container">
+		<div class="breadcrumbs">
+			<ul class="breadcrumbs__list">
+				<li class="breadcrumbs__item">
+					<a href="../index.html" class="breadcrumbs__link">Главная</a>
+				</li>
+				<li class="breadcrumbs__item">
+					<a href="#" class="breadcrumbs__link breadcrumbs__link--active">Подготовка документов</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+
+	<!-- Crm-system -->
+	<main class="main">
+		<div class="container">
+			<h2 class="main__title">Подготовка документов</h2>
+			<div class="main__subtitle">Вам нужно составить иск или претензию? Подготовить договор? Зарегистрировать ООО? Оставьте заявку на сайте и получите предложения от юристов со всей России. <span class="main__subtitle--bold">Бесплатно!</span></div>
+			<!-- Steps -->
+			<section class="steps question-steps">
+				<div class="container">
+					<div class="row justify-content-center align-items-stretch">
+						<div class="col-sm-7 col-lg-4">
+							<div class="steps__item">
+								<div class="steps__item-top">
+									<div class="steps__item-img">
+										<img src="../img/documents-steps-img-1.png" alt="">
+									</div>
+									<div class="steps__item-value">шаг 1</div>
+								</div>
+								<div class="steps__item-bottom">
+									<div class="steps__item-title">Заполните заявку</div>
+									<div class="steps__item-desc">Опишите документ, который вам нужен, и отправьте заявку. Это абсолютно бесплатно и займет не больше пяти минут.</div>
+									<div class="arrow_box"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-7 col-lg-4">
+							<div class="steps__item">
+								<div class="steps__item-top">
+									<div class="steps__item-img img">
+										<img src="../img/documents-steps-img-2.png" alt="">
+									</div>
+									<div class="steps__item-value">шаг 2</div>
+								</div>
+								<div class="steps__item-bottom">
+									<div class="steps__item-title">Получите предложения</div>
+									<div class="steps__item-desc">Заинтересованные юристы в течение 10-15 минут предложат вам свои услуги и сориентируют по стоимости.</div>
+									<div class="arrow_box"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-7 col-lg-4">
+							<div class="steps__item">
+								<div class="steps__item-top">
+									<div class="steps__item-img img">
+										<img src="../img/documents-steps-img-3.png" alt="">
+									</div>
+									<div class="steps__item-value">шаг 3</div>
+								</div>
+								<div class="steps__item-bottom">
+									<div class="steps__item-title">Выберите юриста</div>
+									<div class="steps__item-desc">Выберите юриста, который предложит самые выгодные условия, и начните работу!</div>
+									<div class="arrow_box"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<div class="row justify-content-between">
+				<div class="col-md-6 col-lg-7">
+					<form action="" class="question-online__form">
+						<p class="form-title">Какой документ вам нужен?</p>
+						<div class="radio-wrap">
+							<div class="radio-inner">
+								<div class="radio-input-wrap">
+									<input type="radio"  id="doc-type-1" name="deliverybtn" value="delivery" class="radio">
+									<label for="doc-type-1">Регистрация бизнеса</label>
+									<div class="radio-wrap-desc">Комплекты документов для регистрации ООО, ИП, ТСЖ и др.</div>
+								</div>
+								<div class="radio-input-wrap">
+									<input type="radio"  id="doc-type-2" name="deliverybtn" value="delivery" class="radio">
+									<label for="doc-type-2">Документы в суд</label>
+									<div class="radio-wrap-desc">Исковое заявление, отзыв на исковое заявление, ходатайство, жалоба на решение суда и др.</div>
+								</div>
+								<div class="radio-input-wrap">
+									<input type="radio"  id="doc-type-3" name="deliverybtn" value="delivery" class="radio">
+									<label for="doc-type-3">Жалоба на чиновника</label>
+									<div class="radio-wrap-desc">Жалоба на действия должностного лица, судебного пристава, сотрудника ГИБДД и др.</div>
+								</div>
+							</div>
+							<div class="radio-inner">
+								<div class="radio-input-wrap">
+									<input type="radio"  id="doc-type-4" name="deliverybtn" value="delivery" class="radio">
+									<label for="doc-type-4">Договоры и соглашения</label>
+									<div class="radio-wrap-desc">Договоры аренды, подряда,  купли-продажи, займа, комиссии и др.</div>
+								</div>
+								<div class="radio-input-wrap">
+									<input type="radio"  id="doc-type-5" name="deliverybtn" value="delivery" class="radio">
+									<label for="doc-type-5">Претензии потребителей</label>
+									<div class="radio-wrap-desc">Претензии на возврат денег за товар. Претензии в страховую, в банк, к ЖКХ и др.</div>
+								</div>
+								<div class="radio-input-wrap">
+									<input type="radio"  id="doc-type-6" name="deliverybtn" value="delivery" class="radio">
+									<label for="doc-type-6">Другое</label>
+									<div class="radio-wrap-desc">Любой другой документ. Вы можете описать его самостоятельно.</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-input-wrap">
+							<label for="" class="form-input-label">Тип документа</label>
+							<div class="form-input-select">
+								<select name="" id="">
+									<option value="">Регистрация ООО</option>
+									<option value="">Регистрация ООО</option>
+									<option value="">Регистрация ООО</option>
+									<option value="">Регистрация ООО</option>
+								</select>	
+							</div>
+						</div>
+						<div class="form-input-wrap">
+							<label for="" class="form-input-label">Подробное описание</label>
+							<div class="form-input-textarea form-input-textarea-docs">
+								<textarea name="" id="" placeholder="Чем подробнее вы опишите требования к документу, тем точнее юристы смогут оценить его стоимость."></textarea>
+							</div>
+						</div>
+						<div class="sending__file-input">
+							<div class="sending__file-input-title">Если нужно, прикрепите файл</div>
+							<label class="sending__label">
+							  <span class="sending__label-button">Выбрать файл</span>
+							  <input type="file" class="sending__input">
+					  	</label> 
+					  </div>
+					  <div class="radio-wrap radio-wrap-block">
+							<div class="radio-input-wrap">
+								<p class="price-radio-title">Стоимость документа</p>
+								<input type="radio"  id="doc-type-7" name="deliverybtn" value="delivery" class="radio">
+								<label for="doc-type-7">По договоренности с юристом</label>
+							</div>
+							<div class="radio-input-wrap">
+								<input type="radio"  id="doc-type-8" name="deliverybtn" value="delivery" class="radio">
+								<label for="doc-type-8" class="label-flex">
+									<span class="label-flex-title">Я планирую заплатить </span>
+									<input type="text" class="radio-label-input">
+									<span class="label-flex-title">руб.</span>
+								</label>
+							</div>
+						</div>
+						<div class="form-title">Как с вами связаться?</div>
+						<div class="form-input-wrap">
+							<label for="" class="form-input-label">Ваше имя</label>
+							<div class="form-input">
+								<input type="text" name="name" placeholder="Как вас зовут?">
+							</div>
+						</div>
+						<div class="form-input-wrap">
+							<label for="" class="form-input-label">Ваш город</label>
+							<div class="form-input-select">
+								<select name="" id="">
+									<option value="">Красноярск</option>
+									<option value="">Красноярск</option>
+									<option value="">Красноярск</option>
+									<option value="">Красноярск</option>
+								</select>	
+							</div>
+						</div>
+						<div class="form-input-wrap">
+							<label for="" class="form-input-label">Ваше Email</label>
+							<div class="form-input">
+								<input type="email" name="name" placeholder="mary_simonova@mail.ru">
+							</div>
+						</div>
+						<div class="form-input-wrap">
+							<label for="" class="form-input-label">Ваш номер телефона</label>
+							<div class="form-input">
+								<input type="tel" name="phone" id="phone" placeholder="+7 (___) ___-__-__">
+							</div>
+						</div>
+						<button class="question-online__btn main-btn">Задать вопрос</button>
+						<div class="question-online-check-wrap">
+							<input id="question-online-check" type="checkbox" name="question-online-check" value="check1" class="checkbox">
+							<label for="question-online-check">Отправляя вопрос, вы соглашаетесь с условиями <a href="" class="question-online__policy">Пользовательского соглашения</a></label>
+						</div>
+					</form>
+				</div>
+				<div class=" col-md-5 col-lg-4 docs-aside">
+					<div class="send-benefits">
+						<div class="send-benefits__title">3 причины оставить заявку</div>
+						<div class="send-benefits__wrap">
+							<div class="send-benefits__item">
+								<div class="send-benefits__item-title">
+									<div class="send-benefits__item-title-img img">
+										<img src="../img/send-benefits-item-title-img-1.png" alt="">
+									</div>
+									<div class="send-benefits__item-title-value">Это бесплатно</div>
+								</div>
+								<div class="send-benefits__item-desc">Вы оставляете заявку абсолютно бесплатно и ничего не теряете, если никто из юристов вам не подойдет.</div>
+							</div>
+							<div class="send-benefits__item">
+								<div class="send-benefits__item-title">
+									<div class="send-benefits__item-title-img img">
+										<img src="../img/send-benefits-item-title-img-2.png" alt="">
+									</div>
+									<div class="send-benefits__item-title-value">У вас появится выбор</div>
+								</div>
+								<div class="send-benefits__item-desc">Вы сравниваете предложения  разных юристов и выбираете самые выгодные условия.</div>
+							</div>
+							<div class="send-benefits__item">
+								<div class="send-benefits__item-title">
+									<div class="send-benefits__item-title-img img">
+										<img src="../img/send-benefits-item-title-img-3.png" alt="">
+									</div>
+									<div class="send-benefits__item-title-value">Мы на вашей стороне</div>
+								</div>
+								<div class="send-benefits__item-desc">Если вы останетесь недовольны результатом, напишите нам, и мы вернем вам деньги!</div>
+							</div>
+						</div>
+					</div>
+					<div class="last-consultation">
+						<div class="last-consultation__title">Последние консультации</div>
+						<div class="consultations__item">
+		      		<div class="consultations__date">10.01.2019</div>
+		      		<a href="" class="consultations__category">Категория права</a>
+		      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+		      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+		      		<a href="" class="consultations__item-btn">
+		      			<span class="consultations__item-btn-title">2 ответа</span>
+		      			<span class="consultations__item-btn-img img">
+		      				<img src="../img/consultations-item-btn-img.png" alt="">
+		      			</span>
+		      		</a>
+		      	</div>
+		      	<div class="consultations__item">
+		      		<div class="consultations__date">10.01.2019</div>
+		      		<a href="" class="consultations__category">Категория права</a>
+		      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+		      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+		      		<a href="" class="consultations__item-btn">
+		      			<span class="consultations__item-btn-title">2 ответа</span>
+		      			<span class="consultations__item-btn-img img">
+		      				<img src="../img/consultations-item-btn-img.png" alt="">
+		      			</span>
+		      		</a>
+		      	</div>
+		      	<div class="consultations__item">
+		      		<div class="consultations__date">10.01.2019</div>
+		      		<a href="" class="consultations__category">Категория права</a>
+		      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+		      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+		      		<a href="" class="consultations__item-btn">
+		      			<span class="consultations__item-btn-title">2 ответа</span>
+		      			<span class="consultations__item-btn-img img">
+		      				<img src="../img/consultations-item-btn-img.png" alt="">
+		      			</span>
+		      		</a>
+		      	</div>
+					</div>
+					<div class="best-workers docs-best-workers">
+							<h3 class="best-workers__title">Наши лучшие юристы</h3>
+							<div class="best-workers__item">
+								<div class="best-workers__avatar img">
+									<img src="../img/best-workers-avatar-1.png" alt="">
+									<div class="best-workers__avatar-online"></div>
+								</div>
+								<div class="best-workers__data">
+									<a href="" class="best-workers__name">Александр Бударагин</a>
+									<div class="best-workers__data-wrapper">
+										<div class="best-workers__specialty">Юрист</div>
+										<div class="best-workers__location">
+											<div class="best-workers__location-ico img">
+												<img src="../img/best-workers-location-ico.png" alt="">
+											</div>
+											<div class="best-workers__location-value">Нижний Новгород</div>
+										</div>
+									</div>
+									<div class="best-workers__activity">
+										<div class="best-workers__activity-value">86</div>
+										<div class="best-workers__activity-title">консультаций</div>
+									</div>
+								</div>
+							</div>
+							<div class="best-workers__item">
+								<div class="best-workers__avatar img">
+									<img src="../img/best-workers-avatar-2.png" alt="">
+								</div>
+								<div class="best-workers__data">
+									<a href="" class="best-workers__name">Марина Тарасова</a>
+									<div class="best-workers__data-wrapper">
+										<div class="best-workers__specialty">Юрист</div>
+										<div class="best-workers__location">
+											<div class="best-workers__location-ico img">
+												<img src="../img/best-workers-location-ico.png" alt="">
+											</div>
+											<div class="best-workers__location-value">Москва</div>
+										</div>
+									</div>
+									<div class="best-workers__activity">
+										<div class="best-workers__activity-value">9</div>
+										<div class="best-workers__activity-title">консультаций</div>
+									</div>
+								</div>
+							</div>
+							<div class="best-workers__item">
+								<div class="best-workers__avatar img">
+									<img src="../img/best-workers-avatar-3.png" alt="">
+								</div>
+								<div class="best-workers__data">
+									<a href="" class="best-workers__name">Галина Гудкова</a>
+									<div class="best-workers__data-wrapper">
+										<div class="best-workers__specialty">Юрист</div>
+										<div class="best-workers__location">
+											<div class="best-workers__location-ico img">
+												<img src="../img/best-workers-location-ico.png" alt="">
+											</div>
+											<div class="best-workers__location-value">Москва</div>
+										</div>
+									</div>
+									<div class="best-workers__activity">
+										<div class="best-workers__activity-value">9</div>
+										<div class="best-workers__activity-title">консультаций</div>
+									</div>
+								</div>
+							</div>
+							<a href="" class="best-workers__btn main-btn">Все наши юристы</a>
+						</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- Activity -->
+	<section class="activity activity-mob">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-sm-3">
+					<div class="activity__item">
+						<div class="activity__item-value">76 518</div>
+						<div class="activity__item-desc">Вопросов задано</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="activity__item">
+						<div class="activity__item-value">128 856</div>
+						<div class="activity__item-desc">Ответов получено</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="activity__item">
+						<div class="activity__item-value">1 844</div>
+						<div class="activity__item-desc">Юристов на сайте</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-7 col-sm-4 col-lg-3">
+					<div class="footer__wrap">
+						<a href="" class="footer__logo img">
+							<img src="../img/footer-logo.png" alt="">
+						</a>
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">О проекте</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Контакты</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Пользовательское соглашение</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Реферальная программа</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-8 col-sm-4 col-lg-3">
+					<div class="footer__wrap footer__wrap-padding">
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Каталог юристов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Архив вопросов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Горячая линия</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Новости</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-8 col-sm-4 col-lg-3">
+					<div class="footer__wrap footer__wrap-padding">
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Регистрация нового юриста</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">CRM для юристов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Юридические заявки</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Зачем отвечать на вопросы</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-12 col-lg-3">
+					<div class="footer__wrap footer__wrap-social">
+						<ul class="footer__social">
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-1.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-2.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-3.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-4.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-5.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-6.png" alt="">
+								</a>
+							</li>
+						</ul>
+						<div class="footer__branches">
+							<div class="footer__branches-title">Филиалы:</div>
+							<ul class="footer__branches-list">
+								<li class="footer__branches-item">Санкт-Петербург, ул. Достоевского, д. 25</li>
+								<li class="footer__branches-item">Нижний Новгород, ул. Новая, д. 28</li>
+								<li class="footer__branches-item">Екатеринбург, ул. 8 марта, д. 142</li>
+								<li class="footer__branches-item">Ростов-на-Дону, ул. Красноармейская, д. 142/50</li>
+								<li class="footer__branches-item">Краснодар, ул. Московская, д. 148</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	
+	<script src="../jquery/jquery-3.4.1.min.js"></script>
+	<script src="../lib/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="../lib/swiper/swiper.min.js"></script>
+	<script src="lib/bootstrap/bootstrap.min.js"></script>
+	<script src="../lib/jquery.maskedinput.js"></script>
+	<script src="../js/main.js"></script>
+</body>
+</html>
