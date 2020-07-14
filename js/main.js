@@ -239,5 +239,35 @@ $(document).ready(function() {
 
 $('#phone').mask('+7 (999) 999-99-99');
 
-	
+
+$('#doc-type-1').on('click touch', function(){
+    $('.form-input-select select').addClass('select-hidden');
+    $('.select-1').removeClass('select-hidden');
+  });
+
+$('#doc-type-2').on('click touch', function(){
+    $('.form-input-select select').addClass('select-hidden');
+    $('.select-2').removeClass('select-hidden');
+  });
+
+$('#doc-type-3').on('click touch', function(){
+    $('.form-input-select select').addClass('select-hidden');
+    $('.select-3').removeClass('select-hidden');
+  });
+
+$('#doc-type-4').on('click touch', function(){
+    $('.form-input-select select').addClass('select-hidden');
+    $('.select-4').removeClass('select-hidden');
+  });
+
+$('#doc-type-5').on('click touch', function(){
+    $('.form-input-select select').addClass('select-hidden');
+    $('.select-5').removeClass('select-hidden');
+  });
+
+$('#doc-type-6').on('click touch', function(){
+    $('.form-input-select select').addClass('select-hidden');
+    $('.select-6').removeClass('select-hidden');
+  });
+
 });

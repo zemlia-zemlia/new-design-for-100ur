@@ -26,6 +26,7 @@
 	<!-- Подключение файлов стилей -->
 	<link rel="stylesheet" href="lib/jquery-ui-1.12.1.custom/jquery-ui.min.css">
 	<link rel="stylesheet" href="../lib/bootstrap/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="../lib/jquery-modal-master/jquery.modal.min.css">
 	<link rel="stylesheet" href="../style.css"> 
 	<link rel="stylesheet" href="../css/media.css"> 
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"> 
@@ -248,7 +249,7 @@
 								</select>	
 							</div>
 						</div>
-						<button class="question-online__btn main-btn">Задать вопрос</button>
+						<a href="#ex3" rel="modal:open" class="question-online__btn main-btn">Задать вопрос</a>
 						<div class="question-online-check-wrap">
 							<input id="question-online-check" type="checkbox" name="question-online-check" value="check1" class="checkbox">
 							<label for="question-online-check">Отправляя вопрос, вы соглашаетесь с условиями <a href="" class="question-online__policy">Пользовательского соглашения</a></label>
@@ -436,9 +437,23 @@
 			</div>
 		</div>
 	</footer>
+
+	<div id="ex3" class="modal">
+	  <div class="popup-call-back">
+			<div class="popup-call-back__ico img">
+				<img src="../img/popup-call-back-ico.png" alt="">
+			</div>
+			<div class="popup-call-back__title">
+				<div class="">Спасибо!</div>
+				<div class="">Мы получили вашу заявку</div>
+			</div>
+			<div class="popup-call-back__desc">Наш юрист перезвонит вам в ближайшее время</div>
+		</div>
+	</div>
 	
 	<script src="../jquery/jquery-3.4.1.min.js"></script>
 	<script src="../lib/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="../lib/jquery-modal-master/jquery.modal.min.js"></script>
 	<script src="../lib/swiper/swiper.min.js"></script>
 	<script src="lib/bootstrap/bootstrap.min.js"></script>
 	<script src="../lib/jquery.maskedinput.js"></script>

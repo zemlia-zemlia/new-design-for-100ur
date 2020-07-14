@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<!-- Переключение IE в последнию версию, на случай если в настройках пользователя стоит меньшая -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<!-- Адаптирование страницы для мобильных устройств -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- Запрет распознования номера телефона -->
+	<meta name="format-detection" content="telephone=no">
+	<meta name="SKYPE_TOOLBAR" content ="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+
+	<!-- Заголовок страницы -->
+	<title>100 Юристов</title>
+
+	<!-- Данное значение часто используют(использовали) поисковые системы -->
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+
+	<!-- Традиционная иконка сайта, размер 16x16, прозрачность поддерживается. Рекомендуемый формат: .ico или .png -->
+	<link rel="shortcut icon" href="img/favicon.ico">
+
+	<!-- Подключение файлов стилей -->
+	<link rel="stylesheet" href="lib/jquery-ui-1.12.1.custom/jquery-ui.min.css">
+	<link rel="stylesheet" href="../lib/bootstrap/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="../style.css"> 
+	<link rel="stylesheet" href="../css/media.css"> 
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"> 
+</head>
+<body>
+	
+	<!-- Header -->
+	<header class="header">
+		<div class="header__mob">
+			<div class="container">
+				<div class="header__mob-wrap">
+					<div class="nav-mob-wrap img">
+						<img src="../img/nav-open.png" alt="" class="nav-open">
+						<img src="../img/nav-close.png" alt="" class="nav-close">
+					</div>
+					<nav class="nav-mob">
+						<div class="nav-mob-close img">
+							<img src="../img/nav-mob-close.png" alt="">
+						</div>
+						<div class="nav-mob__title">Меню</div>
+						<ul class="nav-mob-list">
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Задать вопрос юристу онлайн</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Консультация по телефону</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Вопросы</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Найти юриста</a>
+							</li>
+						</ul>
+						<div class="header__contacts header__contacts-mob">
+							<a href="tel:88005004692" class="header__contacts-value">8 800 500-46-92</a>
+							<div class="header__contacts-title">Звонок бесплатный</div>
+						</div>
+						<a href="" class="header__btn header__btn-mob">Заказать звонок</a>
+					</nav>
+					<a href="" class="logo-mob img">
+						<img src="../img/logo.png" alt="">
+					</a>
+					<a href="" class="search-btn img">
+						<img src="../img/search-btn.png" alt="">
+					</a>
+					<form action="" class="search-form-mob">
+						<div class="search-input">
+							<a href="" class="search-input__ico img">
+								<img src="../img/feedback-search.png" alt="">
+							</a>
+							<input type="search" name="" placeholder="Поиск...">
+						</div>
+					</form>
+					<a href="" class="login-btn img">
+						<img src="../img/login-btn.png" alt="">
+					</a>
+				</div>
+			</div>	
+		</div>
+		<div class="header__top">
+			<div class="container">
+				<div class="row no-gutters justify-content-between align-items-center">
+					<div class="col-sm-12 col-md-auto">
+						<a href="" class="logo img">
+							<img src="../img/logo.png" alt="">
+						</a>
+					</div>
+					<div class="col-sm-auto col-md-auto header__question-wrap">
+						<div class="header__question">Задай вопрос юристу онлайн</div>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<div class="header__contacts">
+							<a href="tel:88005004692" class="header__contacts-value">8 800 500-46-92</a>
+							<div class="header__contacts-title">Звонок бесплатный</div>
+						</div>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<a href="" class="header__btn">Заказать звонок</a>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<a href="" class="header__account">
+							<span class="header__account-img img">
+								<img src="../img/header-account.png" alt="">
+							</span>
+							<span class="header__account-title">Вход/Регистрация</span>
+						</a>
+					</div>
+				</div>	
+			</div>
+		</div>
+		<div class="header__bottom">
+			<div class="container">
+				<div class="row justify-content-between align-items-center">
+					<div class="col-lg-8">
+						<nav class="main__nav">
+							<ul class="main__nav-list">
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link main__nav-link--question">Задать вопрос юристу онлайн</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Консультация по телефону</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Вопросы</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Найти юриста</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+					<div class="col-lg-4">
+						<form action="" class="search-form">
+							<div class="search-input">
+								<a href="" class="search-input__ico img">
+									<img src="../img/feedback-search.png" alt="">
+								</a>
+								<input type="search" name="" placeholder="Поиск...">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="container">
+		<div class="breadcrumbs">
+			<ul class="breadcrumbs__list">
+				<li class="breadcrumbs__item">
+					<a href="../index.html" class="breadcrumbs__link">Главная</a>
+				</li>
+				<li class="breadcrumbs__item">
+					<a href="#" class="breadcrumbs__link breadcrumbs__link--active">Темы справочных материалов</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+
+	<!-- Reference-materials -->
+	<main class="main">
+		<div class="container">
+			<h2 class="main__title">Темы справочных материалов</h2>
+			
+			<!-- Categories -->
+			<section class="reference-materials__categories">
+				<div class="row">
+					<div class="col-sm-3">
+						<div class="categories__list-wrap">
+							<div class="categories__list-title">А</div>
+							<ul class="categories__list">
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-1.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Авторское право</span>
+									</a>
+								</li>
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-2.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Автоюрист</span>
+									</a>
+								</li>
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-3.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Адвокат</span>
+									</a>
+								</li>
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+											<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-4.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Административка</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="categories__list-wrap">
+							<div class="categories__list-title">Б</div>
+							<ul class="categories__list">
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-5.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Банкротство</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="categories__list-wrap">
+							<div class="categories__list-title">В</div>
+							<ul class="categories__list">
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-6.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Военные</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="categories__list-wrap">
+							<div class="categories__list-title">Г</div>
+							<ul class="categories__list">
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-7.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Гражданское право</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="categories__list-wrap">
+							<div class="categories__list-title">Д</div>
+							<ul class="categories__list">
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-8.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Договоры</span>
+									</a>
+								</li>
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-9.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Долги</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="categories__list-wrap">
+							<div class="categories__list-title">Ж</div>
+							<ul class="categories__list">
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-10.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Жилищные вопросы</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="categories__list-wrap">
+							<div class="categories__list-title">З</div>
+							<ul class="categories__list">
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-11.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Защита прав потребителей</span>
+									</a>
+								</li>
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-12.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Земельный</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="categories__list-wrap">
+							<div class="categories__list-title">И</div>
+							<ul class="categories__list">
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-13.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Исполнительное производство</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="categories__list-wrap">
+							<div class="categories__list-title">К</div>
+							<ul class="categories__list">
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-14.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Конституционное право</span>
+									</a>
+								</li>
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-15.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Корпоративное</span>
+									</a>
+								</li>
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-16.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Кредитование</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="categories__list-wrap">
+							<div class="categories__list-title">Л</div>
+							<ul class="categories__list">
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-17.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Лицензирование</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="categories__list-wrap">
+							<div class="categories__list-title">М</div>
+							<ul class="categories__list">
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-18.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Медицина</span>
+									</a>
+								</li>
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-19.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Международное право</span>
+									</a>
+								</li>
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-20.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Миграционные вопросы</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="categories__list-wrap">
+							<div class="categories__list-title">Н</div>
+							<ul class="categories__list">
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-21.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Наследство</span>
+									</a>
+								</li>
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-22.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Недвижимость</span>
+									</a>
+								</li>
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-23.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Нотариат</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="categories__list-wrap">
+							<div class="categories__list-title">О</div>
+							<ul class="categories__list">
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-24.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Образование</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="categories__list-wrap">
+							<div class="categories__list-title">С</div>
+							<ul class="categories__list">
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-25.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Семейное право</span>
+									</a>
+								</li>
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-26.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Соцобеспечение</span>
+									</a>
+								</li>
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-27.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Страхование</span>
+									</a>
+								</li>
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-28.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Судопроизводство</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="categories__list-wrap">
+							<div class="categories__list-title">Т</div>
+							<ul class="categories__list">
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-29.png" alt="">
+										</span>
+										<span class="categories__list-link-title">Таможня</span>
+									</a>
+								</li>
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-30.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Тендеры и закупки</span>
+									</a>
+								</li>
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-31.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Трудовое право</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="categories__list-wrap">
+							<div class="categories__list-title">У</div>
+							<ul class="categories__list">
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-32.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Уголовные дела</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="categories__list-wrap">
+							<div class="categories__list-title">Ю</div>
+							<ul class="categories__list">
+								<li class="categories__list-item">
+									<a href="" class="categories__list-link">
+										<span class="categories__list-link-img img">
+											<img src="../img/categories-list-link-img-33.svg" alt="">
+										</span>
+										<span class="categories__list-link-title">Юридическое право</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="recent-publication">
+				<h2 class="recent-publication__title">Последние публикации</h2>
+				<div class="row">
+					<div class="col-md-4">
+						<a href="" class="recent-publication__item">
+							<div class="recent-publication__item-img img">
+								<img src="../img/recent-publication-item-img-1.jpg" alt="">
+							</div>
+							<h3 class="recent-publication__item-title">Жалоба в конституционный суд</h3>
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a href="" class="recent-publication__item">
+							<div class="recent-publication__item-img img">
+								<img src="../img/recent-publication-item-img-2.jpg" alt="">
+							</div>
+							<h3 class="recent-publication__item-title">Стоимость апелляции по уголовному делу</h3>
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a href="" class="recent-publication__item">
+							<div class="recent-publication__item-img img">
+								<img src="../img/recent-publication-item-img-3.jpg" alt="">
+							</div>
+							<h3 class="recent-publication__item-title">Сколько стоит апелляционная жалоба по гражданскому делу</h3>
+						</a>
+					</div>
+					<div class="w-100"></div>
+					<div class="col-md-4">
+						<a href="" class="recent-publication__item">
+							<div class="recent-publication__item-img img">
+								<img src="../img/recent-publication-item-img-1.jpg" alt="">
+							</div>
+							<h3 class="recent-publication__item-title">Жалоба в конституционный суд</h3>
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a href="" class="recent-publication__item">
+							<div class="recent-publication__item-img img">
+								<img src="../img/recent-publication-item-img-2.jpg" alt="">
+							</div>
+							<h3 class="recent-publication__item-title">Стоимость апелляции по уголовному делу</h3>
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a href="" class="recent-publication__item">
+							<div class="recent-publication__item-img img">
+								<img src="../img/recent-publication-item-img-3.jpg" alt="">
+							</div>
+							<h3 class="recent-publication__item-title">Сколько стоит апелляционная жалоба по гражданскому делу</h3>
+						</a>
+					</div>
+					<div class="w-100"></div>
+					<div class="col-md-4">
+						<a href="" class="recent-publication__item">
+							<div class="recent-publication__item-img img">
+								<img src="../img/recent-publication-item-img-1.jpg" alt="">
+							</div>
+							<h3 class="recent-publication__item-title">Жалоба в конституционный суд</h3>
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a href="" class="recent-publication__item">
+							<div class="recent-publication__item-img img">
+								<img src="../img/recent-publication-item-img-2.jpg" alt="">
+							</div>
+							<h3 class="recent-publication__item-title">Стоимость апелляции по уголовному делу</h3>
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a href="" class="recent-publication__item">
+							<div class="recent-publication__item-img img">
+								<img src="../img/recent-publication-item-img-3.jpg" alt="">
+							</div>
+							<h3 class="recent-publication__item-title">Сколько стоит апелляционная жалоба по гражданскому делу</h3>
+						</a>
+					</div>
+					<div class="w-100"></div>
+					<div class="col-md-4">
+						<a href="" class="recent-publication__item">
+							<div class="recent-publication__item-img img">
+								<img src="../img/recent-publication-item-img-1.jpg" alt="">
+							</div>
+							<h3 class="recent-publication__item-title">Жалоба в конституционный суд</h3>
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a href="" class="recent-publication__item">
+							<div class="recent-publication__item-img img">
+								<img src="../img/recent-publication-item-img-2.jpg" alt="">
+							</div>
+							<h3 class="recent-publication__item-title">Стоимость апелляции по уголовному делу</h3>
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a href="" class="recent-publication__item">
+							<div class="recent-publication__item-img img">
+								<img src="../img/recent-publication-item-img-3.jpg" alt="">
+							</div>
+							<h3 class="recent-publication__item-title">Сколько стоит апелляционная жалоба по гражданскому делу</h3>
+						</a>
+					</div>
+				</div>
+			</section>
+		</div>
+	</main>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-7 col-sm-4 col-lg-3">
+					<div class="footer__wrap">
+						<a href="" class="footer__logo img">
+							<img src="../img/footer-logo.png" alt="">
+						</a>
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">О проекте</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Контакты</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Пользовательское соглашение</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Реферальная программа</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-8 col-sm-4 col-lg-3">
+					<div class="footer__wrap footer__wrap-padding">
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Каталог юристов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Архив вопросов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Горячая линия</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Новости</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-8 col-sm-4 col-lg-3">
+					<div class="footer__wrap footer__wrap-padding">
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Регистрация нового юриста</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">CRM для юристов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Юридические заявки</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Зачем отвечать на вопросы</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-12 col-lg-3">
+					<div class="footer__wrap footer__wrap-social">
+						<ul class="footer__social">
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-1.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-2.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-3.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-4.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-5.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-6.png" alt="">
+								</a>
+							</li>
+						</ul>
+						<div class="footer__branches">
+							<div class="footer__branches-title">Филиалы:</div>
+							<ul class="footer__branches-list">
+								<li class="footer__branches-item">Санкт-Петербург, ул. Достоевского, д. 25</li>
+								<li class="footer__branches-item">Нижний Новгород, ул. Новая, д. 28</li>
+								<li class="footer__branches-item">Екатеринбург, ул. 8 марта, д. 142</li>
+								<li class="footer__branches-item">Ростов-на-Дону, ул. Красноармейская, д. 142/50</li>
+								<li class="footer__branches-item">Краснодар, ул. Московская, д. 148</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	
+	<script src="../jquery/jquery-3.4.1.min.js"></script>
+	<script src="../lib/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="../lib/swiper/swiper.min.js"></script>
+	<script src="lib/bootstrap/bootstrap.min.js"></script>
+	<script src="../lib/jquery.maskedinput.js"></script>
+	<script src="../js/main.js"></script>
+</body>
+</html>
