@@ -155,7 +155,7 @@ class QuestionRepository
      * @return Question[]|null
      */
     public function findRecentPublishedQuestions(
-        $limit = 40,
+        $limit = 20,
         $order = 'publishDate DESC',
         $with = 'answersCount',
         $cacheTime = 600

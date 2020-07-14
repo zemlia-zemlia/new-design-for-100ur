@@ -450,7 +450,7 @@ class QuestionController extends Controller
         /** @var CHttpRequest $request */
         $request = $this->request;
 
-        $this->layout = '//frontend/smart';
+//        $this->layout = '//frontend/smart';
         $lead = new Lead();
         $lead->setScenario('createCall');
 

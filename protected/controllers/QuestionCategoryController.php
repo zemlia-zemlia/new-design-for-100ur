@@ -5,7 +5,7 @@ use App\models\QuestionCategory;
 
 class QuestionCategoryController extends Controller
 {
-    public $layout = '//frontend/category';
+    public $layout = '//frontend/index';
 
     /**
      * @return array action filters

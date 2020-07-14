@@ -11,30 +11,21 @@ $this->breadcrumbs = [
 ];
 
 ?>
-<div class="vert-margin30">
-    <h1>Темы вопросов</h1>
-</div>
-<div class="vert-margin40">
-    <div class="row">
-        <?php $this->widget('zii.widgets.CListView', [
-            'dataProvider' => $dataProvider,
-            'itemView' => '_view',
-            'emptyText' => 'Не найдено ни одной темы',
-            'summaryText' => '',
-            'pager' => ['class' => 'GTLinkPager'], //we use own pager with russian words
-            'viewData' => ['itemsCount' => $dataProvider->totalItemCount],
-        ]); ?>
-    </div>
-</div>
+<main class="main">
 
-<h2 class="vert-margin30">Последние публикации</h2>
 
-<div>
+    <?php
+    // выводим виджет с деревом категорий
+    $this->widget('application.widgets.CategoriesTree.CategoriesTree', [
+        'template' => 'columns',
+    ]);
+    ?>
+
     <?php
     $this->widget('application.widgets.RecentCategories.RecentCategories', [
-        'number' => 26,
-        'template' => 'default1',
+        'number' => 12,
+        'template' => 'default',
         'columns' => 3,
-        ]);
+    ]);
     ?>
-</div>
+</main>

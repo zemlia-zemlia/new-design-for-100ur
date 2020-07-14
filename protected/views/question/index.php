@@ -4,6 +4,7 @@
 use App\helpers\DateHelper;
 use App\helpers\NumbersHelper;
 use App\helpers\StringHelper;
+use App\models\User;
 
 /* @var $dataProvider CActiveDataProvider */
 
@@ -18,143 +19,108 @@ $monthsNames = DateHelper::getMonthsNames();
 ?>
 
 
-<main class="main archive">
+<main class="main">
     <div class="container">
-        <h2 class="archive__title main__title">Последние вопросы юристам</h2>
+        <h2 class="main__title">Вопросы юристам</h2>
         <div class="row justify-content-between">
             <div class="col-md-7 col-lg-8">
-                <div class="archive-questions">
-                    <div class="archive-questions__body">
-                        <?php foreach ($questions as $question): ?>
-
-                        <div class="archive-questions__item">
-                            <?= CHtml::link(StringHelper::mb_ucfirst($question->title, 'utf-8'),
-                                Yii::app()->createUrl('question/view', ['id' => $question->id]), ['class' => 'archive-questions__title']); ?>
-                            <?php if ($question->answersCount > 0) : ?>
-                            <a href=""	class="archive-questions__btn"><?= $question->answersCount ?> ответ</a>
-                            <?php else: ?>
-                            <div class="archive-questions__no-answer">Нет ответа</div>
-                            <?php endif; ?>
+                <div class="questions-lawyers">
+                    <?php foreach ($questions as $question): ?>
+                    <div class="questions-lawyers__item">
+                        <div class="questions-lawyers__item-price img">
+                            <img src="/img/questions-lawyers-item-price.png" alt="">
                         </div>
-                        <?php endforeach; ?>
-                        <a href="" class="archive-questions__more-btn">Показать еще 25 вопросов</a>
+                        <div class="questions-lawyers__item-title"><?= StringHelper::mb_ucfirst($question->title, 'utf-8') ?></div>
+                        <div class="questions-lawyers__item-answer"><?= StringHelper::cutString($question->questionText, 70) ?></div>
+                        <div class="questions-lawyers__item-wrapper">
+                            <div class="questions-lawyers__item-date"><?= DateHelper::niceDate($question->createDate, false) ?></div>
+                            <div class="questions-lawyers__item-location"><?= StringHelper::mb_ucfirst($question->authorName, 'utf-8') ?><?= $question->town? ', г. ' . $question->town->name : '' ?></div>
+                            <a href="" class="questions-lawyers__item-category"><?= $question->categories ?  $question->categories[0]->name : '' ?></a>
+                        </div>
+
+
+
+                            <?php if ($question->answersCount > 0) : ?>
+                                <?= CHtml::link(NumbersHelper::numForms($question->answersCount, 'ответ', 'ответа', 'ответов', true) ,
+                                    Yii::app()->createUrl('question/view', ['id' => $question->id]), ['class' => 'archive-questions__btn questions-lawyers__item-btn']); ?>
+
+                            <?php else: ?>
+                                <div class="archive-questions__no-answer">Нет ответа</div>
+                            <?php endif; ?>
 
 
                     </div>
+                    <?php endforeach; ?>
 
 
-                    <?php foreach ($datesArray as $year => $months): ?>
 
-                        <h4><?= $year; ?></h4>
-                    <ul class="archive__list">
+                    <div class="archive-table">
+                        <div class="archive-table__title">Архив вопросов</div>
+                        <?php foreach ($datesArray as $year => $months): ?>
 
-                        <div class="archive__list-wrap">
+                        <div class="archive-table__item">
+                            <div class="archive-table__item-year"><?= $year; ?></div>
+                            <ul class="archive__list">
+                                <?php foreach ($months as $index => $month): ?>
+                                <?php if (0 == $index % 6) : ?>
+                                <div class="archive__list-wrap">
+                                   <?php endif; ?>
+                                    <li class="archive__list-item">
+                                        <?= CHtml::link($monthsNames[$month], Yii::app()->createUrl('question/archive', ['date' => $year . '-' . $month]),
+                                            ['class' => (Yii::app()->request->requestUri ==  Yii::app()->createUrl('question/archive', ['date' => $year . '-' . $month])) ?
+                                                'archive__list-link archive__list-link--active' : 'archive__list-link archive__list-link']) ?>
+                                    </li>
 
-                            <?php foreach ($months as $month): ?>
-                            <li class="archive__list-item">
-                                <?= CHtml::link($monthsNames[$month], Yii::app()->createUrl('question/archive', ['date' => $year . '-' . $month]),
-                                    ['class' => (Yii::app()->request->requestUri ==  Yii::app()->createUrl('question/archive', ['date' => $year . '-' . $month])) ?
-                                        'archive__list-link archive__list-link--active' : 'archive__list-link archive__list-link']) ?>
-                            </li>
 
+                                    <?php if (5 == $index % 6) : ?>
+                                </div>
+                            <?php endif; ?>
 
-                            <?php endforeach; ?>
+                                <?php endforeach; ?>
+                            </ul>
                         </div>
 
+                        <?php endforeach; ?>
+                    </div>
 
-                    </ul>
 
 
-                    <?php endforeach; ?>
+
+
                 </div>
             </div>
             <div class=" col-md-5 col-lg-4">
                 <div class="archive__aside">
-                    <form action="" method="" name="" class="advice-form">
-                        <h3 class="advice-form__title">Получите совет от юриста онлайн</h3>
-                        <div class="advice-form__textarea">
-                            <textarea name="" id="" placeholder="Опишите вашу проблему..."></textarea>
-                        </div>
-                        <div class="advice-form__input">
-                            <input type="text" name="advice-name" placeholder="Как вас зовут?">
-                        </div>
-                        <button class="advice-form__btn main-btn">Задать вопрос онлайн</button>
-                    </form>
+                    <?php
+                    // выводим виджет с формой
+                    $this->widget('application.widgets.SimpleForm.SimpleForm', array(
+                        'template' => 'sidebar',
+                    ));
+                    ?>
 
-                    <div class="expert-login">
-                        <h3 class="expert-login__title">Вы специалист в области права?</h3>
-                        <div class="expert-login__desc">Вы можете отвечать на вопросы наших пользователей, пройдя нехитрую процедуру регистрации и подтверждение вашей квалификации.</div>
-                        <a href="" class="expert-login__btn main-btn">Зарегистрироваться</a>
-                    </div>
+                    <?php if (Yii::app()->user->isGuest): ?>
+                        <div class="expert-login">
+                            <h3 class="expert-login__title">Вы специалист в области права?</h3>
+                            <div class="expert-login__desc">Вы можете отвечать на вопросы наших пользователей, пройдя нехитрую процедуру регистрации и подтверждение вашей квалификации.</div>
+                            <?php echo CHtml::link('Зарегистрироваться', Yii::app()->createUrl('/user/create', array('role' => User::ROLE_JURIST)),
+                                ['class' => 'expert-login__btn main-btn']); ?>
 
-                    <div class="best-workers">
-                        <h3 class="best-workers__title">Наши лучшие юристы</h3>
-                        <div class="best-workers__item">
-                            <div class="best-workers__avatar img">
-                                <img src="../img/unregistered/best-workers-avatar-1.png" alt="">
-                                <div class="best-workers__avatar-online"></div>
-                            </div>
-                            <div class="best-workers__data">
-                                <a href="" class="best-workers__name">Александр Бударагин</a>
-                                <div class="best-workers__data-wrapper">
-                                    <div class="best-workers__specialty">Юрист</div>
-                                    <div class="best-workers__location">
-                                        <div class="best-workers__location-ico img">
-                                            <img src="../img/unregistered/best-workers-location-ico.png" alt="">
-                                        </div>
-                                        <div class="best-workers__location-value">Нижний Новгород</div>
-                                    </div>
-                                </div>
-                                <div class="best-workers__activity">
-                                    <div class="best-workers__activity-value">86</div>
-                                    <div class="best-workers__activity-title">консультаций</div>
-                                </div>
-                            </div>
                         </div>
-                        <div class="best-workers__item">
-                            <div class="best-workers__avatar img">
-                                <img src="../img/unregistered/best-workers-avatar-2.png" alt="">
-                            </div>
-                            <div class="best-workers__data">
-                                <a href="" class="best-workers__name">Марина Тарасова</a>
-                                <div class="best-workers__data-wrapper">
-                                    <div class="best-workers__specialty">Юрист</div>
-                                    <div class="best-workers__location">
-                                        <div class="best-workers__location-ico img">
-                                            <img src="../img/unregistered/best-workers-location-ico.png" alt="">
-                                        </div>
-                                        <div class="best-workers__location-value">Москва</div>
-                                    </div>
-                                </div>
-                                <div class="best-workers__activity">
-                                    <div class="best-workers__activity-value">9</div>
-                                    <div class="best-workers__activity-title">консультаций</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="best-workers__item">
-                            <div class="best-workers__avatar img">
-                                <img src="../img/unregistered/best-workers-avatar-3.png" alt="">
-                            </div>
-                            <div class="best-workers__data">
-                                <a href="" class="best-workers__name">Галина Гудкова</a>
-                                <div class="best-workers__data-wrapper">
-                                    <div class="best-workers__specialty">Юрист</div>
-                                    <div class="best-workers__location">
-                                        <div class="best-workers__location-ico img">
-                                            <img src="../img/unregistered/best-workers-location-ico.png" alt="">
-                                        </div>
-                                        <div class="best-workers__location-value">Москва</div>
-                                    </div>
-                                </div>
-                                <div class="best-workers__activity">
-                                    <div class="best-workers__activity-value">9</div>
-                                    <div class="best-workers__activity-title">консультаций</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="" class="best-workers__btn main-btn">Все наши юристы</a>
-                    </div>
+                    <?php endif; ?>
+
+
+                    <?php
+                    // выводим виджет с топовыми юристами
+                    $this->widget('application.widgets.TopYurists.TopYurists', array(
+                        'cacheTime' => 30,
+                        'limit' => 3,
+                        'fetchType' => \TopYurists::FETCH_RANKED,
+                        'template' => 'shortList',
+                    ));
+                    ?>
+
+
+
                 </div>
             </div>
         </div>
