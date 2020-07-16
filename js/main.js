@@ -270,4 +270,32 @@ $('#doc-type-6').on('click touch', function(){
     $('.select-6').removeClass('select-hidden');
   });
 
+$('#reg-type-1').on('click touch', function(){
+    $('.form-input-wrap-name, .form-input-wrap-phone').removeClass('reg-hidden');
+    $('.registration__form-layer, .registration__form-company').addClass('reg-hidden');
+  });
+
+$('#reg-type-2').on('click touch', function(){
+    $('.form-input-wrap-name, .registration__form-company').addClass('reg-hidden');
+    $('.registration__form-layer, .form-input-wrap-phone').removeClass('reg-hidden');
+  });
+
+$('#reg-type-3').on('click touch', function(){
+     $('.registration__form-layer, .form-input-wrap-name').addClass('reg-hidden');
+     $('.registration__form-company, .form-input-wrap-phone').removeClass('reg-hidden');
+  });
+
+  $('#search-container').tabs({
+    beforeActivate : function(evt) {
+      location.hash=$(evt.currentTarget).attr('href');
+    },
+    show: 'fadeIn',
+    hide: 'fadeOut'
+  });
+
+   var hash = location.hash; 
+  if (hash) { 
+    $('#search-container').tabs("load", hash) 
+  } 
+
 });

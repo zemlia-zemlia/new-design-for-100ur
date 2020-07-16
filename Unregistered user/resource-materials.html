@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<!-- Переключение IE в последнию версию, на случай если в настройках пользователя стоит меньшая -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<!-- Адаптирование страницы для мобильных устройств -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- Запрет распознования номера телефона -->
+	<meta name="format-detection" content="telephone=no">
+	<meta name="SKYPE_TOOLBAR" content ="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+
+	<!-- Заголовок страницы -->
+	<title>100 Юристов</title>
+
+	<!-- Данное значение часто используют(использовали) поисковые системы -->
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+
+	<!-- Традиционная иконка сайта, размер 16x16, прозрачность поддерживается. Рекомендуемый формат: .ico или .png -->
+	<link rel="shortcut icon" href="img/favicon.ico">
+
+	<!-- Подключение файлов стилей -->
+	<link rel="stylesheet" href="lib/jquery-ui-1.12.1.custom/jquery-ui.min.css">
+	<link rel="stylesheet" href="../lib/bootstrap/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="../style.css"> 
+	<link rel="stylesheet" href="../css/media.css"> 
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"> 
+</head>
+<body>
+	
+	<!-- Header -->
+	<header class="header">
+		<div class="header__mob">
+			<div class="container">
+				<div class="header__mob-wrap">
+					<div class="nav-mob-wrap img">
+						<img src="../img/nav-open.png" alt="" class="nav-open">
+						<img src="../img/nav-close.png" alt="" class="nav-close">
+					</div>
+					<nav class="nav-mob">
+						<div class="nav-mob-close img">
+							<img src="../img/nav-mob-close.png" alt="">
+						</div>
+						<div class="nav-mob__title">Меню</div>
+						<ul class="nav-mob-list">
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Задать вопрос юристу онлайн</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Консультация по телефону</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Вопросы</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Найти юриста</a>
+							</li>
+						</ul>
+						<div class="header__contacts header__contacts-mob">
+							<a href="tel:88005004692" class="header__contacts-value">8 800 500-46-92</a>
+							<div class="header__contacts-title">Звонок бесплатный</div>
+						</div>
+						<a href="" class="header__btn header__btn-mob">Заказать звонок</a>
+					</nav>
+					<a href="" class="logo-mob img">
+						<img src="../img/logo.png" alt="">
+					</a>
+					<a href="" class="search-btn img">
+						<img src="../img/search-btn.png" alt="">
+					</a>
+					<form action="" class="search-form-mob">
+						<div class="search-input">
+							<a href="" class="search-input__ico img">
+								<img src="../img/feedback-search.png" alt="">
+							</a>
+							<input type="search" name="" placeholder="Поиск...">
+						</div>
+					</form>
+					<a href="" class="login-btn img">
+						<img src="../img/login-btn.png" alt="">
+					</a>
+				</div>
+			</div>	
+		</div>
+		<div class="header__top">
+			<div class="container">
+				<div class="row no-gutters justify-content-between align-items-center">
+					<div class="col-sm-12 col-md-auto">
+						<a href="" class="logo img">
+							<img src="../img/logo.png" alt="">
+						</a>
+					</div>
+					<div class="col-sm-auto col-md-auto header__question-wrap">
+						<div class="header__question">Задай вопрос юристу онлайн</div>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<div class="header__contacts">
+							<a href="tel:88005004692" class="header__contacts-value">8 800 500-46-92</a>
+							<div class="header__contacts-title">Звонок бесплатный</div>
+						</div>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<a href="" class="header__btn">Заказать звонок</a>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<a href="" class="header__account">
+							<span class="header__account-img img">
+								<img src="../img/header-account.png" alt="">
+							</span>
+							<span class="header__account-title">Вход/Регистрация</span>
+						</a>
+					</div>
+				</div>	
+			</div>
+		</div>
+		<div class="header__bottom">
+			<div class="container">
+				<div class="row justify-content-between align-items-center">
+					<div class="col-lg-8">
+						<nav class="main__nav">
+							<ul class="main__nav-list">
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link main__nav-link--question">Задать вопрос юристу онлайн</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Консультация по телефону</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Вопросы</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Найти юриста</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+					<div class="col-lg-4">
+						<form action="" class="search-form">
+							<div class="search-input">
+								<a href="" class="search-input__ico img">
+									<img src="../img/feedback-search.png" alt="">
+								</a>
+								<input type="search" name="" placeholder="Поиск...">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="container">
+		<div class="breadcrumbs">
+			<ul class="breadcrumbs__list">
+				<li class="breadcrumbs__item">
+					<a href="../index.html" class="breadcrumbs__link">Главная</a>
+				</li>
+				<li class="breadcrumbs__item">
+					<a href="../index.html" class="breadcrumbs__link">Темы справочных материалов</a>
+				</li>
+				<li class="breadcrumbs__item">
+					<a href="../index.html" class="breadcrumbs__link">Судопроизводство</a>
+				</li>
+				<li class="breadcrumbs__item">
+					<a href="../index.html" class="breadcrumbs__link">Представление интересов</a>
+				</li>
+				<li class="breadcrumbs__item">
+					<a href="#" class="breadcrumbs__link breadcrumbs__link--active">Сколько стоит апелляционная жалоба по гражданскому делу</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+
+	<!-- Resource-materials -->
+	<main class="main">
+		<div class="resource__title-bg">
+			<h2 class="main__title resource__title">Сколько стоит апелляционная жалоба по гражданскому делу</h2>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-7 col-lg-8">
+					<div class="resource__content">
+						<nav class="resource__aside-nav resource__aside-nav-mob">
+							<h3 class="resource__aside-nav-title">Меню раздела</h3>
+							<ul class="resource__aside-nav-list">
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link resource__aside-nav-link--active">Стоимость апелляции по гражданскому делу</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Авторские права на фотографию</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Авторские права юридических лиц</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Защита авторских прав</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Авторские права на песню</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Авторские права на фотографию</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Авторские права юридических лиц</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Защита авторских прав</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Авторские права на песню</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Авторские права на фотографию</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Авторские права юридических лиц</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Защита авторских прав</a>
+								</li>
+							</ul>
+						</nav>
+						<div class="docs-example">
+							<div class="docs-example-title">Есть образцы документов для свободного скачивания</div>
+							<a href="" class="main-btn docs-example-btn">Перейти</a>
+						</div>
+						<nav class="resource__nav">
+							<div class="resource__nav-title">Навигация по странице:</div>
+							<ol class="resource__nav-list">
+								<li class="resource__nav-item">
+									<a href="" class="resource__nav-link">Особенности подачи апелляции по гражданскому делу</a>
+								</li>
+								<li class="resource__nav-item">
+									<a href="" class="resource__nav-link">От чего зависит стоимость апелляционной жалобы</a>
+								</li>
+								<li class="resource__nav-item">
+									<a href="" class="resource__nav-link">Сколько уходит на оплату госпошлины</a>
+								</li>
+								<li class="resource__nav-item">
+									<a href="" class="resource__nav-link">Стоимость юридических услуг по апелляции</a>
+								</li>
+							</ol>
+						</nav>
+						<div class="resource__desc">
+							<p>Если суд первой инстанции принял решение, которое не устраивает одну из сторон гражданского процесса, то согласно ГПК РФ, у этого лица есть законное право подать  апелляционную жалобу. Процесс регламентирован главой 39 указанного кодекса, и в ней строго определены сроки, правила составления, порядок подачи, движение. Однако даже чётко прописанная процедура имеет свои особенности и нюансы, поэтому лучше поручить эту задачу опытному юристу.</p>
+							<h3 class="resource__desc-title">Понятие «апелляция» и важные особенности в процессе обжалования</h3>
+							<p>В юриспруденции понятие «апелляция» может означать как сам процесс обжалования судом решения, принятого низшей инстанцией, так и документ - апелляционную жалобу, которая и является основанием для начала процедуры по смягчению/отмене наказания.</p>
+							<nav class="resource__desc-nav">
+								<p>Прежде чем решиться на подачу жалобы, следует обратить внимание на несколько важных нюансов:</p>
+								<ul class="resource__desc-list">
+									<li class="resource__desc-item">апелляция подается только на судебный орган первой инстанции (решение мирового судьи, районного суда);</li>
+									<li class="resource__desc-item">необходимо уложиться в срок, пока решение не вступило в силу;</li>
+									<li class="resource__desc-item">заявителем может быть истец, ответчик по делу и прокурор. Также допускается подача жалобы третьим лицом, если в деле затронуты его интересы;</li>
+									<li class="resource__desc-item">содержание и оформление документа должно соответствовать требованиям, описанным в гл.39 ГПК.</li>
+								</ul>
+							</nav>
+						</div>
+						<div class="resource__info"><span class="resource__info--bold">Осторожно!</span> Требований не очень много, но малейшая ошибка может стать причиной того, что вышестоящая судебная инстанция не примет заявление, а тогда вы рискуете не уложиться в установленные законом сроки.</div>
+						<div class="resource__social">
+							<ul class="resource__social-list">
+								<li class="resource__social-item">
+									<a href="" class="resource__social-link img">
+										<img src="../img/resource-social-link-1.png" alt="">
+									</a>
+								</li>
+								<li class="resource__social-item">
+									<a href="" class="resource__social-link img">
+										<img src="../img/resource-social-link-2.png" alt="">
+									</a>
+								</li>
+								<li class="resource__social-item">
+									<a href="" class="resource__social-link img">
+										<img src="../img/resource-social-link-3.png" alt="">
+									</a>
+								</li>
+								<li class="resource__social-item">
+									<a href="" class="resource__social-link img">
+										<img src="../img/resource-social-link-4.png" alt="">
+									</a>
+								</li>
+								<li class="resource__social-item">
+									<a href="" class="resource__social-link img">
+										<img src="../img/resource-social-link-5.png" alt="">
+									</a>
+								</li>
+								<li class="resource__social-item">
+									<a href="" class="resource__social-link img">
+										<img src="../img/resource-social-link-6.png" alt="">
+									</a>
+								</li>
+								<li class="resource__social-item">
+									<a href="" class="resource__social-link img">
+										<img src="../img/resource-social-link-7.png" alt="">
+									</a>
+								</li>
+								<li class="resource__social-item">
+									<a href="" class="resource__social-link img">
+										<img src="../img/resource-social-link-8.png" alt="">
+									</a>
+								</li>
+								<li class="resource__social-item">
+									<a href="" class="resource__social-link img">
+										<img src="../img/resource-social-link-9.png" alt="">
+									</a>
+								</li>
+								<li class="resource__social-item">
+									<a href="" class="resource__social-link img">
+										<img src="../img/resource-social-link-10.png" alt="">
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="resource__download">
+							<div class="resource__download-title">Образцы документов для скачивания </div>
+							<div class="resource__download-item">
+								<div class="resource__download-item-doc">
+									<div class="resource__download-item-img img">
+										<img src="../img/resource-download-item-img.png" alt="">
+									</div>
+									<div class="resource__download-item-title">
+										<div class="resource__download-item-title-value">Апелляционная жалоба на решение суда по вопросу об эллиптическом натуральном логарифме <span class="resource__download-item-weight">(33 КБ)</span></div>
+										<div class="resource__download-times">
+											<div class="resource__download-times-title">Скачиваний:</div>
+											<div class="resource__download-times-value">600</div>
+										</div>		
+									</div>
+								</div>
+								<a href="" class="resource__download-item-btn">Скачать</a>
+							</div>
+							<div class="resource__download-item">
+								<div class="resource__download-item-doc">
+									<div class="resource__download-item-img img">
+										<img src="../img/resource-download-item-img.png" alt="">
+									</div>
+									<div class="resource__download-item-title">
+										<div class="resource__download-item-title-value">Апелляционная жалоба на решение суда по вопросу об эллиптическом натуральном логарифме <span class="resource__download-item-weight">(33 КБ)</span></div>
+										<div class="resource__download-times">
+											<div class="resource__download-times-title">Скачиваний:</div>
+											<div class="resource__download-times-value">600</div>
+										</div>		
+									</div>
+								</div>
+								<a href="" class="resource__download-item-btn">Скачать</a>
+							</div>
+						</div>
+						<form action="" class="resource__question">
+							<div class="resource__question-wrap">
+								<h3 class="resource__question-title">Задайте вопрос юристу <span class="resource__question-title--colored">онлайн</span></h3>
+								<div class="form-input-wrap">
+									<div class="form-input-textarea">
+										<textarea name="" id="" placeholder="Опишите вашу проблему..."></textarea>
+									</div>
+								</div>
+								<div class="resource__question-footer">
+									<button class="main-btn resource__question-btn">Задать вопрос</button>
+									<div class="resource__question-info">
+										<div class="resource__question-item"><span class="resource__question-item--bold">183</span> юриста онлайн</div>
+										<div class="resource__question-item">Среднее скорость ответа <span class="resource__question-item--bold">10 минут</span></div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="col-md-5 col-lg-4">
+					<div class="resource__aside">
+						<nav class="resource__aside-nav">
+							<h3 class="resource__aside-nav-title">Меню раздела</h3>
+							<ul class="resource__aside-nav-list">
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link resource__aside-nav-link--active">Стоимость апелляции по гражданскому делу</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Авторские права на фотографию</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Авторские права юридических лиц</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Защита авторских прав</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Авторские права на песню</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Авторские права на фотографию</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Авторские права юридических лиц</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Защита авторских прав</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Авторские права на песню</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Авторские права на фотографию</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Авторские права юридических лиц</a>
+								</li>
+								<li class="resource__aside-nav-item">
+									<a href="" class="resource__aside-nav-link">Защита авторских прав</a>
+								</li>
+							</ul>
+						</nav>
+						<form action="" method="" name="" class="resource__feedback">
+							<h3 class="resource__feedback-title">Закажите обратный звонок и получите консультацию</h3>
+							<div class="form-input-wrap">
+								<label for="" class="form-input-label">Ваше имя</label>
+								<div class="form-input">
+									<input type="text" name="name" placeholder="Как вас зовут?">
+								</div>
+							</div>
+							<div class="form-input-wrap">
+								<label for="" class="form-input-label">Ваш номер телефона</label>
+								<div class="form-input">
+									<input type="tel" name="phone" id="phone" placeholder="+7 (___) ___-__-__">
+								</div>
+							</div>
+							<div class="form-input-wrap">
+								<label for="" class="form-input-label">Ваш город</label>
+								<div class="form-input-select">
+									<select name="" id="">
+										<option value="">Красноярск</option>
+										<option value="">Красноярск</option>
+										<option value="">Красноярск</option>
+										<option value="">Красноярск</option>
+									</select>	
+								</div>
+							</div>
+							<button class="resource__feedback-btn main-btn">Заказать звонок</button>
+						</form>
+
+						<div class="best-workers">
+							<h3 class="best-workers__title">Наши лучшие юристы</h3>
+							<div class="best-workers__item">
+								<div class="best-workers__avatar img">
+									<img src="../img/best-workers-avatar-1.png" alt="">
+									<div class="best-workers__avatar-online"></div>
+								</div>
+								<div class="best-workers__data">
+									<a href="" class="best-workers__name">Александр Бударагин</a>
+									<div class="best-workers__data-wrapper">
+										<div class="best-workers__specialty">Юрист</div>
+										<div class="best-workers__location">
+											<div class="best-workers__location-ico img">
+												<img src="../img/best-workers-location-ico.png" alt="">
+											</div>
+											<div class="best-workers__location-value">Нижний Новгород</div>
+										</div>
+									</div>
+									<div class="best-workers__activity">
+										<div class="best-workers__activity-value">86</div>
+										<div class="best-workers__activity-title">консультаций</div>
+									</div>
+								</div>
+							</div>
+							<div class="best-workers__item">
+								<div class="best-workers__avatar img">
+									<img src="../img/best-workers-avatar-2.png" alt="">
+								</div>
+								<div class="best-workers__data">
+									<a href="" class="best-workers__name">Марина Тарасова</a>
+									<div class="best-workers__data-wrapper">
+										<div class="best-workers__specialty">Юрист</div>
+										<div class="best-workers__location">
+											<div class="best-workers__location-ico img">
+												<img src="../img/best-workers-location-ico.png" alt="">
+											</div>
+											<div class="best-workers__location-value">Москва</div>
+										</div>
+									</div>
+									<div class="best-workers__activity">
+										<div class="best-workers__activity-value">9</div>
+										<div class="best-workers__activity-title">консультаций</div>
+									</div>
+								</div>
+							</div>
+							<div class="best-workers__item">
+								<div class="best-workers__avatar img">
+									<img src="../img/best-workers-avatar-3.png" alt="">
+								</div>
+								<div class="best-workers__data">
+									<a href="" class="best-workers__name">Галина Гудкова</a>
+									<div class="best-workers__data-wrapper">
+										<div class="best-workers__specialty">Юрист</div>
+										<div class="best-workers__location">
+											<div class="best-workers__location-ico img">
+												<img src="../img/best-workers-location-ico.png" alt="">
+											</div>
+											<div class="best-workers__location-value">Москва</div>
+										</div>
+									</div>
+									<div class="best-workers__activity">
+										<div class="best-workers__activity-value">9</div>
+										<div class="best-workers__activity-title">консультаций</div>
+									</div>
+								</div>
+							</div>
+							<a href="" class="best-workers__btn main-btn">Все наши юристы</a>
+						</div>
+
+						<div class="order-docs">
+							<div class="order-docs-title">Закажите юридический документ у профессиональных юристов</div>
+							<a href="" class="main-btn order-docs__btn">Заказать документ</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-7 col-sm-4 col-lg-3">
+					<div class="footer__wrap">
+						<a href="" class="footer__logo img">
+							<img src="../img/footer-logo.png" alt="">
+						</a>
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">О проекте</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Контакты</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Пользовательское соглашение</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Реферальная программа</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-8 col-sm-4 col-lg-3">
+					<div class="footer__wrap footer__wrap-padding">
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Каталог юристов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Архив вопросов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Горячая линия</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Новости</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-8 col-sm-4 col-lg-3">
+					<div class="footer__wrap footer__wrap-padding">
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Регистрация нового юриста</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">CRM для юристов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Юридические заявки</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Зачем отвечать на вопросы</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-12 col-lg-3">
+					<div class="footer__wrap footer__wrap-social">
+						<ul class="footer__social">
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-1.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-2.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-3.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-4.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-5.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-6.png" alt="">
+								</a>
+							</li>
+						</ul>
+						<div class="footer__branches">
+							<div class="footer__branches-title">Филиалы:</div>
+							<ul class="footer__branches-list">
+								<li class="footer__branches-item">Санкт-Петербург, ул. Достоевского, д. 25</li>
+								<li class="footer__branches-item">Нижний Новгород, ул. Новая, д. 28</li>
+								<li class="footer__branches-item">Екатеринбург, ул. 8 марта, д. 142</li>
+								<li class="footer__branches-item">Ростов-на-Дону, ул. Красноармейская, д. 142/50</li>
+								<li class="footer__branches-item">Краснодар, ул. Московская, д. 148</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	
+	<script src="../jquery/jquery-3.4.1.min.js"></script>
+	<script src="../lib/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="../lib/swiper/swiper.min.js"></script>
+	<script src="lib/bootstrap/bootstrap.min.js"></script>
+	<script src="../lib/jquery.maskedinput.js"></script>
+	<script src="../js/main.js"></script>
+</body>
+</html>

@@ -2,6 +2,10 @@
 	.selling__main-bg {
 		width: 70vw;
 	}
+
+	.resource__title {
+		width: 60%;
+	}
 }
 
 @media screen and (max-width: 1200px) {
@@ -28,6 +32,11 @@
 
 	.selling__benefits-item {
 		font-size: 12px;
+	}
+
+	.question-unloged {
+		margin-top: 50px;
+		padding-bottom: 60px;
 	}
 }
 
@@ -127,6 +136,19 @@
 		order: 3;
 		margin-bottom: 10px;
 	}
+
+	.docs-example-title {
+		margin-right: 15px;
+		font-size: 16px;
+	}
+
+	.resource__aside-nav-link {
+		padding: 7px 38px 7px 40px;
+	}
+
+	.order-docs-title {
+		font-size: 16px;
+	}
 }
 
 @media screen and (max-width: 990px) {
@@ -221,6 +243,41 @@
 	.selling__benefits-item {
 		font-size: 14px;
 	}
+
+	.resource__download-item-title-value {
+		font-size: 14px;
+	}
+
+	.resource__question-wrap {
+		max-width: 90%;
+		margin: 0 auto;
+	}
+
+	.question-unloged__lawyer {
+		padding: 20px 10px;
+	}
+
+	.question-unloged__lawyer-img {
+		margin-right: 8px;
+	}
+
+	.question-unloged__lawyer-wrap {
+		margin-right: 8px;
+	}
+
+	.question-unloged__lawyer-name {
+		font-size: 12px;
+	}
+
+	.question-unloged__answer-wrap .question-unloged__user {
+		max-width: 95%;
+	}
+
+	.question-unloged__answer-wrap .question-unloged__lawyer {
+		max-width: 95%;
+	}
+
+
 }
 
 @media screen and (max-width: 920px) {
@@ -455,6 +512,38 @@
 	.selling__reject-list {
 		max-width: 80%;
 	}
+
+	.docs-example-title {
+		font-size: 14px;
+	}
+
+	.resource__aside-nav-link {
+		padding: 7px 20px;
+	}
+
+	.question-unloged__lawyer-data {
+		flex-wrap: wrap;
+	}
+
+	.question-unloged__lawyer-img {
+		margin-bottom: 5px;
+	}
+
+	.comments-item__message {
+		width: 95%;
+		margin-bottom: 20px;
+		padding: 20px 10px;
+	}
+
+	.registration__form {
+		width: 100%;
+	}
+
+	 .registration__form-input {
+	 	width: 65.96%;
+	 	padding-left: 0;
+	 	margin-right: 20px;
+ 	}
 }
 
 
@@ -694,6 +783,52 @@
 		margin-bottom: 20px;
 	}
 
+	.resource__aside-nav {
+		display: none;
+	}
+
+	.resource__aside-nav-mob {
+		display: block;
+	}
+
+	.resource__aside {
+		max-width: 70%;
+		margin: 0 auto;
+		padding-bottom: 60px;
+	}
+
+	.resource__content {
+		max-width: 100%;
+		padding-bottom: 30px;
+	}
+
+	.question-unloged-wrap {
+		max-width: 100%;
+		padding-bottom: 30px;
+	}
+
+	.question-unloged__aside {
+		max-width: 70%;
+		margin: 0 auto;
+	}
+
+	.news-article__wrap {
+		max-width: 100%;
+		padding-bottom: 30px;
+	}
+
+	.registration__form-type .radio-wrap-desc {
+	 	width: 95%;
+	 }
+
+	 .search__form {
+		max-width: 100%;
+	}
+
+	.search__body {
+		max-width: 100%;
+	}
+
 }
 
 
@@ -763,6 +898,24 @@
 		left: 40px;
 		transform: rotate(-133deg);
 	}
+
+	 .registration__form-wrap {
+	 	flex-direction: column;
+	 	align-items: center;
+ 	}
+
+ 	 .registration__form-input {
+ 	 	order: 2;
+	 	width: 100%;
+	 	margin-right: 0; 
+	 }
+
+	 .registration__form-social {
+	 	order: 1;
+	 	width: 50%;
+	 	margin-bottom: 20px;
+	 }
+
 }
 
 @media screen and (max-width: 575px) {
@@ -1275,6 +1428,100 @@
 	.recent-publication__item {
 		max-width: 100%;
 	}
+
+	.resource__title {
+		width: 90%;
+	}
+
+	.resource__desc-title {
+		width: 100%;
+	}
+
+	.resource__aside {
+		max-width: 80%;
+	}
+
+	.question-unloged__main {
+		padding: 25px 15px 20px 15px;
+	}
+
+	.question-unloged__title {
+		font-size: 18px;
+	}
+
+	.question-unloged__lawyer-heading {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.question-unloged__lawyer-activity {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		margin-top: 5px;
+		padding: 5px 0;
+		border-top: 1px solid #e5e5e5;
+		border-bottom: 1px solid #e5e5e5;
+	}
+
+	.question-unloged__lawyer-reviewes {
+		margin-bottom: 0;
+		margin-right: 15px;
+	}
+
+	.question-unloged__user-data {
+		flex-wrap: wrap;
+	}
+
+	.question-unloged__user-img {
+		margin-bottom: 8px;
+	}
+
+	.question-unloged__form {
+		padding: 25px 10px;
+	}
+
+	.question-unloged__form-title {
+		font-size: 18px;
+	}
+
+	.question-unloged__aside {
+		max-width: 90%;
+		margin: 0 auto;
+	}
+
+	.news-article__subtitle {
+		font-size: 14px;
+	}
+
+	.news-article__desc p {
+		font-size: 14px;
+	}
+
+	.registration__form-type {
+		flex-direction: column;
+		align-items: center;
+		padding-bottom: 0;
+		border-bottom: none;
+	}
+
+	.radio-input-wrap {
+		align-items: flex-start;
+		width: 100%;
+		margin-bottom: 15px;
+		padding: 10px;
+		border: 1px solid #e5e5e5;
+	 }
+
+	.radio-input-wrap:last-child {
+	 	border-right: 1px solid #e5e5e5;
+	 }
+
+	 .registration__form-type .radio-wrap-desc {
+	 	width: 100%;
+	 	text-align: left;
+	 }
+
 }
 
 @media screen and (max-width: 460px) {
@@ -1553,6 +1800,120 @@
 		font-size: 12px;
 	}
 
+	.docs-example {
+		flex-direction: column;
+		align-items: center;
+		height: auto;
+		padding: 20px 15px;
+		text-align: center;
+	}
+
+	.docs-example-title {
+		margin-right: 0;
+		margin-bottom: 15px;
+	}
+
+	.resource__nav-item {
+		font-size: 14px;
+	}
+
+	.resource__desc p {
+		font-size: 14px;
+	}
+
+	.resource__desc-item {
+		font-size: 14px;
+	}
+
+	.resource__info {
+		margin-bottom: 40px;
+		padding: 17px 24px;
+		font-size: 14px;
+	}
+
+	.resource__social-link {
+		width: 25px;
+		height: 25px;
+	}
+
+	.resource__download {
+		padding: 25px 15px;
+	}
+
+	.resource__download-title {
+		font-size: 18px;
+	}
+
+	.resource__download-item {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.resource__download-item-btn {
+		margin-left: 30px;
+		margin-top: 10px;
+	}
+
+	.resource__question-title {
+		font-size: 20px;
+	}
+
+	.resource__question-footer {
+		flex-direction: column;
+	}
+
+	.resource__question-btn {
+		margin-right: 0;
+		margin-bottom: 15px;
+	}
+
+	.resource__question-info {
+		text-align: center;
+	}
+
+	.resource__aside {
+		max-width: 100%;
+	}
+
+	.question-unloged__aside {
+		max-width: 100%;
+		margin: 0 auto;
+	}
+
+	.question-unloged__user {
+		padding: 20px 10px;
+	}
+
+	.comments-item__img {
+		width: 30px;
+		height: 30px;
+		margin-right: 8px;
+	}
+
+	.resource__social-list {
+		width: 100%;
+	}
+
+	.news-article__subtitle {
+		padding: 14px;
+	}
+
+	.registration__form-social {
+	 	width: 70%;
+	 }
+
+	 .registration-popup {
+		max-width: 100%;
+		padding: 30px 15px;
+		text-align: center;
+	}
+
+	.registration-popup-desc {
+		width: 100%;
+		margin-bottom: 20px;
+		font-size: 14px;
+	}
+
 }
 
 @media screen and (max-width: 350px) {
@@ -1627,6 +1988,44 @@
 	.selling__main-subtitle {
 		font-size: 14px;
 	}
+
+	.resource__title {
+		width: 95%;
+	}
+
+	.question-unloged__btn {
+		width: 100%;
+	}
+
+	.question-online__policy {
+		display: block;
+	}
+
+
+	.comments-item__message {
+		flex-wrap: wrap;
+		width: 100%;
+	}
+
+	.comments-item__message-input {
+		margin: 15px 0;
+	}
+
+	.comments-item__message-footer {
+		position: static;
+		width: 100%;
+	}
+
+	.comments-item {
+		flex-wrap: wrap;
+		padding: 20px 10px;
+	}
+
+	.comments-item__main {
+		width: 85%;
+		margin-bottom: 15px;
+	}
+
 }
 
 
