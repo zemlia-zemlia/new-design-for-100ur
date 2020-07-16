@@ -2560,6 +2560,7 @@ button:active {
 
 .questions-lawyers__item {
 	position: relative;
+	overflow: hidden;
 	margin-bottom: 20px;
 	padding: 22px 60px 25px 20px;
 	border-radius: 10px;
@@ -2567,13 +2568,6 @@ button:active {
 	background-color: #ffffff;
 }
 
-.questions-lawyers__item-price {
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 60px;
-	height: 60px;
-}
 
 .questions-lawyers__item-title {
 	margin-bottom: 10px;
@@ -4336,6 +4330,7 @@ button:active {
 }
 
 .question-unloged__main {
+	overflow: hidden;
 	position: relative;
 	margin-bottom: 25px;
 	padding: 25px 30px 20px 20px;
@@ -4343,15 +4338,17 @@ button:active {
 	border: 1px solid #e5e5e5;
 }
 
-.question-unloged__main::after {
-	content: '';
+.item-price {
 	position: absolute;
-	top: 0;
-	right: 0;
-	width: 60px;
-	height: 60px;
-	background-image: url(img/questions-lawyers-item-price.png);
-	background-repeat: no-repeat;
+	top: 13px;
+	right: -20px;
+	transform: rotate(45deg);
+	width: 90px;
+	padding: 2px 0;
+	background-color: #017052;
+	color: #fff;
+	font-size: 14px;
+	text-align: center;
 }
 
 .question-unloged__heading {
@@ -4796,7 +4793,7 @@ button:active {
 	border-bottom: 1px solid #e5e5e5;
 }
 
-.radio-input-wrap {
+.registration__form-type .radio-input-wrap {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
