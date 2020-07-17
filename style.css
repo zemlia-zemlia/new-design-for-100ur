@@ -4523,11 +4523,11 @@ button:active {
 }
 
 .question-unloged__answer-wrap .question-unloged__user {
-	max-width: 90%;
+	width: 90%;
 }
 
 .question-unloged__answer-wrap .question-unloged__lawyer {
-	max-width: 90%;
+	width: 90%;
 }
 
 .question-unloged__user {
