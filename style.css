@@ -2471,13 +2471,24 @@ button:active {
 	margin-bottom: 25px;
 }
 
+.best-workers__avatar-wrap {
+	position: relative;
+}
+
 .best-workers__avatar {
 	flex-shrink: 0;
 	width: 71px;
-	height: 71px;
+	height: 72px;
 	margin-right: 15px;
 	border-radius: 50%;
-	overflow: visible;
+	overflow: hidden;
+}
+
+.best-workers__avatar img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
 }
 
 .best-workers__avatar-online {
@@ -4420,12 +4431,30 @@ button:active {
 	display: flex;
 }
 
+.question-unloged__lawyer-img-wrap {
+	position: relative;
+}
+
+.question-unloged__lawyer-img-wrap .best-workers__avatar-online {
+	bottom: 2px;
+	left: 2px;
+}
+
 .question-unloged__lawyer-img {
 	flex-shrink: 0;
 	width: 45px;
 	height: 45px;
+	border-radius: 50%;
+	overflow: hidden;
 	margin-right: 16px;
 }
+
+.question-unloged__lawyer-img img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
 
 .question-unloged__lawyer-img .best-workers__avatar-online {
 	width: 9px;
@@ -4545,11 +4574,23 @@ button:active {
 	display: flex;
 }
 
+.question-unloged__user-img-wrap {
+	position: relative;
+}
+
 .question-unloged__user-img {
 	flex-shrink: 0;
-	width: 45px;
-	height: 45px;
+	width: 46px;
+	height: 46px;
+	border-radius: 50%;
+	overflow: hidden;
 	margin-right: 16px;
+}
+
+.question-unloged__user-img img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .best-workers__avatar-offline {
@@ -4691,11 +4732,28 @@ button:active {
 	border: 1px solid #dfe3e9;
 }
 
+.comments-item__img-wrap {
+	position: relative;
+}
+
+.comments-item__img-wrap .best-workers__avatar-online {
+	bottom: 2px;
+	left: 2px;
+}
+
 .comments-item__img {
 	flex-shrink: 0;
 	width: 46px;
 	height: 46px;
+	border-radius: 50%;
+	overflow: hidden;
 	margin-right: 12px;
+}
+
+.comments-item__img img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .comments-item__author {
