@@ -291,12 +291,28 @@ button:active {
 }
 
 .ui-menu-item {
-	padding: 3px 0;
+	padding: 5px 0;
+}
+
+.ui-menu-item:hover {
+	background-color: #208167 !important;
 }
 
 .ui-menu {
-	width: 500px !important;
-	max-width: 500px !important;
+	width: 300px !important;
+	max-width: 300px !important;
+}
+
+.error {
+	color: red;
+	font-size: 13px;
+	text-align: right;
+	margin-top: 3px;
+}
+
+.form-input,
+.form-input-select {
+	border: 1px solid red;
 }
 
 /* ------------------  Header --------------------*/
