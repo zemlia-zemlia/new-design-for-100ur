@@ -310,9 +310,10 @@ button:active {
 	margin-top: 3px;
 }
 
-.form-input,
-.form-input-select {
+.form-input.bordered,
+.form-input-select.bordered {
 	border: 1px solid red;
+	border-radius: 8px;
 }
 
 /* ------------------  Header --------------------*/
