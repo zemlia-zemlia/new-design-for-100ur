@@ -2511,6 +2511,11 @@ button:active {
 	background-color: #70bb4e;
 }
 
+.best-workers .best-workers__avatar-offline {
+	bottom: 5px;
+	left: 7px;
+}
+
 .best-workers__name {
 	display: block;
 	margin-bottom: 5px;
