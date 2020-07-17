@@ -294,6 +294,11 @@ button:active {
 	padding: 3px 0;
 }
 
+.ui-menu {
+	width: 500px !important;
+	max-width: 500px !important;
+}
+
 /* ------------------  Header --------------------*/
 
 /* ------------------  Header Top --------------------*/
