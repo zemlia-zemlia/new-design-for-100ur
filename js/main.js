@@ -268,13 +268,18 @@ $('#doc-type-6').on('click touch', function(){
   });
 
 $('#reg-type-1').on('click touch', function(){
-    $('.form-input-wrap-name, .form-input-wrap-phone').removeClass('reg-hidden');
-    $('.registration__form-layer, .registration__form-company').addClass('reg-hidden');
+
+    $('.registration__form-layer').addClass('reg-hidden');
+    $('label.name').text('Ваше имя');
+    $('.nameInput').attr('placeholder', 'Как вас зовут?');
   });
 
 $('#reg-type-2').on('click touch', function(){
-    $('.form-input-wrap-name, .registration__form-company').addClass('reg-hidden');
-    $('.registration__form-layer, .form-input-wrap-phone').removeClass('reg-hidden');
+
+    $('.registration__form-layer').removeClass('reg-hidden');
+    $('label.name').text('Имя');
+    $('.nameInput').attr('placeholder', 'Петр');
+
   });
 
 $('#reg-type-3').on('click touch', function(){
