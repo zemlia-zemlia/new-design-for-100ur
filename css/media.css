@@ -1522,6 +1522,11 @@
 	 	text-align: left;
 	 }
 
+	 .ui-menu {
+		width: 100% !important;
+		max-width: 100% !important;
+	}
+
 }
 
 @media screen and (max-width: 460px) {
