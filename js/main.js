@@ -300,4 +300,39 @@ $('#reg-type-3').on('click touch', function(){
     $('#search-container').tabs("load", hash) 
   } 
 
+   $('.login-registered-btn').on('click touch', function(){
+       $('.header__user-nav').addClass('active');
+    });
+
+   $('.nav-mob-close').on('click touch', function(){
+       $('.header__user-nav').removeClass('active');
+    });
+
+
+$('#account__tab-container').tabs({
+    beforeActivate : function(evt) {
+      location.hash=$(evt.currentTarget).attr('href');
+    },
+    show: 'fadeIn',
+    hide: 'fadeOut'
+  });
+
+   var hash = location.hash; 
+  if (hash) { 
+    $('#account__tab-container').tabs("load", hash) 
+  } 
+
+  $('#docs__order-tab').tabs({
+    beforeActivate : function(evt) {
+      location.hash=$(evt.currentTarget).attr('href');
+    },
+    show: 'fadeIn',
+    hide: 'fadeOut'
+  });
+
+   var hash = location.hash; 
+  if (hash) { 
+    $('#docs__order-tab').tabs("load", hash) 
+  } 
+
 });
