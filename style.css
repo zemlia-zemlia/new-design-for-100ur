@@ -5226,6 +5226,10 @@ blockquote span {
 }
 
 .header__user-link:hover {
+	text-decoration: underline;
+}
+
+.header__user-link--active {
 	background-color: rgba(26, 119, 163, .19 );
 }
 
