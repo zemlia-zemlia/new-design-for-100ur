@@ -1711,7 +1711,7 @@
 		display: none;
 	}
 
-	.account__main {
+	.account__main-wrap {
 		flex-direction: column;
 		padding-top: 5px;
 	}
