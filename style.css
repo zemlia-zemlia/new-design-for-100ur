@@ -5963,3 +5963,231 @@ blockquote span {
 	font-size: 14px;
 	text-align: center;
 }
+
+/* ------------------Account Finances --------------------*/
+
+.account__balance {
+	font-weight: 700;
+}
+
+.account__finances-form {
+	width: 320px;
+	margin: 0 auto;
+	margin-bottom: 40px;
+}
+
+.account__finances-wrap {
+	margin-bottom: 20px;
+}
+
+.account__finances-label {
+	display: block;
+	margin-bottom: 10px;
+	font-size: 14px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.account__finances-input {
+	display: flex;
+	height: 40px;
+	border: 1px solid #e5e5e5;
+	border-radius: 8px;
+}
+
+.account__finances-input input {
+	display: block;
+	height: 100%;
+	border-radius: 8px 0 0 8px;
+	background-color: #fafdff;
+	font-size: 14px;
+}
+
+.account__finances-input-currency {
+	flex-shrink: 0;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #f1f4f6;
+	color: #7b7b7b;
+	font-size: 14px;
+}
+
+.account__finances-form .radio-wrap {
+	display: flex;
+	justify-content: space-between;
+}
+
+.account__finances-send {
+	width: 204px;
+	height: 50px;
+	margin: 0 auto;
+	border-radius: 8px;
+	border: 1px solid #1a77a3;
+	background: #fff;
+}
+
+.finances-history-title {
+	margin-bottom: 20px;
+	font-size: 18px;
+	text-align: center;
+}
+
+.finances-history-heading {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 15px;
+}
+
+.finances-history-heading-item {
+	color: rgba(0, 12, 21, .6);
+	font-size: 14px;
+}
+
+.finances-history-date {
+	width: 143px;
+}
+
+.finances-history-price {
+	width: 80px;
+}
+
+.finances-history-comment {
+	width: 280px;
+}
+
+.finances-history-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.finances-history-item {
+	font-size: 14px;
+}
+
+/* ------------------ Lawyer-chat --------------------*/
+
+.lawyer-chat {
+	padding: 0;
+	padding-top: 20px;
+}
+
+.lawyer-chat__wrap {
+	display: flex;
+	margin-top: 15px;
+	border-top: 1px solid rgba(191, 191, 191, .6)
+}
+
+.lawyer-chat__aside {
+	flex-shrink: 0;
+	width: 270px;
+	padding-top: 10px;
+	border-right: 1px solid rgba(191, 191, 191, .6);
+}
+
+.lawyer-chat__person {
+	display: flex;
+	align-items: center;
+	padding: 15px 10px 15px 20px;
+	cursor: pointer;
+}
+
+.lawyer-chat__person-img {
+	flex-shrink: 0;
+	width: 38px;
+	height: 38px;
+	margin-right: 12px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.lawyer-chat__person-img img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.lawyer-chat__person-name {
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.lawyer-chat__person--active {
+	background-color: rgba(29, 119, 163, .17);
+}
+
+.lawyer-chat__main {
+	width: 100%;
+}
+
+.lawyer-chat__heading {
+	display: flex;
+	padding: 20px 20px 20px 30px;
+}
+
+.lawyer-chat__heading-person {
+	color: #016f52;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.lawyer-chat__heading-activity {
+	color: rgba(0, 12, 20, .5);
+	font-size: 12px;
+}
+
+.lawyer-chat__body {
+	padding: 25px 18px 18px 20px;
+	border-top: 1px solid rgba(191, 191, 191, .6);
+	border-bottom: 1px solid rgba(191, 191, 191, .6);
+}
+
+.lawyer-chat__user-wrap {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	margin-bottom: 15px;
+}
+
+.lawyer-chat__message {
+	max-width: 318px;
+	margin-bottom: 10px;
+	padding: 15px 7px 7px 15px;
+	border-radius: 8px;
+	background-color: #e7f6ff;
+}
+
+.lawyer-chat__message-text {
+	font-size: 15px;
+	padding-right: 20px;
+}
+
+.lawyer-chat__message-time {
+	color: rgba(0, 12, 20, .3);
+	font-size: 12px;
+	text-align: right;
+}
+
+.lawyer-chat__lawyer-wrap {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.lawyer-chat__lawyer-inner {
+	display: flex;
+}
+
+.lawyer-chat__lawyer-message {
+	background-color: #ecedf1;
+}
+
+.lawyer-chat__form {
+	display: flex;
+	align-items: center;
+	padding: 17px 14px;
+}

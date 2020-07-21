@@ -217,7 +217,7 @@
 							<a href="#" class="breadcrumbs__link">Личный кабинет</a>
 						</li>
 						<li class="breadcrumbs__item">
-							<a href="#" class="breadcrumbs__link breadcrumbs__link--active">Мои финансы</a>
+							<a href="#" class="breadcrumbs__link breadcrumbs__link--active">Чат с юристами</a>
 						</li>
 					</ul>
 				</div>
@@ -227,14 +227,13 @@
 			<!-- Crm-system -->
 			<main class="main">
 				<div class="container">
-					
 					<div class="row justify-content-between">
 						<div class="col-md-4">
 							<nav class="account__nav">
 								<div class="account__nav-title">Услуги сайта</div>
 								<ul class="account__nav-list">
 									<li class="account__nav-item">
-										<a href="" class="account__nav-link account__nav-link">Мои вопросы</a>
+										<a href="" class="account__nav-link">Мои вопросы</a>
 									</li>
 									<li class="account__nav-item">
 										<a href="" class="account__nav-link">Консультация по телефону</a>
@@ -246,64 +245,73 @@
 										<a href="" class="account__nav-link">Мои заказы документов</a>
 									</li>
 									<li class="account__nav-item">
-										<a href="" class="account__nav-link">Чат с юристами</a>
+										<a href="" class="account__nav-link account__nav-link--active">Чат с юристами</a>
 									</li>
 								</ul>
 							</nav>
 						</div>
 						<div class="col-md-8">
-							<div class="account__main">
-								<div class="account__main-title">Мои финансы</div>
-								<div class="account__main-subtitle">Ваш баланс: <span class="account__balance">0.00 руб.</span></div>
-								<form action="" class="account__finances-form">
-									<div class="account__finances-wrap">
-										<label for="" class="account__finances-label">Сумма пополнения</label>
-										<div class="account__finances-input">
-											<input type="text" name="">
-											<div class="account__finances-input-currency">руб.</div>
+							<div class="account__main lawyer-chat">
+								<div class="account__main-title">Чат с юристами</div>
+								<div class="lawyer-chat__wrap">
+									<div class="lawyer-chat__aside">
+										<div class="lawyer-chat__person">
+											<div class="lawyer-chat__person-img img">
+												<img src="../img/lawyer-chat-person-img-1.png" alt="">
+											</div>
+											<div class="lawyer-chat__person-name">Техподдержка</div>
+										</div>
+										<div class="lawyer-chat__person lawyer-chat__person--active">
+											<div class="lawyer-chat__person-img img">
+												<img src="../img/best-workers-avatar-3.png" alt="">
+											</div>
+											<div class="lawyer-chat__person-name">Марина Тарасова</div>
 										</div>
 									</div>
-									<p class="account__finances-label">Способ оплаты</p>
-									<div class="radio-wrap">
-										<div class="radio-input-wrap">
-											<input type="radio"  id="doc-type-1" name="deliverybtn" value="delivery" class="radio">
-											<label for="doc-type-1">Яндекс. Деньгами</label>
-											<div class="radio-wrap-desc">Комиссия 0.5%</div>
+									<div class="lawyer-chat__main">
+										<div class="lawyer-chat__heading">
+											<div class="lawyer-chat__person-img img">
+												<img src="../img/best-workers-avatar-3.png" alt="">
+											</div>
+											<div class="lawyer-chat__heading-wrap">
+												<div class="lawyer-chat__heading-person">Марина Тарасова</div>
+												<div class="lawyer-chat__heading-activity">Был в сети 40 мин назад</div>
+											</div>
 										</div>
-										<div class="radio-input-wrap">
-											<input type="radio"  id="doc-type-2" name="deliverybtn" value="delivery" class="radio">
-											<label for="doc-type-2">Банковской картой</label>
-											<div class="radio-wrap-desc">Комиссия 2%</div>
+										<div class="lawyer-chat__body">
+											<div class="lawyer-chat__user-wrap">
+												<div class="lawyer-chat__message">
+													<div class="lawyer-chat__message-text">Добрый день</div>
+													<div class="lawyer-chat__message-time">18:32</div>
+												</div>
+												<div class="lawyer-chat__message">
+													<div class="lawyer-chat__message-text">Линеаризация мышления недоступно отражает конструктивный эпитет, при этом нельзя говорить, что это явления собственно фоники, звукописи. Наш современник стал особенно чутко относиться к слову, однако метафора начинает зачин.</div>
+													<div class="lawyer-chat__message-time">18:32</div>
+												</div>
+											</div>
+											<div class="lawyer-chat__lawyer-wrap">
+												<div class="lawyer-chat__lawyer-inner">
+													<div class="lawyer-chat__person-img img">
+														<img src="../img/best-workers-avatar-3.png" alt="">
+													</div>
+													<div class="lawyer-chat__message lawyer-chat__lawyer-message">
+														<div class="lawyer-chat__message-text">Линеаризация мышления недоступно отражает конструктивный эпитет, при этом нельзя говорить, что это явления собственно фоники, звукописи. Наш современник стал особенно чутко относиться к слову, однако метафора начинает зачин.</div>
+														<div class="lawyer-chat__message-time">18:32</div>
+													</div>
+												</div>
+											</div>
 										</div>
-									</div>
-									<input type="submit" value="Пополнить баланс" class="main-btn account__finances-send">
-								</form>
-								<div class="finances-history">
-									<div class="finances-history-title">История операций</div>
-									<div class="finances-history-heading">
-										<div class="finances-history-heading-item finances-history-date">Дата</div>
-										<div class="finances-history-heading-item finances-history-price">Сумма</div>
-										<div class="finances-history-heading-item finances-history-comment">Комментарий</div>
-									</div>
-									<div class="finances-history-row">
-										<div class="finances-history-item finances-history-date">20 янв. 2020 21:29</div>
-										<div class="finances-history-item finances-history-price">380.00</div>
-										<div class="finances-history-item finances-history-comment">Пополнение баланса пользователя</div>
-									</div>
-									<div class="finances-history-row">
-										<div class="finances-history-item finances-history-date">1 фев. 2020 19:59</div>
-										<div class="finances-history-item finances-history-price">40.00</div>
-										<div class="finances-history-item finances-history-comment">Пополнение баланса пользователя</div>
-									</div>
-									<div class="finances-history-row">
-										<div class="finances-history-item finances-history-date">20 янв. 2020 21:29</div>
-										<div class="finances-history-item finances-history-price">380.00</div>
-										<div class="finances-history-item finances-history-comment">Пополнение баланса пользователя</div>
-									</div>
-									<div class="finances-history-row">
-										<div class="finances-history-item finances-history-date">1 фев. 2020 19:59</div>
-										<div class="finances-history-item finances-history-price">40.00</div>
-										<div class="finances-history-item finances-history-comment">Пополнение баланса пользователя</div>
+										<form action="" class="lawyer-chat__form">
+											<div class="order-conversation__ico img">
+												<img src="../img/order-conversation-ico.png" alt="">
+											</div>
+											<div class="order-conversation__input">
+												<textarea name="" id="" placeholder="Введите сообщение..."></textarea>
+											</div>
+											<button class="order-conversation__send img">
+												<img src="../img/order-conversation-send.png" alt="">
+											</button>
+										</form>
 									</div>
 								</div>
 							</div>

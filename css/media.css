@@ -1864,6 +1864,23 @@
 		font-size: 14px;
 	}
 
+	.account__finances-form .radio-input-wrap {
+		padding: 0;
+		border: none;
+	}
+
+	.finances-history-heading-item {
+		font-size: 12px;
+	}
+
+	.finances-history-item {
+		font-size: 12px;
+	}
+
+	.finances-history-price {
+		margin: 0 10px;
+	}
+
 }
 
 @media screen and (max-width: 460px) {
@@ -2339,6 +2356,11 @@
 		height: 35px;
 		font-size: 12px;
 	}	
+
+	.account__finances-form {
+		width: 100%;
+	}
+
 }
 
 @media screen and (max-width: 350px) {
