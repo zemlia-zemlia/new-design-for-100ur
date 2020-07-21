@@ -986,6 +986,10 @@
 		text-align: left;
 	}
 
+	blockquote {
+		padding: 17px 20px 17px 24px;
+	}
+
 }
 
 
@@ -1834,6 +1838,32 @@
 	.docs__order-tab-link {
 		font-size: 14px;
 	}
+
+	.resource__nav h3 {
+		font-size: 16px;
+	}
+
+	.resource__nav a {
+		font-size: 14px;
+	}
+
+	.resource__desc p {
+		font-size: 14px;
+	}
+
+	.resource__desc h3 {
+		margin-top: 20px;
+		font-size: 18px;
+	}
+
+	.resource__desc li {
+		font-size: 14px;
+	}
+
+	blockquote {
+		font-size: 14px;
+	}
+
 }
 
 @media screen and (max-width: 460px) {
