@@ -397,6 +397,10 @@
 	.lawyer-skills {
 		max-width: 100%;
 	}
+
+	.radio-wrap {
+		width: 100%;
+	}
 }
 
 @media screen and (max-width: 920px) {
