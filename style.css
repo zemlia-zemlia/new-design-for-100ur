@@ -6214,6 +6214,34 @@ blockquote span {
 	color: #fff;
 }
 
+.lawyer-chat__form .order-conversation__ico {
+	background-color: transparent;
+	background-image: url(img/order-conversation-ico.png);
+	background-repeat: no-repeat;
+}
+
+.lawyer-chat__form .order-conversation__ico input {
+	background-color: transparent;
+}
+
+.order-conversation__input {
+	border: 1px solid #e5e5e5;
+	border-radius: 8px;
+}
+
+.order-conversation__input input {
+	font-size: 14px;
+}
+
+.order-conversation__send {
+	background-image: url(img/order-conversation-send.png);
+	background-repeat: no-repeat;
+}
+
+.order-conversation__send input {
+	background-color: transparent;
+}
+
 /* ------------------ Lawyer-catalog --------------------*/
 
 .lawyer-catalog {
@@ -6655,7 +6683,11 @@ blockquote span {
 	line-height: 1.25;
 }
 
-.lawyer-services-title {
+.lawyer-services {
+	margin-bottom: 60px;
+}
+
+.lawyer-section-title {
 	font-size: 18px;
 	font-weight: 700;
 }
@@ -6689,4 +6721,82 @@ blockquote span {
 
 .lawyer-services-item-price-value--colored {
 	color: #208167;
+}
+
+.lawyer-specialization {
+	margin-bottom: 65px;
+}
+
+.lawyer-specialization .lawyer-section-title {
+	margin-bottom: 10px;
+}
+
+.lawyer-specialization-list {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.lawyer-specialization-item {
+	display: flex;
+	align-items: center;
+	width: 47%;
+	padding: 15px 0;
+	border-bottom: 1px solid #e3e7ec;
+}
+
+.lawyer-specialization-item-img {
+	flex-shrink: 0;
+	width: 40px;
+	height: 40px;
+	margin-right: 15px;
+}
+
+.lawyer-specialization-item-title {
+	font-size: 14px;
+}
+
+.lawyer-career .lawyer-section-title {
+	margin-bottom: 15px;
+}
+
+
+#lawyer-career-tab {
+	width: 70%;
+}
+
+.lawyer-career-tab-list {
+	display: flex;
+	align-items: center;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #e3e7ec;
+}
+
+.lawyer-career-tab-item:first-child {
+	margin-right: 30px;
+}
+
+.lawyer-career-tab-link {
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.lawyer-career-tab-item.ui-tabs-active .lawyer-career-tab-link {
+	color: #1a77a3;
+	font-weight: 700;
+}
+
+.lawyer-career-info {
+	padding-top: 10px;
+}
+
+.lawyer-career-info-title {
+	margin-bottom: 10px;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.lawyer-career-info-desc {
+	font-size: 14px;
 }

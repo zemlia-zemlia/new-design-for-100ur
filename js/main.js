@@ -339,4 +339,17 @@ $('#account__tab-container').tabs({
     $('.lawyer-phone-value').toggleClass('active');
   });
 
+
+  $('#lawyer-career-tab').tabs({
+    beforeActivate : function(evt) {
+      location.hash=$(evt.currentTarget).attr('href');
+    },
+    show: 'fadeIn',
+    hide: 'fadeOut'
+  });
+
+   var hash = location.hash; 
+  if (hash) { 
+    $('#lawyer-career-tab').tabs("load", hash) 
+  } 
 });
