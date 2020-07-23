@@ -54,6 +54,10 @@
 	.rate-popup-item {
 		width: 19%;
 	}
+
+	.lawyer-card__data-main {
+		width: 65%;
+	}
 }
 
 @media screen and (max-width: 1115px) {
@@ -234,7 +238,19 @@
 		margin-right: 5px;
 	}
 
+	.lawyer-card__avatar {
+		width: 170px;
+		height: 170px;
+	}
 
+	.lawyer-card__avatar-wrap .best-workers__avatar-online {
+		bottom: 15px;
+		left: 30px;
+	}
+
+	.lawyer-card__person {
+		font-size: 18px;
+	}
 }
 
 @media screen and (max-width: 1030px) {
@@ -438,6 +454,14 @@
 
 	.account__nav-chat .account__nav-link{
 		font-size: 12px;
+	}
+
+	.lawyer-card__main-info {
+		width: 100%;
+	}
+
+	#lawyer-career-tab {
+		width: 100%;
 	}
 }
 
@@ -727,6 +751,25 @@
 		margin-top: 5px;
 	}
 
+	.lawyer-card__data-main {
+		width: 75%;
+	}
+
+	.lawyer-consultation-heading {
+		display: block;
+	}
+
+	.lawyer-consultation-btn {
+		margin-top: 15px;
+	}
+
+	.lawyer-card__top {
+		margin-bottom: 40px;
+	}
+
+	.user__revirwes-item-title {
+		font-size: 16px;
+	}
 }
 
 
@@ -1048,6 +1091,54 @@
 
 	blockquote {
 		padding: 17px 20px 17px 24px;
+	}
+
+	.lawyer-card__data {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.lawyer-card__data-main {
+		width: 100%;
+	}
+
+	.lawyer-card__activity {
+		display: none;
+	}
+
+	.lawyer-card__activity-mob {
+		display: flex;
+		justify-content: flex-start;
+		margin-bottom: 15px;
+	}
+
+	.lawyer-card__activity-mob .lawyer-card__activity-item {
+		margin-right: 10px;
+	}
+
+	.lawyer-card__activity-mob .lawyer-card__activity-item:last-child {
+		margin-left: 0;
+	}
+
+	.lawyer-card__data-aside {
+		align-items: center;
+	}
+
+	.lawyer-card__content {
+		width: 100%;
+	}
+
+	.lawyer-card__content {
+		padding-bottom: 30px;
+	}
+
+	.lawyer-card__contacts {
+		padding-bottom: 50px;
+	}
+
+	.user__revirwes-main {
+		width: 100%;
+		padding-bottom: 40px;
 	}
 
 }
@@ -1984,6 +2075,87 @@
 	.lawyer-chat__heading {
 		border-top: 1px solid rgba(191, 191, 191, .6);
 	}
+
+	.lawyer-card__avatar {
+		width: 100px;
+		height: 100px;
+	}
+
+	.lawyer-card__avatar-wrap .best-workers__avatar-online {
+		bottom: 10px;
+		left: 15px;
+	}
+
+	.lawyer-card__activity-item {
+		font-size: 12px;
+	}
+
+	.lawyer-card__avatar-wrap {
+		margin-right: 10px;
+		margin-top: 10px;
+	}
+
+	.lawyer-card__flex {
+		width: 100%;
+	}
+
+	.lawyer-card__state {
+		width: 70px;
+		font-size: 12px;
+	}
+
+	.lawyer-card__online {
+		color: #ffffff;
+		font-size: 12px;
+	}
+
+	.lawyer-card__main-info-img {
+		flex-shrink: 0;
+		width: 20px;
+		height: 20px;
+		margin-right: 10px;
+	}
+
+	.lawyer-card__main-info-desc {
+		font-size: 14px;
+	}
+
+	.lawyer-card__main {
+		margin-bottom: 30px;
+	}
+
+	.lawyer-section-title {
+		font-size: 15px;
+	}
+
+
+	.lawyer-services {
+		margin-bottom: 30px;
+	}
+
+
+	.lawyer-services-item-title {
+		font-size: 12px;
+	}
+
+	.lawyer-services-item-price-value {
+		font-size: 12px;
+		font-weight: 700;
+	}
+
+
+	.lawyer-specialization {
+		margin-bottom: 30px;
+	}
+
+	.lawyer-career {
+		margin-bottom: 30px;
+	}
+
+	.lawyer-consultation-item-title {
+		width: 100%;
+	}
+
 }
 
 @media screen and (max-width: 460px) {
@@ -2480,6 +2652,70 @@
 		background-size: contain;
 	}
 
+	.lawyer-card__avatar {
+		width: 60px;
+		height: 60px;
+	}
+
+	.lawyer-card__avatar-wrap .best-workers__avatar-online {
+		bottom: 10px;
+		left: 5px;
+	}
+
+	.lawyer-card__mob {
+		position: relative;
+		width: 100%;
+		left: -60px;
+		top: 15px;
+		margin-bottom: 20px;
+	}
+
+	.lawyer-card__info {
+		display: block;
+	}
+
+	.lawyer-specialization-item-img {
+		flex-shrink: 0;
+		width: 30px;
+		height: 30px;
+		margin-right: 10px;
+	}
+
+	.lawyer-specialization-item-title {
+		font-size: 12px;
+	}
+
+	.lawyer-consultation-item-answer {
+		font-size: 12px;
+	}
+
+	.lawyer-reviewes__heading {
+		display: block;
+	}
+
+	.lawyer-reviewes__heading-wrap {
+		margin-left: 0;
+		margin-top: 15px;
+	}
+
+	.lawyer-reviewes__write {
+		width: 47%;
+		font-size: 12px;
+	}
+
+	.lawyer-reviewes__look {
+		width: 47%;
+		padding: 0 5px;
+		font-size: 12px;
+	}
+
+	.user__revirwes-item {
+		padding: 10px;
+	}
+
+	.user__revirwes-item-title {
+		font-size: 14px;
+	}
 }
 
 @media screen and (max-width: 350px) {
@@ -2608,6 +2844,10 @@
 
 	.docs__order-tab-item {
 		margin-bottom: 15px;
+	}
+
+	.lawyer-card__main-info-desc {
+		font-size: 12px;
 	}
 }
 

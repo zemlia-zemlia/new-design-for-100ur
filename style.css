@@ -6504,10 +6504,6 @@ blockquote span {
 	left: 40px;
 }
 
-.lawyer-card__data-wrap {
-	width: 
-}
-
 .lawyer-card__person {
 	margin-bottom: 10px;
 	color: #ffffff;
@@ -6543,7 +6539,6 @@ blockquote span {
 .lawyer-card__info {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
 	flex-wrap: wrap;
 	margin-bottom: 30px;
 }
@@ -6552,6 +6547,7 @@ blockquote span {
 	display: flex;
 	align-items: center;
 	margin-bottom: 5px;
+	margin-right: 10px;
 }
 
 .lawyer-card__info-item-img {
@@ -6592,6 +6588,10 @@ blockquote span {
 	align-items: flex-end;
 	width: 198px;
 	padding-top: 10px;
+}
+
+.lawyer-card__activity-mob {
+	display: none;
 }
 
 .lawyer-card__activity {
@@ -6646,6 +6646,7 @@ blockquote span {
 
 .lawyer-card__content {
 	width: 96%;
+	padding-bottom: 60px;
 }
 
 .lawyer-card__main {
@@ -6673,7 +6674,7 @@ blockquote span {
 
 .lawyer-card__main-info-img {
 	flex-shrink: 0;
-	width: 33px;
+	width: 35px;
 	height: 29px;
 	margin-right: 14px;
 }
@@ -6757,6 +6758,10 @@ blockquote span {
 	font-size: 14px;
 }
 
+.lawyer-career {
+	margin-bottom: 75px;
+}
+
 .lawyer-career .lawyer-section-title {
 	margin-bottom: 15px;
 }
@@ -6798,5 +6803,262 @@ blockquote span {
 }
 
 .lawyer-career-info-desc {
+	font-size: 14px;
+}
+
+.lawyer-consultation {
+	margin-bottom: 50px;
+}
+
+.lawyer-consultation-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+
+.lawyer-consultation-btn {
+	width: 239px;
+	height: 39px;
+	border-radius: 8px;
+	background-color: #017052;
+	color: #fff;
+	font-size: 14px;
+}
+
+.lawyer-consultation-item {
+	padding: 20px 0;
+	border-bottom: 1px solid #e3e7ec;
+}
+
+.lawyer-consultation-item-title {
+	width: 75%;
+	margin-bottom: 15px;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.lawyer-consultation-item-desc {
+	margin-bottom: 10px;
+	font-size: 14px;
+}
+
+.lawyer-consultation-data {
+	display: flex;
+	margin-bottom: 20px;
+	color: rgba(0, 12, 20, .5);
+	font-size: 13px;
+}
+ 
+.lawyer-consultation-data-item:first-child {
+	margin-right: 20px;
+}
+
+.lawyer-consultation-item-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.lawyer-consultation-item-footer .archive-questions__btn {
+	margin-left: 0;
+	width: 110px;
+}
+
+.lawyer-consultation-item-answer {
+	color: #2b70bc;
+	font-size: 14px;
+	text-decoration: underline;
+}
+
+.lawyer-reviewes__heading {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 5px;
+}
+
+.lawyer-reviewes__heading-wrap {
+	display: flex;
+	margin-left: 5px;
+}
+
+.lawyer-reviewes__write {
+	width: 142px;
+	height: 40px;
+	margin-right: 14px;
+	border-radius: 8px;
+	border: 1px solid #2b70bc;
+	font-size: 14px;
+}
+
+.lawyer-reviewes__look {
+	width: 184px;
+	height: 40px;
+	border-radius: 8px;
+	background-color: #017052;
+	color: #fff;
+	font-size: 14px;
+}
+
+.lawyer-reviewes__item {
+	padding: 20px 0;
+	border-bottom: 1px solid #e3e7ec;
+}
+
+.lawyer-reviewes__item-heading {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 15px;
+}
+
+.lawyer-reviewes__item-title {
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.lawyer-reviewes__rate {
+	display: flex;
+	margin-left: 10px;
+	font-size: 14px;
+}
+
+.lawyer-reviewes__rate-value {
+	margin-left: 3px;
+	font-weight: 700;
+}
+
+.lawyer-reviewes__item-desc {
+	margin-bottom: 20px;
+	font-size: 14px;
+}
+
+.lawyer-reviewes__data {
+	display: flex;
+	align-items: center;
+}
+
+.lawyer-reviewes__data-item {
+	color: rgba(0, 12, 20, .5);
+	font-size: 13px;
+}
+
+.lawyer-reviewes__data-item:first-child {
+	margin-right: 20px;
+}
+
+.lawyer-card__contacts .lawyer-section-title {
+	margin-bottom: 20px;
+}
+
+.lawyer-card__contacts-item {
+	position: relative;
+	margin-bottom: 15px;
+	padding-left: 26px;
+	font-size: 14px;
+}
+
+.lawyer-card__contacts-item::before {
+	content: '';
+	position: absolute;
+	top: 60%;
+	transform: translateY(-50%);
+	left: 0;
+	width: 14px;
+	height: 14px;
+}
+
+.lawyer-card__contacts-schelude {
+	background-image: url(img/lawyer-card-contacts-schelude.png);
+	background-repeat: no-repeat;
+}
+
+.lawyer-card__contacts-adress {
+	background-image: url(img/lawyer-card-contacts-adress.png);
+	background-repeat: no-repeat;
+}
+
+.lawyer-card__contacts-map {
+	width: 100%;
+	height: 250px;
+}
+
+.lawyer-card__contacts-map iframe {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.lawyer-social__list {
+	display: flex;
+	justify-content: space-between;
+	width: 145px;
+	margin: 0 auto;
+}
+
+.lawyer-social__link {
+	width: 28px;
+	height: 28px;
+}
+
+/* ------------------ User reviewes --------------------*/
+
+.user__revirwes-title {
+	margin-bottom: 30px;
+	text-align: center;
+	font-size: 20px;
+	font-weight: 600;
+}
+
+.user__revirwes-title--bold {
+	color: #1c77a4;
+	font-size: 24px;
+	font-weight: 700;
+}
+
+.user__revirwes-main {
+	width: 96%;
+	padding-bottom: 60px;
+}
+
+.user__revirwes-item {
+	margin-bottom: 20px;
+	padding: 20px;
+	border-radius: 10px;
+	border: 1px solid #e5e5e5;
+}
+
+.user__revirwes-heading {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+	color: rgba(0, 12, 20, .5);
+	font-size: 13px;
+}
+
+.user__revirwes-heading-item:first-child {
+	margin-right: 20px;
+}
+
+.user__revirwes-rate {
+	display: flex;
+	margin-bottom: 10px;
+	color: #00120d;
+	font-size: 14px;
+}
+
+.user__revirwes-rate-value {
+	margin-left: 3px;
+	font-weight: 700;
+}
+
+.user__revirwes-item-title {
+	margin-bottom: 10px;
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.user__revirwes-item-desc {
 	font-size: 14px;
 }
