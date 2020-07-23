@@ -2151,6 +2151,8 @@ button:active {
 .footer {
 	padding: 30px 0;
 	background-color: rgba(1, 112, 82, .88);
+	background-image: url(img/consultations-bg.png);
+	background-repeat: repeat;
 	color: #fafdff;
 	font-size: 14px;
 }
