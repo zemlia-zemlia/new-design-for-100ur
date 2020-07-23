@@ -384,6 +384,19 @@
 	.question-loged__feedback {
 		width: 75%;
 	}
+
+	.question-unloged__lawyer-top {
+		display: block;
+		margin-bottom: 5px;
+	}
+
+	.lawyer-catalog__item .question-unloged__lawyer-wrap {
+		width: auto;
+	}
+
+	.lawyer-skills {
+		max-width: 100%;
+	}
 }
 
 @media screen and (max-width: 920px) {
@@ -667,6 +680,11 @@
 		width: 100%;
 		margin-bottom: 40px;
 	}
+
+	.lawyer-catalog__item .lawyer-online {
+		margin-top: 5px;
+	}
+
 }
 
 
@@ -1881,6 +1899,33 @@
 		margin: 0 10px;
 	}
 
+	.lawyer-catalog__item .lawyer-online {
+		margin-top: 0;
+	}
+
+	.lawyer-catalog__item .question-unloged__lawyer-proffesion {
+		margin-bottom: 15px;
+	}
+
+	.lawyer-catalog-offer {
+		width: 60%;
+	}
+
+	.lawyer-catalog-offer-item {
+		font-size: 12px;
+	}
+
+	.lawyer-stage {
+		margin-left: 5px;
+	}
+
+	.resource__desc ol li {
+		font-size: 14px;
+	}
+
+	.resource__desc ol li a {
+		font-size: 14px;
+	} 
 }
 
 @media screen and (max-width: 460px) {
@@ -2358,6 +2403,14 @@
 	}	
 
 	.account__finances-form {
+		width: 100%;
+	}
+
+	.lawyer-catalog__item .question-unloged__lawyer-footer {
+		display: block;
+	}
+
+	.lawyer-catalog-offer {
 		width: 100%;
 	}
 

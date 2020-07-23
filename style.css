@@ -4072,29 +4072,19 @@ button:active {
 	text-align: center;
 }
 
-.resource__nav {
+.resource__desc ol {
 	margin-bottom: 27px;
-}
-
-.resource__nav h3 {
-	margin-bottom: 8px;
-	color: #000000;
-	font-size: 18px;
-	font-weight: 700;
-}
-
-.resource__nav ol {
 	padding-left: 17px;
 }
 
-.resource__nav li {
+.resource__desc ol li {
 	margin-bottom: 5px;
 	color: #000000;
 	font-size: 16px;
 	font-weight: 600;
 }
 
-.resource__nav a {
+.resource__desc ol li a {
 	color: #1c77a4;
 	font-weight: 400;
 }
@@ -4103,7 +4093,7 @@ button:active {
 	margin-bottom: 35px;
 }
 
-.resource__desc p {
+.resource__desc  p {
 	margin-bottom: 15px;
 	line-height: 1.5;
 }
@@ -4127,13 +4117,13 @@ button:active {
 	margin-bottom: 16px;
 }
 
-.resource__desc li {
+.resource__desc ul li {
 	position: relative;
 	margin-bottom: 12px;
 	padding-left: 30px;
 }
 
-.resource__desc li::before {
+.resource__desc ul li::before {
 	content: '';
 	position: absolute;
 	top: 5px;
@@ -4156,14 +4146,10 @@ blockquote span {
 	font-weight: 700;
 }
 
-.resource__desc-img {
-	margin-bottom: 20px;
-}
-
-.resource__desc-img img {
+.resource__desc img {
 	width: 100%;
-	height: 100%;
 	object-fit: cover;
+	margin-bottom: 20px;
 }
 
 .resource__social {
@@ -4201,6 +4187,7 @@ blockquote span {
 .resource__download-item {
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 	margin-bottom: 10px;
 }
 
@@ -4308,7 +4295,7 @@ blockquote span {
 .resource__aside-nav {
 	margin-bottom: 20px;
 	padding-top: 30px;
-	padding-bottom: 10px;
+	padding-bottom: 20px;
 	border-radius: 8px;
 	border: 1px solid #dfe3e9;
 }
@@ -4735,12 +4722,13 @@ blockquote span {
 	border: 1px solid #1c77a4;
 }
 
-.news-article__img {
+.news-article img {
+	display: block;
 	margin-bottom: 30px;
-	padding-top: 55.92%;
+	width: 100%;
 }
 
-.news-article__desc p {
+.news-article p {
 	margin-bottom: 20px;
 	line-height: 1.5;
 }
@@ -6190,4 +6178,244 @@ blockquote span {
 	display: flex;
 	align-items: center;
 	padding: 17px 14px;
+}
+
+.news-article__loged {
+	margin-bottom: 35px;
+}
+
+.news-article__loged-wrap {
+	margin-bottom: 30px;
+}
+
+.news-article__loged-label {
+	display: block;
+	margin-bottom: 10px;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.news-article__loged-input {
+	min-height: 202px;
+	border-radius: 10px;
+	border: 1px solid #e5e5e5;
+}
+
+.news-article__loged-input textarea {
+	display: block;
+	width: 100%;
+	min-height: 202px;
+}
+
+.news-article__loged-send {
+	width: 166px;
+	height: 50px;
+	border-radius: 8px;
+	background-color: #017052;
+	color: #fff;
+}
+
+/* ------------------ Lawyer-catalog --------------------*/
+
+.lawyer-catalog {
+	width: 96%;
+}
+
+.lawyer-rate {
+	display: flex;
+	align-items: center;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.lawyer-rate-img {
+	width: 12px;
+	height: 12px;
+	margin-right: 3px;
+}
+
+.lawyer-rate-value {
+	color: #2b70bc;
+	font-size: 12px;
+}
+
+.lawyer-catalog__item .question-unloged__lawyer-proffesion {
+	display: block;
+}
+
+.lawyer-catalog__item .question-unloged__lawyer-wrap {
+	width: 250px;
+}
+
+.lawyer-phone {
+	display: flex;
+	align-items: center;
+	margin-bottom: 5px;
+}
+
+.lawyer-phone-value {
+	flex-shrink: 0;
+	width: 94px;
+	overflow: hidden;
+	display: block;
+	margin-right: 6px;
+	color: #000810;
+	font-size: 14px;
+	font-weight: 700;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.lawyer-phone-value.active {
+	width: 110px;
+	overflow: visible;
+}
+
+.lawyer-phone-show {
+	cursor: pointer;
+	color: #000810;
+	font-size: 14px;
+	text-decoration: underline;
+}
+
+.lawyer-location {
+	display: flex;
+	align-items: center;
+}
+
+.lawyer-location-img {
+	width: 13px;
+	height: 18px;
+	margin-right: 6px;
+}
+
+.lawyer-location-value {
+	color: #017052;
+	font-size: 14px;
+	text-decoration: underline;
+}
+
+.question-unloged__lawyer-top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.lawyer-state {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 75px;
+	height: 22px;
+	border-radius: 5px;
+	border: 1px solid #2b70bc;
+	font-size: 12px;
+}
+
+.lawyer-stage {
+	font-size: 12px;
+	text-align: right;
+}
+
+.lawyer-skills {
+	max-width: 70%;
+	margin-bottom: 20px;
+	padding: 14px;
+	border-radius: 8px;
+	background-color: #2b70bc;
+	color: #fff;
+	font-size: 12px;
+}
+
+.lawyer-catalog-offer {
+	width: 50%;
+	padding-top: 20px;
+	border-top: 1px solid #e5e5e5;
+}
+
+.lawyer-catalog-offer-item {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 5px;
+	font-size: 14px;
+}
+
+.lawyer-catalog-offer-item-value--colored {
+	color: #2b70bc;
+}
+
+
+.lawyer-catalog__item .question-unloged__lawyer-footer {
+	align-items: flex-end;
+}
+
+.lawyer-filter {
+	margin-bottom: 25px;
+	padding: 25px 0 35px;
+	border-radius: 8px;
+	border: 1px solid #1a77a3;
+	background-color: #017052;
+	background-image: url(img/advice-form-bg.png);
+	background-position: left top;
+}
+
+.lawyer-filter-inner {
+	width: 240px;
+	margin: 0 auto;	
+}
+
+.lawyer-filter-secondary-title {
+	margin-bottom: 25px;
+	color: #fafdff;
+	font-size: 16px;
+	text-align: center;
+}
+
+.lawyer-filter-secondary-title--bold {
+	font-size: 24px;
+	font-weight: 700;
+}
+
+.lawyer-filter-title {
+	margin-bottom: 20px;
+	color: #fafdff;
+	font-size: 20px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.lawyer-filter .form-input-label {
+	color: #fff;
+}
+
+.lawyer-filter .checkbox-wrap {
+	display: block;
+}
+
+.lawyer-filter .checkbox + label {
+	margin-bottom: 14px;
+	color: #fafdff;
+	font-size: 12px;
+}
+
+.lawyer-filter-default {
+	display: flex;
+	align-items: center;
+	margin-bottom: 30px;
+}
+
+.lawyer-filter-default-img {
+	width: 18px;
+	height: 18px;
+	margin-right: 6px;
+}
+
+.lawyer-filter-default-title {
+	color: #fafdff;
+	font-size: 12px;
+	text-decoration: underline;
+}
+
+.lawyer-catalog__item .lawyer-online {
+	width: auto;
 }
