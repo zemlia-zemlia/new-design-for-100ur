@@ -6292,10 +6292,6 @@ blockquote span {
 	white-space: nowrap;
 }
 
-.lawyer-phone-value.active {
-	width: 110px;
-	overflow: visible;
-}
 
 .lawyer-phone-show {
 	cursor: pointer;
@@ -6618,20 +6614,18 @@ blockquote span {
 }
 
 .lawyer-card__data-aside .lawyer-phone-value {
+
 	width: 150px;
+
 	color: #ffffff;
 	font-size: 18px;
 	font-weight: 700;
+	overflow: visible;
 }
 
-.lawyer-card__data-aside .lawyer-phone-value.active {
-	width: 150px;
-}
 
-.lawyer-phone-show {
-	color: #ffffff;
-	font-size: 14px;
-}
+
+
 
 .lawyer-card__chat {
 	width: 147px;
