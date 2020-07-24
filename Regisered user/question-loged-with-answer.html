@@ -26,6 +26,7 @@
 	<!-- Подключение файлов стилей -->
 	<link rel="stylesheet" href="lib/jquery-ui-1.12.1.custom/jquery-ui.min.css">
 	<link rel="stylesheet" href="../lib/bootstrap/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="../lib/jquery-modal-master/jquery.modal.min.css">
 	<link rel="stylesheet" href="../style.css"> 
 	<link rel="stylesheet" href="../css/media.css"> 
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"> 
@@ -306,7 +307,7 @@
 									</div>
 									<div class="question-loged__feedback">
 										<div class="question-loged__feedback-title">Ваш вопрос решен?</div>
-										<button class="main-btn question-loged__feedback-btn">Да</button>
+										<a href=""  class="main-btn question-loged__feedback-btn">Да</a>
 									</div>
 								</div>
 							</div>
@@ -381,7 +382,7 @@
 								<div class="question-loged__comment">
 									<div class="question-loged__feedback">
 										<div class="question-loged__feedback-title">Ваш вопрос решен?</div>
-										<button class="main-btn question-loged__feedback-btn">Да</button>
+										<a href="#ex9" rel="modal:open" class="main-btn question-loged__feedback-btn">Да</a>
 									</div>
 								</div>
 							</div>
@@ -619,12 +620,61 @@
 			</div>
 		</div>
 	</footer>
+
+		<div id="ex9" class="modal popup-reviewes">
+	  	<div class="popup-reviewes-title">Оставьте отзыв о работе юриста</div>
+	  	<form action="" class="popup-reviewes__form">
+	  		<div class="form-input-wrap">
+					<label for="" class="form-input-label">Ваше имя</label>
+					<div class="form-input">
+						<input type="text" name="theme" placeholder="Мария Симонова">
+					</div>
+				</div>
+				<div class="form-input-wrap">
+					<label for="" class="form-input-label">Заголовок отзыва</label>
+					<div class="form-input">
+						<input type="text" name="theme" placeholder="">
+					</div>
+				</div>
+				<div class="form-input-wrap">
+					<label for="" class="form-input-label">Текст отзыва (подробнее)</label>
+					<div class="form-input-textarea">
+						<textarea name="" id="" placeholder=""></textarea>
+					</div>
+				</div>
+				<p class="form-input-label">Ваша оценка</p>
+				<div class="radio-wrap">
+					<input type="radio"  id="rate1" name="deliverybtn" value="delivery" class="radio">
+					<label for="rate1">5</label>
+					<input type="radio"  id="rate2" name="deliverybtn" value="delivery" class="radio">
+					<label for="rate2">4</label>
+					<input type="radio"  id="rate3" name="deliverybtn" value="delivery" class="radio">
+					<label for="rate3">3</label>
+					<input type="radio"  id="rate4" name="deliverybtn" value="delivery" class="radio">
+					<label for="rate4">2</label>
+					<input type="radio"  id="rate5" name="deliverybtn" value="delivery" class="radio">
+					<label for="rate5">1</label>
+				</div>
+				<input type="submit" value="Оставить отзыв" class="main-btn popup-reviewes__btn">
+	  	</form>
+		</div>
+
+		<div id="ex10" class="modal popup-thanks">
+			<div class="popup-thanks-img img">
+				<img src="../img/popup-thanks-img.png" alt="">	
+			</div>
+				<div class="popup-thanks-desc">
+					<div class="">Спасибо!</div>
+					<div class="">Ваш отзыв успешно отправлен</div>
+				</div>		
+		</div>
+		
 	
 	<script src="../jquery/jquery-3.4.1.min.js"></script>
 	<script src="../lib/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 	<script src="../lib/swiper/swiper.min.js"></script>
-	<script src="lib/bootstrap/bootstrap.min.js"></script>
 	<script src="../lib/jquery.maskedinput.js"></script>
+	<script src="../lib/jquery-modal-master/jquery.modal.min.js"></script>
 	<script src="../js/main.js"></script>
 </body>
 </html>

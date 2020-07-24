@@ -1,3 +1,9 @@
+@media screen and (max-width: 1470px) {
+	.thsnks-bg {
+		background-position: right -160px top -110px; 
+	}
+}
+
 @media screen and (max-width: 1360px) {
 	.selling__main-bg {
 		width: 70vw;
@@ -57,6 +63,10 @@
 
 	.lawyer-card__data-main {
 		width: 65%;
+	}
+
+	.thanks__title {
+		font-size: 24px;
 	}
 }
 
@@ -250,6 +260,10 @@
 
 	.lawyer-card__person {
 		font-size: 18px;
+	}
+
+	.thsnks-bg {
+		background-position: right -360px top -110px; 
 	}
 }
 
@@ -770,6 +784,10 @@
 	.user__revirwes-item-title {
 		font-size: 16px;
 	}
+
+	.thanks__subtitle {
+		font-size: 16px;
+	}
 }
 
 
@@ -1141,6 +1159,54 @@
 		padding-bottom: 40px;
 	}
 
+	.thsnks-bg {
+		background-image: none;
+	}
+
+	.thanks__content {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.thanks__title {
+		text-align: center;
+	}
+
+	.thanks__subtitle {
+		text-align: center;
+	}
+
+	.radio-wrap-title {
+		text-align: center;
+	}
+
+	.thanks__form .radio-wrap {
+		justify-content: center;
+	}
+
+	.thanks__input-label {
+		text-align: center;
+	}
+
+	.thanks__input-inner {
+		justify-content: center;
+	}
+
+	.popup-reviewes {
+		padding: 40px 15px;
+	}
+
+	.popup-reviewes__form {
+		width: 100%;
+		margin: 0 auto;
+	}
+
+	.popup-reviewes__form .radio-wrap {
+		width: 100%;
+		margin-bottom: 20px;
+	}
 }
 
 
@@ -2156,6 +2222,33 @@
 		width: 100%;
 	}
 
+	.thanks__title {
+		font-size: 18px;
+	}
+
+	.thanks__subtitle {
+		font-size: 14px;
+	}
+
+	.radio-wrap-title {
+		font-size: 14px;
+	}
+
+	.thanks__input-label {
+		font-size: 14px;
+	}
+
+	.thanks__form-footer {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.thanks__form-btn {
+		margin-right: 0px;
+		margin-bottom: 20px;
+	}
+
+
 }
 
 @media screen and (max-width: 460px) {
@@ -2716,6 +2809,11 @@
 	.user__revirwes-item-title {
 		font-size: 14px;
 	}
+
+	.thanks__form .radio-wrap {
+		flex-direction: row;
+	}
+
 }
 
 @media screen and (max-width: 350px) {

@@ -108,7 +108,7 @@ button:active {
 }
 
 .inner {
-	padding-bottom: 267px;
+	padding-bottom: 50px;
 }
 
 
@@ -6592,15 +6592,15 @@ blockquote span {
 	padding-top: 10px;
 }
 
-.lawyer-card__activity-mob {
-	display: none;
-}
-
 .lawyer-card__activity {
 	display: flex;
 	justify-content: space-between;
 	flex-wrap: wrap;
 	margin-bottom: 26px;
+}
+
+.lawyer-card__activity-mob {
+	display: none;
 }
 
 .lawyer-card__activity-item {
@@ -7064,3 +7064,186 @@ blockquote span {
 .user__revirwes-item-desc {
 	font-size: 14px;
 }
+
+/* ------------------ Thanks --------------------*/
+
+.thsnks-bg {
+	padding: 25px 0 75px 0;
+	background-color: #fafdff;
+	background-image: url(img/thanks-bg.png);
+	background-repeat: no-repeat;
+	background-position: right -70px top -110px; 
+}
+
+.thsnks-bg .breadcrumbs {
+	margin-top: 0;
+}
+
+.thanks__content {
+	width: 60%;
+}
+
+.thanks__title {
+	margin-bottom: 15px;
+	font-size: 30px;
+	font-weight: 700;
+}
+
+.thanks__subtitle {
+	margin-bottom: 15px;
+	font-size: 18px;
+}
+
+.radio-wrap-title {
+	margin-bottom: 10px;
+	font-size: 16px;
+}
+
+.thanks__form .radio-wrap {
+	display: flex;
+	width: auto;
+	justify-content: flex-start;
+	margin-bottom: 20px;
+}
+
+.thanks__form .radio-wrap input {
+	width: auto;
+}
+
+.thanks__form .radio + label::after {
+	display: none;
+}
+
+.thanks__form .radio + label::before {
+	display: none;
+}
+
+.thanks__form .radio + label {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 82px;
+	height: 40px;
+	margin-right: 8px;
+	padding-left: 0;
+	border-radius: 8px;
+	border: 1px solid #e5e5e5;
+	background-color: #ffffff;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.thanks__form .radio:checked + label {
+	border: 1px solid #568fcc;
+	color: #000c14;
+}
+
+.thanks__input-wrap {
+	margin-bottom: 30px;
+}
+
+.thanks__input-label {
+	display: block;
+	margin-bottom: 15px;
+	font-size: 16px;
+}
+
+.thanks__input-inner {
+	display: flex;
+	align-items: center;
+}
+
+.thanks__input {
+	width: 82px;
+	height: 40px;
+	margin-right: 15px;
+}
+
+.thanks__input input {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border-radius: 8px;
+	border: 1px solid #e5e5e5;
+	background-color: #fafdff;
+}
+
+.thanks__input-currency {
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.thanks__form-footer {
+	display: flex;
+	align-items: center;
+}
+
+.thanks__form-btn {
+	width: 223px;
+	height: 50px;
+	margin-right: 20px;
+	border-radius: 8px;
+	background-color: #017052;
+	color: #fff;
+}
+
+.thanks__payment {
+	width: 180px;
+	height: 47px;
+}
+
+.thanks-inner {
+	padding-bottom: 0;
+}
+
+.popup-reviewes {
+	max-width: 920px;
+	padding: 40px 0;
+}
+
+.popup-reviewes-title {
+	margin-bottom: 20px;
+	font-size: 18px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.popup-reviewes__form {
+	width: 544px;
+	margin: 0 auto;
+}
+
+.popup-reviewes__form .radio-wrap {
+	width: 300px;
+	margin-bottom: 20px;
+}
+
+.popup-reviewes__btn {
+	width: 201px;
+	height: 50px;
+	margin: 0 auto;
+	border-radius: 8px;
+	background-color: #017052;
+	color: #fff;
+}
+
+.popup-thanks {
+	max-width: 600px;
+	padding: 40px 0;
+}
+
+.popup-thanks-img {
+	width: 58px;
+	height: 58px;
+	margin: 0 auto;
+	margin-bottom: 15px;
+}
+
+.popup-thanks-desc {
+	font-size: 18px;
+	font-weight: 700;
+	text-align: center;
+}
+
+
+
