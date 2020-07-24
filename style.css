@@ -6284,9 +6284,6 @@ blockquote span {
 
 .lawyer-phone-value {
 	flex-shrink: 0;
-	width: 94px;
-	overflow: hidden;
-	display: block;
 	margin-right: 6px;
 	color: #000810;
 	font-size: 14px;
@@ -6621,14 +6618,14 @@ blockquote span {
 }
 
 .lawyer-card__data-aside .lawyer-phone-value {
-	width: 121px;
+	width: 150px;
 	color: #ffffff;
 	font-size: 18px;
 	font-weight: 700;
 }
 
 .lawyer-card__data-aside .lawyer-phone-value.active {
-	width: 140px;
+	width: 150px;
 }
 
 .lawyer-phone-show {
@@ -7243,6 +7240,10 @@ blockquote span {
 	font-size: 18px;
 	font-weight: 700;
 	text-align: center;
+}
+
+.color-black {
+	color: #000;
 }
 
 
