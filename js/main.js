@@ -335,10 +335,6 @@ $('#account__tab-container').tabs({
     $('#docs__order-tab').tabs("load", hash) 
   } 
 
-  $('.lawyer-phone-show').on('click touch', function(){
-    $('.lawyer-phone-value').toggleClass('active');
-  });
-
 
   $('#lawyer-career-tab').tabs({
     beforeActivate : function(evt) {
