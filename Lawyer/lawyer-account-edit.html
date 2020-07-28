@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<!-- Переключение IE в последнию версию, на случай если в настройках пользователя стоит меньшая -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<!-- Адаптирование страницы для мобильных устройств -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- Запрет распознования номера телефона -->
+	<meta name="format-detection" content="telephone=no">
+	<meta name="SKYPE_TOOLBAR" content ="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+
+	<!-- Заголовок страницы -->
+	<title>100 Юристов</title>
+
+	<!-- Данное значение часто используют(использовали) поисковые системы -->
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+
+	<!-- Традиционная иконка сайта, размер 16x16, прозрачность поддерживается. Рекомендуемый формат: .ico или .png -->
+	<link rel="shortcut icon" href="img/favicon.ico">
+
+	<!-- Подключение файлов стилей -->
+	<link rel="stylesheet" href="lib/jquery-ui-1.12.1.custom/jquery-ui.min.css">
+	<link rel="stylesheet" href="../lib/bootstrap/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="../style.css"> 
+	<link rel="stylesheet" href="../css/media.css"> 
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"> 
+</head>
+<body>
+	
+	<!-- Header -->
+	<div class="wrapper">
+		<div class="inner">
+			<header class="header">
+				<div class="header__mob">
+					<div class="container">
+						<div class="header__mob-wrap">
+							<div class="nav-mob-wrap img">
+								<img src="../img/nav-open.png" alt="" class="nav-open">
+								<img src="../img/nav-close.png" alt="" class="nav-close">
+							</div>
+							<nav class="nav-mob">
+								<div class="nav-mob-close img">
+									<img src="../img/nav-mob-close.png" alt="">
+								</div>
+								<div class="nav-mob__title">Меню</div>
+								<ul class="nav-mob-list">
+									<li class="nav-mob-item">
+										<a href="" class="nav-mob-link nav-mob-link--active">Новые вопросы</a>
+									</li>
+									<li class="nav-mob-item">
+										<a href="" class="nav-mob-link">Чат</a>
+									</li>
+									<li class="nav-mob-item">
+										<a href="" class="nav-mob-link">Заказы документов <span class="header-question-value">(2)</span></a>
+									</li>
+									<li class="nav-mob-item">
+										<a href="" class="nav-mob-link">Обновления для меня<span class="header-question-value">(1)</span></a>
+									</li>
+								</ul>
+							</nav>
+							<a href="" class="logo-mob img">
+								<img src="../img/logo.png" alt="">
+							</a>
+							<a href="" class="search-btn img">
+								<img src="../img/search-btn.png" alt="">
+							</a>
+							<form action="" class="search-form-mob">
+								<div class="search-input">
+									<a href="" class="search-input__ico img">
+										<img src="../img/feedback-search.png" alt="">
+									</a>
+									<input type="search" name="" placeholder="Поиск...">
+								</div>
+							</form>
+							<div class="login-registered">
+								<span class="header__registered-img login-registered-img img">
+									<img src="../img/header-account-img.png" alt="">
+								</span>
+								<div class="login-registered-btn img">
+									<img src="../img/login-registered-btn.png" alt="">
+								</div>
+							</div>
+							<nav class="header__user-nav header__lawyer-nav">
+								<div class="nav-mob-close img">
+									<img src="../img/nav-mob-close.png" alt="">
+								</div>
+								<a href="" class="header__registered">
+									<span class="header__registered-img img">
+										<img src="../img/header-account-img.png" alt="">
+									</span>
+									<span class="header__registered-name">Тарасова М. С.</span>
+								</a>
+								<a href="" class="header__registered-account">
+									<span class="header__registered-account-img img">
+										<img src="../img/header-registered-account-img.png" alt="">
+									</span>
+									<span class="header__registered-account-title">Личный кабинет</span>
+								</a>
+								<ul class="header__user-list">
+									<li class="header__user-item">
+										<a href="" class="header__user-link">Мои финансы</a>
+									</li>
+								</ul>
+								<a href="" class="header__user-logout">
+									<span class="header__user-logout-img img">
+										<img src="../img/header-logout.png" alt="">
+									</span>
+									<span class="header__user-logout-title">Выход</span>
+								</a>
+							</nav>
+						</div>
+					</div>	
+				</div>
+
+				<div class="header__top">
+					<div class="container">
+						<div class="row no-gutters justify-content-between align-items-center">
+							<div class="col-sm-12 col-md-auto">
+								<a href="" class="logo img">
+									<img src="../img/logo.png" alt="">
+								</a>
+							</div>
+							<div class="col-sm-6 col-md-5 col-lg-4">
+								<div class="header__user">
+									<a href="" class="header__registered">
+										<span class="header__registered-img img">
+											<img src="../img/header-account-img.png" alt="">
+										</span>
+										<span class="header__registered-name">Тарасова М. С.</span>
+									</a>
+									<div class="header__balance">
+										<div class="header__balance-title">Баланс:</div>
+										<div class="header__balance-value">0.00</div>
+									</div>
+									<a href="" class="header__user-logout img">
+										<img src="../img/header-logout.png" alt="">
+									</a>
+								</div>
+							</div>
+						</div>	
+					</div>
+				</div>
+				<div class="header__bottom">
+					<div class="container">
+						<div class="row justify-content-between align-items-center">
+							<div class="col-lg-8">
+								<nav class="main__nav">
+									<ul class="main__nav-list">
+										<li class="main__nav-item">
+											<a href="" class="main__nav-link main__nav-link--question">Новые вопросы</a>
+										</li>
+										<li class="main__nav-item">
+											<a href="" class="main__nav-link">Чат</a>
+										</li>
+										<li class="main__nav-item">
+											<a href="" class="main__nav-link">Заказы документов <span class="header-question-value">(2)</span></a>
+										</li>
+										<li class="main__nav-item">
+											<a href="" class="main__nav-link">Обновления для меня<span class="header-question-value">(1)</span></a>
+										</li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</header>
+
+			<div class="container">
+				<div class="breadcrumbs">
+					<ul class="breadcrumbs__list">
+						<li class="breadcrumbs__item">
+							<a href="../index.html" class="breadcrumbs__link">Главная</a>
+						</li>
+						<li class="breadcrumbs__item">
+							<a href="#" class="breadcrumbs__link breadcrumbs__link--active">Личный кабинет</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+
+			<!-- Crm-system -->
+			<main class="main">
+				<div class="container">
+						<div class="lawyer-account__heading">
+							<div class="lawyer-account__heading-main">
+								<h2 class="main__title">Добро пожаловать, <span class="">Мария Сергеевна</span></h2>
+								<div class="main__subtitle">Эту информацию увидят ваши будущие клиенты.Чем подробнее ваш профиль, тем выше ваш общий рейтинг и позиция в поиске.</div>
+							</div>
+							<div class="lawyer-account__activity">
+								<div class="lawyer-account__activity-item"><span class="lawyer-account__activity-item--value">10 309</span> консультаций</div>
+								<a href="" class="lawyer-account__activity-item"><span class="lawyer-account__activity-item--value">25</span> отзывов</a>
+								<div class="lawyer-account__activity-item"><span class="lawyer-account__activity-item--value">11 111</span>благодарностей</div>
+								<div class="lawyer-account__activity-item"><span class="lawyer-account__activity-item--value">5.0 </span>рейтинг</div>
+							</div>	
+						</div>
+
+						<div class="lawyer-edit">
+							<div class="lawyer-edit-title">Редактирование профиля</div>
+							<div id="lawyer-edit-tab">
+								<ul class="lawyer-edit-tab-list">
+									<li class="lawyer-edit-tab-item">
+										<a href="#tab1" class="lawyer-edit-tab-link">Общая информация и безопасность</a>
+									</li>
+									<li class="lawyer-edit-tab-item">
+										<a href="#tab2" class="lawyer-edit-tab-link">Специализация и услуги</a>
+									</li>
+									<li class="lawyer-edit-tab-item">
+										<a href="#tab3" class="lawyer-edit-tab-link">Образование и карьера</a>
+									</li>
+									<li class="lawyer-edit-tab-item">
+										<a href="#tab4" class="lawyer-edit-tab-link">Контакты и график работы </a>
+									</li>
+									<li class="lawyer-edit-tab-item">
+										<a href="#tab5" class="lawyer-edit-tab-link">Уведомления</a>
+									</li>
+								</ul>
+
+								<div id="tab1">
+									<form action="" class="account__form lawyer-general__form">
+										<div class="account__form-inner">
+											<div class="account__form-wrap">
+												<label for="" class="account__form-label">Фамилия</label>
+												<div class="account__form-input">
+													<input type="text" name="" placeholder="Симонова">
+												</div>
+											</div>
+											<div class="account__form-wrap">
+												<label for="" class="account__form-label">Имя</label>
+												<div class="account__form-input">
+													<input type="text" name="" placeholder="Мария">
+												</div>
+											</div>
+											<div class="account__form-wrap">
+												<label for="" class="account__form-label">Город</label>
+												<div class="account__form-input">
+													<input type="text" name="" placeholder="Красноярск">
+												</div>
+											</div>
+											<div class="account__form-wrap">
+												<label for="" class="account__form-label">Приветствие</label>
+												<div class="form-input-textarea">
+													<textarea name="" id="" placeholder="Опишите в нескольких словах, чем вы занимаетесь."></textarea>
+												</div>
+											</div>
+											<div class="account__form-wrap">
+												<label for="" class="account__form-label">Описание услуг</label>
+												<div class="form-input-textarea">
+													<textarea name="" id="" placeholder="Опишите предоставляемые вами услуги более подробно и причины, по которым стоит выбрать именно вас."></textarea>
+												</div>
+											</div>
+											<input type="submit" value="Сохранить" class="main-btn lawyer-form-btn">
+										</div>
+										<div class="account__form-inner">
+											<div class="account__form-wrap">
+												<label for="" class="account__form-label">Новый пароль</label>
+												<div class="account__form-input">
+													<input type="password" name="" placeholder="">
+												</div>
+											</div>
+											<div class="account__form-wrap">
+												<label for="" class="account__form-label">Новый пароль еще раз</label>
+												<div class="account__form-input">
+													<input type="password" name="" placeholder="">
+												</div>
+											</div>
+											<input type="submit" value="Сохранить" class="main-btn lawyer-form-btn">
+										</div>
+									</form>
+								</div>
+								<div id="tab2">
+									<form class="lawyer-services__form">
+										<div class="lawyer-services__form-title">Выберите ваши специлизации</div>
+										<div class="checkbox-wrap">
+											<input id="account-check-1" type="checkbox" name="check" value="check1" class="checkbox">
+											<label for="account-check-1">Авторское право</label>
+											<input id="account-check-2" type="checkbox" name="check" value="check1" class="checkbox">
+											<label for="account-check-2">Авторское право</label>
+											<input id="account-check-3" type="checkbox" name="check" value="check2" class="checkbox">
+											<label for="account-check-3">Административка</label>
+											<input id="account-check-4" type="checkbox" name="check" value="check2" class="checkbox">
+											<label for="account-check-4">Административка</label>
+											<input id="account-check-5" type="checkbox" name="check" value="check3" class="checkbox">
+											<label for="account-check-5">Банкротство</label>
+											<input id="account-check-6" type="checkbox" name="check" value="check3" class="checkbox">
+											<label for="account-check-6">Банкротство</label>
+											<input id="account-check-7" type="checkbox" name="check" value="check3" class="checkbox">
+											<label for="account-check-7">Защита прав потребителей</label>
+											<input id="account-check-8" type="checkbox" name="check" value="check3" class="checkbox">
+											<label for="account-check-8">Защита прав потребителей</label>
+											<input id="account-check-9" type="checkbox" name="check" value="check1" class="checkbox">
+											<label for="account-check-9">Авторское право</label>
+											<input id="account-check-10" type="checkbox" name="check" value="check1" class="checkbox">
+											<label for="account-check-10">Авторское право</label>
+											<input id="account-check-11" type="checkbox" name="check" value="check2" class="checkbox">
+											<label for="account-check-11">Административка</label>
+											<input id="account-check-12" type="checkbox" name="check" value="check2" class="checkbox">
+											<label for="account-check-12">Административка</label>
+											<input id="account-check-13" type="checkbox" name="check" value="check3" class="checkbox">
+											<label for="account-check-13">Банкротство</label>
+											<input id="account-check-14" type="checkbox" name="check" value="check3" class="checkbox">
+											<label for="account-check-14">Банкротство</label>
+											<input id="account-check-15" type="checkbox" name="check" value="check3" class="checkbox">
+											<label for="account-check-15">Защита прав потребителей</label>
+											<input id="account-check-16" type="checkbox" name="check" value="check3" class="checkbox">
+											<label for="account-check-16">Защита прав потребителей</label>
+											<input id="account-check-17" type="checkbox" name="check" value="check2" class="checkbox">
+											<label for="account-check-17">Административка</label>
+											<input id="account-check-18" type="checkbox" name="check" value="check2" class="checkbox">
+											<label for="account-check-18">Административка</label>
+											<input id="account-check-19" type="checkbox" name="check" value="check3" class="checkbox">
+											<label for="account-check-19">Банкротство</label>
+											<input id="account-check-20" type="checkbox" name="check" value="check3" class="checkbox">
+											<label for="account-check-20">Банкротство</label>
+											<input id="account-check-21" type="checkbox" name="check" value="check3" class="checkbox">
+											<label for="account-check-21">Защита прав потребителей</label>
+											<input id="account-check-22" type="checkbox" name="check" value="check3" class="checkbox">
+											<label for="account-check-22">Защита прав потребителей</label>
+										</div>
+										
+										<div class="lawyer-services__form-title">Укажите, какие услуги вы оказываете и сколько они стоят</div>
+										<div class="lawyer-services__form-wrap">
+											<div class="lawyer-services__item">
+												<div class="lawyer-services__item-value">1</div>
+												<div class="form-input-wrap">
+													<label for="" class="form-input-label">Тип услуги</label>
+													<div class="form-input-select">
+														<select name="" id="">
+															<option value="">Другая услуга</option>
+															<option value="">Другая услуга</option>
+															<option value="">Другая услуга</option>
+															<option value="">Другая услуга</option>
+														</select>	
+													</div>
+												</div>
+												<div class="form-input-wrap">
+													<label for="" class="form-input-label">Название услуги</label>
+													<div class="form-input">
+														<input type="text" name="name" placeholder="Как вас зовут?">
+													</div>
+												</div>
+												<div class="form-input-wrap">
+													<label for="" class="form-input-label">Условия оказания</label>
+													<div class="form-input-select">
+														<select name="" id="">
+															<option value="">Бесплатно</option>
+															<option value="">Бесплатно</option>
+															<option value="">Бесплатно</option>
+															<option value="">Бесплатно</option>
+														</select>	
+													</div>
+												</div>
+												<div class="form-input-wrap">
+													<label for="" class="form-input-label">Цена, руб.</label>
+													<div class="form-input">
+														<input type="text" name="name" placeholder="Как вас зовут?">
+													</div>
+												</div>
+												<div class="form-input-wrap">
+													<label for="" class="form-input-label">Время</label>
+													<div class="form-input-select">
+														<select name="" id="">
+															<option value="">За услугу</option>
+															<option value="">За услугу</option>
+															<option value="">За услугу</option>
+															<option value="">За услугу</option>
+														</select>	
+													</div>
+												</div>
+											</div>
+											<div class="lawyer-services__item-close img">
+												<img src="../img/lawyer-item-close.png" alt="">
+											</div>
+										</div>
+										<a href="" class="lawyer-services__item-add">+ Добавить</a>
+										<input type="submit" value="Сохранить" class="main-btn lawyer-form-btn">
+									</form>
+								</div>
+								<div id="tab3">
+									<form action="" class="lawyer-study-form">
+										<div class="lawyer-study-wrap">
+											<div class="lawyer-study-title">Укажите, где вы учились</div>
+											<div class="lawyer-study-item-wrap">
+												<div class="lawyer-study-item">
+													<div class="lawyer-services__item-value">1</div>
+													<div class="lawyer-study-item-section">
+														<div class="form-input-wrap">
+															<label for="" class="form-input-label">Название учебного заведения</label>
+															<div class="form-input">
+																<input type="text" name="name" placeholder="НГУЭУ">
+															</div>
+														</div>
+														<div class="form-input-wrap">
+															<label for="" class="form-input-label">Специальность или факультет</label>
+															<div class="form-input">
+																<input type="text" name="name" placeholder="Международного права">
+															</div>
+														</div>
+													</div>
+													<div class="lawyer-study-item-select">
+														<div class="form-input-wrap">
+															<label for="" class="form-input-label">Год поступления</label>
+															<div class="form-input-select">
+																<select name="" id="">
+																	<option value="">2019</option>
+																	<option value="">2019</option>
+																	<option value="">2019</option>
+																	<option value="">2019</option>
+																</select>	
+															</div>
+														</div>
+														<div class="form-input-wrap">
+															<label for="" class="form-input-label">Год окончания</label>
+															<div class="form-input-select">
+																<select name="" id="">
+																	<option value="">2020</option>
+																	<option value="">2020</option>
+																	<option value="">2020</option>
+																	<option value="">2020</option>
+																</select>	
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="lawyer-services__item-close img">
+													<img src="../img/lawyer-item-close.png" alt="">
+												</div>
+											</div>
+											<div class="lawyer-study-item-wrap">
+												<div class="lawyer-study-item">
+													<div class="lawyer-services__item-value">1</div>
+													<div class="lawyer-study-item-section">
+														<div class="form-input-wrap">
+															<label for="" class="form-input-label">Название учебного заведения</label>
+															<div class="form-input">
+																<input type="text" name="name" placeholder="НГУЭУ">
+															</div>
+														</div>
+														<div class="form-input-wrap">
+															<label for="" class="form-input-label">Специальность или факультет</label>
+															<div class="form-input">
+																<input type="text" name="name" placeholder="Международного права">
+															</div>
+														</div>
+													</div>
+													<div class="lawyer-study-item-select">
+														<div class="form-input-wrap">
+															<label for="" class="form-input-label">Год поступления</label>
+															<div class="form-input-select">
+																<select name="" id="">
+																	<option value="">2019</option>
+																	<option value="">2019</option>
+																	<option value="">2019</option>
+																	<option value="">2019</option>
+																</select>	
+															</div>
+														</div>
+														<div class="form-input-wrap">
+															<label for="" class="form-input-label">Год окончания</label>
+															<div class="form-input-select">
+																<select name="" id="">
+																	<option value="">2020</option>
+																	<option value="">2020</option>
+																	<option value="">2020</option>
+																	<option value="">2020</option>
+																</select>	
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="lawyer-services__item-close img">
+													<img src="../img/lawyer-item-close.png" alt="">
+												</div>
+											</div>
+											<a href="" class="lawyer-services__item-add">+ Добавить учебное заведение</a>
+										</div>
+
+										<div class="lawyer-carrer-wrap">
+											<div class="lawyer-study-title">Укажите ваш опыт работы</div>
+											<div class="lawyer-study-item-wrap">
+												<div class="lawyer-study-item">
+													<div class="lawyer-study-item-inner">
+														<div class="lawyer-services__item-value">1</div>
+														<div class="lawyer-study-item-section">
+															<div class="form-input-wrap">
+																<label for="" class="form-input-label">Название фирмы/бюро/компании</label>
+																<div class="form-input">
+																	<input type="text" name="name" placeholder="Место работы">
+																</div>
+															</div>
+														</div>
+														<div class="lawyer-study-item-select">
+															<div class="form-input-wrap">
+																<label for="" class="form-input-label">С какого года</label>
+																<div class="form-input-select">
+																	<select name="" id="">
+																		<option value="" selected disabled="">Выбрать год</option>
+																		<option value="">2019</option>
+																		<option value="">2019</option>
+																		<option value="">2019</option>
+																	</select>	
+																</div>
+															</div>
+															<div class="form-input-wrap">
+																<label for="" class="form-input-label">По какой год</label>
+																<div class="form-input-select">
+																	<select name="" id="">
+																		<option value="" selected disabled>Выбрать год</option>
+																		<option value="">2020</option>
+																		<option value="">2020</option>
+																		<option value="">2020</option>
+																	</select>	
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="lawyer-study-item-bottom">
+														<div class="form-input-wrap">
+															<label for="" class="form-input-label">Должность</label>
+															<div class="form-input">
+																<input type="text" name="name" placeholder="Юрист финансового отдела">
+															</div>
+														</div>
+														<div class="form-input-wrap">
+															<label for="" class="form-input-label">Опишите вашу деятельность на этом месте работы</label>
+															<div class="form-input-textarea">
+																<textarea name="" id="" placeholder="Юрист финансового отдела"></textarea>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="lawyer-services__item-close img">
+													<img src="../img/lawyer-item-close.png" alt="">
+												</div>
+											</div>
+											
+											<a href="" class="lawyer-services__item-add">+ Добавить место работы</a>
+										</div>
+										<input type="submit" value="Сохранить" class="main-btn lawyer-form-btn">
+									</form>
+								</div>
+								<div id="tab4">
+									<form class="lawyer-contacts-form">
+										<div class="lawyer-contacts-form-wrap">
+											<div class="form-input-wrap">
+												<label for="" class="form-input-label">Город</label>
+												<div class="form-input">
+													<input type="text" name="name" placeholder="Краснодар">
+												</div>
+											</div>
+											<div class="form-input-wrap">
+												<label for="" class="form-input-label">Веб-сайт</label>
+												<div class="form-input">
+													<input type="text" name="name" placeholder="www.marina-tarasova.ru">
+												</div>
+											</div>
+											<div class="form-input-inner">
+												<div class="form-input-wrap">
+													<label for="" class="form-input-label">Ваш номер телефона</label>
+													<div class="form-input">
+														<input type="text" id="phone" name="name" placeholder="+7 (___) ___-__-__">
+													</div>
+												</div>
+												<div class="checkbox-wrap">
+													<input id="contacts-check-1" type="checkbox" name="check" value="check1" class="checkbox">
+													<label for="contacts-check-1">Показывать в моем профиле</label>
+												</div>
+											</div>
+											<div class="form-input-inner">
+												<div class="form-input-wrap">
+													<label for="" class="form-input-label">Ваш Email</label>
+													<div class="form-input">
+														<input type="email" id="phone" name="name" placeholder="mary_simonova@mail.ru">
+													</div>
+												</div>
+												<div class="checkbox-wrap">
+													<input id="contacts-check-2" type="checkbox" name="check" value="check1" class="checkbox">
+													<label for="contacts-check-2">Показывать в моем профиле</label>
+												</div>
+											</div>
+										</div>
+
+										<div class="lawyer-schedule">
+											<div class="lawyer-schedule__title">Укажите ваш график работы</div>
+											<div class="lawyer-schedule__table">
+												<div class="lawyer-schedule__heading">
+													<div class="lawyer-schedule__heading-item">День недели</div>
+													<div class="lawyer-schedule__heading-item">Режим работы</div>
+													<div class="lawyer-schedule__heading-item lawyer-schedule__item-small">С</div>
+													<div class="lawyer-schedule__heading-item lawyer-schedule__item-small">До</div>
+												</div>
+
+												<div class="lawyer-schedule__row">
+													<div class="lawyer-schedule__item">Понедельник</div>
+													<div class="lawyer-schedule__item">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+															</select>	
+														</div>
+													</div>
+													<div class="lawyer-schedule__item lawyer-schedule__item-small">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+															</select>	
+														</div>
+													</div>
+													<div class="lawyer-schedule__item lawyer-schedule__item-small">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+															</select>	
+														</div>
+													</div>
+												</div>
+												<div class="lawyer-schedule__row">
+													<div class="lawyer-schedule__item">Вторник</div>
+													<div class="lawyer-schedule__item">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+															</select>	
+														</div>
+													</div>
+													<div class="lawyer-schedule__item lawyer-schedule__item-small">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+															</select>	
+														</div>
+													</div>
+													<div class="lawyer-schedule__item lawyer-schedule__item-small">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+															</select>	
+														</div>
+													</div>
+												</div>
+												<div class="lawyer-schedule__row">
+													<div class="lawyer-schedule__item">Среда</div>
+													<div class="lawyer-schedule__item">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+															</select>	
+														</div>
+													</div>
+													<div class="lawyer-schedule__item lawyer-schedule__item-small">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+															</select>	
+														</div>
+													</div>
+													<div class="lawyer-schedule__item lawyer-schedule__item-small">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+															</select>	
+														</div>
+													</div>
+												</div>
+												<div class="lawyer-schedule__row">
+													<div class="lawyer-schedule__item">Четверг</div>
+													<div class="lawyer-schedule__item">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+															</select>	
+														</div>
+													</div>
+													<div class="lawyer-schedule__item lawyer-schedule__item-small">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+															</select>	
+														</div>
+													</div>
+													<div class="lawyer-schedule__item lawyer-schedule__item-small">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+															</select>	
+														</div>
+													</div>
+												</div>
+												<div class="lawyer-schedule__row">
+													<div class="lawyer-schedule__item">Пятница</div>
+													<div class="lawyer-schedule__item">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+															</select>	
+														</div>
+													</div>
+													<div class="lawyer-schedule__item lawyer-schedule__item-small">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+															</select>	
+														</div>
+													</div>
+													<div class="lawyer-schedule__item lawyer-schedule__item-small">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+															</select>	
+														</div>
+													</div>
+												</div>
+												<div class="lawyer-schedule__row">
+													<div class="lawyer-schedule__item">Суббота</div>
+													<div class="lawyer-schedule__item">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+															</select>	
+														</div>
+													</div>
+													<div class="lawyer-schedule__item lawyer-schedule__item-small">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+															</select>	
+														</div>
+													</div>
+													<div class="lawyer-schedule__item lawyer-schedule__item-small">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+															</select>	
+														</div>
+													</div>
+												</div>
+												<div class="lawyer-schedule__row">
+													<div class="lawyer-schedule__item">Воскресенье</div>
+													<div class="lawyer-schedule__item">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+																<option value="">Рабочий</option>
+															</select>	
+														</div>
+													</div>
+													<div class="lawyer-schedule__item lawyer-schedule__item-small">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+																<option value="">09:00</option>
+															</select>	
+														</div>
+													</div>
+													<div class="lawyer-schedule__item lawyer-schedule__item-small">
+														<div class="form-input-select">
+															<select name="" id="">
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+																<option value="">18:00</option>
+															</select>	
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<input type="submit" value="Сохранить" class="main-btn lawyer-form-btn">
+									</form>
+								</div>
+								<div id="tab5">
+									<form action="" class="lawyer-notice__form">
+										<div class="checkbox-wrap">
+											<input id="notice-check-1" type="checkbox" name="check" value="check1" class="checkbox">
+											<label for="notice-check-1">Получать рассылки от 100 Юристов</label>
+											<input id="notice-check-2" type="checkbox" name="check" value="check1" class="checkbox">
+											<label for="notice-check-2">Уведомлять о вопросах из моего города</label>
+											<input id="notice-check-3" type="checkbox" name="check" value="check1" class="checkbox">
+											<label for="notice-check-3">Уведомлять о вопросах из моего региона</label>
+											<input id="notice-check-4" type="checkbox" name="check" value="check1" class="checkbox">
+											<label for="notice-check-4">Уведомлять о новых сообщениях в чатах</label>
+										</div>
+										<input type="submit" value="Сохранить" class="main-btn lawyer-form-btn">
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<div class="lawyer-confirm">
+							<div class="lawyer-confirm-title">Подтверждение квалификации</div>
+							<form action="" class="lawyer-confirm__form">
+								<div class="lawyer-confirm__select-wrap">
+									<label for="" class="lawyer-confirm__label">Текущий статус</label>
+									<div class="lawyer-confirm__select">
+										<select name="" id="">
+											<option value="">Юрист</option>
+											<option value="">Адвокат</option>
+											<option value="">Юридическая фирма</option>
+										</select>
+									</div>
+								</div>
+								<p class="lawyer-confirm-radio-title">Какой статус подтверждаем?</p>
+								<div class="radio-wrap">
+									<div class="radio-input-wrap">
+										<input type="radio"  id="confirm-1" name="deliverybtn" value="delivery" class="radio">
+										<label for="confirm-1">Юрист</label>
+									</div>
+									<div class="radio-input-wrap">
+										<input type="radio"  id="confirm-2" name="deliverybtn" value="delivery" class="radio">
+										<label for="confirm-2">Адвокат</label>
+									</div>
+									<div class="radio-input-wrap">
+										<input type="radio"  id="confirm-3" name="deliverybtn" value="delivery" class="radio">
+										<label for="confirm-3">Судья</label>
+									</div>
+								</div>
+								<div class="lawyer-confirm__jurist lawyer-confirm__tab">
+									<div class="form-input-wrap">
+										<label for="" class="form-input-label">ВУЗ</label>
+										<div class="form-input">
+											<input type="text" name="theme" placeholder="">
+										</div>
+									</div>
+									<div class="form-input-wrap">
+										<label for="" class="form-input-label">Факультет</label>
+										<div class="form-input">
+											<input type="text" name="theme" placeholder="">
+										</div>
+									</div>
+									<div class="form-input-wrap">
+										<label for="" class="form-input-label">Образование</label>
+										<div class="form-input">
+											<input type="text" name="theme" placeholder="">
+										</div>
+									</div>
+									<div class="lawyer-confirm__flex">
+										<div class="form-input-wrap">
+											<label for="" class="form-input-label">Город ВУЗа</label>
+											<div class="form-input">
+												<input type="text" name="theme" placeholder="">
+											</div>
+										</div>
+										<div class="form-input-wrap">
+											<label for="" class="form-input-label">Год окончания</label>
+											<div class="form-input">
+												<input type="text" name="theme" placeholder="">
+											</div>
+										</div>
+									</div>
+									<div class="sending__file-input">
+										<label for="" class="form-input-label">Скан или фото разворота диплома (формат jpg, pdf, tiff, png до 10 MB)</label>
+										<label class="sending__label">
+										  <span class="sending__label-button">Выбрать файл</span>
+										  <input type="file" class="sending__input">
+								  	</label> 
+					  			</div>
+								</div>	
+								<div class="lawyer-confirm__advocate lawyer-confirm__tab">
+									<div class="form-input-wrap">
+										<label for="" class="form-input-label">Членство в адвокатском объединении</label>
+										<div class="form-input">
+											<input type="text" name="theme" placeholder="">
+										</div>
+									</div>
+									<div class="lawyer-confirm__flex">
+										<div class="form-input-wrap">
+											<label for="" class="form-input-label">Номер в реестре адвокатов</label>
+											<div class="form-input">
+												<input type="text" name="theme" placeholder="">
+											</div>
+										</div>
+										<div class="form-input-wrap">
+											<label for="" class="form-input-label">Должность</label>
+											<div class="form-input">
+												<input type="text" name="theme" placeholder="">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="lawyer-confirm__company lawyer-confirm__tab">
+									<div class="form-input-wrap">
+										<label for="" class="form-input-label">Название компании</label>
+										<div class="form-input">
+											<input type="text" name="theme" placeholder="">
+										</div>
+									</div>
+									<div class="form-input-wrap">
+										<label for="" class="form-input-label">ИНН</label>
+										<div class="form-input">
+											<input type="text" name="theme" placeholder="">
+										</div>
+									</div>
+									<div class="form-input-wrap">
+										<label for="" class="form-input-label">Адрес</label>
+										<div class="form-input">
+											<input type="text" name="theme" placeholder="">
+										</div>
+									</div>
+								</div>
+								<input type="submit" value="Подтвердить статус" class="main-btn lawyer-confirm__btn">
+							</form>
+						</div>
+				</div>
+			</main>
+		</div>
+		<!-- Footer -->
+		<footer class="footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-7 col-sm-4 col-lg-3">
+						<div class="footer__wrap">
+							<a href="" class="footer__logo img">
+								<img src="../img/footer-logo.png" alt="">
+							</a>
+							<ul class="footer__list">
+								<li class="footer__list-item">
+									<a href="" class="footer__list-link">О проекте</a>
+								</li>
+								<li class="footer__list-item">
+									<a href="" class="footer__list-link">Контакты</a>
+								</li>
+								<li class="footer__list-item">
+									<a href="" class="footer__list-link">Пользовательское соглашение</a>
+								</li>
+								<li class="footer__list-item">
+									<a href="" class="footer__list-link">Реферальная программа</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-8 col-sm-4 col-lg-3">
+						<div class="footer__wrap footer__wrap-padding">
+							<ul class="footer__list">
+								<li class="footer__list-item">
+									<a href="" class="footer__list-link">Каталог юристов</a>
+								</li>
+								<li class="footer__list-item">
+									<a href="" class="footer__list-link">Архив вопросов</a>
+								</li>
+								<li class="footer__list-item">
+									<a href="" class="footer__list-link">Горячая линия</a>
+								</li>
+								<li class="footer__list-item">
+									<a href="" class="footer__list-link">Новости</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-8 col-sm-4 col-lg-3">
+						<div class="footer__wrap footer__wrap-padding">
+							<ul class="footer__list">
+								<li class="footer__list-item">
+									<a href="" class="footer__list-link">Регистрация нового юриста</a>
+								</li>
+								<li class="footer__list-item">
+									<a href="" class="footer__list-link">CRM для юристов</a>
+								</li>
+								<li class="footer__list-item">
+									<a href="" class="footer__list-link">Юридические заявки</a>
+								</li>
+								<li class="footer__list-item">
+									<a href="" class="footer__list-link">Зачем отвечать на вопросы</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-12 col-lg-3">
+						<div class="footer__wrap footer__wrap-social">
+							<ul class="footer__social">
+								<li class="footer__social-item">
+									<a href="" class="footer__social-link img">
+										<img src="../img/footer-social-link-1.png" alt="">
+									</a>
+								</li>
+								<li class="footer__social-item">
+									<a href="" class="footer__social-link img">
+										<img src="../img/footer-social-link-2.png" alt="">
+									</a>
+								</li>
+								<li class="footer__social-item">
+									<a href="" class="footer__social-link img">
+										<img src="../img/footer-social-link-3.png" alt="">
+									</a>
+								</li>
+								<li class="footer__social-item">
+									<a href="" class="footer__social-link img">
+										<img src="../img/footer-social-link-4.png" alt="">
+									</a>
+								</li>
+								<li class="footer__social-item">
+									<a href="" class="footer__social-link img">
+										<img src="../img/footer-social-link-5.png" alt="">
+									</a>
+								</li>
+								<li class="footer__social-item">
+									<a href="" class="footer__social-link img">
+										<img src="../img/footer-social-link-6.png" alt="">
+									</a>
+								</li>
+							</ul>
+							<div class="footer__branches">
+								<div class="footer__branches-title">Филиалы:</div>
+								<ul class="footer__branches-list">
+									<li class="footer__branches-item">Санкт-Петербург, ул. Достоевского, д. 25</li>
+									<li class="footer__branches-item">Нижний Новгород, ул. Новая, д. 28</li>
+									<li class="footer__branches-item">Екатеринбург, ул. 8 марта, д. 142</li>
+									<li class="footer__branches-item">Ростов-на-Дону, ул. Красноармейская, д. 142/50</li>
+									<li class="footer__branches-item">Краснодар, ул. Московская, д. 148</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+	
+	<script src="../jquery/jquery-3.4.1.min.js"></script>
+	<script src="../lib/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="../lib/swiper/swiper.min.js"></script>
+	<script src="lib/bootstrap/bootstrap.min.js"></script>
+	<script src="../lib/jquery.maskedinput.js"></script>
+	<script src="../js/main.js"></script>
+</body>
+</html>

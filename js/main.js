@@ -348,4 +348,36 @@ $('#account__tab-container').tabs({
   if (hash) { 
     $('#lawyer-career-tab').tabs("load", hash) 
   } 
+
+  $('#lawyer-edit-tab').tabs({
+    beforeActivate : function(evt) {
+      location.hash=$(evt.currentTarget).attr('href');
+    },
+    show: 'fadeIn',
+    hide: 'fadeOut'
+  });
+
+   var hash = location.hash; 
+  if (hash) { 
+    $('#lawyer-edit-tab').tabs("load", hash) 
+  } 
+
+$('#confirm-1').on('click touch', function(){
+    $('.lawyer-confirm__jurist').addClass('active');
+    $('.lawyer-confirm__advocate').removeClass('active');
+    $('.lawyer-confirm__company').removeClass('active');
+  });
+
+$('#confirm-2').on('click touch', function(){
+    $('.lawyer-confirm__jurist').removeClass('active');
+    $('.lawyer-confirm__advocate').addClass('active');
+    $('.lawyer-confirm__company').removeClass('active');
+  });
+
+$('#confirm-3').on('click touch', function(){
+    $('.lawyer-confirm__jurist').removeClass('active');
+    $('.lawyer-confirm__advocate').removeClass('active');
+    $('.lawyer-confirm__company').addClass('active');
+  });
+
 });

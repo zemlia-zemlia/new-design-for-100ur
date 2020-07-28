@@ -108,7 +108,7 @@ button:active {
 }
 
 .inner {
-	padding-bottom: 50px;
+	padding-bottom: 115px;
 }
 
 
@@ -7234,6 +7234,551 @@ blockquote span {
 	font-size: 18px;
 	font-weight: 700;
 	text-align: center;
+}
+
+
+/* ------------------ Lawyer --------------------*/
+
+.header__lawyer-nav .header__user-item {
+	position: relative;
+	padding-left: 40px;
+}
+
+.header__lawyer-nav .header__user-item::before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 35px;
+	width: 22px;
+	height: 22px;
+	background-image: url(img/selling-popular-img-4.png);
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+/* ------------------ Lawyer  account --------------------*/
+
+.lawyer-account__wrap {
+	max-width: 978px;
+	margin: 0 auto;
+}
+
+.lawyer-account__heading {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	margin-bottom: 25px;
+}
+
+.lawyer-account__heading-main {
+	width: 50%;
+	text-align: left;
+}
+
+.lawyer-account__heading-main .main__title {
+	margin-bottom: 20px;
+	text-align: left;
+}
+
+.lawyer-account__heading-main .main__subtitle {
+	max-width: 100%;
+	margin-left: 0;
+}
+
+.lawyer-account__activity {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	width: 388px;
+	height: 101px;
+	padding: 0 15px;
+	border-radius: 8px;
+	border: 2px solid #1a77a3;
+}
+
+.lawyer-account__activity-item {
+	font-size: 16px;
+}
+
+.lawyer-account__activity-item--value {
+	margin-right: 4px;
+	color: #1a77a3;
+	font-size: 22px;
+	font-weight: 700;
+}
+
+.lawyer-account__main {
+	border-radius: 8px;
+	border: 1px solid #e5e5e5;
+}
+
+.lawyer-account__section {
+	padding: 22px 35px;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.lawyer-account__main-title {
+	margin-bottom: 15px;
+	color: #1a77a3;
+	font-size: 14px;
+	font-weight: 700;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.lawyer-account__inner {
+	display: flex;
+	justify-content: space-between;
+}
+
+.lawyer-account__inner .account__section {
+	flex-shrink: 0;
+}
+
+.lawyer-account__section-title {
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.account__section .lawyer-account__section-title {
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.lawyer-account__item {
+	display: flex;
+	margin-bottom: 15px;
+}
+
+.lawyer-account__item .lawyer-account__section-title {
+	flex-shrink: 0;
+	width: 125px;
+	margin-right: 35px;
+}
+
+.lawyer-account__section-desc {
+	font-size: 14px;
+	line-height: 1.42;
+}
+
+.lawyer-account__section-desc p {
+	margin-bottom: 25px;
+}
+
+.lawyer-account__section-desc ul li {
+	position: relative;
+	padding-left: 10px;
+}
+
+.lawyer-account__section-desc ul li::before {
+	content: '-';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 7px;
+	font-size: 14px;
+}
+
+.lawyer-edit {
+	min-height: 841px;
+	margin-bottom: 40px;
+	padding: 25px 0;
+	border-radius: 8px;
+	border: 1px solid #e5e5e5;
+}
+
+.lawyer-edit-title {
+	margin-bottom: 20px;
+	font-size: 18px;
+	font-weight: 700;
+	text-align: center;
+}
+
+#lawyer-edit-tab {
+	max-width: 1050px;
+	margin: 0 auto;
+}
+
+.lawyer-edit-tab-list {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 35px;
+}
+
+.lawyer-edit-tab-link {
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.lawyer-edit-tab-item.ui-tabs-active .lawyer-edit-tab-link {
+	color: #1a77a3;
+}
+
+.lawyer-form-btn {
+	width: 153px;
+	height: 39px;
+	margin-top: 20px;
+	border-radius: 8px;
+	background-color: #017052;
+	color: #fff;
+	font-size: 14px;
+}
+
+.lawyer-services__form-title {
+	margin-bottom: 10px;
+	font-size: 14px;
+}
+
+.lawyer-services__form .checkbox-wrap {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	max-width: 470px;
+}
+
+.lawyer-services__form .checkbox + label {
+	width: 47%;
+	margin-bottom: 8px;
+	font-size: 14px;
+}
+
+.lawyer-services__form-wrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.lawyer-services__item {
+	width: 96%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.lawyer-services__item-close {
+	width: 18px;
+	height: 18px;
+	margin-left: 10px;
+	cursor: pointer;
+}
+
+.lawyer-services__form .form-input-wrap {
+	width: 19%;
+}
+
+.lawyer-services__form .form-input-select {
+	height: 26px;
+}
+
+.lawyer-services__form .form-input-select select {
+	font-size: 12px;
+	color: #7b7b7b;
+}
+
+
+.lawyer-services__form .form-input {
+	height: 26px;
+}
+
+.lawyer-services__form input::placeholder {
+	font-size: 12px;
+}
+
+.lawyer-services__item-value {
+	color: rgba(0, 12, 20, .5);
+	font-size: 31px;
+}
+ 
+.lawyer-services__form .form-input-label {
+	font-size: 12px;
+}
+
+.lawyer-services__item-add {
+	display: block;
+	color: #016f52;
+	font-size: 14px;
+}
+
+.lawyer-study-wrap {
+	margin-bottom: 35px;
+}
+
+.lawyer-study-title {
+	font-size: 14px;
+}
+
+.lawyer-study-item-wrap {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+	padding-top: 10px;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.lawyer-study-item {
+	display: flex;
+	width: 60%;
+	justify-content: space-between;
+}
+
+.lawyer-study-item-section {
+	width: 55%;
+}
+
+.lawyer-study-item-select {
+	display: flex;
+	justify-content: space-between;
+	width: 40%;
+}
+
+.lawyer-study-form .form-input-label {
+	font-size: 12px;
+}
+
+.lawyer-study-form .form-input {
+	height: 26px;
+}
+
+.lawyer-study-form .form-input-select {
+	height: 26px;
+}
+
+.lawyer-study-item-select .form-input-wrap {
+	width: 49%;
+}
+
+.lawyer-study-form input::placeholder, .lawyer-study-form select {
+	font-size: 12px;
+}
+
+.lawyer-carrer-wrap .lawyer-study-item {
+	display: block;
+}
+
+.lawyer-carrer-wrap .lawyer-study-item-inner {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+}
+
+.lawyer-study-item-bottom {
+	padding-left: 20px;
+}
+
+.lawyer-contacts-form-wrap {
+	max-width: 540px;
+}
+
+.lawyer-contacts-form .form-input-wrap {
+	max-width: 330px;
+}
+
+.lawyer-contacts-form .form-input {
+	height: 26px;
+}
+
+.lawyer-contacts-form .form-input-label {
+	font-size: 12px;
+}
+
+.lawyer-contacts-form input::placeholder {
+	font-size: 12px;
+}
+
+.form-input-inner {
+	display: flex;
+	align-items: center;
+}
+
+.form-input-inner .form-input-wrap {
+	width: 330px;
+	max-width: 330px;
+}
+
+.lawyer-contacts-form .checkbox-wrap {
+	margin-bottom: 0;
+	margin-left: 15px;
+}
+
+ .checkbox-wrap input {
+	width: auto;
+}
+
+.lawyer-contacts-form .checkbox + label {
+	font-size: 12px;
+	margin-bottom: 0;
+}
+
+.lawyer-schedule__title {
+	margin-bottom: 15px;
+	font-size: 14px;
+}
+
+.lawyer-schedule__table {
+	max-width: 600px;
+}
+
+.lawyer-schedule__heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 15px;
+}
+
+.lawyer-schedule__heading-item {
+	flex-shrink: 0;
+	width: 155px;
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.lawyer-schedule__row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.lawyer-schedule__item {
+	flex-shrink: 0;
+	width: 155px;
+	font-size: 12px;
+}
+
+.lawyer-schedule__item-small {
+	width: 105px;
+}
+
+.lawyer-schedule__item .form-input-select {
+	height: 26px;
+}
+
+.lawyer-schedule__item .form-input-select select {
+	font-size: 12px;
+}
+
+.lawyer-notice__form .checkbox-wrap {
+	display: block;
+}
+
+.lawyer-notice__form .checkbox + label {
+	font-size: 12px;
+	margin-bottom: 20px;
+}
+
+.lawyer-confirm-title {
+	margin-bottom: 20px;
+	font-size: 18px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.lawyer-confirm__form {
+	max-width: 780px;
+	margin: 0 auto;
+}
+
+.lawyer-confirm__select-wrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 310px;
+	margin: 0 auto;
+	margin-bottom: 35px;
+}
+
+.lawyer-confirm__label {
+	font-size: 14px;
+}
+
+.lawyer-confirm__select {
+	width: 186px;
+	height: 26px;
+}
+
+.lawyer-confirm__select select {
+	display: block;
+	width: 100%;
+	height: 100%;
+	padding-left: 10px;
+	border-radius: 8px;
+	border: 1px solid #e5e5e5;
+	background-image: url(img/select-arrow.png);
+	background-repeat: no-repeat;
+	background-position: right 10px center;
+	color: #7b7b7b;
+	font-size: 12px;
+}
+
+.lawyer-confirm-radio-title {
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.lawyer-confirm__form .radio-wrap {
+	max-width: 370px;
+	margin: 0 auto;
+	margin-bottom: 40px;
+}
+
+.lawyer-confirm__form .radio-wrap input {
+	width: auto;
+}
+
+.lawyer-confirm__form .radio-input-wrap {
+	width: 33.33%;
+	display: flex;
+	justify-content: center;
+}
+
+.lawyer-confirm__flex {
+	display: flex;
+	justify-content: space-between;
+}
+
+.lawyer-confirm__flex .form-input-wrap {
+	width: 47%;
+}
+
+.lawyer-confirm__btn {
+	width: 201px;
+	height: 50px;
+	margin: 0 auto;
+	border-radius: 8px;
+	border: 1px solid #016f52;
+	background-color: #fff;
+}
+
+.lawyer-confirm__tab {
+	display: none;
+}
+
+.lawyer-confirm__jurist.active {
+	display: block;
+}
+
+.lawyer-confirm__advocate.active {
+	display: block;
+}
+
+.lawyer-confirm__company.active {
+	display: block;
+}
+
+.lawyer-general__form {
+	display: flex;
+	justify-content: space-between;
+}
+
+.lawyer-general__form .account__form-inner {
+	width: 35%;
+}
+
+.lawyer-general__form .account__form-wrap {
+	width: 100%;
 }
 
 
