@@ -336,6 +336,7 @@ $('#account__tab-container').tabs({
   } 
 
 
+
   $('#lawyer-career-tab').tabs({
     beforeActivate : function(evt) {
       location.hash=$(evt.currentTarget).attr('href');
