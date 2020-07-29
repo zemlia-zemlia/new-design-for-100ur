@@ -505,6 +505,20 @@
 	.lawyer-study-item {
 		width: 80%;
 	}
+
+	.lawyer-question__category-item {
+		margin-right: 5px;
+		font-size: 12px;
+	}
+
+	.lawyer-question__btn {
+		flex-shrink: 0;
+		margin-left: 10px;
+	}
+
+	.lawyer-question__info {
+		font-size: 12px;
+	}
 }
 
 @media screen and (max-width: 920px) {
@@ -856,6 +870,20 @@
 		margin-bottom: 15px;
 		text-align: center;
 	}
+
+	.lawyer-question__footer {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.lawyer-question__footer-wrap {
+		margin-bottom: 15px;
+	}
+
+	.lawyer-finances .finances-history {
+		width: 80%;
+	}
+
 }
 
 
@@ -1353,6 +1381,34 @@
 
 	.lawyer-study-item {
 		width: 95%;
+	}
+
+	.lawyer-page-aside {
+		max-width: 60%;
+		margin: 0 auto;
+	}
+
+	.new-questions {
+		width: 100%;
+	}
+
+	.lawyer-finances__wrap {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.lawyer-finances__wrap .account__finances-form {
+		padding-bottom: 25px;
+		border-bottom: 1px solid #e5e5e5;
+	}
+
+	.lawyer-finances .finances-history {
+		width: 100%;
+	}
+
+	.answer-counter {
+		width: 100%;
+		margin-bottom: 30px;
 	}
 }
 
@@ -2473,6 +2529,33 @@
 		width: 60%;
 		margin-bottom: 5px;
 	}
+
+	.lawyer-page-aside {
+		max-width: 100%;
+		margin: 0 auto;
+	}
+
+	.lawyer-page-filter .radio-input-wrap {
+		border: none;
+		margin-bottom: 5px;
+		padding: 0;
+	}
+
+	.updates__item {
+		padding: 25px 15px;
+	}
+
+	.new-questions__title {
+		font-size: 14px;
+	}
+
+	.new-questions__data-item:first-child {
+		margin-right: 10px;
+	}
+
+	.new-questions__data-item-value {
+		font-size: 12px;
+	}
 }
 
 @media screen and (max-width: 460px) {
@@ -3071,6 +3154,54 @@
 	}
 
 	.lawyer-schedule__item {
+		width: 100%;
+	}
+
+	.lawyer-question__notloged-desc {
+		font-size: 14px;
+	}
+
+	.lawyer-question__loged-send {
+		margin-left: 10px;
+		font-size: 12px;
+	}
+
+	.lawyer-question__loged-btn {
+		width: 150px;
+		height: 40px;
+		font-size: 14px;
+	}
+
+	.lawyer-achievement {
+		padding: 35px 20px;
+	}
+
+	.updates__item {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.updates__item-main {
+		max-width: 100%;
+		margin-bottom: 20px;
+	}
+
+	.new-questions__item {
+		flex-direction: column;
+		align-items: flex-start;
+		padding-right: 30px;
+	}
+
+	.new-questions__item-main {
+		width: 100%;
+		margin-bottom: 20px;
+	}
+
+	.new-questions__btn {
+		margin: 0 auto;
+	}
+
+	.answer-counter__table {
 		width: 100%;
 	}
 

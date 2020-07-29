@@ -5960,13 +5960,15 @@ blockquote span {
 }
 
 .account__finances-form {
-	width: 320px;
+	width: 500px;
 	margin: 0 auto;
 	margin-bottom: 40px;
 }
 
 .account__finances-wrap {
+	margin: 0 auto;
 	margin-bottom: 20px;
+	max-width: 320px;
 }
 
 .account__finances-label {
@@ -6007,6 +6009,7 @@ blockquote span {
 .account__finances-form .radio-wrap {
 	display: flex;
 	justify-content: space-between;
+	margin: 0 auto;
 }
 
 .account__finances-send {
@@ -7785,5 +7788,500 @@ blockquote span {
 	width: 100%;
 }
 
+/* ------------------ Lawyer question --------------------*/
+
+.lawyer-question__footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+}
+
+.lawyer-question__info {
+	position: relative;
+	max-width: 320px;
+	margin-bottom: 15px;
+	padding-left: 22px;
+	color: #1a77a3;
+	font-size: 14px;
+}
+
+.lawyer-question__info::before {
+	content: '';
+	position: absolute;
+	top: 3px;
+	left: 0;
+	width: 15px;
+	height: 15px;
+	background-image: url(img/lawyer-question-info.png);
+	background-repeat: no-repeat;
+}
+
+.lawyer-question__category {
+	display: flex;
+}
+
+.lawyer-question__category-item {
+	margin-right: 8px;
+	color: rgba(0, 12, 20, .5);
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.lawyer-question__category-item:last-child {
+	margin-right: 0;
+}
+
+.lawyer-question__btn {
+	width: 176px;
+	height: 39px;
+	border-radius: 8px;
+	border: 1px solid #1a77a3;
+	font-size: 14px;
+}
+
+.lawyer-question__notloged {
+	margin-bottom: 30px;
+	padding: 25px 15px;
+	border-radius: 8px;
+	background-color: #1a77a3;
+}
+
+.lawyer-question__notloged-desc {
+	margin-bottom: 13px;
+	color: #ffffff;
+}
+
+.lawyer-question__notloged-btn {
+	width: 225px;
+	height: 41px;
+	border-radius: 8px;
+	border: 1px solid #1a77a3;
+	background-color: #ffffff;
+	font-size: 14px;
+}
+
+.lawyer-question__user .question-unloged__user-footer {
+	display: flex;
+	justify-content: space-between;
+}
+
+.lawyer-question__user-answer {
+	position: relative;
+	padding-left: 25px;
+	color: #017052;
+	font-size: 12px;
+	text-decoration: underline;
+}
+
+.lawyer-question__user-answer::before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 0;
+	width: 18px;
+	height: 16px;
+	background-image: url(img/lawyer-question-user-answer.png);
+	background-repeat: no-repeat;
+}
+
+.lawyer-page-filter .lawyer-filter-secondary-title {
+	margin-bottom: 13px;
+}
+ 
+.lawyer-filter__show {
+	display: flex;
+	align-items: center;
+	width: 111px;
+	height: 34px;
+	margin: 0 auto;
+	margin-bottom: 25px;
+	padding-left: 12px;
+	border-radius: 17px;
+	border: 1px solid #cacaca;
+	background-image: url(img/lawyer-filter-show.png);
+	background-repeat: no-repeat;
+	background-position: right 15px top 12px; 
+	color: #fff;
+	font-size: 14px;
+	line-height: 1;
+}
+
+.lawyer-page-filter .radio-wrap {
+	display: block;
+	margin-bottom: 20px;
+}
+
+.radio-wrap-title {
+	color: #fafdff;
+	font-size: 16px;
+}
+
+.lawyer-page-filter .radio-input-wrap {
+	margin-bottom: 5px;
+	width: 100%;
+}
+
+.radio-input-wrap input {
+	width: auto;
+}
+
+.lawyer-page-filter .radio + label {
+	color: #fafdff;
+	font-size: 14px;
+}
+
+.lawyer-filter-random-btn {
+	width: 100%;
+	height: 50px;
+	margin: 0 auto;
+	margin-top: 15px;
+	border-radius: 8px;
+	background-color: #1a77a3;
+	color: #ffffff;
+}
+
+.lawyer-achievement {
+	margin-bottom: 25px;
+	padding: 35px 30px;
+	border-radius: 8px;	
+	border: 1px solid #e5e5e5;
+}
+
+.lawyer-achievement__title {
+	margin-bottom: 20px;
+	font-size: 20px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.lawyer-achievement__state {
+	display: flex;
+	height: 20px;
+	margin-bottom: 15px;
+	border-radius: 7px;
+	border: 1px solid #e5e5e5;
+	background-color: #fafdff;
+}
+
+.lawyer-achievement__state-value {
+	width: 33.33%;
+	border-radius: 7px 0 0 7px;
+	background-color: #1a77a3;
+	color: #fff;
+	font-size: 12px;
+	text-align: center;
+}
+
+.lawyer-achievement__more {
+	font-size: 12px;
+	text-decoration: underline;
+}
+
+.lawyer-info {
+	margin-bottom: 25px;
+	padding: 35px 0;
+	border-radius: 8px;
+	background-color: #1a77a3;
+}
+
+.lawyer-info__title {
+	margin-bottom: 15px;
+	color: #fafdff;
+	font-size: 20px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.lawyer-info__link {
+	display: block;
+	padding: 7px 0;
+	color: #fafdff;
+	font-size: 14px;
+	text-align: center;
+}
+
+.lawyer-info__link:hover {
+	background-color: #8abad1;
+	color: #000000;
+}
+
+.response-counters {
+	padding: 35px 0;
+	border-radius: 8px;
+	border: 1px solid #e5e5e5;
+}
+
+.response-counters-title {
+	margin-bottom: 20px;
+	font-size: 20px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.response-counters-list {
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.response-counters-item {
+	margin-bottom: 5px;
+}
+
+.response-counters-item--value {
+	color: #1a77a3;
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.response-counters-statistics {
+	display: block;
+	font-size: 12px;
+	text-decoration: underline;
+	text-align: center;
+}
+
+.lawyer-question__loged {
+	margin-bottom: 30px;
+}
+
+.lawyer-question__loged-title {
+	margin-bottom: 10px;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.lawyer-question__loged-desc {
+	max-width: 560px;
+	margin-bottom: 10px;
+	color: rgba(0, 12, 20, .7);
+	font-size: 12px;
+}
+
+.lawyer-question__loged-desc--big {
+	text-transform: uppercase;
+}
+
+.lawyer-question__loged-footer {
+	display: flex;
+	align-items: center;
+}
+
+.lawyer-question__loged-btn {
+	width: 201px;
+	height: 50px;
+	border-radius: 8px;
+	background-color: #017052;
+	color: #fff;
+}
+
+.lawyer-question__loged-send {
+	margin-left: 25px;
+}
+
+/* ------------------ Lawyer updates --------------------*/
+
+.updates {
+	max-width: 96%;
+}
+
+.updates__item {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20px;
+	padding: 25px 30px;
+	border-radius: 10px;
+	border: 1px solid #e5e5e5;
+}
+
+.updates__item-main {
+	width: 440px;
+}
+
+.updates__item-title {
+	margin-bottom: 10px;
+	font-size: 18px;
+	font-weight: 700;
+}
+ 
+.updates__item-link {
+	font-size: 14px;
+	text-decoration: underline;
+}
+
+.updates__item-aside {
+	margin-left: 10px;
+}
+
+.updates__item-show {
+	width: 139px;
+	height: 34px;
+	margin-bottom: 10px;
+	border-radius: 8px;
+	background-color: #208167;
+	color: #fff;
+	font-size: 14px;
+}
+
+.updates__item-close {
+	display: block;
+	color: rgba(0, 12, 20, .5);
+	font-size: 14px;
+	text-align: center;
+}
+
+/* ------------------ Lawyer new-questions --------------------*/
+
+.new-questions {
+	width: 96%;
+	padding-bottom: 60px;
+}
+
+.new-questions__item {
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	overflow: hidden;
+	margin-bottom: 20px;
+	padding: 25px 50px 25px 20px;
+	border-radius: 10px;
+	border: 1px solid #e5e5e5;
+}
+
+.new-questions__item-main {
+	width: 85%;
+}
+ 
+.new-questions__title {
+	margin-bottom: 15px;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.new-questions__data {
+	display: flex;
+	align-items: center;
+	margin-bottom: 15px;
+}
+
+.new-questions__data-item {
+	display: flex;
+	align-items: center;
+}
+
+.new-questions__data-item:first-child {
+	margin-right: 20px;
+}
+
+.new-questions__data-item-img {
+	width: 20px;
+	height: 20px;
+	margin-right: 6px;
+}
+
+.new-questions__data-item-value {
+	font-size: 14px;
+}
+
+.new-questions__data-item:first-child .new-questions__data-item-value {
+	color: rgba(0, 12, 20, .5);
+}
+
+.new-questions__item .archive-questions__btn {
+	margin-left: 0;
+}
+ 
+.new-questions__btn {
+	width: 108px;
+	height: 45px;
+	margin-left: 10px;
+	border-radius: 8px;
+	border: 1px solid #1a77a3;
+}
+
+/* ------------------ Lawyer finances --------------------*/
+
+.lawyer-finances__wrap {
+	display: flex;
+}
+
+.lawyer-finances__wrap .form-input-wrap {
+	max-width: 320px;
+	margin: 0 auto;
+	margin-bottom: 20px;
+}
+
+.lawyer-finances__wrap .form-input-label {
+	text-align: center;
+}
+
+.lawyer-finances .finances-history {
+	width: 60%;
+	margin: 0 auto;
+}
+
+/* ------------------ Lawyer counter --------------------*/
+
+.answer-counter {
+	width: 96%;
+}
+
+.answer-counter__table {
+	width: 340px;
+	margin: 0 auto;
+	border: 1px solid #e5e5e5;
+	border-bottom: none;
+}
+
+.answer-counter__heading {
+	display: flex;
+	align-items: center;
+	border-bottom: 1px solid #e5e5e5;
+	font-size: 16px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.answer-counter__row {
+	display: flex;
+	border-bottom: 1px solid #e5e5e5;
+	text-align: center;
+}
+
+.answer-counter__month {
+	width: 30%;
+	padding: 10px 0;
+	border-right: 1px solid #e5e5e5;
+}
+
+.answer-counter__value {
+	width: 70%;
+	padding: 10px 0;
+}
 
 
+/* ------------------ Lawyer achievement --------------------*/
+
+.achievement {
+	width: 96%;
+}
+
+.achievement__table {
+	border: 1px solid #e5e5e5;
+}
+
+.achievement__table .row {
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.achievement__table .col {
+	padding: 10px 0;
+	border-right: 1px solid #e5e5e5;
+}
+
+
+.achievement__item {
+	font-size: 14px;
+	text-align: center;
+}
