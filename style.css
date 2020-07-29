@@ -8276,6 +8276,10 @@ blockquote span {
 	border: 1px solid #e5e5e5;
 }
 
+.achievement__table-mob {
+	display: none;
+}
+
 .achievement__table .row {
 	border-bottom: 1px solid #e5e5e5;
 }
