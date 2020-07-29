@@ -7885,6 +7885,10 @@ blockquote span {
 	background-repeat: no-repeat;
 }
 
+.lawyer-page-aside {
+	margin-bottom: 50px;
+}
+
 .lawyer-page-filter .lawyer-filter-secondary-title {
 	margin-bottom: 13px;
 }
@@ -8268,6 +8272,7 @@ blockquote span {
 }
 
 .achievement__table {
+	margin-bottom: 30px;
 	border: 1px solid #e5e5e5;
 }
 
@@ -8275,13 +8280,83 @@ blockquote span {
 	border-bottom: 1px solid #e5e5e5;
 }
 
+.achievement__table .row:last-child {
+	border-bottom: none;
+}
+
 .achievement__table .col {
-	padding: 10px 0;
 	border-right: 1px solid #e5e5e5;
 }
 
-
 .achievement__item {
-	font-size: 14px;
+	padding: 10px 0;
+	font-size: 13px;
 	text-align: center;
 }
+
+.achievement-item-active {
+	font-weight: 700;
+}
+
+.achievement__item--colored {
+	background-color: #bdd8e5;
+}
+
+.achievement__item-info {
+	position: relative;
+	top: -8px;
+	color: rgba(0, 0, 0, .5);
+	font-size: 8px;
+}
+
+.achievement__table-desc {
+	margin-bottom: 20px;
+}
+
+.achievement__table-desc-item {
+	margin-bottom: 3px;
+	font-size: 14px;
+}
+
+.achievement__table-info {
+	color: rgba(0, 12, 20, .5);
+	font-size: 14px;
+}
+
+.achievement__table-section {
+	position: relative;
+	display: flex;
+	margin-bottom: 25px;
+	padding-left: 55px;
+	border: 1px solid #e5e5e5;
+}
+
+.achievement__table-mob .row {
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.achievement__table-mob .row:last-child {
+	border-bottom: none;
+}
+
+.achievement__table-mob .col {
+	border-right: 1px solid #e5e5e5;
+}
+
+.achievement__table-heading {
+	position: absolute;
+	width: 256px;
+	height: 55px;
+	bottom: 100px;
+	left: -100px;
+	padding: 5px 0;
+	border-bottom: 1px solid #e5e5e5;
+	transform: rotate(-90deg);
+	text-align: center;
+	font-size: 14px;
+}
+
+.achievement__table-wrap {
+	width: 100%;
+}
+

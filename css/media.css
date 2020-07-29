@@ -68,6 +68,10 @@
 	.thanks__title {
 		font-size: 24px;
 	}
+
+	.achievement__item {
+		font-size: 12px;
+	}
 }
 
 @media screen and (max-width: 1115px) {
@@ -268,6 +272,10 @@
 
 	.lawyer-edit {
 		padding: 25px 15px;
+	}
+
+	.achievement__table {
+		display: none;
 	}
 }
 
@@ -884,6 +892,8 @@
 		width: 80%;
 	}
 
+	
+
 }
 
 
@@ -1407,6 +1417,11 @@
 	}
 
 	.answer-counter {
+		width: 100%;
+		margin-bottom: 30px;
+	}
+
+	.achievement {
 		width: 100%;
 		margin-bottom: 30px;
 	}
@@ -2555,6 +2570,28 @@
 
 	.new-questions__data-item-value {
 		font-size: 12px;
+	}
+
+	.achievement__table-heading {
+		width: 256px;
+		height: 30px;
+		left: -115px;
+		padding: 5px 0;
+		font-size: 11px;
+	}
+
+	.achievement__table-section {
+		position: relative;
+		display: flex;
+		margin-bottom: 25px;
+		padding-left: 30px;
+		border: 1px solid #e5e5e5;
+	}
+
+	.achievement__item {
+		padding: 10px 0;
+		font-size: 10px;
+		text-align: center;
 	}
 }
 
