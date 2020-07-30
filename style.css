@@ -275,6 +275,11 @@ button:active {
 	transition: .3s;
 }
 
+.main-btn:hover {
+	background-color: #81d2bc;
+	color: #fff;
+}
+
 .main__title {
 	margin-bottom: 30px;
 	color: #000c14;
@@ -489,6 +494,12 @@ button:active {
 	border-radius: 8px;
 	border: 1px solid #1a77a3;
 	font-size: 14px;
+	transition: .3s all;
+}
+
+.header__btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 .header__account {
@@ -663,6 +674,11 @@ button:active {
 	color: #fff;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 16px;
+	transition: .3s all;
+}
+
+.header__main-btn:hover {
+	background-color: #81d2bc;
 }
 
 .header__main-order-btn {
@@ -671,6 +687,12 @@ button:active {
 	border: 1px solid #017052;
 	background-color: transparent;
 	color: #000c14;
+	transition: .3s all;
+}
+
+.header__main-order-btn:hover {
+	background-color: #017052;
+	color: #fff;
 }
 
 .header__main-order {
@@ -1044,6 +1066,12 @@ button:active {
 	background-color: #ffffff;
 	color: #000c14;
 	font-size: 16px;
+	transition: .3s all;
+}
+
+.consultations__btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 /* ------------------  Benefits --------------------*/
@@ -1266,6 +1294,12 @@ button:active {
 	border: 1px solid #1a77a3;
 	color: #000c14;
 	font-size: 16px;
+	transition: .3s all;
+}
+
+.reviewes__btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 /* ------------------  Questions --------------------*/
@@ -1532,6 +1566,12 @@ button:active {
 	border: 1px solid #1a77a3;
 	color: #000c14;
 	font-size: 16px;
+	transition: .3s all;
+}
+
+.question__btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 /* ------------------  Workers --------------------*/
@@ -1929,6 +1969,12 @@ button:active {
 	background-color: #ffffff;
 	color: #000c14;
 	font-size: 16px;
+	transition: .3s all;
+}
+
+.news__btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 /* ------------------  Materials  --------------------*/
@@ -2107,6 +2153,12 @@ button:active {
 	background-color: #ffffff;
 	color: #000c14;
 	font-size: 16px;
+	transition: .3s all;
+}
+
+.materials__btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 /* ------------------  About  --------------------*/
@@ -2407,6 +2459,12 @@ button:active {
 	border: 1px solid #1a77a3;
 	color: #000c14;
 	font-size: 14px;
+	transition: .3s all;
+}
+
+.archive-questions__more-btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 .advice-form {
@@ -2440,6 +2498,7 @@ button:active {
 .advice-form__input {
 	height: 40px;
 	margin-bottom: 30px;
+	transition: .3s all;
 }
 
 .advice-form__btn {
@@ -2450,6 +2509,11 @@ button:active {
 	border: 1px solid #1a77a3;
 	background-color: #ffffff;
  }
+
+ .advice-form__btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
+}
 
 .expert-login {
 	margin-bottom: 25px;
@@ -2483,6 +2547,12 @@ button:active {
 	color: #000c14;
 	font-size: 16px;
 	letter-spacing: 0.16px;
+	transition: .3s all;
+}
+
+.expert-login__btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 .best-workers {
@@ -2603,6 +2673,12 @@ button:active {
 	color: #000c14;
 	font-size: 16px;
 	letter-spacing: 0.16px;
+	transition: .3s all;
+}
+
+.best-workers__btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 /* ------------------ Questions-for-lawyers  --------------------*/
@@ -3182,6 +3258,12 @@ button:active {
 	text-align: center;
 	color: #000c14;
 	font-size: 14px;
+	transition: .3s all;
+}
+
+.sending__label:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 .radio-wrap-block {
@@ -4071,7 +4153,9 @@ button:active {
 	font-size: 14px;
 	line-height: 1;
 	text-align: center;
+	transition: .3s all;
 }
+
 
 .resource__desc ol {
 	margin-bottom: 27px;
@@ -4345,6 +4429,12 @@ blockquote span {
 	border: 1px solid #1a77a3;
 	background-color: #ffffff;
 	margin: 0 auto;
+	transition: .3s all;
+}
+
+.resource__feedback-btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 .order-docs {
@@ -4367,6 +4457,12 @@ blockquote span {
 	margin: 0 auto;
 	border-radius: 8px;
 	border: 1px solid #1a77a3;
+	transition: .3s all;
+}
+
+.order-docs__btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 /* ------------------ Question-unloged --------------------*/
@@ -4714,6 +4810,7 @@ blockquote span {
 
 .news-article__wrap {
 	max-width: 96%;
+	padding-bottom: 60px;
 }
 
 .news-article__subtitle {
@@ -4871,6 +4968,12 @@ blockquote span {
 	border-radius: 8px;
 	border: 1px solid #1a77a3;
 	font-size: 14px;
+	transition: .3s all;
+}
+
+.comments-item__message-send:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 /* ------------------ Registration --------------------*/
@@ -4997,6 +5100,12 @@ blockquote span {
 	background-color: #017052;
 	color: #fff;
 	font-size: 14px;
+	transition: .3s all;
+}
+
+.search__form .search__form-btn:hover {
+	background-color: #81d2bc;
+	color: #fff;
 }
 
 .search__body {
@@ -5277,6 +5386,10 @@ blockquote span {
 	padding: 7px 0;
 	font-size: 14px;
 	text-align: center;
+}
+
+.account__nav-link:hover {
+	text-decoration: underline;
 }
 
 .account__nav-link--active {
@@ -5620,7 +5733,14 @@ blockquote span {
 	border-radius: 8px;
 	border: 1px solid #2b70bc;
 	background-color: #ffffff;
+	transition: .3s all;
 }
+
+.question-loged__feedback-btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
+}
+
 
 /* ------------------Account Question --------------------*/
 
@@ -5864,6 +5984,13 @@ blockquote span {
 	border-radius: 8px;
 	border: 1px solid #1a77a3;
 	font-size: 14px;
+	transition: .3s all;
+
+}
+
+.docs__order-btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 .order-conversation {
@@ -6019,7 +6146,14 @@ blockquote span {
 	border-radius: 8px;
 	border: 1px solid #1a77a3;
 	background: #fff;
+	transition: .3s all;
 }
+
+.account__finances-send:hover {
+	background-color: #1a77a3;
+	color: #fff;
+}
+
 
 .finances-history-title {
 	margin-bottom: 20px;
@@ -6445,6 +6579,18 @@ blockquote span {
 	width: auto;
 }
 
+
+
+.lawyer-filter-btn:hover {
+	background-color: #1a77a3;
+	color: #fff
+}
+
+.lawyer-filter-random-btn:hover {
+	background-color: #fff;
+	color: #1a77a3;
+}
+
 /* ------------------ Lawyer-card --------------------*/
 
 .lawyer-card__top {
@@ -6626,9 +6772,9 @@ blockquote span {
 	overflow: visible;
 }
 
-
-
-
+.lawyer-card__data-aside .lawyer-phone-show {
+	color: #ffffff;
+}
 
 .lawyer-card__chat {
 	width: 147px;
@@ -6638,6 +6784,11 @@ blockquote span {
 	border: 1px solid #ffffff;
 	color: #fff;
 	font-size: 14px;
+}
+
+.lawyer-card__chat:hover {
+	background-color: #fff;
+	color: #000;
 }
 
 .lawyer-card__content {
@@ -6886,6 +7037,12 @@ blockquote span {
 	border-radius: 8px;
 	border: 1px solid #2b70bc;
 	font-size: 14px;
+	transition: .3s all;
+}
+
+.lawyer-reviewes__write:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 .lawyer-reviewes__look {
@@ -7759,6 +7916,16 @@ blockquote span {
 	background-color: #fff;
 }
 
+.lawyer-confirm__btn:hover {
+	background-color: #016f52;
+	color: #fff;
+}
+
+.consultations__btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
+}
+
 .lawyer-confirm__tab {
 	display: none;
 }
@@ -7837,6 +8004,12 @@ blockquote span {
 	border-radius: 8px;
 	border: 1px solid #1a77a3;
 	font-size: 14px;
+	transition: .3s all;
+}
+
+.lawyer-question__btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 .lawyer-question__notloged {
@@ -8206,6 +8379,12 @@ blockquote span {
 	margin-left: 10px;
 	border-radius: 8px;
 	border: 1px solid #1a77a3;
+	transition: .3s all;
+}
+
+.new-questions__btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 /* ------------------ Lawyer finances --------------------*/
@@ -8486,6 +8665,12 @@ blockquote span {
 	height: 45px;
 	border-radius: 8px;
 	border: 1px solid #1a77a3;
+	transition: .3s all;
+}
+
+.order-docs__item-offers-btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
 }
 
 .order-filter {
