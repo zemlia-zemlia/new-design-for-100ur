@@ -430,6 +430,8 @@ button:active {
 .login-btn {
 	width: 28px;
 	height: 28px;
+	border-radius: 50%;
+	border: 1px solid #fff;
 }
 
 .header__top {
@@ -4679,6 +4681,7 @@ blockquote span {
 	height: 13px;
 	background-image: url(img/question-unloged-lawer-chat.png);
 	background-repeat: no-repeat;
+	background-size: contain;
 }
 
 .question-unloged__answer-wrap {
