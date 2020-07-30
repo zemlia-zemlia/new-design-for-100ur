@@ -896,8 +896,17 @@
 		width: 80%;
 	}
 
-	
+	.lawyer-page-filter .lawyer-filter-inner {
+		width: 100%;
+	}
 
+	.lawyer-achievement {
+		padding: 35px 15px;
+	}
+
+	.order-offer__btn {
+		font-size: 14px;
+	}
 }
 
 
@@ -1428,6 +1437,19 @@
 	.achievement {
 		width: 100%;
 		margin-bottom: 30px;
+	}
+
+	.lawyer-page-filter .lawyer-filter-inner {
+		width: 240px;
+	}
+
+	.lawyer-page-aside {
+		margin-bottom: 50px;
+	}
+
+	#order-docs__tab {
+		width: 100%;
+		padding-bottom: 30px;
 	}
 }
 
@@ -2597,6 +2619,14 @@
 		font-size: 10px;
 		text-align: center;
 	}
+
+	.order-docs__item-title {
+		font-size: 18px;
+	}
+
+	.order-document .docs__order-list {
+		width: 100%;
+	}
 }
 
 @media screen and (max-width: 460px) {
@@ -3246,6 +3276,25 @@
 		width: 100%;
 	}
 
+	.order-docs__item {
+		padding: 20px 15px;
+		border-radius: 10px;
+	}
+
+	.order-docs__item-footer {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.order-docs__item-offers {
+		margin-bottom: 20px;
+	}
+
+	.order-offer__btn {
+		width: 250px;
+		font-size: 12px;
+	}
+
 }
 
 @media screen and (max-width: 350px) {
@@ -3393,6 +3442,11 @@
 	}
 
 	.lawyer-confirm__label {
+		font-size: 12px;
+	}
+
+	.order-offer__btn {
+		width: 260px;
 		font-size: 12px;
 	}
 }

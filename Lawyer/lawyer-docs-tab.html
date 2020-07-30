@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<!-- Переключение IE в последнию версию, на случай если в настройках пользователя стоит меньшая -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<!-- Адаптирование страницы для мобильных устройств -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- Запрет распознования номера телефона -->
+	<meta name="format-detection" content="telephone=no">
+	<meta name="SKYPE_TOOLBAR" content ="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+
+	<!-- Заголовок страницы -->
+	<title>100 Юристов</title>
+
+	<!-- Данное значение часто используют(использовали) поисковые системы -->
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+
+	<!-- Традиционная иконка сайта, размер 16x16, прозрачность поддерживается. Рекомендуемый формат: .ico или .png -->
+	<link rel="shortcut icon" href="img/favicon.ico">
+
+	<!-- Подключение файлов стилей -->
+	<link rel="stylesheet" href="../lib/jquery-ui-1.12.1.custom/jquery-ui.min.css">
+	<link rel="stylesheet" href="../lib/bootstrap/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="../style.css"> 
+	<link rel="stylesheet" href="../css/media.css"> 
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"> 
+</head>
+<body>
+	
+	<!-- Header -->
+	<header class="header">
+				<div class="header__mob">
+					<div class="container">
+						<div class="header__mob-wrap">
+							<div class="nav-mob-wrap img">
+								<img src="../img/nav-open.png" alt="" class="nav-open">
+								<img src="../img/nav-close.png" alt="" class="nav-close">
+							</div>
+							<nav class="nav-mob">
+								<div class="nav-mob-close img">
+									<img src="../img/nav-mob-close.png" alt="">
+								</div>
+								<div class="nav-mob__title">Меню</div>
+								<ul class="nav-mob-list">
+									<li class="nav-mob-item">
+										<a href="" class="nav-mob-link nav-mob-link--active">Новые вопросы</a>
+									</li>
+									<li class="nav-mob-item">
+										<a href="" class="nav-mob-link">Чат</a>
+									</li>
+									<li class="nav-mob-item">
+										<a href="" class="nav-mob-link">Заказы документов <span class="header-question-value">(2)</span></a>
+									</li>
+									<li class="nav-mob-item">
+										<a href="" class="nav-mob-link">Обновления для меня<span class="header-question-value">(1)</span></a>
+									</li>
+								</ul>
+							</nav>
+							<a href="" class="logo-mob img">
+								<img src="../img/logo.png" alt="">
+							</a>
+							<a href="" class="search-btn img">
+								<img src="../img/search-btn.png" alt="">
+							</a>
+							<form action="" class="search-form-mob">
+								<div class="search-input">
+									<a href="" class="search-input__ico img">
+										<img src="../img/feedback-search.png" alt="">
+									</a>
+									<input type="search" name="" placeholder="Поиск...">
+								</div>
+							</form>
+							<div class="login-registered">
+								<span class="header__registered-img login-registered-img img">
+									<img src="../img/header-account-img.png" alt="">
+								</span>
+								<div class="login-registered-btn img">
+									<img src="../img/login-registered-btn.png" alt="">
+								</div>
+							</div>
+							<nav class="header__user-nav header__lawyer-nav">
+								<div class="nav-mob-close img">
+									<img src="../img/nav-mob-close.png" alt="">
+								</div>
+								<a href="" class="header__registered">
+									<span class="header__registered-img img">
+										<img src="../img/header-account-img.png" alt="">
+									</span>
+									<span class="header__registered-name">Тарасова М. С.</span>
+								</a>
+								<a href="" class="header__registered-account">
+									<span class="header__registered-account-img img">
+										<img src="../img/header-registered-account-img.png" alt="">
+									</span>
+									<span class="header__registered-account-title">Личный кабинет</span>
+								</a>
+								<ul class="header__user-list">
+									<li class="header__user-item">
+										<a href="" class="header__user-link">Мои финансы</a>
+									</li>
+								</ul>
+								<a href="" class="header__user-logout">
+									<span class="header__user-logout-img img">
+										<img src="../img/header-logout.png" alt="">
+									</span>
+									<span class="header__user-logout-title">Выход</span>
+								</a>
+							</nav>
+						</div>
+					</div>	
+				</div>
+
+				<div class="header__top">
+					<div class="container">
+						<div class="row no-gutters justify-content-between align-items-center">
+							<div class="col-sm-12 col-md-auto">
+								<a href="" class="logo img">
+									<img src="../img/logo.png" alt="">
+								</a>
+							</div>
+							<div class="col-sm-6 col-md-5 col-lg-4">
+								<div class="header__user">
+									<a href="" class="header__registered">
+										<span class="header__registered-img img">
+											<img src="../img/header-account-img.png" alt="">
+										</span>
+										<span class="header__registered-name">Тарасова М. С.</span>
+									</a>
+									<div class="header__balance">
+										<div class="header__balance-title">Баланс:</div>
+										<div class="header__balance-value">0.00</div>
+									</div>
+									<a href="" class="header__user-logout img">
+										<img src="../img/header-logout.png" alt="">
+									</a>
+								</div>
+							</div>
+						</div>	
+					</div>
+				</div>
+				<div class="header__bottom">
+					<div class="container">
+						<div class="row justify-content-between align-items-center">
+							<div class="col-lg-8">
+								<nav class="main__nav">
+									<ul class="main__nav-list">
+										<li class="main__nav-item">
+											<a href="" class="main__nav-link main__nav-link--question">Новые вопросы</a>
+										</li>
+										<li class="main__nav-item">
+											<a href="" class="main__nav-link">Чат</a>
+										</li>
+										<li class="main__nav-item">
+											<a href="" class="main__nav-link">Заказы документов <span class="header-question-value">(2)</span></a>
+										</li>
+										<li class="main__nav-item">
+											<a href="" class="main__nav-link">Обновления для меня<span class="header-question-value">(1)</span></a>
+										</li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+	</header>
+
+	<div class="container">
+		<div class="breadcrumbs">
+			<ul class="breadcrumbs__list">
+				<li class="breadcrumbs__item">
+					<a href="../index.html" class="breadcrumbs__link">Главная</a>
+				</li>
+				<li class="breadcrumbs__item">
+					<a href="#" class="breadcrumbs__link breadcrumbs__link--active">Заказы документов</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- Crm-system -->
+	<main class="main archive">
+		<div class="container">
+			<h2 class="archive__title main__title">Заказы документов</h2>
+			<div class="row justify-content-between">
+				<div class="col-md-7 col-lg-8">
+					<div id="order-docs__tab">
+						<ul class="order-docs__tab-list">
+							<li class="order-docs__tab-item">
+								<a href="#tab1" class="order-docs__tab-link">Все</a>
+							</li>
+							<li class="order-docs__tab-item">
+								<a href="#tab2" class="order-docs__tab-link">Мои<span class="order-docs__tab-link-value">(2)</span></a>
+							</li>
+						</ul>
+
+						<div id="tab1">
+							<div class="order-docs__item">
+								<div class="order-docs__item-state">Активная заявка</div>
+								<div class="order-docs__item-title">Подготовить возражение относительно исковых требований</div>
+								<div class="order-docs__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тысяч. Хочу сдать. Рифма нивелирует образ. Первое полустишие, не учитывая количества слогов, стоящих между ударениями, пространственно неоднородно. Если выстроить в ряд случаи инверсий у Державина...</div>
+								<div class="order-docs__data">
+									<div class="order-docs__data-item">12 минут назад</div>
+									<div class="order-docs__data-item">Ольга, г. Екатеринбург</div>
+								</div>
+								<a href="" class="order-docs__item-category">Отзыв или возражение на исковое заявление</a>
+								<div class="order-docs__item-footer">
+									<a href="" class="order-docs__item-offers">5 предложений</a>
+									<a href="" class="main-btn order-docs__item-offers-btn">Предложить услуги</a>
+								</div>
+							</div>
+							<div class="order-docs__item">
+								<div class="order-docs__item-state">Юрист выбран</div>
+								<div class="order-docs__item-title">Подготовить возражение относительно исковых требований</div>
+								<div class="order-docs__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тысяч. Хочу сдать. Рифма нивелирует образ. Первое полустишие, не учитывая количества слогов, стоящих между ударениями, пространственно неоднородно. Если выстроить в ряд случаи инверсий у Державина...</div>
+								<div class="order-docs__data">
+									<div class="order-docs__data-item">12 минут назад</div>
+									<div class="order-docs__data-item">Ольга, г. Екатеринбург</div>
+								</div>
+								<a href="" class="order-docs__item-category">Отзыв или возражение на исковое заявление</a>
+								<div class="order-docs__item-footer">
+									<a href="" class="order-docs__item-offers">5 предложений</a>
+									<a href="" class="main-btn order-docs__item-offers-btn">Предложить услуги</a>
+								</div>
+							</div>
+							<div class="order-docs__item">
+								<div class="order-docs__item-state">Активная заявка</div>
+								<div class="order-docs__item-title">Подготовить возражение относительно исковых требований</div>
+								<div class="order-docs__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тысяч. Хочу сдать. Рифма нивелирует образ. Первое полустишие, не учитывая количества слогов, стоящих между ударениями, пространственно неоднородно. Если выстроить в ряд случаи инверсий у Державина...</div>
+								<div class="order-docs__data">
+									<div class="order-docs__data-item">12 минут назад</div>
+									<div class="order-docs__data-item">Ольга, г. Екатеринбург</div>
+								</div>
+								<a href="" class="order-docs__item-category">Отзыв или возражение на исковое заявление</a>
+								<div class="order-docs__item-footer">
+									<a href="" class="order-docs__item-offers">5 предложений</a>
+									<a href="" class="main-btn order-docs__item-offers-btn">Предложить услуги</a>
+								</div>
+							</div>
+							<div class="order-docs__item">
+								<div class="order-docs__item-state">Активная заявка</div>
+								<div class="order-docs__item-title">Подготовить возражение относительно исковых требований</div>
+								<div class="order-docs__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тысяч. Хочу сдать. Рифма нивелирует образ. Первое полустишие, не учитывая количества слогов, стоящих между ударениями, пространственно неоднородно. Если выстроить в ряд случаи инверсий у Державина...</div>
+								<div class="order-docs__data">
+									<div class="order-docs__data-item">12 минут назад</div>
+									<div class="order-docs__data-item">Ольга, г. Екатеринбург</div>
+								</div>
+								<a href="" class="order-docs__item-category">Отзыв или возражение на исковое заявление</a>
+								<div class="order-docs__item-footer">
+									<a href="" class="order-docs__item-offers">5 предложений</a>
+									<a href="" class="main-btn order-docs__item-offers-btn">Предложить услуги</a>
+								</div>
+							</div>
+							<div class="order-docs__item">
+								<div class="order-docs__item-state">Активная заявка</div>
+								<div class="order-docs__item-title">Подготовить возражение относительно исковых требований</div>
+								<div class="order-docs__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тысяч. Хочу сдать. Рифма нивелирует образ. Первое полустишие, не учитывая количества слогов, стоящих между ударениями, пространственно неоднородно. Если выстроить в ряд случаи инверсий у Державина...</div>
+								<div class="order-docs__data">
+									<div class="order-docs__data-item">12 минут назад</div>
+									<div class="order-docs__data-item">Ольга, г. Екатеринбург</div>
+								</div>
+								<a href="" class="order-docs__item-category">Отзыв или возражение на исковое заявление</a>
+								<div class="order-docs__item-footer">
+									<a href="" class="order-docs__item-offers">5 предложений</a>
+									<a href="" class="main-btn order-docs__item-offers-btn">Предложить услуги</a>
+								</div>
+							</div>
+							<div class="order-docs__item">
+								<div class="order-docs__item-state">Активная заявка</div>
+								<div class="order-docs__item-title">Подготовить возражение относительно исковых требований</div>
+								<div class="order-docs__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тысяч. Хочу сдать. Рифма нивелирует образ. Первое полустишие, не учитывая количества слогов, стоящих между ударениями, пространственно неоднородно. Если выстроить в ряд случаи инверсий у Державина...</div>
+								<div class="order-docs__data">
+									<div class="order-docs__data-item">12 минут назад</div>
+									<div class="order-docs__data-item">Ольга, г. Екатеринбург</div>
+								</div>
+								<a href="" class="order-docs__item-category">Отзыв или возражение на исковое заявление</a>
+								<div class="order-docs__item-footer">
+									<a href="" class="order-docs__item-offers">5 предложений</a>
+									<a href="" class="main-btn order-docs__item-offers-btn">Предложить услуги</a>
+								</div>
+							</div>
+							<div class="order-docs__item">
+								<div class="order-docs__item-state">Активная заявка</div>
+								<div class="order-docs__item-title">Подготовить возражение относительно исковых требований</div>
+								<div class="order-docs__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тысяч. Хочу сдать. Рифма нивелирует образ. Первое полустишие, не учитывая количества слогов, стоящих между ударениями, пространственно неоднородно. Если выстроить в ряд случаи инверсий у Державина...</div>
+								<div class="order-docs__data">
+									<div class="order-docs__data-item">12 минут назад</div>
+									<div class="order-docs__data-item">Ольга, г. Екатеринбург</div>
+								</div>
+								<a href="" class="order-docs__item-category">Отзыв или возражение на исковое заявление</a>
+								<div class="order-docs__item-footer">
+									<a href="" class="order-docs__item-offers">5 предложений</a>
+									<a href="" class="main-btn order-docs__item-offers-btn">Предложить услуги</a>
+								</div>
+							</div>
+							<div class="order-docs__item">
+								<div class="order-docs__item-state">Активная заявка</div>
+								<div class="order-docs__item-title">Подготовить возражение относительно исковых требований</div>
+								<div class="order-docs__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тысяч. Хочу сдать. Рифма нивелирует образ. Первое полустишие, не учитывая количества слогов, стоящих между ударениями, пространственно неоднородно. Если выстроить в ряд случаи инверсий у Державина...</div>
+								<div class="order-docs__data">
+									<div class="order-docs__data-item">12 минут назад</div>
+									<div class="order-docs__data-item">Ольга, г. Екатеринбург</div>
+								</div>
+								<a href="" class="order-docs__item-category">Отзыв или возражение на исковое заявление</a>
+								<div class="order-docs__item-footer">
+									<a href="" class="order-docs__item-offers">5 предложений</a>
+									<a href="" class="main-btn order-docs__item-offers-btn">Предложить услуги</a>
+								</div>
+							</div>
+							<a href="" class="archive-questions__more-btn">Показать еще 10 заявок</a>
+							<div class="pagination">
+								<ul class="">
+									<li class="previous"><a href="">предыдущая</a></li>
+									<li class="page"><a href="">1</a></li>
+									<li class="page selected"><a href="">2</a></li>
+									<li class="page"><a href="">3</a></li>
+									<li class="page"><a href="">4</a></li>
+									<li class="page"><a href="">5</a></li>
+									<li class="page"><a href="">6</a></li>
+									<li class="page"><a href="">7</a></li>
+									<li class="page"><a href="">8</a></li>
+									<li class="page"><a href="">9</a></li>
+									<li class="page"><a href="">10</a></li>
+									<li class="next"><a href="">следующая</a></li>
+									<li class="last"><a href="">Последняя</a></li>
+									</ul>
+							</div>
+						</div>
+
+						<div id="tab2">
+							<div class="order-docs__item">
+								<div class="order-docs__item-state">В архиве</div>
+								<div class="order-docs__item-title">Подготовить возражение относительно исковых требований</div>
+								<div class="order-docs__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тысяч. Хочу сдать. Рифма нивелирует образ. Первое полустишие, не учитывая количества слогов, стоящих между ударениями, пространственно неоднородно. Если выстроить в ряд случаи инверсий у Державина...</div>
+								<div class="order-docs__data">
+									<div class="order-docs__data-item">12 минут назад</div>
+									<div class="order-docs__data-item">Ольга, г. Екатеринбург</div>
+								</div>
+								<div class="order-docs__item-footer">
+									<a href="" class="order-docs__item-category">Претензии потребителей. Другое</a>
+									<a href="" class="order-docs__item-more">Подробнее</a>
+								</div>
+							</div>
+							<div class="order-docs__item">
+								<div class="order-docs__item-state">В архиве</div>
+								<div class="order-docs__item-title">Подготовить возражение относительно исковых требований</div>
+								<div class="order-docs__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тысяч. Хочу сдать. Рифма нивелирует образ. Первое полустишие, не учитывая количества слогов, стоящих между ударениями, пространственно неоднородно. Если выстроить в ряд случаи инверсий у Державина...</div>
+								<div class="order-docs__data">
+									<div class="order-docs__data-item">12 минут назад</div>
+									<div class="order-docs__data-item">Ольга, г. Екатеринбург</div>
+								</div>
+								<div class="order-docs__item-footer">
+									<a href="" class="order-docs__item-category">Претензии потребителей. Другое</a>
+									<a href="" class="order-docs__item-more">Подробнее</a>
+								</div>
+							</div>
+							<a href="" class="archive-questions__more-btn">Показать еще 10 заявок</a>
+							<div class="pagination">
+								<ul class="">
+									<li class="previous"><a href="">предыдущая</a></li>
+									<li class="page"><a href="">1</a></li>
+									<li class="page selected"><a href="">2</a></li>
+									<li class="page"><a href="">3</a></li>
+									<li class="page"><a href="">4</a></li>
+									<li class="page"><a href="">5</a></li>
+									<li class="page"><a href="">6</a></li>
+									<li class="page"><a href="">7</a></li>
+									<li class="page"><a href="">8</a></li>
+									<li class="page"><a href="">9</a></li>
+									<li class="page"><a href="">10</a></li>
+									<li class="next"><a href="">следующая</a></li>
+									<li class="last"><a href="">Последняя</a></li>
+									</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class=" col-md-5 col-lg-4">
+					<div class="lawyer-page-aside">
+						<div class="last-consultation">
+						<div class="last-consultation__title">Последние заявки на заказ документов</div>
+						<div class="consultations__item">
+		      		<div class="consultations__date">10.01.2019</div>
+		      		<a href="" class="consultations__category">Категория права</a>
+		      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+		      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+		      	</div>
+		      	<div class="consultations__item">
+		      		<div class="consultations__date">10.01.2019</div>
+		      		<a href="" class="consultations__category">Категория права</a>
+		      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+		      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+		      	</div>
+		      	<div class="consultations__item">
+		      		<div class="consultations__date">10.01.2019</div>
+		      		<a href="" class="consultations__category">Категория права</a>
+		      		<div class="consultations__item-title">Нужно ли будет платить налог, если я хочу сдать свою старую машину по программе Trade-in?</div>
+		      		<div class="consultations__item-desc">Здравствуйте, автомобиль был куплен в августе 2019 года новый за 1 млн 250 тыс. Хочу сдать...</div>
+		      	</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-7 col-sm-4 col-lg-3">
+					<div class="footer__wrap">
+						<a href="" class="footer__logo img">
+							<img src="../img/footer-logo.png" alt="">
+						</a>
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">О проекте</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Контакты</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Пользовательское соглашение</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Реферальная программа</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-8 col-sm-4 col-lg-3">
+					<div class="footer__wrap footer__wrap-padding">
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Каталог юристов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Архив вопросов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Горячая линия</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Новости</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-8 col-sm-4 col-lg-3">
+					<div class="footer__wrap footer__wrap-padding">
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Регистрация нового юриста</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">CRM для юристов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Юридические заявки</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Зачем отвечать на вопросы</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-12 col-lg-3">
+					<div class="footer__wrap footer__wrap-social">
+						<ul class="footer__social">
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-1.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-2.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-3.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-4.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-5.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-6.png" alt="">
+								</a>
+							</li>
+						</ul>
+						<div class="footer__branches">
+							<div class="footer__branches-title">Филиалы:</div>
+							<ul class="footer__branches-list">
+								<li class="footer__branches-item">Санкт-Петербург, ул. Достоевского, д. 25</li>
+								<li class="footer__branches-item">Нижний Новгород, ул. Новая, д. 28</li>
+								<li class="footer__branches-item">Екатеринбург, ул. 8 марта, д. 142</li>
+								<li class="footer__branches-item">Ростов-на-Дону, ул. Красноармейская, д. 142/50</li>
+								<li class="footer__branches-item">Краснодар, ул. Московская, д. 148</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	
+	<script src="../jquery/jquery-3.4.1.min.js"></script>
+	<script src="../lib/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="../lib/swiper/swiper.min.js"></script>
+	<script src="../lib/jquery.maskedinput.js"></script>
+	<script src="../js/main.js"></script>
+</body>
+</html>

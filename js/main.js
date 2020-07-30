@@ -381,4 +381,17 @@ $('#confirm-3').on('click touch', function(){
     $('.lawyer-confirm__company').addClass('active');
   });
 
+  $('#order-docs__tab').tabs({
+    beforeActivate : function(evt) {
+      location.hash=$(evt.currentTarget).attr('href');
+    },
+    show: 'fadeIn',
+    hide: 'fadeOut'
+  });
+
+   var hash = location.hash; 
+  if (hash) { 
+    $('#order-docs__tab').tabs("load", hash) 
+  } 
+
 });
