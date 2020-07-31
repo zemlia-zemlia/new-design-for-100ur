@@ -2627,6 +2627,14 @@
 	.order-document .docs__order-list {
 		width: 100%;
 	}
+
+	.filter-mob {
+		display: block;
+	}
+
+	.lawyer-filter {
+		display: none;
+	}
 }
 
 @media screen and (max-width: 460px) {

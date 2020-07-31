@@ -394,4 +394,9 @@ $('#confirm-3').on('click touch', function(){
     $('#order-docs__tab').tabs("load", hash) 
   } 
 
+  $('.filter-mob-btn').on('click touch', function(){
+    $('.lawyer-filter-mob').slideToggle();
+    return false;
+  });
+
 });

@@ -8753,3 +8753,41 @@ blockquote span {
 .order-document .docs__order-list {
 	width: 80%;
 }
+
+.filter-mob {
+	display: none;
+}
+
+.filter-mob-btn {
+	width: 190px;
+	height: 50px;
+	justify-content: flex-start;
+	padding-left: 20px;
+	border-radius: 8px;
+	border: 1px solid #1a77a3;
+	background-image: url(img/filter-mob-btn.png);
+	background-repeat: no-repeat;
+	background-position: right 20px top 24px;
+	font-size: 14px;
+}
+
+.filter-mob-btn:hover {
+	background-color: #1a77a3;
+	color: #fff;
+	background-image: url(img/filter-mob-btn-hover.png);
+}
+
+.filter-mob-wrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.filter-mob-question {
+	font-size: 14px;
+}
+
+.lawyer-filter-mob {
+	display: none;
+}

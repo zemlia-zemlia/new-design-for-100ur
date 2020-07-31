@@ -186,6 +186,63 @@
 	<main class="main">
 		<div class="container">
 			<h2 class="main__title">Вопросы юристам</h2>
+			<div class="filter-mob">
+					<div class="filter-mob-wrap">
+						<div class="filter-mob-section">
+							<a href="" class="main-btn filter-mob-btn">Фильтр вопросов</a>
+						</div>
+						<a href="" class="filter-mob-question">242 вопроса без ответа</a>
+					</div>
+					<form action="" class="lawyer-filter lawyer-page-filter lawyer-filter-mob">
+							<div class="lawyer-filter-inner">
+								<div class="lawyer-filter-secondary-title"><span class="lawyer-filter-secondary-title--bold">242 </span>вопроса без ответа</div>
+								<a class="lawyer-filter__show">Показать</a>
+								<div class="lawyer-filter-title">Фильтр вопросов</div>
+								<div class="checkbox-wrap">
+									<input id="lawyer-filter-1" type="checkbox" name="check" value="check1" class="checkbox">
+									<label for="lawyer-filter-1">По моей специальности</label>
+									<input id="lawyer-filter-2" type="checkbox" name="check" value="check2" class="checkbox">
+									<label for="lawyer-filter-2">Из моего города</label>
+									<input id="lawyer-filter-3" type="checkbox" name="check" value="check3" class="checkbox">
+									<label for="lawyer-filter-3">Из моего региона</label>
+									<input id="lawyer-filter-4" type="checkbox" name="check" value="check3" class="checkbox">
+									<label for="lawyer-filter-4">По моим отраслям права</label>
+									<input id="lawyer-filter-4" type="checkbox" name="check" value="check3" class="checkbox">
+									<label for="lawyer-filter-4">За 24 часа</label>
+								</div>
+								<div class="radio-wrap">
+									<div class="radio-wrap-title">По наличию ответа</div>
+									<div class="radio-input-wrap">
+										<input type="radio"  id="confirm-1" name="deliverybtn" value="delivery" class="radio">
+										<label for="confirm-1">Все</label>
+									</div>
+									<div class="radio-input-wrap">
+										<input type="radio"  id="confirm-2" name="deliverybtn" value="delivery" class="radio">
+										<label for="confirm-2">Только с ответом</label>
+									</div>
+								</div>
+								<div class="radio-wrap">
+									<div class="radio-wrap-title">По платности</div>
+									<div class="radio-input-wrap">
+										<input type="radio"  id="confirm-3" name="deliverybtn" value="delivery" class="radio">
+										<label for="confirm-3">Все</label>
+									</div>
+									<div class="radio-input-wrap">
+										<input type="radio"  id="confirm-4" name="deliverybtn" value="delivery" class="radio">
+										<label for="confirm-4">Только платные</label>
+									</div>
+								</div>
+								<div class="lawyer-filter-default">
+									<div class="lawyer-filter-default-img img">	
+										<img src="../img/lawyer-filter-default-img.png" alt="">
+									</div>
+									<div class="lawyer-filter-default-title">Сбросить фильтры</div>
+								</div>
+								<input type="submit" value="Отфильтровать" name="" class="main-btn lawyer-filter-btn">
+								<input type="submit" value="Отфильтровать" name="" class="main-btn lawyer-filter-random-btn">
+							</div>
+					</form>
+			</div>
 			<div class="row justify-content-between question-unloged">
 				<div class="col-md-7 col-lg-8">
 					<div class="new-questions">
