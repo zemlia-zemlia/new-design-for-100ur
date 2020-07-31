@@ -907,6 +907,11 @@
 	.order-offer__btn {
 		font-size: 14px;
 	}
+
+	.lawyer-catalog-offer-item {
+		font-size: 12px;
+	}
+
 }
 
 
@@ -1450,6 +1455,10 @@
 	#order-docs__tab {
 		width: 100%;
 		padding-bottom: 30px;
+	}
+
+	.lawyer-catalog {
+		width: 100%;
 	}
 }
 
@@ -3303,6 +3312,19 @@
 		font-size: 12px;
 	}
 
+	.question-unloged__lawyer-footer {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.question-unloged__lawyer-lastseen {
+		margin-bottom: 5px;
+	}
+
+
+	.question-unloged__lawyer-chat {
+		margin-bottom: 5px;
+	}
 }
 
 @media screen and (max-width: 350px) {

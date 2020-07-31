@@ -1267,8 +1267,7 @@ button:active {
 }
 
 .reviewes__item-footer {
-	display: flex;
-	justify-content: flex-start;
+	text-align: left;
 }
 
 .reviewes__item-footer-title {
@@ -3001,6 +3000,10 @@ button:active {
 		text-align: left;
 }
 
+.form-horizontal {
+	margin-bottom: 30px;
+}
+
 .form-input-wrap {
 	margin-bottom: 20px;
 }
@@ -4511,7 +4514,7 @@ blockquote span {
 	margin-right: 19px;
 }
 
-.question-unloged__title {
+.question-unloged__title h1 {
 	margin-bottom: 10px;
 	font-size: 22px;
 	font-weight: 700;
@@ -6388,6 +6391,7 @@ blockquote span {
 
 .lawyer-catalog {
 	width: 96%;
+	margin-bottom: 30px;
 }
 
 .lawyer-rate {
@@ -6490,7 +6494,7 @@ blockquote span {
 }
 
 .lawyer-catalog-offer {
-	width: 50%;
+	width: 60%;
 	padding-top: 20px;
 	border-top: 1px solid #e5e5e5;
 }
@@ -8790,4 +8794,8 @@ blockquote span {
 
 .lawyer-filter-mob {
 	display: none;
+}
+
+.account__avatar-image img {
+	object-fit: cover;
 }
