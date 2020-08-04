@@ -49,7 +49,7 @@ $(document).ready(function() {
   var swiper = new Swiper('.reviewes-swiper-container', {
       slidesPerView: 4,
       spaceBetween: 30,
-      
+
       loop: true,
       loopFillGroupWithBlank: true,
       pagination: {
@@ -88,7 +88,7 @@ $(document).ready(function() {
     hide: 'fadeOut'
   });
 
-   
+
 
   var swiper = new Swiper('.question-free-swiper-container', {
       slidesPerView: 3,
@@ -232,7 +232,7 @@ $(document).ready(function() {
       }
     });
 
-  
+
 
 $('#phone').mask('+7 (999) 999-99-99');
 
@@ -295,10 +295,10 @@ $('#reg-type-3').on('click touch', function(){
     hide: 'fadeOut'
   });
 
-   var hash = location.hash; 
-  if (hash) { 
-    $('#search-container').tabs("load", hash) 
-  } 
+   var hash = location.hash;
+  if (hash) {
+    $('#search-container').tabs("load", hash)
+  }
 
    $('.login-registered-btn').on('click touch', function(){
        $('.header__user-nav').addClass('active');
@@ -317,10 +317,10 @@ $('#account__tab-container').tabs({
     hide: 'fadeOut'
   });
 
-   var hash = location.hash; 
-  if (hash) { 
-    $('#account__tab-container').tabs("load", hash) 
-  } 
+   var hash = location.hash;
+  if (hash) {
+    $('#account__tab-container').tabs("load", hash)
+  }
 
   $('#docs__order-tab').tabs({
     beforeActivate : function(evt) {
@@ -330,10 +330,10 @@ $('#account__tab-container').tabs({
     hide: 'fadeOut'
   });
 
-   var hash = location.hash; 
-  if (hash) { 
-    $('#docs__order-tab').tabs("load", hash) 
-  } 
+   var hash = location.hash;
+  if (hash) {
+    $('#docs__order-tab').tabs("load", hash)
+  }
 
 
 
@@ -345,10 +345,10 @@ $('#account__tab-container').tabs({
     hide: 'fadeOut'
   });
 
-   var hash = location.hash; 
-  if (hash) { 
-    $('#lawyer-career-tab').tabs("load", hash) 
-  } 
+   var hash = location.hash;
+  if (hash) {
+    $('#lawyer-career-tab').tabs("load", hash)
+  }
 
   $('#lawyer-edit-tab').tabs({
     beforeActivate : function(evt) {
@@ -358,10 +358,10 @@ $('#account__tab-container').tabs({
     hide: 'fadeOut'
   });
 
-   var hash = location.hash; 
-  if (hash) { 
-    $('#lawyer-edit-tab').tabs("load", hash) 
-  } 
+   var hash = location.hash;
+  if (hash) {
+    $('#lawyer-edit-tab').tabs("load", hash)
+  }
 
 $('#confirm-1').on('click touch', function(){
     $('.lawyer-confirm__jurist').addClass('active');
@@ -381,18 +381,18 @@ $('#confirm-3').on('click touch', function(){
     $('.lawyer-confirm__company').addClass('active');
   });
 
-  $('#order-docs__tab').tabs({
-    beforeActivate : function(evt) {
-      location.hash=$(evt.currentTarget).attr('href');
-    },
-    show: 'fadeIn',
-    hide: 'fadeOut'
-  });
+  // $('#order-docs__tab').tabs({
+  //   beforeActivate : function(evt) {
+  //     location.hash=$(evt.currentTarget).attr('href');
+  //   },
+  //   show: 'fadeIn',
+  //   hide: 'fadeOut'
+  // });
 
-   var hash = location.hash; 
-  if (hash) { 
-    $('#order-docs__tab').tabs("load", hash) 
-  } 
+  //  var hash = location.hash;
+  // if (hash) {
+  //   $('#order-docs__tab').tabs("load", hash)
+  // }
 
   $('.filter-mob-btn').on('click touch', function(){
     $('.lawyer-filter-mob').slideToggle();
