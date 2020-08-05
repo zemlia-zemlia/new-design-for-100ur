@@ -5508,6 +5508,10 @@ blockquote span {
 	margin-bottom: 10px;
 }
 
+#tab2 .account__form-wrap {
+	width: 350px;
+}
+
 .account__form-label {
 	display: block;
 	margin-right: 15px;
