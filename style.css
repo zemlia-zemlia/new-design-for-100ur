@@ -7580,7 +7580,7 @@ blockquote span {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 35px;
+	margin-bottom: 35px !important;
 }
 
 .lawyer-edit-tab-link {
