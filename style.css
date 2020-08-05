@@ -5487,8 +5487,8 @@ blockquote span {
 	display: flex;
 	justify-content: space-between;
 	width: 320px;
-	margin: 0 auto;
-	margin-bottom: 22px;
+	margin: 0 auto !important;
+	margin-bottom: 22px !important;
 }
 
 .account__tab-link {
