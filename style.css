@@ -8147,6 +8147,16 @@ textarea:active {
 	color: #ffffff;
 }
 
+.lawyer-filter-btn {
+	max-width: 100%;
+	height: 50px;
+	margin: 0 auto;
+	margin-top: 15px;
+	border-radius: 8px;
+	background-color: #ffffff;
+	color: #1a77a3;
+}
+
 .lawyer-achievement {
 	margin-bottom: 25px;
 	padding: 35px 30px;
