@@ -8181,12 +8181,32 @@ textarea:active {
 }
 
 .lawyer-achievement__state-value {
-	width: 33.33%;
 	border-radius: 7px 0 0 7px;
 	background-color: #1a77a3;
 	color: #fff;
 	font-size: 12px;
 	text-align: center;
+}
+
+.lawyer-achievement__state-value-1 {
+	width: 20%;
+}
+
+.lawyer-achievement__state-value-2 {
+	width: 40%;
+}
+
+.lawyer-achievement__state-value-3 {
+	width: 60%;
+}
+
+.lawyer-achievement__state-value-4 {
+	width: 80%;
+}
+
+.lawyer-achievement__state-value-5 {
+	width: 100%;
+	border-radius: 7px;
 }
 
 .lawyer-achievement__more {
