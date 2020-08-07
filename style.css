@@ -7517,6 +7517,10 @@ blockquote span {
 	font-weight: 700;
 }
 
+textarea:active {
+	width: auto;
+}
+
 .account__section .lawyer-account__section-title {
 	margin-bottom: 20px;
 	text-align: center;
@@ -7953,18 +7957,28 @@ blockquote span {
 	display: block;
 }
 
-.lawyer-general__form {
+.tab__form-wrap {
 	display: flex;
 	justify-content: space-between;
 }
 
-.lawyer-general__form .account__form-inner {
+.tab__form-wrap .lawyer-general__form {
 	width: 35%;
 }
 
 .lawyer-general__form .account__form-wrap {
 	width: 100%;
 }
+
+.lawyer-general__form .form-input-textarea{
+	width: 100% !important;
+}
+
+.lawyer-general__form .form-input-textarea textarea{
+	width: 100% !important;
+}
+
+
 
 /* ------------------ Lawyer question --------------------*/
 

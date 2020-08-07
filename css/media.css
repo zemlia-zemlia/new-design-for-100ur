@@ -292,7 +292,7 @@
 		font-size: 12px;
 	}
 
-	.lawyer-general__form .account__form-inner {
+	.tab__form-wrap .lawyer-general__form {
 		width: 40%;
 	}
 }
@@ -868,7 +868,7 @@
 		padding: 22px 20px;
 	}
 
-	.lawyer-general__form .account__form-inner {
+	.tab__form-wrap .lawyer-general__form {
 		width: 47%;
 	}
 
@@ -1370,26 +1370,26 @@
 		margin-bottom: 5px;
 	}
 
-	.lawyer-general__form {
+	.tab__form-wrap {
 		flex-direction: column;
 		align-items: flex-start;
 	}
 
-	.lawyer-general__form .account__form-inner {
+	.tab__form-wrap .lawyer-general__form {
 		width: 80%;
 		margin-bottom: 25px;
 	}
 
-	.lawyer-general__form .account__form-inner .account__form-input {
+	.lawyer-general__form  .account__form-input {
 		width: 100%;
 	}
 
-	.lawyer-general__form .account__form-inner .account__form-label {
+	.lawyer-general__form .account__form-label {
 		flex-shrink: 0;
 		width: 120px;
 	}
 
-	.lawyer-general__form .account__form-inner .form-input-textarea {
+	.lawyer-general__form .form-input-textarea {
 		width: 100%;
 	}
 
@@ -2558,7 +2558,7 @@
 		font-size: 12px;
 	}
 
-	.lawyer-general__form .account__form-inner {
+	.tab__form-wrap .lawyer-general__form  {
 		width: 100%;
 	}
 
