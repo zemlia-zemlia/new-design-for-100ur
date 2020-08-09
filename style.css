@@ -4535,6 +4535,7 @@ blockquote span {
 
 .question-unloged__category-title {
 	color: #7b7b7b;
+	margin-right: 4px;
 }
 
 .question-unloged__category-value {
@@ -4621,7 +4622,11 @@ blockquote span {
 	display: flex;
 	justify-content: space-between;
 	color: rgba(0, 12, 20, .5);
-	font-size: 14px;
+	font-size: 12px;
+}
+
+.question-unloged__lawyer-proffesion-item:first-child {
+	margin-right: 10px;
 }
 
 .question-unloged__lawyer-online {
@@ -4639,6 +4644,7 @@ blockquote span {
 
 .question-unloged__lawyer-reviewes-title {
 	text-decoration: underline;
+	margin-right: 4px;
 }
 
 .question-unloged__lawyer-consultation {
@@ -4646,6 +4652,12 @@ blockquote span {
 	justify-content: flex-end;
 	font-size: 12px;
 }
+
+.question-unloged__lawyer-consultation-title {
+	margin-right: 4px;
+}
+
+
 
 .question-unloged__lawyer-body {
 	margin-bottom: 15px;
@@ -6475,7 +6487,8 @@ blockquote span {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 75px;
+	width: auto;
+	padding: 0 5px;
 	height: 22px;
 	border-radius: 5px;
 	border: 1px solid #2b70bc;
@@ -6771,6 +6784,10 @@ blockquote span {
 
 .lawyer-card__activity-item:last-child {
 	margin-left: auto;
+}
+
+.lawyer-card__activity-item-title {
+	margin-right: 4px;
 }
 
 .lawyer-card__data-aside .lawyer-phone-value {
