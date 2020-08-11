@@ -1981,7 +1981,12 @@
 		padding: 15px;
 	}
 
+	.selling__main {
+		width: 100%;
+	}
+
 	.selling__main-bg {
+		position: absolute;
 		width: 100vw;
 		height: 100%;
 	}
@@ -1991,6 +1996,13 @@
 	}
 
 	.selling-main-bg-mob {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.selling-main-bg-mob  img{
 		display: block;
 		width: 100%;
 		height: 100%;
@@ -2643,6 +2655,10 @@
 
 	.lawyer-filter {
 		display: none;
+	}
+
+	.selling__main {
+		position: relative;
 	}
 }
 

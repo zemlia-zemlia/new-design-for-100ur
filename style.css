@@ -3616,7 +3616,6 @@ button:active {
 /* ------------------ Selling Leads  --------------------*/
 
 .selling__main {
-	position: relative;
 	border-bottom: 1px solid #e5e5e5;
 }
 
@@ -7273,9 +7272,10 @@ blockquote span {
 	font-size: 18px;
 }
 
-.radio-wrap-title {
+.thanks__form .radio-wrap-title {
 	margin-bottom: 10px;
 	font-size: 16px;
+	color: #000c14;
 }
 
 .thanks__form .radio-wrap {
@@ -7494,11 +7494,16 @@ blockquote span {
 	font-size: 16px;
 }
 
+.lawyer-account__activity-rewiewes {
+	text-decoration: underline;
+}
+
 .lawyer-account__activity-item--value {
 	margin-right: 4px;
 	color: #1a77a3;
 	font-size: 22px;
 	font-weight: 700;
+	text-decoration: none;
 }
 
 .lawyer-account__main {
@@ -8863,4 +8868,18 @@ textarea:active {
 
 .account__avatar-image img {
 	object-fit: cover;
+}
+
+.question-unloged__lawyer-donate {
+    position: relative;
+    padding-left: 22px;
+    color: #017052;
+    font-size: 12px;
+    font-weight: 400;
+    text-decoration: underline;
+}
+
+.ui-tabs .ui-tabs-nav li {
+	margin: 0;
+	margin-right: 25px;
 }
