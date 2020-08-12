@@ -2625,21 +2625,20 @@ button:active {
 }
 
 .best-workers__data-wrapper {
-	display: flex;
+	display: block;
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 5px;
 }
 
 .best-workers__specialty {
-	margin-right: 8px;
+	margin-bottom: 5px;
 	color: rgba(0, 12, 20, .5);
 	font-size: 14px;
 }
 
 .best-workers__location {
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
 }
 
@@ -5081,7 +5080,7 @@ blockquote span {
 
 .search__form {
 	display: flex;
-	max-width: 85.78%;
+	max-width: 96%;
 	height: 40px;
 	margin-bottom: 35px;
 }
@@ -5097,7 +5096,7 @@ blockquote span {
 }
 
 .search__form .search__form-input {
-	width: 60.72%;
+	width: 100%;
 }
 
 .search__form .search__form-input input {
@@ -5715,6 +5714,10 @@ blockquote span {
 	margin-top: 40px;
 	border-radius: 8px;
 	border: 1px solid #1a77a3;
+}
+
+.rate-popup-btn:hover {
+	background-color: #1a77a3;
 }
 
 .question-loged__comment {
@@ -6690,8 +6693,8 @@ blockquote span {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 89px;
 	height: 26px;
+	padding: 0 5px;
 	border-radius: 5px;
 	background-color: #208167;
 	color: #ffffff;
@@ -8882,4 +8885,77 @@ textarea:active {
 .ui-tabs .ui-tabs-nav li {
 	margin: 0;
 	margin-right: 25px;
+}
+
+.lawyer-career-tab-list {
+	margin-bottom: 10px !important;
+}
+
+.search-tab-list {
+	margin-bottom: 30px !important;
+}
+
+.question-unloged__category-value {
+	margin-right: 8px;
+}
+
+.checkbox {
+	width: auto;
+}
+
+.selling__main-bg {
+	overflow: hidden;
+}
+
+textarea {
+	width: 100% !important;
+}
+
+.question-loged__comment {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	width: 100%;
+}
+
+#comment-form {
+    width: 90%;
+}
+
+.comments-item__message-send {
+	background-color: transparent;
+	padding: 0;
+}
+
+.account__questions-title {
+	width: 100%;
+	text-align: left;
+}
+
+.user-thanks {
+	margin-bottom: 30px;
+	padding: 25px 15px;
+	border-radius: 8px;
+	background-color: #1a77a3;
+	color: #fff;
+}
+
+.user-thanks h4 {
+	margin-bottom: 5px;
+	font-size: 20px;
+}
+
+.user-thanks p {
+	font-size: 18px;
+	font-weight: 700;
+	margin-bottom: 5px;
+}
+
+.user-thanks div {
+	font-size: 16px;
+}
+
+.user-thanks a {
+	color: #fff;
+	text-decoration: underline;
 }
