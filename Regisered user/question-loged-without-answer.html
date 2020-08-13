@@ -487,7 +487,16 @@
 				<div class="steps__item">
 					<div class="rate-popup-card-title">1 гарантированный ответ</div>
 					<div class="rate-popup-card-price">139 руб.</div>
-					<button class="main-btn rate-popup-card-btn">Выбрать</button>
+					<form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml" class="balance-form">
+				    <input type="hidden" name="receiver" value="410012948838662">
+				    <input type="hidden" name="label" value="q-236814">
+				    <input type="hidden" name="quickpay-form" value="shop">
+				    <input type="hidden" name="successURL" value="http://test.100yuristov.com/q/236814/?payed_ok=1">
+				    <input type="hidden" name="targets" value="Оплата вопроса 236814">
+				    <input type="hidden" name="paymentType" value="AC">
+				    
+				    <input type="submit" class="main-btn rate-popup-card-btn" value="Выбрать">
+				</form>
 					<div class="arrow_box"></div>
 				</div>
 				<div class="steps__item">
