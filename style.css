@@ -8980,3 +8980,55 @@ input[type="number"] {
 .balance-form {
 	overflow: hidden;
 }
+
+.form-login {
+	margin-bottom: 60px;
+}
+
+.form-login-inner {
+	justify-content: space-between;
+	margin-bottom: 40px;
+	padding-bottom: 0;
+}
+
+.form-login__aside {
+	margin-top: 40px;
+}
+
+.remember-check {
+	width: 120px;
+	margin-left: 0;
+}
+
+.form-login__bottom {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.form-login__bottom .question-online__btn {
+	margin: 0;
+}
+
+.form-login__item-ttile {
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+.form-login__item {
+	margin-bottom: 20px;
+}
+
+.form-login__item-btn {
+	width: 201px;
+	height: 50px;
+	margin: 0 auto;
+	border-radius: 8px;
+	background-color: #017052;
+	color: #fafdff;
+	font-size: 16px;
+}
+
+.login-social {
+	margin: 0 auto;
+}
