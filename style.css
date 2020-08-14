@@ -164,6 +164,8 @@ button:active {
 }
 
 .breadcrumbs {
+	position: relative;
+	z-index: 20;
 	margin-top: 16px;
 	margin-bottom: 13px;
 }
@@ -7253,11 +7255,19 @@ blockquote span {
 
 /* ------------------ Thanks --------------------*/
 
-.thsnks-bg {
-	padding: 25px 0 75px 0;
+.thanks-bg {
+	position: relative;
+	overflow: hidden;
+	z-index: 10;
+	top: -50px;
+	padding-top: 80px;
+	padding-bottom: 40px;
+	margin-bottom: -130px;
+	width: 100%;
 	background-color: #fafdff;
 	background-image: url(img/thanks-bg.png);
 	background-repeat: no-repeat;
+	object-fit: cover;
 	background-position: right -70px top -110px; 
 }
 
