@@ -249,7 +249,7 @@ button:active {
  font-size: 14px;
  line-height: 1;
  padding-right: 14px;
- background-image: url(img/archive-questions-btn-ico.png);
+ background-image: url(img/archive-questions-btn-ico.svg);
  background-repeat: no-repeat;
  background-position: right top 4px;  
 }
@@ -260,7 +260,7 @@ button:active {
  font-size: 14px;
  line-height: 1;
  padding-left: 14px;
- background-image: url(img/archive-question-previous.png);
+ background-image: url(img/archive-question-previous.svg);
  background-repeat: no-repeat;
  background-position: left top 4px;  
 }
@@ -451,11 +451,6 @@ button:active {
 	height: 44px;
 }
 
-.logo img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
 
 .header__question {
 	font-size: 14px;
@@ -475,7 +470,7 @@ button:active {
 	left: 0;
 	width: 22px;
 	height: 22px;
-	background-image: url(img/header-contacts.png);
+	background-image: url(img/header-contacts.svg);
 	background-repeat: no-repeat;
 }
 
@@ -970,7 +965,7 @@ button:active {
 	top: 45%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(img/slide-next.png);
+	background-image: url(img/slide-next.svg);
 	background-size: 18px;
 }
 
@@ -978,7 +973,7 @@ button:active {
 	top: 45%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(img/slide-prev.png);
+	background-image: url(img/slide-prev.svg);
 	background-size: 18px;
 }
 
@@ -1179,7 +1174,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(img/reviewes-button-next.png);
+	background-image: url(img/reviewes-button-next.svg);
 	background-size: 18px;
 	right: 10px;
 	left: auto;
@@ -1196,7 +1191,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(img/reviewes-button-prev.png);
+	background-image: url(img/reviewes-button-prev.svg);
 	background-size: 18px;
 	left: 10px;
 	right: auto;
@@ -1401,7 +1396,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(img/question-free-button-next.png);
+	background-image: url(img/question-free-button-next.svg);
 	background-size: 18px;
 	right: 10px;
 	left: auto;
@@ -1418,7 +1413,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(img/question-free-button-prev.png);
+	background-image: url(img/question-free-button-prev.svg);
 	background-size: 18px;
 	left: 10px;
 	right: auto;
@@ -1496,7 +1491,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(img/question-free-button-next.png);
+	background-image: url(img/question-free-button-next.svg);
 	background-size: 18px;
 	right: 10px;
 	left: auto;
@@ -1513,7 +1508,7 @@ button:active {
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(img/question-free-button-prev.png);
+	background-image: url(img/question-free-button-prev.svg;
 	background-size: 18px;
 	left: 10px;
 	right: auto;
@@ -2263,10 +2258,11 @@ button:active {
 	position: absolute;
 	top: 0;
 	left: -23px;
-	width: 15px;
-	height: 21px;
-	background-image: url(img/footer-branches-title.png);
+	width: 18px;
+	height: 25px;
+	background-image: url(img/footer-branches-title.svg);
 	background-repeat: no-repeat;
+	object-fit: contain;
 }
 
 .footer__branches-item {
@@ -2440,7 +2436,7 @@ button:active {
 	padding: 0 17px;
 	border-radius: 17px;
 	border: 1px solid #cacaca;
-	background-image: url(img/archive-questions-btn-ico.png);
+	background-image: url(img/archive-questions-btn-ico.svg);
 	background-repeat: no-repeat;
 	background-position: right 20px top 11px;
 	color: #000c14;
@@ -3064,7 +3060,7 @@ button:active {
 	border: none;
 	border-radius: 8px;
 	border: 1px solid #e5e5e5;
-	background-image: url(img/select-arrow.png);
+	background-image: url(img/select-arrow.svg);
 	background-repeat: no-repeat;
 	background-position: right 20px center;
 }
@@ -3091,7 +3087,7 @@ button:active {
 	font-size: 12px;
 }
 .question-online-check-wrap .checkbox + label:after {
-	background-image: url(img/question-online-check-ico.png);
+	background-image: url(img/question-online-check-ico.svg);
 }
 
 .question-online__policy {
@@ -3765,7 +3761,7 @@ button:active {
 	left: 0;
 	width: 12px;
 	height: 18px;
-	background-image: url(img/selling-example-item-location.png);
+	background-image: url(img/selling-example-item-location.svg);
 	background-repeat: no-repeat;
 }
 
@@ -3781,7 +3777,7 @@ button:active {
 	left: 0;
 	width: 18px;
 	height: 18px;
-	background-image: url(img/selling-example-item-phone.png);
+	background-image: url(img/selling-example-item-phone.svg);
 	background-repeat: no-repeat;
 }
 
@@ -3797,7 +3793,7 @@ button:active {
 	left: 0;
 	width: 15px;
 	height: 18px;
-	background-image: url(img/selling-example-item-person.png);
+	background-image: url(img/selling-example-item-person.svg);
 	background-repeat: no-repeat;
 }
 
@@ -3949,7 +3945,7 @@ button:active {
 	right: -67px;
 	width: 49px;
 	height: 12px;
-	background-image: url(img/selling-about-item.png);
+	background-image: url(img/selling-about-item.svg);
 	background-repeat: no-repeat;
 }
 
@@ -3961,7 +3957,7 @@ button:active {
 	left: -67px;
 	width: 49px;
 	height: 12px;
-	background-image: url(img/selling-about-item.png);
+	background-image: url(img/selling-about-item.svg);
 	background-repeat: no-repeat;
 }
 
@@ -4225,7 +4221,7 @@ button:active {
 	left: 0;
 	width: 18px;
 	height: 18px;
-	background-image: url(img/resource-desc-item.png);
+	background-image: url(img/resource-desc-item.svg);
 	background-repeat: no-repeat;
 }
 
@@ -4327,7 +4323,7 @@ blockquote span {
 	padding-left: 14px;
 	border-radius: 5px;
 	background-color: #ffffff;
-	background-image: url(img/resource-download-item-btn.png);
+	background-image: url(img/resource-download-item-btn.svg);
 	background-repeat: no-repeat;
 	background-position: right 5px center;
 	color: #000000;
@@ -4699,7 +4695,7 @@ blockquote span {
 	left: 0;
 	width: 15px;
 	height: 13px;
-	background-image: url(img/question-unloged-lawer-chat.png);
+	background-image: url(img/question-unloged-lawer-chat.svg);
 	background-repeat: no-repeat;
 	background-size: contain;
 }
@@ -5299,7 +5295,7 @@ blockquote span {
 	position: absolute;
 	top: 0;
 	right: 0;
-	z-index: 20;
+	z-index: 40;
 	width: 320px;
 	padding: 60px 0 100px;
 	background-color: #fff;
@@ -5503,7 +5499,7 @@ blockquote span {
 .account__tab-list {
 	display: flex;
 	justify-content: space-between;
-	width: 320px;
+	width: 380px;
 	margin: 0 auto !important;
 	margin-bottom: 22px !important;
 }
@@ -5875,7 +5871,7 @@ blockquote span {
 	width: 22px;
 	height: 20px;
 	margin-left: 5px;
-	background-image: url(img/account-docs-item-confirm-value.png);
+	background-image: url(img/account-docs-item-confirm-value.svg);
 	background-repeat: no-repeat;
 	background-size: contain;
 	text-align: center;
@@ -5955,7 +5951,7 @@ blockquote span {
 	left: -35px;
 	width: 16px;
 	height: 12px;
-	background-image: url(img/docs-order-steps-item-done.png);
+	background-image: url(img/docs-order-steps-item-done.svg);
 	background-repeat: no-repeat;
 }
 
@@ -5973,7 +5969,7 @@ blockquote span {
 .docs__order-tab-list {
 	display: flex;
 	justify-content: space-between;
-	width: 420px;
+	width: 460px;
 	margin: 0 auto;
 	margin-bottom: 25px;
 }
@@ -6386,7 +6382,7 @@ blockquote span {
 
 .lawyer-chat__form .order-conversation__ico {
 	background-color: transparent;
-	background-image: url(img/order-conversation-ico.png);
+	background-image: url(img/order-conversation-ico.svg);
 	background-repeat: no-repeat;
 }
 
@@ -6404,7 +6400,7 @@ blockquote span {
 }
 
 .order-conversation__send {
-	background-image: url(img/order-conversation-send.png);
+	background-image: url(img/order-conversation-send.svg);
 	background-repeat: no-repeat;
 }
 
@@ -6754,7 +6750,7 @@ blockquote span {
 	left: 0;
 	width: 16px;
 	height: 16px;
-	background-image: url(img/lawyer-card-desc-item.png);
+	background-image: url(img/lawyer-card-desc-item.svg);
 	background-repeat: no-repeat;
 }
 
@@ -7160,12 +7156,12 @@ blockquote span {
 }
 
 .lawyer-card__contacts-schelude {
-	background-image: url(img/lawyer-card-contacts-schelude.png);
+	background-image: url(img/lawyer-card-contacts-schelude.svg);
 	background-repeat: no-repeat;
 }
 
 .lawyer-card__contacts-adress {
-	background-image: url(img/lawyer-card-contacts-adress.png);
+	background-image: url(img/lawyer-card-contacts-adress.svg);
 	background-repeat: no-repeat;
 }
 
@@ -8044,7 +8040,7 @@ textarea:active {
 	left: 0;
 	width: 15px;
 	height: 15px;
-	background-image: url(img/lawyer-question-info.png);
+	background-image: url(img/lawyer-question-info.svg);
 	background-repeat: no-repeat;
 }
 
@@ -8119,7 +8115,7 @@ textarea:active {
 	left: 0;
 	width: 18px;
 	height: 16px;
-	background-image: url(img/lawyer-question-user-answer.png);
+	background-image: url(img/lawyer-question-user-answer.svg);
 	background-repeat: no-repeat;
 }
 
@@ -8145,7 +8141,7 @@ textarea:active {
 	padding-left: 12px;
 	border-radius: 17px;
 	border: 1px solid #cacaca;
-	background-image: url(img/lawyer-filter-show.png);
+	background-image: url(img/lawyer-filter-show.svg);
 	background-repeat: no-repeat;
 	background-position: right 15px top 12px; 
 	color: #fff;
@@ -9045,4 +9041,16 @@ input[type="number"] {
 
 .hide {
  display: none;
+}
+
+.question-unloged__form .form-input-inner .form-input-wrap {
+	width: 47%;
+}
+
+#lawyer-edit-tab .ui-tabs-nav li {
+	margin-right: 0;
+}
+
+.best-workers {
+	margin-bottom: 25px;
 }

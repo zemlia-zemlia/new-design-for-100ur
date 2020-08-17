@@ -322,7 +322,7 @@ $('#account__tab-container').tabs({
     $('#account__tab-container').tabs("load", hash)
   }
 
-  $('#docs__order-tab').tabs({
+  $('#order-docs__tab').tabs({
     beforeActivate : function(evt) {
       location.hash=$(evt.currentTarget).attr('href');
     },
@@ -332,7 +332,7 @@ $('#account__tab-container').tabs({
 
    var hash = location.hash;
   if (hash) {
-    $('#docs__order-tab').tabs("load", hash)
+    $('#order-docs__tab').tabs("load", hash)
   }
 
 
