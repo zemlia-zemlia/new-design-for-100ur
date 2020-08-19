@@ -531,6 +531,10 @@
 	.lawyer-question__info {
 		font-size: 12px;
 	}
+
+	.project-wrap {
+		margin-bottom: 70px;
+	}
 }
 
 @media screen and (max-width: 920px) {
@@ -1460,6 +1464,16 @@
 	.lawyer-catalog {
 		width: 100%;
 	}
+
+	.project-wrap ul {
+		flex-wrap: wrap;
+	}
+
+	.project-wrap li {
+		width: 47%;
+		margin-bottom: 20px;
+	}
+
 }
 
 
@@ -1635,7 +1649,6 @@
 		width: 150px;
 		height: 34px;
 		margin-bottom: 0;
-		background-color: #fff;
 		padding: 3px;
 	}
 
@@ -3346,6 +3359,10 @@
 	.question-unloged__lawyer-chat {
 		margin-bottom: 5px;
 	}
+
+	.project-wrap li div {
+		font-size: 14px;
+	}
 }
 
 @media screen and (max-width: 350px) {
@@ -3499,6 +3516,10 @@
 	.order-offer__btn {
 		width: 260px;
 		font-size: 12px;
+	}
+
+	.project-wrap li {
+		width: 100%;
 	}
 }
 

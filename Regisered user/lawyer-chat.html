@@ -227,30 +227,7 @@
 			<!-- Crm-system -->
 			<main class="main">
 				<div class="container">
-					<div class="row justify-content-between">
-						<div class="col-md-4">
-							<nav class="account__nav">
-								<div class="account__nav-title">Услуги сайта</div>
-								<ul class="account__nav-list">
-									<li class="account__nav-item">
-										<a href="" class="account__nav-link">Мои вопросы</a>
-									</li>
-									<li class="account__nav-item">
-										<a href="" class="account__nav-link">Консультация по телефону</a>
-									</li>
-									<li class="account__nav-item">
-										<a href="" class="account__nav-link">Мои финансы</a>
-									</li>
-									<li class="account__nav-item">
-										<a href="" class="account__nav-link">Мои заказы документов</a>
-									</li>
-									<li class="account__nav-item">
-										<a href="" class="account__nav-link account__nav-link--active">Чат с юристами</a>
-									</li>
-								</ul>
-							</nav>
-						</div>
-						<div class="col-md-8">
+						
 							<div class="account__main lawyer-chat">
 								<div class="account__main-title">Чат с юристами</div>
 								<div class="lawyer-chat__wrap">
@@ -270,12 +247,20 @@
 									</div>
 									<div class="lawyer-chat__main">
 										<div class="lawyer-chat__heading">
-											<div class="lawyer-chat__person-img img">
-												<img src="../img/best-workers-avatar-3.png" alt="">
-											</div>
-											<div class="lawyer-chat__heading-wrap">
-												<div class="lawyer-chat__heading-person">Марина Тарасова</div>
-												<div class="lawyer-chat__heading-activity">Был в сети 40 мин назад</div>
+											<div class="lawyer-chat__heading-inner">
+												<div class="lawyer-chat__heading-author">
+													<div class="lawyer-chat__person-img img">
+														<img src="../img/best-workers-avatar-3.png" alt="">
+													</div>
+													<div class="lawyer-chat__heading-wrap">
+														<div class="lawyer-chat__heading-person">Марина Тарасова</div>
+														<div class="lawyer-chat__heading-activity">Был в сети 40 мин назад</div>
+													</div>
+												</div>
+												<div class="lawyer-chat__heading-btn">
+													<input class="btn btn-default btn-xs" type="button" value="!" title="Пожаловаться на чат">
+													<input class="btn btn-xs btn-block btn-default" id="closeButton" style="/*! display: none; */" type="button" value="Завершить чат" title="Консультация закроется и юрист получит средства за консультацию.">
+												</div>
 											</div>
 										</div>
 										<div class="lawyer-chat__body">
@@ -316,8 +301,6 @@
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
 					
 				</div>
 			</main>
