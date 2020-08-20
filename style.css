@@ -9153,3 +9153,20 @@ input[type="number"] {
     margin-bottom: 10px;
     text-align: center;
 }
+
+.lawyer-chat {
+	overflow: hidden;
+	
+}
+
+.lawyer-chat__body {
+	max-height: 1000px;
+	overflow-y: scroll;
+}
+
+.text-write {
+	margin-bottom: 10px;
+	color: rgba(0, 12, 20, .5);
+	font-size: 14px;
+	text-align: center;
+}
