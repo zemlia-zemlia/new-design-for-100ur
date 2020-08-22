@@ -9075,11 +9075,13 @@ input[type="number"] {
 }
 
 .lawyer-chat__heading-btn .btn {
-	width: 140px;
 	margin-right: 15px;
-	background-color: #017052;
+	border-radius: 4px;
+	height: 32px;
+	background-color: #f2f3f5;
 	font-size: 14px;
-	color: #fff;
+	line-height: 1;
+	color: #8b8b8b;
 	transition: .3s all;
 }
 
@@ -9087,8 +9089,12 @@ input[type="number"] {
 	margin-right: 0;
 }
 
-.lawyer-chat__heading-btn .btn:hover {
-	background-color: #81d2bc;
+.btn-complain {
+	flex-shrink: 0;
+	width: 32px;
+	height: 32px;
+	background-image: url(img/btn-complain.png);
+	background-size: cover;
 }
 
 .project-wrap p {
@@ -9160,13 +9166,278 @@ input[type="number"] {
 }
 
 .lawyer-chat__body {
-	max-height: 1000px;
-	overflow-y: scroll;
+    max-height: 500px;
+    min-height: 300px;
+    overflow-y: scroll;
 }
 
 .text-write {
 	margin-bottom: 10px;
-	color: rgba(0, 12, 20, .5);
-	font-size: 14px;
+	color: #b6b6b6;
+	font-size: 12px;
+	text-align: left;
+}
+
+.lawyer-chat__start {
+	height: 300px;
+	display: none; /* flex */
+	flex-direction: column;
+	justify-content: center;
+	width: 375px;
+	margin: auto;
+	color: #7f8589;
+	font-size: 18px;
+	line-height: 1.5;
 	text-align: center;
+}
+
+.deal {
+	background-color: #d7eaf1;
+}
+
+.deal__wrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 25px 0;
+}
+
+.deal__title {
+	display: flex;
+	align-items: center;
+	width: 22.89%;
+}
+
+.deal__title-img {
+	flex-shrink: 0;
+	width: 34px;
+	height: 43px;
+	margin-right: 15px;
+}
+
+.deal__title-img img {
+	width: 100%;
+	height: 100%;
+}
+
+.deal__title-value {
+	margin-bottom: 10px;
+	color: #1c77a4;
+	font-weight: 600;
+	font-size: 16px;
+}
+
+.deal__title-link {
+	color: #4c4c4c;
+	font-size: 14px;
+	text-decoration: underline;
+}
+
+.deal__list {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 63.94%;
+}
+
+.deal__list-item {
+	display: flex;
+	align-items: center;
+	width: 29.90%;
+}
+
+.deal__list-item-number {
+	flex-shrink: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 44px;
+	height: 44px;
+	margin-right: 10px;
+	border-radius: 50%;
+	border: 2px solid #1c77a4;
+	font-size: 24px;
+	color: #1c77a4;
+	font-weight: 600;
+	line-height: 1;
+}
+
+.deal__list-item-desc {
+	color: #4c4c4c;
+	font-size: 14px;
+}
+
+.deal__btn {
+	width: 95px;
+	height: 37px;
+	border-radius: 3px;
+	border: 1px solid #287da8;
+	cursor: pointer;
+	color: #287da8;
+	font-size: 14px;
+	line-height: 1;
+}
+
+.guarantees {
+	background-color: #d7eaf1;
+}
+
+.guarantees__wrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 25px 0;
+}
+
+.guarantees__title {
+	color: #1c77a4;
+	font-weight: 600;
+}
+
+.guarantees__list {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 76%;
+}
+
+.guarantees__list-item {
+	display: flex;
+	width: 27.13%;
+	align-items: center;
+}
+
+.guarantees__list-item-img {
+	flex-shrink: 0;
+	width: 38px;
+	height: 38px;
+	margin-right: 10px;
+}
+
+.guarantees__list-item-desc {
+	color: #4c4c4c;
+	font-size: 14px;
+}
+
+.lawyer-chat__choose {
+	position: relative;
+	display: none; /* flex */
+	align-items: center;
+	width: 247px;
+	height: 202px;
+	margin: 0 auto;
+	background-image: url(img/lawyer-chat-choose.png);
+	background-size: cover;
+	color: #000000;
+	font-size: 16px;
+	text-align: center;
+	font-weight: 600;
+}
+
+.chat-opened {
+	margin-bottom: 20px;
+	color: #7f7f7f;
+	font-size: 12px;
+	text-align: center;
+}
+
+.lawyer-chat__message-bottom {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.chat-delivered {
+	width: 16px;
+	height: 8px;
+	margin-left: 5px;
+}
+
+.chat-not-delivered {
+	width: 10px;
+	height: 8px;
+	margin-left: 5px;
+}
+
+.chat-payment {
+	width: 438px;
+	margin: 0 auto;
+	margin-top: 30px;
+}
+
+.chat-payment__item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 35px;
+	padding: 25px 0;
+	border-radius: 8px;
+	border: 1px solid #1a77a3;
+	text-align: center;
+}
+
+.chat-payment__desc {
+	width: 315px;
+	text-align: center;
+	color: #7f8589;
+	font-size: 16px;
+}
+
+.chat-payment__link {
+	width: 195px;
+	height: 41px;
+	margin-top: 25px;
+	border-radius: 8px;
+	background-color: #017052;
+	color: #fafdff;
+	font-size: 17px;
+}
+
+.chat-payment__ico {
+	width: 25px;
+	height: 27px;
+	margin-bottom: 15px;
+}
+
+.chat-closed {
+	margin-bottom: 30px;
+	color: #7f7f7f;
+	font-size: 12px;
+	text-align: center;
+}
+
+.confirm-btn-wrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 330px;
+	margin-top: 25px;
+}
+
+.confirm-btn {
+	width: 46%;
+	height: 42px;
+	border-radius: 8px;
+	background-color: #017052;
+	color: #fafdff;
+	font-size: 17px;
+	line-height: 1;
+}
+
+
+.decline-btn {
+	width: 46%;
+	height: 42px;
+	border-radius: 8px;
+	border: 1px solid #017052;
+	background-color: #fff;
+	color: #fafdff;
+	font-size: 17px;
+	color: #017052;
+	line-height: 1;
+}
+
+.decline-btn:hover {
+	background-color: #017052;
+	color: #fafdff;
 }

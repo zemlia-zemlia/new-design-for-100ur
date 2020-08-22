@@ -207,6 +207,37 @@
 				</div>
 			</header>
 
+			<div class="deal">
+				<div class="container">
+					<div class="deal__wrap">
+						<div class="deal__title">
+							<div class="deal__title-img img">
+								<img src="../img/rate-popup-item-img-1.svg">
+							</div>
+							<div class="deal__title-wrap">
+								<div class="deal__title-value">Безопасная сделка</div>
+								<a href="" class="deal__title-link">100% гарантия возврата денег</a>
+							</div>
+						</div>
+						<ul class="deal__list">
+							<li class="deal__list-item">
+								<div class="deal__list-item-number">1</div>
+								<div class="deal__list-item-desc">Вы оплачиваете услугу юриста</div>
+							</li>
+							<li class="deal__list-item">
+								<div class="deal__list-item-number">2</div>
+								<div class="deal__list-item-desc">Стоимость резервируется на сайте</div>
+							</li>
+							<li class="deal__list-item">
+								<div class="deal__list-item-number">3</div>
+								<div class="deal__list-item-desc">После оказания услуги юрист получает оплату</div>
+							</li>
+						</ul>
+						<div class="deal__btn main-btn">Свернуть</div>
+					</div>	
+				</div>
+			</div>	
+
 			<div class="container">
 				<div class="breadcrumbs">
 					<ul class="breadcrumbs__list">
@@ -258,41 +289,40 @@
 													</div>
 												</div>
 												<div class="lawyer-chat__heading-btn">
-													<input class="btn btn-default btn-xs" type="button" value="!" title="Пожаловаться на чат">
+
+													<input class="btn btn-default btn-xs btn-complain" type="button" value="" title="Пожаловаться на чат">
 													<input class="btn btn-xs btn-block btn-default" id="closeButton" style="/*! display: none; */" type="button" value="Завершить чат" title="Консультация закроется и юрист получит средства за консультацию.">
 												</div>
 											</div>
 										</div>
 										<div class="lawyer-chat__body">
+											<div class="lawyer-chat__choose">
+												<p class="lawyer-chat__choose-desc">Выберите собеседника из списка и начинайте разговор</p>
+											</div>
+											<div class="lawyer-chat__start">
+												<p>Напишите свой вопрос.</p>
+												<p>Когда юрист согласится на консультацию, вы сможете оплатить её</p>
+											</div>
+
+											<div class="chat-opened">Чат открыт</div>		
+
 											<div class="lawyer-chat__user-wrap">
 												<div class="lawyer-chat__message">
 													<div class="lawyer-chat__message-text">Добрый день</div>
-													<div class="lawyer-chat__message-time">18:32</div>
+													<div class="lawyer-chat__message-bottom">
+														<div class="lawyer-chat__message-time">18:32</div>
+														<div class="chat-delivered img">
+															<img src="../img/message-delivered.png">
+														</div>
+													</div>
 												</div>
 												<div class="lawyer-chat__message">
 													<div class="lawyer-chat__message-text">Линеаризация мышления недоступно отражает конструктивный эпитет, при этом нельзя говорить, что это явления собственно фоники, звукописи. Наш современник стал особенно чутко относиться к слову, однако метафора начинает зачин.</div>
-													<div class="lawyer-chat__message-time">18:32</div>
-												</div>
-											</div>
-											<div class="lawyer-chat__lawyer-wrap">
-												<div class="lawyer-chat__lawyer-inner">
-													<div class="lawyer-chat__person-img img">
-														<img src="../img/best-workers-avatar-3.png" alt="">
-													</div>
-													<div class="lawyer-chat__message lawyer-chat__lawyer-message">
-														<div class="lawyer-chat__message-text">Линеаризация мышления недоступно отражает конструктивный эпитет, при этом нельзя говорить, что это явления собственно фоники, звукописи. Наш современник стал особенно чутко относиться к слову, однако метафора начинает зачин.</div>
+													<div class="lawyer-chat__message-bottom">
 														<div class="lawyer-chat__message-time">18:32</div>
-													</div>
-												</div>
-											</div>
-											<div class="lawyer-chat__lawyer-wrap">
-												<div class="lawyer-chat__lawyer-inner">
-													<div class="lawyer-chat__person-img img">
-														<img src="../img/best-workers-avatar-3.png" alt="">
-													</div>
-													<div class="lawyer-chat__message lawyer-chat__lawyer-message">
-														<div class="lawyer-chat__message-text">Линеаризация мышления недоступно отражает конструктивный эпитет, при этом нельзя говорить, что это явления собственно фоники, звукописи. Наш современник стал особенно чутко относиться к слову, однако метафора начинает зачин.</div>
-														<div class="lawyer-chat__message-time">18:32</div>
+														<div class="chat-not-delivered img">
+															<img src="../img/chat-not-delivered.png">
+														</div>
 													</div>
 												</div>
 											</div>
@@ -307,40 +337,44 @@
 													</div>
 												</div>
 											</div>
-											<div class="lawyer-chat__lawyer-wrap">
-												<div class="lawyer-chat__lawyer-inner">
-													<div class="lawyer-chat__person-img img">
-														<img src="../img/best-workers-avatar-3.png" alt="">
+
+											<div class="chat-payment">
+												<div class="chat-payment__block chat-payment__item">
+													<div class="chat-payment__desc">Юрист принял ваш запрос, необходимо оплатить консультацию </div>
+													<a href="" class="chat-payment__link main-btn">Перейти к оплате</a>	
+												</div>	
+												<div class="chat-payment__confirm chat-payment__item">
+													<div class="chat-payment__ico img">
+														<img src="../img/search-question-resolved-img.svg">
 													</div>
-													<div class="lawyer-chat__message lawyer-chat__lawyer-message">
-														<div class="lawyer-chat__message-text">Линеаризация мышления недоступно отражает конструктивный эпитет, при этом нельзя говорить, что это явления собственно фоники, звукописи. Наш современник стал особенно чутко относиться к слову, однако метафора начинает зачин.</div>
-														<div class="lawyer-chat__message-time">18:32</div>
+													<div class="chat-payment__desc">Консультация оплачена, теперь вы можете задавать свои вопросы юристу </div>
+												</div>	
+											</div>
+
+											<div class="chat-payment chat-payment-delivery">
+												<div class="laywer-chat-confirm chat-payment__item">
+													<div class="chat-payment__desc">Вам необходимо или подтвердить, или отклонить запрос на консультацию</div>
+													<div class="confirm-btn-wrap">
+														<input type="submit" name="" value="Принять чат" class="confirm-btn main-btn">
+														<input type="submit" name="" value="Отклонить чат" class="decline-btn main-btn">
 													</div>
 												</div>
-											</div>
-											<div class="lawyer-chat__lawyer-wrap">
-												<div class="lawyer-chat__lawyer-inner">
-													<div class="lawyer-chat__person-img img">
-														<img src="../img/best-workers-avatar-3.png" alt="">
-													</div>
-													<div class="lawyer-chat__message lawyer-chat__lawyer-message">
-														<div class="lawyer-chat__message-text">Линеаризация мышления недоступно отражает конструктивный эпитет, при этом нельзя говорить, что это явления собственно фоники, звукописи. Наш современник стал особенно чутко относиться к слову, однако метафора начинает зачин.</div>
-														<div class="lawyer-chat__message-time">18:32</div>
-													</div>
+												<div class="laywer-chat-wait chat-payment__item">
+													<div class="chat-payment__desc">Ожидаем оплату консультации от клиента</div>
+													<div class="chat-payment__desc">...</div>
 												</div>
-											</div>
-											<div class="lawyer-chat__lawyer-wrap">
-												<div class="lawyer-chat__lawyer-inner">
-													<div class="lawyer-chat__person-img img">
-														<img src="../img/best-workers-avatar-3.png" alt="">
+												<div class="chat-payment__confirm chat-payment__item">
+													<div class="chat-payment__ico img">
+														<img src="../img/search-question-resolved-img.svg">
 													</div>
-													<div class="lawyer-chat__message lawyer-chat__lawyer-message">
-														<div class="lawyer-chat__message-text">Линеаризация мышления недоступно отражает конструктивный эпитет, при этом нельзя говорить, что это явления собственно фоники, звукописи. Наш современник стал особенно чутко относиться к слову, однако метафора начинает зачин.</div>
-														<div class="lawyer-chat__message-time">18:32</div>
-													</div>
-												</div>
-											</div>
-											<div class="text-write">Вам печатают сообщение...</div>		
+													<div class="chat-payment__desc">Клиент оплатил консультацию, средства заблокированы и будут переведены на ваш баланс после завершения консультации</div>
+												</div>	
+											</div>	
+
+											<div class="chat-closed">Чат закрыт</div>
+
+											<div class="text-write"><span>Марина</span> печатает...</div>
+
 										</div>
 										<div class="lawyer-chat__form">
 											<div class="order-conversation__ico img">
@@ -360,7 +394,36 @@
 					
 				</div>
 			</main>
+
 		</div>
+
+			<div class="guarantees">
+				<div class="container">
+					<div class="guarantees__wrap">
+						<div class="guarantees__title">Гарантии 100 Юристов</div>
+						<ul class="guarantees__list">
+							<li class="guarantees__list-item">
+								<div class="guarantees__list-item-img img">
+									<img src="../img/guarantees-list-item-img-1.png">
+								</div>
+								<div class="guarantees__list-item-desc">Юрист получает оплату после выполнения работы</div>
+							</li>
+							<li class="guarantees__list-item">
+								<div class="guarantees__list-item-img img">
+									<img src="../img/guarantees-list-item-img-2.png">
+								</div>
+								<div class="guarantees__list-item-desc">Стоимость резервируется на сайте</div>
+							</li>
+							<li class="guarantees__list-item">
+								<div class="guarantees__list-item-img img">
+									<img src="../img/guarantees-list-item-img-3.png">
+								</div>
+								<div class="guarantees__list-item-desc">После оказания услуги юрист получает оплату</div>
+							</li>
+						</ul>
+					</div>	
+				</div>
+			</div>
 		<!-- Footer -->
 		<footer class="footer">
 			<div class="container">
