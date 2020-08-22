@@ -3521,6 +3521,21 @@
 	.project-wrap li {
 		width: 100%;
 	}
+
+	.question-unloged__lawyer-img {
+		width: 30px;
+		height: 30px;
+		margin-right: 4px;
+	}
+
+	.question-unloged__lawyer-img-wrap .best-workers__avatar-online {
+		bottom: 6px;
+		left: 2px;
+	}
+
+	.question-unloged__lawyer-proffesion-item:first-child {
+		margin-right: 4px;
+	}
 }
 
 

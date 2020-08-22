@@ -9450,3 +9450,7 @@ input[type="number"] {
 	color: #fafdff;
 }
 
+
+.lawyer-filter .radio-wrap{
+	width: auto !important;
+}
