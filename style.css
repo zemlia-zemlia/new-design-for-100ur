@@ -43,6 +43,11 @@ input[type="hidden"] {
     border: none;
 }	
 
+input:focus,
+textarea:focus {
+	font-family: 'Open Sans', sans-serif;
+}
+
 input::placeholder,
 textarea::placeholder {
 	color: #7b7b7b;
@@ -326,6 +331,10 @@ button:active {
 .form-input-select.bordered {
 	border: 1px solid red;
 	border-radius: 8px;
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+	font-family: 'Open Sans', sans-serif !important;
 }
 
 /* ------------------  Header --------------------*/
@@ -9077,7 +9086,6 @@ input[type="number"] {
 .lawyer-chat__heading-btn .btn {
 	margin-right: 15px;
 	border-radius: 4px;
-	height: 32px;
 	background-color: #f2f3f5;
 	font-size: 14px;
 	line-height: 1;
@@ -9441,3 +9449,4 @@ input[type="number"] {
 	background-color: #017052;
 	color: #fafdff;
 }
+
