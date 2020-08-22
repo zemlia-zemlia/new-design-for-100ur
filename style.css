@@ -9454,3 +9454,76 @@ input[type="number"] {
 .lawyer-filter .radio-wrap{
 	width: auto !important;
 }
+
+.comment-form {
+	width: 90%;
+}
+
+.label-mail {
+	display: block;
+	margin-bottom: 15px;
+	text-align: center;
+}
+
+#restorepassword-form {
+	max-width: 450px;
+	margin: 0 auto;
+	margin-bottom: 60px;
+	text-align: center;
+}
+
+.recovery-wrap {
+	margin-top: 30px;
+}
+
+.recovery-wrap  p {
+	margin-bottom: 25px;
+}
+
+.recovery-inner {
+	max-width: 280px;
+	margin: 0 auto;
+	margin-bottom: 15px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.recovery-btn {
+	border-radius: 8px;
+	padding: 0 5px;
+	background-color: #fff;
+	color: #fafdff;
+	font-size: 14px;
+	color: #017052;
+	line-height: 1;
+}
+
+.recovery-btn:hover {
+	text-decoration: underline;
+}
+
+.sennd-password {
+	width: 180px;
+	height: 42px;
+	margin: 0 auto;
+	margin-top: 30px;
+	border-radius: 8px;
+	padding: 0 5px;
+	border: 1px solid #017052;
+	background-color: #fff;
+	color: #fafdff;
+	font-size: 16px;
+	color: #017052;
+	line-height: 1;
+}
+
+.recovery-input {
+	display: block;
+	border: 1px solid  #7f7f7f;
+}
+
+.recovery-input:active {
+	border: 1px solid  #7f7f7f;
+	border-radius: 8px;
+}
