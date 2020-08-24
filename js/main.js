@@ -399,4 +399,9 @@ $('#confirm-3').on('click touch', function(){
     return false;
   });
 
+  $('.deal__btn').on('click touch', function(){
+    $('.deal').slideUp();
+    return false;
+  });
+
 });

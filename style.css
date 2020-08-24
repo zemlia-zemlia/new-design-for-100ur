@@ -9086,6 +9086,7 @@ input[type="number"] {
 .lawyer-chat__heading-btn .btn {
 	margin-right: 15px;
 	border-radius: 4px;
+	padding: 10px;
 	background-color: #f2f3f5;
 	font-size: 14px;
 	line-height: 1;
@@ -9100,7 +9101,6 @@ input[type="number"] {
 .btn-complain {
 	flex-shrink: 0;
 	width: 32px;
-	height: 32px;
 	background-image: url(img/btn-complain.png);
 	background-size: cover;
 }
@@ -9286,6 +9286,11 @@ input[type="number"] {
 	line-height: 1;
 }
 
+.deal__btn:hover {
+	background-color: #287da8;
+	color: #fff;
+}
+
 .guarantees {
 	background-color: #d7eaf1;
 }
@@ -9393,7 +9398,7 @@ input[type="number"] {
 
 .chat-payment__link {
 	width: 195px;
-	height: 41px;
+	padding: 10px 0;
 	margin-top: 25px;
 	border-radius: 8px;
 	background-color: #017052;
@@ -9424,7 +9429,7 @@ input[type="number"] {
 
 .confirm-btn {
 	width: 46%;
-	height: 42px;
+	padding: 10px 0;
 	border-radius: 8px;
 	background-color: #017052;
 	color: #fafdff;
@@ -9435,7 +9440,7 @@ input[type="number"] {
 
 .decline-btn {
 	width: 46%;
-	height: 42px;
+	padding: 10px 0;
 	border-radius: 8px;
 	border: 1px solid #017052;
 	background-color: #fff;
@@ -9526,4 +9531,8 @@ input[type="number"] {
 .recovery-input:active {
 	border: 1px solid  #7f7f7f;
 	border-radius: 8px;
+}
+
+.chat-payment-price {
+	margin-top: 10px;
 }
