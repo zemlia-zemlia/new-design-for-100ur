@@ -9188,7 +9188,7 @@ input[type="number"] {
 
 .lawyer-chat__start {
 	height: 300px;
-	display: none; /* flex */
+
 	flex-direction: column;
 	justify-content: center;
 	width: 375px;
@@ -9334,7 +9334,7 @@ input[type="number"] {
 
 .lawyer-chat__choose {
 	position: relative;
-	display: none; /* flex */
+
 	align-items: center;
 	width: 247px;
 	height: 202px;
