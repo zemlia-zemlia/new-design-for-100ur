@@ -9542,3 +9542,7 @@ input[type="number"] {
 input[type="submit"] {
 	height: auto !important;
 }
+
+.error-bordered {
+	border: 1px solid red !important;
+}
