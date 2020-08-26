@@ -9543,6 +9543,15 @@ input[type="submit"] {
 	height: auto !important;
 }
 
-.error-bordered {
+input.error {
+	text-align: left!important;
+	color: #000c14!important;
+	border: 1px solid red !important;
+}
+
+
+textarea.error {
+	text-align: left!important;
+	color: #000c14!important;
 	border: 1px solid red !important;
 }
