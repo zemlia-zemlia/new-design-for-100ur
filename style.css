@@ -6289,6 +6289,7 @@ blockquote span {
 .lawyer-chat__heading {
 	display: flex;
 	padding: 20px 20px 20px 30px;
+	border-bottom: 1px solid rgba(191, 191, 191, .6);
 }
 
 .lawyer-chat__heading-person {
@@ -6304,8 +6305,7 @@ blockquote span {
 
 .lawyer-chat__body {
 	padding: 25px 18px 18px 20px;
-	border-top: 1px solid rgba(191, 191, 191, .6);
-	border-bottom: 1px solid rgba(191, 191, 191, .6);
+	
 }
 
 .lawyer-chat__user-wrap {
@@ -6352,6 +6352,7 @@ blockquote span {
 	display: flex;
 	align-items: center;
 	padding: 17px 14px;
+	border-top: 1px solid rgba(191, 191, 191, .6);
 }
 
 .news-article__loged {
@@ -9201,6 +9202,7 @@ input[type="number"] {
 
 .deal {
 	background-color: #d7eaf1;
+	margin-bottom: 40px;
 }
 
 .deal__wrap {
