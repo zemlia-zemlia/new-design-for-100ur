@@ -9555,3 +9555,94 @@ textarea.error {
 	color: #000c14!important;
 	border: 1px solid red !important;
 }
+
+.error__title {
+	margin-top: 30px;
+	font-size: 36px;
+	font-weight: 600;
+	text-align: center;
+}
+
+.error-type {
+	color: #1c77a4;
+	font-weight: 800;
+	font-size: 367px;
+	line-height: 1;
+	letter-spacing: 2.25px;
+	text-align: center;
+}
+
+.error-desc {
+	margin-bottom: 40px;
+	color: #4b4b4b;
+	font-size: 24px;
+	text-align: center;
+}
+
+.error-link {
+	margin: 0 auto;
+	width: 243px;
+	height: 61px;
+	border-radius: 8px;
+	background-color: #017052;
+	color: #fafdff;
+}
+
+.error-info {
+	padding: 25px 0;
+	background-color: #d7eaf1;
+	font-size: 14px;
+	text-align: center;
+}
+
+.ui-menu {
+	width: auto !important;
+	max-width: 665px !important;
+	box-shadow: 0 5px 16px rgba(0, 28, 42, 0.14);
+	border-radius: 8px;
+	border: 1px solid #e5e5e5;
+	background-color: #ffffff;
+	padding: 15px;
+}
+
+.account__docs-item-phone,
+.account__docs-item-adress {
+	font-size: 14px;
+}
+
+.account__docs-item-phone {
+	flex: 1 1 0%;
+}
+
+.account__docs-item-adress {
+	flex: 2 1 0%;
+}
+
+.update {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 20px 0;
+	background-color: #d7eaf1;
+}
+
+.update-img {
+	width: 26px;
+	height: 26px;
+	margin-right: 15px;
+}
+
+.update-text {
+	color: #4b4b4b;
+	font-size: 14px;
+}
+
+.lawyer-services__inner {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+.lawyer-services__aside {
+	width: 35%;
+}

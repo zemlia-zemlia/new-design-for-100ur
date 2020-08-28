@@ -535,6 +535,10 @@
 	.project-wrap {
 		margin-bottom: 70px;
 	}
+
+	.error-info {
+		margin-top: 50px;
+	}
 }
 
 @media screen and (max-width: 920px) {
@@ -916,6 +920,14 @@
 		font-size: 12px;
 	}
 
+	.account__docs-item-phone,
+	.account__docs-item-adress {
+		font-size: 12px;
+	}
+
+	.account__phone-body .account__docs-item-date {
+		font-size: 12px;
+	}
 }
 
 
@@ -1473,6 +1485,27 @@
 		width: 47%;
 		margin-bottom: 20px;
 	}
+
+	.lawyer-services__inner {
+		display: block;
+	}
+
+	.lawyer-services__aside {
+		width: 60%;
+	}
+
+	.error__title {
+		font-size: 24px;
+	}
+
+	.error-type {
+		font-size: 180px;
+	}
+
+	.error-desc {
+		font-size: 20px;
+	}
+
 
 }
 
@@ -2678,6 +2711,14 @@
 	.selling__main {
 		position: relative;
 	}
+
+	.account__docs-item-phone {
+		flex: 1 1 14%;
+	}
+
+	.account__phone-body .account__docs-item-date {
+		flex: 1 1 13%;
+	}
 }
 
 @media screen and (max-width: 460px) {
@@ -3362,6 +3403,42 @@
 
 	.project-wrap li div {
 		font-size: 14px;
+	}
+
+	.lawyer-services__aside {
+		width: 100%;
+	}
+
+	.error__title {
+		font-size: 18px;
+	}
+
+	.error-type {
+		font-size: 140px;
+	}
+
+	.error-desc {
+		font-size: 16px;
+	}
+
+	.account__phone-body .account__docs-item {
+		display: block;
+	}
+
+	.account__docs-item-phone {
+		display: block;
+		margin-top: 5px;
+	}
+
+	.account__phone-body .account__docs-item-date {
+		flex: 1 1 13%;
+	}
+
+	.account__phone-btn {
+		font-size: 14px;
+		height: auto;
+		padding: 12px 5px;
+
 	}
 }
 
