@@ -9646,3 +9646,7 @@ textarea.error {
 .lawyer-services__aside {
 	width: 35%;
 }
+
+.readonly {
+	background-color: #eeeeee;
+}
