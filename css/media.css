@@ -2719,6 +2719,17 @@
 	.account__phone-body .account__docs-item-date {
 		flex: 1 1 13%;
 	}
+
+	.greeting__wrap {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.greeting__desc {
+		margin-right: 0;
+		margin-bottom: 20px;
+		text-align: center;
+	}
 }
 
 @media screen and (max-width: 460px) {
