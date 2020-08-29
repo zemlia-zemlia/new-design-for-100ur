@@ -9650,3 +9650,16 @@ textarea.error {
 .readonly {
 	background-color: #eeeeee;
 }
+
+
+.ui-menu-item-wrapper:hover {
+	background-color: #fff; 
+	border-color: #fff;
+	color: #1c77a4;
+}
+
+.error {
+    font-size: 14px;
+    text-align: right;
+    color: red;
+}
