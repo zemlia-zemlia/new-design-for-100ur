@@ -320,7 +320,7 @@ button:active {
 	max-width: 300px !important;
 }
 
-.error {
+.error .errorMessage{
 	color: red;
 	font-size: 13px;
 	text-align: right;
