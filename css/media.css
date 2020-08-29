@@ -539,6 +539,89 @@
 	.error-info {
 		margin-top: 50px;
 	}
+
+	.deal__title-img {
+		flex-shrink: 0;
+		width: 20px;
+		height: 25px;
+		margin-right: 10px;
+	}
+
+	.deal__title-value {
+		margin-bottom: 5px;
+		font-size: 14px;
+	}
+
+	.deal__title-link {
+		font-size: 12px;
+	}
+
+	.deal__list-item-number {
+		width: 25px;
+		height: 25px;
+		font-size: 14px;
+	}
+
+	.deal__list-item-desc {
+		color: #4c4c4c;
+		font-size: 12px;
+	}
+
+	.guarantees__title {
+		font-size: 14px;
+	}
+
+	.guarantees__list-item {
+		width: 32%;
+	}
+
+	.guarantees__list-item-img {
+	    width: 25px;
+	    height: 25px;
+	}
+
+	.guarantees__list-item-desc {
+		font-size: 12px;
+	}
+
+	.account__questions-title {
+		font-size: 12px;
+		text-decoration: underline;
+	}
+
+	.account__questions-solved-title {
+		color: #1a77a3;
+		font-size: 12px;
+	}
+
+	.account__questions-notsolved {
+		flex-shrink: 0;
+		color: rgba(0, 12, 20, .7);
+		font-size: 12px;
+	}
+
+	.account__questions-solved-img {
+		flex-shrink: 0;
+		width: 20px;
+		height: 20px;
+		margin-right: 5px;
+	}
+
+	.new-questions__item {
+		display: block;
+	}
+
+	.new-questions-aside {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		margin-top: 15px;
+	}
+
+	.new-questions-aside .account__questions-solved {
+		margin-bottom: 0;
+	}
 }
 
 @media screen and (max-width: 920px) {
@@ -1506,8 +1589,87 @@
 		font-size: 20px;
 	}
 
+	.deal__wrap {
+		flex-wrap: wrap;
+		justify-content: center;
+	}
 
+	.deal__title {
+		width: 100%;
+		justify-content: center;
+		margin-bottom: 10px;
+	}
+
+	.deal__list {
+		width: 100%;
+		margin-bottom: 10px;
+	}
+
+	.deal__list-item {
+		width: 32%;
+	}
+
+	.lawyer-chat__heading-inner {
+		justify-content: flex-start;
+	}
+
+	.lawyer-chat__heading-author {
+		margin-right: 5px;
+	}
+
+	.lawyer-chat__heading {
+	    padding: 20px 10px 20px 10px;
+	}
+
+	.lawyer-chat__heading-btn .btn {
+		margin-right: 5px;
+		font-size: 12px;
+	}
+
+	.lawyer-chat__heading-person {
+	    font-size: 12px;
+	}
+
+	.chat-payment {
+	    width: 100%;
+	    font-size: 14px;
+	}
+
+	.lawyer-chat__start {
+		width: 100%;
+		height: auto;
+		font-size: 14px;
+	}
+
+	.chat__empty {
+		width: 100%;
+		font-size: 14px;
+	}
+
+	.lawyer-chat__choose {
+		width: 100%;
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: center;
+		font-size: 14px;
+	}
+
+	.guarantees__wrap {
+		flex-direction: column;
+		align-items: center;
+		padding: 25px 0;
+	}
+
+	.guarantees__list {
+		width: 100%;
+		margin-top: 15px;
+	}
+
+	.lawyer-chat__empty {
+		font-size: 14px;
+	}
 }
+
 
 
 
@@ -1657,7 +1819,47 @@
 		order: 2;
 	}
 
+	.lawyer-chat__heading {
+	    padding: 20px 5px 20px 5px;
+	}
+
+	.lawyer-chat__person-img {
+	    flex-shrink: 0;
+	    width: 20px;
+	    height: 20px;
+	    margin-right: 5px;
+	}
+
+	.chat-payment__desc {
+		text-align: center;
+		color: #7f8589;
+		font-size: 14px;
+	}
+
+	.confirm-btn-wrap {
+		width: 100%;
+		padding: 0 5px;
+	}
+
+	.confirm-btn {
+		font-size: 14px;
+	}
+
+
+	.decline-btn {
+		font-size: 14px;
+	}
+
+	.chat-payment__desc {
+		width: 100%;
+		padding: 0 5px;
+	}
+
+	.chat-payment__link {
+		font-size: 14px;
+	}
 }
+
 
 @media screen and (max-width: 575px) {
 	.header__top {
@@ -2730,6 +2932,19 @@
 		margin-bottom: 20px;
 		text-align: center;
 	}
+
+	.lawyer-chat__heading-inner {
+		justify-content: space-between;
+	}
+
+	.account__questions-solved {
+		margin-top: 15px;
+	}
+
+	.account__questions-notsolved {
+		margin-top: 15px;
+		margin-right: 15px;
+	}
 }
 
 @media screen and (max-width: 460px) {
@@ -3451,6 +3666,44 @@
 		padding: 12px 5px;
 
 	}
+
+	.deal__list {
+		display: block;
+		margin-bottom: 10px;
+	}
+
+	.deal__list-item {
+		width: 100%;
+		margin-bottom: 5px;
+	}
+
+	.chat-payment__item {
+		padding: 15px 0;
+	}
+
+	.chat-payment__desc {
+		width: 100%;
+	}
+
+	.guarantees__list {
+		display: block;
+	}
+
+	.guarantees__list-item {
+		display: flex;
+		width: 100%;
+		margin-bottom: 10px;
+		align-items: center;
+	}
+
+	.question-unloged__heading-item {
+		margin-right: 8px;
+		margin-bottom: 10px;
+	}
+
+	.question-unloged__heading {
+		flex-wrap: wrap;
+	}
 }
 
 @media screen and (max-width: 350px) {
@@ -3624,6 +3877,15 @@
 	.question-unloged__lawyer-proffesion-item:first-child {
 		margin-right: 4px;
 	}
+
+	.lawyer-chat__heading-inner {
+		display: block;
+	}
+
+	.lawyer-chat__heading-btn {
+		margin-top: 10px;
+	}
+
 }
 
 
