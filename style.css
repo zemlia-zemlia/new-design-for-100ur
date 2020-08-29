@@ -320,13 +320,6 @@ button:active {
 	max-width: 300px !important;
 }
 
-.error .errorMessage{
-	color: red;
-	font-size: 13px;
-	text-align: right;
-	margin-top: 3px;
-}
-
 .form-input.bordered,
 .form-input-select.bordered {
 	border: 1px solid red;
@@ -9658,11 +9651,12 @@ textarea.error {
 	color: #1c77a4;
 }
 
-.error {
+.error, .errorMessage {
     font-size: 14px;
     text-align: right;
     color: red;
 }
+
 
 .greeting {
 	background-color: #d7eaf1;
