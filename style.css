@@ -312,8 +312,10 @@ button:active {
 }
 
 .ui-menu-item:hover {
-	background-color: #208167 !important;
+    background-color: #fff !important;
 }
+
+
 
 .ui-menu {
 	width: 300px !important;
@@ -328,6 +330,18 @@ button:active {
 
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
 	font-family: 'Open Sans', sans-serif !important;
+}
+
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active,
+a.ui-button:active,
+.ui-button:active,
+.ui-button.ui-state-active:hover {
+ border:1px solid #fff !important;
+ background:#fff !important;
+ font-weight:normal;
+ color:#fff
 }
 
 /* ------------------  Header --------------------*/
@@ -4804,8 +4818,42 @@ blockquote span {
 }
 
 .question-unloged__user-lastseen {
+	position: relative;
+	padding-left: 20px;
 	color: rgba(0, 12, 20, .5);
 	font-size: 12px;
+}
+
+.question-unloged__user-lastseen::before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 0;
+	width: 16px;
+	height: 16px;
+	background-image: url(img/clock.png);
+	background-repeat: no-repeat;
+}
+
+.thanks {
+	position: relative;
+	padding-left: 15px;
+	font-size: 12px;
+	color: #017052;
+	text-decoration: underline;
+}
+
+.thanks::before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 0;
+	width: 9px;
+	height: 16px;
+	background-image: url(img/thanks.png);
+	background-repeat: no-repeat;
 }
 
 .question-unloged__form {
@@ -5515,6 +5563,7 @@ blockquote span {
 
 .account__main-edit {
 	min-height: 100%;
+	margin-bottom: 100px;
 }
 
 .account__tab-list {
@@ -5833,7 +5882,6 @@ blockquote span {
 	flex-shrink: 0;
 	margin-left: auto;
 	width: 130px;
-	margin-left: 10px;
 }
 
 .account__questions-solved {
@@ -5859,6 +5907,7 @@ blockquote span {
 	flex-shrink: 0;
 	color: rgba(0, 12, 20, .7);
 	font-size: 14px;
+	margin-right: 10px;
 }
 /* ------------------Account Docs--------------------*/
 
@@ -8457,14 +8506,17 @@ textarea:active {
 
 .new-questions__item {
 	position: relative;
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
 	overflow: hidden;
 	margin-bottom: 20px;
 	padding: 25px 20px 25px 20px;
 	border-radius: 10px;
 	border: 1px solid #e5e5e5;
+}
+
+.new-questions__item-wrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
 }
 
 .new-questions__item-main {
@@ -8509,6 +8561,12 @@ textarea:active {
 .new-questions__item .archive-questions__btn {
 	margin-left: 0;
 }
+
+.archive-questions__bottom {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
  
 .new-questions__btn {
 	width: 108px;
@@ -8529,9 +8587,6 @@ textarea:active {
 	width: 150px;
 }
 
-.new-questions-aside .account__questions-solved {
-	margin-bottom: 70px;
-}
 
 /* ------------------ Lawyer finances --------------------*/
 
@@ -9671,12 +9726,16 @@ textarea.error {
 
 .ui-menu {
 	width: auto !important;
-	max-width: 665px !important;
+	max-width: 280px !important;
 	box-shadow: 0 5px 16px rgba(0, 28, 42, 0.14);
 	border-radius: 8px;
 	border: 1px solid #e5e5e5;
 	background-color: #ffffff;
-	padding: 15px;
+	padding: 10px 5px;
+}
+
+.ui-menu-item-wrapper {
+	font-size: 14px;
 }
 
 .account__docs-item-phone,
@@ -9787,5 +9846,10 @@ textarea.error {
 .unsaved-text {
 	color: #4b4b4b;
 	font-size: 14px;
+}
+
+.archive-questions__bottom {
+	display: flex;
+	justify-content: space-between;
 }
 
