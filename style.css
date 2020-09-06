@@ -7043,7 +7043,7 @@ blockquote span {
 
 
 #lawyer-career-tab {
-	width: 70%;
+	width: 90%;
 }
 
 .lawyer-career-tab-list {
@@ -7071,19 +7071,32 @@ blockquote span {
 	padding-top: 10px;
 }
 
-.lawyer-career-info-title {
+.career__item {
+	display: flex;
+	justify-content: space-between;
 	margin-bottom: 10px;
 	font-size: 14px;
-	font-weight: 600;
 }
 
-.lawyer-career-info-desc {
-	font-size: 14px;
+.career__item-year {
+	width: 16%;
+	flex-shrink: 0;
+}
+
+.career__item-desc {
+	width: 50%;
+	margin: 0 8px;
+}
+
+.career__item-company {
+	width: 34%;
+	flex-shrink: 0;
 }
 
 .lawyer-consultation {
 	margin-bottom: 50px;
 }
+
 
 .lawyer-consultation-heading {
 	display: flex;
@@ -9853,3 +9866,52 @@ textarea.error {
 	justify-content: space-between;
 }
 
+.rate-list {
+	margin-bottom: 60px;
+}
+
+.rate-list .rate-popup-item {
+	position: relative;
+	width: 18%;
+}
+
+.rate-list .rate-popup-item-img {
+	width: 35px;
+	height: 35px;
+}
+
+.rate-list .rate-popup-item-img img {
+	width: 100%;
+}
+
+.rate-list .rate-popup-item-title{
+	font-size: 14px;
+}
+
+.rate-card .steps__item {
+	position: relative;
+}
+
+.steps-actual {
+	position: absolute;
+	top: -30px;
+	width: 100%;
+	color: #1c77a4;
+	font-size: 16px;
+	font-weight: 700;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.steps__selected {
+	width: 133px;
+	height: 39px;
+	margin: 0 auto;
+	border-radius: 20px;
+	border: 1px solid #017052;
+	background-color: #ffffff;
+}
+
+.rate-popup-desc {
+	text-align: center;
+}

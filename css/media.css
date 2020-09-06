@@ -281,6 +281,10 @@
 	.achievement__table-mob {
 		display: block;
 	}
+
+	#lawyer-career-tab {
+	    width: 100%;
+	}
 }
 
 @media screen and (max-width: 1030px) {
@@ -622,6 +626,14 @@
 
 	.new-questions-aside .account__questions-solved {
 		margin-bottom: 0;
+	}
+
+	.rate-wrap {
+		padding-bottom: 60px;
+	}
+
+	.career__item {
+		font-size: 13px;
 	}
 }
 
@@ -1668,6 +1680,25 @@
 
 	.lawyer-chat__empty {
 		font-size: 14px;
+	}
+
+	.rate-list {
+		flex-wrap: wrap;
+		justify-content: space-around;
+	}
+
+	.rate-list .rate-popup-item {
+		position: relative;
+		width: 40%;
+		margin-bottom: 25px;
+	}
+
+	.rate-list .rate-popup-item-title{
+		font-size: 12px;
+	}
+
+	.rate-card .steps__item {
+		margin-bottom: 40px;
 	}
 }
 
@@ -2946,6 +2977,16 @@
 		margin-top: 15px;
 		margin-right: 15px;
 	}
+
+	.rate-list .rate-popup-item {
+		position: relative;
+		width: 100%;
+		margin-bottom: 15px;
+	}
+
+	.career__item {
+		font-size: 12px;
+	}
 }
 
 @media screen and (max-width: 460px) {
@@ -3720,7 +3761,29 @@
 	.account__questions-solved {
 		margin-top: 0;
 	}
+
+	.career__item {
+		flex-wrap: wrap;
+	}
+
+	.career__item-year {
+		width: 45%;
+		flex-shrink: 0;
+	}
+
+	.career__item-desc {
+		order: 3;
+		width: 100%;
+		margin: 0;
+	}
+
+	.career__item-company {
+		order: 2;
+		width: 45%;
+		flex-shrink: 0;
+	}
 }
+
 
 @media screen and (max-width: 350px) {
 
