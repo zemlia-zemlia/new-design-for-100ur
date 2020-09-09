@@ -833,6 +833,18 @@ a.ui-button:active,
 	margin-left: -21px;
 }
 
+.steps__item--active {
+	border: 3px solid #1c77a4;
+}
+
+.steps__item--active::before {
+	border-left: 20px solid #1c77a4; 
+}
+
+.steps__item--active .arrow_box:before {
+	border-bottom-color: #1c77a4;
+}
+
 .steps__item-img {
 	width: 52px;
 	height: 52px;
@@ -6434,10 +6446,22 @@ blockquote span {
 }
 
 .lawyer-chat__form {
+	position: relative;
+	padding: 30px 14px;
+	border-top: 1px solid rgba(191, 191, 191, .6);
+}
+
+.lawyer-chat__form-inner {
 	display: flex;
 	align-items: center;
-	padding: 17px 14px;
-	border-top: 1px solid rgba(191, 191, 191, .6);
+}
+
+.attachedFile {
+	position: absolute;
+	top: 5px;
+	left: 10px;
+	display: block;
+	font-size: 12px;
 }
 
 .news-article__loged {
