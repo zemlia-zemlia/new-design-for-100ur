@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<!-- Переключение IE в последнию версию, на случай если в настройках пользователя стоит меньшая -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<!-- Адаптирование страницы для мобильных устройств -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- Запрет распознования номера телефона -->
+	<meta name="format-detection" content="telephone=no">
+	<meta name="SKYPE_TOOLBAR" content ="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+
+	<!-- Заголовок страницы -->
+	<title>100 Юристов</title>
+
+	<!-- Данное значение часто используют(использовали) поисковые системы -->
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+
+	<!-- Традиционная иконка сайта, размер 16x16, прозрачность поддерживается. Рекомендуемый формат: .ico или .png -->
+	<link rel="shortcut icon" href="img/favicon.ico">
+
+	<!-- Подключение файлов стилей -->
+	<link rel="stylesheet" href="lib/jquery-ui-1.12.1.custom/jquery-ui.min.css">
+	<link rel="stylesheet" href="../lib/bootstrap/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="../style.css"> 
+	<link rel="stylesheet" href="../css/media.css"> 
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"> 
+</head>
+<body>
+	
+	<!-- Header -->
+	<header class="header">
+		<div class="header__mob">
+			<div class="container">
+				<div class="header__mob-wrap">
+					<div class="nav-mob-wrap img">
+						<img src="../img/nav-open.svg" alt="" class="nav-open">
+						<img src="../img/nav-close.svg" alt="" class="nav-close">
+					</div>
+					<nav class="nav-mob">
+						<div class="nav-mob-close img">
+							<img src="../img/nav-mob-close.svg" alt="">
+						</div>
+						<div class="nav-mob__title">Меню</div>
+						<ul class="nav-mob-list">
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Задать вопрос юристу онлайн</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Консультация по телефону</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Вопросы</a>
+							</li>
+							<li class="nav-mob-item">
+								<a href="" class="nav-mob-link">Найти юриста</a>
+							</li>
+						</ul>
+						<div class="header__contacts header__contacts-mob">
+							<a href="tel:88005004692" class="header__contacts-value">8 800 500-46-92</a>
+							<div class="header__contacts-title">Звонок бесплатный</div>
+						</div>
+						<a href="" class="header__btn header__btn-mob">Заказать звонок</a>
+					</nav>
+					<a href="" class="logo-mob img">
+						<img src="../img/logo.svg" alt="">
+					</a>
+					<a href="" class="search-btn img">
+						<img src="../img/search-btn.png" alt="">
+					</a>
+					<form action="" class="search-form-mob">
+						<div class="search-input">
+							<a href="" class="search-input__ico img">
+								<img src="../img/feedback-search.svg" alt="">
+							</a>
+							<input type="search" name="" placeholder="Поиск...">
+						</div>
+					</form>
+					<a href="#ex1" rel="modal:open" class="login-btn img">
+						<img src="../img/login-btn.svg" alt="">
+					</a>
+				</div>
+			</div>	
+		</div>
+		<div class="header__top">
+			<div class="container">
+				<div class="row no-gutters justify-content-between align-items-center">
+					<div class="col-sm-12 col-md-auto">
+						<a href="" class="logo img">
+							<img src="../img/logo.svg" alt="">
+						</a>
+					</div>
+					<div class="col-sm-auto col-md-auto header__question-wrap">
+						<div class="header__question">Задай вопрос юристу онлайн</div>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<div class="header__contacts">
+							<a href="tel:88005004692" class="header__contacts-value">8 800 500-46-92</a>
+							<div class="header__contacts-title">Звонок бесплатный</div>
+						</div>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<a href="" class="header__btn">Заказать звонок</a>
+					</div>
+					<div class="col-sm-auto col-md-auto">
+						<a href="#ex1" rel="modal:open" class="header__account">
+							<span class="header__account-img img">
+								<img src="../img/header-account.svg" alt="">
+							</span>
+							<span class="header__account-title">Вход/Регистрация</span>
+						</a>
+					</div>
+				</div>	
+			</div>
+		</div>
+		<div class="header__bottom">
+			<div class="container">
+				<div class="row justify-content-between align-items-center">
+					<div class="col-lg-8">
+						<nav class="main__nav">
+							<ul class="main__nav-list">
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link main__nav-link--question">Задать вопрос юристу онлайн</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Консультация по телефону</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Вопросы</a>
+								</li>
+								<li class="main__nav-item">
+									<a href="" class="main__nav-link">Найти юриста</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+					<div class="col-lg-4">
+						<form action="" class="search-form">
+							<div class="search-input">
+								<a href="" class="search-input__ico img">
+									<img src="../img/feedback-search.svg" alt="">
+								</a>
+								<input type="search" name="" placeholder="Поиск...">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<main class="program">
+		<div class="program__main">
+			<div class="container">
+				<div class="program__main-wrap">
+					<div class="program__main-heading">
+						<h1 class="program__title">Юридическая программа для вебмастеров</h1>
+						<div class="program__subtitle">Мы предоставляем возможность рекладмодателям увеличить количество клиентов, а вебмастерам выгодно монетизировать интернет-трафик</div>
+					</div>
+					<div class="program__main-bg">
+						<img src="../img/program-main-bg.png" alt="">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="program__model">
+			<div class="container">
+				<div class="program__model-wrap">
+					<h2 class="program__title">Наша партнерская программа работает по модели CPL</h2>
+					<div class="program__subtitle">CPL — Cost-per-Lead, модель оплаты, где рекламодатель платит за лид. То есть мы платим не за приведенного клиента, а за контактную информацию пользователя, проявившего интерес к сервису.</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="program__leads">
+			<div class="container">
+				<div class="program__leads-heading">
+					<h2 class="program__title">Выгодно монетизируем ваш трафик с оплатой за лиды</h2>
+					<div class="program__subtitle">Покупаем юридические заявки по модели CPL и работаем с большим количеством источников трафика: SEO, SMM, Яндекс.Директ, Google AdWords, Begun и другие.</div>
+				</div>
+				<ul class="program__leads-list">
+					<li class="program__leads-item">
+						<div class="program__leads-item-ico img">
+							<img src="../img/program-leads-item-ico-1.png" alt="">
+						</div>
+						<div class="program__leads-item-title">Предоставляем промо-материалы</div>
+					</li>
+					<li class="program__leads-item">
+						<div class="program__leads-item-ico img">
+							<img src="../img/program-leads-item-ico-2.png" alt="">
+						</div>
+						<div class="program__leads-item-title">Выкуп без выходных</div>
+					</li>
+					<li class="program__leads-item">
+						<div class="program__leads-item-ico img">
+							<img src="../img/program-leads-item-ico-3.png" alt="">
+						</div>
+						<div class="program__leads-item-title">Online поддержка</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="program__cooperate">
+			<div class="container">
+				<h2 class="program__title">Сотрудничество с нами</h2>
+				<ul class="program__cooperate-list">
+					<li class="program__cooperate-item">
+						<div class="program__cooperate-ico img">
+							<img src="../img/program-cooperate-ico-1.png" alt="">
+						</div>
+						<div class="program__cooperate-item-title">Специальные условия в зависимости от типа вашего трафика</div>
+					</li>
+					<li class="program__cooperate-item">
+						<div class="program__cooperate-ico img">
+							<img src="../img/program-cooperate-ico-2.png" alt="">
+						</div>
+						<div class="program__cooperate-item-title">Возможность передачи лидов через API</div>
+					</li>
+					<li class="program__cooperate-item">
+						<div class="program__cooperate-ico img">
+							<img src="../img/program-cooperate-ico-3.png" alt="">
+						</div>
+						<div class="program__cooperate-item-title">Программа лояльности для постоянных партрнеров</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="program__points">
+			<div class="container">
+				<h2 class="program__title">Юридическая партнерская программа СРL - ключевые моменты</h2>
+				<ul class="program__points-list">
+					<li class="program__points-item">
+						<div class="program__points-item-ico img"> 
+							<img src="../img/program-points-item-ico-1.png" alt="">
+						</div>
+						<div class="program__points-item-title">Обилие выкупаемых регионов и высокие цены на заявки</div>
+					</li>
+					<li class="program__points-item">
+						<div class="program__points-item-ico img"> 
+							<img src="../img/program-points-item-ico-2.png" alt="">
+						</div>
+						<div class="program__points-item-title">Индивидуальные условия для арбитражников</div>
+					</li>
+					<li class="program__points-item">
+						<div class="program__points-item-ico img"> 
+							<img src="../img/program-points-item-ico-3.png" alt="">
+						</div>
+						<div class="program__points-item-title">Высокий процент выкупаемых заявок</div>
+					</li>
+				</ul>
+
+				<h3 class="program__topics-title">Оплачиваемые тематики</h3>
+				<ul class="program__topics-list">
+					<div class="program__topics-wrap">
+						<li class="program__topics-item">
+							<a href="" class="program__topics-link">
+								<span class="program__topics-link-img img">
+									<img src="../img/program-topics-link-img-1.png" alt="">
+								</span>
+								<span class="program__topics-link-title">Уголовное право</span>
+							</a>
+						</li>
+						<li class="program__topics-item">
+							<a href="" class="program__topics-link">
+								<span class="program__topics-link-img img">
+									<img src="../img/program-topics-link-img-2.png" alt="">
+								</span>
+								<span class="program__topics-link-title">Административное право</span>
+							</a>
+						</li>
+						<li class="program__topics-item">
+							<a href="" class="program__topics-link">
+								<span class="program__topics-link-img img">
+									<img src="../img/program-topics-link-img-3.png" alt="">
+								</span>
+								<span class="program__topics-link-title">Семейное право</span>
+							</a>
+						</li>
+						<li class="program__topics-item">
+							<a href="" class="program__topics-link">
+								<span class="program__topics-link-img img">
+									<img src="../img/program-topics-link-img-4.png" alt="">
+								</span>
+								<span class="program__topics-link-title">Земельное право</span>
+							</a>
+						</li>
+						<li class="program__topics-item">
+							<a href="" class="program__topics-link">
+								<span class="program__topics-link-img img">
+									<img src="../img/program-topics-link-img-5.png" alt="">
+								</span>
+								<span class="program__topics-link-title">Жилищные вопросы</span>
+							</a>
+						</li>
+						<li class="program__topics-item">
+							<a href="" class="program__topics-link">
+								<span class="program__topics-link-img img">
+									<img src="../img/program-topics-link-img-6.png" alt="">
+								</span>
+								<span class="program__topics-link-title">Кредитование</span>
+							</a>
+						</li>
+						<li class="program__topics-item">
+							<a href="" class="program__topics-link">
+								<span class="program__topics-link-img img">
+									<img src="../img/program-topics-link-img-7.png" alt="">
+								</span>
+								<span class="program__topics-link-title">Автоюрист</span>
+							</a>
+						</li>
+					</div>
+					<div class="program__topics-wrap">
+						<li class="program__topics-item">
+							<a href="" class="program__topics-link">
+								<span class="program__topics-link-img img">
+									<img src="../img/program-topics-link-img-8.png" alt="">
+								</span>
+								<span class="program__topics-link-title">Страхование</span>
+							</a>
+						</li>
+						<li class="program__topics-item">
+							<a href="" class="program__topics-link">
+								<span class="program__topics-link-img img">
+									<img src="../img/program-topics-link-img-10.png" alt="">
+								</span>
+								<span class="program__topics-link-title">Защита прав потребителей</span>
+							</a>
+						</li>
+						<li class="program__topics-item">
+							<a href="" class="program__topics-link">
+								<span class="program__topics-link-img img">
+									<img src="../img/program-topics-link-img-11.png" alt="">
+								</span>
+								<span class="program__topics-link-title">Трудовое право</span>
+							</a>
+						</li>
+						<li class="program__topics-item">
+							<a href="" class="program__topics-link">
+								<span class="program__topics-link-img img">
+									<img src="../img/program-topics-link-img-12.png" alt="">
+								</span>
+								<span class="program__topics-link-title">Исполнительное производство</span>
+							</a>
+						</li>
+						<li class="program__topics-item">
+							<a href="" class="program__topics-link">
+								<span class="program__topics-link-img img">
+									<img src="../img/program-topics-link-img-13.png" alt="">
+								</span>
+								<span class="program__topics-link-title">Юридическое право</span>
+							</a>
+						</li>
+						<li class="program__topics-item">
+							<a href="" class="program__topics-link">
+								<span class="program__topics-link-img img">
+									<img src="../img/program-topics-link-img-14.png" alt="">
+								</span>
+								<span class="program__topics-link-title">Возврат долгов</span>
+							</a>
+						</li>
+						<li class="program__topics-item">
+							<a href="" class="program__topics-link">
+								<span class="program__topics-link-img img">
+									<img src="../img/program-topics-link-img-15.png" alt="">
+								</span>
+								<span class="program__topics-link-title">Банкротство</span>
+							</a>
+						</li>
+					</div>
+				</ul>
+				<a href="" class="program__topics-btn main-btn">Зарегистрироваться и начать</a>
+			</div>
+		</div>
+
+		<div class="program__rules">
+			<div class="container">
+				<h2 class="program__title">Правилами системы запрещены</h2>
+				<ol class="program__rules-list">
+					<li class="program__rules-item">
+						<span class="program__rules-item-text">Двойная маршрутизация одних и тех же лидрв (дублей заявок) в различные партнерские программы.</span>
+					</li>
+					<li class="program__rules-item">
+						<span class="program__rules-item-text">Задержка отправки заявок в систему более 10-минут с момента фактического получения обращения клиента (т.е. маршрутизация неактуальных - “старых заявок”.</span>
+					</li>
+					<li class="program__rules-item">
+						<span class="program__rules-item-text">Отправка в систему заявок (для последующей маршрутизации или продажи, являющихся фродом (дублей из других ПП, купленными на биржах заданий, искусственно сгенерированными лидами и т.д.) - т.е. обращений, не имеющих коммерческой ценности.</span>
+					</li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="program__bottom">
+			<div class="container">
+				<div class="program__bottom-wrap">
+					<a href="" class="program__bottom-logo img">
+						<img src="../img/program-bottom-logo.png" alt="">
+					</a>
+					<a href="" class="program__bottom-link">Если вы юрист и хотите купить лиды</a>
+					<a href="" class="program__bottom-link">Пользовательское соглашение</a>
+				</div>
+			</div>
+		</div>
+	</main>
+
+
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-7 col-sm-4 col-lg-3">
+					<div class="footer__wrap">
+						<a href="" class="footer__logo img">
+							<img src="../img/footer-logo.png" alt="">
+						</a>
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">О проекте</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Контакты</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Пользовательское соглашение</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Реферальная программа</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-8 col-sm-4 col-lg-3">
+					<div class="footer__wrap footer__wrap-padding">
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Каталог юристов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Архив вопросов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Горячая линия</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Новости</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-8 col-sm-4 col-lg-3">
+					<div class="footer__wrap footer__wrap-padding">
+						<ul class="footer__list">
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Регистрация нового юриста</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">CRM для юристов</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Юридические заявки</a>
+							</li>
+							<li class="footer__list-item">
+								<a href="" class="footer__list-link">Зачем отвечать на вопросы</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-12 col-lg-3">
+					<div class="footer__wrap footer__wrap-social">
+						<ul class="footer__social">
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-1.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-2.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-3.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-4.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-5.png" alt="">
+								</a>
+							</li>
+							<li class="footer__social-item">
+								<a href="" class="footer__social-link img">
+									<img src="../img/footer-social-link-6.png" alt="">
+								</a>
+							</li>
+						</ul>
+						<div class="footer__branches">
+							<div class="footer__branches-title">Филиалы:</div>
+							<ul class="footer__branches-list">
+								<li class="footer__branches-item">Санкт-Петербург, ул. Достоевского, д. 25</li>
+								<li class="footer__branches-item">Нижний Новгород, ул. Новая, д. 28</li>
+								<li class="footer__branches-item">Екатеринбург, ул. 8 марта, д. 142</li>
+								<li class="footer__branches-item">Ростов-на-Дону, ул. Красноармейская, д. 142/50</li>
+								<li class="footer__branches-item">Краснодар, ул. Московская, д. 148</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	
+	<script src="jquery/jquery-3.4.1.min.js"></script>
+	<script src="lib/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="lib/swiper/swiper.min.js"></script>
+	<script src="lib/bootstrap/bootstrap.min.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>

@@ -2,6 +2,12 @@
 	.thsnks-bg {
 		background-position: right -160px top -110px; 
 	}
+
+	.program__main-bg {
+		right: 0;
+		width: 55%;
+		height: 100%;
+	}
 }
 
 @media screen and (max-width: 1360px) {
@@ -72,6 +78,13 @@
 	.achievement__item {
 		font-size: 12px;
 	}
+
+	.program__leads-list {
+		width: 80%;
+	}
+
+	
+
 }
 
 @media screen and (max-width: 1115px) {
@@ -285,6 +298,24 @@
 	#lawyer-career-tab {
 	    width: 100%;
 	}
+
+	.program__main-heading {
+		width: 45%;
+	}
+
+	.program__title {
+		margin-bottom: 15px;
+		font-size: 26px;
+	}
+
+	.program__subtitle {
+		font-size: 16px;
+	}
+
+	.program__topics-wrap {
+		width: 42%;
+	}
+
 }
 
 @media screen and (max-width: 1030px) {
@@ -634,6 +665,112 @@
 
 	.career__item {
 		font-size: 13px;
+	}
+
+	.program__main-bg {
+		opacity: .5;
+		width: 100%;
+		height: 100%;
+		z-index: 10;
+	}
+
+	.program__main-bg::after {
+		display: none;
+	}
+
+	.program__main-heading {
+		position: relative;
+		z-index: 20;
+		width: 60%;
+	}
+
+	.program__model {
+		padding: 50px 0;
+		text-align: center;
+	}
+
+	.program__model-wrap {
+		width: 70%;
+		margin: 0 auto;
+	}
+
+	.program__leads-heading {
+		width: 70%;
+	}
+
+
+	.program__leads-list {
+		width: 85%;
+	}
+
+	.program__leads {
+		padding: 50px 0;
+	}
+
+	.program__leads-item-ico {
+		width: 70px;
+		height: 70px;
+		margin-bottom: 15px;
+	}
+
+	.program__leads-item-title {
+		font-size: 16px;
+	}
+
+	.program__cooperate {
+		padding: 50px 0;
+	}
+
+	.program__cooperate-list {
+		width: 85%;
+		margin-top: 40px;
+	}
+
+	.program__cooperate-ico {
+		width: 60px;
+		height: 60px;
+		margin-bottom: 15px;
+	}
+
+	.program__cooperate-item-title {
+		font-size: 16px;
+	}
+
+	.program__points {
+		padding: 50px 0;
+	}
+
+	.program__points-list {
+		width: 85%;
+	}
+
+	.program__topics-list {
+		width: 80%;
+	}
+
+	.program__topics-wrap {
+		width: 45%;
+	}
+
+	.program__rules {
+		padding: 50px 0;
+	}
+
+	.program__rules-list {
+		width: 80%;
+	}
+
+	.program__rules-item {
+		font-size: 16px;
+	}
+
+	.program__bottom-logo {
+		width: 150px;
+		height: 23px;
+	}
+
+	.program__bottom-link {
+		font-size: 16px;
 	}
 }
 
@@ -1699,6 +1836,119 @@
 
 	.rate-card .steps__item {
 		margin-bottom: 40px;
+	}
+
+	.program__main-heading {
+		position: relative;
+		z-index: 20;
+		width: 75%;
+	}
+
+	.program__title {
+		margin-bottom: 10px;
+	}
+
+	.program__model .program__title {
+		margin-bottom: 15px;
+	}
+
+	.program__model-wrap {
+		width: 100%;
+	}
+
+	.program__leads-heading {
+		width: 100%;
+		margin-bottom: 30px;
+	}
+
+
+	.program__leads-list {
+		width: 100%;
+	}
+
+	.program__leads {
+		padding: 50px 0;
+	}
+
+	.program__leads-item-ico {
+		width: 50px;
+		height: 50px;
+		margin-bottom: 15px;
+	}
+
+	.program__leads-item-title {
+		font-size: 14px;
+	}
+
+	.program__cooperate-list {
+		width: 100%;
+		margin-top: 30px;
+	}
+
+	.program__cooperate-item {
+		width: 32%;
+	}
+
+	.program__cooperate-ico {
+		width: 50px;
+		height: 50px;
+		margin-bottom: 15px;
+	}
+
+	.program__cooperate-item-title {
+		font-size: 14px;
+	}
+
+	.program__points-list {
+		width: 100%;
+	}
+
+	.program__points-item {
+		width: 32%;
+	}
+
+	.program__topics-list {
+		width: 100%;
+	}
+
+	.program__topics-wrap {
+		width: 45%;
+	}
+
+	.program__topics-title {
+		margin-bottom: 25px;
+		font-size: 24px;
+	}
+
+	.program__topics-list {
+		margin-bottom: 30px;
+	}
+
+	.program__points-list {
+		margin: 30px auto 30px;
+	}
+
+	.program__rules-list {
+		width: 100%;
+	}
+
+
+	.program__bottom-wrap {
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.program__bottom-logo {
+		width: 60%;
+		height: 23px;
+		margin-bottom: 30px;
+	}
+
+	.program__bottom-link {
+		display: block;
+		width: 48%;
+		font-size: 14px;
+		text-align: center;
 	}
 }
 
@@ -2987,6 +3237,79 @@
 	.career__item {
 		font-size: 12px;
 	}
+
+	.program__main-heading {
+		position: relative;
+		z-index: 20;
+		width: 100%;
+		text-align: center;
+	}
+
+	.program__title {
+		font-size: 22px;
+	}
+
+	.program__cooperate-list {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.program__cooperate-item {
+		width: 100%;
+		flex-direction: row;
+		align-items: center;
+		margin-bottom: 20px;
+	}
+
+	.program__cooperate-ico {
+		flex-shrink: 0;
+		width: 50px;
+		height: 50px;
+		margin-bottom: 0;
+		margin-right: 20px;
+	}
+
+	.program__cooperate-item-title {
+		font-size: 16px;
+		text-align: left;
+	}
+
+	.program__points-list {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.program__points-item {
+		width: 100%;
+		flex-direction: row;
+		margin-bottom: 20px;
+		text-align: left;
+	}
+
+	.program__points-item-ico {
+		margin-right: 20px;
+		margin-bottom: 0;
+	}
+
+	.program__topics-link-img {
+		width: 20px;
+		height: 20px;
+		margin-right: 10px;
+	}
+
+
+	.program__topics-link-title {
+		font-size: 14px;
+	}
+
+	.program__bottom-logo {
+		margin-bottom: 25px
+	}
+
+	.program__bottom-link {
+		width: 100%;
+		margin-bottom: 15px;
+	}
 }
 
 @media screen and (max-width: 460px) {
@@ -3781,6 +4104,70 @@
 		order: 2;
 		width: 45%;
 		flex-shrink: 0;
+	}
+
+	.program__title {
+		font-size: 20px;
+	}
+
+	.program__subtitle {
+		font-size: 14px;
+		line-height: 1.5;
+	}
+
+	.program__model {
+		padding: 35px 0;
+	}
+
+
+	.program__leads-list {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.program__leads {
+		padding: 40px 0;
+	}
+
+	.program__leads-item {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		width: 100%;
+		margin-bottom: 20px;
+		text-align: left;
+	}
+
+	.program__leads-item-ico {
+		width: 50px;
+		height: 50px;
+		margin-bottom: 0;
+		margin-right: 20px;
+	}
+
+	.program__leads-item-title {
+		font-size: 16px;
+		text-align: left;
+	}
+
+	.program__topics-list {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.program__topics-wrap {
+		width: 100%;
+	}
+
+	.program__rules-list {
+		padding-left:10px;
+		border-left: none;
+	}
+
+	.program__rules-item {
+		font-size: 14px;
+		font-weight: 700;
 	}
 }
 
