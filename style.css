@@ -1536,7 +1536,7 @@ a.ui-button:active,
 	top: 40%;
 	transform: translateY(-50%);
 	margin-top: 0;
-	background-image: url(img/question-free-button-prev.svg;
+	background-image: url(img/question-free-button-prev.svg);
 	background-size: 18px;
 	left: 10px;
 	right: auto;
@@ -9969,7 +9969,7 @@ textarea.error {
 
 .program__main-bg {
 	position: absolute;
-	right: 80px;
+	right: 40px;
 	width: 55%;
 	height: 100%;
 }
