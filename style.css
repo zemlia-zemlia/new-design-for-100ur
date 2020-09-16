@@ -7103,7 +7103,7 @@ blockquote span {
 }
 
 .career__item-year {
-	width: 16%;
+	width: 14%;
 	flex-shrink: 0;
 }
 
@@ -7113,7 +7113,12 @@ blockquote span {
 }
 
 .career__item-company {
-	width: 34%;
+	width: 25%;
+	flex-shrink: 0;
+}
+
+.career__item-proffesion {
+	width: 25%;
 	flex-shrink: 0;
 }
 
