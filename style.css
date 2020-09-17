@@ -10202,3 +10202,21 @@ textarea.error {
 	text-decoration: underline;
 	color: #fff;
 }
+
+.header__user-item {
+	position: relative;
+	padding-left: 40px;
+}
+
+.header__user-item::before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 35px;
+	width: 22px;
+	height: 22px;
+	background-image: url(img/selling-popular-img-4.png);
+	background-repeat: no-repeat;
+	background-size: contain;
+}
