@@ -772,6 +772,10 @@
 	.program__bottom-link {
 		font-size: 16px;
 	}
+
+	.account__main-edit {
+		min-height: auto;
+	}
 }
 
 @media screen and (max-width: 920px) {
@@ -2793,8 +2797,8 @@
 		width: 100%;
 		display: block;
 		border-radius: 10px;
-		border: 3px solid #e5e5e5;
 		text-align: center;
+		border: 3px solid #e5e5e5;
 	}
 
 	.rate-popup-list .steps__item::before {
@@ -2810,6 +2814,14 @@
 	    border-left-style: solid;
 	    border-left-width: 20px;
 	    border-left: 20px solid #e5e5e5;
+	}
+
+	.rate-popup-list .steps__item--active {
+	    border: 3px solid #1c77a4;
+	}
+
+	.rate-popup-list .steps__item--active::before {
+		 border-left: 20px solid #1c77a4;
 	}
 
 	.rate-popup-list .arrow_box {
@@ -3309,6 +3321,27 @@
 	.program__bottom-link {
 		width: 100%;
 		margin-bottom: 15px;
+	}
+
+	.header__registered-account-title:hover {
+	    text-decoration: underline;
+	}
+
+	.header__user-logout-title:hover {
+	    text-decoration: underline;
+	}
+
+	.account__finances-form {
+		width: 	100%;
+	}
+
+	.account__finances-wrap {
+		max-width: 100%;
+		width: 100%;
+	}
+
+	.account__finances-input {
+		width: 100%;
 	}
 }
 
