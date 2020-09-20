@@ -833,15 +833,15 @@
 	}
 
 	.question-free-swiper-container {
-	  width: 100%;
+	  width: 95%;
 	}
 
 	.question-free__gallery .question-free-button-next {
-		right: -20px;
+		right: -10px;
 	}
 
 	.question-free__gallery .question-free-button-prev {
-		left: -20px;
+		left: -10px;
 	}
 
 	.questions__list-link {

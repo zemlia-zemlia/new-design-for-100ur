@@ -3,6 +3,16 @@ $(document).ready(function() {
 
    $('.nav-mob-wrap').on('click touch', function(){
        $('.nav-mob').addClass('active');
+       $('.header__user-nav').removeClass('active');
+    });
+
+    $('.login-registered-btn').on('click touch', function(){
+       $('.header__user-nav').addClass('active');
+       $('.nav-mob').removeClass('active');
+    });
+
+   $('.nav-mob-close').on('click touch', function(){
+       $('.header__user-nav').removeClass('active');
     });
 
    $('.nav-mob-close').on('click touch', function(){
@@ -33,7 +43,7 @@ $(document).ready(function() {
        breakpoints: {
         540: {
           slidesPerView: 1,
-          spaceBetween: 0,
+          spaceBetween: 10,
         },
         768: {
           slidesPerView: 2,
@@ -92,7 +102,7 @@ $(document).ready(function() {
 
   var swiper = new Swiper('.question-free-swiper-container', {
       slidesPerView: 3,
-      spaceBetween: 30,
+      spaceBetween: 20,
       observer: true,
       observeParents: true,
       loop: true,
@@ -300,13 +310,7 @@ $('#reg-type-3').on('click touch', function(){
     $('#search-container').tabs("load", hash)
   }
 
-   $('.login-registered-btn').on('click touch', function(){
-       $('.header__user-nav').addClass('active');
-    });
-
-   $('.nav-mob-close').on('click touch', function(){
-       $('.header__user-nav').removeClass('active');
-    });
+  
 
 
 $('#account__tab-container').tabs({
