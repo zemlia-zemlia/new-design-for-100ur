@@ -10266,3 +10266,106 @@ textarea.error {
 .steps__item-info-desc.active {
 	display: block;
 }
+
+.welcome__list {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	width: 800px;
+	margin: 0 auto;
+}
+
+.welcome__item {
+	display: flex;
+	flex-direction: column;
+	width: 32%;
+	min-height: 263px;
+	margin-bottom: 25px;
+	padding: 30px 15px 20px;
+	border: 3px solid #E5E5E5;
+	border-radius: 6px;
+	text-align: center;
+	background-repeat: no-repeat;
+	background-position: center top 20px;
+}
+
+.welcome__item-title {
+	width: 90%;
+	margin: 0 auto;
+	margin-bottom: 15px;
+	color: #1C77A4;
+	font-weight: bold;
+	font-size: 18px;
+	line-height: 1.2;
+}
+
+.welcome__item-desc {
+	font-size: 14px;
+}
+
+.welcome__item-desc-title {
+	margin-bottom: 5px;
+}
+
+.welcome__item-desc-block {
+	margin-bottom: 5px;
+}
+
+.welcome__item-desc-link {
+	display: block;
+	text-decoration: underline;
+}
+
+.welcome__item-btn {
+	margin-top: auto;
+	padding: 12px;
+	font-size: 16px;
+	border: 1px solid #1A77A3;
+	border-radius: 8px;
+}
+
+.welcome__item-desc-block-bold {
+	color: #208167;
+	font-weight: bold;
+}
+
+.welcome__item-question {
+	background-image: url(img/welcome-item-question.png);
+}
+
+.welcome__item-chat {
+	background-image: url(img/welcome-item-chat.png);
+}
+
+.welcome__item-upload {
+	background-image: url(img/welcome-item-upload.png);
+}
+
+.welcome__item-docs{
+	background-image: url(img/welcome-item-docs.png);
+}
+
+.welcome__item-finances{
+	background-image: url(img/welcome-item-finances.png);
+}
+
+.welcome__item-activity{
+	background-image: url(img/welcome-item-activity.png);
+}
+
+.welcome__item-contacts{
+	background-image: url(img/welcome-item-contacts.png);
+}
+
+.welcome__item-search{
+	background-image: url(img/welcome-item-search.png);
+}
+
+.welcome__item-user-question  .welcome__item-desc-link {
+	font-size: 13px;
+	text-align: left;
+}
+
+.welcome__item-btn:hover {
+	background-color: #1A77A3;
+}

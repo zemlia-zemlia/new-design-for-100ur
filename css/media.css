@@ -1165,6 +1165,10 @@
 	.account__phone-body .account__docs-item-date {
 		font-size: 12px;
 	}
+
+	.welcome__list {
+		width: 100%;
+	}
 }
 
 
@@ -1953,6 +1957,14 @@
 		width: 48%;
 		font-size: 14px;
 		text-align: center;
+	}
+
+	.welcome__list {
+		justify-content: space-around;
+	}
+
+	.welcome__item {
+		width: 45%;
 	}
 }
 
@@ -3343,6 +3355,15 @@
 	.account__finances-input {
 		width: 100%;
 	}
+
+	.welcome__item {
+		padding: 30px 10px 20px;
+	}
+
+	.welcome__item-title {
+		width: 100%;
+		font-size: 16px;
+	}
 }
 
 @media screen and (max-width: 460px) {
@@ -4201,6 +4222,10 @@
 	.program__rules-item {
 		font-size: 14px;
 		font-weight: 700;
+	}
+
+	.welcome__item {
+		width: 100%;
 	}
 }
 
