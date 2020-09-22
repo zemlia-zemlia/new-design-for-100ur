@@ -25,6 +25,9 @@ $(document).ready(function() {
     });
 
 
+    $('.steps__item-info-ico').hover( function(){
+       $(this).parent().children('.steps__item-info-desc').toggleClass('active');
+    });
 
 
   var swiper = new Swiper('.consultations-swiper-container', {

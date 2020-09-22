@@ -10216,3 +10216,53 @@ textarea.error {
 	background-repeat: no-repeat;
 	background-size: contain;
 }
+
+
+.steps__item-private {
+	width: 90%;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+	justify-content: flex-start;
+}
+
+.steps__item-info {
+	margin-left: 10px;
+}
+
+.steps__item-info-ico {
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+}
+
+.steps__item-private .checkbox + label {
+	padding-left: 20px;
+	font-size: 13px;
+	text-align: left;
+}
+
+.steps__item-private-price {
+	display: block;
+	margin-top: 4px;
+	color: #017052;
+}
+
+.steps__item-info-desc {
+	display: none;
+	position: absolute;
+	top: -10px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 230px;
+	padding: 14px;
+	z-index: 50;
+	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);
+	border-radius: 4px;
+	background-color: #fafdff;
+	font-size: 12px;
+}
+
+.steps__item-info-desc.active {
+	display: block;
+}
