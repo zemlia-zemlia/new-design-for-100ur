@@ -9915,6 +9915,14 @@ textarea.error {
 
 .rate-card .steps__item {
 	position: relative;
+	min-height: 259px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.balance-form {
+	margin-top: auto;
 }
 
 .steps-actual {
