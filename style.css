@@ -10369,6 +10369,10 @@ textarea.error {
 	background-image: url(img/welcome-item-search.png);
 }
 
+.welcome__item-user-question {
+	background-image: url(img/welcome-item-question.png);
+}
+
 .welcome__item-user-question  .welcome__item-desc-link {
 	font-size: 13px;
 	text-align: left;
