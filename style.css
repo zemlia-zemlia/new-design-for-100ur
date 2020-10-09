@@ -41,6 +41,7 @@ input[type="hidden"] {
             appearance: none !important;
     -moz-outline: none !important;
     border: none;
+    appearance: none;
 }	
 
 input:focus,
@@ -557,6 +558,12 @@ a.ui-button:active,
 .main__nav-link {
 	display: block;
 	font-size: 16px;
+	border-bottom: 1px solid transparent;
+}
+
+.main__nav-link--active {
+	border-bottom: 1px solid  #000c14;
+	cursor: default;
 }
 
 .main__nav-link--question {
@@ -3156,6 +3163,7 @@ a.ui-button:active,
 
 .question-online__desc .page-desc p {
 	font-size: 14px;
+	text-align: justify;
 }
 
 .activity-mob {
@@ -6123,7 +6131,7 @@ blockquote span {
 }
 
 .order-conversation {
-	width: 70%;
+	width: 100%;
 }
 
 .order-conversation__item {
@@ -6795,7 +6803,7 @@ blockquote span {
 .lawyer-card__person {
 	margin-bottom: 10px;
 	color: #ffffff;
-	font-size: 23px;
+	font-size: 15px;
 	font-weight: 700;
 }
 
@@ -9355,8 +9363,6 @@ input[type="number"] {
 }
 
 .lawyer-chat__start {
-	height: 300px;
-
 	flex-direction: column;
 	justify-content: center;
 	width: 375px;
@@ -10380,4 +10386,9 @@ textarea.error {
 
 .welcome__item-btn:hover {
 	background-color: #1A77A3;
+}
+
+.order-conversation__input {
+	border: none;
+	height: 45px;
 }
