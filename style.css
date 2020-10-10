@@ -403,7 +403,7 @@ a.ui-button:active,
 	font-size: 16px;
 }
 
-.nav-mob-link--active, .header__user-link--active {
+.nav-mob-link--active {
 	border-bottom: 1px solid  #000c14;
 	cursor: default;
 
